@@ -29,50 +29,50 @@ try {
   await page.waitForSelector("#opening-box:not([hidden])", {
     timeout: 300000,
   });
-  // The portrait: where the figure's head lands inside the box.
+  // The portrait: a headshot, the whole face in the middle of the box.
   await page.waitForFunction(() => {
     const bust = document.getElementById("opening-bust");
     return bust && getComputedStyle(bust).backgroundImage.includes("url");
   });
   const head = await page.evaluate(async () => {
     const bust = document.getElementById("opening-bust");
-    const style = getComputedStyle(bust);
-    const url = style.backgroundImage.slice(5, -2);
+    const url = getComputedStyle(bust).backgroundImage.slice(5, -2);
     const image = new Image();
     image.src = url;
     await image.decode();
-    const box = bust.getBoundingClientRect();
-    const scale =
-      (box.width * parseFloat(style.backgroundSize)) / 100 / image.naturalWidth;
     const canvas = document.createElement("canvas");
     canvas.width = image.naturalWidth;
     canvas.height = image.naturalHeight;
     const ctx = canvas.getContext("2d");
     ctx.drawImage(image, 0, 0);
-    const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    const { width, height } = canvas;
+    const data = ctx.getImageData(0, 0, width, height).data;
+    const opaque = (x, y) => data[(y * width + x) * 4 + 3] > 200;
     let top = 0;
     while (
-      top < canvas.height &&
-      !data[(top * canvas.width + (canvas.width >> 1)) * 4 + 3] &&
-      ![...Array(canvas.width).keys()].some(
-        (x) => data[(top * canvas.width + x) * 4 + 3] > 200,
-      )
+      top < height &&
+      ![...Array(width).keys()].some((x) => opaque(x, top))
     )
       top++;
-    const offset =
-      (box.height - image.naturalHeight * scale) *
-      (parseFloat(style.backgroundPositionY) / 100 || 0);
-    // A head is about a fifth of a standing figure's height.
-    const headTop = top * scale + offset;
-    const headBottom = headTop + image.naturalHeight * 0.2 * scale;
-    return { headTop, headBottom, box: box.height };
+    // The face's row (a third of a head below its top): skin on both sides of the middle.
+    const row = Math.min(height - 1, top + Math.round(height / 7));
+    const xs = [...Array(width).keys()].filter((x) => opaque(x, row));
+    return {
+      url,
+      square: width === height,
+      top: top / height,
+      left: xs.length ? xs[0] / width : 1,
+      right: xs.length ? xs.at(-1) / width : 0,
+    };
   });
   console.log("portrait head", head);
   if (shot) await page.screenshot({ path: shot });
-  assert.ok(head.headTop >= 0, "the head's top is inside the portrait box");
+  assert.match(head.url, /\/headshots\//, "the portrait is a headshot");
+  assert.ok(head.square, "the headshot is square");
+  assert.ok(head.top > 0, "the head's top is inside the portrait box");
   assert.ok(
-    head.headBottom <= head.box,
-    "the whole head fits in the portrait box",
+    head.left < 0.45 && head.right > 0.55,
+    "the face is whole across the middle of the box",
   );
   await page.keyboard.press("Escape");
   await page.getByRole("button", { name: "Skip opening", exact: true }).click();

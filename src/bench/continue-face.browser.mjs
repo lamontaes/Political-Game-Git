@@ -1,7 +1,7 @@
 /* global process, console, document, getComputedStyle, fetch, location */
 // The title's Continue shows the face the creator saved: after making a
 // character and starting the life, the title's Continue holds a portrait that
-// is byte for byte the creator's. Run against the bench:
+// is byte for byte the creator's, as a headshot. Run against the bench:
 //   BENCH_PORT=3000 node src/bench/continue-face.browser.mjs [shot.png]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
@@ -52,12 +52,12 @@ try {
         .backgroundImage,
   );
   console.log("continue face:", face);
-  assert.match(face, /\/api\/portrait\?id=/, "Continue shows no face");
+  assert.match(face, /\/api\/headshot\?id=/, "Continue shows no face");
   const url = /url\("(.*)"\)/.exec(face)[1];
   assert.equal(
     await hash(url),
-    await hash(made),
-    "the Continue face is not the creator's portrait",
+    await hash(made.replace("/api/portrait?", "/api/headshot?")),
+    "the Continue face is not the creator's portrait as a headshot",
   );
   console.log("PASS Continue shows the face the creator saved");
 } finally {

@@ -1,5 +1,6 @@
 import { GARMENTS } from "./figure-colors";
 import { drawnFigure } from "./figure-hair";
+import { headshotPng } from "./headshot";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
@@ -81,6 +82,7 @@ import {
   drawnAppearance,
   lookForGender,
   moveAppearance,
+  portraitHeadshotPng,
   portraitPng,
   readRecipe,
   setColor,
@@ -332,23 +334,25 @@ export async function benchRequest(
       }
       if (
         request.method === "GET" &&
-        /^\/art\/people-engine\/v2\/figures\/[\w.-]+\.png$/.test(url.pathname)
+        /^\/art\/people-engine\/v2\/(?:figures|headshots)\/[\w.-]+\.png$/.test(
+          url.pathname,
+        )
       ) {
-        // Standing people: the v2 figures, served as they are. The folder is
+        // Standing people: the v2 figures, served as they are, or the same
+        // figure as a headshot (busts, the people map). The folder is
         // written out so the desktop build copies it (it reads the fixed part
         // of this path, desktop/scripts/build-play-api.mjs).
         const file = url.pathname.split("/").at(-1)!;
-        const content = drawnFigure(
-          file.replace(/\.png$/, ""),
-          Object.fromEntries(
-            ["skin", "hair", "hairColor", "face", ...GARMENTS].flatMap(
-              (key) => {
-                const value = url.searchParams.get(key);
-                return value ? [[key, value]] : [];
-              },
-            ),
-          ),
+        const colors = Object.fromEntries(
+          ["skin", "hair", "hairColor", ...GARMENTS].flatMap((key) => {
+            const value = url.searchParams.get(key);
+            return value ? [[key, value]] : [];
+          }),
         );
+        const name = file.replace(/\.png$/, "");
+        const content = url.pathname.includes("/headshots/")
+          ? headshotPng(name, colors)
+          : drawnFigure(name, colors);
         response.writeHead(200, {
           "Content-Type": "image/png",
           "Cache-Control": "public, max-age=3600",
@@ -527,7 +531,10 @@ export async function benchRequest(
         } else send(404, { error: "Unknown bench route." });
         return;
       }
-      if (request.method === "GET" && url.pathname === "/api/portrait") {
+      if (
+        request.method === "GET" &&
+        (url.pathname === "/api/portrait" || url.pathname === "/api/headshot")
+      ) {
         // The engine's portrait: a recipe from the creator, or a person's own.
         const id = url.searchParams.get("id");
         const kept = id
@@ -538,7 +545,11 @@ export async function benchRequest(
           "Content-Type": "image/png",
           "Cache-Control": "max-age=3600",
         });
-        response.end(portraitPng(readRecipe(kept)));
+        response.end(
+          url.pathname === "/api/headshot"
+            ? portraitHeadshotPng(readRecipe(kept))
+            : portraitPng(readRecipe(kept)),
+        );
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/title") {
