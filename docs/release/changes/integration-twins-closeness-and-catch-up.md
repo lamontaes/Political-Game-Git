@@ -1,6 +1,0 @@
----
-id: integration-twins-closeness-and-catch-up
-impact: none
----
-
-Internal: the justice engine reads a tie the way the rest of the game does, and an unused second day loop is removed.
