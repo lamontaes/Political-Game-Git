@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/bench/data/scene-places.json, src/bench/story.ts, src/bench/scene.ts
 
 **Notes.** TODO
+
+Stopped Oct 28, 02:15 UTC (owner, by the CTO), director lead: built and pushed on `claude/director-scene-settings-chamber-office` (head 60ce511094), not proven: the chamber setting maps to the body's own room (`bodyPlace` in src/bench/legislature.ts, shared with the meeting screen), the office setting to its post's workplace or the body's room (stopgap SG-PLAY-office-setting-shows-chamber), and src/bench/scene-settings-chamber-office.test.ts is written but collected no tests in its first run. No PR.
