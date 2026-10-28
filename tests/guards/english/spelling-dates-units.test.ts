@@ -6,7 +6,7 @@ import {
   ALLOW_MARKER,
   exemptionFor,
   properNameAllowed,
-} from "../scripts/prose-eval/american-english-scope";
+} from "../../../scripts/prose-eval/american-english-scope";
 import {
   americanize,
   britishSpellings,
@@ -14,8 +14,11 @@ import {
   DAY_FIRST_NUMERIC_DATE,
   METRIC_MEASUREMENT,
   monthFirstDates,
-} from "../scripts/prose-eval/american-spelling";
-import { proseKindOf, proseRanges } from "../scripts/prose-eval/prose-ranges";
+} from "../../../scripts/prose-eval/american-spelling";
+import {
+  proseKindOf,
+  proseRanges,
+} from "../../../scripts/prose-eval/prose-ranges";
 
 /**
  * The project writes American English: color, center, labor, organize;
@@ -23,13 +26,13 @@ import { proseKindOf, proseRanges } from "../scripts/prose-eval/prose-ranges";
  *
  * The owner asked for it everywhere — player text, content, docs, and the
  * skill files that tell the next author how to write — after reading "labour"
- * in a skill file. `content-american-english.test.ts` already guards a list of
- * British *idioms* in a list of content files. This guards *spelling*, dates
- * and units across every tracked file, so a new file is covered the day it is
- * added and nothing has to remember to list it.
+ * in a skill file. `vocabulary.test.ts` beside this guards British *words* in
+ * player text. This guards *spelling*, dates and units across every tracked
+ * file, so a new file is covered the day it is added and nothing has to
+ * remember to list it.
  */
 
-const ROOT = path.resolve(__dirname, "..");
+const ROOT = path.resolve(__dirname, "../../..");
 
 function trackedFiles(): string[] {
   return execFileSync("git", ["ls-files"], {

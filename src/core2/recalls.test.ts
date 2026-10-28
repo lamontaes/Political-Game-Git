@@ -367,14 +367,18 @@ describe("each state's recall rule as its statute reads", () => {
     }
     const api = coreAPI(core);
     const rule = resolveMunicipalRecallRule(place.state.slice(3));
-    // Grounds of cause bar a recall over an ordinance's vote; no recall at
-    // all bars every one.
+    // Grounds of cause bar a recall over an ordinance's vote, though not one
+    // for cause (misconduct on the record: recall-for-cause.test.ts); no
+    // recall at all bars every one.
     expect(
       rule.groundsRequired === true || rule.doctrine === "prohibited",
     ).toBe(true);
-    expect(recallsOf(api), where).toHaveLength(0);
+    const forbidden = recallsOf(api).filter(
+      (r) => rule.doctrine === "prohibited" || r.cause !== "misconduct",
+    );
+    expect(forbidden, where).toHaveLength(0);
     process.stdout.write(
-      `recall-statute: ${where}: ${rule.doctrine}, scope ${rule.scope}; grounds ${rule.grounds}; ${rule.citation}; ${recallsOf(api).length} recalls in a year\n`,
+      `recall-statute: ${where}: ${rule.doctrine}, scope ${rule.scope}; grounds ${rule.grounds}; ${rule.citation}; ${recallsOf(api).length} recalls in a year, all for cause\n`,
     );
   }, 900_000);
 });
