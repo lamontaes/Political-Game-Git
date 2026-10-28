@@ -4,13 +4,19 @@ import { describe, expect, it } from "vitest";
 import regionsData from "./data/regional/regions.json" with { type: "json" };
 import stats from "../../data/research/regional/series/stats.json" with { type: "json" };
 import { corePlaceByKey } from "./place-lookup";
-import { historyMonths, stepMacroMonth, type MacroMonth } from "./macro-model";
+import {
+  historyMonths,
+  publishedMonths,
+  stepMacroMonth,
+  type MacroMonth,
+} from "./macro-model";
 import { macroCoreData } from "./modules/macro";
 import { regionOfPlace } from "./modules/regional";
 import { parameter } from "./parameters";
 import {
   REGIONS,
   openingRegionMonths,
+  publishedRegionMonths,
   stateFigures,
   stepRegionMonth,
   type RegionMonth,
@@ -20,8 +26,8 @@ const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
 
 function year(start: string, rate?: number) {
-  const nation: MacroMonth[] = historyMonths(start, p);
-  let months: RegionMonth[] = openingRegionMonths(nation.at(-1)!, p);
+  const nation: MacroMonth[] = publishedMonths(start, p);
+  let months: RegionMonth[] = publishedRegionMonths(nation.at(-1)!, p);
   const opening = months;
   for (let i = 0; i < 12; i++) {
     const before = nation.at(-1)!,
@@ -243,5 +249,59 @@ describe("other places, coarser (M1-13, the economy's part)", () => {
       id.startsWith("event:economy.state-jobs-report:"),
     );
     expect(reports).toHaveLength(56 * 2);
+  });
+  it("runs a tight state's pay ahead of the nation's and a slack one behind, not every state with the nation alone", () => {
+    const { opening, change } = year("2021-01-01");
+    const fips = [...new Set(REGIONS.map((row) => row.stateFips))].filter(
+      (f) => change(f).pay !== undefined,
+    );
+    const gap = fips.map((f) => stateFigures(opening, f).unemploymentPct);
+    const pay = fips.map((f) => change(f).pay);
+    const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+    const mg = mean(gap),
+      mp = mean(pay);
+    const cov = gap.reduce((n, g, i) => n + (g - mg) * (pay[i]! - mp), 0);
+    const r =
+      cov /
+      Math.sqrt(
+        gap.reduce((n, g) => n + (g - mg) ** 2, 0) *
+          pay.reduce((n, v) => n + (v - mp) ** 2, 0),
+      );
+    // States do not all move with the nation: their pay changes spread, and
+    // the spread runs against their unemployment gap (the pooled fit, r -0.14,
+    // is weak, so the model's own is the stronger one it is built to be).
+    expect(
+      Math.sqrt(pay.reduce((n, v) => n + (v - mp) ** 2, 0) / pay.length),
+    ).toBeGreaterThan(0.2);
+    expect(r).toBeLessThan(-0.5);
+  });
+});
+
+describe("each world's own states and metros (owner, Oct 27: realistic, not real)", () => {
+  const start = "2025-01-20";
+  const at = (seed: string) =>
+    openingRegionMonths(historyMonths(start, seed, p).at(-1)!, start, seed, p);
+  it("opens every region of every place on figures that differ between two worlds and from the published ones", () => {
+    const published = publishedRegionMonths(
+      publishedMonths(start, p).at(-1)!,
+      p,
+    );
+    const a = at("world-a"),
+      b = at("world-b");
+    expect(a.map((row) => row.id)).toEqual(published.map((row) => row.id));
+    expect(new Set(a.map((row) => row.stateFips)).size).toBe(56);
+    for (const [i, real] of published.entries())
+      for (const key of [
+        "unemploymentPct",
+        "jobsThousands",
+        "hourlyEarnings",
+        "priceLevelPct",
+      ] as const) {
+        expect(a[i]![key], `${real.id} ${key}`).not.toBe(real[key]);
+        expect(a[i]![key], `${real.id} ${key}`).not.toBe(b[i]![key]);
+      }
+  });
+  it("draws the same regions again from the same seed", () => {
+    expect(at("world-a")).toEqual(at("world-a"));
   });
 });

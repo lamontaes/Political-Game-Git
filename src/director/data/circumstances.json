@@ -271,6 +271,22 @@
       "everyParameter": "directorCircumstanceHallwayEveryDays"
     },
     {
+      "id": "away-evening",
+      "recordKinds": ["public-meeting"],
+      "recordFactEquals": { "evening": ["true"] },
+      "playerNamed": true,
+      "afterDays": 1,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "named-in-it",
+      "cast": "the morning after the player's body sat past the hour it meets at night, someone they live with, scored on tie and sociability",
+      "typeKey": "family-absence",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "held-known-visit",
       "recordKinds": ["justice.held-before-trial"],
       "place": "venue",
@@ -320,7 +336,7 @@
       "where": "known",
       "player": "anyone",
       "cast": "the day after the count, someone the player knows who ran in the race or is tied to a candidate in it (their family, household or the people they knew), telling who won; scored on tie and sociability",
-      "typeKey": "news-arrives",
+      "typeKey": "race-told",
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceRaceImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
@@ -369,6 +385,20 @@
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceSchoolImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
+      "id": "override-whip",
+      "recordKinds": ["veto-override"],
+      "recordFactEquals": { "passed": ["false"] },
+      "place": "seat",
+      "pool": ["fact:sponsorId"],
+      "where": "pool",
+      "player": "listed:members",
+      "cast": "the sponsor of a bill whose veto override failed, asking a member who voted no or stayed out (the record lists the most movable first) for the next try",
+      "typeKey": "vote-confirmed",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
     }
   ]
 }
