@@ -14,6 +14,8 @@ GARMENT = {'shirt': [[236, 236, 232], [200, 210, 230], [170, 50, 45], [60, 90, 1
            'pants': [[40, 44, 58], [55, 70, 105], [190, 170, 130], [80, 80, 95], [90, 85, 70], [35, 40, 60], [150, 140, 110]],
            'shoes': [[30, 24, 22], [90, 55, 35], [230, 230, 225], [60, 45, 40], [200, 60, 60], [110, 75, 45]],
            'tie': [[140, 30, 40], [40, 60, 120], [60, 100, 70], [120, 100, 40]], 'dress': [[40, 60, 110], [130, 40, 50], [60, 100, 80], [30, 30, 35]]}
+MUTED = {'jacket': [[40, 44, 58], [60, 60, 65], [30, 30, 35], [85, 70, 60], [70, 75, 85], [50, 60, 80]], 'pants': [[40, 44, 58], [60, 60, 65], [30, 30, 35], [70, 75, 85]],
+         'shirt': [[236, 236, 232], [200, 210, 230], [225, 225, 220], [180, 195, 215]], 'shoes': [[30, 24, 22], [60, 40, 30]], 'dress': [[40, 60, 110], [30, 30, 35], [100, 30, 40], [60, 60, 65]]}
 DRESS = {'formal': ['suit', 'skirt-suit'], 'business': ['business', 'office', 'dress-blazer', 'suit'],
          'casual': ['tee-jeans', 'polo-khakis', 'sweater-chinos', 'cardigan', 'zip-jacket', 'blazer-jeans', 'office']}
 
@@ -21,13 +23,13 @@ def poses_for(tags):
     f = tags.get('facing', 0); pose = tags.get('pose', 'stand'); cov = tags.get('coveredBy', 'none')
     if pose == 'sit':
         if abs(f) >= 150: c = ['nat-b2']
-        elif cov in ('desk', 'table', 'counter'): c = ['nat-c2', 'nat-c3']
+        elif cov in ('desk', 'table', 'counter'): c = ['nat-c2', 'nat-c3', 'nat-c4']
         else: c = ['nat-c1', 'nat-c3', 'nat-c1']
-    elif pose == 'lectern': c = ['nat-s7', 'nat-s3']
+    elif pose == 'lectern': c = ['nat-l1', 'nat-s7', 'nat-s3']
     else:
-        if abs(f) >= 150: c = ['nat-b1']
-        elif f == 0: c = ['nat-s1', 'nat-s4', 'nat-s7']
-        else: c = ['nat-s2', 'nat-s3', 'nat-s4', 'nat-s5']
+        if abs(f) >= 150: c = ['nat-b1', 'nat-t1']
+        elif f == 0: c = ['nat-s1', 'nat-s4', 'nat-s7', 'nat-s1-old']
+        else: c = ['nat-s2', 'nat-s3', 'nat-s4', 'nat-s5', 'nat-p1', 'nat-s6']
     return [p for p in c if os.path.exists(f'{WD}/{p}/parts.json')]
 
 def usable(outfit, have):
@@ -54,7 +56,9 @@ if __name__ == '__main__':
         fits = [o for o in OUT if o['id'] in names and sex in o['sexes'] and usable(o, have)]
         if not fits: fits = [o for o in OUT if o['id'] in DRESS['casual'] and sex in o['sexes'] and usable(o, have)]   # never work clothes by accident
         o = rng.choice(fits)
-        colors = {k: rng.choice(GARMENT.get(k, GARMENT['shirt'])) for k in o['parts']}
+        muted = o['formality'] in ('formal', 'business')                       # suits and blazers at work come in muted colors
+        pal = lambda k: (MUTED.get(k) if muted and k in MUTED else GARMENT.get(k, GARMENT['shirt']))
+        colors = {k: rng.choice(pal(k)) for k in o['parts']}
         for a, b in [tuple(x) for x in o.get('sameColor', []) and [o['sameColor']]]: colors[b] = colors[a]
         hairs = [n for n in range(1, 13) if f'hair-{n}' in have]
         people.append({'spot': i, 'pose': pose, 'fig': f'{sex}-{build}', 'outfit': o['id'], 'colors': colors, 'skin': rng.choice(SKIN),

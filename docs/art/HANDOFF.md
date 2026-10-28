@@ -69,7 +69,7 @@ The wardrobe replaces the outfit sheets with parts:
    - Never find a garment by "what changed": a gray jacket over a gray shirt barely changes, and on Oct 28 that cut lost most of the jacket.
    - Pants are painted with the shirt tucked in tightly, so each pair reaches the waist and an untucked tee always covers its top edge. Without that, a tee over jeans left a gap at the waist.
    - Women-only pieces (blouse, pencil skirt, sheath dress, low heels) change only the top row; the men's parts come out empty and are skipped.
-4. **Hair** (`__hair12`): 12 edits of the base, the hair in plain gray.
+4. **Hair** (`__hair12`): 12 edits of the base, the hair in flat key blue (#2563EB). Gray hair lost long styles where they fall over a gray shirt; the cutter prefers `hb-` (blue) files over `hk-` (gray).
 5. **Download:**
    - Find them with `asset_search` (GenAIAsset, createDate desc). The key is in `[brackets]` at the start of the name.
    - Then `asset_get_presigned_urls`, then curl.
@@ -83,20 +83,35 @@ The wardrobe replaces the outfit sheets with parts:
 - **Tabs:** four, 30 s apart per tab.
 - **A "boxed" status usually still lands.** Confirm every job with `asset_search` and requeue what's missing.
 - **Tab controls:** `window.__halt = true` stops a tab after its current job. Wait at least 30 s before starting it again, or the old loop resumes.
+- **Rate limit:** after several hundred jobs, a tab can hit Firefly's limit screen ("Whoa there, speed racer! ... Please try again later"). Its jobs then fail with `refs {"refs":5}` because the leftover picture strip counts as references. Move that tab's jobs to the others and rest it.
+- **Failures cluster by tab.** Jobs are dealt to tabs in turn, so one broken tab loses the same part on every pose. Check each tab's `__jobStatus` for errors, not only the asset list.
 
-## Queue order being followed tonight
+## What exists (Oct 28, 08:15 UTC)
 
-1. **Sheet 31 (standing, front):** all parts in key green. This proves the stack works; its hands hover, so it isn't a scene pose.
-2. **Natural pose bases:** the first round turned the women into men, so the prompt now spells out their builds. Nine passed from the second round and are pushed under `wardrobe/nat-*/base.png`:
-   - standing: `s1` relaxed, front (the character creator pose); `s2` relaxed, three-quarter; `s3` talking; `s4` arms folded; `s5` on the phone;
-   - seated: `c1` sitting back, legs crossed; `c2` leaning in at a table; `c3` talking;
-   - from behind: `b1` standing.
-     Walking (`s6`), front talking (`s7`) and seated from behind (`b2`) are being repainted.
-3. **For each of the nine:** marker, 19 parts, 4 women's parts and 12 hair (about 36 jobs). Then cut, check at full size and push.
-4. **Then:** profile and three-quarter-from-behind versions of the most used poses. Three-quarter right is the mirror of three-quarter left.
+- **Poses** (`wardrobe/index.json` has facing per sex, hands, seat, covered-by, age band):
+  - **standing:** `nat-s1` relaxed, front (the creator pose); `s2` relaxed, three-quarter; `s3` talking; `s4` arms folded; `s5` on the phone; `s6` walking; `s7` talking to the viewer; `l1` at a lectern; `p1` profile;
+  - **seated:** `c1` sitting back, legs crossed; `c2` leaning in at a table; `c3` talking; `c4` typing; `p2` profile;
+  - **turned away:** `t1` three-quarter from behind; `b1` standing from behind; `b2` seated from behind;
+  - **older adults (about 70):** `nat-s1-old`.
+  - Sheet `31` is a stiff proof set, not for scenes.
+- **Parts per pose:**
+  - shirts 1–6 (6 = women's blouse);
+  - jackets 1–5, plus 6 (wool winter coat) and 7 (rain jacket) still landing;
+  - tie 1;
+  - pants 1–6 (6 = women's pencil skirt);
+  - shoes 1–6 (6 = women's low heels);
+  - dress 1;
+  - hair 1–12.
+  - About 90 pieces that failed are being repainted; a part that came out too thin is left out of `parts.json` until it's redone.
+- **Crowd poses being painted:** clapping, cheering, holding a blank sign, seated audience clapping, clapping from behind, sitting on a bench.
+- **Proofs** in `art/people-rooms/wardrobe-proof/`:
+  - creator sheets for a woman and a man;
+  - everyday and women's outfits on all six bodies;
+  - `every-pose-dressed.jpg`;
+  - ten rooms cast automatically.
 
 ## Not done yet
 
 - **Wiring is not done.** No code uses `wardrobe/` yet; the section above says where it plugs in.
-- **Missing pieces:** coats for winter, hats, uniforms (police, nurse, judge's robe), and more dresses and skirts.
+- **Missing pieces:** hats, uniforms (police, nurse, judge's robe), more dresses and skirts, teens and children (the adult sheet reads young enough for 18), and older adults in poses other than the front one.
 - **Out for scenes:** the four upright sitting sheets (37, 01, 70, 06) have marker and gray parts from before the green rule. They are stiff and shouldn't be used.

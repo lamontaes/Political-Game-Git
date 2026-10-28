@@ -1,5 +1,5 @@
 {
- "about": "One body per pose and angle; every part is a transparent picture on that body (art/people-engine/v2/wardrobe/<pose>/<figure>/<layer>-<n>.png, boxes in <pose>/parts.json). facing: degrees, 0 toward the camera, minus toward screen-left, 180 away; flip a figure horizontally to serve the mirrored spot. Figures are v2-<pose>-<f|m>-<slim|medium|heavy>.",
+ "about": "One body per pose and angle; every part is a transparent picture on that body (art/people-engine/v2/wardrobe/<pose>/<figure>/<layer>-<n>.png, boxes in <pose>/parts.json). facing: degrees, 0 toward the camera, minus toward screen-left, 180 away; flip a figure horizontally to serve the mirrored spot. Figures are v2-<pose>-<f|m>-<slim|medium|heavy>. ageBand: adult unless noted; 'older' poses are the same builds at about 70.",
  "layers": [
   "body",
   "pants",
@@ -19,7 +19,8 @@
    },
    "hands": "held in front",
    "seat": "none",
-   "use": "proof only (stiff; not for scenes)"
+   "use": "proof only (stiff; not for scenes)",
+   "ageBand": "adult"
   },
   "nat-s1": {
    "pose": "stand",
@@ -29,7 +30,8 @@
    },
    "hands": "at sides, one in a pocket",
    "seat": "none",
-   "use": "character creator; standing anywhere"
+   "use": "character creator; standing anywhere",
+   "ageBand": "adult"
   },
   "nat-s2": {
    "pose": "stand",
@@ -39,7 +41,8 @@
    },
    "hands": "women forearm across waist, men hand in pocket",
    "seat": "none",
-   "use": "waiting, standing in a room"
+   "use": "waiting, standing in a room",
+   "ageBand": "adult"
   },
   "nat-s3": {
    "pose": "stand",
@@ -50,7 +53,8 @@
    "hands": "gesturing while talking",
    "seat": "none",
    "interacts": "talking",
-   "use": "conversation"
+   "use": "conversation",
+   "ageBand": "adult"
   },
   "nat-s4": {
    "pose": "stand",
@@ -61,7 +65,8 @@
    "hands": "arms folded",
    "seat": "none",
    "interacts": "listening",
-   "use": "listening, waiting"
+   "use": "listening, waiting",
+   "ageBand": "adult"
   },
   "nat-s5": {
    "pose": "stand",
@@ -71,7 +76,8 @@
    },
    "hands": "holding a phone",
    "seat": "none",
-   "use": "waiting, street, bus stop"
+   "use": "waiting, street, bus stop",
+   "ageBand": "adult"
   },
   "nat-s6": {
    "pose": "walk",
@@ -81,7 +87,8 @@
    },
    "hands": "swinging",
    "seat": "none",
-   "use": "walking through a place"
+   "use": "walking through a place",
+   "ageBand": "adult"
   },
   "nat-s7": {
    "pose": "stand",
@@ -92,7 +99,8 @@
    "hands": "one hand raised, talking",
    "seat": "none",
    "interacts": "talking to the viewer",
-   "use": "conversation facing the player"
+   "use": "conversation facing the player",
+   "ageBand": "adult"
   },
   "nat-c1": {
    "pose": "sit",
@@ -103,7 +111,8 @@
    "hands": "lap / armrest",
    "seat": "chair, armchair, couch, bench",
    "legs": "crossed",
-   "use": "sitting back, relaxed"
+   "use": "sitting back, relaxed",
+   "ageBand": "adult"
   },
   "nat-c2": {
    "pose": "sit",
@@ -115,7 +124,8 @@
    "seat": "chair",
    "coveredBy": "table, desk",
    "interacts": "talking",
-   "use": "meeting, desk, diner table"
+   "use": "meeting, desk, diner table",
+   "ageBand": "adult"
   },
   "nat-c3": {
    "pose": "sit",
@@ -126,7 +136,8 @@
    "hands": "gesturing while talking",
    "seat": "chair, couch, bench",
    "interacts": "talking",
-   "use": "conversation seated"
+   "use": "conversation seated",
+   "ageBand": "adult"
   },
   "nat-b1": {
    "pose": "stand",
@@ -136,7 +147,8 @@
    },
    "hands": "at sides",
    "seat": "none",
-   "use": "crowds and audiences facing away"
+   "use": "crowds and audiences facing away",
+   "ageBand": "adult"
   },
   "nat-b2": {
    "pose": "sit",
@@ -146,7 +158,79 @@
    },
    "hands": "lap",
    "seat": "chair, pew, bleacher",
-   "use": "seated audiences facing away"
+   "use": "seated audiences facing away",
+   "ageBand": "adult"
+  },
+  "nat-p1": {
+   "pose": "stand",
+   "facing": {
+    "f": 80,
+    "m": 60
+   },
+   "hands": "one at the waist / a low gesture",
+   "seat": "none",
+   "interacts": "talking",
+   "use": "talking with someone beside them (profile)",
+   "ageBand": "adult"
+  },
+  "nat-p2": {
+   "pose": "sit",
+   "facing": {
+    "f": 80,
+    "m": 50
+   },
+   "hands": "forearms on the thighs",
+   "seat": "chair, bench, pew",
+   "interacts": "listening",
+   "use": "seated in profile",
+   "ageBand": "adult"
+  },
+  "nat-t1": {
+   "pose": "stand",
+   "facing": {
+    "f": 150,
+    "m": 150
+   },
+   "hands": "at sides",
+   "seat": "none",
+   "use": "crowds watching something, turned away (three-quarter from behind)",
+   "ageBand": "adult"
+  },
+  "nat-c4": {
+   "pose": "sit",
+   "facing": {
+    "f": 45,
+    "m": 45
+   },
+   "hands": "typing at waist height",
+   "seat": "desk-chair",
+   "coveredBy": "desk",
+   "use": "office work at a computer",
+   "ageBand": "adult"
+  },
+  "nat-l1": {
+   "pose": "lectern",
+   "facing": {
+    "f": 0,
+    "m": 0
+   },
+   "hands": "on the lectern, one gesturing",
+   "seat": "none",
+   "coveredBy": "lectern",
+   "interacts": "speaking",
+   "use": "speeches, debates, public comment",
+   "ageBand": "adult"
+  },
+  "nat-s1-old": {
+   "pose": "stand",
+   "facing": {
+    "f": 0,
+    "m": 0
+   },
+   "hands": "at sides, one in a pocket",
+   "seat": "none",
+   "use": "older adults (about 70), standing anywhere",
+   "ageBand": "older"
   }
  }
 }

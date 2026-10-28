@@ -43,7 +43,8 @@ if __name__ == '__main__':
             flip = bool(ff and sf and abs(ff) < 180 and abs(sf) < 180 and (ff > 0) != (sf > 0))
         if flip: img = img.transpose(Image.FLIP_LEFT_RIGHT); hx = img.width - 1 - hx
         al = np.asarray(img)[..., 3] > 128; ys = np.where(al.any(1))[0]; fig_h = ys[-1] - ht + 1
-        bx = sp['box']; standing = sp.get('pose', 'stand') != 'sit'
+        bx = sp['box']; covered = sp.get('tags', {}).get('coveredBy', 'none') not in ('none', None)
+        standing = sp.get('pose', 'stand') != 'sit' and not covered          # a mannequin behind a stage or desk shows only part of the body
         if standing:                                             # a standing person fills the mannequin from head to feet
             s = (bx[3] - bx[1]) / fig_h
             x0, y0 = round(sp['headX'] - hx * s), round(bx[3] - ys[-1] * s)
@@ -59,8 +60,11 @@ if __name__ == '__main__':
             lim[fx0:fx0 + len(fl)] = fl
             xs = np.arange(W); outside = (xs < fx0) | (xs >= fx0 + len(fl))
             lim[outside] = H
-            if not standing:                                     # seated: the furniture in front runs on past the mannequin's sides
-                reach = int(0.4 * (bx[2] - bx[0]))
+            if covered:                                          # behind a stage, desk or counter: its top edge runs straight across the whole person
+                reach = int(max(0.4 * (bx[2] - bx[0]), 2.5 * sp['headWidth']))
+                lim[max(0, fx0 - reach):min(W, fx0 + len(fl) + reach)] = int(np.median(fl))
+            elif not standing:                                   # seated: the seat's front runs on past the mannequin's sides
+                reach = int(max(0.4 * (bx[2] - bx[0]), 1.5 * sp['headWidth']))
                 lim[max(0, fx0 - reach):fx0] = fl[0]; lim[fx0 + len(fl):min(W, fx0 + len(fl) + reach)] = fl[-1]
             A[..., 3] = np.where(rows > lim[None, :] + 2, 0, A[..., 3])
         canvas.alpha_composite(Image.fromarray(A))
