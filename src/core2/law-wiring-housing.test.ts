@@ -175,7 +175,7 @@ function setQuestion(api: CoreAPI, key: string, value: 0 | 1): void {
 
 /**
  * Whether a policy was law for the town on a date: any level of its chain whose latest row in force on that date says
- * yes. The rule the engines apply on the day they decide (`inForceHere` in law-reach/host.ts), asked of a past day.
+ * yes. The rule the engines apply on the day they decide (`yesLevels` in modules/laws.ts), asked of a past day.
  */
 function inForceOn(api: CoreAPI, key: string, date: string): boolean {
   const laws = api.moduleState(LAWS_MODULE_ID).table("laws");

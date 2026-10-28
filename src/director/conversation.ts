@@ -28,6 +28,7 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
+import { heldSinceRecord } from "../core2/past-work";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
@@ -278,17 +279,13 @@ export function tenureYears(
     : undefined;
 }
 
-/** When the person started their current job, from their own record. */
+/** When the person started their current job, from the record of their working life before the start. */
 function startedOf(
+  core: Readonly<CoreState>,
   person: Readonly<PersonState>,
 ): { date: string; factId: string } | null {
-  const fact = (person.pastFacts ?? []).find(
-    (row) =>
-      row.kind === "work:tenure-summary" && row.facts?.jobId === person.jobId,
-  );
-  return fact?.facts?.startedAt
-    ? { date: fact.facts.startedAt, factId: fact.id }
-    : null;
+  const held = heldSinceRecord(core as CoreState, person.id, person.jobId);
+  return held ? { date: String(held.facts.startedAt), factId: held.id } : null;
 }
 
 function lastContact(
@@ -1176,15 +1173,22 @@ export function subjectsBetween(
     });
   // The President's address, once the speaker saw it or heard of it: its
   // remembered line is theirs to quote. Last, so it never takes the place of
-  // a subject the banks can word. It is the day's news only while it is
-  // recent, as a recorded moment is.
+  // a subject the banks can word. It is the day's news only for the weeks
+  // after it was given (its record's date), however late someone heard it.
   const known = core.knowledgeByPerson.get(speakerId);
   const address = known?.get(ADDRESS_FACT.event);
   const quote = known?.get(ADDRESS_FACT.remembered);
+  const givenOn =
+    address?.value.match(/\d{4}-\d{2}-\d{2}$/)?.[zero] ?? address?.learnedAt;
   if (
     address &&
     quote &&
-    address.learnedAt > addDays(makeIsoDate(core.date), -recentDays())
+    givenOn &&
+    givenOn >
+      addDays(
+        makeIsoDate(core.date),
+        -DEFAULT_DIRECTOR_DATA.parameters.directorTalkAddressDays!.value,
+      )
   ) {
     out.push({
       id: `address:${address.value}`,
@@ -1283,7 +1287,7 @@ function replyFacts(
         : { facts: {}, stage: "none" };
     }
     case "their-tenure": {
-      const years = tenureYears(startedOf(listener), core.date);
+      const years = tenureYears(startedOf(core, listener), core.date);
       return years ? { facts: { years }, stage: "default" } : null;
     }
     case "shared-work": {
@@ -1369,7 +1373,7 @@ function playerFacts(
   // How long the player has worked there; a home answer counts its own years.
   const tenure = last.kind.startsWith("home")
     ? undefined
-    : tenureYears(startedOf(player), core.date);
+    : tenureYears(startedOf(core, player), core.date);
   if (tenure) facts.years = tenure;
   const place = corePlaceByJurisdictionId(player.placeId as never);
   if (place)

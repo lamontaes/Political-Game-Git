@@ -5,7 +5,7 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/guards-every-pr
 pr: #6492
 blocked-on:

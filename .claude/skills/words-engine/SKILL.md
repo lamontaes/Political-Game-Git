@@ -73,7 +73,7 @@ Batch-style line grading is not how the owner grades. He plays or watches a scen
 
 ## The checks a Words session runs
 
-In-session, on changed files only: typecheck, eslint, prettier, the bank's own test (`scripts/english-corpus/<bank>-bank.test.ts`), the director's tests for changed files (`src/director/*.test.ts`), `npm run spelling` (American English; `tests/american-english-sweep.test.ts`), `npm run zero-dice`, `release:check --mode pr` with a declaration in `docs/release/changes/`. The played-world proof is the batch itself: a year in a drawn place with the record ids that fired each scene. One line at the top of the PR body with the result; the first lines of the PR body say what the owner can play now.
+In-session, on changed files only: typecheck, eslint, prettier, the bank's own test (`scripts/english-corpus/<bank>-bank.test.ts`), the director's tests for changed files (`src/director/*.test.ts`), `npm run spelling` (American English; `tests/guards/english/`), `npm run zero-dice`, `release:check --mode pr` with a declaration in `docs/release/changes/`. The played-world proof is the batch itself: a year in a drawn place with the record ids that fired each scene. One line at the top of the PR body with the result; the first lines of the PR body say what the owner can play now.
 
 ## Boundaries
 

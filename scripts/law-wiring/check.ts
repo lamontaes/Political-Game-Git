@@ -31,8 +31,9 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  yesLevels,
 } from "../../src/core2/modules/laws";
-import { inForceHere, LAW_REACH_HOST_ID } from "../../src/core2/law-reach/host";
+import { LAW_REACH_HOST_ID } from "../../src/core2/law-reach/host";
 import {
   LAW_APPLIED_TABLE,
   type LawAppliedRow,
@@ -1103,7 +1104,8 @@ function checkLaw(
   trackedKeys = new Set([law.key]);
   resetTrace();
 
-  const opening = law.kind === "question" ? inForceHere(api, law.key) : false;
+  const opening =
+    law.kind === "question" ? yesLevels(api, law.key).length > 0 : false;
   // Link 1 in the drawn place: the row in force (or saying no) on day one.
   const openingRow =
     law.kind === "budget-line"
