@@ -49,12 +49,13 @@ const adults = [...core.people.values()].filter(
 const listsSaid = (given: number) => {
   const move = openingMove("inaugural", "plain", "families")!;
   let lists = 0;
+  let said = 0;
   for (let n = 0; n < 60; n++) {
     const packet: GroundedEnglishPacket = {
       surface: "dialogue",
       momentKey: `craft-${n}`,
       worldSeed: seed,
-      bankVersion: "1",
+      bankVersion: move.bank.version,
       stage: "open",
       sourceRecordIds: ["craft"],
       facts: {},
@@ -64,11 +65,14 @@ const listsSaid = (given: number) => {
     const address = composeAddress(packet, "election-night", [move], {
       addressesGiven: given,
     });
-    if (address.kind === "rendered")
-      lists += address.moves
-        .flatMap((row) => row.parts)
-        .filter((part) => part.device === "three-part-list").length;
+    if (address.kind !== "rendered") continue;
+    said += 1;
+    lists += address.moves
+      .flatMap((row) => row.parts)
+      .filter((part) => part.device === "three-part-list").length;
   }
+  // The block is said every time; only which sentence says it changes.
+  expect(said, where).toBe(60);
   return lists;
 };
 
