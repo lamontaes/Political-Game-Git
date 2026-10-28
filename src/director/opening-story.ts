@@ -41,7 +41,7 @@ import type {
   GroundedEnglishPacket,
 } from "../english/grounded-english";
 import { composeAddress } from "../english/english-composition";
-import { addressesGivenBy } from "../core2/modules/speech";
+import { addressesGivenBy } from "../core2/modules/people";
 import {
   openingMove,
   type OpeningLevel,
