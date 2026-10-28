@@ -1358,10 +1358,11 @@ let speechState = null;
 async function localRacesBlock() {
   const { date, races } = await api("/api/government/local-races");
   const labels = controls.localRaces;
-  const block = listRow(
+  // A block of its own: each race is a row under the title, not squeezed beside it.
+  const block = makeCard(
     "race local-races",
     {},
-    bold(date ? `${labels.title} · ${proseDate(date)}` : labels.title),
+    line(date ? `${labels.title} · ${proseDate(date)}` : labels.title, "label"),
   );
   if (!races.length) block.append(line(labels.noBallot, "label"));
   for (const race of races) {
