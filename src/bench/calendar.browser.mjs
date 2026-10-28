@@ -37,9 +37,6 @@ try {
       document.getElementById("card-name").textContent.trim() &&
       document.getElementById("card-clock").textContent.trim(),
   );
-  // A job offer held for an answer comes first in some worlds.
-  if (await page.locator("#job-offer-turn").isVisible())
-    await page.locator("#job-offer-turn").click();
   const name = await page.locator("#card-name").innerText();
   const clock = await page.locator("#card-clock").innerText();
   console.log(
@@ -153,10 +150,6 @@ try {
   const target = await page
     .locator(".month .day.selected")
     .getAttribute("data-date");
-  await page
-    .locator("#job-offer-turn")
-    .click({ timeout: 2000 })
-    .catch(() => undefined);
   await page.locator(".calendar-details .skip-forward").click();
   await page.waitForFunction(
     (before) =>

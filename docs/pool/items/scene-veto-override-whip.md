@@ -5,12 +5,13 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/director-veto-override-whip
+pr: #6421
 blocked-on:
 lead: director
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T21:12:23.084Z
 ---
 
 **What.** Veto overrides are recorded 4 to 13 times a year in a drawn place and only the sponsor gets a veto scene. The members who decide an override have vote rows (votes table, id vote:<bill>:<member>:override, with vote and position.total) that no situation type reads. Add a veto-override cause: the sponsor asks the member whose override vote was no or abstain and whose position is nearest zero. Packet with trigger, place, cast rule and outcome record: docs/design/scenes/from-life/veto-override-whip.md.

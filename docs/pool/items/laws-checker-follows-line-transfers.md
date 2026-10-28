@@ -6,11 +6,12 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/laws-checker-line-transfers
+pr: #6391
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T19:09:50.159Z
 ---
 
 **What.** The corrections budget line's money grades partial in both audit towns: the town's treasury pays the line's workers and contractors elsewhere through `cash:outside-market:…` accounts, and the checker cannot see it. The justice helper traced it by hand (Oct 25, branch claude/laws-nine-links-justice): in Prescott, Michigan (seed a91c03e7d2b84f10), `journal:2025-02-01:1912` paid wages of $1,393.25 with the line raised against $1.08 without, and `:1913` paid contractors $750.21 against $0.58; in Uehling, Nebraska (seed 5e27b0c4196fd3a8), `journal:2025-03-01:8668` and `:8669` paid $1,651.03 and $889.01 against nothing. Two causes found: `accountIndex` in `scripts/law-wiring/check.ts` does not match a treasury id that contains colons (`cash:organization:treasury:place:…:residual`), and the treasury is a pooled account whose sums by date and kind barely move. Follow the transfers whose source id names the line (`…:corrections:<date>`), or extend the treasury-line tracer the taxes family added (`money.lines`) to a line law's own line, and map a counted worker to their household's group. Never weaken the own-payment rule.

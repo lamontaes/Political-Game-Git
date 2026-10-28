@@ -36,6 +36,7 @@ import {
   spacingAllows,
   type QueuedRecord,
 } from "./circumstance";
+import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
@@ -900,6 +901,13 @@ export function createDirector(
         // The event's own impact reaches the people it names fully, and
         // those who learned of it through a tie by their relation.
         raw = param(rule.impactParameter);
+        // A share of it the event's own fact gives, on a sliding scale.
+        if (rule.scaleFact) {
+          const share = Number(row.event.facts?.[rule.scaleFact]);
+          raw *= Number.isFinite(share)
+            ? Math.max(zero, Math.min(one, share))
+            : zero;
+        }
         if (!row.event.personIds.includes(book.personId)) {
           const thread = row.event.personIds
             .map((id) => book.threads.get(id))
@@ -1393,10 +1401,12 @@ export function createDirector(
   function produceCircumstances(core: Readonly<CoreState>): void {
     // Records held for a later row come on their day; a day's records are
     // written as it closes, so one may already be due when it is recorded.
+    // One whose day passed unplayed (the clock jumped over it) is dropped:
+    // the morning after comes on that morning or not at all.
     const due: QueuedRecord[] = [];
     for (const [day, held] of circumstanceLater)
       if (day <= core.date) {
-        due.push(...held);
+        if (day === core.date) due.push(...held);
         circumstanceLater.delete(day);
       }
     const queue = [...circumstanceQueue.splice(zero), ...due];
@@ -1406,18 +1416,39 @@ export function createDirector(
         ...queue,
         ...newCoworkers(core, book.personId),
         ...newHousemates(core, book.personId),
+        ...schoolFinished(core, book.personId),
       ];
+      // A record read directly today (a school year's end) is held for the
+      // rows that come days after it, as a logged event is when recorded.
+      for (const record of records)
+        if (record.direct && !record.later)
+          for (const days of laterDays.get(record.kind) ?? []) {
+            const due = addDays(makeIsoDate(core.date), days);
+            circumstanceLater.set(due, [
+              ...(circumstanceLater.get(due) ?? []),
+              { ...record, later: true, dueOn: due },
+            ]);
+          }
       if (!records.length) continue;
       const date = makeIsoDate(core.date);
       const lastAny = ledger.circumstanceLast.get(`${book.personId}|*`);
       // The week between scenes from circumstance; a row that follows one
-      // thing the player lived through (the morning after) is not held to it.
+      // thing the player lived through (the morning after, their school
+      // year's end) is not held to it.
       const weekPassed = spacingAllows(
         lastAny,
         param("directorCircumstanceEveryDays"),
         date,
       );
-      if (!weekPassed && !records.some((record) => record.later)) continue;
+      if (
+        !weekPassed &&
+        !records.some(
+          (record) =>
+            record.later ||
+            circumstanceRows.get(record.kind)?.some((row) => row.lived),
+        )
+      )
+        continue;
       // A record that already staged a scene for this person today is met
       // the ordinary way: one cause stages one scene.
       const staged = new Set<string>();
@@ -1450,7 +1481,7 @@ export function createDirector(
           },
           staged,
           due: (row) =>
-            (weekPassed || !!row.afterDays) &&
+            (weekPassed || !!row.afterDays || !!row.lived) &&
             spacingAllows(
               ledger.circumstanceLast.get(`${book.personId}|${row.id}`),
               param(row.everyParameter),
@@ -1519,11 +1550,31 @@ export function createDirector(
   }
 
   /**
+   * The first moment at or after `at` that a scene's setting can hold it: a
+   * home from the person's day start to its evening, an office in its hours
+   * (settingHours). A moment measured at the day's closing midnight waits for
+   * the morning instead of playing in the dark.
+   */
+  function openedAt(
+    core: CoreState,
+    at: { date: IsoDate; minuteOfDay: number },
+    kind: string | undefined,
+  ): { date: IsoDate; minuteOfDay: number } {
+    const row = data.settingHours.rows[kind ?? "home"];
+    if (!row) return at;
+    const opens = row.opens ?? coreParam(core, "playerDayStartMinute");
+    if (at.minuteOfDay >= opens && at.minuteOfDay < row.closes) return at;
+    return at.minuteOfDay < opens
+      ? { date: at.date, minuteOfDay: opens }
+      : { date: addDays(makeIsoDate(at.date), one), minuteOfDay: opens };
+  }
+
+  /**
    * Tells the core's player clock that the controlled person's interrupting
    * moment stops it at the moment's own time: the clock's frontier when the
-   * moment is measured. A moment rated as its event is recorded mid-day stops
-   * the clock there; a moment measured as the day closes stops it at the
-   * closing midnight, which is when the rest of the world's day is recorded.
+   * moment is measured, or the next minute its setting is open. A moment rated
+   * as its event is recorded mid-day stops the clock there; a moment measured
+   * as the day closes stops it on the next morning its setting opens.
    * A one-shot stop: the client's acknowledgment consumes it. Moments of
    * anyone not controlled stop nothing.
    */
@@ -1535,10 +1586,14 @@ export function createDirector(
         !core.people.get(moment.personId)?.alive
       )
         continue;
-      const at = playerClockFrontierV1(core, moment.personId) ?? {
-        date: addDays(makeIsoDate(core.date), one),
-        minuteOfDay: zero,
-      };
+      const at = openedAt(
+        core,
+        playerClockFrontierV1(core, moment.personId) ?? {
+          date: addDays(makeIsoDate(core.date), one),
+          minuteOfDay: zero,
+        },
+        entry.bindings[zero]?.setting.kind,
+      );
       registerModuleStopV1(core, {
         moduleId: module.id,
         recordId: moment.id,

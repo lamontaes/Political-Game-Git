@@ -32,6 +32,7 @@ import type {
 } from "../core2/types";
 import rowsJson from "./data/circumstances.json" with { type: "json" };
 import { civicFill } from "./civic-roles";
+import { classmatesOf } from "./school";
 import { SITUATION_LIBRARY, type SituationLibrary } from "./scheduling";
 import type { Moment, PersonLedger } from "./types";
 
@@ -65,6 +66,12 @@ export interface CircumstanceRow {
    * as it follows one thing the player lived through.
    */
   afterDays?: number;
+  /**
+   * The row follows a record of the player's own life (their school year
+   * ending): the week's spacing between scenes from circumstance does not
+   * hold it back.
+   */
+  lived?: boolean;
   /** The kind of place it happens at: the situation type's setting. */
   place: string;
   pool: readonly string[];
@@ -284,11 +291,20 @@ function playerHolds(
           .query("byPerson", [playerId]) as unknown as { contestId: string }[]
       ).some((filing) => filing.contestId === contestId);
     }
+    case "named-in-it":
+      // The record is the player's own (their school year's end).
+      return record.personIds.includes(playerId);
     case "same-body": {
       const body = bodyOfRecord(core, record);
       return !!body && standing.officeIds.has(body);
     }
     default:
+      if (rule.startsWith("listed:"))
+        // The record's fact lists the player (the members an override's
+        // sponsor could still move).
+        return (record.facts[rule.slice("listed:".length)] ?? "")
+          .split(",")
+          .includes(playerId);
       throw new Error(`Unknown circumstance player rule: ${rule}`);
   }
 }
@@ -356,6 +372,9 @@ function poolOf(
       named: record.personIds.includes(id),
     }));
   }
+  if (source === "classmates")
+    // The others at the player's school that year.
+    return classmatesOf(core, playerId).map((id) => ({ id, named: false }));
   if (source === "new-coworker")
     return record.personIds.map((id) => ({ id, named: true }));
   if (source.startsWith("fact:")) {

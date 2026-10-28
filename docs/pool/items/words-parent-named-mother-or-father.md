@@ -5,14 +5,14 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: words/parent-kin-words
+pr: #6401
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T20:45:16.972Z
 ---
 
 **What.** In v0.34.0 the Journal opens "Our family came from Albion, Pennsylvania. I was raised by my parent Kendall. My father Brian lived somewhere else. My brother Leo was born after me." and Kendall's person card reads "parent · Age 47" in lowercase, while Leo is "brother" and Brian is "father". The kin word falls back to "parent" with no mother or father, so the journal reads as if it could not say who raised him. This item uses the recorded sex to give the kin word (mother, father, brother, sister, son, daughter) in the journal and on the person card, and keeps "parent" only where no sex is recorded.
