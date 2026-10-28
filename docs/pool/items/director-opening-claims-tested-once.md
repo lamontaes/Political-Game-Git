@@ -5,11 +5,12 @@ area: director
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dup-opening-test-pairs
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:43:20.628Z
 ---
 
 **What.** Two pairs of tests each make one claim about the opening twice with different fixtures. opening-rates-named.test.ts and opening-unemployment-scope.test.ts both check that every unemployment rate on the opening night names its place; opening-picture.test.ts and opening-pictures.test.ts both check that a State of the Union and an inaugural open on the House floor. Each pair costs a full played world per run for one claim (duplicates report rows W22 and B-T1).
