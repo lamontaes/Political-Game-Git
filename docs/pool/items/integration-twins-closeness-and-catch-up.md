@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/integration-one-closeness-reader
 pr: #6462
 blocked-on:

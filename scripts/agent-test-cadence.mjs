@@ -75,6 +75,13 @@ export function planCadence(changedFiles, options = {}) {
       receiptStage: "zero-dice",
       kind: "focus",
     });
+    // Owner, Oct 27: no statistic but law opens on its published value.
+    stages.push({
+      label: "Zero-real-data guard",
+      command: "npm run zero-real-data",
+      receiptStage: "zero-real-data",
+      kind: "focus",
+    });
   }
 
   // Any file can add an importer of the old folders; the check refuses one.
