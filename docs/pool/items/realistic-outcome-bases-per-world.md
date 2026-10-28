@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/realistic-outcome-bases
 pr: #6468
 blocked-on:
