@@ -29,3 +29,5 @@ claimed-at: 2026-10-16T02:49:10.292Z
 Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.
 
 Oct 20: Switched from blocked to the automatic after: gate on laws-convictions-counted-reach, so it opens by itself the moment those items are done.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `laws-convictions-counted-reach`; close into it and carry any line it lacks there. (the only open row)
