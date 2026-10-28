@@ -313,6 +313,8 @@ export const VOTING_MODULE: CoreModule = {
       results: { indexes: { byContest: { fields: ["contestId"] } } },
       /** Each place's votes in a contest, counted coarsely. */
       places: { indexes: { byContest: { fields: ["contestId"] } } },
+      /** Each contest's returns as the night reports them, place by place. */
+      returns: {},
     },
   },
   onCalendarWork: votingCalendarWork,
@@ -3030,7 +3032,31 @@ export function electorateSample(
   return sample;
 }
 
-/** Keep each place's votes, so the game can show where the race was won. */
+/** One place reporting on election night, and where the race stands after it. */
+export interface ReturnsReport {
+  readonly placeId: string;
+  readonly name: string;
+  readonly cast: number;
+  readonly votes: Readonly<Record<string, number>>;
+  /** Every candidate's total once this place is in. */
+  readonly running: Readonly<Record<string, number>>;
+  /** The candidate ahead once this place is in; null when even. */
+  readonly leaderId: string | null;
+  readonly margin: number;
+}
+
+/** A contest's returns: the places in the order the night reports them. */
+export interface ReturnsRow {
+  readonly id: string;
+  readonly contestId: string;
+  readonly reports: readonly ReturnsReport[];
+}
+
+/**
+ * Keep each place's votes, so the game can show where the race was won, and
+ * the night's returns: the places report smallest first, as a small place's
+ * tally is done first, each with the running totals once it is in.
+ */
 function recordPlaces(
   api: CoreAPI,
   contestId: string,
@@ -3044,6 +3070,43 @@ function recordPlaces(
       placeId: place.id,
       contestId,
     } as unknown as ModuleRow);
+  const running: Record<string, number> = {};
+  for (const place of places)
+    for (const id of Object.keys(place.votes)) running[id] = 0;
+  const reports = [...places]
+    .filter((place) => place.cast > 0)
+    .sort((a, b) => a.cast - b.cast || a.id.localeCompare(b.id))
+    .map((place): ReturnsReport => {
+      for (const [id, votes] of Object.entries(place.votes))
+        running[id] = running[id]! + votes;
+      const order = Object.entries(running).sort(
+        (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+      );
+      const margin = (order[0]?.[1] ?? 0) - (order[1]?.[1] ?? 0);
+      return {
+        placeId: place.id,
+        name: place.name,
+        cast: place.cast,
+        votes: place.votes,
+        running: { ...running },
+        leaderId: margin > 0 ? order[0]![0] : null,
+        margin,
+      };
+    });
+  table(api, "returns").put({
+    id: `returns:${contestId}`,
+    contestId,
+    reports,
+  } as unknown as ModuleRow);
+}
+
+/** A contest's election-night returns, as the count kept them. */
+export function returnsOf(
+  api: CoreAPI,
+  contestId: string,
+): ReturnsRow | undefined {
+  return table(api, "returns").get(`returns:${contestId}`) as unknown as
+    ReturnsRow | undefined;
 }
 
 /** Each place's votes in a contest. */
