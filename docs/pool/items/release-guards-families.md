@@ -5,11 +5,12 @@ area: release
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/guards-families
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T03:31:36.550Z
 ---
 
 **What.** The owner ruled one engine per mechanic: one election engine, one body engine, one budget engine and so on, with levels and places as rows. The core is a flat folder, so nothing says which engine owns a file, and any file can reach inside any other. The second-writer guard refuses a second writer of an event kind file by file, but there is no map of engine families and no boundary between them.
