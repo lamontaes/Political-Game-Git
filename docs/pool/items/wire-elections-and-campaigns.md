@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 1
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/wire-elections-2
-pr:
+pr: #6657
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T14:49:45.722Z
