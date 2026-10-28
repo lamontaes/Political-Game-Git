@@ -175,6 +175,7 @@ function stateTownFacts(stateKey: string) {
  * opens at the model's own size, so it reads that, marked `estimated`; a name
  * the state repeats carries its county.
  * stopgapId: SG-PLAY-town-count-estimate
+ * stopgapId: SG-WORLD-creator-town-count-published
  */
 export function creatorTowns(stateKey: string, query: string) {
   const apart = stateTownFacts(stateKey);
