@@ -207,7 +207,7 @@ function baseFor(
   const record = placeOutcome(api, placeId, measure);
   return record?.base !== undefined
     ? { base: record.base, recordId: record.recordId }
-    : { base: baseOf(measure, "").value, recordId: null };
+    : { base: baseOf(measure, "", api.state.seed).value, recordId: null };
 }
 
 /**

@@ -7,6 +7,37 @@
     "daysPerYear": 365
   },
   "indexStart": 100,
+  "worldBases": {
+    "about": "Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. A kept outcome's published state level is the center; each world moves it once by its own offset, drawn from the world's seed at Start (seeded generation of the starting world, never an actor's outcome). A percent moves relative to its nearer bound, so it stays between 0 and 100.",
+    "spreadShare": {
+      "value": 0.08,
+      "tag": "ESTIMATED",
+      "citation": "How far a world's state level of an outcome sits from the published one, as a share of it: about the typical year-to-year change plus survey margin of state outcome measures (ACS one-year state margins of error run 1% to 5% of the estimate; state violent crime, overdose and homelessness rates move 5% to 15% a year, FBI UCR, CDC WONDER, HUD PIT).",
+      "spread": {
+        "low": 0.04,
+        "high": 0.15,
+        "unit": "share of the published level",
+        "citation": "data/research/outcome-web/place-outcome-bases-2024.json sources."
+      }
+    },
+    "floorShare": {
+      "value": 0.34,
+      "tag": "TUNABLE",
+      "citation": "The smallest share of the spread a world's offset takes, so no world opens on the published level.",
+      "spread": {
+        "low": 0.25,
+        "high": 0.5,
+        "unit": "share of the spread",
+        "citation": "Matches macroWorldOffsetFloorShare."
+      }
+    },
+    "lawMeasures": [
+      "roads.rural-interstate-speed-limit",
+      "tax.state-corporate-rate",
+      "tax.property-rate"
+    ],
+    "lawMeasuresWhy": "Rates set in law stay as the real starting law (owner, Oct 27). The property-tax rate is the ACS effective rate, held here until the CTO rules whether it is law (docs/reports/real-statistics-in-play-2026-10-27.md)."
+  },
   "lawsModule": {
     "moduleId": "core2-laws-v1",
     "table": "laws",
