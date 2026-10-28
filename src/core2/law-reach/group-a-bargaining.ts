@@ -17,6 +17,7 @@ import {
   governments,
   type GovernmentRow,
 } from "../modules/budgets";
+import { yesLevels } from "../modules/laws";
 import { publicEmployerLevel } from "../public-pay-floor";
 import type { LawLevelName } from "../laws-starting";
 import type { CoreAPI, CoreState, Source } from "../types";
@@ -29,7 +30,6 @@ import {
   putMechanic,
   REACH_A_MODULE_ID,
   tomorrow,
-  yesLevels,
 } from "./group-a-records";
 
 const KEY = data.series;
