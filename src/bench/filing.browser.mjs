@@ -23,11 +23,8 @@ const errors = [];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 page.on("pageerror", (e) => errors.push(e.message));
 async function openNavigationTab(tab) {
-  // The rail over the card, or the Menu list when a screen is open (the rail steps aside).
-  const rail = page.locator(`#rings [data-tab="${tab}"]`);
-  const button = (await rail.isVisible())
-    ? rail
-    : page.locator(`#menu [data-tab="${tab}"]`);
+  // The rail over the card is the one menu, open screen or not.
+  const button = page.locator(`#rings [data-tab="${tab}"]`);
   await button.focus();
   assert.ok(
     await button.evaluate((node) => node === document.activeElement),

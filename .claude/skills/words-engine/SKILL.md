@@ -5,6 +5,8 @@ description: Explains how Our Civic Duty's English engine and story director wor
 
 # The words engine and the director: the handoff
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 **Lines ship per scene; real lives calibrate (owner, Oct 26-27; `scenes-from-life`).** Batch 22 was the Oct 15 lines; no batch after it, and no grading batch is owed. Every scene a PR touches, new or old, lands with its own new lines written to `scene-standard` (several per speaker by trait and tie, four replies that are four stances), and the Oct 15 lines it replaces are deleted in the same PR. New scenes come from real lives: one episode, a fact packet, the engine asked whether it fires, gaps turned into producers and lines (`scenes-from-life`). The home talks the owner heard on Oct 26 are rewritten first.
 
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** The standard is Wildermyth (`OWNER-DECISIONS.md`, Oct 26): a scene advances the story and hands the player back to the game with something changed; people are varied, with pasts from the world's records that surface in scenes. Every grading batch and bank item is SMART with a time box. Before any owner question, do the full reading (`OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/`, `LAW.md`, a `docs/` search) and end it with the reading line. Research into real speech and records is allowed and expected.
@@ -54,6 +56,7 @@ Batch-style line grading is not how the owner grades. He plays or watches a scen
 - **Narration that restates the screen** ("It's a {weekday} in {month}.", "You're at home in {place}.") was rejected by the owner; scenes follow `scene-standard` rule 6.
 - **The opening address reads as a stat readout** (one sentence per number); journal lines are single facts ("I voted for H.R. 2.") with no context, and the game cast that vote for the player.
 
+- **A "say it differently" assertion needs a witness.** `expect(textA).not.toBe(textB)` for two opposite speakers or trait profiles is false in any drawn place where the facts give both the same line. Draw places in a bounded loop until the two differ, name the places passed over and throw if none does, or assert the difference over the whole bank; run it on 10 fresh draws before the PR (Oct 27: #6296 at 15:59, #6420 at 22:24 sent back for it).
 - **Director code keeps no numbers, and its counts are not hand-typed.** Before opening a scene PR run `npx vitest run src/director/director.test.ts` on the head with main merged in: its "keeps numbers in data" guard rejects every numeric literal in `src/director/*.ts` (a day length, a `b[1] - a[1]` comparator, an age cutoff) and its situation-type count must name the new type. Put values in a `src/director/data/` table tagged SOURCED, ESTIMATED or TUNABLE and read them through a named accessor (Oct 27: #6237 and #6260 sent back for it, #6273 fixed red main).
 
 ## The owner's standing rulings on this line

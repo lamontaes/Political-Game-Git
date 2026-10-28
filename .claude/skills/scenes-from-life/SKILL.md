@@ -5,6 +5,8 @@ description: Grows Our Civic Duty's scenes and dialogue from real people's lives
 
 # Scenes from real lives
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 The owner, Oct 26 (recorded Oct 27 in `OWNER-DECISIONS.md`): "use real life people's as examples. It can be a known American, unknown American, president, congressman, mayor, city councilman, school member, anyone... It can be copyrighted material because, again, you're just using it as calibration, and take scenes from their life. See if the engine can produce it. If not, work the framework of the dialogue in, and that will affect other scenes." Real life is the calibration set for scenes, the way real rates calibrate the simulation (`research-habit`). Nothing from it ships: no real name, no quoted line, no copied text. What ships is a producer that fires from the game's own records and bank lines written for the game's people.
 
 ## The scope (owner, Oct 27)
@@ -19,6 +21,7 @@ The owner's examples are a floor. Any record the simulation keeps can call a sce
 4. **Turn each gap into work.** A record that exists with nothing firing is a producer (a situation type with its cast rules and outcome writes), built to `scene-standard`. A record that does not exist is an engine item for the lead that owns that engine (`lead:` set), filed SMART, never built by the words line. A scene that fires but reads wrong is lines: write the bank pieces for it, several per speaker by top trait and tie to the player, four replies that are four stances, in the game's own voice (`civic-prose`).
 5. **Check it plays.** The scene is reached in ordinary play on the golden path in a second drawn place, writes its outcome back by record id, and its lines pass `player-screen-text`. Then the general case: name two other episodes from two other lives the same producer now covers. A producer that covers one life is a hand-written scene, not a producer.
 6. **File the trail.** The episode's packet, the gaps, and what shipped go in `docs/design/scenes/from-life/<slug>.md` (packet and citations; never the real name in any player-facing file), and the item's Notes name that file.
+   A packet PR (research only, no scene firing) opens with `Touches pool item: <id>`, never `Pool item: <id>`: line 1 flips the feature item to done on merge (Oct 27: #6304 and #6314 were sent back for it).
 
 ## SMART shape of a scenes-from-life item
 

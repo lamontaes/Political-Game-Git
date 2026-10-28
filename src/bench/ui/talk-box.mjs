@@ -26,6 +26,53 @@ export function talkLine({ kind = "speech", text, who, lying, held }) {
   );
 }
 
+/**
+ * The head every speaking panel carries: a face, a name and what they are. The ids are
+ * `<prefix>-who`, `-bust`, `-name` and `-role`, which the play screen fills.
+ */
+export function speakerHead(prefix, { role = true } = {}) {
+  return el(
+    "div",
+    { id: `${prefix}-who`, className: "who" },
+    el("div", { id: `${prefix}-bust`, className: "bust" }),
+    el(
+      "div",
+      {},
+      el("div", { id: `${prefix}-name`, className: "name" }),
+      ...(role ? [el("div", { id: `${prefix}-role`, className: "role" })] : []),
+    ),
+  );
+}
+
+/**
+ * Replace each `[data-speaker]` slot in the page with the speaker head of that prefix;
+ * `data-role="none"` leaves out the line under the name.
+ */
+export function mountSpeakers(root = document) {
+  for (const slot of root.querySelectorAll("[data-speaker]"))
+    slot.replaceWith(
+      speakerHead(slot.dataset.speaker, { role: slot.dataset.role !== "none" }),
+    );
+}
+
+/** Say one line in the list of lines with id `listId` (the opening box says them one at a time). */
+export function sayInBox(listId, text) {
+  $(listId).replaceChildren(talkLine({ kind: "speech", text }));
+}
+
+/**
+ * Lines and numbered replies set out in a panel of their own (the speech being built in
+ * the Campaigns screen): the same lines and replies the talk box shows, from the same parts.
+ */
+export function talkSheet({ lines, replies }) {
+  return el(
+    "div",
+    { className: "talk-sheet" },
+    el("ol", { className: "talk-lines" }, ...lines),
+    el("div", { className: "replies" }, ...replies),
+  );
+}
+
 /** A numbered reply; `label` is the words it shows, `onPick` what it does. */
 export function talkReply(choice, label, onPick) {
   const button = makeButton({
@@ -40,6 +87,18 @@ export function talkReply(choice, label, onPick) {
 export function fillTalk({ lines, replies }) {
   if (lines) $("talk-lines").replaceChildren(...lines);
   if (replies) $("talk-choices").replaceChildren(...replies);
+  // With nothing to answer (the narrator alone, or an exchange at its end) the box
+  // shows one Continue, bottom left, and nothing else (owner, Oct 27, 6:20 PM).
+  $("talk").classList.toggle("narration", !$("talk-choices").children.length);
+}
+
+/**
+ * Which of the smaller controls a conversation offers beside its replies: Say nothing
+ * where silence is an answer, Leave only where leaving is a real choice.
+ */
+export function talkControls({ silent, leave }) {
+  $("talk").classList.toggle("no-silent", !silent);
+  $("talk").classList.toggle("no-leave", !leave);
 }
 
 /** A line added under the box's lines (a record's status label). */

@@ -311,6 +311,13 @@ const fitsGender = (text: string, gender: string | undefined) => {
   );
 };
 
+/**
+ * A row's own line can tell someone else's moment only when it names them:
+ * "{other} died." does, "I introduced {law}." would make it the reader's own.
+ */
+const namesTheOther = (wording: Wording) =>
+  /\{(?:other|named|relation)\}/.test(wording.text);
+
 function wordingsFor(
   words: JournalWords,
   move: JournalMove,
@@ -327,7 +334,7 @@ function wordingsFor(
             ? move.together
               ? (row?.groupLine ?? row?.line)
               : row?.line
-            : (row?.otherLine ?? row?.line),
+            : (row?.otherLine ?? row?.line?.filter(namesTheOther)),
       };
     }
     case "check": {
@@ -455,7 +462,10 @@ export function framedByAge<T extends JournalWorded>(
   const opensWithFact = Object.values(facts).some(
     (fact) => fact.text.length > zero && event.text.startsWith(fact.text),
   );
-  const lower = event.text.charAt(zero).toLowerCase() + event.text.slice(one);
+  // "I" stays a capital in the middle of a sentence.
+  const lower = /^I\b/.test(event.text)
+    ? event.text
+    : event.text.charAt(zero).toLowerCase() + event.text.slice(one);
   return {
     ...event,
     text: `${frame.text.replace(/[.]$/, ",")} ${opensWithFact ? event.text : lower}`,
@@ -476,4 +486,13 @@ export function saysOffice(
 /** The parts of a journal entry, said as one entry. */
 export function journalEntry(parts: readonly JournalWorded[]): string {
   return parts.map((part) => part.text).join(" ");
+}
+
+/** A job title as a sentence says it after "works as": "a county clerk", "an electrician". */
+export function withArticle(title: string): string {
+  const said =
+    title.length > one && title.charAt(one) === title.charAt(one).toLowerCase()
+      ? title.charAt(zero).toLowerCase() + title.slice(one)
+      : title;
+  return `${/^[aeiou]/i.test(said) ? "an" : "a"} ${said}`;
 }

@@ -5,6 +5,8 @@ description: Merges and validates pull requests for Our Civic Duty: changed-file
 
 # Merger
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Review means you are not the session that wrote it; any model counts. Run the changed-file checks on the merged result and try once to break the claim on another drawn place or seed. Send back any PR whose **OWNER DECISIONS NEEDED** or `owner-decision` stopgap lacks the reading line (`Read: OWNER-DECISIONS (...), DECISION-REGISTER, prior-rulings/..., LAW; searched: ...`), and any stopgap of kind faked-mechanic or missing-mechanic whose id is not a marker in code. Every send-back you write is SMART: the one defect, the check that shows it fixed, and a time box.
 
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: lane PRs first; the lane may edit director and English files with Words review; held-to-shippable lines are never a send-back; "sessions never message each other")
@@ -29,7 +31,7 @@ Every rule below comes from a merge audit. The ones that hurt most:
 - **Removed controls not disclosed.** A PR dropped three player buttons and said the actions "stay as they were".
 - **Broken pointers.** A PR deleted data entries that another file pointed at by index, so a test on main threw on load.
 - **Over-blocking.** A docs-only PR was left open only because its body said "checks: none needed". You run the checks; a missing gate line is never by itself a reason to leave a PR.
-- **Holding back (owner, Oct 27).** On Oct 27, 31 green, mergeable PRs sat open at noon: two CTO merge freezes for a release, "merge after" chains, a send-back over a line-1 label. The owner: "There's no reason to be holding shit back. That's the point of having so many mergers and fixers." A merger merges; it never queues.
+- **Holding back (owner, Oct 27).** On Oct 27, 31 green, mergeable PRs sat open at noon: two CTO merge freezes for a release, "merge after" chains, a send-back over a line-1 label. The owner: "There's no reason to be holding shit back. That's the point of having so many mergers and fixers." A merger merges; it never queues. A PR whose line 1 is `Touches pool item: <id>` flips nothing on merge, even if the item's `pr:` field names it (`scripts/pool/done-on-merge.ts`); a send-back needs no `pr:` edit to keep the item open.
 - **Holds nobody saw.** Two merge holds were broken by sessions mid-turn that never read the message. A hold lives on MERGE-FIRST line 0 and binds every push to main; read that file before every merge, not once per session.
 
 ## 0. Red main comes first

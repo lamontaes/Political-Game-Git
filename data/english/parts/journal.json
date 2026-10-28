@@ -17,7 +17,8 @@
     "whose": "A person's name with 's, from the records.",
     "votes": "A vote margin, from the results record.",
     "filing_office": "Where the person filed, from the filing record (the clerk, the registrar or the board of elections).",
-    "named": "A relative by relation and given name (\"my daughter Jane\"), or a person by name, from the family record."
+    "named": "A relative by relation and given name (\"my daughter Jane\"), or a person by name, from the family record.",
+    "job": "A job title with its article (\"a county clerk\"), from the job record."
   },
   "maxWords": 10,
   "mining": {
@@ -3734,6 +3735,114 @@
       }
     },
     {
+      "key": "journal.office-other-act.other-introduced-law",
+      "move": "office-other-act",
+      "kind": "spoken",
+      "text": "{other} introduced {law}.",
+      "uses": [
+        {
+          "move": "office-other-act",
+          "subject": "office",
+          "role": "other",
+          "choice": "act",
+          "journal": [
+            {
+              "kindPrefix": "event:office.introduced",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-other-act.other-put-forward-law",
+      "move": "office-other-act",
+      "kind": "spoken",
+      "text": "{other} put forward {law}.",
+      "uses": [
+        {
+          "move": "office-other-act",
+          "subject": "office",
+          "role": "other",
+          "choice": "act",
+          "journal": [
+            {
+              "kindPrefix": "event:office.introduced",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-other-act.other-voted-for-law",
+      "move": "office-other-act",
+      "kind": "spoken",
+      "text": "{other} voted for {law}.",
+      "uses": [
+        {
+          "move": "office-other-act",
+          "subject": "office",
+          "role": "other",
+          "choice": "act",
+          "journal": [
+            {
+              "kindPrefix": "event:office.voted",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-other-act.other-voted-against-law",
+      "move": "office-other-act",
+      "kind": "spoken",
+      "text": "{other} voted against {law}.",
+      "uses": [
+        {
+          "move": "office-other-act",
+          "subject": "office",
+          "role": "other",
+          "choice": "act",
+          "journal": [
+            {
+              "kindPrefix": "event:office.voted",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.office-line-town-hall.i-held-a-town-hall",
       "move": "office-line-town-hall",
       "kind": "spoken",
@@ -6977,6 +7086,465 @@
       "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item words-law-effect-learned-journal)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-siblings-older.named-were-already-here",
+      "move": "home-line-siblings-older",
+      "kind": "spoken",
+      "text": "{named} were already here when I was born.",
+      "uses": [
+        {
+          "move": "home-line-siblings-older",
+          "subject": "home",
+          "role": "siblings-older",
+          "choice": "siblings-older",
+          "journal": [
+            {
+              "kindPrefix": "household:siblings-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-siblings-older.named-were-born-before-me",
+      "move": "home-line-siblings-older",
+      "kind": "spoken",
+      "text": "{named} were born before me.",
+      "uses": [
+        {
+          "move": "home-line-siblings-older",
+          "subject": "home",
+          "role": "siblings-older",
+          "choice": "siblings-older",
+          "journal": [
+            {
+              "kindPrefix": "household:siblings-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-siblings-older.named-were-older",
+      "move": "home-line-siblings-older",
+      "kind": "spoken",
+      "text": "{named} were older than I was.",
+      "uses": [
+        {
+          "move": "home-line-siblings-older",
+          "subject": "home",
+          "role": "siblings-older",
+          "choice": "siblings-older",
+          "journal": [
+            {
+              "kindPrefix": "household:siblings-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-siblings-born.named-were-born-after-me",
+      "move": "home-line-siblings-born",
+      "kind": "spoken",
+      "text": "{named} were born after me.",
+      "uses": [
+        {
+          "move": "home-line-siblings-born",
+          "subject": "home",
+          "role": "siblings-born",
+          "choice": "siblings-born",
+          "journal": [
+            {
+              "kindPrefix": "household:siblings-born",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-siblings-born.named-came-along-after-me",
+      "move": "home-line-siblings-born",
+      "kind": "spoken",
+      "text": "{named} came along after me.",
+      "uses": [
+        {
+          "move": "home-line-siblings-born",
+          "subject": "home",
+          "role": "siblings-born",
+          "choice": "siblings-born",
+          "journal": [
+            {
+              "kindPrefix": "household:siblings-born",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-school-started-elementary.i-started-at-school",
+      "move": "home-line-school-started-elementary",
+      "kind": "spoken",
+      "text": "I started at {school}.",
+      "uses": [
+        {
+          "move": "home-line-school-started-elementary",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "school-started",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:elementary",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-school-started-elementary.i-started-school-at-school",
+      "move": "home-line-school-started-elementary",
+      "kind": "spoken",
+      "text": "I started school at {school}.",
+      "uses": [
+        {
+          "move": "home-line-school-started-elementary",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "school-started",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:elementary",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-school-started-elementary.i-began-at-school",
+      "move": "home-line-school-started-elementary",
+      "kind": "spoken",
+      "text": "I began at {school}.",
+      "uses": [
+        {
+          "move": "home-line-school-started-elementary",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "school-started",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:elementary",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-school-started-high.i-started-high-school-at-school",
+      "move": "home-line-school-started-high",
+      "kind": "spoken",
+      "text": "I started high school at {school}.",
+      "uses": [
+        {
+          "move": "home-line-school-started-high",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "school-started",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:high",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-school-started-high.i-moved-up-to-school",
+      "move": "home-line-school-started-high",
+      "kind": "spoken",
+      "text": "I moved up to {school}.",
+      "uses": [
+        {
+          "move": "home-line-school-started-high",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "school-started",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:high",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-school-started-high.i-was-a-freshman-at-school",
+      "move": "home-line-school-started-high",
+      "kind": "spoken",
+      "text": "I was a freshman at {school}.",
+      "uses": [
+        {
+          "move": "home-line-school-started-high",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "school-started",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:high",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood.named-works-as-job-at-employer",
+      "move": "work-line-livelihood",
+      "kind": "spoken",
+      "text": "{named} works as {job} at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood.named-is-job-at-employer",
+      "move": "work-line-livelihood",
+      "kind": "spoken",
+      "text": "{named} is {job} at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood.named-works-as-job",
+      "move": "work-line-livelihood",
+      "kind": "spoken",
+      "text": "{named} works as {job}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.i-turned-eighteen",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "I turned eighteen.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.today-i-turned-eighteen",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "Today I turned eighteen.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.i-am-eighteen-now",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "I'm eighteen now.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
       "date": "2026-10-25",
       "tag": {
         "move": "tell"

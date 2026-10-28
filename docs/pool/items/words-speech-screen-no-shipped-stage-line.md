@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/speech-screen.test.ts, data/english/parts/speech-stages.json, data/english/part-grades.json
 
 **Notes.** Found by the Words session on Oct 24 while running the batch 22 table read's tests; the failure is identical on clean main.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (test premise gone).

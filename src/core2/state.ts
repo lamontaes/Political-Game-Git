@@ -728,9 +728,10 @@ export function retainLog(
     (id) =>
       core.focusPersonIds.has(id) ||
       id === core.playerId ||
-      (event.kind === "person.acted" &&
-        event.actorId === id &&
-        isExplicitlyControlledPersonV1(core, id)),
+      // The person the player controls is the player however they were
+      // chosen (a new life, or an officeholder picked in Advanced): what
+      // names them is theirs to keep, as for the generated player.
+      isExplicitlyControlledPersonV1(core, id),
   );
   const publicRecord =
     event.publicRecord && core.visiblePlaceIds.has(event.placeId);

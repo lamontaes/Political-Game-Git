@@ -176,6 +176,16 @@ ol {
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.75))
     drop-shadow(0 0 14px rgba(255, 255, 255, 0.3));
 }
+/* The painting's own furniture in front of a person, through the spot's mask. */
+#people .occluder {
+  position: absolute;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+}
 /* A soft contact shadow on the floor at a person's feet (placed by the scene). */
 #people .shadow {
   position: absolute;
@@ -247,6 +257,10 @@ ol {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+/* Buttons in a row share one size (owner, Oct 24): every title item is as tall as Continue. */
+#front-main .item {
+  min-height: 56px;
 }
 #front-continue .bust {
   width: 44px;
@@ -1174,12 +1188,25 @@ body.dev .dev-ring {
   padding: 7px 18px 7px 7px;
   max-width: calc(100vw - 2 * var(--gutter));
 }
-/* With a menu open the card keeps to the menu's column. */
+/* With a screen open the card is the portrait alone, under the rail: the rail is
+   the one menu (owner, Oct 27: "one left menu, not a panel duplicating the rail"). */
 #game.sheet-open .me {
-  width: 284px;
+  width: auto;
 }
 #game.sheet-open .me .time {
   display: none;
+}
+/* The name and clock step out of sight but stay read aloud. */
+#game.sheet-open .me > div:not(.bust, .time) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+#card-bust {
+  cursor: pointer;
 }
 .me .bust {
   width: 54px;
@@ -1216,16 +1243,14 @@ body.dev .dev-ring {
   flex-direction: column;
   gap: 8px;
 }
-/* With a screen open the Menu list is the way between screens; the rail steps aside. */
-#game.sheet-open #rings {
-  display: none;
-}
 
 /* ---- Conversation: lower third, portraits top left, scales upper right ---- */
+/* The box sits above the dock whenever the card is wide enough to reach
+   under it (--chat-bottom, set by play.mjs from both boxes' widths). */
 .chat {
   left: 50%;
   transform: translateX(-50%);
-  bottom: 26px;
+  bottom: var(--chat-bottom, 26px);
   width: min(680px, calc(100vw - 2 * var(--gutter)));
   padding: 13px 18px 12px;
 }
@@ -1236,50 +1261,61 @@ body.dev .dev-ring {
   min-height: 44px;
   padding-right: 44px;
 }
-#talk-lines {
+.talk-lines {
   list-style: none;
   padding: 0;
   margin: 10px 0 8px;
 }
-#talk-lines li + li {
+.talk-lines li + li {
   margin-top: 6px;
 }
 /* What was said before: a separate block above the line being said now, quieter, with a
    rule under it and the speaker named. */
-#talk-lines .history {
+.talk-lines .history {
   font: 400 13px/1.35 var(--ui);
   color: var(--text-3);
   padding-bottom: 8px;
   margin-bottom: 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 }
-#talk-lines .history-who {
+.talk-lines .history-who {
   display: block;
   font: 600 10.5px/1.5 var(--ui);
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--text-3);
 }
-#talk-lines .history.lying {
+.talk-lines .history.lying {
   color: var(--lying);
 }
-#talk-lines .narration {
+.talk-lines .narration {
   font-style: italic;
 }
 /* The grading view (/play?held=1): a line still held until the owner grades
    it is underlined, and the record that fired the scene is listed small. */
-#talk-lines .held,
+.talk-lines .held,
 .reply.held {
   text-decoration: underline dotted var(--text-3);
   text-underline-offset: 3px;
 }
-#talk-lines .why {
+.talk-lines .why {
   font: 400 11px/1.3 var(--ui);
   color: var(--text-3);
   overflow-wrap: anywhere;
 }
 .chat .acts {
   margin-top: 8px;
+}
+/* The talk box's controls (owner, Oct 27, 6:20 PM): with nothing to answer, one
+   Continue at the bottom left and nothing else; in a conversation, the replies
+   with Say nothing and Leave only where each is a real choice. */
+#talk.narration #talk-silent,
+#talk.narration #talk-leave,
+#talk.narration #talk-lie,
+#talk:not(.narration) #talk-next,
+#talk.no-silent #talk-silent,
+#talk.no-leave #talk-leave {
+  display: none;
 }
 /* A journal line, bottom right. */
 .journal {
@@ -1295,22 +1331,7 @@ body.dev .dev-ring {
   display: none;
 }
 
-/* ---- Menus: a menu list on the left, the open screen on the right ---- */
-#menu {
-  left: var(--gutter);
-  top: var(--gutter);
-  bottom: 162px;
-  width: 284px;
-  padding: 18px 0;
-}
-.menu-title {
-  font: 800 16px var(--name);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-strong);
-  padding: 0 18px 12px;
-  margin-bottom: 8px;
-}
+/* ---- Menus: the rail on the left, the open screen beside it ---- */
 .nav-item {
   display: block;
   width: 100%;
@@ -1335,13 +1356,26 @@ body.dev .dev-ring {
   color: #fff;
 }
 #sheet {
-  left: calc(var(--gutter) + 300px);
+  left: calc(var(--gutter) + 98px);
   right: var(--gutter);
   top: var(--gutter);
   bottom: 26px;
   padding: 22px 26px;
   display: flex;
   flex-direction: column;
+}
+/* A screen with little in it ends under its content; one with more grows to
+   the window's height and pages (principles rule 1). */
+#game.in-play #sheet.fits {
+  bottom: auto;
+  right: auto;
+  width: fit-content;
+  min-width: min(560px, calc(100vw - var(--gutter) - 330px));
+  max-width: min(1040px, calc(100vw - var(--gutter) - 330px));
+  max-height: calc(100vh - var(--gutter) - 26px);
+}
+#sheet.fits #sheet-body {
+  flex: 0 1 auto;
 }
 #game:not(.in-play) #sheet {
   left: 50%;
@@ -1482,7 +1516,6 @@ body.dev .dev-ring {
 /* Reading screens (the menu, every menu sheet and a person's card) are
    solid: the scene never shows through text meant to be read. Glass stays
    for panels over a scene, such as the talk box. */
-#menu,
 #race-menu,
 #sheet,
 #person {
@@ -1700,26 +1733,6 @@ body.dev .dev-ring {
   column-gap: clamp(24px, 3vw, 48px);
   padding: 30px 40px;
 }
-.dossier-media {
-  position: relative;
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-}
-#person-background,
-#person-figure {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-#person-background {
-  object-fit: cover;
-}
-#person-figure {
-  object-fit: contain;
-  object-position: center bottom;
-}
 .dossier-main {
   display: flex;
   flex-direction: column;
@@ -1729,7 +1742,6 @@ body.dev .dev-ring {
 }
 .dossier .heading {
   font-size: clamp(24px, 2.5vw, 40px);
-  padding-right: 32px;
 }
 #person-role {
   margin: 8px 0 32px;
@@ -1744,22 +1756,8 @@ body.dev .dev-ring {
   overflow: hidden;
   position: relative;
 }
-.dossier-detail {
-  margin: 0 0 24px;
-}
-.dossier-detail p {
-  margin: 6px 0;
-}
-.dossier-feature {
-  font: 500 21px var(--speech);
-}
 .dossier .acts {
   margin-top: 16px;
-}
-#person-close {
-  position: absolute;
-  top: 28px;
-  right: 28px;
 }
 #person-pager:not([hidden]) {
   display: flex;
@@ -1828,17 +1826,13 @@ body.dev .dev-ring {
    kit12's own components. */
 #game.cinema #rings,
 #game.cinema #card,
-#game.cinema #journal-note,
-#game.cinema #menu {
+#game.cinema #journal-note {
   display: none;
 }
 #opening-box {
   bottom: calc(9vh + 18px);
   z-index: 6;
   cursor: pointer;
-}
-#opening-box .speech {
-  margin: 8px 0 0;
 }
 #opening-point {
   top: calc(9vh + 18px);
@@ -1998,8 +1992,7 @@ body.dev .dev-ring {
 #election-day,
 #returns,
 #meeting,
-#desk,
-#job-offer {
+#desk {
   top: var(--gutter);
   right: var(--gutter);
   bottom: calc(9vh + 18px);
@@ -2007,18 +2000,6 @@ body.dev .dev-ring {
   width: min(420px, calc(100vw - 2 * var(--gutter)));
   padding: 20px 24px;
   overflow: hidden;
-}
-/* A job offer's moment (jobs): the employer's offer over the scene. */
-#job-offer-employer {
-  font: 500 20px var(--speech);
-  margin: 4px 0 2px;
-}
-#job-offer-facts {
-  margin: 8px 0 18px;
-}
-#job-offer-status {
-  min-height: 18px;
-  margin: 12px 0 0;
 }
 #ballot,
 #election-day,
@@ -2214,7 +2195,6 @@ body.dev .dev-ring {
   max-width: 1050px;
 }
 .work-overview,
-.job-offer,
 .study-overview {
   margin: 20px 0 34px;
 }
@@ -2249,18 +2229,6 @@ body.dev .dev-ring {
   object-fit: cover;
   margin: 0 28px 20px 0;
 }
-.job-offer h3 {
-  font: 600 23px var(--name);
-  color: var(--gold);
-}
-.job-offer p {
-  font: 18px var(--speech);
-}
-.offer-actions {
-  display: flex;
-  gap: 14px;
-  margin-top: 18px;
-}
 .school-record {
   display: flex;
   gap: 28px;
@@ -2290,12 +2258,15 @@ body.dev .dev-ring {
 #sheet-media {
   grid-column: 1;
   grid-row: 1 / 5;
+}
+/* The large side figure of the character screen and the person card. */
+.screen-media {
   position: relative;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
 }
-#sheet-media img {
+.screen-media img {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -2313,12 +2284,24 @@ body.dev .dev-ring {
   font-size: clamp(24px, 2.5vw, 40px);
 }
 .character-meta,
-.character-relation,
-.character-trait-label {
+.character-relation {
   color: var(--text-2);
 }
 .character-meta {
-  margin: 8px 0 24px;
+  margin: 8px 0 16px;
+}
+/* What you're like, as a short paragraph under your name. */
+#sheet-body .character-sketch {
+  font: 400 19px/1.45 var(--speech);
+  max-width: 46ch;
+  margin: 0 0 26px;
+}
+/* The record sections of the character sheet, two across. */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 40px;
+  align-items: start;
 }
 .record-section {
   margin: 0 0 24px;
@@ -2326,24 +2309,21 @@ body.dev .dev-ring {
 .record-section p {
   margin: 6px 0;
 }
-.character-traits,
+.record-feature {
+  font: 500 21px var(--speech);
+}
 .character-household {
   list-style: none;
   margin: 10px 0 0;
   padding: 0;
   display: grid;
-  gap: 14px 24px;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 6px 24px;
+  grid-template-columns: 1fr;
 }
-.character-traits li,
 .character-household li {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-}
-.character-traits {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 10px;
 }
 .character-money {
   display: flex;
@@ -2353,7 +2333,6 @@ body.dev .dev-ring {
 .character-money strong {
   font: 500 24px var(--ui);
 }
-.character-trait-label,
 .character-relation {
   font-size: 13px;
 }
@@ -2377,7 +2356,6 @@ body.dev .dev-ring {
     grid-template-columns: minmax(100px, 24%) minmax(0, 1fr);
     column-gap: 18px;
   }
-  .character-traits,
   .character-household {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
@@ -2802,26 +2780,19 @@ body.dev .dev-ring {
 #sheet-body:has(.travel-destinations) {
   max-width: 1200px;
 }
-.travel-from {
-  font: 600 12px var(--ui);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin: 0 0 12px;
-}
 .travel-destinations {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-  margin-top: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px 14px;
+  margin-top: 12px;
 }
 /* A pictured place card: the room, its name, who is there, why it is listed. */
 .travel-place {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 10px;
-  padding: 8px;
+  gap: 6px;
+  padding: 6px;
   margin: 0;
   background: none;
   border: none;
@@ -2836,12 +2807,12 @@ body.dev .dev-ring {
   text-align: left;
 }
 .travel-info h3 {
-  font: 600 18px var(--ui);
+  font: 600 16px/1.2 var(--ui);
   color: var(--text-strong);
   margin: 0 0 4px;
 }
 .travel-info p {
-  font: 15px var(--ui);
+  font: 14px/1.3 var(--ui);
   color: var(--text-2);
   margin: 0 0 2px;
 }
@@ -2851,7 +2822,7 @@ body.dev .dev-ring {
 }
 .travel-image {
   width: 100%;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 5 / 2;
   object-fit: cover;
   border: 2px solid var(--brass);
 }
@@ -2861,13 +2832,25 @@ body.dev .dev-ring {
 }
 @media (max-width: 1100px) {
   .travel-destinations {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
   opacity: 0.55;
+}
+
+/* Politics' guide: one tab's purpose a page, then the race a player could file for. */
+.politics-guide-page {
+  max-width: 640px;
+}
+.politics-guide-page .guide-fact {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(214, 189, 132, 0.2);
 }
 
 /* While a talk is open the player card gives up its Day and Week, so it never covers the talk's first reply. */
@@ -2891,6 +2874,14 @@ body.dev .dev-ring {
   font: 400 13px var(--ui);
   color: var(--text-2);
   margin-top: 2px;
+}
+/* The speech's lines and replies inside a screen read as the talk box's do. */
+.talk-sheet .reply {
+  text-align: left;
+}
+/* A list of races shares one button height whatever its names' length. */
+#talk-choices:has(.reply-facts) {
+  grid-auto-rows: 1fr;
 }
 /* A race at the filing counter, told apart under its choice. */
 #talk-choices .reply .reply-facts {
@@ -2923,4 +2914,31 @@ body.dev .dev-ring {
 }
 .pick-list button {
   text-align: left;
+}
+
+/* The bill on paper: the document and its estimate side by side. */
+.bill-paper {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.bill-doc {
+  display: grid;
+  gap: 8px;
+}
+.bill-doc .prose {
+  font-size: 17px;
+}
+.bill-section {
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: var(--brass);
+  text-underline-offset: 3px;
+}
+.bill-estimate {
+  display: grid;
+  gap: 8px;
+  position: sticky;
+  top: 0;
 }

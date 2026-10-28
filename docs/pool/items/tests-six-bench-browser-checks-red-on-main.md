@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: play-first/tests-six-bench-browser-checks
-pr:
+pr: #6350
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first

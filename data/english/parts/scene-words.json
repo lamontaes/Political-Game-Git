@@ -101,140 +101,6 @@
   },
   "parts": [
     {
-      "key": "scene-words.setting-workplace-work.youre-at-employer",
-      "move": "setting-workplace-work",
-      "kind": "spoken",
-      "text": "You're at {employer}.",
-      "uses": [
-        {
-          "move": "setting-workplace-work",
-          "subject": "setting",
-          "role": "workplace",
-          "choice": "work"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 2,
-        "hearings": 1,
-        "house": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
-        "date": "2025-05-01",
-        "granule": "DCPD-202500550",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500550/html/DCPD-202500550.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-workplace-work.you-are-at-employer",
-      "move": "setting-workplace-work",
-      "kind": "spoken",
-      "text": "You are at {employer}.",
-      "uses": [
-        {
-          "move": "setting-workplace-work",
-          "subject": "setting",
-          "role": "workplace",
-          "choice": "work"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "dcpd": 2,
-        "hearings": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Commencement Address at the United States Coast Guard Academy in New London, Connecticut",
-        "date": "2026-05-20",
-        "granule": "DCPD-202600354",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600354/html/DCPD-202600354.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-school-school.you-are-at-school",
-      "move": "setting-school-school",
-      "kind": "spoken",
-      "text": "You are at {school}.",
-      "uses": [
-        {
-          "move": "setting-school-school",
-          "subject": "setting",
-          "role": "school",
-          "choice": "school"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "COMMERCE, JUSTICE, SCIENCE, AND RELATED AGENCIES APPROPRIATIONS FOR 2020",
-        "date": "2019-02-26",
-        "granule": "CHRG-116hhrg36826",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36826/html/CHRG-116hhrg36826.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-public-out.youre-in-place",
-      "move": "setting-public-out",
-      "kind": "spoken",
-      "text": "You're in {place}.",
-      "uses": [
-        {
-          "move": "setting-public-out",
-          "subject": "setting",
-          "role": "public",
-          "choice": "out"
-        },
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 1,
-        "dcpd": 3,
-        "hearings": 2,
-        "nasa2": 1,
-        "nps": 1,
-        "nps.gov (PDF)": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "EXAMINING THE POLICIES AND PRIORITIES OF THE U.S. DEPARTMENT OF EDUCATION",
-        "date": "2021-06-24",
-        "granule": "CHRG-117hhrg44859",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg44859/html/CHRG-117hhrg44859.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.setting-phone-phone.the-phone-rings",
       "move": "setting-phone-phone",
       "kind": "spoken",
@@ -330,76 +196,6 @@
       }
     },
     {
-      "key": "scene-words.setting-public-out.you-are-in-place",
-      "move": "setting-public-out",
-      "kind": "spoken",
-      "text": "You are in {place}.",
-      "uses": [
-        {
-          "move": "setting-public-out",
-          "subject": "setting",
-          "role": "public",
-          "choice": "out"
-        },
-        {
-          "move": "setting-venue-venue",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "venue"
-        },
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "chrg": 4
-      },
-      "shippable": true,
-      "source": {
-        "document": "Nomination Of Hon. Sean Duffy, Nominee To Be Secretary, U.S. Department Of Transportation",
-        "date": "2025-01-15",
-        "granule": "CHRG-119shrg61928",
-        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61928",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-public-out.youre-outside",
-      "move": "setting-public-out",
-      "kind": "spoken",
-      "text": "You're outside.",
-      "uses": [
-        {
-          "move": "setting-public-out",
-          "subject": "setting",
-          "role": "public",
-          "choice": "out"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "nasa": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history interview with Mark S. Geyer",
-        "date": "2020-12-03",
-        "granule": "geyerms-12-3-20",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-12-3-20.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.cause-money:job-started-started.you-got-a-job",
       "move": "cause-money:job-started-started",
       "kind": "spoken",
@@ -428,90 +224,6 @@
       },
       "tag": {
         "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.setting-other-home.you-re-at-host-home",
-      "move": "setting-other-home",
-      "text": "You're at {host} home.",
-      "uses": [
-        {
-          "move": "setting-other-home",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-other-home.you-are-at-host-house",
-      "move": "setting-other-home",
-      "text": "You are at {host} house.",
-      "uses": [
-        {
-          "move": "setting-other-home",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-venue-out.you-re-out-in-place",
-      "move": "setting-venue-out",
-      "text": "You're out in {place}.",
-      "uses": [
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-venue-out.you-are-out-in-place",
-      "move": "setting-venue-out",
-      "text": "You are out in {place}.",
-      "uses": [
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
       }
     },
     {
@@ -1159,27 +871,6 @@
       }
     },
     {
-      "key": "scene-words.lead-funeral-other.other-is-among-the-people-who-have-come-to-say-g",
-      "move": "lead-funeral-other",
-      "kind": "spoken",
-      "text": "{other} is among the people who have come to say goodbye.",
-      "uses": [
-        {
-          "move": "lead-funeral-other",
-          "subject": "lead",
-          "role": "funeral",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.lead-funeral-alone.people-have-gathered-to-say-goodbye",
       "move": "lead-funeral-alone",
       "kind": "spoken",
@@ -1243,27 +934,6 @@
       }
     },
     {
-      "key": "scene-words.lead-first-day-other.its-your-first-day-and-other-is-there-when-you-a",
-      "move": "lead-first-day-other",
-      "kind": "spoken",
-      "text": "It's your first day, and {other} is there when you arrive.",
-      "uses": [
-        {
-          "move": "lead-first-day-other",
-          "subject": "lead",
-          "role": "first-day",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.lead-first-day-alone.its-your-first-day-and-you-are-expected",
       "move": "lead-first-day-alone",
       "kind": "spoken",
@@ -1274,27 +944,6 @@
           "subject": "lead",
           "role": "first-day",
           "choice": "alone"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-last-day-other.its-your-last-day-and-other-is-there-for-it",
-      "move": "lead-last-day-other",
-      "kind": "spoken",
-      "text": "It's your last day, and {other} is there for it.",
-      "uses": [
-        {
-          "move": "lead-last-day-other",
-          "subject": "lead",
-          "role": "last-day",
-          "choice": "other"
         }
       ],
       "shippable": true,
@@ -1411,27 +1060,6 @@
       }
     },
     {
-      "key": "scene-words.lead-arrival-other.a-child-has-been-born-and-other-is-there",
-      "move": "lead-arrival-other",
-      "kind": "spoken",
-      "text": "A child has been born, and {other} is there.",
-      "uses": [
-        {
-          "move": "lead-arrival-other",
-          "subject": "lead",
-          "role": "arrival",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.lead-arrival-alone.a-new-child-has-come-into-the-household",
       "move": "lead-arrival-alone",
       "kind": "spoken",
@@ -1442,27 +1070,6 @@
           "subject": "lead",
           "role": "arrival",
           "choice": "alone"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-layoff-other.your-job-has-ended-and-other-is-there",
-      "move": "lead-layoff-other",
-      "kind": "spoken",
-      "text": "Your job has ended, and {other} is there.",
-      "uses": [
-        {
-          "move": "lead-layoff-other",
-          "subject": "lead",
-          "role": "layoff",
-          "choice": "other"
         }
       ],
       "shippable": true,
@@ -1505,27 +1112,6 @@
           "subject": "lead",
           "role": "eviction-notice",
           "choice": "any"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-eviction-notice-other.a-notice-says-you-must-leave-and-other-is-there",
-      "move": "lead-eviction-notice-other",
-      "kind": "spoken",
-      "text": "A notice says you must leave, and {other} is there.",
-      "uses": [
-        {
-          "move": "lead-eviction-notice-other",
-          "subject": "lead",
-          "role": "eviction-notice",
-          "choice": "other"
         }
       ],
       "shippable": true,
@@ -1894,48 +1480,6 @@
       }
     },
     {
-      "key": "scene-words.setting-other-home-visit.you-re-at-host-house",
-      "move": "setting-other-home-visit",
-      "kind": "spoken",
-      "text": "You're at {host} house.",
-      "uses": [
-        {
-          "move": "setting-other-home-visit",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-other-home-visit.you-re-over-at-host-place",
-      "move": "setting-other-home-visit",
-      "kind": "spoken",
-      "text": "You're over at {host} place.",
-      "uses": [
-        {
-          "move": "setting-other-home-visit",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.setting-letter-letter.there-s-a-letter-for-you",
       "move": "setting-letter-letter",
       "kind": "spoken",
@@ -1946,27 +1490,6 @@
           "subject": "setting",
           "role": "letter",
           "choice": "letter"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-school-school.you-re-at-school",
-      "move": "setting-school-school",
-      "kind": "spoken",
-      "text": "You're at {school}.",
-      "uses": [
-        {
-          "move": "setting-school-school",
-          "subject": "setting",
-          "role": "school",
-          "choice": "school"
         }
       ],
       "shippable": true,
@@ -3813,6 +3336,50 @@
       }
     },
     {
+      "key": "scene-words.lead-news-arrives-other.other-has-been-waiting-for-you-to-get-home",
+      "move": "lead-news-arrives-other",
+      "kind": "spoken",
+      "text": "{other} has been waiting for you to get home.",
+      "uses": [
+        {
+          "move": "lead-news-arrives-other",
+          "subject": "lead",
+          "role": "news-arrives",
+          "choice": "other",
+          "settings": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-news-arrives-other.other-asks-you-to-sit-down-first",
+      "move": "lead-news-arrives-other",
+      "kind": "spoken",
+      "text": "{other} asks you to sit down first.",
+      "uses": [
+        {
+          "move": "lead-news-arrives-other",
+          "subject": "lead",
+          "role": "news-arrives",
+          "choice": "other",
+          "settings": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
       "key": "scene-words.lead-hallway-other.other-catches-you-on-the-way-out-of-the-meeting",
       "move": "lead-hallway-other",
       "kind": "spoken",
@@ -3870,6 +3437,174 @@
       "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-first-meeting-other.someone-wants-you-to-meet-other",
+      "move": "lead-first-meeting-other",
+      "kind": "spoken",
+      "text": "Someone wants you to meet {other}.",
+      "uses": [
+        {
+          "move": "lead-first-meeting-other",
+          "subject": "lead",
+          "role": "first-meeting",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-first-meeting-other.other-is-brought-over-to-meet-you",
+      "move": "lead-first-meeting-other",
+      "kind": "spoken",
+      "text": "{other} is brought over to meet you.",
+      "uses": [
+        {
+          "move": "lead-first-meeting-other",
+          "subject": "lead",
+          "role": "first-meeting",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-becoming-friends-other.you-and-other-keep-ending-up-at-the-same-table",
+      "move": "lead-becoming-friends-other",
+      "kind": "spoken",
+      "text": "You and {other} keep ending up at the same table.",
+      "uses": [
+        {
+          "move": "lead-becoming-friends-other",
+          "subject": "lead",
+          "role": "becoming-friends",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-becoming-friends-other.other-waves-you-over-again",
+      "move": "lead-becoming-friends-other",
+      "kind": "spoken",
+      "text": "{other} waves you over again.",
+      "uses": [
+        {
+          "move": "lead-becoming-friends-other",
+          "subject": "lead",
+          "role": "becoming-friends",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-reunion-other.other-spots-you-first-and-comes-over",
+      "move": "lead-reunion-other",
+      "kind": "spoken",
+      "text": "{other} spots you first and comes over.",
+      "uses": [
+        {
+          "move": "lead-reunion-other",
+          "subject": "lead",
+          "role": "reunion",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-reunion-other.it-s-been-a-long-while-but-other-knows-you-right-away",
+      "move": "lead-reunion-other",
+      "kind": "spoken",
+      "text": "It's been a long while, but {other} knows you right away.",
+      "uses": [
+        {
+          "move": "lead-reunion-other",
+          "subject": "lead",
+          "role": "reunion",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-argument-other.other-still-looks-put-out-with-you",
+      "move": "lead-argument-other",
+      "kind": "spoken",
+      "text": "{other} still looks put out with you.",
+      "uses": [
+        {
+          "move": "lead-argument-other",
+          "subject": "lead",
+          "role": "argument",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-argument-other.other-hasn-t-let-the-last-talk-go",
+      "move": "lead-argument-other",
+      "kind": "spoken",
+      "text": "{other} hasn't let the last talk go.",
+      "uses": [
+        {
+          "move": "lead-argument-other",
+          "subject": "lead",
+          "role": "argument",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
       "date": "2026-10-27",
       "tag": {
         "move": "narrate"

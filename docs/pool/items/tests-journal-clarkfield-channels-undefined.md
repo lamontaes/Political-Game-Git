@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/journal-clarkfield
 pr: #6262
 blocked-on:

@@ -7,8 +7,16 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { personLean } from "../core2/campaign-views";
-import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
+import { appointmentsIn } from "../core2/modules/executive";
+import { lawChain } from "../core2/modules/laws";
+import { meetingsOn } from "../core2/modules/interest-groups";
+import {
+  LEGISLATURE_MODULE_ID,
+  billOf,
+  votesOn,
+} from "../core2/modules/legislature";
 import {
   MEETINGS_MODULE_ID,
   type TownHallRow,
@@ -18,16 +26,21 @@ import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { spokenDesignation } from "../english/bill-names";
+import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { questionAbout } from "../english/question-names";
 import {
   questionName,
   storyTopicName,
   topicInSentence,
 } from "../english/policy-names";
+import { dollars } from "../english/bill-sections";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
-import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
+import {
+  SITUATION_LIBRARY,
+  type ScheduleEntry,
+  type SituationType,
+} from "./scheduling";
 import type { Moment } from "./types";
 import {
   composeSceneTalk,
@@ -37,13 +50,14 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
+import { ELECTIONS_MODULE_ID, ballot } from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
   enlistVolunteer,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
-import { properName, spoken } from "./words";
+import { properName, spoken, spokenDate } from "./words";
 import { PRESS_STORY_EVENT } from "../core2/press-desk";
 
 export interface PurposeScene {
@@ -86,16 +100,25 @@ export function purposeScene(
   director: Director,
   personId: PersonId,
   entry: ScheduleEntry,
-  options: { includeHeld?: boolean; typeKey?: string } = {},
+  options: {
+    includeHeld?: boolean;
+    typeKey?: string;
+    /** The moment's next scene: the first the player has not answered. */
+    next?: boolean;
+  } = {},
 ): PurposeSceneResult | null {
   const moment = director.ledger.people
     .get(personId)
     ?.momentsById.get(entry.momentId);
   if (!moment) return null;
+  // Named, that scene; as the moment's next, the first the player has not
+  // answered, so a record that stages several plays each in turn.
   const bindings = entry.bindings.filter(
     (row) =>
       (TYPES.get(row.typeKey) as PurposeType | undefined)?.purpose &&
-      (!options.typeKey || row.typeKey === options.typeKey),
+      (options.typeKey
+        ? row.typeKey === options.typeKey
+        : !options.next || !entry.answered?.includes(row.typeKey)),
   );
   let skipped: PurposeSceneResult | null = null;
   for (const binding of bindings) {
@@ -113,6 +136,17 @@ export function purposeScene(
   return skipped;
 }
 
+/**
+ * The type as its cause plays it: a cause may name its own `sceneKey`, which
+ * tags the exchange's pieces in place of the type's key, so one purpose speaks
+ * for each cause's own reason (the cause is matched by the moment's label).
+ */
+export function typeForCause(type: PurposeType, label: string): PurposeType {
+  const causes = (type as { causes?: SituationType["causes"] }).causes;
+  const sceneKey = causes?.find((row) => row.match?.label === label)?.sceneKey;
+  return sceneKey ? { ...type, tag: { ...type.tag, key: sceneKey } } : type;
+}
+
 /** One purpose scene of a moment, worded from its records. */
 function composeBinding(
   core: Readonly<CoreState>,
@@ -122,7 +156,10 @@ function composeBinding(
   binding: ScheduleEntry["bindings"][number],
   options: { includeHeld?: boolean },
 ): PurposeSceneResult {
-  const type = TYPES.get(binding.typeKey) as PurposeType;
+  const type = typeForCause(
+    TYPES.get(binding.typeKey) as PurposeType,
+    moment.label,
+  );
   const cast = (role: string | undefined) =>
     binding.roles.find((row) => row.role === role)?.personIds[P.zero];
   const askerId = cast(type.asker);
@@ -196,6 +233,27 @@ function composeBinding(
       text: `${chair.givenName} ${chair.familyName}`,
       sourceRecordIds: [moment.causeId, chair.id],
     };
+  // An executive's ask to carry their bill (legislature.ts askToCarry): the
+  // lines about a bill its asker can't introduce need it.
+  if (record?.kind === "carry-asked" && said.byExecutive === "yes")
+    facts["carry-ask"] = {
+      text: said.askerId ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+  // An ask to carry a bill the member turned down has no number yet: the
+  // bill goes by its name, from the policy the ask was for.
+  if (record?.kind === "carry-asked" && !said.number && said.question) {
+    const name = billNameFor(
+      said.question,
+      said.formKind ?? "",
+      said.direction === "repeal",
+    );
+    if (name)
+      facts.bill = {
+        text: `the ${name.title}`,
+        sourceRecordIds: [moment.causeId],
+      };
+  }
   if (said.section)
     facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };
   // A vote trade puts the holdout's own section in (legislature.ts adopt()):
@@ -299,6 +357,18 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, outlet.id],
       };
   }
+  // A donor's gift to the campaign (campaigns.ts recordGift): what they gave,
+  // and the lines about a gift need it.
+  if (record?.kind === "campaign-gift") {
+    const gift = {
+      text: dollars(Number(said.amountMinor)),
+      sourceRecordIds: [moment.causeId],
+    };
+    facts.money = gift;
+    facts.gift = gift;
+    // The bill the donor holds the strongest view on, when one is pending.
+    if (said.billId && facts.bill) facts["donor-bill"] = facts.bill;
+  }
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
   if (asked.familyIds.has(askerId))
@@ -309,6 +379,26 @@ function composeBinding(
       sourceRecordIds: [askerId, askedId],
     };
   else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
+  // A committee trade coming due on the floor (legislature.ts
+  // recordPromises): the member promised their vote, and the lines about a
+  // promised vote need it.
+  if (record?.kind === "vote-promise")
+    facts["your-promise"] = {
+      text: said.traded ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+  // A bill that lost a vote (legislature.ts recordFailure): the lines about a
+  // lost vote need it, where it lost, and the count, against to for.
+  if (record?.kind === "bill-failed") {
+    const lost = { text: said.number ?? "", sourceRecordIds: [moment.causeId] };
+    facts["bill-lost"] = lost;
+    facts[said.stage === "committee" ? "lost-in-committee" : "lost-on-floor"] =
+      lost;
+    facts.tally = {
+      text: `${said.no} to ${said.yes}`,
+      sourceRecordIds: [moment.causeId],
+    };
+  }
   if (said.office)
     facts.office = {
       text: said.office,
@@ -326,6 +416,19 @@ function composeBinding(
       text: `${rival.givenName} ${rival.familyName}`,
       sourceRecordIds: [moment.causeId, rival.id],
     };
+  // A rival who runs under the candidate's own party label: a primary
+  // challenge. The lines that call it one need both filings to say so.
+  if (rival && said.contestId && core.modules.has(ELECTIONS_MODULE_ID)) {
+    const filings = ballot(coreAPI(core as CoreState), said.contestId);
+    const party = (id: string) =>
+      filings.find((row) => row.personId === id)?.party ?? null;
+    const theirs = party(rival.id);
+    if (theirs && theirs === party(askedId))
+      facts["same-party"] = {
+        text: theirs,
+        sourceRecordIds: [moment.causeId, said.filingId ?? moment.causeId],
+      };
+  }
   // What the relative has at stake in the run, from the household's records
   // (the cast rule chose them for it): the lines about money or time need it.
   const stake = type.stakes?.includes("household-money-or-time")
@@ -342,6 +445,13 @@ function composeBinding(
       text: `${winner.givenName} ${winner.familyName}`,
       sourceRecordIds: [moment.causeId, winner.id],
     };
+  // A race's result for the asked (the morning after): the lines for a
+  // winner and for the one who lost differ.
+  if (said.winnerId && said.contestId)
+    facts[said.winnerId === askedId ? "won" : "lost"] = {
+      text: "",
+      sourceRecordIds: [moment.causeId],
+    };
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer).
   if (said.totals && said.winnerId === askedId) {
@@ -355,6 +465,11 @@ function composeBinding(
         sourceRecordIds: [moment.causeId],
       };
   }
+
+  if (record?.kind === "budget-line-changed")
+    cutFacts(core, facts, said, moment.causeId, askerId);
+  if (record?.kind === "bill-presented")
+    deskFacts(core, facts, said, moment.causeId, askerId);
 
   const result = composeSceneTalk(
     core,
@@ -390,6 +505,125 @@ function composeBinding(
   };
 }
 
+/** A dollar amount said to two figures, the way people round a number out loud: "$410,000". */
+function roundedDollars(minor: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumSignificantDigits: P.two,
+  }).format(minor / P.minorPerDollar);
+}
+
+/**
+ * What a department head says of a cut the council adopted to the line their
+ * post draws on (budgets.ts `budget-line-changed`): how much was cut, how much
+ * of the line that was where the adopted budget is on record, their post and
+ * how many whole years they have held it, each with the records it came from.
+ */
+function cutFacts(
+  core: Readonly<CoreState>,
+  facts: Record<string, Fact>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+  headId: PersonId,
+): void {
+  const cut = Math.abs(Number(said.deltaMinor));
+  if (!(cut > P.zero)) return;
+  facts.cut = { text: roundedDollars(cut), sourceRecordIds: [causeId] };
+  const api = coreAPI(core as CoreState);
+  const budget =
+    said.measureId && core.modules.has(BUDGETS_MODULE_ID)
+      ? (api
+          .moduleState(BUDGETS_MODULE_ID)
+          .table("budgets")
+          .get(said.measureId) as unknown as BudgetRow | undefined)
+      : undefined;
+  const left = budget?.spendingMinor[said.line ?? ""];
+  if (budget && left !== undefined) {
+    const percent = Math.round((P.percent * cut) / (left + cut));
+    if (percent >= P.one)
+      facts.percent = {
+        text: String(percent),
+        sourceRecordIds: [causeId, budget.id],
+      };
+  }
+  const post = appointmentsIn(api, lawChain(api).townPlaceId).find(
+    (row) => row.holderId === headId,
+  );
+  if (!post) return;
+  facts.post = { text: post.title.toLowerCase(), sourceRecordIds: [post.id] };
+  const date = core.date;
+  const years =
+    Number(date.slice(P.zero, P.isoYearCharacters)) -
+    Number(post.since.slice(P.zero, P.isoYearCharacters)) -
+    (date.slice(P.isoYearCharacters) < post.since.slice(P.isoYearCharacters)
+      ? P.one
+      : P.zero);
+  if (years >= P.two)
+    facts.years = {
+      text: String(years),
+      sourceRecordIds: [post.id],
+    };
+}
+
+/**
+ * What someone who comes to a bill's presentment may say of it: the day the
+ * decision is due, how the chambers voted, and whose side the visitor is on
+ * (the sponsor is for it; a group's lobbyist is against it and says what it
+ * costs the businesses they speak for), each citing the records it came from.
+ */
+function deskFacts(
+  core: Readonly<CoreState>,
+  facts: Record<string, Fact>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+  visitorId: PersonId,
+): void {
+  if (said.signBy)
+    facts.deadline = {
+      text: spokenDate(
+        said.signBy,
+        core.durableLog.get(causeId)?.date ?? core.date,
+      ),
+      sourceRecordIds: [causeId],
+    };
+  if (!said.billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return;
+  const api = coreAPI(core as CoreState);
+  const bill = billOf(api, said.billId);
+  if (!bill) return;
+  const votes = votesOn(api, bill.id);
+  const yes = votes.filter((row) => row.vote === "yes").length;
+  const no = votes.filter((row) => row.vote === "no").length;
+  if (yes + no > P.zero)
+    facts.roll = {
+      text: `${yes} to ${no}`,
+      sourceRecordIds: [causeId, bill.id],
+    };
+  if (bill.sponsorId === visitorId) {
+    facts.for = {
+      text: said.number ?? bill.number,
+      sourceRecordIds: [causeId],
+    };
+    return;
+  }
+  const against = meetingsOn(api, bill.id)
+    .filter(
+      (row) => row.lobbyistId === visitorId && (row.side ?? -P.one) < P.zero,
+    )
+    .sort((a, b) => b.annualCostMinor - a.annualCostMinor);
+  const [largest] = against;
+  if (!largest) return;
+  facts.against = {
+    text: said.number ?? bill.number,
+    sourceRecordIds: [causeId, largest.id],
+  };
+  if (largest.annualCostMinor > P.zero)
+    facts.cost = {
+      text: roundedDollars(largest.annualCostMinor),
+      sourceRecordIds: [causeId, largest.id],
+    };
+}
+
 /**
  * The player's reply in a scene with a purpose, by its path through the tree
  * (the index of each reply chosen, from the first). The reply is a record of
@@ -417,9 +651,13 @@ export function replyInScene(
     node = reply.next;
   }
   const line = reply!.line;
-  const id = `scene-reply:${entry.momentId}:${path.join(".")}`;
+  // One record per scene of the moment and reply path: a record that stages
+  // several scenes keeps each one's replies apart.
+  const id = `scene-reply:${entry.momentId}:${scene.typeKey}:${path.join(".")}`;
   // Said once: the same reply again (a page reloaded) keeps the record.
   if (core.eventIds.has(id)) return id;
+  if (!entry.answered?.includes(scene.typeKey))
+    entry.answered = [...(entry.answered ?? []), scene.typeKey];
   // STOPGAP SG-WORDS-family-limit-unread: a reply that bounds the cost (a
   // limit on savings, evenings kept for a child) is recorded as said and as
   // time together; no engine reads the limit yet.
