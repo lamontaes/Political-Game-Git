@@ -73,12 +73,20 @@ import {
   townJobRate,
   townPayPercentile,
 } from "./town-pay";
+import {
+  publishedHudRentRowFor,
+  publishedHudStateRentRow,
+  hudRentRowFor,
+  hudStateRentRow,
+} from "./hud-rents";
+import { permitRates, publishedPermitRates } from "./housing-construction";
+import { publishedShelterRateFor, shelterRateFor } from "./housing-homeless";
+import { homePriceRatio, publishedHomePriceRatio } from "./housing-prices";
 import { worldRateFactor, type BaseRateTable } from "./world-base-rates";
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
-  "realistic-housing-per-world": [5, 7, 8, 9],
   "realistic-money-and-population-per-world": [28],
   "realistic-business-per-world": [21, 22, 23, 24, 26, 27],
   "realistic-elections-per-world": [42, 44, 45, 48],
@@ -180,6 +188,68 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     expect(new Set(sa.values()).size, where).toBe(sa.size);
     for (const [id, share] of sa)
       if (sb.has(id)) expect(share, `${where} ${id}`).not.toBe(sb.get(id));
+  });
+
+  it("house prices, the old core's county home value, HUD rents, shelter beds and permits (audit rows 5, 7, 8, 9)", () => {
+    const differs = (
+      what: string,
+      mine: number,
+      real: number,
+      other: number,
+    ) => {
+      expect(mine, `${where} ${what}: published`).not.toBe(real);
+      expect(mine, `${where} ${what}: other world`).not.toBe(other);
+    };
+    const usps = place.state.slice(3);
+    const jurisdiction = corePlaceByKey(place.key)!.context.jurisdiction.id;
+    // Row 5: how far a home's price moved from the ACS value date to the start.
+    for (const from of ["2015-07-01", "2022-07-01"])
+      differs(
+        `home price ratio since ${from}`,
+        homePriceRatio(usps, from, a.date, a.seed),
+        publishedHomePriceRatio(usps, from, a.date),
+        homePriceRatio(usps, from, a.date, b.seed),
+      );
+    // Row 7, the old core's county median home value, is checked beside its
+    // reader (src/simulation/county-home-value-world.test.ts): nothing here
+    // imports the old core.
+    // Row 8: HUD fair market rents and the very low income limit, the place's
+    // area (the state's average where HUD has none) at every bedroom count.
+    const rows = (
+      read: (s?: string) => ReturnType<typeof hudStateRentRow> | null,
+    ) => ({
+      mine: read(a.seed)!,
+      real: read()!,
+      other: read(b.seed)!,
+    });
+    const area = rows((s) =>
+      s === undefined
+        ? (publishedHudRentRowFor(jurisdiction) ??
+          publishedHudStateRentRow(place.state))
+        : (hudRentRowFor(jurisdiction, s) ?? hudStateRentRow(place.state, s)),
+    );
+    area.mine.rents.forEach((rent, bedrooms) =>
+      differs(
+        `HUD rent, ${bedrooms} bedrooms (${area.mine.area})`,
+        rent,
+        area.real.rents[bedrooms]!,
+        area.other.rents[bedrooms]!,
+      ),
+    );
+    // Row 9: shelter beds and permits per the state's people.
+    differs(
+      `shelter beds per 10,000 in ${usps}`,
+      shelterRateFor(usps, a.seed),
+      publishedShelterRateFor(usps),
+      shelterRateFor(usps, b.seed),
+    );
+    for (const kind of ["singlePerThousand", "multiPerThousand"] as const)
+      differs(
+        `permits ${kind} in ${usps}`,
+        permitRates(usps, a.seed)[kind],
+        publishedPermitRates(usps)[kind],
+        permitRates(usps, b.seed)[kind],
+      );
   });
 
   it("age unemployment, seasonal staffing, employment rates, pay, sector mix and place earnings (audit rows 4, 10, 11, 12, 13)", () => {

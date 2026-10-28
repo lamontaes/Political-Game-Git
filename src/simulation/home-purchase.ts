@@ -80,7 +80,7 @@ export function homePurchaseTerms(
 ): HomePurchaseTerms {
   const today = world.currentDate;
   const openingPriceMinor =
-    homeValueForJurisdiction(jurisdictionId).dollars * 100;
+    homeValueForJurisdiction(jurisdictionId, world.seed).dollars * 100;
   const housingFactor = jurisdictionId
     ? homePriceLevel(world, jurisdictionId, today)
     : (homePriceLevels(macroMonthHistory(world, "national", today)).at(-1)

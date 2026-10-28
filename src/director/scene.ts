@@ -132,30 +132,41 @@ export function composeScene(
 
   // What is happening, from the staged situation's type. It names only
   // someone the scene places in the room: not the person a funeral is for.
-  const talkToId =
-    opener?.personIds.find((id) => id !== personId) ??
-    moment.counterpartIds.find((id) => binding.presentIds.includes(id));
+  // A speech heard (the address on the evening news) is its speaker's own
+  // words: no talk opens with them and no lead stands in for them.
+  const talkToId = binding.said
+    ? undefined
+    : (opener?.personIds.find((id) => id !== personId) ??
+      moment.counterpartIds.find((id) => binding.presentIds.includes(id)));
   const wasNamed = talkToId ? named.has(talkToId) : false;
-  const lead = render(
-    { part: "lead", typeKey: binding.typeKey, setting: binding.setting.kind },
-    () => {
-      const facts: Record<string, Fact> = {};
-      const other = talkToId ? who(talkToId) : null;
-      if (other) facts.other = other;
-      const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
-      const org = job ? core.organizations.get(job.organizationId) : undefined;
-      if (org)
-        facts.employer = {
-          text: properName(org.name),
-          sourceRecordIds: [org.id],
-        };
-      const town = place(person.placeId);
-      if (town) facts.place = town;
-      return facts;
-    },
-    `${moment.id}:lead`,
-    (facts) => (facts.other ? "other" : "alone"),
-  );
+  const lead = binding.said
+    ? null
+    : render(
+        {
+          part: "lead",
+          typeKey: binding.typeKey,
+          setting: binding.setting.kind,
+        },
+        () => {
+          const facts: Record<string, Fact> = {};
+          const other = talkToId ? who(talkToId) : null;
+          if (other) facts.other = other;
+          const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+          const org = job
+            ? core.organizations.get(job.organizationId)
+            : undefined;
+          if (org)
+            facts.employer = {
+              text: properName(org.name),
+              sourceRecordIds: [org.id],
+            };
+          const town = place(person.placeId);
+          if (town) facts.place = town;
+          return facts;
+        },
+        `${moment.id}:lead`,
+        (facts) => (facts.other ? "other" : "alone"),
+      );
   if (lead) sentences.push(lead);
   // A lead that did not say the name leaves it unsaid: the next line to name
   // them says it in full.
@@ -238,11 +249,23 @@ export function composeScene(
   // A speech's own words, when its record kept them and the person gave it.
   const record = core.durableLog.get(moment.causeId);
   const speechText = record?.facts?.[ADDRESS_FACT.text];
+  // The speaker is the person, or the one the scene's `said` role holds.
+  const speakerId = record?.facts?.[ADDRESS_FACT.president];
   const speech =
     typeof speechText === "string" &&
     speechText &&
-    record?.facts?.[ADDRESS_FACT.president] === personId
-      ? { speakerId: personId, text: speechText, sourceRecordIds: [record.id] }
+    speakerId &&
+    (speakerId === personId ||
+      binding.roles.some(
+        (row) =>
+          row.role === binding.said &&
+          row.personIds.includes(speakerId as PersonId),
+      ))
+      ? {
+          speakerId: speakerId as PersonId,
+          text: speechText,
+          sourceRecordIds: [record!.id],
+        }
       : undefined;
   return {
     momentId: moment.id,

@@ -11,7 +11,12 @@
  */
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
-import { closenessBetween, familyFactsOf, formerKin } from "../core2/closeness";
+import {
+  closenessBetween,
+  currentCloseness,
+  familyFactsOf,
+  formerKin,
+} from "../core2/closeness";
 import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
 
 /** Where a contact was made, by the record that says so: never a stranger's scene. */
@@ -193,6 +198,8 @@ export function createDirector(
   const interrupts: { moment: Moment; entry: ScheduleEntry }[] = [];
   const initial = [...options.watch];
   let started = false;
+  /** The world the director watches, for the core's closeness records. */
+  let world: Readonly<CoreState> | undefined;
   let mode: "live" | "skipping" = "live";
 
   const param = (key: string): number => {
@@ -354,7 +361,11 @@ export function createDirector(
     // be followed), read from the log's own index of them.
     for (const id of core.logByPerson.get(personId) ?? []) {
       const record = core.durableLog.get(id);
-      if (record?.date === core.date && record.personIds.includes(personId))
+      if (
+        record?.date === core.date &&
+        (record.personIds.includes(personId) ||
+          record.witnessIds?.includes(personId))
+      )
         pendingFor(personId).events.push({
           event: record,
           reach: "named",
@@ -480,6 +491,10 @@ export function createDirector(
       );
     }
     snapshots.set(personId, snapshot(core, actor));
+    // What already reached them today (the address they watched that
+    // evening) is measured now, so it is staged by the same path as every
+    // later moment.
+    if (pending.get(personId)?.events.length) measureDay(core, book, false);
   }
 
   /** A moment scored from the recorded past: journal material, never a scene. */
@@ -583,6 +598,22 @@ export function createDirector(
         ? thread.renewedAt
         : known;
     if (!last) return one;
+    // The core's closeness record, where the two have one and no renewal came
+    // after its last contact: the share of the closeness at that contact
+    // which has faded by the date (closeness.ts, the one fade every engine
+    // reads).
+    const row = world?.relationships.get(
+      thread.personId < thread.otherId
+        ? `${thread.personId}:${thread.otherId}`
+        : `${thread.otherId}:${thread.personId}`,
+    );
+    if (row && row.level > zero && last === row.lastContactDate)
+      return Math.min(
+        one,
+        Math.max(zero, one - currentCloseness(world!, row, date) / row.level),
+      );
+    // No contact on record since: the time since they knew each other, faded
+    // by the core's own half-life rows.
     const days = Math.max(
       zero,
       daysBetween(makeIsoDate(last), makeIsoDate(date)),
@@ -860,8 +891,9 @@ export function createDirector(
       if (!rule) continue;
       let raw = zero;
       if (rule.impactParameter) {
-        // The event's own impact reaches the people it names fully, and
-        // those who learned of it through a tie by their relation.
+        // The event's own impact reaches the people it names and those who
+        // saw it fully, and those who learned of it through a tie by their
+        // relation.
         raw = param(rule.impactParameter);
         // A share of it the event's own fact gives, on a sliding scale.
         if (rule.scaleFact) {
@@ -870,7 +902,10 @@ export function createDirector(
             ? Math.max(zero, Math.min(one, share))
             : zero;
         }
-        if (!row.event.personIds.includes(book.personId)) {
+        if (
+          !row.event.personIds.includes(book.personId) &&
+          !row.event.witnessIds?.includes(book.personId)
+        ) {
           const thread = row.event.personIds
             .map((id) => book.threads.get(id))
             .find(Boolean);
@@ -1809,6 +1844,7 @@ export function createDirector(
     start(core) {
       if (started) return;
       started = true;
+      world = core;
       for (const id of initial) beginWatching(core, id);
     },
     watch(core, personId) {

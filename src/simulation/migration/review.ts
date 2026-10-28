@@ -956,7 +956,7 @@ export function townOpenings(
     for (const tag of event.tags)
       if (tag.startsWith("opening:")) taken.add(tag.slice("opening:".length));
   }
-  const rentRow = hudRentRowFor(town);
+  const rentRow = hudRentRowFor(town, world.seed);
   const rentMinor = rentRow
     ? marketRentMinor(world, town, rentRow, bedroomsForHousehold(1), today)
     : null;
