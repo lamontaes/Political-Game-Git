@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/realistic-outcome-bases
 pr:
 blocked-on:
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
+claimed-at: 2026-10-28T00:23:05.477Z
 ---
 
 **What.** Rows 39 and 40 of docs/reports/real-statistics-in-play-2026-10-27.md: poverty, uninsured, graduation, turnout, violent crime, homelessness and the other outcome bases (src/core2/outcome-web-model.ts:243 says 'never drawn'), and the NCVS victimization rates. The owner ruled on Oct 27 that every non-law statistic starts realistic, not real, and differs in every world from the moment Start is pressed. Each row names its file and reader so the fix lands in one place.

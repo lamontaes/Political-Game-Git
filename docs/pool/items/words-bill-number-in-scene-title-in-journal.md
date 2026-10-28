@@ -6,11 +6,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/bill-name-one
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:45:47.756Z
 ---
 
 **What.** In Fort Pierce South, Florida (Advanced, seed f40b8d6c2e7193a5, the member Adam Williamson), the sponsor's ask the evening before the April 1, 2025 floor vote says 'HB 9 comes down to a vote or two', and the player's journal tells the same vote as 'I voted for the Income Tax Act.' (moment office.voted:bill:office:US-FL:legislature-lower:2025-03-07:official:term:seat:US-FL:lower:098:0:2025-01-20:11:official:term:seat:US-FL:lower:028:0:2025-01-20). The scene words the bill by spokenDesignation (its number), the journal's office.voted row by billName (its subject title), so a player cannot tell they are the same bill. One name should carry through, or the second mention should tie them together ('HB 9, the Income Tax Act').
