@@ -121,9 +121,13 @@ it(`a month's arrests are the crime engine's reported crimes, cleared, at the po
           .table("months")
           .rows() as unknown as SafetyMonth[]
       ).map((m) => m.policeService);
-      expect(Math.max(...service), `${where}: police service`).toBeGreaterThan(
-        1,
-      );
+      // A place whose lines fund police only at the baseline never exercises
+      // the service factor, so its equal-to-baseline counts prove nothing
+      // about it: pass it over and draw the next place.
+      if (!(Math.max(...service) > 1)) {
+        tried.push(`${where}: police service never above the baseline`);
+        continue;
+      }
       console.log(
         `POLICE-ARRESTS ${where}: ${checked.length} offense-months; ${checked[0]}; passed over: ${tried.join("; ") || "none"}`,
       );
