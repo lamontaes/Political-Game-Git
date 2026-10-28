@@ -3542,7 +3542,8 @@
         "stall": ["ask", "accept"],
         "decline": ["refuse", "press"],
         "answer": ["thank"],
-        "promise": ["thank", "press"]
+        "promise": ["thank", "press"],
+        "warn": ["accept", "refuse"]
       },
       "again": {
         "request": ["promise", "offer", "decline", "stall"],
