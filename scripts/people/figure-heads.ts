@@ -14,6 +14,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { PNG } from "pngjs";
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import backs from "../../art/people-engine/v2/figures-back.json" with { type: "json" };
+import poses from "../../art/people-rooms/poses/index.json" with { type: "json" };
 
 const HAIR = "art/people-engine/v2/hair-on-figures/index.json";
 const OUT = "src/bench/data/figure-heads.json";
@@ -77,12 +78,21 @@ for (const row of [...index.figures, ...backs.figures] as { file: string }[]) {
       PNG.sync.read(readFileSync(`art/people-engine/v2/${row.file}`)),
     );
 }
+// The figures the hair pieces for heads turned away were painted on (v2-prof-*,
+// v2-tqb-*): only their pieces use them, so their heads are the art's.
+for (const [name, head] of given) heads[name] ??= head;
+// Poses painted at furniture (art/people-rooms/poses): the art measured each head.
+for (const pose of poses.figures as {
+  id: string;
+  head: { top: number; x: number; width: number };
+}[])
+  heads[pose.id] = [pose.head.top, pose.head.x, pose.head.width];
 writeFileSync(
   OUT,
   JSON.stringify(
     {
       about:
-        "Each v2 figure's head in its own picture: [top row, middle column, width] in pixels. Made by scripts/people/figure-heads.ts: the art session's own measurements where it gave them (hair-on-figures/index.json), else measured from the outline. Read by src/bench/whole-figures.ts to size and set a figure on a spot measured from a mannequin plate.",
+        "Each v2 figure's head in its own picture: [top row, middle column, width] in pixels. Made by scripts/people/figure-heads.ts: the art session's own measurements where it gave them (hair-on-figures/index.json, art/people-rooms/poses/index.json), else measured from the outline. Read by src/bench/whole-figures.ts to size and set a figure on a spot measured from a mannequin plate.",
       heads,
     },
     null,
