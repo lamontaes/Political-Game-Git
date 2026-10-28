@@ -6985,5 +6985,112 @@
       "unit": "elasticity",
       "citation": "Manning (2003); Webber, D. A. (2015), \"Firm market power and the earnings distribution\": firm-level separation elasticities about -1."
     }
+  },
+  "worldDrawOffsetFloorShare": {
+    "value": 0.34,
+    "tag": "TUNABLE",
+    "citation": "The smallest share of a spread a world's starting offset takes, so no world opens on the published figure.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.5,
+      "unit": "share of the spread",
+      "citation": "Matches macroWorldOffsetFloorShare."
+    }
+  },
+  "worldCashSpreadShare": {
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's typical transaction-account balance sits from the Survey of Consumer Finances 2022 median at the same income, as a share of that median. The median held by families with accounts moved by roughly a quarter to a half of its level between survey years in the Federal Reserve's SCF Bulletins (2016, 2019, 2022).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.15,
+      "high": 0.45,
+      "unit": "share of the published balance",
+      "citation": "Federal Reserve SCF Bulletins 2016, 2019 and 2022, median transaction-account balance of families holding accounts, in constant dollars (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldLivingCostSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's price level for everyday household spending sits from the BLS Consumer Expenditure Survey 2024 mean for its size and region, as a share of that mean. Census-region means sit within about 10% of the national mean in the survey's regional tables.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.15,
+      "unit": "share of the published monthly cost",
+      "citation": "BLS Consumer Expenditure Survey 2024, mean annual expenditures by region of residence against the national mean (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldGoodsPriceSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's household spending on electricity, fuel, transit fares, broadband and beverage-container volume sits from the BLS Consumer Expenditure Survey 2024 and NTD 2023 averages, as a share of each average. Fuel and electricity spending moved by about this much in a year across 2021-2024 (BLS CE). Taxes and fees set by law are not drawn.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.18,
+      "unit": "share of the published amount",
+      "citation": "BLS CE 2021 to 2024 year-to-year change in household fuel and electricity spending (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldGoodsTakeUpSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's broadband subscription share sits from ACS 2024 table B28002, moved relative to the nearer bound (0 or 1). The share moved by about 1 to 4 points a year across ACS vintages.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.1,
+      "unit": "share of the distance to the nearer bound",
+      "citation": "Census ACS 1-year B28002 broadband subscription share, 2019 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldBenefitSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's average Social Security benefit among participants sits from the published participant average, as a share of it. The average retired-worker benefit rose by 2% to 9% a year across 2019-2025 cost-of-living adjustments (SSA Monthly Statistical Snapshot). The benefit formula and cost-of-living adjustment are law and are unchanged.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.12,
+      "unit": "share of the published monthly benefit",
+      "citation": "SSA Monthly Statistical Snapshot and annual COLA announcements 2019 to 2025 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldDepositsSpreadShare": {
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's county bank deposits sit from the FDIC Summary of Deposits figure, as a share of it. U.S. domestic deposits changed by about -3% to +15% in a year across 2019-2024 (FDIC Quarterly Banking Profile).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the published deposits",
+      "citation": "FDIC Quarterly Banking Profile, year-over-year change in domestic deposits, 2019 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldPrivateShareSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's private-school share of students sits from the NCES fall-2021 share for its state, moved relative to the nearer bound (0 or 1). State private enrollment shares moved by about a fifth of their level between survey years (NCES Digest of Education Statistics).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of the distance to the nearer bound",
+      "citation": "NCES Digest of Education Statistics, private school enrollment shares by state, fall 2011 against fall 2021 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldTuitionSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's average private-school tuition sits from the NCES Digest Table 205.50 average, as a share of it. Average private tuition differs by about 10% between school levels and years (NCES).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the published tuition",
+      "citation": "NCES Digest of Education Statistics Table 205.50, average tuition across years and school levels (approximate; a researcher should confirm the figures)"
+    }
   }
 }

@@ -12,6 +12,7 @@
 /src/core2/parameters.ts @lamontaes
 /src/core2/stopgaps.ts @lamontaes
 /src/core2/seeded.ts @lamontaes
+/src/core2/world-draw.ts @lamontaes
 /src/core2/module-*.ts @lamontaes
 /src/core2/saves.ts @lamontaes
 /src/core2/snapshot.ts @lamontaes

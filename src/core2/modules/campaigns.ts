@@ -1884,8 +1884,10 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
   const limit = contributionLimit(api, campaign.contestId);
   const minorPerDollar = api.parameter("minorPerDollar");
   const spare =
-    medianTransactionBalance(campaignParameter("outsideDonorIncomeUsd")) *
-    minorPerDollar;
+    medianTransactionBalance(
+      campaignParameter("outsideDonorIncomeUsd"),
+      api.state.seed,
+    ) * minorPerDollar;
   let total = 0;
   for (const place of places) {
     // The share of the place's adults on the candidate's side of the lean

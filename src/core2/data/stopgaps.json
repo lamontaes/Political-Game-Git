@@ -7259,5 +7259,17 @@
     "addedAt": "2026-10-28",
     "replacement": "history-past-moves (each move before the start a record, so a spell runs in the place the person lived), the regional economy series in the economy pass, business sizes from the business pass's history, and history-past-officials for officials' careers.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-draw-helpers-three",
+    "kind": "rule-copy",
+    "file": "src/core2/macro-model.ts",
+    "line": 185,
+    "whatItFakes": "Three helpers draw a world's offset around a published figure with the same rule (macro-model worldOffset, the budgets module's budgetWorldFactor, world-draw's worldOffsetShare), each with its own floor parameter of the same value.",
+    "why": "Each source table was drawn in its own PR the same night; folding the macro and budget draws into world-draw would touch two merged readers and their tests in a statistics PR.",
+    "addedBy": "realistic-money-and-population-per-world (Claude Opus, wire-office)",
+    "addedAt": "2026-10-28",
+    "replacement": "world-draw.ts is the one draw: worldOffset and budgetWorldFactor call it and the macro and budget floor parameters are deleted for worldDrawOffsetFloorShare.",
+    "status": "open"
   }
 ]
