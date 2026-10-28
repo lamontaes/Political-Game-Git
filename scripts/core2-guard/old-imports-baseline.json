@@ -1,18 +1,3 @@
 [
-  "data/tables/index.ts",
-  "scripts/english-corpus/grading-batch-speech.ts",
-  "scripts/prose-corpus/sources/episodes.ts",
-  "scripts/source/executive-authority-r3h-reconciliation.test.ts",
-  "scripts/source/executive-authority-r3h-reconciliation.ts",
-  "scripts/source/export-data-tables.ts",
-  "scripts/source/export-town-council-profile-inputs.ts",
-  "scripts/source/regional-money/export-office-pay.ts",
-  "scripts/source/school-name-patterns.test.ts",
-  "scripts/source/school-name-patterns.ts",
-  "scripts/world/compile-area-residents.ts",
-  "src/districts/members-per-district.test.ts",
-  "tests/fixtures/synthetic-cohort.ts",
-  "tests/seat-of-government-places.test.ts",
-  "tests/source/official-office-pay.test.ts",
-  "tests/starting-law-term-completeness.test.ts"
+  "src/districts/members-per-district.test.ts"
 ]
