@@ -5,11 +5,12 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/guards-one-english
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:52:45.460Z
 ---
 
 **What.** The English rules are held by four separate checks with three copies of the British word list: a changed-files-only test with its own list, a whole-tree spelling sweep, a content-file idiom test and a wording ratchet that also lists British words. The place-and-presence ban sits apart, and nothing checks player strings for ISO dates or raw record ids. The owner asked to completely guard the game, with nothing duplicated and easy to update.
