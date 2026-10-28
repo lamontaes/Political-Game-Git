@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { IRS_TOWN_BUSINESS_BOOKS } from "../simulation/living-world/town-business-books.generated";
+import { IRS_TOWN_BUSINESS_BOOKS } from "./reference/town-business-books.generated";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import {
   classifyBusiness,
