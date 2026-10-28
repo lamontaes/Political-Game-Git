@@ -65,7 +65,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | partner with federal immigration enforcement | justice            | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
 | end cash bail                                | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | Spending: corrections                        | justice            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
-| restore voting after sentence                | justice            | yes    | yes    | yes   | yes     | n/a   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
+| restore voting after sentence                | justice            | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | raise juvenile court age                     | justice            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | child access prevention                      | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | permit to carry concealed                    | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
@@ -89,7 +89,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | restrict government facial recognition       | technology         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | consumer data privacy law                    | technology         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | limit groundwater withdrawal                 | agriculture        | yes    | yes    | part  | yes     | yes   | yes  | yes     | yes    | part      | partly     | Issues, Your office, News           |
-| protect farmland from development            | agriculture        | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, Calendar, News |
+| protect farmland from development            | agriculture        | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Budgets, Your office, News          |
 | local-minimum-wage-authority                 | starting law       | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      | none                                |
 | unemployment-insurance                       | starting law       | yes    | yes    | yes   | yes     | yes   | yes  | yes     | n/a    | yes       | wired      | Issues, Calendar                    |
@@ -209,7 +209,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **restore voting after sentence** (`us-policy-positions:justice-public-safety.restore-voting-after-sentence`)
 
 - money: the law restores the right to vote to a person who has finished their sentence; it charges, pays and taxes no one by its own terms, so no money flows because of it. What it changes is who may vote, read by the board of elections when it builds the roll
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-convictions)
 
 **raise juvenile court age** (`us-policy-positions:justice-public-safety.raise-juvenile-court-age`)
 
@@ -254,10 +253,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
 - allPlaces: reached people in one drawn place and not the other
-
-**protect farmland from development** (`us-policy-positions:agriculture-natural-resources.protect-farmland-from-development`)
-
-- web: no production reader: farmland-easements-to-farmland-lost (SG-WEB-unread-farmland-developed-acres) move only the web's ledger
 
 **Spending: parks** (`budget-line:parks`)
 
