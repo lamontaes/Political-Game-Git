@@ -68,6 +68,8 @@ export function openingMortgages(input: {
   bankId: string;
   /** The state, for its house price index. */
   usps: string;
+  /** The world's seed, for its prices. */
+  seed: string;
   /** What the town bank's capital lets it hold. */
   bankRoomMinor: number;
   /** Holders outside the town; without one the town bank holds every loan. */
@@ -152,7 +154,12 @@ export function openingMortgages(input: {
     // What the home cost then: today's value moved back by the state's house price index.
     const price =
       owner.valueMinor *
-      homePriceRatio(input.usps, input.startedAt, `${boughtYear}-07-01`);
+      homePriceRatio(
+        input.usps,
+        input.startedAt,
+        `${boughtYear}-07-01`,
+        input.seed,
+      );
     const original = price * (1 - down);
     const rate =
       historicalMortgageRate(`${boughtYear}-06`, p) / p("macroHundred");

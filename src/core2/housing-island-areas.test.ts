@@ -117,7 +117,7 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
       const indexed =
         rentValueOf(`nation:${state.slice(3)}`, core.seed)[1]! *
         100 *
-        homePriceRatio(state.slice(3), row.valueDate, core.date);
+        homePriceRatio(state.slice(3), row.valueDate, core.date, core.seed);
       expect(
         Math.abs(openingValue - indexed),
         `${where}: opening median value ${openingValue} against ${indexed}`,

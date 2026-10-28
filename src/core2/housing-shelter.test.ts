@@ -18,7 +18,7 @@ it("takes the housing engine's payments, tax included, out of the outside cost",
   const draw = drawPlace(seed, "housing-shelter");
   const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
   const placeId = corePlaceByKey(draw.key)!.context.jurisdiction.id;
-  const row = hudRentRowFor(placeId as never);
+  const row = hudRentRowFor(placeId as never, "fixture-seed");
   if (!row) {
     console.log(`housing-shelter: no HUD rent row in ${where}`);
     return;
@@ -29,6 +29,7 @@ it("takes the housing engine's payments, tax included, out of the outside cost",
   const home = "household:owner";
   const outside = fmr + 40_000;
   const input = {
+    seed: "fixture-seed",
     households: [{ id: home, placeId, memberIds: ["a", "b", "c"] }],
     residents: {
       households: [],
