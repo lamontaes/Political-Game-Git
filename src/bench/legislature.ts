@@ -345,6 +345,47 @@ export function billPaper(core: CoreState, billId: string) {
   };
 }
 
+/**
+ * The room an elected body meets in, by the office kind on its record
+ * (bodyPlaces) and, for a council or county board, its size
+ * (bodyPlacesBySize): the first painted picture in the list.
+ */
+export function bodyPlace(
+  core: CoreState,
+  officeId: string,
+  members?: number,
+): string {
+  const places = scenePlaces.bodyPlaces as unknown as Record<string, string[]>;
+  const offices = coreAPI(core).moduleState(OFFICES).table("offices");
+  const office = offices.get(officeId) as
+    { kind?: string; seats?: number } | undefined;
+  // A legislature with no upper chamber on record meets in a one-house chamber.
+  const kind =
+    office?.kind === "legislature-lower" &&
+    !(offices.rows() as unknown as { kind: string }[]).some(
+      (row) => row.kind === "legislature-upper",
+    )
+      ? "legislature-unicameral"
+      : (office?.kind ?? "default");
+  // A council's room by its seats, a county board's by the town's size.
+  const sized = (
+    scenePlaces.bodyPlacesBySize as unknown as Record<
+      string,
+      { underSeats?: number; underPopulation?: number; places: string[] }[]
+    >
+  )[kind]?.find((row) =>
+    row.underSeats !== undefined
+      ? (office?.seats ?? members ?? 0) < row.underSeats
+      : Number(core.placeMetadata?.referencePopulation ?? 0) <
+        (row.underPopulation ?? 0),
+  )?.places;
+  return (
+    [...(sized ?? []), ...(places[kind] ?? []), ...places.default!].find(
+      hasBackdrop,
+    ) ?? places.default![0]!
+  );
+}
+
 /** The body in its meeting room: the player at the front, colleagues behind. */
 export function bodyScene(
   core: CoreState,
@@ -354,33 +395,7 @@ export function bodyScene(
 ) {
   const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
   if (!body) throw new Error("You don't sit on that body.");
-  const places = scenePlaces.bodyPlaces as unknown as Record<string, string[]>;
-  const offices = coreAPI(core).moduleState(OFFICES).table("offices");
-  // A legislature with no upper chamber on record meets in a one-house chamber.
-  const kind =
-    body.kind === "legislature-lower" &&
-    !(offices.rows() as unknown as { kind: string }[]).some(
-      (row) => row.kind === "legislature-upper",
-    )
-      ? "legislature-unicameral"
-      : body.kind;
-  // A council's room by its seats, a county board's by the town's size.
-  const sized = (
-    scenePlaces.bodyPlacesBySize as unknown as Record<
-      string,
-      { underSeats?: number; underPopulation?: number; places: string[] }[]
-    >
-  )[kind]?.find((row) =>
-    row.underSeats !== undefined
-      ? ((offices.get(officeId) as { seats?: number } | undefined)?.seats ??
-          body.members.length) < row.underSeats
-      : Number(core.placeMetadata?.referencePopulation ?? 0) <
-        (row.underPopulation ?? 0),
-  )?.places;
-  const place =
-    [...(sized ?? []), ...(places[kind] ?? []), ...places.default!].find(
-      hasBackdrop,
-    ) ?? places.default![0]!;
+  const place = bodyPlace(core, officeId, body.members.length);
   const cast = [
     ...body.members.filter((m) => m.you),
     ...body.members.filter((m) => !m.you),

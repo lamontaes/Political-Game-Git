@@ -145,7 +145,9 @@
     "public": ["main-street", "park"],
     "venue": ["community-room", "union-hall"],
     "phone": ["@home"],
-    "letter": ["@home"]
+    "letter": ["@home"],
+    "chamber": ["@body"],
+    "office": ["@office", "@body", "@org"]
   },
   "bodyPlaces": {
     "about": "Where each kind of elected body meets, by the office kind on its records; the first painted picture in a list is used. A legislature with no upper chamber meets in the one-house chamber. A council or county board picks its list from bodyPlacesBySize first.",

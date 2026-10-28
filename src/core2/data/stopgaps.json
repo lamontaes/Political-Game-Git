@@ -7234,5 +7234,17 @@
     "addedAt": "2026-10-27",
     "replacement": "A person's own wake time from their work schedule, household and age (American Time Use Survey sleep and waking hours by age and employment), read by the bench's day driver and the director's openedAt.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-office-setting-shows-chamber",
+    "kind": "missing-data",
+    "file": "src/bench/story.ts",
+    "line": 27,
+    "whatItFakes": "A scene the director sets at an office whose post has no workplace picture (a council or county board seat, which officeWorkplaces does not list) is shown in the body's meeting room instead of the member's own desk.",
+    "why": "No painting of a council member's desk or a state legislator's own capitol office exists yet; the scene was shown in the player's home before. Wanted as docs/art/WANTED.md dir-068 and dir-069.",
+    "addedBy": "claude/director-scene-settings-chamber-office",
+    "addedAt": "2026-10-28",
+    "replacement": "The office paintings dir-068 and dir-069, listed in officeWorkplaces for the council, county board and legislature seats, so the office setting shows the member's own desk.",
+    "status": "open"
   }
 ]

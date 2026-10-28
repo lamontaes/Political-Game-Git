@@ -3,19 +3,37 @@ import { purposeScene, replyInScene } from "../director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { shipped } from "../english/scene-talk-words";
 import { hasBackdrop } from "./backdrop-places";
+import { bodyPlace } from "./legislature";
 import {
   backdropFile,
   homeOf,
+  officePlace,
   orgPlace,
   pictureFor,
   stagePeople,
   type StageReason,
 } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
 
 const SETTINGS = scenePlaces.sceneSettings as Record<string, string[]>;
+
+/**
+ * The room the body a record names meets in; null for a record that is not
+ * an elected body's office. A member's own office with no picture of its own
+ * (a council seat) is shown in the body's room until one is painted.
+ * stopgapId: SG-PLAY-office-setting-shows-chamber
+ */
+function chamberOf(core: CoreState, officeId: string | undefined) {
+  if (!officeId || !core.modules.has("core2-offices-v1")) return null;
+  const office = coreAPI(core)
+    .moduleState("core2-offices-v1")
+    .table("offices")
+    .get(officeId);
+  return office ? bodyPlace(core, officeId) : null;
+}
 const SITUATIONS = scenePlaces.situationPlaces as Record<string, string[]>;
 const SCHOOLS = scenePlaces.schoolPlacesByAge;
 
@@ -113,7 +131,11 @@ export function storyScene(
           ? homeOf(core, personId, minuteOfDay)
           : step === "@org"
             ? orgPlace(core, scene.setting.recordId)
-            : step,
+            : step === "@office"
+              ? officePlace(core, scene.setting.recordId)
+              : step === "@body"
+                ? chamberOf(core, scene.setting.recordId)
+                : step,
       )
       .find((row): row is string => !!row && hasBackdrop(row)) ??
     homeOf(core, personId, minuteOfDay);

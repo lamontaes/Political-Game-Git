@@ -172,6 +172,23 @@ function firstPainted(
   return null;
 }
 
+/**
+ * Where an office on record does its work (officeWorkplaces, by the office's
+ * kind): a governor's office, a legislator's capitol. Null for an office with
+ * no full-time workplace (a council seat) or a record that is not an office.
+ */
+export function officePlace(
+  core: CoreState,
+  officeId: string | undefined,
+): string | null {
+  if (!officeId || !core.modules.has(OFFICES)) return null;
+  const kind = (
+    coreAPI(core).moduleState(OFFICES).table("offices").get(officeId) as
+      { kind?: string } | undefined
+  )?.kind;
+  return kind ? firstPainted(core, [OFFICE_WORK[kind]]) : null;
+}
+
 function workplaceOf(core: CoreState, person: PersonState): string {
   // An officeholder works where the office sits: the president in the Oval
   // Office, a governor in the governor's office.
