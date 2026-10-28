@@ -15,6 +15,7 @@
  * reads the record of as many members as their work covers), and handling a
  * constituent case in the official's office.
  */
+import { townLean } from "./campaigns";
 import { openBusinessOwnerIds } from "./business";
 import { workedToday } from "../job-lifecycle";
 import {
@@ -873,17 +874,6 @@ export function workQuality(
     ),
   );
   return { quality, parts: { reliability, deliberation, experience, passion } };
-}
-
-function townLean(api: CoreAPI): number {
-  return (
-    (
-      api
-        .moduleState("core2-campaigns-v1")
-        .table("town")
-        .get("town") as unknown as { lean: number } | undefined
-    )?.lean ?? 0
-  );
 }
 
 function record(
