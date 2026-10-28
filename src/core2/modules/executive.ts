@@ -43,12 +43,7 @@ import {
 import { drawOfficialIdentity } from "../officials-identity";
 import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
-import {
-  leanOf,
-  mayorVeto,
-  memberKey,
-  members,
-} from "./legislature";
+import { leanOf, mayorVeto, memberKey, members } from "./legislature";
 import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
