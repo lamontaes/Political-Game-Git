@@ -1,6 +1,7 @@
 ---
 id: scene-bill-held-sponsor-finds-it-off-the-agenda
 title: "A sponsor whose bill a chair held unheard finds it off the agenda, as a scene"
+lead: director
 area: play
 kind: wiring
 priority: 3
