@@ -44,13 +44,6 @@ try {
     const r = await response;
     assert.equal(r.status(), 200);
     console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
@@ -176,8 +169,8 @@ try {
       !(await page.locator("#sheet-body").innerText()).includes("undefined"),
     );
     if (tab === "Issues") {
-      await page.locator(".law-card summary").first().click();
-      assert.equal(await page.locator(".law-card[open]").count(), 1);
+      await page.locator("details.entry summary").first().click();
+      assert.equal(await page.locator("details.entry[open]").count(), 1);
     }
     await page.screenshot({
       path: `docs/reports/politics-hub-2026-10-14/${tab.toLowerCase()}.png`,
