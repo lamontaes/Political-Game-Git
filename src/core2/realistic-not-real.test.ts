@@ -300,6 +300,8 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
           (flow.amountMinor * 365) / (14 * (flow.unplacedWorkers ?? 1)) / 100;
         expect(annual, `${where} ${flow.id}`).not.toBeCloseTo(earned, 0);
       }
+  });
+
   it("each world's death, birth, moving, chronic-condition and time-use tables differ from the published ones and from the other world (audit rows 32 to 36)", () => {
     const tables: BaseRateTable[] = [
       "mortality",

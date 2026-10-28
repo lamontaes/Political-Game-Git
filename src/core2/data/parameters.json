@@ -7160,6 +7160,8 @@
       "high": 0.12,
       "unit": "share of the published median earnings",
       "citation": "ACS B20002 place margins of error; BLS Employment Cost Index 12-month change."
+    }
+  },
   "worldCashSpreadShare": {
     "value": 0.3,
     "tag": "ESTIMATED",
