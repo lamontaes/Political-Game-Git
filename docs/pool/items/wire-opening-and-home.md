@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 1
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/wire-opening-history-birth-year
-pr:
+pr: #6653
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T14:47:54.441Z
