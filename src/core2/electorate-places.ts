@@ -607,6 +607,15 @@ const ROSTER = partyCounts as unknown as {
 const rosters = new Map<string, typeof ROSTER>();
 
 /**
+ * A state's Senate seats as the published roster holds them, seat by seat:
+ * which seat is which (its class pairs with it by this party), never who holds
+ * it in a world (`worldRoster`).
+ */
+export function publishedSenateSeats(stateKey: string): readonly string[] {
+  return ROSTER.congress[stateKey]?.senate ?? [];
+}
+
+/**
  * This world's roster of the legislatures and Congress: each seat's holder by
  * `worldSeatParty`'s rule, and each chamber's party counts moved by its seats
  * that changed hands. Built once per world.

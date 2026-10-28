@@ -31,7 +31,12 @@ import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
-import { worldRoster, worldSeatParty, worldSwing } from "./elections";
+import {
+  publishedSenateSeats,
+  worldRoster,
+  worldSeatParty,
+  worldSwing,
+} from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
@@ -454,7 +459,10 @@ function specs(api: CoreAPI, seed: string, townState: string): Spec[] {
           ? senateYears.splice(
               Math.max(
                 0,
-                senateYears.findIndex((c) => c.party === party),
+                // A class pairs with its seat by the published holder.
+                senateYears.findIndex(
+                  (c) => c.party === publishedSenateSeats(stateKey)[index],
+                ),
               ),
               1,
             )[0]

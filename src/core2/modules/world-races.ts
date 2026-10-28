@@ -47,6 +47,7 @@ import {
   legislativePlace,
   statePlaces,
   type ElectoratePlace,
+  publishedSenateSeats,
   worldRoster,
 } from "../electorate-places";
 import {
@@ -914,8 +915,10 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
         seatedOn: congressStart,
       });
     }
-    // Senate seats whose class is up this year.
-    const sorted = seats.senate ?? [];
+    // Senate seats whose class is up this year: a class pairs with its seat
+    // by the published holder; this world's holder stands for it.
+    const sorted = publishedSenateSeats(state);
+    const held = seats.senate ?? [];
     const used = new Set<number>();
     for (const cls of classes[state] ?? []) {
       const index = sorted.findIndex((p, i) => p === cls.party && !used.has(i));
@@ -929,7 +932,7 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
         office: "us-senate",
         usps,
         code: "00",
-        incumbentParty: currentParty(api, seatId, cls.party),
+        incumbentParty: currentParty(api, seatId, held[index] ?? cls.party),
         leanSource: "2024 presidential vote in the state's counties",
         seatedOn: congressStart,
       });
