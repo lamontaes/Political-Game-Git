@@ -5,7 +5,6 @@
  *   node --import tsx scripts/english-corpus/show-conversations.ts <seed> [count]
  */
 import { enrichCivicInputs } from "../../src/core2/civic-inputs";
-import { buildDeepPast } from "../../src/core2/deep-past";
 import { initialFocusPeople } from "../../src/core2/focus";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { buildPopulation } from "../../src/core2/population";
@@ -21,9 +20,7 @@ import { MINED_CONVERSATION } from "../../src/english/mined/conversation-bank";
 const seed = process.argv[2] ?? "words-show";
 const count = Number(process.argv[3] ?? 6);
 const base = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 500 }),
-  ),
+  buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 500 }),
 );
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));

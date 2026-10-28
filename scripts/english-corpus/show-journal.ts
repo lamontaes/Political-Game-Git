@@ -6,7 +6,6 @@
  */
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { enrichCivicInputs } from "../../src/core2/civic-inputs";
-import { buildDeepPast } from "../../src/core2/deep-past";
 import { initialFocusPeople } from "../../src/core2/focus";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { buildPopulation } from "../../src/core2/population";
@@ -16,9 +15,7 @@ import { journalDataFromBank } from "../../src/english/mined/journal-bank";
 
 const seed = process.argv[2] ?? "words-journal";
 const base = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 400 }),
-  ),
+  buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 400 }),
 );
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));

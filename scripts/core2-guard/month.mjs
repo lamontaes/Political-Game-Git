@@ -88,14 +88,12 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
   }
   const [
     { buildPopulation },
-    { buildDeepPast },
     { enrichCivicInputs },
     { initialFocusPeople },
     { parameter },
     { ageOnDate, makeIsoDate },
   ] = await Promise.all([
     moduleAt("src/core2/population.ts"),
-    moduleAt("src/core2/deep-past.ts"),
     moduleAt("src/core2/civic-inputs.ts"),
     moduleAt("src/core2/focus.ts"),
     moduleAt("src/core2/parameters.ts"),
@@ -118,8 +116,7 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
       scheduledWork: true,
     }),
   );
-  let input = timed("deepPast", () => buildDeepPast(population));
-  input = timed("civicInputs", () => enrichCivicInputs(input));
+  let input = timed("civicInputs", () => enrichCivicInputs(population));
   const candidates = input.people.filter(
     (person) =>
       person.countyId &&

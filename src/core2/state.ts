@@ -14,16 +14,13 @@ import {
   queueDecisionDetail,
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
-import { buildDeepPast } from "./deep-past";
 import { meetAtWork } from "./encounters";
 import { workgroupOf } from "./shared-history";
 import { derivePersonAppearance } from "./appearance";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
   countedJob,
-  residentsRuntime,
   enterResidentMarket,
-  countedSinceOpening,
   releaseResidentHousehold,
   residentFacts,
   residentPerson,
@@ -34,6 +31,7 @@ import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { forgetTraitLean } from "./choice";
 import { giveHealthRecord } from "./modules/health";
+import { pastForLater } from "./pre-start";
 import { COUNTED_PLACE_PREFIX, isDemoted } from "./counted-groups";
 import {
   prepareModuleState,
@@ -2215,54 +2213,10 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const returning = existing !== undefined;
   const taken = takeResidentHousehold(core, personId);
   if (!taken) throw new Error(`Not in the wider population: ${personId}`);
-  // Their past exists only from now: rebuilt from the world's seed, as the
-  // opening would have built it.
-  // Counted people carry no past at all (one model, two tiers): everyone in
-  // the household gets theirs now.
-  const build = returning ? undefined : residentsRuntime(core)?.input.pastBuild;
-  const rebuild = build
-    ? taken.people.filter((row) => countedSinceOpening(core, row.id))
-    : [];
-  let record = taken;
-  if (build && rebuild.length) {
-    const before = new Map(
-      rebuild.map((row) => [
-        row.id,
-        {
-          head: row.pastFacts ?? [],
-          tail: [],
-        },
-      ]),
-    );
-    const rebuilt = new Map(
-      buildDeepPast({
-        seed: build.seed,
-        startedAt: build.startedAt,
-        people: rebuild.map((row) => ({
-          ...row,
-          pastFacts: before.get(row.id)!.head,
-        })),
-        households: [taken.household],
-        jobs: taken.jobs,
-        gaps: [],
-      } as unknown as CoreInput).people.map((row) => [row.id, row]),
-    );
-    record = {
-      ...taken,
-      people: taken.people.map((row) => {
-        const built = rebuilt.get(row.id);
-        return built
-          ? {
-              ...row,
-              pastFacts: [
-                ...(built.pastFacts ?? []),
-                ...before.get(row.id)!.tail,
-              ],
-            }
-          : row;
-      }),
-    };
-  }
+  // Their past exists only from now: the engines' pre-start passes give the
+  // household its years before the start when it is filled in (each
+  // module's onFillIn), read against the same records as the opening's.
+  const record = taken;
   const api = coreAPI(core);
   const home = record.household;
   if (returning) {
@@ -2685,21 +2639,11 @@ export function fillInIdentity(
     },
     pastFacts: facts,
   };
-  // A named person is filled in whole: the childhood, schools and era the
-  // opening gives everyone, built from the world's seed and their birth, so
-  // the same person comes back the same every time.
-  const lived = buildDeepPast({
-    seed: core.seed,
-    startedAt: core.startedAt,
-    people: [input],
-    households: [core.households.get(householdId)!],
-    jobs: [],
-    gaps: [],
-  } as unknown as CoreInput).people[0];
-  const person = admitPerson(core, {
-    ...input,
-    pastFacts: lived?.pastFacts ?? facts,
-  });
+  const person = admitPerson(core, input);
+  // A named person filled in after the run gets the years before the start
+  // the engines' runs give everyone (the school years, by the school
+  // engine's own rule).
+  pastForLater(core, [person]);
   recordEntry(core, {
     id: person.id,
     kind: "person",

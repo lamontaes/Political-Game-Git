@@ -1,3 +1,5 @@
+import { preStartHistory } from "./pre-start";
+import { FAMILY_PARTNERED } from "./modules/people";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -255,27 +257,23 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
     expect(known!.reputation.length).toBeGreaterThan(0);
   });
 
-  it("gives the player's household its own history", () => {
+  it("gives the player's household its own history, from the year the player was born", () => {
     const player = world.core.people.get(world.playerId!)!;
-    const kinds = new Set((player.pastFacts ?? []).map((f) => f.kind));
-    expect(kinds.has("household:livelihood")).toBe(true);
-    const parents = (player.pastFacts ?? []).filter(
-      (f) => f.kind === "family:parent",
-    );
-    const home = world.core.households.get(player.householdId)!;
-    const parentsAtHome = parents.filter((f) =>
-      home.memberIds.includes(f.facts?.otherPersonId ?? ""),
-    );
-    const partners = parentsAtHome.some((f) =>
-      (world.core.people.get(f.facts!.otherPersonId!)?.pastFacts ?? []).some(
-        (g) =>
-          g.kind === "family:partner" &&
-          parentsAtHome.some(
-            (h) => h.facts?.otherPersonId === g.facts?.otherPersonId,
-          ),
-      ),
-    );
-    if (partners) expect(kinds.has("household:parents-met")).toBe(true);
+    // The history starts in the player's birth year (owner, Oct 28, 2026),
+    // so the player's birth is a record of the run, where their records put
+    // their parents that day.
+    const birth = preStartHistory(world.core, {
+      kind: "person.birth",
+      personId: player.id,
+    });
+    expect(birth.map((row) => row.id)).toEqual([
+      `person-history:${player.id}:birth`,
+    ]);
+    expect(birth[0]!.placeId).toBeDefined();
+    // Every couple whose home began inside the run has its record, naming
+    // both partners.
+    for (const row of preStartHistory(world.core, { kind: FAMILY_PARTNERED }))
+      expect(row.personIds?.length, row.id).toBe(2);
   });
 
   it("opens once", () => {

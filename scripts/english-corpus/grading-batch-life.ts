@@ -14,7 +14,6 @@ import { execSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { enrichCivicInputs } from "../../src/core2/civic-inputs";
-import { buildDeepPast } from "../../src/core2/deep-past";
 import { initialFocusPeople } from "../../src/core2/focus";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { buildPopulation } from "../../src/core2/population";
@@ -101,9 +100,7 @@ const cell = (register: string, kind: string, place: string) => ({
 
 for (const seed of seeds) {
   const base = enrichCivicInputs(
-    buildDeepPast(
-      buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 600 }),
-    ),
+    buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 600 }),
   );
   const place = base.placeMetadata?.placeName ?? seed;
   places.add(place);

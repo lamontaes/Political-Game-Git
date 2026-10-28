@@ -8,7 +8,6 @@
  */
 import { readFileSync } from "node:fs";
 import { enrichCivicInputs } from "../../src/core2/civic-inputs";
-import { buildDeepPast } from "../../src/core2/deep-past";
 import { initialFocusPeople } from "../../src/core2/focus";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { buildPopulation } from "../../src/core2/population";
@@ -28,9 +27,7 @@ const turns: string[] = [];
 const places: string[] = [];
 for (const seed of process.argv.slice(2)) {
   const base = enrichCivicInputs(
-    buildDeepPast(
-      buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 500 }),
-    ),
+    buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 500 }),
   );
   places.push(`${base.placeMetadata?.placeName} (${seed})`);
   const age = (birth: string) =>
