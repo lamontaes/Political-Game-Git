@@ -79,7 +79,12 @@ export {
   pastWorkHistory,
   pastWorkOf,
 } from "./past-work";
-export { residenceOn } from "./past-moves";
+export {
+  PERSON_MOVED_IN,
+  pastMovesHistory,
+  residenceOn,
+  type DepartureRate,
+} from "./past-moves";
 export {
   SCHOOL_STARTED,
   schoolHistory,
