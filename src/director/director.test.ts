@@ -83,8 +83,10 @@ function town(placeId: string): CoreInput {
       {
         id: "fact:worker:high-school",
         date: "1984-08-27",
-        kind: "school:cohort-estimate",
-        summary: "High school cohort",
+        // The school engine's record of the year the worker started high
+        // school (written by its run before the start in a played world).
+        kind: "school.started",
+        summary: "High school",
         source,
       },
       {
@@ -1010,7 +1012,7 @@ describe("story director on the new core", () => {
         row.counterpartIds,
       ]),
     ).toEqual([
-      ["1984-08-27", "past:school:cohort-estimate", 0.26, []],
+      ["1984-08-27", "past:school.started", 0.26, []],
       ["1994-01-01", "past:family:partner", 0.5, ["person:spouse"]],
     ]);
     // The 1994 partnership record moves the pair's first-known date back.

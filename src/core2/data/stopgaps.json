@@ -397,14 +397,13 @@
   },
   {
     "id": "SG-P8-deep-past",
-    "kind": "generated-history-proxy",
-    "file": "src/core2/data/deep-past.json",
-    "line": 3,
-    "whatItFakes": "Generated summarized school cohorts reuse common grade stages, present institution names and current-locality proxies where past places are unrecorded; this is not sourced personal attendance or historical institution existence.",
-    "why": "Deep-past generation needs provisional cohort summaries while historical school/name/era records are incomplete.",
+    "kind": "partial-model",
+    "file": "src/core2/past-school.ts",
+    "whatItFakes": "Each school stage starts the same number of years after kindergarten for every child (deepPastMiddleSchoolOffsetYears, deepPastHighSchoolOffsetYears, ESTIMATED from the CPS October 2024 modal ages); no child is held back, skips a grade or leaves school early in the run before the start.",
+    "why": "The years before the start run general, with no depth (owner, Oct 28, 2026); a cross-sectional enrollment table does not time any child's entry into a grade.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Era- and locality-specific sourced institution histories and validated cohort distributions; preserve existing personal facts. Oct 23, 2026 (research-deep-past-sourced-parameters): the grade-stage offsets are ESTIMATED from the CPS October 2024 School Enrollment Table 2 modal ages (U.S. Census Bureau, survey of October 2024; deepPastMiddleSchoolOffsetYears 6, deepPastHighSchoolOffsetYears 9, read by deep-past.ts buildDeepPast): each is the modal age of the entry grade minus the modal age of kindergarten, with an upper bound from the mean pace of enrolled children. A cross-sectional enrollment table does not time any child's entry into a grade, so they become SOURCED only when a source that follows children from kindergarten entry gives the years to each grade. Still faked: present institution names and the opening locality standing in for where a person went to school. data/research/core/acs-2023-b05002-born-in-state.json (ACS 2019-2023 B05002, share of each place's residents born there) and data/research/core/cps-2024-grade-by-age.json (grade by single year of age) are what the builder item core-deep-past-school-place-from-birthplace reads and checks against.",
+    "replacement": "Oct 28, 2026 (wire-opening-and-home, line 7): the generated school cohorts, present campus names and opening-locality proxies (buildDeepPast) are deleted; the school engine's own rule runs the school years from the player's birth year (src/core2/past-school.ts). What stays faked is the fixed stage ages; they become SOURCED when a source that follows children from kindergarten entry gives the years to each grade.",
     "status": "open"
   },
   {
@@ -2201,13 +2200,12 @@
   {
     "id": "SG-P15-kin-light-past",
     "kind": "shared-past-generation-gap",
-    "file": "src/core2/deep-past.ts",
-    "line": 341,
-    "whatItFakes": "Relatives living outside the town (husk-tier kin) keep only their family and move facts at the opening; their own schooling, work and era history is not generated.",
+    "file": "src/core2/past-school.ts",
+    "whatItFakes": "Relatives living outside the town (husk-tier kin) are not run through the years before the start: they keep only their family and move facts, with no school years or working life.",
     "why": "They never act, and generating that history for every relative made the prepared town too large to serialize (La Homa: 861 MB of past facts with part 1).",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
-    "replacement": "Generate a relative's deep past when the game first simulates them (promotion from husk tier), from the same deep-past rules residents use. Oct 23, 2026 (research-deep-past-sourced-parameters): a mechanic with no number to source; the deep past it needs uses the same rows residents use (data/research/core/cps-2024-grade-by-age.json, acs-2023-b05002-born-in-state.json). Builder item core-deep-past-kin-past-on-fill-in.",
+    "replacement": "Run a relative's years before the start when the game first simulates them (the school engine's later hook, src/core2/past-school.ts schoolHistoryFor, and the working life's pastWorkFor).",
     "status": "open"
   },
   {
@@ -7282,6 +7280,28 @@
     "addedBy": "history-past-work (Claude Opus)",
     "addedAt": "2026-10-28",
     "replacement": "history-past-moves (each move before the start a record, so a spell runs in the place the person lived), the regional economy series in the economy pass, business sizes from the business pass's history, and history-past-officials for officials' careers.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-moves-from-kin-line",
+    "kind": "partial-model",
+    "file": "src/core2/past-moves.ts",
+    "whatItFakes": "Where a person lived before the start reads the date of their move into the county from the opening kin builder's seeded move line (life:moved-into-county), not from a run of the moves engine; someone with no birthplace record lived where they live now.",
+    "why": "The years before the start now run from the player's birth year (owner, Oct 28, 2026); the moves engine's past run is the next unit of the same line.",
+    "addedBy": "wire-opening-and-home (Claude)",
+    "addedAt": "2026-10-28",
+    "replacement": "history-past-moves: each move before the start a record of the moves engine's own rule (the life-stage rate by age and state, held back by ties, pushed by a lost job), read by residenceOn in src/core2/past-moves.ts.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-school-elsewhere-unnamed",
+    "kind": "partial-model",
+    "file": "src/core2/past-school.ts",
+    "whatItFakes": "A school year in a place with no public school district record (a place the world does not keep, or a town whose opening has no police department to copy the district from) is recorded against the place's schools as the place itself, with no name, so the Journal, the person card and talk leave it out.",
+    "why": "The school engine's own rule names the district of the place; only the town's district is an organization, and real campus names are not shown as themselves (owner, Oct 27: real data only calibrates).",
+    "addedBy": "wire-opening-and-home (Claude)",
+    "addedAt": "2026-10-28",
+    "replacement": "Every place a person can have lived keeps its schools at a coarser level (AGENTS.md: other places at a coarser level), each with a generated name from the place's records, and every town opens with its district.",
     "status": "open"
   },
   {
