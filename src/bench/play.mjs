@@ -1802,7 +1802,7 @@ async function showPerson(person) {
         c.shared?.length && {
           title: labels.together,
           items: c.shared.map((s) => {
-            const line = row(labels.sharedWords?.[s.kind], s.employer ?? "");
+            const line = row(labels.sharedWords?.[s.kind], s.name ?? "");
             line.dataset.record = s.recordId;
             return { node: line };
           }),

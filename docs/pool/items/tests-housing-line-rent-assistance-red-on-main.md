@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/tests-housing-line-town-share
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T07:53:33.353Z
 ---
 
 **What.** On main at 71f22eaf8b, src/core2/law-wiring-housing.test.ts case 'the housing line: raising it pays a household's rent assistance through the journal' fails with GOLDEN_PATH_SEED=12eedd80c1bf47153f8335a6c767638897b90d18, drawn place Bellair-Meadowbrook Terrace, Florida (1205025, world seed 479d58a2a24f46ffbeda24b2f6ff43f940ad3eb044a3c16ed4b0627caadc8590): the check named housing reports one miss. Found by the laws-and-effects lead while testing the farmland PR, which does not touch the housing line; it reproduces identically on clean main.
