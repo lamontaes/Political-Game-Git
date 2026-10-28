@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-poses
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T06:59:38.193Z
 ---
 
 **What.** The art session painted 21 poses at furniture already in the game (art/people-rooms/poses on claude/people-rooms-art: lectern and podium gestures, desks, counter, visitor chairs from behind) and hair for heads turned away (prof, tqb). Draw a person in the pose at the spot where it was painted, through the figure reader and recolor by map.
