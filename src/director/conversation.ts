@@ -1560,31 +1560,37 @@ function raiseSubject(
   subject: Subject,
   /** A side remark on the topic in hand, not a topic of its own. */
   remark = false,
+  /** Lines already worded that raise it (what they brought up), said instead. */
+  said?: readonly { text: string; sourceRecordIds: readonly string[] }[],
 ): boolean {
   const { playerId, otherId } = conversation;
   conversation.used.push(`${otherId}>${subject.id}`);
   const then = data.otherRaises[subject.kind];
   if (!then) return false;
-  const line = words(
-    core,
-    data,
-    otherId,
-    subject.kind,
-    "raise",
-    ALL,
-    subject.facts,
-    `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`,
-    subject.stage ?? "default",
-    subject,
-  );
-  if (!line) return false;
-  conversation.lines.push({
-    speakerId: otherId,
-    subjectId: `${otherId}>${subject.id}`,
-    kind: then.kind,
-    act: subject.kind === "own-work" ? "tell" : "ask",
-    ...line,
-  });
+  const line = said
+    ? null
+    : words(
+        core,
+        data,
+        otherId,
+        subject.kind,
+        "raise",
+        ALL,
+        subject.facts,
+        `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`,
+        subject.stage ?? "default",
+        subject,
+      );
+  const lines = said ?? (line ? [line] : []);
+  if (!lines.length) return false;
+  for (const row of lines)
+    conversation.lines.push({
+      speakerId: otherId,
+      subjectId: `${otherId}>${subject.id}`,
+      kind: then.kind,
+      act: said || subject.kind === "own-work" ? "tell" : "ask",
+      ...row,
+    });
   // Someone both know, or news both may know, is shared: neither raises it again.
   if (subject.kind === "mutual" || subject.kind === "news")
     conversation.used.push(subject.id);
@@ -1912,37 +1918,51 @@ export function openConversation(
       sourceRecordIds: [occasion!.causeId, ...opener.sourceRecordIds],
     });
   // Away from a scene's occasion, they mention the newest change they know
-  // of and who they blame (bring-it-up, which passes both on). It is said
-  // once, here: the talk's own subjects skip that change.
+  // of and who they blame (bring-it-up, which passes both on). Those lines
+  // are the talk's raise of that news, said once: the talk goes on from it.
   const brought = occasion
     ? null
     : bringItUp(core as CoreState, otherId, playerId);
+  let raisedBrought = false;
   if (brought) {
-    const subjectId = `news:${brought.change.eventId}`;
-    for (const line of brought.lines)
-      conversation.lines.push({
-        speakerId: otherId,
-        subjectId,
-        kind: "brought-up",
-        act: "tell",
-        ...line,
-      });
-    conversation.used.push(subjectId);
-    const storyId = storyOfReadEvent(brought.change.eventId);
-    if (storyId) conversation.used.push(`news:${storyId}`);
     conversation.recorded.push(brought.toldEventId);
+    const storyId = storyOfReadEvent(brought.change.eventId);
+    const ids = [
+      `news:${brought.change.eventId}`,
+      ...(storyId ? [`news:${storyId}`] : []),
+    ];
+    const news = subjectsBetween(core, otherId, playerId, conversation.director)
+      .filter((row) => ids.includes(row.id))
+      .at(zero);
+    raisedBrought = news
+      ? raiseSubject(core, conversation, data, news, false, brought.lines)
+      : false;
+    // News the talk can't go on from is still said, and not raised again.
+    if (!raisedBrought) {
+      for (const line of brought.lines)
+        conversation.lines.push({
+          speakerId: otherId,
+          subjectId: ids[zero]!,
+          kind: "brought-up",
+          act: "tell",
+          ...line,
+        });
+      conversation.used.push(...ids);
+    }
   }
   // The topic of their last talk isn't opened again (the listener remembers).
   const remembered = core.knowledgeByPerson
     .get(otherId)
     ?.get(lastTalkKey(playerId))?.value;
   if (remembered) conversation.used.push(remembered);
-  const main = mainTopic(core, conversation, data);
-  const opened = main
-    ? main.asks
-      ? askSubject(core, conversation, data, main.subject)
-      : raiseSubject(core, conversation, data, main.subject)
-    : false;
+  const main = raisedBrought ? null : mainTopic(core, conversation, data);
+  const opened =
+    raisedBrought ||
+    (main
+      ? main.asks
+        ? askSubject(core, conversation, data, main.subject)
+        : raiseSubject(core, conversation, data, main.subject)
+      : false);
   // A scene's talk keeps to its occasion: if nothing can be said about it,
   // the talk doesn't turn to small talk instead.
   if (
