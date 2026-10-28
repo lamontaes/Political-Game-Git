@@ -65,6 +65,17 @@
       "citation": "Between 6:00 AM and 8:00 AM, the span of typical workday wake times in American Time Use Survey diaries."
     }
   },
+  "filingVisitHours": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "The hours a filing at the clerk's counter takes the player: taking out the petition, the clerk's questions on the office's rules and the wait at the counter, an afternoon (the CTO's note of Oct 28 on the owner's petition ruling: filing spends the afternoon). No time-use survey reports it; checked against a weekday afternoon's span.",
+    "spread": {
+      "low": 2,
+      "high": 4,
+      "unit": "hours",
+      "citation": "An afternoon at a government office, from one to five o'clock at most."
+    }
+  },
   "daysPerWeek": {
     "value": 7,
     "tag": "SOURCED",

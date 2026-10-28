@@ -87,10 +87,10 @@ export interface PetitionRule {
   /** Signatures of the district's voters the petition must hold. */
   readonly count: number;
   /**
-   * "read" where the place's row gives the count. Otherwise the count is the
-   * read counts' median for the family and side: the row gives a formula
-   * ("formula"), says the law asks none ("none-in-law"), or gives nothing
-   * ("unread").
+   * "read" where the place's row gives the count, "none-in-law" where it
+   * says the law asks none (a fee or a declaration instead: no petition).
+   * Otherwise the count is the read counts' median for the family and side:
+   * the row gives a formula ("formula") or nothing ("unread").
    */
   readonly basis: "read" | "formula" | "none-in-law" | "unread";
   /** The place's own words for the rule, where its row gives a formula. */
@@ -343,10 +343,12 @@ function readCountsFor(family: OfficeFamily, sideName: FilingSide) {
 }
 
 /**
- * The signatures one side's petition must hold: the place's read count, or
- * where its row gives a formula, says the law asks none, or gives nothing,
- * the read counts' median for the family and side (filing is a petition in
- * every place, owner, Oct 28).
+ * The signatures one side's petition must hold: the place's read count; none
+ * where its row says the law asks none (signatures "where the place requires
+ * them", owner, Oct 6, prior-rulings/elections.md R5, restored by the Oct 28
+ * ruling that filing is a petition); or where its row gives a formula or
+ * nothing, the read counts' median for the family and side ("estimate from
+ * similar places and mark it estimated", R5).
  */
 function petitionRule(
   side: ReadSide | undefined,
@@ -358,6 +360,8 @@ function petitionRule(
   if (typeof read === "number" && read > 0)
     return { count: read, basis: "read", formula: null, source };
   const formula = side?.signatureFormula?.trim() || null;
+  if (read === 0 && !formula)
+    return { count: 0, basis: "none-in-law", formula: null, source };
   const counts = readCountsFor(family, sideName);
   const mid = Math.floor(counts.length / 2);
   const median = counts.length
@@ -367,7 +371,7 @@ function petitionRule(
     : 0;
   return {
     count: median,
-    basis: formula ? "formula" : read === 0 ? "none-in-law" : "unread",
+    basis: formula ? "formula" : "unread",
     formula,
     source: `${source} ; estimated: the median of the read ${family} ${sideName} signature counts`,
   };
@@ -393,17 +397,14 @@ export function filingRulesFor(
     // stopgapId: SG-GOV-filing-fallbacks
     api.stopgap("SG-GOV-filing-fallbacks");
   }
-  // Where the place's row gives no signature count, the petition asks the
-  // read counts' median (`petitionRule`).
-  if (stateRules.petition.basis !== "read") {
+  // Where the place's row gives a formula or no signature count, the
+  // petition asks the read counts' median (`petitionRule`).
+  if (
+    stateRules.petition.basis === "formula" ||
+    stateRules.petition.basis === "unread"
+  ) {
     // stopgapId: SG-GOV-petition-count-estimated
     api.stopgap("SG-GOV-petition-count-estimated");
-  }
-  // Where the law asks no signatures (a fee or a declaration instead), the
-  // filing still circulates a petition (owner, Oct 28: filing is petition).
-  if (stateRules.petition.basis === "none-in-law") {
-    // stopgapId: SG-GOV-petition-where-law-asks-none
-    api.stopgap("SG-GOV-petition-where-law-asks-none");
   }
   // A Senate or presidential candidate meets the Constitution's age, which a
   // state's age for its own statewide offices cannot lower.
@@ -900,7 +901,10 @@ export function fileCandidacy(
   };
   table(api, "filings").put(filing as unknown as ModuleRow);
   announce(api, filing, contest);
-  return { status: filing.status, filing };
+  // The clerk takes a filing whose law asks no signatures at the counter
+  // (the voting engine's check, on the announcement): read it back.
+  const kept = table(api, "filings").get(id) as unknown as FilingRow;
+  return { status: kept.status, filing: kept };
 }
 
 /** The state a place lies in, from the place records. */

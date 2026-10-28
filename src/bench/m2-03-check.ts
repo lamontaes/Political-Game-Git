@@ -6,7 +6,8 @@
 // age, residency or deadline its records name) and name it: the clerk says
 // the rule that stops them and offers no way to file. At 18 they walk in
 // where a contest they can enter files, state a platform and file once: their
-// petition is out with the signatures the place asks, they stand in the race,
+// petition is out with the signatures the place asks (or, where its law asks
+// none, the clerk takes the filing at the counter), they stand in the race,
 // and a second filing is refused. Filing is a petition; no one pays a fee
 // (owner, Oct 28; src/core2/modules/elections.ts). Exits nonzero naming each
 // failed clause.
@@ -182,16 +183,16 @@ else {
     (result?.filing?.platform.length ?? 0) > 0,
     `${where}: the filing kept no platform`,
   );
-  check(
-    result?.status === "petitioning",
-    `${where}: filing for ${enterable.contest.id} came back ${result?.status ?? "with nothing"}`,
-  );
   const petition = result?.filing
     ? petitionOf(coreAPI(w.core), result.filing.id)
     : null;
+  check(!!petition, `${where}: the filing opened no petition`);
+  // Signatures where the place's law asks them; where it asks none, the
+  // clerk takes the filing at the counter.
   check(
-    (petition?.needed ?? 0) > 0,
-    `${where}: the filing opened no petition asking signatures`,
+    result?.status ===
+      ((petition?.needed ?? 0) > 0 ? "petitioning" : "on-ballot"),
+    `${where}: filing for ${enterable.contest.id} came back ${result?.status ?? "with nothing"} with ${petition?.needed ?? "no"} signatures needed`,
   );
   check(
     result?.filing?.filedWith === enterable.filingOffice.filedWith,

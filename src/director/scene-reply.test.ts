@@ -93,11 +93,11 @@ it(`a reply chosen in a scene is a record the relationship writer reads (seed ${
           .find((p) => {
             director.watch(core, p.id);
             return (
-              fileCandidacy(api, {
+              ["petitioning", "on-ballot"].includes(fileCandidacy(api, {
                 personId: p.id,
                 contestId: race.id,
                 platform: [],
-              }).status === "petitioning"
+              }).status ?? "")
             );
           })
       : undefined;

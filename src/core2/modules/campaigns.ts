@@ -50,6 +50,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import {
   addDays,
+  ageOnDate,
   makeIsoDate,
   daysBetweenText as daysBetween,
 } from "../kernel/dates";
@@ -1777,10 +1778,12 @@ export function askToSign(
 ): boolean {
   if (!petitionCirculating(api, filingId)) return false;
   const campaign = campaignFor(api, filingId);
+  // A signer is a voter that day: of voting age to the day, as the count's
+  // roll reads it.
   if (
     signer.id === campaign.candidateId ||
     signer.id === (api.state as CoreState).playerId ||
-    ageOn(signer, api.state.date) < api.parameter("votingAge")
+    ageOnDate(signer.birthDate, api.state.date) < api.parameter("votingAge")
   )
     return false;
   return (
@@ -3185,11 +3188,18 @@ export function rivalDay(
   const offered = (kind: string) =>
     day.find((c) => c.kind === kind)?.available ?? false;
   const calls = offered("raise-money");
-  // While the petition circulates, a candidate whose district takes in the
-  // town walks its doors for signatures wherever they live.
-  const petitioning = petitionCirculating(api, filingId);
+  // The signatures a circulating petition still lacks, as a share of what
+  // the clerk will count, pull the day toward the doors until the deadline;
+  // while it lacks any, a candidate whose district takes in the town walks
+  // its doors for them wherever they live.
+  const petition = petitionCirculating(api, filingId)
+    ? petitionOf(api, filingId)
+    : null;
+  const shortfall = petition?.needed
+    ? Math.max(0, petition.needed - petition.signers.length) / petition.needed
+    : 0;
   const doors =
-    (candidate.placeId === town || petitioning) && offered("canvass");
+    (candidate.placeId === town || shortfall > 0) && offered("canvass");
   const campaign = campaignFor(api, filingId);
   const cash =
     api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
@@ -3204,12 +3214,6 @@ export function rivalDay(
     1 +
     campaignParameter("rivalCallNeedWeight") * (1 - richness) +
     campaignParameter("rivalCallStandingWeight") * known;
-  // The signatures still missing, as a share of what the clerk will count,
-  // pull the day toward the doors until the deadline.
-  const petition = petitioning ? petitionOf(api, filingId) : null;
-  const shortfall = petition?.needed
-    ? Math.max(0, petition.needed - petition.signers.length) / petition.needed
-    : 0;
   const doorScore =
     1 +
     campaignParameter("rivalDoorUnknownWeight") * (1 - known) +

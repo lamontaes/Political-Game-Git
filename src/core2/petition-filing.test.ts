@@ -141,7 +141,6 @@ describe("filing is a petition", () => {
         passedOver.push(`${where}: no adult could file for ${contest.id}`);
         continue;
       }
-      expect(filing.status, where).toBe("petitioning");
       const opened = petitionOf(api, filing.id)!;
       expect(opened, `${where}: the filing opened no petition`).not.toBeNull();
       // The law's count, read from the place's filing rules.
@@ -153,7 +152,15 @@ describe("filing is a petition", () => {
         filingRequirements(town.stateKey, contest.family, "independent")
           .petition.count,
       );
-      expect(opened.needed, where).toBeGreaterThan(0);
+      // Where the law asks no signatures the clerk takes the filing at the
+      // counter, and there is no petition to circulate.
+      if (opened.needed === 0) {
+        expect(filing.status, where).toBe("on-ballot");
+        expect(opened.check?.on, where).toBe(core.date);
+        passedOver.push(`${where}: ${contest.id}'s law asks no signatures`);
+        continue;
+      }
+      expect(filing.status, where).toBe("petitioning");
       expect(opened.due >= core.date, where).toBe(true);
 
       // The player's campaign: a canvass every day until the deadline.

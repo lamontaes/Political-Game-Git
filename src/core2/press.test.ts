@@ -68,7 +68,7 @@ function fileAndQualify(
   });
   if (result.status === "refused") return null;
   const filing = result.filing;
-  return filing.status === "petitioning" ? filing : null;
+  return ["petitioning", "on-ballot"].includes(filing.status ?? "") ? filing : null;
 }
 
 describe("campaign interviews", () => {
@@ -303,7 +303,7 @@ describe("a reporter who runs", () => {
           ).not.toContain("press-employment");
           continue;
         }
-        expect(result.filing.status, where).toBe("petitioning");
+        expect(result.filing.status, where).toMatch(/^(petitioning|on-ballot)$/);
         // Their own paper asked for an interview with them: another of its
         // reporters goes, or none; never the candidate themselves.
         const interview = requestInterview(api, {

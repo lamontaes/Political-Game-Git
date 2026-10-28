@@ -77,7 +77,7 @@ function setup() {
         contestId: contest.id,
         platform: [],
       });
-      if (filed.status !== "refused" && filed.filing.status === "petitioning") {
+      if (filed.status !== "refused" && ["petitioning", "on-ballot"].includes(filed.filing.status ?? "")) {
         filing = filed.filing;
         break;
       }

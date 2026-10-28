@@ -82,7 +82,7 @@ const run = (drawSeed: string): string | null => {
       });
       if (
         result.status !== "refused" &&
-        result.filing.status === "petitioning"
+        ["petitioning", "on-ballot"].includes(result.filing.status ?? "")
       ) {
         filed = result.filing;
         break;

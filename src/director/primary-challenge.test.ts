@@ -75,13 +75,14 @@ it(`a rival from the player's own party is told as one, seed ${seed}`, () => {
           a.electionDate.localeCompare(b.electionDate) ||
           a.id.localeCompare(b.id),
       )
-      .find(
-        (c) =>
+      .find((c) =>
+        ["petitioning", "on-ballot"].includes(
           (
             fileForOffice(core, me, c.id, { party: own }) as {
               filing?: { status?: string };
             }
-          ).filing?.status === "petitioning",
+          ).filing?.status ?? "",
+        ),
       );
     if (!filed) {
       tried.push(

@@ -8,6 +8,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { openContests } from "../core2/modules/elections";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
@@ -55,21 +56,29 @@ function fileNewAdult(world: ReturnType<typeof buildBenchWorld>): boolean {
   const md = born.slice(5) === "02-29" ? "03-01" : born.slice(5);
   const eighteen = makeIsoDate(`${Number(born.slice(0, 4)) + 18}-${md}`);
   if (eighteen > core.date) advanceCore(core, eighteen);
-  return [...openContests(coreAPI(core))]
+  const filed = [...openContests(coreAPI(core))]
     .filter((contest) => contest.electionDate <= lastDayOfRace())
     .sort(
       (a, b) =>
         a.electionDate.localeCompare(b.electionDate) ||
         a.id.localeCompare(b.id),
     )
-    .some(
-      (contest) =>
+    .find((contest) =>
+      ["petitioning", "on-ballot"].includes(
         (
           fileForOffice(core, playerId!, contest.id) as {
             filing?: { status?: string };
           }
-        ).filing?.status === "petitioning",
+        ).filing?.status ?? "",
+      ),
     );
+  if (!filed) return false;
+  // Filing is a petition: the new adult canvasses for signatures until the
+  // clerk's check, and stands only where it puts them on the ballot.
+  const petition = gatherSignatures(core, `filing:${filed.id}:${playerId}`);
+  return (
+    !petition || (!!petition.check && petition.check.valid >= petition.needed)
+  );
 }
 
 /**

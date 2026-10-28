@@ -471,6 +471,12 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
     rule,
     needed: petitionNeededHere(api, contest, rule.count),
   });
+  // Where the law asks no signatures, the clerk takes the filing at the
+  // counter: nothing to circulate.
+  if (petition.needed === 0) {
+    keepPetitionCheck(api, filing.id, { valid: 0, struckIds: [] });
+    return;
+  }
   const key = `petition-check:${filing.id}:${petition.opened}`;
   const calendar = api.moduleCalendar(VOTING_MODULE_ID);
   if (calendar.get(key)) return;
