@@ -257,11 +257,16 @@ const OPENING_FAMILY_CAUSE = "opening-family";
  * in or promoted later open theirs as they join. Classmates meet in the school
  * engine's records once a school year is attended, not before.
  */
+const SCHOOLMATES_STOPGAP = "SG-WIRE-PEOPLE-SCHOOLMATES";
+
 export function openOpeningPeerTies(
   core: CoreState,
   api: CoreAPI,
   actor: PersonState,
 ): void {
+  // No schooling before the start is simulated yet (engine map line 7), so
+  // nobody opens knowing a schoolmate (SG-WIRE-PEOPLE-SCHOOLMATES).
+  api.stopgap(SCHOOLMATES_STOPGAP);
   const job = actor.jobId ? core.jobs.get(actor.jobId) : undefined;
   if (!job || job.endsAt) return;
   meetAtWork(
