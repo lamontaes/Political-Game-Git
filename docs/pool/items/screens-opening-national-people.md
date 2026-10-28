@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/opening-national-people
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:53:52.022Z
 ---
 
 **What.** The owner's Oct 27 sitting, item 3, said: it doesn't need to be that long, you don't need your own council member, you just need the national people and maybe the governor. The opening still stood on the state capitol pointing out state legislators and went to the council chamber for the council members. The CTO's look-first audit raised it again.
