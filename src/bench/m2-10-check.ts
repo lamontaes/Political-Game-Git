@@ -16,11 +16,15 @@ import { seatingProblems, type Holder } from "./m2-10-seating";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
-  WORLD_RACES_MODULE_ID,
+  VOTING_MODULE_ID,
+  placesOf,
   presidentialOf,
+  raceResult,
+  raceShare,
+  raceVotes,
   racesOf,
   type RaceRow,
-} from "../core2/modules/world-races";
+} from "../core2/modules/voting";
 import { partySide } from "../core2/appointments";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 
@@ -154,20 +158,26 @@ report.legislativeSeats = {
 // 36 states elect a governor in 2026; the town's own is on its ballot.
 check(
   governors.length >= 30,
-  `${where}: ${governors.length} governor races in 2026 outside the town's state (36 states elect one); src/core2/modules/world-races.ts runs none`,
+  `${where}: ${governors.length} governor races in 2026 outside the town's state (36 states elect one); the voting engine's world races run none`,
 );
-const counted = (r: RaceRow) =>
-  Boolean(r.votes?.republican || r.votes?.democratic);
+const counted = (r: RaceRow) => {
+  const { republican, democratic } = raceVotes(midterm.api, r);
+  return republican + democratic > 0;
+};
 for (const r of races.filter(counted)) {
-  check((r.places ?? 0) > 0, `${where}: ${r.seatId} was counted in no place`);
   check(
-    r.reasons?.length === 2,
+    placesOf(midterm.api, r.id).length > 0,
+    `${where}: ${r.seatId} was counted in no place`,
+  );
+  check(
+    raceResult(midterm.api, r)?.electorateReasons?.length === 2,
     `${where}: ${r.seatId} keeps no reasons for both parties`,
   );
-  if (r.republicanShare !== 0.5)
+  const share = raceShare(midterm.api, r);
+  if (share !== 0.5)
     check(
-      sideOf(r.winnerParty) === (r.republicanShare > 0.5 ? 1 : -1),
-      `${where}: ${r.seatId} went to ${r.winnerParty} at a Republican share of ${r.republicanShare}`,
+      sideOf(r.winnerParty) === (share > 0.5 ? 1 : -1),
+      `${where}: ${r.seatId} went to ${r.winnerParty} at a Republican share of ${share}`,
     );
 }
 // Seated on the real dates: Congress on January 3, each legislature on its
@@ -175,7 +185,7 @@ for (const r of races.filter(counted)) {
 // other seat is kept in the world races' own seats, from the day it is filled.
 for (const r of [...house, ...senate, ...legislative]) {
   const kept = midterm.api
-    .moduleState(WORLD_RACES_MODULE_ID)
+    .moduleState(VOTING_MODULE_ID)
     .table("seats")
     .get(r.seatId) as unknown as { party: string; since: string } | undefined;
   const holders: Holder[] = [
@@ -195,7 +205,7 @@ report.seated = [...house, ...senate, ...legislative].length;
 // pool item gov-world-races-run-no-governors), so this is a record, not a term.
 for (const r of governors) {
   const kept = midterm.api
-    .moduleState(WORLD_RACES_MODULE_ID)
+    .moduleState(VOTING_MODULE_ID)
     .table("seats")
     .get(r.seatId) as unknown as { party: string; since: string } | undefined;
   const recorded: Holder[] = kept
@@ -209,13 +219,13 @@ report.governorSample = governors
   .slice(0, 5)
   .map(
     (r) =>
-      `${r.id}: ${r.winnerParty} ${r.republicanShare.toFixed(3)} over ${r.places} places, recorded from ${r.seatedOn}`,
+      `${r.id}: ${r.winnerParty} ${raceShare(midterm.api, r).toFixed(3)} over ${placesOf(midterm.api, r.id).length} places, recorded from ${r.seatedOn}`,
   );
 report.sample = races
   .slice(0, 3)
   .map(
     (r) =>
-      `${r.id}: ${r.winnerParty} ${r.republicanShare.toFixed(3)}, ${governors.includes(r) ? "recorded from" : "seated"} ${r.seatedOn}`,
+      `${r.id}: ${r.winnerParty} ${raceShare(midterm.api, r).toFixed(3)}, ${governors.includes(r) ? "recorded from" : "seated"} ${r.seatedOn}`,
   );
 
 // 2. November 2028: the presidency, in the electoral college, from January 20.
