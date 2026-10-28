@@ -4,6 +4,5 @@
     "src/core2/estates.ts",
     "src/core2/housing-occupancy.ts",
     "src/core2/modules/place-prices.ts"
-  ],
-  "took-office": ["src/core2/modules/offices.ts"]
+  ]
 }
