@@ -7331,5 +7331,29 @@
     "addedAt": "2026-10-28",
     "replacement": "A fuller plate for each such room (every seat of the gallery or crowd painted with a mannequin), measured by the art session; the importer then keeps no old spot.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-region-states",
+    "kind": "estimate",
+    "file": "src/bench/scene.ts",
+    "line": 314,
+    "whatItFakes": "Which states take a place's regional rebuild (New England, Mountain West, Southwest, Plains, Deep South, Alaska, Puerto Rico, Pacific islands) is a list in data drawn from the Census Bureau's divisions and common usage; states no region names show the plain painting.",
+    "why": "The art session painted eight regional rebuilds of four places (Oct 28); no record of a place's regional character exists to read.",
+    "addedBy": "people-in-rooms builder",
+    "addedAt": "2026-10-28",
+    "replacement": "Each place's own architectural region in the place records (or a finer list per county), read here in place of the state list.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-pose-body",
+    "kind": "placeholder-art",
+    "file": "src/bench/whole-figures.ts",
+    "line": 533,
+    "whatItFakes": "A person who takes a pose painted at furniture (a lectern, a desk, a counter) is drawn in the pose's own body and outfit (its build where one of the person's build is painted, else another), in their own skin, clothes colors, face and hair; a person whose sex has no pose there keeps their own figure.",
+    "why": "The art session painted 21 poses, one body each (art/people-rooms/poses, Oct 28); every look in every pose isn't painted yet.",
+    "addedBy": "people-in-rooms builder",
+    "addedAt": "2026-10-28",
+    "replacement": "Each pose painted for both sexes and every build and outfit (or a wardrobe that dresses the pose's body), so the person's own look holds in the pose.",
+    "status": "open"
   }
 ]

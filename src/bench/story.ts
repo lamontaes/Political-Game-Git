@@ -7,7 +7,7 @@ import { hasBackdrop } from "./backdrop-places";
 import {
   homeOf,
   orgPlace,
-  personBackdrop,
+  backdropFor,
   pictureFor,
   stagePeople,
   type StageReason,
@@ -182,7 +182,7 @@ export function storyScene(
   return {
     momentId,
     place: pictured,
-    backdrop: personBackdrop(core, personId, pictured, minuteOfDay),
+    backdrop: backdropFor(core, pictured, minuteOfDay, personId),
     people: stagePeople(core, pictured, cast).people,
     narration: [
       ...scene.narration,
