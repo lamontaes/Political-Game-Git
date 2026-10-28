@@ -669,7 +669,7 @@ function fillTownJobs(
             const profile = profiles.get(organization.id);
             return (
               profile?.classification === workplace.existing &&
-              profile.locationJurisdictionId === town
+              profile?.locationJurisdictionId === town
             );
           })
           .map((organization) => organization.id);
