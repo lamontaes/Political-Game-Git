@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/person-history
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T03:01:34.679Z
 ---
 
 **What.** The owner, Oct 28, on the People screen, relayed by the CTO at 01:05 UTC: clicking a person opens View person, and View person shows the person's history from the records. Today a click only selects, and the card has no history.
