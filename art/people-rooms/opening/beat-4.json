@@ -1,0 +1,84 @@
+{
+ "room": "art/backdrops/home-kitchen__morning.jpg",
+ "spots": "art/people-rooms/spots/home-kitchen.json",
+ "people": [
+  {
+   "spot": 2,
+   "figure": "v2-13-m-medium",
+   "colors": {
+    "shirt": [
+     230,
+     226,
+     214
+    ],
+    "pants": [
+     60,
+     60,
+     66
+    ],
+    "shoes": [
+     40,
+     34,
+     30
+    ]
+   },
+   "skin": [
+    150,
+    105,
+    80
+   ],
+   "face": {
+    "view": "threeqr",
+    "n": 2
+   },
+   "hair": {
+    "view": "threeqr",
+    "n": 3,
+    "rgb": [
+     26,
+     22,
+     20
+    ]
+   }
+  },
+  {
+   "spot": 1,
+   "figure": "v2-18-f-medium",
+   "colors": {
+    "shirt": [
+     120,
+     150,
+     110
+    ],
+    "pants": [
+     52,
+     56,
+     70
+    ],
+    "shoes": [
+     60,
+     44,
+     34
+    ]
+   },
+   "skin": [
+    224,
+    180,
+    146
+   ],
+   "face": {
+    "view": "threeq",
+    "n": 2
+   },
+   "hair": {
+    "view": "threeq",
+    "n": 1,
+    "rgb": [
+     110,
+     72,
+     42
+    ]
+   }
+  }
+ ]
+}

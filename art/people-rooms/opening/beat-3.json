@@ -1,0 +1,319 @@
+{
+ "room": "art/backdrops/oval-office-resolute__night.jpg",
+ "spots": "art/people-rooms/spots/oval-office-resolute.json",
+ "people": [
+  {
+   "spot": 2,
+   "figure": "v2-37-m-medium",
+   "colors": {
+    "jacket": [
+     34,
+     44,
+     74
+    ],
+    "shirt": [
+     238,
+     238,
+     234
+    ],
+    "pants": [
+     34,
+     44,
+     74
+    ],
+    "shoes": [
+     22,
+     20,
+     20
+    ],
+    "tie": [
+     150,
+     30,
+     36
+    ]
+   },
+   "skin": [
+    196,
+    148,
+    118
+   ],
+   "face": {
+    "view": "front",
+    "n": 6
+   },
+   "hair": {
+    "view": "front",
+    "n": 2,
+    "rgb": [
+     118,
+     110,
+     104
+    ]
+   }
+  },
+  {
+   "spot": 0,
+   "figure": "v2-32-f-slim",
+   "colors": {
+    "jacket": [
+     62,
+     64,
+     70
+    ],
+    "shirt": [
+     214,
+     222,
+     236
+    ],
+    "pants": [
+     62,
+     64,
+     70
+    ],
+    "shoes": [
+     30,
+     26,
+     24
+    ]
+   },
+   "skin": [
+    120,
+    82,
+    62
+   ],
+   "face": {
+    "view": "front",
+    "n": 1
+   },
+   "hair": {
+    "view": "front",
+    "n": 4,
+    "rgb": [
+     38,
+     30,
+     26
+    ]
+   }
+  },
+  {
+   "spot": 1,
+   "figure": "v2-32-m-medium",
+   "colors": {
+    "jacket": [
+     52,
+     40,
+     34
+    ],
+    "shirt": [
+     236,
+     232,
+     220
+    ],
+    "pants": [
+     52,
+     40,
+     34
+    ],
+    "shoes": [
+     30,
+     22,
+     18
+    ]
+   },
+   "skin": [
+    228,
+    188,
+    158
+   ],
+   "face": {
+    "view": "front",
+    "n": 12
+   },
+   "hair": {
+    "view": "front",
+    "n": 8,
+    "rgb": [
+     96,
+     74,
+     52
+    ]
+   }
+  },
+  {
+   "spot": 3,
+   "figure": "v2-40-f-medium",
+   "colors": {
+    "jacket": [
+     96,
+     32,
+     40
+    ],
+    "shirt": [
+     232,
+     226,
+     214
+    ],
+    "pants": [
+     40,
+     40,
+     46
+    ],
+    "shoes": [
+     26,
+     22,
+     22
+    ]
+   },
+   "skin": [
+    172,
+    122,
+    92
+   ],
+   "face": {
+    "view": "threeqr",
+    "n": 2
+   },
+   "hair": {
+    "view": "threeqr",
+    "n": 6,
+    "rgb": [
+     58,
+     40,
+     30
+    ]
+   }
+  },
+  {
+   "spot": 6,
+   "figure": "v2-40-m-slim",
+   "colors": {
+    "jacket": [
+     40,
+     48,
+     62
+    ],
+    "shirt": [
+     212,
+     222,
+     236
+    ],
+    "pants": [
+     40,
+     48,
+     62
+    ],
+    "shoes": [
+     24,
+     20,
+     18
+    ]
+   },
+   "skin": [
+    108,
+    74,
+    54
+   ],
+   "face": {
+    "view": "threeqr",
+    "n": 1
+   },
+   "hair": {
+    "view": "threeqr",
+    "n": 1,
+    "rgb": [
+     28,
+     24,
+     22
+    ]
+   }
+  },
+  {
+   "spot": 4,
+   "figure": "v2-39-f-slim",
+   "colors": {
+    "jacket": [
+     70,
+     86,
+     110
+    ],
+    "shirt": [
+     240,
+     236,
+     228
+    ],
+    "pants": [
+     56,
+     58,
+     66
+    ],
+    "shoes": [
+     30,
+     26,
+     24
+    ]
+   },
+   "skin": [
+    226,
+    186,
+    152
+   ],
+   "face": {
+    "view": "threeq",
+    "n": 10
+   },
+   "hair": {
+    "view": "threeq",
+    "n": 2,
+    "rgb": [
+     150,
+     112,
+     62
+    ]
+   }
+  },
+  {
+   "spot": 5,
+   "figure": "v2-39-m-heavy",
+   "colors": {
+    "jacket": [
+     58,
+     58,
+     60
+    ],
+    "shirt": [
+     226,
+     230,
+     236
+    ],
+    "pants": [
+     58,
+     58,
+     60
+    ],
+    "shoes": [
+     22,
+     20,
+     20
+    ]
+   },
+   "skin": [
+    188,
+    140,
+    104
+   ],
+   "face": {
+    "view": "threeq",
+    "n": 4
+   },
+   "hair": {
+    "view": "threeq",
+    "n": 7,
+    "rgb": [
+     150,
+     150,
+     150
+    ]
+   }
+  }
+ ]
+}

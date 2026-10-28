@@ -1,30 +1,122 @@
 {
- "bedroom-plain": {
-  "before": 0.532,
-  "after": 0.762
+ "redrawn": {
+  "bedroom-plain": {
+   "before": 0.532,
+   "after": 0.762
+  },
+  "boardroom": {
+   "before": 0.64,
+   "after": 0.889
+  },
+  "debate-stage": {
+   "before": 0.547,
+   "after": 0.721
+  },
+  "funeral-home-chapel": {
+   "before": 0.585,
+   "after": 0.899
+  },
+  "gas-station-store": {
+   "before": 0.594,
+   "after": 0.736
+  },
+  "general-store": {
+   "before": 0.708,
+   "after": 1.033
+  },
+  "oval-office-resolute": {
+   "before": 0.76,
+   "after": 0.877
+  },
+  "oval-office": {
+   "before": 0.734,
+   "after": 0.893
+  },
+  "bus-stop": {
+   "before": 0.784,
+   "after": 0.891
+  },
+  "downtown-sidewalk": {
+   "before": 0.787,
+   "after": 0.882
+  },
+  "council-chamber-large": {
+   "before": 0.792,
+   "after": 0.95
+  },
+  "council-chamber-small": {
+   "before": 0.794,
+   "after": 0.861
+  },
+  "committee-hearing-room": {
+   "before": 0.798,
+   "after": 0.92
+  },
+  "county-treasurer-office": {
+   "before": 0.823,
+   "after": 0.909
+  },
+  "flooded-street": {
+   "before": 0.831,
+   "after": 0.947
+  },
+  "playground": {
+   "before": 0.833,
+   "after": 0.958
+  },
+  "tv-debate-green-room": {
+   "before": 0.835,
+   "after": 0.939
+  },
+  "school-board-room": {
+   "before": 0.837,
+   "after": 0.978
+  },
+  "state-capitol-ak": {
+   "before": 0.847,
+   "after": 0.998
+  },
+  "main-street": {
+   "before": 0.849,
+   "after": 0.958
+  },
+  "county-elections-counting-room": {
+   "before": 0.856,
+   "after": 0.945
+  },
+  "clerk-back-office": {
+   "before": 0.857,
+   "after": 0.975
+  },
+  "county-sheriff-front-desk": {
+   "before": 0.859,
+   "after": 0.988
+  }
  },
- "boardroom": {
-  "before": 0.64,
-  "after": 0.889
- },
- "debate-stage": {
-  "before": 0.547,
-  "after": 0.721
- },
- "funeral-home-chapel": {
-  "before": 0.585,
-  "after": 0.899
- },
- "gas-station-store": {
-  "before": 0.594,
-  "after": 0.736
- },
- "general-store": {
-  "before": 0.708,
-  "after": 1.033
- },
- "oval-office-resolute": {
-  "before": 0.76,
-  "after": 0.877
+ "not improved, left out": {
+  "store": {
+   "before": 0.564,
+   "after": 0.566
+  },
+  "park": {
+   "before": 0.822,
+   "after": 0.827
+  },
+  "tv-studio": {
+   "before": 0.826,
+   "after": 0.837
+  },
+  "election-night-venue": {
+   "before": 0.83,
+   "after": 0.856
+  },
+  "convention-hall": {
+   "before": 0.834,
+   "after": 0.852
+  },
+  "federal-district-courtroom": {
+   "before": 0.826,
+   "after": 0.836
+  }
  }
 }

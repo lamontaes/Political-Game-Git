@@ -1,0 +1,10 @@
+# Opening storyboard (proof, not yet in the game)
+
+Four beats for the game's opening, composed from the people art and measured spots on this branch (the owner, Oct 27: "let's get the president behind the resolute desk etc. remembering the sillohouetes and stuff. think about the opening and making a story"). Each `beat-N.json` is the recipe: the painting, its spots file, and each person's figure, garment colors, skin, face and hair (numbers in `art/people-engine/v2/faces-on-figures/` and `hair-on-figures/`), so the game's own people renderer can draw the same scene.
+
+1. **Noon, January 20: the inaugural address, as on television.** `inaugural-lectern-close` (the West Front lectern with the seal, glass panels, the dome behind). A real inaugural, not a player-centered one (owner, Oct 27). The president: figure `v2-31-m-medium`, navy suit, white shirt, red tie, face front 06, gray hair front 02. The spot is measured by hand (`inaugural-lectern-close.spots.json`): the lectern top runs along y 402 from x 591 to 777 at 1365 x 768, and the speaker is lowered until his hands rest on it; below the lectern line he is hidden.
+2. **Midday at home: the player and their partner on the couch.** `house-suburban-living` midday, the two couch spots. Right after it, the partner's question the owner liked in his own run: "Did you see the President's speech?"
+3. **That night: the Oval Office.** `oval-office-resolute` night, the president behind the Resolute desk (the same man as beat 1: `v2-37-m-medium`, same colors, face 06, hair 02, red tie) and six staff on the sofas and standing, at the spots measured from the mannequin plate. The opening's introductions stay short: the national people (owner, Oct 27).
+4. **The next morning: the kitchen.** `home-kitchen` morning, the same couple at the table (the partner in new clothes, same face, hair and skin).
+
+The tie is a garment color like the others: a band down the middle of the shirt's open collar, narrow at the knot and widening, cut off where the jacket covers it. Figures with an open collar and no tie read as casual; anyone in a suit at a formal event should get one.

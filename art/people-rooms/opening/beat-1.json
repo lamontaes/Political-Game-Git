@@ -1,0 +1,55 @@
+{
+ "room": "art/backdrops-variants/inaugural-lectern-close__midday.jpg",
+ "spots": "art/people-rooms/opening/inaugural-lectern-close.spots.json",
+ "people": [
+  {
+   "spot": 0,
+   "figure": "v2-31-m-medium",
+   "colors": {
+    "jacket": [
+     34,
+     44,
+     74
+    ],
+    "shirt": [
+     238,
+     238,
+     234
+    ],
+    "pants": [
+     34,
+     44,
+     74
+    ],
+    "shoes": [
+     22,
+     20,
+     20
+    ],
+    "tie": [
+     150,
+     30,
+     36
+    ]
+   },
+   "skin": [
+    196,
+    148,
+    118
+   ],
+   "face": {
+    "view": "front",
+    "n": 6
+   },
+   "hair": {
+    "view": "front",
+    "n": 2,
+    "rgb": [
+     118,
+     110,
+     104
+    ]
+   }
+  }
+ ]
+}

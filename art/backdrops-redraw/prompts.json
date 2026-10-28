@@ -33,5 +33,85 @@
   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
   "reference": "art/backdrops/oval-office-resolute__midday.jpg",
   "prompt": "[sh-oval-office-resolute] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "oval-office__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/oval-office__midday.jpg",
+  "prompt": "[s2-01] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "bus-stop__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/bus-stop__midday.jpg",
+  "prompt": "[s2-02] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "downtown-sidewalk__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/downtown-sidewalk__midday.jpg",
+  "prompt": "[s2-03] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "council-chamber-large__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/council-chamber-large__midday.jpg",
+  "prompt": "[s2-04] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "council-chamber-small__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/council-chamber-small__midday.jpg",
+  "prompt": "[s2-05] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "committee-hearing-room__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/committee-hearing-room__midday.jpg",
+  "prompt": "[s2-06] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "county-treasurer-office__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-treasurer-office__midday.jpg",
+  "prompt": "[s2-08] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "flooded-street__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/flooded-street__midday.jpg",
+  "prompt": "[s2-12] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "playground__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/playground__midday.jpg",
+  "prompt": "[s2-13] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "tv-debate-green-room__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/tv-debate-green-room__midday.jpg",
+  "prompt": "[s2-15] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "school-board-room__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/school-board-room__midday.jpg",
+  "prompt": "[s2-16] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "state-capitol-ak__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/state-capitol-ak__midday.jpg",
+  "prompt": "[s2-17] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "main-street__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/main-street__midday.jpg",
+  "prompt": "[s2-18] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "county-elections-counting-room__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-elections-counting-room__midday.jpg",
+  "prompt": "[s2-19] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "clerk-back-office__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/clerk-back-office__midday.jpg",
+  "prompt": "[s2-20] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "county-sheriff-front-desk__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-sheriff-front-desk__midday.jpg",
+  "prompt": "[s2-21] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
  }
 }
