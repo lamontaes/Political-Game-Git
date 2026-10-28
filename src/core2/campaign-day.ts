@@ -224,6 +224,7 @@ function peopleToAsk(api: CoreAPI, campaign: CampaignRow, world = false) {
   // The controlled person's money moves only by their own choice, so a world
   // candidate's asks skip them.
   const playerId = (api.state as CoreState).playerId;
+  const adultAge = api.parameter("votingAge");
   const pool = reachablePeople(api, campaign).filter(
     (id) => !world || id !== playerId,
   );
@@ -232,7 +233,7 @@ function peopleToAsk(api: CoreAPI, campaign: CampaignRow, world = false) {
     return (
       !!person?.alive &&
       person.tier !== "husk" &&
-      ageOn(person.birthDate, api.state.date) >= 18 &&
+      ageOn(person.birthDate, api.state.date) >= adultAge &&
       !giftOf(api, campaign.filingId, id)
     );
   });

@@ -67,6 +67,7 @@ import {
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
 import { incomeBandOf } from "../counted-income-fifth";
+import { parameter } from "../parameters";
 
 export { incomeBandOf };
 import { placeDistrictPopulations } from "../../districts/place-population-share";
@@ -340,13 +341,14 @@ export function groupKeyOf(
 ): GroupKey {
   const store = rt.store;
   const members = store.countedMembers(h);
+  const adultAge = parameter("votingAge");
   let adults = 0,
     children = 0,
     head = -1,
     headAge = -1;
   for (const m of members) {
     const age = ageOn(store.born[m]!, date);
-    if (age >= 18) adults++;
+    if (age >= adultAge) adults++;
     else children++;
     if (age > headAge) [head, headAge] = [m, age];
   }
@@ -2094,6 +2096,7 @@ function jobHolderNear(
   h: CountedHousehold,
 ): PersonId | undefined {
   const store = rt.store;
+  const adultAge = parameter("votingAge");
   const working = new Set<string>();
   for (const job of rt.jobs.values())
     if (job.endsAt === undefined) working.add(job.personId);
@@ -2102,7 +2105,7 @@ function jobHolderNear(
     for (const other of pool) {
       if (other === h || other.gone) continue;
       for (const m of store.countedMembers(other)) {
-        if (ageOn(store.born[m]!, core.date) < 18) continue;
+        if (ageOn(store.born[m]!, core.date) < adultAge) continue;
         const id = store.ids[m]!;
         if (!working.has(id)) return id;
         fallback ??= id;
@@ -2175,6 +2178,7 @@ export function residentCounts(core: CoreState): ResidentCounts[] {
   const rt = runtimes.get(core);
   if (!rt) return [];
   const at = makeIsoDate(core.date);
+  const adultAge = parameter("votingAge");
   const byPlace = new Map<PlaceId, ResidentCounts>();
   for (const row of rt.input.accounts)
     byPlace.set(row.placeId, {
@@ -2200,7 +2204,7 @@ export function residentCounts(core: CoreState): ResidentCounts[] {
     for (const m of store.countedMembers(h)) {
       const age = ageOn(store.born[m]!, at);
       counts.people += weight;
-      if (age >= 18) counts.adults += weight;
+      if (age >= adultAge) counts.adults += weight;
       const band = ageBandOf(age);
       counts.byAgeBand[band] = (counts.byAgeBand[band] ?? 0) + weight;
     }

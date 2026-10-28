@@ -321,8 +321,9 @@ function holdOf(
   residents: ResidentsRuntime,
   h: CountedHousehold,
   date: string,
+  adultAge: number,
 ): number {
-  return sum(holdsOf(residents, h, date));
+  return sum(holdsOf(residents, h, date, adultAge));
 }
 
 /** What holds a counted household where it lives, by cause: a home it owns, children at home. */
@@ -330,12 +331,13 @@ function holdsOf(
   residents: ResidentsRuntime,
   h: CountedHousehold,
   date: string,
+  adultAge: number,
 ): Record<string, number> {
   const holds: Record<string, number> = {};
   if (h.tenure !== "rent") holds.owner = MOVES.movesOwnerHold!.value;
   const children = residents.store
     .countedMembers(h)
-    .some((m) => ageOn(residents.store.born[m]!, date) < 18);
+    .some((m) => ageOn(residents.store.born[m]!, date) < adultAge);
   if (children) holds.children = MOVES.movesChildrenHold!.value;
   return holds;
 }
@@ -370,6 +372,7 @@ function headOf(
   residents: ResidentsRuntime,
   h: CountedHousehold,
   date: string,
+  adultAge: number,
 ): { age: number; wages: number; adults: number } {
   const store = residents.store;
   let age = 0,
@@ -377,7 +380,7 @@ function headOf(
   for (const m of store.countedMembers(h)) {
     const a = ageOn(store.born[m]!, date);
     age = Math.max(age, a);
-    if (a >= 18) adults++;
+    if (a >= adultAge) adults++;
   }
   return {
     age,
@@ -406,6 +409,7 @@ function month(api: CoreAPI): void {
   const rt = runtimeOf(api);
   if (!residents || !rt) return;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   rt.netCache.clear();
   const jobless = unemployment(api);
   const stateList = [...rt.states.values()];
@@ -434,7 +438,7 @@ function month(api: CoreAPI): void {
         if (h.placeId !== placeId) continue;
         const n = store.weightedCount(h);
         people += n;
-        held += n * Math.exp(-holdOf(residents, h, date));
+        held += n * Math.exp(-holdOf(residents, h, date, adultAge));
       }
       rt.holdNorm.set(placeId, held > 0 ? people / held : 1);
     }
@@ -469,7 +473,7 @@ function month(api: CoreAPI): void {
       adults = 0;
     for (const m of store.countedMembers(h)) {
       const age = ageOn(store.born[m]!, date);
-      if (age >= 18) {
+      if (age >= adultAge) {
         rates += rateFor(home, acsBand(age));
         adultAges += age;
         adults++;
@@ -522,14 +526,14 @@ function month(api: CoreAPI): void {
     // Real people: a record stands for as many households as its weight says.
     const people = store.weightedCount(h);
     if (!people) continue;
-    const head = headOf(residents, h, date);
+    const head = headOf(residents, h, date, adultAge);
     if (head.adults === 0) continue;
     const { rate, web } = leavingOf(h, home);
     const weight =
       people *
       rate *
       web *
-      Math.exp(-holdOf(residents, h, date)) *
+      Math.exp(-holdOf(residents, h, date, adultAge)) *
       rt.holdNorm.get(h.placeId)!;
     const wages = Math.round(head.wages / 1000) * 1000;
     const key = `${h.group}|${home}|${wages}`;
@@ -684,12 +688,12 @@ function month(api: CoreAPI): void {
       dues.set(g, dueOf(g));
       const bands = store
         .countedMembers(next)
-        .map((m) => coarseIndex(ageOn(store.born[m]!, date)));
+        .map((m) => coarseIndex(ageOn(store.born[m]!, date), adultAge));
       const weight = store.weightOf(next);
       // What weighed toward its going, read before it leaves the counts: its
       // age's rate and the web against what held it, and toward another
       // state its pull (within the state taxes and prices are the same).
-      const head = headOf(residents, next, date);
+      const head = headOf(residents, next, date, adultAge);
       const leaving = leavingOf(next, home);
       const pulled = groupPulls.get(g);
       // A household with adults weighed its own adults' rate. One of minors
@@ -700,7 +704,7 @@ function month(api: CoreAPI): void {
         leaving.rate,
         // The web's links land on a household by its adults; none, none.
         head.adults ? leaving.web : 1,
-        holdsOf(residents, next, date),
+        holdsOf(residents, next, date, adultAge),
         to === home ? {} : pullFor(home, to, head.wages),
         !head.adults && pulled?.people
           ? (pulled.total * 12) / pulled.people
@@ -766,7 +770,7 @@ function month(api: CoreAPI): void {
   const agedHere = new Map<PlaceId, number[]>();
   const addResident = (placeId: PlaceId, age: number, n: number) => {
     const row = agedHere.get(placeId) ?? COARSE.map(() => 0);
-    row[coarseIndex(age)]! += n;
+    row[coarseIndex(age, adultAge)]! += n;
     agedHere.set(placeId, row);
   };
   for (const h of store.liveHouseholds())
@@ -828,8 +832,8 @@ function countedPeople(residents: ResidentsRuntime): number {
   return n;
 }
 
-function coarseIndex(age: number): number {
-  return age < 18 ? 0 : age < 30 ? 1 : age < 45 ? 2 : age < 65 ? 3 : 4;
+function coarseIndex(age: number, adultAge: number): number {
+  return age < adultAge ? 0 : age < 30 ? 1 : age < 45 ? 2 : age < 65 ? 3 : 4;
 }
 
 function record(api: CoreAPI, row: MoveRecord): void {
@@ -857,6 +861,7 @@ function arrivals(
   const core = api.state as CoreState;
   const store = residents.store;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   const templates = new Map<PlaceId, Map<number, CountedHousehold[]>>();
   for (const h of store.liveHouseholds()) {
     const members = store.countedMembers(h);
@@ -866,9 +871,9 @@ function arrivals(
     const byBand =
       templates.get(h.placeId) ?? new Map<number, CountedHousehold[]>();
     templates.set(h.placeId, byBand);
-    const list = byBand.get(coarseIndex(head));
+    const list = byBand.get(coarseIndex(head, adultAge));
     if (list) list.push(h);
-    else byBand.set(coarseIndex(head), [h]);
+    else byBand.set(coarseIndex(head, adultAge), [h]);
   }
   if (!placePeople.size) return;
   const rates = unplacedRates(residents, date);
@@ -945,7 +950,7 @@ function arrivals(
                   rt,
                   origin!,
                   rt.townState,
-                  headOf(residents, h, date).wages,
+                  headOf(residents, h, date, adultAge).wages,
                   jobless,
                 ),
           ),

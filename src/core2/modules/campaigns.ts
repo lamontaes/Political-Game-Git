@@ -655,13 +655,15 @@ function retell(
   teller: Readonly<PersonState>,
   cause: CauseRow,
 ): void {
+  const adultAge = api.parameter("votingAge");
   const telling = Math.max(
     0,
     leanedScore(api.state, teller, "campaigns.retell", "tell", "keep", 1),
   );
   for (const id of teller.familyIds) {
     const listener = api.state.people.get(id);
-    if (!listener?.alive || ageOn(listener, api.state.date) < 18) continue;
+    if (!listener?.alive || ageOn(listener, api.state.date) < adultAge)
+      continue;
     reach(api, campaign, id, "retold", teller.id, {
       carriesPlatform: cause.agreement !== null,
       weight:
@@ -699,6 +701,7 @@ function townAddresses(api: CoreAPI): {
   readonly list: readonly Address[];
   readonly countedAdults: number;
 } {
+  const adultAge = api.parameter("votingAge");
   const core = api.state as CoreState;
   const town = townRow(api).townPlaceId;
   const rt = residentsRuntime(core);
@@ -735,7 +738,7 @@ function townAddresses(api: CoreAPI): {
     for (const m of rt!.store.countedMembers(h)) {
       const born = rt!.store.born[m]!;
       if (born < eldest) eldest = born;
-      if (ageOn({ birthDate: born }, date) >= 18) countedAdults += 1;
+      if (ageOn({ birthDate: born }, date) >= adultAge) countedAdults += 1;
     }
     ids.set(h.id, { counted: true, eldest });
   }
@@ -759,13 +762,16 @@ function adultsAt(
   readonly birthDate: string;
   readonly slots: readonly Parameters<typeof atWork>[0][];
 }[] {
+  const adultAge = api.parameter("votingAge");
   const core = api.state as CoreState;
   const date = api.state.date;
   if (!address.counted) {
     const household = core.households.get(address.id);
     return [...(household?.memberIds ?? [])]
       .map((id) => core.people.get(id))
-      .filter((p): p is PersonState => !!p && p.alive && ageOn(p, date) >= 18)
+      .filter(
+        (p): p is PersonState => !!p && p.alive && ageOn(p, date) >= adultAge,
+      )
       .map((p) => ({
         id: p.id,
         traits: p.traits,
@@ -781,7 +787,7 @@ function adultsAt(
   if (!store || !h || h.gone) return [];
   return store
     .countedMembers(h)
-    .filter((m) => ageOn({ birthDate: store.born[m]! }, date) >= 18)
+    .filter((m) => ageOn({ birthDate: store.born[m]! }, date) >= adultAge)
     .map((m) => ({
       id: store.ids[m]!,
       traits: store.packedTraits(m),
@@ -1725,9 +1731,10 @@ export function donorReason(
   filingId: string,
   donorId: string,
 ): number {
+  const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, filingId);
   const donor = api.state.people.get(donorId);
-  if (!donor?.alive || ageOn(donor, api.state.date) < 18)
+  if (!donor?.alive || ageOn(donor, api.state.date) < adultAge)
     return Number.NEGATIVE_INFINITY;
   const why = backingReasons(api, campaign, donor);
   return leanedScore(
@@ -1756,9 +1763,10 @@ export function askForDonation(
   filingId: string,
   donorId: string,
 ): number {
+  const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, filingId);
   const donor = api.state.people.get(donorId);
-  if (!donor?.alive || ageOn(donor, api.state.date) < 18) return 0;
+  if (!donor?.alive || ageOn(donor, api.state.date) < adultAge) return 0;
   const reason = donorReason(api, filingId, donorId);
   const spare =
     donor.liquidMinor -
@@ -2163,13 +2171,14 @@ export function whoComes(
   api: CoreAPI,
   campaign: CampaignRow,
 ): readonly string[] {
+  const adultAge = api.parameter("votingAge");
   const core = api.state as CoreState;
   const town = townRow(api).townPlaceId;
   const volunteers = new Set(campaign.volunteerIds);
   return reachablePeople(api, campaign).filter((id) => {
     const person = core.people.get(id);
     if (!person?.alive || person.placeId !== town) return false;
-    if (ageOn(person, api.state.date) < 18) return false;
+    if (ageOn(person, api.state.date) < adultAge) return false;
     if (volunteers.has(id)) return true;
     const why = backingReasons(api, campaign, person);
     const weeklyWork = [...(core.work.commitmentsByPerson.get(id) ?? [])]
@@ -2681,6 +2690,7 @@ export function commissionPoll(
   api: CoreAPI,
   input: { readonly filingId: string; readonly sampleSize: number },
 ): PollRow {
+  const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, input.filingId);
   const town = townRow(api).townPlaceId;
   const date = api.state.date;
@@ -2689,7 +2699,9 @@ export function commissionPoll(
   const rt = residentsRuntime(core);
   const frame = [
     ...[...api.state.people.values()]
-      .filter((p) => p.alive && p.placeId === town && ageOn(p, date) >= 18)
+      .filter(
+        (p) => p.alive && p.placeId === town && ageOn(p, date) >= adultAge,
+      )
       .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
     ...[...(rt?.store.liveHouseholds() ?? [])]
       .filter((h) => h.placeId === town)
@@ -2697,7 +2709,7 @@ export function commissionPoll(
       .filter(
         (m) =>
           !api.state.people.has(rt!.store.ids[m]!) &&
-          ageOn({ birthDate: rt!.store.born[m]! }, date) >= 18,
+          ageOn({ birthDate: rt!.store.born[m]! }, date) >= adultAge,
       )
       .map((m) => ({
         id: rt!.store.ids[m]!,
@@ -3341,6 +3353,7 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  * reached, over the town's adults of both kinds.
  */
 export function campaignRecognition(api: CoreAPI, filingId: string): number {
+  const adultAge = api.parameter("votingAge");
   const campaign = table(api, "campaigns").get(filingId) as unknown as
     CampaignRow | undefined;
   if (!campaign) return 0;
@@ -3349,7 +3362,7 @@ export function campaignRecognition(api: CoreAPI, filingId: string): number {
   let namedAdults = 0;
   for (const id of core.peopleByPlace.get(town) ?? []) {
     const p = core.people.get(id);
-    if (p?.alive && ageOn(p, api.state.date) >= 18) namedAdults += 1;
+    if (p?.alive && ageOn(p, api.state.date) >= adultAge) namedAdults += 1;
   }
   const heard = (
     table(api, "impressions").query("byCandidate", [

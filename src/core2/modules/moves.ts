@@ -884,11 +884,12 @@ function webLeavingFor(
   }
   const age = ageOf(api, person);
   const tenure = ownsHome(api, person.householdId) ? "own" : "rent";
+  const adultAge = api.parameter("votingAge");
   const children = (
     core.households.get(person.householdId)?.memberIds ?? []
   ).some((id) => {
     const member = core.people.get(id);
-    return member?.alive && ageOf(api, member) < 18;
+    return member?.alive && ageOf(api, member) < adultAge;
   });
   const householdKind: Subject["householdKind"] = children
     ? "with-children"
