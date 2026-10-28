@@ -440,6 +440,29 @@ select:focus-visible {
     0 3px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
+/* A tab inside a sheet (the Local, State, Federal picker) is the kit's tab,
+   not a key: plain text at rest, the raised glass box only while chosen
+   (kit13 APPROVED; owner, Oct 28: "no clear delineation once one is picked"). */
+#sheet-body .tab:not(.on),
+#sheet-body .tab:not(.on):hover {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--text-2);
+}
+#sheet-body .tab:not(.on):hover {
+  color: #fff;
+  text-shadow: var(--glow);
+}
+#sheet-body .tab.on,
+#sheet-body .tab.on:hover {
+  color: var(--gold);
+  background: var(--raised);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
 /* Icons: gold line icons on round glass keys, a column over the player card (MOCKS:24). */
 .ring {
   position: relative;
@@ -2564,6 +2587,14 @@ body.dev .dev-ring {
   gap: 14px;
   margin: 12px 0 22px;
 }
+/* The state filter under the level tabs: the kit's dropdown, boxed at rest as
+   the main menu's typing boxes are (owner, Oct 28: "a separate box, like the
+   main menu's"), reading the state's name. */
+select.government-state {
+  display: block;
+  margin: -10px 0 22px;
+  border-color: rgba(214, 189, 132, 0.55);
+}
 .entries-rows .entry h3 {
   font: 600 24px var(--name);
   color: var(--gold);
@@ -3763,6 +3794,14 @@ details.entry[open] {
   display: flex;
   gap: 14px;
   margin: 12px 0 22px;
+}
+/* The state filter under the level tabs: the kit's dropdown, boxed at rest as
+   the main menu's typing boxes are (owner, Oct 28: "a separate box, like the
+   main menu's"), reading the state's name. */
+select.government-state {
+  display: block;
+  margin: -10px 0 22px;
+  border-color: rgba(214, 189, 132, 0.55);
 }
 .entries-rows .entry h3 {
   font: 600 24px var(--name);

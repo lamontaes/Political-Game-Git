@@ -272,7 +272,18 @@ export function governmentView(core: CoreState, personId: string) {
     ownRace: race && { ...race, tier: tierOf(race.level) },
     ofVotingAge: ofVotingAge(core, personId),
     party: partyView(core, personId),
+    // The player's own state, by name, for the State and Federal filter.
+    homeState: homeState(api),
   };
+}
+
+/** The state the player's town is in: its key and its name. */
+function homeState(api: ReturnType<typeof coreAPI>) {
+  const key = lawChain(api).stateKey;
+  const state = corePlaceStateIdentities().find(
+    (row) => row.jurisdictionKey === key,
+  );
+  return { key, name: state?.name ?? key };
 }
 
 /**

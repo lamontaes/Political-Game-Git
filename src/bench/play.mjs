@@ -3074,22 +3074,27 @@ const sheets = {
           },
         })),
       });
-      if (level !== "local")
-        picker.append(
-          select({
-            className: "government-state",
-            label: labels.stateFilter,
-            value: otherState,
-            options: [
-              { value: "", label: labels.ownState },
-              ...states.map((st) => ({ value: st.key, label: st.name })),
-            ],
-            onChange: (state) => {
-              governmentState = state;
-              void redraw();
-            },
-          }),
-        );
+      // The state filter under the level tabs: the kit's dropdown in its own
+      // box, reading the player's state by name, never "Your state" (owner,
+      // Oct 28, point 15).
+      const stateFilter =
+        level !== "local"
+          ? select({
+              className: "government-state",
+              label: labels.stateFilter,
+              value: otherState,
+              options: [
+                { value: "", label: v.homeState?.name ?? labels.ownState },
+                ...states
+                  .filter((st) => st.key !== v.homeState?.key)
+                  .map((st) => ({ value: st.key, label: st.name })),
+              ],
+              onChange: (state) => {
+                governmentState = state;
+                void redraw();
+              },
+            })
+          : null;
       const holderName = (s) =>
         s.holder
           ? `${s.holder.givenName} ${s.holder.familyName}`
@@ -3274,7 +3279,7 @@ const sheets = {
       // unaffiliated.
       const party = v.party ? partyRows(v.party) : [];
       return recordScreen({
-        controls: [picker],
+        controls: [picker, stateFilter].filter(Boolean),
         sections: [
           {
             wide: true,
