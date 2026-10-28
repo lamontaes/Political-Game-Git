@@ -122,10 +122,10 @@ describe("the opening address's pieces", () => {
       said("inaugural", "plain", "story-fig", {}, { topic: "unemployment" }),
     ).toBeNull();
     // A law that is not in force is never said to be.
+    // The address is national only (owner, Oct 27): federal law.
     const base = {
       about: "rent stabilization",
-      "state-name": "Iowa",
-      "state-level": "yes",
+      "federal-level": "yes",
     };
     const out = said("inaugural", "polished", "law", {
       ...base,

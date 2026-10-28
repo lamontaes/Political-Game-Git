@@ -1005,12 +1005,13 @@ function spokenLines(lines) {
 }
 // The narrator speaks first and alone; Continue, then the person talks (owner,
 // Oct 28 sitting, 36: "The narrator shows first, Continue, then the person
-// talks"). What comes after the narration waits here for that Continue.
-let afterNarration;
+// talks"). What comes next (the person, the next part of a speech) waits
+// here for that Continue.
+let onContinue;
 /** The narration alone with one Continue, then `then`; no narration, `then` at once. */
 function narrateFirst(setting, then) {
   if (!setting.length) return then();
-  afterNarration = then;
+  onContinue = then;
   talkControls({ silent: false, leave: false });
   fillTalk({ lines: setting, replies: [] });
   setScales({ available: false });
@@ -1103,9 +1104,9 @@ $("talk-lie").addEventListener("click", () => {
 // Continue, bottom left, when there is nothing to answer: the beat is over, and
 // a stop that held the clock for it goes on.
 $("talk-next").addEventListener("click", async () => {
-  if (afterNarration) {
-    const then = afterNarration;
-    afterNarration = undefined;
+  if (onContinue) {
+    const then = onContinue;
+    onContinue = undefined;
     await then();
     return;
   }
@@ -1131,7 +1132,7 @@ $("talk-leave").addEventListener("click", async () => {
     renderPacket();
     return;
   }
-  afterNarration = undefined;
+  onContinue = undefined;
   await post("/api/talk/leave");
   renderTalk(undefined);
 });
@@ -1650,15 +1651,22 @@ async function showStory(momentId) {
   // A speech heard (the address on the evening news): its speaker's own
   // words from the record, then Continue.
   if (story.speech) {
-    narrateFirst(setting, () => {
+    // The speech plays one part per Continue (owner, Oct 28 sitting, 11:
+    // "Each Continue can carry a paragraph"); the last Continue ends it.
+    const parts = story.speech.parts?.length
+      ? story.speech.parts
+      : [story.speech.text];
+    const sayPart = (at) => {
       setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
       talkControls({ silent: false, leave: false });
       fillTalk({
-        lines: [talkLine({ kind: "speech", text: story.speech.text })],
+        lines: [talkLine({ kind: "speech", text: parts[at] })],
         replies: [],
       });
       setScales({ available: false });
-    });
+      if (at + 1 < parts.length) onContinue = () => sayPart(at + 1);
+    };
+    narrateFirst(setting, () => sayPart(0));
     return;
   }
   if (withId) {
