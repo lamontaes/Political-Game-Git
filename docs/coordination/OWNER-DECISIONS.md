@@ -6,6 +6,12 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 03:15 UTC: build the playable game, nothing hidden (owner, 11 PM Eastern Oct 27)
+
+- **Take out the depth and build the playable path (owner: "Take out all the depth. Literally just build it. I'm sick of the depth. I just want to play my game"; "I want everything merged, and I just want the game to work").** One session plays the golden path on main and fixes each stop, minimum viable; every open PR merges the hour it is green; the drafts close.
+- **Every cut corner is a registered stopgap in the existing register, never a new system (owner: "anytime a corner is cut or compromises is made, make sure that it's duly noted, flagged, everything. Using the same thing that everything else uses, not making up a new system").** No hard-coded numbers: cutting research means keeping the existing table value, not typing one.
+- **Every system is already built; use it (owner: "literally every single system in the game has been built. Use it. For every single item that is in the pool, the system is built. I guarantee it").** A new mechanic is a last resort and is flagged as a stopgap naming the engine the builder could not find.
+
 ## Oct 28, 02:00 UTC: one UI package (owner, 9:55 PM Eastern Oct 27)
 
 - **One engine per mechanic, for the whole game (owner, 10:10 PM Eastern Oct 27: "There's one election engine. They all work the same, except some of them are assigned different things because they're state or a congressional thing. You shouldn't need a million different election levers"; and: "don't just take election specifically. The game generally").** Every mechanic has one engine; levels, offices, bodies, places and laws are rows it reads. The duplicates session inventories every family at once and collapses each to one; AGENTS.md carries the rule.
