@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: screens/person-history
-pr:
+pr: #6503
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T03:01:34.679Z
