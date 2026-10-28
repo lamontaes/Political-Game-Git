@@ -6,9 +6,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/person-card-sketch
-pr: 6470
+pr: #6470
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T01:14:19.118Z
