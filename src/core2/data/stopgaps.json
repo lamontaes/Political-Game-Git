@@ -5783,11 +5783,11 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/crime.ts",
     "line": 495,
-    "whatItFakes": "No arrest follows a reported crime: there is no police behavior to make one, so the reported count is the end of the record.",
+    "whatItFakes": "Arrests follow the crimes this engine records and the police were told of (public safety reads its month record), at each offense's FBI clearance rate and the police the town's lines fund, as counted cases the justice engine files; no officer decides an arrest, so a reported crime is cleared as a share of the month, not one by one.",
     "why": "FBI clearance rates by offense type (UCR) apply only to crimes known to police and would need police and court engines to say who is arrested and charged; applying a rate alone would only be a number.",
     "addedBy": "effect-web-crime",
     "addedAt": "2026-10-20",
-    "replacement": "Police and court engines that arrest, charge and sentence from the records, with the FBI clearance rates as the check on their totals.",
+    "replacement": "Police behavior that clears reported crimes one by one from the records (an officer, a lead, the victim's report), with the FBI clearance rates as the check on their totals.",
     "status": "open"
   },
   {
