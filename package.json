@@ -55,6 +55,7 @@
     "stopgaps:report": "node scripts/stopgaps-report.mjs",
     "pool": "node --import tsx scripts/pool/index.ts",
     "zero-dice": "node scripts/zero-dice-guard.mjs",
+    "zero-real-data": "NODE_OPTIONS=--max-old-space-size=12288 vitest run src/core2/realistic-not-real.test.ts",
     "old-imports": "node scripts/core2-guard/old-imports.mjs",
     "all-places": "node --import tsx scripts/core2-year/all-places.mjs",
     "audit:runtime-text:score": "node --import tsx scripts/runtime-text/score.ts",
