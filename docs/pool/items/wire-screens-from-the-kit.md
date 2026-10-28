@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/kit-package
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T05:25:29.284Z
 ---
 
 **What.** Engine map lines 14 to 19 and the owner's one-UI-package ruling. Add the missing kit parts to src/bench/ui/ (pager with items and page size, section, select, search box, chart, newspaper page, calendar grid, people web, picture slot) and move the six local parts in src/bench/play.mjs into the kit. Make every screen a definition (type, sections, labels from src/bench/data/controls.json, record readers) that one renderer per menu type draws: Who you are and the Politics guide first, then the 20 partly-kit screens, one PR per menu type. Delete the map, law and changes sheets and /api/map. Move the typed English in play.mjs into banks through screenLine. Move screen-side counts and sums (vote tallies, budget totals, a seat's level) into engine views (seatView, budgetView, the offices table). One date wording and one money wording in src/english. The newspaper mockups are at art/newspaper-mockups/ on claude/people-rooms-art. Time box: 6 hours.
