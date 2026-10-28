@@ -83,5 +83,765 @@
   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
   "reference": "art/backdrops/apartment-basement-studio__midday.jpg",
   "prompt": "[bvr-07] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it run-down and neglected, a place where the landlord fixes nothing: water stains and a sagging patch on the ceiling, peeling and scuffed paint, a cracked window pane taped over, worn and stained carpet or curling linoleum, bent blinds, mismatched secondhand furniture with torn upholstery, a bare bulb where a fixture should be, an overflowing trash bag, dishes piled up. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "clerk-counter__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/clerk-counter__midday.jpg",
+  "prompt": "[tv07n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "high-school-cafeteria__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/high-school-cafeteria__midday.jpg",
+  "prompt": "[tv14n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "house-new-england-colonial__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-new-england-colonial__midday.jpg",
+  "prompt": "[tv17n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: a dark blue night sky, street lamps and porch and window lights on, warm pools of light on the ground and deep shadows. Same art style. No people. No text."
+ },
+ "rally-courthouse-square__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-courthouse-square__midday.jpg",
+  "prompt": "[tv22m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low golden sun from one side, long shadows across the ground, a pale clear sky with a little mist. Same art style. No people. No text."
+ },
+ "rally-courthouse-square__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-courthouse-square__midday.jpg",
+  "prompt": "[tv22r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: a gray overcast sky, rain falling, wet shining pavement with puddles and reflections, muted colors. Same art style. No people. No text."
+ },
+ "student-union-lounge__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/student-union-lounge__midday.jpg",
+  "prompt": "[tv27n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "doorstep-mobile-home__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/doorstep-entrance__midday.jpg",
+  "prompt": "[fd4] Paint a new background scene in exactly the same art style as the reference picture: the same clean dark outlines, flat soft shading, palette and level of detail. Use the reference only for its art style; the place itself is completely different: the front steps of a mobile home seen from the yard: metal steps with a railing up to a narrow front door with a small window, skirting along the bottom, a porch light, gravel and a patch of grass. Midday. The doorway stands open enough for a person to stand in it, and the step or floor in front is clear. No people. No text."
+ },
+ "inaugural-platform__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/us-capitol-exterior__midday.jpg",
+  "prompt": "[inaug-wide] Paint a new background scene in exactly the same art style as the reference picture: the same clean dark outlines, flat soft shading, palette and level of detail. Use the reference only for its art style; the place itself is completely different: the inaugural ceremony platform on the west front of the United States Capitol seen from the National Mall: the draped platform with red, white and blue bunting, rows of empty folding chairs on the platform, a lectern at the front center, huge flags hanging from the building, the dome above, the open lawn in front empty. A cold bright January day. No people. No text."
+ },
+ "inaugural-lectern-close__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/us-capitol-exterior__midday.jpg",
+  "prompt": "[inaug-tv] Paint a new background scene in exactly the same art style as the reference picture: the same clean dark outlines, flat soft shading, palette and level of detail. Use the reference only for its art style; the place itself is completely different: a television close shot of the inaugural platform on the west front of the United States Capitol: an empty wooden lectern with the presidential seal on its front and two clear glass panels beside it, red, white and blue bunting along the platform rail, American flags, the Capitol dome rising behind, a cold bright January day. The camera is at chest height facing the lectern from the front, the lectern centered in the lower third of the picture with room above it for the speaker. Nobody at the lectern. No people. No text."
+ },
+ "main-street__region-puerto-rico.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/main-street__midday.jpg",
+  "prompt": "[rg-ms-pr] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Puerto Rico town: pastel-painted concrete buildings with flat roofs and wrought-iron balconies and gates, palm trees and hibiscus, a bright tropical sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "main-street__region-pacific-islands.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/main-street__midday.jpg",
+  "prompt": "[rg-ms-pac] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Pacific island village like Guam or American Samoa: low concrete buildings with tin roofs, a white church, palms and breadfruit trees, the ocean beyond. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "main-street__region-southwest.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/main-street__midday.jpg",
+  "prompt": "[rg-ms-sw] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Desert Southwest town: adobe and stucco buildings with flat roofs and wooden vigas, desert plants and gravel yards, red mountains behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "main-street__region-new-england.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/main-street__midday.jpg",
+  "prompt": "[rg-ms-ne] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a New England town: white clapboard and red brick buildings, a white church steeple, maple trees, stone walls. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "main-street__region-deep-south.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/main-street__midday.jpg",
+  "prompt": "[rg-ms-so] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Deep South town: brick and wood buildings with metal awnings and deep porches, live oaks hung with Spanish moss, a warm hazy sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "main-street__region-plains.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/main-street__midday.jpg",
+  "prompt": "[rg-ms-pl] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Midwest prairie town: plain two-story brick and frame buildings, a grain elevator in the distance, flat open land and a huge sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "main-street__region-mountain-west.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/main-street__midday.jpg",
+  "prompt": "[rg-ms-mt] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Mountain West town: wooden false-front buildings and log details, pine trees, snowy peaks behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "main-street__region-alaska.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/main-street__midday.jpg",
+  "prompt": "[rg-ms-ak] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to an Alaska town: plain wood and metal-sided buildings, gravel ground, spruce trees, snow-capped mountains close behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "rally-town-square__region-puerto-rico.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[rg-rt-pr] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Puerto Rico town: pastel-painted concrete buildings with flat roofs and wrought-iron balconies and gates, palm trees and hibiscus, a bright tropical sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "rally-town-square__region-pacific-islands.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[rg-rt-pac] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Pacific island village like Guam or American Samoa: low concrete buildings with tin roofs, a white church, palms and breadfruit trees, the ocean beyond. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "rally-town-square__region-new-england.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[rg-rt-ne] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a New England town: white clapboard and red brick buildings, a white church steeple, maple trees, stone walls. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "rally-town-square__region-deep-south.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[rg-rt-so] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Deep South town: brick and wood buildings with metal awnings and deep porches, live oaks hung with Spanish moss, a warm hazy sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "rally-town-square__region-plains.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[rg-rt-pl] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Midwest prairie town: plain two-story brick and frame buildings, a grain elevator in the distance, flat open land and a huge sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "rally-town-square__region-mountain-west.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[rg-rt-mt] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Mountain West town: wooden false-front buildings and log details, pine trees, snowy peaks behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "rally-town-square__region-alaska.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[rg-rt-ak] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to an Alaska town: plain wood and metal-sided buildings, gravel ground, spruce trees, snow-capped mountains close behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-suburban__region-puerto-rico.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-suburban__midday.jpg",
+  "prompt": "[rg-ds-pr] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Puerto Rico town: pastel-painted concrete buildings with flat roofs and wrought-iron balconies and gates, palm trees and hibiscus, a bright tropical sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-suburban__region-pacific-islands.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-suburban__midday.jpg",
+  "prompt": "[rg-ds-pac] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Pacific island village like Guam or American Samoa: low concrete buildings with tin roofs, a white church, palms and breadfruit trees, the ocean beyond. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-suburban__region-southwest.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-suburban__midday.jpg",
+  "prompt": "[rg-ds-sw] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Desert Southwest town: adobe and stucco buildings with flat roofs and wooden vigas, desert plants and gravel yards, red mountains behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-suburban__region-new-england.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-suburban__midday.jpg",
+  "prompt": "[rg-ds-ne] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a New England town: white clapboard and red brick buildings, a white church steeple, maple trees, stone walls. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-suburban__region-deep-south.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-suburban__midday.jpg",
+  "prompt": "[rg-ds-so] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Deep South town: brick and wood buildings with metal awnings and deep porches, live oaks hung with Spanish moss, a warm hazy sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-suburban__region-plains.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-suburban__midday.jpg",
+  "prompt": "[rg-ds-pl] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Midwest prairie town: plain two-story brick and frame buildings, a grain elevator in the distance, flat open land and a huge sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-suburban__region-mountain-west.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-suburban__midday.jpg",
+  "prompt": "[rg-ds-mt] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Mountain West town: wooden false-front buildings and log details, pine trees, snowy peaks behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-suburban__region-alaska.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-suburban__midday.jpg",
+  "prompt": "[rg-ds-ak] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to an Alaska town: plain wood and metal-sided buildings, gravel ground, spruce trees, snow-capped mountains close behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-rural__region-pacific-islands.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-rural__midday.jpg",
+  "prompt": "[rg-dr-pac] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Pacific island village like Guam or American Samoa: low concrete buildings with tin roofs, a white church, palms and breadfruit trees, the ocean beyond. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-rural__region-southwest.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-rural__midday.jpg",
+  "prompt": "[rg-dr-sw] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Desert Southwest town: adobe and stucco buildings with flat roofs and wooden vigas, desert plants and gravel yards, red mountains behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-rural__region-new-england.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-rural__midday.jpg",
+  "prompt": "[rg-dr-ne] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a New England town: white clapboard and red brick buildings, a white church steeple, maple trees, stone walls. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-rural__region-deep-south.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-rural__midday.jpg",
+  "prompt": "[rg-dr-so] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Deep South town: brick and wood buildings with metal awnings and deep porches, live oaks hung with Spanish moss, a warm hazy sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-rural__region-plains.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-rural__midday.jpg",
+  "prompt": "[rg-dr-pl] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Midwest prairie town: plain two-story brick and frame buildings, a grain elevator in the distance, flat open land and a huge sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-rural__region-mountain-west.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-rural__midday.jpg",
+  "prompt": "[rg-dr-mt] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Mountain West town: wooden false-front buildings and log details, pine trees, snowy peaks behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-rural__region-alaska.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-rural__midday.jpg",
+  "prompt": "[rg-dr-ak] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to an Alaska town: plain wood and metal-sided buildings, gravel ground, spruce trees, snow-capped mountains close behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "clerk-counter__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/clerk-counter__midday.jpg",
+  "prompt": "[av-clerk-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "coffee-shop__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/coffee-shop__midday.jpg",
+  "prompt": "[av-coffee-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "council-chamber__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/council-chamber__midday.jpg",
+  "prompt": "[av-council-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "council-chamber__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/council-chamber__midday.jpg",
+  "prompt": "[av-council-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "diner-counter__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/diner-counter__midday.jpg",
+  "prompt": "[av-diner-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "door-knocking-suburban__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-suburban__midday.jpg",
+  "prompt": "[av-door-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "election-night-venue__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/election-night-venue__midday.jpg",
+  "prompt": "[av-night-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "election-night-venue__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/election-night-venue__midday.jpg",
+  "prompt": "[av-night-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "governor-office__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/governor-office__midday.jpg",
+  "prompt": "[av-gov-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "governor-office__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/governor-office__midday.jpg",
+  "prompt": "[av-gov-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "house-bedroom__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-bedroom__midday.jpg",
+  "prompt": "[av-bed-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "house-bedroom__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-bedroom__midday.jpg",
+  "prompt": "[av-bed-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "house-suburban-living__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-suburban-living__midday.jpg",
+  "prompt": "[av-living-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "house-suburban-living__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-suburban-living__midday.jpg",
+  "prompt": "[av-living-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "main-street__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/main-street__midday.jpg",
+  "prompt": "[av-street-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "mayor-office__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/mayor-office__midday.jpg",
+  "prompt": "[av-mayor-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "polling-place__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/polling-place__midday.jpg",
+  "prompt": "[av-poll-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "rally-town-square__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[av-rally-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "rally-town-square__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[av-rally-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "small-apartment__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/small-apartment__midday.jpg",
+  "prompt": "[av-small-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "state-house-chamber__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/state-house-chamber__midday.jpg",
+  "prompt": "[av-state-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "state-house-chamber__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/state-house-chamber__midday.jpg",
+  "prompt": "[av-state-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "us-house-floor__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/us-house-floor__midday.jpg",
+  "prompt": "[av-house-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "us-house-floor__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/us-house-floor__midday.jpg",
+  "prompt": "[av-house-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "us-senate-floor__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/us-senate-floor__midday.jpg",
+  "prompt": "[av-senate-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "us-senate-floor__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/us-senate-floor__midday.jpg",
+  "prompt": "[av-senate-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "apartment-starter-living__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-starter-living__midday.jpg",
+  "prompt": "[av-starter-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "apartment-basement-studio__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-basement-studio__midday.jpg",
+  "prompt": "[tv01m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "apartment-basement-studio__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-basement-studio__midday.jpg",
+  "prompt": "[tv01n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "apartment-basement-studio__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-basement-studio__midday.jpg",
+  "prompt": "[tv01r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "apartment-older-walkup__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-older-walkup__midday.jpg",
+  "prompt": "[tv02m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "apartment-older-walkup__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-older-walkup__midday.jpg",
+  "prompt": "[tv02n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "apartment-older-walkup__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-older-walkup__midday.jpg",
+  "prompt": "[tv02r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "apartment-public-housing__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-public-housing__midday.jpg",
+  "prompt": "[tv03m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "apartment-public-housing__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-public-housing__midday.jpg",
+  "prompt": "[tv03n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "apartment-public-housing__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-public-housing__midday.jpg",
+  "prompt": "[tv03r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "apartment-student-shared__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-student-shared__midday.jpg",
+  "prompt": "[tv04m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "apartment-student-shared__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-student-shared__midday.jpg",
+  "prompt": "[tv04n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "apartment-student-shared__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-student-shared__midday.jpg",
+  "prompt": "[tv04r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "apartment-suburban-garden__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-suburban-garden__midday.jpg",
+  "prompt": "[tv05m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "apartment-suburban-garden__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-suburban-garden__midday.jpg",
+  "prompt": "[tv05n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "apartment-suburban-garden__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-suburban-garden__midday.jpg",
+  "prompt": "[tv05r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "bedroom-plain__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/bedroom-plain__midday.jpg",
+  "prompt": "[tv06m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "bedroom-plain__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/bedroom-plain__midday.jpg",
+  "prompt": "[tv06n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "bedroom-plain__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/bedroom-plain__midday.jpg",
+  "prompt": "[tv06r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "clerk-counter__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/clerk-counter__midday.jpg",
+  "prompt": "[tv07m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "clerk-counter__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/clerk-counter__midday.jpg",
+  "prompt": "[tv07r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "county-clerk-office-rural__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-clerk-office-rural__midday.jpg",
+  "prompt": "[tv08m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "county-clerk-office-rural__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-clerk-office-rural__midday.jpg",
+  "prompt": "[tv08n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "county-clerk-office-rural__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-clerk-office-rural__midday.jpg",
+  "prompt": "[tv08r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "county-clerk-office-urban__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-clerk-office-urban__midday.jpg",
+  "prompt": "[tv09m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "county-clerk-office-urban__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-clerk-office-urban__midday.jpg",
+  "prompt": "[tv09n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "county-clerk-office-urban__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-clerk-office-urban__midday.jpg",
+  "prompt": "[tv09r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "county-commission-rural__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-commission-rural__midday.jpg",
+  "prompt": "[tv10m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "county-commission-rural__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-commission-rural__midday.jpg",
+  "prompt": "[tv10n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "county-commission-rural__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-commission-rural__midday.jpg",
+  "prompt": "[tv10r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "courthouse-square__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/courthouse-square__midday.jpg",
+  "prompt": "[tv11m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low golden sun from one side, long shadows across the ground, a pale clear sky with a little mist. Same art style. No people. No text."
+ },
+ "courthouse-square__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/courthouse-square__midday.jpg",
+  "prompt": "[tv11n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: a dark blue night sky, street lamps and porch and window lights on, warm pools of light on the ground and deep shadows. Same art style. No people. No text."
+ },
+ "courthouse-square__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/courthouse-square__midday.jpg",
+  "prompt": "[tv11r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: a gray overcast sky, rain falling, wet shining pavement with puddles and reflections, muted colors. Same art style. No people. No text."
+ },
+ "doorstep-entrance__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/doorstep-entrance__midday.jpg",
+  "prompt": "[tv12m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low golden sun from one side, long shadows across the ground, a pale clear sky with a little mist. Same art style. No people. No text."
+ },
+ "doorstep-entrance__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/doorstep-entrance__midday.jpg",
+  "prompt": "[tv12n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: a dark blue night sky, street lamps and porch and window lights on, warm pools of light on the ground and deep shadows. Same art style. No people. No text."
+ },
+ "doorstep-entrance__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/doorstep-entrance__midday.jpg",
+  "prompt": "[tv12r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: a gray overcast sky, rain falling, wet shining pavement with puddles and reflections, muted colors. Same art style. No people. No text."
+ },
+ "elementary-classroom__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/elementary-classroom__midday.jpg",
+  "prompt": "[tv13m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "elementary-classroom__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/elementary-classroom__midday.jpg",
+  "prompt": "[tv13n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "elementary-classroom__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/elementary-classroom__midday.jpg",
+  "prompt": "[tv13r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "high-school-cafeteria__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/high-school-cafeteria__midday.jpg",
+  "prompt": "[tv14m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "high-school-cafeteria__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/high-school-cafeteria__midday.jpg",
+  "prompt": "[tv14r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "high-school-hallway__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/high-school-hallway__midday.jpg",
+  "prompt": "[tv15m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "high-school-hallway__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/high-school-hallway__midday.jpg",
+  "prompt": "[tv15n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "high-school-hallway__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/high-school-hallway__midday.jpg",
+  "prompt": "[tv15r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "house-gulf-coast-raised__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-gulf-coast-raised__midday.jpg",
+  "prompt": "[tv16m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low golden sun from one side, long shadows across the ground, a pale clear sky with a little mist. Same art style. No people. No text."
+ },
+ "house-gulf-coast-raised__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-gulf-coast-raised__midday.jpg",
+  "prompt": "[tv16n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: a dark blue night sky, street lamps and porch and window lights on, warm pools of light on the ground and deep shadows. Same art style. No people. No text."
+ },
+ "house-gulf-coast-raised__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-gulf-coast-raised__midday.jpg",
+  "prompt": "[tv16r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: a gray overcast sky, rain falling, wet shining pavement with puddles and reflections, muted colors. Same art style. No people. No text."
+ },
+ "house-new-england-colonial__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-new-england-colonial__midday.jpg",
+  "prompt": "[tv17m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low golden sun from one side, long shadows across the ground, a pale clear sky with a little mist. Same art style. No people. No text."
+ },
+ "house-new-england-colonial__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-new-england-colonial__midday.jpg",
+  "prompt": "[tv17r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: a gray overcast sky, rain falling, wet shining pavement with puddles and reflections, muted colors. Same art style. No people. No text."
+ },
+ "house-northwest-craftsman__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-northwest-craftsman__midday.jpg",
+  "prompt": "[tv18m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low golden sun from one side, long shadows across the ground, a pale clear sky with a little mist. Same art style. No people. No text."
+ },
+ "house-northwest-craftsman__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-northwest-craftsman__midday.jpg",
+  "prompt": "[tv18n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: a dark blue night sky, street lamps and porch and window lights on, warm pools of light on the ground and deep shadows. Same art style. No people. No text."
+ },
+ "house-northwest-craftsman__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-northwest-craftsman__midday.jpg",
+  "prompt": "[tv18r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: a gray overcast sky, rain falling, wet shining pavement with puddles and reflections, muted colors. Same art style. No people. No text."
+ },
+ "house-southwest-adobe__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-southwest-adobe__midday.jpg",
+  "prompt": "[tv19m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low golden sun from one side, long shadows across the ground, a pale clear sky with a little mist. Same art style. No people. No text."
+ },
+ "house-southwest-adobe__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-southwest-adobe__midday.jpg",
+  "prompt": "[tv19n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: a dark blue night sky, street lamps and porch and window lights on, warm pools of light on the ground and deep shadows. Same art style. No people. No text."
+ },
+ "house-southwest-adobe__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-southwest-adobe__midday.jpg",
+  "prompt": "[tv19r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: a gray overcast sky, rain falling, wet shining pavement with puddles and reflections, muted colors. Same art style. No people. No text."
+ },
+ "rally-airport-hangar__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-airport-hangar__midday.jpg",
+  "prompt": "[tv20m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "rally-airport-hangar__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-airport-hangar__midday.jpg",
+  "prompt": "[tv20n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "rally-airport-hangar__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-airport-hangar__midday.jpg",
+  "prompt": "[tv20r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "rally-county-fairground__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-county-fairground__midday.jpg",
+  "prompt": "[tv21m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low golden sun from one side, long shadows across the ground, a pale clear sky with a little mist. Same art style. No people. No text."
+ },
+ "rally-county-fairground__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-county-fairground__midday.jpg",
+  "prompt": "[tv21n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: a dark blue night sky, street lamps and porch and window lights on, warm pools of light on the ground and deep shadows. Same art style. No people. No text."
+ },
+ "rally-county-fairground__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-county-fairground__midday.jpg",
+  "prompt": "[tv21r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: a gray overcast sky, rain falling, wet shining pavement with puddles and reflections, muted colors. Same art style. No people. No text."
+ },
+ "rally-courthouse-square__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-courthouse-square__midday.jpg",
+  "prompt": "[tv22n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: a dark blue night sky, street lamps and porch and window lights on, warm pools of light on the ground and deep shadows. Same art style. No people. No text."
+ },
+ "rally-downtown-plaza__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-downtown-plaza__midday.jpg",
+  "prompt": "[tv23m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low golden sun from one side, long shadows across the ground, a pale clear sky with a little mist. Same art style. No people. No text."
+ },
+ "rally-downtown-plaza__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-downtown-plaza__midday.jpg",
+  "prompt": "[tv23n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: a dark blue night sky, street lamps and porch and window lights on, warm pools of light on the ground and deep shadows. Same art style. No people. No text."
+ },
+ "rally-downtown-plaza__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-downtown-plaza__midday.jpg",
+  "prompt": "[tv23r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: a gray overcast sky, rain falling, wet shining pavement with puddles and reflections, muted colors. Same art style. No people. No text."
+ },
+ "rally-town-square__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[tv24m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low golden sun from one side, long shadows across the ground, a pale clear sky with a little mist. Same art style. No people. No text."
+ },
+ "rally-town-square__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[tv24n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: a dark blue night sky, street lamps and porch and window lights on, warm pools of light on the ground and deep shadows. Same art style. No people. No text."
+ },
+ "rally-town-square__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[tv24r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: a gray overcast sky, rain falling, wet shining pavement with puddles and reflections, muted colors. Same art style. No people. No text."
+ },
+ "rally-union-hall-parking-lot__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-union-hall-parking-lot__midday.jpg",
+  "prompt": "[tv25m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low golden sun from one side, long shadows across the ground, a pale clear sky with a little mist. Same art style. No people. No text."
+ },
+ "rally-union-hall-parking-lot__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-union-hall-parking-lot__midday.jpg",
+  "prompt": "[tv25n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: a dark blue night sky, street lamps and porch and window lights on, warm pools of light on the ground and deep shadows. Same art style. No people. No text."
+ },
+ "rally-union-hall-parking-lot__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-union-hall-parking-lot__midday.jpg",
+  "prompt": "[tv25r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: a gray overcast sky, rain falling, wet shining pavement with puddles and reflections, muted colors. Same art style. No people. No text."
+ },
+ "registrar-of-voters-worn__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/registrar-of-voters-worn__midday.jpg",
+  "prompt": "[tv26m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "registrar-of-voters-worn__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/registrar-of-voters-worn__midday.jpg",
+  "prompt": "[tv26n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "registrar-of-voters-worn__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/registrar-of-voters-worn__midday.jpg",
+  "prompt": "[tv26r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "student-union-lounge__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/student-union-lounge__midday.jpg",
+  "prompt": "[tv27m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "student-union-lounge__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/student-union-lounge__midday.jpg",
+  "prompt": "[tv27r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "township-board__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/township-board__midday.jpg",
+  "prompt": "[tv28m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "township-board__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/township-board__midday.jpg",
+  "prompt": "[tv28n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "township-board__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/township-board__midday.jpg",
+  "prompt": "[tv28r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "university-lecture-hall__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/university-lecture-hall__midday.jpg",
+  "prompt": "[tv29m] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to early morning: low warm golden sunlight slanting in through the windows with long soft shadows across the floor, the sky outside pale and bright, lamps off. Same art style. No people. No text."
+ },
+ "university-lecture-hall__night.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/university-lecture-hall__midday.jpg",
+  "prompt": "[tv29n] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light, to night: the windows dark blue-black with a few distant lights outside, the room lit by its own lamps and ceiling lights, warm pools of light and deeper shadows in the corners. Same art style. No people. No text."
+ },
+ "university-lecture-hall__rain.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/university-lecture-hall__midday.jpg",
+  "prompt": "[tv29r] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the weather, to a rainy day: gray overcast daylight through the windows, raindrops and wet streaks on the glass, soft flat light with muted colors, one lamp on against the gloom. Same art style. No people. No text."
+ },
+ "doorstep-rundown-porch__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/doorstep-entrance__midday.jpg",
+  "prompt": "[fd1] Paint a new background scene in exactly the same art style as the reference picture: the same clean dark outlines, flat soft shading, palette and level of detail. Use the reference only for its art style; the place itself is completely different: a rundown front porch seen from the front walk: a sagging porch with peeling paint, a torn screen door in front of a plain front door, a crooked house number, a cracked step, a porch light, a weedy yard. Midday. The doorway stands open enough for a person to stand in it, and the step or floor in front is clear. No people. No text."
+ },
+ "doorstep-suburban-stoop__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/doorstep-entrance__midday.jpg",
+  "prompt": "[fd2] Paint a new background scene in exactly the same art style as the reference picture: the same clean dark outlines, flat soft shading, palette and level of detail. Use the reference only for its art style; the place itself is completely different: a suburban front stoop seen from the front walk: two concrete steps up to a painted front door with a doorbell and a house number, a welcome mat, a porch light, trimmed shrubs. Midday. The doorway stands open enough for a person to stand in it, and the step or floor in front is clear. No people. No text."
+ },
+ "doorstep-apartment-hallway__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/doorstep-entrance__midday.jpg",
+  "prompt": "[fd3] Paint a new background scene in exactly the same art style as the reference picture: the same clean dark outlines, flat soft shading, palette and level of detail. Use the reference only for its art style; the place itself is completely different: an apartment door in a building hallway: a numbered apartment door with a peephole and a doormat, worn hallway carpet, a fluorescent ceiling light, other doors down the hall. The doorway stands open enough for a person to stand in it, and the step or floor in front is clear. No people. No text."
+ },
+ "town-council-desk__morning.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/township-board__midday.jpg",
+  "prompt": "[np069] Paint a new background scene in exactly the same art style as the reference picture: the same clean dark outlines, flat soft shading, palette and level of detail. Use the reference only for its art style; the place itself is completely different: a town council member's shared desk in a small town hall office: a plain metal desk with an agenda packet and a phone, a rolling chair and one side chair, a tall filing cabinet, a bulletin board with flyers and a town map, fluorescent lights, a window with blinds, a coat rack. Morning. The chairs are empty and clear. No people. No text."
+ },
+ "county-admin-lobby__evening.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/county-admin-lobby__midday.jpg",
+  "prompt": "[cal-ev] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light and time, to evening after a county board meeting: the windows dark, fluorescent ceiling lights on, the doors to the board room standing open with warm light from inside. Same art style. No people. No text."
  }
 }
