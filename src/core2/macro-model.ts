@@ -182,6 +182,7 @@ export interface MacroWorldOffsets {
  * whole spread, so a world is near the published figure but never on it.
  * Seeded generation of the world's starting state, never an actor's outcome.
  */
+// stopgapId: SG-WORLD-draw-helpers-three
 export function worldOffset(
   seed: string,
   key: string,
