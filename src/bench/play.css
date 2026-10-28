@@ -3019,3 +3019,8 @@ body.dev .dev-ring {
   font-size: 0.75em;
   opacity: 0.7;
 }
+
+/* What a person is like, on their card: a short paragraph above the facts. */
+#person-facts .person-sketch {
+  margin: 0 0 18px;
+}
