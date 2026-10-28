@@ -1,0 +1,17 @@
+{
+  "about": "A person's recorded pronoun set as the words a third-person sentence fills: subject at a sentence's start, subject inside one, object and reflexive. A set with no row here (they-them) is said with the they form of a line. Read by src/english/pronoun-words.ts.",
+  "sets": {
+    "she-her": {
+      "subject": "She",
+      "lower": "she",
+      "object": "her",
+      "reflexive": "herself"
+    },
+    "he-him": {
+      "subject": "He",
+      "lower": "he",
+      "object": "him",
+      "reflexive": "himself"
+    }
+  }
+}
