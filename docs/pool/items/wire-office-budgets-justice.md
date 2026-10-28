@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 1
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/wire-office-2
-pr:
+pr: #6691
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T14:35:00.332Z
