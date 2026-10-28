@@ -113,8 +113,6 @@ export interface ResidentsInput {
   accounts: readonly { placeId: PlaceId; accountId: string }[];
   households: readonly ResidentHouseholdRecord[];
   flows: readonly ResidentFlowInput[];
-  /** Each class and workgroup's size in the full build, by `${circle}|${contextKey}` (PEOPLE's peerCohortSize). */
-  cohortSizes?: Readonly<Record<string, number>>;
   /** Employer payday calendars the counted workers were on (fill-in reuses their cadence). */
   calendars?: readonly WorkPayrollCalendarInput[];
   /**

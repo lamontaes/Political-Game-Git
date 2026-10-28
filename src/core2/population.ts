@@ -50,7 +50,7 @@ import {
   type CorePlace,
 } from "./place-lookup";
 import {
-  estimatedMonthlyHouseholdLivingCosts,
+  worldMonthlyHouseholdLivingCosts,
   livingCostsRegionForState,
   LIVING_COSTS_SOURCE,
 } from "./reference/living-costs-data";
@@ -1219,7 +1219,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         id,
         plan.ids.filter((member) => member !== id),
       );
-    const costs = estimatedMonthlyHouseholdLivingCosts(
+    const costs = worldMonthlyHouseholdLivingCosts(
+      options.seed,
       livingCostsRegionForState(place.stateJurisdictionKey),
       plan.ids.length,
     );
@@ -1239,6 +1240,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         ? Math.round(
             medianTransactionBalance(
               (dailyPay * p("daysPerMeanYear")) / p("minorPerDollar"),
+              options.seed,
             ) * p("minorPerDollar"),
           )
         : householdDailyCost * p("moneyBufferDays");

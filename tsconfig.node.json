@@ -40,6 +40,7 @@
     "src/core2/kernel/**/*.ts",
     "src/core2/reference/**/*.ts",
     "src/core2/gov-rules/**/*.ts",
+    "src/core2/appearance.ts",
     "src/core2/bill-numbering-derivation.ts",
     "src/core2/bill-numbering-styles.generated.ts",
     "src/core2/bill-numbering-styles.ts",
