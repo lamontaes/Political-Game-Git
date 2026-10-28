@@ -28,6 +28,7 @@ import {
   type JournalWords,
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
+import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
 import { properName } from "./words";
 import type { Moment } from "./types";
@@ -409,6 +410,32 @@ function householdMoments(
 }
 
 /**
+ * The day the person comes of voting age, told once it has come, for a life
+ * the player began before it (golden-path step one). It cites the person's
+ * own record, whose birth date sets the day.
+ */
+function comingOfAgeMoments(
+  core: Readonly<CoreState>,
+  person: PersonState,
+): JournalMoment[] {
+  const date = comingOfAgeOn(person.birthDate);
+  if (date < core.startedAt) return [];
+  return [
+    {
+      id: `came-of-age:${person.id}`,
+      date,
+      causeId: person.id,
+      causeFactId: person.id,
+      causeKind: "life:came-of-age",
+      counterpartIds: [],
+      hindsight: zero,
+      impact: zero,
+      echoes: [],
+    },
+  ];
+}
+
+/**
  * What the person did in office, read from the acts the office-day engine
  * keeps (a vote, a town hall, an interview): each is a moment the journal
  * tells, citing the act's own record and, for a vote, the bill.
@@ -708,6 +735,7 @@ export function composeJournal(
     ...book.moments,
     ...officeActMoments(core, personId, words),
     ...householdMoments(core, person),
+    ...comingOfAgeMoments(core, person),
   ]
     .filter((moment) => moment.date <= through)
     .sort(

@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/tooling/, docs/roadmap/features.json
 
 **Notes.** TODO
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: M1-09 'stay within that place's real rates' conflicts with OD:558 / OD:12 (calibration ranges only); re-word the check.

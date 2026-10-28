@@ -3949,11 +3949,11 @@
     "kind": "estate",
     "file": "src/core2/data/estates.json",
     "line": 37,
-    "whatItFakes": "A full person's estate is only their cash and the standing payments they owed: homes, loans, businesses and accounts other than their main one are not settled. A relative who is still only a counted record does not inherit.",
+    "whatItFakes": "A full person's estate is their cash, the standing payments they owed, and the home of a household whose last member they were (sold when probate closes). Loans, businesses and accounts other than their main one are not settled. A relative who is still only a counted record does not inherit.",
     "why": "Money stress audit defect 6 (Oct 14): a dead person's cash stayed on their record. Cash first; the rest of an estate needs property and debt records the core doesn't settle yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
-    "replacement": "Probate that settles debts first, passes homes and businesses by title, and reads a will where the person made one.",
+    "replacement": "Probate that settles debts first, passes businesses by title, and reads a will where the person made one.",
     "status": "open"
   },
   {
@@ -7093,12 +7093,12 @@
     "id": "SG-PLAY-figure-color-masks-from-picture",
     "kind": "faked-mechanic",
     "file": "src/bench/figure-colors.ts",
-    "line": 61,
-    "whatItFakes": "A figure's skin and clothing regions are guessed from pixel colors (warm saturated pixels are skin, unsaturated mid-gray pixels are clothing) instead of read from a painted mask, so the gray shoes follow the clothes color and a very dark skin tone loses some facial shading.",
+    "line": 99,
+    "whatItFakes": "Skin is still guessed from pixel colors (warm saturated pixels), and the 282 v2 figures without a garment map yet (art/people-engine/v2/garments covers 108) take their clothing from the unsaturated mid-gray pixels below the head, split by height into shirt, pants and shoes, or with a vest or blazer into a one-color suit and shoes.",
     "why": "The v2 figures are flat pictures in one skin tone and gray clothes with no mask layers; play-stop-34 needed color choice in the creator and rooms inside its time box without repainting 389 figures.",
     "addedBy": "claude/play-stop-34",
     "addedAt": "2026-10-27",
-    "replacement": "A painted skin mask and clothing mask for each figure (asset-scene-admission), read by recolorFigure in place of the color test.",
+    "replacement": "The art session's garment maps for every v2 figure and a skin mask (asset-scene-admission), read by recolorFigure; the color test is then deleted.",
     "status": "open"
   },
   {
@@ -7186,5 +7186,41 @@
     "status": "resolved",
     "resolvedAt": "2026-10-25",
     "resolution": "Each job held at the opening carries when it was taken (the work commitment's heldSince): the world's recorded start, else the opening's estimate from the BLS age band's median tenure bounded by adulthood and the employer's founding, the same date the person's work:opening fact and their opening pay read (src/core2/population.ts, openingStartOf). tenureYears reads it for full and counted workers alike, so raises, layoffs and quits read real tenure (pool item people-opening-job-tenure-estimate)."
+  },
+  {
+    "id": "SG-LAW-held-bill-chair-reasons-unread",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 3127,
+    "whatItFakes": "A bill the committee chair holds without a hearing keeps the chair's reasons on the committee record (their position on the bill, part by part, and what their temperament adds toward a hearing), but no scene, story or later decision reads them yet.",
+    "why": "The reasons are the why of a held bill for the sponsor and the player; the scene where the sponsor asks the chair, and a story that a bill died without a hearing, are not yet built to read the record.",
+    "addedBy": "claude/laws-held-bill-chair-reasons",
+    "addedAt": "2026-10-27",
+    "replacement": "The sponsor-asks-chair scene and the held-bill press line read the chair's reasons by the committee record's id (laws-hold-record-names-the-sponsor).",
+    "status": "open"
+  },
+  {
+    "id": "SG-DIR-job-offer-lines",
+    "kind": "missing-data",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 3337,
+    "whatItFakes": "The job-offer scene composes only once the Words lead adds `job-offer` lines (scene-talk and scene-words banks) for the purpose; until then the director stages no call for a job-offered record, so the player sees no offer and it lapses at its deadline.",
+    "why": "Owner, Oct 27: a job offer comes through a person and a scene or not at all. The bench's faceless offer card was removed; the lines for the new purpose belong to the Words lead.",
+    "addedBy": "claude/integration-one-employment",
+    "addedAt": "2026-10-27",
+    "replacement": "Bank lines for the job-offer purpose and the job-offer scene opening, written by the Words lead through civic-prose; the offer then shows as a call from the person at the employer.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-day-start-minute",
+    "kind": "missing-mechanic",
+    "file": "src/bench/player.ts",
+    "line": 212,
+    "whatItFakes": "Every controlled person's day starts at one minute (7:00 AM, playerDayStartMinute): Day, Week and a calendar jump land on it, and the director's scenes at home wait for it, instead of the person's own wake time.",
+    "why": "The core keeps no wake or sleep time for a person; work shifts start and end, but nothing says when anyone gets up.",
+    "addedBy": "claude/integration-clock-and-hours",
+    "addedAt": "2026-10-27",
+    "replacement": "A person's own wake time from their work schedule, household and age (American Time Use Survey sleep and waking hours by age and employment), read by the bench's day driver and the director's openedAt.",
+    "status": "open"
   }
 ]

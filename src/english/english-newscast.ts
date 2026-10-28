@@ -135,7 +135,13 @@ export const STORY_KINDS = {
   "homes-built": { headline: ["homes-built"], lede: ["homes-built"] },
   "homeless-count": { headline: ["homeless-count"], lede: ["homeless-count"] },
   birth: { headline: ["birth"], lede: ["birth"] },
-  address: { headline: ["address"], lede: ["address"] },
+  // The President's address as a short news piece: after the lede, the
+  // country's figures the address argued from and one sentence quoted from it.
+  address: {
+    headline: ["address"],
+    lede: ["address"],
+    context: ["address-unemployment", "address-wages", "address-quote"],
+  },
   founded: { headline: ["founded"], lede: ["founded"] },
   amendment: { headline: ["amendment"], lede: ["amendment"] },
   estate: { headline: ["estate"], lede: ["estate"] },
@@ -241,6 +247,8 @@ export interface NewsStory {
   headline?: string;
   /** The paper's first sentence. */
   lede?: string;
+  /** The story as the paper prints it, for a kind with context: the lede, then each context sentence. */
+  paragraphs?: string[];
   /** The broadcast, line by line, each with who says it. */
   broadcast: { speaker: "anchor" | "reporter"; text: string }[];
   sourceRecordIds: string[];
@@ -293,6 +301,21 @@ export function composeNewsStory(
       ),
     ),
   );
+  // A kind with context says one sentence per context role whose facts the
+  // record carries, in order, after the lede.
+  const context = ("context" in roles ? roles.context : [])
+    .map((name) =>
+      keep(
+        line(
+          packet,
+          `${kind}/${name}`,
+          "news",
+          "tell",
+          variants(NEWS_BANK, (use) => use.role === name, heldFirst),
+        ),
+      ),
+    )
+    .filter((text): text is string => !!text);
   // The anchor's and reporter's own names fill `{name}` only in their lines.
   const as = (who: "anchor" | "reporter"): GroundedEnglishPacket => {
     const own = packet.facts[who];
@@ -382,6 +405,7 @@ export function composeNewsStory(
   return {
     ...(headline ? { headline } : {}),
     ...(lede ? { lede } : {}),
+    ...("context" in roles && lede ? { paragraphs: [lede, ...context] } : {}),
     broadcast,
     sourceRecordIds: [...ids],
   };

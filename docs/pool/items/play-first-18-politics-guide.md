@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
 pr: #6099
 blocked-on:
@@ -33,3 +33,5 @@ claimed-at:
 
 Sent back 2026-10-26 from PR #6099 (branch play-first/play-first-18-politics-guide): Current-main integration conflicts in src/bench/government.ts and src/bench/play.css, plus main-only PROGRESS.md; merge aborted, preserve current government/creator/card readers and rerun the guide record/browser checks after reconciliation; Words approval and owner screenshot policy are not blockers; finish on that branch, merge main into it first.
 Sent back 2026-10-27 from PR #6099 (branch play-first/play-first-18-politics-guide): the Guide still prints '(counter: director)' in some places (Duncan Falls, Ohio); finish on that branch, merge main into it first.
+
+Fixer 6 (Oct 27): superseded by PR #6413 (every counter tag in words; the check compares the worded line; main merged).

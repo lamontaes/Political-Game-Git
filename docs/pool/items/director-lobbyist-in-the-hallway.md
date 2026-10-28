@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/director-lobbyist-hallway
 pr: #6269
 blocked-on:

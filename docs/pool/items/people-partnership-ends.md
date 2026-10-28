@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-17 from PR #4970 (branch claude/partnership-ends): Morning check: the partnership-ending stack includes the non-Words edit to protected src/director/play-modules.ts and the Core/World prerequisites inherited from #4959 and #4963. Land the installation through a Words-owned PR, merge the Core household/family-link prerequisites, and record World agreement for the housing helpers (or split those helpers). Merge main into this branch afterward so its remaining separation changes can be validated.; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: rewrite SMART, apply OD:588; stacked on people-partnership-forms.

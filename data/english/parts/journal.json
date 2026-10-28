@@ -3735,6 +3735,114 @@
       }
     },
     {
+      "key": "journal.office-other-act.other-introduced-law",
+      "move": "office-other-act",
+      "kind": "spoken",
+      "text": "{other} introduced {law}.",
+      "uses": [
+        {
+          "move": "office-other-act",
+          "subject": "office",
+          "role": "other",
+          "choice": "act",
+          "journal": [
+            {
+              "kindPrefix": "event:office.introduced",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-other-act.other-put-forward-law",
+      "move": "office-other-act",
+      "kind": "spoken",
+      "text": "{other} put forward {law}.",
+      "uses": [
+        {
+          "move": "office-other-act",
+          "subject": "office",
+          "role": "other",
+          "choice": "act",
+          "journal": [
+            {
+              "kindPrefix": "event:office.introduced",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-other-act.other-voted-for-law",
+      "move": "office-other-act",
+      "kind": "spoken",
+      "text": "{other} voted for {law}.",
+      "uses": [
+        {
+          "move": "office-other-act",
+          "subject": "office",
+          "role": "other",
+          "choice": "act",
+          "journal": [
+            {
+              "kindPrefix": "event:office.voted",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-other-act.other-voted-against-law",
+      "move": "office-other-act",
+      "kind": "spoken",
+      "text": "{other} voted against {law}.",
+      "uses": [
+        {
+          "move": "office-other-act",
+          "subject": "office",
+          "role": "other",
+          "choice": "act",
+          "journal": [
+            {
+              "kindPrefix": "event:office.voted",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.office-line-town-hall.i-held-a-town-hall",
       "move": "office-line-town-hall",
       "kind": "spoken",
@@ -7357,6 +7465,87 @@
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.i-turned-eighteen",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "I turned eighteen.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.today-i-turned-eighteen",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "Today I turned eighteen.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.i-am-eighteen-now",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "I'm eighteen now.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
       "tag": {
         "move": "tell"
       }
