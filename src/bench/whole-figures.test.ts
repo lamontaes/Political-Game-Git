@@ -65,7 +65,6 @@ describe("the look chosen in the creator", () => {
         (row) =>
           (row.pose ?? "stand") === "stand" &&
           !wholeFigureFor(
-            core,
             { ...person, look: chosen },
             place,
             stage,
