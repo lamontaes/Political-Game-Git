@@ -6558,6 +6558,102 @@
    "facing": 135,
    "hairPx": 1629,
    "mirror": "flip the figure and the piece together for the other side"
+  },
+  {
+   "view": "prof",
+   "style": 11,
+   "sex": "female",
+   "styleName": "short two-strand twists",
+   "figure": "v2-prof-f-heavy",
+   "file": "hair/prof/11/v2-prof-f-heavy-hair.png",
+   "head": [
+    6,
+    78.5,
+    73
+   ],
+   "facing": -90,
+   "hairPx": 2931,
+   "mirror": "flip the figure and the piece together for the other side"
+  },
+  {
+   "view": "prof",
+   "style": 11,
+   "sex": "female",
+   "styleName": "short two-strand twists",
+   "figure": "v2-prof-f-medium",
+   "file": "hair/prof/11/v2-prof-f-medium-hair.png",
+   "head": [
+    6,
+    56.0,
+    72
+   ],
+   "facing": -90,
+   "hairPx": 2939,
+   "mirror": "flip the figure and the piece together for the other side"
+  },
+  {
+   "view": "prof",
+   "style": 11,
+   "sex": "female",
+   "styleName": "short two-strand twists",
+   "figure": "v2-prof-f-slim",
+   "file": "hair/prof/11/v2-prof-f-slim-hair.png",
+   "head": [
+    6,
+    49.0,
+    70
+   ],
+   "facing": -90,
+   "hairPx": 2730,
+   "mirror": "flip the figure and the piece together for the other side"
+  },
+  {
+   "view": "prof",
+   "style": 11,
+   "sex": "male",
+   "styleName": "medium wavy",
+   "figure": "v2-prof-m-heavy",
+   "file": "hair/prof/11/v2-prof-m-heavy-hair.png",
+   "head": [
+    6,
+    93.0,
+    76
+   ],
+   "facing": -90,
+   "hairPx": 4471,
+   "mirror": "flip the figure and the piece together for the other side"
+  },
+  {
+   "view": "prof",
+   "style": 11,
+   "sex": "male",
+   "styleName": "medium wavy",
+   "figure": "v2-prof-m-medium",
+   "file": "hair/prof/11/v2-prof-m-medium-hair.png",
+   "head": [
+    6,
+    57.0,
+    74
+   ],
+   "facing": -90,
+   "hairPx": 4258,
+   "mirror": "flip the figure and the piece together for the other side"
+  },
+  {
+   "view": "prof",
+   "style": 11,
+   "sex": "male",
+   "styleName": "medium wavy",
+   "figure": "v2-prof-m-slim",
+   "file": "hair/prof/11/v2-prof-m-slim-hair.png",
+   "head": [
+    6,
+    50.5,
+    73
+   ],
+   "facing": -90,
+   "hairPx": 4056,
+   "mirror": "flip the figure and the piece together for the other side"
   }
  ],
  "notes": [
