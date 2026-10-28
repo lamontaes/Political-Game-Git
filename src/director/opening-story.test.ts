@@ -71,6 +71,25 @@ describe("the opening story", () => {
       row.facts.some((key) => /-rate$|-growth$|-added$/.test(key)),
     ))
       expect(sentence.text, sentence.text).toMatch(/\d/);
+    // The party creed says the President's own party (an Oct 28 voice note:
+    // the speech reads the President's party, traits and the world), and the
+    // country's story ends on what the President will do about it.
+    expect(levels).toContain("occasion");
+    const country = story.address.sentences.filter(
+      (row) => row.level === "country",
+    );
+    if (country.length)
+      expect(
+        country
+          .at(-1)!
+          .facts.some((key) =>
+            /^(mood|unemployment|inflation|wages)-/.test(key),
+          ),
+        country.at(-1)!.text,
+      ).toBe(true);
+    // A number is said as people say it: "is at 3.4 percent", never "is 3.4".
+    for (const sentence of story.address.sentences)
+      expect(sentence.text).not.toMatch(/\bis \d/);
     // Composed from records, the same every time.
     expect(composeOpeningStory(core, playerId)).toEqual(story);
   });
@@ -139,6 +158,12 @@ describe("the opening story", () => {
     const scene = storyScene(core, director, playerId, entry!.momentId, 1230);
     expect(scene.speech?.speakerId, here).toBe(story.president.id);
     expect(scene.speech?.text, here).toBe(story.address.text);
+    // In parts, one per Continue (owner, Oct 28 sitting, 11 and 41): the
+    // opening paragraph, the country's story with what the President will do
+    // about it, and the close, joined they are the whole address.
+    expect(scene.speech?.parts, here).toEqual(story.address.parts);
+    expect(story.address.parts.length, here).toBeGreaterThanOrEqual(3);
+    expect(story.address.parts.join(" "), here).toBe(story.address.text);
     expect(scene.talkToId, here).toBeUndefined();
     // On the screen at home, not standing in the room.
     expect(
