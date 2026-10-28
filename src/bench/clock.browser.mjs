@@ -44,10 +44,32 @@ const settle = async () => {
     );
   }
   await page.reload();
+  await titleEntriesShowOnlyTheirNames();
   await page.locator("#front-continue").click();
   await page.waitForFunction(() =>
     document.getElementById("card-clock").textContent.trim(),
   );
+};
+/**
+ * The title menu (owner, Oct 27: "REMOVE. THE. MENU. SUBTITLES. DO NOT
+ * REPLACE THEM"): every entry shows its name and nothing under it, Continue
+ * included once a life is saved.
+ */
+const titleEntriesShowOnlyTheirNames = async () => {
+  await page.waitForFunction(
+    () => !document.getElementById("front-continue").disabled,
+  );
+  const extra = await page.evaluate(() =>
+    [...document.querySelectorAll("#front-main .item")]
+      .filter((item) => !item.hidden)
+      .map((item) => ({
+        name: item.querySelector("b")?.textContent.trim() ?? "",
+        shown: item.innerText.replace(/\s+/g, " ").trim(),
+      }))
+      // The menu sets entries in capitals by style; the words are what count.
+      .filter(({ name, shown }) => shown.toLowerCase() !== name.toLowerCase()),
+  );
+  assert.deepEqual(extra, [], "a title entry shows text beyond its name");
 };
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
@@ -271,7 +293,9 @@ try {
   );
   if (shots) await page.screenshot({ path: `${shots}/after-doors.png` });
   assert.deepEqual(errors, []);
-  console.log("PASS Day lands on a morning; an outing spends its hours");
+  console.log(
+    "PASS Day lands on a morning; an outing spends its hours; the title shows only names",
+  );
 } finally {
   await browser.close();
 }

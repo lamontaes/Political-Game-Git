@@ -152,6 +152,10 @@ try {
   await morning.waitFor();
   await page.evaluate(() => document.fonts.ready);
   console.log("MORNING:", await page.locator("#election-day").innerText());
+  // The card shows election morning, never the midnight the clock asked at.
+  const clock = await page.locator("#card").innerText();
+  console.log("CARD:", clock.replace(/\s+/g, " "));
+  assert.doesNotMatch(clock, /12:00\s*AM/);
   await shot("eday-1-morning");
   await page
     .getByRole("button", { name: "Go canvassing", exact: true })

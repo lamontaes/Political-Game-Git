@@ -28,9 +28,11 @@ import { GRIEF, griefToday, recordDeath } from "../grief";
 import { ENCOUNTERS } from "../encounters";
 import { runDuePlannedActs } from "../free-block";
 import { OPENING_KIN } from "../opening-kin";
+import { pastWorkFor, pastWorkHistory, pastWorkOf } from "../past-work";
 import type {
   ActOffer,
   CoreAPI,
+  CoreState,
   PersonId,
   PersonState,
   Relationship,
@@ -218,10 +220,11 @@ function dependents(
 
 /**
  * Pre-start people pass (M1-14): a full person's own dated records that fall
- * before day one (their birth and each dated past fact: moves, jobs,
- * partnerships) are entered in the history, so the world's past can be read
- * by record id. Nothing is generated here: counted people carry no individual
- * past until they are filled in, and the records' own sources are kept.
+ * before day one (their birth and each dated past fact) are entered in the
+ * history, so the world's past can be read by record id, and their working
+ * life is run through the window (`past-work.ts`). Counted people carry no
+ * individual past until they are filled in, and the records' own sources are
+ * kept.
  */
 function peopleHistory(
   api: CoreAPI,
@@ -256,11 +259,28 @@ function peopleHistory(
           source: fact.source,
         });
   }
+  // The working life from school to day one is run, not copied (owner,
+  // Oct 27, 2026: history before the start is simulated).
+  pastWorkHistory(api, window, history);
 }
 
 export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
   preStart: { phase: "people", run: peopleHistory },
+  // Someone filled in from the counts gets the working life the run would
+  // have given them, read against the same economy and openings.
+  onFillIn: (api, { memberIds }) =>
+    pastWorkFor(
+      api.state as CoreState,
+      memberIds.flatMap((id) => {
+        const person = api.state.people.get(id as PersonId);
+        return person &&
+          !pastWorkOf(api.state as CoreState, id as PersonId).length
+          ? [person]
+          : [];
+      }),
+      PEOPLE_MODULE_ID,
+    ),
   onDay: (api) => {
     shareHomeTime(api);
   },

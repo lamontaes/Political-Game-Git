@@ -24,12 +24,7 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
-import {
-  enactLaw,
-  lawChain,
-  lawInForce,
-  LAWS_MODULE_ID,
-} from "../modules/laws";
+import { enactLaw, lawChain, lawInForce } from "../modules/laws";
 import { countedJob, residentsRuntime } from "../modules/residents";
 import type { LawRowInput } from "../laws-starting";
 import {
@@ -79,24 +74,6 @@ export function recordApplied(
     engine: APPLIED_ENGINE,
     amountMinor: paidToday ? 0 : (input.amountMinor ?? 0),
   });
-}
-
-/** The row that makes a policy question law for the town at some level (the latest row there says yes). */
-export function questionRow(
-  api: CoreAPI,
-  key: string,
-): LawRowInput | undefined {
-  const date = api.state.date;
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  for (const { jurisdiction } of lawChain(api).levels) {
-    const latest = (
-      laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    if (latest?.value === 1) return latest;
-  }
-  return undefined;
 }
 
 /** The government at a law's or budget's level, if the town has one there. */

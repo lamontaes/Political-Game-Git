@@ -6,8 +6,14 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 05:00 UTC: no session messages; GitHub and Drive only (owner, 1:30 AM Eastern)
+
+- **Sessions communicate through GitHub or Drive, never by message (owner: "tell every session to communicate via GitHub or Drive and not try to send messages because it doesn't work, and then work gets dropped").** Messages between sessions are refused or lost; the channel, MERGE-FIRST, PROGRESS, PR bodies and comments, and pool Notes carry everything. The Oct 27 "messaging opened" line is withdrawn.
+- **Guards first (owner: "That's what I want. Guards first").** No builder starts until the guards are on main and the owner has seen what they turn red; he decides the builders from that list.
+
 ## Oct 28, 04:00 UTC: the map first (owner, 12:30 AM Eastern)
 
+- **The simulation is the one layer; everything else is a view of its records (owner, 12:45 AM Eastern: "All this stuff happens in the engines and the simulation, which is the overall layer. It's just different ways of displaying the same information... That's how literally every single game works. Make my game like how every other game works").** Screens, scenes, the Journal, News and speeches read the records; none computes or stores its own version of a fact. In AGENTS.md's first bullet.
 - **Every building session is stopped until the engine map is read (owner: "give me the map first"; "I will decide on these sessions... these are not questions you ask me until we even know the scope of the problem").** One read-only session writes docs/reports/engine-map-2026-10-28.md: every engine, its readers, its duplicates, what reaches each screen, every writer and reader of the past, every hard-coded number; no code changes. The owner decides the sessions from it.
 - **A new mechanic is forbidden; a missing piece is a stopgap and a question (owner: "Yes, a stopgap. Because I've been proven right literally every single time this comes up. It's in the code. Whatever you need, it's in the code").**
 - **Every piece of UI comes from the UI kit, nothing invented (owner: "The 20 play sheets, those all need to be from the UI kit. Every single piece of UI, not just the menu, needs to come from the UI kit. Every single piece, nothing invented").**
