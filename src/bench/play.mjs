@@ -16,6 +16,8 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
+import { districtMap, partyLegend } from "./ui/map.mjs";
+import { faceGrid } from "./ui/face-grid.mjs";
 import { makeTab, tabBar } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
@@ -307,9 +309,11 @@ document.addEventListener("keydown", (event) => {
   else if ($("front").hidden) openSheet("options");
 });
 
-async function renderScene() {
+async function renderScene({ keepBackdrop = false } = {}) {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
-  $("backdrop").src = scene.backdrop.url;
+  // The opening's staged story sets the backdrop itself; setting the room's
+  // here first would load two pictures in a row (owner, Oct 28, point 2).
+  if (!keepBackdrop) $("backdrop").src = scene.backdrop.url;
   // A person in the room is talked to by clicking them; their name in the talk
   // box opens their card (owner, Oct 27: the card has no Talk button).
   drawPeople(scene.people, (p) => talkTo(p.personId));
@@ -495,9 +499,9 @@ async function renderJournalNote() {
     showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
   shownJournalLine = line;
 }
-async function refresh() {
+async function refresh(scene = {}) {
   await Promise.all([
-    renderScene(),
+    renderScene(scene),
     renderCard(),
     renderJournalNote(),
     markNews(false),
@@ -2665,18 +2669,15 @@ const sheets = {
       title: label,
       items: [
         {
-          pages: [
-            ...barChart(
-              lines.map((r) => ({
-                label: r.name ?? r.line,
-                value: r.minor,
-                steps: withSteps ? steps(r) : [],
-              })),
-              label,
-              roundedMoney,
-            ).children,
-          ].map((node) => ({ node })),
-          size: 6,
+          node: barChart(
+            lines.map((r) => ({
+              label: r.name ?? r.line,
+              value: r.minor,
+              steps: withSteps ? steps(r) : [],
+            })),
+            label,
+            roundedMoney,
+          ),
         },
       ],
     });
@@ -3147,8 +3148,8 @@ const sheets = {
               },
             })
           : row(holderName(s), "");
-      const member = (s) => {
-        const line = holderRow(s);
+      const member = (s, withOffice = false) => {
+        const line = holderRow(s, withOffice ? s.title : undefined);
         const won =
           s.holder && s.elections.find((e) => e.termId === s.holder.termId);
         const result = controls.results;
@@ -3207,7 +3208,6 @@ const sheets = {
         );
       };
       let bodies;
-      let start = 0;
       if (otherState) {
         // Another state's members at this level, its legislature or its members
         // of Congress: every sitting member, by chamber.
@@ -3222,11 +3222,8 @@ const sheets = {
         bodies = [...chambers.values()].map((seats) => ({
           title: seats[0].title,
           items: [
-            { text: seats[0].government ?? "", tone: "place" },
-            {
-              pages: seats.map((s) => ({ node: holderRow(s) })),
-              size: 6,
-            },
+            // The state is the one the filter names; no line repeating it.
+            ...seats.map((s) => ({ node: holderRow(s) })),
           ],
         }));
       } else {
@@ -3235,33 +3232,65 @@ const sheets = {
           if (!offices.has(s.officeId)) offices.set(s.officeId, []);
           offices.get(s.officeId).push(s);
         }
-        start = Math.max(
-          0,
-          [...offices.values()].findIndex((seats) =>
-            seats.some((s) => s.seatId === race?.seatId),
-          ),
-        );
-        bodies = [...offices.values()].map((seats) => {
+        // A body of several seats is its own section; the one-seat offices
+        // of one government (a county's sheriff, clerk, assessor) share a
+        // section named for it, each row naming the office, so the screen
+        // holds every office at once (owner, Oct 28, point 22).
+        const body = (seats, title, detail) => {
           const first = seats[0];
           const parties = v.partySeatsByOffice[first.officeId] ?? [];
           return {
-            title: first.title,
+            title,
             items: [
-              { text: first.body ?? first.government ?? "", tone: "place" },
+              // A local one-seat office is named under its body ("Clerk /
+              // Apache County"); a state or federal office's government is
+              // the state the filter already names, so no "Governor / Ohio"
+              // line (owner, Oct 28, point 16).
+              level === "local" && first.body && first.body !== title
+                ? { text: first.body, tone: "place" }
+                : null,
               first.presentation?.chamberUrl && {
                 picture: first.presentation.chamberUrl,
               },
-              parties.length && {
-                node: barChart(
-                  parties.map((p) => ({ label: p.party, value: p.seats })),
-                  labels.seats,
-                ),
-              },
-              {
-                pages: seats.map((s) => ({ node: member(s) })),
-                size: 6,
-                start: seats.findIndex((s) => s.seatId === race?.seatId),
-              },
+              // The parties' seats, for a body of more than one seat: one
+              // governor gets no bar with a 1 on it (owner, Oct 28, point 17),
+              // and neither does a government's group of one-seat offices.
+              parties.length && seats.length > 1 && !detail
+                ? {
+                    node: barChart(
+                      parties.map((p) => ({ label: p.party, value: p.seats })),
+                      labels.seats,
+                    ),
+                  }
+                : null,
+              // A body of more than twelve seats (a legislature) shows its
+              // members as a grid of headshots, each opening their card.
+              ...(seats.length > 12
+                ? [
+                    {
+                      node: faceGrid(
+                        seats.map((s) => ({
+                          name: holderName(s),
+                          party: s.holder?.party ?? null,
+                          face: s.holder?.face ?? null,
+                          district: s.district,
+                          onOpen: () => {
+                            if (!s.holder) return;
+                            closeSheet();
+                            showPerson({
+                              personId: s.holder.cardId,
+                              figureUrl: s.holder.face?.url,
+                            });
+                          },
+                        })),
+                        (person) =>
+                          [person.name, person.party, person.district]
+                            .filter(Boolean)
+                            .join(", "),
+                      ),
+                    },
+                  ]
+                : seats.map((s) => ({ node: member(s, detail) }))),
               // Future public view records can supply these without changing the layout.
               ...(first.votes ?? []).flatMap((vote) => [
                 { text: vote.title, tone: "subhead" },
@@ -3280,7 +3309,28 @@ const sheets = {
               })),
             ],
           };
-        });
+        };
+        const several = [...offices.values()].filter((s) => s.length > 1);
+        const single = new Map();
+        for (const seats of [...offices.values()].filter(
+          (s) => s.length === 1,
+        )) {
+          const key = seats[0].body ?? seats[0].government ?? seats[0].title;
+          if (!single.has(key)) single.set(key, []);
+          single.get(key).push(seats[0]);
+        }
+        bodies = [
+          // A body of several seats is titled with its name ("Taos County
+          // Board of Commissioners", a state's "Senate").
+          ...several.map((seats) =>
+            body(seats, seats[0].body ?? seats[0].government ?? seats[0].title),
+          ),
+          ...[...single].map(([name, seats]) =>
+            seats.length === 1
+              ? body(seats, seats[0].title)
+              : body(seats, name, true),
+          ),
+        ];
       }
       // The key people: the player's own members first, then the President,
       // the Vice President and each chamber's leader by post and chamber (a
@@ -3328,17 +3378,11 @@ const sheets = {
       const party = v.party ? partyRows(v.party) : [];
       return recordScreen({
         controls: [picker],
+        // Every body and every member on the screen at once, side by side:
+        // no Back and Continue in a menu (owner, Oct 28, point 22).
+        grid: true,
         sections: [
-          {
-            wide: true,
-            items: [
-              {
-                pages: bodies.map((body) => ({ section: body })),
-                size: 1,
-                start,
-              },
-            ],
-          },
+          ...bodies,
           ...[
             [labels.yourMembers, v.keyPeople.filter((k) => k.own)],
             [labels.leaders, v.keyPeople.filter((k) => !k.own)],
@@ -3354,18 +3398,51 @@ const sheets = {
     };
     return screen();
   },
+  /**
+   * Parties, illustrated: the state's map with the player's districts and
+   * town filled in the color of the party that holds each, a legend of the
+   * parties by seats, then each party's seats as person rows (owner, Oct
+   * 28, point 20: the map that once existed, brought back).
+   */
   async parties() {
-    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    const [v, m] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api("/api/map"),
+    ]);
+    const labels = controls.politics;
+    const seatWords = (n) =>
+      `${n} ${n === 1 ? labels.seat : labels.seats.toLowerCase()}`;
+    // A district's hover title: its name and who holds it, by party; a
+    // district with no holder on record is its name alone.
+    const wordHolders = (district) =>
+      district.holders.length
+        ? `${district.name}: ${district.holders
+            .map((h) => (h.party ? `${h.name}, ${h.party}` : h.name))
+            .join("; ")}`
+        : district.name;
+    const parties = v.parties.map(({ party, seats }) => ({
+      party,
+      seats: seats.length,
+    }));
     return recordScreen({
+      controls: m
+        ? [districtMap(m, { wordHolders }), partyLegend(parties, seatWords)]
+        : [],
       grid: true,
       sections: v.parties.map(({ party, seats }) => ({
         title: party,
         items: [
-          { total: [String(seats.length), controls.politics.seats] },
-          {
-            pages: seats.map((s) => ({ node: row(s.name, s.title) })),
-            size: 6,
-          },
+          ...seats.map((s) => ({
+            node: personRow({
+              name: s.name,
+              detail: s.title,
+              face: s.face,
+              onOpen: () => {
+                closeSheet();
+                showPerson({ personId: s.cardId, figureUrl: s.face?.url });
+              },
+            }),
+          })),
         ],
       })),
     });
@@ -3513,10 +3590,13 @@ async function openSheet(tab) {
   );
   // A screen is as tall as what it holds (owner, Oct 27: "so much dead space");
   // the calendar, the people web and two-column readers fill the window.
+  // A screen that ends under its content fits; one that flows in columns or
+  // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
     !["calendar", "people", "who"].includes(tab) &&
-      !$("sheet-body").classList.contains("cols"),
+      !$("sheet-body").classList.contains("cols") &&
+      !$("sheet-body").querySelector(".screen-grid"),
   );
   show("sheet", true);
   $("game").classList.add("sheet-open");
@@ -3572,15 +3652,18 @@ let titleLife = null;
 function rotateTitle(scenes, seconds) {
   let at = 0;
   const next = $("backdrop-next");
+  // The rotation runs only on the title menu itself: a creator panel keeps the
+  // painting it opened on (owner, Oct 28: "the double background jump").
+  const onTitleMenu = () => !$("front").hidden && !$("front-main").hidden;
   setInterval(() => {
-    if ($("front").hidden) return;
+    if (!onTitleMenu()) return;
     at = (at + 1) % scenes.length;
     next.src = scenes[at].backdrop.url;
     next.onload = () => {
       next.onload = null;
       next.classList.add("fading");
       setTimeout(() => {
-        if ($("front").hidden) return next.classList.remove("fading");
+        if (!onTitleMenu()) return next.classList.remove("fading");
         const back = $("backdrop");
         back.src = next.src;
         back.style.animation = "none";
@@ -4144,9 +4227,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     for (const id of ["rings", "card"]) show(id, true);
     $("game").classList.add("in-play");
     renderPacket(life.packet);
-    await refresh();
+    await refresh({ keepBackdrop: Boolean(life.sceneMomentId) });
     showNewsSurface(await nightsNews(life.personId));
-    // The scene the director staged for the evening (the address) plays first.
+    // The scene the director staged for the evening (the address) plays first
+    // and sets the one backdrop the opening loads.
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
     coachFirstChoices();
   } catch (error) {

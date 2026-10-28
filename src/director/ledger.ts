@@ -45,6 +45,7 @@ import {
   spacingAllows,
   type QueuedRecord,
 } from "./circumstance";
+import { stagePollingVisits } from "./polling-place";
 import { doorsKnocked } from "./doors";
 import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
@@ -1786,6 +1787,9 @@ export function createDirector(
         throw new Error("The story director was installed but not started.");
       for (const book of ledger.people.values()) measureDay(api.state, book);
       produceCircumstances(api.state);
+      // Election day (the polling-place type's producer): the eve's close
+      // stages the polls for each watched voter the count will count.
+      stagePollingVisits(api.state, ledger);
       registerInterrupts(api.state);
       // Once a month, each watched person forgets what no longer matters.
       if (api.state.date.endsWith("-01"))
