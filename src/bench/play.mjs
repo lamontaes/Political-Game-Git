@@ -165,9 +165,17 @@ function setClock(at) {
   ).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
   $("card-clock").replaceChildren(day, el("br"), time);
 }
-/** A figure cropped to head and shoulders (Kit 12's bust). */
+/** A person's headshot (Kit 12's bust): the server crops their own figure around the head. */
+function headshotUrl(url) {
+  return url
+    ?.replace(
+      "/art/people-engine/v2/figures/",
+      "/art/people-engine/v2/headshots/",
+    )
+    .replace("/api/portrait?", "/api/headshot?");
+}
 function setBust(id, url) {
-  $(id).style.backgroundImage = url ? `url("${url}")` : "";
+  $(id).style.backgroundImage = url ? `url("${headshotUrl(url)}")` : "";
 }
 // A record id as the bench stores it (person_<hex>, official:term:seat:...).
 const RECORD_ID =
@@ -399,9 +407,7 @@ async function playOpening() {
   if (!opening?.frames?.length) return opening;
   const { speaker } = opening;
   // Who is speaking: the President, from the first frame.
-  $("opening-bust").style.backgroundImage = speaker.figureUrl
-    ? `url("${speaker.figureUrl}")`
-    : "";
+  setBust("opening-bust", speaker.figureUrl);
   $("opening-name").textContent = speaker.name;
   $("opening-role").textContent = [speaker.title, ...speaker.detail]
     .filter(Boolean)

@@ -271,12 +271,12 @@ ol {
 #front-main #front-continue .continue-text small {
   display: block;
 }
-/* The game's own figure, cropped to head and shoulders, fading into the glass. */
+/* The person's headshot (the server crops their figure around the head), fading into the glass. */
 .bust {
   flex: none;
   width: 62px;
   height: 62px;
-  background: 50% 0 / 150% auto no-repeat;
+  background: 50% 50% / cover no-repeat;
   -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
 }

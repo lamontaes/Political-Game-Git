@@ -16,6 +16,7 @@ import {
   hairStyles,
   hairSwatch,
 } from "./figure-hair";
+import { headshotPng } from "./headshot";
 
 /**
  * The creator's appearance step uses the same standing v2
@@ -371,4 +372,11 @@ export function portraitPng(recipe: LookRecipe): Buffer {
   const figure = figureFor(recipe);
   if (!figure) throw new Error("No such look.");
   return drawnFigure(figureName(figure.file), recipe);
+}
+
+/** The same look as a headshot: the face whole, for busts and the people map. */
+export function portraitHeadshotPng(recipe: LookRecipe): Buffer {
+  const figure = figureFor(recipe);
+  if (!figure) throw new Error("No such look.");
+  return headshotPng(figureName(figure.file), recipe);
 }
