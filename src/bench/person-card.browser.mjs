@@ -62,10 +62,14 @@ try {
     name,
   );
   await page.waitForTimeout(1500);
-  const role = (await page.locator("#talk-role").innerText()).trim();
-  console.log("Talk box:", name, "|", role);
-  assert.ok(!role.includes("·"), `a list, not a sentence: ${role}`);
-  if (role) assert.match(role, /\.$/, `not a sentence: ${role}`);
+  // Under the name, nothing: the talk box is the name, the line and the
+  // replies (owner, Oct 27, 6:20 PM).
+  assert.equal(await page.locator("#talk-role").count(), 0, "a subtitle");
+  // A conversation offers its replies, Say nothing and Leave, and no Continue.
+  assert.ok(await page.locator("#talk-choices .reply").count());
+  assert.ok(await page.locator("#talk-silent").isVisible());
+  assert.ok(await page.locator("#talk-leave").isVisible());
+  assert.equal(await page.locator("#talk-next").isVisible(), false);
   const known = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/known",
   );

@@ -1306,6 +1306,17 @@ body.dev .dev-ring {
 .chat .acts {
   margin-top: 8px;
 }
+/* The talk box's controls (owner, Oct 27, 6:20 PM): with nothing to answer, one
+   Continue at the bottom left and nothing else; in a conversation, the replies
+   with Say nothing and Leave only where each is a real choice. */
+#talk.narration #talk-silent,
+#talk.narration #talk-leave,
+#talk.narration #talk-lie,
+#talk:not(.narration) #talk-next,
+#talk.no-silent #talk-silent,
+#talk.no-leave #talk-leave {
+  display: none;
+}
 /* A journal line, bottom right. */
 .journal {
   right: var(--gutter);

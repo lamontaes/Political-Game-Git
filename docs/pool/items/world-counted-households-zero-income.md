@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: dropped
 claimed-by: claude/counted-zero-income
 pr: #6441
 blocked-on:
@@ -21,3 +21,5 @@ claimed-at: 2026-10-27T23:20:11.881Z
 **Done when.** In a drawn bench world, the poverty share of every place with counted households sits within the researched state range, by record id. A test names the place and seed, and `src/core2/world-poverty.test.ts` still passes.
 
 **Files.** src/core2/world-poverty.ts, src/core2/modules/residents.ts
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `world-counted-households-transfer-income`; close into it and carry any line it lacks there.
