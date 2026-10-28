@@ -508,14 +508,23 @@ function engraveMasthead(name, outlet) {
   );
   const [width, height] = art.size;
   const [left, top, across, down] = art.plate;
-  // Padding in percent is of the width, so the plate's top and bottom scale by height / width.
-  const tall = height / width;
   name.classList.add("engraved");
   Object.assign(name.style, {
     backgroundImage: `url(/art/newspaper/${art.file})`,
     aspectRatio: `${width} / ${height}`,
-    padding: `${top * tall}% ${100 - left - across}% ${(100 - top - down) * tall}% ${left}%`,
   });
+  // The name sits in the plate, placed in percent of the strip.
+  const plate = el("span", {
+    className: "plate",
+    textContent: name.textContent,
+  });
+  Object.assign(plate.style, {
+    left: `${left}%`,
+    top: `${top}%`,
+    width: `${across}%`,
+    height: `${down}%`,
+  });
+  name.replaceChildren(plate);
 }
 /**
  * The level of government a story is about: its own level, else the body,
@@ -4109,8 +4118,8 @@ const sheets = {
         return el(
           "article",
           { className: `paper-story ${className}` },
-          ...(className === "lead" ? imageFor(story) : []),
           headline,
+          ...(className === "lead" ? imageFor(story) : []),
           ...told(story)
             .slice(0, paragraphs)
             .map((text, at) =>
