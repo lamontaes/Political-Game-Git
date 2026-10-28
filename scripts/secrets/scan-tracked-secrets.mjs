@@ -85,6 +85,8 @@ export function scanTrackedFiles(root = process.cwd()) {
     cwd: root,
     encoding: "buffer",
     stdio: ["ignore", "pipe", "pipe"],
+    // The tracked-file list outgrew Node's 1 MB default buffer.
+    maxBuffer: 256 * 1024 * 1024,
   })
     .toString("utf8")
     .split("\0")
