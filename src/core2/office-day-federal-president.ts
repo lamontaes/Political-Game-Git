@@ -723,7 +723,7 @@ export function travelToTown(
     throw new Error("No one to send");
   const place = corePlaceByKey(placeKey);
   if (!place?.stateJurisdictionKey) throw new Error(`No town ${placeKey}`);
-  const coarse = coarsePlace(placeKey);
+  const coarse = coarsePlace(placeKey, (api.state as CoreState).seed);
   // stopgapId: SG-WORLD-coarse-place-no-payroll
   api.stopgap("SG-WORLD-coarse-place-no-payroll");
   // stopgapId: SG-OFFICE-FED-trip-residents

@@ -10,6 +10,7 @@
  * line. Everything else is a journal line. A moment no type can stage writes
  * a coverage row with the reason. Nothing is drawn by chance.
  */
+import { familyFactsOf } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { coreSeatOfGovernmentPlace } from "../core2/place-lookup";
@@ -482,17 +483,11 @@ function fillRole(
     case "authority": {
       // At home: the subject's parent on record who lives with them, else
       // another older relative in the household (a guardian).
-      const kinIn = new Map<PersonId, string>();
-      for (const fact of subject?.pastFacts ?? [])
-        if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
-          kinIn.set(
-            fact.facts.otherPersonId as PersonId,
-            fact.kind.slice("family:".length),
-          );
+      const kinIn = familyFactsOf(subject);
       const members = household();
       for (const relations of GUARDIAN_RELATIONS) {
         const found = members.filter((id) =>
-          relations.includes(kinIn.get(id) ?? ""),
+          relations.includes(kinIn.get(id)?.relation ?? ""),
         );
         if (found.length) return found;
       }

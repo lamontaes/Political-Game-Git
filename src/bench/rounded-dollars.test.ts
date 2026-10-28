@@ -1,24 +1,13 @@
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
+import { moneyWords } from "../english/plain-words.mjs";
+
 /**
- * The budget sheet's rounding, read from play.mjs as the browser runs it:
- * whole dollars to three figures below a million, one decimal of a million,
- * billion or trillion above.
+ * The budget sheet's rounding, as the screens say a government's sums: whole
+ * dollars to three figures below a million, one decimal of a million, billion
+ * or trillion above.
  */
-const source = readFileSync(new URL("./play.mjs", import.meta.url), "utf8");
-const block = (name: string) => {
-  const start = source.indexOf(`const ${name} =`);
-  const end = source.indexOf("};", start) + 2;
-  const tail = source.slice(start, end);
-  // compactWords ends at "});" (a call), roundedDollars at "};".
-  return name === "compactWords"
-    ? source.slice(start, source.indexOf("});", start) + 3)
-    : tail;
-};
-const roundedDollars = new Function(
-  `${block("compactWords")}\n${block("roundedDollars")}\nreturn roundedDollars;`,
-)() as (minor: number) => string;
+const roundedDollars = (minor: number) => moneyWords(minor, { rounded: true });
 
 describe("budget sums read in a rounded unit", () => {
   it.each([

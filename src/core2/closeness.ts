@@ -234,28 +234,47 @@ export function openingClosenessHours(
     : steadyHours(p, rate, kind);
 }
 
+/** A relative as a person's own records name them: the relation and the fact that records it. */
+export interface FamilyFact {
+  relation: string;
+  factId: string;
+}
+
 /**
- * The relation one person's own past facts record for a relative
- * (`family:<relation>` naming the other): the latest one recorded, since a
- * partnership that ended is a later fact than the partnership. Undefined when
- * none, or when the latest is a tie that has ended (a former partner).
+ * Every relative a person's own past facts name (`family:<relation>` naming
+ * the other), each with the latest fact recorded for them, since a
+ * partnership that ended is a later fact than the partnership. Former ties
+ * stay in, under their own relation (a former partner). The one reader of
+ * family facts: the director, the card, the calendar and every scene read
+ * relatives through it or `familyRelation`.
  */
+export function familyFactsOf(
+  person: Pick<PersonState, "pastFacts"> | undefined,
+): Map<PersonId, FamilyFact> {
+  const out = new Map<PersonId, FamilyFact>();
+  for (const fact of person?.pastFacts ?? []) {
+    const otherId = fact.facts?.otherPersonId;
+    if (!otherId || !fact.kind.startsWith(data.familyFactPrefix)) continue;
+    out.set(otherId as PersonId, {
+      relation: fact.kind.slice(data.familyFactPrefix.length),
+      factId: fact.id,
+    });
+  }
+  return out;
+}
+
+/** Whether a relation names a tie that has ended (a former partner). */
+export function formerKin(relation: string): boolean {
+  return data.formerKinRelations.includes(relation);
+}
+
+/** The relation a person's records hold for a relative today; undefined for none or an ended tie. */
 function recordedRelation(
   person: Pick<PersonState, "pastFacts"> | undefined,
   otherId: PersonId,
 ): string | undefined {
-  const facts = person?.pastFacts ?? [];
-  for (let index = facts.length - 1; index >= 0; index -= 1) {
-    const fact = facts[index]!;
-    if (
-      fact.facts?.otherPersonId !== otherId ||
-      !fact.kind.startsWith(data.familyFactPrefix)
-    )
-      continue;
-    const relation = fact.kind.slice(data.familyFactPrefix.length);
-    return data.formerKinRelations.includes(relation) ? undefined : relation;
-  }
-  return undefined;
+  const relation = familyFactsOf(person).get(otherId)?.relation;
+  return relation === undefined || formerKin(relation) ? undefined : relation;
 }
 
 /**
