@@ -29,8 +29,8 @@ import {
   putMechanic,
   REACH_A_MODULE_ID,
   tomorrow,
-  yesLevels,
 } from "./group-a-records";
+import { yesLevels } from "../modules/laws";
 
 const KEY = data.series;
 const KIND = data.contractKind;
