@@ -81,7 +81,8 @@ describe(`spots measured from a mannequin plate at ${place}`, () => {
         !!s.head,
     )) {
       const whole = figureOn(look, "adult", place, stage, spot);
-      if (!whole) continue;
+      // A pose is drawn where it was painted, at its own size (poses.test.ts).
+      if (!whole || whole.file.startsWith("pose-")) continue;
       const name = whole.file
         .split("/")
         .pop()!

@@ -35,7 +35,6 @@
   "src/authoring/asset-lineage.ts",
   "src/districts/members-per-district.test.ts",
   "tests/character-components-validation.test.ts",
-  "tests/fixtures/synthetic-cohort.ts",
   "tests/garment-fit-measure.test.ts",
   "tests/garment-fit-row-correspondence.test.ts",
   "tests/garment-fit.test.ts",
