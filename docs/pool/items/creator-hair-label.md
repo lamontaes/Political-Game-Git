@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/creator-hair-label
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T07:03:39.869Z
 ---
 
 **What.** Merger W on #6426: the creator's Hair row shows the art's style name as written ('long straight') while Build and Clothes read capitalized ('Slim', 'Button shirt').
