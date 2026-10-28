@@ -12,4 +12,9 @@ export const ADDRESS_FACT = {
   opening: "address:opening",
   remembered: "address:remembered",
   text: "address:text",
+  /** The address in its parts, one per Continue, split by ADDRESS_PART_BREAK. */
+  parts: "address:parts",
 } as const;
+
+/** What separates the parts of the address in its recorded `address:parts` fact. */
+export const ADDRESS_PART_BREAK = "\n\n";

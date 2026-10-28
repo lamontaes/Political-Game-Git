@@ -7157,6 +7157,18 @@
       "citation": "Federal Reserve SCF Bulletins 2016, 2019 and 2022, median transaction-account balance of families holding accounts, in constant dollars (approximate; a researcher should confirm the figures)"
     }
   },
+  "officialSavingsSpreadSigma": {
+    "value": 2,
+    "tag": "ESTIMATED",
+    "citation": "How widely one seated official's savings sit around the median a family at their pay keeps (the log-normal standard deviation; the median itself is unchanged). Officials at one pay were all given the same balance, so a body of 190 legislators had no one with a thin cushion and the bribe engine's money pressure never moved between them. The Survey of Consumer Finances 2022 puts the median transaction-account balance of holders at $8,000 and the mean at $62,500 (Federal Reserve Bulletin, Changes in U.S. Family Finances from 2019 to 2022, table of holdings by asset type), which a log-normal reads as a standard deviation of 2.0 across all families. An official at one pay holds a narrower range than all families, but the mean is carried by a few large balances while the lower tail, which the bribe engine reads, is wide, so the all-family figure is used and its lower half is the spread.",
+    "estimatedFrom": "Federal Reserve SCF 2022 median $8,000 and mean $62,500 of transaction accounts (pdftotext of scf23.pdf): sigma = sqrt(2 ln(62500/8000)) = 2.03 for all families.",
+    "spread": {
+      "low": 1,
+      "high": 2,
+      "unit": "log-normal standard deviation",
+      "citation": "From half the all-family dispersion the SCF median and mean imply (2.03) up to that dispersion; the bribe take rate in a played year is measured at this value in the PR."
+    }
+  },
   "worldLivingCostSpreadShare": {
     "value": 0.1,
     "tag": "ESTIMATED",
