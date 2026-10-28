@@ -407,5 +407,17 @@
     "addedAt": "2026-10-27",
     "replacement": "A household limit the campaigns engine reads when the candidate gives their own money, with the reply naming it (pool item campaigns-household-limit-read).",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-clerk-petition-awaits-record",
+    "kind": "missing-data",
+    "file": "src/director/filing-visit.ts",
+    "line": 1,
+    "whatItFakes": "The clerk tells a candidate the office, the primary and general dates, the term and what the office does, but not how many petition signatures the filing needs: the clerk says nothing about signatures.",
+    "why": "Owner, Oct 28 (sitting, 32, and the 2:10 PM ruling): filing is petition, signatures, the clerk's check, then the ballot. The petition record (signatures required and held, the deadline check, read from each place's rules) is the elections session's to build on its item; the words read that record once it exists.",
+    "addedBy": "Words and director session",
+    "addedAt": "2026-10-28",
+    "replacement": "The clerk's tell-signatures line reads the elections engine's petition record (signatures required, by place) and the signature scenes read its count as the candidate campaigns.",
+    "status": "open"
   }
 ]

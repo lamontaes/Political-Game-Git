@@ -49,7 +49,10 @@
     "deadline": "The day a presented bill must be signed or vetoed by, from the presentment.",
     "for": "Present when the visitor is the bill's sponsor, from the bill record.",
     "against": "Present when the visitor lobbied against the bill, from the lobbying record.",
-    "winner": "Whoever won the race a count settled, by name, from the election result record."
+    "winner": "Whoever won the race a count settled, by name, from the election result record.",
+    "general": "The general election's date, as people say it, from the contest record.",
+    "primary": "The primary's date, as people say it, from the contest record.",
+    "term": "An office's term in years, from the office record."
   },
   "maxWords": 70,
   "parts": [
@@ -116775,6 +116778,521 @@
       "tag": {
         "move": "request",
         "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-running.so-you-re-running-for-office",
+      "move": "state-tell-running",
+      "kind": "spoken",
+      "text": "So you're running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-running",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-running.office-all-right-let-s-get-you-started",
+      "move": "state-tell-running",
+      "kind": "spoken",
+      "text": "{office}. All right, let's get you started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-running",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-running.running-for-office-good-let-me-pull-the-papers",
+      "move": "state-tell-running",
+      "kind": "spoken",
+      "text": "Running for {office}? Good. Let me pull the papers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-running",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-dates.the-primary-is-primary-and-the-general-election-is-general",
+      "move": "state-tell-dates",
+      "kind": "spoken",
+      "text": "The primary is {primary}, and the general election is {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-dates",
+          "role": "asker",
+          "requiresFacts": ["primary"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-dates.you-d-be-on-the-primary-ballot-primary-and-the-general-is-general",
+      "move": "state-tell-dates",
+      "kind": "spoken",
+      "text": "You'd be on the primary ballot {primary}, and the general is {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-dates",
+          "role": "asker",
+          "requiresFacts": ["primary"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-dates.there-s-no-primary-for-this-one-the-election-is-general",
+      "move": "state-tell-dates",
+      "kind": "spoken",
+      "text": "There's no primary for this one. The election is {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-dates",
+          "role": "asker",
+          "requiresFacts": ["no-primary"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-dates.it-goes-straight-to-the-ballot-the-election-is-general",
+      "move": "state-tell-dates",
+      "kind": "spoken",
+      "text": "It goes straight to the ballot. The election is {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-dates",
+          "role": "asker",
+          "requiresFacts": ["no-primary"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-term.it-s-a-term-year-term",
+      "move": "state-tell-term",
+      "kind": "spoken",
+      "text": "It's a {term}-year term.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-term",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-term.if-you-win-you-serve-term-years",
+      "move": "state-tell-term",
+      "kind": "spoken",
+      "text": "If you win, you serve {term} years.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-term",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.the-board-sets-the-town-s-budget-and-passes-its-local-laws-you-d-get-a-vote-on-a",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "The board sets the town's budget and passes its local laws. You'd get a vote on all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-municipalOffice-body"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.you-d-sit-on-the-board-that-decides-the-town-s-budget-its-roads-and-its-rules",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "You'd sit on the board that decides the town's budget, its roads and its rules.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-municipalOffice-body"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.you-d-run-the-town-day-to-day-the-departments-the-budget-and-whatever-the-board-",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "You'd run the town day to day: the departments, the budget, and whatever the board sends you to sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-municipalOffice-single"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.the-commission-sets-the-county-s-budget-and-oversees-its-roads-its-jail-and-the-",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "The commission sets the county's budget and oversees its roads, its jail and the courthouse.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-countyOffice-body"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.it-s-a-county-office-you-d-answer-to-everyone-in-the-county-not-just-this-town",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "It's a county office. You'd answer to everyone in the county, not just this town.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-countyOffice-single"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.you-d-vote-on-every-bill-the-legislature-takes-up-and-carry-your-own-district-s",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "You'd vote on every bill the legislature takes up, and carry your own district's.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-stateLegislative-body"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.you-d-vote-on-every-bill-the-legislature-takes-up-and-speak-for-your-district",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "You'd vote on every bill the legislature takes up, and speak for your district in the capitol.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-stateLegislative-single"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.you-d-run-part-of-the-state-government-and-every-voter-in-the-state-would-be-you",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "You'd run part of the state government, and every voter in the state would be your boss.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-statewideExecutive-single"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.it-s-a-statewide-office-every-voter-in-the-state-gets-a-say-in-who-holds-it",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "It's a statewide office. Every voter in the state gets a say in who holds it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-statewideExecutive-body"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.you-d-represent-this-district-in-congress-and-vote-on-every-bill-the-house-takes",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "You'd represent this district in Congress and vote on every bill the House takes up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-usHouse-body"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.you-d-speak-for-this-district-in-washington-and-vote-on-every-bill-the-house",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "You'd speak for this district in Washington and vote on every bill the House takes up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-usHouse-single"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
       }
     }
   ]
