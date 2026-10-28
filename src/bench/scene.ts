@@ -308,18 +308,36 @@ export function roomCondition(core: CoreState, personId: string): string[] {
   return ["lived-in"];
 }
 
-/** The picture for a place the person is in: at home, painted in their household's condition. */
-export function personBackdrop(
+const REGIONS = scenePlaces.regionalVariants as unknown as Record<
+  string,
+  readonly string[]
+>;
+/** The town's regional rebuilds of a place (region-new-england, region-alaska), from its state. stopgapId: SG-PLAY-region-states */
+function regionVariants(core: CoreState): string[] {
+  const state = stateOf(core.placeMetadata?.placeKey ?? "");
+  return Object.entries(REGIONS)
+    .filter(
+      ([variant, states]) => variant !== "about" && states.includes(state),
+    )
+    .map(([variant]) => variant);
+}
+
+/**
+ * The picture for a place in this world: the town's regional rebuild of it
+ * where one is painted, and at the person's home, the household's condition.
+ */
+export function backdropFor(
   core: CoreState,
-  personId: string,
   place: string,
   minuteOfDay: number,
+  personId?: string,
 ) {
-  return backdropFile(
-    place,
-    minuteOfDay,
-    homeRooms(core, personId).has(place) ? roomCondition(core, personId) : [],
-  );
+  return backdropFile(place, minuteOfDay, [
+    ...(personId && homeRooms(core, personId).has(place)
+      ? roomCondition(core, personId)
+      : []),
+    ...regionVariants(core),
+  ]);
 }
 
 /** Which room of the home a person is in at this minute of the day. */
@@ -984,7 +1002,7 @@ export function benchScene(
   return {
     place,
     why,
-    backdrop: personBackdrop(core, personId, place, minute),
+    backdrop: backdropFor(core, place, minute, personId),
     people,
     unplaced,
   };

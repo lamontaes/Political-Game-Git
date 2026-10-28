@@ -42,7 +42,7 @@ import {
   type SpeechBuild,
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-views";
-import { backdropFile, stagePeople } from "./scene";
+import { backdropFor, stagePeople } from "./scene";
 import { dollarsOf, nameList, standingLine } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -344,7 +344,7 @@ function speechScene(
   );
   return {
     place,
-    backdrop: backdropFile(place, 18 * 60),
+    backdrop: backdropFor(core, place, 18 * 60),
     ...stagePeople(
       core,
       place,
@@ -417,7 +417,7 @@ function outingScene(
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
   return {
     place,
-    backdrop: backdropFile(place, 16 * 60),
+    backdrop: backdropFor(core, place, 16 * 60),
     ...stagePeople(
       core,
       place,
