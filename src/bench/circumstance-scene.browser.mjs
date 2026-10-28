@@ -98,8 +98,8 @@ try {
   assert.doesNotMatch(read.talk, /\b(?:person_|news\.read|jurisdiction_)/);
   assert.doesNotMatch(read.talk, /\d{4}-\d{2}-\d{2}/);
   if (shots) await page.screenshot({ path: `${shots}/circumstance-scene.png` });
-  // The person cast speaks at once under the narration: no Talk step
-  // between them (owner, Oct 27), and what they say comes from the record.
+  // The narrator first, then one Continue, then the person cast speaks (owner,
+  // Oct 28 sitting, 36), with no Talk step; what they say comes from the record.
   assert.doesNotMatch(read.talk, /Talk ·/);
   const said = await page.locator("#talk").innerText();
   console.log("Talk:", JSON.stringify(said));

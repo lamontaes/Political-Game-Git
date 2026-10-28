@@ -146,6 +146,9 @@ describe("a household that runs short", () => {
       billsMinor: 140_000,
       paidMinor: 100_000,
       unpaidMinor: 40_000,
+      // Why: the members held $1,000 on their living day and kept $600 back.
+      livingHeldMinor: 100_000,
+      keptBackMinor: 60_000,
     });
     expect(core.organizations.get("organization:grocer")!.liquidMinor).toBe(
       40_000,
