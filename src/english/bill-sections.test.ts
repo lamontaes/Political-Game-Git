@@ -73,7 +73,7 @@ describe("a section reads the record's numbers", () => {
       "Section 1. Be it ordained by the Town, That the minimum wage shall be raised from $9.50 an hour to $11 an hour, amending Ordinance 2025-3.",
     );
   });
-  it("edge fixture: a state act the town amends is cited in its own form, and a starting law not at all", () => {
+  it("edge fixture: a state act the town amends is cited in its own form, a starting law by its recorded statute or not at all", () => {
     const state = input(1100);
     expect(
       composeBill({
@@ -87,6 +87,20 @@ describe("a section reads the record's numbers", () => {
         before: [{ value: 950, unit: "minor/hour", statute: null }],
       })!.sections[0],
     ).toMatch(/to \$11 an hour\.$/);
+    // A starting law's recorded statute is cited as recorded.
+    expect(
+      composeBill({
+        ...state,
+        before: [
+          {
+            value: 950,
+            unit: "minor/hour",
+            statute: "§ 25-7-41",
+            statuteForm: null,
+          },
+        ],
+      })!.sections[0],
+    ).toMatch(/to \$11 an hour, amending § 25-7-41\.$/);
   });
   it("edge fixture: editing the number changes the section, and a cut reads as a cut", () => {
     expect(composeBill(input(1100))!.sections[0]).not.toBe(

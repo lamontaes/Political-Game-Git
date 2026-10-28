@@ -1,10 +1,11 @@
 /**
  * A bill section cites the law it amends by the record the player's world
- * keeps (owner, Oct 27: real data only calibrates; no real statute, date or
- * name is said in play). A law in force when the game began cites nothing:
- * its research source calibrated the row. A law passed in play cites the
- * bill that enacted it, by its designation and form. A random place from
- * all 56, played until its bodies have passed laws of their own.
+ * keeps (owner, Oct 27: real data only calibrates, and laws in force stay
+ * the real starting law). A law in force when the game began cites the
+ * statute its research recorded, or nothing: its research source (a web
+ * page, a survey, a note) only calibrated the row. A law passed in play
+ * cites the bill that enacted it, by its designation and form. A random
+ * place from all 56, played until its bodies have passed laws of their own.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -33,7 +34,7 @@ const DRAWS = 4;
 /** Days played, long enough for a body's first laws to take effect. */
 const DAYS = 150;
 
-it(`a section cites a law passed in play by its bill and a starting law by nothing (seed ${seed})`, () => {
+it(`a section cites a law passed in play by its bill and a starting law by its recorded statute or nothing (seed ${seed})`, () => {
   const tried: string[] = [];
   for (let draw = 0; draw < DRAWS; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "bill-section-cite");
@@ -97,6 +98,31 @@ it(`a section cites a law passed in play by its bill and a starting law by nothi
       expect(text, `${where}: ${raise.id} quotes ${source}`).not.toContain(
         String(source),
       );
+
+    // A starting law whose research recorded its statute (the state's grant
+    // of local minimum-wage authority) is cited by that statute, as Issues
+    // names it: laws in force stay the real starting law.
+    const grant = lawInForce(api, "local-minimum-wage-authority").levels.find(
+      (l) => l.row,
+    )?.row;
+    const cite = grant?.terms?.cite;
+    if (grant && typeof cite === "string") {
+      const change = draftBill(api, {
+        bodyOfficeId: body.id,
+        sponsorId: memberKey(members(api, body.id)[0]!),
+        provisions: [
+          {
+            kind: "law-amount",
+            series: "local-minimum-wage-authority",
+            value: (grant.value ?? 0) > 0 ? 0 : 1,
+          },
+        ],
+      });
+      const [granted] = billSections(api, change);
+      expect(granted!.before.lawId, `${where}: ${change.id}`).toBe(grant.id);
+      expect(granted!.before.statute, `${where}: ${grant.id}`).toBe(cite);
+      expect(granted!.before.statuteForm, `${where}: ${grant.id}`).toBeNull();
+    }
 
     // Played on: a law a body passed in play, in force here, that a new
     // section on the same question or amount would amend.

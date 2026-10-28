@@ -76,7 +76,7 @@ export interface BillWordsInput {
   /**
    * Each section's law before the bill (`billSections` `before`): to tell a
    * raise from a cut, to say what it was, and to cite the bill that enacted
-   * it, said in that bill's own form.
+   * it, said in that bill's own form, or a starting law's recorded statute.
    */
   readonly before?: readonly ({
     readonly value: number | null;
@@ -202,10 +202,11 @@ function wordsOf(
       clause: was?.statute
         ? fill(BILL_SECTIONS.cited, {
             clause,
-            statute: spokenDesignation(
-              was.statute,
-              was.statuteForm ?? input.form.kind,
-            ),
+            // A bill passed in play is said in its form ("Ordinance
+            // 2025-3"); a starting law's recorded statute, as recorded.
+            statute: was.statuteForm
+              ? spokenDesignation(was.statute, was.statuteForm)
+              : was.statute,
           })
         : clause,
       repeal: false,

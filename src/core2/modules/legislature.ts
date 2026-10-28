@@ -1281,12 +1281,16 @@ export interface BillSection {
     readonly shape: "flat" | "graduated" | null;
     readonly lawId: string | null;
     /**
-     * The designation of the bill, passed in play, that enacted the law in
-     * force, and that bill's form, for the English engine to cite; null for
-     * a law in force when the game began, whose research source calibrated
-     * the row and is never said in play (owner, Oct 27).
+     * What the section cites as the law it amends, for the English engine:
+     * the designation of the bill, passed in play, that enacted it, with
+     * that bill's form; or, for a law in force when the game began, the
+     * statute its research recorded (`terms.cite`), since laws in force stay
+     * the real starting law (owner, Oct 27). Null where neither is on record:
+     * a starting row's research source (a web page, a survey, a note on how
+     * it was estimated) only calibrated the row and is never said in play.
      */
     readonly statute: string | null;
+    /** The enacting bill's form; null for a recorded statute. */
     readonly statuteForm: BillFormKind | null;
   };
   readonly after: {
@@ -1322,13 +1326,18 @@ export function billSections(
           : null
       : null;
     // The bill that enacted the law in force, when one on record did: an
-    // order or a ballot measure has no designation a section cites.
+    // order or a ballot measure has no designation a section cites. A
+    // starting law cites the statute its research recorded, if any.
     const enactedByBill = row?.terms?.enactedByBill;
     const enacting =
       typeof enactedByBill === "string"
         ? (table(api, "bills").get(enactedByBill) as unknown as
             BillRow | undefined)
         : undefined;
+    const recorded =
+      typeof row?.terms?.cite === "string" && row.terms.cite
+        ? row.terms.cite
+        : null;
     const before: BillSection["before"] =
       p.kind === "budget-line"
         ? {
@@ -1344,7 +1353,7 @@ export function billSections(
             unit: row?.unit ?? null,
             shape: shapeBefore,
             lawId: row?.id ?? null,
-            statute: enacting?.number || null,
+            statute: enacting?.number || recorded,
             statuteForm: enacting?.number ? enacting.form.kind : null,
           };
     return {
