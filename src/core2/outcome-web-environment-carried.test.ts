@@ -3,7 +3,7 @@
  * ones no engine owns (web-reach-environment). A web link that moves a place
  * rate for something an engine already decides from the same law would count
  * the law twice, so the link names the engine and function that carries it
- * and the web does not run it. Where an engine reads the same law by its own
+ * at the row's size and the web does not run it. Where an engine reads the same law by its own
  * mechanic, not the row's size and lag, the link is not carried: it stays
  * unwired, naming that engine (engineGap). Where no engine decides the
  * outcome, the link stays unwired and this file holds the reason, so the day
@@ -57,26 +57,30 @@ function expectEngineGap(key: string, file: string, fn: string) {
 }
 
 describe("environment, farm and water links and the engines that decide them", () => {
-  it("leaves the groundwater limit unwired: the business engine's farm groundwater limit reads the law with its own cut, at once", () => {
+  it("carries the groundwater limit in the business engine at the row's researched size, so the web does not run it", () => {
     const row = link("groundwater-limits-to-irrigation-pumping");
-    expectEngineGap(
-      row.key,
-      "src/core2/modules/business.ts",
-      "readGroundwaterLaw",
-    );
+    expect(row.engineGap, row.key).toBeUndefined();
+    expect(row.carriedBy, row.key).toContain("src/core2/modules/business.ts");
+    expect(row.carriedBy, row.key).toContain("readGroundwaterLaw");
+    expect("carriedBy" in linkCoverage(row), row.key).toBe(true);
+    expect(unwired.links.find((one) => one.link === row.key)).toBeUndefined();
     const business = read("src/core2/modules/business.ts");
-    // The function the link names reads the law the link starts from, sets the farm's limit, and runs.
+    // The function the link names reads the law the link starts from, sets the farm's limit at the row's size, and runs.
     expect(business).toMatch(/function readGroundwaterLaw\(/);
     expect(row.from).toBe(
       "law:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
     );
     expect(business).toContain(row.from.replace(/^law:/, ""));
     expect(business).toMatch(/lawInForce\(api, question\)/);
-    expect(business).toMatch(/setOperatingLimit\(api, table, \{/);
+    expect(business).toContain(`GROUNDWATER_LINK = "${row.key}"`);
+    expect(business).toMatch(/carriedLink\(GROUNDWATER_LINK\)/);
+    expect(business).toMatch(/share: 1 \+ pumping\.size!/);
     expect(business).toMatch(/\n\s+readGroundwaterLaw\(api\);/);
     expect(read("src/core2/business-operating-rules.ts")).toContain(
       "limitOutsideSales(",
     );
+    // No second number for the same cut: the old withdrawal share is gone.
+    expect(naming(/groundwaterWithdrawalShare/)).toEqual([]);
   });
 
   it("leaves the farmland easements unwired: the builders' starts decision reads the law with its own land elasticity", () => {
