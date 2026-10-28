@@ -546,6 +546,24 @@ export function backdropFile(
   };
 }
 
+/**
+ * Who works at an organization: its full people with an open job (living,
+ * sorted) and the counted residents still in the counts whose job is there,
+ * not filled in yet. The one reader of a workplace's staff for scenes and
+ * the town's places.
+ */
+export function staffOf(core: CoreState, organizationId: string) {
+  const full = [...core.jobs.values()]
+    .filter((row) => row.organizationId === organizationId && !row.endsAt)
+    .map((row) => row.personId)
+    .filter((id) => core.people.get(id)?.alive);
+  const counted = [...(residentsRuntime(core)?.jobs.values() ?? [])]
+    .filter((row) => row.organizationId === organizationId)
+    .map((row) => row.personId)
+    .filter((id) => !core.people.has(id));
+  return { full: full.sort(), counted: counted.sort() };
+}
+
 /** Who is there: the household at home, coworkers at work, else the act's other person. */
 export function presentIds(
   core: CoreState,
@@ -559,25 +577,13 @@ export function presentIds(
   if (why === "work-shift" || why === "attend-scheduled-work-date-segment") {
     const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
     if (!job) return [];
-    const full = [...core.jobs.values()]
-      .filter(
-        (row) =>
-          row.organizationId === job.organizationId &&
-          row.personId !== personId &&
-          !row.endsAt,
-      )
-      .map((row) => row.personId)
-      .filter(alive)
-      .sort();
+    const staff = staffOf(core, job.organizationId);
+    const full = staff.full.filter((id) => id !== personId);
     // Two-level world: coworkers still in the counts are met here, so they
     // are filled in (OPUS-CORE's fillInPerson), up to the room's spots.
     const room = (backdropStaging(place)?.spots.length ?? 1) - 1;
-    const counted = [...(residentsRuntime(core)?.jobs.values() ?? [])]
-      .filter((row) => row.organizationId === job.organizationId)
-      .map((row) => row.personId)
-      .sort()
-      .slice(0, Math.max(room - full.length, 0));
-    for (const id of counted) if (!core.people.has(id)) fillInPerson(core, id);
+    const counted = staff.counted.slice(0, Math.max(room - full.length, 0));
+    for (const id of counted) fillInPerson(core, id);
     return [...full, ...counted.filter(alive)];
   }
   // A bedroom is someone's own room: nobody is drawn in it unless the records
