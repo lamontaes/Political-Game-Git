@@ -267,13 +267,6 @@
       "kind": "roll",
       "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "if (total + hazard >= line) {"
-    },
-    {
-      "file": "src/core2/opening-kin.ts",
-      "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
-      "count": 1,
       "code": "const apart = r.fork(\"marriage\").next() >= marriageIntact(married);"
     },
     {
