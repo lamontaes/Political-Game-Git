@@ -1,12 +1,11 @@
 // "Go to": the town's places from its organizations and the art library,
 // who works there, who's there now and what the player can do there.
 import { coreAPI, fillInPerson } from "../core2/state";
-import { residentsRuntime } from "../core2/modules/residents";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName } from "../director/words";
 import { backdropStaging } from "./staging";
-import { backdropFile, orgPlace, stagePeople } from "./scene";
+import { backdropFile, orgPlace, staffOf, stagePeople } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import type { CoreState } from "../core2/types";
@@ -16,18 +15,6 @@ const LISTED = 40;
 // Engineering sizes for a card's "who is there" line and the default hour.
 const PRESENT_NAMED = 2;
 const NOON = 12 * 60;
-
-function staffOf(core: CoreState, organizationId: string) {
-  const full = [...core.jobs.values()]
-    .filter((row) => row.organizationId === organizationId && !row.endsAt)
-    .map((row) => row.personId)
-    .filter((id) => core.people.get(id)?.alive);
-  const counted = [...(residentsRuntime(core)?.jobs.values() ?? [])]
-    .filter((row) => row.organizationId === organizationId)
-    .map((row) => row.personId)
-    .filter((id) => !core.people.has(id));
-  return { full: full.sort(), counted: counted.sort() };
-}
 
 /** And the state's offices, where an officeholder's work takes them. */
 const STATE_OFFICES = new Set(["sector:state-government-office"]);
