@@ -70,7 +70,7 @@ describe(`office hours (${place.name}, seed ${seed})`, () => {
       .moduleState(CASES_MODULE_ID)
       .table("cases")
       .put(row as unknown as ModuleRow);
-    const own = ownCaseDecision(api, official);
+    const own = ownCaseDecision(api, official, row);
     const handler = (
       OFFICE_DAY_MODULE.effectHandlers as unknown as Record<
         string,

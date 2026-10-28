@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/dup-one-painted-list
 pr: #6458
 blocked-on:

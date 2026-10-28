@@ -184,14 +184,22 @@ export class BenchPlayer {
       date: addDays(makeIsoDate(this.core.date), 1),
       minuteOfDay: 0,
     };
-    if (mode === "calendar" && !(date && date > at.date))
-      throw new Error(
-        "A calendar jump can't go backward: pick a day after today.",
-      );
     // Days start in the morning: Day lands on the
     // next morning, Week on the same morning seven days on, a calendar jump
     // on that day's morning; none lands on midnight.
     const start = this.dayStartMinute();
+    // A jump goes to a later day, or to today while its morning is still ahead
+    // (the opening night's "now" is the start of tomorrow, before its morning).
+    if (
+      mode === "calendar" &&
+      !(
+        date &&
+        (date > at.date || (date === at.date && at.minuteOfDay < start))
+      )
+    )
+      throw new Error(
+        "A calendar jump can't go backward: pick a day after today.",
+      );
     const through: PlayerMomentV1 =
       mode === "calendar"
         ? { date: makeIsoDate(date ?? ""), minuteOfDay: start }
@@ -280,7 +288,6 @@ export class BenchPlayer {
         // The birthday is met in its morning, like any day's first scene
         // (owner, Oct 27: nothing at midnight): the day is lived to its start.
         if (
-          packet &&
           comesOfAge === from.date &&
           from.minuteOfDay < this.dayStartMinute() &&
           compareMoments(from, through) < 0 &&
@@ -298,6 +305,9 @@ export class BenchPlayer {
               ),
             },
           });
+          // This can be the run's first call into the core, which binds its
+          // clock to this character.
+          this.clockBound = true;
           continue;
         }
         if (packet && this.comesOfAgeStop(comesOfAge, began, from.date)) break;
