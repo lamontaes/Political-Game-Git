@@ -91,19 +91,26 @@ try {
           }),
           blocked,
           nameLines: Math.round(name.getBoundingClientRect().height / line),
+          busts: box.querySelectorAll(".bust").length,
+          nameShown:
+            box.querySelector(".card-id").getBoundingClientRect().width > 2,
+          clockShown:
+            document.getElementById("card-clock").getBoundingClientRect()
+              .height > 10,
         };
       });
       const at = `${size.width}x${size.height}, status "${why}"`;
       console.log(`${at}:`, JSON.stringify(read));
       assert.equal(
         read.rings,
-        7,
-        `${at}: the seven rail icons are not all there`,
+        8,
+        `${at}: the eight rail icons are not all there`,
       );
       // The rail (MOCKS:24): one column of round icons, News among them, no Options.
       assert.deepEqual(
         read.rail.map((ring) => ring.tab),
         [
+          "who",
           "journal",
           "calendar",
           "money",
@@ -133,13 +140,17 @@ try {
         `${at}: the card reaches the icons`,
       );
       assert.ok(!read.cardOverflow, `${at}: the card's text runs out of it`);
-      assert.equal(read.nameLines, 1, `${at}: the name wraps`);
+      // The card shows the date and time and no picture of the player
+      // (owner, Oct 27); the name is read aloud, not shown.
+      assert.ok(!read.nameShown, `${at}: the name is shown on the card`);
+      assert.equal(read.busts, 0, `${at}: a picture of the player on the card`);
+      assert.ok(read.clockShown, `${at}: no date and time on the card`);
     }
     await page.screenshot({
       path: `docs/reports/card-2026-10-25/card-${size.width}x${size.height}.png`,
     });
     // With the door-knocking status line on the card, an ordinary pointer
-    // click opens each of the seven icons' screens; the keyboard opens Calendar.
+    // click opens each of the eight icons' screens; the keyboard opens Calendar.
     await page.evaluate((text) => {
       document.getElementById("card-why").textContent = text;
     }, "Knock on doors · 36 doors · 5 reached");
@@ -167,7 +178,7 @@ try {
   });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the round rail icons, a column of seven with News, its text inside it, name on one line; each icon opens by pointer, Calendar by keyboard",
+    "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the round rail icons, a column of eight with Who you are and News, its text inside it, the date and time and no picture; each icon opens by pointer, Calendar by keyboard",
   );
 } finally {
   await browser.close();
