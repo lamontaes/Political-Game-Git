@@ -40,7 +40,6 @@ import { CAMPAIGNS_MODULE_ID } from "./campaigns";
 import {
   countPlaces,
   type CountedFieldEntry,
-  type PlaceResult,
   type RacePlace,
   type SampleVoter,
 } from "../electorate";
@@ -107,8 +106,6 @@ export const WORLD_RACES_MODULE: CoreModule = {
       races: { indexes: { byDate: { fields: ["date"] } } },
       /** Congress seats outside the town's state: who holds them now. */
       seats: {},
-      /** Each place's votes in a race, counted coarsely. */
-      places: { indexes: { byRace: { fields: ["raceId"] } } },
       /** A presidential election the electors left to the House and the Senate: every vote, with its parts. */
       contingent: {},
     },
@@ -558,7 +555,6 @@ export function electoralCollege(
         if (c.side < 0) d += counted.votes[c.id] ?? 0;
       }
       share = r + d ? r / (r + d) : lean;
-      recordPlaces(api, `presidential:${year}:${key}`, counted.places);
     }
     return {
       stateKey: key,
@@ -1173,7 +1169,6 @@ function decide(
       ? { special, candidates: specialCandidates(api, race, parties, row.id) }
       : {}),
   } as unknown as ModuleRow);
-  recordPlaces(api, row.id, counted.places);
   api.moduleCalendar(WORLD_RACES_MODULE_ID).schedule({
     key: `seat:${row.id}`,
     date: race.seatedOn > api.state.date ? race.seatedOn : api.state.date,
@@ -1185,34 +1180,6 @@ function decide(
     },
     sourceRecordIds: [row.id],
   });
-}
-
-/** Keep each place's votes under its race. */
-function recordPlaces(
-  api: CoreAPI,
-  raceId: string,
-  places: readonly PlaceResult[],
-): void {
-  const rows = table(api, "places");
-  for (const place of places)
-    rows.put({
-      ...place,
-      id: `place:${raceId}:${place.id}`,
-      placeId: place.id,
-      raceId,
-    } as unknown as ModuleRow);
-}
-
-/** Each place's votes in a race (a seat's, or a state's presidential vote). */
-export function racePlacesOf(
-  api: CoreAPI,
-  raceId: string,
-): readonly (PlaceResult & { placeId: string })[] {
-  return table(api, "places").query("byRace", [
-    raceId,
-  ]) as unknown as (PlaceResult & {
-    placeId: string;
-  })[];
 }
 
 /** Seat the winner on the term's first day. */
