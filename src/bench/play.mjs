@@ -1180,6 +1180,7 @@ function electionMorning(scene) {
     api("/api/election-day").then((day) => {
       if (!day)
         return (scene ? atThePolls(scene) : Promise.resolve()).then(resolve);
+      setClock(day.at);
       if (scene) {
         $("backdrop").src = scene.backdrop.url;
         drawPeople(scene.people);
