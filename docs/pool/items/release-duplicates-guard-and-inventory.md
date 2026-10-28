@@ -5,11 +5,12 @@ area: release
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/duplicates-on-main
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:16:52.940Z
 ---
 
 **What.** The owner on Oct 28 had every duplicated mechanic, writer, renderer, bank or unread record already merged found and removed. Nothing blocks a new twin today: npm run old-imports only reports and never fails, and nothing notices a second file emitting an event kind another file already emits. This item lists the pairs on main in docs/reports/duplicates-on-main-2026-10-28.md and adds the guard; the deletions are their own items, one pair per PR.
