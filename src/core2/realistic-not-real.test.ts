@@ -8,6 +8,7 @@
  * shrinks: a fix moves its row into the checks below.
  */
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -17,6 +18,23 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { publishedMonths, type MacroMonth } from "./macro-model";
 import { MACRO_MODULE_ID } from "./modules/macro";
+import { CREDIT_MODULE_ID } from "./modules/credit";
+import { worldGoods } from "./modules/place-prices";
+import goodsData from "./data/prices/goods.json" with { type: "json" };
+import {
+  medianTransactionBalance,
+  publishedTransactionBalance,
+} from "./starting-cash";
+import {
+  publishedMonthlyHouseholdLivingCosts,
+  worldMonthlyHouseholdLivingCosts,
+} from "./reference/living-costs-data";
+import { worldBenefitMonthlyMinor } from "./opening-income";
+import {
+  privateShareOf,
+  publishedPrivateShareOf,
+  worldPrivateTuitionAnnualUsd,
+} from "./opening-private-tuition";
 import { federalDebtOf } from "./budgets-treasury";
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
@@ -26,16 +44,17 @@ import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { REGIONAL_MODULE_ID } from "./modules/regional";
 import { publishedRegionMonths, type RegionMonth } from "./regional-model";
+import { CONDITION_PACK, conditionPrevalence } from "./condition-pack";
 import { coreAPI } from "./state";
+import { worldRateFactor, type BaseRateTable } from "./world-base-rates";
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
   "realistic-regional-and-jobs-per-world": [4, 10, 11, 12, 13],
   "realistic-housing-per-world": [5, 7, 8, 9],
-  "realistic-money-and-population-per-world": [14, 15, 16, 17, 18, 28],
+  "realistic-money-and-population-per-world": [28],
   "realistic-business-per-world": [21, 22, 23, 24, 26, 27],
-  "realistic-base-rates-per-world": [32, 33, 34, 35, 36],
   "realistic-elections-per-world": [42, 44, 45, 48],
   "realistic-school-names-generated": [37],
   "world-disasters-from-conditions": [41],
@@ -135,6 +154,106 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     expect(new Set(sa.values()).size, where).toBe(sa.size);
     for (const [id, share] of sa)
       if (sb.has(id)) expect(share, `${where} ${id}`).not.toBe(sb.get(id));
+  });
+
+  it("each world's death, birth, moving, chronic-condition and time-use tables differ from the published ones and from the other world (audit rows 32 to 36)", () => {
+    const tables: BaseRateTable[] = [
+      "mortality",
+      "natality",
+      "movers",
+      "conditions",
+      "timeUse",
+    ];
+    for (const table of tables) {
+      const fa = worldRateFactor(coreAPI(a).state.seed, table);
+      const fb = worldRateFactor(coreAPI(b).state.seed, table);
+      expect(fa, `${where} ${table}`).not.toBe(1);
+      expect(fa, `${where} ${table}`).not.toBe(fb);
+    }
+    // The chronic-condition rate a person is held to, read through the
+    // function play uses, differs per world and from the published share.
+    const age = 55;
+    for (const condition of CONDITION_PACK.filter(
+      (c) => !c.infant && !c.childhood,
+    )) {
+      const published = conditionPrevalence(condition, age, "equal-mixture");
+      if (published === 0 || published >= 1) continue;
+      const ra = conditionPrevalence(
+        condition,
+        age,
+        "equal-mixture",
+        worldRateFactor(coreAPI(a).state.seed, "conditions"),
+      );
+      const rb = conditionPrevalence(
+        condition,
+        age,
+        "equal-mixture",
+        worldRateFactor(coreAPI(b).state.seed, "conditions"),
+      );
+      expect(ra, `${where} ${condition.key}`).not.toBe(published);
+      expect(ra, `${where} ${condition.key}`).not.toBe(rb);
+    }
+  });
+
+  it("every play reader of those tables reads the world's factor", () => {
+    for (const file of [
+      "births-counted.ts",
+      "modules/counted-moves.ts",
+      "modules/health.ts",
+      "modules/moves.ts",
+      "free-block.ts",
+    ])
+      expect(
+        readFileSync(new URL(`./${file}`, import.meta.url), "utf8"),
+        file,
+      ).toContain("worldRateFactor(");
+  });
+  it("household money: opening cash, living costs and goods, Social Security, the town bank, private schools (audit rows 14 to 18)", () => {
+    const pay = 60_000;
+    const cash = (core: CoreState) => medianTransactionBalance(pay, core.seed);
+    expect(cash(a), `${where} row 14`).not.toBe(
+      publishedTransactionBalance(pay),
+    );
+    expect(cash(a), `${where} row 14`).not.toBe(cash(b));
+    const region = "national" as const;
+    const living = (core: CoreState) =>
+      worldMonthlyHouseholdLivingCosts(core.seed, region, 3).monthlyMinor;
+    expect(living(a), `${where} row 15`).not.toBe(
+      publishedMonthlyHouseholdLivingCosts(region, 3).monthlyMinor,
+    );
+    expect(living(a), `${where} row 15`).not.toBe(living(b));
+    const fuel = (core: CoreState) =>
+      worldGoods(core.seed).goods.fuel.ceAnnualMinor;
+    expect(fuel(a), `${where} row 15 goods`).not.toBe(
+      goodsData.goods.fuel.ceAnnualMinor,
+    );
+    expect(fuel(a), `${where} row 15 goods`).not.toBe(fuel(b));
+    const benefit = (core: CoreState) =>
+      worldBenefitMonthlyMinor(190_000, core.seed);
+    expect(benefit(a), `${where} row 16`).not.toBe(190_000);
+    expect(benefit(a), `${where} row 16`).not.toBe(benefit(b));
+    const bank = (core: CoreState) =>
+      (
+        coreAPI(core)
+          .moduleState(CREDIT_MODULE_ID)
+          .table("banks")
+          .get("credit:bank") as { openingEquityMinor: number } | undefined
+      )?.openingEquityMinor;
+    if (bank(a) !== undefined)
+      expect(bank(a), `${where} row 17 credit:bank`).not.toBe(bank(b));
+    const key = a.placeMetadata.placeKey;
+    const share = (core: CoreState) =>
+      privateShareOf(undefined, key, core.seed);
+    expect(share(a), `${where} row 18`).not.toBe(
+      publishedPrivateShareOf(undefined, key),
+    );
+    expect(share(a), `${where} row 18`).not.toBe(share(b));
+    expect(worldPrivateTuitionAnnualUsd(a.seed), `${where} row 18`).not.toBe(
+      worldPrivateTuitionAnnualUsd(b.seed),
+    );
+    process.stdout.write(
+      `MONEY ${where}: cash ${Math.round(cash(a))} against ${Math.round(cash(b))}, bank ${bank(a)} against ${bank(b)}\n`,
+    );
   });
 
   it("the federal debt, its holders, the payees' and charges' mixes and the states' federal stakes (audit rows 51 and 52)", () => {

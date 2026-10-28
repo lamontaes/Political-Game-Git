@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { estimatedMonthlyHouseholdLivingCosts } from "./reference/living-costs-data";
+import { publishedMonthlyHouseholdLivingCosts } from "./reference/living-costs-data";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "./business-books";
 import type {
   CreditFacilityInput,
@@ -236,7 +236,7 @@ describe("opening finance bindings (fixtures only, no settlement writer)", () =>
       );
       expect(total).toBeLessThanOrEqual(assigned);
       expect(total).toBeLessThanOrEqual(
-        estimatedMonthlyHouseholdLivingCosts("national", members.length)
+        publishedMonthlyHouseholdLivingCosts("national", members.length)
           .monthlyMinor,
       );
     }
