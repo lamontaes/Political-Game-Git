@@ -69,6 +69,19 @@ export function conditionPrevalence(
   condition: PackCondition,
   age: number,
   category: MortalityCalibrationCategory,
+  /** The world's chronic-condition factor (world-base-rates.ts); one is the published table. */
+  worldFactor = 1,
+): number {
+  return Math.min(
+    1,
+    conditionPublished(condition, age, category) * worldFactor,
+  );
+}
+
+function conditionPublished(
+  condition: PackCondition,
+  age: number,
+  category: MortalityCalibrationCategory,
 ): number {
   const sex =
     condition.bySex && category !== "equal-mixture"
@@ -129,6 +142,8 @@ export function startingConditionAssignments(
    * and personality decides only who.
    */
   behaviorSlopes: ReadonlyMap<string, number> = new Map(),
+  /** The world's chronic-condition factor (world-base-rates.ts). */
+  worldFactor = 1,
 ): ReadonlyMap<EntityId, readonly string[]> {
   const assignments = new Map<EntityId, string[]>(
     subjects.map(({ personId }) => [personId, []]),
@@ -174,7 +189,13 @@ export function startingConditionAssignments(
       // is sourced.
       const expected = cell.reduce(
         (total, person) =>
-          total + conditionPrevalence(condition, person.age, person.category),
+          total +
+          conditionPrevalence(
+            condition,
+            person.age,
+            person.category,
+            worldFactor,
+          ),
         0,
       );
       const owed = expected + (carried.get(condition.key) ?? 0);

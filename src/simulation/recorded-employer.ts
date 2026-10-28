@@ -55,7 +55,11 @@ export function localBusinessWageMinor(
       monthlyMinor: Math.round(recorded.annualMinor / 12),
       sourced: true,
     };
-  const annual = stateMedianAnnualWage(kind.workerOccupation, jurisdictionId);
+  const annual = stateMedianAnnualWage(
+    kind.workerOccupation,
+    jurisdictionId,
+    world?.seed,
+  );
   const minimum = townMinimumHourly(jurisdictionId);
   const minimumAnnual =
     minimum !== null && weeklyHours !== null
