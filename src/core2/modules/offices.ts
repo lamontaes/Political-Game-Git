@@ -1458,6 +1458,101 @@ export function repeatSpecialElection(
   return repeated;
 }
 
+/** End every serving term on a seat today, and say why. */
+export function endServingTerms(
+  api: CoreAPI,
+  seatId: string,
+  endedBy: string,
+): readonly TermRow[] {
+  const terms = table(api, "terms");
+  const serving = terms.query("bySeatStatus", [
+    seatId,
+    "serving",
+  ]) as unknown as TermRow[];
+  for (const term of serving)
+    terms.put({
+      ...term,
+      status: "ended",
+      endDate: api.state.date,
+      endEstimated: false,
+      endedBy,
+    } as unknown as ModuleRow);
+  return serving;
+}
+
+/**
+ * The one term writer for an election's winner, at every level: the town's
+ * own count (`voting.ts`) and the races counted away from the town
+ * (`world-races.ts`) both seat through here. The serving term ends, the
+ * winner's term starts today, a special election fills its vacancy, and the
+ * `took-office` record the officials, elections and offices engines read is
+ * written with the result it cites.
+ */
+export function seatWinner(
+  api: CoreAPI,
+  winner: {
+    readonly seatId: string;
+    readonly officeId: string;
+    readonly personId: string | null;
+    readonly identity: TermRow["identity"];
+    readonly party: string | null;
+    readonly endDate: string | null;
+    readonly reached: string;
+    /** The record the seating cites: the contest or race decided. */
+    readonly resultId: string;
+    /** The office as the record names it. */
+    readonly title: string;
+    /** Who the record calls the winner: a person, a filing or a party's candidate. */
+    readonly winnerId: string;
+    readonly news: boolean;
+    readonly vacancyId?: string;
+    readonly serviceStart?: string;
+  },
+): string {
+  const date = api.state.date;
+  endServingTerms(api, winner.seatId, "term ended");
+  const termId = `term:${winner.seatId}:${date}:elected`;
+  table(api, "terms").put({
+    id: termId,
+    seatId: winner.seatId,
+    officeId: winner.officeId,
+    personId: winner.personId,
+    identity: winner.identity,
+    party: winner.party,
+    startDate: date,
+    ...(winner.serviceStart ? { serviceStart: winner.serviceStart } : {}),
+    endDate: winner.endDate,
+    endEstimated: false,
+    reached: winner.reached,
+    status: "serving",
+  } as unknown as ModuleRow);
+  if (winner.vacancyId) vacancyFilled(api, winner.vacancyId, termId);
+  api.emit({
+    id: `took-office:${winner.seatId}:${date}`,
+    date,
+    kind: "took-office",
+    personIds: winner.personId ? [winner.personId] : [],
+    placeId: (
+      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
+    ).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Result of ${winner.resultId}`,
+      asOf: date,
+    },
+    publicRecord: true,
+    news: winner.news,
+    facts: {
+      office: winner.title,
+      seatId: winner.seatId,
+      winnerId: winner.winnerId,
+      termId,
+      resultId: winner.resultId,
+    },
+  });
+  return termId;
+}
+
 /** A special election's winner fills the vacancy. */
 export function vacancyFilled(
   api: CoreAPI,
