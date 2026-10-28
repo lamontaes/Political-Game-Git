@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/main-red-yeslevels-import
-pr:
+pr: #6508
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T03:22:25.092Z
