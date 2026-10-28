@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import type { CharacterComponentDefinition } from "../../src/presentation/character-components";
+import type { CharacterComponentDefinition } from "../../src/appearance/character-components";
 import type { ArmPoint, ArmSubject } from "./arm-measure";
 
 /**
