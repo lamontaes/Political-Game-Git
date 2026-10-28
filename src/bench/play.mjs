@@ -20,18 +20,13 @@ import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { listRow, personRow, factRow } from "./ui/list-row.mjs";
-import {
-  pageIn,
-  pageWhenChanged,
-  menuPages,
-  stepPages,
-  pagerWords,
-} from "./ui/pager.mjs";
+import { pageIn, pageWhenChanged, menuPages, pagerWords } from "./ui/pager.mjs";
 import { picture, fillArtwork } from "./ui/picture.mjs";
 import { barChart } from "./ui/chart.mjs";
 import { section as recordSection } from "./ui/section.mjs";
 import { searchBox, select, checkboxSetting } from "./ui/fields.mjs";
 import { termWord } from "./ui/term.mjs";
+import { recordScreen } from "./ui/screen.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
@@ -2805,116 +2800,67 @@ const sheets = {
       "en-US",
       { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
     );
-    const personLink = (member) => {
-      const button = makeButton({
-        className: "character-person",
-        textContent: member.name,
-      });
-      button.addEventListener("click", () => {
-        closeSheet();
-        showPerson(member);
-      });
-      return el(
-        "li",
-        {},
-        button,
-        el("span", {
-          className: "character-relation",
-          textContent: member.relation ?? "",
-        }),
-      );
-    };
-    const rows = [
-      el(
-        "header",
-        { className: "character-heading" },
-        el("h2", { className: "name", textContent: c.name }),
-        el("p", {
-          className: "character-meta",
-          textContent: `${labels.age} ${c.age} · ${labels.born} ${born}`,
-        }),
-      ),
-    ];
-    // What you're like, in plain sentences, never the traits' names (owner, Oct 27).
-    if (c.sketch)
-      rows.push(
-        el("p", {
-          className: "character-sketch narrative",
-          textContent: c.sketch,
-        }),
-      );
-    rows.push(
-      recordSection(
-        c.age < 18 ? labels.householdHome : labels.home,
-        el("p", { textContent: c.home?.placeName ?? me.placeName }),
-        el(
-          "ul",
-          { className: "character-household" },
-          ...(c.home?.members ?? []).map(personLink),
-        ),
-      ),
-    );
-    if (c.job)
-      rows.push(
-        recordSection(
-          labels.work,
-          el("p", { className: "character-feature", textContent: c.job.title }),
-          el("p", { textContent: c.job.employer ?? "" }),
-        ),
-      );
-    if (c.schools?.length)
-      rows.push(
-        recordSection(
-          labels.school,
-          ...[...c.schools]
-            .reverse()
-            .map((school) => el("p", { textContent: school.name })),
-        ),
-      );
     const views =
       c.views ??
       (c.view && controls.leanWords?.[c.view]
-        ? [{ label: labels.views, text: controls.leanWords[c.view] }]
+        ? [{ text: controls.leanWords[c.view] }]
         : []);
-    if (views.length)
-      rows.push(
-        recordSection(
-          labels.views,
-          el(
-            "div",
-            { className: "character-views" },
-            ...views.map((view) =>
-              el(
-                "article",
-                {},
-                view.label !== labels.views
-                  ? el("h4", { textContent: view.label })
-                  : "",
-                el("p", { className: "narrative", textContent: view.text }),
-              ),
-            ),
-          ),
-        ),
-      );
-    rows.push(
-      el(
-        "div",
-        { className: "character-money" },
-        el("span", { className: "label", textContent: labels.money }),
-        el("strong", { textContent: dollars(c.liquidMinor) }),
-      ),
-    );
-    // The record sections side by side under the name and the sketch, so the
-    // screen reads as a character sheet, not a column down one side.
-    const [heading, ...rest] = rows;
-    const sketch = rest[0]?.classList?.contains("character-sketch")
-      ? rest.shift()
-      : null;
-    return [
-      heading,
-      ...(sketch ? [sketch] : []),
-      el("div", { className: "character-grid" }, ...rest),
-    ];
+    // What you're like, in plain sentences, never the traits' names (owner, Oct 27);
+    // the record sections side by side under it, as a character sheet.
+    return recordScreen({
+      heading: {
+        name: c.name,
+        meta: `${labels.age} ${c.age} · ${labels.born} ${born}`,
+      },
+      lede: c.sketch,
+      grid: true,
+      sections: [
+        {
+          title: c.age < 18 ? labels.householdHome : labels.home,
+          items: [
+            { text: c.home?.placeName ?? me.placeName },
+            {
+              people: (c.home?.members ?? []).map((member) => ({
+                name: member.name,
+                note: member.relation,
+                onOpen: () => {
+                  closeSheet();
+                  showPerson(member);
+                },
+              })),
+            },
+          ],
+        },
+        c.job && {
+          title: labels.work,
+          items: [
+            { text: c.job.title, tone: "feature" },
+            { text: c.job.employer ?? "" },
+          ],
+        },
+        c.schools?.length && {
+          title: labels.school,
+          items: [...c.schools].reverse().map((school) => ({
+            text: school.name,
+          })),
+        },
+        views.length && {
+          title: labels.views,
+          items: [
+            {
+              views: views.map((v) => ({
+                label: v.label !== labels.views ? v.label : undefined,
+                text: v.text,
+              })),
+            },
+          ],
+        },
+        {
+          title: labels.money,
+          items: [{ text: dollars(c.liquidMinor), tone: "feature" }],
+        },
+      ].filter(Boolean),
+    });
   },
   async money() {
     const [budget, bank] = await Promise.all([
@@ -3118,71 +3064,40 @@ const sheets = {
   async jobs() {
     const labels = controls.jobs;
     const job = me.card.job;
-    const work = makeCard(
-      "work-overview",
-      { as: "section" },
-      el("h3", { textContent: labels.work }),
-    );
-    if (job) {
-      if (job.presentation?.imageUrl) {
-        const image = el("img", {
-          src: job.presentation.imageUrl,
-          alt: "",
-          className: "workplace-image",
-        });
-        image.onerror = () => image.remove();
-        work.append(image);
-      }
-      work.append(
-        el("h2", { textContent: job.title }),
-        el("p", {
-          className: "work-employer",
-          textContent: job.employer ?? "",
-        }),
-        el(
-          "div",
-          { className: "work-stats" },
-          el(
-            "div",
-            {},
-            el("span", { className: "label", textContent: labels.pay }),
-            el("strong", {
-              textContent: `${dollars(job.wageDailyMinor)} ${labels.daily}`,
-            }),
-          ),
-          el(
-            "div",
-            {},
-            el("span", { className: "label", textContent: labels.hours }),
-            el("strong", {
-              textContent: `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
-            }),
-          ),
-        ),
-      );
-    } else
-      work.append(
-        el("p", { className: "work-empty", textContent: labels.noJob }),
-      );
-    const result = [work];
-    const schools = [...(me.card.schools ?? [])].reverse();
-    const education = el(
-      "section",
-      { className: "study-overview" },
-      el("h3", { textContent: labels.study }),
-    );
-    education.append(
-      ...schools.map((s) =>
-        el(
-          "article",
-          { className: "school-record" },
-          el("span", { className: "label", textContent: s.date.slice(0, 4) }),
-          el("h4", { textContent: s.name }),
-        ),
-      ),
-    );
-    result.push(education);
-    return result;
+    return recordScreen({
+      sections: [
+        {
+          title: labels.work,
+          items: job
+            ? [
+                job.presentation?.imageUrl && {
+                  picture: job.presentation.imageUrl,
+                },
+                { text: job.title, tone: "title" },
+                { text: job.employer ?? "", tone: "feature" },
+                {
+                  stats: [
+                    [
+                      labels.pay,
+                      `${dollars(job.wageDailyMinor)} ${labels.daily}`,
+                    ],
+                    [
+                      labels.hours,
+                      `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
+                    ],
+                  ],
+                },
+              ]
+            : [{ text: labels.noJob, tone: "empty" }],
+        },
+        {
+          title: labels.study,
+          items: [...(me.card.schools ?? [])]
+            .reverse()
+            .map((s) => ({ fact: [s.date.slice(0, 4), s.name] })),
+        },
+      ],
+    });
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -3849,64 +3764,43 @@ const sheets = {
       api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
     ]);
     const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
-    const row = (label, value) =>
-      el(
-        "div",
-        { className: "guide-fact" },
-        el("span", { className: "label", textContent: label }),
-        el("strong", { textContent: value }),
-      );
-    const page = (heading, ...body) =>
-      el(
-        "section",
-        { className: "politics-guide-page" },
-        el("h3", { textContent: heading }),
-        ...body,
-      );
-    const pages = ["government", "issues", "parties", "campaigns"].map((tab) =>
-      page(titles[tab], el("p", { textContent: labels[tab] })),
-    );
     const next = government.nextFiling;
-    pages.push(
-      page(
-        labels.runHere,
-        ...(next
-          ? [
-              row(labels.race, next.title),
-              row(
-                labels.filesWith,
-                next.filedWith.replace(
-                  /\s*\(counter: ([^)]*)\)/g,
-                  `, ${labels.atTheDeskOf} $1`,
-                ),
-              ),
-              row(labels.filingOpens, proseDate(next.filingOpens)),
-              row(labels.filingDeadline, proseDate(next.filingDeadline)),
-              ...(deadlineTerm
-                ? [
-                    el("p", {
-                      className: "small",
-                      textContent: deadlineTerm.short,
-                    }),
-                  ]
-                : []),
-              ...(next.primaryDate
-                ? [row(labels.primary, proseDate(next.primaryDate))]
-                : []),
-              row(labels.election, proseDate(next.electionDate)),
-              ...(next.estimated
-                ? [
-                    el("p", {
-                      className: "small",
-                      textContent: labels.estimated,
-                    }),
-                  ]
-                : []),
-            ]
-          : [el("p", { textContent: labels.noRace })]),
-      ),
-    );
-    return [stepPages(pages, "politics-guide")];
+    return recordScreen({
+      paged: true,
+      sections: [
+        ...["government", "issues", "parties", "campaigns"].map((tab) => ({
+          title: titles[tab],
+          items: [{ text: labels[tab] }],
+        })),
+        {
+          title: labels.runHere,
+          items: next
+            ? [
+                { fact: [labels.race, next.title] },
+                {
+                  fact: [
+                    labels.filesWith,
+                    next.filedWith.replace(
+                      /\s*\(counter: ([^)]*)\)/g,
+                      `, ${labels.atTheDeskOf} $1`,
+                    ),
+                  ],
+                },
+                { fact: [labels.filingOpens, proseDate(next.filingOpens)] },
+                {
+                  fact: [labels.filingDeadline, proseDate(next.filingDeadline)],
+                },
+                deadlineTerm && { text: deadlineTerm.short, tone: "small" },
+                next.primaryDate && {
+                  fact: [labels.primary, proseDate(next.primaryDate)],
+                },
+                { fact: [labels.election, proseDate(next.electionDate)] },
+                next.estimated && { text: labels.estimated, tone: "small" },
+              ]
+            : [{ text: labels.noRace }],
+        },
+      ],
+    });
   },
   async guide() {
     const list = el("div", { className: "flow" });
