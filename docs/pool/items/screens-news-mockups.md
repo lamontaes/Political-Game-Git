@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/news-mockups
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:10:13.001Z
 ---
 
 **What.** The owner, Oct 28: 'pull the newspaper mockups... I don't understand why those aren't in the game.' The mockups on claude/people-rooms-art (art/newspaper-mockups) are not on the News front page or the evening reader.
