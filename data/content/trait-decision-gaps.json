@@ -17,14 +17,14 @@
       "fix": "Calibrate the offer's honest pull to the asks play makes, so some offers are made (pool item people-corruption-honest-pull-calibrated)."
     },
     "corruption.take": {
-      "class": "circumstances saturate the choice",
-      "why": "Runs after an offer says yes (src/core2/modules/corruption.ts, considerBribe): once in Jerry City, Ohio's played year (taken) and 1,156 times in New Britain, Connecticut's, where the third leaning most toward taking took 0.5 percent and the least none. Too few takes in either year show the study's odds (Pletzer et al. 2019, honesty-humility rho -0.48).",
-      "fix": "Calibrate the offer side so offers vary by person (pool item people-corruption-honest-pull-calibrated)."
+      "class": "rare by calibration",
+      "why": "Runs after an offer says yes (src/core2/modules/corruption.ts, considerBribe). Seated officials all kept the same savings at one pay, so a body of 190 had one money pressure and the top temperament sum stayed under the honest pull of 4.65; their savings now spread around the SCF median (src/core2/official-living.ts, officialSavingsSpreadSigma) and takes happen: 1 of 290 weighed in seed 092b17e0e593 (place 2474560) and 2 of 452 in place 3664842 (seed c06bbc30f70f).",
+      "fix": "Measure the take share over many drawn places (SG-P15-bribe-falling-out-rare)."
     },
     "corruption.tell": {
       "class": "trigger needs a record nobody writes",
-      "why": "Weighed only for a taken bribe: when a party's closeness to the other falls (src/core2/modules/corruption.ts:363, from onRelationshipChange) and when a told listener weighs going to the press (:437). Both need a crime row with taken true, and none was written.",
-      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
+      "why": "Weighed only for a taken bribe whose payer's tie to the official falls (src/core2/modules/corruption.ts, onRelationshipChange). A taken bribe now builds a tie (the money passed is time together) and a contract award or bill vote that does not deliver the favor breaks it (settleBribe), but in the audited years every bought firm won, so no tie soured.",
+      "fix": "Registered as SG-P15-bribe-falling-out-rare."
     },
     "justice.report": {
       "class": "trigger needs a record nobody writes",
@@ -43,23 +43,23 @@
     },
     "press.tip": {
       "class": "trigger needs a record nobody writes",
-      "why": "Needs a crime.told event for a taken bribe (src/core2/modules/press.ts:275, :2081); the tip is weighed at :2144. leakToReporter (:2245) is the player's own leak.",
-      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
+      "why": "Needs a crime.told event for a taken bribe (src/core2/modules/press.ts, tipOff); no one was told in the audited years, see corruption.tell.",
+      "fix": "Registered as SG-P15-bribe-falling-out-rare."
     },
     "recalls.organize": {
-      "class": "needs a petition's cause",
-      "why": "A petition starts from a county or city ordinance where the state allows recall without grounds (src/core2/modules/recalls.ts, weighOrdinance), or, where it requires grounds, from a charge or a press exposure of a serving local official that the town heard of (noteMisconduct, weighMisconduct). Neither South Windham, Connecticut nor Langley, Washington held either in its year; with a fixture charge in Sylvan Grove, Kansas, the printed story reached 71 of 76 named residents and a petition started two weeks later (src/core2/recall-for-cause.test.ts).",
-      "fix": "Charges come from the bribe chain once offers are made (pool item people-corruption-honest-pull-calibrated)."
+      "class": "depends on the place",
+      "why": "A petition starts from a county or city ordinance where the state allows recall without grounds (src/core2/modules/recalls.ts, weighOrdinance) or from a charge or press exposure of a serving local official. It depends on the drawn place: it ran in place 2277910 (seed 81b865cc92f1), 924 organize, 2,923 sign and 2,849 vote calls after a county ordinance took effect, 12 petitions; places whose state requires grounds start none without a charge.",
+      "fix": "Audit a place whose state allows recall without grounds (the lead draws the seed)."
     },
     "recalls.sign": {
       "class": "needs a petition's cause",
       "why": "Follows an organizer (src/core2/modules/recalls.ts, startRecall); see recalls.organize.",
-      "fix": "Same as recalls.organize (pool item people-corruption-honest-pull-calibrated)."
+      "fix": "Same as recalls.organize."
     },
     "recalls.vote": {
       "class": "needs a petition's cause",
       "why": "Needs a petition that reached the ballot (src/core2/modules/recalls.ts, recallWork); see recalls.organize.",
-      "fix": "Same as recalls.organize (pool item people-corruption-honest-pull-calibrated)."
+      "fix": "Same as recalls.organize."
     },
     "ballot-measures.vote": {
       "class": "no study number",

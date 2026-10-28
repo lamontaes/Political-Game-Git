@@ -350,7 +350,7 @@ const UNWIRED: ReadonlyArray<{
   },
   {
     outcome: "household.food-insecurity",
-    links: ["snap-to-food-insecurity", "grocery-exemption-to-food-insecurity"],
+    links: ["snap-to-food-insecurity"],
     stopgap: "SG-WEB-food-insecurity-ledger",
     reason:
       "no engine records a household's food spending against its income or its SNAP benefit",

@@ -1269,6 +1269,20 @@ body.dev .dev-ring {
   text-transform: uppercase;
   color: var(--text-3);
 }
+/* Several past lines stack as one block; the rule sits under the last of them. */
+.talk-lines .history:has(+ .history) {
+  padding-bottom: 0;
+  margin-bottom: 6px;
+  border-bottom: 0;
+}
+/* The other person's past lines lean left of the player's own, so the three kinds read
+   apart: your past lines, theirs, and what is said now (owner, Oct 28 sitting, 39). */
+.talk-lines .history.theirs {
+  font-style: italic;
+}
+.talk-lines .history.mine {
+  padding-left: 14px;
+}
 .talk-lines .history.lying {
   color: var(--lying);
 }

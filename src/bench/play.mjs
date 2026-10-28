@@ -3,8 +3,10 @@
 // Words on screen are record data, engine text and control names only.
 import { makeButton, mountPagers, buttonRow } from "./ui/button.mjs";
 import { fillChoiceMenu } from "./ui/menu.mjs";
+import { headshot } from "./ui/headshot.mjs";
 import {
   talkLine,
+  transcript,
   talkReply,
   fillTalk,
   talkControls,
@@ -14,7 +16,6 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { headshot } from "./ui/headshot.mjs";
 import { districtMap, partyLegend } from "./ui/map.mjs";
 import { faceGrid } from "./ui/face-grid.mjs";
 import { makeTab, tabBar } from "./ui/tab.mjs";
@@ -990,24 +991,32 @@ async function setWho(personId, name) {
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
   setFace("talk-bust", c.face);
 }
-/** The newest lines: yours, dim, then what was said back to you. */
-function spokenLines(lines, speakerOf) {
-  const lastMine = lines.findLastIndex((line) => line.speakerId === me.id);
-  const theirs = lines.slice(lastMine + 1).slice(-3);
-  return [
-    // What was said before sits apart from the line being said now (owner, Oct 26).
-    ...(lastMine >= 0
-      ? [
-          talkLine({
-            kind: "history",
-            who: $("card-name").textContent,
-            text: lines[lastMine].text,
-            lying: lines[lastMine].act === "lie",
-          }),
-        ]
-      : []),
-    ...theirs.map((line) => talkLine({ text: speakerOf(line) })),
-  ];
+/** A talk's lines: what you said before, what they said before, and what is said now. */
+function spokenLines(lines) {
+  return transcript(
+    lines.map((line) => ({
+      text: line.text,
+      mine: line.speakerId === me.id,
+      lying: line.act === "lie",
+    })),
+    {
+      mineWho: $("card-name").textContent,
+      theirWho: $("talk-name").textContent,
+    },
+  );
+}
+// The narrator speaks first and alone; Continue, then the person talks (owner,
+// Oct 28 sitting, 36: "The narrator shows first, Continue, then the person
+// talks"). What comes next (the person, the next part of a speech) waits
+// here for that Continue.
+let onContinue;
+/** The narration alone with one Continue, then `then`; no narration, `then` at once. */
+function narrateFirst(setting, then) {
+  if (!setting.length) return then();
+  onContinue = then;
+  talkControls({ silent: false, leave: false });
+  fillTalk({ lines: setting, replies: [] });
+  setScales({ available: false });
 }
 /** Numbered replies; a key press of the number says it. */
 function replies(choices, onPick) {
@@ -1027,17 +1036,12 @@ function setScales({ available, on }) {
   $("talk-lie").disabled = !available;
   $("talk-lie").classList.toggle("on", Boolean(available && on));
 }
-// The narration of the scene that opened this talk, kept above its lines.
-let talkSetting = [];
 function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
   gapButton.classList.remove("marked");
-  if (!value) {
-    talkSetting = [];
-    return;
-  }
+  if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
     other?.speaker !== $("talk-name").textContent ||
@@ -1049,7 +1053,7 @@ function renderTalk(value) {
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
   talkControls({ silent: true, leave: true });
   fillTalk({
-    lines: [...talkSetting, ...spokenLines(value.lines, (line) => line.text)],
+    lines: spokenLines(value.lines),
     replies: replies(choices, (choice) => sayLine(choice.key)),
   });
   // Dim when there is nothing false to say; tipped and red while lying.
@@ -1059,11 +1063,10 @@ async function sayLine(key) {
   lying = false;
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
-async function talkTo(otherId, momentId, setting = []) {
+async function talkTo(otherId, momentId) {
   // The menu hides the conversation, so a conversation closes it first.
   closeSheet();
   lying = false;
-  talkSetting = setting;
   $("talk-name").textContent = "";
   // From a scene, the talk is about the scene's moment.
   const occasion = momentId ? `&momentId=${encodeURIComponent(momentId)}` : "";
@@ -1103,6 +1106,12 @@ $("talk-lie").addEventListener("click", () => {
 // Continue, bottom left, when there is nothing to answer: the beat is over, and
 // a stop that held the clock for it goes on.
 $("talk-next").addEventListener("click", async () => {
+  if (onContinue) {
+    const then = onContinue;
+    onContinue = undefined;
+    await then();
+    return;
+  }
   if (filing) {
     $("talk-leave").click();
     return;
@@ -1116,6 +1125,7 @@ $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
     filing = undefined;
+    filingNarrated = false;
     show("filing-overlay", false);
     $("game").classList.remove("filing-open");
     delete $("filing-title").dataset.contest;
@@ -1124,12 +1134,15 @@ $("talk-leave").addEventListener("click", async () => {
     renderPacket();
     return;
   }
+  onContinue = undefined;
   await post("/api/talk/leave");
   renderTalk(undefined);
 });
 
 // ---- The filing office (step 3), a visit in the clerk's words ----
 let filing;
+// The counter's narration has played its beat for this visit.
+let filingNarrated = false;
 function renderFiling(value) {
   filing = value;
   if (!value) return;
@@ -1145,19 +1158,21 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
+  // The narrator sets the counter up first, alone; Continue, then the clerk
+  // speaks (the opening call only).
+  if (lines.length <= 1 && value.intro?.length && !filingNarrated) {
+    filingNarrated = true;
+    narrateFirst(
+      value.intro.map((line) =>
+        talkLine({ kind: "speech narration", text: line.text }),
+      ),
+      () => renderFiling(value),
+    );
+    return;
+  }
   // At the counter you can walk out; silence there is not an answer.
   talkControls({ silent: false, leave: true });
-  // The narrator sets the counter up before the clerk speaks (the opening call only).
-  fillTalk({
-    lines: [
-      ...(lines.length <= 1
-        ? (value.intro ?? []).map((line) =>
-            talkLine({ kind: "speech narration", text: line.text }),
-          )
-        : []),
-      ...spokenLines(lines, (line) => line.text),
-    ],
-  });
+  fillTalk({ lines: spokenLines(lines) });
   renderFilingOverlay(value);
   // More races than the talk can hold open as a menu beside it, never as a long
   // numbered list in the talk box (owner, Oct 26).
@@ -1625,8 +1640,7 @@ async function showStory(momentId) {
   show("talk-who", false);
   $("talk-name").textContent = "";
   // A scene with a purpose is its own exchange; any other opens a talk.
-  // The narrator sets the scene and the person speaks at once beneath it:
-  // no step between them (owner, Oct 27: clicking a person starts the talk).
+  // The narrator sets the scene alone; Continue, then the person speaks.
   const withId = story.talk?.askerId ?? story.talkToId;
   const setting = story.narration.map((line) =>
     talkLine({
@@ -1639,21 +1653,28 @@ async function showStory(momentId) {
   // A speech heard (the address on the evening news): its speaker's own
   // words from the record, then Continue.
   if (story.speech) {
-    setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
-    talkControls({ silent: false, leave: false });
-    fillTalk({
-      lines: [
-        ...setting,
-        talkLine({ kind: "speech", text: story.speech.text }),
-      ],
-      replies: [],
-    });
-    setScales({ available: false });
+    // The speech plays one part per Continue (owner, Oct 28 sitting, 11:
+    // "Each Continue can carry a paragraph"); the last Continue ends it.
+    const parts = story.speech.parts?.length
+      ? story.speech.parts
+      : [story.speech.text];
+    const sayPart = (at) => {
+      setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+      talkControls({ silent: false, leave: false });
+      fillTalk({
+        lines: [talkLine({ kind: "speech", text: parts[at] })],
+        replies: [],
+      });
+      setScales({ available: false });
+      if (at + 1 < parts.length) onContinue = () => sayPart(at + 1);
+    };
+    narrateFirst(setting, () => sayPart(0));
     return;
   }
   if (withId) {
-    if (story.talk) playExchange(story, setting);
-    else await talkTo(withId, momentId, setting);
+    narrateFirst(setting, () =>
+      story.talk ? playExchange(story) : talkTo(withId, momentId),
+    );
     return;
   }
   // The narrator alone is a Continue.
@@ -1668,24 +1689,29 @@ async function showStory(momentId) {
   setScales({ available: false });
 }
 /** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
-function playExchange(story, setting = []) {
+function playExchange(story) {
   const { talk } = story;
   setWho(talk.askerId, story.names[talk.askerId]);
   const said = [...talk.opening];
-  const lineOf = (line) =>
-    talkLine({
-      kind: line.role === "asked" ? "history" : "speech",
-      who: line.role === "asked" ? $("card-name").textContent : undefined,
-      text: line.text,
-      held: line.held,
-      ...gradeOf(line, story.momentId),
-    });
+  const shown = () =>
+    transcript(
+      said.map((line) => ({
+        text: line.text,
+        mine: line.role === "asked",
+        held: line.held,
+        ...gradeOf(line, story.momentId),
+      })),
+      {
+        mineWho: $("card-name").textContent,
+        theirWho: story.names[talk.askerId],
+      },
+    );
   // The path is the index of each reply chosen, from the first.
   // The asker follows up: no walking away mid-exchange, no silence as a reply.
   talkControls({ silent: false, leave: false });
   const play = (node, path) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
-    fillTalk({ lines: [...setting, ...said.slice(-4).map(lineOf)] });
+    fillTalk({ lines: shown() });
     fillTalk({
       replies: replies(
         node.replies.map((reply, index) => ({
@@ -1705,10 +1731,7 @@ function playExchange(story, setting = []) {
           said.push(reply.line);
           if (reply.next) play(reply.next, chosen);
           else {
-            fillTalk({
-              lines: [...setting, ...said.slice(-4).map(lineOf)],
-              replies: [],
-            });
+            fillTalk({ lines: shown(), replies: [] });
             // A moment that staged another scene plays it next.
             kept.then(() => nextScene(story));
           }
@@ -2543,15 +2566,19 @@ const sheets = {
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
-    // A chapter's title heads it only when there is more than one chapter: a
-    // lone title over the only story restates the screen (principles rule 3).
+    // One story from birth, a paragraph to each turn of the life, with no
+    // heading over any part of it (owner, Oct 27: "written like a story,
+    // not individual sections... from birth"; "remove all those
+    // subheadings").
     return recordScreen({
-      sections: chapters.map((c) => ({
-        title: chapters.length > 1 ? c.title : undefined,
-        items: [
-          { text: c.lines.map((l) => l.text).join(" "), tone: "narrative" },
-        ],
-      })),
+      sections: [
+        {
+          items: chapters.map((c) => ({
+            text: c.lines.map((l) => l.text).join(" "),
+            tone: "narrative",
+          })),
+        },
+      ],
     });
   },
   async handoff() {

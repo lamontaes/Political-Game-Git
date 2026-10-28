@@ -88,6 +88,11 @@
   },
   "lines": [
     {
+      "kindPrefix": "person.birth",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "school.started",
       "turn": false,
       "oncePer": "school",
