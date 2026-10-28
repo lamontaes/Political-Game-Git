@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/realistic-housing-rows
 pr:
 blocked-on:
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
+claimed-at: 2026-10-28T06:09:23.970Z
 ---
 
 **What.** Rows 5 to 9 of docs/reports/real-statistics-in-play-2026-10-27.md: the state house price index, county median rent and home value, the old core's county home value, HUD rents, shelter beds and permits. Each opens on the published value. The ACS effective property-tax rate (row 53) is not a statute; the CTO rules whether it is law. The owner ruled on Oct 27 that every non-law statistic starts realistic, not real, and differs in every world from the moment Start is pressed.
