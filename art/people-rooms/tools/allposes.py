@@ -4,7 +4,7 @@ import sys, json, os
 from PIL import Image, ImageDraw, ImageFont
 from stack import person
 WD = 'art/wardrobe'; IDX = json.load(open(f'{WD}/index.json'))['poses']
-order = ['nat-s1','nat-s2','nat-s3','nat-s4','nat-s5','nat-s6','nat-s7','nat-l1','nat-p1','nat-c1','nat-c2','nat-c3','nat-c4','nat-p2','nat-t1','nat-b1','nat-b2','nat-s1-old']
+order = ['nat-s1','nat-s2','nat-s3','nat-s4','nat-s5','nat-s6','nat-s7','nat-l1','nat-p1','nat-r1','nat-r2','nat-r3','nat-c1','nat-c2','nat-c3','nat-c4','nat-c5','nat-p2','nat-t1','nat-b1','nat-b2','nat-r5','nat-s1-old']
 LOOK = {'f': {'skin': [150, 100, 72], 'hair': [10, [30, 22, 18]], 'parts': {'shirt': [4, [60, 100, 80]], 'pants': [2, [55, 70, 105]], 'shoes': [2, [230, 230, 225]]}},
         'm': {'skin': [222, 175, 140], 'hair': [2, [120, 80, 50]], 'parts': {'shirt': [1, [200, 210, 230]], 'jacket': [2, [85, 70, 60]], 'pants': [3, [190, 170, 130]], 'shoes': [4, [60, 40, 30]]}}}
 cells = []

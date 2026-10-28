@@ -231,6 +231,64 @@
    "seat": "none",
    "use": "older adults (about 70), standing anywhere",
    "ageBand": "older"
+  },
+  "nat-r1": {
+   "pose": "stand",
+   "facing": {
+    "f": 30,
+    "m": 30
+   },
+   "hands": "clapping",
+   "seat": "none",
+   "interacts": "applauding",
+   "use": "rally and convention crowds, audiences standing",
+   "ageBand": "adult"
+  },
+  "nat-r2": {
+   "pose": "stand",
+   "facing": {
+    "f": 20,
+    "m": 20
+   },
+   "hands": "one fist raised, cheering",
+   "seat": "none",
+   "interacts": "cheering",
+   "use": "rallies, election night, victory",
+   "ageBand": "adult"
+  },
+  "nat-r3": {
+   "pose": "stand",
+   "facing": {
+    "f": 0,
+    "m": 0
+   },
+   "hands": "holding a blank sign at chest height (the sign is a live surface for campaign text)",
+   "seat": "none",
+   "use": "rallies, protests, campaign events",
+   "ageBand": "adult"
+  },
+  "nat-r5": {
+   "pose": "stand",
+   "facing": {
+    "f": 180,
+    "m": 180
+   },
+   "hands": "clapping, raised",
+   "seat": "none",
+   "interacts": "applauding",
+   "use": "crowds facing a speaker, seen from behind",
+   "ageBand": "adult"
+  },
+  "nat-c5": {
+   "pose": "sit",
+   "facing": {
+    "f": 30,
+    "m": 30
+   },
+   "hands": "on the knees, leaning forward",
+   "seat": "bench, bleacher, pew",
+   "use": "watching a game, a rally or a hearing from a bench",
+   "ageBand": "adult"
   }
  }
 }

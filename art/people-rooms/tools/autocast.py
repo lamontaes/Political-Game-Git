@@ -19,13 +19,18 @@ MUTED = {'jacket': [[40, 44, 58], [60, 60, 65], [30, 30, 35], [85, 70, 60], [70,
 DRESS = {'formal': ['suit', 'skirt-suit'], 'business': ['business', 'office', 'dress-blazer', 'suit'],
          'casual': ['tee-jeans', 'polo-khakis', 'sweater-chinos', 'cardigan', 'zip-jacket', 'blazer-jeans', 'office']}
 
-def poses_for(tags):
+def poses_for(tags, crowd=False):
+    """crowd: the room has a speaker, so its unassigned standing spots are an audience (clapping, cheering, a sign)."""
     f = tags.get('facing', 0); pose = tags.get('pose', 'stand'); cov = tags.get('coveredBy', 'none')
     if pose == 'sit':
         if abs(f) >= 150: c = ['nat-b2']
         elif cov in ('desk', 'table', 'counter'): c = ['nat-c2', 'nat-c3', 'nat-c4']
+        elif tags.get('seat') in ('bench', 'bleacher', 'pew'): c = ['nat-c5', 'nat-c1', 'nat-c3']
         else: c = ['nat-c1', 'nat-c3', 'nat-c1']
     elif pose == 'lectern': c = ['nat-l1', 'nat-s7', 'nat-s3']
+    elif crowd and not tags.get('role'):                          # an audience: most react, a few just watch
+        if abs(f) >= 150: c = ['nat-r5', 'nat-r5', 'nat-r5', 'nat-b1', 'nat-t1']
+        else: c = ['nat-r1', 'nat-r2', 'nat-r3', 'nat-r1', 'nat-r2', 'nat-s4', 'nat-s1']
     else:
         if abs(f) >= 150: c = ['nat-b1', 'nat-t1']
         elif f == 0: c = ['nat-s1', 'nat-s4', 'nat-s7', 'nat-s1-old']
@@ -40,11 +45,12 @@ if __name__ == '__main__':
     rng = random.Random(f"{os.path.basename(spots_p)}-{sys.argv[4] if len(sys.argv) > 4 else 1}")   # every room casts differently
     maxp = int(sys.argv[5]) if len(sys.argv) > 5 else 99; minhw = float(sys.argv[6]) if len(sys.argv) > 6 else 9
     S = json.load(open(spots_p)); people = []; used = set()
+    crowd = any((sp.get('tags') or {}).get('role') == 'speaker' for sp in S['spots'])
     order = sorted(range(len(S['spots'])), key=lambda i: -S['spots'][i]['headWidth'])
     for i in order[:maxp]:
         sp = S['spots'][i]; tags = sp.get('tags', {'pose': sp.get('pose', 'stand'), 'facing': 0})
         if sp['headWidth'] < minhw or sp.get('touching'): continue
-        cands = poses_for(tags)
+        cands = poses_for(tags, crowd)
         if not cands: continue
         for _ in range(12):                                       # no two people in a room share body and hair
             pose = rng.choice(cands); sex = rng.choice('fm'); build = rng.choice(['slim', 'medium', 'medium', 'heavy'])
