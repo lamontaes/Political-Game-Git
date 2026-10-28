@@ -1766,7 +1766,12 @@ function firearms(api: CoreAPI, census: Census): void {
     else groups.set(g.index, buyers * price);
   }
   for (const p of census.full) {
-    if (!p.gunHome || p.age < 18 || p.age >= 21) continue;
+    if (
+      !p.gunHome ||
+      p.age < parameter("votingAge") ||
+      p.age >= safetyParameter("permitAge")
+    )
+      continue;
     const c = carryOf(api, p.id);
     const owed = c.buy + perMonth;
     const buy = owed >= 1 - 1e-9;

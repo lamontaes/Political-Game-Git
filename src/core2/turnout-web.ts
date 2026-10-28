@@ -13,6 +13,7 @@
  */
 import { webReach, type Subject, type WebPart } from "./outcome-web-reach";
 import type { CoreAPI, CoreState } from "./types";
+import { parameter } from "./parameters";
 
 export interface TurnoutWeb {
   /** The multiplier on the voter's propensity. */
@@ -65,7 +66,7 @@ export function turnoutWeb(
   const all = webReach(api, placeId, "voting.turnout-pct", subject);
   const parts = [...all.parts];
   let recordId = all.recordId;
-  if (age >= 18 && age <= 24) {
+  if (age >= parameter("votingAge") && age <= 24) {
     const youth = webReach(api, placeId, "voting.youth-turnout", subject);
     parts.push(...youth.parts);
     recordId = recordId ?? youth.recordId;
