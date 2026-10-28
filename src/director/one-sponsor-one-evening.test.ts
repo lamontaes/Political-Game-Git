@@ -140,6 +140,7 @@ it(`a sponsor's asks about several bills on one evening play in one stop, each a
       ).toEqual(askIds);
       // Each bill's roll call reads the answer given about it.
       const rolls: string[] = [];
+      let reached = 0;
       for (const ask of list) {
         const floor = String(ask.facts!.floorDate);
         if (core.date < floor) advanceCore(core, floor);
@@ -156,11 +157,21 @@ it(`a sponsor's asks about several bills on one evening play in one stop, each a
           continue;
         }
         const move = String(core.durableLog.get(reply.replyId)!.facts?.move);
-        if (move === "agree")
+        if (move === "agree") {
           expect(vote.vote, `${where}: ${billId}`).toBe("yes");
+          expect(vote.position.replyIds, `${where}: ${billId}`).toContain(
+            reply.replyId,
+          );
+        }
+        reached += 1;
         rolls.push(
           `${billOf(api, billId).number}: answered ${move} (${reply.replyId}), at the roll ${vote.vote}`,
         );
+      }
+      // Every bill ended before its roll call: the next such evening is taken.
+      if (!reached) {
+        tried.push(`${where}: ${core.date}: ${rolls.join("; ")}`);
+        continue;
       }
       process.stdout.write(
         `ONE EVENING ${where} (GOLDEN_PATH_SEED=${seed})\n  ${core.date}: ${sponsorId} asks the player ${player} about ${askIds.length} bills, in one stop ${entry!.momentId}\n  played ${played.map((row) => row.unit).join(" then ")}\n  ${rolls.join("\n  ")}\n`,
