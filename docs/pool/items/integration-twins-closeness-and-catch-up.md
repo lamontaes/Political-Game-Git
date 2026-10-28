@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/integration-one-closeness-reader
-pr:
+pr: #6462
 blocked-on:
 source: "Duplicates session (owner, Oct 28), handed to the integrator: rows inside the integrator's facts (ties, the clock)"
 lead: director
