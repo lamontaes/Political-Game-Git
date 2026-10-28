@@ -54,9 +54,12 @@ export type OpeningMove = AddressMove & { readonly topic?: string };
 const ACTS: Readonly<Record<string, SpeechAct>> = {
   salutation: "greet",
   occasion: "tell",
+  creed: "tell",
+  unity: "promise",
   "story-open": "tell",
   "story-fig": "tell",
   "story-turn": "tell",
+  pledge: "promise",
   "lead-in": "tell",
   stake: "tell",
   law: "tell",
