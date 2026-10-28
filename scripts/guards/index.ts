@@ -64,6 +64,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/no-place-or-presence-restated.test.ts"),
   },
   {
+    id: "families",
+    rule: "One engine per mechanic: every file is in one engine family, and reaches another family only through its entry files; the deep imports only shrink.",
+    readMore:
+      "docs/design/guards.md, One engine per mechanic; tests/guards/families.json",
+    command: vitest("tests/guards/families.test.ts"),
+  },
+  {
     id: "research-data-has-reader",
     rule: "An effect is a read, not a record: every research file has code that reads it, and the unread list only shrinks.",
     readMore: "AGENTS.md, Standing owner rules, An effect is a read",
