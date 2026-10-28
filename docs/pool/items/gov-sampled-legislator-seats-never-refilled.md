@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/sampled-seats-refilled
-pr:
+pr: #6701
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T20:39:08.586Z

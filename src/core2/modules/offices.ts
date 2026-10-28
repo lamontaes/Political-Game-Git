@@ -58,6 +58,8 @@ import {
   type SeatInput,
   type VacancyRule,
 } from "../offices-state";
+// A screen reads which district a town votes in through this entry.
+export { townDistrict } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
 import { seededUnit } from "../seeded";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
