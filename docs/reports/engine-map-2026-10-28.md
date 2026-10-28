@@ -1,6 +1,6 @@
-# The engine map: 12 of 19 mechanics run on more than one engine, and only the Journal is drawn from the UI kit alone
+# The engine map: 12 of 19 mechanics run on more than one engine, and of the screens a player can open, only the Journal is drawn from the UI kit alone
 
-The game keeps one world, but the player sees it through many separate systems. Of 19 mechanics, 7 run on one engine and 12 on two or more, worst of all elections (8), people and households (7) and the executive (6). Of 29 screens, only the Journal is drawn from the shared buttons, cards and menus alone. The Money sheet's savings and spending always draw empty, and plans people make never happen in the player's own days. Every memory of a person's past comes from facts drawn once at the start, not from years the engines ran. 38 of 55 real statistics still open every world the same. Nothing needs a ruling; the owner assigns the order below.
+Of 19 mechanics, 7 run on one engine and 12 on two or more, worst of all elections (8), people and households (7) and the executive (6). Of the 26 screens a player can open, only the Journal is drawn from the shared buttons, cards and menus alone. The Money sheet's savings and spending always draw empty, and plans people make never happen in the player's own days. The Journal, talks and speeches read a person's past from facts drawn once at the start, not from years the engines ran. 38 of 55 real statistics still open every world the same. Nothing needs your decision; the order below is proposed, and you choose who takes each line.
 
 ## The counts
 
