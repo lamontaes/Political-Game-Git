@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Engine map lines 5 and 27 to 30. The 38 statistics still copied into every world (docs/reports/real-statistics-in-play-2026-10-27.md) are drawn per world, one source table per PR, using the existing per-world draw (seededUnit, the pattern of #6446). src/core2/office-day-state.ts's own term writer folds into the one in src/core2/modules/offices.ts. The 14 level branches in src/core2/modules/legislature.ts become body rows (chambers, veto holder, term years) the one engine reads. Budget bases (src/core2/modules/budgets.ts around 610-650) become one row per government in data/research/money/public-budget-bases.json. One case-and-sentence engine: src/core2/modules/public-safety.ts reads the crime engine's victims and src/core2/modules/justice.ts's cases, its own copies deleted. Time box: 6 hours.
@@ -20,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/legislature.ts,src/core2/office-day-state.ts,src/core2/modules/offices.ts,src/core2/modules/budgets.ts,data/research/money/public-budget-bases.json,src/core2/modules/justice.ts,src/core2/modules/public-safety.ts,src/core2/modules/macro.ts
 
-**Notes.** Filed by the CTO from the engine map on the owner's go (Oct 28). engine: offices.ts, legislature.ts, budgets.ts, justice.ts, seededUnit. guard: families, two-seeds-differ. Read: OWNER-DECISIONS (realistic not real, one engine), the engine map (E3, E4, E13, C2), the realistic-not-real channel block. Starts wiring when the Trim block says the office deletions landed.
+**Notes.** Filed by the CTO from the engine map on the owner's go (Oct 28). engine: offices.ts, legislature.ts, budgets.ts, justice.ts, seededUnit. guard: families, two-seeds-differ. Read: OWNER-DECISIONS (realistic not real, one engine), the engine map (E3, E4, E13, C2), the realistic-not-real channel block. Starts wiring when the Trim block says the office deletions landed. Back to open Oct 28, 12:40 UTC (box over, wire-office session): done: budget base rows (#6553), one term writer seatTerm (#6604), legislature body rows first part (#6605), 25 of 38 statistics on main (#6565, #6588, #6593, #6597, #6599), red-main guard fix #6611 open. Left: merge main into #6598 (row 28, branch claude/realistic-population) and #6600 (rows 21 to 24, 26, 27, branch claude/realistic-business-rows); the rest of map line 28 (the four structural kind lines and the executive lookup named in #6605); E13, one case engine (public-safety.ts cases and terms into justice.ts cases, sentences and custody, public safety reading the crime engine's victims); statistics rows 42, 44, 45, 48 and 37 (41 waits on the disasters ruling); SG-WORLD-draw-helpers-three.

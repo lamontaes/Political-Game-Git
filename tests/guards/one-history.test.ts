@@ -25,7 +25,7 @@ import list from "./one-history-proxies.json";
 const ROOT = path.resolve(__dirname, "../..");
 const READER_DIRS = ["src/director", "src/bench", "src/core2/modules"];
 /** The length of the proxy list when this guard began; it may only go down. */
-const PROXY_CEILING = 11;
+const PROXY_CEILING = 8;
 
 type Proxy = { kind: string; writer: string; simulatedBy: string | null };
 const proxies = list.proxies as Proxy[];

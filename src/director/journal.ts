@@ -1,4 +1,5 @@
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { familyFactsOf } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
@@ -36,6 +37,7 @@ import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
 import { properName } from "./words";
 import { PAST_WORK_OUT, PAST_WORK_SPELL, pastWorkOf } from "../core2/past-work";
+import { sharedHistory } from "../core2/past";
 import { spanSaid } from "../english/span-words";
 import type { Moment } from "./types";
 import {
@@ -162,25 +164,10 @@ function raceMargin(
   return "middle";
 }
 
-/** The person's relatives by id, with the family fact that records each. */
 function listOf(items: readonly string[]): string {
   return items.length < P.two + one
     ? items.join(" and ")
     : `${items.slice(zero, -one).join(", ")} and ${items.at(-one)}`;
-}
-
-function relatives(person: PersonState) {
-  const out = new Map<PersonId, { relation: string; factId: string }>();
-  for (const fact of person.pastFacts ?? []) {
-    const otherId = fact.facts?.otherPersonId;
-    if (!otherId || !fact.kind.startsWith("family:")) continue;
-    if (!out.has(otherId))
-      out.set(otherId, {
-        relation: fact.kind.slice("family:".length),
-        factId: fact.id,
-      });
-  }
-  return out;
 }
 
 /**
@@ -613,7 +600,7 @@ export function composeJournal(
   const person = core.people.get(personId);
   const book = director.ledger.people.get(personId);
   if (!person || !book) return [];
-  const kin = relatives(person);
+  const kin = familyFactsOf(person);
   const named = new Set<PersonId>();
   const saidAs = new Map<string, PersonId>();
   const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));
@@ -876,7 +863,6 @@ export function composeJournal(
   const chapters: JournalChapter[] = [];
   // Where life happened (a school, a job): never a chapter or an entry, only
   // where the person knew someone who matters later.
-  const settingFactIds: string[] = [];
   const employerIds: string[] = [];
   let chapter: (typeof chapters)[number] | undefined;
   // The chapter a race's turn opened, by contest record id: the race's result
@@ -958,7 +944,6 @@ export function composeJournal(
     // A setting is where life happened, not something that happened: it
     // neither opens a chapter nor titles one.
     if (row.entry === "setting") {
-      if (moment.causeFactId) settingFactIds.push(moment.causeFactId);
       const employer = facts.employer?.sourceRecordIds.at(-one);
       if (employer) employerIds.push(employer);
       continue;
@@ -1228,43 +1213,51 @@ export function composeJournal(
   // is remembered in the latest chapter, as the story of that person.
   const offices = options.officeOf ?? officeHolding(core);
   {
-    const mates = (person.pastFacts ?? []).filter(
-      (fact) =>
-        (fact.kind === "social:generated-school-acquaintance" &&
-          settingFactIds.includes(fact.facts?.contextFactId ?? "")) ||
-        (fact.kind === "social:generated-coworker" &&
-          employerIds.includes(
-            core.jobs.get((fact.facts?.contextFactId ?? "").split(":")[zero]!)
-              ?.organizationId ?? "",
-          )),
-    );
-    for (const fact of mates) {
-      const mateId = fact.facts?.otherPersonId;
-      const office = mateId ? offices(mateId) : undefined;
-      const said = mateId ? other(mateId) : undefined;
+    // The employer's and the school's records say who they were; only
+    // someone they know by name is remembered.
+    const mates = [...person.knownIds]
+      .sort()
+      .filter((mateId) => offices(mateId))
+      .flatMap((mateId) =>
+        sharedHistory(core, personId, mateId)
+          .filter(
+            (row) =>
+              row.kind === "schoolmate" ||
+              (row.kind === "coworker" && employerIds.includes(row.recordId)),
+          )
+          .map((row) => ({
+            mateId,
+            key: `${row.kind}:${row.recordId}:${mateId}`,
+            recordId: row.recordId,
+            school:
+              row.kind === "schoolmate"
+                ? core.organizations.get(row.recordId)?.name
+                : undefined,
+          })),
+      );
+    for (const { mateId, key, recordId, school } of mates) {
+      const office = offices(mateId);
+      const said = other(mateId);
       if (!office || !said) continue;
-      const setting = settingFactIds
-        .map((id) => factsById.get(id))
-        .find((entry) => entry?.facts?.schoolName);
       const facts: Facts = {
         name: said,
         other: said,
         office: { ...office, text: office.text.toLowerCase() },
-        ...(setting
+        ...(school
           ? {
               school: {
-                text: properName(setting.facts!.schoolName!),
-                sourceRecordIds: [setting.id],
+                text: properName(school),
+                sourceRecordIds: [recordId],
               },
             }
           : {}),
       };
-      const ids = [fact.id, ...office.sourceRecordIds];
+      const ids = [recordId, ...office.sourceRecordIds];
       const said2 = [
         render(
           { part: "memoir", field: "remember" },
           facts,
-          `${fact.id}:remember`,
+          `${key}:remember`,
           ids,
         ),
         render(
@@ -1272,10 +1265,10 @@ export function composeJournal(
           {
             part: "memoir",
             field: "became",
-            gender: core.people.get(mateId!)?.looks?.gender,
+            gender: core.people.get(mateId)?.looks?.gender,
           },
           facts,
-          `${fact.id}:became`,
+          `${key}:became`,
           ids,
         ),
       ].filter(Boolean) as NonNullable<ReturnType<typeof render>>[];
@@ -1288,10 +1281,10 @@ export function composeJournal(
         const title = render(
           { part: "first-title" },
           place ? { place } : {},
-          `${fact.id}:title`,
+          `${key}:title`,
           ids,
         );
-        open(`${fact.id}:remember`, title?.text ?? "", through);
+        open(`${key}:remember`, title?.text ?? "", through);
       }
       const row = chapters.at(-one)!;
       row.lines.push({

@@ -1,10 +1,5 @@
 import { OPENING_KIN } from "./opening-kin";
 import { addFamilyHistories } from "./past-family";
-import {
-  buildOpeningPeerContacts,
-  DEFAULT_OPENING_PEER_DATA,
-  type OpeningPeerData,
-} from "./opening-peer-network";
 import { groupedJsonTable } from "./reference/lazy-data";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { countyGeoidsForPlace } from "./reference/government-units";
@@ -18,7 +13,6 @@ import type { EntityId } from "./kernel/brands";
 import contentJson from "./data/deep-past.json" with { type: "json" };
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
-import coworkerJson from "./data/opening-coworkers.json" with { type: "json" };
 import type { CoreInput, PersonInput, Source } from "./types";
 
 type PriorFact = NonNullable<PersonInput["pastFacts"]>[number] & {
@@ -45,8 +39,6 @@ const SCHOOLS = SCHOOL_TABLE.rest.bind(SCHOOL_TABLE) as () => {
   placesByCounty: Readonly<Record<string, readonly string[]>>;
   bucketsByState: Readonly<Record<string, readonly string[]>>;
 };
-
-const OPENING_COWORKER_DATA = coworkerJson as OpeningPeerData;
 
 export interface DeepPastFieldSource {
   personId: string;
@@ -92,48 +84,13 @@ export interface DeepPastData {
     kindPrefixes: readonly string[];
     gap: string;
   }[];
-  eras: readonly {
-    id: string;
-    date: string;
-    kind: string;
-    title: string;
-    facts: Readonly<Record<string, string>>;
-    source: Source;
-  }[];
 }
 
-export const DEFAULT_DEEP_PAST_DATA: DeepPastData = {
-  ...contentJson,
-  eras: contentJson.eras.map((era) => {
-    const source = era.source;
-    if (source.tag !== "SOURCED" && source.tag !== "ESTIMATED")
-      throw new Error(`Invalid deep-past source tag: ${era.id}`);
-    return {
-      ...era,
-      facts: Object.fromEntries(
-        Object.entries(era.facts).filter((entry): entry is [string, string] => {
-          const [, value] = entry;
-          return value !== undefined;
-        }),
-      ),
-      source: { ...source, tag: source.tag },
-    };
-  }),
-};
+export const DEFAULT_DEEP_PAST_DATA: DeepPastData = contentJson;
 
 export interface DeepPastOptions {
   data?: DeepPastData;
   parameters?: Readonly<Record<string, Parameter>>;
-  /**
-   * The two-level population: the records' count of people in a class or
-   * workplace (by circle version and context), so people filled in later
-   * join the same peer groups as in a fully built town.
-   */
-  peerCohortSize?: (
-    circle: string,
-    contextKey: string,
-    present: number,
-  ) => number;
 }
 
 type ReportedInput = CoreInput & {
@@ -220,7 +177,6 @@ export function buildDeepPast(
   const activePersonIds = new Set(input.people.map((person) => person.id));
   const ownedFields = new Set([
     "birth",
-    "era-context",
     data.schools.field,
     ...data.preservedFields.map((field) => field.field),
   ]);
@@ -237,7 +193,6 @@ export function buildDeepPast(
   const schoolCache = new Map<string, readonly SchoolRow[]>();
   // Lists read from the county or territory rather than the place itself.
   const broadLists = new Set<readonly SchoolRow[]>();
-  const jobById = new Map(input.jobs.map((job) => [job.id, job]));
 
   const report = (row: DeepPastFieldSource): void => {
     const key = `${row.personId}:${row.field}`;
@@ -325,7 +280,7 @@ export function buildDeepPast(
   ): readonly SchoolRow[] => {
     const geoid = corePlaceByJurisdictionId(placeId as EntityId)?.sourceGeoid;
     const population = geoid
-      ? Number(placeReferencePopulation(geoid)?.value)
+      ? Number(placeReferencePopulation(geoid, input.seed)?.value)
       : Number.NaN;
     if (!(population > p("zero"))) return rows;
     const children = population * p("schoolCohortPopulationShare");
@@ -610,33 +565,6 @@ export function buildDeepPast(
         facts.length ? "Preserved supplied dated personal records." : field.gap,
       );
     }
-    for (const era of data.eras) {
-      const date = makeIsoDate(era.date);
-      if (date < birth || date >= cutoff) continue;
-      add({
-        id: `${prefix}era:${era.id}`,
-        date,
-        kind: era.kind,
-        summary: era.title,
-        source: era.source,
-        facts: {
-          ...era.facts,
-          eraId: era.id,
-          cohortRelation: "alive-on-context-date",
-          birthDateSource: person.source.citation,
-          knowledge: "not-inferred",
-          stopgapId: marker.id,
-        },
-      });
-    }
-    record(
-      "era-context",
-      [
-        ...original.filter((fact) => fact.id.startsWith(`${prefix}era:`)),
-        ...added.filter((fact) => fact.id.startsWith(`${prefix}era:`)),
-      ],
-      "Dated public context intersecting the supplied lifetime; no personal memory, belief, loss, infection, or decision inferred.",
-    );
     return added.length
       ? {
           ...person,
@@ -656,49 +584,15 @@ export function buildDeepPast(
     gaps.add(
       `${gapPrefix}${field}: ${count} people retain an unresolved personal-history field; consult priorFactsSource for the constraint.`,
     );
-  // P15: every resident gets remembered acquaintances from their own school
-  // context, by the same rule the benchmark player had, and knows the
-  // coworkers of their workgroup since the later of their start dates.
-  const circles = [DEFAULT_OPENING_PEER_DATA, OPENING_COWORKER_DATA];
-  const residentIds = people
-    .filter((person) => person.tier !== OPENING_KIN.kinTier)
-    .map((person) => person.id);
-  let withPast: CoreInput = {
-    ...input,
-    people,
-    // The circle steps append their own gaps; keep them last on every rebuild.
-    gaps: [...gaps].filter(
-      (gap) => !circles.some((circle) => circle.scopeGap === gap),
-    ),
-  };
-  // A coworker's context is their opening job: employer and title come from
-  // the job record the work:opening fact belongs to.
-  const jobContext = (
-    person: PersonInput,
-    fact: PriorFact,
-  ): Readonly<Record<string, string>> | undefined => {
-    const job = person.jobId ? jobById.get(person.jobId) : undefined;
-    return job && fact.id.startsWith(`${job.id}:`)
-      ? { organizationId: job.organizationId, title: job.title }
-      : undefined;
-  };
   // The world has a past: each household's shared history and the moments
-  // its members remember (owner, Oct 14, 2026).
-  withPast = addFamilyHistories(withPast, OPENING_KIN.kinTier, data.version);
-  for (const circle of circles)
-    withPast = buildOpeningPeerContacts(withPast, {
-      personIds: residentIds,
-      data: circle,
-      ...(options.peerCohortSize
-        ? {
-            cohortSize: (contextKey: string, present: number) =>
-              options.peerCohortSize!(circle.version, contextKey, present),
-          }
-        : {}),
-      ...(circle === OPENING_COWORKER_DATA
-        ? { contextValues: jobContext }
-        : {}),
-    }).input;
+  // its members remember (owner, Oct 14, 2026). Coworkers and classmates are
+  // the employer's and the school's records, read where they are needed
+  // (src/core2/shared-history.ts), not facts written here.
+  const withPast = addFamilyHistories(
+    { ...input, people, gaps: [...gaps] },
+    OPENING_KIN.kinTier,
+    data.version,
+  );
   const result: CoreInput & {
     priorFactsSource: readonly DeepPastFieldSource[];
   } = { ...withPast, priorFactsSource: reports };

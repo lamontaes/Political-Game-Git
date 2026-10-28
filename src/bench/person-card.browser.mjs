@@ -28,20 +28,13 @@ try {
     const response = await life;
     assert.equal(response.status(), 200);
     console.log("Seed:", new URL(response.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
       document.getElementById("card-name").textContent.trim() &&
       document.getElementById("card-clock").textContent.trim(),
   );
-  const clock = await page.locator("#card-clock").innerText();
+  const clock = await page.locator("#card-clock").textContent();
   console.log(
     "Player:",
     await page.locator("#card-name").innerText(),
@@ -143,7 +136,7 @@ try {
       .evaluate((e) => document.activeElement === e),
     true,
   );
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
+  assert.equal(await page.locator("#card-clock").textContent(), clock);
   assert.equal(await page.locator("#sheet").isVisible(), false);
   await page.locator("#talk-leave").click();
   console.log(

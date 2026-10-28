@@ -4,12 +4,8 @@
  *
  * - `laws`: each law row's history (enactment, body, session, roll call,
  *   sponsor, signer, amendments), keyed `law-history:<law row id>`.
- * - `bills`: each body's recorded votes of the prior term, the bills behind
- *   them, and who sponsored them.
  * - `elections`: the election that seated each officeholder, with both
  *   candidates, the votes, turnout and the town's voter groups' split.
- * - `closures`: each business of the town that closed in the year before day
- *   one, with its kind, former owner, workers and date.
  * - `figures`: what the public knows about each public figure: office,
  *   positions, record, prior election and the reputation a public sees.
  *
@@ -44,10 +40,8 @@ export const PAST_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       laws: { indexes: { byLaw: { fields: ["lawId"] } } },
-      bills: { indexes: { byBody: { fields: ["body"] } } },
       elections: { indexes: { bySeat: { fields: ["seatId"] } } },
       figures: { indexes: { byPerson: { fields: ["personId"] } } },
-      closures: { indexes: { byOwner: { fields: ["ownerId"] } } },
       loaded: {},
     },
   },
@@ -191,27 +185,4 @@ export function lawHistory(
     pastTable(api, "laws").query("byLaw", [lawId]) as unknown as
       LawHistoryRow[] | undefined
   )?.[0];
-}
-
-/** The elections that seated a seat's holders before day one, oldest first. */
-export function priorElections(
-  api: CoreAPI,
-  seatId: string,
-): readonly PastElectionRow[] {
-  if (!api.state.modules.has(PAST_MODULE_ID)) return [];
-  return (
-    pastTable(api, "elections").query("bySeat", [
-      seatId,
-    ]) as unknown as PastElectionRow[]
-  )
-    .slice()
-    .sort((a, b) => a.date.localeCompare(b.date));
-}
-
-/** A body's recorded bills of the prior term. */
-export function pastBills(api: CoreAPI, body: string): readonly PastBillRow[] {
-  if (!api.state.modules.has(PAST_MODULE_ID)) return [];
-  return pastTable(api, "bills").query("byBody", [
-    body,
-  ]) as unknown as PastBillRow[];
 }

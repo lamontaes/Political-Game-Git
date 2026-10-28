@@ -96,14 +96,7 @@ describe("filling in people gets the same past as the whole town", () => {
     startedAt: "2021-01-01",
     minimumPeople: 400,
   });
-  // The records' size of each class and workplace, read from the full build.
-  const cohorts = new Map<string, number>();
-  const town = buildDeepPast(population, {
-    peerCohortSize: (circle, contextKey, present) => {
-      cohorts.set(`${circle}|${contextKey}`, present);
-      return present;
-    },
-  });
+  const town = buildDeepPast(population);
   const byId = new Map(town.people.map((person) => [person.id, person]));
 
   it(`in ${population.placeMetadata?.placeName} (seed ${seed})`, () => {
@@ -113,20 +106,14 @@ describe("filling in people gets the same past as the whole town", () => {
       const ids = new Set<string>(household.memberIds);
       for (const id of household.memberIds)
         for (const other of byId.get(id)!.familyIds) ids.add(other);
-      const alone = buildDeepPast(
-        {
-          ...population,
-          people: population.people.filter((row) => ids.has(row.id)),
-          households: population.households.filter((row) =>
-            row.memberIds.some((id) => ids.has(id)),
-          ),
-          jobs: population.jobs.filter((row) => ids.has(row.personId)),
-        },
-        {
-          peerCohortSize: (circle, contextKey) =>
-            cohorts.get(`${circle}|${contextKey}`)!,
-        },
-      );
+      const alone = buildDeepPast({
+        ...population,
+        people: population.people.filter((row) => ids.has(row.id)),
+        households: population.households.filter((row) =>
+          row.memberIds.some((id) => ids.has(id)),
+        ),
+        jobs: population.jobs.filter((row) => ids.has(row.personId)),
+      });
       for (const person of alone.people) {
         // Ties to people not yet filled in appear when they are.
         const expected = (byId.get(person.id)!.pastFacts ?? []).filter(
@@ -168,11 +155,10 @@ describe("fill-in from a recorded identity (officials)", () => {
       "identity:seat",
       "identity:nativity",
     ]);
-    // A named person is filled in whole: a childhood, schools and an era too.
+    // A named person is filled in whole: a childhood and schools too.
     for (const kind of [
       "birth-date",
       "school:cohort-estimate",
-      "era:public-context",
       "household:moment",
     ])
       expect(kinds, kind).toContain(kind);

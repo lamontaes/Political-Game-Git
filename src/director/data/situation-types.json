@@ -1720,7 +1720,7 @@
       "tag": {
         "key": "routine",
         "endpoint": "political",
-        "registers": ["conversation", "counter", "journal"]
+        "registers": ["conversation", "journal"]
       },
       "purpose": "poll-problem",
       "asker": "workers",
@@ -2091,13 +2091,7 @@
       "tag": {
         "key": "vote-wanted",
         "endpoint": "bill",
-        "registers": [
-          "meeting",
-          "address/chair",
-          "minutes",
-          "winning-losing",
-          "journal"
-        ]
+        "registers": ["address/chair", "minutes", "journal"]
       },
       "purpose": "floor-switch",
       "asker": "colleagues",
@@ -2459,7 +2453,7 @@
       "tag": {
         "key": "routine",
         "endpoint": "bill",
-        "registers": ["hearing", "address/public-comment", "notice", "minutes"]
+        "registers": ["address/public-comment", "notice", "minutes"]
       },
       "purpose": "hearing-testify",
       "asker": "chair",
@@ -2868,6 +2862,25 @@
             "aide": "staff",
             "audience": "audience"
           }
+        },
+        {
+          "match": {
+            "label": "cause:event:president.address",
+            "causeFacts": [
+              {
+                "key": "address:president",
+                "is": "other"
+              }
+            ]
+          },
+          "causeEngine": "opening-story",
+          "causeRecord": "president.address",
+          "setting": ["home"],
+          "said": "speaker",
+          "bind": {
+            "speaker": "counterpart",
+            "audience": "household"
+          }
         }
       ],
       "tag": {
@@ -3053,7 +3066,7 @@
       "tag": {
         "key": "routine",
         "endpoint": "political",
-        "registers": ["filing-visit", "counter", "journal"]
+        "registers": ["filing-visit", "journal"]
       },
       "purpose": "filing-clerk",
       "asker": "clerk",

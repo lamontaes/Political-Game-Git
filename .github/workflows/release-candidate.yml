@@ -21,6 +21,10 @@ on:
         description: Concurrency group for the build and validation jobs.
         type: string
         required: true
+    secrets:
+      RELEASE_PUSH_TOKEN:
+        description: The owner's token for pushing the version commit past branch protection; the caller that publishes passes it.
+        required: false
     outputs:
       outcome:
         description: release, no-op or blocked.
@@ -324,7 +328,12 @@ jobs:
       - name: Verify the candidate and publish it onto main
         id: publish
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          # Branch protection requires validate and golden-path on every push to
+          # main; the workflow token is not an admin, so the version commit
+          # needs the owner's token (a fine-grained PAT with write access to the contents of
+          # this repository, saved as the secret RELEASE_PUSH_TOKEN). Without
+          # it the push is refused and nothing publishes.
+          GITHUB_TOKEN: ${{ secrets.RELEASE_PUSH_TOKEN || github.token }}
           SOURCE_SHA: ${{ needs.build_candidate.outputs.source_sha }}
           CANDIDATE_SHA: ${{ needs.build_candidate.outputs.candidate_sha }}
           CANDIDATE_TREE: ${{ needs.build_candidate.outputs.candidate_tree }}

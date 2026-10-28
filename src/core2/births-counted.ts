@@ -10,6 +10,7 @@
  * per place per month records what happened; nothing is kept per counted
  * person per day.
  */
+import { worldRateFactor } from "./world-base-rates";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { SERIOUS_EPISODE_REMAINING_DAYS } from "./death-causes";
 import {
@@ -335,7 +336,14 @@ export function applyCountedFlows(
   const store = api.moduleState(RENEWAL_ID);
   for (const [placeId, households] of countedHouseholdsByPlace(core)) {
     const state = stateOf(api, placeId);
-    const rates = birthRates(state.name);
+    // This world's table: the published rates times its own natality factor.
+    const natality = worldRateFactor(api.state.seed, "natality");
+    const rates = new Map(
+      [...birthRates(state.name)].map(([band, rate]) => [
+        band,
+        rate * natality,
+      ]),
+    );
     // Counted women follow the same rate as full ones, times how far the
     // place's own conditions (unemployment, home prices) have moved it.
     const webOn = core.modules.has(OUTCOME_WEB_MODULE_ID);
@@ -552,6 +560,7 @@ export function applyCountedFlows(
                   age,
                 ) *
                   mortality *
+                  worldRateFactor(api.state.seed, "mortality") *
                   webDeaths(member, on),
               ),
               months,
@@ -674,7 +683,7 @@ export function applyCountedFlows(
 
     // Births: the state's rate for every counted woman of each age, summed;
     // the households whose circumstances stand best toward a child first.
-    const hud = hudRentRowFor(placeId as EntityId);
+    const hud = hudRentRowFor(placeId as EntityId, api.state.seed);
     const median =
       hud?.veryLow4 != null
         ? hud.veryLow4 * CENTS_PER_DOLLAR * p("renewalMedianPerVeryLowLimit")

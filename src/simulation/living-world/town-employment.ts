@@ -488,7 +488,9 @@ export function fillTownJobs(
     ? countyGovernmentUnitsForPlace(place.sourceGeoid)[0]?.unit
     : undefined;
   const countyName = countyUnit ? countyDisplayName(countyUnit.name) : null;
-  const weights = [...townWorkplaceWeights(town)].filter(([, w]) => w > 0);
+  const weights = [...townWorkplaceWeights(town, world.seed)].filter(
+    ([, w]) => w > 0,
+  );
   let next = world;
   const organizations = new Map<string, EntityId>();
   const outletsOf = new Map<string, readonly number[]>();

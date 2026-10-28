@@ -11,8 +11,15 @@
  */
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
-import { closenessBetween } from "../core2/closeness";
-import { sharedHistory } from "../core2/shared-history";
+import { closenessBetween, familyFactsOf, formerKin } from "../core2/closeness";
+import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
+
+/** Where a contact was made, by the record that says so: never a stranger's scene. */
+const MADE_AT: readonly SharedHistoryKind[] = [
+  "campaign",
+  "coworker",
+  "schoolmate",
+];
 import { P, parameterValues } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import {
@@ -256,59 +263,6 @@ export function createDirector(
     };
   }
 
-  /** The kin relation each family member holds to the person, from recorded family links. */
-  function kinRelations(
-    core: Readonly<CoreState>,
-    personId: PersonId,
-  ): Map<PersonId, string[]> {
-    const parents = new Map<PersonId, Set<PersonId>>();
-    const partners = new Map<PersonId, Set<PersonId>>();
-    const add = (
-      map: Map<PersonId, Set<PersonId>>,
-      a: PersonId,
-      b: PersonId,
-    ) => {
-      let set = map.get(a);
-      if (!set) map.set(a, (set = new Set()));
-      set.add(b);
-    };
-    for (const link of core.familyLinks.values()) {
-      const [a, b] = link.personIds;
-      const left = core.people.get(a);
-      const right = core.people.get(b);
-      if (!left || !right) continue;
-      if (link.kind === "partner") {
-        add(partners, a, b);
-        add(partners, b, a);
-      } else {
-        const [parent, child] =
-          left.birthDate <= right.birthDate ? [a, b] : [b, a];
-        add(parents, child, parent);
-      }
-    }
-    const children = new Map<PersonId, Set<PersonId>>();
-    for (const [child, set] of parents)
-      for (const parent of set) add(children, parent, child);
-    const out = new Map<PersonId, string[]>();
-    const mark = (id: PersonId, relation: string) => {
-      if (id === personId) return;
-      const list = out.get(id) ?? [];
-      if (!list.includes(relation)) list.push(relation);
-      out.set(id, list);
-    };
-    const myParents = parents.get(personId) ?? new Set<PersonId>();
-    for (const id of myParents) mark(id, "parent");
-    for (const id of children.get(personId) ?? []) mark(id, "child");
-    for (const id of partners.get(personId) ?? []) mark(id, "partner");
-    for (const parent of myParents) {
-      for (const id of children.get(parent) ?? []) mark(id, "sibling");
-      for (const id of parents.get(parent) ?? []) mark(id, "grandparent");
-    }
-    for (const child of children.get(personId) ?? [])
-      for (const id of children.get(child) ?? []) mark(id, "grandchild");
-    return out;
-  }
-
   function ensureThread(
     book: PersonLedger,
     otherId: PersonId,
@@ -400,7 +354,11 @@ export function createDirector(
     // be followed), read from the log's own index of them.
     for (const id of core.logByPerson.get(personId) ?? []) {
       const record = core.durableLog.get(id);
-      if (record?.date === core.date && record.personIds.includes(personId))
+      if (
+        record?.date === core.date &&
+        (record.personIds.includes(personId) ||
+          record.witnessIds?.includes(personId))
+      )
         pendingFor(personId).events.push({
           event: record,
           reach: "named",
@@ -411,7 +369,13 @@ export function createDirector(
     const home = new Set(
       core.households.get(actor.householdId)?.memberIds ?? [],
     );
-    const kin = kinRelations(core, personId);
+    // Each relative by the relation the person's own family facts record
+    // (the one reader, familyFactsOf); an ended tie is no longer kin.
+    const kin = new Map(
+      [...familyFactsOf(actor)]
+        .filter(([, fact]) => !formerKin(fact.relation))
+        .map(([id, fact]): [PersonId, string[]] => [id, [fact.relation]]),
+    );
     for (const id of new Set([...actor.familyIds, ...kin.keys(), ...home])) {
       if (id === personId) continue;
       const other = core.people.get(id);
@@ -459,42 +423,13 @@ export function createDirector(
       thread.closeness = row.level;
       thread.lastContact = row.lastContactDate;
     }
-    // The recorded past (owner answer 5): public eras are background for
-    // everyone who lived through them, and a personal moment only where the
-    // record says the era hit this person; personal facts are moments with an
+    // The recorded past (owner answer 5): personal facts are moments with an
     // impact estimated from the stress scale. Facts dated at or after the
     // opening describe the life as play starts and score nothing.
     const past = [...(actor.pastFacts ?? [])]
       .filter((fact) => fact.date < core.startedAt)
       .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
     for (const fact of past) {
-      if (
-        data.backdropPastFactPrefixes.some((prefix) =>
-          fact.kind.startsWith(prefix),
-        )
-      ) {
-        book.backdrop.push({
-          id: `${personId}:past:${fact.id}`,
-          personId,
-          date: fact.date,
-          sourceId: fact.id,
-          kind: fact.kind,
-          reach: "past",
-        });
-        for (const hit of data.pastEraHits) {
-          const value = fact.facts?.[hit.factKey];
-          if (value === undefined || data.pastNotRecordedValues.includes(value))
-            continue;
-          storePastMoment(
-            book,
-            fact,
-            `${fact.kind}:${hit.factKey}`,
-            hit.parameter,
-            [],
-          );
-        }
-        continue;
-      }
       const row = data.pastFactMoments.find((entry) =>
         fact.kind.startsWith(entry.kindPrefix),
       );
@@ -520,6 +455,10 @@ export function createDirector(
       );
     }
     snapshots.set(personId, snapshot(core, actor));
+    // What already reached them today (the address they watched that
+    // evening) is measured now, so it is staged by the same path as every
+    // later moment.
+    if (pending.get(personId)?.events.length) measureDay(core, book, false);
   }
 
   /** A moment scored from the recorded past: journal material, never a scene. */
@@ -900,8 +839,9 @@ export function createDirector(
       if (!rule) continue;
       let raw = zero;
       if (rule.impactParameter) {
-        // The event's own impact reaches the people it names fully, and
-        // those who learned of it through a tie by their relation.
+        // The event's own impact reaches the people it names and those who
+        // saw it fully, and those who learned of it through a tie by their
+        // relation.
         raw = param(rule.impactParameter);
         // A share of it the event's own fact gives, on a sliding scale.
         if (rule.scaleFact) {
@@ -910,7 +850,10 @@ export function createDirector(
             ? Math.max(zero, Math.min(one, share))
             : zero;
         }
-        if (!row.event.personIds.includes(book.personId)) {
+        if (
+          !row.event.personIds.includes(book.personId) &&
+          !row.event.witnessIds?.includes(book.personId)
+        ) {
           const thread = row.event.personIds
             .map((id) => book.threads.get(id))
             .find(Boolean);
@@ -966,16 +909,21 @@ export function createDirector(
       // A tie moves a little with each contact; it turns when the change since
       // its last turn adds up, as a friendship grows over many meetings.
       thread.tieDrift = (thread.tieDrift ?? zero) + delta;
-      // A tie made working on one's campaign is that history, not chance
-      // meetings around town: its label names it (shared-history.ts), so a
-      // known volunteer is never cast in a stranger's scene.
-      const made =
-        row.kind === "contact" &&
-        sharedHistory(core, book.personId, otherId).some(
-          (row) => row.kind === "campaign",
-        )
-          ? "campaign"
-          : row.kind;
+      // A tie made working on one's campaign, at one's employer or at school is
+      // that history, not chance meetings around town: its label names it
+      // (shared-history.ts), so a known volunteer, coworker or schoolmate is
+      // never cast in a stranger's scene.
+      // The first in MADE_AT's order: a volunteer who is also a coworker
+      // was met on the campaign.
+      const kinds =
+        row.kind === "contact"
+          ? new Set(
+              sharedHistory(core, book.personId, otherId).map(
+                (entry) => entry.kind,
+              ),
+            )
+          : new Set<SharedHistoryKind>();
+      const made = MADE_AT.find((kind) => kinds.has(kind)) ?? row.kind;
       change(causeId, `contact:${made}`, "tie", Math.abs(thread.tieDrift), [
         otherId,
       ]);

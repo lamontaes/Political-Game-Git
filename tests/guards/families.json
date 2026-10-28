@@ -8,9 +8,12 @@
     "src/core2/tooling/**",
     "src/core2/types.ts",
     "src/core2/state.ts",
+    "src/core2/appearance.ts",
     "src/core2/parameters.ts",
     "src/core2/stopgaps.ts",
     "src/core2/seeded.ts",
+    "src/core2/world-base-rates.ts",
+    "src/core2/world-draw.ts",
     "src/core2/module-*.ts",
     "src/core2/saves.ts",
     "src/core2/snapshot.ts",
@@ -222,8 +225,7 @@
         "src/core2/credit-deposits.ts",
         "src/core2/commuting-shares.ts",
         "src/core2/cost-of-living.ts",
-        "src/core2/living-cost-split.ts",
-        "src/core2/hud-rents.ts"
+        "src/core2/living-cost-split.ts"
       ]
     },
     {
@@ -265,6 +267,7 @@
         "src/core2/trait-effects/**",
         "src/core2/household-*.ts",
         "src/core2/housing-*.ts",
+        "src/core2/hud-rents.ts",
         "src/core2/health-hazard.ts",
         "src/core2/health-mortality-table.ts",
         "src/core2/counted-*.ts",
@@ -278,7 +281,6 @@
         "src/core2/opening-income*.ts",
         "src/core2/opening-private-tuition.ts",
         "src/core2/opening-public-schools.ts",
-        "src/core2/opening-peer-network.ts",
         "src/core2/school-*.ts",
         "src/core2/private-tuition-reenroll.ts",
         "src/core2/residents*.ts",
@@ -362,7 +364,7 @@
     {
       "id": "english",
       "name": "The English engine",
-      "entry": ["src/english/*.ts"],
+      "entry": ["src/english/*.ts", "src/english/plain-words.mjs"],
       "paths": ["src/english/**", "data/english/**"]
     },
     {

@@ -48,7 +48,11 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  makeIsoDate,
+  daysBetweenText as daysBetween,
+} from "../kernel/dates";
 import { townDistrict } from "../offices-state";
 import { basePlaces } from "../race-places";
 import { logistic } from "../kernel/deterministic-math";
@@ -1884,8 +1888,10 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
   const limit = contributionLimit(api, campaign.contestId);
   const minorPerDollar = api.parameter("minorPerDollar");
   const spare =
-    medianTransactionBalance(campaignParameter("outsideDonorIncomeUsd")) *
-    minorPerDollar;
+    medianTransactionBalance(
+      campaignParameter("outsideDonorIncomeUsd"),
+      api.state.seed,
+    ) * minorPerDollar;
   let total = 0;
   for (const place of places) {
     // The share of the place's adults on the candidate's side of the lean
@@ -3283,12 +3289,6 @@ const contestsSeen = new WeakMap<object, number>();
  * filed to election day. Races are noted when their contest appears (the
  * contests table read only when it has grown) and dropped once decided.
  */
-const daysBetween = (from: string, to: string) =>
-  Math.round(
-    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-      86_400_000,
-  );
-
 function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "campaign-turn") return;
   scheduleTurn(api);
