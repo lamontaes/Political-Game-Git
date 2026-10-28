@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: m0-m2
 ---
 
 **What.** In a drawn bench world many full housemates are neither kin on record nor in each other's knownIds. Stem, North Carolina (seed hh-a, draw hh, buildBenchWorld two-level, start day): 68 of 258 full housemate pairs are neither, for example Christopher Walton and Lily Walton (person_006f9e0e33a27d16, person_006f9f0e33a27ec9, tier weekly). Crooked Creek, Alaska (seed hh-b): 0 of 32. A scene or journal can name someone only by a kin fact or a known name, so these people go unnamed: the family filing talk at home and the journal line for a strained ending (words/journal-scene-endings) both skip them.
