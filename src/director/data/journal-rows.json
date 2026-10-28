@@ -88,7 +88,7 @@
   },
   "lines": [
     {
-      "kindPrefix": "school:",
+      "kindPrefix": "school.started",
       "turn": false,
       "oncePer": "school",
       "entry": "setting"

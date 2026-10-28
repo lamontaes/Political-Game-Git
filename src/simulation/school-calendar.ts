@@ -2,7 +2,7 @@ import {
   kindergartenYear,
   onCalendar,
   SCHOOL_STAGE_CALENDAR,
-} from "../core2/school-calendar";
+} from "../core2/past-school-calendar";
 export { kindergartenYear, onCalendar, SCHOOL_STAGE_CALENDAR };
 import type { EducationEnrollment, EntityId, IsoDate, World } from "./types";
 

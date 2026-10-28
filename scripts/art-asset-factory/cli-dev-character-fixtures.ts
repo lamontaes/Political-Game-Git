@@ -1,6 +1,6 @@
 import path from "path";
 
-import { computeCharacterGenerationSignature } from "../../src/presentation/character-components";
+import { computeCharacterGenerationSignature } from "../../src/appearance/character-components";
 import {
   DEV_CHARACTER_FIXTURE_DIRECTORY,
   DEV_CHARACTER_FIXTURE_VERSION,

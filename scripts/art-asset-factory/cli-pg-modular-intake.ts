@@ -1,6 +1,6 @@
 import path from "path";
 
-import { computeCharacterGenerationSignature } from "../../src/presentation/character-components";
+import { computeCharacterGenerationSignature } from "../../src/appearance/character-components";
 import {
   PG_MODULAR_INTAKE_VERSION,
   PG_MODULAR_OUTPUT_DIRECTORY,
