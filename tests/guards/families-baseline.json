@@ -252,7 +252,7 @@
     "src/director/journal.ts": 4,
     "src/director/ledger.ts": 5,
     "src/director/office-scene.ts": 4,
-    "src/director/opening-story.ts": 11,
+    "src/director/opening-story.ts": 8,
     "src/director/play-modules.ts": 9,
     "src/director/polling-place.ts": 1,
     "src/director/purpose-scene.ts": 5,
