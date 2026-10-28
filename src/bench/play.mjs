@@ -1636,6 +1636,21 @@ async function showStory(momentId) {
       ...gradeOf(line, momentId),
     }),
   );
+  // A speech heard (the address on the evening news): its speaker's own
+  // words from the record, then Continue.
+  if (story.speech) {
+    setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+    talkControls({ silent: false, leave: false });
+    fillTalk({
+      lines: [
+        ...setting,
+        talkLine({ kind: "speech", text: story.speech.text }),
+      ],
+      replies: [],
+    });
+    setScales({ available: false });
+    return;
+  }
   if (withId) {
     if (story.talk) playExchange(story, setting);
     else await talkTo(withId, momentId, setting);
@@ -4050,6 +4065,8 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     renderPacket(life.packet);
     await refresh();
     showNewsSurface(await nightsNews(life.personId));
+    // The scene the director staged for the evening (the address) plays first.
+    if (life.sceneMomentId) await showStory(life.sceneMomentId);
     coachFirstChoices();
   } catch (error) {
     $("front-status").textContent = error.message;
