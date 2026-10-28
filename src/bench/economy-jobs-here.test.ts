@@ -24,11 +24,10 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 it("counts the town's own workers, seekers and openings", () => {
   setBookkeeping(false);
   const draw = drawPlace(seed, "bench-jobs-here");
-  const { core, placeId } = buildBenchWorld(
-    draw.seed,
-    gameStartDate(),
-    { twoLevel: true, placeKey: draw.key },
-  );
+  const { core, placeId } = buildBenchWorld(draw.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: draw.key,
+  });
   advanceCore(core, addDays(makeIsoDate(core.date), 6));
   const jobs = economyView(core, placeId).jobs!;
   // The town's people aged 16 and over, a counted resident for its weight.
