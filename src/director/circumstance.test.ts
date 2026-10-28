@@ -261,6 +261,18 @@ function playYear(
     expect(tie, `${row.replyId}: a tie with the cast`).toBeTruthy();
     expect(tie!.lastContactDate >= row.date, row.replyId).toBe(true);
   }
+  // A reply to an override's sponsor is kept by the legislature as a favor or
+  // a strain the member's next vote on the sponsor's bills reads.
+  for (const row of fired.filter(
+    (item) => item.row === "override-whip" && item.replyId,
+  ))
+    expect(
+      coreAPI(core)
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("replies")
+        .get(row.replyId!),
+      `${row.replyId}: the legislature keeps the reply`,
+    ).toBeTruthy();
   // Spaced: never two on one day.
   const days = fired.map((row) => row.date);
   expect(new Set(days).size).toBe(days.length);
@@ -277,6 +289,13 @@ function localMember(core: CoreState): PersonId | null {
   if (!core.modules.has(OFFICES_MODULE_ID)) return null;
   if (!core.modules.has(LEGISLATURE_MODULE_ID)) return null;
   const town = core.people.get(core.playerId!)?.placeId;
+  // A town's own body first: it meets in the evening, a county board by day.
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const county = (term: TermRow) =>
+    (offices.get(term.officeId) as unknown as { kind: string } | undefined)
+      ?.kind === "county-board"
+      ? P.one
+      : P.zero;
   const terms = api
     .moduleState(OFFICES_MODULE_ID)
     .table("terms")
@@ -292,7 +311,9 @@ function localMember(core: CoreState): PersonId | null {
     })
     .sort(
       (a, b) =>
-        a.officeId.localeCompare(b.officeId) || a.id.localeCompare(b.id),
+        county(a) - county(b) ||
+        a.officeId.localeCompare(b.officeId) ||
+        a.id.localeCompare(b.id),
     );
   return (local[0]?.personId as PersonId | undefined) ?? null;
 }

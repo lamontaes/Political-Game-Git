@@ -7,11 +7,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-player-asks-for-a-vote
+pr: #6460
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:17:57.681Z
 ---
 
 **What.** Every scene type the director stages casts the player as the one asked (src/director/data/situation-types.json); none lets the player ask. The legislature now writes a vote-ahead record the evening before a floor vote in the player's chamber: when a bill would fail, its sponsor asks the members it needs, nearest the line first (askBeforeTheRoll in src/core2/modules/legislature.ts, branch claude/ask-before-the-roll for legislature-ask-before-the-roll-moves-the-vote). The asked member's answer, a scene.reply on that record with personIds [asked, asker], is a pull their position reads at the roll and their vote cites (replyPull). When the player is the sponsor, the records name the colleagues the player would ask, but no scene lets the player make the ask, so the owner's model (Oct 14: convince one member to switch) is still out of reach.

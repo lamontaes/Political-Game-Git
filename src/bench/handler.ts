@@ -1,4 +1,5 @@
 import { GARMENTS, recolorFigure } from "./figure-colors";
+import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
 import { SITUATION_LIBRARY } from "../director/scheduling";
@@ -970,6 +971,23 @@ export async function benchRequest(
         );
         return;
       }
+      if (request.method === "POST" && url.pathname === "/api/grade") {
+        const grade = url.searchParams.get("grade");
+        if (grade !== "good" && grade !== "bad")
+          throw new Error("A grade is good or bad.");
+        send(200, {
+          i: writeLineGrade({
+            parts: (url.searchParams.get("parts") ?? "")
+              .split(",")
+              .filter(Boolean),
+            grade,
+            note: url.searchParams.get("note") ?? undefined,
+            text: url.searchParams.get("text") ?? undefined,
+            momentId: url.searchParams.get("momentId") ?? undefined,
+          }),
+        });
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/story/reply") {
         if (!player?.personId || !director)
           throw new Error("Choose a resident first.");
@@ -984,7 +1002,12 @@ export async function benchRequest(
               .split(".")
               .filter(Boolean)
               .map(Number),
-            { held: url.searchParams.get("held") === "1" },
+            {
+              held: url.searchParams.get("held") === "1",
+              ...(url.searchParams.get("typeKey")
+                ? { typeKey: url.searchParams.get("typeKey")! }
+                : {}),
+            },
           ),
         );
         return;
@@ -1049,14 +1072,19 @@ export async function benchRequest(
       }
       if (request.method === "POST" && url.pathname === "/api/campaign/day") {
         if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          campaignDay(requireCore(), player.personId, {
-            filingId: url.searchParams.get("filingId") ?? "",
-            kind: url.searchParams.get("kind") ?? "",
-            outletId: url.searchParams.get("outletId") ?? undefined,
-          }),
-        );
+        const day = campaignDay(requireCore(), player.personId, {
+          filingId: url.searchParams.get("filingId") ?? "",
+          kind: url.searchParams.get("kind") ?? "",
+          outletId: url.searchParams.get("outletId") ?? undefined,
+        });
+        // The outing's hours come off the same clock the packet reports.
+        const spent = player.spend(day.hours);
+        send(200, {
+          ...day,
+          ...(spent
+            ? { packet: spent.packet, names: namesFor(spent.packet) }
+            : {}),
+        });
         return;
       }
       if (

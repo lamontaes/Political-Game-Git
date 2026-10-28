@@ -243,8 +243,10 @@ function macroMonths(core: CoreState): {
         .rows() as unknown as MacroMonth[])
     : [];
   // Before the macro engine's first day the opening month is the one it
-  // will open from: the same published rows (`historyMonths`).
-  const months = (recorded.length ? recorded : historyMonths(core.startedAt, p))
+  // will open from: this world's own drawn months (`historyMonths`).
+  const months = (
+    recorded.length ? recorded : historyMonths(core.startedAt, core.seed, p)
+  )
     .slice()
     .sort((a, b) => a.month.localeCompare(b.month));
   const now = months
