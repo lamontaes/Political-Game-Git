@@ -56,6 +56,7 @@ const flags = [
   "in-office",
   "bill-lost",
   "for",
+  "winner-is-other",
 ];
 const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
@@ -69,6 +70,7 @@ const facts: Record<string, Fact> = {
   outlet: fact("the Courier"),
   story: fact("the groundwater vote"),
   opponent: fact("Dana Lee"),
+  winner: fact("Dana Lee"),
   party: fact("Democratic"),
   ...Object.fromEntries(flags.map((name) => [name, fact("yes")])),
   deceased: fact("Sam Ortiz"),

@@ -491,7 +491,7 @@ export function buildDeepPast(
           : opened;
         const school = schoolFor(
           open,
-          `${data.version}:${ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,
+          `${data.version}:${ageOnDate(birth, opening) < p("votingAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,
         );
         const [campusId, campusName] = school ?? [];
         const spokenCampus = campusName
