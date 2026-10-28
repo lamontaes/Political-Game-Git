@@ -1,11 +1,12 @@
 /**
- * Short worded lines for the play screens (a calendar entry, a person's sketch, who
- * someone is to you), from the English engine's screen banks. A part that is not
+ * Short worded lines for the play screens (a calendar entry, a person's sketch
+ * and history), from the English engine's screen banks. A part that is not
  * shippable, that the owner's grades hold back, or whose slots the record cannot fill
  * gives null, and the screen shows nothing for it.
  */
 import calendarJson from "../../data/english/parts/calendar.json" with { type: "json" };
 import personSketchJson from "../../data/english/parts/person-sketch.json" with { type: "json" };
+import personHistoryJson from "../../data/english/parts/person-history.json" with { type: "json" };
 import { heldByGrades } from "./english-grades";
 
 interface ScreenPart {
@@ -19,6 +20,9 @@ const BANKS: Readonly<Record<string, ReadonlyMap<string, ScreenPart>>> = {
   ),
   "person-sketch": new Map(
     (personSketchJson.parts as ScreenPart[]).map((part) => [part.key, part]),
+  ),
+  "person-history": new Map(
+    (personHistoryJson.parts as ScreenPart[]).map((part) => [part.key, part]),
   ),
 };
 
