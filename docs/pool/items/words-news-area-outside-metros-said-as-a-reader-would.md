@@ -6,11 +6,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/news-place-said
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:17:40.340Z
 ---
 
 **What.** The owner's 9 PM sitting (Oct 27, relayed by the CTO at 02:10 Oct 28): news outside Louisville and Lexington shows Kentucky as the place. In Hazard, Kentucky, the first night's town story read: Unemployment in Kentucky outside the Louisville and Lexington areas at 4.4. The rate is the regional engine's balance-of-state area, named by regionName with the state first, so the state's name stands where a reader looks for their town.
