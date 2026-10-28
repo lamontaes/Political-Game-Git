@@ -82,7 +82,11 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { kinAddress, relationPhrase } from "../english/journal-words";
+import {
+  kinAddress,
+  relationPhrase,
+  withArticle,
+} from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
@@ -846,18 +850,33 @@ export function subjectsBetween(
   const startedOrg = startedJob
     ? core.organizations.get(startedJob.organizationId)
     : undefined;
-  if (started && startedJob && startedOrg)
+  if (started && startedJob && startedOrg) {
+    const employer = {
+      text: properName(startedOrg.name),
+      sourceRecordIds: [startedJob.id, startedOrg.id],
+    };
     out.push({
       id: `job-new:${started.causeId}`,
       kind: "job-new",
       aboutId: started.causeId,
-      facts: {
-        employer: {
-          text: properName(startedOrg.name),
-          sourceRecordIds: [startedJob.id, startedOrg.id],
-        },
-      },
+      facts: { employer },
     });
+    // What the new job is, from its record, for the listener who asks
+    // ("What will you be doing there?"): a question is never left unanswered.
+    if (startedJob.title)
+      out.push({
+        id: `job-new-detail:${started.causeId}`,
+        kind: "job-new-detail",
+        aboutId: started.causeId,
+        facts: {
+          employer,
+          position: {
+            text: withArticle(startedJob.title),
+            sourceRecordIds: [startedJob.id],
+          },
+        },
+      });
+  }
   // The listener's own new job, as the speaker would take it up ("Congratulations
   // on the job at ..."). Said only once the rules map "job-new-told" to a
   // reply kind and the bank has words for it (src/director/data/conversation-rules.json).
@@ -1705,6 +1724,7 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "illness-news",
   "prison-news",
   "job-new",
+  "job-new-detail",
   "job-new-told",
 ]);
 
