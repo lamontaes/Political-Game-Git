@@ -63,8 +63,6 @@ import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { representativeSample } from "../core2/representative-sample";
 import { initialFocusPeople } from "../core2/focus";
-import { releaseRecentHistory } from "../simulation/history-index";
-import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { recordOpeningStory } from "../director/opening-story";
 import {
@@ -412,8 +410,6 @@ function* benchWorldStages(
         }),
       ),
     );
-    releaseRecentHistory();
-    forgetLastValidatedWorld();
   } else
     opening = withWorldEconomy(
       withPrivateTuition({
