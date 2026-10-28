@@ -2445,6 +2445,18 @@
     "status": "open"
   },
   {
+    "id": "SG-P15-bribe-falling-out-rare",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/modules/corruption.ts",
+    "line": 380,
+    "whatItFakes": "How often a taken bribe leads to a telling and a press tip in one played year: officials keep a median-or-better cushion, so a town takes a handful of bribes a year at the Pletzer-calibrated take pull, and a falling-out (an award that went to another firm, a bill voted the other way) between the two parties needs one of those few to be cheated before corruption.tell and press.tip are weighed.",
+    "why": "Takes now fire (seated officials' savings spread around the SCF median, officialSavingsSpreadSigma) and contract awards settle a taken bribe (settleBribe), but in the audited years the bought firm won every award, so no tie soured and no one was told. Forcing a breach would be a dice-free but invented mechanic.",
+    "addedBy": "traits-fire-integrity helper",
+    "addedAt": "2026-10-28",
+    "replacement": "Measure the share of taken bribes cheated across 56 drawn places over several years (scripts/research/core-parameters-year.ts) and calibrate the official savings spread and the bribe-share-of-stake against Global Corruption Barometer incidence; or let a letdown arise from the contract engine's own losing bidders.",
+    "status": "open"
+  },
+  {
     "id": "SG-P15-opening-profile",
     "kind": "partial-model",
     "file": "src/core2/data/profile/parameters.json",
