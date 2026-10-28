@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/conversation.ts, src/director/ledger.ts
 
 **Notes.** Coordinate lines with the finisher (Opus, English engine and scenes) and the words lead through the Words and scenes channel section. Owner, Oct 27, 4 PM Eastern: "Systems are being made for individually instead of linking everything together... The UI needs to be linked to the systems as it works... Sessions should not be building their own shit." Read: OWNER-DECISIONS (Oct 27, afternoon), DECISION-REGISTER, prior-rulings/words.md, LAW; searched docs/ for the subject.
+Sent back 2026-10-28 from PR #6412 (branch claude/integration-ties-in-scenes): tie-history-scenes.test.ts hard-fails when a drawn place's volunteers are all kin (Newkirk NM seed c1ba9dc53f1eed201684:0); make it pass over such places; finish on that branch, merge main into it first.
