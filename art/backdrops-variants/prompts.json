@@ -843,5 +843,60 @@
   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
   "reference": "art/backdrops/county-admin-lobby__midday.jpg",
   "prompt": "[cal-ev] Edit the reference picture. Keep everything exactly the same: every wall, window, door, piece of furniture, object, sign, color, line and the camera angle stay identical; do not move, add or remove anything. Change only the light and time, to evening after a county board meeting: the windows dark, fluorescent ceiling lights on, the doors to the board room standing open with warm light from inside. Same art style. No people. No text."
+ },
+ "oval-office-resolute__view-reverse.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/oval-office-resolute__midday.jpg",
+  "prompt": "[av2-oval-rev] Show this same place with the camera turned all the way around: the camera now stands at the far side of the picture and looks back toward where the original camera stood. Everything that was at the far side is now behind the camera and does not show. What shows is the side of the place that was behind the original camera: the wall opposite the Resolute desk: a white marble fireplace with a portrait above its mantel, a door on each side of the fireplace in the curved wall, the two cream sofas facing each other across a low coffee table in front of the fireplace, the blue oval rug. The desk, the three tall windows and the flags are behind the camera and not in the picture. The same colors, materials, floor, ceiling, light and furniture style as the reference. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "oval-office-resolute__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/oval-office-resolute__midday.jpg",
+  "prompt": "[av-oval-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "clerk-counter__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/clerk-counter__midday.jpg",
+  "prompt": "[av-clerk-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "coffee-shop__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/coffee-shop__midday.jpg",
+  "prompt": "[av-coffee-low] Show this same place from a different camera position: from a lower, closer position near one corner, at the eye height of a seated person, angled across the space so the nearest furniture looms large in the foreground. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "mayor-office__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/mayor-office__midday.jpg",
+  "prompt": "[av2-mayor-low] Show this same place from a different camera position: the camera itself moves lower and closer to one side wall, at the eye height of a seated person, and angles across the room. Nothing is added to the room: every object in the new picture is one already in the reference, in its same place. The nearest piece, one of the visitor chairs in front of the desk, stands on the floor in the foreground, large because the camera is close to it, and the rest of the room recedes behind it. Same colors, light and art style. Seats and open floor stay clear. No people. No text."
+ },
+ "polling-place__view-low-corner.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/polling-place__midday.jpg",
+  "prompt": "[av2-poll-low] Show this same place from a different camera position: the camera itself moves lower and closer to one side wall, at the eye height of a seated person, and angles across the room. Nothing is added to the room: every object in the new picture is one already in the reference, in its same place. The nearest piece, the end of the check-in table with its folding chair, stands on the floor in the foreground, large because the camera is close to it, and the rest of the room recedes behind it. Same colors, light and art style. Seats and open floor stay clear. No people. No text."
+ },
+ "diner-counter__view-front-door.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/diner-counter__midday.jpg",
+  "prompt": "[av2-diner-rev] Show this same place with the camera turned all the way around: the camera now stands at the far side of the picture and looks back toward where the original camera stood. Everything that was at the far side is now behind the camera and does not show. What shows is the side of the place that was behind the original camera: the diner's front door with a little bell above it and a gumball machine beside it, the cash register at the near end of the counter, a coat rack, and the row of red booths along the windows now on the other side of the picture. The menu board and the coffee station are behind the camera and not in the picture. The same colors, materials, floor, ceiling, light and furniture style as the reference. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "door-knocking-suburban__view-across-street.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-suburban__midday.jpg",
+  "prompt": "[av-door-rev] Show this same place from a different camera position: from the opposite side, looking back toward where the original camera stood, so the far wall becomes the near side and the parts that were behind the viewer now show. It is the same place, photographed from another spot: the same furniture and fixtures, the same colors, materials, windows and light, rearranged only by the new point of view. Same art style, same time of day. Seats and open floor stay clear. No people. No text."
+ },
+ "rally-town-square__region-southwest.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/rally-town-square__midday.jpg",
+  "prompt": "[rg-rt-sw] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Desert Southwest town: adobe and stucco buildings with flat roofs and wooden vigas, desert plants and gravel yards, red mountains behind. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "door-knocking-rural__region-puerto-rico.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/door-knocking-rural__midday.jpg",
+  "prompt": "[rg-dr-pr] Edit the reference picture. Keep the same layout, camera angle and composition exactly: every street, sidewalk, path, doorway, porch, open space and the horizon stay in the same places, so people could stand in the same spots. Change only the place's character to a Puerto Rico town: pastel-painted concrete buildings with flat roofs and wrought-iron balconies and gates, palm trees and hibiscus, a bright tropical sky. Buildings, houses, plants, ground, sky and small details all become that region's own. Any signs stay blank. Same art style, same time of day. No people. No text."
+ },
+ "state-legislator-office__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/governor-office__midday.jpg",
+  "prompt": "[np068b] Paint a new background scene in exactly the same art style as the reference picture: the same clean dark outlines, flat soft shading, palette and level of detail. Use the reference only for its art style; the place itself is completely different: a state legislator's own small office in the state capitol: a wooden desk with a blank nameplate and a desk phone, a leather desk chair behind it and one visitor chair facing it, stacks of bill binders, an American flag and a plain dark blue state flag with no readable design, a framed map of a district with no labels, a window looking out on a capitol lawn, a door open to the hallway. Midday. The desk chair and the visitor chair are empty and clear. No people. No text."
  }
 }

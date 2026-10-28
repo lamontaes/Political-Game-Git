@@ -1,0 +1,37 @@
+{
+ "bedroom-plain__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/bedroom-plain__midday.jpg",
+  "prompt": "[sh-bedroom-plain] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "debate-stage__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/debate-stage__midday.jpg",
+  "prompt": "[sh-debate-stage] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "funeral-home-chapel__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/funeral-home-chapel__midday.jpg",
+  "prompt": "[sh-funeral-home-chapel] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "gas-station-store__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/gas-station-store__midday.jpg",
+  "prompt": "[sh-gas-station-store] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "boardroom__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/boardroom__midday.jpg",
+  "prompt": "[sh-boardroom] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "general-store__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/general-store__midday.jpg",
+  "prompt": "[sh-general-store] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ },
+ "oval-office-resolute__midday.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/oval-office-resolute__midday.jpg",
+  "prompt": "[sh-oval-office-resolute] Redraw the reference picture crisply at full detail. Keep every object, color, line, window, piece of furniture and the camera angle exactly the same; do not move, add or remove anything. Make the outlines clean and sharp and the textures fine and clear, as if painted at a high resolution. Same art style. No people. No text."
+ }
+}

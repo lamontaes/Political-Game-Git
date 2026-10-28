@@ -1,0 +1,30 @@
+{
+ "bedroom-plain": {
+  "before": 0.532,
+  "after": 0.762
+ },
+ "boardroom": {
+  "before": 0.64,
+  "after": 0.889
+ },
+ "debate-stage": {
+  "before": 0.547,
+  "after": 0.721
+ },
+ "funeral-home-chapel": {
+  "before": 0.585,
+  "after": 0.899
+ },
+ "gas-station-store": {
+  "before": 0.594,
+  "after": 0.736
+ },
+ "general-store": {
+  "before": 0.708,
+  "after": 1.033
+ },
+ "oval-office-resolute": {
+  "before": 0.76,
+  "after": 0.877
+ }
+}
