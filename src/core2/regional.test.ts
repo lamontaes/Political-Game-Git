@@ -5,6 +5,7 @@ import regionsData from "./data/regional/regions.json" with { type: "json" };
 import stats from "../../data/research/regional/series/stats.json" with { type: "json" };
 import { corePlaceByKey } from "./place-lookup";
 import {
+  historyMonths,
   publishedMonths,
   stepMacroMonth,
   type MacroMonth,
@@ -15,6 +16,7 @@ import { parameter } from "./parameters";
 import {
   REGIONS,
   openingRegionMonths,
+  publishedRegionMonths,
   stateFigures,
   stepRegionMonth,
   type RegionMonth,
@@ -25,7 +27,7 @@ const p = (key: string) => parameter(key, data.parameters);
 
 function year(start: string, rate?: number) {
   const nation: MacroMonth[] = publishedMonths(start, p);
-  let months: RegionMonth[] = openingRegionMonths(nation.at(-1)!, p);
+  let months: RegionMonth[] = publishedRegionMonths(nation.at(-1)!, p);
   const opening = months;
   for (let i = 0; i < 12; i++) {
     const before = nation.at(-1)!,
@@ -247,5 +249,34 @@ describe("other places, coarser (M1-13, the economy's part)", () => {
       id.startsWith("event:economy.state-jobs-report:"),
     );
     expect(reports).toHaveLength(56 * 2);
+  });
+});
+
+describe("each world's own states and metros (owner, Oct 27: realistic, not real)", () => {
+  const start = "2025-01-20";
+  const at = (seed: string) =>
+    openingRegionMonths(historyMonths(start, seed, p).at(-1)!, start, seed, p);
+  it("opens every region of every place on figures that differ between two worlds and from the published ones", () => {
+    const published = publishedRegionMonths(
+      publishedMonths(start, p).at(-1)!,
+      p,
+    );
+    const a = at("world-a"),
+      b = at("world-b");
+    expect(a.map((row) => row.id)).toEqual(published.map((row) => row.id));
+    expect(new Set(a.map((row) => row.stateFips)).size).toBe(56);
+    for (const [i, real] of published.entries())
+      for (const key of [
+        "unemploymentPct",
+        "jobsThousands",
+        "hourlyEarnings",
+        "priceLevelPct",
+      ] as const) {
+        expect(a[i]![key], `${real.id} ${key}`).not.toBe(real[key]);
+        expect(a[i]![key], `${real.id} ${key}`).not.toBe(b[i]![key]);
+      }
+  });
+  it("draws the same regions again from the same seed", () => {
+    expect(at("world-a")).toEqual(at("world-a"));
   });
 });
