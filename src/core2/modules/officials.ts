@@ -1207,11 +1207,14 @@ export function officialParts(
   );
   const views = weight("views") * (own + moved) + reasonPull;
   const district = stances.reduce(
-    (sum, s) => sum + supportAt(row.districtLean, s.question) * s.position,
+    (sum, s) =>
+      sum +
+      supportAt(row.districtLean, s.question, api.state.seed) * s.position,
     0,
   );
   const state = stances.reduce(
-    (sum, s) => sum + supportAt(row.stateLean, s.question) * s.position,
+    (sum, s) =>
+      sum + supportAt(row.stateLean, s.question, api.state.seed) * s.position,
     0,
   );
   // A member of Congress also weighs what a budget line sends their state
@@ -1282,7 +1285,10 @@ export function officialParts(
   const press =
     weight("press") *
     visibility *
-    stances.reduce((sum, s) => sum + publicOffset(s.question) * s.position, 0);
+    stances.reduce(
+      (sum, s) => sum + publicOffset(s.question, api.state.seed) * s.position,
+      0,
+    );
   return {
     views,
     constituents,

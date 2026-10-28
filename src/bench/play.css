@@ -1072,9 +1072,12 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 50%;
   border: 1px solid var(--brass);
 }
+/* The figure's preview, sized so the look stage with the place line over it
+   (37px) fits a 900px window with its ten rows; at 260px it ran 5px over
+   before the line was added. */
 .portrait {
   display: block;
-  height: 260px;
+  height: 200px;
   margin: 0 auto 4px;
 }
 #front .acts {
@@ -1265,6 +1268,20 @@ body.dev .dev-ring {
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--text-3);
+}
+/* Several past lines stack as one block; the rule sits under the last of them. */
+.talk-lines .history:has(+ .history) {
+  padding-bottom: 0;
+  margin-bottom: 6px;
+  border-bottom: 0;
+}
+/* The other person's past lines lean left of the player's own, so the three kinds read
+   apart: your past lines, theirs, and what is said now (owner, Oct 28 sitting, 39). */
+.talk-lines .history.theirs {
+  font-style: italic;
+}
+.talk-lines .history.mine {
+  padding-left: 14px;
 }
 .talk-lines .history.lying {
   color: var(--lying);
@@ -2628,19 +2645,13 @@ body.dev .dev-ring {
   flex-wrap: wrap;
   gap: 12px;
 }
-.person-row-face {
+/* A list row's face: the round headshot at a row's size; an empty ring until
+   the figure is known, never initials (owner, Oct 28). */
+.person-row .person-row-face {
   flex: none;
-  width: 32px;
-  height: 36px;
-  object-fit: cover;
-  object-position: top;
-  background: var(--iron);
-}
-.person-row .people-initial {
-  display: grid;
-  place-items: center;
-  color: var(--gold);
-  font: 15px var(--name);
+  width: 38px;
+  height: 38px;
+  border-width: 2px;
 }
 .person-row .member-name {
   flex: 1;
@@ -3828,19 +3839,13 @@ details.entry[open] {
   flex-wrap: wrap;
   gap: 12px;
 }
-.person-row-face {
+/* A list row's face: the round headshot at a row's size; an empty ring until
+   the figure is known, never initials (owner, Oct 28). */
+.person-row .person-row-face {
   flex: none;
-  width: 32px;
-  height: 36px;
-  object-fit: cover;
-  object-position: top;
-  background: var(--iron);
-}
-.person-row .people-initial {
-  display: grid;
-  place-items: center;
-  color: var(--gold);
-  font: 15px var(--name);
+  width: 38px;
+  height: 38px;
+  border-width: 2px;
 }
 .person-row .member-name {
   flex: 1;
