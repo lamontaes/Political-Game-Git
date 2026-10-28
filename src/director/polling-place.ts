@@ -93,7 +93,7 @@ function contestsOn(api: CoreAPI, date: IsoDate): readonly ContestRow[] {
  */
 export function stagePollingVisits(core: Readonly<CoreState>, ledger: Ledger) {
   const api = coreAPI(core as CoreState);
-  const date = addDays(makeIsoDate(core.date), 1);
+  const date = addDays(makeIsoDate(core.date), api.parameter("one"));
   const contests = contestsOn(api, date);
   if (!contests.length) return;
   for (const book of ledger.people.values()) {
