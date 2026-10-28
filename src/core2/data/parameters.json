@@ -7317,5 +7317,17 @@
       "unit": "share of the published hours",
       "citation": "src/core2/data/time-use-reference.json (BLS ATUS)."
     }
+  },
+  "worldPopulationSpreadShare": {
+    "value": 0.03,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's town population sits from the Census Bureau's published reference figure, as a share of it. A place's count moves by a few percent between the estimate and the next census or survey (Census Vintage 2025 estimates against the 2020 Census and ACS 2020-2024 five-year counts).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.06,
+      "unit": "share of the published population",
+      "citation": "Census Vintage estimates against the decennial census, median absolute difference for incorporated places (approximate; a researcher should confirm the figures)"
+    }
   }
 }
