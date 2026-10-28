@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -271,6 +272,8 @@ it("stages the filing talk only for a relative with a stake, and records what th
     }
   }
   console.log(notes.join("\n"));
+  if (process.env.SCENE_LOG)
+    writeFileSync(process.env.SCENE_LOG, notes.join("\n"));
   expect(sawScene, `no drawn place staged a stake scene, seed ${seed}`).toBe(
     true,
   );
