@@ -430,7 +430,8 @@ function* benchWorldStages(
       // monthly row and every law that takes effect.
       OUTCOME_WEB_MODULE,
       // Every people engine a played world installs (OPUS-PEOPLE): health,
-      // drives, views, news, speeches, who runs, corruption and beliefs.
+      // drives, views, news, speeches, corruption and beliefs (who runs is
+      // installed by the voting engine, in every world).
       ...peopleModules(),
       director.module,
     ],
