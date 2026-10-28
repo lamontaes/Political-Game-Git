@@ -3676,6 +3676,7 @@ const setup = {
   appearanceDraws: 0,
   state: null,
   town: null,
+  placeDraws: 0,
   recipe: null,
   initial: null,
   previous: [],
@@ -3877,6 +3878,19 @@ async function listTowns() {
   );
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
+// Random place: the world's own draw of a state and town from all 56, then
+// on to the look, as picking the town does (owner, Oct 28: "Add a Random
+// button to picking where you live").
+$("cr-place-random").addEventListener("click", async () => {
+  setup.placeDraws++;
+  const { state, town } = await api(
+    `/api/creator/place?${new URLSearchParams({ seed: setup.seed, draw: setup.placeDraws })}`,
+  );
+  setup.state = state;
+  setup.town = town;
+  $("cr-state-name").textContent = state.name;
+  await openLook();
+});
 
 // A row of color swatches: each a button named for its color, the chosen one marked.
 async function pickColor(row, value) {
@@ -3929,6 +3943,13 @@ async function openLook() {
         `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe) })}`,
       ),
     );
+  // The place chosen or drawn, named over the look; Change returns to the states.
+  // A town record's name may already carry its state ("Pewaukee, Wisconsin").
+  $("cr-place-summary-name").textContent = setup.town.name.includes(
+    setup.state.name,
+  )
+    ? setup.town.name
+    : `${setup.town.name}, ${setup.state.name}`;
   frontPanel("cr-look");
 }
 async function moveLook(row, by) {
@@ -3960,10 +3981,11 @@ $("cr-undo").addEventListener("click", () => {
   const last = setup.previous.pop();
   if (last) void setLook(last, false);
 });
-$("cr-look-back").addEventListener("click", () => {
-  frontPanel("cr-place");
-  void showStates();
-});
+for (const id of ["cr-look-back", "cr-place-summary"])
+  $(id).addEventListener("click", () => {
+    frontPanel("cr-place");
+    void showStates();
+  });
 $("cr-begin").addEventListener("click", () =>
   startLife({
     placeKey: setup.town.key,
