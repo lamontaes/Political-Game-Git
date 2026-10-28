@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: done
+status: in-pr
 claimed-by: finisher
 pr: #6712
 blocked-on:
@@ -29,4 +29,4 @@ claimed-at: 2026-10-27
 
 **Files.** src/director/data/situation-types.json, src/director/data/circumstances.json, src/director/data/purpose-arcs.json, scripts/scene-web/domains.json, data/english/parts/scene-talk.json, src/director/diploma-home-scene.test.ts
 
-**Notes.** Built by the finisher with a helper; review by the director engineer (`Review: director`).
+**Notes.** Built by the finisher with a helper; review by the director engineer (`Review: director`). Oct 28, 22:35 UTC (Words session): landed as #6712 with main merged in, whose line 1 names director-school-finished-never-stages; the CTO flips this item to done when #6712 merges.
