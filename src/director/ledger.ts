@@ -628,8 +628,8 @@ export function createDirector(
       daysBetween(makeIsoDate(last), makeIsoDate(date)),
     );
     const halfLife = thread.kin.length
-      ? param("directorKinHalfLifeDays")
-      : param("directorFriendHalfLifeDays");
+      ? P.closenessKinHalfLifeDays
+      : P.closenessOtherHalfLifeDays;
     return one - Math.pow(P.two, -days / halfLife);
   }
 

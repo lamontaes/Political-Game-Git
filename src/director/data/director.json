@@ -457,30 +457,6 @@
         "reason": "No measured decay of how much a faded tie still matters; kept as the October 8, 2026 design weight."
       }
     },
-    "directorFriendHalfLifeDays": {
-      "value": 548,
-      "tag": "ESTIMATED",
-      "citation": "Owner question 4 (P13 design note): about 18 months, the same value P15 uses for closeness between people who are not relatives. No study reports a half-life for closeness without contact: Roberts and Dunbar (2015), Human Nature 26(4):426-450, report only that friends' closeness fell over their 18-month study, and 18 months is the study's length, not a half-life. Checked: Roberts and Dunbar (2015) inner-layer friend retention over 18 months converts to a 526-day half-life if decay is exponential (25 students in a high-turnover transition).",
-      "spread": {
-        "low": 526,
-        "high": 548,
-        "unit": "days",
-        "citation": "Roberts and Dunbar (2015) converted to a half-life, 526 days; the owner's 18 months, 548."
-      },
-      "estimatedFrom": "Owner question 4 (about 18 months), the value P15 uses, checked against Roberts and Dunbar (2015) retention converted to a half-life"
-    },
-    "directorKinHalfLifeDays": {
-      "value": 1095,
-      "tag": "ESTIMATED",
-      "citation": "Owner question 4 (P13 design note): about 36 months, twice the friend half-life, the same value P15 uses for relatives. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. Equal to the core's closenessKinHalfLifeDays (1095); the two had differed by a day. Checked: Roberts and Dunbar (2015) inner-layer kin retention over 18 months converts to a 1,078-day half-life if decay is exponential (25 students in a high-turnover transition).",
-      "spread": {
-        "low": 1078,
-        "high": 1095,
-        "unit": "days",
-        "citation": "Roberts and Dunbar (2015) converted to a half-life, 1,078 days; the owner's 36 months, 1,095."
-      },
-      "estimatedFrom": "Owner question 4 (36 months), the value P15 uses, checked against Roberts and Dunbar (2015) retention converted to a half-life"
-    },
     "directorRenewedFading": {
       "value": 0.5,
       "tag": "TUNABLE",
@@ -1243,6 +1219,18 @@
       "checkRange": {
         "min": 30,
         "max": 180,
+        "ref": "WORDS-TALK-RECENT-DAYS"
+      }
+    },
+    "directorTalkAddressDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "citation": "The President's address is the day's news for a couple of weeks after it is given, counted from the day it was given, not from the day a person first heard of it: in play (Gilbert, West Virginia, Oct 28, 2026) people met in March still opened with \"Did you catch the President's speech?\" because they were filled in that day. Owner, Oct 27: scenes and talks read what is happening in the world now.",
+      "spread": "7 to 30 days, checked by reading the talks of a played season (src/director/conversation.test.ts)",
+      "stopgapId": "SG-WORDS-param-directorTalkRecentDays",
+      "checkRange": {
+        "min": 7,
+        "max": 30,
         "ref": "WORDS-TALK-RECENT-DAYS"
       }
     },
