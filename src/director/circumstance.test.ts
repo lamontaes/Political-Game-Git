@@ -170,6 +170,22 @@ function playYear(
     const purpose = purposeScene(core, director, personId, entry, {
       includeHeld: true,
     });
+    // A door on the player's canvass is the player asking for the vote: the
+    // narrator sets the door, the player's request opens, the resident answers.
+    if (row.id.startsWith("door-")) {
+      expect(purpose?.kind, `${moment.id}: the door is a scene`).toBe(
+        "composed",
+      );
+      if (purpose?.kind === "composed") {
+        const talk = purpose.scene.talk;
+        expect(talk.narration.length, moment.id).toBeGreaterThan(0);
+        expect(talk.state.move, moment.id).toBe("request");
+        expect(talk.tree.lines[0]?.speakerId, moment.id).toBe(castId);
+        process.stdout.write(
+          `DOOR ${where}: ${[...talk.narration, talk.state, ...talk.tree.lines].map((line) => line.text).join(" / ")} / choices: ${talk.tree.replies.map((reply) => reply.line.text).join(" | ")}\n`,
+        );
+      }
+    }
     let replyId: string | undefined;
     if (purpose?.kind === "composed") {
       replyId =

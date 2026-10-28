@@ -585,17 +585,19 @@ describe("story director on the new core", () => {
             row.causeRecord === "election-result",
         ),
     ).toBe(false);
-    // A door the player's own canvass knocked: a first meeting, or a visit
-    // to a door knocked before.
+    // A door the player's own canvass knocked, the first time or again: the
+    // player asks the resident for their vote (golden-door-ask), and no
+    // general first meeting or visit plays it too.
     const knocked = (key: string) =>
       types
         .find((row) => row.key === key)!
-        .causes.some(
+        .causes.filter(
           (row) =>
             row.causeRecord === "campaign.door" && row.reason === "canvass",
-        );
-    expect(knocked("first-meeting")).toBe(true);
-    expect(knocked("visit")).toBe(true);
+        ).length;
+    expect(knocked("door-ask")).toBe(2);
+    expect(knocked("first-meeting")).toBe(0);
+    expect(knocked("visit")).toBe(0);
   });
 
   it("lets a sole earner's job loss take over the screen as news for the household, and stop a skip", () => {
