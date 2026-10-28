@@ -280,7 +280,6 @@ export class BenchPlayer {
         // The birthday is met in its morning, like any day's first scene
         // (owner, Oct 27: nothing at midnight): the day is lived to its start.
         if (
-          packet &&
           comesOfAge === from.date &&
           from.minuteOfDay < this.dayStartMinute() &&
           compareMoments(from, through) < 0 &&
