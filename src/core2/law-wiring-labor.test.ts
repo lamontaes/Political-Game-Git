@@ -15,8 +15,14 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { setJournalTrace } from "./journal-state";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
-import { inForceHere, LAW_REACH_HOST_ID } from "./law-reach/host";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  yesLevels,
+} from "./modules/laws";
+import { LAW_REACH_HOST_ID } from "./law-reach/host";
 import { LAW_APPLIED_TABLE, type LawAppliedRow } from "./law-reach/applied";
 import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
 import { governments } from "./modules/budgets";
@@ -218,7 +224,7 @@ function run(specId: string) {
 
   // Day 0: repeal the starting yeses, change the amounts.
   const repealed = Object.values(KEYS).filter(
-    (k) => inForceHere(api, k) && !k.startsWith("us-federal"),
+    (k) => yesLevels(api, k).length > 0 && !k.startsWith("us-federal"),
   );
   for (const k of repealed) setQuestion(api, k, 0, "repeal");
   const taxes = [
@@ -741,7 +747,7 @@ describe(
             (l) => l.level === "state",
           )?.row;
           if (
-            !inForceHere(api, KEYS.raise) ||
+            !yesLevels(api, KEYS.raise).length > 0 ||
             !own ||
             !((own.value ?? 0) > 0) ||
             lawInForce(api, "minimum-wage").governing?.id !== own.id
