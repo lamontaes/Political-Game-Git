@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-after: core-old-engine-05-health-onset-lift
+after:
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A (jobs the two-jobs list missed) and G2 step 8"
 ---
@@ -24,3 +24,5 @@ source: "docs/reports/repo-audit-2026-10-19.md section A (jobs the two-jobs list
 **Notes.** Covers the audit's pool rows `core-old-imports-tooling` (change) and `core-rehome-old-exporters` (new). Draft #5032 carries the place-lookup part; finish on that branch. Parent: core-delete-old-engine.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built or re-scope (named file gone; tooling item core-old-imports-tooling is done #5032).
+
+Old engine session, Oct 28: the `after:` gate on core-old-engine-05 is the audit's step order only; this item shares no file with it (05 is in review as #6641), so the gate is lifted (owner, Oct 12: nothing waits). Current check: the core already holds the states and seats of government in `src/core2/data/places/place-lookup.json` (`corePlaceStateIdentities`, `coreSeatOfGovernmentPlace`), so those are read there rather than re-homed; the rule packs and most exporters feed only the old engine and are deleted with their outputs' only readers.
