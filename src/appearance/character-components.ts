@@ -2,8 +2,30 @@ import { sha256Text } from "./sha256";
 import { stableHash } from "../core2/kernel/ids";
 import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
-  type PersonAppearance,
-} from "../simulation/person-appearance";
+  type StoredAppearance,
+} from "../core2/appearance";
+
+/**
+ * A person's stored look as the character components read it: the handle the
+ * core writes, plus a confirmed complete outfit and an explicit choice within
+ * the pinned catalog when the player made one.
+ */
+export interface PersonAppearance extends StoredAppearance {
+  /** A confirmed complete outfit; absent keeps the seeded wardrobe. */
+  readonly outfit?: {
+    readonly version: "complete-outfit-v1";
+    readonly families: Readonly<
+      Partial<Record<"top" | "bottom" | "footwear", string>>
+    >;
+  };
+  /** An explicit choice within the pinned catalog; absent keeps the seeded identity. */
+  readonly selection?: {
+    readonly bodyFamily: string;
+    readonly headFamily: string;
+    /** Null explicitly selects no optional hairstyle. */
+    readonly hairFamily: string | null;
+  };
+}
 import { SeededRng } from "../core2/kernel/rng";
 import {
   compileGarmentFitMatrix,
