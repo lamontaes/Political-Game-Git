@@ -4,6 +4,7 @@ usage: python3 stack.py PARTS_DIR OUTFITS.json OUT.png
 OUTFITS.json: list of {"name", "skin", "hair": [n, rgb] or null, "parts": {"pants": [n, rgb], "shoes": [n, rgb], "shirt": [n, rgb], "tie": [n, rgb], "jacket": [n, rgb]}}"""
 import os, sys, json, numpy as np
 from PIL import Image
+from scipy import ndimage
 
 ORDER = ['pants', 'shoes', 'dress', 'shirt', 'tie', 'jacket', 'hair']
 
@@ -19,7 +20,7 @@ def dress(P, rgb, skin):
         near = key.copy()                                    # the garment's own outline hugs it: within 3 px and not skin-colored
         for _ in range(3):
             n = near.copy(); n[1:] |= near[:-1]; n[:-1] |= near[1:]; n[:, 1:] |= near[:, :-1]; n[:, :-1] |= near[:, 1:]; near = n
-        skinlike = (sat >= 0.18) & (P[..., 0] >= P[..., 2])
+        skinlike = (sat >= 0.18) & (P[..., 0] >= P[..., 2]) & (lum > 100)   # a warm-tinted dark pixel by the garment is its outline, not skin
         gray = key | (on & near & ~skinlike); warm = on & ~gray
     else: warm = on & (sat >= 0.22) & (P[..., 0] >= P[..., 2]); gray = on & ~warm
     for m, col in ((gray, rgb), (warm, skin)):
@@ -28,9 +29,22 @@ def dress(P, rgb, skin):
             P[m, :3] = np.clip(np.array(col, float) * np.minimum(lum[m] / ref, 1.3)[:, None], 0, 255)   # edge pixels blended with the white sheet don't glow
     return Image.fromarray(P.astype(np.uint8))
 
+COVERS = {'shirt': ('jacket',), 'pants': ('shirt', 'jacket', 'dress')}       # garments drawn over a lower one
+
+def trim(lower, uppers):
+    """A lower garment painted on the same body can stick out a pixel or two past the one drawn over it (a shirt rim along
+    a jacket sleeve). Remove only those thin slivers next to the upper garment; a cuff or a trouser leg is wide and stays."""
+    A = lower[..., 3] > 0
+    if not uppers or not A.any(): return lower
+    up = ndimage.binary_fill_holes(np.any([u[..., 3] > 128 for u in uppers], 0))
+    out = A & ~up
+    thin = out & ~ndimage.binary_opening(out, iterations=3) & ndimage.binary_dilation(up, iterations=3)
+    lower = lower.copy(); lower[thin, 3] = 0
+    return lower
+
 def person(parts_dir, fid, info, outfit):
     X0, Y0, X1, Y1 = info['box']; d = f'{parts_dir}/{fid}'
-    img = dress(np.asarray(Image.open(f'{d}/body.png')), None, outfit['skin'])
+    layers = {}
     for layer in ORDER:
         spec = outfit['hair'] if layer == 'hair' else outfit['parts'].get(layer)
         if not spec: continue
@@ -38,7 +52,13 @@ def person(parts_dir, fid, info, outfit):
         if not os.path.exists(f'{d}/{layer}-{n}.png'):
             if layer not in ('shirt', 'pants', 'shoes'): continue    # body.png is only head and bare skin, so a style
             n = 1                                                    # not painted yet falls back to the base garment
-        img = Image.alpha_composite(img, dress(np.asarray(Image.open(f'{d}/{layer}-{n}.png')), rgb, outfit['skin']))
+        layers[layer] = (np.asarray(Image.open(f'{d}/{layer}-{n}.png')), rgb)
+    img = dress(np.asarray(Image.open(f'{d}/body.png')), None, outfit['skin'])
+    for layer in ORDER:
+        if layer not in layers: continue
+        P, rgb = layers[layer]
+        P = trim(P, [layers[u][0] for u in COVERS.get(layer, ()) if u in layers])
+        img = Image.alpha_composite(img, dress(P, rgb, outfit['skin']))
     return img, (X0, Y0)
 
 if __name__ == '__main__':
