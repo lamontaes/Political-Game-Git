@@ -184,6 +184,13 @@ so a push to `main` cannot take its place in the queue either.
 
 ## Required checks
 
+Once the checks are required, the release workflow's own push of the version
+commit to main is refused (the workflow token is not an admin). The owner adds
+a repository secret `RELEASE_PUSH_TOKEN`: a fine-grained personal access token
+for this repository with Contents read and write, no expiry needed beyond the
+owner's comfort. `release-candidate.yml` uses it when present and falls back to
+the workflow token otherwise. Until the secret exists, no release publishes.
+
 **Set on main on Oct 28, 2026 at 03:47 UTC** from the owner's Mac with the owner's account (the command below), and read back: `validate` and `golden-path` required, up to date off, admins not enforced, force pushes and deletions off.
 
 Two checks hold main: `validate` (the aggregate in
