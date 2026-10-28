@@ -24,6 +24,25 @@ describe("lawmaking bodies are rows", () => {
     expect(bodyRow("mayor")).toBeUndefined();
   });
 
+  it("reads whose law a body makes, a federal term and the senate's tie rule from its row", () => {
+    expect(bodyRow("us-house")?.law).toBe("nation");
+    expect(bodyRow("us-house")?.termYears).toBe(2);
+    expect(bodyRow("us-senate")?.termYears).toBe(6);
+    expect(bodyRow("us-senate")?.jurisdiction).toBe("US");
+    expect(bodyRow("legislature-unicameral")?.legislature).toBe(
+      bodyRow("legislature-upper")?.legislature,
+    );
+    expect(bodyRow("legislature-upper")?.tieBreaker).toBe(
+      "stateSenateTieBreaker",
+    );
+    expect(bodyRow("legislature-lower")?.tieBreaker).toBeUndefined();
+    expect(bodyRow("county-board")?.law).toBe("county");
+    expect(bodyRow("township-board")?.law).toBe("township");
+    expect(bodyRow("council")?.law).toBe("place");
+    for (const row of bodies.bodies)
+      expect(row.law, row.kindPrefix).toBeTruthy();
+  });
+
   it("names a veto holder for every level a body sits at", () => {
     for (const row of bodies.bodies)
       expect(

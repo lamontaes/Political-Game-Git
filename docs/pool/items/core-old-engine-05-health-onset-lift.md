@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/old-engine-health-onset
-pr:
+pr: #6641
 after:
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A (health condition pack) and G2 step 7"
