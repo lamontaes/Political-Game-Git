@@ -3180,7 +3180,7 @@ const sheets = {
         bodies = [...chambers.values()].map((seats) => ({
           title: seats[0].title,
           items: [
-            { text: seats[0].government ?? "", tone: "place" },
+            // The state is the one the filter names; no line repeating it.
             {
               pages: seats.map((s) => ({
                 node: row(holderName(s), s.holder?.party ?? ""),
@@ -3207,16 +3207,26 @@ const sheets = {
           return {
             title: first.title,
             items: [
-              { text: first.body ?? first.government ?? "", tone: "place" },
+              // A local body is named under its office ("Apache County Board
+              // of Supervisors"); a state or federal office's government is
+              // the state the filter already names, so no "Governor / Ohio"
+              // line (owner, Oct 28, point 16).
+              level === "local" && first.body
+                ? { text: first.body, tone: "place" }
+                : null,
               first.presentation?.chamberUrl && {
                 picture: first.presentation.chamberUrl,
               },
-              parties.length && {
-                node: barChart(
-                  parties.map((p) => ({ label: p.party, value: p.seats })),
-                  labels.seats,
-                ),
-              },
+              // The parties' seats, for a body of more than one seat: one
+              // governor gets no bar with a 1 on it (owner, Oct 28, point 17).
+              parties.length && seats.length > 1
+                ? {
+                    node: barChart(
+                      parties.map((p) => ({ label: p.party, value: p.seats })),
+                      labels.seats,
+                    ),
+                  }
+                : null,
               {
                 pages: seats.map((s) => ({ node: member(s) })),
                 size: 6,
