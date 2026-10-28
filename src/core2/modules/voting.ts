@@ -21,7 +21,6 @@
  * writer (`keepCount`) and seated by the one term writer (`seatWinner`).
  */
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
-import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import contingentData from "../data/elections/contingent-election.json" with { type: "json" };
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
 import { contingentElection } from "../contingent-election";
@@ -145,7 +144,10 @@ import {
   citizenShareOf,
   housePlace,
   legislativePlace,
+  publishedSenateSeats,
   statePlaces,
+  worldRoster,
+  worldSeatParty,
   type ElectoratePlace,
 } from "../electorate-places";
 import {
@@ -911,23 +913,36 @@ function countedAdultsToday(api: CoreAPI): number {
 const countedByDay = new WeakMap<object, { date: string; n: number }>();
 
 /** The town's named adults today, from the place index. */
+/**
+ * Whether a named person votes in the town's contests on a date, by the
+ * count's own rule (the one rule every reader of it uses: the count, the
+ * director's polling place, the household who go along): alive, living in
+ * the town, of voting age that day, and not barred by the law in force.
+ */
+export function mayVoteOn(
+  api: CoreAPI,
+  personId: string,
+  date: string,
+): boolean {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return false;
+  const person = api.state.people.get(personId);
+  return Boolean(
+    person?.alive &&
+    person.placeId === town(api).townPlaceId &&
+    ageOn(person, date) >= api.parameter("votingAge") &&
+    !barredFromVoting(api, person.id),
+  );
+}
+
 function townAdults(api: CoreAPI): readonly PersonState[] {
   const held = adultsByDay.get(api.state);
   if (held?.date === api.state.date && held.size === api.state.people.size)
     return held.rows;
   const { townPlaceId } = town(api);
-  const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   const rows = [...(api.state.peopleByPlace.get(townPlaceId) ?? [])]
     .map((id) => api.state.people.get(id))
-    .filter(
-      (p): p is PersonState =>
-        !!p &&
-        p.alive &&
-        p.placeId === townPlaceId &&
-        ageOn(p, date) >= adultAge &&
-        !barredFromVoting(api, p.id),
-    )
+    .filter((p): p is PersonState => !!p && mayVoteOn(api, p.id, date))
     .sort((a, b) => a.id.localeCompare(b.id));
   adultsByDay.set(api.state, {
     date,
@@ -2144,8 +2159,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // stopgapId: SG-GOV-ward-map
   if (wards > 0) api.stopgap("SG-GOV-ward-map");
   const named = townAdults(api).filter(
-    (p) =>
-      !barredFromVoting(api, p.id) && (!wards || inWard(api, p, wards, ward)),
+    (p) => !wards || inWard(api, p, wards, ward),
   );
   const playerId = (api.state as CoreState).playerId ?? null;
   const namedVotes: Record<string, number> = {};
@@ -2647,6 +2661,7 @@ function countedScale(api: CoreAPI): number {
     citizenShareOf(
       api.state.placeMetadata.placeKey as string | undefined,
       usps,
+      api.state.seed,
     ) *
     (1 - electorateChange(api).barred)
   );
@@ -3424,7 +3439,7 @@ function governorRaces(api: CoreAPI, year: number): readonly Race[] {
       continue;
     if ((year - office.nextElectionYear) % office.termYears !== 0) continue;
     // A territory's electorate has no counted places or major-party record.
-    if (!statePlaces(stateKey.slice(3)).length) {
+    if (!statePlaces(stateKey.slice(3), api.state.seed).length) {
       // stopgapId: SG-GOV-territory-governor-race (a territory's governor race is not run: its electorate's places and its own parties are not on record)
       api.stopgap("SG-GOV-territory-governor-race");
       continue;
@@ -3435,10 +3450,16 @@ function governorRaces(api: CoreAPI, year: number): readonly Race[] {
       office: "governor",
       usps: stateKey.slice(3),
       code: "00",
+      // The world's governor at Start: the published holder, unless this
+      // world's vote carries the state across even against that party.
       incumbentParty: currentParty(
         api,
         seatId,
-        governorPartyAtOpening(stateKey),
+        worldSeatParty(
+          api.state.seed,
+          { kind: "governor", level: "state", jurisdiction: stateKey },
+          { id: seatId, party: governorPartyAtOpening(stateKey) },
+        ),
       ),
       leanSource: "2024 presidential vote in the state's counties",
       seatedOn: termStartAfter(office, electionDay),
@@ -3479,12 +3500,6 @@ const electors = electorsData as unknown as {
   toWin: number;
   states: Record<string, number>;
 };
-const congress = (
-  partyCounts as unknown as {
-    congress: Record<string, Record<string, string[]>>;
-  }
-).congress;
-
 /** The vacancy a special race fills and the end of the term it serves. */
 interface SpecialRace {
   readonly vacancyId: string;
@@ -3761,7 +3776,8 @@ export function electoralCollege(
   const change = electorateChange(api);
   const states = Object.entries(electors.states).map(([key, count]) => {
     const own = key === stateKey && town ? town.republicanShare : null;
-    const places = own === null ? statePlaces(key.slice(3)) : [];
+    const places =
+      own === null ? statePlaces(key.slice(3), api.state.seed) : [];
     const votes = places.reduce((s, b) => s + b.votes2024, 0);
     const lean = votes
       ? places.reduce((s, b) => s + b.votes2024 * b.rightShare, 0) / votes
@@ -4171,7 +4187,9 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
   const congressStart = `${year + 1}-01-03`;
   // Congress outside the town's state, in even years.
   if (year % 2) return races.sort((a, b) => a.seatId.localeCompare(b.seatId));
-  for (const [state, seats] of Object.entries(congress)) {
+  for (const [state, seats] of Object.entries(
+    worldRoster(api.state.seed).congress,
+  )) {
     if (state === stateKey) continue;
     const usps = state.slice(3);
     for (const [district, parties] of Object.entries(seats)) {
@@ -4188,8 +4206,10 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
         seatedOn: congressStart,
       });
     }
-    // Senate seats whose class is up this year.
-    const sorted = seats.senate ?? [];
+    // Senate seats whose class is up this year: a class pairs with its seat
+    // by the published holder; this world's holder stands for it.
+    const sorted = publishedSenateSeats(state);
+    const held = seats.senate ?? [];
     const used = new Set<number>();
     for (const cls of classes[state] ?? []) {
       const index = sorted.findIndex((p, i) => p === cls.party && !used.has(i));
@@ -4203,7 +4223,7 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
         office: "us-senate",
         usps,
         code: "00",
-        incumbentParty: currentParty(api, seatId, cls.party),
+        incumbentParty: currentParty(api, seatId, held[index] ?? cls.party),
         leanSource: "2024 presidential vote in the state's counties",
         seatedOn: congressStart,
       });
@@ -4226,17 +4246,17 @@ function currentParty(
 function worldRacePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
   const usps = race.usps;
   if (race.office === "us-house") {
-    const place = housePlace(usps, race.code);
+    const place = housePlace(usps, race.code, api.state.seed);
     if (place) return [place];
     // A delegate's seat with no House vote on record (a territory): the
     // place at its 2024 delegate race's lean, its size not yet read.
     // stopgapId: SG-GOV-delegate-race-size
     api.stopgap("SG-GOV-delegate-race-size");
-    const delegate = statePlaces(usps, 1)[0];
+    const delegate = statePlaces(usps, api.state.seed, 1)[0];
     return delegate ? [{ ...delegate, eligible: 0 }] : [];
   }
   if (race.office === "us-senate" || race.office === "governor")
-    return statePlaces(usps);
+    return statePlaces(usps, api.state.seed);
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const districts = new Set(
     (
@@ -4253,6 +4273,7 @@ function worldRacePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
     districts,
     sideOf(race.incumbentParty),
     null,
+    api.state.seed,
   );
   return place ? [place] : [];
 }
@@ -4313,8 +4334,8 @@ function partyField(
  * that side in the state's own record (its 2024 ballot or legislature), else
  * the national party of that side (party-sides data).
  */
-function partyOnSideIn(stateKey: string, side: number): string {
-  const best = stateParties(stateKey)
+function partyOnSideIn(stateKey: string, side: number, seed: string): string {
+  const best = stateParties(stateKey, seed)
     .filter((p) => partySide(p.name) === side)
     .sort((a, b) => b.share - a.share || a.name.localeCompare(b.name))[0];
   return best?.name ?? nationalParty(side);
@@ -4363,14 +4384,14 @@ function decide(
   const parties =
     side === 0
       ? [-1, 1].map((s) => ({
-          party: partyOnSideIn(stateKey, s),
+          party: partyOnSideIn(stateKey, s, api.state.seed),
           side: s,
           incumbent: false,
         }))
       : [
           { party: race.incumbentParty!, side, incumbent: true },
           {
-            party: partyOnSideIn(stateKey, -side),
+            party: partyOnSideIn(stateKey, -side, api.state.seed),
             side: -side,
             incumbent: false,
           },
@@ -4399,7 +4420,9 @@ function decide(
   // The two parties' votes decide it; where no one in the race's places
   // could be counted, the places' own lean does, and an even split keeps
   // the seat with its holder's side.
-  let winnerParty = race.incumbentParty ?? partyOnSideIn(stateKey, side);
+  // Named by the count's decision; a seat with no holder (a special
+  // election's vacancy) has no side until the count gives it one.
+  let winnerParty = race.incumbentParty ?? "";
   const result = keepCount(api, {
     id: raceId,
     date,
@@ -4411,11 +4434,13 @@ function decide(
         dem = counted.votes["party:D"] ?? 0;
       const share = rep + dem ? rep / (rep + dem) : lean;
       const winnerSide = share > 0.5 ? 1 : share < 0.5 ? -1 : side;
+      // An even split of a seat with no holder's side names no winner.
+      if (!winnerSide) return null;
       winnerParty =
         winnerSide === side && race.incumbentParty
           ? race.incumbentParty
-          : partyOnSideIn(stateKey, winnerSide);
-      return winnerSide ? `party:${winnerSide > 0 ? "R" : "D"}` : null;
+          : partyOnSideIn(stateKey, winnerSide, api.state.seed);
+      return `party:${winnerSide > 0 ? "R" : "D"}`;
     },
     winnerOf: () => `${raceId}:${winnerParty}`,
     takesOffice: race.seatedOn,
@@ -4439,6 +4464,8 @@ function decide(
       ? { special, candidates: specialCandidates(api, race, parties, row.id) }
       : {}),
   } as unknown as ModuleRow);
+  // An even split with no holder's side seats no one.
+  if (!winnerParty) return;
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
     key: `seat:${row.id}`,
     date: race.seatedOn > api.state.date ? race.seatedOn : api.state.date,

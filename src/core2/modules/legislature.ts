@@ -61,7 +61,7 @@ import {
 } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
 import { viewOn } from "./views";
 import { ownStance } from "../officials-roster";
@@ -116,8 +116,8 @@ import {
   designation,
   type BillFormKind,
 } from "../legislature-bill-form";
-import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import bodyRows from "../data/offices/bodies.json" with { type: "json" };
+import { worldRoster } from "./elections";
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
 
@@ -2300,11 +2300,8 @@ function worldSeatParty(
 }
 
 function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
-  const congress = (
-    partyCounts as unknown as {
-      congress: Record<string, Record<string, string[]>>;
-    }
-  ).congress;
+  // Who holds each seat of Congress in this world (realistic, not real).
+  const congress = worldRoster(api.state.seed).congress;
   const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   const row = chamberRow(chamber)!;
   const out: TermRow[] = [];
@@ -2361,8 +2358,12 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
           return;
         }
         // The opening's holder serves until a race hands the seat to the
-        // other party; the winner is then a new person.
+        // other party; the winner is then a new person. A seat its special
+        // election has yet to fill (the offices engine's vacancy) sits
+        // empty, unless a race since has filled it.
         const holder = currentOfficial(api, seatId);
+        const waiting = holder ? undefined : awaitingVacancy(api, seatId);
+        if (waiting && !(won && won.since >= waiting.since)) return;
         const official =
           holder && partyName(holder.party) === party
             ? holder
