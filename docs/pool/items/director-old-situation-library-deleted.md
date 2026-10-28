@@ -5,9 +5,9 @@ area: director
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/dup-old-situation-library
-pr:
+pr: #6463
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T00:48:13.539Z

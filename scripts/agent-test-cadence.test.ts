@@ -60,6 +60,15 @@ describe("agent test cadence planning", () => {
     expect(commands).toContain("npx vitest run src/core2/modules/jobs.test.ts");
   });
 
+  it("routes any code edit outside the old folders to the old-engine import check", () => {
+    expect(
+      planCadence(["src/bench/world.ts"]).map((stage) => stage.command),
+    ).toContain("npm run old-imports");
+    expect(
+      planCadence(["src/simulation/foo.ts"]).map((stage) => stage.command),
+    ).not.toContain("npm run old-imports");
+  });
+
   it("routes screen edits to the bench browser checks", () => {
     const stages = planCadence(["src/bench/play.mjs"]);
     expect(
