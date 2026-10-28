@@ -29,8 +29,3 @@ export function tagEngineText(text: string, origin: EngineTextOrigin): string {
   globalThis.__ocdRuntimeText?.engine(text, origin);
   return text;
 }
-
-/** Hands the audit the current world; does nothing in play. */
-export function tagRuntimeWorld(world: unknown): void {
-  globalThis.__ocdRuntimeText?.world(world);
-}
