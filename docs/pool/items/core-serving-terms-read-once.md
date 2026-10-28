@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/dup-serving-offices
-pr:
+pr: #6482
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T02:15:12.845Z

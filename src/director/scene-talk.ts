@@ -213,6 +213,11 @@ export interface PurposeType {
   asked?: string;
   stakes?: readonly string[];
   tag?: { key: string; endpoint?: string };
+  /**
+   * The player does the asking (`ask-talk.ts`): the purpose's asker lines are
+   * the player's, and the one asked answers from where they stand.
+   */
+  playerAsks?: boolean;
 }
 
 export interface SceneTalkCast {
