@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: fixer/red-main-health-traits
+pr: #6694
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T20:21:46.103Z
 ---
 
 **What.** The test puts behavior-driven conditions on the less conscientious and expects an odds ratio above 4 between the low and high groups, from a slope of -0.716 per level over a 2.4-level gap. On clean main at the test's pinned place 5462140 and seed traits-health-test it reads 2.52 (holders 342 of 342 expected), so the file is red for every PR that touches it. It started with 9cf11a2d6 (Oct 28 07:01), which draws the chronic-condition table per world (factor 1.059 at this seed), so each cell's whole count of holders fell differently. startingConditionAssignments spreads a cell's holders by personality only inside that cell (place, whole-year age, category), and a town's full people make single-year age cells of a few people, so a cell with one holder gives personality one choice among two or three and the ratio cannot reach the slope's size. Find whether the odds ratio holds in cells large enough to show it, or whether the spread should run across the cells of one place.

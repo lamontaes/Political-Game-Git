@@ -15,6 +15,7 @@ import {
 } from "./reference/living-costs-data";
 import { bedroomsForHousehold, hudStateRentRow } from "./hud-rents";
 import { medianTransactionBalance } from "./starting-cash";
+import { seededNormal } from "./officials-roster";
 import { outsideGovernment } from "./outside-governments";
 import { outsideAccountOf } from "./budgets-treasury";
 import type { CoreAPI } from "./types";
@@ -29,6 +30,7 @@ export function officialHousehold(
   api: CoreAPI,
   stateKey: string,
   annualPayMinor: number,
+  personId: string,
 ): OfficialHousehold {
   const p = (key: string) => api.parameter(key);
   const everyday = worldMonthlyHouseholdLivingCosts(
@@ -48,7 +50,14 @@ export function officialHousehold(
       medianTransactionBalance(
         annualPayMinor / p("minorPerDollar"),
         api.state.seed,
-      ) * p("minorPerDollar"),
+      ) *
+        p("minorPerDollar") *
+        // This official's own savings around the median at their pay
+        // (generation of who they are, drawn once from the seed and their id).
+        Math.exp(
+          p("officialSavingsSpreadSigma") *
+            seededNormal(`official-savings:${api.state.seed}:${personId}`),
+        ),
     ),
   };
 }
@@ -70,7 +79,12 @@ export function giveLivingCost(
 ): boolean {
   const person = api.state.people.get(input.personId);
   if (!person || person.livingCostDailyMinor > 0) return false;
-  const home = officialHousehold(api, input.stateKey, input.annualMinor);
+  const home = officialHousehold(
+    api,
+    input.stateKey,
+    input.annualMinor,
+    input.personId,
+  );
   api.updatePerson(input.personId, {
     livingCostDailyMinor: home.livingCostDailyMinor,
   });

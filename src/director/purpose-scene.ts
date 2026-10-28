@@ -38,6 +38,8 @@ import {
   topicInSentence,
 } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
+import { withArticle } from "../english/journal-words";
+import { JOB_OFFERED_EVENT } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import {
@@ -287,6 +289,26 @@ function composeBinding(
       facts.bill = {
         text: `the ${name.title}`,
         sourceRecordIds: [moment.causeId],
+      };
+  }
+  // A job offer (jobs.ts offerToPlayer): the employer, the position with its
+  // article, the pay offered by the hour and the day the offer lapses.
+  if (record?.kind === JOB_OFFERED_EVENT && said.organizationId) {
+    const org = core.organizations.get(said.organizationId);
+    const ids = [moment.causeId, said.organizationId];
+    if (org)
+      facts.employer = { text: properName(org.name), sourceRecordIds: ids };
+    if (said.title)
+      facts.position = { text: withArticle(said.title), sourceRecordIds: ids };
+    if (Number(said.hourlyMinor) > P.zero)
+      facts.pay = {
+        text: dollars(Number(said.hourlyMinor)),
+        sourceRecordIds: ids,
+      };
+    if (said.deadline)
+      facts.deadline = {
+        text: spokenDate(said.deadline, core.date),
+        sourceRecordIds: ids,
       };
   }
   if (said.section)

@@ -21,4 +21,4 @@ claimed-at: 2026-10-28T17:33:26.018Z
 
 **Files.** src/director,src/english,data/english,scripts/dialogue-batch,src/bench/story.ts,src/bench/filing.ts,src/bench/ui/talk-box.mjs
 
-**Notes.** lead: words. Filed by the CTO on the owner's go (Oct 28). Signatures: mostly natural, with some scenes where the player earns them; signatures are the game's way of introducing campaigning (owner, 2:10 PM).
+**Notes.** lead: words. Filed by the CTO on the owner's go (Oct 28). Signatures: mostly natural, with some scenes where the player earns them; signatures are the game's way of introducing campaigning (owner, 2:10 PM). Oct 28, 20:40 UTC (elections wire session): the petition record the signature scenes read is on branch `claude/elections-petition-filing` (PR to come): `petitionOf(api, filingId)` gives the signatures needed and each signer with the day and how they were asked (door, event, circle), and the clerk's check is the public record `petition-checked` (facts: status, signatures, valid, needed, filedWith).

@@ -49,7 +49,10 @@
     "deadline": "The day a presented bill must be signed or vetoed by, from the presentment.",
     "for": "Present when the visitor is the bill's sponsor, from the bill record.",
     "against": "Present when the visitor lobbied against the bill, from the lobbying record.",
-    "winner": "Whoever won the race a count settled, by name, from the election result record."
+    "winner": "Whoever won the race a count settled, by name, from the election result record.",
+    "employer": "The employer making a job offer, from the jobs engine's offer record.",
+    "position": "The position offered, with its article (\"a server\"), from the offer record's title.",
+    "pay": "The pay offered by the hour (\"$18.50\"), from the offer record."
   },
   "maxWords": 70,
   "parts": [
@@ -88051,32 +88054,6 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.our-savings-cover-cushion-of-what-the-paychecks-don-t-and-the-race-runs-remainin",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Our savings cover {cushion} of what the paychecks don't, and the race runs {remaining}. How do we pay for the rest?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "requiresFacts": ["stake-money"]
-        }
-      ],
-      "bearing": "anxious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.state-ask.you-filed-and-we-have-cushion-saved-nobody-asked-me-what-the-next-remaining-woul",
       "move": "state-ask",
       "kind": "spoken",
@@ -116775,6 +116752,857 @@
       "tag": {
         "move": "request",
         "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name-from-employer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The phone rings. It's {name}, from {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-from-employer-is-calling-about-the-opening",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} from {employer} is calling about the opening.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hi-first-this-is-name-over-at-employer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hi, {first}. This is {name}, over at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-it-s-name-from-employer-do-you-have-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}? It's {name} from {employer}. Do you have a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hello-is-this-first-name-with-employer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hello, is this {first}? {name}, with {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-d-like-to-offer-you-the-job-you-d-start-as-position-at-pay-an-hour",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We'd like to offer you the job. You'd start as {position}, at {pay} an hour.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-calling-with-good-news-the-job-s-yours-if-you-want-it-position-pay-an-hour",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm calling with good news. The job's yours if you want it: {position}, {pay} an hour.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-went-through-everybody-and-we-d-like-to-bring-you-on-as-position",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We went through everybody, and we'd like to bring you on as {position}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-opening-at-employer-is-yours-if-you-want-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The opening at {employer} is yours if you want it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-d-like-you-to-come-work-for-us-can-you-give-me-an-answer-by-deadline",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We'd like you to come work for us. Can you give me an answer by {deadline}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-i-be-doing",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would I be doing?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-more-about-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me more about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-d-be-position-at-pay-an-hour-to-start",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You'd be {position}, at {pay} an hour to start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.pay-an-hour-to-start-we-d-train-you-on-the-rest",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{pay} an hour to start. We'd train you on the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-take-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'll take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-great-news-count-me-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's great news. Count me in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-we-ll-be-glad-to-have-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. We'll be glad to have you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.welcome-aboard-i-ll-let-everyone-know",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Welcome aboard. I'll let everyone know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.thank-you-but-i-m-going-to-pass",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Thank you, but I'm going to pass.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-appreciate-it-but-it-isn-t-the-right-fit-for-me-right-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I appreciate it, but it isn't the right fit for me right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.are-you-sure-openings-like-this-don-t-come-up-often",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Are you sure? Openings like this don't come up often.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-d-hate-to-see-it-go-to-someone-else-think-it-over",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'd hate to see it go to someone else. Think it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-thanks-for-letting-me-know",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. Thanks for letting me know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-ll-hold-it-until-deadline",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I'll hold it until {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.can-i-think-it-over-and-call-you-back",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Can I think it over and call you back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-d-like-to-talk-it-over-at-home-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'd like to talk it over at home first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-call-you-back",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me call you back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-decide-this-right-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't decide this right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.glad-to-have-you-we-ll-go-over-the-details-on-your-first-day",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Glad to have you. We'll go over the details on your first day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.good-luck-with-whatever-comes-next",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Good luck with whatever comes next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.the-offer-s-good-until-deadline",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "The offer's good until {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-hold-it-for-you-until-deadline",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll hold it for you until {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-d-go-over-all-of-it-on-your-first-day",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We'd go over all of it on your first day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.our-savings-cover-cushion-of-what-the-paychecks-don-t-and-the-race-runs-remainin",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Our savings cover {cushion} of what the paychecks don't, and the race runs {remaining}. How do we pay for the rest?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
       }
     },
     {
