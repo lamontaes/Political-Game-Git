@@ -7604,5 +7604,29 @@
     "value": 10,
     "tag": "SOURCED",
     "citation": "Unit conversion: a published percent to whole tenths, so a stable sample weighs each category by its share to one decimal."
+  },
+  "worldPolicySupportSpreadShare": {
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's national polled share for a policy question sits from the published one, relative to its nearer bound (none or all): about the spread between pollsters and months for the same question (Pew, Gallup, AP-NORC and YouGov readings of the same policy in 2024 to 2026 differ by 3 to 8 points; for a 60% question that is 0.08 to 0.2 of the 40% room).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published share is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.06,
+      "high": 0.2,
+      "unit": "share of the room to the nearer bound",
+      "citation": "Differences between pollsters for one question (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldPastVotesSpreadShare": {
+    "value": 0.04,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's count of votes cast in a race before the start sits from the recorded or estimated one, as a share of it: about the change in turnout between comparable elections (state presidential turnout moved by a few percent between 2020 and 2024; midterm turnout by more between 2018 and 2022; U.S. Elections Project).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The recorded total is the center; a world's offset per race is drawn once from its seed, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.08,
+      "unit": "share of the votes cast",
+      "citation": "U.S. Elections Project turnout by state, 2018 to 2024 (approximate; a researcher should confirm the figures)"
+    }
   }
 }
