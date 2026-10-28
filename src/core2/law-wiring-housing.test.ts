@@ -30,7 +30,9 @@ import {
   baseBudget,
   budgetsOf,
   governments,
+  type GovernmentRow,
 } from "./modules/budgets";
+import { townShare } from "./law-reach/group-b-money";
 import {
   appliedOn,
   LAW_APPLIED_TABLE,
@@ -216,10 +218,14 @@ function personIn(core: CoreState, householdId: string): string | undefined {
  * records at the raise: the weight of every renter ranked ahead of the third
  * full household that no other government's vouchers cover, plus that
  * household. Three, not one, because renters' incomes move over the month.
+ * A county's or state's line reaches the town only in the town's share of
+ * its people (townShare, as payRentAssistance reads it), so both the vouchers
+ * other lines already buy here and the ones this raise must buy are counted
+ * through that share.
  */
 function vouchersToReachFullHouseholds(
   api: CoreAPI,
-  gov: { readonly id: string },
+  gov: GovernmentRow,
 ): number {
   const annual = parameters.parameters.housingAssistanceAnnualMinor.value;
   const covered = governments(api)
@@ -230,7 +236,9 @@ function vouchersToReachFullHouseholds(
       const extra =
         (budget.spendingMinor.housing ?? 0) -
         (baseBudget(api, g, budget.fiscalYear).spendingMinor.housing ?? 0);
-      return sum + Math.max(0, Math.floor(extra / annual));
+      return (
+        sum + Math.max(0, Math.floor((extra * townShare(api, g)) / annual))
+      );
     }, 0);
   const ranked = tenants(api)
     .filter((t) => t.memberIds.length > 0)
@@ -246,7 +254,8 @@ function vouchersToReachFullHouseholds(
     ahead += t.weight;
     if (reached === 3) break;
   }
-  return reached === 0 ? 100 : Math.ceil(ahead);
+  const share = townShare(api, gov);
+  return Math.ceil((reached === 0 ? 100 : ahead) / (share > 0 ? share : 1));
 }
 
 /** The drawn place's year, played once; a message when the place has no subject for these laws. */
