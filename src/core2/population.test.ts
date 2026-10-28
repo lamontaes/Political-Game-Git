@@ -16,7 +16,10 @@ import { parameter as p } from "./parameters";
 import { OPENING_KIN } from "./opening-kin";
 import { buildPopulation, POPULATION_VERSION } from "./population";
 import { realLocalities } from "./places";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import {
+  placeReferencePopulation,
+  publishedPlaceReferencePopulation,
+} from "./gov-rules/place-population";
 import { stableHash } from "./kernel/ids";
 import { recordedTraitSource } from "./trait-source";
 import type { CoreInput } from "./types";
@@ -399,7 +402,7 @@ describe("real-place one-time population import", () => {
     const small = realLocalities()
       .filter((place) => {
         const real = place.sourceGeoid
-          ? placeReferencePopulation(place.sourceGeoid)?.value
+          ? publishedPlaceReferencePopulation(place.sourceGeoid)?.value
           : undefined;
         return real !== undefined && real >= 300 && real < 3000;
       })
@@ -408,7 +411,11 @@ describe("real-place one-time population import", () => {
           stableHash(`${seed}:small:${b.key}`),
         ),
       )[0]!;
-    const real = placeReferencePopulation(small.sourceGeoid!)!.value;
+    // The world's own count of the town, drawn around the published one.
+    const real = placeReferencePopulation(
+      small.sourceGeoid!,
+      `${seed}:small`,
+    )!.value;
     const cohort = buildPopulation({
       seed: `${seed}:small`,
       startedAt,
