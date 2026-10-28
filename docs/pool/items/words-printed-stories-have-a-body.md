@@ -14,7 +14,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** The screens designer (channel, Oct 27) and the CTO's 02:10 relay of the owner's 9 PM findings: News prints briefs today, a headline and one sentence per story. The English engine already composes extra sentences for a story kind that has context roles (the address since Oct 27), but no printed story kind had any, and the archive's words passed only headline and lede.
+**What.** The screens designer (channel, Oct 27) and the CTO's 02:10 relay of the owner's 9 PM findings: News prints briefs today, a headline and one sentence per story. The English engine already composes extra sentences for a story kind that has context roles (the address since Oct 27), but no printed story kind had any, and the archive's words passed only headline and lede. So a story about a new law said only that it took effect, never what it is about or which bill made it.
 
 **Rules.** No hand-written player text: each sentence is a bank piece with slots, filled from the story's record. Ask why: each sentence cites the record. A sentence that only repeats what the lede said is left out.
 
