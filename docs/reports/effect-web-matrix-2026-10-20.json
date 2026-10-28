@@ -6,7 +6,7 @@
     "webCoverageWired": 125,
     "allEightPoints": 0,
     "reachesOrCarried": 144,
-    "namedInAStopgap": 116,
+    "namedInAStopgap": 102,
     "notReachingAndNoStopgap": 0,
     "reachesTheWorld": 144,
     "aboutZero": 19,
@@ -489,7 +489,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-crime-all"
+      "stopgap": null
     },
     {
       "key": "fire-spending-to-fire-deaths",
@@ -539,7 +539,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-fire-civilian-casualties"
+      "stopgap": null
     },
     {
       "key": "pretrial-detention-to-future-crime",
@@ -589,7 +589,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-crime-reoffense"
+      "stopgap": null
     },
     {
       "key": "pretrial-detention-to-conviction",
@@ -4048,7 +4048,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-economy-broad-growth"
+      "stopgap": null
     },
     {
       "key": "unemployment-to-births",
@@ -4240,7 +4240,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-births-rate"
+      "stopgap": null
     },
     {
       "key": "baby-bonus-to-births",
@@ -4768,7 +4768,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-voting-party-share"
+      "stopgap": null
     },
     {
       "key": "newspaper-closure-to-borrowing-cost",
@@ -5065,7 +5065,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-election-incumbent-vote"
+      "stopgap": null
     },
     {
       "key": "preparedness-to-disaster-damage",
@@ -5641,7 +5641,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-voting-registration"
+      "stopgap": null
     },
     {
       "key": "automatic-registration-to-turnout",
@@ -9141,7 +9141,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-crime-rate-index"
+      "stopgap": null
     },
     {
       "key": "federal-mandatory-minimums-to-crime",
@@ -9190,7 +9190,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-crime-rate-index"
+      "stopgap": null
     },
     {
       "key": "housing-vouchers-to-graduation",
@@ -11101,7 +11101,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+      "stopgap": null
     },
     {
       "key": "medicare-tax-to-unemployment",
@@ -11150,7 +11150,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+      "stopgap": null
     },
     {
       "key": "federal-unemployment-tax-to-unemployment",
@@ -11199,7 +11199,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+      "stopgap": null
     },
     {
       "key": "state-unemployment-tax-to-unemployment",
@@ -11248,7 +11248,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+      "stopgap": null
     },
     {
       "key": "unemployment-insurance-to-poverty",
