@@ -25,6 +25,8 @@ import {
   say,
 } from "../../src/director/conversation";
 import { composeScene } from "../../src/director/scene";
+import { purposeScene } from "../../src/director/purpose-scene";
+import type { TreeNode } from "../../src/director/scene-talk";
 import { reachReport } from "../../src/director/reach";
 import { SITUATION_LIBRARY } from "../../src/director/scheduling";
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
@@ -111,6 +113,42 @@ for (let day = 0; day < days; day += 1) {
   for (const entry of staged) {
     const moment = book()!.momentsById.get(entry.momentId)!;
     const scene = composeScene(core, director, playerId, entry);
+    // A scene with a purpose: its narration, open and statement, and every
+    // line of its tree, each reply followed by what the asker says back.
+    const purpose = purposeScene(core, director, playerId, entry);
+    const exchange =
+      purpose?.kind === "composed"
+        ? (() => {
+            const talk = purpose.scene.talk;
+            const lines: { role: string; text: string }[] = [
+              ...talk.narration.map((l) => ({
+                role: "narrator",
+                text: l.text,
+              })),
+              ...(talk.open ? [{ role: "asker", text: talk.open.text }] : []),
+              { role: "asker", text: talk.state.text },
+            ];
+            const unanswered: string[] = [];
+            const walk = (node: TreeNode) => {
+              for (const l of node.lines)
+                lines.push({ role: "asker", text: l.text });
+              if (node.end?.close)
+                lines.push({ role: "asker", text: node.end.close.text });
+              for (const reply of node.replies) {
+                lines.push({ role: "player", text: reply.line.text });
+                if (!reply.next) unanswered.push(reply.line.text);
+                else walk(reply.next);
+              }
+            };
+            walk(talk.tree);
+            return {
+              typeKey: purpose.scene.typeKey,
+              askerId: purpose.scene.askerId,
+              lines,
+              unanswered,
+            };
+          })()
+        : null;
     const talk = scene?.talkToId
       ? openConversation(core, playerId, scene.talkToId, {
           presentIds: scene.presentIds,
@@ -147,6 +185,7 @@ for (let day = 0; day < days; day += 1) {
       },
       setting: scene?.setting,
       present: (scene?.presentIds ?? []).map((id) => nameOf(core, id)),
+      exchange,
       narration: (scene?.narration ?? []).map((line) => ({
         text: line.text,
         sourceRecordIds: line.sourceRecordIds,

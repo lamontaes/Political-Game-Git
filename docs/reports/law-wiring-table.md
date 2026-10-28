@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 81 of 89 (2 partly, 6 on a stopgap). Research links reaching people or carried by an engine: 148 of 244 (19 the research finds about zero, 77 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
+Laws wired: 82 of 89 (2 partly, 5 on a stopgap). Research links reaching people or carried by an engine: 149 of 244 (19 the research finds about zero, 76 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
@@ -31,7 +31,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Local income tax authority                   | taxes-finance      | yes    | yes    | yes   | yes     | n/a   | n/a  | yes     | yes    | yes       | wired      | none                                |
 | adopt income tax                             | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | cap property tax growth                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
-| exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
+| exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | graduated income tax                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
@@ -131,10 +131,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - money: the law only grants or withholds a power: a state's permission for its localities to levy an income tax. The grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)
 - web: The law only grants or withholds a power: a state's permission for its localities to levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023, Tables 1-4). By its terms it moves no place outcome of its own. What a locality does with the power is the income tax its council then enacts, and that rate's outcome links (income-tax-rate-to-poverty and income-tax-rate-to-out-migration in data/research/outcome-web/links.json, both researched at about zero) are the income-tax law's own.
-
-**exempt groceries from sales tax** (`us-policy-positions:fiscal.exempt-groceries-from-sales-tax`)
-
-- web: no production reader: grocery-exemption-to-food-insecurity (SG-WEB-unread-household-food-insecurity) move only the web's ledger
 
 **Federal unemployment tax rate** (`federal-unemployment-tax`)
 

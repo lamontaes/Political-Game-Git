@@ -130,14 +130,14 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 81,
+    "wired": 82,
     "partly": 2,
-    "stopgapped": 6,
+    "stopgapped": 5,
     "researchLinks": {
       "links": 244,
-      "reaching": 148,
+      "reaching": 149,
       "aboutZero": 19,
-      "unread": 77,
+      "unread": 76,
       "unreadWithNoStopgap": 0
     },
     "shownOnAScreen": 87,
@@ -192,10 +192,10 @@
         "n/a": 8
       },
       "web": {
-        "wired": 65,
+        "wired": 66,
         "partial": 2,
         "missing": 0,
-        "stopgap": 6,
+        "stopgap": 5,
         "n/a": 16
       },
       "knowing": {
@@ -258,7 +258,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1431",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1432; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1432; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1432",
           "why": ""
         },
         "knowing": {
@@ -2276,7 +2276,7 @@
       "family": "taxes-finance",
       "reachGroup": "B",
       "mechanic": "records",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -2304,9 +2304,9 @@
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-08 grocery-exemption-to-food-insecurity -0.0200 (ledger row only); Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-09 grocery-exemption-to-food-insecurity -0.0200 (ledger row only); Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-10 grocery-exemption-to-food-insecurity -0.0200 (ledger row only)",
-          "why": "no production reader: grocery-exemption-to-food-insecurity (SG-WEB-unread-household-food-insecurity) move only the web's ledger"
+          "status": "wired",
+          "evidence": "grocery-exemption-to-poverty: carried by src/core2/world-poverty.ts: the measure counts income before taxes (Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101); grocery-exemption-to-food-insecurity: carried by the sales tax engine, which spares the grocery share of each retail seller's sales where the exemption holds (syncSalesTax in src/core2/modules/budgets.ts), the business price review, which passes the tax change into the seller's tax-inclusive price (salesTaxPassThrough in src/core2/finance-state.ts), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan at those prices from what its members hold, so the exemption buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger) (Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101)",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
@@ -4754,7 +4754,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-06 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1431",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1432; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-06 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1432; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1432",
           "why": ""
         },
         "knowing": {
@@ -4928,7 +4928,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-violent-crime -0.0241, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-property-crime -0.0120, read by src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:118; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 police-to-violent-crime -0.0241, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-violent-crime -0.0241, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-property-crime -0.0120, read by src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 police-to-violent-crime -0.0241, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618",
           "why": ""
         },
         "knowing": {
@@ -5525,7 +5525,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894",
           "why": ""
         },
         "knowing": {
@@ -5604,7 +5604,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 concealed-carry-permit-to-firearm-homicide 0.0800, read by src/core2/death-cause.ts:393; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 carry-permit-to-violent-crime 0.1000, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 concealed-carry-permit-to-firearm-homicide 0.0800, read by src/core2/death-cause.ts:393",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 concealed-carry-permit-to-firearm-homicide 0.0800, read by src/core2/death-cause.ts:393; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 carry-permit-to-violent-crime 0.1000, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 concealed-carry-permit-to-firearm-homicide 0.0800, read by src/core2/death-cause.ts:393",
           "why": ""
         },
         "knowing": {
@@ -5683,7 +5683,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904",
           "why": ""
         },
         "knowing": {
@@ -7100,7 +7100,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-02 facial-recognition-limit-to-crime 0.0100, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-02 facial-recognition-limit-to-crime 0.0100, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-02 facial-recognition-limit-to-crime 0.0100, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-02 facial-recognition-limit-to-crime 0.0100, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618",
           "why": ""
         },
         "knowing": {
