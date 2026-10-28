@@ -747,8 +747,10 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
   });
 
   it("past races' votes cast and the national polls on policy questions (audit rows 44 and 48)", () => {
-    // Row 44: every race before the start, its votes cast summed across the
-    // races both worlds hold (one race of a few hundred votes can land alike).
+    // Row 44: every race before the start both worlds hold. A recorded
+    // total (a House, Senate or presidential race) is the same in every world
+    // unless drawn, so each race of a thousand votes or more must differ (a
+    // race of a few hundred can land on the same count twice).
     const races = (core: CoreState) =>
       new Map(
         (
@@ -762,9 +764,13 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       racesB = races(b);
     const shared = [...racesA.keys()].filter((id) => racesB.has(id));
     expect(shared.length, `${where} row 44: past races`).toBeGreaterThan(0);
+    const large = shared.filter(
+      (id) => racesA.get(id)! >= 1000 && racesB.get(id)! >= 1000,
+    );
+    for (const id of large)
+      expect(racesA.get(id), `${where} row 44 ${id}`).not.toBe(racesB.get(id));
     const cast = (held: Map<string, number>) =>
       shared.reduce((n, id) => n + held.get(id)!, 0);
-    expect(cast(racesA), `${where} row 44`).not.toBe(cast(racesB));
     // Row 48: every question's national polled share.
     const questions = Object.keys(
       (supportData as unknown as { questions: Record<string, unknown> })
@@ -782,7 +788,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       ).not.toBe(supportShare(b.seed, question));
     }
     process.stdout.write(
-      `VOTES-AND-POLLS ${where}: ${shared.length} past races cast ${cast(racesA)} and ${cast(racesB)} votes; ${questions[0]} polls ${supportShare(a.seed, questions[0]!).toFixed(3)} and ${supportShare(b.seed, questions[0]!).toFixed(3)} against ${publishedSupportShare(questions[0]!)}\n`,
+      `VOTES-AND-POLLS ${where}: ${shared.length} past races (${large.length} of a thousand votes or more) cast ${cast(racesA)} and ${cast(racesB)} votes; ${questions[0]} polls ${supportShare(a.seed, questions[0]!).toFixed(3)} and ${supportShare(b.seed, questions[0]!).toFixed(3)} against ${publishedSupportShare(questions[0]!)}\n`,
     );
   });
 
