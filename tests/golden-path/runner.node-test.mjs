@@ -57,6 +57,23 @@ test("a long-running accepted spec runs after the quick ones, goals after both",
     ["quick", "year", "goal"],
   );
 });
+test("the quick run leaves the long-running specs out and the long run holds only them", async () => {
+  const ok = [process.execPath, "-e", "process.exit(0)"];
+  const features = [
+    { ...spec("year", true, ok), longRunning: true },
+    spec("quick", true, ok),
+  ];
+  const quick = await suite(features, { only: "quick" });
+  assert.deepEqual(
+    quick.results.map((row) => row.id),
+    ["quick"],
+  );
+  const long = await suite(features, { only: "long" });
+  assert.deepEqual(
+    long.results.map((row) => row.id),
+    ["year"],
+  );
+});
 test("missing accepted command is red, missing goal remains visible", async () => {
   const receipt = await suite([
     spec("goal", false, null),
@@ -180,4 +197,17 @@ test("plain vitest specs run together in one process and are told apart by file"
   );
   assert.deepEqual(status, { A: "passed", B: "failed", C: "failed" });
   assert.equal(receipt.regression, true);
+});
+test("the specs that play a year or more run in the long job, so the quick job's budget is not spent on them", () => {
+  const document = JSON.parse(
+      readFileSync(resolve("docs/roadmap/features.json"), "utf8"),
+    ),
+    long = validateFeatures(document)
+      .filter((row) => row.longRunning === true)
+      .map((row) => row.id);
+  // M0-13 plays the world's year; M1-11 plays one too and took 52 to 193
+  // seconds by the place drawn (Mount Hebron, California; Newington, Virginia),
+  // which starved M2-05 to M3-09 of the shared budget on two pull requests.
+  for (const id of ["M0-13", "M1-11"])
+    assert.ok(long.includes(id), `${id} runs in the long job`);
 });

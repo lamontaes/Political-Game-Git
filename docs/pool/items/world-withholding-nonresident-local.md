@@ -11,14 +11,14 @@ pr:
 blocked-on:
 after: world-commuters-in-opening
 source: "split from gov-stopgap-budgets-faked-mechanic, Oct 16"
-claimed-at: 2026-10-19T22:24:04.559Z
+claimed-at:
 ---
 
 **What.** A worker who lives outside the town pays no county or city income tax to the town's jurisdictions for working there: the law rows' nonresident rate is never applied, and local tax is withheld only by the law at the worker's residence (SG-WORLD-withholding-nonresident-local). Resolve the workplace's local chain on each paycheck and apply each row's nonresident rate to residents of other jurisdictions, with the tax going to the town's treasury line. A commuter's paycheck then shows the tax of the place they work in.
 
 **Rules.** Every dollar balances: the tax withheld from the paycheck is exactly the treasury line's receipt. Wire to the world: the treasury line, the worker's net pay and the budget read it. One rule, all 56 places: the rates are law rows, never named places.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56 with a local income tax row, seed named in the PR body) a named worker who lives outside the town has local tax withheld at the row's nonresident rate on a payday, shown by the paycheck record id and the treasury receipt record id, and SG-WORLD-withholding-nonresident-local is resolved; the budgets test passes.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56 with a local income tax row, seed named in the PR body) a named worker who lives outside the town has local tax withheld at the row's nonresident rate on a payday, shown by the paycheck record id and the treasury receipt record id, and SG-WORLD-withholding-nonresident-local is resolved; the budgets test passes. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/budgets.ts, src/core2/law-reach/group-b-money.ts, src/core2/data/stopgaps.json
 

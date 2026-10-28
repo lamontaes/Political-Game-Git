@@ -2,6 +2,7 @@
 import { bankDeposit, moveBankDeposit } from "./accounts";
 import { fundBalance, fundOf } from "./counted-money";
 import { residentsRuntime } from "./modules/residents";
+import { staffedScale } from "./residents-economy";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 interface CashTarget {
@@ -114,8 +115,17 @@ export function reviewBankDeposits(api: CoreAPI, bankId: string): void {
       kind: "business",
       tier: "business",
       cashMinor,
+      // The paydays and bills the cash must meet are the weighted ones: a
+      // counted worker's record stands for as many households as its weight
+      // says, and the business buys and pays its other costs at that scale.
       reserveMinor: Math.ceil(
-        ((book.annualPayrollMinor + book.annualOtherCostsMinor) /
+        (((book.annualPayrollMinor + book.annualOtherCostsMinor) *
+          staffedScale(
+            core,
+            id,
+            book.annualPayrollMinor,
+            api.parameter("jobsDaysPerYear"),
+          )) /
           api.parameter("macroMonthsPerYear")) *
           months,
       ),

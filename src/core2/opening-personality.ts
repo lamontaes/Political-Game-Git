@@ -13,7 +13,8 @@
  */
 import traitTable from "../../data/content/trait-act-pulls.json" with { type: "json" };
 import { OPENING_KIN } from "./opening-kin";
-import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { ageOnDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import { PEOPLE_MIND_VERSION } from "./people-mind";
 import { SeededRng } from "./kernel/rng";
 import { parameter as p } from "./parameters";
@@ -21,6 +22,16 @@ import { stopgap } from "./stopgaps";
 import type { IsoDate, PersonId } from "./types";
 
 const SPEC = OPENING_KIN.personality;
+// The named constants and the correlated pairs, read once: they are static,
+// and the opening draws them for every person.
+const ZERO = p("zero"),
+  ONE = p("one"),
+  TWO = p("two");
+const PAIRS = SPEC.correlatedPairs.map((pair) => ({
+  first: SPEC.dimensions.findIndex((row) => row.trait === pair.first),
+  second: SPEC.dimensions.findIndex((row) => row.trait === pair.second),
+  rho: p(pair.parameter),
+}));
 
 /**
  * Every other trait in the shared trait table, tied to one temperament
@@ -60,25 +71,16 @@ export interface TemperamentSubject {
 }
 
 function normal(rng: SeededRng): number {
-  const u = p("one") - rng.next();
-  return (
-    Math.sqrt(-p("two") * Math.log(u)) *
-    Math.cos(p("two") * Math.PI * rng.next())
-  );
+  const u = ONE - rng.next();
+  return Math.sqrt(-TWO * Math.log(u)) * Math.cos(TWO * Math.PI * rng.next());
 }
 
 /** Independent standard normals per dimension, then the registered correlated pairs. */
 function draws(rng: SeededRng): number[] {
   const values = SPEC.dimensions.map((row) => normal(rng.fork(row.trait)));
-  for (const pair of SPEC.correlatedPairs) {
-    const first = SPEC.dimensions.findIndex((row) => row.trait === pair.first);
-    const second = SPEC.dimensions.findIndex(
-      (row) => row.trait === pair.second,
-    );
-    const rho = p(pair.parameter);
+  for (const { first, second, rho } of PAIRS)
     values[second] =
-      rho * values[first]! + Math.sqrt(p("one") - rho * rho) * values[second]!;
-  }
+      rho * values[first]! + Math.sqrt(ONE - rho * rho) * values[second]!;
   return values;
 }
 
@@ -96,13 +98,13 @@ function shiftFor(
   const ageShift =
     (curve(row, age) - curve(row, p("personalityReferenceAge"))) /
     SPEC.tScoreSd;
-  const half = row.sexDMaleMinusFemale / p("two");
+  const half = row.sexDMaleMinusFemale / TWO;
   const sexShift =
     gender === OPENING_KIN.genders.male
       ? half
       : gender === OPENING_KIN.genders.female
         ? -half
-        : p("zero");
+        : ZERO;
   return row.sign * (ageShift + sexShift);
 }
 
@@ -181,9 +183,72 @@ function normalCdf(x: number, one: number, two: number): number {
 }
 
 function level(z: number): number {
-  let index = p("zero");
-  for (const cut of SPEC.levels.cutPoints) if (z >= cut) index += p("one");
+  let index = ZERO;
+  for (const cut of SPEC.levels.cutPoints) if (z >= cut) index += ONE;
   return SPEC.levels.values[index]!;
+}
+
+/** The kernel constants of the family model, read once per call. */
+function familyModel() {
+  const h2 = p("personalityHeritability");
+  return {
+    h2,
+    inheritedSd: Math.sqrt(h2),
+    segregationSd: Math.sqrt(h2 / TWO),
+    ownSd: Math.sqrt(ONE - h2),
+  };
+}
+
+/**
+ * One person's temperament from their parents' inherited parts (none, one or
+ * two known): the parents' mean plus segregation, a part of their own, the
+ * upbringing shift and the age and sex differences, cut into levels. The
+ * same rule draws a resident at the opening and a baby born in play.
+ */
+function temperamentOf(
+  subject: Omit<TemperamentSubject, "parents">,
+  known: readonly number[][],
+  rng: SeededRng,
+  startedAt: IsoDate,
+): { genes: number[]; traits: Record<string, number> } {
+  const { inheritedSd, segregationSd, ownSd } = familyModel();
+  const unseen = rng.fork("unseen-parent");
+  const parentGenes = [...known];
+  while (parentGenes.length < TWO && known.length > ZERO)
+    parentGenes.push(draws(unseen).map((value) => value * inheritedSd));
+  const segregation = draws(rng.fork("segregation"));
+  const genes = known.length
+    ? segregation.map(
+        (value, index) =>
+          (parentGenes[ZERO]![index]! + parentGenes[ONE]![index]!) / TWO +
+          value * segregationSd,
+      )
+    : segregation.map((value) => value * inheritedSd);
+  const own = draws(rng.fork("own"));
+  const age = ageOnDate(subject.birthDate, startedAt);
+  const traits: Record<string, number> = {};
+  const scores: number[] = [];
+  SPEC.dimensions.forEach((row, index) => {
+    const upbringing =
+      (subject.upbringing?.[row.trait] ?? ZERO) *
+      p("personalityUpbringingShift");
+    const z =
+      genes[index]! +
+      own[index]! * ownSd +
+      upbringing +
+      shiftFor(row, age, subject.gender);
+    scores[index] = z;
+    traits[`${PEOPLE_MIND_VERSION}:${row.trait}`] = level(z);
+  });
+  const ownTraits = rng.fork("traits");
+  for (const row of ANCHORED) {
+    const shared = row.dimension < ZERO ? ZERO : scores[row.dimension]!;
+    traits[row.id] = level(
+      row.loading * shared +
+        Math.sqrt(ONE - row.loading * row.loading) * normal(ownTraits),
+    );
+  }
+  return { genes, traits };
 }
 
 export function openingTemperaments(
@@ -191,10 +256,6 @@ export function openingTemperaments(
   options: { seed: string; startedAt: IsoDate },
 ): Map<PersonId, Record<string, number>> {
   stopgap("SG-P15-personality-mapping");
-  const h2 = p("personalityHeritability");
-  const inheritedSd = Math.sqrt(h2);
-  const segregationSd = Math.sqrt(h2 / p("two"));
-  const ownSd = Math.sqrt(p("one") - h2);
   const root = new SeededRng(options.seed).fork("p15-opening-temperament");
   const genetic = new Map<PersonId, number[]>();
   const result = new Map<PersonId, Record<string, number>>();
@@ -204,53 +265,97 @@ export function openingTemperaments(
       a.birthDate.localeCompare(b.birthDate) || a.id.localeCompare(b.id),
   );
   for (const subject of ordered) {
-    const rng = root.fork(subject.id);
     const known = subject.parents
       .map((id) => genetic.get(id))
       .filter((row): row is number[] => row !== undefined);
-    const unseen = rng.fork("unseen-parent");
-    const parentGenes = [...known];
-    while (parentGenes.length < p("two") && known.length > p("zero"))
-      parentGenes.push(draws(unseen).map((value) => value * inheritedSd));
-    const segregation = draws(rng.fork("segregation"));
-    const genes = known.length
-      ? segregation.map(
-          (value, index) =>
-            (parentGenes[p("zero")]![index]! + parentGenes[p("one")]![index]!) /
-              p("two") +
-            value * segregationSd,
-        )
-      : segregation.map((value) => value * inheritedSd);
-    genetic.set(subject.id, genes);
-    const own = draws(rng.fork("own"));
-    const age = ageOnDate(
-      makeIsoDate(subject.birthDate),
-      makeIsoDate(options.startedAt),
+    const { genes, traits } = temperamentOf(
+      subject,
+      known,
+      root.fork(subject.id),
+      options.startedAt,
     );
-    const traits: Record<string, number> = {};
-    const scores: number[] = [];
-    SPEC.dimensions.forEach((row, index) => {
-      const upbringing =
-        (subject.upbringing?.[row.trait] ?? p("zero")) *
-        p("personalityUpbringingShift");
-      const z =
-        genes[index]! +
-        own[index]! * ownSd +
-        upbringing +
-        shiftFor(row, age, subject.gender);
-      scores[index] = z;
-      traits[`${PEOPLE_MIND_VERSION}:${row.trait}`] = level(z);
-    });
-    const ownTraits = rng.fork("traits");
-    for (const row of ANCHORED) {
-      const shared =
-        row.dimension < p("zero") ? p("zero") : scores[row.dimension]!;
-      traits[row.id] = level(
-        row.loading * shared +
-          Math.sqrt(p("one") - row.loading * row.loading) * normal(ownTraits),
-      );
-    }
+    genetic.set(subject.id, genes);
     result.set(subject.id, traits);
   }
   return result;
+}
+
+/**
+ * Where in its level's band a person's score on a trait sits: a generation
+ * fact keyed to the person and trait, since a record keeps only the level.
+ * The trait-change engine and a counted family's inheritance read the same
+ * score for the same person.
+ */
+export function personalityKeptScore(
+  seed: string,
+  personId: PersonId,
+  traitId: string,
+  value: number,
+): number {
+  const hash = stableHash(`${seed}:trait-score:${personId}:${traitId}`);
+  return personalityLevelScore(
+    value,
+    Number.parseInt(hash.slice(0, 8), 16) / 16 ** 8,
+  );
+}
+
+/** A parent known only by the levels their record keeps. */
+export interface KeptParent {
+  id: PersonId;
+  birthDate: IsoDate;
+  gender?: string;
+  traits: Readonly<Record<string, number>>;
+}
+
+/**
+ * A parent's inherited part read back from their kept levels on `date`: on
+ * each dimension, the inherited share of their score net of age and sex
+ * (heritability times it), plus the spread of the inherited part that share
+ * leaves, keyed to the parent so every child of theirs reads the same part.
+ * A dimension the record lacks is an unseen parent's draw.
+ */
+export function inheritedPartOf(
+  parent: KeptParent,
+  options: { seed: string; date: IsoDate },
+): number[] {
+  const { h2, inheritedSd } = familyModel();
+  const rest = draws(
+    new SeededRng(options.seed)
+      .fork("p15-opening-temperament")
+      .fork(parent.id)
+      .fork("kept-inherited-part"),
+  );
+  const age = ageOnDate(parent.birthDate, options.date);
+  return SPEC.dimensions.map((row, index) => {
+    const traitId = `${PEOPLE_MIND_VERSION}:${row.trait}`;
+    const value = parent.traits[traitId];
+    if (!Number.isInteger(value)) return rest[index]! * inheritedSd;
+    const score =
+      personalityKeptScore(options.seed, parent.id, traitId, value!) -
+      shiftFor(row, age, parent.gender);
+    return h2 * score + Math.sqrt(h2 * (ONE - h2)) * rest[index]!;
+  });
+}
+
+/**
+ * A baby's temperament from parents known only by their kept levels (a
+ * counted family): each parent's inherited part is read back from their
+ * levels (inheritedPartOf), then the baby is drawn by the rule every child
+ * is drawn by. Seeded generation decides only the baby's own parts.
+ */
+export function inheritedTemperament(
+  parents: readonly KeptParent[],
+  child: Omit<TemperamentSubject, "parents">,
+  options: { seed: string; startedAt: IsoDate },
+): Record<string, number> {
+  stopgap("SG-P15-personality-mapping");
+  const known = parents.map((parent) =>
+    inheritedPartOf(parent, { seed: options.seed, date: options.startedAt }),
+  );
+  return temperamentOf(
+    child,
+    known,
+    new SeededRng(options.seed).fork("p15-opening-temperament").fork(child.id),
+    options.startedAt,
+  ).traits;
 }

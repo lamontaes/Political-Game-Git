@@ -4,7 +4,7 @@ title: "Stopgaps in voting (missing-engine): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/who-runs-g08lgv
 pr: #5435
 blocked-on:

@@ -1,11 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { enrichCivicInputs } from "../core2/civic-inputs";
-import { buildDeepPast } from "../core2/deep-past";
 import { createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import {
-  BRING_IT_UP_DATA,
+  BRING_IT_UP_ROWS,
   leansToBlame,
   believedCause,
   bringItUp,
@@ -16,16 +15,14 @@ import {
 // follows what that person heard, and some are wrong.
 const seed = process.env.GOLDEN_PATH_SEED ?? "bring-it-up";
 const input = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 400,
-    }),
-  ),
+  buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 400,
+  }),
 );
 const core = createLifeCore(input);
 const api = coreAPI(core);
@@ -101,10 +98,10 @@ describe(`people bring it up in ${input.placeMetadata?.placeName} (seed ${seed})
     applyCoreEvent(core, {
       id: "fixture-heard-only",
       date: core.date,
-      kind: BRING_IT_UP_DATA.toldEvent,
+      kind: BRING_IT_UP_ROWS.toldEvent,
       personIds: [blamer.id],
       placeId: blamer.placeId,
-      facts: { [`${BRING_IT_UP_DATA.heardKey}:${closureId}`]: org },
+      facts: { [`${BRING_IT_UP_ROWS.heardKey}:${closureId}`]: org },
       source: {
         tag: "SOURCED",
         citation: "Fixture: heard it closed.",

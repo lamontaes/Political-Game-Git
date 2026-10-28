@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/counted-payouts-keyed
 pr: #5288
 blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)

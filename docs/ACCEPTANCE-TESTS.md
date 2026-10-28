@@ -1,5 +1,7 @@
 # Acceptance Tests
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 NEXT24 D regression: Personal's controlled-person routine mount must work
 without office capability. Pointer and keyboard can accept ordinary work,
 enroll/interupt/resume period study, Attend after journey disclosure, and Keep/

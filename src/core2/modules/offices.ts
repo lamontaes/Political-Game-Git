@@ -1,3 +1,8 @@
+import type {
+  HistoryWriter,
+  PreStartModule,
+  PreStartWindow,
+} from "../pre-start";
 import { incompatibleOffices } from "../office-incompatibility";
 /**
  * Offices and seats: every office that covers the town, every seat in it, and
@@ -27,9 +32,10 @@ import { incompatibleOffices } from "../office-incompatibility";
  */
 import { registerElectorate } from "../electorate";
 import { partyName } from "../appointments";
-import { decisionLean } from "../trait-decisions";
+import { leanedScore } from "../trait-decisions";
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import { makeIsoDate } from "../kernel/dates";
+import type { CoreAPI, CoreState, PersonId, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import municipalBaseline from "../../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
@@ -52,8 +58,10 @@ import {
   type SeatInput,
   type VacancyRule,
 } from "../offices-state";
+// A screen reads which district a town votes in through this entry.
+export { townDistrict } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
-import { createHash } from "node:crypto";
+import { seededUnit } from "../seeded";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -106,8 +114,52 @@ export interface VacancyRow {
   readonly electionDate?: string;
 }
 
-export const OFFICES_MODULE: CoreModule = {
+/**
+ * Pre-start government pass (M1-14): each term that began before day one,
+ * seated or ended, enters the history with how the holder reached the seat,
+ * so a player can ask why anyone sits where they sit. Nothing is generated:
+ * the term's own record is the source.
+ */
+function seatHistory(
+  api: CoreAPI,
+  window: PreStartWindow,
+  history: HistoryWriter,
+): void {
+  for (const row of table(api, "terms").rows()) {
+    const term = row as unknown as TermRow;
+    if (term.startDate < window.from || term.startDate > window.through)
+      continue;
+    const office = table(api, "offices").get(term.officeId);
+    history.record({
+      id: `seat-reached:${term.id}`,
+      date: makeIsoDate(term.startDate),
+      kind: "office.seat-reached",
+      ...(term.personId ? { personIds: [term.personId as PersonId] } : {}),
+      facts: {
+        termId: term.id,
+        seatId: term.seatId,
+        officeId: term.officeId,
+        reached: term.reached,
+        ...(term.party ? { party: term.party } : {}),
+        ...(office?.jurisdiction
+          ? { jurisdiction: String(office.jurisdiction) }
+          : {}),
+      },
+      publicRecord: true,
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: `Term record ${term.id}, opened with the world.`,
+        estimatedFrom:
+          "The term's start date and how the holder reached the seat, as the opening recorded them.",
+      },
+    });
+  }
+}
+
+export const OFFICES_MODULE: PreStartModule = {
   id: OFFICES_MODULE_ID,
+  preStart: { phase: "government", run: seatHistory },
   state: {
     schemaVersion: 1,
     tables: {
@@ -199,7 +251,12 @@ export function enforceIncompatibility(
   }
 }
 
-function servingTermsOf(api: CoreAPI, personId: string): readonly TermRow[] {
+/** The terms a person is serving now: the one reader of "what office does this person hold". */
+export function servingTermsOf(
+  api: CoreAPI,
+  personId: string,
+): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
   return (
     table(api, "terms").query("byPerson", [personId]) as unknown as TermRow[]
   ).filter((term) => term.status === "serving");
@@ -314,6 +371,10 @@ function suitedResidents(
         taken.has(person.id)
       )
         return false;
+      // The player takes a seat by filing and winning, never by being the
+      // resident the opening seats: a player the creator made 25 or older is
+      // a resident this pick could reach.
+      if (person.id === (api.state as CoreState).playerId) return false;
       // Officeholders are fictional: a resident who happens to share a real
       // officeholder's full name does not hold a seat.
       if (isRealOfficeholderName(person.givenName, person.familyName))
@@ -340,6 +401,77 @@ function freshTermId(api: CoreAPI, seatId: string, date: string): string {
   let id = base;
   for (let n = 2; table(api, "terms").get(id); n += 1) id = `${base}:${n}`;
   return id;
+}
+
+/** What `seatTerm` writes: the new term, what happens to the terms it replaces, and the record of taking office. */
+export interface SeatTermInput {
+  readonly seatId: string;
+  readonly officeId: string;
+  /** The term's id; a fresh `term:<seat>:<date>` id where omitted. */
+  readonly termId?: string;
+  readonly personId: string | null;
+  readonly identity: TermRow["identity"];
+  readonly party: string | null;
+  readonly startDate: string;
+  readonly endDate: string | null;
+  readonly endEstimated: boolean;
+  readonly reached: string;
+  /** Where given, every term serving on the seat ends on the start date, for this reason. */
+  readonly endsServingBecause?: string;
+  /** Where given, the took-office event the officials and pay engines read. */
+  readonly tookOffice?: {
+    readonly placeId: string;
+    readonly source: Source;
+    readonly news: boolean;
+    readonly facts: Readonly<Record<string, string>>;
+  };
+}
+
+/**
+ * The one writer of a seat's terms: ends the terms serving on the seat (when
+ * asked), puts the new serving term, and emits took-office (when asked).
+ */
+export function seatTerm(api: CoreAPI, input: SeatTermInput): TermRow {
+  const terms = table(api, "terms");
+  if (input.endsServingBecause)
+    for (const term of terms.query("bySeatStatus", [
+      input.seatId,
+      "serving",
+    ]) as unknown as TermRow[])
+      terms.put({
+        ...term,
+        status: "ended",
+        endDate: input.startDate,
+        endEstimated: false,
+        endedBy: input.endsServingBecause,
+      } as unknown as ModuleRow);
+  const term: TermRow = {
+    id: input.termId ?? freshTermId(api, input.seatId, input.startDate),
+    seatId: input.seatId,
+    officeId: input.officeId,
+    personId: input.personId,
+    identity: input.identity,
+    party: input.party,
+    startDate: input.startDate,
+    endDate: input.endDate,
+    endEstimated: input.endEstimated,
+    reached: input.reached,
+    status: "serving",
+  };
+  terms.put(term as unknown as ModuleRow);
+  if (input.tookOffice)
+    api.emit({
+      id: `took-office:${input.seatId}:${input.startDate}`,
+      date: input.startDate,
+      kind: "took-office",
+      personIds: input.personId ? [input.personId] : [],
+      placeId: input.tookOffice.placeId,
+      source: input.tookOffice.source,
+      publicRecord: true,
+      news: input.tookOffice.news,
+      facts: input.tookOffice.facts,
+    });
+  return term;
 }
 
 function putOffice(api: CoreAPI, entry: OfficeWithSeats): void {
@@ -392,8 +524,7 @@ function seatNamedOfficial(
   });
   // stopgapId: SG-GOV-official-identity-only
   api.stopgap("SG-GOV-official-identity-only");
-  const term: TermRow = {
-    id: freshTermId(api, seat.id, date),
+  return seatTerm(api, {
     seatId: seat.id,
     officeId: office.id,
     personId: null,
@@ -409,10 +540,7 @@ function seatNamedOfficial(
     endDate: termEnd(api, office, seat, date),
     endEstimated: true,
     reached,
-    status: "serving",
-  };
-  table(api, "terms").put(term as unknown as ModuleRow);
-  return term;
+  });
 }
 
 function seatResident(
@@ -424,8 +552,7 @@ function seatResident(
   reached: string,
 ): TermRow {
   const person = api.state.people.get(personId)!;
-  const term: TermRow = {
-    id: freshTermId(api, seat.id, date),
+  return seatTerm(api, {
     seatId: seat.id,
     officeId: office.id,
     personId,
@@ -441,10 +568,7 @@ function seatResident(
     endDate: termEnd(api, office, seat, date),
     endEstimated: true,
     reached,
-    status: "serving",
-  };
-  table(api, "terms").put(term as unknown as ModuleRow);
-  return term;
+  });
 }
 
 /** Register the module and seat every office covering the town. */
@@ -474,6 +598,10 @@ export function openOffices(core: CoreState, worldSeed: string): void {
     ...stateOffices(stateKey, geoid, date),
   ]) {
     putOffice(api, entry);
+    // An office its law creates later has no holder and no past until its
+    // first term: its first election fills it.
+    if (entry.office.firstTermStart && entry.office.firstTermStart > date)
+      continue;
     for (const seat of entry.seats)
       pastTerms(
         api,
@@ -594,6 +722,8 @@ const TENURE = (
   tenure as unknown as { parameters: Record<string, { value: number }> }
 ).parameters;
 const tenureYears = (key: string) => TENURE[key]!.value;
+const tenureSpread = (key: string) =>
+  (TENURE[key] as unknown as { spread: readonly [number, number] }).spread;
 const shiftYears = (date: string, years: number) =>
   `${Number(date.slice(0, 4)) + years}${date.slice(4)}`;
 const LEGISLATIVE = /^(council|county-board|legislature-)/;
@@ -632,8 +762,29 @@ function pastTerms(
       } as unknown as ModuleRow);
     return;
   }
-  // A term read as ending more than a full term out began at the opening.
-  if (start > opening) {
+  // An office its law created has no service before its first term: a term
+  // that would have begun earlier is that first term.
+  const created = office.firstTermStart;
+  if (created && start <= created) {
+    table(api, "terms").put({
+      ...term,
+      startDate: created,
+      serviceStart: created,
+      ...(office.elected
+        ? {
+            elected: electionBehind(office, created, `${worldSeed}:${seat.id}`),
+          }
+        : {}),
+    } as unknown as ModuleRow);
+    return;
+  }
+  // A term read as ending more than a full term out began at the opening, and
+  // so did one whose holder was too young to begin it a full term back.
+  const born = Number(term.identity.birthDate.slice(0, 4));
+  if (
+    start > opening ||
+    Number(start.slice(0, 4)) - born < tenureYears("minimumAgeAtFirstTerm")
+  ) {
     table(api, "terms").put({
       ...term,
       serviceStart: term.startDate,
@@ -652,17 +803,15 @@ function pastTerms(
             : "localOfficialTenureYears";
   const mean = Math.max(0, tenureYears(tenureKey) / years - 0.5);
   const q = mean / (1 + mean);
-  const hash = createHash("sha256")
-    .update(`${worldSeed}:${seat.id}:career`)
-    .digest("hex");
-  const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
+  const u = seededUnit(worldSeed, `${seat.id}:career`);
   let prior = q > 0 ? Math.floor(Math.log(1 - u) / Math.log(q)) : 0;
   // No one first served younger than the minimum age.
-  const born = Number(term.identity.birthDate.slice(0, 4));
   const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
   while (
     prior > 0 &&
-    firstYear(prior) - born < tenureYears("minimumAgeAtFirstTerm")
+    (firstYear(prior) - born < tenureYears("minimumAgeAtFirstTerm") ||
+      (created !== undefined &&
+        termStartInYear(office, shiftYears(start, -prior * years)) < created))
   )
     prior -= 1;
   // A state that limits legislative terms caps the service before today.
@@ -686,9 +835,33 @@ function pastTerms(
         ) - 2,
       ),
     );
-  const serviceStart = shiftYears(start, -prior * years);
+  // Service begins where the earliest past term does (its start is snapped to
+  // the office's own inauguration day), so the career has no gap.
+  const serviceStart =
+    prior > 0
+      ? termStartInYear(office, shiftYears(start, -prior * years))
+      : start;
   const won = (from: string) =>
-    office.elected ? { elected: electionBehind(office, from) } : {};
+    office.elected
+      ? { elected: electionBehind(office, from, `${worldSeed}:${seat.id}`) }
+      : {};
+  // A holder too young for the office when the current term began came to it
+  // partway through, on the day they reached the minimum age (a February 29
+  // birthday counts on March 1), filling the seat rather than winning it.
+  const birth = term.identity.birthDate;
+  const ageYear = born + tenureYears("minimumAgeAtFirstTerm");
+  const leap =
+    (ageYear % 4 === 0 && ageYear % 100 !== 0) || ageYear % 400 === 0;
+  const ofAge = `${ageYear}-${birth.slice(5) === "02-29" && !leap ? "03-01" : birth.slice(5)}`;
+  if (prior === 0 && start < ofAge) {
+    const joined = ofAge < opening ? ofAge : opening;
+    table(api, "terms").put({
+      ...term,
+      startDate: joined,
+      serviceStart: joined,
+    } as unknown as ModuleRow);
+    return;
+  }
   table(api, "terms").put({
     ...term,
     startDate: start,
@@ -714,12 +887,14 @@ function pastTerms(
 /**
  * The election that seated a term starting on a date: the general election
  * the November before a January start, else a local election some weeks
- * before; the winner's share is the average for that kind of office (an
- * estimate; the history only has to fit the world it opens).
+ * before. The winner's share is drawn once per seat and race from the
+ * world's seed inside the spread for that kind of office (owner, Oct 27:
+ * realistic, not real), so no two holders print the same share by rule.
  */
 function electionBehind(
   office: OfficeInput,
   start: string,
+  seatSeed: string,
 ): { date: string; share: number } {
   const year = Number(start.slice(0, 4));
   const date =
@@ -741,7 +916,9 @@ function electionBehind(
           : office.level === "state" || office.level === "federal"
             ? "statewideExecutiveWinnerShare"
             : "localWinnerShare";
-  return { date, share: tenureYears(key) };
+  const [low, high] = tenureSpread(key);
+  const u = seededUnit(seatSeed, `${start}:winner-share`);
+  return { date, share: low + (high - low) * u };
 }
 
 /** A seat's elections before the start, oldest first (history to the opening). */
@@ -1101,12 +1278,15 @@ function fillVacancy(
             ).townPlaceId,
           ).find(
             (suited) =>
-              decisionLean(
+              // The shared formula with no case but personality (the lean's sign,
+              // as before), so the weighing is reported and, where kept, recorded.
+              leanedScore(
                 api.state,
                 suited.person,
                 "offices.accept-appointment",
                 "accept",
                 "decline",
+                0,
               ) >= 0,
           )
         : undefined;
@@ -1278,6 +1458,101 @@ export function repeatSpecialElection(
       sourceRecordIds: [vacancyId],
     });
   return repeated;
+}
+
+/** End every serving term on a seat today, and say why. */
+export function endServingTerms(
+  api: CoreAPI,
+  seatId: string,
+  endedBy: string,
+): readonly TermRow[] {
+  const terms = table(api, "terms");
+  const serving = terms.query("bySeatStatus", [
+    seatId,
+    "serving",
+  ]) as unknown as TermRow[];
+  for (const term of serving)
+    terms.put({
+      ...term,
+      status: "ended",
+      endDate: api.state.date,
+      endEstimated: false,
+      endedBy,
+    } as unknown as ModuleRow);
+  return serving;
+}
+
+/**
+ * The one term writer for an election's winner, at every level: the town's
+ * own count (`voting.ts`) and the races counted away from the town
+ * (`world-races.ts`) both seat through here. The serving term ends, the
+ * winner's term starts today, a special election fills its vacancy, and the
+ * `took-office` record the officials, elections and offices engines read is
+ * written with the result it cites.
+ */
+export function seatWinner(
+  api: CoreAPI,
+  winner: {
+    readonly seatId: string;
+    readonly officeId: string;
+    readonly personId: string | null;
+    readonly identity: TermRow["identity"];
+    readonly party: string | null;
+    readonly endDate: string | null;
+    readonly reached: string;
+    /** The record the seating cites: the contest or race decided. */
+    readonly resultId: string;
+    /** The office as the record names it. */
+    readonly title: string;
+    /** Who the record calls the winner: a person, a filing or a party's candidate. */
+    readonly winnerId: string;
+    readonly news: boolean;
+    readonly vacancyId?: string;
+    readonly serviceStart?: string;
+  },
+): string {
+  const date = api.state.date;
+  endServingTerms(api, winner.seatId, "term ended");
+  const termId = `term:${winner.seatId}:${date}:elected`;
+  table(api, "terms").put({
+    id: termId,
+    seatId: winner.seatId,
+    officeId: winner.officeId,
+    personId: winner.personId,
+    identity: winner.identity,
+    party: winner.party,
+    startDate: date,
+    ...(winner.serviceStart ? { serviceStart: winner.serviceStart } : {}),
+    endDate: winner.endDate,
+    endEstimated: false,
+    reached: winner.reached,
+    status: "serving",
+  } as unknown as ModuleRow);
+  if (winner.vacancyId) vacancyFilled(api, winner.vacancyId, termId);
+  api.emit({
+    id: `took-office:${winner.seatId}:${date}`,
+    date,
+    kind: "took-office",
+    personIds: winner.personId ? [winner.personId] : [],
+    placeId: (
+      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
+    ).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Result of ${winner.resultId}`,
+      asOf: date,
+    },
+    publicRecord: true,
+    news: winner.news,
+    facts: {
+      office: winner.title,
+      seatId: winner.seatId,
+      winnerId: winner.winnerId,
+      termId,
+      resultId: winner.resultId,
+    },
+  });
+  return termId;
 }
 
 /** A special election's winner fills the vacancy. */

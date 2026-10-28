@@ -5,38 +5,26 @@ import {
   boardPanel,
   buildingPanel,
   evictionPanel,
-  jobHistory,
   lawCostsPanel,
   metricsPanel,
   ownerPanel,
   regionPanel,
+  townJobsPanel,
   turnoverPanel,
 } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
 import type { CoreState } from "../core2/types";
 
 /** OPUS-WORLD's read-only panels for the screen: record data only. */
-export function economyView(
-  core: CoreState,
-  placeId: string,
-  personId: string,
-) {
+export function economyView(core: CoreState, placeId: string) {
   const api = coreAPI(core);
   const national = core.modules.has("macro") ? nationalPanel(api) : undefined;
-  const turnover = core.modules.has("jobs") ? turnoverPanel(api) : undefined;
   return {
     nation: national?.months.at(-1),
-    nationMonths: national?.months.slice(-13) ?? [],
-    meetings: national?.meetings.slice(-3) ?? [],
     region: core.modules.has("regional")
       ? regionPanel(api, placeId).region
       : undefined,
-    jobs: turnover && {
-      employed: turnover.employed,
-      seekers: turnover.seekers,
-      openPositions: turnover.openPositions,
-    },
-    jobHistory: jobHistory(api, personId),
+    jobs: core.modules.has("jobs") ? townJobsPanel(api, placeId) : undefined,
   };
 }
 

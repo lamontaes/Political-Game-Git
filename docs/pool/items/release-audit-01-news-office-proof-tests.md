@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/fs11vb-audit-01
 pr: #5509
 blocked-on:

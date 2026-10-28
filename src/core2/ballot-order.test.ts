@@ -45,6 +45,7 @@ const KINDS = [
   "rotation",
   "lot",
   "party",
+  "endorsed-first-then-alphabetical",
   "incumbent-first",
   "filing-order",
   "official-discretion",
@@ -110,7 +111,11 @@ describe(`ballot order by the law of the place (${where})`, () => {
       } else expect(forms, `${where} ${stage}`).toHaveLength(1);
       const surname = (id: string) =>
         candidates.find((c) => c.id === id)!.surname;
-      if (rule.kind === "alphabetical")
+      // (The party endorsement is not a record yet, so that order reads alphabetically.)
+      if (
+        rule.kind === "alphabetical" ||
+        rule.kind === "endorsed-first-then-alphabetical"
+      )
         expect(forms[0]!.map(surname)).toEqual([...names].sort());
       if (rule.kind === "party")
         expect(
@@ -209,6 +214,14 @@ describe(`ballot order by the law of the place (${where})`, () => {
         const rule = ballotOrderRule(drawn.state, "primary")!;
         const { votes, namedVotes } = holdPrimary(api, contest.id);
         const total = Object.values(votes).reduce((a, b) => a + b, 0);
+        // A town whose voters all know a candidate has none for the ballot
+        // position to decide: the draw goes on to the next place.
+        if (total <= namedVotes) {
+          tried.push(
+            `${where} ${contest.id}: every vote went to a candidate the voter knew (${namedVotes} of ${total})`,
+          );
+          continue;
+        }
         expect(total, where).toBeGreaterThan(namedVotes);
         // A rotated ballot puts each candidate first on their share of the
         // forms, so each takes votes from those who know neither.

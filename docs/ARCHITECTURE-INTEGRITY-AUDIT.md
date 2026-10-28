@@ -1,5 +1,7 @@
 # Architecture Integrity Audit
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 ## A41 — composed standing, scene/POSE and KIT receiver
 
 The completed standing source remains frozen. This isolated successor receives exact feature deltas; no simulation file or World schema changes. Scene capacity consumes actual supplied present IDs, unique compatible anchors and explicit source contacts. Synthetic occupancy fixtures prove allocation only, not recorded attendance. Candidate pose selection is exact body/head/hair/outfit matching; missing combinations keep supported standing without inventing occupants. All contact measurements remain visual estimates in source pixels.

@@ -3,8 +3,9 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../core2/life";
-import { P } from "../core2/parameters";
+import { P, parameter } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { comparePlayerMomentsV1 } from "../core2/player-stops-v1";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
@@ -24,6 +25,8 @@ import {
   SITUATION_LIBRARY,
   type SituationLibrary,
 } from "./scheduling";
+import { everySceneWord } from "../english/scene-words";
+import { composeScene } from "./scene";
 import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
 import type { DirectorData } from "./types";
 
@@ -80,16 +83,19 @@ function town(placeId: string): CoreInput {
       {
         id: "fact:worker:high-school",
         date: "1984-08-27",
-        kind: "school:cohort-estimate",
-        summary: "High school cohort",
+        // The school engine's record of the year the worker started high
+        // school (written by its run before the start in a played world).
+        kind: "school.started",
+        summary: "High school",
         source,
       },
       {
-        id: "fact:worker:era",
-        date: "2008-12-01",
-        kind: "era:public-context",
-        summary: "Public economic context",
+        id: "fact:worker:partner",
+        date: "1994-01-01",
+        kind: "family:partner",
+        summary: "Partner",
         source,
+        facts: { otherPersonId: "person:spouse" },
       },
     ],
   });
@@ -98,6 +104,16 @@ function town(placeId: string): CoreInput {
     traits: { [risk]: 1 },
     familyIds: ["person:worker"],
     knownIds: ["person:worker"],
+    pastFacts: [
+      {
+        id: "fact:spouse:partner",
+        date: "1994-01-01",
+        kind: "family:partner",
+        summary: "Partner",
+        source,
+        facts: { otherPersonId: "person:worker" },
+      },
+    ],
   });
   const neighbor = person("person:neighbor", placeId);
   const classmate = person("person:classmate", placeId, {
@@ -289,9 +305,6 @@ describe("story director on the new core", () => {
         row.counterpartIds.includes("person:classmate"),
       ),
     ).toBe(false);
-    expect(
-      worker.backdrop.some((row) => row.sourceId === "fact:worker:era"),
-    ).toBe(true);
   });
 
   it("starts a housemate's thread at the opening, not at the younger one's birth", () => {
@@ -391,7 +404,8 @@ describe("story director on the new core", () => {
       director.ledger.people
         .get("person:worker")!
         .keptFacts.get("knew-each-other:person:spouse:person:worker"),
-    ).toMatchObject({ since: startedAt, sinceBasis: "opening" });
+      // The partnership's family fact dates when they knew each other.
+    ).toMatchObject({ since: "1994-01-01", sinceBasis: "recorded" });
     expect(thread.tie).toBeCloseTo(0.79 + 0.3, 6);
     const later = "2022-07-01";
     expect(
@@ -513,8 +527,44 @@ describe("story director on the new core", () => {
     // 32, plus the justice engine's hearing and verdict (OPUS-GOV, October 14,
     // 2026), plus the 15 civic moments inside the engines' procedures (a race
     // won or lost, a floor vote, a signing, ...; words work order, Oct 15),
-    // each waiting for the director's producer.
-    expect(types).toHaveLength(49);
+    // each waiting for the director's producer, plus the 14 scenes with a
+    // purpose (owner, Oct 15, evening: a vote asked, a yes withdrawn, a bill
+    // to carry, a donor, the party, office hours, family, a rally, the desk,
+    // staff, a bargain), plus the life moments with a purpose of their own
+    // (a new baby, a cause shared), plus an
+    // officeholder's own address, plus the party's ask that a member run, plus
+    // the candidate who comes over after a speech that moved a listener in the
+    // room, plus the offer an official finds left for them, plus a resident's
+    // question at a town hall, plus the winner's call from the runner-up after
+    // the count (`concession-received`) (scenes from life), plus the campaign
+    // season's five (an interview and a debate invitation, an offer to help, a
+    // rival's filing, word of a rival's campaign; owner, Oct 26), plus the
+    // department head who argues a cut, plus the sponsor or the group against a
+    // bill who comes to the desk, plus the constituent who stops an officeholder in the street and the hallway
+    // after a body sits (scenes from circumstance, owner, Oct 27); less the
+    // five the director lead deleted on Oct 27: a job interview (the press
+    // interview is the one with a record), the party's ask (the party's
+    // recruit is the same ask), and the three the player starts (asking a
+    // favor or permission, confessing), which the talk box offers rather than
+    // the director.
+    // The count is read from the catalog file itself, so a scene that adds a
+    // type does not collide here.
+    expect(types).toHaveLength(
+      (
+        JSON.parse(
+          readFileSync(
+            join(
+              process.cwd(),
+              "src",
+              "director",
+              "data",
+              "situation-types.json",
+            ),
+            "utf8",
+          ),
+        ) as { types: unknown[] }
+      ).types.length,
+    );
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));
@@ -526,14 +576,39 @@ describe("story director on the new core", () => {
           expect(roles.has(role)).toBe(true);
       }
     }
-    const folded = (key: string, producer: string) =>
+    // A race's result reaches the player through a candidate they know; the
+    // player's own win is the race-won scene, not a second celebration.
+    expect(
+      types
+        .find((row) => row.key === "race-told")!
+        .causes.some(
+          (row) =>
+            row.match?.label === "circumstance:race-result-known" &&
+            row.causeRecord === "election-result",
+        ),
+    ).toBe(true);
+    expect(
+      types
+        .find((row) => row.key === "celebration")!
+        .causes.some(
+          (row) =>
+            row.awaitingProducer === "election-result" ||
+            row.causeRecord === "election-result",
+        ),
+    ).toBe(false);
+    // A door the player's own canvass knocked, the first time or again: the
+    // player asks the resident for their vote (golden-door-ask), and no
+    // general first meeting or visit plays it too.
+    const knocked = (key: string) =>
       types
         .find((row) => row.key === key)!
-        .causes.some((row) => row.awaitingProducer === producer);
-    expect(folded("news-arrives", "election-result")).toBe(true);
-    expect(folded("celebration", "election-result")).toBe(true);
-    expect(folded("first-meeting", "canvass-visit")).toBe(true);
-    expect(folded("visit", "canvass-visit")).toBe(true);
+        .causes.filter(
+          (row) =>
+            row.causeRecord === "campaign.door" && row.reason === "canvass",
+        ).length;
+    expect(knocked("door-ask")).toBe(2);
+    expect(knocked("first-meeting")).toBe(0);
+    expect(knocked("visit")).toBe(0);
   });
 
   it("lets a sole earner's job loss take over the screen as news for the household, and stop a skip", () => {
@@ -559,8 +634,7 @@ describe("story director on the new core", () => {
       (row) => row.mode !== "before-opening",
     )!;
     // The spouse's share of the same loss, 0.431, is under the line, but a
-    // household member's lost job is a family scene at home whatever its size
-    // (owner, Oct 14, 2026, night).
+    // household member's lost job is a family scene at home whatever its size.
     expect(spouseEntry.outcome).toBe("scene-now");
     const heard = spouseEntry.bindings.find(
       (row) => row.typeKey === "news-arrives",
@@ -638,6 +712,158 @@ describe("story director on the new core", () => {
       ).toEqual(["news-arrives"]);
   });
 
+  it("caps one type's scenes in a season: past the cap its causes go to the journal", () => {
+    const { core, director } = run("place:director-fixture", true);
+    const book = director.ledger.people.get("person:worker")!;
+    const moment = book.moments.find((row) =>
+      row.id.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    const staged = book.schedule.find((row) => row.momentId === moment.id)!;
+    const options = { mode: "live", interruptImpact: 0.5 };
+    // A later cause of the same type, past the repeat window but within the
+    // season, so only the season's cap can hold it back.
+    const later = (n: number) => ({
+      ...moment,
+      id: `${moment.id}:season-${n}`,
+      causeId: `${moment.causeId}:season-${n}`,
+      date: addDays(
+        makeIsoDate(moment.date),
+        SITUATION_LIBRARY.scheduling.repeatDays + 1,
+      ),
+    });
+    const capped = {
+      ...SITUATION_LIBRARY,
+      scheduling: {
+        ...SITUATION_LIBRARY.scheduling,
+        seasonCap: { ...SITUATION_LIBRARY.scheduling.seasonCap, value: 1 },
+      },
+    };
+    // The season already holds one scene of the type: at a cap of one, the
+    // next cause of it stages nothing; at the shipped cap it still stages.
+    expect(staged.bindings.map((row) => row.typeKey)).toContain("news-arrives");
+    const blocked = scheduleMoment(core, book, later(1), options, capped);
+    expect(blocked.bindings.map((row) => row.typeKey)).not.toContain(
+      "news-arrives",
+    );
+    // The shipped cap lets the same cause through.
+    const through = scheduleMoment(core, book, later(2), options);
+    expect(through.bindings.map((row) => row.typeKey)).toContain(
+      "news-arrives",
+    );
+    expect(SITUATION_LIBRARY.scheduling.seasonCap.value).toBeGreaterThan(1);
+    expect(SITUATION_LIBRARY.scheduling.seasonCap.days).toBeGreaterThan(0);
+  });
+
+  it("takes a second cause the same day into the sitting already staged, citing both records", () => {
+    const { core, director } = run("place:director-fixture", true);
+    const personId = "person:worker";
+    const book = director.ledger.people.get(personId)!;
+    const moment = book.moments.find((row) =>
+      row.id.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    const sitting = book.schedule.find((row) => row.momentId === moment.id)!;
+    const staged = sitting.bindings.find(
+      (row) => row.typeKey === "news-arrives",
+    )!;
+    // Edge case by hand: the same news from a second record that day, with the
+    // same people (two notices of one loss, read the same afternoon).
+    const again = {
+      ...moment,
+      id: `${moment.id}:again`,
+      causeId: `${moment.causeId}:again`,
+    };
+    const entry = scheduleMoment(core, book, again, {
+      mode: "live",
+      interruptImpact: 0.5,
+    });
+    // It stages nothing of its own: the day's sitting takes it in.
+    expect(entry.bindings).toEqual([]);
+    expect(staged.joined).toEqual([
+      { momentId: again.id, causeId: again.causeId },
+    ]);
+    // The same people, and the scene the screen shows cites both records.
+    expect(
+      staged.roles.find((row) => row.role === "bearer")!.personIds,
+    ).toEqual(["person:worker"]);
+    // Every bank line, as the grading view reads them, so the narrator speaks.
+    const words = everySceneWord();
+    const scene = composeScene(core, director, personId, sitting, words);
+    expect(scene?.narration.length).toBeGreaterThan(0);
+    const cited = (scene?.narration ?? []).flatMap(
+      (line) => line.sourceRecordIds,
+    );
+    expect(cited).toEqual(
+      expect.arrayContaining([moment.causeId, again.causeId]),
+    );
+    // Scheduled again, it is not counted twice.
+    scheduleMoment(core, book, again, { mode: "live", interruptImpact: 0.5 });
+    expect(staged.joined).toHaveLength(1);
+    // A sitting on an earlier day takes nothing in: that scene was played.
+    const later = {
+      ...moment,
+      id: `${moment.id}:later`,
+      causeId: `${moment.causeId}:later`,
+      date: makeIsoDate("2021-01-12"),
+    };
+    expect(
+      scheduleMoment(core, book, later, {
+        mode: "live",
+        interruptImpact: 0.5,
+      }).bindings,
+    ).toEqual([]);
+    expect(staged.joined).toHaveLength(1);
+  });
+
+  it("stages every cause of a scene about one record's own decision, the same day and within the repeat window", () => {
+    // A member's vote on one bill is a scene of its own, however many votes
+    // the same chamber takes that day or that month (eachCause).
+    expect(
+      SITUATION_LIBRARY.types.find((row) => row.key === "floor-vote")
+        ?.eachCause,
+    ).toBe(true);
+    const { core, director } = run("place:director-fixture", true);
+    const book = director.ledger.people.get("person:worker")!;
+    const moment = book.moments.find((row) =>
+      row.id.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    const sitting = book.schedule.find((row) => row.momentId === moment.id)!;
+    const staged = sitting.bindings.find(
+      (row) => row.typeKey === "news-arrives",
+    )!;
+    // Edge case by hand: the fixture's news scene marked as one per cause.
+    const library = {
+      ...SITUATION_LIBRARY,
+      types: SITUATION_LIBRARY.types.map((row) =>
+        row.key === "news-arrives" ? { ...row, eachCause: true } : row,
+      ),
+    };
+    const options = { mode: "live" as const, interruptImpact: 0.5 };
+    const again = {
+      ...moment,
+      id: `${moment.id}:again`,
+      causeId: `${moment.causeId}:again`,
+    };
+    // The same day: its own scene, not taken into the day's sitting.
+    expect(
+      scheduleMoment(core, book, again, options, library).bindings.map(
+        (row) => row.typeKey,
+      ),
+    ).toContain("news-arrives");
+    expect(staged.joined).toBeUndefined();
+    // Two days later, within the repeat window: its own scene again.
+    const later = {
+      ...moment,
+      id: `${moment.id}:later`,
+      causeId: `${moment.causeId}:later`,
+      date: makeIsoDate("2021-01-12"),
+    };
+    expect(
+      scheduleMoment(core, book, later, options, library).bindings.map(
+        (row) => row.typeKey,
+      ),
+    ).toContain("news-arrives");
+  });
+
   it("keeps a scene kind the player filtered out from interrupting them", () => {
     const filtered = createDirector({ watch: ["person:worker"] });
     const core = createLifeCore(town("place:director-fixture"), {
@@ -645,7 +871,7 @@ describe("story director on the new core", () => {
       modules: [fixtureWorld("place:director-fixture"), filtered.module],
     });
     filtered.start(core);
-    // The player allows only funerals to stop their day (owner, Oct 14, 2026).
+    // The player allows only funerals to stop their day.
     const record = filtered.setSceneFilter(
       "person:worker",
       ["funeral", "not-a-kind"],
@@ -794,7 +1020,7 @@ describe("story director on the new core", () => {
     expect(entry.bindings.map((row) => row.typeKey)).toContain("reunion");
   });
 
-  it("scores the recorded past: personal facts are moments, an era only where it hit", () => {
+  it("scores the recorded past: personal facts are moments", () => {
     const place = "place:director-fixture";
     const base = town(place);
     const withPast = (row: PersonInput): PersonInput =>
@@ -804,21 +1030,6 @@ describe("story director on the new core", () => {
             ...row,
             pastFacts: [
               ...(row.pastFacts ?? []),
-              {
-                id: "fact:worker:era-hit",
-                date: "2008-12-01",
-                kind: "era:public-context",
-                summary: "Public economic context",
-                source,
-                facts: { personalJobLoss: "recorded" },
-              },
-              {
-                id: "fact:worker:partner",
-                date: "1994-01-01",
-                kind: "family:partner",
-                summary: "Partner",
-                source,
-              },
               {
                 id: "fact:worker:opening-job",
                 date: startedAt,
@@ -843,21 +1054,15 @@ describe("story director on the new core", () => {
         row.counterpartIds,
       ]),
     ).toEqual([
-      ["1984-08-27", "past:school:cohort-estimate", 0.26, []],
+      ["1984-08-27", "past:school.started", 0.26, []],
       ["1994-01-01", "past:family:partner", 0.5, ["person:spouse"]],
-      ["2008-12-01", "past:era:public-context:personalJobLoss", 0.47, []],
     ]);
     // The 1994 partnership record moves the pair's first-known date back.
     expect(
       worker.keptFacts.get("knew-each-other:person:spouse:person:worker"),
     ).toMatchObject({ since: "1994-01-01", sinceBasis: "recorded" });
-    // The unhit era is background only; the opening job describes the start.
-    expect(worker.backdrop.map((row) => row.sourceId)).toEqual([
-      "fact:worker:era",
-      "fact:worker:era-hit",
-    ]);
+    // The opening job describes the start.
     expect(worker.schedule.map((row) => row.outcome)).toEqual([
-      "journal-line",
       "journal-line",
       "journal-line",
     ]);
@@ -988,11 +1193,12 @@ describe("story director on the new core", () => {
     const directorStops = worker.stops.filter((packet) =>
       packet.stop.modules.some((row) => row.moduleId === "p13-story-director"),
     );
-    // One stop, at the midnight after the closure, before 2021-01-11 runs.
+    // One stop, on the morning after the closure: the family scene is at
+    // home, which holds it from the person's day start, never at midnight.
     expect(directorStops).toHaveLength(1);
     expect(directorStops[0]!.at).toEqual({
       date: "2021-01-11",
-      minuteOfDay: P.zero,
+      minuteOfDay: parameter("playerDayStartMinute"),
     });
     expect(directorStops[0]!.stop.modules).toEqual([
       expect.objectContaining({
@@ -1015,7 +1221,7 @@ describe("story director on the new core", () => {
 
     // The spouse's 0.431 share of the same loss is under the line, but a
     // household member's lost job is a family scene at home whatever its
-    // size (owner, Oct 14, 2026, night): it stops the spouse's day too.
+    // size: it stops the spouse's day too.
     const spouse = play("person:spouse");
     expect(
       spouse.stops.filter((packet) =>
@@ -1121,9 +1327,17 @@ describe("story director on the new core", () => {
         row.kind === "stop" &&
         row.stop.modules.some((stop) => stop.moduleId === "p13-story-director"),
     );
-    // One stop, at the minute the closure was recorded, not the next midnight.
+    // One stop, at the minute the closure was recorded, not the next
+    // midnight; a minute before the household is up waits for its morning.
     expect(directorStops).toHaveLength(1);
-    expect(directorStops[0]!.at).toEqual(actEnd);
+    const heldAt = {
+      date: actEnd!.date,
+      minuteOfDay: Math.max(
+        actEnd!.minuteOfDay,
+        parameter("playerDayStartMinute"),
+      ),
+    };
+    expect(directorStops[0]!.at).toEqual(heldAt);
     const momentId = `person:worker:${day}:fixture-closed-midday:${day}`;
     expect(directorStops[0]!.stop.modules).toEqual([
       expect.objectContaining({ recordId: momentId, kind: "interrupt" }),
@@ -1143,7 +1357,7 @@ describe("story director on the new core", () => {
       worker.schedule.find((row) => row.momentId === momentId),
     ).toMatchObject({
       interrupt: true,
-      stop: { recordId: momentId, at: actEnd },
+      stop: { recordId: momentId, at: heldAt },
     });
   });
 

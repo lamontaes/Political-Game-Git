@@ -1,7 +1,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { validateCharacterComponentCandidates } from "../../src/presentation/character-components";
+import { validateCharacterComponentCandidates } from "../../src/appearance/character-components";
 import {
   runWaveAAdmission,
   WAVE_A_ADMISSION_VERSION,

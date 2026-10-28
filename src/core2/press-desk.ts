@@ -13,12 +13,15 @@
  * change it favors, and its readers are moved by their standing with the
  * reporter who wrote it.
  */
+import { OUTCOME_MONTH_KIND } from "./outcome-news";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { questionAxis } from "./campaign-views";
 import { closenessBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory, type Story } from "./modules/news";
+import { LEGISLATURE_MODULE_ID } from "./modules/legislature";
+import { OFFICES_MODULE_ID } from "./modules/offices";
 import { isPublicFigure } from "./past-public";
 import { reachedBy } from "./law-reach/host";
 import {
@@ -207,6 +210,21 @@ function readerCare(
   return out;
 }
 
+/**
+ * How far a law on an amount (a wage floor, a tax rate) moves what it sets,
+ * 0 to 1: the change against the amount it replaced. A policy law is read
+ * through its readers' stances instead; an amount law has none, so the size of
+ * its move is the care it asks of its readers. A new amount, or one that
+ * replaced nothing recorded, moves nothing it can be measured against.
+ */
+function amountMove(item: WireItem): number {
+  if (item.kind !== "law-took-effect" || isPolicyTopic(item.topic)) return 0;
+  const was = Number(item.facts?.priorValue);
+  const now = Number(item.facts?.inForceValue);
+  if (!(Math.abs(was) > 0) || !Number.isFinite(now)) return 0;
+  return clamp(Math.abs(now - was) / Math.abs(was), 0, 1);
+}
+
 /** The weight of a reporter's own causes and grudges on an item. */
 function driveTerm(api: CoreAPI, reporterId: string, item: WireItem): number {
   const person = api.state.people.get(reporterId);
@@ -375,7 +393,86 @@ export function printItem(
     receivedCounted: Math.round(ctx.countedFollowers(outlet) * share),
   };
   ctx.save(saved);
+  recordNamed(api, ctx, outlet, item, saved);
   return saved;
+}
+
+/** The record of who a printed story names (recordNamed). */
+export const PRESS_STORY_EVENT = "press-story";
+
+/**
+ * Who a printed story names, as a record the people it names read: the one
+ * person its record is about, and the sponsor of the bill it covers, each
+ * with whether the story runs for or against them. The story reaches its
+ * readers through the news engine; this record is how an officeholder's own
+ * office learns of it (a staffer brings it in). A story about one person runs
+ * against them when its slant does; a story about a bill runs against its
+ * sponsor when it argues for the opposite of the bill's own change.
+ */
+function recordNamed(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  item: WireItem,
+  story: PrintedStory,
+): void {
+  const full = (id: string | undefined): id is string =>
+    !!id && api.state.people.has(id);
+  const people = item.subjectIds.filter(full);
+  const subjectId = people.length === 1 ? people[0] : undefined;
+  const billId = item.facts?.billId;
+  const bill =
+    billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
+      ? (api.moduleState(LEGISLATURE_MODULE_ID).table("bills").get(billId) as
+          | {
+              readonly number?: string;
+              readonly sponsorId?: string;
+              readonly provisions?: readonly { readonly value?: number }[];
+            }
+          | undefined)
+      : undefined;
+  // A bill is talked of by its number; one never filed has none to name.
+  const sponsorId =
+    bill?.number && full(bill.sponsorId) ? bill.sponsorId : undefined;
+  if (!subjectId && !sponsorId) return;
+  const side = (sign: number) =>
+    sign < 0 ? "against" : sign > 0 ? "for" : "even";
+  // The bill's own change, as its first provision makes it (press-topics).
+  const billChange =
+    (bill?.provisions?.[0]?.value ?? 1) > 0 ? "enact" : "repeal";
+  api.emit({
+    id: `${PRESS_STORY_EVENT}:${story.id}`,
+    date: api.state.date,
+    kind: PRESS_STORY_EVENT,
+    personIds: [...new Set([subjectId, sponsorId].filter(full))],
+    placeId: ctx.townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Story ${story.id}, printed by ${outlet.organizationId}`,
+      asOf: api.state.date,
+    },
+    facts: {
+      storyId: story.id,
+      outletId: outlet.organizationId,
+      reporterId: story.reporterId,
+      wireId: item.id,
+      topic: item.topic,
+      ...(subjectId ? { subjectId, subjectFraming: side(story.slant) } : {}),
+      ...(billId && sponsorId
+        ? {
+            billId,
+            sponsorId,
+            billFraming: side(
+              story.slant === 0
+                ? 0
+                : story.desiredChange === billChange
+                  ? 1
+                  : -1,
+            ),
+          }
+        : {}),
+    },
+  });
 }
 
 /** The kind of the news story the press writes about a record from before day one. */
@@ -448,6 +545,53 @@ export function archiveItem(
   };
 }
 
+/** Whether a record is about a budget bill. */
+function isBudgetBill(api: CoreAPI, item: WireItem): boolean {
+  const billId = item.facts?.billId;
+  if (!billId || !api.state.modules.has(LEGISLATURE_MODULE_ID)) return false;
+  const bill = api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(billId) as unknown as { kind?: string } | undefined;
+  return bill?.kind === "budget";
+}
+
+/**
+ * Whether a named official serves in a federal or state office (a president, a
+ * governor): public figures by their office, though they are not full people.
+ */
+function holdsHighOffice(api: CoreAPI, id: string): boolean {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const term = offices
+    .table("terms")
+    .get(id.slice("official:".length)) as unknown as
+    { status?: string; officeId: string } | undefined;
+  if (term?.status !== "serving") return false;
+  const office = offices.table("offices").get(term.officeId) as unknown as
+    { level?: string } | undefined;
+  return office?.level === "federal" || office?.level === "state";
+}
+
+/** Whether the person serves a term in a local (not a state or federal) office. */
+function servesLocally(api: CoreAPI, personId: string): boolean {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  return (
+    offices.table("terms").query("byPerson", [personId]) as unknown as {
+      status?: string;
+      officeId: string;
+    }[]
+  ).some((term) => {
+    if (term.status !== "serving") return false;
+    const level = (
+      offices.table("offices").get(term.officeId) as unknown as
+        { level?: string } | undefined
+    )?.level;
+    return level !== undefined && level !== "federal" && level !== "state";
+  });
+}
+
 /**
  * One week at an outlet: each reporter, in turn, weighs the fresh items its
  * outlet has not printed and files their best, up to their week's count.
@@ -475,9 +619,41 @@ export function runDesk(
   // town) and the counted followers, who are read by the same rule as a
   // full follower.
   const involved = (item: WireItem): number => {
-    const lawId = item.facts?.lawId;
-    const key = item.facts?.series;
-    if (item.kind !== "law-took-effect" || !lawId || !key) return 0;
+    // A charge against, or an exposure of, someone serving in a local office
+    // is the town's business: it involves every follower, named or counted,
+    // as a law in force does, so it is not outranked by every law and town
+    // hall that week.
+    // stopgapId: SG-TRAITS-press-local-misconduct-reach
+    if (
+      (item.kind === "justice.charged" || item.kind === "press.exposed") &&
+      item.subjectIds.some((id) => servesLocally(api, id))
+    )
+      return followers.length + ctx.countedFollowers(outlet);
+    // A budget the executive signs or vetoes binds the whole town as much as
+    // a law in force: every follower, named or counted, is involved.
+    if (item.kind === "executive-action" && isBudgetBill(api, item))
+      return followers.length + ctx.countedFollowers(outlet);
+    // A month's move in the town's conditions reaches every follower in
+    // proportion to its size (the largest relative move among its facts).
+    if (item.kind === OUTCOME_MONTH_KIND)
+      return (
+        Math.min(1, Number(item.facts?.magnitude ?? 0)) *
+        (followers.length + ctx.countedFollowers(outlet))
+      );
+    // A budget line a measure changed binds what the line pays for, as a law
+    // in force does: the people its engines applied the change to (else every
+    // named follower) and the counted followers. The year's adoption is the
+    // budget bill's story, not one per line.
+    const lineChange =
+      item.kind === "budget-line-changed" &&
+      !item.id.endsWith(":adopted") &&
+      !!item.facts?.line;
+    const lawId = lineChange ? item.facts?.measureId : item.facts?.lawId;
+    const key = lineChange
+      ? `budget-line:${item.facts?.line}`
+      : item.facts?.series;
+    if ((item.kind !== "law-took-effect" && !lineChange) || !lawId || !key)
+      return 0;
     const reached = new Set(reachedBy(api, key, lawId).map((r) => r.personId));
     const named = reached.size
       ? followers.filter((id) => reached.has(id)).length
@@ -489,12 +665,14 @@ export function runDesk(
     proximity: p(
       (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
     ),
-    readerCare: care.get(item.topic) ?? 0,
+    readerCare: Math.max(care.get(item.topic) ?? 0, amountMove(item)),
     people: Math.log1p(
       Math.max(item.subjectIds.filter(inTown).length, involved(item)),
     ),
     renown: Math.log1p(
-      item.subjectIds.filter((id) => isPublicFigure(api, id)).length,
+      item.subjectIds.filter((id) => isPublicFigure(api, id)).length +
+        (item.officialIds ?? []).filter((id) => holdsHighOffice(api, id))
+          .length,
     ),
   }));
   const taken = new Set<string>();

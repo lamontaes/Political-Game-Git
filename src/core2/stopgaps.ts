@@ -16,6 +16,14 @@ export interface StopgapEntry {
 export const STOPGAPS = registry as readonly StopgapEntry[];
 const byId = new Map(STOPGAPS.map((row) => [row.id, row]));
 
+// The world being run: a marker called with no context (most module-level
+// calls) records its hit here. Set each time a world's api is taken, so it is
+// the world the current day belongs to; worlds are run one at a time.
+let running: Set<string> | undefined;
+export function recordStopgapsIn(hits: Set<string>): void {
+  running = hits;
+}
+
 /** Explicit marker. Developer diagnostics collect hits in their own world. */
 export function stopgap(
   id: string,
@@ -23,7 +31,7 @@ export function stopgap(
 ): StopgapEntry {
   const row = byId.get(id);
   if (!row) throw new Error(`Unregistered stopgap: ${id}`);
-  if (row.status === "open") context?.stopgapHits.add(id);
+  if (row.status === "open") (context?.stopgapHits ?? running)?.add(id);
   return row;
 }
 

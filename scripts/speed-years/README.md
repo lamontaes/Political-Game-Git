@@ -1,6 +1,6 @@
 # Measure a town year
 
-`npm run speed:year -- --seed <s> [--place <key>] [--years 1] [--max-seconds 300]` builds the bench's played world (`buildBenchWorld`, two-level, every module), turns the debug bookkeeping off as play does, advances it one year at a time with `advanceCore`, and prints the build seconds and each year's seconds. It exits 1 when a year runs over `--max-seconds`. The place is drawn from all 56 by the seed unless `--place` names a key. The game's own limit is 120 seconds a year; a change may make a year no more than 20% slower than its base.
+`npm run speed:year -- --seed <s> [--place <key>] [--years 1] [--max-seconds 300]` builds the bench's played world (`buildBenchWorld`, two-level, every module), turns the debug bookkeeping off as play does, advances it one year at a time with `advanceCore`, and prints the build seconds and each year's seconds. It exits 1 when a year runs over `--max-seconds`. The place is drawn from all 56 by the seed unless `--place` names a key. The game's own limit is 120 seconds a year; a change may make a year no more than 20% slower than its base. Node runs with the young-generation size (`--max-semi-space-size`) that `scripts/core2-guard/policies.json` (`nodeSemiSpaceMiB`) and the desktop play server use, so the year is measured the way play runs it; `compare.test.ts` fails when the two differ.
 
 Run one process at a time on a quiet machine, through the storage wrapper for heavy jobs:
 

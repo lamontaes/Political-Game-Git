@@ -57,7 +57,6 @@ async function preparePlayedWorld({ seed, placeKey, startDate }) {
       countyNames: input.placeMetadata?.countyNames,
       referencePopulation: input.placeMetadata?.referencePopulation,
     },
-    peers: undefined,
   };
 }
 export async function prepareWorld({ seed, placeKey, startDate }) {
@@ -85,22 +84,17 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
         countyNames: input.placeMetadata?.countyNames,
         referencePopulation: input.placeMetadata?.referencePopulation,
       },
-      peers: undefined,
     };
   }
   const [
     { buildPopulation },
-    { buildDeepPast },
     { enrichCivicInputs },
-    { buildOpeningPeerContacts },
     { initialFocusPeople },
     { parameter },
     { ageOnDate, makeIsoDate },
   ] = await Promise.all([
     moduleAt("src/core2/population.ts"),
-    moduleAt("src/core2/deep-past.ts"),
     moduleAt("src/core2/civic-inputs.ts"),
-    moduleAt("src/core2/opening-peer-network.ts"),
     moduleAt("src/core2/focus.ts"),
     moduleAt("src/core2/parameters.ts"),
     moduleAt("src/core2/kernel/dates.ts"),
@@ -122,22 +116,18 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
       scheduledWork: true,
     }),
   );
-  let input = timed("deepPast", () => buildDeepPast(population));
-  input = timed("civicInputs", () => enrichCivicInputs(input));
+  let input = timed("civicInputs", () => enrichCivicInputs(population));
   const candidates = input.people.filter(
     (person) =>
       person.countyId &&
       person.jobId &&
       ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(input.startedAt)) >=
-        parameter("benchmarkAdultMinimumAge"),
+        parameter("votingAge"),
   );
   if (!candidates.length)
     throw new Error("No eligible recorded adult worker in drawn place");
   const player = candidates.sort((a, b) => a.id.localeCompare(b.id))[0];
-  const peers = timed("openingPeers", () =>
-    buildOpeningPeerContacts(input, { personIds: [player.id] }),
-  );
-  input = { ...peers.input, playerId: player.id };
+  input = { ...input, playerId: player.id };
   input = {
     ...input,
     focusPersonIds: [...initialFocusPeople(input)].sort(),
@@ -153,12 +143,21 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
       countyNames: population.placeMetadata.countyNames,
       referencePopulation: population.placeMetadata.referencePopulation,
     },
-    peers,
   };
 }
-export async function runMonth({ seed, placeKey, output, startDate }) {
+export async function runMonth({
+  seed,
+  placeKey,
+  output,
+  startDate,
+  days = policies.measuredDays,
+}) {
   if (typeof output !== "string" || !output.trim() || output.startsWith("--"))
     throw new Error("Missing value for --output: supply a receipt path");
+  // The paired guard plays a shorter span for its warmups and for a town whose
+  // year does not fit the budget (policies.timeBudgetReason).
+  if (!Number.isInteger(days) || days < 1 || days > policies.measuredDays)
+    throw new Error(`Measured span must be 1 to ${policies.measuredDays} days`);
   const {
     input,
     phases,
@@ -190,12 +189,9 @@ export async function runMonth({ seed, placeKey, output, startDate }) {
       ? phases.modulesAndGovernment
       : performance.now() - initStarted;
   const advanceStarted = performance.now(),
-    receipt = advanceCore(
-      core,
-      addDays(makeIsoDate(core.date), policies.measuredDays),
-    ),
+    receipt = advanceCore(core, addDays(makeIsoDate(core.date), days)),
     advanceMilliseconds = performance.now() - advanceStarted;
-  if (receipt.simulatedDays !== policies.measuredDays)
+  if (receipt.simulatedDays !== days)
     throw new Error("Clock did not advance the complete measured span");
   const result = {
     schema: "core2-month-v1",
@@ -218,7 +214,7 @@ export async function runMonth({ seed, placeKey, output, startDate }) {
     settings: {
       openingEmployment: true,
       scheduledWork: true,
-      measuredDays: policies.measuredDays,
+      measuredDays: days,
       twoLevel: true,
       playedWorld: Boolean(playedWorld),
     },
@@ -267,6 +263,7 @@ if (
         ...(args.includes("--start-date")
           ? { startDate: value("--start-date") }
           : {}),
+        ...(args.includes("--days") ? { days: Number(value("--days")) } : {}),
       }),
     )
     .then((result) => console.log(JSON.stringify(result)))

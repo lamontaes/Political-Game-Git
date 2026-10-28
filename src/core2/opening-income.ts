@@ -1,13 +1,19 @@
-import { retirementClaimAgeMonths } from "./retirement-claim";
+import { worldLevel } from "./world-draw";
+import { claimWaitCase, retirementClaimAgeMonths } from "./retirement-claim";
 import { startingSocialSecurityAges } from "./social-security-law";
 import dataJson from "./data/opening-income.json" with { type: "json" };
-import { daysBetween, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import {
+  daysBetween,
+  isoDateFromParts,
+  makeIsoDate,
+  daysBetweenText,
+} from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { DEFAULT_DATA } from "./data";
-import { decisionLean } from "./trait-decisions";
+import { leanedTerm } from "./trait-decisions";
 import { stopgap } from "./stopgaps";
 import { recordedTraitSource } from "./trait-source";
 import type { FinanceContractInput, FinanceInput } from "./finance-types";
@@ -613,28 +619,31 @@ export function buildOpeningRetirementIncome(
       const trait = traitValue ?? zero;
       // Claiming is their own decision inside the law: savings and patience.
       const dailyCost = person.livingCostDailyMinor;
+      const claimWeights = {
+        anchorYearsBeforeFull: values.claimAnchorYearsBeforeFull!,
+        traitPullYears: values.claimTraitPullYears!,
+        needPullYears: values.claimNeedPullYears!,
+        fullBufferMonths: values.claimFullBufferMonths!,
+      };
+      const bufferMonths =
+        dailyCost > zero
+          ? person.liquidMinor / ((dailyCost * p("daysPerMeanYear")) / months)
+          : values.claimFullBufferMonths!;
       const claimMonths = retirementClaimAgeMonths(
         {
           ages: startingSocialSecurityAges(person.birthDate),
-          bufferMonths:
-            dailyCost > zero
-              ? person.liquidMinor /
-                ((dailyCost * p("daysPerMeanYear")) / months)
-              : values.claimFullBufferMonths!,
-          patience: decisionLean(
+          bufferMonths,
+          // Waiting past the full retirement age is a score: the case for it plus every trait's lean at the decision's calibrated weight.
+          patience: leanedTerm(
             traitData,
             person,
             "retirement.claim-age",
             "wait-to-claim",
             "claim-now",
+            claimWaitCase(bufferMonths, claimWeights),
           ),
         },
-        {
-          anchorYearsBeforeFull: values.claimAnchorYearsBeforeFull!,
-          traitPullYears: values.claimTraitPullYears!,
-          needPullYears: values.claimNeedPullYears!,
-          fullBufferMonths: values.claimFullBufferMonths!,
-        },
+        claimWeights,
       );
       const claimAt =
         claim?.date ?? calendarAfterMonths(person.birthDate, claimMonths);
@@ -666,8 +675,7 @@ export function buildOpeningRetirementIncome(
           ),
         );
         const coveredMonths = Math.floor(
-          (daysBetween(makeIsoDate(startAt), makeIsoDate(claimAt)) /
-            p("daysPerMeanYear")) *
+          (daysBetweenText(startAt, claimAt) / p("daysPerMeanYear")) *
             months *
             fraction,
         );
@@ -751,7 +759,10 @@ export function buildOpeningRetirementIncome(
       ),
     );
     const monthlyMinor = minor(
-      Math.floor(values.benefitMonthlyMinor! * factor),
+      Math.floor(
+        worldBenefitMonthlyMinor(values.benefitMonthlyMinor!, input.seed) *
+          factor,
+      ),
       "generated monthly award",
     );
     const awardFact: PastFact = {
@@ -1033,4 +1044,24 @@ export function buildOpeningRetirementIncome(
       gaps: data.gaps,
     },
   };
+}
+
+/**
+ * The average monthly Social Security benefit this world's participants draw:
+ * the published participant average, scaled by one benefit level drawn per
+ * world from its seed (realistic, not real; owner, Oct 27). The formula and
+ * the cost-of-living adjustment are law and are not touched.
+ */
+export function worldBenefitMonthlyMinor(
+  publishedMinor: number,
+  seed: string,
+): number {
+  return Math.round(
+    worldLevel(
+      publishedMinor,
+      seed,
+      "world-benefit-level",
+      "worldBenefitSpreadShare",
+    ),
+  );
 }

@@ -15,19 +15,27 @@ import spendingData from "./data/budgets/treasury-spending.json" with { type: "j
 import payeeData from "./data/budgets/spending-payees.json" with { type: "json" };
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
+import budgetBases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
 import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
 import type { CoreAPI, CoreState, OrganizationInput, Source } from "./types";
+import { townOutsideOf } from "./opening-outside-market";
 import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
   baseBudget,
+  budgetWorldFactor,
+  budgetWorldShares,
   budgetsOf,
+  carriedMeasureOf,
+  enactedBudgetChanges,
   governments,
   type BudgetRow,
   type GovernmentRow,
 } from "./modules/budgets";
-import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
+import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
+import { LAWS_MODULE_ID, lawChain, webReach } from "./modules/laws";
 import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
+import { countedJobHeads, countedJobsOf } from "./residents-economy";
 import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
 import { newsKey, storiesHeard, type Story } from "./modules/news";
@@ -35,7 +43,11 @@ import { newsKey, storiesHeard, type Story } from "./modules/news";
 type Tagged = { value: number; tag: string; source: string; spread?: number[] };
 const DATA = spendingData as unknown as {
   parameters: Record<string, Tagged>;
-  postLines: { lines: Record<string, string>; federal: string };
+  postLines: {
+    lines: Record<string, string>;
+    byEmployerClass: Record<string, string>;
+    federal: string;
+  };
   aid: {
     flows: { payer: string; payee: string; revenueLine: string }[];
     fromLines: Record<string, string[]>;
@@ -95,10 +107,30 @@ function splitBy(total: number, weights: readonly number[]): number[] {
   return parts;
 }
 
+/** This world's share of the federal debt each holder holds and lends, drawn around the published shares. */
+function holderShares(api: CoreAPI): number[] {
+  const shares = budgetWorldShares(
+    api,
+    "budget-world:federal-debt-holders",
+    Object.fromEntries(DEBT.holders.map((h) => [h.id, h.share])),
+  );
+  return DEBT.holders.map((h) => shares[h.id]!);
+}
+
+/** This world's mix of who a spending line pays outside the town, drawn around the published mix. */
+function payeeShares(api: CoreAPI, line: string): Record<string, number> {
+  const known = PAYEES.lines[line] ? line : PAYEES.fallbackLine;
+  return budgetWorldShares(
+    api,
+    `budget-world:payees:${known}`,
+    PAYEES.lines[known]!,
+  );
+}
+
 /**
- * The federal debt by holder. The first read opens each balance at the
- * Treasury's debt held by the public (Debt to the Penny) split by the
- * holders' shares.
+ * The federal debt by holder. The first read opens the balance at this
+ * world's debt held by the public (the Treasury's Debt to the Penny moved by
+ * the world's factor) split by this world's holder shares.
  */
 export function federalDebtOf(api: CoreAPI): DebtRow[] {
   const rows = table(api, "federalDebt");
@@ -107,8 +139,16 @@ export function federalDebtOf(api: CoreAPI): DebtRow[] {
       (federalBudget as unknown as { debtHeldByPublic: Record<string, number> })
         .debtHeldByPublic[DEBT.balanceAsOf] ?? 0;
     const opening = splitBy(
-      Math.round(held * 100),
-      DEBT.holders.map((h) => h.share),
+      Math.round(
+        held *
+          100 *
+          budgetWorldFactor(
+            api,
+            "budget-world:federal-debt",
+            "budgetWorldDebtSpreadShare",
+          ),
+      ),
+      holderShares(api),
     );
     DEBT.holders.forEach((h, i) =>
       rows.put({
@@ -131,6 +171,8 @@ const PAYERS = payerData as unknown as {
       payer: { id: string; name: string };
       dueMonths: number[];
       dueDay: number;
+      /** The transfer's kind for a line that is not a tax; a tax is `treasury-tax`. */
+      transfer?: string;
     }
   >;
 };
@@ -139,6 +181,69 @@ export function treasuryParameter(key: string): number {
   const row = DATA.parameters[key];
   if (!row) throw new Error(`Unknown treasury parameter: ${key}`);
   return row.value;
+}
+
+/** The line a state or local government pays its bondholders from (Census function 89, interest on general debt). */
+const INTEREST_LINE = "interest";
+/** What a state pays to borrow, in basis points over a AAA-rated state (the outcome web's measure its fiscal laws move). */
+const BORROWING_COST = "gov.borrowing-cost";
+
+/**
+ * A state's rate on its debt: its interest on general debt over its debt
+ * outstanding, both from the Census Bureau's state finances
+ * (public-budget-bases.json). A place the survey leaves out (a territory, or
+ * D.C., which reports no state debt) takes the median of the states that
+ * report both, as an estimate.
+ */
+const STATE_DEBT_RATES: ReadonlyMap<string, number> = (() => {
+  const places = (
+    budgetBases as unknown as {
+      places: Record<
+        string,
+        { state?: { debt?: number; spending?: { interest?: number } } }
+      >;
+    }
+  ).places;
+  const rates = new Map<string, number>();
+  for (const [key, place] of Object.entries(places)) {
+    const debt = place.state?.debt ?? 0;
+    const interest = place.state?.spending?.interest ?? 0;
+    if (debt > 0 && interest > 0) rates.set(key, interest / debt);
+  }
+  return rates;
+})();
+/** A state's rate on its debt, or the states' median where the survey has none (an estimate). */
+export function stateDebtRate(stateKey: string): number {
+  return STATE_DEBT_RATES.get(stateKey) ?? MEDIAN_STATE_DEBT_RATE;
+}
+const MEDIAN_STATE_DEBT_RATE = (() => {
+  const sorted = [...STATE_DEBT_RATES.values()].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2
+    ? sorted[mid]!
+    : (sorted[mid - 1]! + sorted[mid]!) / 2;
+})();
+
+/**
+ * The share of its planned interest a state owes this month: the outcome
+ * web's change in what the state pays to borrow (basis points its fiscal
+ * laws added or took off, gov.borrowing-cost) over the state's own rate on
+ * its debt, so a law that lowers the spread lowers every interest payment.
+ * One where the web moved nothing.
+ */
+function interestFactor(api: CoreAPI): number {
+  const chain = lawChain(api);
+  const added = webReach(api, chain.townPlaceId, BORROWING_COST).added;
+  if (!added) return 1;
+  // stopgapId: SG-EFFECT-WEB-prices-gov-borrowing: the change reprices the
+  // whole interest line at once, not only the bonds issued after it, and only
+  // the state's; no record keeps a government's bonds by issue date.
+  api.stopgap("SG-EFFECT-WEB-prices-gov-borrowing");
+  const rate = stateDebtRate(chain.stateKey);
+  return Math.max(
+    0,
+    1 + added / treasuryParameter("basisPointsPerUnit") / rate,
+  );
 }
 
 const LEVEL_ORDER = { federal: 0, state: 1, county: 2, city: 3 } as const;
@@ -150,19 +255,6 @@ const TOWN_PAID_LINES = new Set([
   "generalSalesTax",
   "propertyTax",
 ]);
-
-/** The revenue line of charges for services and fees. */
-const FEES_LINE = "chargesAndFees";
-
-/** The part of this government's charges the town's modeled households pay (0 if none). */
-function feesPaidInTown(api: CoreAPI, governmentId: string): number {
-  const row = api
-    .moduleState(BUDGETS_MODULE_ID)
-    .table("serviceCharges")
-    .get(governmentId) as unknown as
-    { share: number; modeledShare: number } | undefined;
-  return row && row.share > 0 ? row.modeledShare : 0;
-}
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(BUDGETS_MODULE_ID).table(name);
@@ -193,20 +285,34 @@ export function townShareOf(api: CoreAPI, gov: GovernmentRow): number {
   return residents > 0 ? Math.min(1, townResidents(api) / residents) : 0;
 }
 
-/** The outside account public money comes from and goes to: the town's, else any. */
+/**
+ * The outside account public money comes from and goes to: the town's
+ * outside market (buyers and sellers outside the town), else any other
+ * outside account in the town, else any. A public employer's own outside
+ * account is its pay authority's (opening-public-pay.ts) and carries only that
+ * employer's government's wages, so a treasury's national-scale flows never
+ * run through it.
+ */
 export function outsideAccountOf(api: CoreAPI): string | undefined {
   const town = lawChain(api).townPlaceId;
-  return [...api.state.organizations.values()]
-    .filter((o) => o.outsideFlow !== undefined)
-    .sort(
-      (a, b) =>
-        Number(b.placeId === town) - Number(a.placeId === town) ||
-        a.id.localeCompare(b.id),
-    )[0]?.id;
+  const orgs = [...api.state.organizations.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  );
+  return (
+    townOutsideOf(orgs, town) ?? orgs.find((o) => o.outsideFlow !== undefined)
+  )?.id;
 }
 
-/** The line a public post's pay draws on: the longest matching prefix. */
-export function lineForPost(level: string, jobId: string): string {
+/**
+ * The line a public post's pay draws on: the longest matching prefix; a job
+ * whose id names no post (an opening employer's staff) draws on its
+ * employer's line by the employer's class, else general administration.
+ */
+export function lineForPost(
+  level: string,
+  jobId: string,
+  employerClass?: string,
+): string {
   if (level === "federal") return DATA.postLines.federal;
   const post = jobId.startsWith("job:public:")
     ? jobId.slice("job:public:".length)
@@ -216,6 +322,10 @@ export function lineForPost(level: string, jobId: string): string {
   let best = "";
   for (const prefix of Object.keys(DATA.postLines.lines))
     if (post.startsWith(prefix) && prefix.length > best.length) best = prefix;
+  if (!best && employerClass) {
+    const byClass = DATA.postLines.byEmployerClass[employerClass];
+    if (byClass) return byClass;
+  }
   return DATA.postLines.lines[best] ?? DATA.postLines.lines["town:"]!;
 }
 
@@ -224,6 +334,114 @@ type LinePayer = (api: CoreAPI, gov: GovernmentRow) => Record<string, number>;
 const linePayers: LinePayer[] = [];
 export function registerLinePayments(payer: LinePayer): void {
   if (!linePayers.includes(payer)) linePayers.push(payer);
+}
+
+/** A line raised in the budget in force by a law's own amount (a share of the line), as the law-reach engine that raised it records it. */
+export interface LineAddition {
+  readonly line: string;
+  /** The law's policy key. */
+  readonly key: string;
+  /** The law row that raised the line. */
+  readonly lawId: string;
+  /** What the law added to the line this fiscal year, in minor units. */
+  readonly annualMinor: number;
+  /** What the treasury's payment is recorded as (ends in "-paid"). */
+  readonly what: string;
+}
+const lineAdders: {
+  keys: readonly string[];
+  additions: (api: CoreAPI, gov: GovernmentRow) => readonly LineAddition[];
+}[] = [];
+/** Law reach says which laws raise a line by their own amount, so the treasury can record whom their share of the line pays. */
+export function registerLineAdditions(
+  adder: (typeof lineAdders)[number],
+): void {
+  if (!lineAdders.some((a) => a.additions === adder.additions))
+    lineAdders.push(adder);
+}
+
+/** The recorded payment of a bill's carried change to a line. */
+const BILL_LINE_PAID = "budget-line-paid";
+
+/** The laws that raised a line: the bills' carried change, and each law reach registered as adding its own share. */
+function lawsOnLine(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  line: string,
+): LineAddition[] {
+  const out = lineAdders
+    .flatMap((a) => a.additions(api, gov))
+    .filter((a) => a.line === line);
+  const carried = enactedBudgetChanges(api, gov.id)[line] ?? 0;
+  const by = carried > 0 ? carriedMeasureOf(api, gov.id, line) : null;
+  if (by)
+    out.push({
+      line,
+      key: `budget-line:${line}`,
+      lawId: by,
+      annualMinor: carried,
+      what: BILL_LINE_PAID,
+    });
+  return out;
+}
+
+/** A law that raised a line, with the share of the line it added. */
+type RaisedBy = LineAddition & { readonly share: number };
+
+/**
+ * The laws that raised a line, each with its share of it. Money is one pool
+ * within a line, so a law's share of every payment the line makes is its
+ * annual addition over the line.
+ */
+function raisedBy(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  line: string,
+  lineAnnualMinor: number,
+): RaisedBy[] {
+  if (lineAnnualMinor <= 0) return [];
+  // One payment per law row: a row that raised the line twice is paid once.
+  const byRow = new Map<string, LineAddition>();
+  for (const l of lawsOnLine(api, gov, line)) {
+    const held = byRow.get(l.lawId);
+    byRow.set(
+      l.lawId,
+      held ? { ...held, annualMinor: held.annualMinor + l.annualMinor } : l,
+    );
+  }
+  const laws = [...byRow.values()].map((l) => ({
+    ...l,
+    share: l.annualMinor / lineAnnualMinor,
+  }));
+  const total = laws.reduce((n, l) => n + l.share, 0);
+  return total > 1 ? laws.map((l) => ({ ...l, share: l.share / total })) : laws;
+}
+
+/** A row the treasury recorded for a law that no longer raises the line it paid ends. */
+function endLineLaws(
+  api: CoreAPI,
+  keys: ReadonlySet<string>,
+  touched: ReadonlySet<string>,
+): void {
+  for (const key of keys)
+    for (const row of appliedOn(api, key))
+      if (
+        row.engine === BUDGETS_MODULE_ID &&
+        row.what.endsWith("-paid") &&
+        !touched.has(row.id)
+      )
+        lawNoLongerApplies(api, key, row.targetId);
+}
+
+/**
+ * The fiscal rules a treasury reads as it budgets (a balanced budget, pension
+ * funding, a minimum reserve): each month's close reads the rules in force and
+ * applies them to the budget it then pays from, before any line is paid.
+ */
+type TreasuryRule = (api: CoreAPI) => void;
+const treasuryRules: TreasuryRule[] = [];
+export function registerTreasuryRule(rule: TreasuryRule): void {
+  if (!treasuryRules.includes(rule)) treasuryRules.push(rule);
 }
 
 /**
@@ -271,16 +489,106 @@ export function notePublicPay(
         )),
   );
   if (!gov) return;
-  const line = lineForPost(gov.level, input.jobId);
-  const since = (table(api, "sinceClose").get(gov.id) as unknown as
-    { lines: Record<string, number> } | undefined) ?? { lines: {} };
+  const line = lineForPost(gov.level, input.jobId, employer?.classification);
+  const since = sinceCloseOf(api, gov.id);
   table(api, "sinceClose").put({
+    ...since,
     id: gov.id,
     lines: {
       ...since.lines,
       [line]: (since.lines[line] ?? 0) + input.paidMinor,
     },
   } as unknown as ModuleRow);
+}
+
+/**
+ * A government pays a program's running cost out of one of its budget lines
+ * to the suppliers outside the town (ballot printers, the postal service,
+ * the motor vehicle office): the money leaves the treasury's account for the
+ * outside account, is kept as a payment by line, and counts against the line
+ * so the month's close does not pay it a second time. Returns what was paid
+ * (less than asked where the treasury holds less).
+ */
+export function chargeLine(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  input: {
+    readonly id: string;
+    readonly line: string;
+    readonly amountMinor: number;
+    readonly reasonKey: string;
+    readonly source: Source;
+  },
+): number {
+  const amountMinor = Math.floor(input.amountMinor);
+  const outside = outsideAccountOf(api);
+  if (amountMinor <= 0 || !outside) return 0;
+  const accounts = api.accounts();
+  const receipt = accounts.transfer({
+    id: input.id,
+    from: accounts.main(gov.organizationId),
+    to: accounts.main(outside),
+    amountMinor,
+    reasonKey: input.reasonKey,
+    source: input.source,
+    partial: true,
+  });
+  const paid = receipt.paidMinor;
+  if (paid <= 0) return 0;
+  const payee = PAYEES.payees["contractors"]!;
+  table(api, "spendingPayments").put({
+    id: input.id,
+    governmentId: gov.id,
+    line: input.line,
+    payeeId: "contractors",
+    payeeName: payee.name,
+    kind: payee.kind,
+    date: api.state.date,
+    amountMinor: paid,
+  } as unknown as ModuleRow);
+  const since = sinceCloseOf(api, gov.id);
+  table(api, "sinceClose").put({
+    id: gov.id,
+    lines: {
+      ...since.lines,
+      [input.line]: (since.lines[input.line] ?? 0) + paid,
+    },
+    charged: {
+      ...since.charged,
+      [input.line]: (since.charged?.[input.line] ?? 0) + paid,
+    },
+  } as unknown as ModuleRow);
+  return paid;
+}
+
+/** What a treasury has paid suppliers outside the town on its lines since its last close (`chargeLine`), not yet in a month's record. */
+export function chargedSinceClose(api: CoreAPI, governmentId: string): number {
+  return Object.values(sinceCloseOf(api, governmentId).charged ?? {}).reduce(
+    (a, b) => a + b,
+    0,
+  );
+}
+
+/**
+ * What a treasury paid on its lines since its last close: the in-town wages
+ * it paid (`notePublicPay`) and, within that, what it paid suppliers outside
+ * the town (`chargeLine`, `charged`). Both count against the line at the close.
+ */
+function sinceCloseOf(
+  api: CoreAPI,
+  governmentId: string,
+): {
+  readonly lines: Record<string, number>;
+  readonly charged?: Record<string, number>;
+} {
+  return (
+    (table(api, "sinceClose").get(governmentId) as unknown as
+      | {
+          lines: Record<string, number>;
+          charged?: Record<string, number>;
+        }
+      | undefined) ?? { lines: {} }
+  );
 }
 
 /** What a treasury keeps back at a close: wages for the coming month of the employees it pays, and what it still owes them. */
@@ -302,13 +610,34 @@ export function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
     )
       funded.add(employer.id);
   }
-  for (const employerId of funded)
+  for (const employerId of funded) {
     for (const jobId of core.finance.jobsByOrganization.get(employerId) ?? []) {
       const job = core.jobs.get(jobId);
       if (!job) continue;
       reserve += core.work.totalsByJob.get(jobId)?.arrearsMinor ?? 0;
       if (job.endsAt === undefined) reserve += job.wageDailyMinor * monthDays;
     }
+    // Its counted workers, whose wages this treasury pays too, each job for
+    // the jobs its employer's staffing set it to stand for.
+    for (const job of countedJobsOf(core, employerId))
+      reserve += job.wageDailyMinor * monthDays * countedJobHeads(core, job);
+  }
+  return Math.round(reserve);
+}
+
+/** A month of the open standing payments out of a treasury's account, from their cadences. */
+export function standingReserve(api: CoreAPI, accountId: string): number {
+  const monthDays =
+    treasuryParameter("daysPerYear") / treasuryParameter("monthsPerYear");
+  let reserve = 0;
+  for (const row of api.accounts().obligationsFrom(accountId)) {
+    const cadence = row.cadence;
+    if (!cadence) continue;
+    reserve +=
+      cadence.kind === "months"
+        ? row.amountMinor / cadence.every
+        : (row.amountMinor * monthDays) / cadence.every;
+  }
   return Math.round(reserve);
 }
 
@@ -353,20 +682,20 @@ export function publicPayRoom(
   if (!gov) return 0;
   const budget = budgetInForce(api, gov.id);
   if (!budget) return 0;
-  const line = lineForPost(gov.level, post);
   const core = api.state as CoreState;
+  const employerClass = core.organizations.get(employerId)?.classification;
+  const line = lineForPost(gov.level, post, employerClass);
   let committed = 0;
   for (const job of core.jobs.values())
     if (
       job.organizationId === employerId &&
       job.endsAt === undefined &&
-      lineForPost(gov.level, job.id) === line
+      lineForPost(gov.level, job.id, employerClass) === line
     )
       committed += job.wageDailyMinor * treasuryParameter("daysPerYear");
   // Only the part of a line that is wages can pay a post: the rest buys
   // goods and services, makes benefit payments or pays interest.
-  const wages = (PAYEES.lines[line] ?? PAYEES.lines[PAYEES.fallbackLine]!)
-    .workers;
+  const wages = payeeShares(api, line).workers;
   return Math.round(
     (budget.spendingMinor[line] ?? 0) * (wages ?? 0) - committed,
   );
@@ -396,6 +725,8 @@ export function postPayCapDaily(
 export interface TreasuryLine {
   readonly dueMinor: number;
   readonly inTownMinor: number;
+  /** Of what was paid on the line since the last close, what went to suppliers outside the town (`chargeLine`): counted in inTownMinor. */
+  readonly chargedMinor?: number;
   readonly aidMinor: number;
   readonly providersMinor: number;
   readonly outsideMinor: number;
@@ -515,28 +846,21 @@ function publicPayShortfallOf(api: CoreAPI, gov: GovernmentRow): number {
 /**
  * What a treasury receives from outside the town's flows in a month: each
  * revenue line, less the part the town's own flows pay (withholding, sales
- * tax, property tax) and the town's modeled households pay (charges and fees).
- * `townPaysFees` false gives the figure before the households paid any fees.
+ * tax, property tax). A line with named payers (charges and fees among them)
+ * is paid by them, not here.
  */
 export function outsideRevenueMonthly(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   aided: ReadonlySet<string>,
-  townPaysFees = true,
 ): number {
   const away = 1 - townShareOf(api, gov);
   let annual = 0;
   for (const [line, amount] of Object.entries(budget.revenueMinor)) {
     if (aided.has(`${gov.level}|${line}`)) continue;
-    // A tax with named payers is paid by them on its due dates, below.
+    // A line with named payers is paid by them on its due dates, below.
     if (PAYERS.lines[line]) continue;
-    // The town's modeled households pay their part of a government's
-    // charges and fees out of their living costs (budgets-service-charges.ts).
-    if (line === FEES_LINE) {
-      annual += amount * (townPaysFees ? 1 - feesPaidInTown(api, gov.id) : 1);
-      continue;
-    }
     annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
   }
   return Math.round(annual / treasuryParameter("monthsPerYear"));
@@ -555,10 +879,93 @@ export function aidedLines(
   );
 }
 
+/**
+ * What an account's standing payments ask of it from today to the next
+ * monthly close: each obligation due by then, with what it already owes.
+ */
+function standingDue(api: CoreAPI, account: string, date: string): number {
+  const next = new Date(
+    Date.UTC(
+      Number(date.slice(0, 4)),
+      Number(date.slice(5, 7)),
+      Number(date.slice(8, 10)),
+    ),
+  )
+    .toISOString()
+    .slice(0, 10);
+  return api
+    .accounts()
+    .obligationsFrom(account)
+    .filter((row) => row.nextDueAt !== undefined && row.nextDueAt <= next)
+    .reduce(
+      (sum, row) =>
+        sum + row.amountMinor + (row.accruesArrears ? row.arrearsMinor : 0),
+      0,
+    );
+}
+
+/**
+ * The U.S. Treasury borrows an amount from the groups that hold its debt, in
+ * their shares, into its account; returns what each group lent.
+ */
+function borrowFederal(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  outside: string,
+  amountMinor: number,
+): Record<string, number> {
+  const accounts = api.accounts();
+  const date = api.state.date;
+  const lent: Record<string, number> = {};
+  const holders = federalDebtOf(api);
+  const wanted = splitBy(amountMinor, holderShares(api));
+  holders.forEach((holder, i) => {
+    if (wanted[i]! <= 0) return;
+    const paid = accounts.transfer({
+      // What the holder has lent so far keeps each borrowing's id its own.
+      id: `federal-borrowing:${holder.id}:${gov.id}:${date}:${holder.borrowedMinor}`,
+      from: accounts.main(outside),
+      to: accounts.main(gov.organizationId),
+      amountMinor: wanted[i]!,
+      reasonKey: "federal-borrowing",
+      source: {
+        tag: "SOURCED",
+        citation:
+          "U.S. Treasury, Monthly Treasury Statement fiscal 2025: outlays beyond receipts are financed by borrowing from the public; the holders and their shares are src/core2/data/budgets/federal-debt.json",
+        asOf: date,
+      },
+    }).paidMinor;
+    lent[holder.id] = paid;
+    table(api, "federalDebt").put({
+      ...holder,
+      balanceMinor: holder.balanceMinor + paid,
+      borrowedMinor: holder.borrowedMinor + paid,
+    } as unknown as ModuleRow);
+  });
+  return lent;
+}
+
+/**
+ * A standing federal payment added between closes (a covered adult's care
+ * from tomorrow) is paid from what the U.S. Treasury holds; it borrows any
+ * day what its account lacks for the payments due before the next close, as
+ * it does at each close. A town's other treasuries pay what they hold.
+ */
+export function fundFederalStanding(api: CoreAPI): void {
+  const outside = outsideAccountOf(api);
+  const gov = governments(api).find((g) => g.level === "federal");
+  if (!outside || !gov) return;
+  const main = api.accounts().main(gov.organizationId);
+  const short =
+    standingDue(api, main, api.state.date) - api.accounts().balance(main);
+  if (short > 0) borrowFederal(api, gov, outside, short);
+}
+
 /** The month's close for every treasury: revenue in, then each budget line out, top down. */
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
   if (!outside) return;
+  for (const rule of treasuryRules) rule(api);
   const accounts = api.accounts();
   const date = api.state.date;
   const months = treasuryParameter("monthsPerYear");
@@ -621,11 +1028,11 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         minor: townPaid - credited,
       } as unknown as ModuleRow);
       const receipt = accounts.transfer({
-        id: `treasury-tax:${line}:${rule.payer.id}:${gov.id}:${date}`,
+        id: `${rule.transfer ?? "treasury-tax"}:${line}:${rule.payer.id}:${gov.id}:${date}`,
         from: accounts.main(outside),
         to: accounts.main(gov.organizationId),
         amountMinor: installment - credited,
-        reasonKey: "treasury-tax",
+        reasonKey: rule.transfer ?? "treasury-tax",
         source,
       });
       table(api, "taxPayments").put({
@@ -644,6 +1051,10 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
   }
   const providers = providersIndex(api);
   const aidReceived = new Map<string, number>();
+  // The rows the laws that raised a line were recorded on this close, and the
+  // keys they could have been recorded under.
+  const lineLawRows = new Set<string>();
+  const lineLawKeys = new Set(lineAdders.flatMap((a) => a.keys));
   const total = (lines: Readonly<Record<string, number>>) =>
     Object.values(lines).reduce((a, b) => a + b, 0);
   for (const gov of govs) {
@@ -692,11 +1103,9 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       } satisfies TreasuryMonthRow as unknown as ModuleRow);
       continue;
     }
-    const since =
-      (
-        table(api, "sinceClose").get(gov.id) as unknown as
-          { lines: Record<string, number> } | undefined
-      )?.lines ?? {};
+    const sinceClose = sinceCloseOf(api, gov.id);
+    const since = sinceClose.lines;
+    const chargedSince = sinceClose.charged ?? {};
     table(api, "sinceClose").put({ id: gov.id, lines: {} } as ModuleRow);
     const inTown: Record<string, number> = { ...since };
     for (const payer of linePayers)
@@ -709,8 +1118,12 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
           { lines: Record<string, number> } | undefined
       )?.lines ?? {};
     const due: Record<string, number> = {};
+    // A state's interest this month is its twelfth at what it now pays to borrow.
+    const interest = gov.level === "state" ? interestFactor(api) : 1;
     for (const [line, amount] of Object.entries(budget.spendingMinor))
-      due[line] = Math.round(amount / months);
+      due[line] = Math.round(
+        (amount / months) * (line === INTEREST_LINE ? interest : 1),
+      );
     for (const [line, minor] of Object.entries(owed))
       due[line] = (due[line] ?? 0) + minor;
     // Aid to each lower treasury, charged to the lines that carry it.
@@ -777,43 +1190,27 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     // The next month's wages, and any earned and unpaid, are kept back from
     // the lines so the payroll is paid first (a treasury that spent it all at
     // each close left its own employees unpaid).
+    // The federal treasury keeps back a month of the standing payments laws
+    // set up from its account (a Medicaid share, a benefit): they fall due on
+    // their own dates between closes, and its daily receipts alone do not
+    // cover them in a small town, so the month's borrowing leaves them funded.
     let have =
       accounts.balance(main) -
-      (gov.level === "federal" ? 0 : payrollReserve(api, gov));
+      (gov.level === "federal"
+        ? standingReserve(api, main)
+        : payrollReserve(api, gov));
     let borrowed = 0;
     const borrowedByHolder: Record<string, number> = {};
     const interestByHolder: Record<string, number> = {};
     if (gov.level === "federal" && have < need) {
       // The U.S. Treasury borrows what the month's payments need beyond what
-      // it holds, issued to the groups that hold its debt in their shares.
-      const holders = federalDebtOf(api);
-      const wanted = splitBy(
-        need - Math.max(0, have),
-        DEBT.holders.map((h) => h.share),
+      // it holds (past the month of standing payments it keeps back), issued
+      // to the groups that hold its debt in their shares.
+      Object.assign(
+        borrowedByHolder,
+        borrowFederal(api, gov, outside, need - have),
       );
-      holders.forEach((holder, i) => {
-        if (wanted[i]! <= 0) return;
-        const paid = accounts.transfer({
-          id: `federal-borrowing:${holder.id}:${gov.id}:${date}`,
-          from: accounts.main(outside),
-          to: main,
-          amountMinor: wanted[i]!,
-          reasonKey: "federal-borrowing",
-          source: {
-            tag: "SOURCED",
-            citation:
-              "U.S. Treasury, Monthly Treasury Statement fiscal 2025: outlays beyond receipts are financed by borrowing from the public; the holders and their shares are src/core2/data/budgets/federal-debt.json",
-            asOf: date,
-          },
-        }).paidMinor;
-        borrowedByHolder[holder.id] = paid;
-        borrowed += paid;
-        table(api, "federalDebt").put({
-          ...holder,
-          balanceMinor: holder.balanceMinor + paid,
-          borrowedMinor: holder.borrowedMinor + paid,
-        } as unknown as ModuleRow);
-      });
+      borrowed = Object.values(borrowedByHolder).reduce((n, v) => n + v, 0);
       have += borrowed;
     }
     const scale = need > 0 ? Math.min(1, Math.max(0, have) / need) : 1;
@@ -838,6 +1235,48 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       if (receipt.paidMinor > 0) paymentIds.push(id);
       return receipt.paidMinor;
     };
+    /**
+     * One payment to a payee, with each law that raised the line paying its
+     * share under its own payment id (which names the law row) and recording
+     * whom it reached: the firm that won the line's work, and the town's
+     * outside market, where the payee groups elsewhere are paid.
+     */
+    const payOut = (
+      id: string,
+      to: string,
+      amount: number,
+      reasonKey: string,
+      raised: readonly RaisedBy[],
+      payeeId: string,
+    ) => {
+      const parts: { id: string; paid: number }[] = [];
+      let rest = amount;
+      for (const law of raised) {
+        const part = Math.floor(amount * law.share);
+        if (part <= 0) continue;
+        rest -= part;
+        const lawPaymentId = `${id.slice(0, id.length - date.length - 1)}:${law.lawId}:${date}`;
+        const paid = pay(lawPaymentId, to, part, reasonKey);
+        if (paid <= 0) continue;
+        parts.push({ id: lawPaymentId, paid });
+        lawApplied(api, {
+          key: law.key,
+          lawId: law.lawId,
+          targetId: payeeId,
+          target: "organization",
+          engine: BUDGETS_MODULE_ID,
+          what: law.what,
+          amountMinor: paid,
+        });
+        lineLawRows.add(`applied|${law.key}|${payeeId}`);
+      }
+      const base = pay(id, to, rest, reasonKey);
+      return {
+        base,
+        parts,
+        paid: base + parts.reduce((n, part) => n + part.paid, 0),
+      };
+    };
     let aidPaid = 0;
     for (const a of aid) {
       const paid = pay(
@@ -854,18 +1293,28 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       const p = plan[line]!;
       let providersPaid = 0;
       const winner = awarded[line];
+      const raised = raisedBy(api, gov, line, budget.spendingMinor[line] ?? 0);
+      lineLawKeys.add(`budget-line:${line}`);
       if (winner) {
-        const id = `treasury:${gov.id}:${line}:${winner.organizationId}:${date}`;
-        providersPaid = pay(
+        const id = `treasury:${gov.id}:budget-line:${line}:${winner.organizationId}:${date}`;
+        const out = payOut(
           id,
           accounts.main(winner.organizationId),
           p.providers,
           `treasury-spending:${line}`,
+          raised,
+          winner.organizationId,
         );
-        if (providersPaid > 0)
+        providersPaid = out.paid;
+        if (out.base > 0)
           contractAwarder?.paid(api, winner.id, {
             id,
-            amountMinor: providersPaid,
+            amountMinor: out.base,
+          });
+        for (const part of out.parts)
+          contractAwarder?.paid(api, winner.id, {
+            id: part.id,
+            amountMinor: part.paid,
           });
       }
       let outsidePaid = 0;
@@ -897,7 +1346,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       } else {
         // The part of the line that leaves the town goes to the groups the
         // line pays, each by its share of the line.
-        const shares = PAYEES.lines[line] ?? PAYEES.lines[PAYEES.fallbackLine]!;
+        const shares = payeeShares(api, line);
         const groups = Object.entries(shares);
         const owed = splitBy(
           p.outside,
@@ -905,25 +1354,32 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         );
         groups.forEach(([payeeId], i) => {
           const payee = PAYEES.payees[payeeId]!;
-          const id = `${PAYEE_PREFIX[payee.kind]}:${payeeId}:${gov.id}:${line}:${date}`;
-          const paid = pay(
+          const id = `${PAYEE_PREFIX[payee.kind]}:${payeeId}:${gov.id}:budget-line:${line}:${date}`;
+          const out = payOut(
             id,
             accounts.main(outside),
             owed[i]!,
             `treasury-spending:${payee.kind}`,
+            raised,
+            api.state.organizations.get(outside)?.placeId ?? outside,
           );
-          if (paid <= 0) return;
-          outsidePaid += paid;
-          table(api, "spendingPayments").put({
-            id,
-            governmentId: gov.id,
-            line,
-            payeeId,
-            payeeName: payee.name,
-            kind: payee.kind,
-            date,
-            amountMinor: paid,
-          } as unknown as ModuleRow);
+          if (out.paid <= 0) return;
+          outsidePaid += out.paid;
+          for (const [rowId, paid] of [
+            [id, out.base] as const,
+            ...out.parts.map((part) => [part.id, part.paid] as const),
+          ])
+            if (paid > 0)
+              table(api, "spendingPayments").put({
+                id: rowId,
+                governmentId: gov.id,
+                line,
+                payeeId,
+                payeeName: payee.name,
+                kind: payee.kind,
+                date,
+                amountMinor: paid,
+              } as unknown as ModuleRow);
         });
       }
       const aidLine = aidCharged[line] ?? 0;
@@ -933,6 +1389,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       lines[line] = {
         dueMinor: d,
         inTownMinor: inTown[line] ?? 0,
+        ...(chargedSince[line] ? { chargedMinor: chargedSince[line] } : {}),
         aidMinor: aidPaidLine,
         providersMinor: providersPaid,
         outsideMinor: outsidePaid,
@@ -948,6 +1405,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         lines[line] = {
           dueMinor: 0,
           inTownMinor: minor,
+          ...(chargedSince[line] ? { chargedMinor: chargedSince[line] } : {}),
           aidMinor: 0,
           providersMinor: 0,
           outsideMinor: 0,
@@ -973,6 +1431,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       paymentIds,
     } satisfies TreasuryMonthRow as unknown as ModuleRow);
   }
+  endLineLaws(api, lineLawKeys, lineLawRows);
   applySocialSecurityLevel(api);
   attributeLanded(api);
 }

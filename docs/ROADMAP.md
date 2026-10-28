@@ -1,13 +1,13 @@
 # Roadmap to early access
 
-Approved by the owner on October 10, 2026. This replaces the old-core engineering roadmap. Work is tracked on the GitHub Project "Our Civic Duty: Road to Early Access" (https://github.com/users/lamontaes/projects/2). The owner's new ideas go into its "Next" list and get scheduled at the weekly reschedule.
+Approved by the owner on October 10, 2026. This replaces the old-core engineering roadmap. Work is tracked in the pool (`docs/pool/`); the owner's new ideas become pool items.
 
 ## Now (owner, Oct 11, 2026)
 
 - **Keep it simple** (see `AGENTS.md`): two-level population with people filled in on click, debug bookkeeping off in play, one run and one number, build only what the golden path needs, and a playable step at the end of every day.
 - **Steam:** the store page goes up by Friday, October 16, with screenshots of real gameplay. The early-access date is set once the owner has played the golden path end to end and wants to keep going; his target is October 30.
-- **From Monday, October 12, 3 a.m.:** five Opus pillars and a standby fixer ("The team" in `AGENTS.md`; checklists in `docs/coordination/`). Speed is OPUS-CORE's first item, then the two-level population and the money closures (`docs/packages/M0-lean-play.md`, `M0-population.md`, `M0-money-fix.md`). No session is capped: each continues into its area's next roadmap items.
-- **Checks stay light:** builders test their own work; the golden-path suite, the speed guard and every dollar balancing are automatic and the only blockers; the owner plays the evening build.
+- **How the work runs:** `AGENTS.md`, "How the work is organized": any agent takes pool items, big cross-system jobs run as an Opus lead with Sonnet helpers, and merger sessions merge.
+- **Checks stay light:** builders test their own work. The client release gate (build, typecheck, declarations) and each PR's changed-file checks block; the golden-path suite, the speed guard and the money balance are the bench's guards. The owner plays the evening build.
 
 ## What early access means
 
@@ -35,7 +35,7 @@ Every test runs in a place drawn at random from all 56 (50 states, D.C. and five
 
 ## Who does what
 
-Codex and the Claude engineering account build (owner, Oct 11: Codex takes broad and data-heavy work; the Claude engineering account takes the critical path and work where mistakes cost most); a separate Claude session finishes every package (Opus for judgment calls, Sonnet for agreed designs); the CTO merges. The owner approves designs and package text before anything is sent. A feature is done only when the finisher has played it in the test bench in a randomly drawn place.
+Any agent with repository access takes pool items (`docs/pool/README.md`). Big cross-system jobs run as an Opus lead with Sonnet helpers; merger sessions merge, and nobody merges their own PR (`AGENTS.md`). A feature is done only when it works in a played world in a randomly drawn place.
 
 ## Milestones
 
@@ -129,4 +129,4 @@ Fifteen work orders, owner-approved Oct 10, 2026, in `docs/packages/M1-*.md` (ev
 
 ## Specs and packages
 
-Exact specs for M0 and M1, each with its test, are in `docs/roadmap/features.json` (failing until proven). Draft specs for M2 to M7 are in `docs/roadmap/later-specs-draft.md`; the pillars build from them under "No stopping" (owner, Oct 12) until the owner approves them. Build packages are in `docs/packages/`. The progress file is `docs/roadmap/PROGRESS.md`.
+Exact specs for M0 and M1, each with its test, are in `docs/roadmap/features.json` (failing until proven). Draft specs for M2 to M7 are in `docs/roadmap/later-specs-draft.md`; builders take them from the pool under "No stopping" (owner, Oct 12) until the owner approves them. Build packages are in `docs/packages/`. The progress file is `docs/roadmap/PROGRESS.md`.

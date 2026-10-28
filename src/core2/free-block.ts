@@ -11,7 +11,7 @@
  * by its own effect. Acts planned for a later date are kept here and happen on
  * that date, so their effects land when they occur.
  */
-import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import type { ScoredOffer } from "./choice";
 import {
   closenessAfter,
@@ -20,6 +20,7 @@ import {
   hoursLost,
 } from "./closeness";
 import { parameter } from "./parameters";
+import { worldRateFactor } from "./world-base-rates";
 import { plannedWorkMinutesOnDate } from "./modules/work";
 import freeBlockJson from "./data/free-block.json" with { type: "json" };
 import timeUse from "./data/time-use-reference.json" with { type: "json" };
@@ -35,6 +36,7 @@ import type {
   WeightedReason,
 } from "./types";
 import { registerWorldMapPart } from "./snapshot";
+import { pairKey } from "./kernel/ids";
 
 export const FREE_BLOCK_DATA = freeBlockJson;
 
@@ -71,27 +73,6 @@ export function takePlannedActs(
   const due = byDate?.get(date) ?? [];
   byDate?.delete(date);
   return due;
-}
-
-type PlannedActRunner = (core: CoreState, act: PlannedAct) => boolean;
-let runner: PlannedActRunner | undefined;
-
-/** The life loop supplies how a planned act happens (life.ts). */
-export function registerPlannedActRunner(run: PlannedActRunner): void {
-  runner = run;
-}
-
-/**
- * Runs the acts planned for today that have not run yet. advanceCore runs them
- * before the day's activations; any other day loop (the player API) reaches
- * them here through the people module's end-of-day hook. Taken plans leave the
- * store, so a plan never runs twice.
- */
-export function runDuePlannedActs(core: CoreState): number {
-  let ran = 0;
-  for (const act of takePlannedActs(core, core.date as IsoDate))
-    if (runner?.(core, act)) ran += 1;
-  return ran;
 }
 
 function keep(core: CoreState, act: PlannedAct): void {
@@ -172,9 +153,20 @@ function reserveRows(api: CoreAPI): ReserveRow[] {
 
 /** The person's daily hours of unmodeled activities, smooth in age between groups. */
 function reserveHours(api: CoreAPI, actor: Readonly<PersonState>): number {
+  // This world's day: the published hours times its own time-use factor.
+  return (
+    publishedReserveHours(api, actor) *
+    worldRateFactor(api.state.seed, "timeUse")
+  );
+}
+
+function publishedReserveHours(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+): number {
   const rows = reserveRows(api);
   const age =
-    daysBetween(makeIsoDate(actor.birthDate), makeIsoDate(api.state.date)) /
+    daysBetweenText(actor.birthDate, api.state.date) /
     api.parameter("daysPerMeanYear");
   const [first] = rows;
   if (age <= first!.midAge) return first!.hours;
@@ -304,7 +296,7 @@ function candidates(
     let tie: TiePull | undefined;
     if (definition.effect === FREE_BLOCK.contactEffect && binding) {
       const relationship = core.relationships.get(
-        [actor.id, row.offer.targetId].sort().join(":"),
+        pairKey(actor.id, row.offer.targetId),
       );
       const lost = relationship ? hoursLost(core, relationship) : zero;
       const pull =
@@ -321,10 +313,7 @@ function candidates(
           pull,
           hours: hoursFromLevel(p, relationship.level),
           halfLife: halfLifeDays(p, relationship.kind),
-          elapsed: daysBetween(
-            makeIsoDate(relationship.lastContactDate),
-            makeIsoDate(core.date),
-          ),
+          elapsed: daysBetweenText(relationship.lastContactDate, core.date),
           lost,
           relationship,
         };
@@ -385,10 +374,7 @@ export function planFreeTime(
   api.stopgap(FREE_BLOCK.stopgapId);
   const today: PlannedAct[] = [];
   const projection: Projection = {
-    contactDay: -daysBetween(
-      makeIsoDate(actor.lastContactDate),
-      makeIsoDate(core.date),
-    ),
+    contactDay: -daysBetweenText(actor.lastContactDate, core.date),
   };
   const pool = candidates(api, actor, scored);
   const scores = new Float64Array(pool.length);

@@ -4,13 +4,13 @@ title: "Favors and leaks (stopgap SG-PEOPLE-press-favors-and-leaks)."
 area: people
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: dropped
+claimed-by: claude/political-game-pool-yucp92-bd
 pr: #5163
-blocked-on:
+blocked-on: words: the leak as a conversation move needs a conversation part worded by the English engine (data/english/parts/conversation.json), which only the Words line (Opus) mines; the engine half (leakToReporter) is merged
 milestone:
 source: "docs/coordination/OPUS-PEOPLE.md line 20 (unchecked checklist line)"
-claimed-at:
+claimed-at: 2026-10-20T13:14:15.020Z
 ---
 
 **What.** Checked against main on Oct 16: OPEN. `press.ts` still registers `SG-PEOPLE-press-favors-and-leaks`, and "leak" appears in no conversation part. Next: A leak as a conversation move that puts a record on a reporter's wire. The player would see it as a choice among people, never a form.
@@ -23,3 +23,5 @@ claimed-at:
 
 **Notes.** Checklist line from OPUS-PEOPLE.md; verify against main before starting.
 Sent back 2026-10-20 from PR #5163 (branch claude/press-leak): Test press-owners.test.ts returns early so it passes when story is already in print; finish on that branch, merge main into it first.
+
+Duplicate of gov-press-favors-and-leaks (Oct 25 audit). Same stopgap SG-PEOPLE-press-favors-and-leaks; the engine half (leakToReporter) merged in PR #5163.

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   ALLOWLIST_PATH,
   REPO_ROOT,
+  SCANNED_ROOTS,
   compare,
   describeAdded,
   growth,
@@ -54,7 +55,8 @@ describe("zero-dice guard", () => {
     const unowned = allowlist.entries.filter(
       (entry: { build: unknown; kind: string }) =>
         entry.kind !== "list-pick" &&
-        (typeof entry.build !== "string" || !/^Build \d+$/.test(entry.build)),
+        (typeof entry.build !== "string" ||
+          !/^(Build \d+|pool:[a-z0-9-]+)$/.test(entry.build)),
     );
     expect(unowned).toEqual([]);
   });
@@ -72,10 +74,20 @@ describe("zero-dice guard", () => {
       const introduced = !onMain.entries.some(
         (entry: { kind: string }) => entry.kind === "list-pick",
       );
+      // The change that points the guard at the live engine in full records
+      // that engine's inventory the same way; once main carries a roll, share
+      // or place case there, no file may grow it.
+      const live = (file: string) =>
+        SCANNED_ROOTS.some((root: string) => file.startsWith(`${root}/`));
+      const repointed = !onMain.entries.some(
+        (entry: { kind: string; file: string }) =>
+          entry.kind !== "list-pick" && live(entry.file),
+      );
       expect(
         growth(onMain, allowlist).filter(
-          (grown: { kind: string }) =>
-            !introduced || grown.kind !== "list-pick",
+          (grown: { kind: string; file: string }) =>
+            !(introduced && grown.kind === "list-pick") &&
+            !(repointed && live(grown.file)),
         ),
       ).toEqual([]);
     },
@@ -309,7 +321,7 @@ describe("what the allowlist asks of a list-pick", () => {
   const pick = (extra: Record<string, unknown>) => ({
     entries: [
       {
-        file: "src/simulation/x.ts",
+        file: "src/core2/x.ts",
         kind: "list-pick",
         build: null,
         count: 1,
@@ -371,13 +383,13 @@ describe("what the allowlist asks of a list-pick", () => {
     });
     const found = [
       {
-        file: "src/simulation/x.ts",
+        file: "src/core2/x.ts",
         line: 3,
         kind: "list-pick",
         code: "const a = rng.pick(list);",
       },
       {
-        file: "src/simulation/x.ts",
+        file: "src/core2/x.ts",
         line: 9,
         kind: "list-pick",
         code: "const b = rng.pick(other);",
@@ -394,7 +406,7 @@ describe("what the allowlist asks of a list-pick", () => {
     expect(fresh.class).toBeNull();
     expect(unclassified(next)).toHaveLength(1);
     expect(growth(before, next)).toEqual([
-      { file: "src/simulation/x.ts", kind: "list-pick", before: 1, after: 2 },
+      { file: "src/core2/x.ts", kind: "list-pick", before: 1, after: 2 },
     ]);
   });
 });

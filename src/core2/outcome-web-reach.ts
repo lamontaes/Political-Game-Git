@@ -125,12 +125,14 @@ export interface WebPart {
 export interface WebReach {
   /** The multiplier on the engine's own rate (1 where nothing moves it). */
   readonly factor: number;
+  /** For a level outcome, the sum of its links' scaled additions in the measure's own unit (zero otherwise). */
+  readonly added: number;
   /** The web month row the factor stands on, or null. */
   readonly recordId: string | null;
   readonly parts: readonly WebPart[];
 }
 
-const NONE: WebReach = { factor: 1, recordId: null, parts: [] };
+const NONE: WebReach = { factor: 1, added: 0, recordId: null, parts: [] };
 
 /**
  * The web's factor on an outcome for one subject in a place this month: the
@@ -162,7 +164,35 @@ export function webReach(
   }
   if (!parts.length) return { ...NONE, recordId: row.id };
   const factor = level ? (base ? (base + added) / base : 1) : product;
-  return { factor: Math.max(0, factor), recordId: row.id, parts };
+  return {
+    factor: Math.max(0, factor),
+    added: level ? added : 0,
+    recordId: row.id,
+    parts,
+  };
+}
+
+/**
+ * A level outcome's value for one subject in a place this month: its base
+ * plus its running links' scaled additions, in the measure's own unit, and
+ * the web month row it stands on. Null where the web keeps no month for the
+ * place. An engine whose own rate is the outcome itself (the share of
+ * containers returned) reads this, where one that multiplies a rate reads
+ * `webFactorFor`.
+ */
+export function webLevel(
+  api: CoreAPI,
+  placeId: string,
+  measure: string,
+  subject?: Subject,
+): { level: number; recordId: string } | null {
+  const row = latestRow(api, placeId);
+  const base = row?.bases[measure];
+  if (!row || base === undefined) return null;
+  return {
+    level: base + webReach(api, placeId, measure, subject).added,
+    recordId: row.id,
+  };
 }
 
 /** The factor alone, for a rate that needs nothing else. */

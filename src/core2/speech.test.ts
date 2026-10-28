@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import { deliverSpeech, speechModule } from "./modules/speech";
 import { stancesOf, viewOf, viewsModule } from "./modules/views";
@@ -10,16 +9,14 @@ import { coreAPI } from "./state";
 // M4-04: a speech changes specific listeners' views, by who they are, and
 // some of them retell it at home.
 const seed = process.env.GOLDEN_PATH_SEED ?? "speech-a";
-const input = buildDeepPast(
-  buildPopulation({
-    seed,
-    ...(process.env.GOLDEN_PATH_SEED
-      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-      : {}),
-    startedAt: "2021-01-01",
-    minimumPeople: 500,
-  }),
-);
+const input = buildPopulation({
+  seed,
+  ...(process.env.GOLDEN_PATH_SEED
+    ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+    : {}),
+  startedAt: "2021-01-01",
+  minimumPeople: 500,
+});
 const core = createLifeCore(input, { modules: [viewsModule, speechModule] });
 const api = coreAPI(core);
 const adults = [...core.people.values()].filter(

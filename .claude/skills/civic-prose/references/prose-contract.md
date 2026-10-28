@@ -1,9 +1,9 @@
 # Civic Prose Contract (v0.2 accepted authority)
 
-Source of authority: owner calibration sessions of 2026-09-05 and the accepted
-v0.2 Drive authority (`02_PROSE_SYSTEM_V0.2_ACCEPTED_AUTHORITY — 2026-09-05`).
-This file restates that authority for the prose specialist. It does not decide
-what is currently assigned; canonical control stays with the Drive chain.
+Source of authority: the owner's prose calibration sessions (September 2026),
+recorded in `docs/coordination/DECISION-REGISTER.md`. This file restates that
+authority for the prose writer. What is assigned now comes from the pool, and
+the English engine's rules come from the `words-engine` skill.
 
 ## Product center
 
@@ -302,7 +302,7 @@ defense, license (noun and verb), gray. Measure the world for a player in miles,
 feet, inches, pounds and ounces; internal art calibration may keep metric, but
 spells it meter and centimeter. Write dates month first: September 22, 2026,
 or 9/22/2026 — never `22 September` or `22/09/2026`. ISO dates (2026-09-22) stay
-as they are in records and file names. `tests/american-english-sweep.test.ts`
+as they are in records and file names. `tests/guards/english/`
 enforces this over every tracked file; to name a British form on purpose (a
 quotation, an old save a migration must read), put it in a code span or mark
 the line `british-spelling-ok:` with the reason.

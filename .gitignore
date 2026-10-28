@@ -59,3 +59,4 @@ docs/dehardwire/census.json
 # Written by npm run audit:scan; regenerated on every run, so never committed.
 scripts/audit/scan-result.json
 .bench-local/
+__pycache__/

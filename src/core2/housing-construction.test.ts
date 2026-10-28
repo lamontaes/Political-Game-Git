@@ -7,8 +7,7 @@ import {
 import { collapseToTwoLevels } from "./residents";
 import { residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
-import construction from "./data/housing/construction.json" with { type: "json" };
-import { buildMonth, openStock, setZoning } from "./housing-construction";
+import { buildMonth, openStock, permitRates } from "./housing-construction";
 import { advanceCore, createLifeCore } from "./life";
 import { HOUSING_MODULE } from "./modules/housing";
 import { worldCoreData } from "./modules/world";
@@ -77,7 +76,7 @@ function input(): CoreInput {
   } as CoreInput;
 }
 
-function month(upzoned: boolean, fixture = input()) {
+function month(fixture = input()) {
   const core = createLifeCore(fixture, {
       data: worldCoreData(),
       modules: [HOUSING_MODULE],
@@ -89,7 +88,6 @@ function month(upzoned: boolean, fixture = input()) {
     projects: api.moduleState("housing").table("projects"),
   };
   openStock(tables.stock, place, 400, 30_000_000, 150_000, 1);
-  if (upzoned) setZoning(tables.stock, place, { multifamilyLandShare: 1 });
   const finished: string[] = [];
   const run = () =>
     buildMonth(
@@ -111,26 +109,18 @@ function month(upzoned: boolean, fixture = input()) {
 }
 
 describe("new homes", () => {
-  it("allowing apartments on all residential land raises apartment starts by the upzoning response", () => {
-    const base = month(false),
-      upzoned = month(true);
+  it("apartment starts follow the permit rate of the state when no web factor is running", () => {
+    const base = month();
     base.run();
-    upzoned.run();
-    const carry = (t: typeof base) =>
-      Number(t.tables.stock.get(`stock:${place}`)!.carryMulti);
-    const ratio = carry(upzoned) / carry(base);
-    const expected =
-      (1 / (1 - construction.zoning.singleFamilyOnlyShare)) **
-      base.api.parameter("housingLandStartsElasticity");
-    expect(ratio).toBeCloseTo(expected, 6);
-    // Texas permits: about 1,000 residents start a fraction of a building a month.
-    expect(carry(base)).toBeCloseTo(
-      (construction.byState.TX.multiPerThousand * 1) / 12,
+    const carry = Number(base.tables.stock.get(`stock:${place}`)!.carryMulti);
+    // The state's permits as this world draws them: about 1,000 residents start a fraction of a building a month.
+    expect(carry).toBeCloseTo(
+      (permitRates("TX", base.core.seed).multiPerThousand * 1) / 12,
       6,
     );
   });
   it("the landlord pays for an apartment building month by month and its finish adds rental units", () => {
-    const t = month(true);
+    const t = month();
     const stock = t.tables.stock.get(`stock:${place}`)!;
     t.tables.stock.put({ ...stock, carryMulti: 30 });
     t.run();
@@ -170,7 +160,7 @@ describe("completed rental occupancy", () => {
         source: src,
       })),
     };
-    const t = month(false, fixture);
+    const t = month(fixture);
     const state = t.api.moduleState("housing");
     const project = "project:occupancy-fixture";
     t.tables.projects.put({
@@ -253,7 +243,6 @@ describe("new households taking completed homes", () => {
       })),
     };
     const t = month(
-      false,
       collapseToTwoLevels(fixture, { keep: new Set(["p0", "p2"]) }),
     );
     const state = t.api.moduleState("housing");

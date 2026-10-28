@@ -11,12 +11,13 @@
  */
 import { createHash } from "node:crypto";
 import { countedChoice } from "./electorate";
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI, registerModule } from "./state";
 import { openOffices, townSeats } from "./modules/offices";
+import { openLaws } from "./modules/laws";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -33,16 +34,14 @@ import {
   runAd,
 } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
-import {
-  ballotOf,
-  fileStandingCandidates,
-  holdElection,
-  openVoting,
-} from "./modules/voting";
+import { fileRunners, weighContest } from "./modules/candidacy";
+import { ballotOf, holdElection, openVoting } from "./modules/voting";
 import { openRecord, promisesOf, recordVote, votesOf } from "./modules/record";
+import { openPress } from "./modules/press";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { setKeepEveryonesWhy } from "./why-kept";
 
 const START = "2026-01-05";
 const seed =
@@ -57,13 +56,26 @@ function pick<T>(list: readonly T[], salt: string): T {
 }
 
 describe("M4-06 the record follows you", () => {
-  it("an incumbent's broken promise changes specific voters' choices, with reasons, and feeds the rival's attack ad", () => {
+  // A voter's reasons are saved for the player's circle only (Keep it simple,
+  // Oct 11; the test switch of Oct 25). This case reads the record reasons on
+  // the ballots of voters nobody in the player's circle deals with, so it asks
+  // for everyone's, and puts the setting back for the next case.
+  let keptBefore = false;
+  beforeAll(() => {
+    keptBefore = setKeepEveryonesWhy(true);
+  });
+  afterAll(() => {
+    setKeepEveryonesWhy(keptBefore);
+  });
+
+  /** One draw: a place, an incumbent's broken promise, and the election that follows. */
+  function scenario(draw: number) {
     let place = process.env.GOLDEN_PATH_PLACE_KEY;
     let core = null as ReturnType<typeof createLifeCore> | null;
     let contest: ContestRow | undefined;
     // A place whose town has a local seat held by a resident and up this cycle.
     for (let attempt = 0; attempt < 8 && !contest; attempt += 1) {
-      const state = pick(states, `state:${attempt}`);
+      const state = pick(states, `state:${draw}:${attempt}`);
       const places = [
         ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
@@ -71,7 +83,9 @@ describe("M4-06 the record follows you", () => {
         }),
       ].sort((a, b) => a.key.localeCompare(b.key));
       const key =
-        attempt === 0 && place ? place : pick(places, `place:${attempt}`).key;
+        draw === 0 && attempt === 0 && place
+          ? place
+          : pick(places, `place:${draw}:${attempt}`).key;
       core = createLifeCore(
         buildPopulation({
           seed,
@@ -80,12 +94,16 @@ describe("M4-06 the record follows you", () => {
           minimumPeople: 300,
         }),
       );
+      openLaws(core);
       openOffices(core, seed);
       openElections(core);
       openCampaigns(core);
       openParties(core);
       openVoting(core);
       openRecord(core);
+      // The press, as buildBenchWorld opens it: the rival's ad is bought from an
+      // outlet's ad time, and none registered means it buys nothing.
+      openPress(core);
       const api = coreAPI(core);
       const held = new Set(
         townSeats(api)
@@ -103,14 +121,22 @@ describe("M4-06 the record follows you", () => {
           .table("contests")
           .rows() as unknown as ContestRow[]
       ).find((c) => held.has(c.seatId) && c.incumbentTermId);
+      // An incumbent who decides not to run leaves no record on the ballot
+      // to weigh: draw again.
+      if (contest) {
+        // Who runs is candidacy's: the incumbent weighs standing again, and
+        // whoever runs files when the window opens.
+        weighContest(api, contest);
+        fileRunners(api, contest);
+        if (!ballot(api, contest.id).length) contest = undefined;
+      }
       place = key;
     }
     expect(
       contest,
-      "no town with a resident-held local seat up for election",
+      "no town with a resident-held local seat up for election whose incumbent runs",
     ).toBeDefined();
     const api = coreAPI(core!);
-    fileStandingCandidates(api, contest!.id);
     const incumbentFiling = ballot(api, contest!.id)[0]!;
     const incumbent = core!.people.get(incumbentFiling.personId)!;
     // A challenger from town files (by fee or signatures).
@@ -118,6 +144,9 @@ describe("M4-06 the record follows you", () => {
       .filter(
         (p) =>
           p.id !== incumbent.id &&
+          // A resident: the press's national staff are people of the world
+          // who live elsewhere and could not file for a town seat.
+          p.placeId === incumbent.placeId &&
           Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 30,
       )
       .sort(
@@ -138,7 +167,7 @@ describe("M4-06 the record follows you", () => {
             (axes.axes as Record<string, { axis: number }>)[q]?.axis ?? 0,
           ) >= 0.3,
       ),
-      "promise",
+      `promise:${draw}`,
     );
     knockDoors(api, {
       filingId: incumbentFiling.id,
@@ -166,21 +195,31 @@ describe("M4-06 the record follows you", () => {
       (f) => f.personId === challenger.id,
     );
     let attack: readonly { act: string; voterId: string }[] = [];
-    if (rivalFiling) {
-      knockDoors(api, {
-        filingId: rivalFiling.id,
-        canvasserId: challenger.id,
-        hours: 6,
-      });
-      for (const id of [...core!.people.keys()].sort())
-        askForDonation(api, rivalFiling.id, id);
-      attack = runAd(api, {
-        filingId: rivalFiling.id,
-        amountMinor: campaignFor(api, rivalFiling.id).raisedMinor,
-        attackFilingId: incumbentFiling.id,
-      });
-      expect(attack.every((c) => c.act === "attack-ad")).toBe(true);
-    }
+    const where = `${place} ${seed}:${draw}`;
+    // A challenger who is not on the ballot (a signature drive that fell
+    // short) has no ad to run: the draw is passed over, by name.
+    if (!rivalFiling)
+      return { where, skipped: "the challenger is not on the ballot" };
+    knockDoors(api, {
+      filingId: rivalFiling.id,
+      canvasserId: challenger.id,
+      hours: 6,
+    });
+    for (const id of [...core!.people.keys()].sort())
+      askForDonation(api, rivalFiling.id, id);
+    attack = runAd(api, {
+      filingId: rivalFiling.id,
+      amountMinor: campaignFor(api, rivalFiling.id).raisedMinor,
+      attackFilingId: incumbentFiling.id,
+    });
+    expect(attack.every((c) => c.act === "attack-ad")).toBe(true);
+    // `every` is true of an empty list: the ad must have reached people. A
+    // rival who raised too little to buy any airtime has no ad to check.
+    if (!attack.length)
+      return {
+        where,
+        skipped: `the rival raised ${campaignFor(api, rivalFiling.id).raisedMinor} and the ad reached no one`,
+      };
     // Election: the record is a reason on specific ballots, and changes some choices.
     holdElection(api, contest!.id);
     const ballots = [...core!.people.keys()]
@@ -193,6 +232,23 @@ describe("M4-06 the record follows you", () => {
     const broken = weighed.filter((b) =>
       b!.recordReasons![incumbent.id]!.some((r) => r.kind === "broken-promise"),
     );
+    // A voter who saw the rival's attack ad names it among the reasons: the
+    // broken promise in their ballot's record reasons is one the ad told them
+    // of (its record is the ad's source), by record id.
+    const adSource = `attack-ad:${challenger.id}:`;
+    const citingAd = broken.filter((b) =>
+      b!.recordReasons![incumbent.id]!.some(
+        (r) =>
+          r.kind === "broken-promise" &&
+          (
+            coreAPI(core!).knows(b!.voterId, r.itemId)?.sourceId ?? ""
+          ).startsWith(adSource),
+      ),
+    );
+    expect(
+      citingAd.length,
+      `${place} ${seed}: no ballot cites the rival's attack ad (${attack.length} reached)`,
+    ).toBeGreaterThan(0);
     // Whom each voter would back with the record and without it (whether
     // they turn out that day is a separate decision).
     const changed = weighed.filter((b) => {
@@ -204,10 +260,63 @@ describe("M4-06 the record follows you", () => {
       );
       return countedChoice(without) !== countedChoice(b!.appeal);
     });
-    expect(
-      changed.length,
-      `${place} ${seed} weighed ${weighed.length}`,
-    ).toBeGreaterThan(0);
+    // Whether the record flips anyone depends on how close the race is for the
+    // voters who weigh it, which no place guarantees. What always holds is the
+    // accounting: each candidate's record term is the sum of the recorded
+    // reasons' effects, and a voter's choice changes without it exactly when
+    // the record is bigger than the margin (the top two, strictly).
+    const leader = (totals: [string, number][]) => {
+      const ranked = [...totals].sort(
+        (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+      );
+      return ranked.length > 1 && ranked[0]![1] > ranked[1]![1]
+        ? ranked[0]![0]
+        : null;
+    };
+    for (const b of weighed) {
+      const entries = Object.entries(b!.appeal);
+      for (const [id, a] of entries)
+        expect(
+          a.record,
+          `${place} ${seed} record term of ${id} on ${b!.id}`,
+        ).toBeCloseTo(
+          (b!.recordReasons?.[id] ?? []).reduce((n, r) => n + r.effect, 0),
+          9,
+        );
+      if (entries.length < 2) continue;
+      const withRecord = leader(entries.map(([id, a]) => [id, a.total]));
+      const without = leader(
+        entries.map(([id, a]) => [id, a.total - a.record]),
+      );
+      expect(
+        countedChoice(b!.appeal) ===
+          countedChoice(
+            Object.fromEntries(
+              entries.map(([id, a]) => [id, { total: a.total - a.record }]),
+            ),
+          ),
+        `${place} ${seed} ${b!.id}`,
+      ).toBe(withRecord === without);
+    }
+    // A voter flips when the record is bigger than the lead the voter would
+    // otherwise give the top candidate: the record's swing between the top two
+    // without it, against their gap. A race with such a voter is close enough
+    // for the record to matter.
+    const flippable = weighed.filter((b) => {
+      const ranked = Object.entries(b!.appeal)
+        .map(([id, a]) => ({
+          id,
+          without: a.total - a.record,
+          record: a.record,
+        }))
+        .sort((x, y) => y.without - x.without || x.id.localeCompare(y.id));
+      if (ranked.length < 2) return false;
+      const [first, second] = ranked as [
+        (typeof ranked)[number],
+        (typeof ranked)[number],
+      ];
+      return second.record - first.record > first.without - second.without;
+    });
     govReport(
       "record",
       JSON.stringify({
@@ -218,10 +327,56 @@ describe("M4-06 the record follows you", () => {
         promise: question,
         weighedTheRecord: weighed.length,
         sawTheBrokenPromise: broken.length,
+        brokenPromiseBallots: broken.slice(0, 8).map((b) => b!.id),
+        brokenPromiseIds: [
+          ...new Set(
+            broken.flatMap((b) =>
+              b!
+                .recordReasons![incumbent.id]!.filter(
+                  (r) => r.kind === "broken-promise",
+                )
+                .map((r) => r.itemId),
+            ),
+          ),
+        ],
         choicesChanged: changed.length,
         attackAdReached: attack.length,
+        attackAdBallots: citingAd.slice(0, 8).map((b) => b!.id),
         oneVoter: changed[0],
       }),
+    );
+    return {
+      where,
+      skipped: null,
+      weighed: weighed.length,
+      flippable: flippable.length,
+      changed: changed.length,
+    };
+  }
+
+  it("an incumbent's broken promise changes specific voters' choices, with reasons, and feeds the rival's attack ad", () => {
+    // Whether the record flips anyone depends on how close the race is for the
+    // voters who weigh it, which no place guarantees: draw places (bounded)
+    // until one has a weighed voter whose margin is smaller than the record's
+    // swing, then that record must change a choice there.
+    const tried: string[] = [];
+    for (let draw = 0; draw < 6; draw += 1) {
+      const result = scenario(draw);
+      if (result.skipped) {
+        tried.push(`${result.where}: ${result.skipped}`);
+        continue;
+      }
+      if (result.flippable === 0) {
+        tried.push(
+          `${result.where}: ${result.weighed} weighed, none close enough`,
+        );
+        continue;
+      }
+      expect(result.changed, result.where).toBeGreaterThan(0);
+      return;
+    }
+    throw new Error(
+      `No race close enough for the record to matter: ${tried.join("; ")}`,
     );
   });
 });

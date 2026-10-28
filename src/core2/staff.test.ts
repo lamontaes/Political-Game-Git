@@ -6,6 +6,7 @@
  */
 import { createHash } from "node:crypto";
 import { setBookkeeping } from "./bookkeeping";
+import { setKeepEveryonesWhy } from "./why-kept";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -21,8 +22,11 @@ import { allCases, openCases } from "./modules/constituent-cases";
 import {
   briefOnBill,
   adviseOnBudget,
+  employerOf,
   hireStaff,
   openStaff,
+  servingStaffOf,
+  staffOf,
   STAFF_MODULE_ID,
   staffCandidates,
   workOf,
@@ -46,6 +50,14 @@ const states = [...corePlaceStateIdentities()]
 describe("M3-06 staff", () => {
   it("a staffer's work follows their record, improves with experience, and every result traces to them", () => {
     let report: Record<string, unknown> | null = null;
+    // Offices whose post's budget line had no room: their aides serve unpaid.
+    const noRoom: {
+      place: string;
+      official: string;
+      employer: string;
+      post: string;
+      unpaid: string[];
+    }[] = [];
     const tried: string[] = [];
     for (let attempt = 0; attempt < 8 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
@@ -121,9 +133,15 @@ describe("M3-06 staff", () => {
           },
         ],
       });
+      // An aide outside the player's circle has no why kept in ordinary play,
+      // so the test turns the keep-everyone's-why debug scope on to read the
+      // five work records, then restores it.
+      const keptBefore = setKeepEveryonesWhy(true);
       const briefings = [1, 2, 3, 4, 5].map(() =>
         briefOnBill(api, aide.id, bill.id),
       );
+      const kept = workOf(api, aide.id).length;
+      setKeepEveryonesWhy(keptBefore);
       // Experience grows with each task; nothing else in the record changed.
       for (let i = 1; i < briefings.length; i += 1) {
         expect(briefings[i]!.work.parts.experience).toBeGreaterThan(
@@ -136,7 +154,7 @@ describe("M3-06 staff", () => {
       // The briefing covers as many members as the work's quality reaches.
       for (const b of briefings)
         expect(b.stakes.length).toBe(b.work.result.covered as number);
-      expect(workOf(api, aide.id).length).toBe(5);
+      expect(kept).toBe(5);
       // In play (bookkeeping off) the why of an aide nobody deals with is not
       // kept, but the count of their tasks still is.
       const previous = setBookkeeping(false);
@@ -172,7 +190,62 @@ describe("M3-06 staff", () => {
       advanceCore(core, "2026-02-20");
       // The aide is on the payroll of the government the official serves,
       // and paydays have paid them from its treasury.
-      const aideJob = core.people.get(aide.personId)!.jobId;
+      // An aide the official let go for not coming is replaced: read an aide who has been paid.
+      const staffJob = (personId: string) => {
+        const job = core.people.get(personId)?.jobId;
+        return job?.startsWith("job:public:staff:") ? job : undefined;
+      };
+      const paidAide = servingStaffOf(api, official).find((row) => {
+        const job = staffJob(row.personId);
+        return job ? core.work.latestPayrollByJob.has(job) : false;
+      });
+      // An aide is paid what the post's budget line can carry, as a town's
+      // department heads are: a line with no room at the hire holds the post
+      // unpaid, and the staffer's record carries no job. The town is redrawn
+      // for the paid case, and those aides are named by record.
+      const employerId = employerOf(api, official);
+      const serving = servingStaffOf(api, official);
+      if (
+        !paidAide &&
+        employerId &&
+        serving.length > 0 &&
+        serving.every((row) => row.jobId === undefined)
+      ) {
+        for (const row of serving)
+          expect(staffJob(row.personId), `${key}: ${row.id}`).toBeUndefined();
+        noRoom.push({
+          place: key,
+          official,
+          employer: employerId,
+          post: `staff:${official}`,
+          unpaid: serving.map((row) => row.id),
+        });
+        continue;
+      }
+      if (!paidAide) {
+        // Nobody paid yet is only right after the official let the first aides go for absence (the share
+        // missed on record) and hired replacements who have not had a payday.
+        const rows = staffOf(api, official);
+        const letGo = rows.filter(
+          (row) =>
+            (row as { dismissed?: { absentShare: number } }).dismissed !==
+            undefined,
+        );
+        expect(letGo.length, `${key}: no aide let go`).toBeGreaterThan(0);
+        for (const row of letGo)
+          expect(
+            (row as unknown as { dismissed: { absentShare: number } }).dismissed
+              .absentShare,
+            `${key}: ${row.id}`,
+          ).toBeGreaterThan(0);
+        expect(
+          servingStaffOf(api, official).length,
+          `${key}: the posts were not refilled`,
+        ).toBeGreaterThan(0);
+        continue;
+      }
+      const holder = paidAide;
+      const aideJob = core.people.get(holder.personId)!.jobId;
       const employer = aideJob ? core.jobs.get(aideJob)?.organizationId : null;
       const town = governments(api).find((g) =>
         ["city", "county"].includes(g.level),
@@ -182,6 +255,7 @@ describe("M3-06 staff", () => {
         : undefined;
       if (town) {
         expect(aideJob).toMatch(/^job:public:staff:/);
+        expect(employer, key).toBe(employerOf(api, official));
         expect(
           governments(api).some((g) => g.organizationId === employer),
         ).toBe(true);
@@ -205,6 +279,7 @@ describe("M3-06 staff", () => {
       report = {
         budgetAdvice: advice?.lines ?? null,
         aidePay: { job: aideJob, employer, lastPaidMinor: payroll?.paidMinor },
+        noRoom,
         seed,
         state,
         place: key,
@@ -223,7 +298,13 @@ describe("M3-06 staff", () => {
       `no office could hire in ${tried.join(", ")}`,
     ).not.toBeNull();
     govReport("staff", JSON.stringify(report));
-  });
+    // Up to 8 drawn towns, each built in about 0.4 to 1.1 s and played 46
+    // days in 4.9 to 8.2 s on a 4-core container at one worker. Three random
+    // draws played two towns (ending at place 0949880), seven (ending at
+    // 1849950) and two (ending at 2731760): a town is redrawn when its first
+    // aides were let go for missed days and no replacement has been paid yet.
+    // The cases took 10.9, 37.0 and 50.1 s in three later random runs.
+  }, 120_000);
 
   it("weighs age by the working-age pool, sliding, with no cutoff", () => {
     const at = (age: number) => workingAgeWeight(age);

@@ -1,33 +1,21 @@
-# Political Life Simulation
+# Political life simulation
 
-Foundation repository for a persistent American political-life RPG and autonomous political simulation. The current build contains authoritative documentation, a deterministic headless simulation, persistent character/history records, sparse political-belief and knowledge histories, a Node-only SQLite save repository, automated tests, and a React developer viewer.
+A political and government RPG with a full life simulation underneath: the player turns 18 in a real American place, runs for office, and governs while the people, money and places around them react. The engine is TypeScript (`src/core2`). The game runs in the bench (`src/bench`) and in the Electron desktop shell (`desktop/`).
 
-Lexington-Fayette, Kentucky is represented only by a clearly marked placeholder. No detailed real-world civic dataset is included yet.
+## Run it
 
-## Requirements
-
-- Node.js 22.13 or newer
-- npm
-
-## Commands
+Requires Node.js 22.13 or newer.
 
 ```sh
 npm ci
-npm run dev
-npm run demo -- optional-seed
-npm run test
-npm run lint
-npm run typecheck
-npm run build
-npm run validate
+npm run bench   # the game at http://localhost:3000/play, Dev mode beside it
 ```
 
-`npm run demo` executes the simulation under Node without React or a graphical environment. It creates a seeded world, advances time twice, materializes one lightweight person, replays the same actions, and reports whether the resulting world is reproducible.
+Run world builds, full suites and package builds in a cloud environment, not on a laptop (`AGENTS.md`, "Workspaces and storage").
 
-## Documentation authority
+## Read next
 
-Start with [AGENTS.md](AGENTS.md), then read the [Game Constitution](docs/GAME-CONSTITUTION.md). The Constitution is the highest-authority product document; implementation convenience does not override it. The [Roadmap](docs/ROADMAP.md) records completed and future sequencing, while [System Dependencies](docs/SYSTEM-DEPENDENCIES.md) is the integration guide for persistent concepts.
-
-## Current boundary
-
-The implemented foundation stores typed biography, rich events, memories, event knowledge, claims, relationship interactions, sparse proposition exposure and political histories, broad principles, subject knowledge and expertise provenance, generic queries, versioned snapshots, and validated SQLite saves. It does not yet provide autonomous opinion formation, NPC decision-making, final personality/goals, a desktop save picker, or cross-version migrations. Elections, legislation, campaigns, autonomous careers or families, staff, polling, and Observer Mode remain future systems—not partially implemented features.
+- `AGENTS.md`: the rules every contributor and agent follows.
+- `ARCHITECTURE.md`: how the game is built.
+- `docs/README.md`: which docs are current and which are history.
+- `docs/pool/README.md`: all the work, one file per item.

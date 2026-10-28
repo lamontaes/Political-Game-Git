@@ -1,5 +1,7 @@
 # OFFICE-STATE status
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 The state office day is being rebuilt through the shared engine.
 
 ## Ownership

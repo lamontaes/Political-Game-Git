@@ -1,22 +1,28 @@
+import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
+  CLOSENESS,
   closenessAfter,
   openingClosenessHours,
   temperedHours,
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
-import { queueDecisionDetail } from "./decision-detail";
+import {
+  keptDecision,
+  queueCircleEntry,
+  queueDecisionDetail,
+} from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
-import { buildDeepPast } from "./deep-past";
+import { meetAtWork } from "./encounters";
+import { workgroupOf } from "./shared-history";
+import { derivePersonAppearance } from "./appearance";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
   countedJob,
-  peerCohortSize,
-  residentsRuntime,
   enterResidentMarket,
-  countedSinceOpening,
   releaseResidentHousehold,
+  residentFacts,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
@@ -25,6 +31,7 @@ import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { forgetTraitLean } from "./choice";
 import { giveHealthRecord } from "./modules/health";
+import { pastForLater } from "./pre-start";
 import { COUNTED_PLACE_PREFIX, isDemoted } from "./counted-groups";
 import {
   prepareModuleState,
@@ -70,6 +77,7 @@ import {
   settleFinanceContract,
   retireFinanceBudget,
   transferCredit,
+  transferWageFlowCredit,
   reviewBusiness,
   closeBusinessByChoice,
   closeEmployer,
@@ -104,9 +112,10 @@ import {
   isExplicitlyControlledPersonV1,
   prepareControlledActTraceV1,
 } from "./player-control-state-v1";
-import { stopgap } from "./stopgaps";
+import { recordStopgapsIn, stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import { nativityFact } from "./nativity";
+import { spacedSiblingBirths } from "./sibling-births";
 import type {
   ActOffer,
   CompactChoiceTraceV1,
@@ -130,6 +139,7 @@ import type {
   IsoDate,
   PlaceId,
 } from "./types";
+import { pairKey } from "./kernel/ids";
 
 // Exact successful factory identity, private to this module. No caller can admit a host.
 const actualCore = new WeakSet<CoreState>(),
@@ -236,6 +246,37 @@ function admitOwnerCashAccount(
 
 /** Opening family ties: closeness from the kind of tie (P15 part 2). */
 const OPENING_FAMILY_CAUSE = "opening-family";
+
+/**
+ * Opening peer ties: a person meets the coworkers of their workgroup at their
+ * employer (the jobs engine's staff, `workgroupOf`), as a new hire does
+ * (`meetAtWork`), at the closeness the hours of a casual friendship leave.
+ * Full people and counted ones filled in later are read the same way. A world
+ * built to play (createLifeCore) opens these for every resident; people filled
+ * in or promoted later open theirs as they join. Classmates meet in the school
+ * engine's records once a school year is attended, not before.
+ */
+const SCHOOLMATES_STOPGAP = "SG-WIRE-PEOPLE-SCHOOLMATES";
+
+export function openOpeningPeerTies(
+  core: CoreState,
+  api: CoreAPI,
+  actor: PersonState,
+): void {
+  // No schooling before the start is simulated yet (engine map line 7), so
+  // nobody opens knowing a schoolmate (SG-WIRE-PEOPLE-SCHOOLMATES).
+  api.stopgap(SCHOOLMATES_STOPGAP);
+  const job = actor.jobId ? core.jobs.get(actor.jobId) : undefined;
+  if (!job || job.endsAt) return;
+  meetAtWork(
+    api,
+    actor.id,
+    job.organizationId,
+    workgroupOf(core, actor.id),
+    api.parameter(CLOSENESS.peerTies.hoursParameter),
+    job.id,
+  );
+}
 
 function assertKnownIdSources(
   core: CoreState,
@@ -456,7 +497,7 @@ export function createCore(
       // Relatives in the counts are husks until met (two-level population).
       if (!core.people.has(id) && !core.husks.has(id))
         throw new Error(`Absent family member: ${id}`);
-      const relationshipId = [actor.id, id].sort().join(":");
+      const relationshipId = pairKey(actor.id, id);
       if (!core.relationships.has(relationshipId))
         api.relationship(
           actor.id,
@@ -677,35 +718,52 @@ export function resolveOperation<
   return undefined;
 }
 
-export function retainLog(core: CoreState, event: LogRecord): void {
+export function retainLog(
+  core: CoreState,
+  event: LogRecord,
+  /** A debug check (the audit's trait probe, off in play) asks for the record as the observer would keep it. */
+  debugKeep = false,
+): void {
   const circle = [...event.personIds, ...(event.witnessIds ?? [])].some(
     (id) =>
       core.focusPersonIds.has(id) ||
       id === core.playerId ||
-      (event.kind === "person.acted" &&
-        event.actorId === id &&
-        isExplicitlyControlledPersonV1(core, id)),
+      // The person the player controls is the player however they were
+      // chosen (a new life, or an officeholder picked in Advanced): what
+      // names them is theirs to keep, as for the generated player.
+      isExplicitlyControlledPersonV1(core, id),
   );
   const publicRecord =
     event.publicRecord && core.visiblePlaceIds.has(event.placeId);
   const news = event.news;
-  if (!core.observer && !circle && !publicRecord && !news) return;
+  if (!core.observer && !debugKeep && !circle && !publicRecord && !news) return;
   if (core.durableLog.has(event.id)) return;
   const row: LogRecord = {
     ...event,
-    visibility: core.observer
-      ? "observer"
-      : circle
-        ? "circle"
-        : publicRecord
-          ? "public"
-          : "news",
+    ...(event.decision
+      ? {
+          decision: keptDecision(
+            core,
+            event.decision,
+            isExplicitlyControlledPersonV1(core, event.decision.actorId),
+          ),
+        }
+      : {}),
+    visibility:
+      core.observer || !(circle || publicRecord || news)
+        ? "observer"
+        : circle
+          ? "circle"
+          : publicRecord
+            ? "public"
+            : "news",
   };
   core.durableLog.set(row.id, row);
-  // The player's own reasons are kept whole; the circle's are condensed once
-  // they're older than the detail window (condenseCircleDecisions).
-  if (row.decision && row.actorId !== core.playerId)
-    queueDecisionDetail(core, core.date, row.id);
+  // The circle's reasons are condensed once they're older than the detail
+  // window, the player's own routine ones a year later (condenseCircleDecisions).
+  if (row.decision) queueDecisionDetail(core, core.date, row.id);
+  else if (row.visibility === "circle" && !row.publicRecord && !row.news)
+    queueCircleEntry(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);
@@ -797,12 +855,28 @@ const writerAPIs = new WeakMap<CoreState, CoreAPI>();
 
 /** Local writers validate their own rows; no whole-world pass occurs per act. */
 export function coreAPI(core: CoreState): CoreAPI {
+  recordStopgapsIn(core.stopgapHits);
   const prior = writerAPIs.get(core);
   if (prior) return prior;
+  // In play the registry never changes: each key is read and checked once,
+  // then kept with the stopgap it names, which every read still records.
+  // Bookkeeping re-reads the registry, as `parameter` does.
+  const read = new Map<
+    string,
+    { value: number; stopgapId: string | undefined }
+  >();
   const p = (key: string) => {
+    const play = !bookkeeping();
+    const known = play ? read.get(key) : undefined;
+    if (known) {
+      if (known.stopgapId) stopgap(known.stopgapId, core);
+      return known.value;
+    }
     const row = core.data.parameters[key];
     if (row?.stopgapId) stopgap(row.stopgapId, core);
-    return parameter(key, core.data.parameters);
+    const value = parameter(key, core.data.parameters);
+    if (play) read.set(key, { value, stopgapId: row?.stopgapId });
+    return value;
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
@@ -983,6 +1057,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     repayCredit(id, minor, reason, sourceId) {
       return transferCredit(core, api, id, minor, reason, sourceId, true);
     },
+    drawWageFlowCredit(id, minor, flowId) {
+      return transferWageFlowCredit(core, api, id, minor, flowId);
+    },
     reviewBusiness(id) {
       reviewBusiness(core, api, id);
     },
@@ -1043,7 +1120,7 @@ export function coreAPI(core: CoreState): CoreAPI {
             (typeof reason.sourceId !== "string" || !reason.sourceId.trim())))
       )
         throw new Error("Invalid relationship change reason.");
-      const id = [actorId, otherId].sort().join(":");
+      const id = pairKey(actorId, otherId);
       const previous = core.relationships.get(id);
       const beforeLevel = previous?.level ?? p("zero");
       const beforeContactDate = previous?.lastContactDate;
@@ -1512,10 +1589,33 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (!given || !family) throw new Error("A name is needed.");
       if (makeIsoDate(identity.birthDate) > core.date)
         throw new Error("A birth date cannot be in the future.");
+      // The household that carried the player's drawn family name carries the
+      // chosen one, so the family the player meets shares it.
+      const drawn = actor.familyName;
+      for (const id of core.households.get(actor.householdId)?.memberIds ??
+        []) {
+        const member = core.people.get(id);
+        if (member && member.familyName === drawn) member.familyName = family;
+      }
       actor.givenName = given;
       actor.familyName = family;
       actor.birthDate = identity.birthDate;
       actor.looks = { ...(actor.looks ?? {}), ...identity.looks };
+      // Brothers and sisters stay born months apart from the chosen birthday:
+      // one drawn too close moves, keeping their age where their year allows.
+      const siblings = (actor.pastFacts ?? []).flatMap((fact) => {
+        const other =
+          fact.kind === "family:sibling" && fact.facts?.otherPersonId
+            ? core.people.get(fact.facts.otherPersonId)
+            : undefined;
+        return other ? [other] : [];
+      });
+      const births = spacedSiblingBirths(
+        core.startedAt,
+        siblings.map((row) => row.birthDate),
+        [identity.birthDate],
+      );
+      siblings.forEach((row, i) => (row.birthDate = births[i]!));
     },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];
@@ -1542,7 +1642,14 @@ export function coreAPI(core: CoreState): CoreAPI {
           "Invalid relocation: one living household, no job held.",
         );
       makeIsoDate(input.source.asOf);
-      const whole = household.memberIds.every((id) => ids.includes(id));
+      // A household moves whole when every member moves, or, under its own
+      // id, every living member (a member who has died stays listed with it).
+      const whole =
+        household.memberIds.every((id) => ids.includes(id)) ||
+        (input.householdId === household.id &&
+          household.memberIds
+            .filter((id) => core.people.get(id)?.alive)
+            .every((id) => ids.includes(id)));
       if (whole) {
         if (input.householdId !== household.id)
           throw new Error("A whole household moves under its own id.");
@@ -1607,7 +1714,7 @@ export function coreAPI(core: CoreState): CoreAPI {
           mover.id,
         ]);
       // Nobody leaves a child in a household with no adult.
-      const adultAge = api.parameter("benchmarkAdultMinimumAge");
+      const adultAge = api.parameter("votingAge");
       for (const [fromId, leaving] of bySource) {
         const staying = core.households
           .get(fromId)!
@@ -1617,9 +1724,7 @@ export function coreAPI(core: CoreState): CoreAPI {
           staying.length &&
           !staying.some(
             (row) =>
-              row?.alive &&
-              ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >=
-                adultAge,
+              row?.alive && ageOnDate(row.birthDate, core.date) >= adultAge,
           )
         )
           throw new Error(
@@ -1655,6 +1760,97 @@ export function coreAPI(core: CoreState): CoreAPI {
       }
       for (const mover of movers as PersonState[])
         mover.householdId = input.householdId;
+    },
+    setPartnersV1(input) {
+      const [a, b] = [...input.personIds].sort() as [string, string];
+      const left = core.people.get(a),
+        right = core.people.get(b);
+      if (!left?.alive || !right?.alive || a === b)
+        throw new Error("Partners are two different living people.");
+      makeIsoDate(input.source.asOf);
+      const links = [...core.familyLinks.values()].filter(
+        (row) => row.kind === "partner",
+      );
+      const between = links.find(
+        (row) => row.personIds.includes(a) && row.personIds.includes(b),
+      );
+      const record = (
+        person: PersonState,
+        other: PersonState,
+        id: string,
+        kind: "family:partner" | "family:former-partner",
+        summary: string,
+      ) => {
+        person.pastFacts = [
+          ...(person.pastFacts ?? []),
+          {
+            id: `${id}:${kind}:${person.id}`,
+            date: core.date,
+            kind,
+            summary,
+            source: input.source,
+            facts: { otherPersonId: other.id },
+          },
+        ];
+      };
+      if (input.together) {
+        const adultAge = api.parameter("votingAge");
+        const ageNow = (born: string) =>
+          Number(core.date.slice(0, 4)) -
+          Number(born.slice(0, 4)) -
+          (core.date.slice(5) < born.slice(5) ? 1 : 0);
+        if (
+          between ||
+          links.some(
+            (row) => row.personIds.includes(a) || row.personIds.includes(b),
+          ) ||
+          [left, right].some((row) => ageNow(row.birthDate) < adultAge)
+        )
+          throw new Error("Partners are single adults.");
+        const id = `partnership:${a}:${b}:${core.date}`;
+        core.familyLinks.set(id, { id, kind: "partner", personIds: [a, b] });
+        left.familyIds.add(b);
+        right.familyIds.add(a);
+        record(left, right, id, "family:partner", "partner");
+        record(right, left, id, "family:partner", "partner");
+        api.emit({
+          id: `family.partnered:${id}`,
+          date: core.date,
+          kind: "family.partnered",
+          personIds: [a, b],
+          placeId: left.placeId,
+          publicRecord: false,
+          source: input.source,
+          facts: { linkId: id },
+        });
+      } else {
+        if (!between) throw new Error("These two are not partners.");
+        core.familyLinks.delete(between.id);
+        record(
+          left,
+          right,
+          between.id,
+          "family:former-partner",
+          "former partner",
+        );
+        record(
+          right,
+          left,
+          between.id,
+          "family:former-partner",
+          "former partner",
+        );
+        api.emit({
+          id: `family.separated:${between.id}:${core.date}`,
+          date: core.date,
+          kind: "family.separated",
+          personIds: [a, b],
+          placeId: left.placeId,
+          publicRecord: false,
+          source: input.source,
+          facts: { linkId: between.id },
+        });
+      }
     },
     fundPublicPay(authorityId, treasuryId, source) {
       makeIsoDate(source.asOf);
@@ -1840,8 +2036,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         !actor ||
         !Number.isFinite(drive.strength) ||
         drive.strength < p("zero") ||
-        !core.eventIds.has(drive.sourceEventId) ||
-        !api.knows(personId, `event:${drive.sourceEventId}:experienced`)
+        // A drive forms only from an event the person lived through, and the
+        // drives engine rewrites each one daily as it fades; tests and the
+        // bench check its source on every write, play does not.
+        (bookkeeping() &&
+          (!core.eventIds.has(drive.sourceEventId) ||
+            !api.knows(personId, `event:${drive.sourceEventId}:experienced`)))
       )
         throw new Error(
           "Drive requires a learned source event and a finite strength.",
@@ -2002,7 +2202,7 @@ export function personOrFillIn(
   const full = core.people.get(personId);
   // Someone returned to the counts comes back as the same person.
   if (full && !isDemoted(full)) return full;
-  if (!residentPerson(core, personId)) return full;
+  if (!residentFacts(core, personId)) return full;
   return fillInPerson(core, personId);
 }
 
@@ -2013,61 +2213,10 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const returning = existing !== undefined;
   const taken = takeResidentHousehold(core, personId);
   if (!taken) throw new Error(`Not in the wider population: ${personId}`);
-  // Their past exists only from now: rebuilt from the world's seed, as the
-  // opening would have built it.
-  // Counted people carry no past at all (one model, two tiers): everyone in
-  // the household gets theirs now.
-  const build = returning ? undefined : residentsRuntime(core)?.input.pastBuild;
-  const rebuild = build
-    ? taken.people.filter((row) => countedSinceOpening(core, row.id))
-    : [];
-  let record = taken;
-  if (build && rebuild.length) {
-    const before = new Map(
-      rebuild.map((row) => [
-        row.id,
-        {
-          head: row.pastFacts ?? [],
-          tail: [],
-        },
-      ]),
-    );
-    const rebuilt = new Map(
-      buildDeepPast(
-        {
-          seed: build.seed,
-          startedAt: build.startedAt,
-          people: rebuild.map((row) => ({
-            ...row,
-            pastFacts: before.get(row.id)!.head,
-          })),
-          households: [taken.household],
-          jobs: taken.jobs,
-          gaps: [],
-        } as unknown as CoreInput,
-        {
-          // The opening's class and workgroup sizes, so the same peer groups form.
-          peerCohortSize: (circle, contextKey, present) =>
-            peerCohortSize(core, circle, contextKey) ?? present,
-        },
-      ).people.map((row) => [row.id, row]),
-    );
-    record = {
-      ...taken,
-      people: taken.people.map((row) => {
-        const built = rebuilt.get(row.id);
-        return built
-          ? {
-              ...row,
-              pastFacts: [
-                ...(built.pastFacts ?? []),
-                ...before.get(row.id)!.tail,
-              ],
-            }
-          : row;
-      }),
-    };
-  }
+  // Their past exists only from now: the engines' pre-start passes give the
+  // household its years before the start when it is filled in (each
+  // module's onFillIn), read against the same records as the opening's.
+  const record = taken;
   const api = coreAPI(core);
   const home = record.household;
   if (returning) {
@@ -2137,6 +2286,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
           job.id,
         );
         api.updatePerson(row.id, { jobId: job.id });
+        refreshOfficeStaff(core, job.organizationId);
       }
       admitted.push(core.people.get(row.id)!);
       continue;
@@ -2166,6 +2316,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     if (job && active) {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
+      refreshOfficeStaff(core, job.organizationId);
     }
   }
   // Their economic life moves from the merged flows to their own records.
@@ -2202,6 +2353,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     const calendarId = `${original.id}:filled:${commitment.id}`;
     api.addWorkCommitment({
       ...commitment,
+      // Work and pay run from today; the job has been theirs since the
+      // counted record's own start.
+      heldSince: commitment.heldSince ?? commitment.startsAt,
       startsAt: makeIsoDate(core.date),
       hourlyMinor: job.hourlyMinor ?? commitment.hourlyMinor,
       payrollCalendarId: calendarId,
@@ -2240,7 +2394,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       for (const id of other.familyIds)
         if (newcomers.has(id)) {
           core.people.get(id)!.familyIds.add(other.id);
-          const relationshipId = [other.id, id].sort().join(":");
+          const relationshipId = pairKey(other.id, id);
           if (!core.relationships.has(relationshipId))
             api.relationship(
               other.id,
@@ -2260,7 +2414,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);
     for (const id of actor.familyIds)
       if (core.people.has(id)) {
-        const relationshipId = [actor.id, id].sort().join(":");
+        const relationshipId = pairKey(actor.id, id);
         if (!core.relationships.has(relationshipId))
           api.relationship(
             actor.id,
@@ -2269,6 +2423,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
             api.parameter("relationInitial"),
           );
       }
+    openOpeningPeerTies(core, api, actor);
     for (const id of actor.knownIds) {
       const other = core.people.get(id) ?? core.husks.get(id);
       if (!other) continue;
@@ -2327,6 +2482,17 @@ export interface RecordedIdentity {
   tier?: string;
   /** What they hold on the opening day, from the survey rule for their pay; only then, since later cash would come from nowhere. */
   openingLiquidMinor?: number;
+  /**
+   * A person met in a place kept as counts: the job its counts show, kept as a
+   * fact with no payroll behind it (stopgap SG-WORLD-coarse-place-no-payroll).
+   */
+  work?: {
+    readonly workplace: string;
+    readonly title: string;
+    readonly occupation: string;
+    readonly hourlyMinor: number | null;
+    readonly weeklyHours: number;
+  };
   source: Source;
 }
 
@@ -2337,6 +2503,18 @@ export interface RecordedIdentity {
  * PEOPLE's builder supplies them (stopgap SG-CORE-identity-fill-in-traits).
  * Returns the existing person if already full.
  */
+/** A stored look for someone filled in, under the recipe of the people already here. */
+function lookOf(
+  core: CoreState,
+  personId: string,
+): { appearanceSeed: string; recipeVersion: string } {
+  let recipe: string | undefined;
+  for (const person of core.people.values())
+    if ((recipe = person.looks?.recipeVersion)) break;
+  const look = derivePersonAppearance(personId, recipe);
+  return { appearanceSeed: look.seed, recipeVersion: look.recipeVersion };
+}
+
 export function fillInIdentity(
   core: CoreState,
   identity: RecordedIdentity,
@@ -2395,6 +2573,26 @@ export function fillInIdentity(
           },
         ]
       : []),
+    ...(identity.work
+      ? [
+          {
+            id: `${identity.id}:work`,
+            date: core.date,
+            kind: "identity:work",
+            summary: identity.work.title,
+            source: identity.source,
+            facts: {
+              workplace: identity.work.workplace,
+              title: identity.work.title,
+              occupation: identity.work.occupation,
+              weeklyHours: String(identity.work.weeklyHours),
+              ...(identity.work.hourlyMinor === null
+                ? {}
+                : { hourlyMinor: String(identity.work.hourlyMinor) }),
+            },
+          },
+        ]
+      : []),
     // An official's birth: native-born or not, which the line of succession reads.
     ...(identity.seatKey
       ? [
@@ -2418,7 +2616,7 @@ export function fillInIdentity(
     throw new Error(
       `Opening cash for ${identity.id} is only admitted on the opening day.`,
     );
-  const person = admitPerson(core, {
+  const input: PersonInput = {
     id: identity.id,
     givenName: identity.givenName,
     familyName: identity.familyName,
@@ -2433,9 +2631,19 @@ export function fillInIdentity(
     source: identity.source,
     familyIds: [],
     knownIds: [],
-    ...(identity.gender ? { looks: { gender: identity.gender } } : {}),
+    // Their look is stored once, from the one writer residents' looks come
+    // from, under the recipe the world's people already carry.
+    looks: {
+      ...(identity.gender ? { gender: identity.gender } : {}),
+      ...lookOf(core, identity.id),
+    },
     pastFacts: facts,
-  });
+  };
+  const person = admitPerson(core, input);
+  // A named person filled in after the run gets the years before the start
+  // the engines' runs give everyone (the school years, by the school
+  // engine's own rule).
+  pastForLater(core, [person]);
   recordEntry(core, {
     id: person.id,
     kind: "person",
@@ -2488,7 +2696,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
   });
   const api = coreAPI(core);
   for (const id of actor.familyIds) {
-    if (core.relationships.has([actor.id, id].sort().join(":"))) continue;
+    if (core.relationships.has(pairKey(actor.id, id))) continue;
     api.relationship(
       actor.id,
       id,
@@ -2498,6 +2706,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
       { cause: OPENING_FAMILY_CAUSE },
     );
   }
+  openOpeningPeerTies(core, api, actor);
   for (const id of actor.knownIds) {
     const other = core.people.get(id) ?? core.husks.get(id)!;
     api.observe(actor.id, {

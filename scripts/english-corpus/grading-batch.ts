@@ -17,7 +17,6 @@
 import { execSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { enrichCivicInputs } from "../../src/core2/civic-inputs";
-import { buildDeepPast } from "../../src/core2/deep-past";
 import { initialFocusPeople } from "../../src/core2/focus";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { buildPopulation } from "../../src/core2/population";
@@ -33,7 +32,7 @@ import {
   CONVERSATION_BANK,
   MINED_CONVERSATION,
   type MinedPart,
-} from "../../src/director/mined/conversation-bank";
+} from "../../src/english/mined/conversation-bank";
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {
@@ -92,9 +91,7 @@ const places = new Set<string>();
 
 for (const seed of seeds) {
   const base = enrichCivicInputs(
-    buildDeepPast(
-      buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 500 }),
-    ),
+    buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 500 }),
   );
   const placeName = base.placeMetadata?.placeName ?? seed;
   places.add(placeName);

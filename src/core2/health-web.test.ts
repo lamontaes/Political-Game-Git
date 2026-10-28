@@ -12,7 +12,8 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
-import { deathWebFactor, trafficShareOfDeaths } from "./health-web";
+import { baseCauseShares } from "./death-cause";
+import { deathWebFactor } from "./health-web";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { healthDeathWebOf } from "./modules/health";
@@ -99,12 +100,12 @@ describe(`web death factors reach both tiers (${place.name}, seed ${seed})`, () 
     const { infant, poor, rich } = factors;
     expect(infant.recordId).toBe(web.id);
     expect(infant.factor).toBeCloseTo(
-      1.03 * 1.06 * (1 + trafficShareOfDeaths(0) * 0.2),
+      1.03 * 1.06 * (1 + baseCauseShares(0)["motor-vehicle"]! * 0.2),
       9,
     );
     expect(poor).toBeLessThan(rich);
     expect(poor).toBeCloseTo(
-      (1 - 0.0188 * 5) * (1 + trafficShareOfDeaths(60) * 0.2),
+      (1 - 0.0188 * 5) * (1 + baseCauseShares(60)["motor-vehicle"]! * 0.2),
       9,
     );
     // Full people in the shifted world carry the factor in their strain; the twin's carry none.
@@ -112,7 +113,10 @@ describe(`web death factors reach both tiers (${place.name}, seed ${seed})`, () 
     expect(shifted.length).toBeGreaterThan(0);
     expect(shifted.some((factor) => factor !== 1)).toBe(true);
     expect(Math.max(...shifted)).toBeGreaterThan(Math.min(...shifted));
-    expect(base.factors.full.every((factor) => factor === 1)).toBe(true);
+    // The twin's web carries only what the place's own conditions moved; the shift lifts the mean.
+    const mean = (list: number[]) =>
+      list.reduce((n, factor) => n + factor, 0) / list.length;
+    expect(mean(shifted)).toBeGreaterThan(mean(base.factors.full));
     // Counted people: the month's expected deaths read the shifted record and rise.
     const counts = (core: typeof moved.world.core) =>
       coreAPI(core)

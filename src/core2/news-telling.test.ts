@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { buildDeepPast } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
 import { createNewsModule, newsKey, storiesHeard } from "./modules/news";
 import { viewsModule } from "./modules/views";
@@ -13,16 +12,14 @@ import { applyCoreEvent, coreAPI } from "./state";
 const seed = process.env.GOLDEN_PATH_SEED ?? "news-telling-a";
 
 function playMonth(rescan: boolean) {
-  const input = buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 500,
-    }),
-  );
+  const input = buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 500,
+  });
   const news = rescan
     ? createNewsModule((api, personId, since) =>
         storiesHeard(api, personId, since),

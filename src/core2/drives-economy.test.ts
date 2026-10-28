@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA } from "./data";
-import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
   createDrivesModule,
   DEFAULT_DRIVES_DATA,
   drivesReport,
+  responsibleId,
   withDrives,
 } from "./modules/drives";
 import { buildPopulation } from "./population";
@@ -16,17 +16,15 @@ import { coreAPI } from "./state";
 // in a drawn town closes on one day, recorded as the finance writer records a
 // closure; the research is in data/research/drives/economic-losses.json.
 const seed = process.env.GOLDEN_PATH_SEED ?? "drives-economy";
-const input = buildDeepPast(
-  buildPopulation({
-    seed,
-    ...(process.env.GOLDEN_PATH_SEED
-      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-      : {}),
-    startedAt: "2021-01-01",
-    minimumPeople: 800,
-    openingEmployment: true,
-  }),
-);
+const input = buildPopulation({
+  seed,
+  ...(process.env.GOLDEN_PATH_SEED
+    ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+    : {}),
+  startedAt: "2021-01-01",
+  minimumPeople: 800,
+  openingEmployment: true,
+});
 const core = createLifeCore(input, {
   data: withDrives(DEFAULT_DATA, DEFAULT_DRIVES_DATA),
   modules: [createDrivesModule(DEFAULT_DRIVES_DATA)],
@@ -151,5 +149,46 @@ describe(`drives answer WORLD's job losses and evictions (seed ${seed})`, () => 
         expect(drive.targetId).toBe(orgOf.get(drive.personId));
     for (const drive of fromEvictions)
       if (drive.kind === "grudge") expect(drive.targetId).toBe(landlord);
+  });
+});
+
+// A layoff's record names who decided it (the owner or manager); when that is
+// a living full person, the grudge is held against them, so a confrontation
+// can sour a tie between two people. A decider the town has no full person
+// for leaves the grudge on the employer the layoff names.
+describe(`a layoff holds its decider responsible (seed ${seed})`, () => {
+  const job = [...core.jobs.values()]
+    .filter((row) => !row.endsAt && core.people.get(row.personId)?.alive)
+    .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+  const decider = [...core.people.values()]
+    .filter((p) => p.alive && p.id !== job.personId)
+    .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+  const layoff = (decidedBy: string) => ({
+    id: `work.job-lost:${job.id}:${core.date}`,
+    date: core.date,
+    kind: "work.job-lost",
+    topic: job.organizationId,
+    personIds: [job.personId],
+    placeId: core.people.get(job.personId)!.placeId,
+    publicRecord: false,
+    facts: { decidedBy },
+    source: {
+      tag: "SOURCED" as const,
+      citation: "Fixture layoff.",
+      asOf: core.date,
+    },
+  });
+
+  it("names the person who decided it when the town has them, else the employer", () => {
+    expect(
+      responsibleId(DEFAULT_DRIVES_DATA, layoff(decider.id), core.people),
+    ).toBe(decider.id);
+    expect(
+      responsibleId(
+        DEFAULT_DRIVES_DATA,
+        layoff("person:not-in-town"),
+        core.people,
+      ),
+    ).toBe(job.organizationId);
   });
 });

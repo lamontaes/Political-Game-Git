@@ -10,9 +10,11 @@ import { coreAPI } from "./state";
 import { OFFICIAL_PAY_MODULE_ID } from "./modules/official-pay";
 import { OFFICIALS_MODULE_ID, type OfficialRow } from "./modules/officials";
 
-// An official who dies is paid no more, and their pay row ends with them. It
+// An official who dies is paid no more, and their pay row ends the day they
+// die, read from the death's record (src/core2/modules/official-pay.ts). It
 // used to stay, moving its pay date forward each month for years, so the
-// books showed a salary earned and never paid. Pinned to a place where a
+// books showed a salary earned and never paid; later it ended only on the
+// next payday, so a death after the year's last payday left it standing. Pinned to a place where a
 // U.S. representative died in the first year (the draw of seed
 // 9a11da355dc8b557 for "official-salary-payroll"), and a place drawn at random.
 const seed =

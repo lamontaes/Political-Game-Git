@@ -1,5 +1,7 @@
 # Astra: screen work
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 The character screen is built and the owner approved its screenshot in chat.
 The next requested screen is the person card, with the same large figure at the side.
 

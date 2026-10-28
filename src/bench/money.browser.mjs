@@ -1,7 +1,9 @@
-/* global document, console, URL */
+/* global document, console, URL, process */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-const browser = await chromium.launch({ executablePath: "/usr/bin/chromium" });
+const browser = await chromium.launch({
+  executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
+});
 const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
 page.setDefaultTimeout(30000);
 await page.route("**/api/controls", async (route) => {
@@ -32,17 +34,11 @@ try {
       { timeout: 300000 },
     );
     await page.locator("#new-life").click();
+    await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     const r = await response;
     assert.equal(r.status(), 200);
     console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
@@ -50,7 +46,8 @@ try {
       document.getElementById("card-clock").textContent.trim(),
   );
   const name = await page.locator("#card-name").innerText();
-  const clock = await page.locator("#card-clock").innerText();
+  // The clock's text, not its layout: the card steps aside while a sheet is open.
+  const clock = await page.locator("#card-clock").textContent();
   console.log(
     "Player:",
     name,
@@ -61,49 +58,15 @@ try {
     .locator('[data-tab="money"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".cash-total").waitFor();
-  assert.ok((await page.locator(".cash-total").innerText()).includes("$"));
-  assert.equal(await page.locator(".money-history").count(), 0);
+  await page.locator("#sheet-body .record-title").waitFor();
+  assert.ok(
+    (await page.locator("#sheet-body .record-title").innerText()).includes("$"),
+  );
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: "docs/reports/money-layout/money.png" });
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
-  await page.route("**/api/card?*", async (route) => {
-    const r = await route.fetch();
-    const json = await r.json();
-    await route.fulfill({
-      json: {
-        ...json,
-        finances: {
-          balances: [
-            { month: "January", minor: 12000 },
-            { month: "February", minor: 18000 },
-          ],
-          spending: [
-            { label: "Housing", minor: 10000 },
-            { label: "Food", minor: 5000 },
-          ],
-          debts: [{ name: "Loan", minor: 45000 }],
-        },
-      },
-    });
-  });
-  await page.reload();
-  await page.locator("#front-continue:not([disabled])").click();
-  await page.waitForFunction(() =>
-    document.getElementById("card-name").textContent.trim(),
-  );
-  await page
-    .locator('[data-tab="money"]')
-    .first()
-    .evaluate((e) => e.click());
-  await page.locator(".money-history").waitFor();
-  assert.equal(await page.locator(".balance-bar").count(), 2);
-  assert.equal(await page.locator(".money-donut").count(), 1);
-  assert.ok((await page.locator("#sheet-body").innerText()).includes("Loan"));
+  assert.equal(await page.locator("#card-clock").textContent(), clock);
   assert.deepEqual(errors, []);
-  console.log(
-    "PASS actual balance view without time, optional history/spending/debt contract fixtures",
-  );
+  console.log("PASS actual balance view without time");
 } finally {
   await browser.close();
 }

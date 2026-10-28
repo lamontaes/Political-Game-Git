@@ -1,3 +1,4 @@
+import { refreshOfficeStaff } from "./civic-inputs";
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
 import {
   countedWagesEarned,
@@ -7,11 +8,14 @@ import {
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { countedJobsOf } from "./residents-economy";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
-import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
+import { webFactorFor } from "./outcome-web-reach";
+import { sellerTaxShare } from "./modules/purchase-tax";
 import {
   settleFinanceContractJournal,
   transferFinanceCreditJournal,
+  transferWageFlowCreditJournal,
 } from "./finance-cash";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
@@ -798,7 +802,7 @@ export function moveHouseholdPayers(
 ): string[] {
   const moving = new Set(personIds);
   const today = makeIsoDate(core.date);
-  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  const adultAge = api.parameter("votingAge");
   // Who stays and can take a lease over: the oldest living adult first.
   const heir = (core.households.get(fromId)?.memberIds ?? [])
     .map((id) => core.people.get(id))
@@ -965,7 +969,7 @@ export function handOverContractsAtDeath(
   api: CoreAPI,
   personId: string,
 ): ContractHandOver[] {
-  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  const adultAge = api.parameter("votingAge");
   const today = makeIsoDate(core.date);
   const home = core.households.get(
     core.people.get(personId)?.householdId ?? "",
@@ -1198,10 +1202,7 @@ export function repriceCreditFacility(
   if (!row) throw new Error("Repricing requires a recorded credit facility.");
   currentSource(source, core.date);
   amount(api, annualInterestRate, "repriced annual interest rate");
-  const elapsed = daysBetween(
-    makeIsoDate(row.lastAccruedAt),
-    makeIsoDate(core.date),
-  );
+  const elapsed = daysBetweenText(row.lastAccruedAt, core.date);
   const oldRate =
     row.annualInterestRate ?? api.parameter(row.annualInterestParameter);
   const days = api.parameter(
@@ -1323,6 +1324,24 @@ export function transferCredit(
   );
 }
 
+/** An employer's credit line pays what its cash could not of a counted wage flow due today. */
+export function transferWageFlowCredit(
+  core: CoreState,
+  api: CoreAPI,
+  facilityId: string,
+  requested: number,
+  flowId: string,
+): CreditReceipt {
+  policy(api);
+  return transferWageFlowCreditJournal(
+    core,
+    api,
+    facilityId,
+    requested,
+    flowId,
+  );
+}
+
 export function settleFinanceContract(
   core: CoreState,
   api: CoreAPI,
@@ -1344,7 +1363,7 @@ export function reviewBusiness(
     throw new Error("Business review is absent, closed or not due.");
   const data = core.data.businessBooks ?? DEFAULT_BUSINESS_BOOKS_DATA;
   for (const stopgapId of data.stopgapIds) api.stopgap(stopgapId);
-  const options = { data, parameters: core.data.parameters },
+  const options = { data, parameters: core.data.parameters, seed: core.seed },
     place = core.organizations.get(id)!.placeId;
   const date = new Date(`${core.date}T00:00:00.000Z`);
   date.setUTCDate(p("one"));
@@ -1408,21 +1427,41 @@ export function reviewBusiness(
     options,
   );
   const pay = ownHourlyPay(core, id);
-  const price = projectBusinessPrice(
-    {
-      priorPrice: book.price,
-      annualPlannedPayMinor: book.annualPayrollMinor,
-      annualOtherCostsMinor: cost.annualOtherCostsMinor,
-      wagePriceFactor:
-        ownRaise(book.lastHourlyByJob, pay) ??
-        wagePrice / book.lastWagePriceFactor,
-      generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
-      annualDemandMinor: demand,
-      capacityMinor: book.capacityMinor,
-      priceLevel: book.price / book.anchorPrice,
-    },
-    options,
+  // What laws and other causes the outcome web carries into prices moves the
+  // business's own price by the change in that factor since its last review.
+  const webPrice = webFactorFor(api, place, "household.prices");
+  // The sales tax the business collects reaches its price: what it keeps of
+  // each dollar (one less the share of its sales the tax takes) changed since
+  // its last review, passed into the tax-inclusive price at the researched
+  // rate. At a rate of one the price before tax holds still, so a higher
+  // rate raises what buyers pay and an exemption lowers it.
+  const taxShare = sellerTaxShare(core, id, "now");
+  const kept =
+    (p("one") -
+      (book.lastSalesTaxShare ?? sellerTaxShare(core, id, "opening"))) /
+    (p("one") - taxShare);
+  const taxStep = Math.max(
+    p("zero"),
+    p("one") + p("salesTaxPassThrough") * (kept - p("one")),
   );
+  const price =
+    projectBusinessPrice(
+      {
+        priorPrice: book.price,
+        annualPlannedPayMinor: book.annualPayrollMinor,
+        annualOtherCostsMinor: cost.annualOtherCostsMinor,
+        wagePriceFactor:
+          ownRaise(book.lastHourlyByJob, pay) ??
+          wagePrice / book.lastWagePriceFactor,
+        generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
+        annualDemandMinor: demand,
+        capacityMinor: book.capacityMinor,
+        priceLevel: book.price / book.anchorPrice,
+      },
+      options,
+    ) *
+    (webPrice / (book.lastWebPriceFactor ?? p("one"))) *
+    taxStep;
   const next = financeNextDate(
     api,
     book.nextReviewedAt,
@@ -1444,6 +1483,8 @@ export function reviewBusiness(
   book.annualOtherCostsMinor = cost.annualOtherCostsMinor;
   book.price = price;
   book.lastGeneralPriceFactor = generalPrice;
+  book.lastWebPriceFactor = webPrice;
+  book.lastSalesTaxShare = taxShare;
   book.lastWagePriceFactor = wagePrice;
   book.lastHourlyByJob = pay.hourly;
   financeIndex(core.finance.reviewsDueAt, next, id);
@@ -1775,6 +1816,7 @@ function windDownEmployer(
   for (const jobId of endedJobIds) {
     const job = core.jobs.get(jobId)!;
     job.endsAt = core.date;
+    refreshOfficeStaff(core, job.organizationId);
     const actor = core.people.get(job.personId)!;
     if (actor.jobId === jobId) delete actor.jobId;
     for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??

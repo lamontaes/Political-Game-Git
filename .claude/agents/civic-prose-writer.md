@@ -5,8 +5,8 @@ description: >
   fact packet into player-facing prose for review. Use for authoring/editorial
   prose work from fact packets only — never for engineering tasks, never to
   decide simulation truth, and never to rewrite repository source files.
-model: claude-fable-5
-effort: low
+model: inherit
+effort: medium
 tools: Read, Grep, Glob
 skills:
   - civic-prose

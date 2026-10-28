@@ -1,4 +1,4 @@
-import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { makeIsoDate, daysBetweenText } from "../kernel/dates";
 import { addDays } from "../kernel/dates";
 import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
@@ -6,6 +6,7 @@ import { closenessBetween } from "../closeness";
 import { VIEWS_MODULE_ID, stancesOf } from "./views";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
+import { webReach } from "./laws";
 import type {
   ActOffer,
   ActionDefinition,
@@ -17,6 +18,14 @@ import type {
 
 const p = (api: CoreAPI, key: string) => api.parameter(key);
 const zero = (api: CoreAPI) => p(api, "zero");
+
+/**
+ * The outcome web's share of a place's residents who live near a park or
+ * recreation facility (County Health Rankings), which the parks line and a
+ * dedicated parks tax move (parks-spending-to-exercise-access). A rest act
+ * reads it: rest in reach of a park relieves more.
+ */
+export const PARK_ACCESS = "parks.access-to-exercise";
 const positive = (api: CoreAPI, value: number) => Math.max(zero(api), value);
 
 /** Shared offer builder; P15 people offers reuse it so drive selection stays identical. */
@@ -282,10 +291,7 @@ export const LIFE_MODULE: CoreModule = {
       api.stopgap("SG-P8-household-shared-time-contact");
       const horizon = definition.parameters.horizon;
       if (!horizon) throw new Error("Company need requires a tagged horizon.");
-      const elapsed = daysBetween(
-        makeIsoDate(actor.lastContactDate),
-        makeIsoDate(api.state.date),
-      );
+      const elapsed = daysBetweenText(actor.lastContactDate, api.state.date);
       return Math.min(p(api, "one"), positive(api, elapsed / p(api, horizon)));
     },
     "stress-pressure": (api, actor) => positive(api, actor.affect.stress),
@@ -299,7 +305,6 @@ export const LIFE_MODULE: CoreModule = {
     },
     self: (api, actor, action) => [offer(api, actor, action, actor.id)],
     "known-person": (api, actor, action) => {
-      api.stopgap("SG-P8-school-acquaintance-contact-frequency");
       return [...actor.knownIds]
         .filter((id) => api.state.people.get(id)?.alive)
         .map((id) => offer(api, actor, action, id));
@@ -310,12 +315,7 @@ export const LIFE_MODULE: CoreModule = {
         .map((id) => offer(api, actor, action, id)),
     "known-group": knownPublicTargets,
     "public-meeting-place": knownPublicTargets,
-    "known-office": (api, actor, action) =>
-      knownPublicTargets(api, actor, action).filter(
-        (chosen) =>
-          (api.state.publicOrganizations.get(chosen.targetId)?.staff?.length ??
-            zero(api)) > zero(api),
-      ),
+    "known-office": knownPublicTargets,
     "public-directory": (api, actor, action) => {
       api.stopgap("SG-P8-directory-company-substitution");
       const out: ActOffer[] = [];
@@ -331,6 +331,12 @@ export const LIFE_MODULE: CoreModule = {
     },
   },
   eligibilityRules: {
+    // Someone holds a staff job at the office to receive the visit, on the day
+    // it is offered and again on a planned day: an office's staff follow its
+    // jobs, so the clerk can leave between the plan and the visit.
+    "office-staffed": (api, _actor, chosen) =>
+      (api.state.publicOrganizations.get(chosen.targetId)?.staff?.length ??
+        zero(api)) > zero(api),
     "not-member": (api, actor, chosen) =>
       !api.state.memberships.has(`${actor.id}:${chosen.targetId}`),
     "has-drive": (_api, actor, chosen) =>
@@ -381,7 +387,16 @@ export const LIFE_MODULE: CoreModule = {
         api.state.date,
         parameterValues(api.state.data.parameters),
       );
-      affect.stress *= Math.exp(-p(api, chosen.definition.effectParameter));
+      // The rest's relief times the web's factor on the share of the place's
+      // residents near a park, so a parks law that moves that share moves
+      // every resting person's relief by the same proportion.
+      // stopgapId: SG-GOV-REACH-B-park-use: one for one with the share; no
+      // visit, trip or exercise record, and the counted tier has no rest act.
+      api.stopgap("SG-GOV-REACH-B-park-use");
+      const parks = webReach(api, actor.placeId, PARK_ACCESS);
+      affect.stress *= Math.exp(
+        -p(api, chosen.definition.effectParameter) * parks.factor,
+      );
       api.updatePerson(actorId, { affect });
     },
     contact: (api, actorId, chosen, _date, _days, decision) => {

@@ -18,18 +18,37 @@
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ModuleTable } from "./module-state";
 import { residentsRuntime } from "./modules/residents";
+import { webFactorFor } from "./outcome-web-reach";
+import { carriedLink } from "./modules/outcome-web";
 import { stableHash } from "./kernel/ids";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
+import { lawApplied } from "./law-reach/applied";
+import { townOutsideOf } from "./opening-outside-market";
 import type { CoreAPI, CoreState, Source } from "./types";
+import { housingWorldOffset } from "./housing-prices";
+
+/** The policy keys the builders' decision reads, and the law row each was governed by this month. */
+export const CONSTRUCTION_LAW_KEYS = {
+  multifamily:
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+  inclusionary: "us-policy-positions:housing-land-use.inclusionary-requirement",
+  allElectric: "us-policy-positions:environment-energy.ban-new-gas-hookups",
+  farmland:
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+} as const;
+
+export type ConstructionLawIds = {
+  readonly [K in keyof typeof CONSTRUCTION_LAW_KEYS]?: string;
+};
 
 export interface Zoning {
-  /** The share of residential land where apartments may be built. */
-  multifamilyLandShare: number;
   /** The share of a new apartment building's units set aside below market. */
   inclusionaryShare: number;
   allElectric: boolean;
   farmlandProtected: boolean;
+  /** The law rows in force that set the fields above this month; absent where no law does. */
+  lawIds?: ConstructionLawIds;
 }
 
 interface StockRow {
@@ -61,6 +80,8 @@ interface ProjectRow {
   completesAt: string;
   payerId: string;
   builderId: string;
+  /** The laws that governed the project when it started. */
+  lawIds?: ConstructionLawIds;
   monthlyCostMinor: number;
   paidMinor: number;
   open: boolean;
@@ -71,14 +92,37 @@ const MONTHS = 12;
 
 export function openingZoning(): Zoning {
   return {
-    multifamilyLandShare: 1 - construction.zoning.singleFamilyOnlyShare,
     inclusionaryShare: 0,
     allElectric: false,
     farmlandProtected: false,
+    lawIds: {},
   };
 }
 
-function permitRates(usps: string): {
+/** The state's building permits per thousand people in this world: the published rates (Census Building Permits Survey) moved once by the world's own offset (owner, Oct 27: realistic, not real). */
+export function permitRates(
+  usps: string,
+  seed: string,
+): {
+  singlePerThousand: number;
+  multiPerThousand: number;
+} {
+  const published = publishedPermitRates(usps);
+  const share =
+    1 +
+    housingWorldOffset(
+      seed,
+      `permits:${usps}`,
+      "housingWorldPermitSpreadShare",
+    );
+  return {
+    singlePerThousand: published.singlePerThousand * share,
+    multiPerThousand: published.multiPerThousand * share,
+  };
+}
+
+/** The state's published permits per thousand people (calibration). */
+export function publishedPermitRates(usps: string): {
   singlePerThousand: number;
   multiPerThousand: number;
 } {
@@ -116,6 +160,9 @@ export function openStock(
     zoning: openingZoning(),
   } satisfies StockRow);
 }
+
+/** The outcome web's farmland link, which the builders' starts decision carries at its researched size. */
+const FARMLAND_LINK = "farmland-easements-to-farmland-lost";
 
 /** What the law in force allows here (OPUS-GOV's zoning, inclusionary, building-code and farmland handlers set it). */
 export function setZoning(
@@ -209,11 +256,10 @@ export function buildMonth(
         : input.homeValueMinor,
     openingRentMinor =
       row.openingRentMinor > 0 ? row.openingRentMinor : input.rentMinor;
-  const z = row.zoning,
-    opening = openingZoning();
+  const z = row.zoning;
   const elasticity = p("housingSupplyElasticity"),
     landElasticity = p("housingLandStartsElasticity");
-  const rates = permitRates(input.usps);
+  const rates = permitRates(input.usps, c.seed);
   const perMonth = residentsOf(c, input.placeId) / 1000 / MONTHS;
   const priceLevel = input.priceLevel / row.openingPriceLevel;
   // Houses: today's value against today's cost, relative to the opening's.
@@ -221,8 +267,13 @@ export function buildMonth(
     priceLevel *
     (1 + (z.allElectric ? construction.single.allElectricCostChange : 0));
   const singleValue = input.homeValueMinor / openingHomeValueMinor;
+  // Protection holds back the researched share of farmland's loss (the
+  // outcome web's farmland-easements-to-farmland-lost row, Liu and Lynch
+  // 2011, which the builders carry) out of the share of new building that goes
+  // on farmland: that much less land is open to build on.
   const farmland = z.farmlandProtected
-    ? 1 - construction.farmland.developmentShare
+    ? 1 +
+      construction.farmland.developmentShare * carriedLink(FARMLAND_LINK).size!
     : 1;
   // Unsold new houses weigh on starts as they pass the usual months of supply.
   const usual =
@@ -245,11 +296,53 @@ export function buildMonth(
   const multiCost =
     priceLevel *
     (1 + (z.allElectric ? construction.multi.allElectricCostChange : 0));
+  const largeBuildings = webFactorFor(
+    api,
+    input.placeId,
+    "housing.new-large-buildings",
+  );
+  const rentalSupply = webFactorFor(
+    api,
+    input.placeId,
+    "housing.rental-supply",
+  );
+  if (largeBuildings !== 1) api.stopgap("SG-GOV-REACH-A-housing-supply");
   const multi =
     rates.multiPerThousand *
     perMonth *
     (multiValue / multiCost) ** elasticity *
-    (z.multifamilyLandShare / opening.multifamilyLandShare) ** landElasticity;
+    // The outcome web's researched effect of the law on large new buildings (by-right
+    // multifamily zoning) and on rental supply (rent stabilization), one factor per place a month.
+    largeBuildings *
+    rentalSupply;
+  // The builders' decision this month reads each law in force: record the organization it governed.
+  const laws = z.lawIds ?? {};
+  const ruleWhat = {
+    multifamily: "apartments-permitted",
+    inclusionary: "set-aside-required",
+    allElectric: "all-electric-required",
+    farmland: "land-restricted",
+  } as const;
+  const applyRule = (
+    rule: keyof typeof CONSTRUCTION_LAW_KEYS,
+    targetId: string,
+    amountMinor = 0,
+  ) => {
+    const lawId = laws[rule];
+    if (lawId)
+      lawApplied(api, {
+        key: CONSTRUCTION_LAW_KEYS[rule],
+        lawId,
+        targetId,
+        target: "organization",
+        engine: "housing",
+        what: ruleWhat[rule],
+        amountMinor,
+      });
+  };
+  if (input.landlordId)
+    for (const rule of Object.keys(ruleWhat) as (keyof typeof ruleWhat)[])
+      applyRule(rule, input.landlordId);
   const builder = [...c.finance.businesses.entries()]
     .filter(
       ([id, book]) =>
@@ -262,9 +355,8 @@ export function buildMonth(
         c.organizations.get(b[0])!.liquidMinor -
           c.organizations.get(a[0])!.liquidMinor || a[0].localeCompare(b[0]),
     )[0]?.[0];
-  const outside = [...c.organizations.values()].find(
-    (org) => org.placeId === input.placeId && org.outsideFlow !== undefined,
-  )?.id;
+  // The place's outside market, never a public payer that also carries an outside flow.
+  const outside = townOutsideOf(c.organizations.values(), input.placeId)?.id;
   let carrySingle = row.carrySingle + single,
     carryMulti = row.carryMulti + multi;
   const start = (
@@ -301,12 +393,48 @@ export function buildMonth(
       completesAt: done.toISOString().slice(0, "YYYY-MM-DD".length),
       payerId,
       builderId: builder ?? outside,
+      lawIds: laws,
       monthlyCostMinor: monthly,
       // Months already built before the opening were paid then, off these books.
       paidMinor: monthly * ago,
       open: true,
       isProject: true,
     } satisfies ProjectRow);
+    // Months built before the opening were decided before any law here; only a start today is the law's.
+    if (!ago) {
+      const affordableUnits =
+        kind === "multi" ? Math.floor(units * z.inclusionaryShare) : 0;
+      if (kind === "multi") {
+        // The outcome web's factor on large buildings is this law's alone (the by-right link is the only one into that measure): the share of this building the factor added is the building cost the law moved.
+        applyRule(
+          "multifamily",
+          payerId,
+          largeBuildings > 1 ? costMinor * (1 - 1 / largeBuildings) : 0,
+        );
+        // The rent the set-aside units give up over a year, against the asking rent.
+        if (affordableUnits > 0)
+          applyRule(
+            "inclusionary",
+            payerId,
+            affordableUnits *
+              Math.max(0, input.rentMinor - affordableRent) *
+              MONTHS,
+          );
+      } else applyRule("farmland", payerId);
+      // The all-electric code's change to the project's cost, as a saving to the builder when negative.
+      if (z.allElectric)
+        applyRule(
+          "allElectric",
+          payerId,
+          -(
+            costMinor *
+            (kind === "single"
+              ? construction.single.allElectricCostChange /
+                (1 + construction.single.allElectricCostChange)
+              : construction.multi.allElectricCostChange)
+          ),
+        );
+    }
     return true;
   };
   // Houses are built for sale by the town's builder; apartment buildings by the town's landlord.

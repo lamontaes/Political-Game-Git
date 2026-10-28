@@ -10,11 +10,12 @@
  * already given). No choice is decided by a roll. Choices carry ids and
  * numbers only; the English engine words them.
  */
+import { daysBetweenText as daysBetween } from "./kernel/dates";
 import { residentsRuntime } from "./modules/residents";
 import { campaignParameter } from "./campaign-views";
-import unitPrices from "../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import {
   CAMPAIGNS_MODULE_ID,
+  unitPrice,
   askForDonation,
   campaignFor,
   doorsKnockedOf,
@@ -23,6 +24,7 @@ import {
   knockDoors,
   reachablePeople,
   type CampaignRow,
+  type CauseRow,
 } from "./modules/campaigns";
 import {
   ELECTIONS_MODULE_ID,
@@ -58,7 +60,11 @@ export type CampaignDayChoice =
   | (DayChoiceBase & {
       readonly kind: "canvass";
       readonly facts: {
+        /** The town's households, full and counted. */
+        readonly households: number;
+        /** Households whose door the campaign has not knocked yet. */
         readonly doorsLeft: number;
+        /** Every door knocked so far, a second pass included. */
         readonly doorsKnocked: number;
         readonly doorsThisShift: number;
       };
@@ -81,6 +87,10 @@ export type CampaignDayChoice =
           readonly outletId: string;
           readonly roomLeft: number;
         }[];
+        /** Outlets here; of them, those that already interviewed the candidate and those with no room left this week. */
+        readonly outletsHere: number;
+        readonly outletsDone: number;
+        readonly outletsFull: number;
       };
     })
   | (DayChoiceBase & {
@@ -105,6 +115,8 @@ export interface CampaignDayResult {
   /** Cause rows (record ids) the act wrote: doors answered, an event's audience. */
   readonly causeIds: readonly string[];
   readonly doorsKnocked: number;
+  /** People asked for money (raise-money). */
+  readonly asked: number;
   /** Gift rows (`filingId|donorId`) that grew, and the minor units they added. */
   readonly giftIds: readonly string[];
   readonly raisedMinor: number;
@@ -120,6 +132,14 @@ export interface CampaignDayOptions {
   readonly answers?: readonly InterviewAnswer[];
   /** For `interview`: answer an invitation already waiting. */
   readonly interviewId?: string;
+  /**
+   * A world candidate's day (rivals take the same choices as
+   * the player): the same acts for any living candidate on the ballot, whose
+   * money and doors the campaign engine runs, never the controlled person's.
+   */
+  readonly world?: boolean;
+  /** The hours this day takes, where a candidate's own day leaves fewer or more than the player's. */
+  readonly hours?: number;
 }
 
 const HOURS_PARAMETER: Readonly<Record<CampaignDayKind, string>> = {
@@ -134,18 +154,6 @@ const elections = (api: CoreAPI, name: string) =>
   api.moduleState(ELECTIONS_MODULE_ID).table(name);
 const ageOn = (birthDate: string, date: string) =>
   Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-const daysBetween = (from: string, to: string) =>
-  Math.round(
-    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-      86_400_000,
-  );
-
-const eventVenuePrice = () =>
-  (
-    unitPrices as unknown as {
-      prices: Record<string, { priceMinorUnits: number }>;
-    }
-  ).prices["event-venue"]!.priceMinorUnits;
 
 /** The town's households, full and counted, as the campaign engine's doors walk them. */
 function townHouseholdCount(api: CoreAPI): number {
@@ -168,7 +176,7 @@ function townHouseholdCount(api: CoreAPI): number {
   return ids.size;
 }
 
-function contextOf(api: CoreAPI, filingId: string) {
+function contextOf(api: CoreAPI, filingId: string, world = false) {
   const filing = elections(api, "filings").get(filingId) as unknown as
     FilingRow | undefined;
   if (!filing) throw new Error(`No filing ${filingId}`);
@@ -177,7 +185,10 @@ function contextOf(api: CoreAPI, filingId: string) {
   ) as unknown as ContestRow;
   const open =
     filing.status === "on-ballot" &&
-    filing.personId === (api.state as CoreState).playerId &&
+    (world
+      ? !!api.state.people.get(filing.personId)?.alive &&
+        filing.personId !== (api.state as CoreState).playerId
+      : filing.personId === (api.state as CoreState).playerId) &&
     filing.filedOn <= api.state.date &&
     api.state.date <= contest.electionDate;
   return { filing, contest, open };
@@ -199,14 +210,20 @@ function weekRoom(api: CoreAPI, outletId: string): number {
 }
 
 /** Who the player could ask for money today: reachable adults who haven't given. */
-function peopleToAsk(api: CoreAPI, campaign: CampaignRow) {
-  const pool = reachablePeople(api, campaign);
+function peopleToAsk(api: CoreAPI, campaign: CampaignRow, world = false) {
+  // The controlled person's money moves only by their own choice, so a world
+  // candidate's asks skip them.
+  const playerId = (api.state as CoreState).playerId;
+  const adultAge = api.parameter("votingAge");
+  const pool = reachablePeople(api, campaign).filter(
+    (id) => !world || id !== playerId,
+  );
   const askable = pool.filter((id) => {
     const person = api.state.people.get(id);
     return (
       !!person?.alive &&
       person.tier !== "husk" &&
-      ageOn(person.birthDate, api.state.date) >= 18 &&
+      ageOn(person.birthDate, api.state.date) >= adultAge &&
       !giftOf(api, campaign.filingId, id)
     );
   });
@@ -221,28 +238,150 @@ const asksPerSession = (hours: number) =>
  * record facts that make it available or not. Empty outside the window
  * between filing and election day, or for a filing that is not the player's.
  */
+/**
+ * Why the records keep a campaign outing from the player today, as the key of
+ * its words in the screen's controls and the record figures they show.
+ */
+export function whyNotToday(
+  choice: CampaignDayChoice,
+): { key: string; priceMinor?: number; cashMinor?: number } | undefined {
+  switch (choice.kind) {
+    case "canvass":
+      return choice.facts.households > 0 ? undefined : { key: "noHouseholds" };
+    case "event":
+      if (choice.facts.platformStances === 0) return { key: "noPlatform" };
+      return choice.facts.cashMinor < choice.facts.venuePriceMinor
+        ? {
+            key: "eventMoney",
+            priceMinor: choice.facts.venuePriceMinor,
+            cashMinor: choice.facts.cashMinor,
+          }
+        : undefined;
+    case "interview": {
+      const { outletsHere, outletsDone, outletsFull } = choice.facts;
+      if (outletsHere === 0) return { key: "noOutlet" };
+      if (outletsDone === outletsHere) return { key: "interviewed" };
+      // The rest have no room this week, or (television) want a better-known candidate.
+      return { key: outletsFull > 0 ? "outletsFull" : "notKnown" };
+    }
+    case "raise-money":
+      return {
+        key: choice.facts.reachable === 0 ? "nobodyReached" : "allGave",
+      };
+    default:
+      return undefined;
+  }
+}
+
+/** One candidate's standing in a contest, read from the campaign engine's cause rows. */
+export interface CandidateStanding {
+  readonly filingId: string;
+  readonly candidateId: string;
+  readonly name: string;
+  /** Whether this is the person asking. */
+  readonly you: boolean;
+  readonly acts: readonly {
+    readonly act: string;
+    readonly reached: number;
+    readonly warmer: number;
+    readonly cooler: number;
+  }[];
+  /** Voters reached, each once however many acts reached them. */
+  readonly reached: number;
+  readonly warmer: number;
+  readonly cooler: number;
+}
+
+/**
+ * The causes a contest turns on: for each candidate on its ballot, the acts
+ * that reached voters (doors, speeches, ads, a retelling) with how many were
+ * reached and how many came away warmer or cooler, and the same read once per
+ * voter (a voter reached by two acts counts once), which is what the race's
+ * standing sentences say. Read from the cause rows the campaign engine kept.
+ */
+export function contestStanding(
+  api: CoreAPI,
+  contestId: string,
+  personId: string,
+): readonly CandidateStanding[] {
+  const filings = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byContest", [contestId]) as unknown as FilingRow[]
+  ).filter((row) => row.status !== "withdrawn");
+  return filings.map((filing) => {
+    const rows = api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("causes")
+      .query("byCandidate", [filing.personId]) as unknown as CauseRow[];
+    const acts = new Map<
+      string,
+      { act: string; reached: number; warmer: number; cooler: number }
+    >();
+    // Each voter's warmth moved by the sum of what every act did to it.
+    const moved = new Map<string, number>();
+    for (const row of rows) {
+      const entry = acts.get(row.act) ?? {
+        act: row.act,
+        reached: 0,
+        warmer: 0,
+        cooler: 0,
+      };
+      entry.reached += 1;
+      if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
+      else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
+      acts.set(row.act, entry);
+      moved.set(
+        row.voterId,
+        (moved.get(row.voterId) ?? 0) + (row.warmthAfter - row.warmthBefore),
+      );
+    }
+    const person = api.state.people.get(filing.personId);
+    return {
+      filingId: filing.id,
+      candidateId: filing.personId,
+      name: person
+        ? `${person.givenName} ${person.familyName}`
+        : filing.personId,
+      you: filing.personId === personId,
+      acts: [...acts.values()].sort((a, b) => a.act.localeCompare(b.act)),
+      reached: moved.size,
+      warmer: [...moved.values()].filter((d) => d > 0).length,
+      cooler: [...moved.values()].filter((d) => d < 0).length,
+    };
+  });
+}
+
 export function campaignDayChoices(
   api: CoreAPI,
   filingId: string,
+  world = false,
 ): readonly CampaignDayChoice[] {
-  const { filing, open } = contextOf(api, filingId);
+  const { filing, open } = contextOf(api, filingId, world);
   if (!open) return [];
   const campaign = campaignFor(api, filingId);
   const hours = (kind: CampaignDayKind) =>
     campaignParameter(HOURS_PARAMETER[kind]);
 
-  const knocked = doorsKnockedOf(api, campaign.id).length;
-  const doorsLeft = Math.max(0, townHouseholdCount(api) - knocked);
+  const households = townHouseholdCount(api);
+  const doorsLeft = Math.max(
+    0,
+    households - doorsKnockedOf(api, campaign.id).length,
+  );
 
   const cash =
     api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
-  const price = eventVenuePrice();
+  const price = unitPrice(api, "event-venue");
   const candidateAlive = !!api.state.people.get(campaign.candidateId)?.alive;
 
   const invited = interviewsFor(api, filing.personId)
     .filter((i) => i.filingId === filingId && i.status === "invited")
     .map((i) => i.id);
-  const outlets = outletsHere(api).flatMap((outlet) => {
+  let outletsDone = 0,
+    outletsFull = 0;
+  const here = outletsHere(api);
+  const outlets = here.flatMap((outlet) => {
     const roomLeft = weekRoom(api, outlet.id);
     const done = interviewsFor(api, filing.personId).some(
       (i) =>
@@ -250,6 +389,8 @@ export function campaignDayChoices(
         i.filingId === filingId &&
         i.status !== "declined",
     );
+    if (done) outletsDone += 1;
+    else if (roomLeft <= 0) outletsFull += 1;
     const bar =
       outlet.kind !== "television" ||
       newsworthiness(api, filing) >= pressParameter("televisionBar");
@@ -258,7 +399,7 @@ export function campaignDayChoices(
       : [];
   });
 
-  const { pool, askable } = peopleToAsk(api, campaign);
+  const { pool, askable } = peopleToAsk(api, campaign, world);
   const gifts = pool.length - askable.length;
 
   return [
@@ -266,10 +407,13 @@ export function campaignDayChoices(
       kind: "canvass",
       filingId,
       hours: hours("canvass"),
-      available: doorsLeft > 0,
+      // Every door knocked, the canvass goes round again: open while the
+      // town has a door.
+      available: households > 0,
       facts: {
+        households,
         doorsLeft,
-        doorsKnocked: knocked,
+        doorsKnocked: campaign.doorsKnockedCount ?? 0,
         doorsThisShift: Math.floor(
           hours("canvass") * campaignParameter("doorsPerCanvasserHour"),
         ),
@@ -292,7 +436,13 @@ export function campaignDayChoices(
       filingId,
       hours: hours("interview"),
       available: invited.length > 0 || outlets.length > 0,
-      facts: { invitedInterviewIds: invited, outlets },
+      facts: {
+        invitedInterviewIds: invited,
+        outlets,
+        outletsHere: here.length,
+        outletsDone,
+        outletsFull,
+      },
     },
     {
       kind: "raise-money",
@@ -329,14 +479,15 @@ export function takeCampaignDayChoice(
   choice: CampaignDayKind,
   options: CampaignDayOptions = {},
 ): CampaignDayResult {
-  const offered = campaignDayChoices(api, filingId).find(
+  const world = options.world ?? false;
+  const offered = campaignDayChoices(api, filingId, world).find(
     (c) => c.kind === choice,
   );
   if (!offered?.available)
     throw new Error(`Campaign day choice not available: ${choice}`);
   const campaign = campaignFor(api, filingId);
   const player = campaign.candidateId;
-  const hours = offered.hours;
+  const hours = options.hours ?? offered.hours;
   const date = api.state.date;
   const spendTime = () =>
     api.recordActivityTime(player, "campaign", hours * 60, {
@@ -351,6 +502,7 @@ export function takeCampaignDayChoice(
     hours,
     causeIds: [],
     doorsKnocked: 0,
+    asked: 0,
     giftIds: [],
     raisedMinor: 0,
     eventMoneyId: null,
@@ -358,13 +510,21 @@ export function takeCampaignDayChoice(
   };
 
   if (choice === "canvass") {
-    const before = doorsKnockedOf(api, campaign.id).length;
+    const before = campaign.doorsKnockedCount ?? 0;
     // knockDoors records the player's hours itself.
-    const met = knockDoors(api, { filingId, canvasserId: player, hours });
+    const met = knockDoors(api, {
+      filingId,
+      canvasserId: player,
+      hours,
+      // A world candidate's door reaches residents as a count; only the
+      // player's own campaign fills them in on meeting.
+      fillCounted: !world,
+    });
     return {
       ...base,
       causeIds: met.map((c) => c.id),
-      doorsKnocked: doorsKnockedOf(api, campaign.id).length - before,
+      doorsKnocked:
+        (campaignFor(api, filingId).doorsKnockedCount ?? 0) - before,
     };
   }
 
@@ -407,7 +567,7 @@ export function takeCampaignDayChoice(
   }
 
   if (choice === "raise-money") {
-    const { pool, askable } = peopleToAsk(api, campaign);
+    const { pool, askable } = peopleToAsk(api, campaign, world);
     const asks = Math.min(askable.length, asksPerSession(hours));
     // Walk the list from where the last session stopped (the campaign's own
     // cursor), skipping those who have already given.
@@ -436,7 +596,7 @@ export function takeCampaignDayChoice(
         ...latest,
         askCursor: pool.length ? (start + steps) % pool.length : 0,
       } as unknown as ModuleRow);
-    return { ...base, giftIds, raisedMinor: raised };
+    return { ...base, asked: askedIds.length, giftIds, raisedMinor: raised };
   }
 
   // rest: no campaign act and no activity record; the day is the player's own.

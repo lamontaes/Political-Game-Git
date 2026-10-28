@@ -1,5 +1,7 @@
 # OPUS-WORLD: The world's economy
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Only OPUS-WORLD writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
 
 - **Owns:** The economy engines (national economy and central bank, state and metro, jobs, housing, credit, businesses growing).

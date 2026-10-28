@@ -13,14 +13,23 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { barredFromVoting } from "./law-reach/group-a-voting";
-import { incarceratedMayVote } from "./justice-law";
+import {
+  chargeDecisionDays,
+  dispositionDays,
+  incarceratedMayVote,
+} from "./justice-law";
 import { advanceCore } from "./life";
 import { considerBribe } from "./modules/corruption";
-import { JUSTICE_MODULE_ID, type CustodyRow } from "./modules/justice";
+import {
+  JUSTICE_MODULE_ID,
+  type CountedCustodyRow,
+  type CustodyRow,
+} from "./modules/justice";
 import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { placeStateKeys } from "./places";
 import { coreAPI } from "./state";
+import type { CoreAPI } from "./types";
 
 it("has a sourced or estimated row for all 56 places, and the vote stays only where the law keeps it", () => {
   const rows = prisonVoting.places as Record<
@@ -37,6 +46,13 @@ it("has a sourced or estimated row for all 56 places, and the vote stays only wh
     "US-VT",
   ]);
 });
+
+// Past the hearing of a case opened today: the charge decision, then the
+// state's time to disposition (pleas wait for it as trials do), then a month.
+const pastHearing = (api: CoreAPI) =>
+  chargeDecisionDays(api).days +
+  dispositionDays(api, lawChain(api).stateKey).days +
+  30;
 
 it("keeps someone serving a prison term off the roll where the law bars them, and returns the vote on release", () => {
   const ATTEMPTS = 6;
@@ -87,7 +103,7 @@ it("keeps someone serving a prison term off the roll where the law bars them, an
           subjectId: `favor:${offerer.id}:${official}`,
         });
     try {
-      advanceCore(core, addDays(makeIsoDate(core.date), 240));
+      advanceCore(core, addDays(makeIsoDate(core.date), pastHearing(api)));
     } catch (error) {
       // A world that stops on a finance error (pool item
       // finance-outside-obligation-ended-child) cannot show the vote.
@@ -96,10 +112,12 @@ it("keeps someone serving a prison term off the roll where the law bars them, an
     }
     const stateKey = lawChain(api).stateKey;
     const where = `${lawChain(api).placeName} [${stateKey}], seed ${seed}`;
-    const custody = api
-      .moduleState(JUSTICE_MODULE_ID)
-      .table("custody")
-      .rows() as unknown as CustodyRow[];
+    // Named people's custody; counted people's terms have no one to bar.
+    const custody = (
+      api.moduleState(JUSTICE_MODULE_ID).table("custody").rows() as unknown as (
+        CustodyRow | CountedCustodyRow
+      )[]
+    ).filter((row): row is CustodyRow => row.kind === "person");
     last = `${where}, ${custody.length} custody records`;
     if (!custody.length) continue;
     const mayVote = incarceratedMayVote(api, stateKey).may;

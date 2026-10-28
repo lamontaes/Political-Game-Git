@@ -74,6 +74,26 @@ function dayBetween(from: string, to: string, u: number): string {
 }
 
 /**
+ * The state a national official calls home: one their party carried in 2024,
+ * drawn once from the world's seed. `who` is the office ("president" for the
+ * President), so every national official is filled in at home by one rule.
+ */
+export function nationalHomeState(
+  seed: string,
+  who: string,
+  party: string | null,
+): { usps: string; share: number } {
+  const side = partySide(party);
+  const carried = MAP.filter((row) =>
+    side > 0 ? row.share < 0.5 : side < 0 ? row.share > 0.5 : true,
+  );
+  return (
+    carried[Math.floor(uniform(`${seed}:${who}:home`) * carried.length)] ??
+    MAP[0]!
+  );
+}
+
+/**
  * The President's past facts. `townState` is the played town's state key
  * (`US-XX`); it is visited only when the map says it was contested.
  */
@@ -85,7 +105,6 @@ export function presidentRecord(input: {
   date: string;
 }): PastFact[] {
   const at = (what: string) => `${input.seed}:president:${what}`;
-  const side = partySide(input.party);
   const source = (citation: string): Source => ({
     tag: "ESTIMATED",
     citation,
@@ -93,11 +112,7 @@ export function presidentRecord(input: {
     estimatedFrom: "src/core2/data/officials/officials.json#president",
   });
   // A home state the President's party carried in 2024.
-  const carried = MAP.filter((row) =>
-    side > 0 ? row.share < 0.5 : side < 0 ? row.share > 0.5 : true,
-  );
-  const home =
-    carried[Math.floor(uniform(at("home")) * carried.length)] ?? MAP[0]!;
+  const home = nationalHomeState(input.seed, "president", input.party);
   const homeKey = `US-${home.usps}`;
   const facts: PastFact[] = [
     {

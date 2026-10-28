@@ -1,18 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { IRS_TOWN_BUSINESS_BOOKS } from "../simulation/living-world/town-business-books.generated";
+import { IRS_TOWN_BUSINESS_BOOKS } from "./reference/town-business-books.generated";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import {
   classifyBusiness,
   DEFAULT_BUSINESS_BOOKS_DATA as data,
   estimateCreditLimit,
-  planBusinessFunding,
   projectBusinessPrice,
   projectMarket,
   projectOpeningBusiness,
   projectOtherCosts,
   splitMarketDemand,
   type BusinessBooksData,
-  type FundingPlanInput,
   type MarketProjectionInput,
 } from "./business-books";
 import type { Source } from "./types";
@@ -44,24 +42,6 @@ function market(
     macroDemandFactor: p("one"),
     kindId: "retail",
     source,
-    ...overrides,
-  };
-}
-
-function funding(overrides: Partial<FundingPlanInput> = {}): FundingPlanInput {
-  return {
-    at: "2021-01-01",
-    existingCashMinor: cash(),
-    recordedDueMinor: cash() * p("two") * p("two"),
-    existingDebtMinor: p("zero"),
-    source,
-    facility: {
-      lenderId: "lender:fixture",
-      lenderCashMinor: cash(),
-      limitMinor: cash() * p("daysPerWeek"),
-      honored: true,
-      source,
-    },
     ...overrides,
   };
 }
@@ -98,7 +78,7 @@ describe("pure employer books candidate (no money writer)", () => {
         source,
       };
       const before = structuredClone(input),
-        result = projectOpeningBusiness(input);
+        result = projectOpeningBusiness(input, { seed: "fixture-seed" });
       expect(input).toEqual(before);
       if (mapping.kindId === null) {
         expect(result.books).toBeUndefined();
@@ -271,15 +251,21 @@ describe("pure employer books candidate (no money writer)", () => {
       capacityMinor: plannedPay(),
       generalPriceFactor: p("one"),
     };
-    const idle = projectOtherCosts(input),
-      active = projectOtherCosts({ ...input, annualDemandMinor: plannedPay() });
+    const idle = projectOtherCosts(input, { seed: "fixture-seed" }),
+      active = projectOtherCosts(
+        { ...input, annualDemandMinor: plannedPay() },
+        { seed: "fixture-seed" },
+      );
     expect(idle.annualOtherCostsMinor).toBeGreaterThan(p("zero"));
     expect(idle.annualOtherCostsMinor).toBeLessThan(
       active.annualOtherCostsMinor,
     );
     expect(active.annualOtherCostsMinor).toBeCloseTo(plannedPay(), digits());
     expect(
-      projectOtherCosts({ ...input, kindId: "insurance" }).salesCostEstimated,
+      projectOtherCosts(
+        { ...input, kindId: "insurance" },
+        { seed: "fixture-seed" },
+      ).salesCostEstimated,
     ).toBe(true);
     const priceInput = {
       priorPrice: p("one"),
@@ -313,93 +299,14 @@ describe("pure employer books candidate (no money writer)", () => {
     ).toBe(p("one"));
   });
 
-  it("limits borrowing by actual lender cash, preserves debt, and reports the actual binding shortage", () => {
-    const input = funding(),
-      before = structuredClone(input),
-      plan = planBusinessFunding(input);
-    expect(plan.borrowMinor).toBe(input.facility!.lenderCashMinor);
-    expect(plan.unfundedDueMinor).toBeGreaterThan(p("zero"));
-    expect(plan.lenderCashAfterPlanMinor).toBe(p("zero"));
-    expect(plan.debtAfterPlanMinor).toBe(
-      input.existingDebtMinor + plan.borrowMinor,
-    );
-    expect(plan.closingEvidence?.reason).toBe(data.reasons.lenderCashExhausted);
-    expect(
-      plan.cashAfterPlanMinor +
-        plan.lenderCashAfterPlanMinor! +
-        plan.plannedPaidMinor,
-    ).toBe(input.existingCashMinor + input.facility!.lenderCashMinor);
-    expect(input).toEqual(before);
-    const line = funding({
-      facility: {
-        ...input.facility!,
-        lenderCashMinor: plannedPay(),
-        limitMinor: cash(),
-      },
-    });
-    expect(planBusinessFunding(line).closingEvidence?.reason).toBe(
-      data.reasons.lineExhausted,
-    );
-    const refused = planBusinessFunding(
-      funding({ facility: { ...input.facility!, honored: false } }),
-    );
-    expect(refused.borrowMinor).toBe(p("zero"));
-    expect(refused.closingEvidence?.reason).toBe(
-      data.reasons.facilityNotHonored,
-    );
-    const missing = planBusinessFunding(
-      funding({ facility: undefined, existingDebtMinor: cash() }),
-    );
-    expect(missing.borrowMinor).toBe(p("zero"));
-    expect(missing.debtAfterPlanMinor).toBe(cash());
-    expect(missing.gap).toBe(data.reasons.missingFacility);
-  });
-
-  it("repays only an existing creditor from remaining cash and never treats a line-size prior as funded approval", () => {
-    const input = funding({
-      existingCashMinor: plannedPay(),
-      recordedDueMinor: p("zero"),
-      existingDebtMinor: cash(),
-    });
-    const plan = planBusinessFunding(input);
-    expect(plan.borrowMinor).toBe(p("zero"));
-    expect(plan.repayMinor).toBe(input.existingDebtMinor);
-    expect(plan.debtAfterPlanMinor).toBe(p("zero"));
-    expect(plan.cashAfterPlanMinor + plan.lenderCashAfterPlanMinor!).toBe(
-      input.existingCashMinor + input.facility!.lenderCashMinor,
-    );
-    expect(plan.closingEvidence).toBeUndefined();
+  it("sizes a conditional credit line from a kind's demand and never treats it as funded approval", () => {
     expect(estimateCreditLimit(plannedPay(), "retail")).toBeGreaterThan(
       p("zero"),
     );
     expect(estimateCreditLimit(plannedPay(), "farm")).toBeUndefined();
-    expect(
-      planBusinessFunding(funding({ facility: undefined })).borrowMinor,
-    ).toBe(p("zero"));
   });
 
-  it("rejects malformed cash and future sources before any caller can use a funding plan", () => {
-    expect(() =>
-      planBusinessFunding(funding({ existingCashMinor: p("negativeOne") })),
-    ).toThrow(/nonnegative/);
-    expect(() =>
-      planBusinessFunding(funding({ existingCashMinor: p("one") / p("two") })),
-    ).toThrow(/safe integer/);
-    expect(() =>
-      planBusinessFunding(
-        funding({
-          facility: {
-            ...funding().facility!,
-            lenderCashMinor: p("one") / p("zero"),
-          },
-        }),
-      ),
-    ).toThrow(/nonnegative/);
-    expect(() =>
-      planBusinessFunding(
-        funding({ source: { ...source, asOf: "2021-01-02" } }),
-      ),
-    ).toThrow(/future/);
+  it("rejects an elapsed market projection", () => {
     expect(() => projectMarket(market({ from: "2021-01-09" }))).toThrow(
       /elapsed market/,
     );

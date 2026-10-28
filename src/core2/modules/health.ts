@@ -1,12 +1,13 @@
 import healthJson from "../data/health.json" with { type: "json" };
+import { worldRateFactor } from "../world-base-rates";
 import { settleEstate } from "../estates";
 import { HOUSING_STATUS_EVENT } from "../housing-homeless";
 import {
   addDays,
   ageOnDate,
   dateAtAge,
-  daysBetween,
   makeIsoDate,
+  daysBetweenText,
 } from "../kernel/dates";
 import {
   CONDITION_PACK,
@@ -20,6 +21,11 @@ import {
   deathWebFactor,
   markWaitingHealthLinks,
 } from "../health-web";
+import {
+  assignDeathCause,
+  DEATH_CAUSE_FACT_KEY,
+  SUBSTANCE_CONDITION,
+} from "../death-cause";
 import { incomeBandOf } from "../counted-income-fifth";
 import {
   firstThresholdDay,
@@ -31,6 +37,7 @@ import { survivalThresholdFromDraws } from "../kernel/fixed-point";
 import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
 import { countedIllnessOf, endCountedIllness } from "../counted-illness";
+import { isDemoted } from "../counted-groups";
 import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -60,6 +67,10 @@ export interface HealthData {
   calibrationCategory: "equal-mixture" | "male" | "female";
   onsetEventKind: string;
   deathEventKind: string;
+  /** A serious illness begun in the wider population, recorded for the person and their household. */
+  countedOnsetEventKind: string;
+  /** A death in the wider population, recorded for the household that outlives them. */
+  countedDeathEventKind: string;
   topicPrefix: string;
   desiredChangePrefix: string;
   unconditionedTopic: string;
@@ -82,6 +93,8 @@ export interface HealthData {
   onsetSeverity: Severity;
   jobLossSeverity: Severity;
   evictionSeverity: Severity;
+  /** A missed debt payment weighs as a change in financial state (pool item traits-outcome-hardship-coping), in Holmes and Rahe units. */
+  missedPaymentSeverity: Severity;
   deathSeverity: Severity;
   source: Source & { asOf?: string };
   gaps: readonly string[];
@@ -115,6 +128,8 @@ interface HealthRuntime {
   onsetsByDate: Map<IsoDate, Set<PersonId>>;
   deathsByDate: Map<IsoDate, Set<PersonId>>;
   conditionsByPerson: Map<PersonId, readonly string[]>;
+  /** The cause each death was assigned (death-cause.ts), by person. */
+  causeOfDeath: Map<PersonId, string>;
   /** Generation fact per person: their own resilience line (fixed-point integrated hazard). */
   resilienceLines: Map<PersonId, bigint>;
   onsets: number;
@@ -145,6 +160,8 @@ interface HealthPlan {
   /** The outcome web's factor on this person's death hazard, from each month it moved, oldest first. */
   web: { date: Day; factor: number }[];
   evictedOn?: Day;
+  /** The household income fifth the last monthly web refresh read, for the cause of death. */
+  fifth?: number;
 }
 
 const runtimes = new WeakMap<object, HealthRuntime>();
@@ -165,6 +182,7 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
       onsets: zero,
       deaths: zero,
       plans: new Map(),
+      causeOfDeath: new Map(),
       traitNorm: new Map(),
     };
     runtimes.set(state, row);
@@ -261,10 +279,7 @@ function householdMonthlyPay(api: CoreAPI): Map<string, number | null> {
 }
 
 function exactAge(api: CoreAPI, birthDate: IsoDate, date: IsoDate): number {
-  return (
-    daysBetween(makeIsoDate(birthDate), makeIsoDate(date)) /
-    api.parameter("daysPerMeanYear")
-  );
+  return daysBetweenText(birthDate, date) / api.parameter("daysPerMeanYear");
 }
 
 /**
@@ -325,7 +340,13 @@ function lateConditions(
       radix ** digits;
     if (
       quantile <
-      conditionPrevalence(condition, age, data.calibrationCategory) * shift
+      conditionPrevalence(
+        condition,
+        age,
+        data.calibrationCategory,
+        worldRateFactor(api.state.seed, "conditions"),
+      ) *
+        shift
     )
       held.push(condition.key);
   }
@@ -410,9 +431,12 @@ function segments(api: CoreAPI, plan: HealthPlan) {
     const web =
       [...plan.web].reverse().find((row) => row.date <= date)?.factor ??
       p("one");
+    // This world's life table: the published hazard times its mortality
+    // factor, the same one counted people die by (one model, two tiers).
+    const world = worldRateFactor(api.state.seed, "mortality");
     return {
       effectiveAt: date,
-      micros: Math.round(plan.micros * housing * evicted * web),
+      micros: Math.round(plan.micros * housing * evicted * web * world),
     };
   });
 }
@@ -521,11 +545,14 @@ function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
     const person = api.state.people.get(id);
     if (!person?.alive || row.cases.get(id)?.onsetEventId) continue;
     const monthly = pay.get(person.householdId);
+    const fifth =
+      monthly == null ? undefined : incomeBandOf(monthly * p("monthsPerYear"));
+    plan.fifth = fifth;
     const web = deathWebFactor(
       api,
       person.placeId,
       Math.floor(exactAge(api, person.birthDate, today)),
-      monthly == null ? undefined : incomeBandOf(monthly * p("monthsPerYear")),
+      fifth,
     ).factor;
     const last = plan.web.at(-1)?.factor ?? p("one");
     if (web === last) continue;
@@ -551,6 +578,7 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       conscientiousness: conscientiousness(data, person),
     })),
     behaviorSlopes(api, data),
+    worldRateFactor(api.state.seed, "conditions"),
   );
   for (const person of alive)
     assignPerson(
@@ -708,7 +736,10 @@ export function createHealthModule(
       for (const id of [...(row.onsetsByDate.get(date) ?? [])].sort()) {
         const person = api.state.people.get(id);
         const found = row.cases.get(id);
-        if (!person?.alive || !found) continue;
+        // Someone back in the counts is counted: the counted flows decide
+        // their illness and death, by the same life-table share, and their
+        // kept record waits for them to be met again (one model, two tiers).
+        if (!person?.alive || !found || isDemoted(person)) continue;
         api.stopgap(data.stopgapId);
         const event = caseEvent(
           api,
@@ -733,7 +764,7 @@ export function createHealthModule(
       for (const id of [...(row.deathsByDate.get(date) ?? [])].sort()) {
         const person = api.state.people.get(id);
         const found = row.cases.get(id);
-        if (!person?.alive || !found) continue;
+        if (!person?.alive || !found || isDemoted(person)) continue;
         api.stopgap(data.stopgapId);
         const event = caseEvent(
           api,
@@ -744,13 +775,30 @@ export function createHealthModule(
           data.deathSeverity,
           true,
         );
+        const died = assignDeathCause(api, {
+          placeId: person.placeId,
+          age: Math.floor(exactAge(api, person.birthDate, date)),
+          incomeFifth: row.plans.get(id)?.fifth,
+          substanceUse: (row.conditionsByPerson.get(id) ?? []).includes(
+            SUBSTANCE_CONDITION,
+          ),
+        });
         found.deathEventId = event.id;
+        row.causeOfDeath.set(id, died.cause);
         api.updatePerson(id, { alive: false });
         row.deaths += api.parameter("one");
         // A death is a public record (the death certificate) and local news
         // (the obituary): the town's counts, the news, kin and the seat's
         // vacancy rule all read it. An illness's onset stays private.
-        api.emit({ ...event, publicRecord: true, news: true });
+        api.emit({
+          ...event,
+          facts: {
+            ...event.facts,
+            [`event:${event.id}:${DEATH_CAUSE_FACT_KEY}`]: died.cause,
+          },
+          publicRecord: true,
+          news: true,
+        });
         // Their cash passes to their heirs, or escheats (money audit defect 6).
         settleEstate(api, id, event.id);
       }
@@ -797,6 +845,7 @@ export function healthReport(core: Readonly<CoreState>) {
     deaths: row?.deaths,
     cases: row ? [...row.cases.values()] : [],
     conditionsByPerson: row?.conditionsByPerson ?? new Map(),
+    causeOfDeath: row?.causeOfDeath ?? new Map(),
     resilienceLines: row?.resilienceLines ?? new Map(),
   };
 }

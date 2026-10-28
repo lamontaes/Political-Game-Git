@@ -11,8 +11,12 @@
  * firm's id. Nothing rolls. A member who is a counted name rather than a full
  * person weighs price and workforce only. The treasury pays the winner the
  * line's purchases each month, and the award keeps those payments.
+ *
+ * A member whose first choice carried the award to a firm they own, or a
+ * relative or a housemate of theirs owns, is a conflict of interest, kept on
+ * the award as the record of it (the press reads it: press.ts).
  */
-import { closenessBetween } from "../closeness";
+import { closenessBetween, familyRelation } from "../closeness";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import rows from "../data/contracts/parameters.json" with { type: "json" };
 import {
@@ -27,6 +31,12 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { GovernmentRow } from "./budgets";
 import { ownerOf } from "./business";
+import {
+  CORRUPTION_MODULE_ID,
+  considerBribe,
+  crimeRecord,
+  settleBribe,
+} from "./corruption";
 import { governingMembers, memberKey } from "./legislature";
 
 export const CONTRACTS_MODULE_ID = "contracts";
@@ -53,12 +63,69 @@ export interface ContractAwardRow {
   /** Each member's first choice, by member key. */
   readonly votes: Readonly<Record<string, string>>;
   readonly tally: Readonly<Record<string, number>>;
+  /** Bribes a bidder offered a member for this award, taken or refused (corruption.ts crime ids). */
+  readonly bribes: readonly {
+    readonly crimeId: string;
+    readonly memberId: string;
+    readonly organizationId: string;
+    readonly taken: boolean;
+  }[];
+  /** Taken bribes whose member then ranked the briber's firm first: the votes a bribe took part in. */
+  readonly boughtVotes: readonly string[];
+  /** The firm the body would have chosen had no bribe been taken; absent when none was. */
+  readonly withoutBribes?: string;
+  /**
+   * Members whose first choice was the winning firm while they own it or a
+   * relative or housemate does: the vote of an interested member. `relation`
+   * is "self" for the owner, else the member's family relation to the owner
+   * (closeness.ts `familyRelation`).
+   */
+  readonly conflicts: readonly {
+    readonly memberId: string;
+    readonly organizationId: string;
+    readonly ownerId: string;
+    readonly relation: string;
+  }[];
   readonly paidMinor: number;
   readonly paymentIds: readonly string[];
 }
 
 const table = (api: CoreAPI) =>
   api.moduleState(CONTRACTS_MODULE_ID).table("awards");
+
+/** The relation a conflicted member has to the firm's owner when they are the owner. */
+export const OWNER_RELATION = "self";
+
+/**
+ * The members whose first choice carried the winning firm while they, or a
+ * relative or housemate, own it. A member who is a named official not yet
+ * filled in has no kin or firm in the records, so holds no conflict.
+ */
+function interested(
+  api: CoreAPI,
+  state: CoreState,
+  organizationId: string,
+  ownerId: string | undefined,
+  votes: Readonly<Record<string, string>>,
+): ContractAwardRow["conflicts"] {
+  if (!ownerId) return [];
+  // stopgapId: SG-GOV-contract-conflict-named-members
+  if (Object.keys(votes).some((memberId) => !state.people.has(memberId)))
+    api.stopgap("SG-GOV-contract-conflict-named-members");
+  return Object.entries(votes)
+    .filter(
+      ([memberId, choice]) =>
+        choice === organizationId && state.people.has(memberId),
+    )
+    .flatMap(([memberId]) => {
+      const relation =
+        memberId === ownerId
+          ? OWNER_RELATION
+          : familyRelation(state, memberId, ownerId);
+      return relation ? [{ memberId, organizationId, ownerId, relation }] : [];
+    })
+    .sort((a, b) => a.memberId.localeCompare(b.memberId));
+}
 
 /** The award in force for a government's line, if any. */
 export function contractFor(
@@ -75,6 +142,17 @@ export function contractFor(
   ]
     .sort((a, b) => a.awardedOn.localeCompare(b.awardedOn))
     .at(-1);
+}
+
+/** The awards made on one day, in id order (the press desk reads the week's). */
+export function awardsOn(
+  api: CoreAPI,
+  date: string,
+): readonly ContractAwardRow[] {
+  if (!api.state.modules.has(CONTRACTS_MODULE_ID)) return [];
+  return [
+    ...(table(api).query("byDate", [date]) as unknown as ContractAwardRow[]),
+  ].sort((a, b) => a.id.localeCompare(b.id));
 }
 
 /** Every award a government has made. */
@@ -119,57 +197,108 @@ function award(
   const owners = new Map(
     firms.map((f) => [f.organizationId, ownerOf(api, f.organizationId)]),
   );
-  const totals = new Map(firms.map((f) => [f.organizationId, 0]));
-  const tally = new Map(firms.map((f) => [f.organizationId, 0]));
-  const votes: Record<string, string> = {};
+  const bribes: ContractAwardRow["bribes"][number][] = [];
+  // A bidder's owner may offer a member a bribe for the award, and the member
+  // decides whether to take it (corruption.ts, each by their own traits,
+  // money and tie). The favor is worth a year of the work.
+  const given = new Map<string, number>();
+  if (api.state.modules.has(CORRUPTION_MODULE_ID)) {
+    const accounts = state.cashJournal.residualAccountByOwner;
+    for (const member of members) {
+      const person = member.personId
+        ? state.people.get(member.personId)
+        : undefined;
+      if (!person || !accounts.has(person.id)) continue;
+      for (const firm of firms) {
+        const ownerId = owners.get(firm.organizationId);
+        if (!ownerId || ownerId === person.id || !accounts.has(ownerId))
+          continue;
+        const crime = considerBribe(api, {
+          offererId: ownerId,
+          officialId: person.id,
+          stakeMinor: input.monthlyMinor * 12,
+          subjectId: `contract:${gov.id}:${line}:${api.state.date}`,
+        });
+        if (!crime?.offered) continue;
+        bribes.push({
+          crimeId: crime.id,
+          memberId: person.id,
+          organizationId: firm.organizationId,
+          taken: crime.taken,
+        });
+        if (crime.taken)
+          given.set(
+            `${person.id}|${firm.organizationId}`,
+            Math.log1p(
+              crime.amountMinor / (person.livingCostDailyMinor * 30 + 1),
+            ),
+          );
+      }
+    }
+  }
   // With no one seated the body's rules alone decide: price and workforce.
   const voters = members.length ? members : [null];
   const traitWeight = decisionTraitWeight(state, DECISION);
-  for (const member of voters) {
-    const person = member?.personId
-      ? state.people.get(member.personId)
-      : undefined;
-    const lean = person
-      ? decisionLean(
-          state,
-          person,
-          DECISION,
-          "award-known-firm",
-          "award-lowest-bid",
+  const count = (withBribes: boolean) => {
+    const totals = new Map(firms.map((f) => [f.organizationId, 0]));
+    const tally = new Map(firms.map((f) => [f.organizationId, 0]));
+    const votes: Record<string, string> = {};
+    for (const member of voters) {
+      const person = member?.personId
+        ? state.people.get(member.personId)
+        : undefined;
+      const lean = person
+        ? decisionLean(
+            state,
+            person,
+            DECISION,
+            "award-known-firm",
+            "award-lowest-bid",
+          )
+        : 0;
+      let best: { id: string; score: number } | undefined;
+      for (const firm of firms) {
+        const price = Math.log(mean.wage / Math.max(firm.wageDailyMinor, 1));
+        const capacity = Math.log(firm.staff / mean.staff);
+        const ownerId = owners.get(firm.organizationId);
+        const tie =
+          person && ownerId && ownerId !== person.id
+            ? closenessBetween(state, person.id, ownerId)
+            : 0;
+        const score =
+          c("contractPriceWeight") * (1 - traitWeight * lean) * price +
+          c("contractCapacityWeight") * capacity +
+          c("contractTieWeight") * (1 + traitWeight * lean) * tie +
+          (withBribes && person
+            ? c("contractBribeWeight") *
+              (given.get(`${person.id}|${firm.organizationId}`) ?? 0)
+            : 0);
+        totals.set(
+          firm.organizationId,
+          totals.get(firm.organizationId)! + score,
+        );
+        if (
+          !best ||
+          score > best.score ||
+          (score === best.score && firm.organizationId < best.id)
         )
-      : 0;
-    let best: { id: string; score: number } | undefined;
-    for (const firm of firms) {
-      const price = Math.log(mean.wage / Math.max(firm.wageDailyMinor, 1));
-      const capacity = Math.log(firm.staff / mean.staff);
-      const ownerId = owners.get(firm.organizationId);
-      const tie =
-        person && ownerId && ownerId !== person.id
-          ? closenessBetween(state, person.id, ownerId)
-          : 0;
-      const score =
-        c("contractPriceWeight") * (1 - traitWeight * lean) * price +
-        c("contractCapacityWeight") * capacity +
-        c("contractTieWeight") * (1 + traitWeight * lean) * tie;
-      totals.set(firm.organizationId, totals.get(firm.organizationId)! + score);
-      if (
-        !best ||
-        score > best.score ||
-        (score === best.score && firm.organizationId < best.id)
-      )
-        best = { id: firm.organizationId, score };
+          best = { id: firm.organizationId, score };
+      }
+      tally.set(best!.id, tally.get(best!.id)! + 1);
+      if (member) votes[memberKey(member)] = best!.id;
     }
-    tally.set(best!.id, tally.get(best!.id)! + 1);
-    if (member) votes[memberKey(member)] = best!.id;
-  }
-  const winner = firms
-    .map((f) => f.organizationId)
-    .sort(
-      (a, b) =>
-        tally.get(b)! - tally.get(a)! ||
-        totals.get(b)! - totals.get(a)! ||
-        a.localeCompare(b),
-    )[0]!;
+    const winner = firms
+      .map((f) => f.organizationId)
+      .sort(
+        (a, b) =>
+          tally.get(b)! - tally.get(a)! ||
+          totals.get(b)! - totals.get(a)! ||
+          a.localeCompare(b),
+      )[0]!;
+    return { winner, tally, votes };
+  };
+  const { winner, tally, votes } = count(true);
+  const without = given.size ? count(false).winner : winner;
   const row: ContractAwardRow = {
     id: `contract:${gov.id}:${line}:${api.state.date}`,
     governmentId: gov.id,
@@ -185,10 +314,32 @@ function award(
     })),
     votes,
     tally: Object.fromEntries(tally),
+    bribes,
+    boughtVotes: bribes
+      .filter((b) => b.taken && votes[b.memberId] === b.organizationId)
+      .map((b) => b.crimeId),
+    ...(without !== winner ? { withoutBribes: without } : {}),
+    conflicts: interested(api, state, winner, owners.get(winner), votes),
     paidMinor: 0,
     paymentIds: [],
   };
   table(api).put(row as unknown as ModuleRow);
+  // A bribe taken for the award is settled by whether the payer's firm won the award: a
+  // payer whose firm the bought member did not rank first loses closeness to
+  // them, the route by which the bribe surfaces (corruption.ts).
+  for (const bribe of bribes) {
+    if (!bribe.taken) continue;
+    const crime = crimeRecord(api, bribe.crimeId);
+    if (crime)
+      settleBribe(
+        api,
+        crime,
+        crime.subjectId,
+        // The favor bought is the award itself.
+        winner === bribe.organizationId,
+        votes[bribe.memberId] ?? "abstain",
+      );
+  }
   return { id: row.id, organizationId: winner };
 }
 
@@ -201,6 +352,7 @@ export const CONTRACTS_MODULE: CoreModule = {
         indexes: {
           byLine: { fields: ["governmentId", "line"] },
           byGovernment: { fields: ["governmentId"] },
+          byDate: { fields: ["awardedOn"] },
         },
       },
     },

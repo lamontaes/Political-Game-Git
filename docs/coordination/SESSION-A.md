@@ -1,5 +1,7 @@
 # Session A: law-link
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 On the draft branches, laws now reach housing construction and rent, household prices, property-tax assessments, farm sales, consumer loan offers, and income-tax schedules. The knowledge draft preserves how a person actually received news.
 
 Session A is not finished. The full law-to-person-to-received-source-to-director acceptance remains open. No pool item is claimed, and the original law-link draft stays open until the replacements hold.

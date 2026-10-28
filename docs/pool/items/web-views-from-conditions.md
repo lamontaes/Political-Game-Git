@@ -5,7 +5,7 @@ area: people
 kind: owner-decision
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/views-from-conditions
 pr: #5641
 blocked-on:

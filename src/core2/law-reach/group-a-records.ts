@@ -8,7 +8,9 @@
  */
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
 import { registerModule } from "../state";
+import { parameter } from "../parameters";
 import type {
   CoreAPI,
   CoreModule,
@@ -17,9 +19,7 @@ import type {
   PersonState,
 } from "../types";
 import type { ModuleRow } from "../module-data";
-import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
-import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { reachOf } from "../counted-reach";
 import { isNoncitizen } from "../citizenship";
 import { citizenShareOf } from "../electorate-places";
@@ -27,9 +27,10 @@ import {
   firearmOwnershipRate,
   householdOwnsFirearm,
 } from "../firearm-ownership";
-import { lawChain, LAWS_MODULE_ID } from "../modules/laws";
+import { lawChain } from "../modules/laws";
+import { residentsRuntime } from "../modules/residents";
+import { countedJobHeads } from "../residents-economy";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
-import type { LawRowInput } from "../laws-starting";
 
 export const REACH_A_MODULE_ID = "core2-law-reach-a-v1";
 export const PREMIUM_KIND = "law-reach-a:leave-premium";
@@ -122,36 +123,30 @@ const params = (
   }
 ).parameters;
 
+/**
+ * A number from the group A parameter table. The voting age is the elections
+ * data's one row (`votingAge`, the Twenty-Sixth Amendment), never a copy here.
+ */
 export function reachParameter(key: string): number {
+  if (key === "votingAge") return parameter(key);
   const row = params[key];
   if (!row) throw new Error(`No law-reach parameter: ${key}`);
   return row.value;
 }
 
+const PUBLIC_EMPLOYERS: readonly string[] = Object.keys(
+  publicPayFloor.employerLevels,
+);
+
 export function selectorGroup(name: string): readonly string[] {
+  // The public employers are the classes the public pay mechanics raise pay at.
+  if (name === "publicEmployers") return PUBLIC_EMPLOYERS;
   return data.selectors[name] ?? data.extraSelectors[name] ?? [];
 }
 
 // --- the module --------------------------------------------------------------
 
-type CalendarWorker = (
-  api: CoreAPI,
-  work: Readonly<ModuleCalendarWork>,
-) => void;
-type PayrollWorker = (
-  api: CoreAPI,
-  receipt: Readonly<WorkPayrollJournalReceipt>,
-) => void;
-const calendarWorkers = new Map<string, CalendarWorker>();
-const payrollWorkers: PayrollWorker[] = [];
-/** A mechanic's dated work (a hire, a layoff) runs on the module's calendar. */
-export function onReachCalendar(kind: string, worker: CalendarWorker): void {
-  calendarWorkers.set(kind, worker);
-}
-/** A mechanic that acts on each payday (a payroll premium). */
-export function onReachPayroll(worker: PayrollWorker): void {
-  if (!payrollWorkers.includes(worker)) payrollWorkers.push(worker);
-}
+import { runReachCalendar, runReachPayroll } from "./reach-workers";
 
 interface PremiumRecord {
   readonly id: string;
@@ -213,9 +208,9 @@ export const REACH_A_MODULE: CoreModule = {
   journalSourceProviders: {
     [PREMIUM_KIND]: (api, reference) => premiumSlot(api, reference.id),
   },
-  onCalendarWork: (api, work) => calendarWorkers.get(work.kind)?.(api, work),
+  onCalendarWork: (api, work) => runReachCalendar(api, work),
   onWorkPayroll: (api, receipt) => {
-    for (const worker of payrollWorkers) worker(api, receipt);
+    runReachPayroll(api, receipt);
   },
 };
 
@@ -253,29 +248,6 @@ export const tomorrow = (date: string) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000)
     .toISOString()
     .slice(0, 10);
-
-/**
- * The levels (with their jurisdictions) whose latest law in force on a
- * policy says yes: the same reading as the law-reach host's `inForceHere`.
- */
-export function yesLevels(
-  api: CoreAPI,
-  key: string,
-): readonly { level: string; jurisdiction: string; lawId: string }[] {
-  const date = api.state.date;
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  const out: { level: string; jurisdiction: string; lawId: string }[] = [];
-  for (const { level, jurisdiction } of lawChain(api).levels) {
-    const latest = (
-      laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    if (latest?.value === 1)
-      out.push({ level, jurisdiction, lawId: latest.id });
-  }
-  return out;
-}
 
 export function townPeople(api: CoreAPI): readonly PersonState[] {
   const town = lawChain(api).townPlaceId;
@@ -377,7 +349,7 @@ function personMatches(
 
 /** Adults in the town, named and counted: the base an estimated share applies to. */
 export function townAdults(api: CoreAPI): number {
-  const adult = reachParameter("adultAge");
+  const adult = reachParameter("votingAge");
   const date = api.state.date;
   const named = townPeople(api).filter(
     (p) => ageOn(p.birthDate, date) >= adult,
@@ -420,7 +392,21 @@ export interface Target {
   readonly count: number | null;
 }
 
-function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
+/** The jobs the counted jobs at these employers stand for. */
+function countedStaff(api: CoreAPI, employers: ReadonlySet<string>): number {
+  const core = api.state as CoreState;
+  let people = 0;
+  for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+    if (
+      job.endsAt === undefined &&
+      !core.jobs.has(job.id) &&
+      employers.has(job.organizationId)
+    )
+      people += countedJobHeads(core, job);
+  return people;
+}
+
+export function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
   const select = spec.select ?? {};
   switch (spec.target) {
     case "people": {
@@ -443,11 +429,17 @@ function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
       );
     case "staff": {
       const out: Target[] = [];
-      for (const org of townOrganizations(api, select.group ?? ""))
+      const orgs = townOrganizations(api, select.group ?? "");
+      for (const org of orgs)
         for (const s of currentStaff(api, org.id))
           if (api.state.people.has(s.personId))
             out.push({ id: s.personId, personId: s.personId, count: null });
-      return out;
+      // One rule, both tiers: the counted staff of the same employers, as
+      // one count (each counted job stands for the people its household does).
+      const counted = countedStaff(api, new Set(orgs.map((o) => o.id)));
+      return counted
+        ? [...out, { id: `counted:${spec.id}`, personId: null, count: counted }]
+        : out;
     }
     case "counted": {
       const count = countedReach(api, select);
@@ -553,14 +545,19 @@ export function writeRows(
   );
   for (const target of targets) {
     const held = holding.get(target.id);
-    // A group's count follows its records; a person or organization's row stands.
-    if (held && (held.count === target.count || target.count === null))
+    // A group's count follows its records; a person or organization's row
+    // stands, cited to the law row now applying it.
+    if (
+      held &&
+      (held.count === target.count || target.count === null) &&
+      held.lawId === lawId
+    )
       continue;
     const row: ReachRow = {
       id: held?.id ?? `reach:${lawId}:${spec.id}:${target.id}:${date}`,
       key,
       spec: spec.id,
-      lawId: held?.lawId ?? lawId,
+      lawId,
       target: spec.target,
       targetId: target.id,
       kind: spec.kind,

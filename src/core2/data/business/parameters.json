@@ -49,9 +49,9 @@
     "citation": "Mean days per month (365/12)."
   },
   "businessFoundBaseline": {
-    "value": -4,
+    "value": -2,
     "tag": "TUNABLE",
-    "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year).",
+    "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year). Set at -2.5 so the founders' best weighings sit within reach of a trait lean (at -4 the best weighing of 46,674 in a played year was still 1.1 below not starting, and personality turned none).",
     "spread": {
       "low": -6,
       "high": -2,
@@ -392,6 +392,18 @@
       "high": 0.018,
       "unit": "share of other operating costs",
       "citation": "California Department of Finance, Standardized Regulatory Impact Assessment of the CCPA regulations (August 2019): about 1.8% of 2018 California gross state product in the first year."
+    }
+  },
+  "businessAgeVerificationShareOfCosts": {
+    "value": 0.004,
+    "tag": "ESTIMATED",
+    "citation": "Age verification vendors price by the check (publicly listed vendor rates run from about $0.10 to $1.00 per verified age); Utah SB 152 (2023) and Louisiana Act 456 (2023) require a platform to verify every new account holder's age.",
+    "estimatedFrom": "A platform's yearly new-account checks at the middle vendor rate, as a share of the telecommunications and online employer's other operating costs.",
+    "spread": {
+      "low": 0.001,
+      "high": 0.012,
+      "unit": "share of other operating costs",
+      "citation": "Vendor rate range per check against the other operating costs of a small online employer."
     }
   }
 }

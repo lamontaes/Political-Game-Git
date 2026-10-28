@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: open
 claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
@@ -22,4 +22,4 @@ claimed-at: 2026-10-20T00:47:20.088Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5076 by the CTO, Oct 26.

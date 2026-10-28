@@ -158,6 +158,9 @@ describe("opening-only employment source and preservation", () => {
         expect(age.rate).toBeGreaterThanOrEqual(p("zero"));
         expect(age.rate).toBeLessThanOrEqual(p("one"));
         expect(age.source).toBeTruthy();
+        // An island area reads its own 2020 Census table, never the national proxy.
+        if (place.key.startsWith("territory:"))
+          expect(age.basis).toMatch(/^county-ACS-/);
         if (!age.basis.startsWith("county-ACS-")) {
           expect(age.basis).toContain("tunable-missing-county");
           expect(

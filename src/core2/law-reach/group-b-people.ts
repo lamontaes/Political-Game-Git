@@ -6,6 +6,8 @@
  */
 import parameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { parameter } from "../parameters";
+import { BUSINESS_MODULE_ID } from "../business-module-id";
 import {
   countedJob,
   countedParameter,
@@ -36,8 +38,12 @@ const table = parameters as unknown as {
   >;
 };
 
-/** A number from the group B parameter table. */
+/**
+ * A number from the group B parameter table. The voting age is the elections
+ * data's one row (`votingAge`, the Twenty-Sixth Amendment), never a copy here.
+ */
 export function reachParameter(key: string): number {
+  if (key === "votingAge") return parameter(key);
   const row = table.parameters[key];
   if (!row) throw new Error(`Unknown law-reach parameter: ${key}`);
   return row.value;
@@ -82,6 +88,8 @@ export interface HouseholdFacts {
   readonly named: boolean;
   readonly size: number;
   readonly incomeDollars: number;
+  /** The part of `incomeDollars` that is retirement benefits, not wages. */
+  readonly retirementDollars?: number;
   readonly ages: readonly number[];
   /** Real households this counted row stands for (absent means one). */
   readonly scale?: number;
@@ -127,6 +135,23 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     for (const job of jobs) minor += job.wageDailyMinor * days;
     return minor / cents;
   };
+  const rt = residentsRuntime(core);
+  // A named retiree's award is a standing contract with them as recipient.
+  const retirementYearMinor = new Map<string, number>();
+  for (const contract of core.finance.contracts.values())
+    if (
+      !contract.endedAt &&
+      contract.recipientIncome &&
+      contract.kind === "income.retirement"
+    ) {
+      const id = contract.recipientIncome.personId;
+      retirementYearMinor.set(
+        id,
+        (retirementYearMinor.get(id) ?? 0) +
+          (contract.amountMinor * reachParameter("monthsPerYear")) /
+            Math.max(1, contract.periodMonths),
+      );
+    }
   // Named people: their own jobs and commitments.
   const commitments: WorkCommitmentInput[] = [];
   for (const id of core.peopleByPlace.get(townPlaceId) ?? [])
@@ -135,6 +160,24 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
       if (row) commitments.push(row);
     }
   const namedMinutes = activeMinutes(commitments, date);
+  // An owner works at their own business whether or not a work commitment
+  // records it (an outlet's publisher has none): the work requirement counts
+  // the average hours of the self-employed, from the business's owner record.
+  const ownerMinutes =
+    reachParameter("ownerWeeklyHours") * reachParameter("minutesPerHour");
+  const owners = new Set<string>();
+  for (const [orgId, book] of core.finance.businesses) {
+    if (book.closedAt || core.organizations.get(orgId)?.placeId !== townPlaceId)
+      continue;
+    const owner = (
+      core.modules.has(BUSINESS_MODULE_ID)
+        ? api.moduleState(BUSINESS_MODULE_ID).table("owners").get(orgId)
+        : undefined
+    ) as { ownerId?: string } | undefined;
+    if (owner?.ownerId) owners.add(owner.ownerId);
+  }
+  for (const id of owners)
+    namedMinutes.set(id, Math.max(namedMinutes.get(id) ?? 0, ownerMinutes));
   const namedByHousehold = new Map<string, string[]>();
   for (const id of core.peopleByPlace.get(townPlaceId) ?? []) {
     const person = core.people.get(id);
@@ -162,18 +205,23 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
         employed: working,
       });
     }
+    // A claimed retirement benefit is income the household lives on.
+    let retirementMinor = 0;
+    for (const id of ids) retirementMinor += retirementYearMinor.get(id) ?? 0;
     households.set(householdId, {
       id: householdId,
       named: true,
       size: ids.length,
-      incomeDollars: jobIncome(jobs),
+      incomeDollars: jobIncome(jobs) + retirementMinor / cents,
+      ...(retirementMinor
+        ? { retirementDollars: retirementMinor / cents }
+        : {}),
       ages,
     });
   }
   // Counted residents: their groups' members, read from the packed columns
   // (one model, two tiers). A working-age member without a recorded job
   // works by their household's share of the place's unplaced workers.
-  const rt = residentsRuntime(core);
   if (rt) {
     const store = rt.store;
     const from = countedParameter("countedWorkingAgeFrom"),
@@ -181,6 +229,9 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     for (const h of store.liveHouseholds()) {
       if (h.placeId !== townPlaceId) continue;
       const minutes = activeMinutes(h.workCommitments, date);
+      for (const id of owners)
+        if (minutes.has(id))
+          minutes.set(id, Math.max(minutes.get(id)!, ownerMinutes));
       const jobs = h.jobs.filter(
         (job) => countedJob(core, job.id) !== undefined,
       );
@@ -221,6 +272,9 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
             (h.unplacedWorkers * (rt.unplacedPerWorker.get(h.placeId) ?? 0)) /
               cents +
             h.retirementMinorYear / cents,
+          ...(h.retirementMinorYear
+            ? { retirementDollars: h.retirementMinorYear / cents }
+            : {}),
           ages,
           ...(scale !== 1 ? { scale } : {}),
         });
@@ -267,7 +321,7 @@ export function selectResidents(
           reachParameter("weeksPerYear")
         : undefined;
   const childBelow = p(selector.noChildBelow);
-  const adult = reachParameter("adultAge");
+  const adult = reachParameter("votingAge");
   const out: ResidentFacts[] = [];
   for (const r of facts.residents) {
     if (ageFrom !== undefined && r.age < ageFrom) continue;

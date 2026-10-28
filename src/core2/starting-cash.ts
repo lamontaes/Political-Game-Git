@@ -1,4 +1,5 @@
 /** Opening cash: what a family at a given income keeps in its accounts (SCF 2022). */
+import { worldLevel } from "./world-draw";
 import scf from "../../data/research/money/scf-transaction-accounts-2022.json" with { type: "json" };
 
 /**
@@ -9,8 +10,9 @@ import scf from "../../data/research/money/scf-transaction-accounts-2022.json" w
  * groups' median incomes the balance's share of income is read along a line
  * in the logarithm of income; outside them it takes the nearest group's share.
  * A share, not a dollar amount, so the 2022 table reads the same at 2026 pay.
+ * This is the published calibration; play reads `medianTransactionBalance`.
  */
-export function medianTransactionBalance(annualPay: number): number {
+export function publishedTransactionBalance(annualPay: number): number {
   const points = scf.groups.map((group) => ({
     logIncome: Math.log(group.medianFamilyIncome),
     share: group.medianTransactionAccounts / group.medianFamilyIncome,
@@ -30,4 +32,21 @@ export function medianTransactionBalance(annualPay: number): number {
     share = low.share + along * (high.share - low.share);
   }
   return annualPay * share;
+}
+
+/**
+ * What a family at this income keeps in its accounts in this world: the
+ * published median, scaled by one balance level drawn per world from its seed
+ * (realistic, not real; owner, Oct 27). Every opening cash reads this.
+ */
+export function medianTransactionBalance(
+  annualPay: number,
+  seed: string,
+): number {
+  return worldLevel(
+    publishedTransactionBalance(annualPay),
+    seed,
+    "world-cash-level",
+    "worldCashSpreadShare",
+  );
 }

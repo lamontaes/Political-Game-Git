@@ -2,9 +2,9 @@ import { readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import {
-  lifePlaceStateIdentities,
-  seatOfGovernmentPlace,
-} from "../src/simulation/life-places";
+  corePlaceStateIdentities,
+  coreSeatOfGovernmentPlace,
+} from "../src/core2/place-lookup";
 
 interface CorpusPlace {
   readonly geoid: string;
@@ -35,7 +35,7 @@ const corpusGeoids = new Set(corpus.map((place) => place.geoid));
 describe("seats of government stay inside their own jurisdiction", () => {
   it("covers all 56 places and Congress through the ordinary place loader", () => {
     const expected = new Set([
-      ...lifePlaceStateIdentities().map(({ usps }) => `US-${usps}`),
+      ...corePlaceStateIdentities().map(({ usps }) => `US-${usps}`),
       "US-FEDERAL",
     ]);
     expect(expected.size).toBe(57);
@@ -47,7 +47,7 @@ describe("seats of government stay inside their own jurisdiction", () => {
       expect(row.capitalName).not.toBe("");
       expect(row.capitalEvidenceUrl).toMatch(/^https:\/\//);
       expect(row.placeEvidenceUrl).toMatch(/^https:\/\//);
-      const loaded = seatOfGovernmentPlace(row.jurisdictionKey);
+      const loaded = coreSeatOfGovernmentPlace(row.jurisdictionKey);
       expect(loaded, row.jurisdictionKey).not.toBeNull();
       expect(loaded!.matchStatus).toBe(row.matchStatus);
       if (row.jurisdictionKey !== "US-FEDERAL")
@@ -58,13 +58,14 @@ describe("seats of government stay inside their own jurisdiction", () => {
         expect(loaded!.place.sourceGeoid).toBe(row.placeGeoid);
       } else {
         expect(loaded!.place.key).toBe(row.placeKey);
-        expect(loaded!.place.sourceGeoid).toBeUndefined();
+        // An island-area village carries its Census Island Areas GEOID.
+        expect(loaded!.place.sourceGeoid).toMatch(/^\d{7,10}$/);
       }
     }
-    expect(seatOfGovernmentPlace("unrecorded-government")).toBeNull();
+    expect(coreSeatOfGovernmentPlace("unrecorded-government")).toBeNull();
   });
 
-  it("preserves local island identities and their placeholder provenance", () => {
+  it("keeps local island identities, now from the Census Island Areas list", () => {
     const estimated = table.rows.filter(
       (row) => row.matchStatus === "estimated-territory-place",
     );
@@ -75,12 +76,12 @@ describe("seats of government stay inside their own jurisdiction", () => {
       "US-VI",
     ]);
     for (const row of estimated) {
-      const loaded = seatOfGovernmentPlace(row.jurisdictionKey)!;
+      const loaded = coreSeatOfGovernmentPlace(row.jurisdictionKey)!;
       expect(row.placeKey).toMatch(/^territory:/);
       expect(row.placeGeoid).toBeUndefined();
       expect(row.estimateReason).toContain("placeholder provenance");
       expect(loaded.place.context.jurisdiction.provenance.status).toBe(
-        "placeholder",
+        "approved",
       );
       expect(loaded.place.capabilities).toEqual({
         legislativeScenarioKey: null,

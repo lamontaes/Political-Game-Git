@@ -13,6 +13,7 @@
  * housing arrears say how many of the group's owners are behind, the ones
  * with the least income first.
  */
+import { townOutsideOf } from "./opening-outside-market";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import foreclosureData from "./data/housing/foreclosure.json" with { type: "json" };
 import { stopgap } from "./stopgaps";
@@ -20,6 +21,7 @@ import { transferCash } from "./world-transfer";
 import { endFlowPart } from "./residents-economy";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
+import { formerHome } from "./housing-former-home";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -43,6 +45,37 @@ const DATA = foreclosureData as unknown as {
   nationalTypicalDaysToComplete: number;
   places: Record<string, StateSteps>;
 };
+
+/**
+ * The typical days from first filing to sale for each foreclosure process: the
+ * median of the places whose own average is published (ATTOM, Q2 2026), so a
+ * place without one takes its process's median, not the nation's, which a few
+ * slow judicial places pull up.
+ */
+const PROCESS_TYPICAL_DAYS = (() => {
+  const by = new Map<string, number[]>();
+  for (const row of Object.values(DATA.places))
+    if (row.typicalDaysToComplete !== null)
+      by.set(row.process, [
+        ...(by.get(row.process) ?? []),
+        row.typicalDaysToComplete,
+      ]);
+  return new Map(
+    [...by].map(([process, days]) => {
+      const sorted = [...days].sort((a, b) => a - b);
+      const mid = sorted.length >> 1;
+      // Whole days.
+      return [
+        process,
+        Math.round(
+          sorted.length % 2
+            ? sorted[mid]!
+            : (sorted[mid - 1]! + sorted[mid]!) / 2,
+        ),
+      ] as const;
+    }),
+  );
+})();
 
 /** A mortgage the housing engine holds. */
 export interface MortgageRow {
@@ -77,11 +110,14 @@ export function foreclosureSteps(usps: string): StateSteps & {
     statute: row?.statute ?? "",
     confidence: row?.confidence ?? "low",
     // Sales follow the state's average time from first filing to sale; the
-    // nation's where none is published (the statute's notices are the floor).
+    // median of its process where none is published, the nation's only for a
+    // process no place has an average for (the statute's notices are the floor).
     daysToSale: Math.max(
       1,
       statutory,
-      row?.typicalDaysToComplete ?? DATA.nationalTypicalDaysToComplete,
+      row?.typicalDaysToComplete ??
+        PROCESS_TYPICAL_DAYS.get(row?.process ?? "judicial") ??
+        DATA.nationalTypicalDaysToComplete,
     ),
     redemptionDays: Math.max(0, row?.redemptionDaysAfterSale ?? 0),
   };
@@ -211,10 +247,9 @@ export function foreclosureSale(api: CoreAPI, caseId: string): string | null {
   const price = salePrice(api, row.householdId);
   const owed = mortgage.balanceMinor;
   // The town's outside market stands for the buyer at the sale.
-  const buyer = [...c.organizations.values()].find(
-    (org) =>
-      org.outsideFlow !== undefined &&
-      org.placeId === c.households.get(row.householdId)?.placeId,
+  const buyer = townOutsideOf(
+    c.organizations.values(),
+    c.households.get(row.householdId)?.placeId,
   );
   const source = {
     tag: "ESTIMATED" as const,
@@ -228,14 +263,19 @@ export function foreclosureSale(api: CoreAPI, caseId: string): string | null {
   let toLender = 0;
   let surplus = 0;
   if (buyer && price > 0) {
-    toLender = transferCash(
-      api,
-      `foreclosure-sale:${caseId}`,
-      buyer.id,
-      row.holderId,
-      Math.min(price, owed),
-      source,
-    );
+    // The outside market that buys the home can also hold its mortgage:
+    // paying itself moves no cash, and the loan is settled all the same.
+    toLender =
+      row.holderId === buyer.id
+        ? Math.min(price, owed)
+        : transferCash(
+            api,
+            `foreclosure-sale:${caseId}`,
+            buyer.id,
+            row.holderId,
+            Math.min(price, owed),
+            source,
+          );
     if (price > owed && !row.counted) {
       const first = c.households.get(row.householdId)?.memberIds[0];
       if (first)
@@ -307,17 +347,19 @@ export function foreclosureRemoval(api: CoreAPI, caseId: string): boolean {
     stage: "removed",
     removedAt: c.date,
   } as unknown as ModuleRow);
-  const dwelling = table(api, "dwellings").get(
-    `dwelling:${row.householdId}`,
-  ) as { kind?: string } | undefined;
-  table(api, "dwellings").put({
-    id: `dwelling:${row.householdId}`,
-    householdId: row.householdId,
-    tenure: "removed",
-    kind: dwelling?.kind ?? "house",
-    since: c.date,
-    basis: "foreclosure",
-  });
+  table(api, "dwellings").put(
+    formerHome(
+      table(api, "dwellings").get(`dwelling:${row.householdId}`) as Parameters<
+        typeof formerHome
+      >[0],
+      {
+        householdId: row.householdId,
+        tenure: "removed",
+        basis: "foreclosure",
+        date: c.date,
+      },
+    ) as unknown as ModuleRow,
+  );
   if (row.counted) {
     const rt = residentsRuntime(c);
     const ix = rt?.store.householdOf.get(row.householdId);

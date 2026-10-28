@@ -12,6 +12,7 @@ import { coreAPI } from "./state";
 import { ownedHomes } from "./modules/housing";
 import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import capData from "./data/laws/reach-group-b-parameters.json" with { type: "json" };
+import statutes from "./data/laws/property-tax-caps.json" with { type: "json" };
 
 const question = "us-policy-positions:fiscal.cap-property-tax-growth";
 it("settles owners' tax bills and reads assessment caps when deciding next year's value", () => {
@@ -122,10 +123,13 @@ it("settles owners' tax bills and reads assessment caps when deciding next year'
         advanceCore(core, addDays(makeIsoDate(core.date), 32));
       };
       changeLaw(1);
+      // The state's own statute where its row is read, else the estimate.
+      const capShare =
+        (statutes.states as Record<string, { capShare: number }>)[
+          lawChain(api).stateKey.slice(3)
+        ]?.capShare ?? capData.parameters.propertyTaxGrowthCapShare.value;
       expect(table.get(id)?.assessedMinor).toBe(
-        Math.round(
-          base * (1 + capData.parameters.propertyTaxGrowthCapShare.value),
-        ),
+        Math.round(base * (1 + capShare)),
       );
       expect(String(table.get(id)?.capLawId)).toContain("fixture:tax-cap:1");
       changeLaw(0);
@@ -140,3 +144,16 @@ it("settles owners' tax bills and reads assessment caps when deciding next year'
     setBookkeeping(true);
   }
 }, 1_800_000);
+
+it("each state's cap statute row names its size, scope and source, inside the Lincoln Institute's range of caps", () => {
+  const rows = Object.entries(statutes.states);
+  expect(rows.length).toBeGreaterThanOrEqual(8);
+  for (const [state, row] of rows) {
+    expect(state, state).toMatch(/^[A-Z]{2}$/);
+    expect(row.capShare, state).toBeGreaterThanOrEqual(0.02);
+    expect(row.capShare, state).toBeLessThanOrEqual(0.1);
+    expect(["all", "homestead", "residential"], state).toContain(row.scope);
+    expect(row.source.length, state).toBeGreaterThan(40);
+  }
+  expect(statutes.tag).toBe("SOURCED");
+});

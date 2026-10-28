@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import { stableHash } from "./kernel/ids";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { corePlaceStateIdentities } from "./place-lookup";
-import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
   countedEngagement,
+  openingStance,
   stancesOf,
   viewOf,
   viewsModule,
@@ -14,6 +14,10 @@ import {
 import { buildPopulation } from "./population";
 import { realLocalities } from "./places";
 import { applyCoreEvent, coreAPI } from "./state";
+import { setKeepEveryonesWhy } from "./why-kept";
+
+// Reads a listener's stance causes for people outside the player's circle.
+setKeepEveryonesWhy(true);
 
 // M1-10, first version: in two places drawn from all 56, each town's views
 // sit inside its state's real spread (CES 2024), so conservatives in two
@@ -50,14 +54,12 @@ const towns = seeds.map((seed) => {
     seed === process.env.GOLDEN_PATH_SEED && process.env.GOLDEN_PATH_PLACE_KEY
       ? { key: process.env.GOLDEN_PATH_PLACE_KEY }
       : drawnPlace(seed);
-  const input = buildDeepPast(
-    buildPopulation({
-      seed,
-      placeKey: place.key,
-      startedAt: "2021-01-01",
-      minimumPeople: 800,
-    }),
-  );
+  const input = buildPopulation({
+    seed,
+    placeKey: place.key,
+    startedAt: "2021-01-01",
+    minimumPeople: 800,
+  });
   const core = createLifeCore(input, { modules: [viewsModule] });
   const api = coreAPI(core);
   const adults = [...core.people.values()].filter(
@@ -134,6 +136,35 @@ describe("political views", () => {
     expect(group("protestant").length).toBeGreaterThan(10);
     expect(group("none").length).toBeGreaterThan(10);
     expect(mean(group("protestant"))).toBeGreaterThan(mean(group("none")));
+  });
+
+  it("forms a different opening stance for neighbors whose faith and degree differ, before any campaign", () => {
+    const abortion =
+      "us-policy-positions:civil-family-community.restrict-abortion";
+    const wage = "us-policy-positions:labor-workforce.raise-minimum-wage";
+    const unsurveyed = "us-policy-positions:fiscal.cap-property-tax-growth";
+    for (const { seed, api, views } of towns) {
+      const profiled = views.filter(
+        (view) => view.faithFromAverage !== undefined,
+      );
+      expect(profiled.length, seed).toBeGreaterThan(10);
+      const most = profiled.reduce((a, b) =>
+        b.faithFromAverage! > a.faithFromAverage! ? b : a,
+      );
+      const least = profiled.reduce((a, b) =>
+        b.faithFromAverage! < a.faithFromAverage! ? b : a,
+      );
+      const who = `${seed}: ${most.id} (${most.basis}) and ${least.id} (${least.basis})`;
+      // The same lean, so any difference comes from faith and degree alone.
+      const gap = (question: string) =>
+        openingStance(api, most.id, question, 0.3) -
+        openingStance(api, least.id, question, 0.3);
+      // More religious: more for restricting abortion, less for the $15 wage.
+      expect(gap(abortion), who).toBeGreaterThan(0);
+      expect(gap(wage), who).toBeLessThan(0);
+      // A question the survey has no item for starts from the lean alone.
+      expect(gap(unsurveyed), who).toBe(0);
+    }
   });
 
   it("forms the same view for the same person when they are filled in again", () => {

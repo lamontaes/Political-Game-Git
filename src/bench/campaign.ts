@@ -1,7 +1,9 @@
+import { spokenDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import {
   askForDonation,
   askForEndorsement,
+  contributeOwnMoney,
   askToVolunteer,
   campaignFor,
   commissionPoll,
@@ -13,11 +15,14 @@ import {
 import type { Stance } from "../core2/campaign-views";
 import {
   campaignDayChoices,
+  contestStanding,
   takeCampaignDayChoice,
+  whyNotToday,
+  type CandidateStanding,
   type CampaignDayKind,
 } from "../core2/campaign-day";
-import type { FilingRow } from "../core2/modules/elections";
-import type { CoreState } from "../core2/types";
+import type { ContestRow, FilingRow } from "../core2/modules/elections";
+import type { CoreAPI, CoreState } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
 import { retellingsOf } from "../core2/modules/speech";
 import {
@@ -25,24 +30,43 @@ import {
   debatesIn,
   type DebateRow,
 } from "../core2/modules/meetings";
-import type { InterviewAnswer } from "../core2/modules/press";
+import {
+  interviewsFor,
+  outletsHere,
+  type InterviewAnswer,
+} from "../core2/modules/press";
 import {
   beginSpeech,
   chooseSpeechPart,
   speechText,
   type SpeechBuild,
 } from "../director/speech-builder";
-import { backdropFile, stagePeople } from "./scene";
+import { campaignParameter } from "../core2/campaign-views";
+import { backdropFor, stagePeople } from "./scene";
+import { dollarsOf, nameList, standingLine } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+
+/** The voters a poll asks when the player commissions one from the Campaigns screen. */
+const POLL_SAMPLE = campaignParameter("pollSampleSize");
 
 const ELECTIONS = "core2-elections-v1";
 const CAMPAIGNS = "core2-campaigns-v1";
 
 /** The campaign day's acts that open as a scene, by the name the screen's control carries. */
-const OUTINGS: Partial<Record<CampaignDayKind, "doors" | "calls">> = {
+const OUTINGS: Partial<
+  Record<CampaignDayKind, "doors" | "calls" | "event" | "interview">
+> = {
   canvass: "doors",
   "raise-money": "calls",
+  event: "event",
+  interview: "interview",
 };
+
+/** The outlet to ask first: the town's own before a regional or national one. */
+function townFirst(api: CoreAPI, outletIds: readonly string[]) {
+  const tier = new Map(outletsHere(api).map((o) => [o.id, o.tier]));
+  return outletIds.find((id) => tier.get(id) === "local") ?? outletIds[0];
+}
 
 /** The player's campaigns: one for each filing on the ballot. */
 export function campaignView(core: CoreState, personId: string) {
@@ -66,8 +90,25 @@ export function campaignView(core: CoreState, personId: string) {
         contacted: number;
         answers: Record<string, number>;
       }[];
+      const causes = contestStanding(api, filing.contestId, personId);
+      // The race by its own record: the office and the day it is decided.
+      const contest = api
+        .moduleState(ELECTIONS)
+        .table("contests")
+        .get(filing.contestId) as unknown as ContestRow | undefined;
       return {
         filing,
+        // The other candidates on the contest's filings, by name: what the
+        // standing's opponents sentence names.
+        opponents: causes.filter((who) => !who.you).map((who) => who.name),
+        contest: contest
+          ? {
+              title: contest.district
+                ? `${contest.title} (${contest.district})`
+                : contest.title,
+              electionDate: contest.electionDate,
+            }
+          : null,
         campaign: {
           ...campaign,
           volunteers: campaign.volunteerIds.length,
@@ -75,13 +116,36 @@ export function campaignView(core: CoreState, personId: string) {
         },
         polls: polls.slice(-3),
         // What the contest turns on: each candidate's acts and how the people they reached came to feel.
-        causes: contestCauses(core, filing.contestId, personId),
+        causes,
+        // The sample a poll asks, so the screen's Poll button and the price below agree.
+        pollSample: POLL_SAMPLE,
+        // Where the race stands, in the English engine's words, from the contest's records.
+        standing: raceStanding(core, filing, polls.at(-1), causes),
         // Where the player can go out and meet people today: a street of doors, the phone bank.
         outings: campaignDayChoices(api, filing.id).flatMap((choice) => {
           const outing = OUTINGS[choice.kind];
-          return outing
-            ? [{ outing, hours: choice.hours, available: choice.available }]
-            : [];
+          if (!outing) return [];
+          // An interview is asked of an outlet: the one that invited the candidate, else the first with room.
+          const outletId =
+            choice.kind === "interview"
+              ? (interviewsFor(api, filing.personId).find(
+                  (i) => i.id === choice.facts.invitedInterviewIds[0],
+                )?.outletId ??
+                townFirst(
+                  api,
+                  choice.facts.outlets.map((o) => o.outletId),
+                ))
+              : undefined;
+          const why = choice.available ? undefined : whyNotToday(choice);
+          return [
+            {
+              outing,
+              hours: choice.hours,
+              available: choice.available,
+              ...(outletId ? { outletId } : {}),
+              ...(why ? { why } : {}),
+            },
+          ];
         }),
         // Debates the outlet has invited the candidates to, waiting for their answers.
         debates: debatesIn(api, filing.contestId)
@@ -98,51 +162,91 @@ export function campaignView(core: CoreState, personId: string) {
 }
 
 /**
- * The causes a contest turns on: for each candidate on its ballot, the acts
- * that reached voters (doors, speeches, ads, a retelling) with how many were
- * reached and how many came away warmer or cooler. Read from the cause rows
- * the campaign engine kept; a read-only view.
+ * Where the race stands, as sentences from the English engine's
+ * campaign-standing bank: the voters the player reached and how many moved,
+ * the opponents on the contest's filings and how many voters each reached,
+ * the last poll's answers, and what a poll would cost (the Poll action's
+ * sample at the campaign engine's price per interview).
  */
-function contestCauses(core: CoreState, contestId: string, personId: string) {
-  const api = coreAPI(core);
-  const filings = (
-    api
-      .moduleState(ELECTIONS)
-      .table("filings")
-      .query("byContest", [contestId]) as unknown as FilingRow[]
-  ).filter((row) => row.status !== "withdrawn");
-  return filings.map((filing) => {
-    const rows = api
-      .moduleState(CAMPAIGNS)
-      .table("causes")
-      .query("byCandidate", [filing.personId]) as unknown as CauseRow[];
-    const acts = new Map<
-      string,
-      { act: string; reached: number; warmer: number; cooler: number }
-    >();
-    for (const row of rows) {
-      const entry = acts.get(row.act) ?? {
-        act: row.act,
-        reached: 0,
-        warmer: 0,
-        cooler: 0,
-      };
-      entry.reached += 1;
-      if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
-      else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
-      acts.set(row.act, entry);
-    }
-    const person = core.people.get(filing.personId);
-    return {
-      filingId: filing.id,
-      candidateId: filing.personId,
-      name: person
-        ? `${person.givenName} ${person.familyName}`
-        : filing.personId,
-      you: filing.personId === personId,
-      acts: [...acts.values()].sort((a, b) => a.act.localeCompare(b.act)),
-    };
-  });
+export function raceStanding(
+  core: CoreState,
+  filing: FilingRow,
+  lastPoll:
+    | { date: string; contacted: number; answers: Record<string, number> }
+    | undefined,
+  causes: readonly CandidateStanding[],
+): string[] {
+  const mine = causes.find((who) => who.you);
+  const others = causes.filter((who) => !who.you);
+  const id = filing.id;
+  const perInterview = campaignParameter("pollCostPerInterviewMinor");
+  const line = (
+    move: string,
+    recordId: string,
+    slots: Readonly<Record<string, string | number>>,
+  ) => standingLine(core.seed, filing.personId, move, recordId, slots);
+  return [
+    mine && mine.reached > 0
+      ? line(mine.reached === 1 ? "reached-one" : "reached", id, {
+          reached: mine.reached,
+        })
+      : line("reached-none", id, {}),
+    ...(mine && mine.reached > 0
+      ? [
+          line(
+            mine.warmer > 0 && mine.cooler > 0
+              ? "moved-both"
+              : mine.warmer > 0
+                ? "moved-warmer"
+                : mine.cooler > 0
+                  ? "moved-cooler"
+                  : "moved-none",
+            id,
+            { warmer: mine.warmer, cooler: mine.cooler },
+          ),
+        ]
+      : []),
+    others.length
+      ? line(others.length === 1 ? "opponent-one" : "opponents", id, {
+          opponents: nameList(others.map((who) => who.name)),
+        })
+      : line("opponents-none", id, {}),
+    ...others
+      .filter((who) => who.reached > 0)
+      .map((who) =>
+        line(
+          who.reached === 1 ? "opponent-reached-one" : "opponent-reached",
+          `${id}|${who.candidateId}`,
+          { name: who.name, reached: who.reached },
+        ),
+      ),
+    ...(lastPoll
+      ? [
+          line(
+            lastPoll.contacted === 1 ? "poll-result-one" : "poll-result",
+            id,
+            {
+              date: spokenDate(lastPoll.date),
+              contacted: lastPoll.contacted,
+              // The candidates' answers, by name; the bank has no words for
+              // the undecided yet, so they are left out of the tally.
+              tally: Object.entries(lastPoll.answers)
+                .flatMap(([who, n]) => {
+                  const name = causes.find((c) => c.candidateId === who)?.name;
+                  return name ? [[name, n] as const] : [];
+                })
+                .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+                .map(([name, n]) => `${name} ${n}`)
+                .join(", "),
+            },
+          ),
+        ]
+      : []),
+    line("poll-cost", id, {
+      sample: POLL_SAMPLE,
+      cost: dollarsOf(POLL_SAMPLE * perInterview),
+    }),
+  ];
 }
 
 const summary = (causes: readonly CauseRow[]) => ({
@@ -169,19 +273,37 @@ export function campaignAct(
     throw new Error("That is not your campaign.");
   const known = [...(core.people.get(personId)?.knownIds ?? [])].sort();
   switch (input.kind) {
-    case "volunteer":
+    case "volunteer": {
+      const answers = known.map((id) => ({
+        personId: id,
+        yes: askToVolunteer(api, input.filingId, id),
+      }));
+      // The count shown is the campaign record's, the one the header reads.
       return {
-        answers: known.map((id) => ({
-          personId: id,
-          yes: askToVolunteer(api, input.filingId, id),
-        })),
+        answers,
+        volunteers: campaignFor(api, input.filingId).volunteerIds.length,
       };
+    }
     case "donation":
       return {
         answers: known.map((id) => ({
           personId: id,
           givenMinor: askForDonation(api, input.filingId, id),
         })),
+      };
+    case "contribute":
+      // The player's own money, the amount they chose.
+      return {
+        answers: [
+          {
+            personId,
+            givenMinor: contributeOwnMoney(
+              api,
+              input.filingId,
+              input.amountMinor ?? 0,
+            ),
+          },
+        ],
       };
     case "endorsement":
       return {
@@ -200,7 +322,7 @@ export function campaignAct(
     case "poll":
       return commissionPoll(api, {
         filingId: input.filingId,
-        sampleSize: input.sampleSize ?? 50,
+        sampleSize: input.sampleSize ?? POLL_SAMPLE,
       });
     default:
       throw new Error("Unknown campaign act.");
@@ -222,13 +344,17 @@ function speechScene(
   );
   return {
     place,
-    backdrop: backdropFile(place, 18 * 60),
+    backdrop: backdropFor(core, place, 18 * 60),
     ...stagePeople(
       core,
       place,
       ids.map((id) => {
         const row = core.people.get(id)!;
-        return { id, name: `${row.givenName} ${row.familyName}` };
+        return {
+          id,
+          name: `${row.givenName} ${row.familyName}`,
+          reason: id === personId ? ("you" as const) : ("reached" as const),
+        };
       }),
     ),
   };
@@ -255,7 +381,17 @@ function outingPeople(
         )
       : kind === "raise-money"
         ? result.giftIds.map((id) => id.split("|")[1] ?? "")
-        : [];
+        : kind === "event"
+          ? result.causeIds.map(
+              (id) =>
+                (
+                  api
+                    .moduleState(CAMPAIGNS)
+                    .table("causes")
+                    .get(id) as unknown as CauseRow | undefined
+                )?.voterId ?? "",
+            )
+          : [];
   return [...new Set(ids)].filter((id) => core.people.get(id)?.alive);
 }
 
@@ -275,17 +411,23 @@ function outingScene(
   const place =
     kind === "canvass"
       ? (doors[dwelling] ?? doors.house!)
-      : scenePlaces.phoneBankPlace;
+      : kind === "event"
+        ? scenePlaces.speechPlaces[0]!
+        : scenePlaces.phoneBankPlace;
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
   return {
     place,
-    backdrop: backdropFile(place, 16 * 60),
+    backdrop: backdropFor(core, place, 16 * 60),
     ...stagePeople(
       core,
       place,
       ids.map((id) => {
         const row = core.people.get(id)!;
-        return { id, name: `${row.givenName} ${row.familyName}` };
+        return {
+          id,
+          name: `${row.givenName} ${row.familyName}`,
+          reason: id === personId ? ("you" as const) : ("reached" as const),
+        };
       }),
     ),
   };

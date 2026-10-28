@@ -29,8 +29,10 @@
       "actionId": "approach-office"
     }
   ],
+  "closureEventKind": "organization.closed",
   "factKeys": {
     "responsible": "responsible",
+    "decidedBy": "decidedBy",
     "drive": "drive",
     "origin": "origin",
     "condition": "condition",
@@ -41,7 +43,10 @@
     "strengthAdded": "strength-added",
     "response": "response",
     "role": "role",
-    "originEvent": "origin-event"
+    "originEvent": "origin-event",
+    "countedSubject": "counted-subject",
+    "countedPerceivers": "counted-perceivers",
+    "countedHousehold": "counted-household"
   },
   "driveKinds": [
     {
@@ -138,6 +143,10 @@
       "driveKind": "status-ambition",
       "requires": [],
       "fitParameter": "responseAmbitionFit",
+      "capacityFades": {
+        "centerParameter": "responseRetrainAgeCenter",
+        "widthParameter": "responseRetrainAgeWidthYears"
+      },
       "actKinds": ["self-interest", "take-risk", "engage", "change"],
       "goalKinds": ["respond:prove-oneself"],
       "need": "money",
@@ -392,11 +401,32 @@
         "guard-family",
         "answer-calling",
         "carry-on"
-      ]
+      ],
+      "fitScaleParameter": "responseBereavementFitScale"
+    },
+    {
+      "id": "bereavement-counted",
+      "eventKind": "residents.member-died",
+      "roles": ["family", "household", "acquaintance"],
+      "channels": ["loss", "others-distress"],
+      "responses": [
+        "take-up-cause",
+        "guard-family",
+        "answer-calling",
+        "carry-on"
+      ],
+      "fitScaleParameter": "responseBereavementFitScale"
     },
     {
       "id": "serious-illness",
       "eventKind": "health.serious-illness",
+      "roles": ["subject", "family", "household"],
+      "channels": ["threat", "loss"],
+      "responses": ["take-up-cause", "guard-family", "carry-on"]
+    },
+    {
+      "id": "serious-illness-counted",
+      "eventKind": "residents.member-fell-ill",
       "roles": ["subject", "family", "household"],
       "channels": ["threat", "loss"],
       "responses": ["take-up-cause", "guard-family", "carry-on"]
@@ -511,6 +541,13 @@
   "actions": [
     {
       "id": "share-cause",
+      "reasonBindings": [
+        {
+          "id": "cause-given",
+          "provider": "drives:cause-given",
+          "weightParameter": "causeGivenWeight"
+        }
+      ],
       "actKinds": ["speak-out", "engage", "help-others"],
       "goalKinds": ["change-condition", "serve"],
       "need": "company",
@@ -549,7 +586,6 @@
           "operation": "no-known-group-on-topic"
         }
       ],
-      "stopgapId": "SG-P10-cause-group-founding",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
@@ -557,6 +593,14 @@
     },
     {
       "id": "join-cause-group",
+      "reasonBindings": [
+        {
+          "id": "cause-given",
+          "provider": "drives:cause-given",
+          "weightParameter": "causeGivenWeight",
+          "arguments": { "fadeDaysParameter": "causeJoinedDays" }
+        }
+      ],
       "actKinds": ["cooperate", "commit", "engage"],
       "goalKinds": ["change-condition", "serve"],
       "need": "company",
@@ -580,6 +624,13 @@
     },
     {
       "id": "donate-to-cause",
+      "reasonBindings": [
+        {
+          "id": "cause-given",
+          "provider": "drives:cause-given",
+          "weightParameter": "causeGivenWeight"
+        }
+      ],
       "actKinds": ["help-others", "commit"],
       "goalKinds": ["change-condition"],
       "need": "safety",
@@ -603,6 +654,13 @@
     },
     {
       "id": "volunteer-for-cause",
+      "reasonBindings": [
+        {
+          "id": "cause-given",
+          "provider": "drives:cause-given",
+          "weightParameter": "causeGivenWeight"
+        }
+      ],
       "actKinds": ["help-others", "commit", "cooperate"],
       "goalKinds": ["change-condition", "serve"],
       "need": "company",

@@ -12,7 +12,11 @@ import rows from "./data/justice/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
 import type { CoreAPI, PersonId, Source } from "./types";
 import { lawChain } from "./modules/laws";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  servingTermsOf,
+  type TermRow,
+} from "./modules/offices";
 import type { OfficeInput } from "./offices-local";
 
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -186,40 +190,40 @@ const SENTENCING = sentencing as unknown as {
   >;
 };
 
-/** The offense row bribery is sentenced on until each place's bribery statute is read. */
-const BRIBERY_STAND_IN_OFFENSE = "crime:assault";
+/** The offense row bribery is sentenced on: each place's own bribery statute. */
+const BRIBERY_OFFENSE = "crime:bribery";
 
 /**
  * The first-offense sentence range, in months, for bribing or taking a bribe
- * as a public official in the state. Until each place's bribery statute is
- * read, it is the place's lowest felony grade the research holds (the
- * lowest felony assault, a mid-level felony like most state bribery
- * statutes).
+ * as a public official in the state: the grade and range of the place's own
+ * bribery statute, or, where that statute could not be read, the mean of the
+ * places read (marked ESTIMATED FROM AVERAGE in the research).
  */
 export function briberyRange(
   api: CoreAPI,
   stateKey: string,
 ): { minMonths: number; maxMonths: number; source: Source } {
-  // stopgapId: SG-GOV-justice-bribery-grade
-  api.stopgap("SG-GOV-justice-bribery-grade");
   const place = SENTENCING.places[stateKey];
-  const offense = place?.offenses[BRIBERY_STAND_IN_OFFENSE];
+  const offense = place?.offenses[BRIBERY_OFFENSE];
   const resolved =
     offense?.class && place?.classes[offense.class]
       ? place.classes[offense.class]!
       : offense;
-  const average = SENTENCING.estimateAverages[BRIBERY_STAND_IN_OFFENSE]!;
+  const average = SENTENCING.estimateAverages[BRIBERY_OFFENSE]!;
   const minMonths = resolved?.minMonths ?? average.minMonths;
   // A life maximum is read as the averaged maximum.
   const maxMonths = resolved?.maxMonths ?? average.maxMonths;
+  const read = offense?.basis === "SOURCED";
+  // stopgapId: SG-GOV-justice-bribery-grade
+  if (!read) api.stopgap("SG-GOV-justice-bribery-grade");
   return {
     minMonths,
     maxMonths: Math.max(minMonths, maxMonths),
     source: {
-      tag: "ESTIMATED",
-      citation: `data/research/justice/sentencing-ranges-2026.json ${stateKey} ${BRIBERY_STAND_IN_OFFENSE}${resolved?.citation ? ` (${resolved.citation})` : ""}`,
+      tag: read ? "SOURCED" : "ESTIMATED",
+      citation: `data/research/justice/sentencing-ranges-2026.json ${stateKey} ${BRIBERY_OFFENSE}${offense?.citation ? ` (${offense.citation})` : ""}`,
       asOf: api.state.date,
-      estimatedFrom: "SG-GOV-justice-bribery-grade",
+      ...(read ? {} : { estimatedFrom: "SG-GOV-justice-bribery-grade" }),
     },
   };
 }
@@ -304,17 +308,6 @@ export function bribeProceedsForfeited(
       estimatedFrom: "SG-GOV-justice-forfeiture-by-place",
     },
   };
-}
-
-/** The offices a person serves in now. */
-export function servingTermsOf(
-  api: CoreAPI,
-  personId: PersonId,
-): readonly TermRow[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return (
-    terms(api).query("byPerson", [personId]) as unknown as TermRow[]
-  ).filter((t) => t.status === "serving");
 }
 
 /** How much a case about this person is worth to a prosecutor, from the highest office they hold. */

@@ -13,6 +13,7 @@
  * pulled hardest. People arrive in the town the same way from every other
  * place. The regional engine reads each state's counts.
  */
+import { worldRateFactor } from "../world-base-rates";
 import { createStableId, stableHash } from "../kernel/ids";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import stateTax from "../../../data/research/money/state-income-tax-2026.json" with { type: "json" };
@@ -21,10 +22,14 @@ import regions from "../data/regional/regions.json" with { type: "json" };
 import { scheduleTax } from "../tax-withholding";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
-import { corePlaceByJurisdictionId } from "../place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  coreStateKeyOfPlaceholderId,
+} from "../place-lookup";
 import { stateFigures, type RegionMonth } from "../regional-model";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { REGIONAL_MODULE_ID } from "./regional";
+import { webFactorFor, type Subject } from "../outcome-web-reach";
 import {
   admitCountedHousehold,
   countedParameter,
@@ -115,7 +120,7 @@ export interface MoveRecord {
   readonly fromPlace: string;
   readonly toPlace: string;
   readonly people: number;
-  /** The pull toward the place it went, against staying, by cause (log units). */
+  /** What weighed toward the move, by cause: the yearly rate of leaving at the movers' age (lifeStage, or for a household of minors alone its group's yearly rate, groupRate); the web's factor, each hold (negative) and the pull toward another state, in log units. */
   readonly reasons: Readonly<Record<string, number>>;
 }
 
@@ -137,13 +142,14 @@ interface Runtime {
 const runtimes = new WeakMap<CoreState, Runtime>();
 registerWorldMapPart("core2-counted-moves", runtimes);
 
-function rateFor(usps: string, band: string): number {
+/** This world's ACS leaving rate: the published one times the world's movers factor. */
+function rateFor(seed: string, usps: string, band: string): number {
   return (
-    (RATES.places[`US-${usps}`] ?? RATES.national).departurePerYearByAge[
+    ((RATES.places[`US-${usps}`] ?? RATES.national).departurePerYearByAge[
       band
     ] ??
-    RATES.national.departurePerYearByAge[band] ??
-    0
+      RATES.national.departurePerYearByAge[band] ??
+      0) * worldRateFactor(seed, "movers")
   );
 }
 
@@ -156,8 +162,12 @@ function acsBand(age: number): string {
   return "30-34";
 }
 
-function coarseRate(usps: string, bands: readonly string[]): number {
-  return bands.reduce((n, b) => n + rateFor(usps, b), 0) / bands.length;
+function coarseRate(
+  seed: string,
+  usps: string,
+  bands: readonly string[],
+): number {
+  return bands.reduce((n, b) => n + rateFor(seed, usps, b), 0) / bands.length;
 }
 
 /** A state's regional price level (nation = 100), latest year. */
@@ -317,14 +327,50 @@ function holdOf(
   residents: ResidentsRuntime,
   h: CountedHousehold,
   date: string,
+  adultAge: number,
 ): number {
-  let hold = 0;
-  if (h.tenure !== "rent") hold += MOVES.movesOwnerHold!.value;
+  return sum(holdsOf(residents, h, date, adultAge));
+}
+
+/** What holds a counted household where it lives, by cause: a home it owns, children at home. */
+function holdsOf(
+  residents: ResidentsRuntime,
+  h: CountedHousehold,
+  date: string,
+  adultAge: number,
+): Record<string, number> {
+  const holds: Record<string, number> = {};
+  if (h.tenure !== "rent") holds.owner = MOVES.movesOwnerHold!.value;
   const children = residents.store
     .countedMembers(h)
-    .some((m) => ageOn(residents.store.born[m]!, date) < 18);
-  if (children) hold += MOVES.movesChildrenHold!.value;
-  return hold;
+    .some((m) => ageOn(residents.store.born[m]!, date) < adultAge);
+  if (children) holds.children = MOVES.movesChildrenHold!.value;
+  return holds;
+}
+
+/**
+ * A move's causes on the same keys a full person's departure records: the
+ * yearly rate of leaving at the movers' age (lifeStage; for a household of
+ * minors alone, its group's yearly rate, groupRate), the outcome web's
+ * factor on leaving (web, in log units), each hold against it (hold:...),
+ * and the pull toward another state (income, jobs).
+ */
+function causesOf(
+  rate: number,
+  web: number,
+  holds: Readonly<Record<string, number>>,
+  pull: Readonly<Record<string, number>>,
+  /** The group's yearly rate, for a household that had no adult to weigh. */
+  groupRate?: number,
+): Record<string, number> {
+  return {
+    ...(groupRate === undefined ? { lifeStage: rate } : { groupRate }),
+    ...(web !== 1 ? { web: Math.log(web) } : {}),
+    ...Object.fromEntries(
+      Object.entries(holds).map(([key, value]) => [`hold:${key}`, -value]),
+    ),
+    ...pull,
+  };
 }
 
 /** A counted household's head's age and wages per adult (the pull is read for them). */
@@ -332,6 +378,7 @@ function headOf(
   residents: ResidentsRuntime,
   h: CountedHousehold,
   date: string,
+  adultAge: number,
 ): { age: number; wages: number; adults: number } {
   const store = residents.store;
   let age = 0,
@@ -339,7 +386,7 @@ function headOf(
   for (const m of store.countedMembers(h)) {
     const a = ageOn(store.born[m]!, date);
     age = Math.max(age, a);
-    if (a >= 18) adults++;
+    if (a >= adultAge) adults++;
   }
   return {
     age,
@@ -348,17 +395,19 @@ function headOf(
   };
 }
 
-const stateOfPlace = (placeId: string) =>
-  corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey?.slice(
-    "US-".length,
-  );
+/** The state a counted place lies in: a town's or county's record names it, and a state-level place's id is the state's own. */
+export const stateOfCountedPlace = (placeId: string) =>
+  (
+    corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey ??
+    coreStateKeyOfPlaceholderId(placeId)
+  )?.slice("US-".length);
 /**
  * The state a counted household lives in. The town's counted households keep
  * the place id of their governing unit, which the place lookup may not know
  * (a consolidated town, a balance); they are the town's people, in its state.
  */
 const homeStateOf = (rt: Pick<Runtime, "townState">, placeId: string) =>
-  stateOfPlace(placeId) ?? rt.townState;
+  stateOfCountedPlace(placeId) ?? rt.townState;
 
 function month(api: CoreAPI): void {
   const core = api.state as CoreState;
@@ -366,6 +415,7 @@ function month(api: CoreAPI): void {
   const rt = runtimeOf(api);
   if (!residents || !rt) return;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   rt.netCache.clear();
   const jobless = unemployment(api);
   const stateList = [...rt.states.values()];
@@ -394,7 +444,7 @@ function month(api: CoreAPI): void {
         if (h.placeId !== placeId) continue;
         const n = store.weightedCount(h);
         people += n;
-        held += n * Math.exp(-holdOf(residents, h, date));
+        held += n * Math.exp(-holdOf(residents, h, date, adultAge));
       }
       rt.holdNorm.set(placeId, held > 0 ? people / held : 1);
     }
@@ -416,6 +466,48 @@ function month(api: CoreAPI): void {
       pullCache.set(key, row);
     }
     return row;
+  };
+  const webCache = new Map<string, number>();
+  // What sets a household's leaving: each adult's own age sets their rate of
+  // leaving (ACS), and the household goes as one, at its adults' average,
+  // with its children. The outcome web's links land on it by its adults'
+  // age, tenure, kind and income, as they land on a full person in town
+  // (moves.ts): the same factors, once per kind of household this month.
+  const leavingOf = (h: CountedHousehold, home: string) => {
+    let rates = 0,
+      adultAges = 0,
+      adults = 0;
+    for (const m of store.countedMembers(h)) {
+      const age = ageOn(store.born[m]!, date);
+      if (age >= adultAge) {
+        rates += rateFor(api.state.seed, home, acsBand(age));
+        adultAges += age;
+        adults++;
+      }
+    }
+    const group = store.groups[h.group]!;
+    // A household of minors alone has no adult to set a rate: the monthly
+    // weighing skips it, and it leaves only as its group's due movers come
+    // round to it (see `reasonsFor`).
+    const age = adults ? Math.round(adultAges / adults) : 0;
+    const webKey = `${h.placeId}|${h.group}|${age}`;
+    let web = webCache.get(webKey);
+    if (web === undefined) {
+      const subject: Subject = {
+        age,
+        tenure: h.tenure === "rent" ? "rent" : "own",
+        householdKind: group.kind,
+        incomeFifth: group.incomeBand,
+        work: group.work,
+      };
+      web =
+        webFactorFor(api, h.placeId, "population.out-migration", subject) *
+        (h.tenure === "rent"
+          ? webFactorFor(api, h.placeId, "housing.renter-moves", subject)
+          : 1);
+      webCache.set(webKey, web);
+    }
+    return { rate: adults ? rates / adults : 0, web };
   };
   const groupPulls = new Map<
     number,
@@ -440,19 +532,14 @@ function month(api: CoreAPI): void {
     // Real people: a record stands for as many households as its weight says.
     const people = store.weightedCount(h);
     if (!people) continue;
-    const head = headOf(residents, h, date);
+    const head = headOf(residents, h, date, adultAge);
     if (head.adults === 0) continue;
-    // Each adult's own age sets their rate of leaving (ACS); the household
-    // goes as one, at its adults' average, with its children.
-    let rates = 0;
-    for (const m of store.countedMembers(h)) {
-      const age = ageOn(store.born[m]!, date);
-      if (age >= 18) rates += rateFor(home, acsBand(age));
-    }
+    const { rate, web } = leavingOf(h, home);
     const weight =
       people *
-      (rates / head.adults) *
-      Math.exp(-holdOf(residents, h, date)) *
+      rate *
+      web *
+      Math.exp(-holdOf(residents, h, date, adultAge)) *
       rt.holdNorm.get(h.placeId)!;
     const wages = Math.round(head.wages / 1000) * 1000;
     const key = `${h.group}|${home}|${wages}`;
@@ -607,12 +694,31 @@ function month(api: CoreAPI): void {
       dues.set(g, dueOf(g));
       const bands = store
         .countedMembers(next)
-        .map((m) => coarseIndex(ageOn(store.born[m]!, date)));
+        .map((m) => coarseIndex(ageOn(store.born[m]!, date), adultAge));
       const weight = store.weightOf(next);
+      // What weighed toward its going, read before it leaves the counts: its
+      // age's rate and the web against what held it, and toward another
+      // state its pull (within the state taxes and prices are the same).
+      const head = headOf(residents, next, date, adultAge);
+      const leaving = leavingOf(next, home);
+      const pulled = groupPulls.get(g);
+      // A household with adults weighed its own adults' rate. One of minors
+      // alone was never weighed: its group's movers came due and the group's
+      // order reached it, so what weighed is the group's yearly rate of
+      // leaving across the households it did weigh.
+      const reasons = causesOf(
+        leaving.rate,
+        // The web's links land on a household by its adults; none, none.
+        head.adults ? leaving.web : 1,
+        holdsOf(residents, next, date, adultAge),
+        to === home ? {} : pullFor(home, to, head.wages),
+        !head.adults && pulled?.people
+          ? (pulled.total * 12) / pulled.people
+          : undefined,
+      );
       departCountedHousehold(core, next.id);
       const dest = rt.states.get(to)!;
       for (const b of bands) dest.people[b] = dest.people[b]! + weight;
-      const reasons = pullFor(home, to, headOf(residents, next, date).wages);
       record(api, {
         id: `move:out:${next.id}:${date}`,
         date,
@@ -622,7 +728,7 @@ function month(api: CoreAPI): void {
         fromPlace: next.placeId,
         toPlace: to === home ? `${to}:rest-of-state` : to,
         people: size,
-        reasons: to === home ? {} : reasons,
+        reasons,
       });
     }
   }
@@ -647,7 +753,10 @@ function month(api: CoreAPI): void {
     );
     for (const [band, [, , acs]] of COARSE.entries()) {
       const leaving =
-        (from.people[band]! * coarseRate(from.usps, acs) * (1 - inState)) / 12;
+        (from.people[band]! *
+          coarseRate(api.state.seed, from.usps, acs) *
+          (1 - inState)) /
+        12;
       stateList.forEach((to, i) => {
         if (weights[i]! > 0)
           flows.push({ from, to, band, people: leaving * weights[i]! });
@@ -663,6 +772,26 @@ function month(api: CoreAPI): void {
       (placePeople.get(h.placeId) ?? 0) + store.weightedCount(h),
     );
   const counted = [...placePeople.values()].reduce((a, b) => a + b, 0);
+  // The full people living in those places are residents too: newcomers
+  // arrive in proportion to everyone who lives there at the arriving age, not
+  // only to the part held as counted households, so a place's full people
+  // are replaced as surely as its counted ones.
+  const agedHere = new Map<PlaceId, number[]>();
+  const addResident = (placeId: PlaceId, age: number, n: number) => {
+    const row = agedHere.get(placeId) ?? COARSE.map(() => 0);
+    row[coarseIndex(age, adultAge)]! += n;
+    agedHere.set(placeId, row);
+  };
+  for (const h of store.liveHouseholds())
+    for (const m of store.countedMembers(h))
+      addResident(h.placeId, ageOn(store.born[m]!, date), store.weightOf(h));
+  for (const person of core.people.values())
+    if (person.alive && placePeople.has(person.placeId))
+      addResident(person.placeId, ageOn(person.birthDate, date), 1);
+  const living = [...agedHere.values()].reduce(
+    (n, row) => n + row.reduce((a, c) => a + c, 0),
+    0,
+  );
   for (const f of flows) {
     f.from.people[f.band] = f.from.people[f.band]! - f.people;
     if (f.to !== home || !home) {
@@ -670,7 +799,7 @@ function month(api: CoreAPI): void {
       continue;
     }
     const stateTotal = home.people.reduce((a, b) => a + b, 0) + counted;
-    const toCounted = stateTotal > 0 ? (f.people * counted) / stateTotal : 0;
+    const toCounted = stateTotal > 0 ? (f.people * living) / stateTotal : 0;
     home.people[f.band] = home.people[f.band]! + f.people - toCounted;
     const key = `${f.from.usps}|${f.band}`;
     rt.arrive.set(key, (rt.arrive.get(key) ?? 0) + toCounted);
@@ -680,15 +809,18 @@ function month(api: CoreAPI): void {
     const stateTotal = home.people.reduce((a, b) => a + b, 0) + counted;
     for (const [band, [, , acs]] of COARSE.entries()) {
       const moving =
-        (home.people[band]! * coarseRate(home.usps, acs) * inState) / 12;
-      const toCounted = stateTotal > 0 ? (moving * counted) / stateTotal : 0;
+        (home.people[band]! *
+          coarseRate(api.state.seed, home.usps, acs) *
+          inState) /
+        12;
+      const toCounted = stateTotal > 0 ? (moving * living) / stateTotal : 0;
       home.people[band] = home.people[band]! - toCounted;
       const key = `${home.usps}|${band}`;
       rt.arrive.set(key, (rt.arrive.get(key) ?? 0) + toCounted);
     }
   }
   // 3. Whole households arrive as their people come due.
-  arrivals(api, rt, residents, placePeople, source, jobless);
+  arrivals(api, rt, residents, placePeople, agedHere, source, jobless);
 
   // 4. Each state's people this month, for the regional engine.
   const monthKey = date.slice(0, 7);
@@ -712,8 +844,8 @@ function countedPeople(residents: ResidentsRuntime): number {
   return n;
 }
 
-function coarseIndex(age: number): number {
-  return age < 18 ? 0 : age < 30 ? 1 : age < 45 ? 2 : age < 65 ? 3 : 4;
+function coarseIndex(age: number, adultAge: number): number {
+  return age < adultAge ? 0 : age < 30 ? 1 : age < 45 ? 2 : age < 65 ? 3 : 4;
 }
 
 function record(api: CoreAPI, row: MoveRecord): void {
@@ -734,42 +866,64 @@ function arrivals(
   rt: Runtime,
   residents: ResidentsRuntime,
   placePeople: ReadonlyMap<PlaceId, number>,
+  agedHere: ReadonlyMap<PlaceId, readonly number[]>,
   source: Source,
   jobless: ReadonlyMap<string, number>,
 ): void {
   const core = api.state as CoreState;
   const store = residents.store;
   const date = api.state.date;
-  const templates = new Map<number, CountedHousehold[]>();
+  const adultAge = api.parameter("votingAge");
+  const templates = new Map<PlaceId, Map<number, CountedHousehold[]>>();
   for (const h of store.liveHouseholds()) {
     const members = store.countedMembers(h);
     if (!members.length) continue;
     let head = 0;
     for (const m of members) head = Math.max(head, ageOn(store.born[m]!, date));
-    const band = coarseIndex(head);
-    const list = templates.get(band);
+    const byBand =
+      templates.get(h.placeId) ?? new Map<number, CountedHousehold[]>();
+    templates.set(h.placeId, byBand);
+    const list = byBand.get(coarseIndex(head, adultAge));
     if (list) list.push(h);
-    else templates.set(band, [h]);
+    else byBand.set(coarseIndex(head, adultAge), [h]);
   }
   if (!placePeople.size) return;
   const rates = unplacedRates(residents, date);
+  const places = [...templates.keys()].sort();
   for (const [key, due] of [...rt.arrive].sort((a, b) =>
     a[0] < b[0] ? -1 : 1,
   )) {
     const [origin, bandText] = key.split("|");
     const band = Number(bandText);
-    const shapes = templates.get(band) ?? templates.get(2) ?? [];
-    if (!shapes.length) continue;
+    // A newcomer settles in a place in proportion to everyone living there
+    // at their age (full people too), as a household shaped like one of the
+    // counted households there whose head is that age.
+    const cumulative: number[] = [];
+    let weightSum = 0;
+    for (const place of places) {
+      weightSum += agedHere.get(place)?.[band] ?? 0;
+      cumulative.push(weightSum);
+    }
+    if (weightSum <= 0) continue;
     let left = due;
     for (;;) {
-      const pick = Number.parseInt(
-        stableHash(`${core.seed}:arrival:${key}:${date}:${rt.serial}`).slice(
-          0,
-          8,
-        ),
-        16,
+      const unit = (salt: string) =>
+        Number.parseInt(
+          stableHash(`${core.seed}:${salt}:${key}:${date}:${rt.serial}`).slice(
+            0,
+            8,
+          ),
+          16,
+        );
+      const at = cumulative.findIndex(
+        (c) => c > (unit("arrival-place") / 0x1_0000_0000) * weightSum,
       );
-      const template = shapes[pick % shapes.length]!;
+      const byBand = templates.get(places[at < 0 ? places.length - 1 : at]!)!;
+      const shapes =
+        byBand.get(band) ??
+        byBand.get(2) ??
+        [...byBand.entries()].sort((x, y) => x[0] - y[0])[0]![1];
+      const template = shapes[unit("arrival") % shapes.length]!;
       const size = store.weightedCount(template);
       if (left < size) break;
       left -= size;
@@ -795,7 +949,12 @@ function arrivals(
             origin === rt.townState ? `${origin}:rest-of-state` : origin!,
           toPlace: placeId,
           people: size,
-          reasons:
+          // The rate its people's age leaves where they came from, and
+          // from another state the pull toward this one.
+          reasons: causesOf(
+            coarseRate(api.state.seed, origin!, COARSE[band]![2]),
+            1,
+            {},
             origin === rt.townState
               ? {}
               : pullBetween(
@@ -803,9 +962,10 @@ function arrivals(
                   rt,
                   origin!,
                   rt.townState,
-                  headOf(residents, h, date).wages,
+                  headOf(residents, h, date, adultAge).wages,
                   jobless,
                 ),
+          ),
         } as unknown as ModuleRow);
     }
     rt.arrive.set(key, left);

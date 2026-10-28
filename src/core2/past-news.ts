@@ -5,9 +5,10 @@
  *
  * Stories come from the past's records: each prior election decided in the
  * year, each law passed or taking effect in it, each recorded vote of a body
- * covering the town, each budget that began in it, and each parent of a
- * resident who died in it. The press engine writes every one of them (its
- * outlet, its framing and the record's facts), as the town's own paper.
+ * covering the town, each budget that began in it, each business of the town
+ * that closed in it, and each parent of a resident who died in it. The press
+ * engine writes every one of them (its outlet, its framing and the record's
+ * facts), as the town's own paper.
  *
  * Who heard: the news engine's own delivery rule. A full resident hears a
  * story after a delay set by how closely they follow politics and how much
@@ -16,12 +17,10 @@
  * calendar for that day. Nobody too young to follow the news hears it.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import newsRows from "./data/news/parameters.json" with { type: "json" };
-import { newsKey, NEWS_MODULE_ID, trustOf, type Story } from "./modules/news";
+import { printStory, readingDelay, type Story } from "./modules/news";
 import { writeArchiveStory } from "./modules/press";
-import { viewOf } from "./modules/views";
-import type { Parameter } from "./parameters";
 import type { PastTown } from "./past-bodies";
+import type { PastClosureRow } from "./past-business";
 import {
   pastParameter,
   shiftDays,
@@ -31,13 +30,6 @@ import {
 } from "./past-module";
 import type { CoreAPI, CoreEventInput, PersonState } from "./types";
 
-const NEWS = newsRows as Readonly<Record<string, Parameter>>;
-const news = (api: CoreAPI, key: string): number => {
-  const row = NEWS[key]!;
-  if (row.stopgapId) api.stopgap(row.stopgapId);
-  return row.value;
-};
-
 /** The day a reader hears a story, by the news engine's delivery rule; null if never. */
 export function heardOn(
   api: CoreAPI,
@@ -45,18 +37,12 @@ export function heardOn(
   date: string,
 ): string | null {
   if (
-    ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date)) <
+    ageOnDate(person.birthDate, date) <
     pastParameter(api, "pastPublicAwarenessAge")
   )
     return null;
-  const view = viewOf(api, person.id);
-  const engagement = view?.engagement ?? 0;
-  if (engagement <= 0) return null;
-  const reach =
-    engagement * (trustOf(api, view!.lean) / news(api, "newsTrustAverage"));
-  const delay = Math.ceil(news(api, "newsOutletDelayDays") / reach);
-  if (delay > news(api, "newsMaxAgeDays")) return null;
-  return shiftDays(date, delay);
+  const delay = readingDelay(api, person.id);
+  return delay === null ? null : shiftDays(date, delay);
 }
 
 export function buildNewsArchive(
@@ -66,15 +52,15 @@ export function buildNewsArchive(
     elections: readonly PastElectionRow[];
     histories: readonly LawHistoryRow[];
     bills: readonly PastBillRow[];
+    closures: readonly PastClosureRow[];
   },
 ): readonly Story[] {
   const from = shiftDays(town.opening, -pastParameter(api, "pastArchiveDays"));
   const within = (date: string) => date >= from && date < town.opening;
   // The press engine writes each story; with no press installed there is
   // no paper to carry the past, and the archive is empty.
-  // The generated past holds no business closures before day one to report.
-  api.stopgap("SG-CORE-past-no-deaths-closures");
-  const store = api.moduleState(NEWS_MODULE_ID);
+  // A resident's parent who died is archived for full residents only.
+  api.stopgap("SG-CORE-past-counted-parents-deaths");
   const stories: Story[] = [];
   const add = (
     kind: string,
@@ -150,13 +136,36 @@ export function buildNewsArchive(
     }[]) {
       const sum = (rows: Record<string, number>) =>
         String(Object.values(rows).reduce((a, b) => a + b, 0));
+      // The largest spending line, so the story can say what the money is for.
+      const largest = Object.entries(budget.spendingMinor).sort(
+        (x, y) => y[1] - x[1] || x[0].localeCompare(y[0]),
+      )[0];
       add("budget-adopted", budget.id, budget.startsOn, {
         governmentId: budget.governmentId,
         fiscalYear: String(budget.fiscalYear),
         revenueMinor: sum(budget.revenueMinor),
         spendingMinor: sum(budget.spendingMinor),
+        ...(largest
+          ? { largestLine: largest[0], largestLineMinor: String(largest[1]) }
+          : {}),
       });
     }
+  // A business that closed in the year before day one: reported once, and
+  // heard by its former owner the day it happened.
+  for (const closure of past.closures)
+    add(
+      "business.closed",
+      closure.id,
+      closure.date,
+      {
+        kindId: closure.kindId,
+        name: closure.name,
+        ownerId: closure.ownerId,
+        workers: String(closure.workers),
+        [`organization:${closure.id}:closing-reason`]: closure.cause,
+      },
+      { personIds: [closure.ownerId], topic: closure.id },
+    );
   // A parent who died in the year before day one: a dated fact on the resident
   // who survives them, reported once and heard by that resident the day it
   // happened.
@@ -181,42 +190,27 @@ export function buildNewsArchive(
   stories.sort(
     (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
   );
+  // Printed through the news engine: its one delivery rule says who read
+  // each story and when; a reading day before the start is heard then, a
+  // later one is delivered in play. Nobody too young to follow the news reads
+  // it; the story's own subject hears it the day it happened.
   for (const story of stories) {
-    if (store.table("stories").get(story.id)) continue;
-    store.table("stories").put(story as unknown as { id: string });
-    for (const person of readers) {
-      const on =
-        story.facts.survivorId === person.id
-          ? story.date
-          : heardOn(api, person, story.date);
-      if (!on) continue;
-      if (on >= town.opening) {
-        store.table("deliveries").put({
-          id: `${story.id}:${person.id}`,
-          storyId: story.id,
-          personId: person.id,
-          date: on,
-        });
-        continue;
-      }
-      store.table("heard").put({
-        id: `${person.id}:${story.id}`,
-        personId: person.id,
-        storyId: story.id,
-        date: on,
-      });
-      const learned = (key: string, value: string) =>
-        api.observe(person.id, {
-          key,
-          value,
-          learnedAt: on,
-          sourceId: story.id,
-          access: "public",
-        });
-      learned(newsKey(story.id), story.facts.recordKind!);
-      // The story's facts stay on the story; the reader keeps where it is.
-      learned(`${newsKey(story.id)}:record`, story.facts.recordId!);
-    }
+    const subject = [story.facts.survivorId, story.facts.ownerId].filter(
+      (id): id is string => !!id,
+    );
+    printStory(
+      api,
+      story,
+      readers
+        .filter(
+          (person) =>
+            subject.includes(person.id) ||
+            ageOnDate(person.birthDate, story.date) >=
+              pastParameter(api, "pastPublicAwarenessAge"),
+        )
+        .map((person) => person.id),
+      subject,
+    );
   }
   return stories;
 }

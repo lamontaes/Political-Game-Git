@@ -123,6 +123,10 @@ export interface BusinessBooksState extends BusinessBooksInput {
   anchorAnnualOtherCostsMinor: number;
   anchorPrice: number;
   lastGeneralPriceFactor: number;
+  /** The outcome web's factor on household prices in the place at the last review (absent reads as one). */
+  lastWebPriceFactor?: number;
+  /** The share of its sales the sales tax took at the last review (absent reads as the tax at the opening, which the opening price includes). */
+  lastSalesTaxShare?: number;
   lastWagePriceFactor: number;
   /**
    * Each current job's hourly pay at the last review, so the next review
@@ -460,11 +464,14 @@ export interface FinanceCashPolicy {
     visit: string;
     market: string;
     customerBudget: string;
+    /** A residents wage flow an employer's credit line paid on a short payday. */
+    wageFlow: string;
   };
   financeReceiptPrefix: string;
   creditReceiptPrefix: string;
   interestContractPrefix: string;
   standaloneDrawRequestPrefix: string;
+  wageFlowDrawRequestPrefix: string;
   externalInflowKinds: readonly string[];
   externalInflowContracts: readonly {
     inflowKind: string;

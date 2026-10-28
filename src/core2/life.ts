@@ -1,22 +1,13 @@
 import { runModuleCalendar } from "./module-calendar";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
-import {
-  advanceDate,
-  duePeople,
-  catchUpPerson,
-  planningDays,
-} from "./calendar";
+import { advanceDate, duePeople, planningDays } from "./calendar";
+import type { DuePerson } from "./calendar";
 import { affectAt } from "./emotion";
 import { compactQuietWorkResults } from "./work-state";
 import { chooseAct, decisionFromScores, scoreOffers } from "./choice";
 import { compactOriginalAnswer } from "./compact-choice";
 import { FinanceReadGuard } from "./finance-plan";
-import {
-  planFreeTime,
-  registerPlannedActRunner,
-  takePlannedActs,
-  type PlannedAct,
-} from "./free-block";
+import { planFreeTime, takePlannedActs, type PlannedAct } from "./free-block";
 import {
   isExplicitlyControlledPersonV1,
   snapshotExplicitControlV1,
@@ -26,7 +17,6 @@ import {
   WORK_MODULE,
   discretionaryHours,
   recordDiscretionaryActivity,
-  catchUpScheduledWork,
   openingWorkCommitments,
 } from "./modules/work";
 import {
@@ -53,6 +43,7 @@ import {
   coreAPI,
   createCore,
   resolveOperation,
+  openOpeningPeerTies,
 } from "./state";
 import type {
   ActOffer,
@@ -174,6 +165,10 @@ export function createLifeCore(
       ...(options.modules ?? []),
     ],
   });
+  // Townspeople open tied to the classmates and coworkers the records name.
+  const opening = coreAPI(core);
+  for (const actor of core.people.values())
+    openOpeningPeerTies(core, opening, actor);
   if (input.residents) admitResidents(core, input.residents);
   if (payroll?.estimates.length)
     coreAPI(core).stopgap(OPENING_PAYROLL_CALENDAR_STOPGAP);
@@ -415,7 +410,14 @@ export function activate(
       : offer,
   );
   const scored = scoreOffers(core, personId, offers);
-  const decision = decisionFromScores(core, personId, scored, !!controller);
+  // The act's own record keeps these reasons (recordAct).
+  const decision = decisionFromScores(
+    core,
+    personId,
+    scored,
+    !!controller,
+    false,
+  );
   const retainFullScores =
     core.observer ||
     actor.id === core.playerId ||
@@ -508,7 +510,6 @@ function performPlanned(core: CoreState, act: PlannedAct): boolean {
   );
   return true;
 }
-registerPlannedActRunner(performPlanned);
 
 /** Routine statistics compact by indexed month; visible history and open callbacks are exempt. */
 export function compactRoutineMetrics(core: CoreState): void {
@@ -524,6 +525,58 @@ export function compactRoutineMetrics(core: CoreState): void {
       for (const id of ids) core.actCounters.delete(id);
       core.actCountersByMonth.delete(key);
     }
+}
+
+type DayDecide = Parameters<NonNullable<CoreModule["onDay"]>>[1];
+type DayRefresh = Parameters<NonNullable<CoreModule["onDay"]>>[2];
+type DayCount = { decisions: number; acts: number };
+
+/**
+ * The one day loop (engine map E9), run once the date has moved: the module
+ * calendar, every module's day, the acts planned for the day, the people due
+ * to act, the end-of-day hooks and the day's compaction. advanceCore and the
+ * player's clock (closeDay, player-v1.ts) both run it; the clock supplies its
+ * own decide, refresh, activation and work day, so the person it controls acts
+ * only on the player's answers.
+ */
+export function runDay(
+  core: CoreState,
+  api: CoreAPI,
+  due: readonly DuePerson[],
+  hooks: {
+    decide: DayDecide;
+    refresh: DayRefresh;
+    activate: (row: DuePerson) => number;
+    /** A module whose day the caller runs in its place, by module id. */
+    ownDay?: ReadonlyMap<string, () => DayCount | void>;
+  },
+): DayCount {
+  const one = parameter("one", core.data.parameters);
+  let decisions = parameter("zero", core.data.parameters),
+    acts = decisions;
+  runModuleCalendar(core, api);
+  for (const module of core.modules.values()) {
+    const own = hooks.ownDay?.get(module.id);
+    const committed = own
+      ? own()
+      : module.onDay?.(api, hooks.decide, hooks.refresh);
+    if (committed) {
+      decisions += committed.decisions;
+      acts += committed.acts;
+    }
+  }
+  // Acts people planned for today happen in every day, the player's too.
+  for (const act of takePlannedActs(core, makeIsoDate(core.date)))
+    if (performPlanned(core, act)) acts += one;
+  for (const row of due) {
+    decisions += one;
+    acts += hooks.activate(row);
+  }
+  for (const module of core.modules.values()) module.onAfterDay?.(api);
+  compactRoutineMetrics(core);
+  compactQuietWorkResults(core, coreAPI(core));
+  condenseCircleDecisions(core);
+  return { decisions, acts };
 }
 
 export function advanceCore(
@@ -546,47 +599,24 @@ export function advanceCore(
     const due = duePeople(core, date);
     advanceDate(core, date);
     const api = coreAPI(core);
-    runModuleCalendar(core, api);
-    for (const module of core.modules.values()) {
-      const committed = module.onDay?.(
-        api,
-        (actorId, offers, context) => chooseAct(core, actorId, offers, context),
-        (actor, needIds) => {
-          if (needIds) return projectWorkNeeds(core, api, actor, needIds);
-          refreshNeeds(core, api, actor);
-          return undefined;
-        },
-      );
-      if (committed) {
-        decisions += committed.decisions;
-        acts += committed.acts;
-      }
-    }
-    for (const act of takePlannedActs(core, date))
-      if (performPlanned(core, act)) acts += p("one");
-    for (const row of due) {
-      decisions += p("one");
-      acts += activate(core, row.personId, row.days, options.controller);
-    }
-    for (const module of core.modules.values()) module.onAfterDay?.(api);
-    compactRoutineMetrics(core);
-    compactQuietWorkResults(core, coreAPI(core));
-    condenseCircleDecisions(core);
+    const day = runDay(core, api, due, {
+      // A module commits what this picks as an act, whose record keeps the reasons.
+      decide: (actorId, offers, context) =>
+        chooseAct(core, actorId, offers, context, false, false),
+      refresh: (actor, needIds) => {
+        if (needIds) return projectWorkNeeds(core, api, actor, needIds);
+        refreshNeeds(core, api, actor);
+        return undefined;
+      },
+      activate: (row) =>
+        activate(core, row.personId, row.days, options.controller),
+    });
+    decisions += day.decisions;
+    acts += day.acts;
   }
   return {
     simulatedDays: daysBetween(makeIsoDate(started), target),
     decisions,
     acts,
   };
-}
-
-export function catchUpLife(core: CoreState, personId: string): void {
-  if (isExplicitlyControlledPersonV1(core, personId))
-    throw new Error("Controlled choices require the resumable player clock.");
-  // Chronological work was already settled at each indexed scheduled date.
-  // This returns arithmetic/current records and never makes an endpoint choice for elapsed days.
-  catchUpScheduledWork(coreAPI(core), personId);
-  const due = catchUpPerson(core, personId, core.date);
-  if (due.days > parameter("zero", core.data.parameters))
-    activate(core, personId, due.days);
 }

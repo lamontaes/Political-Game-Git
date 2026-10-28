@@ -16,15 +16,15 @@ place that hasn't been researched yet still runs the same rule, using an
 estimate (see `estimate-not-unknown`), never a branch that skips it.
 
 Watched runs, demos and new tests pick a random place from the full list of
-56, not a fixed favorite — Kentucky/Lexington is an explicit legacy scenario,
-not the default start. Every report of a watched run names the exact place and
-seed so it can be reproduced.
+56, not a fixed favorite. Every report of a watched run names the exact place
+and seed so it can be reproduced. A pinned seed is fine only as a named
+regression case beside a drawn-place test.
 
 ## Check your own work
 
-Grep the diff for a literal state/city name or GEOID inside `src/simulation/`
-or any decision path. If one appears outside a data file or a scenario
-explicitly marked legacy, move the value into data instead. Run whatever test
+Grep the diff for a literal state or city name or GEOID inside `src/core2/`,
+`src/rules/`, `src/director/` or any other decision path. If one appears
+outside a data file, move the value into data instead. Run whatever test
 or demo you changed against at least one place chosen at random from the full
 56 — not the one you developed against — and confirm it behaves the same
 shape of way.

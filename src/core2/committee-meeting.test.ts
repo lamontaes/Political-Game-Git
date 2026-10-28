@@ -25,6 +25,7 @@ import {
   votesOn,
 } from "./modules/legislature";
 import { townSeats } from "./modules/offices";
+import committeeDay from "./data/legislature/committee-day.json" with { type: "json" };
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
@@ -86,6 +87,15 @@ it("a bill's committee meets before the floor, and the floor's vote cites its re
     expect(record, `${where}: committee met`).toBeDefined();
     expect(record!.date, where).toBe(committeeDate);
     expect(votesOn(api, bill.id), `${where}: no floor vote yet`).toEqual([]);
+    // The committee's day ran what the records fire for a body on a sitting
+    // day (staff briefings, groups organizing, public comment, the player's own
+    // vote), the ones the data puts at the committee stage; the bill names them.
+    const ran = billOf(api, bill.id).hooksRun ?? [];
+    expect(ran.length, `${where}: hooks on the committee day`).toBeGreaterThan(
+      0,
+    );
+    for (const name of ran)
+      expect(committeeDay.committeeStage, `${where}: ${name}`).toContain(name);
     advanceCore(core, addDays(makeIsoDate(floorDate), 1));
     const after = billOf(api, bill.id);
     const votes = votesOn(api, bill.id);

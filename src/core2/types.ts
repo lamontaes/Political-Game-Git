@@ -73,6 +73,15 @@ export interface Affect {
   stress: number;
   moodBaseline: number;
   stressBaseline: number;
+  /**
+   * The part of `stress` that a hardship (a layoff, an eviction, a missed
+   * payment: `hardshipEventKinds` in content.json) put there and has not let
+   * go of, decaying to nothing at the stress half-life. Absent when none. The
+   * coping decisions read it (`hardshipStress` in trait-decisions.ts), so
+   * stress that came from elsewhere (a cause shared, an illness) is not read
+   * as a reason to claim, borrow or leave.
+   */
+  hardship?: number;
 }
 
 export interface Drive {
@@ -504,6 +513,8 @@ export interface WorkCommitmentInput {
   personId: PersonId;
   organizationId: string;
   startsAt: IsoDate;
+  /** When the person first held this job, where that is earlier than this commitment: a counted worker filled in keeps the tenure their records gave them, while work and pay run from `startsAt`. */
+  heldSince?: IsoDate;
   endsAt?: IsoDate;
   anchorDate: IsoDate;
   periodDays: number;
@@ -734,14 +745,6 @@ export interface CoreInput {
   visiblePlaceIds?: readonly PlaceId[];
   calendarDates: readonly IsoDate[];
   gaps: readonly string[];
-  priorFactsSource?: readonly {
-    personId: PersonId;
-    field: string;
-    status: "filled" | "preserved" | "unresolved";
-    factIds: readonly string[];
-    source?: Source;
-    reason: string;
-  }[];
   familyLinks?: readonly {
     id: string;
     kind: "parent-child" | "partner";
@@ -1106,6 +1109,12 @@ export interface CoreAPI {
     reasonKey: string,
     sourceId: string,
   ): CreditReceipt;
+  /** An employer's credit line pays what its cash could not of a counted wage flow due today. */
+  drawWageFlowCredit(
+    facilityId: string,
+    requestedMinor: number,
+    flowId: string,
+  ): CreditReceipt;
   reviewBusiness(organizationId: string): void;
   closeEmployer(
     organizationId: string,
@@ -1254,6 +1263,18 @@ export interface CoreAPI {
   changeHouseholdV1(input: {
     personIds: readonly PersonId[];
     householdId: string;
+    source: Source;
+  }): void;
+  /**
+   * Two living adults become partners (`together`), or stop being: a partner
+   * link is added or ended, each person's relatives and past facts record it
+   * with the date, and the event `family.partnered` or `family.separated` is
+   * emitted for the engines (the births engine takes up a new couple). Where
+   * the two live is the caller's business (`changeHouseholdV1`).
+   */
+  setPartnersV1(input: {
+    personIds: readonly [PersonId, PersonId];
+    together: boolean;
     source: Source;
   }): void;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */

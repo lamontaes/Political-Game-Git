@@ -4,6 +4,12 @@
   "flows": [
     {
       "kind": "accounts.transfer",
+      "idPrefix": "donation-outside",
+      "matchedBy": "own-money",
+      "what": "Gifts to a campaign for a seat wider than the town from the adults of its district or state outside the town, one record per place group."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "residents",
       "matchedBy": "goods-and-services",
       "what": "Counted households' purchases from outside sellers and pay from outside employers, through the residents engine's pooled account."
@@ -13,6 +19,12 @@
       "idPrefix": "salary",
       "matchedBy": "service",
       "what": "An official's salary for days in office, from the government that seats them (official-pay)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "premium",
+      "matchedBy": "service",
+      "what": "A policyholder's monthly worker share of an employer health plan's premium, paid to an insurer outside the town (coverage)."
     },
     {
       "kind": "accounts.transfer",
@@ -66,6 +78,12 @@
       "idPrefix": "outside-sales",
       "matchedBy": "goods-and-services",
       "what": "Buyers outside the town paying a town business for its goods and services (the outside market)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "press-wider-audience",
+      "matchedBy": "goods-and-services",
+      "what": "Readers and advertisers outside the town paying a town outlet for the part of its news staff the town's own readers and advertisers do not pay for (SG-PEOPLE-press-bureau-shortfall)."
     },
     {
       "kind": "accounts.transfer",
@@ -155,6 +173,12 @@
       "idPrefix": "treasury-tax",
       "matchedBy": "tax-payment",
       "what": "A tax with named payers (corporate income, customs, excise, estate and gift, selective sales, vehicle and other) paid to a treasury by its group of payers on the due date, one transfer per line and installment (taxPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-charges",
+      "matchedBy": "goods-and-services",
+      "what": "People elsewhere who use a state or local government's services paying its charges and fees (tuition, fares, hospital and utility bills), less what the town's own households paid out of their living costs (taxPayments)."
     },
     {
       "kind": "budgets:withholding",

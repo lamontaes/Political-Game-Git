@@ -1,6 +1,6 @@
 ---
 name: law-trace
-description: Trace an Our Civic Duty law from enactment through every supported effect, jurisdiction and repeal path. Use for law audits and bounded wiring repairs; not new policy design or real-world legal advice.
+description: Traces one Our Civic Duty law from enactment through every supported effect, jurisdiction and repeal path, as one row of the law-wiring matrix. Use for single-law audits and bounded wiring repairs; for every law at once use wiring-audit; not for new policy design or real-world legal advice.
 ---
 
 # Law trace
@@ -35,6 +35,6 @@ Start with law ID/name, owner, source head and candidate head, then:
 3. **Authority:** acting and repealing levels, preemption, floors/ceilings/ranges and jurisdiction gaps.
 4. **Terminal:** where each why-chain ends: people and records, stand-in, draw or no producer.
 5. **Gap and fix:** smallest existing-system number, wiring or record repair; separate new features for owner review.
-6. **Proof:** exact Team 2 runner row or other executed receipt naming whose money or outcome changed and by how much; otherwise NOT RUN with the missing check.
+6. **Proof:** the law's row from `scripts/law-wiring/check.ts` (or another executed run) naming whose money or outcome changed and by how much; otherwise NOT RUN with the missing check.
 
-Finish with one status: works, fixed tonight, needs research or needs a feature. Qualify source-only versus watched proof, and candidate versus landed. Include exact changed-file checks, failures, ownership dependencies and next action. Publish cohesive small area fixes through the current approval route; never infer approval from readiness.
+Finish with one status: works, fixed tonight, needs research or needs a feature. Qualify source-only versus watched proof, and candidate versus landed. Include exact changed-file checks, failures, ownership dependencies and next action. Open each fix as a ready PR against main; the mergers merge it.

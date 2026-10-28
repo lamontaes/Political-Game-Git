@@ -3,9 +3,11 @@
  * force on a place applies to every paid sale by a seller there, full
  * households' and the counted residents' alike: the seller collects it inside
  * the price and remits it to the treasury the same day, one balanced transfer
- * each. Household budgets don't grow with the tax, so a higher rate leaves
- * sellers less, as a fixed budget buys less. A grocery exemption is a list of
- * seller classifications (NAICS prefixes, e.g. "445") the tax skips.
+ * each. A change in the tax a seller collects reaches its price at its next
+ * review, at the researched pass-through (`sellerTaxShare`, read by the
+ * business price review in finance-state.ts), so buyers pay more when a rate
+ * rises and less when an exemption spares them. A grocery exemption is a list
+ * of seller classifications (NAICS prefixes, e.g. "445") the tax skips.
  */
 import { transfer } from "../accounts";
 import type {
@@ -18,7 +20,7 @@ import type {
   Source,
 } from "../types";
 import { registerWorldMapPart } from "../snapshot";
-import { lawApplied } from "../law-reach/applied";
+import { appliedOn, lawApplied } from "../law-reach/applied";
 import { residentsRuntime } from "./residents";
 
 export const PURCHASE_TAX_MODULE_ID = "core2-purchase-tax-v1";
@@ -57,6 +59,8 @@ export interface PurchaseTaxState extends PurchaseTaxInput {
   from: IsoDate;
   endedAt?: IsoDate;
   collectedMinor: number;
+  /** The rate and exemptions this tax had when the world opened (none for a tax first set later): what opening prices include. */
+  opening: Pick<PurchaseTaxInput, "ratePercent" | "exemptions">;
 }
 
 const runtimes = new WeakMap<CoreState, Map<string, PurchaseTaxState>>();
@@ -107,11 +111,55 @@ export function setPurchaseTax(core: CoreState, input: PurchaseTaxInput): void {
   if (!core.cashJournal.accounts.has(input.payeeAccountId))
     throw new Error(`Unknown treasury account: ${input.payeeAccountId}`);
   const prior = taxes(core).get(input.id);
+  const from = input.from ?? core.date;
   taxes(core).set(input.id, {
     ...input,
-    from: input.from ?? core.date,
+    from,
     collectedMinor: prior?.collectedMinor ?? 0,
+    opening:
+      prior?.opening ??
+      (from <= core.startedAt
+        ? {
+            ratePercent: input.ratePercent,
+            ...(input.exemptions ? { exemptions: input.exemptions } : {}),
+          }
+        : { ratePercent: 0 }),
   });
+}
+
+/**
+ * The share of a seller's tax-inclusive sales the sales tax takes, summed over
+ * the general taxes on its place (a tax limited to some purchase kinds is left
+ * out: which kinds a seller sells is not recorded), net of the exempt share of
+ * its classification. `opening` reads the taxes as the world opened, the level
+ * a seller's opening price already includes.
+ */
+export function sellerTaxShare(
+  core: CoreState,
+  organizationId: string,
+  at: "now" | "opening",
+): number {
+  const seller = core.organizations.get(organizationId);
+  if (!seller) return 0;
+  const classification = seller.classification ?? "";
+  let share = 0;
+  for (const tax of taxes(core).values()) {
+    if (tax.placeId !== seller.placeId || tax.kinds) continue;
+    const terms =
+      at === "opening"
+        ? tax.opening
+        : tax.from > core.date ||
+            (tax.endedAt !== undefined && tax.endedAt <= core.date)
+          ? undefined
+          : tax;
+    if (!terms) continue;
+    const exempt =
+      terms.exemptions?.find((row) =>
+        classification.startsWith(row.classificationPrefix),
+      )?.share ?? 0;
+    share += (1 - exempt) * (terms.ratePercent / (100 + terms.ratePercent));
+  }
+  return share;
 }
 
 export function endPurchaseTax(core: CoreState, id: string): void {
@@ -162,22 +210,24 @@ function note(
   else day.set(id, { ...input, amountMinor: minor });
 }
 
-/** Record the day's sums as applied rows; a counted group stands for its place's weighted counted people. */
+/**
+ * Record the day's sums as applied rows. A counted household buyer stands for
+ * the people its own record counts; the place's residents account (the payer
+ * of a flow no household owns) stands for the place's counted people the law's
+ * household rows do not already stand for, so a law's counted reach adds up to
+ * no more than the town's counted people, once.
+ */
 function flushApplied(api: CoreAPI): void {
   const day = pending.get(api.state);
   if (!day?.size) return;
-  const people = new Map<string, number>();
-  for (const row of day.values()) {
-    let count: number | undefined;
-    if (row.target === "group") {
-      count = people.get(row.countedIn!);
-      if (count === undefined) {
-        count =
-          residentsRuntime(api.state)?.store.weightedPeople(row.countedIn!) ??
-          1;
-        people.set(row.countedIn!, count);
-      }
-    }
+  const store = residentsRuntime(api.state)?.store;
+  const householdCount = (targetId: string): number | undefined => {
+    const index = store?.householdOf.get(targetId);
+    const household =
+      index === undefined ? undefined : store!.households[index];
+    return household ? store!.weightedCount(household) : undefined;
+  };
+  const record = (row: Pending, count: number | undefined) =>
     lawApplied(api, {
       key: row.key,
       lawId: row.lawId,
@@ -188,11 +238,33 @@ function flushApplied(api: CoreAPI): void {
       what: row.what,
       amountMinor: row.amountMinor,
     });
+  const accounts: Pending[] = [];
+  for (const row of day.values()) {
+    if (row.target !== "group") record(row, undefined);
+    else if (householdCount(row.targetId) === undefined) accounts.push(row);
+    else record(row, householdCount(row.targetId));
+  }
+  for (const row of accounts) {
+    const whole = store?.weightedPeople(row.countedIn!) ?? 1;
+    const covered = appliedOn(api, row.key)
+      .filter(
+        (r) =>
+          r.lawId === row.lawId &&
+          r.target === "group" &&
+          r.targetId !== row.targetId,
+      )
+      .reduce((n, r) => n + r.count, 0);
+    record(row, whole - covered);
   }
   day.clear();
 }
 
-/** A sale's buyers and seller, noted under a law: money is the buyers' (positive: tax paid; negative: tax spared). */
+/**
+ * A sale's buyers and seller, noted under a law. The buyers' money is the tax
+ * inside the price they paid (positive); the seller's is what it remitted
+ * (positive) or kept of the remittance under an exemption (negative). A
+ * buyer's cash is the same either way, so an exemption notes the buyers with 0.
+ */
 function noteSale(
   core: CoreState,
   sale: SalesReceiptNotice,
@@ -247,7 +319,8 @@ function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
           sale,
           { key: exempt.lawKey, lawId: exempt.lawId },
           "sales-tax-exempt",
-          -spared,
+          // Prices are tax-inclusive: the buyers pay the same, the seller remits less.
+          0,
           -spared,
         );
     }

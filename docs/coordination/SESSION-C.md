@@ -1,5 +1,7 @@
 # Session C
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 State legislators and governors use the shared day clock. The played year reached an address, a cabinet appointment and paid per diem.
 
 ## What the owner can play

@@ -97,7 +97,7 @@ const devicesSpoken = (addressesGiven: number) => {
 
 describe(`speaking experience in ${where}`, () => {
   it("is counted from the addresses the speech engine records", () => {
-    expect(addressesGivenBy(api, speaker.id), where).toBe(0);
+    expect(addressesGivenBy(api, speaker.id).length, where).toBe(0);
     for (let i = 0; i < 3; i++)
       deliverSpeech(api, {
         id: `craft-speech-${i}`,
@@ -107,9 +107,9 @@ describe(`speaking experience in ${where}`, () => {
         desiredChange: "build-park",
         audienceIds: audience,
       });
-    expect(addressesGivenBy(api, speaker.id), where).toBe(3);
+    expect(addressesGivenBy(api, speaker.id).length, where).toBe(3);
     // Another person's addresses are not this speaker's.
-    expect(addressesGivenBy(api, adults[1]!.id), where).toBe(0);
+    expect(addressesGivenBy(api, adults[1]!.id).length, where).toBe(0);
   });
 
   it("earns devices in order of difficulty, with no jump at any one address", () => {
@@ -134,7 +134,7 @@ describe(`speaking experience in ${where}`, () => {
   });
 
   it("words a contrast only for a speaker who has given enough addresses", () => {
-    const given = addressesGivenBy(api, speaker.id);
+    const given = addressesGivenBy(api, speaker.id).length;
     expect(
       deviceEarned("contrast", given),
       `${where}: ${given} addresses`,
@@ -150,7 +150,7 @@ describe(`speaking experience in ${where}`, () => {
         desiredChange: "build-park",
         audienceIds: audience,
       });
-    const after = addressesGivenBy(api, speaker.id);
+    const after = addressesGivenBy(api, speaker.id).length;
     expect(deviceEarned("contrast", after), where).toBe(true);
     expect(parameter("speechCraftHalfAddresses")).toBeGreaterThan(0);
     expect(

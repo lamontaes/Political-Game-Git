@@ -85,7 +85,7 @@ function childrenEverBorn(age: number): number {
  */
 function minorChildAtHome(sex: Sex, age: number): number {
   const shifted = motherAge(sex, age);
-  const adult = p("benchmarkAdultMinimumAge");
+  const adult = p("votingAge");
   const births = childrenEverBorn(shifted) - childrenEverBorn(shifted - adult);
   return p("one") - Math.exp(-Math.max(births, p("zero")));
 }
@@ -432,6 +432,17 @@ function birthsTo(sex: Sex | undefined, age: number): number {
 }
 
 /**
+ * The fewest whole years of age between a parent and their child. Each one's
+ * birthday falls anywhere in their year of age, so two ages the youngest
+ * parent's age apart can be born less than that apart (a parent of 33 and a
+ * child of 18 can be 14 at the birth); one year more keeps every parent at
+ * least the youngest parent's age on the day their child is born.
+ */
+function parentChildGap(): number {
+  return OPENING_KIN.fertilityByAge.rows[p("zero")]!.minAge + p("one");
+}
+
+/**
  * A child's age under 18: the births their parent had at each age, among the
  * ages at which every parent in the home was old enough.
  */
@@ -439,15 +450,11 @@ function childAgeWeights(
   parents: readonly { age: number; sex: Sex | undefined }[],
   reference: { age: number; sex: Sex | undefined },
 ): number[] {
-  const youngestParent = OPENING_KIN.fertilityByAge.rows[p("zero")]!.minAge;
+  const gap = parentChildGap();
   const weights: number[] = [];
-  for (
-    let age = p("zero");
-    age < p("benchmarkAdultMinimumAge");
-    age += p("one")
-  )
+  for (let age = p("zero"); age < p("votingAge"); age += p("one"))
     weights.push(
-      parents.every((parent) => parent.age - age >= youngestParent)
+      parents.every((parent) => parent.age - age >= gap)
         ? birthsTo(reference.sex, reference.age - age)
         : p("zero"),
     );
@@ -480,11 +487,12 @@ function relativesPair(input: {
     );
   const parent = weightOf(input.parentSex, "relatives");
   const child = weightOf(input.childSex, "grown-child");
+  const gap = parentChildGap();
   const weights: number[] = [];
   for (let a = p("zero"); a < span; a += p("one"))
     for (let c = p("zero"); c < span; c += p("one"))
       weights.push(
-        c < a
+        a - c >= gap
           ? parent[a]! * child[c]! * birthsTo(input.parentSex, a - c)
           : p("zero"),
       );
@@ -518,11 +526,11 @@ function grownChildWeights(
   minimum: number,
   maximumExclusive: number,
 ): number[] {
-  const youngestParent = OPENING_KIN.fertilityByAge.rows[p("zero")]!.minAge;
+  const gap = parentChildGap();
   const weights: number[] = [];
   for (let age = minimum; age < maximumExclusive; age += p("one"))
     weights.push(
-      parents.every((parent) => parent.age - age >= youngestParent)
+      parents.every((parent) => parent.age - age >= gap)
         ? birthsTo(reference.sex, reference.age - age) *
             homeShare(geo.rows, age)
         : p("zero"),
@@ -592,7 +600,7 @@ export function partnerAgedHousehold<
     return gender === "female" || gender === "male" ? gender : undefined;
   };
   const keyOf = (n: number) => input.people[n]!.stableKey;
-  const minimum = p("benchmarkAdultMinimumAge");
+  const minimum = p("votingAge");
   const maximumExclusive = data.oldestAge + p("one");
   const members = input.skeleton.members;
   const ages = members.map((member) => member.age);

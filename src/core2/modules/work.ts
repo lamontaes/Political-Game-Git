@@ -1,10 +1,16 @@
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 /** Opening terms and chronological scheduled work; no legacy World or tick. */
 import { DEFAULT_WORK_DATA } from "../work-data";
-import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+  daysBetweenText,
+} from "../kernel/dates";
 import { parameter, PARAMETERS } from "../parameters";
 import { runWorkPayrollDay } from "../work-payroll-dispatch";
 import { FinanceReadGuard } from "../finance-plan";
+import { careNeedOf } from "./health";
 import type { Parameter } from "../parameters";
 import type {
   ActOffer,
@@ -126,8 +132,8 @@ function occurrences(
   registry: Readonly<Record<string, Parameter>>,
 ): number {
   const p = (key: string) => parameter(key, registry);
-  const first = daysBetween(makeIsoDate(anchor), makeIsoDate(from));
-  const last = daysBetween(makeIsoDate(anchor), makeIsoDate(through));
+  const first = daysBetweenText(anchor, from);
+  const last = daysBetweenText(anchor, through);
   return last < first
     ? p("zero")
     : Math.max(
@@ -203,10 +209,7 @@ export function commitmentCalendar(
 ): Map<number, number> {
   const dayMinutes =
     api.parameter("hoursPerDay") * api.parameter("minutesPerHour");
-  const anchor = daysBetween(
-    makeIsoDate(api.state.startedAt),
-    makeIsoDate(row.anchorDate),
-  );
+  const anchor = daysBetweenText(api.state.startedAt, row.anchorDate);
   const calendar = new Map<number, number>();
   for (const slot of row.slots)
     for (const part of dateSegments(
@@ -237,10 +240,7 @@ export function plannedWorkMinutesOnDate(
       date,
       api.state.data.parameters,
     );
-  const elapsed = daysBetween(
-    makeIsoDate(api.state.startedAt),
-    makeIsoDate(date),
-  );
+  const elapsed = daysBetweenText(api.state.startedAt, date);
   return (
     api.state.work.plannedByCommitmentResidue
       .get(row.id)
@@ -389,10 +389,7 @@ export function enumerateDueWorkItems(
   api: CoreAPI,
 ): readonly WorkCommitmentInput[] {
   if (!api.state.data.work) return [];
-  const elapsed = daysBetween(
-    makeIsoDate(api.state.startedAt),
-    makeIsoDate(api.state.date),
-  );
+  const elapsed = daysBetweenText(api.state.startedAt, api.state.date);
   const due = new Set<string>();
   for (const [period, residues] of api.state.work.byPeriodResidue)
     for (const id of residues.get(remainder(elapsed, period)) ?? [])
@@ -448,10 +445,7 @@ export function prepareWorkChoice(
   const zero = api.parameter("zero"),
     one = api.parameter("one"),
     period = reads.field(row, "periodDays"),
-    residue = remainder(
-      daysBetween(makeIsoDate(startedAt), makeIsoDate(date)),
-      period,
-    ),
+    residue = remainder(daysBetweenText(startedAt, date), period),
     residues = reads.mapGet(reads.field(work, "byPeriodResidue"), period),
     due = residues ? reads.mapGet(residues, residue) : undefined;
   if (!due || !reads.member(due, id))
@@ -789,10 +783,7 @@ export function runScheduledWork(
   let decisions = api.parameter("zero"),
     acts = api.parameter("zero");
   const p = api.parameter;
-  const elapsed = daysBetween(
-    makeIsoDate(api.state.startedAt),
-    makeIsoDate(api.state.date),
-  );
+  const elapsed = daysBetweenText(api.state.startedAt, api.state.date);
   const due = new Set<string>();
   for (const [period, residues] of api.state.work.byPeriodResidue)
     for (const id of residues.get(remainder(elapsed, period)) ?? [])
@@ -954,10 +945,7 @@ export function workWeekStart(date: string, api: CoreAPI): string {
 export function activityAgeId(api: CoreAPI, personId: string): string {
   const actor = api.state.people.get(personId);
   if (!actor) throw new Error("Time actor is absent.");
-  const age = ageOnDate(
-    makeIsoDate(actor.birthDate),
-    makeIsoDate(api.state.date),
-  );
+  const age = ageOnDate(actor.birthDate, api.state.date);
   return (
     workData(api).activityAgeRows.find(
       (row) =>
@@ -970,6 +958,19 @@ export function activityAgeId(api: CoreAPI, personId: string): string {
 
 export const WORK_MODULE: CoreModule = {
   id: "core2-recorded-work-v1",
+  reasonProviders: {
+    // A person stays home from a shift mostly because they are ill: their own
+    // health record's care need (health.ts `careNeedOf`, 0 to 1, a sliding
+    // scale) is the absence offer's reason, so circumstances, not temperament,
+    // decide most missed shifts (BLS CPS 2023: illness is about two thirds of
+    // full-time absence).
+    "work.own-illness": (api, actor) => {
+      const need = careNeedOf(api.state, actor.id);
+      return need > api.parameter("zero")
+        ? { value: need, sourceIds: [`health:${actor.id}`] }
+        : undefined;
+    },
+  },
   onDay(api, decide, refresh) {
     const attendance = runScheduledWork(api, decide, refresh);
     runWorkPayrollDay(api);

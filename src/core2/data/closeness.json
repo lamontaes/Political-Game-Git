@@ -37,11 +37,16 @@
     "niece-or-nephew": { "row": "relatives", "extended": true },
     "other-parent": { "row": "relatives", "extended": true }
   },
+  "peerTies": {
+    "hoursParameter": "openingPeerTieHours"
+  },
   "familyFactPrefix": "family:",
   "kinFactMarker": ":family:",
+  "formerKinRelations": ["former-partner"],
+  "householdRelation": "household",
   "gaps": [
     "Opening closeness uses the average visit rate for the tie, not each pair's own history of visits.",
     "Relatives outside the town make no decisions, so they never start contact themselves.",
-    "Old classmates have no opening closeness until someone makes contact; time at school is counted only for classmates still in school together (part 3)."
+    "Opening coworkers in one workgroup start with a tie worth the hours it takes to become a casual friend; no one's actual hours together are known, and classmates meet only once the school engine records a school year."
   ]
 }

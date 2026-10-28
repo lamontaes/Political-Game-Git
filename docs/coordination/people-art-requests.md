@@ -1,5 +1,7 @@
 # PEOPLE: art requests for the CTO
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 > **Owner ruling, Oct 13, 2026: plain poses first.** "Regular poses, not with a laptop or a book or something. You don't decide that. The simulation decides what they're doing." Paint every figure in a plain pose with empty hands: standing or seated, three-quarter, side and back. No props. Prop versions come later (section 7), and the game uses one only when the simulation's act calls for it. The CTO edited this file to match.
 
 Written by the PEOPLE session on Oct 13, 2026. The CTO reads this file and makes the art in Firefly. Each request says what to paint, how many, and the exact framing so the output drops straight into `art/people-whole/` and the game picks it up from `art/people-whole/manifest.json` with no code change.

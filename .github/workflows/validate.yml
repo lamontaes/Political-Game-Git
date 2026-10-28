@@ -1,16 +1,17 @@
 name: Deterministic validation
 
-# The browser suite lives in browser.yml since 2026-09-22, split out with
-# lamontae's approval so the unit shards stop queueing behind 21-to-59-minute
-# browser shards. This workflow is the fast one: repository plus six unit
-# shards, about 38 job-minutes, and the aggregate `validate` below no longer
-# waits on the browser suite. Making the browser suite gate merging again is a
-# branch-protection change, not a change here.
+# The browser workflow (browser.yml) was deleted on 2026-10-24: no Playwright
+# suite exists. This workflow is the fast one: repository plus six unit shards,
+# about 38 job-minutes.
 
 on:
   pull_request:
   push:
     branches: [main]
+    # Pool-only bookkeeping changes no executable code. Keep pull-request,
+    # scheduled and manual validation; pushes touching other paths still run.
+    paths-ignore:
+      - "docs/pool/**"
 
 permissions:
   contents: read
@@ -18,14 +19,7 @@ permissions:
 # A new commit supersedes its own predecessor, so the predecessor's run stops.
 # Without this, every push left this workflow's jobs in a shared queue, and on
 # 2026-09-22 that grew to roughly two thousand queued jobs and several hours in
-# which no branch could get a verdict at all. (It was fifteen jobs per push
-# before the browser suite moved to browser.yml; it is eight now.)
-#
-# NOT on main. Cancel-in-progress is deliberately false there, because main's
-# run is the base verdict every lane reads to tell a failure it inherited from
-# one it caused. That is not academic: three browser shards were failing on
-# main the night this was written, and if pushes to main had been canceling
-# each other's runs, nobody could have established that.
+# which no branch could get a verdict at all. (It is eight jobs per push now.)
 #
 # The key separates the push run from the pull_request run of the same ref.
 # Branch protection may read either, and canceling one to save the other would
@@ -50,11 +44,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
         with:
-          # The ownership-boundary suite diffs this branch against the commit it
-          # was cut from. On a pull_request event Actions checks out the
-          # synthetic merge ref, and the default depth of 1 leaves that base
-          # commit outside the clone, so the check cannot run. Fetch the full
-          # history so history-dependent validation has something to measure.
+          # On a pull_request event Actions checks out the synthetic merge ref,
+          # and the default depth of 1 leaves the base commit outside the
+          # clone. Fetch the full history so history-dependent validation (the
+          # release declaration diff) has something to measure.
           fetch-depth: 0
           # Acceptance is for the published PR head, not a synthetic merge SHA.
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -70,7 +63,7 @@ jobs:
 
       - name: Check only the files this change touches
         # Owner rule (Oct 12, 2026): never run the full repository. Formatting,
-        # lint, American English and release declarations cover only the files
+        # lint and release declarations cover only the files
         # this pull request (or push) adds or edits; a change never fails on
         # files it didn't touch. Whole-repo typecheck and data validations are
         # not part of this check.
@@ -105,11 +98,59 @@ jobs:
           if [[ ${#code[@]} -gt 0 ]]; then
             npx eslint --no-warn-ignored "${code[@]}"
           fi
-          CHANGED_FILES="$(printf '%s\n' "${changed[@]}")" npx vitest run tests/american-english.test.ts
           RELEASE_DECLARATION_BASE="$declaration_base" \
           RELEASE_DECLARATION_HEAD="$VALIDATED_HEAD_SHA" \
           RELEASE_DECLARATION_MODE="$declaration_mode" \
             npm run release:check
+
+  guards:
+    name: guards
+    # Every standing-rule guard, on every pull request and push, whatever the
+    # change touches. The list, each guard's rule and where to read it live in
+    # scripts/guards/index.ts; docs/design/guards.md explains each one.
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          # The guards judge what main becomes: the pull request merged into
+          # its base (GitHub's merge commit), so a branch cut before a guard
+          # existed is judged by today's guards, not by its own old copy.
+          ref: ${{ github.sha }}
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Run every guard
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          # The reading-line guard reads the pull request's body live.
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            base="$(git merge-base HEAD "$PR_BASE_SHA")"
+          elif [[ -n "$EVENT_BEFORE" && ! "$EVENT_BEFORE" =~ ^0+$ ]]; then
+            base="$EVENT_BEFORE"
+          else
+            base="$(git rev-parse HEAD~1)"
+          fi
+          CHANGED_FILES="$(git diff --name-only --diff-filter=AMR "$base" HEAD)" npm run guards
 
   scope:
     name: scope
@@ -194,6 +235,7 @@ jobs:
     if: always()
     needs:
       - repository
+      - guards
       - scope
       - unit
     runs-on: ubuntu-latest
@@ -207,12 +249,14 @@ jobs:
         run: |
           set -euo pipefail
           repository='${{ needs.repository.result }}'
+          guards='${{ needs.guards.result }}'
           unit='${{ needs.unit.result }}'
           echo "repository=$repository"
+          echo "guards=$guards"
           echo "unit=$unit"
           docs_only='${{ needs.scope.outputs.docs_only }}'
           if [[ "$docs_only" == "true" && "$unit" == "skipped" ]]; then unit=success; fi
-          if [[ "$repository" != "success" || "$unit" != "success" ]]; then
+          if [[ "$repository" != "success" || "$guards" != "success" || "$unit" != "success" ]]; then
             echo "Aggregate validate succeeds only when every mandatory job succeeded."
             exit 1
           fi

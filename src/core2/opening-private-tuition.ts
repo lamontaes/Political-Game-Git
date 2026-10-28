@@ -9,11 +9,66 @@
  * none here (the spending stays with the household's other costs).
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import shares from "../../data/research/people/nces-private-enrollment-share-fall-2021.json" with { type: "json" };
+import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { parameter as p } from "./parameters";
+import { worldLevel, worldRate } from "./world-draw";
 import { stopgap } from "./stopgaps";
 import type { FinanceContractInput } from "./finance-types";
+import type { EntityId } from "./kernel/brands";
 import type { CoreInput, Source } from "./types";
+
+/**
+ * The private share of students in a place's state (NCES, fall 2021); the
+ * median where the state has no row. A town's own households keep their
+ * governing unit's id, which the place lookup may not know, so the world's
+ * own place stands in for its state.
+ */
+export function publishedPrivateShareOf(
+  placeId: string | undefined,
+  worldPlaceKey: string | undefined,
+): number {
+  const state =
+    (placeId
+      ? corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey
+      : undefined) ??
+    (worldPlaceKey
+      ? corePlaceByKey(worldPlaceKey)?.stateJurisdictionKey
+      : undefined);
+  const row = (shares.states as Readonly<Record<string, { share: number }>>)[
+    state ?? ""
+  ];
+  return row?.share ?? shares.median;
+}
+
+/**
+ * The private share of students in this world's state: the published NCES
+ * share drawn once per world from its seed, kept between 0 and 1 (realistic,
+ * not real; owner, Oct 27).
+ */
+export function privateShareOf(
+  placeId: string | undefined,
+  worldPlaceKey: string | undefined,
+  seed: string,
+): number {
+  return worldRate(
+    publishedPrivateShareOf(placeId, worldPlaceKey),
+    seed,
+    "world-private-share",
+    "worldPrivateShareSpreadShare",
+  );
+}
+
+/** The average private tuition this world's schools charge a year: the NCES average, scaled by one level drawn per world from its seed. */
+export function worldPrivateTuitionAnnualUsd(seed: string): number {
+  return worldLevel(
+    p("openingPrivateTuitionAnnualUsd"),
+    seed,
+    "world-private-tuition",
+    "worldTuitionSpreadShare",
+  );
+}
 
 export function withPrivateTuition(input: CoreInput): CoreInput {
   if (!input.finance) return input;
@@ -28,8 +83,13 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
   first.setUTCMonth(first.getUTCMonth() + 1, 1);
   const dueAt = makeIsoDate(first.toISOString().slice(0, 10));
   const perChildMonthly =
-    (p("openingPrivateTuitionAnnualUsd") * p("minorPerDollar")) /
+    (worldPrivateTuitionAnnualUsd(input.seed) * p("minorPerDollar")) /
     p("monthsPerYear");
+  const share = privateShareOf(
+    undefined,
+    input.placeMetadata?.placeKey,
+    input.seed,
+  );
   const contracts: FinanceContractInput[] = [];
   const sorted = [...schools].sort((a, b) => a.id.localeCompare(b.id));
   const town = new Set(schools.map((row) => row.placeId));
@@ -77,10 +137,7 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
     const total = families.reduce((sum, row) => sum + row.children, 0);
     // The town's private share of its school-age children, at least one family
     // where a private school stands.
-    const quota = Math.max(
-      1,
-      Math.round(total * p("openingPrivateSchoolShare")),
-    );
+    const quota = Math.max(1, Math.round(total * share));
     const ranked = [...families].sort(
       (a, b) =>
         b.cashPerChild - a.cashPerChild || a.home.id.localeCompare(b.home.id),
@@ -104,7 +161,7 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
         tag: "ESTIMATED",
         asOf: start,
         citation: data.citation,
-        estimatedFrom: `${family.children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} at average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; this family is among the best-off per child in a town where the private share of school-age children is ${p("openingPrivateSchoolShare")}.`,
+        estimatedFrom: `${family.children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} at average tuition $${Math.round(worldPrivateTuitionAnnualUsd(input.seed))} a year; this family is among the best-off per child in a town where the private share of school-age children is ${share}.`,
       };
       contracts.push({
         id: `opening-private-tuition:${family.home.id}:${school.id}`,

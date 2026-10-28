@@ -21,6 +21,7 @@
 import corpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import countyVotes from "./data/county-presidential-2024.json" with { type: "json" };
 import tenure from "./data/offices/tenure.json" with { type: "json" };
+import territoryBallots from "../../data/research/elections/territory-ballots.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { questionAxis } from "./campaign-views";
 import { novemberGeneralElectionDay } from "./gov-rules/town-election-calendar";
@@ -40,7 +41,6 @@ import {
 } from "./past-bodies";
 import {
   pastParameter,
-  putPast,
   seededBetween,
   shiftDays,
   type PastCandidate,
@@ -50,6 +50,7 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { countedResidents } from "./electorate";
 import { cpsAgeBand, cpsTurnout } from "./electorate-places";
 import { viewOf } from "./modules/views";
+import { worldLevel } from "./world-draw";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import type { CoreAPI, CoreState } from "./types";
 
@@ -219,7 +220,7 @@ function townBands(
   const hit = byDate.get(date);
   if (hit) return hit;
   const at = makeIsoDate(date);
-  const voting = pastParameter(api, "pastVotingAge");
+  const voting = api.parameter("votingAge");
   const counts = new Map<
     string,
     { adults: number; lean: number; leans: number }
@@ -292,8 +293,25 @@ function electorateBallots(
   // A territory casts no presidential vote: its own town's ballots stand in
   // for the territory's electorate.
   const reported = stateBallots(town);
-  if (!reported) api.stopgap("SG-CORE-past-territory-ballots");
-  const state = reported || townBallots(api, town, date);
+  const own = reported
+    ? undefined
+    : (
+        territoryBallots.places as Record<
+          string,
+          { delegate?: { ballots: number }; governor?: { ballots: number } }
+        >
+      )[town.usps];
+  // A territory's delegate race and governor race count the ballots its own
+  // election office reported; where that total isn't in the data, the town's
+  // ballots stand in.
+  const territory =
+    office.level === "federal" && office.kind.startsWith("us-house")
+      ? own?.delegate?.ballots
+      : office.level === "state" && !office.kind.startsWith("legislature-")
+        ? own?.governor?.ballots
+        : undefined;
+  if (!reported && !territory) api.stopgap("SG-CORE-past-territory-ballots");
+  const state = reported || territory || townBallots(api, town, date);
   switch (office.level) {
     case "federal":
       if (office.kind.startsWith("us-house"))
@@ -417,24 +435,37 @@ export function buildPriorElections(
         const id = `prior-election:${seat.id}:${date}`;
         const key = `${seat.id}:${date}`;
         const real = realResult(town, office, seat, term.party, date);
+        // The share the offices engine recorded when it seated the holder is
+        // the one record of how the race went (wire-opening line 31: one
+        // past-elections writer); only a term with no such record (the
+        // federal executive's) is sized here, around the real result.
         const drift = pastParameter(api, "pastRealShareDrift");
         const spread = pastParameter(api, "pastWinnerShareSpread");
-        const base = real?.share ?? term.elected?.share ?? averageShare(office);
-        const share = Math.min(
-          pastParameter(api, "pastWinnerShareMax"),
-          Math.max(
-            pastParameter(api, "pastWinnerShareMin"),
-            seededBetween(
-              town.seed,
-              `${key}:share`,
-              base - (real ? drift : spread),
-              base + (real ? drift : spread),
+        const base = real?.share ?? averageShare(office);
+        const share =
+          term.elected?.share ??
+          Math.min(
+            pastParameter(api, "pastWinnerShareMax"),
+            Math.max(
+              pastParameter(api, "pastWinnerShareMin"),
+              seededBetween(
+                town.seed,
+                `${key}:share`,
+                base - (real ? drift : spread),
+                base + (real ? drift : spread),
+              ),
             ),
-          ),
-        );
+          );
         const ratio = turnoutRatio(date);
+        // This world's votes cast (realistic, not real; owner, Oct 27): the
+        // recorded or estimated total moved once by the world's offset.
         const total = Math.round(
-          real?.total ?? electorateBallots(api, town, office, date) * ratio,
+          worldLevel(
+            real?.total ?? electorateBallots(api, town, office, date) * ratio,
+            town.seed,
+            `past-votes:${key}`,
+            "worldPastVotesSpreadShare",
+          ),
         );
         const winnerLean = leanOf(api, winnerId);
         const side = partySide(term.party);
@@ -526,7 +557,6 @@ export function buildPriorElections(
                   "src/core2/data/offices/tenure.json winner shares within pastWinnerShareSpread; ballots from the state's or county's 2024 presidential total or the town's voter groups, scaled by pastMidtermTurnoutRatio or pastLocalTurnoutRatio",
               },
         };
-        putPast(api, "elections", row);
         out.push(row);
       }
     }

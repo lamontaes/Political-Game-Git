@@ -61,7 +61,12 @@ change means two branches never edit the same paragraph.
 
 ## What happens on merge
 
-A push to `main` runs `.github/workflows/release.yml`, which:
+A push to `main` runs `.github/workflows/release.yml`, which calls the reusable
+`.github/workflows/release-candidate.yml` with `publish: false`: it builds and
+validates the candidate and **publishes nothing** (steps 1 to 5 below; a red
+candidate goes red within minutes). Steps 6 to 8, the version commit and the
+publish record, happen only in the clock run (next section), which calls the
+same workflow with `publish: true`. The steps:
 
 1. uses a read-only job to enforce the exact incoming base/head range and read
    every pending declaration on that source revision;
@@ -93,6 +98,10 @@ A push to `main` runs `.github/workflows/release.yml`, which:
 7. when release automation is not enabled, uploads the exact candidate bundle
    and review patch and stops without publishing.
 
+8. when it publishes, leaves a `publish-record` artifact (version,
+   candidateSha, bundleSha256, sourceSha, published commit, run id), kept 30
+   days: the publish ledger the package workflow reads.
+
 You can run every step of that locally:
 
 ```bash
@@ -102,6 +111,30 @@ npm run release:recover
 ```
 
 `npm run release:check` is part of `npm run validate`.
+
+## When desktop builds happen, and how to ask for one
+
+A push to `main` builds and validates only. Publishing the version commit and
+packaging the apps happen in `.github/workflows/release-package.yml` because,
+with a merge every few minutes, the per-push publish job always queued behind
+the next push and no run ever published:
+
+- **every two hours** on a schedule (GitHub cron can lag), and
+- **on request**: Actions > "Release package" > Run workflow on `main`, or
+  `gh workflow run release-package.yml --ref main`.
+
+A run builds and validates the newest `main`, pushes the version commit
+(laying it onto a `main` that moved, as above), writes the `publish-record`
+(version, published commit, candidateSha, bundleSha256), then packages exactly
+that published commit, never a newer `main`: it builds, stages, plays the
+packaged app (the smoke test, unchanged), checks the update feed and publishes
+the GitHub release `v<version>`. If nothing new needed a version commit, it
+packages the newest earlier record that has no release yet; if there is none,
+or that version already has a release, it exits cleanly and says "Nothing
+new". A red candidate stops the run before it publishes. Nothing cancels a
+running package: a merge never starts this workflow, and a second tick or
+request waits behind it. Its candidate jobs run in their own concurrency group,
+so a push to `main` cannot take its place in the queue either.
 
 ## What it refuses to do
 
@@ -148,6 +181,57 @@ npm run release:recover
 - **It cannot trigger itself.** The release commit is pushed with the default
   `GITHUB_TOKEN`, and GitHub does not start workflow runs from events that token
   creates. The workflow also skips its own commit subject as a second guard.
+
+## Required checks
+
+Once the checks are required, the release workflow's own push of the version
+commit to main is refused (the workflow token is not an admin). The owner adds
+a repository secret `RELEASE_PUSH_TOKEN`: a fine-grained personal access token
+for this repository with Contents read and write, no expiry needed beyond the
+owner's comfort. `release-candidate.yml` uses it when present and falls back to
+the workflow token otherwise. Until the secret exists, no release publishes.
+
+**Set on main on Oct 28, 2026 at 03:47 UTC** from the owner's Mac with the owner's account (the command below), and read back: `validate` and `golden-path` required, up to date off, admins not enforced, force pushes and deletions off.
+
+Two checks hold main: `validate` (the aggregate in
+`.github/workflows/validate.yml`, which requires the `guards` job and the
+changed-file checks) and `golden-path` (`.github/workflows/m0-guard.yml`).
+Sessions cannot set branch protection (the GitHub proxy refuses that API path),
+so the owner sets it once by hand:
+
+1. GitHub, the repository, **Settings**, **Branches**, **Add branch protection
+   rule** (or edit the rule for `main`). Branch name pattern: `main`.
+2. Turn on **Require status checks to pass before merging**. Leave **Require
+   branches to be up to date** off (with dozens of merges an hour, every PR
+   would rerun forever). Add the checks `validate` and `golden-path`.
+3. Leave **Do not allow bypassing the above settings** off. Every session
+   pushes pool claims, statuses and channel blocks straight to main as the
+   owner's account, and a bare pool commit carries no check results, so a
+   protection that binds the owner's account stops the whole pool. The checks
+   still show as required on every PR, and a merge with a red required check
+   needs an explicit bypass.
+4. Leave **Allow force pushes** and **Allow deletions** off.
+5. **Save changes.**
+
+The same settings from a terminal with the owner's own token:
+
+```sh
+gh api -X PUT repos/lamontaes/Political-Game-Git/branches/main/protection --input - <<'JSON'
+{
+  "required_status_checks": { "strict": false, "contexts": ["validate", "golden-path"] },
+  "enforce_admins": false,
+  "required_pull_request_reviews": null,
+  "restrictions": null,
+  "allow_force_pushes": false,
+  "allow_deletions": false
+}
+JSON
+```
+
+Because the owner's account can bypass, a red required check shows on the PR
+but does not by itself stop a merge made with the owner's token; the mergers'
+own checks on the merged result (`merger` skill) remain the line. Each guard
+behind `validate` is described in `docs/design/guards.md`.
 
 ## Build identity
 

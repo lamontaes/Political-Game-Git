@@ -6,14 +6,15 @@
  *   premium to the government that runs it (state over city), through the
  *   journal on payday. Claims for leave wait on a birth or illness engine
  *   (SG-GOV-REACH-A-leave-claims).
- * - Dedicated parks funding: the parks line of the government that passed it
- *   rises by the dedicated share; a repeal takes the same amount back out.
- * - Housing spending: a housing line above its base pays rent help to as
- *   many of the town's lowest-cash households as the extra money covers at
- *   the average voucher; a cut ends it for the households it no longer
- *   covers. The payments wait on rent contracts (SG-GOV-REACH-A-rent-assistance).
+ * - Dedicated parks funding (and the police oversight share of a facial
+ *   recognition limit): the line of the government that passed it rises by the
+ *   dedicated share; the treasury reads the law again each month it closes and
+ *   each year a budget is adopted, so a new fiscal year's budget carries it; a
+ *   repeal takes the same amount back out.
+ *   The housing line pays its rent assistance in the housing engine (housing-assistance.ts).
  */
 import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";
+import { lawApplied } from "./applied";
 import type { CoreAPI, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
@@ -21,39 +22,32 @@ import type { PolicyHandler } from "./host";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,
-  adoptedLine,
+  lineWithoutBills,
   budgetsOf,
   governments,
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
-import { lawChain } from "../modules/laws";
+import { lawChain, yesLevels } from "../modules/laws";
+import { registerLineAdditions } from "../budgets-treasury";
+import { onReachPayroll } from "./reach-workers";
 import {
-  ageOn,
   applyRecords,
-  endRows,
   ensureReachA,
   mechanicRow,
-  onReachPayroll,
-  POLICIES,
   PREMIUM_KIND,
-  REACH_A_MODULE_ID,
   putMechanic,
+  REACH_A_MODULE_ID,
   reachParameter,
   reachTable,
-  specOf,
-  townPeople,
-  writeRows,
-  yesLevels,
 } from "./group-a-records";
 
 export const LEAVE_KEY =
   "us-policy-positions:labor-workforce.paid-family-leave";
 const PARKS_KEY =
   "us-policy-positions:civil-family-community.dedicated-parks-funding";
-const HOUSING_KEY = "budget-line:housing";
 
-const LEVEL_ORDER = ["federal", "state", "county", "city"];
+const LEVEL_ORDER = ["federal", "state", "county", "township", "city"];
 
 /** The government at the highest level that says yes (its treasury runs the program). */
 function governmentFor(
@@ -83,14 +77,18 @@ export function budgetToday(
   );
 }
 
-/** A line's amount before any amendment this year: the line as adopted. */
+/**
+ * A line's amount with no budget bill passed and no act amending it: a raise
+ * a bill carries into the adopted lines is still a change the line's service
+ * carries, this year and every later year it stays.
+ */
 export function baseLine(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   line: string,
 ): number {
-  return adoptedLine(api, gov, budget.fiscalYear, line);
+  return lineWithoutBills(api, gov, budget.fiscalYear, line);
 }
 
 // --- paid family leave -------------------------------------------------------------
@@ -155,6 +153,15 @@ function leavePremium(
     ],
   };
   reachTable(api, "premiums").put(record as unknown as ModuleRow);
+  lawApplied(api, {
+    key: LEAVE_KEY,
+    lawId: program.lawId,
+    targetId: receipt.personId,
+    target: "person",
+    engine: REACH_A_MODULE_ID,
+    what: "leave-premium-withheld",
+    amountMinor: premium,
+  });
   const state = api.state as CoreState;
   api.postJournal({
     id: `journal:${api.state.date}:${state.cashJournal.nextSequence}`,
@@ -186,120 +193,196 @@ export function leavePremiumsOf(
   ]) as unknown as LeavePremium[];
 }
 
-// --- dedicated parks funding ----------------------------------------------------------
+// --- a law that adds to a budget line ------------------------------------------------
 
-export const parksFunding: PolicyHandler = (api, change) => {
-  applyRecords(api, PARKS_KEY, change.lawId, change.inForce);
-  const yes = change.inForce ? yesLevels(api, PARKS_KEY) : [];
-  const rows = reachTable(api, "mechanics").query("byKey", [
-    PARKS_KEY,
-  ]) as unknown as {
-    id: string;
-    active: boolean;
-    facts: Record<string, string | number>;
-  }[];
-  // Take back what a level that no longer says yes added.
-  for (const row of rows) {
-    if (!row.active) continue;
-    const still = yes.some((l) => `${PARKS_KEY}:${l.level}` === row.id);
-    if (still) continue;
-    amendBudget(api, {
-      governmentId: String(row.facts.governmentId),
-      line: "parks",
-      deltaMinor: -Number(row.facts.deltaMinor),
-      measureId: change.lawId,
-    });
-    putMechanic(api, {
-      id: row.id,
-      key: PARKS_KEY,
-      active: false,
-      since: api.state.date,
-      facts: { ...row.facts, repealedBy: change.lawId },
-    });
-  }
-  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
-  for (const level of yes) {
-    const id = `${PARKS_KEY}:${level.level}`;
-    if (mechanicRow(api, id)?.active) continue;
-    const gov = governments(api).find((g) => g.level === level.level);
-    const budget = gov ? budgetToday(api, gov) : null;
-    if (!gov || !budget) continue;
-    const delta = Math.round(
-      (budget.spendingMinor.parks ?? 0) * reachParameter("parksDedicatedShare"),
-    );
-    if (delta <= 0) continue;
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "parks",
-      deltaMinor: delta,
-      measureId: level.lawId,
-    });
-    putMechanic(api, {
-      id,
-      key: PARKS_KEY,
-      active: true,
-      since: api.state.date,
-      facts: { governmentId: gov.id, deltaMinor: delta, lawId: level.lawId },
-    });
-  }
-};
+const FACIAL_KEY =
+  "us-policy-positions:technology-privacy.restrict-government-facial-recognition";
+
+/**
+ * A law that adds a share of a budget line at each level that says yes
+ * (dedicated parks funding, the police department's oversight duties under a
+ * facial recognition limit): the line of the government that passed it rises
+ * by the share, the treasury pays it on the line's usual schedule, and a
+ * repeal takes the same amount back out. The government and the residents it
+ * serves are recorded as the law applied.
+ */
+function lineAddition(input: {
+  readonly key: string;
+  readonly line: string;
+  readonly share: string;
+  readonly what: string;
+  /** Records for the people the law reaches (applyRecords) as well. */
+  readonly records: boolean;
+}): PolicyHandler {
+  return (api, change) => {
+    if (input.records && !change.standing)
+      applyRecords(api, input.key, change.lawId, change.inForce);
+    const yes = change.inForce ? yesLevels(api, input.key) : [];
+    const rows = reachTable(api, "mechanics").query("byKey", [
+      input.key,
+    ]) as unknown as {
+      id: string;
+      active: boolean;
+      facts: Record<string, string | number>;
+    }[];
+    const govOf = (id: string | number | undefined) =>
+      governments(api).find((g) => g.id === id);
+    // Take back what a level that no longer says yes added to the budget in force.
+    for (const row of rows) {
+      if (!row.active) continue;
+      const still = yes.some((l) => `${input.key}:${l.level}` === row.id);
+      if (still) continue;
+      const gov = govOf(row.facts.governmentId);
+      const budget = gov ? budgetToday(api, gov) : null;
+      // A later year's budget never held it: nothing to take back there.
+      if (gov && budget?.id === row.facts.budgetId)
+        amendBudget(api, {
+          governmentId: gov.id,
+          line: input.line,
+          deltaMinor: -Number(row.facts.deltaMinor),
+          measureId: change.lawId,
+        });
+      putMechanic(api, {
+        id: row.id,
+        key: input.key,
+        active: false,
+        since: api.state.date,
+        facts: { ...row.facts, repealedBy: change.lawId },
+      });
+    }
+    if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
+    for (const level of yes) {
+      const id = `${input.key}:${level.level}`;
+      const gov = governments(api).find((g) => g.level === level.level);
+      const budget = gov ? budgetToday(api, gov) : null;
+      if (!gov || !budget) continue;
+      // Each fiscal year's budget starts without it: the law in force adds it again.
+      const held = mechanicRow(api, id);
+      if (held?.active && held.facts.budgetId === budget.id) continue;
+      const delta = Math.round(
+        (budget.spendingMinor[input.line] ?? 0) * reachParameter(input.share),
+      );
+      if (delta <= 0) continue;
+      amendBudget(api, {
+        governmentId: gov.id,
+        line: input.line,
+        deltaMinor: delta,
+        measureId: level.lawId,
+      });
+      putMechanic(api, {
+        id,
+        key: input.key,
+        active: true,
+        since: held?.active ? held.since : api.state.date,
+        facts: {
+          governmentId: gov.id,
+          budgetId: budget.id,
+          deltaMinor: delta,
+          lawId: level.lawId,
+        },
+      });
+    }
+    // The treasury pays the line (budgets-treasury.ts records whom the law's
+    // share of each payment reached); record each level that says yes under
+    // its own law row.
+    for (const row of reachTable(api, "mechanics").query("byKey", [
+      input.key,
+    ]) as unknown as {
+      id: string;
+      active: boolean;
+      facts: Record<string, string | number>;
+    }[]) {
+      if (!change.inForce || !row.active) continue;
+      const gov = govOf(row.facts.governmentId);
+      if (!gov) continue;
+      const lawId = String(row.facts.lawId);
+      lawApplied(api, {
+        key: input.key,
+        lawId,
+        targetId: gov.id,
+        target: "government",
+        engine: BUDGETS_MODULE_ID,
+        what: input.what,
+      });
+      // The residents the line serves are one counted group, read like a full person.
+      lawApplied(api, {
+        key: input.key,
+        lawId,
+        targetId: `residents:${gov.id}`,
+        target: "group",
+        engine: BUDGETS_MODULE_ID,
+        what: input.what,
+        count: gov.residents,
+      });
+    }
+  };
+}
+
+const PARKS_LINE = {
+  key: PARKS_KEY,
+  line: "parks",
+  share: "parksDedicatedShare",
+  what: "parks-line-funded",
+  paid: "parks-line-paid",
+  records: true,
+} as const;
+const FACIAL_LINE = {
+  key: FACIAL_KEY,
+  line: "police",
+  share: "facialRecognitionOversightShare",
+  what: "police-oversight-funded",
+  paid: "police-oversight-paid",
+  records: true,
+} as const;
+
+export const parksFunding = lineAddition(PARKS_LINE);
+export const facialRecognition = lineAddition(FACIAL_LINE);
+
+// The treasury pays these lines at its monthly close and records whom the
+// added share of each payment reached (budgets-treasury.ts).
+registerLineAdditions({
+  keys: [PARKS_LINE.key, FACIAL_LINE.key],
+  additions: (api, gov) =>
+    [PARKS_LINE, FACIAL_LINE].flatMap((law) => {
+      const row = mechanicRow(api, `${law.key}:${gov.level}`);
+      if (!row?.active || row.facts.governmentId !== gov.id) return [];
+      // Each fiscal year's budget starts without it: only this year's counts.
+      if (budgetToday(api, gov)?.id !== row.facts.budgetId) return [];
+      return [
+        {
+          line: law.line,
+          key: law.key,
+          lawId: String(row.facts.lawId),
+          annualMinor: Number(row.facts.deltaMinor),
+          what: law.paid,
+        },
+      ];
+    }),
+});
 
 // --- housing spending --------------------------------------------------------------
 
-export const housingAssistance: PolicyHandler = (api, change) => {
+export const HOUSING_LINE_KEY = "budget-line:housing";
+
+/** The mechanic row naming the measure that last changed a government's housing line. */
+export const housingLineMeasureId = (governmentId: string) =>
+  `${HOUSING_LINE_KEY}:${governmentId}`;
+
+/**
+ * A change to a housing line: the measure that made it is kept for the
+ * government whose line it is, so the housing engine's monthly assistance
+ * cites the law that funds it (housing-assistance.ts).
+ */
+export const housingLineMeasure: PolicyHandler = (api, change) => {
   ensureReachA(api);
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
-  api.stopgap(POLICIES[HOUSING_KEY]!.stopgapId!);
   const gov = governments(api).find((g) => g.level === change.level);
-  const budget = gov ? budgetToday(api, gov) : null;
-  if (!gov || !budget) return;
-  const extra =
-    (budget.spendingMinor.housing ?? 0) - baseLine(api, gov, budget, "housing");
-  const slots = Math.max(
-    0,
-    Math.floor(extra / reachParameter("housingAssistanceAnnualMinor")),
-  );
-  // The households with the least cash per member come first.
-  const adult = reachParameter("adultAge");
-  const byHousehold = new Map<string, { cash: number; members: number }>();
-  for (const person of townPeople(api)) {
-    const row = byHousehold.get(person.householdId) ?? { cash: 0, members: 0 };
-    row.cash += person.liquidMinor;
-    row.members += 1;
-    byHousehold.set(person.householdId, row);
-  }
-  const chosen = new Set(
-    [...byHousehold]
-      .sort(
-        ([a, x], [b, y]) =>
-          x.cash / x.members - y.cash / y.members || a.localeCompare(b),
-      )
-      .slice(0, slots)
-      .map(([id]) => id),
-  );
-  const date = api.state.date;
-  const people = townPeople(api).filter(
-    (p) => chosen.has(p.householdId) && ageOn(p.birthDate, date) >= adult,
-  );
-  const keep = new Set(people.map((p) => p.id));
-  endRows(api, HOUSING_KEY, "assisted", keep);
-  writeRows(
-    api,
-    HOUSING_KEY,
-    change.lawId,
-    specOf(HOUSING_KEY, "assisted"),
-    people.map((p) => ({ id: p.id, personId: p.id, count: null })),
-  );
+  if (!gov) return;
   putMechanic(api, {
-    id: `${HOUSING_KEY}:${gov.id}`,
-    key: HOUSING_KEY,
-    active: chosen.size > 0,
-    since: date,
-    facts: {
-      governmentId: gov.id,
-      extraMinor: extra,
-      households: chosen.size,
-      lawId: change.lawId,
-    },
+    id: housingLineMeasureId(gov.id),
+    key: HOUSING_LINE_KEY,
+    active: change.inForce,
+    since: api.state.date,
+    facts: { governmentId: gov.id, lawId: change.lawId },
   });
 };

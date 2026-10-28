@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/audit-14
 pr: #5516
 blocked-on:

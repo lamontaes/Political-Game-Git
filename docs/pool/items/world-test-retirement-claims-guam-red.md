@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/retirement-guam-g08lgv
 pr: #5299
 blocked-on:

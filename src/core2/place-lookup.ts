@@ -8,7 +8,7 @@
  * Sources: the 2025 Census Gazetteer places and counties (identity only), the
  * registered placeholder list of territory villages, the authored hometown
  * rows, and `data/places/place-lookup.json` (state clock defaults, authored
- * contexts, accepted pack keys, county rows, seats), written once from the old
+ * contexts, accepted pack keys, county rows), written once from the old
  * engine's sources when the lookup was ported, which the data file now owns.
  */
 import authoredPlaces from "../../data/research/authored-life-places.json" with { type: "json" };
@@ -18,6 +18,7 @@ import { createStableId } from "./kernel/ids";
 import localityData from "./data/places/localities.json" with { type: "json" };
 import lookupData from "./data/places/place-lookup.json" with { type: "json" };
 import territoryData from "./data/places/territory-places.json" with { type: "json" };
+import seatsOfGovernment from "../../data/research/places/seats-of-government.json" with { type: "json" };
 
 export interface CorePlaceCapabilities {
   readonly legislativeScenarioKey: string | null;
@@ -87,11 +88,13 @@ type TerritoryRow = readonly [
   censusGeoid: string,
   population2020: number,
 ];
-type SeatRow = readonly [
-  jurisdictionKey: string,
-  placeKey: string,
-  matchStatus: CoreSeatMatchStatus,
-];
+/** One seat of government as the research table records it: a Census place or an island-area village. */
+interface SeatRow {
+  readonly jurisdictionKey: string;
+  readonly placeGeoid?: string;
+  readonly placeKey?: string;
+  readonly matchStatus: CoreSeatMatchStatus;
+}
 
 interface StateClock {
   readonly name: string;
@@ -421,6 +424,29 @@ export function coreStateName(usps: string): string | null {
   return STATE_CLOCKS[usps]?.name ?? null;
 }
 
+let stateKeyByPlaceholderId: ReadonlyMap<string, string> | null = null;
+
+/**
+ * The state or territory (`US-KY`) a state-level place id names. A state's own
+ * place record exists only for the states with a candidacy pack, but the
+ * wider population keeps its state-level households under every state's id,
+ * so the id alone must say which state it is. Null for any other id.
+ */
+export function coreStateKeyOfPlaceholderId(
+  jurisdictionId: string,
+): string | null {
+  stateKeyByPlaceholderId ??= new Map(
+    Object.keys(STATE_CLOCKS).map((usps) => [
+      createStableId(
+        "jurisdiction",
+        `definition:state-us-${usps.toLowerCase()}-placeholder`,
+      ),
+      `US-${usps}`,
+    ]),
+  );
+  return stateKeyByPlaceholderId.get(jurisdictionId) ?? null;
+}
+
 /** Canonical USPS / `US-KY` identities, not names recovered from place labels. */
 export function corePlaceStateIdentities(): readonly CorePlaceStateIdentity[] {
   return Object.entries(STATE_CLOCKS)
@@ -437,21 +463,26 @@ export function coreSeatOfGovernmentPlace(
   jurisdictionKey: string,
 ): CoreSeatOfGovernmentPlace | null {
   seats ??= new Map(
-    (lookupData.seats.rows as unknown as readonly SeatRow[]).map((row) => [
-      row[0],
+    (seatsOfGovernment.rows as readonly SeatRow[]).map((row) => [
+      row.jurisdictionKey,
       row,
     ]),
   );
   const row = seats.get(jurisdictionKey);
-  if (!row) return null;
-  const place = corePlaceByKey(row[1]);
+  const key = row?.placeKey ?? row?.placeGeoid;
+  if (!row || !key) return null;
+  const place = corePlaceByKey(key);
   if (!place) return null;
   if (
     jurisdictionKey !== "US-FEDERAL" &&
     place.stateJurisdictionKey !== jurisdictionKey
   )
     return null;
-  return { jurisdictionKey: row[0], place, matchStatus: row[2] };
+  return {
+    jurisdictionKey: row.jurisdictionKey,
+    place,
+    matchStatus: row.matchStatus,
+  };
 }
 
 /**

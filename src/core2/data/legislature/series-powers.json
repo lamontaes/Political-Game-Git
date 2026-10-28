@@ -3,7 +3,7 @@
   "series": {
     "minimum-wage": {
       "levels": ["federal", "state", "local"],
-      "source": "29 U.S.C. \u00a7 206 (federal floor); 29 U.S.C. \u00a7 218 (states and places may set higher)"
+      "source": "29 U.S.C. § 206 (federal floor); 29 U.S.C. § 218 (states and places may set higher)"
     },
     "income-tax": {
       "levels": ["federal", "state", "local"],
@@ -15,47 +15,47 @@
     },
     "property-tax": {
       "levels": ["state", "local"],
-      "source": "Property taxes are levied by local governments under state law (U.S. Const. art. I, \u00a7 9 bars an unapportioned federal direct tax)"
+      "source": "Property taxes are levied by local governments under state law (U.S. Const. art. I, § 9 bars an unapportioned federal direct tax)"
     },
     "snap-maximum": {
       "levels": ["federal"],
-      "source": "7 U.S.C. \u00a7 2017 (allotments set federally from the Thrifty Food Plan)"
+      "source": "7 U.S.C. § 2017 (allotments set federally from the Thrifty Food Plan)"
     },
     "medicaid-match": {
       "levels": ["federal"],
-      "source": "42 U.S.C. \u00a7 1396d(b) (the federal medical assistance percentage)"
+      "source": "42 U.S.C. § 1396d(b) (the federal medical assistance percentage)"
     },
     "unemployment-weekly-maximum": {
       "levels": ["state"],
-      "source": "State unemployment insurance law under 26 U.S.C. \u00a7 3304"
+      "source": "State unemployment insurance law under 26 U.S.C. § 3304"
     },
     "unemployment-insurance": {
       "levels": ["state"],
-      "source": "State unemployment insurance law under 26 U.S.C. \u00a7 3304"
+      "source": "State unemployment insurance law under 26 U.S.C. § 3304"
     },
     "social-security-tax": {
       "levels": ["federal"],
-      "source": "26 U.S.C. \u00a7 3101(a)"
+      "source": "26 U.S.C. § 3101(a)"
     },
     "medicare-tax": {
       "levels": ["federal"],
-      "source": "26 U.S.C. \u00a7 3101(b)"
+      "source": "26 U.S.C. § 3101(b)"
     },
     "public-pay-floor": {
       "levels": ["federal", "state", "local"],
-      "source": "Each government sets its own employees' pay: 5 U.S.C. \u00a7 5303 (federal pay schedules), state civil service law, and city and county charters"
+      "source": "Each government sets its own employees' pay: 5 U.S.C. § 5303 (federal pay schedules), state civil service law, and city and county charters"
     },
     "federal-unemployment-tax": {
       "levels": ["federal"],
-      "source": "26 U.S.C. \u00a7\u00a7 3301-3302"
+      "source": "26 U.S.C. §§ 3301-3302"
     },
     "state-unemployment-tax": {
       "levels": ["state"],
-      "source": "State unemployment insurance law under 26 U.S.C. \u00a7 3304"
+      "source": "State unemployment insurance law under 26 U.S.C. § 3304"
     },
     "corporate-income-tax": {
       "levels": ["federal", "state"],
-      "source": "26 U.S.C. \u00a7 11 (federal); state corporate income taxes under state law"
+      "source": "26 U.S.C. § 11 (federal); state corporate income taxes under state law"
     },
     "estate-tax": {
       "levels": ["federal", "state"],
@@ -64,6 +64,10 @@
     "inheritance-tax": {
       "levels": ["state"],
       "source": "State inheritance taxes under each state's taxing power (Ky. Rev. Stat. ch. 140; Md. Tax-Gen. 7-203; Neb. Rev. Stat. 77-2004; N.J.S.A. 54:34; 72 P.S. 9116). Congress levies none; no local government levies one."
+    },
+    "local-income-tax-authority": {
+      "levels": ["state"],
+      "source": "State law decides whether its cities, towns and counties may tax income; 16 states allow it (data/research/laws/local-starting-law/local-income-tax.json)"
     }
   },
   "questions": {

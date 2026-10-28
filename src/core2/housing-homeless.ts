@@ -19,8 +19,11 @@ import { currentCloseness } from "./closeness";
 import { stopgap } from "./stopgaps";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
+import { housingWorldOffset } from "./housing-prices";
+import { parameter } from "./parameters";
 import { endResidentFlow } from "./residents-economy";
 import type { ModuleRow } from "./module-data";
+import { webFactorFor } from "./outcome-web-reach";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 
 export const HOUSING_STATUS_EVENT = "housing.status-changed";
@@ -97,6 +100,33 @@ export function housingStatusCounts(
   return out;
 }
 
+/** Year-round shelter beds per 10,000 people: the state's (HUD HIC 2025), an island area with no Continuum of Care at the island-area median, else the nation's. */
+export function publishedShelterRateFor(usps: string): number {
+  return (
+    (shelterData.bedsPer10k as Record<string, number>)[usps] ??
+    (
+      shelterData.estimated as Record<
+        string,
+        { bedsPer10k: number } | undefined
+      >
+    )[usps]?.bedsPer10k ??
+    shelterData.nationalBedsPer10k
+  );
+}
+
+/** The state's shelter beds per 10,000 people in this world: the published rate moved once by the world's own offset (owner, Oct 27: realistic, not real). */
+export function shelterRateFor(usps: string, seed: string): number {
+  return (
+    publishedShelterRateFor(usps) *
+    (parameter("one") +
+      housingWorldOffset(
+        seed,
+        `shelter-beds:${usps}`,
+        "housingWorldShelterBedsSpreadShare",
+      ))
+  );
+}
+
 /** The place's year-round shelter beds: the state's beds per 10,000 (HUD HIC 2025) times its people. */
 export function shelterBeds(
   api: CoreAPI,
@@ -105,9 +135,7 @@ export function shelterBeds(
 ): number {
   // stopgapId: SG-WORLD-housing-shelter-beds-state-rate
   stopgap("SG-WORLD-housing-shelter-beds-state-rate");
-  const rate =
-    (shelterData.bedsPer10k as Record<string, number>)[usps] ??
-    shelterData.nationalBedsPer10k;
+  const rate = shelterRateFor(usps, api.state.seed);
   // stopgapId: SG-WORLD-housing-shelter-territory
   if (!(usps in shelterData.bedsPer10k))
     stopgap("SG-WORLD-housing-shelter-territory");
@@ -278,7 +306,7 @@ export function placeRemovedHousehold(
     // With no job holding them here, they go to the relative's town.
     if (host.placeId !== placeId)
       api.relocatePeopleV1({
-        personIds: household.memberIds,
+        personIds: memberIds,
         placeId: host.placeId,
         householdId: household.id,
         source: {
@@ -326,7 +354,11 @@ export function reviewHomeless(
   lease: (householdId: string, rentMinor: number) => string | undefined,
 ): void {
   const c = core(api);
-  const multiple = api.parameter("housingRehouseIncomeMultiple");
+  const baseMultiple = api.parameter("housingRehouseIncomeMultiple");
+  // The outcome web's factor on the town's homelessness (housing first, vouchers, by-right
+  // permitting): a subsidy or a supportive placement covers part of the rent, so the income a
+  // landlord asks for moves by the factor; one place, one factor per month.
+  const webFactors = new Map<string, number>();
   const daysPerMonth =
     api.parameter("jobsDaysPerYear") / api.parameter("macroMonthsPerYear");
   for (const row of table(
@@ -334,7 +366,12 @@ export function reviewHomeless(
     "statuses",
   ).rows() as unknown as HousingStatusRow[]) {
     const household = c.households.get(row.id);
-    const living = row.memberIds.filter((id) => c.people.get(id)?.alive);
+    // Those still alive and still in this household: a member who moved out or
+    // married away does not sign or pay the lease, and a household whose
+    // homeless members all left it has nobody to rehouse.
+    const living = row.memberIds.filter(
+      (id) => c.people.get(id)?.alive && household?.memberIds.includes(id),
+    );
     if (!household || !living.length) {
       setStatus(
         api,
@@ -362,6 +399,12 @@ export function reviewHomeless(
       0,
     );
     const rent = rentOf(row.id, income);
+    let factor = webFactors.get(row.placeId);
+    if (factor === undefined) {
+      factor = webFactorFor(api, row.placeId, "housing.homelessness");
+      webFactors.set(row.placeId, factor);
+    }
+    const multiple = baseMultiple * factor;
     if (rent <= 0 || income < rent * multiple || cash < rent) continue;
     const leaseId = lease(row.id, rent);
     if (!leaseId) continue;

@@ -3,6 +3,8 @@
   "source": "National Archives, 'Distribution of Electoral Votes' (2020 census apportionment), https://www.archives.gov/electoral-college/allocation",
   "total": 538,
   "toWin": 270,
+  "withoutHouseDelegation": ["US-DC"],
+  "withoutHouseDelegationSource": "National Archives, 'The Constitution: Amendments 11-27', https://www.archives.gov/founding-docs/amendments-11-27. Amend. XII: in a contingent election \"the votes shall be taken by states, the representation from each state having one vote\"; amend. XXIII, sec. 1: \"The District constituting the seat of Government of the United States\" appoints electors only, so it has electors and no state delegation in the House.",
   "states": {
     "US-AK": 3,
     "US-AL": 9,

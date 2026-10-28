@@ -4,7 +4,7 @@ title: "Session days, committee days, the interim, the district week and the Sta
 area: office
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-l9cym2-b
 pr: #5172
 blocked-on:

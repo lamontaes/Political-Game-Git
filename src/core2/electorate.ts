@@ -11,7 +11,8 @@
  */
 import {
   campaignParameter,
-  platformAgreement,
+  groupAgreement,
+  type StanceProfile,
   registerCountedPeople,
   registerViewLeans,
   type Stance,
@@ -21,20 +22,30 @@ import { interestOf, turnoutShare } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { stateOfPlaceKey } from "./places";
 import { residentsRuntime } from "./modules/residents";
-import { isDemoted } from "./counted-groups";
+import {
+  type CountedHousehold,
+  type CountedStore,
+  isDemoted,
+} from "./counted-groups";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
+import { reportOutcome } from "./trait-decisions";
+import { traitProbe } from "./trait-probe";
 import type { CoreState } from "./types";
 
 export interface CountedVoter {
   readonly id: string;
   readonly birthDate: string;
   readonly placeId: string;
+  /** The household they belong to (their faith and education are read from it). */
+  readonly householdId: string;
   readonly traits: Readonly<Record<string, number>>;
   /** Scheduled weekly work, from their recorded commitments. */
   readonly weeklyMinutes: number;
+  /** The highest hourly pay of their open work commitments; zero with no work. */
+  readonly hourlyMinor: number;
   /** Real voters this record stands for (its household's weight; one where the town opened at its own count). */
   readonly weight: number;
 }
@@ -59,44 +70,91 @@ export function countedSurveyCell(
   );
 }
 
+/**
+ * Each member of a counted household who is still counted, with their
+ * household: read straight from the counted groups' columns, no record per
+ * person (one model, two tiers). A full person returned to the counts is
+ * counted again.
+ */
+function eachCountedResident(
+  core: CoreState,
+  visit: (
+    store: CountedStore,
+    h: CountedHousehold,
+    m: number,
+    id: string,
+  ) => void,
+): void {
+  const store = residentsRuntime(core)?.store;
+  if (!store) return;
+  for (const h of store.liveHouseholds())
+    for (const m of store.countedMembers(h)) {
+      const id = store.ids[m]!;
+      const full = core.people.get(id);
+      if (full && !isDemoted(full)) continue;
+      visit(store, h, m, id);
+    }
+}
+
 /** Every counted resident still counted (not filled in), with their record's facts. */
 export function countedResidents(core: CoreState): readonly CountedVoter[] {
   const hit = cache.get(core);
   // Kept for the day, until someone is filled in or the people change.
   const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
   if (hit && hit.date === key) return hit.rows;
-  const rt = residentsRuntime(core);
   const rows: CountedVoter[] = [];
-  if (rt) {
-    // Read straight from the counted groups' columns: traits in place, no
-    // record per person (one model, two tiers).
-    const store = rt.store;
-    for (const h of store.liveHouseholds()) {
-      const minutes = new Map<string, number>();
-      for (const c of h.workCommitments)
-        if (c.endsAt === undefined || c.endsAt > core.date)
-          minutes.set(
-            c.personId,
-            (minutes.get(c.personId) ?? 0) + c.expectedWeeklyMinutes,
-          );
-      for (const m of store.countedMembers(h)) {
-        const id = store.ids[m]!;
-        // A full person returned to the counts votes as counted.
-        const full = core.people.get(id);
-        if (full && !isDemoted(full)) continue;
-        rows.push({
-          id,
-          birthDate: store.born[m]!,
-          placeId: store.text(store.placeIx[m]!)!,
-          traits: store.packedTraits(m),
-          weeklyMinutes: minutes.get(id) ?? 0,
-          weight: store.weightOf(h),
-        });
+  // Each household's scheduled work and best pay, worked out once for its members.
+  let at: CountedHousehold | undefined;
+  const minutes = new Map<string, number>();
+  const hourly = new Map<string, number>();
+  eachCountedResident(core, (store, h, m, id) => {
+    if (h !== at) {
+      at = h;
+      minutes.clear();
+      hourly.clear();
+      for (const c of h.workCommitments) {
+        if (c.endsAt !== undefined && c.endsAt <= core.date) continue;
+        minutes.set(
+          c.personId,
+          (minutes.get(c.personId) ?? 0) + c.expectedWeeklyMinutes,
+        );
+        hourly.set(
+          c.personId,
+          Math.max(hourly.get(c.personId) ?? 0, c.hourlyMinor),
+        );
       }
     }
-  }
+    rows.push({
+      id,
+      birthDate: store.born[m]!,
+      placeId: store.text(store.placeIx[m]!)!,
+      householdId: h.id,
+      traits: store.packedTraits(m),
+      weeklyMinutes: minutes.get(id) ?? 0,
+      hourlyMinor: hourly.get(id) ?? 0,
+      weight: store.weightOf(h),
+    });
+  });
   rows.sort((a, b) => a.id.localeCompare(b.id));
   cache.set(core, { date: key, rows });
+  return rows;
+}
+
+/**
+ * One place's counted residents still counted, in the same id order as
+ * `countedResidents`: their birth date and the real people their record
+ * stands for, for a reader that needs no more than that.
+ */
+export function countedResidentsOf(
+  core: CoreState,
+  placeId: string,
+): readonly Pick<CountedVoter, "id" | "birthDate" | "weight">[] {
+  const rows: Pick<CountedVoter, "id" | "birthDate" | "weight">[] = [];
+  eachCountedResident(core, (store, h, m, id) => {
+    if (store.text(store.placeIx[m]!) === placeId)
+      rows.push({ id, birthDate: store.born[m]!, weight: store.weightOf(h) });
+  });
+  rows.sort((a, b) => a.id.localeCompare(b.id));
   return rows;
 }
 
@@ -284,6 +342,13 @@ export interface CountedFieldEntry {
    * names (`ballot-order.ts`).
    */
   readonly ballotCues?: readonly number[];
+  /**
+   * Where the race's public standing already carries the average incumbency
+   * advantage (a partisan state or federal race), the town's average
+   * incumbent side of its adults' traits: each voter's own is read against
+   * it, so their traits move them around that advantage, not on top of it.
+   */
+  readonly incumbentLeanCenter?: number;
 }
 
 /** One counted voter's appeal for a candidate, with its parts. */
@@ -321,6 +386,8 @@ export function countedAppeal(
     readonly trust?: number;
     /** Which form of the ballot the voter holds (their precinct's place in a rotation). */
     readonly ballotForm?: number;
+    /** Their faith and degree, which move their stance on the questions the survey asked. */
+    readonly profile?: StanceProfile | null;
   },
 ): Record<string, CountedAppeal> {
   const appeal: Record<string, CountedAppeal> = {};
@@ -330,9 +397,11 @@ export function countedAppeal(
     const recognition = where.inTown
       ? entry.recognition *
         (campaignParameter("countedRecognitionWeight") +
-          platformAgreement(lean, entry.platform))
+          groupAgreement(lean, entry.platform, where.profile))
       : 0;
-    const incumbent = entry.isIncumbent ? where.incumbentLean : 0;
+    const incumbent = entry.isIncumbent
+      ? where.incumbentLean - (entry.incumbentLeanCenter ?? 0)
+      : 0;
     const cues = entry.ballotCues ?? [];
     const ballot = cues.length
       ? cues[(where.ballotForm ?? 0) % cues.length]!
@@ -351,6 +420,30 @@ export function countedAppeal(
       scandal,
     };
   }
+  // The audit's probe (off in play) sees whether the voter backs the incumbent with and without the trait term.
+  if (
+    traitProbe()?.outcome &&
+    field.length > 1 &&
+    field.some((e) => e.isIncumbent)
+  )
+    reportOutcome(
+      "voting.back-incumbent",
+      undefined,
+      where.incumbentLean,
+      "probability",
+      (withTerm) => {
+        const totals = withTerm
+          ? appeal
+          : Object.fromEntries(
+              Object.entries(appeal).map(([id, a]) => [
+                id,
+                { total: a.total - a.incumbent },
+              ]),
+            );
+        const backed = countedChoice(totals);
+        return field.some((e) => e.id === backed && e.isIncumbent) ? 1 : 0;
+      },
+    );
   return appeal;
 }
 

@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/official-salary-table-test
 pr: #5312
 blocked-on:

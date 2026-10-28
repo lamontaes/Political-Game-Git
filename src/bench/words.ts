@@ -1,8 +1,10 @@
 // The words the bench shows for records, all from the English engine's data.
-import { JOURNAL_DATA } from "../director/journal";
+import { JOURNAL_WORDS } from "../english/journal-words";
 import { properName } from "../director/words";
 import type { CoreState } from "../core2/types";
+import { schoolsAttended } from "../core2/past";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
+import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import choiceBank from "../../data/english/parts/choice-names.json" with { type: "json" };
 
 /** "aunt", "brother": the English engine's relation word for a kin key and the other person's look. */
@@ -12,24 +14,32 @@ export function relationWord(
   kin: string | null | undefined,
 ): string | null {
   if (!kin) return null;
-  const words = JOURNAL_DATA.relationWords[kin];
+  const words = JOURNAL_WORDS.relationWords[kin];
   if (!words) return null;
   const gender = core.people.get(otherId)?.looks?.gender ?? "other";
   return words[gender as keyof typeof words] ?? words.other ?? null;
 }
 
-/** The schools a person's past records, in order, as written on their records. */
+/** The schools a person attended, in order, named from each school's own record (the school engine's run before the start and its record in play). */
 export function schoolsOf(core: CoreState, personId: string) {
   return (
-    (core.people.get(personId)?.pastFacts ?? [])
-      // The school stages themselves, not the classmates met there.
-      .filter((fact) => fact.facts?.schoolName && fact.facts.stage)
-      .sort((a, b) => a.date.localeCompare(b.date))
-      .map((fact) => ({
-        name: properName(fact.facts!.schoolName!),
-        date: fact.date,
-        recordId: fact.id,
-      }))
+    schoolsAttended(core, personId)
+      // A school with no record of its own (a place the world does not
+      // keep) has no name to show (SG-HIST-school-elsewhere-unnamed).
+      .flatMap((row) =>
+        row.name
+          ? [
+              {
+                name: properName(row.name),
+                date: row.date,
+                recordId: row.recordId,
+              },
+            ]
+          : [],
+      )
+      // One school for several stages (a district's elementary, middle and
+      // high school) is listed once, from the year the person started there.
+      .filter((school, at, all) => school.name !== all[at - 1]?.name)
   );
 }
 
@@ -89,4 +99,13 @@ export function policyNames(): Record<string, string> {
   };
   walk(billCatalog);
   return names;
+}
+
+/** A budget line a local seat takes a position on ("budget-line:police"), by its name on the budgets screen (the source table's own item label). */
+export function budgetLineNames(): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(
+      (lineNames as { lines: Record<string, { name: string }> }).lines,
+    ).map(([line, row]) => [`budget-line:${line}`, row.name]),
+  );
 }

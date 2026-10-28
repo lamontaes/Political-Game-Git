@@ -283,7 +283,7 @@
           "policies": [
             {
               "id": "law:income-tax",
-              "name": "Local income tax rate",
+              "name": "Income tax rate",
               "kind": "law-amount",
               "series": "income-tax",
               "unit": "percent",
@@ -292,7 +292,7 @@
             },
             {
               "id": "law:sales-tax",
-              "name": "Local sales tax rate",
+              "name": "Sales tax rate",
               "kind": "law-amount",
               "series": "sales-tax",
               "unit": "percent",
@@ -332,6 +332,14 @@
               "kind": "law-amount",
               "series": "inheritance-tax",
               "unit": "percent-top-rate",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:local-income-tax-authority",
+              "name": "Local income tax authority",
+              "kind": "law-amount",
+              "series": "local-income-tax-authority",
               "operations": ["raise", "lower"],
               "levels": ["state"]
             },

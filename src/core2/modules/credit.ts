@@ -11,13 +11,15 @@ import depositRows from "../../../data/tables/town-deposits.json" with { type: "
 import regions from "../data/regional/regions.json" with { type: "json" };
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
 import territoryData from "../data/credit/territories.json" with { type: "json" };
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { worldLevel } from "../world-draw";
 import type {
+  Affect,
   CoreAPI,
   CoreInput,
   CoreModule,
@@ -31,16 +33,24 @@ import {
   residentsRuntime,
   householdCash,
   householdCashReader,
-  residentPerson,
+  residentFacts,
 } from "./residents";
 import { chooseAct, traitLean } from "../choice";
+import {
+  decisionTraitWeight,
+  hardshipReason,
+  leanedByKinds,
+} from "../trait-decisions";
+import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
 import { bankDepositLiability } from "../accounts";
 import { reviewBankDeposits } from "../credit-deposits";
+import { weightedPayrollMinor } from "../residents-economy";
 
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { lawApplied } from "../law-reach/applied";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 
 const CREDIT_PULL = "credit:pull";
@@ -140,8 +150,15 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
   const placeId = [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   if (!placeId) return undefined;
+  // The county's published deposits are the center; this world's banks hold a
+  // level drawn from its seed (realistic, not real; owner, Oct 27).
   const depositsMinor = Math.round(
-    deposits *
+    worldLevel(
+      deposits,
+      input.seed,
+      "world-deposits-level",
+      "worldDepositsSpreadShare",
+    ) *
       p0("creditDepositsInThousands") *
       p0("creditMinorPerDollar") *
       (Math.min(townPeople, countyPeople) / countyPeople),
@@ -456,9 +473,16 @@ function review(api: CoreAPI): void {
     a[0].localeCompare(b[0]),
   )) {
     if (books.closedAt || books.creditFacilityId) continue;
+    // The paydays a line covers are the weighted ones, as the firm's cash
+    // is: a counted worker's record stands for its household's weight.
+    const payroll = weightedPayrollMinor(
+      c,
+      id,
+      books.annualPayrollMinor,
+      p("jobsDaysPerYear"),
+    );
     const cover =
-      (books.annualPayrollMinor / p("macroMonthsPerYear")) *
-      p("creditLineMonthsOfPayroll");
+      (payroll / p("macroMonthsPerYear")) * p("creditLineMonthsOfPayroll");
     const cash = c.organizations.get(id)!.liquidMinor;
     const requested = Math.max(0, cover - cash);
     if (!requested) continue;
@@ -469,7 +493,13 @@ function review(api: CoreAPI): void {
     const ownerId =
       (owners?.get(id) as { ownerId?: string } | undefined)?.ownerId ??
       managerOf(c, id);
-    const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
+    // Its sales stand for the same weight as its payroll.
+    const monthlySales =
+      (books.annualDemandMinor *
+        (books.annualPayrollMinor > 0
+          ? payroll / books.annualPayrollMinor
+          : p("one"))) /
+      p("macroMonthsPerYear");
     // The owner weighs the rate the bank will charge this borrower, risk spread and all.
     const rate = quotedLineRate(api, lineTerms(api, books).spreadPct);
     const reasons = {
@@ -581,6 +611,9 @@ interface HouseholdMonthRow {
   paidMinor: number;
   /** What the household's cash didn't cover: everyday living it went without, rent or loan payments it owes. */
   unpaidMinor: number;
+  /** Why everyday living went short: what the members held on its day, and what they kept back for their home. */
+  livingHeldMinor?: number;
+  keptBackMinor?: number;
   unemploymentMemberIds: string[];
   application?: { id: string; approved: boolean; limitMinor: number };
 }
@@ -636,6 +669,10 @@ function householdMonths(api: CoreAPI): HouseholdMonthRow[] {
     row.billsMinor += plan.lastRequestedMinor;
     row.paidMinor += plan.lastPaidMinor;
     row.unpaidMinor += plan.lastRequestedMinor - plan.lastPaidMinor;
+    if (plan.lastHeldMinor !== undefined)
+      row.livingHeldMinor = plan.lastHeldMinor;
+    if (plan.lastKeptBackMinor !== undefined)
+      row.keptBackMinor = plan.lastKeptBackMinor;
   }
   const homeOf = new Map<string, string>();
   for (const person of c.people.values())
@@ -753,6 +790,8 @@ interface LoanRow {
   kind: "personal" | "startup" | "mortgage";
   principalMinor: number;
   balanceMinor: number;
+  marketAnnualRate?: number;
+  rateLawId?: string | null;
   annualRate: number;
   paymentMinor: number;
   openedAt: string;
@@ -820,7 +859,7 @@ function earnedDaily(
     if (!ledger) break;
     const since =
       commitment.startsAt > c.startedAt ? commitment.startsAt : c.startedAt;
-    const days = daysBetween(makeIsoDate(since), makeIsoDate(c.date));
+    const days = daysBetweenText(since, c.date);
     if (days < api.parameter("creditIncomeRecordDays")) break;
     return ledger.earnedMinor / days;
   }
@@ -834,27 +873,41 @@ function earnedDaily(
  */
 export function personalBorrowingDecision(
   api: CoreAPI,
-  actor: Pick<PersonInput, "traits">,
+  actor: Pick<PersonInput, "traits"> & { id?: string; affect?: Affect },
   need: number,
   burden: number,
 ) {
   const p = (key: string) => api.parameter(key);
-  const wait =
-    traitLean(api.state, actor, creditData.actions.wait.actKinds) *
-    p("traitWeight");
+  const wait = p("zero");
+  const traitTerm =
+    (traitLean(api.state, actor, creditData.actions.borrow.actKinds) -
+      traitLean(api.state, actor, creditData.actions.wait.actKinds)) *
+    decisionTraitWeight(api.state, "credit.borrow");
+  // Stress a layoff, an eviction or a missed payment left and has not let go
+  // of them pulls toward borrowing, by the stress itself (no step, no roll).
+  const hardship = hardshipReason(api.state, actor, "credit.borrow");
   const reasons = {
-    trait:
-      traitLean(api.state, actor, creditData.actions.borrow.actKinds) *
-      p("traitWeight"),
+    trait: traitTerm,
     baseline: p("creditBorrowBaseline"),
     need: p("creditBorrowNeedWeight") * need,
     cost: -p("creditBorrowCostWeight") * Math.min(burden, p("two")),
+    hardshipStress: hardship.term,
   };
-  const borrow = Object.values(reasons).reduce((sum, value) => sum + value, 0);
+  const bare =
+    reasons.baseline + reasons.need + reasons.cost + reasons.hardshipStress;
   // The core chooser breaks ties by action id (borrow sorts before do-without).
+  const borrow =
+    leanedByKinds(
+      api.state,
+      actor,
+      "credit.borrow",
+      creditData.actions.borrow.actKinds,
+      creditData.actions.wait.actKinds,
+      bare,
+    ) || bare + traitTerm === wait;
   return {
-    borrow: borrow >= wait,
-    borrowScore: borrow,
+    borrow,
+    borrowScore: bare + traitTerm,
     waitScore: wait,
     reasons,
   };
@@ -873,6 +926,8 @@ interface BorrowingHousehold {
     | "jobId"
   >[];
   cash: number;
+  /** The households a counted household stands for; 1 for a full household. */
+  weight: number;
   /** Read only for a household with a real shortfall: it walks jobs and wage flows. */
   income: () => number;
 }
@@ -891,6 +946,7 @@ function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
       placeId: h.placeId,
       members,
       cash: members.reduce((sum, person) => sum + person.liquidMinor, 0),
+      weight: 1,
       income: () => monthlyIncome(api, h.memberIds),
     });
   }
@@ -899,13 +955,14 @@ function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
   if (rt)
     for (const h of rt.store.liveHouseholds()) {
       if (c.households.has(h.id)) continue;
-      const members = rt.store.peopleOf(h);
+      const members = rt.store.factsOfHousehold(h);
       if (!members.length) continue;
       rows.push({
         id: h.id,
         placeId: h.placeId,
         members,
         cash: cashOf(h),
+        weight: rt.store.weightOf(h),
         income: () => {
           let daily = 0;
           for (const member of members) {
@@ -988,6 +1045,15 @@ function personalLoanTransfer(
   });
 }
 
+/** The households a loan's borrower stands for: a counted household's weight, else 1. */
+function loanWeight(api: CoreAPI, householdId: string): number {
+  const rt = residentsRuntime(core(api));
+  const ix = rt?.store.householdOf.get(householdId);
+  return rt && ix !== undefined
+    ? rt.store.weightOf(rt.store.households[ix]!)
+    : 1;
+}
+
 /** Each open loan's payment: what the borrower can pay of it; late, then charged off at 120 days, from real circumstances. */
 function serviceLoans(api: CoreAPI, bankId: string): void {
   const c = core(api),
@@ -1004,7 +1070,7 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         loan.paymentMinor + loan.pastDueMinor,
       );
     const person =
-      c.people.get(loan.borrowerId) ?? residentPerson(c, loan.borrowerId);
+      c.people.get(loan.borrowerId) ?? residentFacts(c, loan.borrowerId);
     const cashBefore = borrowerCash(api, loan.borrowerId);
     const paid = personalLoanTransfer(
       api,
@@ -1021,6 +1087,29 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
       },
     );
     const towardInterest = Math.min(paid, interest);
+    // The cap held the rate below the market's: the interest the borrower did not owe this month.
+    // A repeal leaves the loan at the rate it was written at (nothing is repriced or forgiven), but the law no longer applies to it.
+    if (
+      loan.rateLawId &&
+      lawInForce(api, CAP_LOAN_RATES).value === 1 &&
+      (loan.marketAnnualRate ?? 0) > loan.annualRate
+    ) {
+      const weight = loanWeight(api, loan.householdId);
+      lawApplied(api, {
+        key: CAP_LOAN_RATES,
+        lawId: loan.rateLawId,
+        targetId: loan.householdId,
+        target: weight > 1 ? "group" : "household",
+        count: weight,
+        engine: "credit",
+        what: "interest-capped",
+        amountMinor:
+          (weight *
+            loan.balanceMinor *
+            ((loan.marketAnnualRate ?? 0) - loan.annualRate)) /
+          p("macroMonthsPerYear"),
+      });
+    }
     const balance = Math.max(0, loan.balanceMinor + interest - paid);
     const pastDue = Math.max(0, due - paid);
     const lateDays = loan.firstPastDueAt
@@ -1042,6 +1131,25 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         cashBeforeMinor: cashBefore,
         employed: Boolean(person?.jobId),
         standing,
+      });
+    // A missed payment is a hardship at the Holmes and Rahe size of a change
+    // in financial state, and the borrower's appraisal scales it by who they are
+    // (emotion.ts). The coping decisions that follow read the stress it left.
+    if (pastDue > 0 && c.people.has(loan.borrowerId))
+      api.emit({
+        id: `event:credit.payment-missed:${loan.id}:${c.date}`,
+        date: c.date,
+        kind: "credit.payment-missed",
+        personIds: [loan.borrowerId],
+        placeId: c.people.get(loan.borrowerId)!.placeId,
+        publicRecord: false,
+        source: {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: creditData.source.citation,
+          estimatedFrom: `${loan.id}: the borrower's cash covered ${paid} of the ${Math.round(due)} due.`,
+        },
+        ...severityImpulse(api, DEFAULT_HEALTH_DATA.missedPaymentSeverity),
       });
     const { firstPastDueAt: previousPastDueAt, ...rest } = loan;
     store(api)
@@ -1065,6 +1173,9 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
   }
 }
 
+const CAP_LOAN_RATES =
+  "us-policy-positions:business-commerce.cap-consumer-loan-rates";
+
 /** Households short of money choose whether to borrow; the bank answers from their income and payments, on a sliding scale. */
 function householdApplications(
   api: CoreAPI,
@@ -1083,10 +1194,7 @@ function householdApplications(
     (prime + p("macroPrimeSpreadPct") + p("creditPersonalSpreadPct")) /
     p("macroHundred");
   const cap = c.modules.has(LAWS_MODULE_ID)
-    ? lawInForce(
-        api,
-        "us-policy-positions:business-commerce.cap-consumer-loan-rates",
-      )
+    ? lawInForce(api, CAP_LOAN_RATES)
     : undefined;
   const town = cap ? lawChain(api).townPlaceId : undefined;
   const owing = new Set(
@@ -1105,7 +1213,7 @@ function householdApplications(
         (row) =>
           row.standing === "charged-off" &&
           (!row.chargedOffAt ||
-            daysBetween(makeIsoDate(row.chargedOffAt), makeIsoDate(c.date)) <
+            daysBetweenText(row.chargedOffAt, c.date) <
               p("creditReportYears") * p("jobsDaysPerYear")),
       )
       .map((row) => row.householdId),
@@ -1120,8 +1228,22 @@ function householdApplications(
     const ceiling = applicable
       ? lawParameters.parameters.consumerLoanRateCap.value
       : null;
+    // stopgapId: SG-WORLD-credit-rate-cap-no-small-lender — the cap binds only
+    // this bank loan, which sits far below the ceiling in an ordinary rate year.
+    if (applicable) api.stopgap("SG-WORLD-credit-rate-cap-no-small-lender");
     const rate = ceiling === null ? marketRate : Math.min(marketRate, ceiling);
     const lawId = applicable ? cap.governing!.id : null;
+    // Whom the cap governed at the quote: every household quoted under it, and whether it held the rate below the market.
+    if (lawId)
+      lawApplied(api, {
+        key: CAP_LOAN_RATES,
+        lawId,
+        targetId: household.id,
+        target: household.weight > 1 ? "group" : "household",
+        count: household.weight,
+        engine: "credit",
+        what: rate < marketRate ? "quote-capped" : "quote-within-cap",
+      });
     const members = household.members;
     const head = [...members].sort(
       (a, b) =>

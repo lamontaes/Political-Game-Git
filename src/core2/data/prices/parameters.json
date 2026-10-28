@@ -121,6 +121,30 @@
       "citation": "Per-resident 2024 sales of California (about $120) to Michigan (about $300)."
     }
   },
+  "pricesCannabisUsePrevalence": {
+    "value": 0.2317,
+    "tag": "ESTIMATED",
+    "citation": "SAMHSA, 2023-2024 National Surveys on Drug Use and Health, State Estimates, Table 2 (Marijuana Use in the Past Year), Total U.S., 18+: 23.17 percent (95% CI 22.67-23.67), https://www.samhsa.gov/data/sites/default/files/reports/rpt56957/2024-nsduh-sae-tables-percent-csvs/2024-nsduh-sae-tables-percent.pdf; recorded in data/research/laws/samhsa-2024-cannabis-past-year.json and checked by scripts/research/check-law-reach-sources.ts.",
+    "estimatedFrom": "The national adult (18+) past-year share stands in for each place's own share, which the same table gives by state (SG-GOV-REACH-A-cannabis-market); the 21-and-over share is not published.",
+    "spread": {
+      "low": 0.1594,
+      "high": 0.3757,
+      "unit": "share of adults",
+      "citation": "SAMHSA NSDUH 2023-2024 Table 2, 18+ past-year use by state: lowest Texas 15.94 percent, highest Vermont 37.57 percent."
+    }
+  },
+  "pricesCannabisAdultShare": {
+    "value": 0.75,
+    "tag": "ESTIMATED",
+    "citation": "Census Bureau 2023 population estimates: about 75 percent of U.S. residents are 21 or older.",
+    "estimatedFrom": "Share of residents aged 21 and over, national.",
+    "spread": {
+      "low": 0.68,
+      "high": 0.8,
+      "unit": "share of residents",
+      "citation": "State shares of residents 21 and over."
+    }
+  },
   "pricesChangeImpulseScale": {
     "value": 1,
     "tag": "TUNABLE",
@@ -130,6 +154,17 @@
       "high": 2,
       "unit": "impulse per share of monthly earnings",
       "citation": "Half to twice the benefit engine's scale."
+    }
+  },
+  "pricesRoadLevelElasticity": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How far the share of roads in poor condition moves with the highways line against its base. Pavement condition follows maintenance spending, but no published elasticity ties a town's budget line to its poor-road share; one (a line 10 percent above its base leaves 10 percent fewer roads poor) is the neutral prior.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "elasticity of poor-road share to highways spending",
+      "citation": "Neutral prior with a factor-of-two spread either way; checked by the played-world proof's change in drivers' repair spending."
     }
   }
 }

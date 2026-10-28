@@ -28,29 +28,30 @@ it(`a public comment is a hearing scene for the speaker, citing the comment reco
       if (person.alive && person.id.startsWith("person_"))
         director.watch(core, person.id);
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
-    for (const [personId, book] of director.ledger.people) {
-      const entry = book.schedule.find(
-        (row) =>
-          row.momentId.includes("public-comment:") &&
-          row.bindings.some((bound) => bound.typeKey === "public-hearing"),
-      );
-      if (!entry) continue;
-      const binding = entry.bindings.find(
-        (bound) => bound.typeKey === "public-hearing",
-      )!;
-      const moment = book.momentsById.get(entry.momentId)!;
-      const where = `${place.name}, seed ${seed}:${life}, ${personId}, ${moment.causeId}`;
-      const comment = core.durableLog.get(moment.causeId);
-      expect(comment?.kind, where).toBe("public-comment");
-      expect(comment?.personIds, where).toContain(personId);
-      // The room is filled from records: the speaker, the chair and members.
-      expect(
-        binding.roles.find((r) => r.role === "speaker")?.personIds,
-        where,
-      ).toContain(personId);
-      expect(binding.presentIds.length, where).toBeGreaterThan(1);
-      return;
-    }
+    // Every hearing scene in the year, not only the first: a person the
+    // comment record does not name as a speaker (the bill's sponsor, a member
+    // in the room) never stands in the speaker's scene.
+    let scenes = 0;
+    for (const [personId, book] of director.ledger.people)
+      for (const entry of book.schedule) {
+        const binding = entry.bindings.find(
+          (bound) => bound.typeKey === "public-hearing",
+        );
+        if (!binding) continue;
+        const moment = book.momentsById.get(entry.momentId)!;
+        const where = `${place.name}, seed ${seed}:${life}, ${personId}, ${moment.causeId}`;
+        const comment = core.durableLog.get(moment.causeId);
+        expect(comment?.kind, where).toBe("public-comment");
+        expect(comment?.personIds, where).toContain(personId);
+        // The room is filled from records: the speaker, the chair and members.
+        expect(
+          binding.roles.find((r) => r.role === "speaker")?.personIds,
+          where,
+        ).toContain(personId);
+        expect(binding.presentIds.length, where).toBeGreaterThan(1);
+        scenes += 1;
+      }
+    if (scenes) return;
     tried.push(place.name);
   }
   throw new Error(

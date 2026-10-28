@@ -55,6 +55,7 @@ import {
   memberPosition,
   members,
   registerLegislatureHooks,
+  registerMeetingAgendaReader,
   type BillRow,
   type DeskAction,
 } from "./legislature";
@@ -203,7 +204,10 @@ export const officeHost: OfficeActHost = {
 registerOfficeActs(localOfficeKit(officeHost));
 
 export function openOfficeDay(core: CoreState, worldSeed: string): void {
-  registerLegislatureHooks({ beforeVote: ownVote, onDesk: deskArrived });
+  registerLegislatureHooks({
+    beforeVote: { name: "own-vote", run: ownVote },
+    onDesk: deskArrived,
+  });
   const providers = OFFICE_DAY_MODULE.offerProviders as Record<string, unknown>;
   const handlers = OFFICE_DAY_MODULE.effectHandlers as Record<string, unknown>;
   for (const kit of officeActKits()) {
@@ -467,6 +471,12 @@ function finish(api: CoreAPI, row: MeetingRow): void {
       officeId: row.officeId,
       items: String(row.takenUp.length),
       playerPresent: String(row.playerPresent),
+      // A sitting that runs past the hour a town body meets in the evening
+      // keeps its members from home that evening.
+      evening: String(
+        row.startMinute + row.minutes >
+          officeDayParameter("eveningMeetingMinute"),
+      ),
     },
   });
 }
@@ -671,6 +681,13 @@ function placeFiled(
   } as unknown as ModuleRow);
 }
 registerMeetingHold(holdsMemberFilings, placeFiled);
+// The floor's agenda for a date includes what a town body's meeting that day
+// takes up (the evening-before ask reads it).
+registerMeetingAgendaReader((api, date) =>
+  (table(api, "meetings").rows() as unknown as MeetingRow[])
+    .filter((row) => row.date === date && row.status !== "adjourned")
+    .flatMap((row) => agendaFor(api, row.officeId, date)),
+);
 
 const sits = (personId: string) => (term: TermRow) =>
   term.personId === personId || memberKey(term) === personId;
@@ -1047,18 +1064,14 @@ export function officeJobsOf(api: CoreAPI, personId: string): OfficeJobRow[] {
 
 // ---- What the player prepares for an act -------------------------------
 
-/** The player sets what they will say or decide at an act; what they leave is the character's own. */
+/**
+ * The player sets what they will say or decide at an act, local or federal
+ * (any registered kit's act id); what they leave is the character's own.
+ */
 export function prepareAct(
   api: CoreAPI,
   personId: string,
-  actId:
-    | "office-hours"
-    | "town-hall"
-    | "interview"
-    | "talk-to-colleague"
-    | "state-of-the-city"
-    | "propose-budget"
-    | "name-department-head",
+  actId: string,
   prepared: Prepared,
 ): void {
   table(api, "prepared").put({
@@ -1067,7 +1080,8 @@ export function prepareAct(
   } as unknown as ModuleRow);
 }
 
-function preparedFor(
+/** What the player prepared for an act, if anything. */
+export function preparedFor(
   api: CoreAPI,
   personId: string,
   actId: string,
@@ -1076,6 +1090,15 @@ function preparedFor(
     (table(api, "prepared").get(`${personId}|${actId}`) as unknown as
       Prepared | undefined) ?? null
   );
+}
+
+/** The act is taken; what was prepared for it is spent. */
+export function clearPrepared(
+  api: CoreAPI,
+  personId: string,
+  actId: string,
+): void {
+  table(api, "prepared").remove(`${personId}|${actId}`);
 }
 
 function gaveInYear(

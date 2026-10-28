@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/territory-employers
 pr: #5519
 blocked-on:
