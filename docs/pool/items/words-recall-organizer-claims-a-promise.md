@@ -1,6 +1,7 @@
 ---
 id: words-recall-organizer-claims-a-promise
 title: "The recall organizer says the official promised to vote no, though no record holds a promise"
+lead: words
 area: play
 kind: bug
 priority: 2
