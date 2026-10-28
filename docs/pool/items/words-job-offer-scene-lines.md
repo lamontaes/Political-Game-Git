@@ -30,3 +30,5 @@ claimed-at:
 **Files.** data/english/parts/scene-talk.json, data/english/parts/scene-words.json, data/english/scene-talk-tags.json, src/director/data/purpose-arcs.json
 
 **Notes.** Data path by the integrator (claude/integration-one-employment). Owner, Oct 27, 4 PM Eastern: "Sessions should not be building their own shit." Read: OWNER-DECISIONS (Oct 27, afternoon), DECISION-REGISTER, prior-rulings/words.md, LAW; searched: job offer, offered, hiring.
+
+Oct 28, 00:50 UTC, director lead: the missing lines also keep `src/director/scene-talk.test.ts` red on main. Three tests (composes every purpose, plays every purpose in play, composes a tree) stop at job-offer with "no narration for job-offer can be worded from the records given", so every purpose type after job-offer goes unchecked until these lines land. Filed as `director-scene-talk-job-offer-skipped`, now dropped into this item.
