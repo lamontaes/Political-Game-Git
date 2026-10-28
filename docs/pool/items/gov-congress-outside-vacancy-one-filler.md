@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/congress-vacancy-one-filler
-pr:
+pr: #6706
 blocked-on: gov-sampled-legislator-seats-never-refilled
 lead: wire-office
 source: wire-office session, Oct 28 (found while fixing the sampled seats)
