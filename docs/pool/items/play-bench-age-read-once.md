@@ -5,11 +5,12 @@ area: play
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dup-bench-age
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:01:35.824Z
 ---
 
 **What.** src/bench/scene.ts, story.ts and places.ts each carried an identical ageOn that subtracts birth years. The core's ageOnDate in src/core2/kernel/dates.ts is the rule the person card, family, creator and government screens already read, and it also handles a February 29 birthday in a common year. Three copies of one fact in the screens (duplicates report row M6).
