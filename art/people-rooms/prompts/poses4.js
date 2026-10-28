@@ -1,0 +1,9 @@
+window.__poses4 = () => {
+ const D = 'https://raw.githubusercontent.com/lamontaes/Political-Game-Git/refs/heads/claude/people-rooms-art/art/backdrops-redraw/debate-stage__midday.jpg';
+ const G = (l, r) => `Edit the reference picture. Keep the room EXACTLY the same: every curtain, floor board, podium, microphone, seat, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything. Only add two people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00) with no shading and no outline. Each mannequin stands DIRECTLY BEHIND its podium, centered on it, at a real adult's size, so the podium hides its body from the waist down: only the head, shoulders, arms and chest show above the podium top, and no legs or feet show beside the podium. Its hands touch the podium or microphone only where described. Debate body language: natural talking with the hands, not theatrical. At the left podium: ${l} At the right podium: ${r} No other changes. Same art style. No text.`;
+ return [
+  ['dd-1', G('talking, one hand raised at chest height with the palm open, the other hand resting on the podium top, body turned a little toward the right podium.', 'listening, both hands resting on the front edge of the podium top, head turned toward the left podium.')],
+  ['dd-2', G('explaining with both hands open at chest height, palms out, body turned toward the audience on the left.', 'one hand raised high with the index finger up, asking to speak, the other hand on the podium.')],
+  ['dd-3', G('head turned toward the right speaker, one hand on the podium, the other hand held out palm up toward the right speaker.', 'one hand on the microphone stem, leaning slightly toward it, talking to the audience, head turned a little to the right.')]]
+  .map(([k, p]) => ({key: k, ref: D, prompt: '[' + k + '] ' + p}));
+};
