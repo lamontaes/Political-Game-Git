@@ -3,12 +3,13 @@
   "summary": {
     "links": 244,
     "lawLinks": 134,
-    "webCoverageWired": 125,
+    "webCoverageWired": 124,
     "allEightPoints": 0,
-    "reachesOrCarried": 147,
-    "namedInAStopgap": 113,
+    "reachesOrCarried": 148,
+    "namedInAStopgap": 99,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 147,
+    "reachesTheWorld": 148,
+    "aboutZero": 19,
     "withAnyModerator": 23,
     "byPoint": {
       "cause": {
@@ -24,10 +25,10 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 147,
+        "pass": 148,
         "partial": 0,
-        "fail": 97,
-        "n/a": 0
+        "fail": 77,
+        "n/a": 19
       },
       "varied": {
         "pass": 16,
@@ -459,9 +460,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep crime.all and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:286 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -487,8 +488,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-crime-all"
+      "wiredPoints": 3,
+      "stopgap": null
     },
     {
       "key": "fire-spending-to-fire-deaths",
@@ -509,9 +510,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep fire.civilian-casualties and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:305 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -537,8 +538,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-fire-civilian-casualties"
+      "wiredPoints": 3,
+      "stopgap": null
     },
     {
       "key": "pretrial-detention-to-future-crime",
@@ -559,9 +560,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep crime.reoffense and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:325 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -587,8 +588,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-crime-reoffense"
+      "wiredPoints": 3,
+      "stopgap": null
     },
     {
       "key": "pretrial-detention-to-conviction",
@@ -1679,9 +1680,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep health.blood-pressure and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:898 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -1707,7 +1708,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 2,
+      "wiredPoints": 3,
       "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
@@ -1824,9 +1825,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep labor.employment-rate and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:977 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -1852,7 +1853,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
+      "wiredPoints": 4,
       "stopgap": "SG-LABOR-unsized-links"
     },
     {
@@ -1923,9 +1924,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep health.mortality-all and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:1031 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -1951,7 +1952,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
+      "wiredPoints": 4,
       "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
@@ -3004,9 +3005,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep school.test-scores and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:1594 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -3032,7 +3033,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
+      "wiredPoints": 4,
       "stopgap": "SG-SCHOOL-links-not-running"
     },
     {
@@ -4018,9 +4019,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep economy.broad-growth and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:2283 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -4046,8 +4047,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-economy-broad-growth"
+      "wiredPoints": 3,
+      "stopgap": null
     },
     {
       "key": "unemployment-to-births",
@@ -4210,9 +4211,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "outcome read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229",
-          "why": "the web does not run it: it waits on program.child-benefit-dollars; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:2401 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -4238,8 +4239,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-births-rate"
+      "wiredPoints": 3,
+      "stopgap": null
     },
     {
       "key": "baby-bonus-to-births",
@@ -4738,9 +4739,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "src/core2/gov-measures.ts",
-          "why": "engine doesn't read the factor: an engine records voting.party-share, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:2690 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -4766,8 +4767,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-voting-party-share"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "newspaper-closure-to-borrowing-cost",
@@ -5035,9 +5036,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "src/core2/gov-measures.ts",
-          "why": "engine doesn't read the factor: an engine records election.incumbent-vote, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:2816 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -5063,8 +5064,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-election-incumbent-vote"
+      "wiredPoints": 3,
+      "stopgap": null
     },
     {
       "key": "preparedness-to-disaster-damage",
@@ -5611,9 +5612,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep voting.registration and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:3200 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -5639,8 +5640,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-voting-registration"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "automatic-registration-to-turnout",
@@ -9111,9 +9112,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep crime.rate-index and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:5217 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -9139,8 +9140,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-crime-rate-index"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "federal-mandatory-minimums-to-crime",
@@ -9160,9 +9161,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "no measure: the web does not keep crime.rate-index and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:5236 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -9188,8 +9189,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-crime-rate-index"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "housing-vouchers-to-graduation",
@@ -9684,9 +9685,9 @@
           "evidence": "data/research/outcome-web/links.json:5520 size 0, range [-0.017, 0.006], Deming and Walters 2017 (NBER w23736)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:5520 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -9712,7 +9713,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
+      "wiredPoints": 5,
       "stopgap": "SG-SCHOOL-links-not-running"
     },
     {
@@ -11067,9 +11068,9 @@
           "evidence": "data/research/outcome-web/links.json:6167 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "world-metrics months.unemploymentRate",
-          "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:6167 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -11096,8 +11097,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "medicare-tax-to-unemployment",
@@ -11116,9 +11117,9 @@
           "evidence": "data/research/outcome-web/links.json:6189 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "world-metrics months.unemploymentRate",
-          "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:6189 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -11145,8 +11146,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "federal-unemployment-tax-to-unemployment",
@@ -11165,9 +11166,9 @@
           "evidence": "data/research/outcome-web/links.json:6211 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "world-metrics months.unemploymentRate",
-          "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:6211 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -11194,8 +11195,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "state-unemployment-tax-to-unemployment",
@@ -11214,9 +11215,9 @@
           "evidence": "data/research/outcome-web/links.json:6233 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "world-metrics months.unemploymentRate",
-          "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
+          "status": "n/a",
+          "evidence": "data/research/outcome-web/links.json:6233 size 0",
+          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
           "status": "fail",
@@ -11243,8 +11244,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-labor-unemployment-pct"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "unemployment-insurance-to-poverty",
@@ -11587,7 +11588,7 @@
       "to": "household.food-insecurity",
       "causeKind": "engine",
       "lawLink": false,
-      "webCoverage": "wired",
+      "webCoverage": "waiting",
       "points": {
         "cause": {
           "status": "pass",
@@ -11598,9 +11599,8 @@
           "evidence": "data/research/outcome-web/links.json:6413 size -0.00148, range [-0.00185, -0.00111], Nord and Prell 2011, USDA ERS Amber Waves (June 13, 2011) \"Food Security of SNAP Recipients Improved Following the 2009 Stimulus Package\" and Economic Research Report 116; Nord 2013, USDA ERS Amber Waves (October 24, 2013) \"Effects of Changes in SNAP Benefits on Food Security\" (ERR-151); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 2"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, program.snap-maximum-change-pct"
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment at the maximum in force, and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a larger maximum buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
         },
         "varied": {
           "status": "fail",
@@ -11626,8 +11626,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-household-food-insecurity"
+      "wiredPoints": 5,
+      "stopgap": "SG-WEB-food-insecurity-ledger"
     },
     {
       "key": "health-hospitals-spending-to-infant-mortality",
@@ -11643,7 +11643,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6456 size -0.00685, range [-0.00856, -0.00514], Mays and Smith 2011, Health Affairs 30(8): 1585-1593, \"Evidence Links Increases In Public Health Spending To Declines In Preventable Deaths\" (PMC4019932), Exhibit 3"
+          "evidence": "data/research/outcome-web/links.json:6457 size -0.00685, range [-0.00856, -0.00514], Mays and Smith 2011, Health Affairs 30(8): 1585-1593, \"Evidence Links Increases In Public Health Spending To Declines In Preventable Deaths\" (PMC4019932), Exhibit 3"
         },
         "reaches": {
           "status": "pass",
@@ -11660,7 +11660,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6456 lag 9 months (researched)",
+          "evidence": "data/research/outcome-web/links.json:6457 lag 9 months (researched)",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11690,7 +11690,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6500 size 0.000113, range [0.00006, 0.00017], Deming and Walters 2017, NBER Working Paper 23736, section 4.3 and Table 4 Panel C; NCES Condition of Education 2024, indicator on undergraduate degree awards (https://nces.ed.gov/programs/coe/pdf/2024/cts_508c.pdf; 2.0 million bachelor's degrees, 2021-22); Census Bureau, American Community Survey 2022 1-year, table S1501, as reproduced in the Hawaii Department of Business, Economic Development and Tourism Data Book 2023 (https://files.hawaii.gov/dbedt/economic/databook/2023-individual/03/030523.pdf)"
+          "evidence": "data/research/outcome-web/links.json:6501 size 0.000113, range [0.00006, 0.00017], Deming and Walters 2017, NBER Working Paper 23736, section 4.3 and Table 4 Panel C; NCES Condition of Education 2024, indicator on undergraduate degree awards (https://nces.ed.gov/programs/coe/pdf/2024/cts_508c.pdf; 2.0 million bachelor's degrees, 2021-22); Census Bureau, American Community Survey 2022 1-year, table S1501, as reproduced in the Hawaii Department of Business, Economic Development and Tourism Data Book 2023 (https://files.hawaii.gov/dbedt/economic/databook/2023-individual/03/030523.pdf)"
         },
         "reaches": {
           "status": "fail",
@@ -11708,7 +11708,7 @@
         },
         "timing": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6500 lag 0, phase-in 24, fade none"
+          "evidence": "data/research/outcome-web/links.json:6501 lag 0, phase-in 24, fade none"
         },
         "knowing": {
           "status": "fail",
@@ -11737,7 +11737,7 @@
         },
         "size": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:6546",
+          "evidence": "data/research/outcome-web/links.json:6547",
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
@@ -11756,7 +11756,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6546 lag 0 months (researched)",
+          "evidence": "data/research/outcome-web/links.json:6547 lag 0 months (researched)",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {

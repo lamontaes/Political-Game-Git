@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/sitting-oct28
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T17:39:05.370Z
 ---
 
 **What.** docs/coordination/playtest/2026-10-28-1.md points 1 to 7, 12 to 25 and 27 to 31, each a unit, each from the UI kit (docs/ui/kit13), each its own PR. The helper traces in the CTO session name the file and line for each point; re-derive from the kit and the mocks (docs/ui/mocks/screens-2026-10-14/shots/gov.png, issues.png; art/newspaper-mockups).

@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/old-engine-appearance
-pr:
+pr: #6659
 after:
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A, B1 and G2 steps 9 and 11; acting CTO ruling, Oct 19"

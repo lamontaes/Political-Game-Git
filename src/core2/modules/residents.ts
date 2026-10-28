@@ -639,16 +639,6 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
       accounts: input.accounts,
       ...(input.calendars ? { calendars: input.calendars } : {}),
       ...(input.weights ? { weights: input.weights } : {}),
-      // Counted people carry no past: fill-in builds each one's from the seed.
-      ...(input.pastBuild
-        ? {
-            pastBuild: {
-              seed: input.pastBuild.seed,
-              startedAt: input.pastBuild.startedAt,
-              deepPastAt: {},
-            },
-          }
-        : {}),
       source: input.source,
     },
     flows: new Map(),

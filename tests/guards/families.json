@@ -63,7 +63,6 @@
         "src/core2/electorate*.ts",
         "src/core2/legislative-district-results.ts",
         "src/core2/race-places.ts",
-        "src/core2/stand-again.ts",
         "src/core2/turnout*.ts",
         "src/core2/civic-inputs.ts",
         "src/core2/membership-dues.ts"
