@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/hud-date-time
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:56:00.863Z
 ---
 
 **What.** The owner ruled at 5 PM on Oct 27 that there doesn't need to be any indicator other than the time and date on the bottom. At 9 PM he asked for no second picture of the player. The bottom-left card still held the player's portrait, name and town.
