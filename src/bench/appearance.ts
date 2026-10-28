@@ -13,6 +13,7 @@ import {
 import {
   HAIR_SWATCHES,
   drawnFigure,
+  faces,
   hairStyles,
   hairSwatch,
 } from "./figure-hair";
@@ -37,6 +38,8 @@ export interface LookRecipe {
   /** A hair style's number (figure-hair.ts), and its swatch id; bald where absent. */
   hair?: string;
   hairColor?: string;
+  /** A face's number (figure-hair.ts); the painted face where absent. */
+  face?: string;
 }
 
 export interface AppearanceRow {
@@ -131,6 +134,9 @@ export function appearanceRows(
       value: OUTFIT_LABEL[recipe.outfit] ?? recipe.outfit,
     },
     colorRow("skin", "Skin", SKIN_SWATCHES, recipe.skin ?? DEFAULT_SKIN),
+    ...(faces(recipe.sex).length
+      ? [{ id: "face", label: "Face", value: faceName(recipe) }]
+      : []),
     ...(hairStyles(recipe.sex).length
       ? [
           {
@@ -178,6 +184,14 @@ function hairName(recipe: LookRecipe): string {
       ?.name ?? "Bald"
   );
 }
+/** The face's worded name, or the figure's own painted face where none is chosen. */
+function faceName(recipe: LookRecipe): string {
+  const name = faces(recipe.sex).find(
+    (row) => String(row.face) === recipe.face,
+  )?.name;
+  return name ? name[0]!.toUpperCase() + name.slice(1) : "Plain";
+}
+
 /** Bald first, then each painted style. */
 const hairChoices = (sex: string) => [
   "",
@@ -214,6 +228,13 @@ export function moveAppearance(
   if (rowId === "body" && showsBody(gender)) {
     const sex = step(sexes(), recipe.sex, turn);
     return settled({ ...recipe, sex });
+  }
+  if (rowId === "face") {
+    const choices = ["", ...faces(recipe.sex).map((row) => String(row.face))];
+    const face = step(choices, recipe.face ?? "", turn);
+    const plain = { ...recipe };
+    delete plain.face;
+    return face ? { ...recipe, face } : plain;
   }
   if (rowId === "hair") {
     const hair = step(hairChoices(recipe.sex), recipe.hair ?? "", turn);
@@ -295,8 +316,10 @@ export function drawnAppearance(
   const all = sexes();
   const sex = all.includes(gender) ? gender : pick(all, "body");
   const styles = hairStyles(sex).map((row) => String(row.style));
+  const painted = faces(sex).map((row) => String(row.face));
   return settled({
     sex,
+    ...(painted.length ? { face: pick(painted, "face") } : {}),
     ...(styles.length
       ? {
           hair: pick(styles, "hair"),
@@ -345,6 +368,10 @@ export function readRecipe(text: string): LookRecipe {
           : [],
       ),
     ),
+    ...(input.face &&
+    faces(recipe.sex).some((row) => String(row.face) === String(input.face))
+      ? { face: String(input.face) }
+      : {}),
     ...(input.hair &&
     hairStyles(recipe.sex).some(
       (row) => String(row.style) === String(input.hair),
