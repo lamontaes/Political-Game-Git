@@ -326,7 +326,7 @@ jobs:
         env:
           # Branch protection requires validate and golden-path on every push to
           # main; the workflow token is not an admin, so the version commit
-          # needs the owner's token (a fine-grained PAT with contents: write on
+          # needs the owner's token (a fine-grained PAT with write access to the contents of
           # this repository, saved as the secret RELEASE_PUSH_TOKEN). Without
           # it the push is refused and nothing publishes.
           GITHUB_TOKEN: ${{ secrets.RELEASE_PUSH_TOKEN || github.token }}
