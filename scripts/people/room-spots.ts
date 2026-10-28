@@ -31,6 +31,7 @@ interface PlateSpot {
   touching: boolean;
   tags: {
     facing: number;
+    pose?: "stand" | "sit" | "lectern";
     coveredBy: string;
     role?: string;
     seat?: string;
@@ -55,6 +56,8 @@ const CUT_PX = 3;
 const COVER_REACH = 0.6;
 /** How far past the mannequin's sides a cut front line carries on, as a share of its box width (a heavier body is wider). */
 const CARRY = 0.15;
+/** At least this many of the mannequin's head widths, past each side. */
+const CARRY_HEADS = 1.2;
 
 /** A head's width as a share of standing height in this plate: the median over its standing mannequins seen whole. */
 function headShare(spots: readonly PlateSpot[]): number {
@@ -90,7 +93,11 @@ function frontMask(
   height: number,
 ): { png: PNG; left: number; top: number } | null {
   const span = spot.box[2] - spot.box[0] + 1;
-  const carry = Math.round(span * CARRY);
+  // The figure drawn here can be wider than the mannequin: its sides reach
+  // past the mannequin's by up to about a head width and more.
+  const carry = Math.round(
+    Math.max(span * CARRY, spot.headWidth * CARRY_HEADS),
+  );
   // Only where the art says something covers this person: elsewhere a column
   // ending early is the edge of a hand or a shoulder, not furniture.
   if (spot.tags.coveredBy === "none") return null;
@@ -151,6 +158,9 @@ for (const scene of scenes) {
   const parent = plate.empty.split("/").pop()!;
   rmSync(`${OCCLUDERS}/${scene}`, { recursive: true, force: true });
   const masks: Record<string, unknown> = {};
+  // The art session's tag is its own call on the pose; the measured one
+  // reads only the mannequin's visible height.
+  for (const s of plate.spots) s.pose = s.tags.pose ?? s.pose;
   const spots = plate.spots.map((s, n) => {
     const tall = s.headWidth / share;
     const id = `${scene}:spot:${n}`;
@@ -174,7 +184,12 @@ for (const scene of scenes) {
     return {
       x: pct(s.headX, width),
       y: Math.min(pct(foot, height), 100),
-      pose: s.pose === "lectern" ? "podium" : s.pose,
+      // A lectern, or the speaker's place on a stage: the podium, where the
+      // one giving a speech stands.
+      pose:
+        s.pose === "lectern" || (s.tags.role === "speaker" && !sits)
+          ? "podium"
+          : s.pose,
       facing: facingOf(s.tags.facing),
       depth: Math.min(pct(foot, height), 100),
       ...(sits ? { seatY: pct(seat, height) } : {}),

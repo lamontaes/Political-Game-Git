@@ -577,7 +577,7 @@ function chosenLook(text: string | undefined): FigurePerson["look"] {
           build,
           outfit,
           ...Object.fromEntries(
-            ["skin", "hair", "hairColor", ...GARMENTS].flatMap((key) =>
+            ["skin", "hair", "hairColor", "face", ...GARMENTS].flatMap((key) =>
               typeof record[key] === "string" ? [[key, record[key]]] : [],
             ),
           ),
@@ -678,9 +678,14 @@ export function stagePeople(
   const reach = (spot: StagingSpot) =>
     Math.hypot(spot.x - lead.x, (spot.y - lead.y) * 2) +
     (spot.y > lead.y + IN_FRONT ? FRONT_PENALTY : 0);
-  const rest = stage.spots
-    .filter((spot) => spot !== lead && spot.pose !== "podium")
-    .sort((a, b) => reach(a) - reach(b));
+  // A lectern is the speaker's; anyone else stands at one only when every
+  // other spot is taken (a debate's second candidate).
+  const rest = [
+    ...stage.spots
+      .filter((spot) => spot !== lead && spot.pose !== "podium")
+      .sort((a, b) => reach(a) - reach(b)),
+    ...stage.spots.filter((spot) => spot !== lead && spot.pose === "podium"),
+  ];
   const free: StagingSpot[] = lead === hero ? [hero, ...rest] : rest;
   const placed: {
     id: string;
