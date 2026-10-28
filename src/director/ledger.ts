@@ -459,42 +459,13 @@ export function createDirector(
       thread.closeness = row.level;
       thread.lastContact = row.lastContactDate;
     }
-    // The recorded past (owner answer 5): public eras are background for
-    // everyone who lived through them, and a personal moment only where the
-    // record says the era hit this person; personal facts are moments with an
+    // The recorded past (owner answer 5): personal facts are moments with an
     // impact estimated from the stress scale. Facts dated at or after the
     // opening describe the life as play starts and score nothing.
     const past = [...(actor.pastFacts ?? [])]
       .filter((fact) => fact.date < core.startedAt)
       .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
     for (const fact of past) {
-      if (
-        data.backdropPastFactPrefixes.some((prefix) =>
-          fact.kind.startsWith(prefix),
-        )
-      ) {
-        book.backdrop.push({
-          id: `${personId}:past:${fact.id}`,
-          personId,
-          date: fact.date,
-          sourceId: fact.id,
-          kind: fact.kind,
-          reach: "past",
-        });
-        for (const hit of data.pastEraHits) {
-          const value = fact.facts?.[hit.factKey];
-          if (value === undefined || data.pastNotRecordedValues.includes(value))
-            continue;
-          storePastMoment(
-            book,
-            fact,
-            `${fact.kind}:${hit.factKey}`,
-            hit.parameter,
-            [],
-          );
-        }
-        continue;
-      }
       const row = data.pastFactMoments.find((entry) =>
         fact.kind.startsWith(entry.kindPrefix),
       );

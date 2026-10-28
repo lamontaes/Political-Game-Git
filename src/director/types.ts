@@ -48,12 +48,6 @@ export interface DirectorData {
     parameter: string;
     counterpart?: string;
   }[];
-  /** Fact keys on a public-era past fact that record it hit this person. */
-  pastEraHits: readonly { factKey: string; parameter: string }[];
-  /** Values of those keys that mean nothing is recorded. */
-  pastNotRecordedValues: readonly string[];
-  /** Past-fact kind prefixes that are public background, not personal moments. */
-  backdropPastFactPrefixes: readonly string[];
   /**
    * Events recorded without an appraised impact, sized from their own facts:
    * the relative change from one fact to another, on a channel.

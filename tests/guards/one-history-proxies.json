@@ -12,11 +12,6 @@
       "simulatedBy": null
     },
     {
-      "kind": "era:public-context",
-      "writer": "src/core2/data/deep-past.json",
-      "simulatedBy": null
-    },
-    {
       "kind": "social:generated-school-acquaintance",
       "writer": "src/core2/data/opening-peer-network.json",
       "simulatedBy": null

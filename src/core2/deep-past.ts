@@ -92,34 +92,9 @@ export interface DeepPastData {
     kindPrefixes: readonly string[];
     gap: string;
   }[];
-  eras: readonly {
-    id: string;
-    date: string;
-    kind: string;
-    title: string;
-    facts: Readonly<Record<string, string>>;
-    source: Source;
-  }[];
 }
 
-export const DEFAULT_DEEP_PAST_DATA: DeepPastData = {
-  ...contentJson,
-  eras: contentJson.eras.map((era) => {
-    const source = era.source;
-    if (source.tag !== "SOURCED" && source.tag !== "ESTIMATED")
-      throw new Error(`Invalid deep-past source tag: ${era.id}`);
-    return {
-      ...era,
-      facts: Object.fromEntries(
-        Object.entries(era.facts).filter((entry): entry is [string, string] => {
-          const [, value] = entry;
-          return value !== undefined;
-        }),
-      ),
-      source: { ...source, tag: source.tag },
-    };
-  }),
-};
+export const DEFAULT_DEEP_PAST_DATA: DeepPastData = contentJson;
 
 export interface DeepPastOptions {
   data?: DeepPastData;
@@ -220,7 +195,6 @@ export function buildDeepPast(
   const activePersonIds = new Set(input.people.map((person) => person.id));
   const ownedFields = new Set([
     "birth",
-    "era-context",
     data.schools.field,
     ...data.preservedFields.map((field) => field.field),
   ]);
@@ -610,33 +584,6 @@ export function buildDeepPast(
         facts.length ? "Preserved supplied dated personal records." : field.gap,
       );
     }
-    for (const era of data.eras) {
-      const date = makeIsoDate(era.date);
-      if (date < birth || date >= cutoff) continue;
-      add({
-        id: `${prefix}era:${era.id}`,
-        date,
-        kind: era.kind,
-        summary: era.title,
-        source: era.source,
-        facts: {
-          ...era.facts,
-          eraId: era.id,
-          cohortRelation: "alive-on-context-date",
-          birthDateSource: person.source.citation,
-          knowledge: "not-inferred",
-          stopgapId: marker.id,
-        },
-      });
-    }
-    record(
-      "era-context",
-      [
-        ...original.filter((fact) => fact.id.startsWith(`${prefix}era:`)),
-        ...added.filter((fact) => fact.id.startsWith(`${prefix}era:`)),
-      ],
-      "Dated public context intersecting the supplied lifetime; no personal memory, belief, loss, infection, or decision inferred.",
-    );
     return added.length
       ? {
           ...person,
