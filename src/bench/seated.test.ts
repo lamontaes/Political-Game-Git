@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { figureOn, pickLook, placeSeated, type Figure } from "./whole-figures";
+import {
+  SIDE_ROOM,
+  figureOn,
+  pickLook,
+  placeSeated,
+  type Figure,
+} from "./whole-figures";
 import { backdropStaging } from "./staging";
 import type { CoreState } from "../core2/types";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
@@ -51,17 +57,18 @@ describe(`seated people at ${place}`, () => {
       );
       const scale = figure.heightPercent / seated.height;
       expect(figure.topPercent + 560 * scale).toBeCloseTo(spot.seatY!, 6);
-      // Centered on the seat, moved in only as far as the picture's sides need.
+      // Centered on the seat, moved in only as far as the room kept at the
+      // picture's sides needs.
       const center = figure.leftPercent + figure.widthPercent / 2;
       if (
-        spot.x - figure.widthPercent / 2 >= 0 &&
-        spot.x + figure.widthPercent / 2 <= 100
+        spot.x - figure.widthPercent / 2 >= SIDE_ROOM &&
+        spot.x + figure.widthPercent / 2 <= 100 - SIDE_ROOM
       )
         expect(center).toBeCloseTo(spot.x, 6);
       else {
-        expect(figure.leftPercent).toBeGreaterThanOrEqual(0);
+        expect(figure.leftPercent).toBeGreaterThanOrEqual(SIDE_ROOM - 1e-6);
         expect(figure.leftPercent + figure.widthPercent).toBeLessThanOrEqual(
-          100.000001,
+          100 - SIDE_ROOM + 1e-6,
         );
       }
       // Behind a desk: no shadow on a hidden floor.
