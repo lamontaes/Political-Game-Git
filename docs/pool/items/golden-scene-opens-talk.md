@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: golden/scene-opens-talk
-pr:
+pr: #6491
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T02:30:50.996Z

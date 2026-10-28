@@ -6,7 +6,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/bill-section-no-research-source
 pr: #6457
 blocked-on:
