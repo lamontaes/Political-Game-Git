@@ -16,10 +16,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import {
-  regionName,
-  regionOfPlace,
-} from "../core2/modules/regional";
+import { regionName, regionOfPlace } from "../core2/modules/regional";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const DRAWS = 6;
