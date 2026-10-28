@@ -19,6 +19,7 @@ import {
 } from "../core2/modules/legislature";
 import {
   MEETINGS_MODULE_ID,
+  type DebateRow,
   type TownHallRow,
 } from "../core2/modules/meetings";
 import { viewOn } from "../core2/modules/views";
@@ -355,6 +356,34 @@ function composeBinding(
       facts.outlet = {
         text: properName(outlet.name),
         sourceRecordIds: [moment.causeId, outlet.id],
+      };
+  }
+  // The race's debate the two candidates just stood in (meetings.ts
+  // holdDebate): the lines said leaving the stage need it, and the first
+  // question the two answered on opposite sides is what the rival brings up.
+  if (record?.kind === "debate" && said.debateId) {
+    facts.debate = { text: said.debateId, sourceRecordIds: [moment.causeId] };
+    const debate = core.modules.has(MEETINGS_MODULE_ID)
+      ? (coreAPI(core as CoreState)
+          .moduleState(MEETINGS_MODULE_ID)
+          .table("debates")
+          .get(said.debateId) as unknown as DebateRow | undefined)
+      : undefined;
+    const theirs = debate?.answers[askerId] ?? [];
+    const split = (debate?.answers[askedId] ?? []).find((mine) => {
+      const other = theirs.find((row) => row.question === mine.question);
+      return (
+        mine.position !== null &&
+        other?.position !== null &&
+        other !== undefined &&
+        mine.position * other.position! < P.zero
+      );
+    });
+    const issue = split ? questionAbout(split.question) : null;
+    if (issue)
+      facts.issue = {
+        text: issue,
+        sourceRecordIds: [said.debateId, moment.causeId],
       };
   }
   // A donor's gift to the campaign (campaigns.ts recordGift): what they gave,
