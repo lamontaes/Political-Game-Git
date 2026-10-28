@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** scripts/law-wiring/own-payments.ts, scripts/law-wiring/own-payments.test.ts, scripts/law-wiring/matrix.ts
 
 **Notes.** Found Oct 27 by the laws-and-effects lead while rerunning rent stabilization; the reruns are not committed.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `laws-checker-money-first-change-picks-drift`; close into it and carry any line it lacks there.

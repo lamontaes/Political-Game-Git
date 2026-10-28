@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/research/regional/population_change.py,data/research/regional/series/stats.json,src/bench/m1-13-check.ts
 
 **Notes.** TODO
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (merged #6023).

@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/card.ts, data/english/parts
 
 **Notes.** Found Oct 27 by the laws-and-effects lead while taking the ask-before-the-roll screenshots (docs/play-first/shots-27/ask-before-the-roll-after-ask.png).
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `screens-talk-who-in-a-sentence`; close into it and carry any line it lacks there. (verify the legislator case)
