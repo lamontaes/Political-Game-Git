@@ -6,11 +6,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/town-meeting-turnout
+pr: #6481
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:51:33.993Z
 ---
 
 **What.** src/core2/voting.test.ts (the accepted golden-path spec M2-07) fails on main at 553bb7e78a with GOLDEN_PATH_SEED=30d6e503a862ff5c84e2be4e6ed63115dfe5582beb4b94fc16ebf8cb4018a7b2 and GOLDEN_PATH_PLACE_KEY=5073450 (Troy, Vermont): 'no noncandidate choice checked against its reasons'. Its race is contest:seat:gus2025:140636:board:0:2026-03-03, a board seat on Town Meeting Day 2026 with three candidates, and none of the 56 named eligible adults casts a ballot. A typical ballot, ballot:contest:seat:gus2025:140636:board:0:2026-03-03:person_15854ff4c6cfc7d6, has a cost of 2.84 against duty 0.07 and interest 0.64, for a turnout propensity of 0.008; another reads 0.006. The off-cycle cost, offCycleTurnoutCost 1.8 in src/core2/data/campaigns/parameters.json, is checked so named off-cycle turnout averages about 25% of eligible adults, so this race falls far outside its own calibration. It turned the golden-path check red twice on #6375 (head 44088842b9), whose diff touches no voting code.

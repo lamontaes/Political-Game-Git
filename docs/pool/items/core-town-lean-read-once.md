@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/dup-town-lean
 pr: #6469
 blocked-on:

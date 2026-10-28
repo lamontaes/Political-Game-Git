@@ -30,7 +30,8 @@ import {
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { CoreEventInput } from "../core2/types";
-import { spokenDesignation } from "../english/bill-names";
+import { billTitleOf, spokenDesignation } from "../english/bill-names";
+import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -170,6 +171,24 @@ it(`a member asked the evening before a floor vote answers in a scene, and the r
       ).toBeLessThanOrEqual(0);
       if (vote.position.total > 0)
         expect(["yes", "absent"], `${where}: ${memberId}`).toContain(vote.vote);
+      // The member's journal names the bill as the ask did, by its number,
+      // with its title, so the two read as one bill.
+      const told = ["yes", "no"].includes(vote.vote)
+        ? composeJournal(core, director, memberId as never)
+            .flatMap((chapter) => chapter.lines)
+            .find((line) =>
+              line.sourceRecordIds.includes(
+                `office.voted:${billId}:${memberId}`,
+              ),
+            )
+        : undefined;
+      if (["yes", "no"].includes(vote.vote)) {
+        expect(told?.text, `${where}: ${memberId}'s journal`).toContain(said);
+        expect(told!.text).toContain(billTitleOf(bill)!.title);
+      }
+      process.stdout.write(
+        `JOURNAL ${where}: the ask said "${said}"; the journal says "${told?.text ?? "(no yes or no vote)"}"\n`,
+      );
       process.stdout.write(
         `ASK BEFORE THE ROLL ${where} (GOLDEN_PATH_SEED=${seed})${passedOver.length ? `\n  passed over: ${passedOver.join("; ")}` : ""}\n  player ${core.playerId} in ${body.id}\n  ${ask.id} (${ask.date}): ${sponsorId} asks ${memberId} about ${bill.number}, vote on ${ask.facts!.floorDate}; asked ${ask.facts!.asked}\n  ${memberId} stood at ${before.total.toFixed(3)}; answered ${replyId}; at the roll ${vote.vote} with ${vote.position.total.toFixed(3)} (reply ${vote.position.reply!.toFixed(3)}); bill ${billOf(api, billId).status}\n`,
       );
