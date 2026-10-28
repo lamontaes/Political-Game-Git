@@ -21,4 +21,6 @@ claimed-at:
 
 **Files.** src/core2/regional-model.ts, src/core2/modules/regional.ts, src/core2/modules/counted-moves.ts
 
-**Notes.** TODO
+**Notes.**
+
+Stopped on the owner's order, Oct 28 (claude pool worker); nothing built. Finding: m1-13-check in Coleharbor (3815140, seed b77e10b7…) has 20 of 132 regions outside the band; `stepRegionMonth` (src/core2/regional-model.ts) moves population only by the unemployment-gap migration, with no national growth term. Census state totals 2000-2024 give the nation 0.755 percent a year (p05 0.367, p95 0.979, 24 yearly changes of the 50 states plus D.C.; st-est00int-alldata, nst-est2020-alldata, NST-EST2024-ALLDATA). Next: add that as a SOURCED parameter and a monthly term, then rerun m1-13 (about 30 minutes).
