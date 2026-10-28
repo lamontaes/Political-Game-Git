@@ -8,15 +8,24 @@
 import {
   countyGovernmentUnit,
   countyGovernmentUnitsForPlace,
+  governmentUnitJurisdictionId,
   governmentUnitsForPlace,
 } from "../reference/government-units";
 import type { GovernmentUnitIdentity } from "../reference/government-units";
-import type { CorePlace } from "../place-lookup";
+import { GOVERNMENT_UNITS_META } from "../reference/government-units.generated";
+import {
+  corePlaceByKey,
+  coreStateJurisdiction,
+  type CorePlace,
+} from "../place-lookup";
+import type { EntityId, IsoDate } from "../kernel/brands";
 import {
   countyEquivalentTerm,
+  governmentUnitRecordedName,
   type CountyEquivalentTerm,
 } from "./government-unit-names";
 import {
+  countyGoverningBodyRules,
   municipioUnit,
   municipiosForPlace,
 } from "./county-governing-body-rules";
@@ -165,5 +174,158 @@ export function placeLocalGovernmentUnits(
         ? null
         : `No separate ${term.singular} government serves this city.`,
     countyShares: null,
+  };
+}
+
+/**
+ * One recorded local government as the opening writes it, as an organization
+ * in the jurisdiction it governs (`opening-town-jobs.ts` writes it).
+ */
+export interface LocalGovernmentOrganization {
+  readonly stableKey: string;
+  readonly formedAt: IsoDate;
+  readonly provenance:
+    | {
+        readonly kind: "source-record";
+        readonly reference: string;
+        readonly asOf: IsoDate;
+      }
+    | { readonly kind: "authored"; readonly note: string };
+  readonly name: string;
+  readonly classification:
+    "service:municipal-government" | "service:county-government";
+  readonly locationJurisdictionId: EntityId;
+  readonly publicGovernmentIdentity?: {
+    readonly kind: "local-government";
+    readonly governmentKey: string;
+    readonly jurisdictionId: EntityId;
+  };
+}
+
+/** The stable key a recorded local government's organization carries. */
+export function localGovernmentOrganizationKey(
+  unit: Pick<GovernmentUnitIdentity, "id">,
+): string {
+  return `local-government:${unit.id}`;
+}
+
+/**
+ * Whether the one jurisdiction a government unit governs can be named: a
+ * county's county area or a city's place in the places corpus, under the one
+ * identity every consumer shares, or a town or township's own identity in its
+ * state. A government placed in the wrong jurisdiction is worse than none.
+ */
+function governedJurisdictionId(
+  unit: GovernmentUnitIdentity,
+): ReturnType<typeof governmentUnitJurisdictionId> | null {
+  const id = governmentUnitJurisdictionId(unit);
+  if (unit.unitType === "township")
+    return coreStateJurisdiction(`US-${unit.stateUsps}`) ? id : null;
+  const place =
+    unit.unitType === "county"
+      ? unit.countyGeoid
+        ? corePlaceByKey(`county:${unit.countyGeoid}`)
+        : null
+      : unit.placeGeoid
+        ? corePlaceByKey(unit.placeGeoid)
+        : null;
+  return place?.context.jurisdiction.id === id ? id : null;
+}
+
+/**
+ * One recorded government unit as the organization the opening writes, in
+ * the jurisdiction it governs, as of a date; null when that jurisdiction
+ * cannot be named. A municipio is not in the Census listing: its record is
+ * the municipal code that makes it a government, on the books since the code
+ * took effect. A listed unit is on the books from the listing's date, or from
+ * the opening when the listing speaks after it (not backdated). Ported from
+ * the old engine's `ensureLocalGovernmentOrganization`.
+ */
+export function localGovernmentOrganization(
+  unit: GovernmentUnitIdentity,
+  onDate: IsoDate,
+): LocalGovernmentOrganization | null {
+  const jurisdictionId = governedJurisdictionId(unit);
+  if (!jurisdictionId) return null;
+  const stableKey = localGovernmentOrganizationKey(unit);
+  const code =
+    unit.id === `municipio:${unit.countyGeoid}`
+      ? countyGoverningBodyRules(unit)
+      : null;
+  if (code) {
+    const since = (code.inForceSince ?? onDate) as IsoDate;
+    return {
+      stableKey,
+      formedAt: since <= onDate ? since : onDate,
+      provenance: {
+        kind: "source-record",
+        reference: `${code.citation} (${code.url})`,
+        asOf: since,
+      },
+      name: unit.name,
+      classification: "service:municipal-government",
+      locationJurisdictionId: jurisdictionId,
+    };
+  }
+  const asOf = unit.asOf as IsoDate;
+  const listed = asOf <= onDate;
+  return {
+    stableKey,
+    formedAt: listed ? asOf : onDate,
+    provenance: listed
+      ? {
+          kind: "source-record",
+          reference: `${GOVERNMENT_UNITS_META.artifactId} ${unit.id} "${unit.name}"`,
+          asOf,
+        }
+      : {
+          kind: "authored",
+          note: `Placed from ${GOVERNMENT_UNITS_META.artifactId} ${unit.id}, which speaks as of ${asOf}, after this world's ${onDate}; not backdated.`,
+        },
+    // The recorded name, unchanged since worlds were first built with it.
+    name: governmentUnitRecordedName(unit),
+    classification:
+      unit.unitType === "county"
+        ? "service:county-government"
+        : "service:municipal-government",
+    locationJurisdictionId: jurisdictionId,
+    // This organization IS the recorded government unit. Its own source
+    // identity does not establish ownership of a separate generated employer.
+    ...(listed && unit.functionalActive
+      ? {
+          publicGovernmentIdentity: {
+            kind: "local-government" as const,
+            governmentKey: unit.id,
+            jurisdictionId,
+          },
+        }
+      : {}),
+  };
+}
+
+/**
+ * The government a place's town-hall and county-clerk jobs are held in, as
+ * the organization the opening writes: the place's one municipal government
+ * (else its one town or township) and its one county government. A place
+ * spanning governments gets none of that kind: a worker is never silently
+ * assigned to the first county, and no municipality is invented.
+ */
+export function placeGovernmentOrganizations(
+  place: CorePlace,
+  onDate: IsoDate,
+): {
+  readonly municipal: LocalGovernmentOrganization | null;
+  readonly county: LocalGovernmentOrganization | null;
+} {
+  const governments = placeLocalGovernmentUnits(place);
+  const one = (units: readonly GovernmentUnitIdentity[]) =>
+    units.length === 1 ? localGovernmentOrganization(units[0]!, onDate) : null;
+  return {
+    municipal: one(
+      governments.municipal.length > 0
+        ? governments.municipal
+        : governments.townships,
+    ),
+    county: one(governments.counties),
   };
 }

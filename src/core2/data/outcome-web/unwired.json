@@ -358,7 +358,7 @@
     {
       "link": "newspaper-closure-to-borrowing-cost",
       "outcome": "gov.borrowing-cost",
-      "reason": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research gives no size the game can apply, so the web does not run it",
+      "reason": "the web does not run it: it waits on press.local-newspaper, and it has no researched size; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-gov-borrowing-cost"
     },
     {
@@ -512,24 +512,6 @@
       "stopgapId": "SG-SCHOOL-links-not-running"
     },
     {
-      "link": "balanced-budget-to-borrowing-cost",
-      "outcome": "gov.borrowing-cost",
-      "reason": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-gov-borrowing-cost"
-    },
-    {
-      "link": "pension-funding-to-borrowing-cost",
-      "outcome": "gov.borrowing-cost",
-      "reason": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-gov-borrowing-cost"
-    },
-    {
-      "link": "reserve-balance-to-borrowing-cost",
-      "outcome": "gov.borrowing-cost",
-      "reason": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-gov-borrowing-cost"
-    },
-    {
       "link": "congress-stock-ban-to-member-returns",
       "outcome": "government.member-market-returns",
       "reason": "no measure: the web does not keep government.member-market-returns and no engine produces it; its research gives no size the game can apply, so the web does not run it",
@@ -556,7 +538,7 @@
     {
       "link": "federal-deficit-to-borrowing-cost",
       "outcome": "gov.borrowing-cost",
-      "reason": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it",
+      "reason": "the web does not run it: it waits on federal.deficit-change-pct-of-gdp",
       "stopgapId": "SG-WEB-unread-gov-borrowing-cost"
     },
     {
@@ -564,12 +546,6 @@
       "outcome": "rail.intercity-ridership",
       "reason": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-WEB-unread-rail-intercity-ridership"
-    },
-    {
-      "link": "parks-spending-to-exercise-access",
-      "outcome": "parks.access-to-exercise",
-      "reason": "engine doesn't read the factor: parks.access-to-exercise moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-GOV-REACH-B-park-use"
     },
     {
       "link": "social-security-tax-to-unemployment",

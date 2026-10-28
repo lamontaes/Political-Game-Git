@@ -9,6 +9,7 @@
 /src/core2/tooling/** @lamontaes
 /src/core2/types.ts @lamontaes
 /src/core2/state.ts @lamontaes
+/src/core2/opening-draft.ts @lamontaes
 /src/core2/appearance.ts @lamontaes
 /src/core2/parameters.ts @lamontaes
 /src/core2/stopgaps.ts @lamontaes
@@ -41,7 +42,6 @@
 /src/core2/modules/filing-clerk.ts @lamontaes
 /src/core2/modules/ballot-measures.ts @lamontaes
 /src/core2/modules/recalls.ts @lamontaes
-/src/core2/modules/world-races.ts @lamontaes
 /src/core2/modules/parties.ts @lamontaes
 /src/core2/modules/interest-groups.ts @lamontaes
 /src/core2/ballot-order.ts @lamontaes
@@ -151,6 +151,7 @@
 /src/core2/business-*.ts @lamontaes
 /src/core2/census-*.ts @lamontaes
 /src/core2/opening-employment.ts @lamontaes
+/src/core2/opening-town-jobs.ts @lamontaes
 /src/core2/opening-staffing.ts @lamontaes
 /src/core2/opening-payroll-calendar.ts @lamontaes
 /src/core2/opening-org-profiles.ts @lamontaes
@@ -212,6 +213,7 @@
 /src/core2/counted-*.ts @lamontaes
 /src/core2/opening-kin.ts @lamontaes
 /src/core2/opening-people.ts @lamontaes
+/src/core2/opening-upbringing.ts @lamontaes
 /src/core2/opening-personality.ts @lamontaes
 /src/core2/opening-partnership.ts @lamontaes
 /src/core2/opening-key-people.ts @lamontaes

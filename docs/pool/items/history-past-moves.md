@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/wire-opening-history-moves
+pr: #6648
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T16:38:14.630Z
 ---
 
 **What.** Under the owner's Oct 27 ruling (history before 2025 is simulated, OWNER-DECISIONS 'The world has a past'), the move into the county is still drawn. src/core2/opening-kin.ts decides whether and when an adult moved by a seeded 'move line' crossed by the ACS mover rate, writes life:moved-into-county with no origin, and past-family.ts and conversation.ts read that date. This item runs each full adult's residence through the pre-start window by the moves engine's own rule (src/core2/modules/moves.ts: the life-stage rate by age and state, held back by ties, pushed by a lost job from the past-work run), with the origin from records: a parent's place outside the county, else the counties whose IRS top destination is this one (src/core2/data/moves/destinations.json read in reverse), else the state. The work run then places the spells before the move in the origin place, which clears that part of SG-HIST-past-work-day-one-town.

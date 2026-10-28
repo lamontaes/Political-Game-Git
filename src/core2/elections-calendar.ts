@@ -26,6 +26,9 @@ import {
   novemberGeneralElectionDay,
 } from "./gov-rules/town-election-calendar";
 import type { OfficeInput } from "./offices-local";
+
+/** The general election day in November, for the races every level holds on it. */
+export { novemberGeneralElectionDay };
 import filingDeadlineData from "./data/elections/filing-deadlines.json" with { type: "json" };
 import municipalCycleData from "./data/elections/municipal-cycles.json" with { type: "json" };
 import termStartData from "./data/elections/term-starts.json" with { type: "json" };
