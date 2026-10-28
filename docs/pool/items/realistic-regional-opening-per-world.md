@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/realistic-regional-opening
-pr:
+pr: #6450
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T00:15:17.343Z
