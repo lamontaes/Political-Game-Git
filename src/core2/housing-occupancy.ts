@@ -592,7 +592,7 @@ function noticeRentRenewal(
       (p) =>
         p?.alive &&
         ageOnDate(makeIsoDate(p.birthDate), today) >=
-          lawParameters.parameters.adultAge.value,
+          api.parameter("votingAge"),
     )
     .sort(
       (a, b) =>

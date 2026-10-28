@@ -1716,7 +1716,7 @@ export function coreAPI(core: CoreState): CoreAPI {
           mover.id,
         ]);
       // Nobody leaves a child in a household with no adult.
-      const adultAge = api.parameter("benchmarkAdultMinimumAge");
+      const adultAge = api.parameter("votingAge");
       for (const [fromId, leaving] of bySource) {
         const staying = core.households
           .get(fromId)!
@@ -1796,7 +1796,7 @@ export function coreAPI(core: CoreState): CoreAPI {
         ];
       };
       if (input.together) {
-        const adultAge = api.parameter("benchmarkAdultMinimumAge");
+        const adultAge = api.parameter("votingAge");
         const ageNow = (born: string) =>
           Number(core.date.slice(0, 4)) -
           Number(born.slice(0, 4)) -
