@@ -74,7 +74,7 @@ it("a wider race raises from donors outside the town, under the limit, and buys 
         });
         if (
           result.status !== "refused" &&
-          result.filing.status === "on-ballot"
+          result.filing.status === "petitioning"
         ) {
           filed = result.filing;
           break;

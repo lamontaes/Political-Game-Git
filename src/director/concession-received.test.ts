@@ -91,7 +91,7 @@ const run = (drawSeed: string): string | null => {
         contestId: race.id,
         platform: [],
       });
-      if (result.status === "on-ballot") filings.push(result.filing);
+      if (result.status === "petitioning") filings.push(result.filing);
     }
     if (filings.length > 1) {
       contest = race;

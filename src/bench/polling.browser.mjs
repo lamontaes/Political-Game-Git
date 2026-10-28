@@ -40,7 +40,7 @@ page.on("response", async (r) => {
         "CHOOSE RESULT:",
         JSON.stringify(j.result ?? null).slice(0, 300),
       );
-      if (j.result?.status === "on-ballot")
+      if (j.result?.status === "petitioning")
         filedContest = j.result.filing.contestId;
     } catch {
       // Non-JSON filing response; the UI state below is the evidence.

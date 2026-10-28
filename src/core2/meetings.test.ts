@@ -117,7 +117,7 @@ function fileAndQualify(
   });
   if (result.status === "refused") return null;
   const filing = result.filing;
-  return filing.status === "on-ballot" ? filing : null;
+  return filing.status === "petitioning" ? filing : null;
 }
 
 describe("public meetings", () => {

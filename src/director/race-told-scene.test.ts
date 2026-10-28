@@ -68,7 +68,7 @@ function fileNewAdult(world: ReturnType<typeof buildBenchWorld>): boolean {
           fileForOffice(core, playerId!, contest.id) as {
             filing?: { status?: string };
           }
-        ).filing?.status === "on-ballot",
+        ).filing?.status === "petitioning",
     );
 }
 

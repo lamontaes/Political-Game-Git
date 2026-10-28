@@ -6023,6 +6023,15 @@
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
+  "traitWeightCampaignsSignPetition": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the campaigns.sign-petition decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
   "traitWeightRecallsVote": {
     "value": 1,
     "tag": "TUNABLE",

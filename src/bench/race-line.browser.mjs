@@ -53,7 +53,7 @@ try {
         { method: "POST" },
       );
       const body = await r.json().catch(() => ({}));
-      if (r.ok && body.filing?.status === "on-ballot") {
+      if (r.ok && body.filing?.status === "petitioning") {
         filed = contest.id;
         break;
       }

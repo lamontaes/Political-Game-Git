@@ -103,7 +103,7 @@ function filedRace(place: string) {
         platform,
       });
       if (result.status === "refused") break;
-      if (result.filing.status === "on-ballot") filed.push(result.filing);
+      if (result.filing.status === "petitioning") filed.push(result.filing);
     }
     if (filed.length === 2) return { core, api, contest: open, filed };
   }

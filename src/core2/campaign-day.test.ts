@@ -77,7 +77,7 @@ function setup() {
         contestId: contest.id,
         platform: [],
       });
-      if (filed.status !== "refused" && filed.filing.status === "on-ballot") {
+      if (filed.status !== "refused" && filed.filing.status === "petitioning") {
         filing = filed.filing;
         break;
       }

@@ -598,7 +598,7 @@ function readWorld(place: Place): {
   /* ---- people in contests: campaign, public comment, victory, concession ---- */
   const filings = (
     api.moduleState("core2-elections-v1").table("filings").rows() as any[]
-  ).filter((f) => f.status === "on-ballot");
+  ).filter((f) => f.status === "on-ballot" || f.status === "petitioning");
   // Every contest, decided ones too: a past race's filing still names its office.
   const contestOf = new Map<string, any>(
     (

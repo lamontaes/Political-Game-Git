@@ -20,6 +20,7 @@ import {
   fileCandidacy,
   filingOfficeFor,
   openContests,
+  standing,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
@@ -340,7 +341,7 @@ export function localRaces(core: CoreState) {
           .table("filings")
           .query("byContest", [contest.id]) as unknown as FilingRow[]
       )
-        .filter((row) => row.status === "on-ballot")
+        .filter(standing)
         .map((row) => {
           const who = candidateIdentity(api, row.personId);
           return {

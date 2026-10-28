@@ -238,7 +238,7 @@ describe(`civic role fills in ${where}`, () => {
           personId: person.id,
           contestId: contest.id,
           platform: [],
-        }).status === "on-ballot",
+        }).status === "petitioning",
     );
     expect(subject, `${where}: ${contest.id}`).toBeTruthy();
     const filing = (

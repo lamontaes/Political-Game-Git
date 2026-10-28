@@ -171,7 +171,7 @@ describe("council election method", () => {
         contestId: contest.id,
         platform: [],
       });
-      if (filed.status !== "refused" && filed.filing.status === "on-ballot")
+      if (filed.status !== "refused" && filed.filing.status === "petitioning")
         on += 1;
       if (on === 2 && outside) break;
     }

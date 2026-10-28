@@ -11,6 +11,7 @@ import { LEGISLATURE_MODULE_ID, members } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
+  standing,
   openContests,
   type FilingRow,
 } from "../core2/modules/elections";
@@ -250,7 +251,7 @@ function playYear(
         .query("byPerson", [personId]) as unknown as FilingRow[]
     ).find(
       (row) =>
-        row.status === "on-ballot" &&
+        standing(row) &&
         ((
           api
             .moduleState(ELECTIONS_MODULE_ID)
@@ -413,7 +414,7 @@ function fileNewAdult(
           fileForOffice(core, playerId!, contest.id) as {
             filing?: { status?: string };
           }
-        ).filing?.status === "on-ballot",
+        ).filing?.status === "petitioning",
     );
   return filed ? (playerId as PersonId) : null;
 }

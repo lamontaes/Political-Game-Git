@@ -72,7 +72,7 @@ it(`the player's journal tells their own first race the day after the count, see
         contestId: contest.id,
         platform: [],
       });
-      if (filed.status !== "on-ballot") {
+      if (filed.status !== "petitioning") {
         tried.push(`${where}: filing for ${contest.id} was ${filed.status}`);
         continue;
       }

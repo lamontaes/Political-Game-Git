@@ -57,7 +57,7 @@ try {
       if (
         r.ok &&
         body.status !== "refused" &&
-        body.filing?.status === "on-ballot"
+        body.filing?.status === "petitioning"
       )
         return { filed: contestId, tried };
     }

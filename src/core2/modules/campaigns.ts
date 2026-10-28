@@ -94,8 +94,13 @@ import { newsKey } from "./news";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
+  petitionCirculating,
+  petitionOf,
+  signPetition,
+  standing,
   type ContestRow,
   type FilingRow,
+  type PetitionSigner,
 } from "./elections";
 
 export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
@@ -130,6 +135,10 @@ export interface CampaignRow {
   readonly endorsementAskedIds?: readonly string[];
   /** Those who said yes: they endorsed, and their circle heard it. */
   readonly endorserIds?: readonly string[];
+  /** The candidate's circle already asked to sign the petition (each ask is made once). */
+  readonly petitionAskedIds?: readonly string[];
+  /** The day the candidate last asked their circle to sign. */
+  readonly petitionAskedOn?: string;
   /** Where the next mail drop starts in the town's list of addresses. */
   readonly mailCursor?: number;
   /** Counted adults (not yet full people) its doors, mail and ads reached. */
@@ -806,7 +815,7 @@ function adultsAt(
  * alike, those not yet walked first. At each door the most willing adult home
  * at that minute is the one who might open; the evening opens as many doors
  * as their readiness adds up to, at the homes that owe an opening most.
- * Yields each opener's id in walk order (a counted resident is filled in by
+ * Yields each opener in walk order (a counted resident is filled in by
  * the caller); `done` and `walked` gain every door knocked, `carries` each
  * knocked home's carry and `owed` the campaign's.
  */
@@ -824,7 +833,7 @@ function* walkDoors(
     readonly doors: number;
     readonly hours: number;
   },
-): Generator<string> {
+): Generator<ReturnType<typeof adultsAt>[number]> {
   const doors = input.doors;
   const done = input.done;
   const list = townAddresses(api).list;
@@ -855,7 +864,7 @@ function* walkDoors(
   const start = campaignParameter("canvassStartHour") * 60;
   const knocks: {
     readonly home: string;
-    readonly opener: string;
+    readonly opener: ReturnType<typeof adultsAt>[number];
     readonly share: number;
     readonly owed: number;
   }[] = [];
@@ -874,6 +883,7 @@ function* walkDoors(
     const weighed = athome
       .map((a) => ({
         id: a.id,
+        adult: a,
         score: leanedScore(
           api.state,
           a,
@@ -893,7 +903,7 @@ function* walkDoors(
     // what the home is owed (starting even).
     const share = logistic(opener.score / campaignParameter("doorAnswerScale"));
     const owed = (input.carries.get(home.id) ?? OPENING_CARRY) + share;
-    knocks.push({ home: home.id, opener: opener.id, share, owed });
+    knocks.push({ home: home.id, opener: opener.adult, share, owed });
   }
   // The evening opens as many doors as the shares add up to, with what the
   // campaign's earlier evenings carried, so a street of reluctant homes still
@@ -967,7 +977,9 @@ export function knockDoors(
   const walked: string[] = [];
   const core = api.state as CoreState;
   const met: CauseRow[] = [];
-  for (const openerId of walkDoors(api, {
+  // While the filing's petition circulates, whoever opens is asked to sign.
+  const petition = petitionCirculating(api, input.filingId);
+  for (const opener of walkDoors(api, {
     done,
     lastKnocked,
     carries,
@@ -976,12 +988,15 @@ export function knockDoors(
     doors,
     hours: input.hours,
   })) {
+    const openerId = opener.id;
     // A counted household is filled in when the player's campaign opens its
     // door (the owner's on-meet design): the person who answers is a full
-    // person from then on. A world candidate's door counts them as reached.
+    // person from then on. A world candidate's door counts them as reached,
+    // and they answer the petition by the same rule, from their own record.
     if (!api.state.people.has(openerId)) {
       if (input.fillCounted === false) {
         counted += 1;
+        if (petition) askToSign(api, input.filingId, opener, "door");
         continue;
       }
       fillInPerson(core, openerId);
@@ -1005,6 +1020,7 @@ export function knockDoors(
       api.relationship(input.canvasserId, answers.id, "contact", 0.1);
     met.push(cause);
     retell(api, campaign, answers, cause);
+    if (petition) askToSign(api, input.filingId, answers, "door");
   }
   // One row a household: the day its door was first knocked, the last, how
   // many times, and what its knocks owe toward the next opening.
@@ -1301,7 +1317,7 @@ function offersToHelp(api: CoreAPI): void {
     api,
     "filings",
   ).rows() as unknown as FilingRow[]) {
-    if (filing.status !== "on-ballot") continue;
+    if (!standing(filing)) continue;
     const candidate = api.state.people.get(filing.personId);
     if (!candidate?.alive || !candidate.knownIds.size) continue;
     const contest = elections(api, "contests").get(filing.contestId) as
@@ -1426,7 +1442,7 @@ function rivalWordPassedOn(api: CoreAPI): void {
     api,
     "filings",
   ).rows() as unknown as FilingRow[]) {
-    if (filing.status !== "on-ballot") continue;
+    if (!standing(filing)) continue;
     const candidate = api.state.people.get(filing.personId);
     if (!candidate?.alive || !candidate.knownIds.size) continue;
     const told = table(api, "rivalWord").query("byCandidate", [
@@ -1699,7 +1715,9 @@ export function contributionLimit(
 function backingReasons(
   api: CoreAPI,
   campaign: CampaignRow,
-  person: Readonly<PersonState>,
+  person: Readonly<Pick<PersonState, "id" | "traits">> & {
+    readonly familyIds?: ReadonlySet<string>;
+  },
 ): {
   readonly warmth: number;
   readonly agreement: number;
@@ -1711,10 +1729,114 @@ function backingReasons(
   const lean = personLean(api.state.people, person, townRow(api).lean);
   const agreement = agreementWith(api, person.id, lean, campaign.platform);
   const party = partyFit(api, campaign, person.id);
-  const level = person.familyIds.has(campaign.candidateId)
+  const level = person.familyIds?.has(campaign.candidateId)
     ? 1
     : clamp(closenessBetween(api.state, person.id, campaign.candidateId));
   return { warmth, agreement, party, relationship: level };
+}
+
+/**
+ * A voter's reasons to sign a candidate's petition, before personality: how
+ * they stand with the candidate (warmth, agreement with the platform, party,
+ * the tie between them), weighed as an evening's attendance is, plus
+ * signing's low bar: a name on a petition puts a neighbor on the ballot and
+ * is not a vote (`petitionSignOpenness`).
+ */
+export function signReason(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<Pick<PersonState, "id" | "traits">> & {
+    readonly familyIds?: ReadonlySet<string>;
+  },
+): number {
+  const why = backingReasons(api, campaign, person);
+  return (
+    why.warmth +
+    why.agreement +
+    campaignParameter("donorPartyWeight") * why.party +
+    campaignParameter("donorRelationshipWeight") * why.relationship +
+    campaignParameter("petitionSignOpenness")
+  );
+}
+
+/**
+ * Ask someone to sign a filing's circulating petition: an adult signs when
+ * their reasons (`signReason`) and every trait's lean between signing and
+ * declining say so, and the elections engine adds the name once. The
+ * controlled person answers for themselves and is never signed up here; the
+ * clerk later strikes a name not on the count's roll. Returns whether they
+ * signed.
+ */
+export function askToSign(
+  api: CoreAPI,
+  filingId: string,
+  signer: Readonly<Pick<PersonState, "id" | "traits" | "birthDate">> & {
+    readonly familyIds?: ReadonlySet<string>;
+  },
+  via: PetitionSigner["via"],
+): boolean {
+  if (!petitionCirculating(api, filingId)) return false;
+  const campaign = campaignFor(api, filingId);
+  if (
+    signer.id === campaign.candidateId ||
+    signer.id === (api.state as CoreState).playerId ||
+    ageOn(signer, api.state.date) < api.parameter("votingAge")
+  )
+    return false;
+  return (
+    leanedYes(
+      api.state,
+      signer,
+      "campaigns.sign-petition",
+      "sign",
+      "decline",
+      signReason(api, campaign, signer),
+    ) && signPetition(api, filingId, signer.id, via)
+  );
+}
+
+/**
+ * While the petition circulates, the candidate asks the people closest to
+ * them to sign, once a day, a few at a time, the closest first, each once:
+ * their family, the people they know and anyone they keep a relationship
+ * with, who live in the town. Returns how many signed.
+ */
+export function askCircleToSign(api: CoreAPI, filingId: string): number {
+  if (!petitionCirculating(api, filingId)) return 0;
+  const campaign = campaignFor(api, filingId);
+  if (campaign.petitionAskedOn === api.state.date) return 0;
+  const candidate = api.state.people.get(campaign.candidateId);
+  if (!candidate?.alive) return 0;
+  const town = townRow(api).townPlaceId;
+  const asked = new Set(campaign.petitionAskedIds ?? []);
+  const ids = new Set<string>([...candidate.familyIds, ...candidate.knownIds]);
+  for (const rel of api.state.relationshipsByPerson.get(candidate.id) ?? []) {
+    const row = api.state.relationships.get(rel);
+    if (row) ids.add(row.actorId === candidate.id ? row.otherId : row.actorId);
+  }
+  const circle = [...ids]
+    .filter((id) => id !== candidate.id && !asked.has(id))
+    .map((id) => api.state.people.get(id))
+    .filter((p): p is PersonState => !!p?.alive && p.placeId === town)
+    .map((p) => ({
+      p,
+      tie: p.familyIds.has(candidate.id)
+        ? 1
+        : closenessBetween(api.state, p.id, candidate.id),
+    }))
+    .sort((a, b) => b.tie - a.tie || a.p.id.localeCompare(b.p.id))
+    .slice(0, campaignParameter("petitionCircleAsksPerDay"));
+  let signed = 0;
+  for (const { p } of circle) {
+    asked.add(p.id);
+    if (askToSign(api, filingId, p, "circle")) signed += 1;
+  }
+  save(api, {
+    ...campaignFor(api, filingId),
+    petitionAskedIds: [...asked],
+    petitionAskedOn: api.state.date,
+  });
+  return signed;
 }
 
 /** +1 for a member of the candidate's party, minus their party's distance from it otherwise. */
@@ -2948,15 +3070,23 @@ export function holdEvent(api: CoreAPI, filingId: string): readonly CauseRow[] {
     amountMinor: unitPrice(api, "event-venue"),
     citation: "An evening's venue at the campaign-unit-prices event-venue row",
   });
-  return makeStatements(api, {
+  const audienceIds = whoComes(api, campaign);
+  const causes = makeStatements(api, {
     filingId,
     venue,
     statements: [lead],
-    audienceIds: whoComes(api, campaign),
+    audienceIds,
     act: "speech",
     weight: campaignParameter("speechWeight"),
     faceToFace: true,
   });
+  // While the petition circulates, the evening's audience is asked to sign.
+  if (petitionCirculating(api, filingId))
+    for (const id of audienceIds) {
+      const person = api.state.people.get(id);
+      if (person) askToSign(api, filingId, person, "event");
+    }
+  return causes;
 }
 
 /**
@@ -3055,7 +3185,11 @@ export function rivalDay(
   const offered = (kind: string) =>
     day.find((c) => c.kind === kind)?.available ?? false;
   const calls = offered("raise-money");
-  const doors = candidate.placeId === town && offered("canvass");
+  // While the petition circulates, a candidate whose district takes in the
+  // town walks its doors for signatures wherever they live.
+  const petitioning = petitionCirculating(api, filingId);
+  const doors =
+    (candidate.placeId === town || petitioning) && offered("canvass");
   const campaign = campaignFor(api, filingId);
   const cash =
     api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
@@ -3070,9 +3204,16 @@ export function rivalDay(
     1 +
     campaignParameter("rivalCallNeedWeight") * (1 - richness) +
     campaignParameter("rivalCallStandingWeight") * known;
+  // The signatures still missing, as a share of what the clerk will count,
+  // pull the day toward the doors until the deadline.
+  const petition = petitioning ? petitionOf(api, filingId) : null;
+  const shortfall = petition?.needed
+    ? Math.max(0, petition.needed - petition.signers.length) / petition.needed
+    : 0;
   const doorScore =
     1 +
     campaignParameter("rivalDoorUnknownWeight") * (1 - known) +
+    campaignParameter("rivalPetitionNeedWeight") * shortfall +
     wTrait * sociable;
   const holdsSeat = holdsTheSeat(api, filingId, candidate.id) ? 1 : 0;
   const eventScore =
@@ -3359,18 +3500,22 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       continue;
     }
     // A campaign works harder as election day nears: far out its people
-    // turn to it now and then, in the last weeks every few days.
-    const daysLeft = daysBetween(date, race.electionDate);
+    // turn to it now and then, in the last weeks every few days. While its
+    // petitions circulate, the nearer day is the filing deadline.
+    const contest = contests.get(race.id) as unknown as ContestRow | undefined;
+    const toward =
+      contest &&
+      date <= contest.filingDeadline &&
+      ballot(api, race.id).some((f) => f.status === "petitioning")
+        ? contest.filingDeadline
+        : race.electionDate;
+    const daysLeft = daysBetween(date, toward);
     const every =
       turnDays * (1 + daysLeft / campaignParameter("campaignRampDays"));
     if (race.lastTurn && daysBetween(race.lastTurn, date) < every) continue;
     races.put({ ...race, lastTurn: date } as unknown as ModuleRow);
     for (const filing of ballot(api, race.id))
-      if (
-        filing.status === "on-ballot" &&
-        filing.personId !== playerId &&
-        filing.filedOn <= date
-      )
+      if (filing.personId !== playerId && filing.filedOn <= date)
         campaignTurn(api, filing.id, race.electionDate);
   }
 }

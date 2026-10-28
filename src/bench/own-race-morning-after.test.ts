@@ -50,7 +50,7 @@ it("the day after the player's race, Journal, News and Government cite its resul
         const result = fileForOffice(core, playerId!, contest.id) as {
           filing?: { status?: string };
         };
-        return result.filing?.status === "on-ballot";
+        return result.filing?.status === "petitioning";
       });
     if (!filed) {
       tried.push(`${where}: no race the player could enter`);

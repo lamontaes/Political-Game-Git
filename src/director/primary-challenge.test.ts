@@ -81,7 +81,7 @@ it(`a rival from the player's own party is told as one, seed ${seed}`, () => {
             fileForOffice(core, me, c.id, { party: own }) as {
               filing?: { status?: string };
             }
-          ).filing?.status === "on-ballot",
+          ).filing?.status === "petitioning",
       );
     if (!filed) {
       tried.push(

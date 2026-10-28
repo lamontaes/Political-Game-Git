@@ -97,7 +97,7 @@ it(`a reply chosen in a scene is a record the relationship writer reads (seed ${
                 personId: p.id,
                 contestId: race.id,
                 platform: [],
-              }).status === "on-ballot"
+              }).status === "petitioning"
             );
           })
       : undefined;

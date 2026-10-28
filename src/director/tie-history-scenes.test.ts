@@ -64,7 +64,7 @@ it("a campaign volunteer is met as someone known, with distinct replies", () => 
       .find(
         (c) =>
           (fileForOffice(core, me, c.id) as { filing?: { status?: string } })
-            .filing?.status === "on-ballot",
+            .filing?.status === "petitioning",
       );
     if (!filed) {
       tried.push(`${where}: no race two months out the player could enter`);

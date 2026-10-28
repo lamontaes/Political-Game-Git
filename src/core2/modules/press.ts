@@ -48,6 +48,7 @@ import {
 import {
   ballot,
   ELECTIONS_MODULE_ID,
+  standing,
   type ContestRow,
   type FilingRow,
 } from "./elections";
@@ -1447,9 +1448,7 @@ export function interviewQuestions(
         add(v.stance.question, pressParameter("partyBreakNewsWeight"));
   const own = platformOf(api, speaker);
   const rivals = filing
-    ? ballot(api, filing.contestId).filter(
-        (f) => f.id !== filing.id && f.status === "on-ballot",
-      )
+    ? ballot(api, filing.contestId).filter((f) => f.id !== filing.id)
     : [];
   const questions = [
     ...new Set([
@@ -1714,7 +1713,7 @@ function arrangeWith(
   if (filing) {
     if (
       contestOf(api, filing.contestId).electionDate < api.state.date ||
-      filing.status !== "on-ballot"
+      !standing(filing)
     )
       return declined("race-over");
     if (already(api, outletId, filing.id))
@@ -2856,12 +2855,11 @@ function rivalsOf(api: CoreAPI, personId: string): readonly string[] {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
     .query("byPerson", [personId]) as unknown as FilingRow[]) {
-    if (filing.status !== "on-ballot") continue;
+    if (!standing(filing)) continue;
     const contest = contestOf(api, filing.contestId);
     if (!contest || contest.electionDate < api.state.date) continue;
     for (const rival of ballot(api, contest.id))
-      if (rival.personId !== personId && rival.status === "on-ballot")
-        out.add(rival.personId);
+      if (rival.personId !== personId) out.add(rival.personId);
   }
   return [...out].sort();
 }
@@ -3115,7 +3113,6 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (!contests.length) return;
   const filings = contests
     .flatMap((c) => ballot(api, c.id))
-    .filter((f) => f.status === "on-ballot")
     .map((f) => ({ f, worth: newsworthiness(api, f) }));
   // The player's invitations this week, put to them as one.
   const invitedThisWeek = new Map<string, InterviewRow[]>();

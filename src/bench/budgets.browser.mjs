@@ -112,7 +112,7 @@ try {
   const result = (await (await filed).json()).result;
   assert.equal(
     result?.filing?.status,
-    "on-ballot",
+    "petitioning",
     `the filing was refused: ${JSON.stringify(result?.unmet ?? result)}`,
   );
   await page

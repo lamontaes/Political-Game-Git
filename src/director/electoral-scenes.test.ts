@@ -198,7 +198,7 @@ function filingAndStops(
       contestId: contest.id,
       platform: [],
     });
-    if (result.status === "on-ballot") filings.push(result.filing);
+    if (result.status === "petitioning") filings.push(result.filing);
   }
   expect(filings.length, `${where}: residents who can file`).toBeGreaterThan(0);
   advanceCore(core, addDays(makeIsoDate(core.date), 2));

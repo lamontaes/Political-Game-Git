@@ -75,7 +75,7 @@ it("an offer of help joins the one campaign record and stops the player only by 
       .find(
         (c) =>
           (fileForOffice(core, me, c.id) as { filing?: { status?: string } })
-            .filing?.status === "on-ballot",
+            .filing?.status === "petitioning",
       );
     if (!filed) {
       tried.push(`${where}: no race two months out the player could enter`);

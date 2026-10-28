@@ -229,7 +229,7 @@ try {
   );
   assert.equal(
     result?.filing?.status,
-    "on-ballot",
+    "petitioning",
     `the filing was refused: ${JSON.stringify(result?.unmet ?? result)}`,
   );
   assert.equal(result.filing.party ?? "", party, "the filed party differs");

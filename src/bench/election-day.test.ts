@@ -64,7 +64,7 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
             fileForOffice(core, playerId!, contest.id) as {
               filing?: { status?: string };
             }
-          ).filing?.status === "on-ballot",
+          ).filing?.status === "petitioning",
       );
     if (!filed) {
       tried.push(`${where}: no race the player could enter`);

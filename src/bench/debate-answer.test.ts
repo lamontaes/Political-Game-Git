@@ -54,7 +54,10 @@ it("lists the invited debate for the player, who answers it, and it is held with
           contestId: contest.id,
           platform: [],
         });
-        if (result.status !== "refused" && result.filing.status === "on-ballot")
+        if (
+          result.status !== "refused" &&
+          result.filing.status === "petitioning"
+        )
           filed.push(result.filing);
       }
       if (filed.length >= 2) {

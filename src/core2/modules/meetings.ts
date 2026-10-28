@@ -855,8 +855,7 @@ function considerTownHalls(api: CoreAPI): void {
         c.level !== "federal",
     ))
       for (const f of ballot(api, contest.id))
-        if (f.status === "on-ballot")
-          raise(f.personId, 1, "race", contest.id, f.id);
+        raise(f.personId, 1, "race", contest.id, f.id);
   }
   const town = lawChain(api).townPlaceId;
   for (const [hostId, why] of [...reasons.entries()].sort((a, b) =>

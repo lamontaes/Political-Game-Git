@@ -136,7 +136,7 @@ try {
         { method: "POST" },
       );
       const body = await r.json().catch(() => ({}));
-      if (r.ok && body.filing?.status === "on-ballot") return contest.id;
+      if (r.ok && body.filing?.status === "petitioning") return contest.id;
     }
     return null;
   });

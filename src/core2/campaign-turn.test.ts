@@ -115,7 +115,7 @@ function twoCandidates(
         contestId: contest.id,
         platform: [],
       });
-      if (result.status === "refused" || result.filing.status !== "on-ballot")
+      if (result.status === "refused" || result.filing.status !== "petitioning")
         continue;
       filed.push(result.filing);
       if (filed.length === 2) return { you: filed[0]!, rival: filed[1]! };

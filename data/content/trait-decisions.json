@@ -885,6 +885,23 @@
       ]
     },
     {
+      "id": "campaigns.sign-petition",
+      "site": "src/core2/modules/campaigns.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightCampaignsSignPetition",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["refuse", "play-safe", "self-interest"]
+        },
+        {
+          "id": "sign",
+          "actKinds": ["help-others", "cooperate", "engage"]
+        }
+      ]
+    },
+    {
       "id": "recalls.vote",
       "site": "src/core2/modules/recalls.ts",
       "owner": "OPUS-GOV",

@@ -76,7 +76,7 @@ it("a filed candidate's months are never silent, and each season scene writes ba
       .find(
         (c) =>
           (fileForOffice(core, me, c.id) as { filing?: { status?: string } })
-            .filing?.status === "on-ballot",
+            .filing?.status === "petitioning",
       );
     if (!filed) {
       tried.push(`${where}: no race two months out the player could enter`);
