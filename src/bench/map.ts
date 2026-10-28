@@ -1,7 +1,6 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { coreAPI } from "../core2/state";
-import { townDistrict } from "../core2/offices-state";
-import { townSeats } from "../core2/modules/offices";
+import { townDistrict, townSeats } from "../core2/modules/offices";
 import type { CoreState } from "../core2/types";
 
 const GEOMETRY = new URL("../maps/geometry/states/", import.meta.url);
