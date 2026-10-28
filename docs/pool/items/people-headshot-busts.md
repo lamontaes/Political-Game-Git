@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/people-headshot-reader
-pr:
+pr: #6583
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T06:47:36.252Z
