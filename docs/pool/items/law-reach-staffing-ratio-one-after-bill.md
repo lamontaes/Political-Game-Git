@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/ratio-after-bill
 pr: #6425
 blocked-on:

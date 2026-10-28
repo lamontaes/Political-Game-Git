@@ -685,6 +685,8 @@
     "election-day": "narration",
     "choice-names": "narration",
     "calendar": "narration",
-    "talk-who": "narration"
+    "talk-who": "narration",
+    "campaign-standing": "narration",
+    "person-sketch": "narration"
   }
 }
