@@ -1,6 +1,8 @@
 ---
 id: words-recall-count-names-the-answer
 title: "A recall petition's count says how many signed and that the official's answer moved it"
+lead: words
+milestone: play-first
 area: play
 kind: wiring
 priority: 2
@@ -17,6 +19,12 @@ source: added with npm run pool -- add
 **Rules.** Ask why: the line says why the count moved only from the record's own facts (before, signatures and the answer it read), never a guess. No hand-written player text in code: the words are bank pieces graded like every other.
 
 **Done when.** In a drawn place where the official answered a recall petition, the news line and the journal line for the petition's count name the signatures and, where the answer moved them, that it did, each citing the recall-outcome record id and the reply id, shown by a test on the composed lines and a screenshot.
+
+**Time box.** 2 hours.
+
+**You will see.** After you answer the petitioners, the news of the petition's count says how many signed and that fewer did after you heard them out.
+
+**Screenshot.** The news or journal line for a petition's count after the official's answer, from a drawn place.
 
 **Files.** data/english/parts/news.json, data/english/parts/journal.json, src/director/data/journal-rows.json
 
