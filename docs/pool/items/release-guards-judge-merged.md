@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/guards-judge-merged
-pr:
+pr: #6513
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T03:33:17.657Z
