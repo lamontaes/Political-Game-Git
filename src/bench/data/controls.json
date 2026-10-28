@@ -542,5 +542,8 @@
   },
   "seat": {
     "draft": "Draft"
+  },
+  "guide": {
+    "search": "Search"
   }
 }
