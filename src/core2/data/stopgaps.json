@@ -7375,5 +7375,17 @@
     "addedAt": "2026-10-28",
     "replacement": "Each pose painted for both sexes and every build and outfit (or a wardrobe that dresses the pose's body), so the person's own look holds in the pose.",
     "status": "open"
+  },
+  {
+    "id": "SG-LAWS-grocery-exemption-local-base",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 878,
+    "whatItFakes": "A state's grocery exemption spares groceries from every level's sales tax in the town, as if every state's local sales taxes followed the state's base. A county's or city's exemption spares only its own tax.",
+    "why": "No place data says which states let local sales taxes still reach groceries the state exempts (for example home-rule cities, or local option taxes kept on food), so the engine takes the common case of a uniform base.",
+    "addedBy": "laws-grocery-exemption-reaches-buyers",
+    "addedAt": "2026-10-28",
+    "replacement": "A per-state field in the starting-law research (data/research/laws/local-starting-law/sales-tax.json) saying whether local sales taxes follow the state's grocery exemption, sourced from each state's revenue department, read here so a state exemption spares only the levels its base covers.",
+    "status": "open"
   }
 ]

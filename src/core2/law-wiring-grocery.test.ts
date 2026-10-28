@@ -25,7 +25,7 @@ import { sellerTaxShare } from "./modules/purchase-tax";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 
-const seed = process.env.GROCERY_SEED ?? randomBytes(20).toString("hex");
+const seed = process.env.GROCERY_SEED || randomBytes(20).toString("hex");
 const LAW = "us-policy-positions:fiscal.exempt-groceries-from-sales-tax";
 const RETAIL = "enterprise:retail";
 /** Past every retail seller's next monthly price review and the households' next purchases. */
@@ -202,7 +202,7 @@ describe("the grocery exemption reaches what households pay for food", () => {
           );
           if (!moved.length || !bought.length) {
             passed.push(
-              `${drawn.name}, ${drawn.state} (${drawn.key}): ${moved.length} retail sellers reviewed in both worlds, ${bought.length} short households bought more`,
+              `${drawn.name}, ${drawn.state} (${drawn.key}): ${moved.length} retail sellers reviewed in both worlds, ${bought.length} short households bought ${exempt ? "less" : "more"}`,
             );
             continue;
           }
@@ -225,7 +225,7 @@ describe("the grocery exemption reaches what households pay for food", () => {
           const plan = bought[0]!;
           const planLaw = lawWorld.finance.livingPlans.get(plan.householdId)!;
           process.stdout.write(
-            `GROCERY ${drawn.name}, ${drawn.state} (${drawn.key}, seed ${drawn.seed}): law ${row.id} at ${at.level} (${exempt ? "repealed" : "enacted"}); ${moved.length} retail sellers repriced, e.g. ${lawWorld.organizations.get(seller.id)?.name ?? seller.id} (${seller.id}) at ${seller.ratio.toFixed(6)} of its control price (expected ${seller.expected.toFixed(6)}); ${spared.length} applied rows spared tax, e.g. ${spared[0]!.id}; ${bought.length} short households bought ${exempt ? "less" : "more"}, e.g. ${plan.householdId} on ${plan.lastAt}: paid ${planLaw.lastPaidMinor} of ${planLaw.lastRequestedMinor} against ${plan.lastPaidMinor} of ${plan.lastRequestedMinor} in the control world. Passed over: ${passed.join("; ") || "none"}\n`,
+            `GROCERY (GROCERY_SEED=${seed}) ${drawn.name}, ${drawn.state} (${drawn.key}, seed ${drawn.seed}): law ${row.id} at ${at.level} (${exempt ? "repealed" : "enacted"}); ${moved.length} retail sellers repriced, e.g. ${lawWorld.organizations.get(seller.id)?.name ?? seller.id} (${seller.id}) at ${seller.ratio.toFixed(6)} of its control price (expected ${seller.expected.toFixed(6)}); ${spared.length} applied rows spared tax, e.g. ${spared[0]!.id}; ${bought.length} short households bought ${exempt ? "less" : "more"}, e.g. ${plan.householdId} on ${plan.lastAt}: paid ${planLaw.lastPaidMinor} of ${planLaw.lastRequestedMinor} against ${plan.lastPaidMinor} of ${plan.lastRequestedMinor} in the control world. Passed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }
