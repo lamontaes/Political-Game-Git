@@ -25,7 +25,11 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
-import { countedMoves, type MoveRecord } from "./modules/counted-moves";
+import {
+  COUNTED_MOVES_MODULE_ID,
+  countedMoves,
+  type MoveRecord,
+} from "./modules/counted-moves";
 import { carriedLink, placeOutcome } from "./modules/outcome-web";
 import { baseOf } from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
@@ -115,6 +119,9 @@ export function movedInSince(
   const first = `${startYear}-09-01`;
   const today = api.state.date;
   const moved = new Map<string, MoveRecord>();
+  // A world opened without the counted-moves engine records no move, so no
+  // student switched schools in it.
+  if (!api.state.modules.has(COUNTED_MOVES_MODULE_ID)) return moved;
   for (const row of countedMoves(api))
     if (row.direction === "in" && row.date > first && row.date <= today)
       moved.set(row.householdId, row);
