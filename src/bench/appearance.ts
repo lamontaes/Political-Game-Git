@@ -1,4 +1,5 @@
-import { lookFigures, type Figure } from "./whole-figures";
+import { headOf, lookFigures, type Figure } from "./whole-figures";
+import type { PersonFace } from "./scene";
 import {
   DEFAULT_CLOTHES,
   DEFAULT_SKIN,
@@ -398,4 +399,16 @@ export function portraitPng(recipe: LookRecipe): Buffer {
   const figure = figureFor(recipe);
   if (!figure) throw new Error("No such look.");
   return drawnFigure(figureName(figure.file), recipe);
+}
+
+/** The look as a face for a headshot: its figure drawn at `url`, and where its head is. */
+export function portraitFace(
+  recipe: LookRecipe,
+  url: string,
+): PersonFace | null {
+  const figure = figureFor(recipe);
+  const head = figure && headOf(figure);
+  return figure && head
+    ? { url, head, width: figure.width, height: figure.height }
+    : null;
 }

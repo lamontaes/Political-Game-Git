@@ -1,7 +1,7 @@
 /* The play page on Kit 13, the owner's approved control set (docs/ui/kit13/APPROVED-2026-10-04.md).
    Every screen uses these classes and nothing else:
-   .panel (dark glass, brass frame, brass corner ornaments), .bust (a figure cropped to head and
-   shoulders), .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
+   .panel (dark glass, brass frame, brass corner ornaments), .bust (a person's round headshot),
+   .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
    (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
    plain is Back; one size for all; the brass corner mark shows only while .active or
    pressed), .tabs / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
@@ -271,17 +271,18 @@ ol {
 #front-main #front-continue .continue-text small {
   display: block;
 }
-/* The game's own figure, cropped to head and shoulders, fading into the glass. */
+/* A bust holds the person's round headshot (ui/headshot.mjs), filling it. */
 .bust {
   flex: none;
   width: 62px;
   height: 62px;
-  background: 50% 0 / 150% auto no-repeat;
-  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
 }
-.bust:not([style*="url"]) {
+.bust:empty {
   display: none;
+}
+.bust .headshot {
+  width: 100%;
+  height: 100%;
 }
 .name {
   font: 800 18px/1.15 var(--name);
