@@ -340,7 +340,7 @@ describe(`the outcomes the web now produces, in a generated town (seed ${seed})`
     const row = monthOf(api, town, `${Y}-03`);
     const stateKey = place.stateJurisdictionKey ?? "";
     for (const outcome of ADDED_OUTCOMES) {
-      const base = baseOf(outcome, stateKey);
+      const base = baseOf(outcome, stateKey, core.seed);
       expect(base.source.tag, outcome).toBe("ESTIMATED");
       expect(row.bases[outcome], outcome).toBe(base.value);
       const effects = Object.entries(row.effects)

@@ -77,6 +77,7 @@ if (roots.length) {
 }
 run("npm", ["run", "release:check", "--", "--mode", "pr"]);
 run("npm", ["run", "zero-dice"]);
+run("npm", ["run", "zero-real-data"]);
 if (tests.length) run("npx", ["--no-install", "vitest", "run", ...tests]);
 // Opt-in: a change to what a screen prints runs the golden-path text guard.
 if (args.includes("--runtime-text"))
