@@ -23,3 +23,5 @@ claimed-at: 2026-10-28T00:47:38.765Z
 **Files.** src/director/scene-talk.test.ts, src/director/data/situation-types.json, src/director/purpose-scene.ts
 
 **Notes.** TODO
+
+**Notes.** Twin of `words-job-offer-scene-lines`: the skip is the missing job-offer narration and lines (stopgap SG-DIR-job-offer-lines), which that item writes. Dropped into it, with this evidence, Oct 28.
