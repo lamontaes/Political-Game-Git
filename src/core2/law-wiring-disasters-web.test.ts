@@ -298,12 +298,30 @@ describe("a severe disaster reaches home values and moving through the outcome w
             ).toBeLessThan(2e-4);
           const [household, homeTreated, homeControl] = ratios[0]!;
 
-          // The moves engine: the pull to leave builds at the web's factor.
+          // The moves engine: the pull to leave builds at the web's factor,
+          // for each person whose latest review read a month carrying the
+          // disaster (an officeholder's pull, or one last built before the
+          // disaster or in another place, still cites an earlier month).
           const expectedLeaving = 1 + OUT_MIGRATION.size! * severity;
+          const reviewedSince = (row: { webRecord?: string }) =>
+            (treated.months.get(row.webRecord ?? "")?.effects[
+              OUT_MIGRATION.key
+            ] ?? 0) !== 0;
+          const before = [...treated.pulls].filter(
+            ([, row]) => row.webFactor !== undefined && !reviewedSince(row),
+          );
+          if (before.length)
+            console.log(
+              `disasters-web: ${before.length} pulls last built on a month without the disaster, e.g. ${before
+                .slice(0, 3)
+                .map(([id, row]) => `${id} on ${row.webRecord}`)
+                .join("; ")}`,
+            );
           const people = [...treated.pulls]
             .filter(
               ([id, row]) =>
                 row.webFactor !== undefined &&
+                reviewedSince(row) &&
                 control.pulls.get(id)?.webFactor !== undefined,
             )
             .map(
