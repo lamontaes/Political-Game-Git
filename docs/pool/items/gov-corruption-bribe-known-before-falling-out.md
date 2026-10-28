@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/bribe-known-before-falling-out
+pr: #6717
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T23:03:58.481Z
 ---
 
 **What.** src/core2/corruption.test.ts case 'is known only to the two people, until one falls out with the other and tells someone' fails on clean main (d133f66564, Oct 28 22:10 UTC) on two random runs: 'expected [ ... ] to not include bribe:2021-01-01:person_085adb07b2ba6...' (and on the crime and justice branch with bribe:2021-01-01:person_788200dcd2d0f...). Before any falling-out, crimesKnownTo returns the taken bribe for an adult who is neither the offerer nor the official, among the first 50 others the test checks. It turns the golden-path M3-09 (accepted) red on every PR whose run reaches it (PR 6702 at 55648ae041, Dagsboro, Delaware). Found by the laws session.
