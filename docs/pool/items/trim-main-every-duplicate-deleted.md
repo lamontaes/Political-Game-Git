@@ -22,4 +22,15 @@ claimed-at:
 
 **Files.** src/core2,src/director,src/bench,src/simulation,docs/reports/engine-map-2026-10-28.md,docs/reports/duplicates-on-main-2026-10-28.md
 
-**Notes.** Filed by the CTO Oct 28 on the owner's word (trim first). engine: the one that stays, per row of the two reports. guard: no-second-source, engine families, one-history, kit-only. Read: OWNER-DECISIONS (Oct 27 to 28), the engine map, the duplicates report, the retroactive audit; searched the pool for trim, dedupe, duplicate: director-opening-as-a-scene, play-opening-plays-in-the-talk-box, core-old-imports-opening-people are open rows this item consumes. Time box: until the list is empty or 12 hours.
+**Notes.** Filed by the CTO Oct 28 on the owner's word (trim first). engine: the one that stays, per row of the two reports. guard: no-second-source, engine families, one-history, kit-only. Read: OWNER-DECISIONS (Oct 27 to 28), the engine map, the duplicates report, the retroactive audit; searched the pool for trim, dedupe, duplicate: director-opening-as-a-scene, play-opening-plays-in-the-talk-box, core-old-imports-opening-people are open rows this item consumes. Time box: until the list is empty or 12 hours. Trim session (Oct 28, 14:20 UTC): every line of the done-when is met.
+
+- Every row of both reports carries **Trim:**, with its PR or why it stays (#6574).
+- Families −8 deep imports; kit-only play.mjs −23.
+- The golden path's furthest step is named in the channel's Trim block.
+
+Set back to open only because `done` is the CTO's (`--by=cto`). What is left belongs to others:
+
+- The wiring lines and the kept rows named in #6574 (X1, C1, C2, C3, C6, C8, C13, W5, W17's three banks, line 23).
+- Ready cuts waiting on a wire: `claude/trim-c1-second-cabinet`, `claude/trim-w5`, `claude/trim-w17`.
+- The carcass handed to the trim: deleted in #6616, #6617, #6618 and #6620; #6622 is open.
+- The old folders (881 files) wait on `core-old-engine-03` to `07` and `core-old-imports-opening-people`, then `core-delete-old-engine`.
