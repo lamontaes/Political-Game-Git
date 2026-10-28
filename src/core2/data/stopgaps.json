@@ -5091,11 +5091,11 @@
     "kind": "missing-engine",
     "file": "src/core2/school-outcomes.ts",
     "line": 1,
-    "whatItFakes": "The share of adults with a bachelor's degree (school.college-completion-pct) stays the web's ledger number (base times the links' factors); no engine decides who completes college.",
-    "why": "The measure is a stock of everyone 25 and older, and the core records no degrees or college enrollment on a person, so there is nothing for a student's June record to roll into; building it needs a college-going and degree record.",
+    "whatItFakes": "The share of adults with a bachelor's degree (school.college-completion-pct) stays the web's ledger number (base times the links' factors); no engine decides who completes college. The state's higher education line reaches it only there: higher-education-spending-to-college-completion runs in the web on that line, and no engine reads its factor.",
+    "why": "The measure is a stock of everyone 25 and older, and the core records no degrees or college enrollment on a person, so there is nothing for a student's June record to roll into; building it needs a college-going and degree record. The school engine (decideSchoolOutcome in src/core2/school-outcomes.ts) decides only a senior's graduation, and the jobs engine (schoolingOn in src/core2/modules/jobs.ts) holds every graduate at no college, so no engine decides a named graduate's completion.",
     "addedBy": "EFFECT-WEB-SCHOOLS",
     "addedAt": "2026-10-20",
-    "replacement": "A college engine that gives each graduate an enrollment and completion record by the same standing rule, and a degree on each adult, read back as this measure.",
+    "replacement": "A college engine that gives each graduate an enrollment and completion record by the same standing rule, and a degree on each adult, read back as this measure. That engine, at the moment it decides a graduate's completion, multiplies the graduate's own rate by webReach(api, placeId, \"school.college-completion-pct\", subject), which is how higher-education-spending-to-college-completion reaches a person; schoolingOn then reads the degree when it prices a hire.",
     "status": "open"
   },
   {
@@ -5129,11 +5129,11 @@
     "kind": "missing-engine",
     "file": "src/core2/school-outcomes.ts",
     "line": 1,
-    "whatItFakes": "The share of public school students who are Hispanic (school.hispanic-enrollment) stays the web's ledger; no engine decides it, so the enforcement link into it moves only that number.",
-    "why": "The core records no ethnicity on a student and no enrollment by ethnicity, so there is nothing for the link to change.",
+    "whatItFakes": "The share of public school students who are Hispanic (school.hispanic-enrollment) stays the web's ledger; no engine decides it, so the enforcement link into it (enforcement-to-hispanic-enrollment, which runs in the web on the 287(g) partnership law) moves only that number.",
+    "why": "The core records no ethnicity on a student (neither a full person nor a counted household) and no enrollment by ethnicity: the school engine (schoolFor in src/core2/modules/school.ts) sends every school-age person to the town's one district, so enrollment is never decided, only attendance, and there is nothing for the link to change.",
     "addedBy": "EFFECT-WEB-SCHOOLS",
     "addedAt": "2026-10-20",
-    "replacement": "An enrollment record by ethnicity (from the opening's school enrollment) that the immigration-enforcement law changes by who stays enrolled, read back as this measure.",
+    "replacement": "An enrollment record by ethnicity (from the opening's school enrollment, src/core2/opening-public-schools.ts) that the school engine decides, with a student's ethnicity from the opening's population counts; at the moment it decides whether a student stays enrolled it multiplies the student's own rate by webReach(api, placeId, \"school.hispanic-enrollment\", subject), which is how enforcement-to-hispanic-enrollment (-0.10 after 24 months, Dee and Murphy 2020) changes who stays enrolled, read back as this measure.",
     "status": "open"
   },
   {
@@ -5141,11 +5141,23 @@
     "kind": "missing-engine",
     "file": "src/core2/school-outcomes.ts",
     "line": 1,
-    "whatItFakes": "Eight researched links into school outcomes do not run, each because its cause is not recorded: class-size-to-scores (no K-3 class size), school-move-to-scores (no mid-year school move), police-killing-to-graduation (no police killing, and the effect is for students who live near one), daca-to-graduation (no deferred action and no student immigration status), homicide-nearby-to-scores (no homicide below the place, and the effect is for a child tested right after one on their block), lead-to-reading (no blood lead), heat-to-learning (no school-year temperature) and carbon-monoxide-to-absence (no carbon monoxide). Family income reaches only math: family-income-to-scores is carried by poverty-to-math-proficiency, and nothing moves reading proficiency by family income.",
-    "why": "Each needs a cause or a per-student exposure record the core does not keep; the school engine reads only links that run. The other links in the family are settled: school-spending-to-attainment runs on the schools budget line, prek-to-graduation, child-coverage-to-graduation and family-income-to-scores are carried by built links from the same studies, and home-internet-to-scores and tuition-freeze-to-college-completion are about zero in the research.",
+    "whatItFakes": "Seven researched links into school outcomes do not run, each because its cause is not recorded: class-size-to-scores (no K-3 class size), police-killing-to-graduation (no police killing, and the effect is for students who live near one), daca-to-graduation (no deferred action and no student immigration status), homicide-nearby-to-scores (no homicide below the place, and the effect is for a child tested right after one on their block), lead-to-reading (no blood lead), heat-to-learning (no school-year temperature) and carbon-monoxide-to-absence (no carbon monoxide). school-move-to-scores is no longer one of them: the school engine reads a student's own move (stopgap SG-SCHOOL-switch-window). Family income reaches only math: family-income-to-scores is carried by poverty-to-math-proficiency, and nothing moves reading proficiency by family income.",
+    "why": "Each needs a cause or a per-student exposure record the core does not keep; the school engine reads only links that run or are carried. The engine that would read each once its cause is recorded: decideSchoolOutcome in src/core2/school-outcomes.ts for class-size-to-scores (the grade 8 math and reading tests, from a K-3 roster, which the school engine does not hold because a town has one district and no classrooms), homicide-nearby-to-scores (the testing day, from a homicide record with a block group), lead-to-reading (the reading test, from a child's blood lead record; the effect is on the share far below proficient, which the engine does not decide and the research does not convert to the proficient share), police-killing-to-graduation and daca-to-graduation (the senior's graduation, from a killing record near the student's home and from the student's immigration status, whose research sizes are not set); schoolDay in src/core2/modules/school.ts for carbon-monoxide-to-absence (a student's daily choice to attend, from a carbon monoxide reading; the study's effect is a threshold on daily readings with no size the game can apply); and no engine at all for heat-to-learning (school.learning: the engine decides proficiency and graduation, not a year's learning). The other links in the family are settled: school-spending-to-attainment runs on the schools budget line, prek-to-graduation, child-coverage-to-graduation and family-income-to-scores are carried by built links from the same studies, and home-internet-to-scores and tuition-freeze-to-college-completion are about zero in the research.",
     "addedBy": "EFFECT-WEB-SCHOOLS",
     "addedAt": "2026-10-20",
-    "replacement": "Record each cause (class size, school moves, blood lead, school-year heat, carbon monoxide, a police killing or homicide with a place below the town, deferred action with student status) or a per-student exposure record, size the link from its study in the engine's units, and the engine's existing read of the web factor reaches it. A reading link from family income needs the poverty-to-math-proficiency per-point size confirmed first.",
+    "replacement": "Record each cause (class size, blood lead, school-year heat, carbon monoxide, a police killing or homicide with a place below the town, deferred action with student status) or a per-student exposure record, size the link from its study in the engine's units (for a standard-deviation effect on a proficiency share, the normal-density conversion at the base share as school-move-to-scores does), and read it where the engine named above decides, as the school-move read in decideSchoolOutcome does. A reading link from family income needs the poverty-to-math-proficiency per-point size confirmed first.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-switch-window",
+    "kind": "behavior",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 272,
+    "whatItFakes": "A student's school switch (school-move-to-scores) is a household that moved into the town after the school year began (a counted-moves record, direction in, dated after September 1 and by the testing day), and every such move costs the average the study reports whatever its distance or timing. The cost to classmates who did not move, which the study also finds, is not applied, and a move inside the town, which keeps the town's one district, is not a switch.",
+    "why": "The core has one school district per town (schoolFor in src/core2/modules/school.ts), so the only record of a student changing schools is a household arriving (src/core2/modules/counted-moves.ts). Hanushek, Kain and Rivkin 2004 (Table 2) find no significant extra cost for a move inside the school year and about none for a move across regions, so the average is the stated size with the study's preferred, smaller estimate as the low end of its range; the classmates' turnover cost needs the share of new students in each school, which no record keeps below the town.",
+    "addedBy": "laws-schools-web",
+    "addedAt": "2026-10-28",
+    "replacement": "Schools below the town (a district's campuses), so a move between campuses of one district is a switch too and each school's share of new students is a record; then the classmates' turnover cost (0.013 standard deviations for a one standard deviation rise in the share of new students) and the move's distance and timing are read where decideSchoolOutcome decides the grade 8 math test.",
     "status": "open"
   },
   {
