@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: golden/your-office
+pr: #6497
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:48:20.021Z
 ---
 
 **What.** On Politics, Your office, the toggles that choose which moments stop the clock are labeled with their kind ids: own-hearing, state-of-the-state, floor-vote, whip-ask, joint-address, budget-request and nomination. The screen should name each moment in words. Seen in the PR #5533 browser run.

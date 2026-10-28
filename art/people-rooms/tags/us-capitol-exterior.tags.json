@@ -1,0 +1,25 @@
+{
+ "scene": "us-capitol-exterior",
+ "plate": "sg-capext",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "business"
+ },
+ "zones": [
+  {
+   "name": "on the steps and plaza",
+   "box": [
+    0,
+    0,
+    1672,
+    941
+   ],
+   "pose": "stand",
+   "facing": 0
+  }
+ ]
+}

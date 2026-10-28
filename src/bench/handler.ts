@@ -52,7 +52,6 @@ import {
 } from "./office";
 import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
-import { familyView } from "./family";
 import { governmentMap } from "./map";
 import {
   chooseAtCounter,
@@ -341,10 +340,12 @@ export async function benchRequest(
         const content = drawnFigure(
           file.replace(/\.png$/, ""),
           Object.fromEntries(
-            ["skin", "hair", "hairColor", ...GARMENTS].flatMap((key) => {
-              const value = url.searchParams.get(key);
-              return value ? [[key, value]] : [];
-            }),
+            ["skin", "hair", "hairColor", "face", ...GARMENTS].flatMap(
+              (key) => {
+                const value = url.searchParams.get(key);
+                return value ? [[key, value]] : [];
+              },
+            ),
           ),
         );
         response.writeHead(200, {
@@ -587,10 +588,6 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/map") {
         send(200, governmentMap(requireCore()));
-        return;
-      }
-      if (request.method === "GET" && url.pathname === "/api/family") {
-        send(200, familyView(requireCore(), url.searchParams.get("id") ?? ""));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/bank") {

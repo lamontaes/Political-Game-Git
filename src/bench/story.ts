@@ -1,12 +1,13 @@
+import { ageOnDate } from "../core2/kernel/dates";
 import { composeScene } from "../director/scene";
 import { purposeScene, replyInScene } from "../director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { shipped } from "../english/scene-talk-words";
 import { hasBackdrop } from "./backdrop-places";
 import {
-  backdropFile,
   homeOf,
   orgPlace,
+  personBackdrop,
   pictureFor,
   stagePeople,
   type StageReason,
@@ -18,12 +19,6 @@ import type { Director } from "../director/ledger";
 const SETTINGS = scenePlaces.sceneSettings as Record<string, string[]>;
 const SITUATIONS = scenePlaces.situationPlaces as Record<string, string[]>;
 const SCHOOLS = scenePlaces.schoolPlacesByAge;
-
-/** Whole years of age on a date. */
-function ageOn(birthDate: string, date: string): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
-}
 
 /** A line of a scene with a purpose, as the screen shows it. */
 function shownLine(line: SceneTalkLine) {
@@ -98,7 +93,7 @@ export function storyScene(
   );
   if (!scene) throw new Error("This moment has no scene.");
   const person = core.people.get(personId)!;
-  const age = ageOn(person.birthDate, core.date);
+  const age = ageOnDate(person.birthDate, core.date);
   const steps = [
     ...(SITUATIONS[`${scene.typeKey}:${scene.setting.kind}`] ?? []),
     ...(scene.setting.kind === "school"
@@ -163,7 +158,9 @@ export function storyScene(
   const talk =
     purpose?.kind === "composed"
       ? {
-          typeKey: purpose.scene.typeKey,
+          // The exchange the player's replies name: a scene, or one of the
+          // bills the day's sitting took in.
+          typeKey: purpose.scene.unit ?? purpose.scene.typeKey,
           purpose: purpose.scene.purpose,
           askerId: purpose.scene.askerId,
           opening: [
@@ -178,7 +175,7 @@ export function storyScene(
   return {
     momentId,
     place: pictured,
-    backdrop: backdropFile(pictured, minuteOfDay),
+    backdrop: personBackdrop(core, personId, pictured, minuteOfDay),
     people: stagePeople(core, pictured, cast).people,
     narration: [
       ...scene.narration,
