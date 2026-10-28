@@ -391,6 +391,12 @@ function fillRole(
         ...(core.households.get(subject?.householdId ?? "")?.memberIds ?? []),
       ].filter((id) => alive(core, id) && !taken.has(id)),
     );
+  const otherHousehold = () => {
+    const other = core.people.get(moment.counterpartIds[zero] ?? "");
+    return [...(core.households.get(other?.householdId ?? "")?.memberIds ?? [])]
+      .filter((id) => alive(core, id) && !taken.has(id))
+      .sort();
+  };
   const coworkers = () => {
     const job = subject?.jobId ? core.jobs.get(subject.jobId) : undefined;
     if (!job) return [];
@@ -465,7 +471,10 @@ function fillRole(
         ? household()
         : setting === "workplace"
           ? coworkers()
-          : [];
+          : setting === "other-home"
+            ? // At someone else's home (a door knocked): who else lives there.
+              otherHousehold()
+            : [];
     case "authority": {
       // At home: the subject's parent on record who lives with them, else
       // another older relative in the household (a guardian).
