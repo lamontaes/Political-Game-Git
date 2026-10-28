@@ -23,6 +23,8 @@ interface Use {
   role: string;
   choice: string;
   stages?: string[];
+  /** The settings a line can be said in ("home" for "has been waiting for you to get home"); none, any. */
+  settings?: string[];
 }
 interface MinedPart {
   key: string;
@@ -85,9 +87,10 @@ function variants(
       part.uses.some((use) => use.subject === subject && use.role === role),
     heldFirst,
   ).map((part) => {
-    const stages = part.uses.find(
+    const use = part.uses.find(
       (use) => use.subject === subject && use.role === role,
-    )?.stages;
+    );
+    const stages = use?.stages;
     return {
       key: part.key,
       text: directorText(part.text),
@@ -98,6 +101,7 @@ function variants(
           ? stagesOf(part.uses.filter((use) => use.subject === subject))
           : {}),
       ...(part.bearing ? { bearing: part.bearing, pieceKey: part.key } : {}),
+      ...(use?.settings ? { settings: use.settings } : {}),
     };
   });
 }

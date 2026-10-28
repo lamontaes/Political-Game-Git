@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at:
 Checked Oct 18 (claude/lodes-reachable), nothing built. The census LEHD LODES files are reachable from the cloud sessions' network (`https://lehd.ces.census.gov/data/lodes/LODES8/<state>/od/<state>_od_main_JT00_2021.csv.gz` and `<state>/<state>_xwalk.csv.gz` both returned 200; Vermont's pair is 1.7 MB). The crosswalk gives each census block's place (`stplc`), county subdivision (`ctycsub`, the town in New England) and county, so home-to-work flows between places can be summed for every state and D.C. from one OD file and one crosswalk each (about 150 MB for the country, read once by a script; the territories have no LODES and would start from the national figure marked ESTIMATED). The earlier notes that LODES was the blocker for this line should be read with that in mind. What stays hard is the opening side: the unplaced workers are one flow per place (`residents:unplaced-wages:<place>` in `src/core2/residents.ts`) threaded through counted households, fill-in, demotion and law reach (`unplacedWorkers`), so making them recorded commuters with their own employers is a core counted-groups change, not a data one.
 
 Oct 20: Everything it waited on is done, so it is open.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `world-lodes-commutes-split-flow`; close into it and carry any line it lacks there. (item says it 'is really three jobs')

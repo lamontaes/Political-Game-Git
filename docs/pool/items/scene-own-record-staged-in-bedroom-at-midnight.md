@@ -6,7 +6,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/director/scheduling.ts, src/bench/scene.ts, src/director/data/situation-types.json
 
 **Notes.** Found Oct 27 by the laws-and-effects lead while taking the ask-before-the-roll screenshots (docs/play-first/shots-27/ask-before-the-roll-after-ask.png).
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `integration-day-lands-on-morning-and-places-keep-hours`; close into it and carry any line it lacks there.
