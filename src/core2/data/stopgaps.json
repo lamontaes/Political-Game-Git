@@ -446,9 +446,9 @@
   {
     "id": "SG-P8-opening-peer-network",
     "kind": "generated-historical-social-prior",
-    "file": "src/core2/data/opening-peer-network.json",
-    "line": 3,
-    "whatItFakes": "Who became acquainted in an estimated historical school cohort and who still remembers the other's name. A generated balanced peer group is not a verified historical roster, attendance record, present friendship, or observed social network.",
+    "file": "src/core2/data/parameters.json",
+    "line": 1000,
+    "whatItFakes": "How many school peers a counted voter is known by (openingPeerGroupSize, read by candidacy.ts countedKnown). A class size is not a remembered-peer circle. Oct 28, 2026 (wire-people-and-director, engine map line 12): the generated social:generated-school-acquaintance facts and their writer (opening-peer-network.ts) are deleted; schoolmates are read from the school engine's attended records (src/core2/shared-history.ts).",
     "why": "The canonical opening population preserves household/family links and dated school proxies but supplies no cross-household named school-peer acquaintance generator. The observed selected opening circle had three actors and all inspected adult/job candidates had at most six.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
@@ -2129,9 +2129,9 @@
   {
     "id": "SG-P15-coworker-groups",
     "kind": "estimated-behavior",
-    "file": "src/core2/data/opening-coworkers.json",
-    "line": 3,
-    "whatItFakes": "Residents of the same opening employer are split into seeded balanced workgroups of at most openingCoworkerGroupSize, and each pair knows the other by name since the later of their two start dates. Departments, shifts, earlier jobs and coworkers outside the town are not modeled, and coworkers gain no closeness from working together.",
+    "file": "src/core2/shared-history.ts",
+    "line": 16,
+    "whatItFakes": "An employer's full staff is split into workgroups of about openingCoworkerGroupSize by the world's seed (who knows whom, never what anyone does), and each person meets their workgroup on the opening day through the encounters engine (meetAtWork). Two jobs at one employer count as shared work without checking that their spans overlap, because a job record keeps no start date. Departments, shifts and coworkers outside the town are not modeled. Oct 28, 2026 (wire-people-and-director, engine map line 12): the generated social:generated-coworker facts and their writer are deleted; the workgroup is read from the jobs engine's staff list.",
     "why": "Employers carry no departments or teams, and no source gives how many coworkers a person knows.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
@@ -7282,6 +7282,18 @@
     "addedBy": "claude/wire-opening-and-home",
     "addedAt": "2026-10-28",
     "replacement": "The accounts engine keeping each household transfer’s reasonKey on its journal receipt, so the sheet groups every outflow of the month by it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WIRE-PEOPLE-SCHOOLMATES",
+    "kind": "history-gap",
+    "file": "src/core2/state.ts",
+    "line": 261,
+    "whatItFakes": "Nobody opens the game knowing a schoolmate. The generated school acquaintances (social:generated-school-acquaintance) are deleted with their writer (engine map line 12), and schooling before the start is not simulated yet, so a player who has just turned 18 starts out knowing only family, household and, with a job, their workgroup. Schoolmates are read from the school engine's attended records once a school year is attended in play.",
+    "why": "One history (owner, Oct 28): the generated past is deleted as each piece is simulated; the schooling pass before the start is engine map line 7 (wire-opening-and-home), and a classmate meeting needs that record.",
+    "addedBy": "wire-people-and-director",
+    "addedAt": "2026-10-28",
+    "replacement": "The pre-start schooling pass (engine map line 7) records each person's school and school years in the school engine's attended records; sharedHistory reads schoolmates from them and the opening meets each student's class through the encounters engine.",
     "status": "open"
   }
 ]

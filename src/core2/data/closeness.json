@@ -38,13 +38,7 @@
     "other-parent": { "row": "relatives", "extended": true }
   },
   "peerTies": {
-    "kind": "contact",
-    "hoursParameter": "openingPeerTieHours",
-    "cause": "opening-peer",
-    "factKinds": [
-      "social:generated-coworker",
-      "social:generated-school-acquaintance"
-    ]
+    "hoursParameter": "openingPeerTieHours"
   },
   "familyFactPrefix": "family:",
   "kinFactMarker": ":family:",
@@ -53,6 +47,6 @@
   "gaps": [
     "Opening closeness uses the average visit rate for the tie, not each pair's own history of visits.",
     "Relatives outside the town make no decisions, so they never start contact themselves.",
-    "Opening coworkers and classmates in the town start with a tie worth the hours it takes to become a casual friend, faded since the day their shared context began; no one's actual hours together are known."
+    "Opening coworkers in one workgroup start with a tie worth the hours it takes to become a casual friend; no one's actual hours together are known, and classmates meet only once the school engine records a school year."
   ]
 }
