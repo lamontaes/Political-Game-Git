@@ -12,7 +12,7 @@ import {
   packPeople,
 } from "./people-pack";
 import { plates } from "./mannequin-plates";
-import { fitOn } from "./whole-figures";
+import { fitOn, packPersonOf } from "./whole-figures";
 
 const ROOT = new URL("../../", import.meta.url);
 const tracked = execFileSync("git", ["ls-files"], {
@@ -134,6 +134,25 @@ describe("the people pack", () => {
           ).toBeCloseTo(spot.hands!, 3);
         }
       }
+  });
+
+  it("draws the same person the same in one world and differently across worlds", () => {
+    // The scene seeds an official known only by their term with the world's
+    // seed and their id (scene.ts whoOf), so the President is not the same
+    // painted person in every world.
+    const id = "official:term:seat:US:president:2025-01-20";
+    const who = (world: string) => ({
+      id,
+      birthDate: "1960-01-01",
+      official: true,
+      gender: "male",
+      seed: `${world}:${id}`,
+    });
+    expect(packPersonOf(who("world-a"))).toBe(packPersonOf(who("world-a")));
+    const drawn = new Set(
+      Array.from({ length: 24 }, (_, n) => packPersonOf(who(`world-${n}`))!.id),
+    );
+    expect(drawn.size).toBeGreaterThan(1);
   });
 
   it("offers a new manifest row in the creator with no code change", async () => {

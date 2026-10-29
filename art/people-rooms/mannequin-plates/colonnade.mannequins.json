@@ -22,8 +22,7 @@
     690,
     605
    ],
-   "feet": 604,
-   "front": "colonnade.front-0.png"
+   "feet": 604
   },
   {
    "id": "colonnade-1",
@@ -41,8 +40,7 @@
     537,
     724
    ],
-   "feet": 723,
-   "front": "colonnade.front-1.png"
+   "feet": 723
   }
  ]
 }

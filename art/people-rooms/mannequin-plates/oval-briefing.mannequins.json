@@ -42,8 +42,7 @@
     450,
     738
    ],
-   "feet": 737,
-   "front": "oval-briefing.front-1.png"
+   "feet": 737
   },
   {
    "id": "oval-briefing-2",
@@ -61,8 +60,7 @@
     1463,
     758
    ],
-   "feet": 757,
-   "front": "oval-briefing.front-2.png"
+   "feet": 757
   },
   {
    "id": "oval-briefing-3",
@@ -80,8 +78,7 @@
     1223,
     651
    ],
-   "feet": 650,
-   "front": "oval-briefing.front-3.png"
+   "feet": 650
   }
  ]
 }

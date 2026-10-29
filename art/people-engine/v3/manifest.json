@@ -2905,6 +2905,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-medium/look/address/a00.png",
    "handsRestOnDesk": true,
+   "hands": 273,
    "size": [
     216,
     631
@@ -2931,6 +2932,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-medium/look/address/a01.png",
    "handsRestOnDesk": true,
+   "hands": 286,
    "size": [
     259,
     631
@@ -2957,6 +2959,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-medium/look/address/a02.png",
    "handsRestOnDesk": true,
+   "hands": 290,
    "size": [
     244,
     631
@@ -2983,6 +2986,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-medium/look/address/a03.png",
    "handsRestOnDesk": true,
+   "hands": 269,
    "size": [
     215,
     631
@@ -3009,6 +3013,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-medium/look/address/a04.png",
    "handsRestOnDesk": true,
+   "hands": 297,
    "size": [
     216,
     631
@@ -4325,6 +4330,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-slim/look/address/a00.png",
    "handsRestOnDesk": true,
+   "hands": 253,
    "size": [
     211,
     576
@@ -4351,6 +4357,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-slim/look/address/a01.png",
    "handsRestOnDesk": true,
+   "hands": 260,
    "size": [
     261,
     576
@@ -4377,6 +4384,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-slim/look/address/a02.png",
    "handsRestOnDesk": true,
+   "hands": 261,
    "size": [
     231,
     576
@@ -4403,6 +4411,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-slim/look/address/a03.png",
    "handsRestOnDesk": true,
+   "hands": 227,
    "size": [
     201,
     576
@@ -4429,6 +4438,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-slim/look/address/a04.png",
    "handsRestOnDesk": true,
+   "hands": 262,
    "size": [
     210,
     576
@@ -6280,6 +6290,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-heavy/look/address/a00.png",
    "handsRestOnDesk": true,
+   "hands": 293,
    "size": [
     237,
     639
@@ -6306,6 +6317,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-heavy/look/address/a01.png",
    "handsRestOnDesk": true,
+   "hands": 288,
    "size": [
     275,
     639
@@ -6332,6 +6344,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-heavy/look/address/a02.png",
    "handsRestOnDesk": true,
+   "hands": 287,
    "size": [
     247,
     639
@@ -6358,6 +6371,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-heavy/look/address/a03.png",
    "handsRestOnDesk": true,
+   "hands": 272,
    "size": [
     233,
     639
@@ -6384,6 +6398,7 @@
    "outfit": "pantsuitnavy",
    "file": "people/woman-heavy/look/address/a04.png",
    "handsRestOnDesk": true,
+   "hands": 287,
    "size": [
     236,
     639
@@ -7570,6 +7585,7 @@
    "outfit": "suitnavy",
    "file": "people/man-medium/look/address/a00.png",
    "handsRestOnDesk": true,
+   "hands": 271,
    "size": [
     240,
     578
@@ -7596,6 +7612,7 @@
    "outfit": "suitnavy",
    "file": "people/man-medium/look/address/a01.png",
    "handsRestOnDesk": true,
+   "hands": 277,
    "size": [
     239,
     578
@@ -7622,6 +7639,7 @@
    "outfit": "suitnavy",
    "file": "people/man-medium/look/address/a02.png",
    "handsRestOnDesk": true,
+   "hands": 277,
    "size": [
     258,
     581
@@ -7648,6 +7666,7 @@
    "outfit": "suitnavy",
    "file": "people/man-medium/look/address/a03.png",
    "handsRestOnDesk": true,
+   "hands": 264,
    "size": [
     235,
     575
@@ -7674,6 +7693,7 @@
    "outfit": "suitnavy",
    "file": "people/man-medium/look/address/a04.png",
    "handsRestOnDesk": true,
+   "hands": 279,
    "size": [
     236,
     578
@@ -9500,6 +9520,7 @@
    "outfit": "suitnavy",
    "file": "people/man-slim/look/address/a00.png",
    "handsRestOnDesk": true,
+   "hands": 287,
    "size": [
     234,
     595
@@ -9526,6 +9547,7 @@
    "outfit": "suitnavy",
    "file": "people/man-slim/look/address/a01.png",
    "handsRestOnDesk": true,
+   "hands": 283,
    "size": [
     279,
     595
@@ -9552,6 +9574,7 @@
    "outfit": "suitnavy",
    "file": "people/man-slim/look/address/a02.png",
    "handsRestOnDesk": true,
+   "hands": 286,
    "size": [
     250,
     594
@@ -9578,6 +9601,7 @@
    "outfit": "suitnavy",
    "file": "people/man-slim/look/address/a03.png",
    "handsRestOnDesk": true,
+   "hands": 245,
    "size": [
     234,
     593
@@ -9604,6 +9628,7 @@
    "outfit": "suitnavy",
    "file": "people/man-slim/look/address/a04.png",
    "handsRestOnDesk": true,
+   "hands": 283,
    "size": [
     234,
     594

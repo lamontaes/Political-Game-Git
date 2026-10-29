@@ -51,6 +51,8 @@ export interface PackFigure {
   readonly outfitLabel?: string;
   readonly size: readonly [number, number];
   readonly head: HeadBox;
+  /** Painted seated with its hands resting on a desk (the address pose). */
+  readonly handsRestOnDesk?: boolean;
   readonly feet: { readonly x: number; readonly y: number };
   /** Seated at a desk: the row its hands rest on, in its own pixels, where the manifest gives it. */
   readonly hands?: number;
@@ -68,9 +70,9 @@ interface Manifest {
   figures: readonly PackFigure[];
 }
 
-const MANIFEST = JSON.parse(
-  readFileSync(new URL("manifest.json", PACK_DIR), "utf8"),
-) as Manifest;
+/** The pack's manifest file, for the tools that measure the pack's own art into it. */
+export const MANIFEST_URL = new URL("manifest.json", PACK_DIR);
+const MANIFEST = JSON.parse(readFileSync(MANIFEST_URL, "utf8")) as Manifest;
 
 /** The pack's people, in manifest order. */
 export function packPeople(): readonly PackPerson[] {
@@ -195,8 +197,8 @@ function over(canvas: PNG, width: number, height: number, data: Uint8Array) {
     }
 }
 
-// CIE Lab, as the pack's own colors.py (sRGB, D65).
-function toLab([r, g, b]: Rgb): [number, number, number] {
+// CIE Lab, as the pack's own colors.py (sRGB, D65); the hands measure reads it too.
+export function toLab([r, g, b]: Rgb): [number, number, number] {
   const lin = (v: number) => {
     const c = v / 255;
     return c > 0.04045 ? ((c + 0.055) / 1.055) ** 2.4 : c / 12.92;
