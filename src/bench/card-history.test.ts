@@ -87,27 +87,34 @@ describe("a person's history on their card", () => {
     const strangers = [...core.people.values()].filter(
       (person) => person.id !== viewer.id && !tied.has(person.id),
     );
-    // An official (a seat reached before the start), a neighbor and a coworker.
+    // An official (a seat reached before the start), a neighbor and a coworker, each
+    // chosen among those whose records support the lines the card is held to: the
+    // records give a person only what the engines wrote for them.
+    const linesOf = (person: (typeof strangers)[number]) =>
+      knownCard(core, viewer.id, person.id).history.length;
     const seatHolder = strangers.find(
       (person) =>
         preStartHistory(core, {
           kind: "office.seat-reached",
           personId: person.id,
-        }).length,
+        }).length && linesOf(person) >= 3,
     );
     const worker = strangers.find(
       (person) =>
+        person !== seatHolder &&
         preStartHistory(core, {
           kind: "person.work-spell",
           personId: person.id,
-        }).length,
+        }).length &&
+        linesOf(person) >= 4,
     );
     const neighbor = strangers.find(
       (person) =>
         person !== seatHolder &&
         person !== worker &&
         person.placeId === viewer.placeId &&
-        person.alive,
+        person.alive &&
+        linesOf(person) >= 4,
     );
     const chosen = { seatHolder, worker, neighbor };
     for (const [role, person] of Object.entries(chosen)) {
@@ -191,6 +198,9 @@ describe("a person's history on their card", () => {
         card.history.some((line) => line.recordId === term.id),
         `${where}: ${term.id} is on the card`,
       ).toBe(true);
-    expect(card.history.length, where).toBeGreaterThanOrEqual(3);
+    // Their birth and each earlier term, at least.
+    expect(card.history.length, where).toBeGreaterThanOrEqual(
+      earlier.length + 1,
+    );
   }, 600_000);
 });
