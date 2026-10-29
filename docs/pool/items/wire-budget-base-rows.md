@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/wire-budget-base-rows
 pr: #6553
 blocked-on:

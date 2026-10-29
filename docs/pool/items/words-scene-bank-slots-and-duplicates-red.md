@@ -6,7 +6,7 @@ kind: bug
 priority: 1
 size: S
 lead: words
-status: in-pr
+status: done
 claimed-by: words/scene-bank-slots-and-duplicates
 pr: #6747
 blocked-on:
