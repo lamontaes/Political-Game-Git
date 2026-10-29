@@ -3651,6 +3651,58 @@
       }
     },
     {
+      "key": "journal.office-other-took-office.other-took-office-as-office",
+      "move": "office-other-took-office",
+      "kind": "spoken",
+      "text": "{other} took office as {office}.",
+      "uses": [
+        {
+          "move": "office-other-took-office",
+          "subject": "office",
+          "role": "other",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (pool item words-journal-kin-took-office-as-i)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-other-took-office.other-was-sworn-in-as-office",
+      "move": "office-other-took-office",
+      "kind": "spoken",
+      "text": "{other} was sworn in as {office}.",
+      "uses": [
+        {
+          "move": "office-other-took-office",
+          "subject": "office",
+          "role": "other",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (pool item words-journal-kin-took-office-as-i)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.office-other-act.other-introduced-law",
       "move": "office-other-act",
       "kind": "spoken",

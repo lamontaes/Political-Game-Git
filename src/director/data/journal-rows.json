@@ -400,7 +400,8 @@
           "key": "office",
           "text": "{{office}}"
         }
-      ]
+      ],
+      "hasOtherLine": true
     },
     {
       "kindPrefix": "act:vote-yes",
