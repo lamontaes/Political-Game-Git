@@ -104,24 +104,6 @@
       "stopgapId": "SG-EW-HEALTH-person-level"
     },
     {
-      "link": "coverage-to-mortality-55-64",
-      "outcome": "health.mortality-55-64",
-      "reason": "the web does not run it: it waits on person:health.coverage-pct; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-WEB-unread-health-mortality-55-64"
-    },
-    {
-      "link": "job-loss-to-death-risk",
-      "outcome": "health.death-risk",
-      "reason": "no measure: the web does not keep health.death-risk and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-EW-HEALTH-person-level"
-    },
-    {
-      "link": "long-hours-to-heart-and-stroke",
-      "outcome": "health.stroke-and-heart-deaths",
-      "reason": "no measure: the web does not keep health.stroke-and-heart-deaths and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-EW-HEALTH-person-level"
-    },
-    {
       "link": "eitc-to-low-birthweight",
       "outcome": "health.low-birthweight",
       "reason": "engine doesn't read the factor: health.low-birthweight moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, program.eitc-dollars",

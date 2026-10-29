@@ -135,9 +135,9 @@
     "stopgapped": 5,
     "researchLinks": {
       "links": 244,
-      "reaching": 149,
+      "reaching": 153,
       "aboutZero": 19,
-      "unread": 76,
+      "unread": 72,
       "unreadWithNoStopgap": 0
     },
     "shownOnAScreen": 87,
@@ -1072,7 +1072,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 health-hospitals-spending-to-infant-mortality -0.1713, read by src/core2/health-web.ts:58; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 health-hospitals-spending-to-infant-mortality -0.1713, read by src/core2/health-web.ts:58; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 health-hospitals-spending-to-infant-mortality -0.1713, read by src/core2/health-web.ts:58",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 health-hospitals-spending-to-infant-mortality -0.1713, read by src/core2/health-web.ts:64; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 health-hospitals-spending-to-infant-mortality -0.1713, read by src/core2/health-web.ts:64; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 health-hospitals-spending-to-infant-mortality -0.1713, read by src/core2/health-web.ts:64",
           "why": ""
         },
         "knowing": {
@@ -2222,7 +2222,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:39; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:39; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:39",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:43; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:43; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:43",
           "why": ""
         },
         "knowing": {
@@ -3569,7 +3569,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:801, src/core2/modules/moves.ts:79; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:801, src/core2/modules/moves.ts:79; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:801, src/core2/modules/moves.ts:79",
           "why": ""
         },
         "knowing": {
@@ -4579,7 +4579,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): web:jurisdiction_7303b6b2477005c1:2026-02 emission-rules-to-particulates -0.0230, read by through particles-to-infant-deaths: src/core2/health-web.ts:58",
+          "evidence": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): web:jurisdiction_7303b6b2477005c1:2026-02 emission-rules-to-particulates -0.0230, read by through particles-to-infant-deaths: src/core2/health-web.ts:64",
           "why": ""
         },
         "knowing": {
@@ -5525,7 +5525,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1895; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1895; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1895",
           "why": ""
         },
         "knowing": {
@@ -5683,7 +5683,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1905; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1905; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1905",
           "why": ""
         },
         "knowing": {
@@ -6930,7 +6930,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-infant-deaths 0.0600, read by src/core2/health-web.ts:58; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-infant-deaths 0.0600, read by src/core2/health-web.ts:64; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229",
           "why": ""
         },
         "knowing": {
