@@ -38,7 +38,8 @@ Owner, Oct 27, again: "not just errors, but work processes as well... if somethi
 
 ## Never
 
-- Change `AGENTS.md`, `OWNER-DECISIONS.md`, `.agents/rules/*.md` or `docs/play-first/LAW.md`: those are the owner's and the CTO's.
+- Change `AGENTS.md` (beyond adding a new skill's name to its Skills list), `OWNER-DECISIONS.md`, `.agents/rules/*.md` or `docs/play-first/LAW.md`: those are the owner's and the CTO's.
+- Treat this job as the only way skills grow: since Oct 29 every session adds skill lines and new skills from its own work (`AGENTS.md`, Skills). This job catches what they missed.
 - Wait for the owner to ask: a skill is created or updated from the record, never from a prompt.
 - Soften a rule, delete a lesson, or write a lesson from one occurrence (one is noise; two is a pattern; a third after the lesson landed means the lesson was written in the wrong skill, so move it).
 - Narrate; the skill line is the output.

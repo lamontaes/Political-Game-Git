@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-23-job-offer-hold-locks-the-game
 pr: #5971
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-29T18:03:50.067Z
 ---
 
 **What.** On the v0.22.10 release, on Monday December 14, 2026 (six weeks after I won my council seat), the screen says SOMETHING NEEDS YOU with no talk box and no message; Day and Week are grayed and Continue is the only control. Each Continue returns to the same date and screen, two Week presses wait almost two minutes and change nothing, and Quit to title then CONTINUE returns to the same lock. The pause behind it is a held job offer: the game's stop names reason "job-offered" for a Janitor job at $13.48 an hour (record job-offer:position:organization_e3138a3bdaea64a0:2026-12-01:4:person_fe9956e2c35fa4e5, hold true), but the play screen never shows the offer or a way to take or turn it down. A player can do nothing but close the game.

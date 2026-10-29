@@ -90,42 +90,50 @@ try {
       path: `${process.env.SHOT_DIR}/24-news-front-page.png`,
     });
 
-  // A story opens under the same masthead; the masthead returns.
-  await page
-    .locator("#sheet-body .paper-story .story-headline")
-    .first()
-    .click();
-  await page.locator("#sheet-body .paper-article").waitFor();
+  // Every story's printed text is on the page: a story with a body shows all its paragraphs.
+  const onPage = await page.evaluate(
+    () => document.getElementById("sheet-body").textContent,
+  );
+  const wanted = stories.flatMap((row) => row.paragraphs ?? []);
+  for (const paragraph of wanted)
+    assert.ok(onPage.includes(paragraph), `body not printed: ${paragraph}`);
+  console.log(`${wanted.length} body paragraphs, all on the page`);
+  // A story opens in place: it takes the lead on the same page, under the same masthead.
+  const second = page
+    .locator("#sheet-body .paper-story:not(.lead) .story-headline")
+    .first();
+  const name = (await second.textContent()).trim();
+  await second.click();
   const story = await page.evaluate(() => {
     const body = document.getElementById("sheet-body");
-    const headline = body.querySelector(".article-title").textContent.trim();
-    const paragraphs = [...body.querySelectorAll(".article-body p")].map((p) =>
-      p.textContent.trim(),
-    );
     return {
       masthead: Boolean(body.querySelector(".paper-masthead-name")),
-      headline,
-      paragraphs,
-      repeats: paragraphs.includes(headline),
+      lead: body
+        .querySelector(".paper-story.lead .story-headline")
+        ?.textContent.trim(),
+      headlines: body.querySelectorAll(".paper-story .story-headline").length,
+      page: Boolean(body.querySelector(".paper-article")),
       back: [...body.querySelectorAll("button")].filter((b) =>
-        /back to front page/i.test(b.textContent),
+        /^\s*(back|continue)/i.test(b.textContent),
       ).length,
     };
   });
   console.log(
-    `story: "${story.headline}", ${story.paragraphs.length} paragraphs, masthead ${story.masthead}, back buttons ${story.back}`,
+    `opened "${name}": lead now "${story.lead}", ${story.headlines} headlines`,
   );
-  assert.ok(story.masthead, "the story page has no masthead");
-  assert.equal(story.back, 0, "a Back to front page button");
-  assert.ok(!story.repeats, "the headline is printed again as the body");
+  assert.ok(story.masthead, "the page lost its masthead");
+  assert.equal(story.lead, name, "the story did not take the lead in place");
+  assert.equal(story.headlines, stories.length, "a story left the page");
+  assert.ok(!story.page, "the story opened as a page of its own");
+  assert.equal(story.back, 0, "a Back or Continue on the paper");
   if (process.env.SHOT_DIR)
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/25-news-story.png`,
     });
-  await page.locator("#sheet-body .paper-masthead-name").click();
-  await page.locator("#sheet-body .paper-stories").waitFor();
   assert.deepEqual(errors, [], "page errors");
-  console.log("ok: News is the paper, every story on it, the masthead returns");
+  console.log(
+    "ok: News is the paper, every story printed on it, a story opens in place",
+  );
 } finally {
   await browser.close();
 }

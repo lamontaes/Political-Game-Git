@@ -11,7 +11,7 @@ import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate, spokenDate } from "../core2/kernel/dates";
 import { partyName } from "../core2/appointments";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
-import { lawChain, lawInForce } from "../core2/modules/laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -457,6 +457,42 @@ const lawTookEffect: Builder = (read, f) => {
     ["law"],
   );
 };
+
+/**
+ * A law that took effect in the year before day one, told as the press tells a law
+ * that takes effect in play: from the law's own row (its level, its amount, the bill
+ * that enacted it) and the law in force the day before. Null when the row is gone.
+ */
+export function archivedLawFacts(
+  core: CoreState,
+  story: PrintedStory,
+): PrintedFacts | null {
+  const lawId = String(story.facts.lawId ?? "");
+  const row = coreAPI(core)
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(lawId) as unknown as
+    | {
+        series: string;
+        level: string;
+        jurisdiction: string;
+        value?: number;
+        unit?: string;
+        terms?: { enactedBy?: string };
+      }
+    | undefined;
+  if (!row) return null;
+  const read = new Reader(core, story, lawId, "law-took-effect", []);
+  return lawTookEffect(read, {
+    lawId,
+    series: row.series,
+    level: row.level,
+    jurisdiction: row.jurisdiction,
+    value: String(row.value ?? ""),
+    unit: row.unit ?? "",
+    ...(row.terms?.enactedBy ? { enactedBy: String(row.terms.enactedBy) } : {}),
+  });
+}
 
 /** A floor vote on a bill: the count and whether it carried. */
 const rollCall: Builder = (read, f) => {
