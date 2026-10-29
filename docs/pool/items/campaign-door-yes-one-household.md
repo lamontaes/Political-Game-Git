@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/door-yes-counted-split
-pr:
+pr: #6836
 blocked-on:
 source: governing lead, Oct 29 (review of #6833)
 lead: governing

@@ -89,7 +89,9 @@ try {
       chosen: s.options[s.selectedIndex].textContent,
       boxed:
         c.borderTopColor !== "rgba(0, 0, 0, 0)" && c.borderTopWidth !== "0px",
-      ownLine: r.top >= nav.bottom - 1,
+      // Its own box beside the level tabs, never inside them (owner, Oct 28,
+      // point 15: "a separate box, like the main menu's").
+      ownLine: r.left >= nav.right - 1 || r.top >= nav.bottom - 1,
       yourState: [...s.options].some((o) => /your state/i.test(o.textContent)),
     };
   });
@@ -103,7 +105,7 @@ try {
   );
   assert.equal(filter.chosen, stateName);
   assert.ok(filter.boxed, "the filter has no box at rest");
-  assert.ok(filter.ownLine, "the filter sits in the tab row");
+  assert.ok(filter.ownLine, "the filter sits inside the level tabs");
   assert.ok(!filter.yourState, '"Your state" is still an option');
   if (process.env.SHOT_DIR)
     await page.screenshot({
