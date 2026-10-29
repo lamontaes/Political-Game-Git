@@ -58,6 +58,7 @@ import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import { P } from "../core2/parameters";
+import { colleagues, oathGiver } from "./swearing-in";
 import type { Moment } from "./types";
 
 const zero = P.zero;
@@ -84,6 +85,8 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "opponent",
   "audience",
   "staff",
+  "oath-giver",
+  "sworn-colleagues",
 ]);
 
 interface BillRow {
@@ -143,11 +146,19 @@ export function civicFill(
   core: Readonly<CoreState>,
   moment: Moment,
   taken: ReadonlySet<PersonId>,
+  closest: (ids: PersonId[]) => PersonId[] = (ids) => ids.sort(),
 ): PersonId[] {
   const api = coreAPI(core as CoreState);
   const free = (ids: PersonId[]) =>
     ids.filter((id) => id !== moment.personId && !taken.has(id));
   switch (fill) {
+    case "oath-giver":
+      // Whoever the records name to give the oath of the office the cause
+      // seated the subject in (swearing-in.ts).
+      return free(oathGiver(core, moment));
+    case "sworn-colleagues":
+      // The others in the government who stand in the room.
+      return colleagues(core, moment, taken, closest);
     case "poll-workers": {
       if (!api.state.modules.has(VOTING_MODULE_ID)) return [];
       const place = pollingPlaceOf(api, moment.personId, moment.date);

@@ -113,6 +113,12 @@ export interface SituationType {
    */
   waits?: boolean;
   /**
+   * A scene that is an event in itself (a swearing-in, owner Oct 29): it
+   * stops the day however strongly the moment was felt, for the one whose
+   * record it is.
+   */
+  stopsDay?: boolean;
+  /**
    * A scene about one record's own decision (a member's vote on one bill):
    * each cause stages its own, never taken into another sitting or held back
    * by the repeat window.
@@ -532,7 +538,8 @@ function fillRole(
     }
     default:
       // The civic roles come from the offices, voting and press records.
-      if (CIVIC_FILLS.has(fill)) return civicFill(fill, core, moment, taken);
+      if (CIVIC_FILLS.has(fill))
+        return civicFill(fill, core, moment, taken, closest);
       // Classmates, absent and the clerk have no records in the new core yet.
       return [];
   }
@@ -896,12 +903,19 @@ export function scheduleMoment(
   const metHere = (library.scheduling.metWhereYouAre ?? []).some((prefix) =>
     moment.label.startsWith(prefix),
   );
+  const stopsDay =
+    moment.selfNamed === true &&
+    bindings.some(
+      (row) =>
+        library.types.find((type) => type.key === row.typeKey)?.stopsDay,
+    );
   const interrupt =
     bindings.length > zero &&
     (moment.impact >= options.interruptImpact ||
       familyNews ||
       metHere ||
-      tieMet) &&
+      tieMet ||
+      stopsDay) &&
     !waits;
   if (!found.length)
     coverage ??= {

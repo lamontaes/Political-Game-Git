@@ -71,7 +71,8 @@
     "number": "A count from the record.",
     "reached": "How many people talked with the candidate, from the canvass record.",
     "required": "What a filing rule requires (an age, a residence), from the eligibility rule.",
-    "trail": "The runner-up's votes there, from the count."
+    "trail": "The runner-up's votes there, from the count.",
+    "stand": "The stand the speaker takes in an address, as a verb phrase after 'to' (\"raise the minimum wage\"), from the speaker's recorded views."
   },
   "maxWords": 70,
   "parts": [
@@ -120810,6 +120811,1753 @@
       "tag": {
         "move": "comfort",
         "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stands-ready-with-the-oath-the-room-has-gone-quiet",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stands ready with the oath. The room has gone quiet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.there-is-an-oath-to-take-and-name-will-give-it-after-that-the-office-is",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "There is an oath to take, and {name} will give it. After that, the office is yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-family-has-come-to-watch-name-waits-for-you-to-raise-your-hand",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your family has come to watch. {name} waits for you to raise your hand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["family-here"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-people-you-will-work-with-have-come-the-room-goes-quiet-as-name-step",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The people you will work with have come. The room goes quiet as {name} steps up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["colleagues-here"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-family-is-here-and-so-are-the-people-you-will-work-with-name-has-th",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your family is here, and so are the people you will work with. {name} has the oath ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["family-here", "colleagues-here"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-held-this-office-until-now-and-has-stayed-to-hand-it-over-the-oath",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} held this office until now, and has stayed to hand it over. The oath is theirs to give.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["outgoing"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.good-to-see-you-again-first-come-stand-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Good to see you again, {first}. Come stand here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.good-to-see-you-again-first-are-you-ready",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Good to see you again, {first}. Are you ready?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-m-name-i-ll-be-giving-you-the-oath",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, I'm {name}. I'll be giving you the oath.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["stranger"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-m-name-come-up-here-please",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}? I'm {name}. Come up here, please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["stranger"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-first-everyone-has-been-waiting-for-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are, {first}! Everyone has been waiting for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-over-here-we-ll-keep-this-short",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}. Over here. We'll keep this short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-held-this-seat-until-now-first-it-s-yours",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I held this seat until now, {first}. It's yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["outgoing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.please-raise-your-right-hand-do-you-solemnly-swear-to-support-the-consti",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Please raise your right hand. Do you solemnly swear to support the Constitution and the laws, and to faithfully carry out the duties of the office of {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.right-hand-up-first-do-you-swear-to-support-the-constitution-and-the-law",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Right hand up, {first}. Do you swear to support the Constitution and the laws, and to serve faithfully as {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.raise-your-right-hand-do-you-swear-to-follow-the-law-and-to-do-the-work",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Raise your right hand. Do you swear to follow the law and to do the work of {office} honestly?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.right-hand-up-first-do-you-swear-to-uphold-the-constitution-and-the-laws",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Right hand up, {first}. Do you swear to uphold the Constitution and the laws, and to serve as {office} to the best of your ability?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-do",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-do-i-m-ready",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I do. I'm ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-do-and-i-ll-keep-to-every-word-of-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I do, and I'll keep to every word of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-do-i-ll-hold-myself-to-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I do. I'll hold myself to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-do-thank-you-all-for-being-here",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I do. Thank you all for being here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-do-and-thank-you-for-trusting-me-with-it",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I do. And thank you for trusting me with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.do-i-say-it-after-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Do I say it after you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.should-i-repeat-it-a-line-at-a-time",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Should I repeat it a line at a time?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.say-it-after-me-a-line-at-a-time-i-will-support-the-constitution-and-the",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Say it after me, a line at a time. I will support the Constitution and the laws, and faithfully carry out the duties of {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.just-repeat-it-after-me-i-will-support-the-constitution-and-the-laws-and",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just repeat it after me. I will support the Constitution and the laws, and I will serve as {office} honestly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.take-it-slowly-first-i-will-support-the-constitution-and-the-laws-and-fa",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Take it slowly, {first}. I will support the Constitution and the laws, and faithfully carry out the duties of {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-will-support-the-constitution-and-the-laws-and-faithfully-carry-out-th",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I will support the Constitution and the laws, and faithfully carry out the duties of {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-will-support-the-constitution-and-the-laws-and-i-will-serve-as-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I will support the Constitution and the laws, and I will serve as {office} honestly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-will-support-the-constitution-and-the-laws-i-will-carry-out-the-duties",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I will support the Constitution and the laws. I will carry out the duties of {office}, and I mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-will-support-the-constitution-and-the-laws-and-i-will-serve-as-office",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I will support the Constitution and the laws, and I will serve as {office}. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.congratulations-first-it-s-yours-now",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "Congratulations, {first}. It's yours now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.then-it-s-done-you-hold-the-office",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "Then it's done. You hold the office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.that-s-it-you-re-sworn-in",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "That's it. You're sworn in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.congratulations-first-welcome-to-the-job",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "Congratulations, {first}! Welcome to the job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.i-believe-you-congratulations",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "I believe you. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.hold-onto-that-you-re-sworn-in",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "Hold onto that. You're sworn in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.good-remember-you-said-it-you-re-sworn-in",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "Good. Remember you said it. You're sworn in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.that-s-the-way-to-start-congratulations",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "That's the way to start. Congratulations!",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.they-re-glad-you-re-here-congratulations",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "They're glad you're here. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.you-re-welcome-it-s-done-and-you-re-sworn-in",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "You're welcome. It's done, and you're sworn in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.fine-you-re-sworn-in",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "Fine. You're sworn in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-congratulate.everyone-s-glad-you-re-here-congratulations",
+      "move": "follow-congratulate",
+      "kind": "spoken",
+      "text": "Everyone's glad you're here. Congratulations!",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.we-re-lucky-to-have-you-go-and-see-your-family",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "We're lucky to have you. Go and see your family.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["family-here"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.we-re-lucky-to-have-you-good-luck",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "We're lucky to have you. Good luck.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.the-work-starts-tomorrow-take-a-minute-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "The work starts tomorrow. Take a minute first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.that-s-all-i-need-from-you-good-luck",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That's all I need from you. Good luck.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.continue-offer.the-floor-is-yours-first-if-you-want-to-say-a-few-words",
+      "move": "continue-offer",
+      "kind": "spoken",
+      "text": "The floor is yours, {first}, if you want to say a few words.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "continue",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["address"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "offer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.continue-offer.everyone-would-like-to-hear-from-you-first-say-a-few-words-if-you-d-like",
+      "move": "continue-offer",
+      "kind": "spoken",
+      "text": "Everyone would like to hear from you, {first}. Say a few words if you'd like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "continue",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["address"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "offer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.continue-offer.you-can-say-a-few-words-now-keep-it-short-if-you-can",
+      "move": "continue-offer",
+      "kind": "spoken",
+      "text": "You can say a few words now. Keep it short, if you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "continue",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["address"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "offer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.continue-offer.go-on-first-tell-everyone-what-you-came-to-do",
+      "move": "continue-offer",
+      "kind": "spoken",
+      "text": "Go on, {first}. Tell everyone what you came to do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "continue",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["address"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "offer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-came-here-to-stand-that-s-where-i-start",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I came here to {stand}. That's where I start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "offer",
+          "requiresFacts": ["stand"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.my-first-job-is-to-stand-i-want-you-to-hear-it-from-me",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "My first job is to {stand}. I want you to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "offer",
+          "requiresFacts": ["stand"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-know-not-everyone-here-voted-for-me-i-ll-work-for-every-one-of-you",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I know not everyone here voted for me. I'll work for every one of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "offer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "comfort",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.whether-you-voted-for-me-or-not-i-work-for-you-now",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Whether you voted for me or not, I work for you now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "offer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "comfort",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.my-door-is-open-if-something-is-wrong-come-and-tell-me",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "My door is open. If something is wrong, come and tell me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "offer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "offer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.come-to-me-with-your-problems-i-want-to-hear-them",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Come to me with your problems. I want to hear them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "offer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "offer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-keep-it-short-there-s-work-waiting-and-i-d-rather-start-on-it",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll keep it short. There's work waiting, and I'd rather start on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "offer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.enough-from-me-let-me-earn-the-rest-first",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Enough from me. Let me earn the rest first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "offer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-people-will-remember-that",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. People will remember that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-was-clearly-said",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That was clearly said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-we-ll-hold-you-to-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. We'll hold you to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-matters-to-a-lot-of-people-here",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That matters to a lot of people here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-that-was-well-said",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. That was well said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-let-s-see-it-done",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. Let's see it done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-people-will-take-you-up-on-that",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. People will take you up on that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "offer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-means-a-great-deal-to-people-here",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That means a great deal to people here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "offer"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-short-is-fine",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. Short is fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-by-me-let-s-get-to-work",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine by me. Let's get to work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-we-ll-let-you-get-started",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then we'll let you get started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
       }
     }
   ]

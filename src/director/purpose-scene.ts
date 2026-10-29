@@ -70,6 +70,12 @@ import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { properName, spoken, spokenDate } from "./words";
 import { PRESS_STORY_EVENT } from "../core2/press-desk";
+import {
+  ADDRESS_KEEPS,
+  giveInauguralAddress,
+  inauguralStand,
+} from "./inaugural-address";
+import { outgoingHolder, swornOffice } from "./swearing-in";
 
 export interface PurposeScene {
   typeKey: string;
@@ -617,6 +623,40 @@ function composeBinding(
   // the bill (`promised-against`) is said only from a record of one, which no
   // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
 
+  // Taking office (offices.ts): the office by its title in the offices
+  // engine's rows, whatever wording the record carries (a contest's title, or
+  // an office's id from a dev start); an executive office goes on to an
+  // address, on a stand the speaker holds; the officiant is the one who held
+  // the seat until today where the records say so; and who is in the room.
+  const sworn = swornOffice(core, moment.causeId);
+  if (sworn) {
+    const ids = [moment.causeId, sworn.officeId];
+    facts.office = { text: sworn.title, sourceRecordIds: ids };
+    if (sworn.givesAddress) {
+      facts.address = { text: "", sourceRecordIds: ids };
+      const stand = inauguralStand(core, askedId);
+      if (stand)
+        facts.stand = {
+          text: stand.to,
+          sourceRecordIds: [moment.causeId, askedId],
+        };
+    }
+    if (outgoingHolder(core, sworn, askedId) === askerId)
+      facts.outgoing = { text: "", sourceRecordIds: ids };
+    const inRoom = (role: string) =>
+      binding.roles.find((row) => row.role === role)?.personIds ?? [];
+    if (inRoom("family").length)
+      facts["family-here"] = {
+        text: "",
+        sourceRecordIds: [moment.causeId, ...inRoom("family")],
+      };
+    if (inRoom("colleagues").length)
+      facts["colleagues-here"] = {
+        text: "",
+        sourceRecordIds: [moment.causeId, ...inRoom("colleagues")],
+      };
+  }
+
   // "Today" and "tonight" are true only on the record's own day, and
   // "yesterday" only the day after: a scene that plays later says neither.
   const recordDay = record?.date ?? moment.date;
@@ -1023,6 +1063,17 @@ export function replyInScene(
     },
   });
   entry.replies = [...(entry.replies ?? []), id];
+  // A swearing-in that ended in an address: the speech engine records it as
+  // heard by the people the scene named in the room (swearing-in.ts).
+  if (ending?.keeps === ADDRESS_KEEPS)
+    giveInauguralAddress(core, {
+      speakerId: scene.askedId,
+      causeId: scene.cause.id,
+      audienceIds:
+        entry.bindings.find((row) => row.typeKey === scene.typeKey)
+          ?.presentIds ?? [],
+      move: line.move,
+    });
   // Talking is time together, recorded through the core's own writer.
   coreAPI(core).relationship(
     scene.askedId,

@@ -5424,6 +5424,87 @@
       "asker": "family",
       "asked": "you",
       "stakes": ["home", "rent"]
+    },
+    {
+      "key": "swearing-in",
+      "note": "The day the offices engine seats the player (its took-office record, from a count, a special election or an appointment), someone the records name gives the oath: the clerk who took the filing or keeps the government's papers, else the holder who left the seat that day, else the body's presiding officer. The player's household and the government's other officeholders are in the room. The player's reply is the oath, a scene reply the journal tells; an office that gives an address (data/swearing-in.json: mayor, county executive, governor, president) goes on to it, and the speech engine records it as heard by the people named in the room, so the views engine moves those it persuades and each may retell it at home. No court is on record, so no judge swears anyone in (SG-WORDS-swearing-in-no-court). It stops the day: taking office is an event, not a status change (owner, Sept 22 and Oct 29).",
+      "roles": [
+        {
+          "key": "officiant",
+          "fill": "oath-giver",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "congratulate",
+            "offer",
+            "thank",
+            "accept"
+          ],
+          "wants": ["follow-rules"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": [
+            "agree",
+            "promise",
+            "thank",
+            "ask",
+            "tell",
+            "comfort",
+            "offer",
+            "deflect"
+          ],
+          "wants": ["commit"],
+          "bearing": "steady"
+        },
+        {
+          "key": "family",
+          "fill": "household",
+          "count": "some",
+          "moves": ["congratulate"],
+          "wants": ["help-others"],
+          "bearing": "proud"
+        },
+        {
+          "key": "colleagues",
+          "fill": "sworn-colleagues",
+          "count": "some",
+          "moves": ["congratulate"],
+          "wants": ["cooperate"],
+          "bearing": "steady"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "stopsDay": true,
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:took-office",
+            "selfNamed": true
+          },
+          "causeEngine": "offices",
+          "causeRecord": "took-office",
+          "bind": {
+            "you": "subject"
+          },
+          "opener": "officiant"
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "swearing-in",
+      "asker": "officiant",
+      "asked": "you",
+      "stakes": ["office", "oath"]
     }
   ]
 }
