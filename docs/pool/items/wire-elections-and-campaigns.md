@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 1
 size: L
-status: in-pr
+status: done
 claimed-by: claude/wire-elections-2
 pr: #6724
 blocked-on:
