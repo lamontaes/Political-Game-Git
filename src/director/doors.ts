@@ -4,10 +4,16 @@
  * and whether the candidate had knocked there before. Of the day's doors,
  * the one whose resident most agrees or disagrees with the candidate's
  * platform (the cause's own agreement) is the household with a stake: the
- * owner's porch scene in a day of door knocking (Oct 8).
+ * owner's porch scene in a day of door knocking (Oct 8). While the
+ * candidate's petition circulates, each door says whether its resident signed.
  */
 import { CAMPAIGNS_MODULE_ID, type CauseRow } from "../core2/modules/campaigns";
-import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  petitionCirculating,
+  petitionSignerIds,
+  type FilingRow,
+} from "../core2/modules/elections";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -53,6 +59,7 @@ export function doorsKnocked(
     P.zero
   ];
   return today.map((row) => {
+    const petition = petitionAtDoor(core, personId, row.voterId as PersonId);
     // A door the candidate knocked on an earlier day is a return visit.
     const before = (
       causes.query("byVoter", [row.voterId]) as unknown as CauseRow[]
@@ -72,7 +79,46 @@ export function doorsKnocked(
         first: String(!before),
         stake: String(row.id === most?.id),
         candidateId: personId,
+        petition: String(!!petition),
+        ...(petition ? { signed: String(petition.signed) } : {}),
       },
     };
   });
+}
+
+/**
+ * While the candidate's petition for the race they asked a resident about
+ * circulates, a door is also asked to sign (the campaign engine's
+ * `askToSign`): whether that resident signed, from the petition record. Null
+ * where no petition circulates for that race.
+ */
+export function petitionAtDoor(
+  core: Readonly<CoreState>,
+  candidateId: PersonId,
+  voterId: PersonId,
+): { signed: boolean } | null {
+  if (
+    !core.modules.has(CAMPAIGNS_MODULE_ID) ||
+    !core.modules.has(ELECTIONS_MODULE_ID)
+  )
+    return null;
+  const api = coreAPI(core as CoreState);
+  const contestId = (
+    api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("impressions")
+      .get(`${voterId}|${candidateId}`) as unknown as
+      { contestId?: string } | undefined
+  )?.contestId;
+  const filing = contestId
+    ? (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .query("byPerson", [candidateId]) as unknown as FilingRow[]
+      ).find((row) => row.contestId === contestId)
+    : undefined;
+  return filing && petitionCirculating(api, filing.id)
+    ? { signed: petitionSignerIds(api, filing.id).has(voterId) }
+    : null;
 }
