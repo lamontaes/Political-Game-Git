@@ -273,7 +273,9 @@
     {
       "id": "away-evening",
       "recordKinds": ["public-meeting"],
-      "recordFactEquals": { "evening": ["true"] },
+      "recordFactEquals": {
+        "evening": ["true"]
+      },
       "playerNamed": true,
       "afterDays": 1,
       "place": "home",
@@ -373,7 +375,9 @@
     {
       "id": "graduation-home",
       "recordKinds": ["school.finished"],
-      "recordFactEquals": { "passed": ["true"] },
+      "recordFactEquals": {
+        "passed": ["true"]
+      },
       "playerNamed": true,
       "afterDays": 1,
       "place": "home",
@@ -389,7 +393,10 @@
     {
       "id": "door-first",
       "recordKinds": ["campaign.door"],
-      "recordFactEquals": { "first": ["true"], "stake": ["true"] },
+      "recordFactEquals": {
+        "first": ["true"],
+        "stake": ["true"]
+      },
       "lived": true,
       "place": "other-home",
       "pool": ["named"],
@@ -404,7 +411,10 @@
     {
       "id": "door-again",
       "recordKinds": ["campaign.door"],
-      "recordFactEquals": { "first": ["false"], "stake": ["true"] },
+      "recordFactEquals": {
+        "first": ["false"],
+        "stake": ["true"]
+      },
       "lived": true,
       "place": "other-home",
       "pool": ["named"],
@@ -419,7 +429,9 @@
     {
       "id": "override-whip",
       "recordKinds": ["veto-override"],
-      "recordFactEquals": { "passed": ["false"] },
+      "recordFactEquals": {
+        "passed": ["false"]
+      },
       "place": "seat",
       "pool": ["fact:sponsorId"],
       "where": "pool",
@@ -429,6 +441,20 @@
       "outcome": "scene.reply",
       "impactParameter": "directorCircumstanceHallwayImpact",
       "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
+      "id": "notice-home",
+      "recordKinds": ["housing.notice-served"],
+      "playerNamed": true,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "named-in-it",
+      "cast": "the day the landlord serves the player's household notice to pay or leave, someone they live with, scored on tie and sociability",
+      "typeKey": "notice-home",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceNewsImpact",
+      "everyParameter": "directorCircumstanceHomeEveryDays"
     }
   ]
 }

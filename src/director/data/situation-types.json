@@ -5271,6 +5271,63 @@
         "endpoint": "political",
         "registers": ["scene-talk", "scene-words"]
       }
+    },
+    {
+      "key": "notice-home",
+      "note": "The day the landlord serves the player's household notice to pay what it owes or leave (the housing engine's notice record, circumstance row notice-home), someone they live with brings it to them at home: what is owed and the day it is due. The reply is a scene reply; a promise to pay is kept on its record and told in the journal.",
+      "roles": [
+        {
+          "key": "family",
+          "fill": "household",
+          "count": "one",
+          "moves": [
+            "deliver-news",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "refuse",
+            "warn",
+            "promise"
+          ],
+          "wants": ["help-others", "keep-same"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["promise", "ask", "offer", "deflect"],
+          "wants": ["keep-same"],
+          "bearing": "braced"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:notice-home"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "housing.notice-served",
+          "bind": {
+            "you": "subject",
+            "family": "counterpart"
+          },
+          "opener": "family",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "notice",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "notice-home",
+      "asker": "family",
+      "asked": "you",
+      "stakes": ["home", "rent"]
     }
   ]
 }

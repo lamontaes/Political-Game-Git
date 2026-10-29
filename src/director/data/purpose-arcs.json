@@ -1701,19 +1701,25 @@
           "id": "next-run-promised",
           "label": "You said you'd run again",
           "keeps": "promise",
-          "when": { "anyReply": ["promise"] }
+          "when": {
+            "anyReply": ["promise"]
+          }
         },
         {
           "id": "thanked",
           "label": "You thanked them for the work",
           "keeps": "none",
-          "when": { "anyReply": ["thank"] }
+          "when": {
+            "anyReply": ["thank"]
+          }
         },
         {
           "id": "put-off",
           "label": "You put them off",
           "keeps": "relationship-strained",
-          "when": { "reply": ["leave"] }
+          "when": {
+            "reply": ["leave"]
+          }
         },
         {
           "id": "left-there",
@@ -3714,7 +3720,9 @@
           "id": "later",
           "label": "Left it for later",
           "keeps": "none",
-          "when": { "reply": ["leave"] }
+          "when": {
+            "reply": ["leave"]
+          }
         },
         {
           "id": "house-rules",
@@ -3738,13 +3746,67 @@
           "id": "heard-out",
           "label": "You heard them out",
           "keeps": "none",
-          "when": { "anyReply": ["ask"], "reply": ["thank"] }
+          "when": {
+            "anyReply": ["ask"],
+            "reply": ["thank"]
+          }
         },
         {
           "id": "said-no",
           "label": "You said no",
           "keeps": "relationship-strained",
-          "when": { "reply": ["decline"] }
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "notice-home": {
+      "state": "deliver-news",
+      "replies": ["promise", "ask", "offer", "deflect"],
+      "follow": {
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "offer": ["accept", "refuse"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "press": ["promise", "offer", "leave"],
+        "answer": ["promise", "offer", "deflect"],
+        "refuse": ["promise", "leave"]
+      },
+      "endings": [
+        {
+          "id": "paying-it",
+          "label": "You said you'd find the money",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "chipping-in",
+          "label": "You put in what you have",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["offer"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "put-off",
+          "label": "You put it off",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "leave"],
+            "asker": ["press"]
+          }
         },
         {
           "id": "left-there",
