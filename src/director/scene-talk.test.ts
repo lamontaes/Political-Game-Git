@@ -9,6 +9,7 @@ import { createDirector } from "./ledger";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
 import situationFile from "./data/situation-types.json" with { type: "json" };
+import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
 import { traitLean } from "../core2/choice";
 import { decisionKinds } from "../core2/trait-decisions";
@@ -165,6 +166,48 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
           where,
         ).toBe(true);
     }
+  });
+
+  // The player asks a colleague for their vote the evening before the roll
+  // (vote-sought): the narrator sets it from the player's side, never as the
+  // colleague coming to the player's door, and a player asking several
+  // colleagues meets more than one setup.
+  it("sets the player's ask for a vote from the player's side, in more than one way", () => {
+    const type = types.find((row) => row.key === "vote-sought")!;
+    const own = new Set(
+      (
+        sceneBank as unknown as {
+          parts: { key: string; uses?: { step?: string; key?: string }[] }[];
+        }
+      ).parts
+        .filter((part) =>
+          part.uses?.some(
+            (use) => use.step === "narrate" && use.key === "vote-sought",
+          ),
+        )
+        .map((part) => part.key),
+    );
+    expect(own.size).toBeGreaterThanOrEqual(3);
+    const setups = new Set<string>();
+    for (const colleague of adults.slice(1, 13)) {
+      const result = composeSceneTalk(
+        core,
+        director,
+        { askerId: colleague.id, askedId },
+        type,
+        facts,
+        { standing: { lean: -0.2, favor: 0.3 } },
+        HELD,
+      );
+      expect(result.kind, colleague.id).toBe("composed");
+      if (result.kind !== "composed") continue;
+      const setup = result.talk.narration[0]!;
+      expect(setup.role).toBe("narrator");
+      expect([...own], setup.text).toContain(setup.parts[0]);
+      expect(setup.text).not.toMatch(/[{}]/);
+      setups.add(setup.parts[0]!);
+    }
+    expect(setups.size).toBeGreaterThan(1);
   });
 
   it("is deterministic and a personality changes the path or the words", () => {
