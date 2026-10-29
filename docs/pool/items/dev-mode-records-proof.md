@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/dev-records-proof
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T22:59:38.603Z
 ---
 
 **What.** A speed change must never change what the simulation decides, and until now the only check was speed:year's four-number fingerprint (date, people count, job count, money held), which misses any changed decision that leaves those totals alone. The owner, Oct 29, in the speed lead's session: 'That needs to be built into the advanced mode... a dev mode where you can be anybody, make anything happen in the simulation... trace why things happen', and 'if it's not developed in the game records proof, then you can go ahead and develop that and go ahead and merge whatever you need'.
