@@ -105,6 +105,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `merge-audit`: auditing merged PRs
 - `merger`: merging and validating PRs
 - `play-first`: one item of the play-first lane; the screenshot and browser check
+- `people-pack`: drawing people from the pack, on mannequin plates
 - `played-world-proof`: proving a feature in a played year
 - `player-screen-text`: checking every string a player sees
 - `pr-fixer`: finishing sent-back PRs

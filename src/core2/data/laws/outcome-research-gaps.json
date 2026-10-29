@@ -2,12 +2,6 @@
   "about": "Laws that have no researched outcome-web link in data/research/outcome-web/links.json, neither from the law itself nor from a measure an engine sets from it, and the outcome the research would measure. Each carries the stopgap that registers the gap; read by scripts/law-wiring/catalog.ts for the law-wiring matrix. The research belongs to the outcome-web line (pool item laws-outcome-links-unresearched). A row's note records a search that found no sized source.",
   "laws": [
     {
-      "key": "us-policy-positions:technology-privacy.age-verification-for-social-media",
-      "outcome": "youth social media use and mental health",
-      "stopgapId": "SG-LAW-outcome-link-unresearched",
-      "note": "Searched Oct 25, 2026 (claude, laws-outcome-links-rest); no source gives a measured, sized outcome of a US state social media age check, so no link is built and the row stays. Searched: state age-verification and parental-consent laws (Utah, Arkansas, Louisiana, Tennessee) with difference-in-differences, event study, teen use and mental health: legal trackers and news only, no evaluation; most of these laws are enjoined or only lately in force. The nearest measured outcome is outside the US and a different law: Australia's under-16 minimum age, where a search summary of eSafety's evaluation reports under-16s holding an account falling from 52.4 percent to 42.1 percent after three months; eSafety's own pages could not be fetched through the proxy (503 and empty replies), so that figure is not cited as a source. A focus-group paper (Nansen, Sandberg, Bliss and Cohney 2026, arXiv 2605.00368, fifteen participants) says of the ban that participants \"frequently bypassed it\", which gives no size. An Australian ban on holding an account is not a US parental-consent age check, and data/research/outcome-web/social-media-age-verification-contracts.json warns \"no blanket teen ban\", so no size is carried over. The web keeps no teen social media use or youth mental health measure, and that file's four contracts (compliance cost, account access, identity exposure, injunction status) are unsized and not enabled. Next step: a US evaluation with a measured teen-use or well-being outcome, or the owner's ruling to carry Australia's drop over."
-    },
-    {
       "key": "local-minimum-wage-authority",
       "outcome": "local minimum wage adoption",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
