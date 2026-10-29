@@ -5152,6 +5152,313 @@
       }
     },
     {
+      "key": "headlines.vacancy.place-post-dies-in-office",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "{place} {post} dies in office",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "headline",
+          "role": "vacancy",
+          "choice": "headline",
+          "requiresFacts": ["died", "post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.vacancy.place-post-leaves-office",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "{place} {post} leaves office",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "headline",
+          "role": "vacancy",
+          "choice": "headline",
+          "requiresFacts": ["left", "post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.vacancy.place-post-seat-is-open",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "{place} {post} seat is open",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "headline",
+          "role": "vacancy",
+          "choice": "headline",
+          "requiresFacts": ["post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-took-a-bribe-records-show",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} took a bribe, records show",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["bribe"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.records-tie-name-to-a-bribe",
+      "move": "exposed",
+      "kind": "written",
+      "text": "Records tie {name} to a bribe",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["bribe"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-voted-on-a-contract-for-a-firm-with-personal-ties",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} voted on a contract for a firm with personal ties",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["conflict"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.took-office.new-place-post-takes-office",
+      "move": "took-office",
+      "kind": "written",
+      "text": "New {place} {post} takes office",
+      "uses": [
+        {
+          "move": "took-office",
+          "subject": "headline",
+          "role": "took-office",
+          "choice": "headline",
+          "requiresFacts": ["post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.took-office.place-swears-in-a-new-post",
+      "move": "took-office",
+      "kind": "written",
+      "text": "{place} swears in a new {post}",
+      "uses": [
+        {
+          "move": "took-office",
+          "subject": "headline",
+          "role": "took-office",
+          "choice": "headline",
+          "requiresFacts": ["post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.hiring.subject-to-hire-number",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} to hire {number}",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "headline",
+          "role": "hiring",
+          "choice": "headline",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.hiring.subject-is-hiring",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} is hiring",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "headline",
+          "role": "hiring",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.petition-check.name-qualifies-for-the-office-ballot",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name} qualifies for the {office} ballot",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "headline",
+          "role": "petition-check",
+          "choice": "headline",
+          "requiresFacts": ["on-ballot"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.petition-check.name-falls-short-of-the-ballot-for-office",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name} falls short of the ballot for {office}",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "headline",
+          "role": "petition-check",
+          "choice": "headline",
+          "requiresFacts": ["short"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.committee.designation-fails-in-committee",
+      "move": "committee",
+      "kind": "written",
+      "text": "{designation} fails in committee",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "headline",
+          "role": "committee",
+          "choice": "headline",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.committee.designation-dies-in-committee-count",
+      "move": "committee",
+      "kind": "written",
+      "text": "{designation} dies in committee, {count}",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "headline",
+          "role": "committee",
+          "choice": "headline",
+          "requiresFacts": ["failed", "count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.budget-request.name-sends-congress-a-budget",
       "move": "budget-request",
       "kind": "written",

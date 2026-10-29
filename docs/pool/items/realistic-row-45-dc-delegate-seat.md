@@ -21,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/realistic-not-real.test.ts
 
-**Notes.** TODO
+**Notes.** TODO Oct 29 08:15 UTC, Words and director: Puerto Rico fails the same row too. CI on #6756 (job 123333674951) drew Parcelas de Navarro, Puerto Rico (run seed 64786bd44fc6d52f): row 45 seat:US-PR:us-house:98, "expected 'Democratic' to be null". The delegate seats of D.C. and the territories, not D.C. alone.

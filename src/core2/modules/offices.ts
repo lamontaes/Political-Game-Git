@@ -60,7 +60,9 @@ import {
 } from "../offices-state";
 import { worldSeatParty } from "./elections";
 // A screen reads which district a town votes in through this entry.
-export { townDistrict } from "../offices-state";
+// Another state's offices as plain definitions (titles, seats), for a view
+// that names them without creating them in the world.
+export { federalOffices, stateOffices, townDistrict } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
 import { seededUnit } from "../seeded";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
