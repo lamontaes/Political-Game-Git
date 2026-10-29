@@ -15,6 +15,8 @@
  *   while is met with "Sure.", a disagreement never with "That's what I
  *   thought too."), from the one scene bank;
  * - a question the player asks is answered, never taken in with a shrug;
+ * - a yes to the player's request is never followed by a goodbye, and a talk
+ *   is never only a hello and a goodbye (owner, Oct 15 and Oct 24);
  * - no line shows an unfilled blank.
  */
 import { randomBytes } from "node:crypto";
@@ -144,6 +146,13 @@ it(`every reply in everyday talk fits the line it answers, over ${DAYS} days in 
             ),
             `${here} -> "${pick.text}" (${move}) -> "${reply.text}"`,
           ).toBe(true);
+          // A yes to a request carries the talk on or is the last word: never
+          // "Of course." and then a goodbye.
+          if (move === "request")
+            expect(
+              talk.lines[before + 2]?.kind,
+              `${here} -> "${pick.text}" -> "${reply.text}"`,
+            ).not.toBe("farewell");
           // A question the player asks is answered by a move that answers it.
           if (asks(pick.text)) {
             seen.asked += 1;
@@ -155,6 +164,15 @@ it(`every reply in everyday talk fits the line it answers, over ${DAYS} days in 
         }
         for (const line of talk.lines)
           expect(line.text, `${where} ${otherId}`).not.toMatch(/[{}]/);
+        // Nothing on record to say means nothing said, never a hello and a
+        // goodbye with nothing between.
+        if (talk.lines.length)
+          expect(
+            talk.lines.some(
+              (line) => line.kind !== "greet" && line.kind !== "farewell",
+            ),
+            `${where} ${otherId}: ${talk.lines.map((line) => line.text).join(" / ")}`,
+          ).toBe(true);
       });
     }
   }

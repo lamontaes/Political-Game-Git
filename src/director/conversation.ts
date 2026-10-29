@@ -1819,14 +1819,22 @@ function carryOn(
   core: Readonly<CoreState>,
   conversation: Conversation,
   data: ConversationData,
+  /** The last line already ends the talk if nothing follows: no goodbye. */
+  options: { quietly?: boolean } = {},
 ): void {
   const main = conversation.topics[zero];
   const related = main ? (data.related[subjectKindOf(main)] ?? []) : [];
+  // Asked to sit a while, they bring up what they have, as a talk opens.
+  const next = options.quietly && !related.length ? OPENING_ORDER : related;
   if (
     conversation.topics.length > one ||
-    !otherAsks(core, conversation, data, related)
-  )
-    endConversation(core, conversation, data);
+    !otherAsks(core, conversation, data, next)
+  ) {
+    if (options.quietly) {
+      conversation.choices = [];
+      conversation.lies = [];
+    } else endConversation(core, conversation, data);
+  }
 }
 
 /**
@@ -2033,8 +2041,18 @@ export function openConversation(
   if (
     !opened &&
     (occasion || !otherAsks(core, conversation, data, OPENING_ORDER))
-  )
+  ) {
+    // Hello and goodbye with nothing between is not a talk (owner, Oct 24:
+    // "that should be going to the hi, have a good day. That makes no
+    // sense."): with nothing on record to say, nothing is said.
+    if (conversation.lines.every((line) => line.kind === "greet")) {
+      conversation.lines = [];
+      conversation.choices = [];
+      conversation.lies = [];
+      return conversation;
+    }
     endConversation(core, conversation, data);
+  }
   return conversation;
 }
 
@@ -2901,9 +2919,20 @@ export function say(
           facts: [],
         },
       });
+    // A yes never ends a talk (owner, Oct 15): after "Sit with me a minute?"
+    // "Of course." they carry on with what they have. Where the answer
+    // closes it ("Okay. I'll leave you be.", or they have nothing more),
+    // their answer is the last word: no goodbye follows it.
     if (take?.closes) {
-      conversation.choices = [];
-      conversation.lies = [];
+      if (
+        take.move === "accept" &&
+        replyMoveOf(last.kind, choice.move) === "request"
+      )
+        carryOn(core, conversation, data, { quietly: true });
+      else {
+        conversation.choices = [];
+        conversation.lies = [];
+      }
       return conversation;
     }
     carryOn(core, conversation, data);
