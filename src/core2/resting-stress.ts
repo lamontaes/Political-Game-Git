@@ -11,13 +11,61 @@
  * module) and a counted person (when a counted group decides), so a counted
  * resident reads the same rule as a full person (one model, two tiers).
  */
+import reachParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
+import { moduleState } from "./module-state";
+import { webReach, type WebHost } from "./outcome-web-reach";
 import { parameterValues } from "./parameters";
+import { stopgap } from "./stopgaps";
 import type { CoreState, PersonInput } from "./types";
 
 export type RestingStressRow = Pick<
   PersonInput,
-  "birthDate" | "liquidMinor" | "livingCostDailyMinor" | "jobId" | "traits"
+  | "birthDate"
+  | "liquidMinor"
+  | "livingCostDailyMinor"
+  | "jobId"
+  | "traits"
+  | "placeId"
 >;
+
+/** The web's reach on a world, built from its state alone: the counted tier decides without an engine API. */
+const HOSTS = new WeakMap<CoreState, WebHost>();
+function webHost(core: CoreState): WebHost {
+  let host = HOSTS.get(core);
+  if (!host) {
+    host = { state: core, moduleState: (id) => moduleState(core, id) };
+    HOSTS.set(core, host);
+  }
+  return host;
+}
+
+/**
+ * The web's factor on the share of teens in a major depressive episode, for a
+ * person in the ages the social media age check covers (its reach row in
+ * data/laws/reach-group-a.json: from `socialMediaAgeFrom` up to the voting
+ * age); undefined for everyone else, and one where the web keeps no month for
+ * the place.
+ * The age check moves that share by age-verification-to-youth-depressive-episode
+ * (an estimate from the nearest research, with a spread across zero).
+ */
+function teenDistressFactor(
+  core: CoreState,
+  row: RestingStressRow,
+  age: number,
+  votingAge: number,
+): number | undefined {
+  if (age < reachParameters.parameters.socialMediaAgeFrom.value)
+    return undefined;
+  if (age >= votingAge) return undefined;
+  // stopgapId: SG-LAW-age-check-teen-distress: one for one with the share in an episode; no mood or depression record.
+  stopgap("SG-LAW-age-check-teen-distress", core);
+  return webReach(
+    webHost(core),
+    row.placeId,
+    "health.youth-major-depressive-episode",
+    { age },
+  ).factor;
+}
 
 /** The share of a rise between two points that a value has made, held in 0..1. */
 function ramp(
@@ -35,7 +83,7 @@ function ramp(
  * (0..1) of care the person's own health asks, which only a full person has.
  */
 export function restingStress(
-  core: Pick<CoreState, "data" | "date">,
+  core: CoreState,
   row: RestingStressRow,
   healthNeed = 0,
 ): number {
@@ -86,7 +134,9 @@ export function restingStress(
         one,
       ));
   const jobless = row.jobId ? zero : p("restingStressJoblessWeight") * workAge;
-  // Age: the young run higher, and the old run lower.
+  // Age: the young run higher, and the old run lower. A teen's gap moves with
+  // the web's factor on the share of teens in a depressive episode, where the
+  // social media age check is in force (teenDistressFactor).
   const young =
     p("restingStressYouthWeight") *
     (one -
@@ -96,7 +146,8 @@ export function restingStress(
         p("restingStressYouthToAge"),
         zero,
         one,
-      ));
+      )) *
+    (teenDistressFactor(core, row, age, p("votingAge")) ?? one);
   const old =
     p("restingStressElderWeight") *
     ramp(

@@ -90,13 +90,20 @@ export function nationalMeanWeight(linkKey: string): number {
   }, 1);
 }
 
+/**
+ * What a read of the web needs of the world: its state and its modules'
+ * tables. A full `CoreAPI` is one; so is the bare state a counted tier's
+ * decision runs on (`restingStress` builds it from the state alone).
+ */
+export type WebHost = Pick<CoreAPI, "state" | "moduleState">;
+
 /** Each place's latest web month, read once a day however many subjects ask. */
 const LATEST = new WeakMap<
   object,
   { date: string; rows: Map<string, WebMonth | null> }
 >();
 
-function latestRow(api: CoreAPI, placeId: string): WebMonth | null {
+function latestRow(api: WebHost, placeId: string): WebMonth | null {
   const core = api.state as CoreState;
   if (!core.modules.has(OUTCOME_WEB_MODULE_ID)) return null;
   let cache = LATEST.get(core);
@@ -141,7 +148,7 @@ const NONE: WebReach = { factor: 1, added: 0, recordId: null, parts: [] };
  * base). Without a subject, the place's average.
  */
 export function webReach(
-  api: CoreAPI,
+  api: WebHost,
   placeId: string,
   measure: string,
   subject?: Subject,
