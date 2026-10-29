@@ -18805,7 +18805,8 @@
           "move": "address-answer-agree",
           "subject": "address",
           "role": "answer",
-          "choice": "agree"
+          "choice": "agree",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18822,7 +18823,8 @@
           "move": "address-answer-agree",
           "subject": "address",
           "role": "answer",
-          "choice": "agree"
+          "choice": "agree",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18839,7 +18841,8 @@
           "move": "address-answer-doubt",
           "subject": "address",
           "role": "answer",
-          "choice": "doubt"
+          "choice": "doubt",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18856,7 +18859,8 @@
           "move": "address-answer-doubt",
           "subject": "address",
           "role": "answer",
-          "choice": "doubt"
+          "choice": "doubt",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18873,7 +18877,8 @@
           "move": "address-answer-hope",
           "subject": "address",
           "role": "answer",
-          "choice": "hope"
+          "choice": "hope",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18890,7 +18895,8 @@
           "move": "address-answer-hope",
           "subject": "address",
           "role": "answer",
-          "choice": "hope"
+          "choice": "hope",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18907,8 +18913,9 @@
           "move": "address-answer-think",
           "subject": "address",
           "role": "answer",
-          "choice": "think",
-          "raises": "address"
+          "choice": "turn",
+          "raises": "address",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18925,13 +18932,104 @@
           "move": "address-answer-think",
           "subject": "address",
           "role": "answer",
-          "choice": "think",
-          "raises": "address"
+          "choice": "turn",
+          "raises": "address",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-plain.i-did",
+      "move": "address-answer-plain",
+      "kind": "spoken",
+      "text": "I did.",
+      "uses": [
+        {
+          "move": "address-answer-plain",
+          "subject": "address",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-plain.i-saw-it",
+      "move": "address-answer-plain",
+      "kind": "spoken",
+      "text": "I saw it.",
+      "uses": [
+        {
+          "move": "address-answer-plain",
+          "subject": "address",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-plain.yes-i-caught-it",
+      "move": "address-answer-plain",
+      "kind": "spoken",
+      "text": "Yes, I caught it.",
+      "uses": [
+        {
+          "move": "address-answer-plain",
+          "subject": "address",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-missed.no-i-missed-it",
+      "move": "address-answer-missed",
+      "kind": "spoken",
+      "text": "No, I missed it.",
+      "uses": [
+        {
+          "move": "address-answer-missed",
+          "subject": "address",
+          "role": "answer",
+          "choice": "missed",
+          "requiresFacts": ["missed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-missed.i-didn-t-get-to-see-it",
+      "move": "address-answer-missed",
+      "kind": "spoken",
+      "text": "I didn't get to see it.",
+      "uses": [
+        {
+          "move": "address-answer-missed",
+          "subject": "address",
+          "role": "answer",
+          "choice": "missed",
+          "requiresFacts": ["missed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
     },
     {
       "key": "conversation.address-view-raise-for.i-thought-the-president-made-a-lot-of-sense",
@@ -19831,7 +19929,7 @@
           "move": "quiet-answer-talk",
           "subject": "quiet",
           "role": "answer",
-          "choice": "talk"
+          "choice": "miss"
         }
       ],
       "origin": "authored",
