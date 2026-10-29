@@ -13,7 +13,7 @@ lead: words
 source: added with npm run pool -- add
 ---
 
-**What.** src/director/conversation-home-lines.test.ts fails in Wanamassa, New Jersey (GOLDEN_PATH_SEED=a1ed80950fac27866116967e1dcfc3d3600c3892) on clean main at 083ab41dad: the news-raise-heard pieces never play over 400 pairs' talks a month in, so 'expected 0 to be greater than 0'. Either nobody in that town heard a story to raise, or the raise is never reached; which one is not known yet. The other drawn places checked on Oct 29 passed, so the failure is this town's and not every town's.
+**What.** src/director/conversation-home-lines.test.ts fails in Wanamassa, New Jersey (GOLDEN_PATH_SEED=a1ed80950fac27866116967e1dcfc3d3600c3892) on clean main at 083ab41dad: the news-raise-heard pieces never play over 400 pairs' talks a month in, so 'expected 0 to be greater than 0'. Either nobody in that town heard a story to raise, or the raise is never reached; which one is not known yet. Only this one town was run on Oct 29, so whether other towns fail the same way is not known.
 
 **Rules.** One rule, all 56 places: a test that draws a place must pass in every place it can draw, or say why a place has nothing to show and draw again. Ask why: name the cause by record before changing the test.
 
