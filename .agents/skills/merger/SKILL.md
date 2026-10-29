@@ -44,6 +44,10 @@ At the start of every run, before listing PRs, and again after every merge you m
 4. Run the same changed-file checks, then open a ready PR. Another merger merges it, never its author.
 5. Then continue with the merging below.
 
+## 0b. The queue and the tooling PRs
+
+Main's full validation runs hourly, not on every push (#6692, Oct 28), so a PR's checks are the verdict; main's hourly run is the backstop. When the Actions queue is deep, a PR whose checks are only queued is gated locally (changed-file checks on the merged result, as section 1 says) and merged on that gate. A tooling PR that unblocks every other PR (the pool's done flip, a workflow fix) is first in every merger's order, ahead of MERGE-FIRST, and its one red that is main's own red does not hold it.
+
 ## 1. Your share, and other mergers
 
 Several mergers run at once, splitting open PRs by PR number modulo the number of share mergers your prompt names (five on Oct 26: `<N>` is 0 to 4), plus a recheck merger when `MERGE-FIRST.md` names one. Your prompt gives your share and an order (oldest or newest first). Stay in it, after `MERGE-FIRST.md`: a `MERGE-FIRST.md` line in nobody's share is anyone's; a line in your share is yours first.

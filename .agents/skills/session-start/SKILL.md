@@ -85,7 +85,8 @@ Mergers send back most PRs for the same few reasons, and every model makes them,
 
 - Never force-push, rebase or amend a pushed branch. A merged PR carries no new work; open a new branch.
 - Workers don't message other sessions or start schedules: the PR body and the item's Notes are a worker's voice; leads and the CTO talk through the three files in `.agents/rules/how-we-talk.md`. Lead sessions may run their own helpers (`AGENTS.md`, "Helpers").
-- Treat a permission prompt as denied. Don't retry it; work around it or note it in the PR body.
+- Treat a permission prompt as denied. Don't retry it; work around it or note it in the PR body. Never call a scheduling tool (`send_later`, `CronCreate`, a trigger), never edit anything under `.git/`, never reach outside the container: each one prompts the owner and the session sits for hours (four sessions did on Oct 29).
+- After a usage reset, resume from your own last channel block or Notes line; the CTO's message says "continue where you left off" and nothing more.
 - Out of usage or stopping: push what you have, set the item back to `open` with one Notes line saying where you stopped, and stop.
 
 ## The prompt

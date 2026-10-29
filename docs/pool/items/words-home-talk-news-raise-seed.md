@@ -21,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/director/conversation-home-lines.test.ts, src/director/conversation.ts
 
-**Notes.** Found Oct 29 by the Words and director session while checking PR 6759 (it fails the same way without that PR).
+**Notes.** Found Oct 29 by the Words and director session while checking PR 6759 (it fails the same way without that PR). More evidence, Oct 29: on clean main it fails the same way in Morris, Minnesota (6e5c80fe002e38156f66cc0b7a3bd6e355dff037), Ruleville, Mississippi (6e5608a2f3d0c68278fcb1f8a8a4ef065c1df3d3) and Hilger, Montana (330b294fe4b1fc630e9c8ac10d5c5f6994a3d5ba), and on PR 6764 in Green Oaks, Illinois. In Wanamassa the talks do raise news, but by topic ('I saw Keystone News Network ran a story on coverage and insurance.'), never by headline: printedHeard in src/director/conversation.ts found no printed story with a headline that the speakers had heard in the last 90 days. Including the player's own circle in the test's talks did not change it.

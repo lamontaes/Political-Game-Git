@@ -29,7 +29,7 @@ Before any of these, in any session (lead, lane, words, director, merger, fixer,
 2. `docs/coordination/DECISION-REGISTER.md`: the design decisions and their dates.
 3. `docs/coordination/prior-rulings/*.md`: digests of the owner's Drive rulings by area (economy, words, elections, and the rest). Read the digest for your area whole.
 4. `docs/play-first/LAW.md`: every ruling about play.
-5. `docs/coordination/playtest/*.md`: the sitting blocks, his words verbatim.
+5. `docs/coordination/playtest/*.md`: the sitting blocks, his words verbatim; `docs/coordination/voice-notes/*.md`: his voice notes word for word (words, scenes, grading, the Oct 24 playtest). When a ruling and a voice note disagree, the voice note is what he said.
 6. `rg -i` across `docs/` for the subject and its synonyms (a business is also an employer, a workplace, an establishment, a firm; a scene is also a talk, a moment, a beat).
 7. `docs/pool/items/`: an item on the subject carries its Notes and its PRs.
 8. The owner's Drive, when the session has the Drive connector: `search_files` with `fullText contains '<subject>'`; the CTO rulings docs there ("03 CTO RULINGS", "OVERNIGHT ORDERS", "RESEARCH FOR CTO REVIEW") are his words from September and October. A session without the connector reads the prior-rulings digests, which are made from them, and says so.
