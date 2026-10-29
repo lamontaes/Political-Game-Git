@@ -22809,10 +22809,10 @@
       }
     },
     {
-      "key": "conversation.debate-question-ask.first-question-where-do-you-stand-on-about",
+      "key": "conversation.debate-question-ask.our-first-question-where-do-you-stand-on-about",
       "move": "debate-question-ask",
       "kind": "spoken",
-      "text": "First question: where do you stand on {about}?",
+      "text": "Our first question: where do you stand on {about}?",
       "uses": [
         {
           "move": "debate-question-ask",
@@ -23029,10 +23029,10 @@
       }
     },
     {
-      "key": "conversation.debate-question-ask.just-one-question-about-where-do-you-stand",
+      "key": "conversation.debate-question-ask.only-one-question-about-where-do-you-stand",
       "move": "debate-question-ask",
       "kind": "spoken",
-      "text": "Just one question: {about}. Where do you stand?",
+      "text": "Only one question: {about}. Where do you stand?",
       "uses": [
         {
           "move": "debate-question-ask",
@@ -23051,10 +23051,10 @@
       }
     },
     {
-      "key": "conversation.debate-question-ask.would-you-vote-to-to",
+      "key": "conversation.debate-question-ask.tell-us-would-you-vote-to-to",
       "move": "debate-question-ask",
       "kind": "spoken",
-      "text": "Would you vote to {to}?",
+      "text": "Tell us: would you vote to {to}?",
       "uses": [
         {
           "move": "debate-question-ask",
@@ -23116,10 +23116,10 @@
       }
     },
     {
-      "key": "conversation.debate-question-ask.you-voted-on-about-where-do-you-stand-now",
+      "key": "conversation.debate-question-ask.youve-voted-on-about-where-do-you-stand-now",
       "move": "debate-question-ask",
       "kind": "spoken",
-      "text": "You voted on {about}. Where do you stand now?",
+      "text": "You've voted on {about}. Where do you stand now?",
       "uses": [
         {
           "move": "debate-question-ask",
@@ -23226,10 +23226,10 @@
       }
     },
     {
-      "key": "conversation.debate-take-plain-reply-take.thank-you-thats-clear",
+      "key": "conversation.debate-take-plain-reply-take.thank-you-thats-a-clear-answer",
       "move": "debate-take-plain-reply-take",
       "kind": "spoken",
-      "text": "Thank you. That's clear.",
+      "text": "Thank you. That's a clear answer.",
       "uses": [
         {
           "move": "debate-take-plain-reply-take",
