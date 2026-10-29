@@ -10,6 +10,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - **Ruling:** "No, I've already approved the general look of V4. I'd like that to go in too." The owner's visual check on `people-pack-v4` is given for the general look; the PR is no longer held. It merges like any PR once its checks are green and a merger has checked it (not its author), and the Mac build waits for it. Later visual changes to single figures are ordinary fixes, not a new hold. Replaces the hold in `MERGE-FIRST.md` line 5 and in the 19:00 entry below.
 
+## Oct 29, 19:10 UTC: everyday clothes and work clothes are chosen apart (owner, directly to the people session; relayed to the CTO)
+
+- **Ruling:** "The creator mixes like formal clothes, like with a suit and tie, with regular clothes. There needs to be two separate ones. So that way also, like, the president doesn't render in normal clothes. They render in their, you know, quote-unquote work clothes." The character creator picks everyday clothes (with colors) and work clothes separately and shows both portraits. Officials at government places, and anyone at their own workplace, are drawn in work clothes only; elsewhere in everyday clothes. Built in `people-pack-v4`.
+- **CTO ruling on the open fallback (standing rule: the simulation decides who is present, and a view never drops a record):** where a person is in the scene's cast but the pack has no everyday figure in that room's pose (the slim woman on a couch at home), they are drawn in work clothes rather than left out, as a registered stopgap in v4 that names the figure to draw. The owner can overrule it in one line.
+
 ## Oct 29, 19:00 UTC: everything finished goes into main and a fresh Mac build; nobody stops (owner, about 3:00 PM Eastern)
 
 - **Ruling:** "I want to get everything into main and play an up-to-date playtest... and update the Mac build so I can go ahead and install it... I think I'm on like 0.64.0." Then: "But, you know, I want them to keep working. I just want to play up to date." Every session pushes and opens PRs for what is already finished and keeps working; the mergers merge every green PR on `MERGE-FIRST.md`; the CTO starts the Release package workflow from main at about 19:45 UTC, and again whenever the owner asks for a build. Not a freeze. (People pack v4: approved at 19:20 UTC, above.)
