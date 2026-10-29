@@ -629,6 +629,15 @@ export function runDesk(
       item.subjectIds.some((id) => servesLocally(api, id))
     )
       return followers.length + ctx.countedFollowers(outlet);
+    // A town body's vote on a bill, carried or failed, decides a rule for
+    // the whole town as a law in force binds it: every follower, named or
+    // counted, is involved (a council member's own ordinance went unprinted
+    // behind town halls, Mentor, Kentucky, Oct 29).
+    if (
+      item.level === "town" &&
+      (item.kind === "legislative-vote" || item.kind === "bill-failed")
+    )
+      return followers.length + ctx.countedFollowers(outlet);
     // A budget the executive signs or vetoes binds the whole town as much as
     // a law in force: every follower, named or counted, is involved.
     if (item.kind === "executive-action" && isBudgetBill(api, item))
