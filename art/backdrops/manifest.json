@@ -6813,58 +6813,6 @@
       "tags": ["kind:office", "uses:shared-location"]
     },
     {
-      "place": "oval-office-resolute",
-      "variant": "midday",
-      "file": "oval-office-resolute__midday.jpg",
-      "width": 1672,
-      "height": 941,
-      "sha256": "d3c179a5a63cd48547f7d4aba48153867112a31728f119d649c3444878da275d",
-      "sourceFile": "oval-office-resolute__midday~2e6b3578.png",
-      "sourceSha256": "d09edef0a3081a597bc0fed1cefbaa2fa7fc17e9250b9749b64002084de57b78",
-      "fireflyAssetId": "urn:aaid:sc:US:2e6b3578-3344-4324-8b50-d38f38493c04",
-      "approval": "owner-placeholder-2026-10-13",
-      "tags": ["kind:oval-office-resolute", "uses:shared-location"]
-    },
-    {
-      "place": "oval-office-resolute",
-      "variant": "morning",
-      "file": "oval-office-resolute__morning.jpg",
-      "width": 1672,
-      "height": 941,
-      "sha256": "cb98ec57a95356cdeccd81b306b52e679ccfb3250883b2ac85e7750b3c2c2df6",
-      "sourceFile": "oval-office-resolute__morning~08715f94.png",
-      "sourceSha256": "492504b8a4c022e542bcf6ddd27298e4cf00a1c9a6b7c5f4be17079acaa8c212",
-      "fireflyAssetId": "urn:aaid:sc:US:08715f94-b8d2-40a9-8cbc-575a3f141ced",
-      "approval": "owner-placeholder-2026-10-13",
-      "tags": ["kind:oval-office-resolute", "uses:shared-location"]
-    },
-    {
-      "place": "oval-office-resolute",
-      "variant": "night",
-      "file": "oval-office-resolute__night.jpg",
-      "width": 1672,
-      "height": 941,
-      "sha256": "90a57dc053bdf9120c7a32bb02c38a08f8bea1667c01d8a86b4245327037fd17",
-      "sourceFile": "oval-office-resolute__night~d608f88f.png",
-      "sourceSha256": "9891db58174534dd9eb4b7e659dbdcdce608d5ec878ff1f156d27bc71a59a4a6",
-      "fireflyAssetId": "urn:aaid:sc:US:d608f88f-437a-43ee-9817-fb4093746569",
-      "approval": "owner-placeholder-2026-10-13",
-      "tags": ["kind:oval-office-resolute", "uses:shared-location"]
-    },
-    {
-      "place": "oval-office-resolute",
-      "variant": "rain",
-      "file": "oval-office-resolute__rain.jpg",
-      "width": 1672,
-      "height": 941,
-      "sha256": "c16d40f7fd6bacb9014645f5cb7c35ccf951a73e4ad1ad216672d96247254c1e",
-      "sourceFile": "oval-office-resolute__rain~4a62e96f.png",
-      "sourceSha256": "9d29aaeffedb4fea2a40dfdf8ef3ad25623c3d4a25326baefd811397066dc3b0",
-      "fireflyAssetId": "urn:aaid:sc:US:4a62e96f-d9bf-4d91-9fa0-994692356e04",
-      "approval": "owner-placeholder-2026-10-13",
-      "tags": ["kind:oval-office-resolute", "uses:shared-location"]
-    },
-    {
       "place": "park",
       "variant": "morning",
       "file": "park__morning.jpg",

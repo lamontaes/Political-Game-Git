@@ -22,3 +22,5 @@ claimed-at: 2026-10-15T23:33:27.271Z
 **Files.** src/core2/office-day-calendar.ts
 
 **Notes.** First row: A council or board meets on its own rule for the bills placed before it, but the meetings where members file their own ordinances keep the world-legislating engine's tunable yearly count, so one body has two sets of meet
+
+Oct 29 (CTO): the owner asked "why is vote locked at 6 p.m.? That shouldn't happen." Every town body meets at the one tunable evening minute in `src/core2/office-day-calendar.ts` (line 100), and members' ordinances are voted at the start of the meeting's day before the player's stop (stopgaps.json, about line 4239). Each body's real meeting day and hour come from the place's data, and nothing the player does is held until a fixed hour.
