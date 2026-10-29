@@ -5,10 +5,10 @@
     "lawLinks": 134,
     "webCoverageWired": 126,
     "allEightPoints": 0,
-    "reachesOrCarried": 164,
-    "namedInAStopgap": 95,
+    "reachesOrCarried": 165,
+    "namedInAStopgap": 94,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 164,
+    "reachesTheWorld": 165,
     "aboutZero": 19,
     "withAnyModerator": 23,
     "byPoint": {
@@ -25,9 +25,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 164,
+        "pass": 165,
         "partial": 0,
-        "fail": 62,
+        "fail": 61,
         "n/a": 19
       },
       "varied": {
@@ -3511,7 +3511,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:801, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3559,7 +3559,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:801, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3616,7 +3616,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229"
+          "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -3662,7 +3662,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229"
+          "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -4047,7 +4047,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229"
+          "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -4239,7 +4239,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229",
+          "evidence": "outcome read by src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229",
           "why": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
@@ -4386,7 +4386,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229"
+          "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -5780,7 +5780,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/health.ts:801, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78"
+          "evidence": "src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78"
         },
         "varied": {
           "status": "fail",
@@ -5921,9 +5921,8 @@
           "evidence": "data/research/outcome-web/links.json:3427 size -0.04, range [-0.13, 0.1], Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerdá et al. 2017 (JAMA Pediatrics)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: health.youth-cannabis-use moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/modules/health.ts:1198"
         },
         "varied": {
           "status": "fail",
@@ -5949,8 +5948,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-EW-HEALTH-condition-record"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "loan-rate-cap-to-high-cost-borrowing",
@@ -7621,7 +7620,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229"
+          "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "fail",
@@ -11805,7 +11804,7 @@
     {
       "measure": "births.rate",
       "status": "engine-reads-web",
-      "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229",
+      "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12624,9 +12623,8 @@
     },
     {
       "measure": "health.youth-cannabis-use",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/modules/health.ts:1198",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["cannabis-sales-to-youth-use"]
@@ -12730,7 +12728,7 @@
     {
       "measure": "housing.eviction",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/health.ts:801, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78",
+      "evidence": "src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78",
       "countedTwice": false,
       "asCause": ["eviction-to-homelessness", "eviction-to-hospital-visits"],
       "asOutcome": [
