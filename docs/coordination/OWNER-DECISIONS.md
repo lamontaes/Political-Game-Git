@@ -6,6 +6,24 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 21:40 UTC: the owner's notes on the governing brief (owner, about 5:40 PM Eastern, voice note)
+
+The owner read the CTO's governing brief and answered in one voice note. Each point and where it went:
+
+- **The ladder includes Congress and the president.** "Why not federal legislator and president? Again, these all use the same engine. It shouldn't be that hard." The governing plan's last phase covers state legislator, governor, Congress and president, all on the same engines. This also settles the open question on Congress: playing in Congress is in the plan, not after it.
+- **The player runs only for six offices.** "The player only runs for city council, state legislator, mayor, governor, Congress, and president. That's it. The other stuff can be simulated... but no, not the player." Trustee, clerk and county seats keep running in the world. Pool `play-player-runs-only-six-offices` (lane).
+- **Winning is a real campaign, not door knocking alone.** "Look at real races": an organization backing a challenger, a campaign gaining steam until the incumbent comes home to campaign, donor meetings, hosting a forum, meeting possible constituents, debates; "it's raising money and stuff like that that needs to be decided for A." Pool `campaign-like-real-races` (phase A; lead CTO until the governing lead starts).
+- **Swearing in happens, as a scene, with a speech where the office gives one;** "the word session will handle that." Pool `words-swearing-in-scene-and-speech` (words).
+- **People bringing it up (step 8 of the brief) is the words session's.** Sent to words.
+- **The voting and bill screens need work and must be tied to the place;** "it's all about how this stuff is communicated through the English engine." Pool `play-vote-and-bill-screens-redesign` (lane, to the mocks).
+- **The vote is not locked to 6 PM.** Every town body meets at one tunable evening hour today (`office-day-calendar.ts` line 100); each body's real day and hour come from data. Evidence added to `office-stopgap-office-day-calendar-calendar`.
+- **The executive's budget is the player's.** "Your character sends the budget without you" (objecting). Evidence added to `office-the-budget-season`; the budget is a desk stop by default.
+- **Laws work federally, and every state and town governs.** "No, laws need to work federally. Other states and towns never sit. No, all 50 states need to." This restates the Sept 26 ruling (all 50 legislatures seated from day one, REG:276-284) that the build never met. Pools `gov-congress-passes-policy-laws` and `gov-every-state-and-town-governs` (laws lead).
+- **Quorum is not a mechanic.** "It should always make quorum... relatively irrelevant, aside from maybe some dialogue every now and then." Meetings always make quorum; the CTO's proposed quorum rule is withdrawn.
+- **Everything between a law passing and a person feeling it is in scope** ("I assume everything in between needs to also be done as well").
+- **Parse every voice note for every session.** "When I make these voice notes, I say stuff that could apply to a lot of different sessions. Be sure you're parsing everything I say." The CTO splits each note into its points and routes each to its owner the same hour.
+- **On counts:** the brief's "45 of 59 law types" was a count of one dispatcher's policy questions, not laws; the laws matrix is the measure (87 of 89 laws reach people on main, laws lead, Oct 29). The brief is corrected.
+
 ## Oct 29, 21:15 UTC: governing interview, first answers (owner, about 5:15 PM Eastern)
 
 The CTO's governing brief (artifact "Our Civic Duty Governing Brief", Oct 29) put nine questions the rulings did not answer. Answers so far:
