@@ -1,0 +1,30 @@
+{
+  "about": "How a sitting plays in the conversation engine (src/director/sitting.ts): a candidate answers, one question at a time, what an asker puts as a line (owner, Oct 26-29: interviews are scenes). It holds no sentence text: every line is a piece of data/english/parts/conversation.json under the subjects named in a kind's row. A kind of sitting (an interview with a reporter; the debate next) is one row under `kinds`, with its source in code (src/director/interview-sitting.ts) that finds the sitting's record and publishes it.",
+  "moves": ["plain", "further", "turn", "brief"],
+  "lie": "lie",
+  "declined": "declined",
+  "stages": {
+    "only": "only",
+    "first": "first",
+    "next": "next",
+    "last": "last"
+  },
+  "order": {
+    "about": "The four replies are shown in this order. A candidate who carries a talk on (the trait engine's conversation.reply-reach decision) sees the answers that say more first; one who keeps it short sees the brief ones first.",
+    "carryOn": ["further", "turn", "plain", "brief"],
+    "keepShort": ["brief", "plain", "turn", "further"]
+  },
+  "kinds": {
+    "interview": {
+      "about": "A reporter's interview the candidate said yes to. The press engine puts `stagedBy` on the record and the director stages the `interview-sitting` situation type from it; `published` is the record the interview's end writes.",
+      "stagedBy": "interview-accepted",
+      "published": "interview-published",
+      "subjects": {
+        "open": "interview-open",
+        "question": "interview-question",
+        "close": "interview-close",
+        "takePrefix": "interview-take-"
+      }
+    }
+  }
+}

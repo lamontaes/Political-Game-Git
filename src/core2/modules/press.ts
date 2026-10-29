@@ -1406,6 +1406,22 @@ export function standingOn(
 }
 
 /**
+ * The vote on a question that a person's record holds last: its id and the
+ * way it went (the position, above zero for the measure), or null for none.
+ * What a sitting's further fact stands on and its lie contradicts.
+ */
+export function lastVoteOn(
+  api: CoreAPI,
+  personId: string,
+  question: string,
+): { readonly id: string; readonly position: number } | null {
+  const vote = votesOf(api, personId)
+    .filter((entry) => entry.stance.question === question)
+    .at(-1);
+  return vote ? { id: vote.id, position: vote.stance.position } : null;
+}
+
+/**
  * How much the town cares about a question, 0 to 1: the summed strength of
  * the stances its people hold on it (PEOPLE's views engine) over the town's
  * adults, read once a day.
@@ -1853,8 +1869,6 @@ export function answerInterview(
     InterviewRow | undefined;
   if (!row || row.status !== "invited")
     throw new Error(`No interview waiting: ${interviewId}`);
-  // stopgapId: SG-PEOPLE-press-interview-conversation
-  api.stopgap("SG-PEOPLE-press-interview-conversation");
   const speaker = speakerOf(api, row);
   const given = row.questions.map((question): InterviewAnswer => {
     const answer = answers.find((a) => a.question === question);
@@ -1863,13 +1877,16 @@ export function answerInterview(
         ? null
         : Math.max(-1, Math.min(1, answer.position));
     const move: InterviewMove = answer?.move ?? "plain";
-    // The record the answer rests on, or that it contradicts.
+    // The record the answer rests on, or that it contradicts: the one the
+    // answer names (a vote the sitting's further fact or lie is about), else
+    // the vote their stand rests on.
     const truth = standingOn(api, speaker, question);
     return {
       question,
       position,
       move,
-      recordId: truth.from === "vote" ? truth.recordId : null,
+      recordId:
+        answer?.recordId ?? (truth.from === "vote" ? truth.recordId : null),
     };
   });
   return publish(api, row, given);
@@ -2062,6 +2079,11 @@ function publish(
       ...(row.contestId ? { contestId: row.contestId } : {}),
       answered: String(statements.length),
       declined: String(answers.length - statements.length),
+      // That the candidate sat for it: the sitting is the interview's scene,
+      // so the director stages no second one after it.
+      ...(api.state.durableLog.has(`${INTERVIEW_ACCEPTED_EVENT}:${row.id}`)
+        ? { sat: "yes" }
+        : {}),
       ...(storyId ? { storyId } : {}),
     },
   });
@@ -3288,6 +3310,13 @@ function snubbed(
 
 /** The kind of an outlet's invitation to a candidate to sit for an interview. */
 export const INTERVIEW_INVITED_EVENT = "interview-invited";
+/**
+ * The kind of the record that a candidate said yes to an outlet's invitation:
+ * the sitting is waiting. It names the candidate and the reporter who will
+ * ask; the director stages the sitting from it (`interview-sitting`), and the
+ * candidate's answers, said there, publish the interview (`answerInterview`).
+ */
+export const INTERVIEW_ACCEPTED_EVENT = "interview-accepted";
 /** The replies in an invitation's scene that accept it. */
 export const ACCEPTING_MOVES: ReadonlySet<string> = new Set([
   "agree",
@@ -3364,10 +3393,12 @@ export function platformAnswers(
 }
 
 /**
- * The answer to an outlet's invitation, said in its scene: a yes sits for the
- * interview with the candidate's filed platform as their answers, a no is a
- * refusal on the record (the outlet's people may take it as a snub), and
- * anything else leaves it open until the race is over.
+ * The answer to an outlet's invitation, said in its scene: a yes puts the
+ * sitting on the record (`interview-accepted`, one for each outlet that
+ * asked) and the interview waits for the candidate to sit for it, answering
+ * each question as a line of their own; a no is a refusal on the record (the
+ * outlet's people may take it as a snub); and anything else leaves it open
+ * until the race is over.
  */
 function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
@@ -3379,14 +3410,45 @@ function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       InterviewRow | undefined;
     if (row?.status !== "invited" || !event.personIds.includes(row.candidateId))
       continue;
-    if (ACCEPTING_MOVES.has(move))
-      answerInterview(
-        api,
-        row.id,
-        platformAnswers(api, row.filingId, row.questions),
-      );
+    if (ACCEPTING_MOVES.has(move)) accepted(api, row, event.id);
     else if (REFUSING_MOVES.has(move)) refuse(api, row);
   }
+}
+
+/**
+ * A candidate said yes to an outlet's invitation: the sitting is on the
+ * record, with the reporter who will ask, for the director to stage. Said
+ * once for an invitation; the interview stays invited until it is sat.
+ */
+function accepted(api: CoreAPI, row: InterviewRow, replyId: string): void {
+  const id = `${INTERVIEW_ACCEPTED_EVENT}:${row.id}`;
+  if (api.state.durableLog.has(id)) return;
+  const ids = [row.candidateId, row.reporterId ?? ""].filter((who) =>
+    api.state.people.has(who),
+  );
+  if (ids.length < 2) return;
+  const outlet = outletsHere(api).find((o) => o.id === row.outletId);
+  const contest = row.contestId ? contestOf(api, row.contestId) : null;
+  api.emit({
+    id,
+    date: api.state.date,
+    kind: INTERVIEW_ACCEPTED_EVENT,
+    personIds: ids,
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Interview ${row.id}, accepted in ${replyId}`,
+      asOf: api.state.date,
+    },
+    facts: {
+      interviewId: row.id,
+      invitedId: row.candidateId,
+      outletId: outlet?.organizationId ?? row.outletId,
+      reporterId: row.reporterId ?? "",
+      ...(row.contestId ? { contestId: row.contestId } : {}),
+      ...(contest ? { office: contest.title } : {}),
+    },
+  });
 }
 
 /** The player turns down an interview an outlet offered. */

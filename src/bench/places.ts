@@ -248,12 +248,13 @@ export function visitPlace(
       reason: id === playerId ? ("you" as const) : ("coworker" as const),
     };
   });
+  const backdrop = backdropFor(core, place, minute);
   return {
     organizationId,
     name: properName(org.name),
     place,
-    backdrop: backdropFor(core, place, minute),
+    backdrop,
     names: Object.fromEntries(ids.map((row) => [row.id, row.name])),
-    ...stagePeople(core, place, ids),
+    ...stagePeople(core, backdrop.file, ids),
   };
 }
