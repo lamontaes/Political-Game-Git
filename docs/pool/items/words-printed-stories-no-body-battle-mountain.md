@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: words
 source: added with npm run pool -- add
 ---
 
@@ -20,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/bench/printed-words.ts, src/bench/archive-words.ts, src/english/english-newscast.ts, data/english/parts/news.json
 
-**Notes.** Found Oct 29 by the Words and director session while running the printed-kinds branch on five seeds (red the same way on clean main).
+**Notes.** Found Oct 29 by the Words and director session while running the printed-kinds branch on five seeds (red the same way on clean main). Related, not a twin: words-printed-stories-have-a-body built the body sentences and this check (open; its body check is on main); this item is one drawn town where that check fails.
