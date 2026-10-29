@@ -115733,7 +115733,7 @@
       "key": "scene-talk.state-request.we-went-through-everybody-and-we-d-like-to-bring-you-on-as-position",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We went through everybody, and we'd like to bring you on as {position}.",
+      "text": "We went through everybody, and we'd like to bring you on as {position}, at {pay} an hour.",
       "uses": [
         {
           "subject": "scene",
@@ -115757,7 +115757,7 @@
       "key": "scene-talk.state-request.the-opening-at-employer-is-yours-if-you-want-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The opening at {employer} is yours if you want it.",
+      "text": "The opening at {employer} is yours if you want it: {position}, {pay} an hour.",
       "uses": [
         {
           "subject": "scene",
@@ -115781,7 +115781,7 @@
       "key": "scene-talk.state-request.we-d-like-you-to-come-work-for-us-can-you-give-me-an-answer-by-deadline",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We'd like you to come work for us. Can you give me an answer by {deadline}?",
+      "text": "We'd like you to come work for us as {position}, at {pay} an hour. Can you give me an answer by {deadline}?",
       "uses": [
         {
           "subject": "scene",

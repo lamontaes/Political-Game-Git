@@ -5,8 +5,8 @@
  * the jobs engine's own path, and the first employer that picks them makes the
  * offer through a full person who works there (`offeredBy`). The offer is a
  * `job-offered` record, not a clock stop; the director stages it as a call
- * from that person; the player's yes, said in the scene (a `scene.reply`
- * naming the offer), is what hires them.
+ * from that person, who says the job and the pay from the record; the
+ * player's yes, said in the scene (`replyInScene`), is what hires them.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -24,6 +24,8 @@ import {
   type JobOfferRow,
 } from "./modules/jobs";
 import { earliestModuleStopsV1 } from "./player-stops-v1";
+import { purposeScene, replyInScene } from "../director/purpose-scene";
+import { dollars } from "../english/bill-sections";
 import { coreAPI } from "./state";
 import type { PersonId } from "./types";
 
@@ -121,21 +123,37 @@ it("an employer's offer reaches the player through a person who works there, in 
     process.stdout.write(
       `job-offer-through-person: scheduled ${entry!.momentId}\n`,
     );
-    // The player's yes, said in the scene.
-    const replyId = `scene-reply:job-offer-through-person:${event.id}`;
-    api.emit({
-      id: replyId,
-      date: core.date,
-      kind: "scene.reply",
-      personIds: [me, offeredBy],
-      placeId: core.people.get(me)!.placeId,
-      facts: { typeKey: "job-offer", causeId: event.id, move: "agree" },
-      source: {
-        tag: "SOURCED",
-        citation: "Recorded scene: the reply the player chose to say.",
-        asOf: core.date,
-      },
+    // The call composes: the caller says the job and the pay from the
+    // offer record, and the player has four different answers.
+    const composed = purposeScene(core, director, me, entry!, {
+      typeKey: "job-offer",
     });
+    expect(composed?.kind, `${where}: ${JSON.stringify(composed)}`).toBe(
+      "composed",
+    );
+    if (composed?.kind !== "composed") return;
+    const { talk } = composed.scene;
+    expect(talk.narration.length, where).toBeGreaterThan(0);
+    const offer = talk.state.text;
+    const title = String(facts.title).toLowerCase();
+    expect(offer.toLowerCase(), `${where}: ${offer}`).toContain(title);
+    expect(offer, `${where}: ${offer}`).toContain(
+      dollars(Number(facts.hourlyMinor)),
+    );
+    const moves = talk.tree.replies.map((reply) => reply.line.move);
+    expect(new Set(moves).size, `${where}: ${moves.join(", ")}`).toBe(
+      moves.length,
+    );
+    process.stdout.write(
+      `job-offer-through-person: ${talk.narration.map((line) => line.text).join(" ")} / ${offer} / ${talk.tree.replies.map((reply) => `[${reply.line.move}] ${reply.line.text}`).join(" ")}\n`,
+    );
+    // The player's yes, said in the scene.
+    const yes = moves.indexOf("agree");
+    expect(yes, `${where}: ${moves.join(", ")}`).toBeGreaterThanOrEqual(0);
+    const replyId = replyInScene(core, director, me, entry!, [yes], {
+      typeKey: "job-offer",
+    });
+    expect(replyId, where).toBeTruthy();
     const hired = core.jobs.get(core.people.get(me)!.jobId ?? "");
     expect(hired?.organizationId, `${where}: hired by ${org}`).toBe(org);
     expect(
