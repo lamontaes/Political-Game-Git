@@ -70,16 +70,31 @@ case $mode in
       echo "helper-checkout: $dir already exists" >&2
       exit 1
     }
-    url=$(git -C "$main" remote get-url origin)
-    git clone --quiet --shared --no-checkout "$main" "$dir"
-    git -C "$dir" remote set-url origin "$url"
-    patterns | git -C "$dir" sparse-checkout set --no-cone --stdin
-    git -C "$dir" fetch --quiet origin main
-    if git -C "$dir" fetch --quiet origin "$branch" 2>/dev/null; then
-      git -C "$dir" checkout --quiet -B "$branch" FETCH_HEAD
-      git -C "$dir" branch --quiet --set-upstream-to "origin/$branch" 2>/dev/null || true
+    if git -C "$main" fetch --quiet origin "$branch" 2>/dev/null; then
+      start=$(git -C "$main" rev-parse FETCH_HEAD)
+      remote=yes
     else
-      git -C "$dir" checkout --quiet -B "$branch" origin/main
+      git -C "$main" fetch --quiet origin main
+      start=$(git -C "$main" rev-parse FETCH_HEAD)
+      remote=no
+    fi
+    if [[ $(git -C "$main" rev-parse --is-shallow-repository) == true ]]; then
+      # A clone of a shallow repository copies every pack instead of sharing
+      # them (a 3.7 GB copy, found by the words session on Oct 29); a worktree
+      # shares the object store either way.
+      git -C "$main" worktree add --quiet --no-checkout -B "$branch" "$dir" "$start"
+      patterns | git -C "$dir" sparse-checkout set --no-cone --stdin
+      git -C "$dir" checkout --quiet "$branch"
+    else
+      url=$(git -C "$main" remote get-url origin)
+      git clone --quiet --shared --no-checkout "$main" "$dir"
+      git -C "$dir" remote set-url origin "$url"
+      patterns | git -C "$dir" sparse-checkout set --no-cone --stdin
+      git -C "$dir" checkout --quiet -B "$branch" "$start"
+    fi
+    if [[ $remote == yes ]]; then
+      git -C "$dir" fetch --quiet origin "$branch" 2>/dev/null &&
+        git -C "$dir" branch --quiet --set-upstream-to "origin/$branch" 2>/dev/null || true
     fi
     [[ -d $main/node_modules && ! -e $dir/node_modules ]] &&
       ln -s "$main/node_modules" "$dir/node_modules"

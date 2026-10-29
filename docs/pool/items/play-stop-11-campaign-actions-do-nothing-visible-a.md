@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: play-first/play-stop-11-campaign-actions-do-nothing-visible-a
-pr:
+pr: #6787
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first

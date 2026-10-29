@@ -37,7 +37,7 @@ This section overrides anything heavier elsewhere in this file, in a skill or in
 
 - **The owner picks the model per job** (Oct 20; crew reshaped Oct 26). Opus for the one lead, the Words line, the CTO and the owner's local session; Sonnet for mergers, fixers, building and pool work; Codex at medium by default, high only when the job says why. Effort is proportional to the task, and so is the helper count.
 - **Mind the weekly usage.** Above about 75%, go lean: fewer helpers, no new sessions without the owner's word. Near or right after a reset, lean toward effectiveness.
-- **Helpers never copy the whole repository (owner, Oct 29: "they shouldn't. They should immediately delete what they don't need, or even more helpfully, only clone what they do need"; "This needs to be a project rule").** A full copy is about 3.3 GB, and six filled a cloud session's disk on Oct 29. A helper or sub-agent works in a sparse copy holding only the folders its task needs (by default everything except `art/`, `public/`, `desktop/` and the large docs folders), shares the main checkout's git objects instead of downloading them again, and links `node_modules` instead of installing it. A session that finds a full helper copy narrows it at once. Skill `helper-checkout`.
+- **Helpers never copy the whole repository (owner, Oct 29: "they shouldn't. They should immediately delete what they don't need, or even more helpfully, only clone what they do need"; "This needs to be a project rule").** A full copy is about 3.3 GB, and six filled a cloud session's disk on Oct 29. A helper or sub-agent works in a sparse copy without the repository's image files (every folder stays, so typecheck, tests and guards run; images are two thirds of a copy), shares the main checkout's git objects instead of downloading them again, and links `node_modules` instead of installing it. A session that finds a full helper copy narrows it at once. Skill `helper-checkout`.
 - **Helpers.** A helper needs an independently useful bounded output and explicit path and tool ownership; no recursive delegation or duplicate full-repo review. Each works in its own files or worktree, gets a clear objective, its check and an output format, and is read-only unless its brief says otherwise; the lead reviews every diff before it becomes a PR. Preserve configured concurrency limits (Codex: two). Model effort is proportional to the actual task.
 
 ## How every session works
@@ -88,9 +88,35 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 
 ## Skills
 
-**Every session grows the skills (owner, Oct 29: "Make sure every session knows that it can proactively create skills and update the skills that they use if they find stuff, or they can ask... I want skills to be made").** When you find something a skill should have told you (a trap you fell into, a fix that worked, a method you used twice, a check that caught a defect), add the line to that skill, or create a new skill when none covers it, in the same pass. A skill can be about how the crew works (owner, Oct 29: keeping helpers' cloned workspaces down to what they need, so sessions have disk space to work with) or about anything in the game. A new skill is `.agents/skills/<name>/SKILL.md` with frontmatter `name` (the folder name) and a `description` of 41 to 1,024 characters that says when to use it and when not; mirror it byte for byte to `.claude/skills/<name>/`, add its name to the list below, run `npm run test:skill-ops` and prettier, and add a release declaration with `impact: none`. Ship it inside your work PR, or as its own `skills:` PR, which the CTO merges. A skill line records a ruling, a standing rule or a method that worked; it never makes new policy. When you are unsure whether something is a skill line or a question for the owner, ask the CTO.
+**Every session grows the skills (owner, Oct 29: "Make sure every session knows that it can proactively create skills and update the skills that they use if they find stuff, or they can ask... I want skills to be made").** When you find something a skill should have told you (a trap you fell into, a fix that worked, a method you used twice, a check that caught a defect), add the line to that skill, or create a new skill when none covers it, in the same pass. A skill can be about how the crew works (owner, Oct 29: keeping helpers' cloned workspaces down to what they need, so sessions have disk space to work with) or about anything in the game. A new skill is `.agents/skills/<name>/SKILL.md` with frontmatter `name` (the folder name) and a `description` of 41 to 1,024 characters that says when to use it and when not; mirror it byte for byte to `.claude/skills/<name>/`, add one line for it to the list below, in alphabetical order, run `npm run test:skill-ops` and prettier, and add a release declaration with `impact: none`. Ship it inside your work PR, or as its own `skills:` PR, which the CTO merges at once without waiting on CI (owner, Oct 29: "You shouldn't need to wait for checks to pass on new skills"), after running the skill test locally for the mirror and the list. A skill line records a ruling, a standing rule or a method that worked; it never makes new policy. When you are unsure whether something is a skill line or a question for the owner, ask the CTO.
 
-Load a skill when its trigger fits; descriptions say when. Every session, first: `look-first`. Before any helper or sub-agent starts: `helper-checkout`. Roles: `play-first` (one item of the lane; the screenshot and browser check live here), `session-start` (worker loop), `lead-session`, `pr-fixer`, `merger`, `researcher`, `words-engine`, `cto`. Audits and proofs: `merge-audit`, `wiring-audit`, `played-world-proof`, `ask-why`, `trace-audit`. Content: `civic-prose`, `civic-reports`, `asset-scene-admission`. Standards for anything a player sees: `scene-standard`, `player-screen-text`, `screen-to-mock`; new scenes come from real lives (`scenes-from-life`); the skills themselves learn from each day (`skill-lessons`).
+Load a skill when its trigger fits; descriptions say when. Every session, first: `look-first`. One skill per line, in alphabetical order, so two sessions adding skills never edit the same line:
+
+- `ask-why`: every proof answers why, by record
+- `asset-scene-admission`: admitting art into the game
+- `civic-prose`: writing bank pieces in the owner's style
+- `civic-reports`: reports and PR bodies for the owner
+- `cto`: the CTO role
+- `helper-checkout`: helpers work in sparse copies of the repository
+- `lead-session`: running a lead line
+- `look-first`: the search before building, fixing, filing or asking
+- `merge-audit`: auditing merged PRs
+- `merger`: merging and validating PRs
+- `play-first`: one item of the play-first lane; the screenshot and browser check
+- `played-world-proof`: proving a feature in a played year
+- `player-screen-text`: checking every string a player sees
+- `pr-fixer`: finishing sent-back PRs
+- `researcher`: turning a stopgap into a sourced number
+- `room-spots`: rooms and where people stand or sit in them
+- `scene-producers`: a scene's cause wired to an engine's record
+- `scene-standard`: the standard every scene meets
+- `scenes-from-life`: new scenes from real lives
+- `screen-to-mock`: screens follow the mocks and the shared controls
+- `session-start`: the pool worker loop
+- `skill-lessons`: the skills learn from each day
+- `trace-audit`: the 56-place trace audit
+- `wiring-audit`: auditing a family of mechanics end to end
+- `words-engine`: the English engine and the director
 
 ## Implementation boundaries
 
