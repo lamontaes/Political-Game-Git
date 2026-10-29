@@ -17,7 +17,11 @@ import { bodyOf, members } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { billTitleOf, spokenDesignation } from "../english/bill-names";
+import { appendFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { composeJournal } from "./journal";
+import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 
 // The officeholder's journal names a bill by its real name (owner, Oct 15):
 // a council member who introduces a bill and votes on it reads both in "My
@@ -142,5 +146,56 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
   );
   console.log(
     `JOURNAL BILL ${place.name}: ${voter!.memberId} "${voted!.text}" cites ${voted!.sourceRecordIds.join(", ")}`,
+  );
+  // A vote is told once. When the member's vote is also kept as their own
+  // act (the office day keeps the player's), the journal still tells it
+  // once: it printed every vote line twice (owner's play, Oct 29).
+  api
+    .moduleState(OFFICE_DAY_MODULE_ID)
+    .table("acts")
+    .put({
+      id: `office-act:vote:${bill.id}:${voter!.memberId}`,
+      personId: voter!.memberId,
+      kind: "vote",
+      how: "did",
+      date: core.durableLog.get(`office.voted:${bill.id}:${voter!.memberId}`)!
+        .date,
+      recordId: bill.id,
+      position: null,
+      detail: voter!.vote,
+    } as never);
+  const once = composeJournal(core, director, voter!.memberId)
+    .flatMap((chapter) => chapter.lines)
+    // By the bill's number: the act's own line named it without its title
+    // ("I voted for Ordinance 2025-1." beside "...-1, the Parks Funding
+    // Ordinance.", Oct 29).
+    .filter((line) => line.text.includes(number) && /voted/i.test(line.text));
+  expect(
+    once.map((line) => line.text),
+    `${place.name} (${place.key}) seed ${seed} ${bill.id}`,
+  ).toHaveLength(1);
+  // A bill that failed is told in its sponsor's journal (it never was).
+  const failed = [...(core.logByKind.get("bill-failed") ?? [])]
+    .map((id) => core.durableLog.get(id as never)!)
+    .find((row) => row.facts?.billId === bill.id);
+  if (failed) {
+    const told = lines.length
+      ? composeJournal(core, director, memberId)
+          .flatMap((chapter) => chapter.lines)
+          .find(
+            (line) =>
+              line.text.includes(name) &&
+              /failed|died|went against/i.test(line.text),
+          )
+      : undefined;
+    expect(
+      told?.sourceRecordIds,
+      `${place.name} (${place.key}) seed ${seed}: ${failed.id} not told`,
+    ).toContain(failed.id);
+  }
+  // The proof, by place, seed and record id (the runner keeps no console).
+  appendFileSync(
+    path.join(tmpdir(), "journal-bill-names-proof.txt"),
+    `${place.name} (${place.key}) seed ${seed}: ${bill.id} vote told once; ${failed ? `failed (${failed.facts?.stage}), told by ${failed.id}` : "passed"}\n`,
   );
 }, 600_000);

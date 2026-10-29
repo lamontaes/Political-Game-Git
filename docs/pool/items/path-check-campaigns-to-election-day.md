@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/path-check-campaigns
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T22:47:33.134Z
 ---
 
 **What.** path-check, the headless golden path, stopped campaigning once the petition held its signatures and then lived to election day, so the player never met a door that asked for the vote. It also left the polls without marking its own race, so the player's own vote was never cast, and in every finished baseline race of Oct 29 the player got zero votes. It took the first open contest rather than a council seat, the golden path's office.
