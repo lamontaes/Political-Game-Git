@@ -1867,7 +1867,7 @@
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 417,
     "whatItFakes": "The higher education line is a support level record on 18-to-24-year-olds; no tuition is charged or changed.",
-    "why": "No college enrollment or tuition exists in the core.",
+    "why": "The school engine now decides each graduate's college enrollment and completion (SG-SCHOOL-college-decided-at-graduation), but the core charges no tuition and keeps no college a student attends.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE schools engine: college enrollment and tuition (setTuition({ institutionId, inStateMinor })) read by household spending.",
