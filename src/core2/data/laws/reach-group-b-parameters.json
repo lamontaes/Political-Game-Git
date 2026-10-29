@@ -26,11 +26,6 @@
       "tag": "SOURCED",
       "source": "U.S. currency; the core keeps money in cents (minor units)."
     },
-    "percentPerWhole": {
-      "value": 100,
-      "tag": "SOURCED",
-      "source": "A percent is a hundredth; the Medicaid match law (42 U.S.C. 1396d(b)) states the federal share in percent."
-    },
     "reviewEveryMonths": {
       "value": 1,
       "tag": "TUNABLE",
@@ -51,11 +46,6 @@
       "value": 1.38,
       "tag": "SOURCED",
       "source": "42 U.S.C. 1396a(a)(10)(A)(i)(VIII) and 1396a(e)(14)(I): 133% of the poverty line plus the 5-point income disregard."
-    },
-    "medicaidMonthlyMedicalDollars": {
-      "value": 74.25,
-      "tag": "SOURCED",
-      "source": "BLS Consumer Expenditure Survey 2024, Table 1800 (national): prescription drugs $658 plus medical supplies $233 a year per consumer unit, over 12 months. It stands for the medical spending a covered adult no longer pays."
     },
     "medicaidExpansionAgeFrom": {
       "value": 19,

@@ -1298,7 +1298,8 @@ function householdApplications(
             daysBetweenText(row.chargedOffAt, c.date) <
               p("creditReportYears") * p("jobsDaysPerYear")) &&
           // A medical debt in collections reaches the report only after the
-          // reporting wait from its first delinquency (NCAP, CFPB 2022).
+          // reporting wait from its first delinquency (one year since July
+          // 2022, the three nationwide reporting companies' rule).
           (row.kind !== "medical" ||
             (!!row.chargedOffAt &&
               daysBetweenText(row.chargedOffAt, c.date) >=

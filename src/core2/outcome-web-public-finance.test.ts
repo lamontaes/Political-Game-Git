@@ -355,13 +355,6 @@ const UNWIRED: ReadonlyArray<{
       "credit lends one personal loan at prime plus a spread under the cap law's ceiling; no payday or title lender exists to count",
   },
   {
-    outcome: "finance.medical-debt-in-collections",
-    links: ["coverage-to-medical-debt", "medicaid-expansion-to-medical-debt"],
-    stopgap: "SG-EW-HEALTH-medical-debt-reader",
-    reason:
-      "no engine bills medical care or sends a bill to collections; coverage.ts says an unpaid premium is never a debt",
-  },
-  {
     outcome: "gov.nondisaster-transfers",
     links: ["disaster-to-public-transfers"],
     stopgap: "SG-EFFECT-WEB-prices-nondisaster-transfers",

@@ -3,15 +3,15 @@
  * them once a month, beside the outcome web's place-level factor).
  *
  * coverage-to-mortality-55-64 (Miller, Johnson and Wherry 2021): at ages 55 to
- * 64, each year a person's own coverage is paid cuts their annual mortality by
- * the link's size (-25 percent per covered person-year), read lagMonths after
- * the coverage. Coverage here is the Medicaid payment the law reach opens for
- * a named person (law-reach/group-b-money.ts payCoverage; its obligations are
- * the record). The place-level twin, medicaid-expansion-to-mortality, is the
- * same cause measured over every low-income 55- to 64-year-old in an expansion
- * state, enrolled or not; for a person whose own coverage is modeled it is
- * left out of their web factor (health-web.ts) so the expansion moves them
- * once, through their own record.
+ * 64, each year a person is covered cuts their annual mortality by the link's
+ * size (-25 percent per covered person-year), read lagMonths after the
+ * coverage. Coverage here is the Medicaid coverage the law reach keeps for a
+ * named person (law-reach/group-b-money.ts recordCoverage; its coverage
+ * records are the record). The place-level twin,
+ * medicaid-expansion-to-mortality, is the same cause measured over every
+ * low-income 55- to 64-year-old in an expansion state, enrolled or not; for a
+ * person whose own coverage is modeled it is left out of their web factor
+ * (health-web.ts) so the expansion moves them once, through their own record.
  *
  * Calibration: the life table the hazard starts from already holds the
  * coverage people had when the world began, so only a change from it moves a
@@ -61,12 +61,12 @@ export interface OwnCoveragePart {
   readonly size: number;
   /** The day the coverage was read at: today less the link's lag. */
   readonly readOn: string;
-  /** Whether the person's coverage was being paid on that day. */
+  /** Whether the person was covered on that day. */
   readonly covered: boolean;
-  /** Whether it was being paid at their first look (the table's own coverage). */
+  /** Whether they were covered at their first look (the table's own coverage). */
   readonly baseCovered: boolean;
-  /** The accounts obligations that paid the stretch the day falls in (the record ids). */
-  readonly obligationIds: readonly string[];
+  /** The reach's coverage records of the stretch the day falls in. */
+  readonly recordIds: readonly string[];
 }
 
 /** One displaced worker's excess hazard today, with the jobs engine's record it stands on. */
@@ -141,9 +141,9 @@ function monthsBefore(day: string, months: number): string {
 
 /**
  * The factor on one person's hazard today from their own coverage. `firstLook`
- * is the day the engine first read their coverage and whether it was paid
- * then; days before it read as that state, so the first months after a world
- * opens move nobody.
+ * is the day the engine first read their coverage and whether they were
+ * covered then; days before it read as that state, so the first months after
+ * a world opens move nobody.
  */
 export function ownCoverageFactor(input: {
   readonly spells: readonly CoverageSpell[] | undefined;
@@ -169,7 +169,7 @@ export function ownCoverageFactor(input: {
         readOn,
         covered,
         baseCovered: base,
-        obligationIds: spell?.obligationIds ?? [],
+        recordIds: spell?.recordIds ?? [],
       },
     ],
   };

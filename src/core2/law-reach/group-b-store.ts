@@ -91,6 +91,8 @@ const MODULE: CoreModule = {
       taken: { indexes: { byKey: { fields: ["key"] } } },
       /** Each budget line's level for the town against its base. */
       services: {},
+      /** Each stretch of a resident's coverage a policy holds, named or counted, by person id. */
+      coverage: { indexes: { byKey: { fields: ["key", "to"] } } },
     },
   },
   onCalendarWork: (api, work) => runReview(api, work),

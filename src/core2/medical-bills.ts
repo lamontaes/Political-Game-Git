@@ -5,10 +5,11 @@
  * the player takes no step.
  *
  * Each household's average is the Consumer Expenditure Survey's medical
- * services line for its region and size (BLS series CXUMEDSERVSLB0101M, 2024,
- * the opening-customer parent parameters), less the clinic component its
- * everyday-living plan already buys, at the world's price level. Each
- * member's part of it follows two records read the day it is billed:
+ * services line for its own place's region and its size (BLS series
+ * CXUMEDSERVSLB0101M, 2024, the opening-customer parent parameters), less
+ * the clinic component its everyday-living plan already buys, at the world's
+ * price level. Each member's part of it follows two records read the day it
+ * is billed:
  *
  * - the care their health asks: the health engine's care need (one for a
  *   serious illness under way, a share for held conditions, none otherwise;
@@ -17,8 +18,9 @@
  *   town's people are scaled so their average is the survey's;
  * - the part of that care their coverage leaves them: their coverage record
  *   (an employer plan, Medicare at 65), their Medicaid coverage where the
- *   law reach pays it (coverageSpellsNow), or none, at the share MEPS #441
- *   finds each pays out of pocket, against the average share.
+ *   law reach keeps it by person id (coverageSpellsNow, named and counted
+ *   alike), or none, at the share MEPS #441 finds each pays out of pocket,
+ *   against the average share.
  *
  * The household pays the bill from what its members hold, less what they
  * keep back for their home (as for everyday living, cost-of-living.ts), to
@@ -35,11 +37,16 @@
  * No roll: the bill goes unpaid because the household's cash and coverage
  * say so.
  *
- * One cause, one path: a full household whose members' Medicaid coverage is
- * modeled meets the expansion through their own coverage (a smaller bill), so
- * the place-level row is left out of its factor; a counted household has no
- * Medicaid record of its own (SG-HEALTH-own-records-counted) and meets it
- * through the place-level row on the share sent to collections.
+ * One cause, one path: the law reach keeps the Medicaid coverage of the
+ * town's residents, full and counted, by person id, and pays no one for it,
+ * so a town household meets the expansion only through its own coverage (a
+ * covered member's smaller bill) and the place-level row is left out of its
+ * factor. A household in another place the world keeps (the places around
+ * the town), whose coverage the reach does not keep, meets it through the
+ * place-level row on the share sent to collections.
+ *
+ * Only households in the places whose money the world keeps are billed
+ * (billedPlaces); the care norm is theirs.
  */
 import data from "./data/health/medical-bills.json" with { type: "json" };
 import customers from "./data/opening-customers.json" with { type: "json" };
@@ -61,6 +68,7 @@ import {
   recordMedicalDebt,
 } from "./modules/business";
 import { careNeedOf } from "./modules/health";
+import { stateOfCountedPlace } from "./modules/counted-moves";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
@@ -150,11 +158,25 @@ export interface MedicalBillRow {
   readonly source: Source;
 }
 
-/** The survey's region for the world's state (the town's law chain), national where it has none. */
-function regionOf(api: CoreAPI): LivingCostsRegion {
-  return livingCostsRegionForState(
-    api.state.modules.has(LAWS_MODULE_ID) ? lawChain(api).stateKey : null,
-  );
+/** The survey's region for a place's own state, national where it has none. */
+function regionOf(placeId: string): LivingCostsRegion {
+  return livingCostsRegionForState(stateOfCountedPlace(placeId) ?? null);
+}
+
+/**
+ * The places whose households' money the world keeps: those the residents
+ * runtime models (the town and the places around it), else the town alone.
+ * Null where neither is open (every household is billed). A household
+ * elsewhere (a national figure with no books, such as a press outlet's head
+ * or a central-bank governor) is not billed (stopgap
+ * SG-HEALTH-medical-bill-shape).
+ */
+function billedPlaces(api: CoreAPI): ReadonlySet<string> | null {
+  const rt = residentsRuntime(api.state as CoreState);
+  if (rt) return new Set(rt.input.accounts.map((row) => row.placeId));
+  return api.state.modules.has(LAWS_MODULE_ID)
+    ? new Set([lawChain(api).townPlaceId])
+    : null;
 }
 
 const PARENT = (
@@ -204,11 +226,13 @@ interface Person {
 interface Household {
   readonly householdId: string;
   readonly placeId: string;
+  /** The survey's region for the household's own place. */
+  readonly region: LivingCostsRegion;
   readonly counted: boolean;
   readonly weight: number;
   readonly incomeFifth: number;
   readonly members: readonly Person[];
-  /** Whether the household's members' Medicaid coverage is read from their own records. */
+  /** Whether the household's members' Medicaid coverage is read from their own records (the town's, whose coverage the law reach keeps). */
   readonly ownMedicaid: boolean;
 }
 
@@ -247,28 +271,39 @@ function medicalSellers(api: CoreAPI, placeId: string): string[] {
     .map((org) => org.id);
 }
 
-/** Each full person's plan today: Medicare, Medicaid the law reach pays, an employer plan, or none. */
-function fullPlans(
+/**
+ * Each person's plan today, full or counted, by the same rule: Medicare at
+ * its age, Medicaid where the law reach keeps their coverage
+ * (coverageSpellsNow, by person id), an employer plan, or none. Their own
+ * Medicaid record is read in the town, the place whose residents' coverage
+ * the reach keeps; null spells mean the world does not model it.
+ */
+function plans(
   api: CoreAPI,
-  coverage: ReadonlyMap<string, string>,
   today: string,
 ): {
-  readonly plan: (personId: string, age: number) => BillPlan;
-  readonly ownMedicaid: boolean;
+  readonly plan: (personId: string, age: number, employer: boolean) => BillPlan;
+  readonly ownMedicaid: (placeId: string) => boolean;
 } {
   const spells = coverageSpellsNow(api);
   const medicare = api.parameter("healthMedicareAge");
+  const town = api.state.modules.has(LAWS_MODULE_ID)
+    ? lawChain(api).townPlaceId
+    : null;
   return {
-    ownMedicaid: spells !== null,
-    plan: (personId, age) => {
+    ownMedicaid: (placeId) => spells !== null && placeId === town,
+    plan: (personId, age, employer) => {
       if (age >= medicare) return "medicare";
       if (spells && spellOn(spells.get(personId), today)) return "medicaid";
-      return coverage.get(personId) === "employer" ? "employer" : "none";
+      return employer ? "employer" : "none";
     },
   };
 }
 
-/** Everyone the pass bills this month, full and counted, by household. */
+/**
+ * Everyone the pass bills this month, full and counted, by household: the
+ * households of the places whose money the world keeps (billedPlaces).
+ */
 function householdsToBill(
   api: CoreAPI,
   coverage: ReadonlyMap<string, string>,
@@ -276,48 +311,55 @@ function householdsToBill(
 ): Household[] {
   const core = api.state as CoreState;
   const today = makeIsoDate(core.date);
-  const { plan, ownMedicaid } = fullPlans(api, coverage, today);
+  const { plan, ownMedicaid } = plans(api, today);
+  const billed = billedPlaces(api);
+  const regions = new Map<string, LivingCostsRegion>();
+  const region = (placeId: string) => {
+    let found = regions.get(placeId);
+    if (!found) regions.set(placeId, (found = regionOf(placeId)));
+    return found;
+  };
   const incomes = fullHouseholdIncomes(core);
   const out: Household[] = [];
   const byHousehold = new Map<string, Person[]>();
   for (const person of core.people.values()) {
     if (!person.alive || person.id.startsWith("official:")) continue;
-    if (!core.households.get(person.householdId)?.memberIds.includes(person.id))
-      continue;
+    const home = core.households.get(person.householdId);
+    if (!home?.memberIds.includes(person.id)) continue;
+    if (billed && !billed.has(home.placeId)) continue;
     const age = ageOnDate(makeIsoDate(person.birthDate), today);
     const list = byHousehold.get(person.householdId) ?? [];
     list.push({
       personId: person.id,
-      plan: plan(person.id, age),
+      plan: plan(person.id, age, coverage.get(person.id) === "employer"),
       careNeed: careNeedOf(core, person.id),
     });
     byHousehold.set(person.householdId, list);
   }
-  for (const [householdId, members] of byHousehold)
+  for (const [householdId, members] of byHousehold) {
+    const placeId = core.households.get(householdId)!.placeId;
     out.push({
       householdId,
-      placeId: core.households.get(householdId)!.placeId,
+      placeId,
+      region: region(placeId),
       counted: false,
       weight: 1,
       incomeFifth: incomeBandOf(incomes.get(householdId) ?? 0),
       members,
-      ownMedicaid,
+      ownMedicaid: ownMedicaid(placeId),
     });
+  }
   const rt = residentsRuntime(core);
   if (rt) {
-    const medicare = api.parameter("healthMedicareAge");
     for (const h of rt.store.liveHouseholds()) {
       if (core.households.has(h.id)) continue;
+      if (billed && !billed.has(h.placeId)) continue;
       const members = rt.store.countedMembers(h).map((m) => {
         const personId = rt.store.ids[m]!;
         const age = ageOnDate(makeIsoDate(rt.store.born[m]!), today);
         return {
           personId,
-          plan: (age >= medicare
-            ? "medicare"
-            : countedHolders.has(h.id)
-              ? "employer"
-              : "none") as BillPlan,
+          plan: plan(personId, age, countedHolders.has(h.id)),
           careNeed: countedIllnessOf(api, personId as PersonId) ? 1 : 0,
         };
       });
@@ -325,11 +367,12 @@ function householdsToBill(
       out.push({
         householdId: h.id,
         placeId: h.placeId,
+        region: region(h.placeId),
         counted: true,
         weight: rt.store.weightOf(h),
         incomeFifth: incomeBandOf(householdIncome(rt, h)),
         members,
-        ownMedicaid: false,
+        ownMedicaid: ownMedicaid(h.placeId),
       });
     }
   }
@@ -366,11 +409,11 @@ function billMembers(
   const average = q("medicalPatientShareAverage");
   const perMonth =
     api.parameter("minorPerDollar") / api.parameter("monthsPerYear");
-  const region = regionOf(api);
   const out = new Map<string, BilledMember[]>();
   for (const h of households) {
     const size = h.members.length;
-    const perMember = (annualOutOfPocketUsd(api, region, size) * level) / size;
+    const perMember =
+      (annualOutOfPocketUsd(api, h.region, size) * level) / size;
     out.set(
       h.householdId,
       h.members.map((m) => ({
@@ -630,6 +673,11 @@ export function billMedicalCare(
         MedicalBillRow | undefined) ?? undefined,
     ]),
   );
+  // stopgapId: SG-HEALTH-medical-owed-fill-in — a counted household's owed
+  // bills stand for its whole weight, but a fill-in carries one household's
+  // worth onto the new full household and none onto the records that take
+  // the rest of its weight (the same root as the pool item
+  // world-fill-in-strands-group-living-arrears).
   const owedOf = (householdId: string) =>
     (prior.get(householdId)?.owed ?? []).reduce((n, row) => n + row.minor, 0);
   const sellers = new Map<string, string[]>();

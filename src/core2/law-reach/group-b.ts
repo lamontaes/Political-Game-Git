@@ -65,7 +65,7 @@ import {
   modeledShare,
   moveBudget,
   payBenefits,
-  payCoverage,
+  recordCoverage,
   payPreschool,
   payVouchers,
   recordApplied,
@@ -275,9 +275,9 @@ const VOUCHER =
   "us-policy-positions:education.public-funds-for-private-schooling";
 
 /**
- * Who Medicaid expansion covers as the payment reads it: the adults the
- * expansion reaches, less those the work requirement ends coverage for (its
- * hours, income and young-child terms) while that requirement is law.
+ * Who Medicaid expansion covers: the adults the expansion reaches, less those
+ * the work requirement ends coverage for (its hours, income and young-child
+ * terms) while that requirement is law.
  */
 function medicaidCovered(
   api: CoreAPI,
@@ -322,7 +322,7 @@ function medicaidCovered(
   return covered.filter((r) => !ended.has(r.id));
 }
 
-/** The expansion's payment again, after a law it reads (the work requirement, the match) changed. */
+/** The expansion's coverage again, after a law it reads (the work requirement) changed. */
 function rerunMedicaid(api: CoreAPI): void {
   for (const row of rowsOf<ActiveRow>(api, "active"))
     if (row.id === MEDICAID_EXPAND)
@@ -538,7 +538,7 @@ function runPolicy(
       return;
     }
     case "medicaid-coverage": {
-      const paid = payCoverage(api, {
+      const paid = recordCoverage(api, {
         key,
         lawId: input.lawId,
         inForce,
@@ -605,7 +605,7 @@ function runPolicy(
     case "property-assessment":
       return; // The housing assessment reads the cap through budgets when billing.
     case "records":
-      // The expansion's payment reads this requirement; run it again now.
+      // The expansion's coverage reads this requirement; run it again now.
       if (key === MEDICAID_WORK) rerunMedicaid(api);
       break;
   }
@@ -819,12 +819,12 @@ function rerun(api: CoreAPI, row: ActiveRow): void {
 }
 
 /**
- * The benefit programs a treasury pays (Medicaid and its work requirement,
- * the SNAP maximum, the assistance work requirement and the welfare line,
- * preschool, vouchers). The budgets engine's monthly close runs them
- * (`registerMonthlyProgram`), so who is paid follows the laws in force and
- * people's records when the treasury pays, not on a schedule of law reach's
- * own.
+ * The benefit programs a treasury pays or keeps (Medicaid coverage and its
+ * work requirement, the SNAP maximum, the assistance work requirement and
+ * the welfare line, preschool, vouchers). The budgets engine's monthly close
+ * runs them (`registerMonthlyProgram`), so who is paid or covered follows the
+ * laws in force and people's records when the treasury pays, not on a
+ * schedule of law reach's own.
  */
 const PROGRAM_KEYS: ReadonlySet<string> = new Set([
   MEDICAID_EXPAND,
@@ -873,11 +873,6 @@ export function registerGroupB(): void {
   setReachReview(review);
   registerMonthlyProgram(runBenefitPrograms);
   registerTreasuryRule(reviewFiscalRules);
-  // The federal share of Medicaid is paid by the expansion's payment.
-  registerPolicyHandler("medicaid-match", (api) => {
-    forgetTownFacts(api);
-    rerunMedicaid(api);
-  });
   registerPolicyHandler("snap-maximum", (api) => {
     forgetTownFacts(api);
     setActive(

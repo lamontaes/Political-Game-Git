@@ -144,7 +144,7 @@ interface Look {
   readonly hazardOwn: number | undefined;
   readonly onsetDate: string | null;
   readonly spellIds: readonly string[];
-  /** The stretches of their coverage the payment records hold. */
+  /** The stretches of their coverage the reach's coverage records hold. */
   readonly stretches: readonly { from: string; to: string | null }[];
 }
 
@@ -164,13 +164,13 @@ function look(core: CoreState, id: string): Look {
     hazardWeb: hazard?.web,
     hazardOwn: hazard?.own,
     onsetDate: found?.onsetDate ?? null,
-    spellIds: spells.flatMap((spell) => spell.obligationIds),
+    spellIds: spells.flatMap((spell) => spell.recordIds),
     stretches: spells.map((spell) => ({ from: spell.from, to: spell.to })),
   };
 }
 
 /**
- * Named people aged 56 to 63 on `on` whose Medicaid coverage is being paid,
+ * Named people aged 56 to 63 on `on` whose Medicaid coverage holds,
  * whose illness has not begun, and who are low-income (the link's group): the
  * household income fifth the monthly look read is the lowest, or unread where
  * the household has no pay (the place-level twin row lands on both). They
@@ -436,22 +436,22 @@ it("coverage-to-mortality-55-64: a covered 55- to 64-year-old's hazard reads the
       }
       // The look reads coverage the link's lag back. A repeal reaches the
       // hazard of the people it had ended coverage for by that day; one still
-      // paid then (the payment ran on past the repeal) is not reached yet.
+      // covered then (the coverage ran on past the repeal) is not reached yet.
       const readDay = monthsAfter(
         treated.lookOn,
         -link("coverage-to-mortality-55-64").lagMonths,
         Number(treated.lookOn.slice(8)),
       );
-      const paidThen = t.stretches.find(
+      const coveredThen = t.stretches.find(
         (one) => one.from <= readDay && (one.to === null || readDay < one.to),
       );
-      if (treated.mode === "repeal" && paidThen) {
+      if (treated.mode === "repeal" && coveredThen) {
         passed.push(
-          `${where} ${id} (still paid on ${readDay}, the day the look read: a stretch from ${paidThen.from} to ${paidThen.to ?? "now"})`,
+          `${where} ${id} (still covered on ${readDay}, the day the look read: a stretch from ${coveredThen.from} to ${coveredThen.to ?? "now"})`,
         );
         continue;
       }
-      // The treated person's own record: coverage paid (or ended), read the
+      // The treated person's own record: coverage held (or ended), read the
       // link's lag later, against their coverage at their first look.
       const part = t.own.parts.find(
         (one) => one.link === "coverage-to-mortality-55-64",
@@ -469,15 +469,15 @@ it("coverage-to-mortality-55-64: a covered 55- to 64-year-old's hazard reads the
         t.own.factor / c.own.factor,
         `${where} ${id}: own factor`,
       ).toBeCloseTo(want, 9);
-      // The record ids of the payments the person's stretch stands on.
+      // The ids of the coverage records the person's stretch stands on.
       if (treated.mode === "enact") {
-        expect(part.obligationIds.length).toBeGreaterThan(0);
-        for (const record of part.obligationIds)
+        expect(part.recordIds.length).toBeGreaterThan(0);
+        for (const record of part.recordIds)
           expect(t.spellIds, `${where} ${id}: ${record}`).toContain(record);
       }
       expect(
         t.spellIds.length,
-        `${where} ${id}: payment records`,
+        `${where} ${id}: coverage records`,
       ).toBeGreaterThan(0);
       // The hazard the engine holds differs from the twin's by the link's
       // size (the own part), whatever else moved the two worlds.
@@ -502,7 +502,7 @@ it("coverage-to-mortality-55-64: a covered 55- to 64-year-old's hazard reads the
         ).toBe(true);
       proven += 1;
       proof(
-        `mortality web coverage-to-mortality-55-64 (${treated.mode}): ${where}: ${id} age ${t.age}: own factor ${t.own.factor.toFixed(4)} vs control ${c.own.factor}; hazard ${(t.hazardMicros / 1e6).toFixed(5)} vs ${(c.hazardMicros / 1e6).toFixed(5)} (x${ratio.toFixed(4)}); twin row laid at ${link(TWIN).size}: ${probe ? `${probe.id} aged ${probe.age} booked ${probe.booked.toFixed(4)} = without the twin ${probe.leftOut.toFixed(4)}, not ${probe.withTwin.toFixed(4)}` : "no witness"}; onset ${t.onsetDate} vs ${c.onsetDate}; payments ${part.obligationIds.join(", ") || t.spellIds.join(", ")}; law ${treated.lawId}; looked ${treated.lookOn}; passed over: ${passed.join("; ") || "none"}`,
+        `mortality web coverage-to-mortality-55-64 (${treated.mode}): ${where}: ${id} age ${t.age}: own factor ${t.own.factor.toFixed(4)} vs control ${c.own.factor}; hazard ${(t.hazardMicros / 1e6).toFixed(5)} vs ${(c.hazardMicros / 1e6).toFixed(5)} (x${ratio.toFixed(4)}); twin row laid at ${link(TWIN).size}: ${probe ? `${probe.id} aged ${probe.age} booked ${probe.booked.toFixed(4)} = without the twin ${probe.leftOut.toFixed(4)}, not ${probe.withTwin.toFixed(4)}` : "no witness"}; onset ${t.onsetDate} vs ${c.onsetDate}; coverage records ${part.recordIds.join(", ") || t.spellIds.join(", ")}; law ${treated.lawId}; looked ${treated.lookOn}; passed over: ${passed.join("; ") || "none"}`,
       );
     }
     if (proven > 0) {

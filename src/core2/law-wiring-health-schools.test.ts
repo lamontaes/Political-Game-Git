@@ -1,12 +1,13 @@
 /**
  * Health, assistance and schools laws wired end to end, in one played world:
- * Medicaid expansion (and its work requirement and federal match), the
+ * Medicaid expansion (and its work requirement), the
  * assistance work requirement and the SNAP maximum, universal preschool,
  * public funds for private schooling and the teacher minimum salary, and the
  * health and hospitals, welfare and Medicaid, schools and higher education
  * lines. For each: who it reached (full people and counted groups) by the
  * applied or reach record that names them, the journal entry of the money
- * that moved, the outcome-web effect, and that a repeal ends it. A place with
+ * that moved (for Medicaid, a covered or uncovered member's medical bill),
+ * the outcome-web effect, and that a repeal ends it. A place with
  * nobody the laws apply to is redrawn; every place tried is named in a
  * failure.
  */
@@ -48,6 +49,8 @@ import { residentsRuntime } from "./modules/residents";
 import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
 import { WEB_LINKS } from "./outcome-web-model";
 import type { LawRowInput } from "./laws-starting";
+import type { MedicalBillRow } from "./medical-bills";
+import { COVERAGE_MODULE_ID } from "./modules/coverage";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 import tuition from "./data/opening-private-tuition.json" with { type: "json" };
@@ -428,9 +431,9 @@ function play(where: string, seed: string, core: CoreState): void {
   }
   advance(core, 2);
   const enactedOn = api.state.date;
-  // The Medicaid work requirement comes a month after the expansion, so the
-  // coverage it ends was being paid first and the payment it stops is on the
-  // journal.
+  // The Medicaid work requirement comes after the expansion's coverage has
+  // priced a bill, so the coverage it ends was held first and the bill after
+  // it is priced without it.
   const taken = () => rowsOf<Taken>(api, "taken");
   for (const q of QUESTIONS) if (q !== MEDICAID_WORK) enact(api, q, "on");
   // A council raises each of the four lines the day the laws are enacted, the
@@ -440,29 +443,40 @@ function play(where: string, seed: string, core: CoreState): void {
   const raisedOn = api.state.date;
   for (const line of LINES) raiseLine(api, line, `raise-${line}`);
   advance(core, ENACTED_DAYS - WORK_REQUIREMENT_DAYS);
-  // Whatever day of the month a close falls on, the requirement comes after
-  // every coverage payment then open has paid something (a treasury pays
-  // what it holds), so the coverage it ends was paid and is on the journal.
-  const coverageRows = () =>
-    taken().filter(
-      (t) =>
-        t.key === `coverage|${EXPAND}` &&
-        !accounts.obligation(t.obligationId)?.endedAt,
+  // The coverage engine's medical bills, each household's latest month.
+  const medicalBills = () =>
+    api
+      .moduleState(COVERAGE_MODULE_ID)
+      .table("medicalBills")
+      .rows() as unknown as MedicalBillRow[];
+  // A bill paid since the day the expansion took effect, with a member the
+  // expansion covers priced at Medicaid's share.
+  const onMedicaid = () =>
+    medicalBills().filter(
+      (b) =>
+        b.date > enactedOn &&
+        b.journalIds.length > 0 &&
+        b.members.some((m) => m.plan === "medicaid"),
     );
   for (
     let wait = 0;
-    wait < 2 * DAYS_PER_MONTH &&
-    !(
-      coverageRows().length > 0 &&
-      coverageRows().every(
-        (t) => (accounts.obligation(t.obligationId)?.paidMinor ?? 0) > 0,
-      )
-    );
+    wait < 2 * DAYS_PER_MONTH && !onMedicaid().length;
     wait += 1
   )
     advance(core, 1);
+  const expandBill =
+    onMedicaid().find((b) => !b.counted) ?? onMedicaid()[0] ?? null;
   enact(api, MEDICAID_WORK, "on");
+  const workOn = tomorrow(api);
   advance(core, WORK_REQUIREMENT_DAYS);
+  // Then a bill day after the requirement took effect, so the coverage it
+  // ended has priced a bill without Medicaid.
+  for (
+    let wait = 0;
+    wait < 2 * DAYS_PER_MONTH && !medicalBills().some((b) => b.date > workOn);
+    wait += 1
+  )
+    advance(core, 1);
 
   const open = (prefix: string) =>
     taken().filter(
@@ -475,21 +489,25 @@ function play(where: string, seed: string, core: CoreState): void {
     );
   const say = (m: string) => `${where}: ${m}`;
 
-  // Medicaid expansion: paid by the state and, at the match in force, the
-  // federal treasury; reach is the covered adults, named and counted.
-  const coverage = open(`coverage|${EXPAND}`);
-  expect(coverage.length, say("no open Medicaid payment")).toBeGreaterThan(0);
-  expect(paid(coverage), say("Medicaid paid nothing")).toBeGreaterThan(0);
+  // Medicaid expansion: the reach keeps each covered adult's coverage, named
+  // and counted, by person id, and pays no one for it; the coverage engine
+  // prices a covered member's bill at Medicaid's share.
+  const coverage = rowsOf<{ key: string; personId: string; to: string | null }>(
+    api,
+    "coverage",
+  ).filter((r) => r.key === EXPAND);
   expect(
-    coverage.some((r) => r.governmentId === state.id),
-    say("the state pays no share"),
-  ).toBe(true);
-  const match = lawInForce(api, "medicaid-match");
-  if ((match.value ?? 0) > 0)
-    expect(
-      coverage.some((r) => r.governmentId === federal.id),
-      say(`the federal share (match ${match.value}) is not paid`),
-    ).toBe(true);
+    coverage.filter((r) => r.to === null).length,
+    say("no one holds Medicaid coverage"),
+  ).toBeGreaterThan(0);
+  expect(
+    taken().filter((t) => t.key.endsWith(`|${EXPAND}`)),
+    say("Medicaid pays someone"),
+  ).toEqual([]);
+  expect(
+    expandBill,
+    say("no bill was priced at Medicaid's share and paid"),
+  ).not.toBeNull();
   const covered = appliedOn(api, EXPAND);
   expect(covered.length, say("Medicaid reached no one")).toBeGreaterThan(0);
   // Each row cites a law row of the expansion's series.
@@ -503,16 +521,6 @@ function play(where: string, seed: string, core: CoreState): void {
     covered.some((r) => r.target === "group" && r.count > 1),
     say("Medicaid reached no counted group"),
   ).toBe(true);
-  expect(
-    covered.reduce((n, r) => n + r.amountMinor, 0),
-    say("Medicaid applied rows record no money"),
-  ).toBeGreaterThan(0);
-  const matchRows = appliedOn(api, "medicaid-match");
-  if ((match.value ?? 0) > 0)
-    expect(
-      matchRows.some((r) => r.targetId === federal.id),
-      say("the match law was not read when the federal share was paid"),
-    ).toBe(true);
 
   // The Medicaid work requirement ends coverage for the adults it reaches.
   const ended = appliedOn(api, MEDICAID_WORK);
@@ -665,40 +673,37 @@ function play(where: string, seed: string, core: CoreState): void {
       }
     return null;
   };
-  const expandRow = covered.find(
-    (r) =>
-      r.target === "person" &&
-      moneyTo(`coverage|${EXPAND}`, (id) => id === r.targetId),
+  // The expansion's money: a covered member's bill, priced at Medicaid's
+  // share and paid (its applied record names the member, or their group).
+  const expandMember = expandBill?.members.find((m) => m.plan === "medicaid");
+  const expandRow =
+    covered.find(
+      (r) => r.target === "person" && r.targetId === expandMember?.personId,
+    ) ??
+    (expandBill?.counted
+      ? covered.find((r) => r.target === "group")
+      : undefined);
+  record(EXPAND, expandRow, expandBill?.journalIds[0] ?? null);
+  // The coverage the requirement ends: its coverage records end, and the
+  // member's next bill, priced without Medicaid, is the money it moved.
+  const endedIds = new Set(
+    coverage
+      .filter((r) => r.to !== null && r.to >= workOn)
+      .map((r) => r.personId),
   );
-  record(
-    EXPAND,
-    expandRow,
-    moneyTo(`coverage|${EXPAND}`, (id) => id === expandRow?.targetId),
-  );
-  const federalCoverage = taken().find(
-    (t) => t.key === `coverage|${EXPAND}` && t.governmentId === federal.id,
-  );
-  record(
-    "medicaid-match",
-    matchRows.find((r) => r.targetId === federal.id),
-    federalCoverage ? journalOf(federalCoverage.obligationId) : null,
-  );
-  // The coverage the requirement ends: a named adult's, else a counted
-  // group's (a town can have only counted adults who fail its hours test);
-  // the payment it stopped is the ended obligation's last one.
-  const endedPerson = ended.find(
-    (r) =>
-      r.target === "person" &&
-      moneyTo(`ended|${EXPAND}`, (id) => id === r.targetId),
-  );
-  const endedRow = endedPerson ?? ended.find((r) => r.target === "group");
-  record(
-    MEDICAID_WORK,
-    endedRow,
-    moneyTo(`ended|${EXPAND}`, (id) =>
-      endedPerson ? id === endedPerson.targetId : true,
-    ),
-  );
+  const endedBill = medicalBills()
+    .filter((b) => b.date > workOn && b.journalIds.length > 0)
+    .sort((a, b) => Number(a.counted) - Number(b.counted))
+    .find((b) =>
+      b.members.some((m) => endedIds.has(m.personId) && m.plan !== "medicaid"),
+    );
+  const endedMember = endedBill?.members.find((m) => endedIds.has(m.personId));
+  const endedRow =
+    ended.find(
+      (r) => r.target === "person" && r.targetId === endedMember?.personId,
+    ) ??
+    (endedBill?.counted ? ended.find((r) => r.target === "group") : undefined);
+  record(MEDICAID_WORK, endedRow, endedBill?.journalIds[0] ?? null);
   const snapHousehold = snapRows.find(
     (r) =>
       r.target === "household" &&
@@ -874,7 +879,7 @@ function play(where: string, seed: string, core: CoreState): void {
     JSON.stringify({ seed, place: where, enactedOn, raisedOn, chain }),
   );
 
-  // Repeal ends every payment and every applied row.
+  // Repeal ends every payment, every coverage record and every applied row.
   let lastRepeal: string = tomorrow(api);
   for (const q of QUESTIONS) {
     const day = repeal(api, q, "off");
@@ -909,7 +914,12 @@ function play(where: string, seed: string, core: CoreState): void {
       ),
     ).toBe(0);
   }
-  expect(open(`coverage|${EXPAND}`).length, say("Medicaid still pays")).toBe(0);
+  expect(
+    rowsOf<{ key: string; to: string | null }>(api, "coverage").filter(
+      (r) => r.key === EXPAND && r.to === null,
+    ).length,
+    say("Medicaid still covers"),
+  ).toBe(0);
   expect(
     open(`preschool|${PRESCHOOL}`).length,
     say("preschool still pays"),

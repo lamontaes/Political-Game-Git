@@ -190,14 +190,14 @@
     "citation": "Fair Credit Reporting Act, 15 U.S.C. 1681c(a)(4): accounts charged to profit and loss may be reported for seven years."
   },
   "creditMedicalReportDays": {
-    "value": 180,
+    "value": 365,
     "tag": "SOURCED",
-    "citation": "CFPB, Medical Debt Burden in the United States (March 2022), https://files.consumerfinance.gov/f/documents/cfpb_medical-debt-burden-in-the-united-states_report_2022-03.pdf: \"A medical debt furnished by a collection agency or debt purchaser should not show up on a consumer's credit report until 180 days from date of first delinquency, to allow time for insurance companies to process and render payments, as directed by the National Consumer Assistance Plan (NCAP) of 2015\".",
+    "citation": "Equifax, Experian and TransUnion, joint release \"Equifax, Experian, and TransUnion Support U.S. Consumers With Changes to Medical Collection Debt Reporting\" (March 18, 2022), https://investor.equifax.com/news-events/press-releases/detail/1222/equifax-experian-and-transunion-support-u-s-consumers: \"Effective July 1, 2022, paid medical collection debt will no longer be included on consumer credit reports. In addition, the time period before unpaid medical collection debt would appear on a consumer's report will be increased from 6 months to one year, giving consumers more time to work with insurance and/or healthcare providers to address their debt before it is reported on their credit file.\" The game plays after July 2022, so the one-year wait holds.",
     "spread": {
       "low": 180,
       "high": 365,
       "unit": "days from a medical bill's first delinquency to the credit report",
-      "citation": "The NCAP's 180 days (CFPB 2022); the three nationwide reporting companies lengthened the wait to one year from July 2022 (their March 2022 announcement, not fetched here)."
+      "citation": "The low end is the rule before July 2022, the National Consumer Assistance Plan of 2015: CFPB, Medical Debt Burden in the United States (March 2022), https://files.consumerfinance.gov/f/documents/cfpb_medical-debt-burden-in-the-united-states_report_2022-03.pdf: \"A medical debt furnished by a collection agency or debt purchaser should not show up on a consumer's credit report until 180 days from date of first delinquency, to allow time for insurance companies to process and render payments, as directed by the National Consumer Assistance Plan (NCAP) of 2015\". The high end is the three companies' one year (their March 18, 2022 release)."
     }
   },
   "creditChargedOffYesShare": {

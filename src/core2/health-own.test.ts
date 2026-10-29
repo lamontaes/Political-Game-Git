@@ -21,7 +21,7 @@ const coverage = WEB_LINKS.find(
 )!;
 
 describe("coverage-to-mortality-55-64, read from a person's own coverage", () => {
-  const spell = { from: "2025-02-10", to: null, obligationIds: ["ob-1"] };
+  const spell = { from: "2025-02-10", to: null, recordIds: ["ob-1"] };
   const first = { date: "2025-01-04", covered: false };
 
   it("moves nobody before the link's lag has passed", () => {
@@ -49,20 +49,20 @@ describe("coverage-to-mortality-55-64, read from a person's own coverage", () =>
     expect(after.parts[0]).toMatchObject({
       covered: true,
       readOn: "2025-03-04",
-      obligationIds: ["ob-1"],
+      recordIds: ["ob-1"],
     });
   });
 
   it("holds the table's own coverage at one and raises the hazard of a person who loses it", () => {
     const held = { date: "2025-01-04", covered: true };
     const kept = ownCoverageFactor({
-      spells: [{ from: "2024-06-01", to: null, obligationIds: [] }],
+      spells: [{ from: "2024-06-01", to: null, recordIds: [] }],
       today: "2026-03-04",
       firstLook: held,
     });
     expect(kept.factor).toBe(1);
     const lost = ownCoverageFactor({
-      spells: [{ from: "2024-06-01", to: "2025-02-01", obligationIds: [] }],
+      spells: [{ from: "2024-06-01", to: "2025-02-01", recordIds: [] }],
       today: "2026-03-04",
       firstLook: held,
     });

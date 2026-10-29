@@ -1697,12 +1697,12 @@
     "id": "SG-GOV-REACH-B-medicaid-coverage",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 73,
-    "whatItFakes": "Medicaid expansion pays each covered adult the average medical spending (BLS CEX drugs plus medical supplies) into their own account, the federal treasury paying the Medicaid match in force and the state treasury the rest, and its work requirement stops that for the adults it reaches. The coverage engine's medical bills (src/core2/medical-bills.ts) now also bill a covered adult at Medicaid's out-of-pocket share, so the adult both receives the payment and pays the smaller bill; the payment settles no bill.",
-    "why": "The payment predates the medical bills: it stood for the spending a covered adult no longer pays, before any household paid a medical bill.",
+    "line": 59,
+    "whatItFakes": "Medicaid expansion keeps who it covers, named and counted, by person id (the law reach's coverage records, recordCoverage in src/core2/law-reach/group-b-money.ts), and its work requirement ends that coverage for the adults it reaches; the coverage engine's medical bills price a covered member at Medicaid's out-of-pocket share (src/core2/medical-bills.ts), the expansion's one path into a covered adult's money. Medicaid's own part of a covered member's care, the cost of the care less that share, is paid to no provider: neither the state treasury nor, at the Medicaid match in force, the federal treasury pays anything for the expansion's adults, so the medicaid-match law moves no money and no engine reads it.",
+    "why": "The law reach's cash payment to each covered adult (a stand-in for the medical spending they no longer pay) was removed once the medical bills priced that spending at Medicaid's share (replace, never layer); the provider's side of the bill was not built in the same change.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "The state and federal treasuries pay the medical seller Medicaid's part of each covered adult's bill (the cost of care less Medicaid's out-of-pocket share) instead of paying the adult, with the payment's obligation records kept as the coverage spell the health engine reads.",
+    "replacement": "The state and federal treasuries pay the medical seller Medicaid's part of each covered member's bill (the cost of care less Medicaid's out-of-pocket share) on the welfare and Medicaid line, the federal treasury at the match in force (read at the moment it pays), so the match law moves money again; the coverage records stay the coverage the bills and the health engine read.",
     "status": "open"
   },
   {
@@ -5272,7 +5272,7 @@
     "replacement": "A medical-debt record on the household's books, decided from the household's own coverage record times the web's factor, which the medical-debt link then reads like the coverage links.",
     "status": "resolved",
     "resolvedAt": "2026-10-29",
-    "resolution": "Built (health-medical-debt-record): the coverage engine's monthly medical bills (src/core2/medical-bills.ts) bill each household by its members' coverage and health records, carry what it cannot pay for the 120-day wait, then place the rest with collections as a medical-debt record on its books (the credit engine's loans, kind medical, recordMedicalDebt in src/core2/modules/credit.ts), the share sent there multiplied by webReach for finance.medical-debt-in-collections. A full household whose members' Medicaid coverage is modeled meets the expansion through that coverage (a bill at Medicaid's share), so the place-level medicaid-expansion-to-medical-debt row is left out of its share; counted households read the row. The marriage-equality-to-coverage link it also named now waits on SG-EW-HEALTH-marriage-equality-cause."
+    "resolution": "Built (health-medical-debt-record): the coverage engine's monthly medical bills (src/core2/medical-bills.ts) bill each household by its members' coverage and health records, carry what it cannot pay for the 120-day wait, then place the rest with collections as a medical-debt record on its books (the credit engine's loans, kind medical, recordMedicalDebt in src/core2/modules/credit.ts), the share sent there multiplied by webReach for finance.medical-debt-in-collections. A town household, full or counted, whose members' Medicaid coverage the law reach keeps by person id meets the expansion through that coverage (a bill at Medicaid's share), so the place-level medicaid-expansion-to-medical-debt row is left out of its share; a household in another place the world keeps reads the row. The marriage-equality-to-coverage link it also named now waits on SG-EW-HEALTH-marriage-equality-cause."
   },
   {
     "id": "SG-EW-HEALTH-marriage-equality-cause",
@@ -5290,24 +5290,36 @@
     "id": "SG-HEALTH-medical-bill-shape",
     "kind": "partial-model",
     "file": "src/core2/medical-bills.ts",
-    "line": 343,
-    "whatItFakes": "Each member's medical bill starts from the household's Consumer Expenditure average split evenly over its members, moved only by their care need and their coverage: age is not read (MEPS Statistical Brief #441: average out-of-pocket \"ranging from $283 for children under age 18 to $1,215 for the elderly\"), the uninsured use as much care as the insured at the same need (MEPS #441: 55.4 percent of the uninsured under 65 had any expense against 88.1 percent of the privately insured), and a counted member's care need is one while a counted illness runs and none otherwise (counted people hold no condition record), while a full member's held conditions raise it on the health engine's sliding scale. A counted household keeps back only its group's housing arrears, where a full household keeps back the housing due before the next bill.",
+    "line": 388,
+    "whatItFakes": "Each member's medical bill starts from the household's Consumer Expenditure average split evenly over its members, moved only by their care need and their coverage: age is not read (MEPS Statistical Brief #441: average out-of-pocket \"ranging from $283 for children under age 18 to $1,215 for the elderly\"), the uninsured use as much care as the insured at the same need (MEPS #441: 55.4 percent of the uninsured under 65 had any expense against 88.1 percent of the privately insured), and a counted member's care need is one while a counted illness runs and none otherwise (counted people hold no condition record), while a full member's held conditions raise it on the health engine's sliding scale. A counted household keeps back only its group's housing arrears, where a full household keeps back the housing due before the next bill. Only households in the places whose money the world keeps (the residents runtime's places: the town and the places around it) are billed and counted in the care norm; a household elsewhere, such as a national press outlet's head or a central-bank governor, who keeps no books, is never billed.",
     "why": "The health engine keeps condition records only for full people, and the survey's age and use profiles are not yet parameters; the town is scaled so its average care is the survey's.",
     "addedBy": "claude/laws-medical-debt",
     "addedAt": "2026-10-29",
-    "replacement": "An age profile of out-of-pocket spending (MEPS by age band) and the uninsured's lower use of care at the same need, as parameters the bill reads; counted members' condition prevalence from the condition pack's cells, so a counted member's care need follows the same sliding scale; the counted keep-back from the housing payments each group owes before the next bill.",
+    "replacement": "An age profile of out-of-pocket spending (MEPS by age band) and the uninsured's lower use of care at the same need, as parameters the bill reads; counted members' condition prevalence from the condition pack's cells, so a counted member's care need follows the same sliding scale; the counted keep-back from the housing payments each group owes before the next bill. When a household outside those places keeps books (a national figure's pay and living costs), it is billed by its own place's region on the same rule.",
     "status": "open"
   },
   {
     "id": "SG-HEALTH-medical-debt-collections",
     "kind": "partial-model",
     "file": "src/core2/medical-bills.ts",
-    "line": 667,
+    "line": 724,
     "whatItFakes": "A medical bill unpaid past the wait is placed for collection as one balance on the household's books and stays there: no collector pays the provider for it, the household never pays it down or settles it, it does not age off, and the part the web's share does not send to collections is written off by the provider with no record. The bank reads it as a charge-off once the reporting wait has passed (creditMedicalReportDays), with no floor for small balances.",
     "why": "The game has no collection agencies or debt buyers, and nothing yet decides when a household with cash pays an old medical debt.",
     "addedBy": "claude/laws-medical-debt",
     "addedAt": "2026-10-29",
     "replacement": "Medical debts paid down from what a household holds after its living costs, on the same rule as its other debts, settled or sold at research's recovery rates, aged off the report at seven years (15 U.S.C. 1681c), and the provider's write-off kept as its charity care on its books.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HEALTH-medical-owed-fill-in",
+    "kind": "partial-model",
+    "file": "src/core2/medical-bills.ts",
+    "line": 676,
+    "whatItFakes": "A counted household's medical-bill row holds what one real household of it still owes the provider, standing for its whole weight. When the household is filled in, the new full household keeps that row by its id (one household's owed bills), and the records that take the rest of its weight (counted-groups.ts releaseWeight) keep only their own: the owed bills of the other households it stood for leave no record, never reach collections and are written off by no one.",
+    "why": "A fill-in moves a counted group's people and money but not what its households owe; the same root as the group's living-cost arrears at fill-in (pool item world-fill-in-strands-group-living-arrears).",
+    "addedBy": "claude/laws-medical-debt",
+    "addedAt": "2026-10-29",
+    "replacement": "At fill-in, the owed bills of the households released from the record move to the records that take their weight, in proportion to the weight each takes, by the same rule that moves the group's living-cost arrears (world-fill-in-strands-group-living-arrears).",
     "status": "open"
   },
   {
@@ -7591,11 +7603,11 @@
     "kind": "partial-model",
     "file": "src/core2/modules/health.ts",
     "line": 596,
-    "whatItFakes": "coverage-to-mortality-55-64 cuts a full person's death hazard at 55 to 64 by their own Medicaid coverage, and job-loss-to-death-risk raises it for a worker whose long job ended in a closure or layoff (src/core2/health-own.ts, src/core2/job-displacement.ts), and long-hours-to-heart-and-stroke raises it for a worker whose job is recorded at long weekly hours. A counted person has none of these records of their own (the Medicaid payment keeps a count for the town's counted adults; the counted flows read no closure and no job hours), so the counted flows (src/core2/births-counted.ts) keep the place-level twin, medicaid-expansion-to-mortality, which is the same cause averaged over the low-income 55- to 64-year-olds enrolled or not, and take no job-loss or long-hours excess. The research finds the excess only at firms that lost 30% or more of their jobs; the jobs engine keeps no firm peak, so a layoff counts when it reaches a worker with years on the job, which it lets go only after everyone it values less (a deep cut), and a worker's sex is not split although the paper's sample is men.",
-    "why": "The payment records named people one by one but counted adults only as a number (payCoverage returns counted), so no counted person can be marked covered or uncovered; the counted tier's closures are not tied to the health flows.",
+    "whatItFakes": "coverage-to-mortality-55-64 cuts a full person's death hazard at 55 to 64 by their own Medicaid coverage, and job-loss-to-death-risk raises it for a worker whose long job ended in a closure or layoff (src/core2/health-own.ts, src/core2/job-displacement.ts), and long-hours-to-heart-and-stroke raises it for a worker whose job is recorded at long weekly hours. A counted person has none of these records of their own (the law reach keeps the town's counted adults' Medicaid coverage by person id, but the counted flows do not read it for illness; they read no closure and no job hours), so the counted flows (src/core2/births-counted.ts) keep the place-level twin, medicaid-expansion-to-mortality, which is the same cause averaged over the low-income 55- to 64-year-olds enrolled or not, and take no job-loss or long-hours excess. The research finds the excess only at firms that lost 30% or more of their jobs; the jobs engine keeps no firm peak, so a layoff counts when it reaches a worker with years on the job, which it lets go only after everyone it values less (a deep cut), and a worker's sex is not split although the paper's sample is men.",
+    "why": "The counted flows that start a counted member's serious illness read only place-level factors; the counted tier's closures are not tied to the health flows.",
     "addedBy": "laws-lead-mortality-helper",
     "addedAt": "2026-10-28",
-    "replacement": "payCoverage keeps the covered counted households by id, and the counted flows multiply a counted member's chance of a serious illness by the same (1 + size x covered) / (1 + size x covered at the first look) factor, leaving the place-level twin out for them as for a full person; the counted flows read the jobs engine's closure records (the changes table, counted workers included) and the counted jobs' hours, and multiply a displaced or long-hours counted member's chance by the same excess.",
+    "replacement": "The counted flows read the law reach's coverage records (medicaidCoverageSpells, by person id) and multiply a counted member's chance of a serious illness by the same (1 + size x covered) / (1 + size x covered at the first look) factor, leaving the place-level twin out for them as for a full person; the counted flows read the jobs engine's closure records (the changes table, counted workers included) and the counted jobs' hours, and multiply a displaced or long-hours counted member's chance by the same excess.",
     "status": "open"
   },
   {
