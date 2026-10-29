@@ -52,7 +52,7 @@ describe(`the government view in ${place.name}, ${place.state} (seed ${seed})`, 
       expect(holder.cardId, seat.seatId).toBeTruthy();
       expect("face" in holder, seat.seatId).toBe(true);
       if (holder.face) {
-        expect(holder.face.url, seat.seatId).toMatch(/^\/art\/people-engine\//);
+        expect(holder.face.url, seat.seatId).toMatch(/^\/art\/people\//);
         expect(holder.face.head.length, seat.seatId).toBe(3);
       }
     }

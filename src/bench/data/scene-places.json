@@ -324,7 +324,7 @@
   },
   "officeWorkplaces": {
     "about": "Where a person serving in a full-time office works (core2-offices-v1 office kind), in place of their job's workplace; the first painted picture in a list is used. Part-time bodies (councils, county boards) keep their members' own jobs.",
-    "president": ["oval-office-resolute", "oval-office"],
+    "president": ["oval-office-standard"],
     "vice-president": ["white-house-exterior"],
     "governor": ["governor-office"],
     "mayor": ["mayor-office"],

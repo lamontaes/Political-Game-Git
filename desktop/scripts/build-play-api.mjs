@@ -40,7 +40,7 @@ function runtimeUrls() {
         return null;
       if (!code.includes("import.meta.url")) return null;
       for (const match of code.matchAll(LOOKUP)) {
-        // A template's static folder is all that can be known: art/people-whole/${file}.
+        // A template's static folder is all that can be known: art/people-engine/${PEOPLE_PACK}/.
         const literal = match[2].split("${")[0];
         const target = path.resolve(path.dirname(file), literal);
         needed.add(

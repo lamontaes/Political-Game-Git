@@ -4163,8 +4163,10 @@ async function pickColor(row, value) {
 // Character appearance: the people engine's portrait and arrows.
 function showLook(view) {
   setup.recipe = view.recipe;
-  $("cr-portrait").src =
-    `/api/portrait?recipe=${encodeURIComponent(JSON.stringify(view.recipe))}`;
+  // Everyday clothes and, beside them, work clothes (owner, Oct 29).
+  const recipe = encodeURIComponent(JSON.stringify(view.recipe));
+  $("cr-portrait").src = `/api/portrait?recipe=${recipe}`;
+  $("cr-portrait-work").src = `/api/portrait?recipe=${recipe}&dress=work`;
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) =>
       lookRow(row, {
