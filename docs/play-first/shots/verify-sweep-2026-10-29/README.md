@@ -34,6 +34,8 @@ Added on the second pass:
 | Oct 28 point 18 (no item found)              | `politics-government.png`, right column: the Leaders list is out of order: "United States House of Representatives / Ohio" and "Linda Yoder Majority leader United States Senate / Florida" are misplaced. |
 | play-stop-36-opening-starts-with-the-address | `home.png`: the opening still plays the address in the living room as the narrator's talk, not the montage the owner ruled on Oct 28 night. Words' item.                                                   |
 
+| play-stop-32-town-list-county-label / play-stop-14 (same-named towns show their county) | `same-named-towns-no-county.png`: Connecticut, search "Long Hill": two rows both read "Long Hill, Connecticut" (8,681 and 4,399 people) with no county. The pair has no county record to tell it apart (known from #6069's handoff); needs a data fix, not a screen fix. |
+
 ## Found, not in ORDER
 
 - A leftover tab bar over News (fixed in #6790).
@@ -41,4 +43,4 @@ Added on the second pass:
 
 ## Not checked
 
-32 (no same-named town in the list drawn), 35, 37 and 38 (figures; People v3 is rewriting them), the filing line of 19-b, and the laws items 86 and 90.
+35, 37 and 38 (figures; People v3 is rewriting them), the filing line of 19-b, and the laws items 86 and 90.
