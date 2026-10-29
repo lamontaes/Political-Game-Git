@@ -22,4 +22,4 @@ claimed-at: 2026-10-29T16:32:40.180Z
 
 **Files.** src/core2/school-outcomes.ts; src/core2/modules/schools.ts; data/research/outcome-web/links.json
 
-**Notes.** TODO
+**Notes.** Oct 29 (laws, branch claude/laws-college-step): decideCollege in src/core2/school-outcomes.ts decides enrollment and completion when graduation is decided, by the same standing and no-roll allocation, the NCES shares moved by the world's own factors and the completion rate times webReach for school.college-completion-pct; the record is the school module's college table; schoolingOn (jobs) reads a bachelor's or some college from the day normal time ends. Left, registered: SG-SCHOOL-college-decided-at-graduation (completion decided at graduation, not in the spring normal time ends) and SG-SCHOOL-college-stock-ledger (the adult share is still the web's ledger; see web-college-completion-stock-not-accumulated).

@@ -1,0 +1,621 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "budget-line:higherEducation",
+      "kind": "budget-line",
+      "family": "education",
+      "inForceAtOpening": false,
+      "change": "place:2666300 higherEducation 4016428 -> 14016428 by law-wiring-11fe5ef8",
+      "lawIds": ["law-wiring-11fe5ef8"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 18,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 20,
+        "ended": 0,
+        "sample": [
+          "budget-line:higherEducation|person_805f8d3e2d89884e|2025-01-20",
+          "budget-line:higherEducation|person_a66a50fc6585ed57|2025-01-20",
+          "budget-line:higherEducation|person_a66a51fc6585ef0a|2025-01-20",
+          "budget-line:higherEducation|person_ae720410206893b1|2025-01-20"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:higherEducation|jurisdiction_971998ff58477430"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|budget-line:higherEducation|jurisdiction_971998ff58477430"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 1100761261,
+            "control": 1101273788,
+            "ids": [
+              "journal:2025-01-25:1682",
+              "journal:2025-01-25:1684",
+              "journal:2025-01-25:1686"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 334483930,
+            "control": 334640772,
+            "ids": [
+              "journal:2025-01-21:1642",
+              "journal:2025-01-21:1643",
+              "journal:2025-01-21:1644"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 234386257,
+            "control": 234440310,
+            "ids": [
+              "journal:2025-02-01:2003",
+              "journal:2025-02-01:2004",
+              "journal:2025-02-01:2005"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 442733017,
+            "control": 442787031,
+            "ids": [
+              "journal:2025-01-26:1692",
+              "journal:2025-01-27:1708",
+              "journal:2025-01-28:1711"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 87693586,
+            "control": 87657562,
+            "ids": [
+              "journal:2025-01-21:1660",
+              "journal:2025-01-21:1661",
+              "journal:2025-01-21:1662"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+            "treatment": 1138386203,
+            "control": 1138362718,
+            "ids": [
+              "journal:2025-01-21:1616",
+              "journal:2025-01-21:1617",
+              "journal:2025-01-21:1618"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+            "treatment": 3365485899,
+            "control": 3365462516,
+            "ids": [
+              "journal:2025-01-26:1693",
+              "journal:2025-01-27:1709",
+              "journal:2025-01-28:1712"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:924",
+            "treatment": 175864438377320,
+            "control": 175864438358178,
+            "ids": [
+              "journal:2025-02-01:1771",
+              "journal:2025-02-01:1772",
+              "journal:2025-02-01:1773"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:337",
+            "treatment": 7657119,
+            "control": 7663143,
+            "ids": [
+              "journal:2025-07-01:47546",
+              "journal:2025-07-01:47553",
+              "journal:2025-10-01:71481"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:735",
+            "treatment": 36929163,
+            "control": 36933575,
+            "ids": [
+              "journal:2025-01-25:1683",
+              "journal:2025-01-25:1685",
+              "journal:2025-01-25:1687"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+            "treatment": 2775000,
+            "control": 2778851,
+            "ids": [
+              "journal:2025-02-04:8328",
+              "journal:2025-02-04:8329",
+              "journal:2025-02-04:8330"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+            "treatment": 18704396,
+            "control": 18707443,
+            "ids": [
+              "journal:2025-02-01:2021",
+              "journal:2025-02-01:2023",
+              "journal:2025-02-01:2025"
+            ]
+          }
+        ],
+        "diffKinds": 31,
+        "cited": [
+          {
+            "token": "budget-line:higherEducation",
+            "gross": 1285863193040,
+            "ids": [
+              "journal:2025-02-01:1830",
+              "journal:2025-02-01:1831",
+              "journal:2025-02-01:1900"
+            ],
+            "control": 1285858336548
+          },
+          {
+            "token": "law-wiring-11fe5ef8",
+            "gross": 10138078,
+            "ids": [
+              "journal:2025-02-01:1900",
+              "journal:2025-02-01:1900",
+              "journal:2025-02-01:1902"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2666300",
+            "line": "higherEducation",
+            "moved": 10000000,
+            "treatment": 7091420,
+            "control": 2234928,
+            "ids": [
+              "journal:2025-02-01:1900",
+              "journal:2025-02-01:1901",
+              "journal:2025-02-01:1902"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "in",
+              "targets": 1,
+              "moved": 17069,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "in",
+                  "treatment": 21650556,
+                  "control": 21633487,
+                  "journal": "journal:2025-04-01:17163"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+              "way": "in",
+              "targets": 1,
+              "moved": 13379,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+                  "way": "in",
+                  "treatment": 59298217176815,
+                  "control": 59298217163436,
+                  "journal": "journal:2025-02-01:1784"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "out",
+              "targets": 1,
+              "moved": 11469,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                  "way": "out",
+                  "treatment": 5409753,
+                  "control": 5421222,
+                  "journal": "journal:2025-02-01:1981"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "out",
+              "targets": 1,
+              "moved": 7695,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "out",
+                  "treatment": 2402240,
+                  "control": 2409935,
+                  "journal": "journal:2025-02-01:1947"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+              "way": "in",
+              "targets": 1,
+              "moved": 3851,
+              "earliest": "2025-04-21",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                  "date": "2025-04-21",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+                  "way": "in",
+                  "treatment": -1060934,
+                  "control": -1064785,
+                  "journal": "journal:2025-04-21:24622"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:924",
+              "way": "in",
+              "targets": 1,
+              "moved": 2579,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:924",
+                  "way": "in",
+                  "treatment": -18329340159764,
+                  "control": -18329340162343,
+                  "journal": "journal:2025-04-01:16989"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 1,
+              "moved": 154,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": -1301917,
+                  "control": -1302071,
+                  "journal": "journal:2025-02-01:1973"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:924",
+              "way": "out",
+              "targets": 1,
+              "moved": 99,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:924",
+                  "way": "out",
+                  "treatment": -7650947948865,
+                  "control": -7650947948766,
+                  "journal": "journal:2025-05-01:24992"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "out",
+              "targets": 1,
+              "moved": 87,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": 79752,
+                  "control": 79839,
+                  "journal": "journal:2025-05-01:25207"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+              "way": "out",
+              "targets": 1,
+              "moved": 27,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+                  "way": "out",
+                  "treatment": -12549365,
+                  "control": -12549338,
+                  "journal": "journal:2025-05-01:26596"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1226|in",
+          "sample": [
+            {
+              "target": "jurisdiction_971998ff58477430",
+              "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+              "way": "in",
+              "treatment": 59298217176815,
+              "control": 59298217163436,
+              "journal": "journal:2025-02-01:1784"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_971998ff58477430",
+                "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+                "way": "in",
+                "treatment": 59298217176815,
+                "control": 59298217163436,
+                "journal": "journal:2025-02-01:1784"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_971998ff58477430",
+                "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                "way": "out",
+                "treatment": 5409753,
+                "control": 5421222,
+                "journal": "journal:2025-02-01:1981"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_971998ff58477430",
+                "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                "way": "out",
+                "treatment": 2402240,
+                "control": 2409935,
+                "journal": "journal:2025-02-01:1947"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_971998ff58477430",
+                "row": "applied|budget-line:higherEducation|jurisdiction_971998ff58477430",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                "way": "in",
+                "treatment": -1301917,
+                "control": -1302071,
+                "journal": "journal:2025-02-01:1973"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "higher-education-spending-to-college-completion",
+            "status": "built",
+            "to": "school.college-completion-pct"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.002670003993543754
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.002670003993543754
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.002670003993543754
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.002670003993543754
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.002670003993543754
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.002670003993543754
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.002670963236218563
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.002671922265673286
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0026728810819790076
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0026763501435533134
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0026798164163516444
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0026832799037354916
+          }
+        ],
+        "firedCount": 13,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 67,
+        "sample": [
+          "person_b2532d2bb80a6385:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:higherEducation:law-wiring-11fe5ef8",
+          "person_cced9380e845bfe8:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:higherEducation:law-wiring-11fe5ef8",
+          "person_64420c52d99b1844:printed:outlet:television:1:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:higherEducation:law-wiring-11fe5ef8"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 18,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 20,
+        "ended": 5,
+        "sample": [
+          "budget-line:higherEducation|person_805f8d3e2d89884e|2025-01-20",
+          "budget-line:higherEducation|person_a66a50fc6585ed57|2025-01-20",
+          "budget-line:higherEducation|person_a66a51fc6585ef0a|2025-01-20",
+          "budget-line:higherEducation|person_ae720410206893b1|2025-01-20"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 58
+    }
+  ]
+}

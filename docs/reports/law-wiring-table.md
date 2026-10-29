@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 86 of 89 (1 partly, 2 on a stopgap). Research links reaching people or carried by an engine: 167 of 246 (19 the research finds about zero, 60 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
+Laws wired: 87 of 89 (1 partly, 1 on a stopgap). Research links reaching people or carried by an engine: 169 of 246 (18 the research finds about zero, 59 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
@@ -21,7 +21,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Spending: schools                            | education          | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | public funds for private schooling           | education          | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | raise teacher minimum salary                 | education          | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
-| Spending: higherEducation                    | education          | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Budgets, Your office, News          |
+| Spending: higherEducation                    | education          | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | Income tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Calendar, Your office       |
 | Sales tax rate                               | taxes-finance      | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Calendar, Your office       |
 | Property tax rate                            | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar       |
@@ -109,10 +109,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **expand medicaid eligibility** (`us-policy-positions:health-human-services.expand-medicaid-eligibility`)
 
 - web: links not built or not read: medicaid-expansion-to-medical-debt (no reader, SG-EW-HEALTH-medical-debt-reader)
-
-**Spending: higherEducation** (`budget-line:higherEducation`)
-
-- web: no production reader: higher-education-spending-to-college-completion (SG-SCHOOL-college-completion) move only the web's ledger
 
 **Sales tax rate** (`sales-tax`)
 

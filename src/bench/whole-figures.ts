@@ -184,8 +184,13 @@ export function figureForSpot(
   if (ageBandOf(core, who.birthDate) === "child") return null;
   const person = packPersonOf(who);
   if (!person) return null;
+  // A figure drawn at a desk the drawing leaves out goes only where a desk
+  // stands in front of it (the spot's desk edge).
   const fits = (row: PackFigure) =>
-    row.person === person.id && row.pose === spot.pose && propHere(row, place);
+    row.person === person.id &&
+    row.pose === spot.pose &&
+    propHere(row, place) &&
+    (!row.needsDesk || spot.deskEdge !== undefined);
   // At a desk, a figure drawn behind a table lies its forearms on the desk as
   // drawn (pack v4 README); where the person has one, only those are taken.
   const behind =
@@ -224,7 +229,7 @@ export function portraitFigure(
  * standing").
  */
 export const portraitPose = (row: PackFigure) =>
-  row.seat === "none" && !row.prop;
+  row.seat === "none" && !row.prop && !row.needsDesk;
 /** A pack person's standing portrait in a look or dress. */
 export function portraitOf(
   person: PackPerson,

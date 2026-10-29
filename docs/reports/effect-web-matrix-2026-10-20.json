@@ -5,11 +5,11 @@
     "lawLinks": 135,
     "webCoverageWired": 127,
     "allEightPoints": 0,
-    "reachesOrCarried": 167,
-    "namedInAStopgap": 95,
+    "reachesOrCarried": 169,
+    "namedInAStopgap": 94,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 167,
-    "aboutZero": 19,
+    "reachesTheWorld": 169,
+    "aboutZero": 18,
     "withAnyModerator": 23,
     "byPoint": {
       "cause": {
@@ -25,10 +25,10 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 167,
+        "pass": 169,
         "partial": 0,
-        "fail": 60,
-        "n/a": 19
+        "fail": 59,
+        "n/a": 18
       },
       "varied": {
         "pass": 16,
@@ -2252,7 +2252,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2871, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2909, src/core2/modules/jobs.ts:2911, src/core2/modules/jobs.ts:2933, src/core2/modules/jobs.ts:2935"
+          "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947"
         },
         "varied": {
           "status": "fail",
@@ -2396,7 +2396,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:45"
+          "evidence": "src/core2/school-outcomes.ts:59"
         },
         "varied": {
           "status": "pass",
@@ -2789,7 +2789,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/school-outcomes.ts:45",
+          "evidence": "outcome read by src/core2/school-outcomes.ts:59",
           "why": "the web does not run it: it waits on police.killing-nearby, and it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
@@ -3082,7 +3082,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/school-outcomes.ts:45",
+          "evidence": "outcome read by src/core2/school-outcomes.ts:59",
           "why": "the web does not run it: it waits on immigration.deferred-action, and it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
@@ -3222,7 +3222,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger school.graduation-pct, which src/core2/school-outcomes.ts:45 reads into its own records"
+          "evidence": "web ledger school.graduation-pct, which src/core2/school-outcomes.ts:59 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -3853,7 +3853,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:28, src/core2/modules/jobs.ts:2869, src/core2/modules/jobs.ts:2878"
+          "evidence": "src/core2/jobs-web.ts:28, src/core2/modules/jobs.ts:2881, src/core2/modules/jobs.ts:2890"
         },
         "varied": {
           "status": "pass",
@@ -4526,7 +4526,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2868, src/core2/modules/jobs.ts:2877"
+          "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2889"
         },
         "varied": {
           "status": "fail",
@@ -5348,7 +5348,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:45"
+          "evidence": "src/core2/school-outcomes.ts:59"
         },
         "varied": {
           "status": "fail",
@@ -5395,7 +5395,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:46"
+          "evidence": "src/core2/school-outcomes.ts:60"
         },
         "varied": {
           "status": "fail",
@@ -6062,7 +6062,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2868, src/core2/modules/jobs.ts:2877"
+          "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2889"
         },
         "varied": {
           "status": "fail",
@@ -6487,7 +6487,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2871, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2909, src/core2/modules/jobs.ts:2911, src/core2/modules/jobs.ts:2933, src/core2/modules/jobs.ts:2935"
+          "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947"
         },
         "varied": {
           "status": "fail",
@@ -6771,7 +6771,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:29, src/core2/modules/jobs.ts:2870, src/core2/modules/jobs.ts:2879, src/core2/modules/jobs.ts:2899"
+          "evidence": "src/core2/jobs-web.ts:29, src/core2/modules/jobs.ts:2882, src/core2/modules/jobs.ts:2891, src/core2/modules/jobs.ts:2911"
         },
         "varied": {
           "status": "pass",
@@ -7011,7 +7011,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:43"
+          "evidence": "src/core2/school-outcomes.ts:57"
         },
         "varied": {
           "status": "fail",
@@ -7058,7 +7058,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:44"
+          "evidence": "src/core2/school-outcomes.ts:58"
         },
         "varied": {
           "status": "fail",
@@ -7152,7 +7152,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:43"
+          "evidence": "src/core2/school-outcomes.ts:57"
         },
         "varied": {
           "status": "pass",
@@ -7198,7 +7198,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:45"
+          "evidence": "src/core2/school-outcomes.ts:59"
         },
         "varied": {
           "status": "pass",
@@ -7244,7 +7244,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:43"
+          "evidence": "src/core2/school-outcomes.ts:57"
         },
         "varied": {
           "status": "fail",
@@ -7291,7 +7291,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:45"
+          "evidence": "src/core2/school-outcomes.ts:59"
         },
         "varied": {
           "status": "fail",
@@ -7338,7 +7338,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:43"
+          "evidence": "src/core2/school-outcomes.ts:57"
         },
         "varied": {
           "status": "fail",
@@ -7385,7 +7385,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:45"
+          "evidence": "src/core2/school-outcomes.ts:59"
         },
         "varied": {
           "status": "fail",
@@ -7424,7 +7424,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger school.graduation-pct, which src/core2/school-outcomes.ts:45 reads into its own records"
+          "evidence": "web ledger school.graduation-pct, which src/core2/school-outcomes.ts:59 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -7759,7 +7759,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:45"
+          "evidence": "src/core2/school-outcomes.ts:59"
         },
         "varied": {
           "status": "fail",
@@ -7900,7 +7900,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:43"
+          "evidence": "src/core2/school-outcomes.ts:57"
         },
         "varied": {
           "status": "fail",
@@ -7947,7 +7947,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:45"
+          "evidence": "src/core2/school-outcomes.ts:59"
         },
         "varied": {
           "status": "fail",
@@ -7994,7 +7994,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:43"
+          "evidence": "src/core2/school-outcomes.ts:57"
         },
         "varied": {
           "status": "fail",
@@ -8325,7 +8325,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:43"
+          "evidence": "src/core2/school-outcomes.ts:57"
         },
         "varied": {
           "status": "fail",
@@ -9230,7 +9230,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/school-outcomes.ts:45",
+          "evidence": "outcome read by src/core2/school-outcomes.ts:59",
           "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
@@ -9563,7 +9563,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:44"
+          "evidence": "src/core2/school-outcomes.ts:58"
         },
         "varied": {
           "status": "fail",
@@ -9703,9 +9703,8 @@
           "evidence": "data/research/outcome-web/links.json:5562 size 0, range [-0.017, 0.006], Deming and Walters 2017 (NBER w23736)"
         },
         "reaches": {
-          "status": "n/a",
-          "evidence": "data/research/outcome-web/links.json:5562 size 0",
-          "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
+          "status": "pass",
+          "evidence": "src/core2/school-outcomes.ts:64"
         },
         "varied": {
           "status": "fail",
@@ -10319,7 +10318,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/school-outcomes.ts:44",
+          "evidence": "outcome read by src/core2/school-outcomes.ts:58",
           "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
@@ -11755,9 +11754,8 @@
           "evidence": "data/research/outcome-web/links.json:6565 size 0.000113, range [0.00006, 0.00017], Deming and Walters 2017, NBER Working Paper 23736, section 4.3 and Table 4 Panel C; NCES Condition of Education 2024, indicator on undergraduate degree awards (https://nces.ed.gov/programs/coe/pdf/2024/cts_508c.pdf; 2.0 million bachelor's degrees, 2021-22); Census Bureau, American Community Survey 2022 1-year, table S1501, as reproduced in the Hawaii Department of Business, Economic Development and Tourism Data Book 2023 (https://files.hawaii.gov/dbedt/economic/databook/2023-individual/03/030523.pdf)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces school.college-completion-pct"
+          "status": "pass",
+          "evidence": "src/core2/school-outcomes.ts:64"
         },
         "varied": {
           "status": "fail",
@@ -11782,8 +11780,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 5,
-      "stopgap": "SG-SCHOOL-college-completion"
+      "wiredPoints": 6,
+      "stopgap": null
     },
     {
       "key": "welfare-spending-to-poverty",
@@ -13021,7 +13019,7 @@
     {
       "measure": "labor.low-wage-jobs",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2871, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2909, src/core2/modules/jobs.ts:2911, src/core2/modules/jobs.ts:2933, src/core2/modules/jobs.ts:2935",
+      "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13032,7 +13030,7 @@
     {
       "measure": "labor.married-women-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:28, src/core2/modules/jobs.ts:2869, src/core2/modules/jobs.ts:2878",
+      "evidence": "src/core2/jobs-web.ts:28, src/core2/modules/jobs.ts:2881, src/core2/modules/jobs.ts:2890",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["broadband-to-married-women-work"]
@@ -13076,7 +13074,7 @@
     {
       "measure": "labor.mothers-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2868, src/core2/modules/jobs.ts:2877",
+      "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2889",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13087,7 +13085,7 @@
     {
       "measure": "labor.older-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:29, src/core2/modules/jobs.ts:2870, src/core2/modules/jobs.ts:2879, src/core2/modules/jobs.ts:2899",
+      "evidence": "src/core2/jobs-web.ts:29, src/core2/modules/jobs.ts:2882, src/core2/modules/jobs.ts:2891, src/core2/modules/jobs.ts:2911",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["retirement-age-to-older-work"]
@@ -13430,9 +13428,8 @@
     },
     {
       "measure": "school.college-completion-pct",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/school-outcomes.ts:64",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13461,7 +13458,7 @@
     {
       "measure": "school.graduation-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/school-outcomes.ts:45",
+      "evidence": "src/core2/school-outcomes.ts:59",
       "countedTwice": false,
       "asCause": ["graduation-to-turnout", "graduation-to-poverty"],
       "asOutcome": [
@@ -13500,7 +13497,7 @@
     {
       "measure": "school.math-proficient-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/school-outcomes.ts:43",
+      "evidence": "src/core2/school-outcomes.ts:57",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13526,7 +13523,7 @@
     {
       "measure": "school.reading-proficient-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/school-outcomes.ts:44",
+      "evidence": "src/core2/school-outcomes.ts:58",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13538,7 +13535,7 @@
     {
       "measure": "school.spending-per-student",
       "status": "engine-reads-web",
-      "evidence": "src/core2/school-outcomes.ts:46",
+      "evidence": "src/core2/school-outcomes.ts:60",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["equalized-funding-to-spending"]
