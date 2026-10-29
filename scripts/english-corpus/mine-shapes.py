@@ -426,7 +426,6 @@ def build_bank(spec, shapes_path, candidates, seen, documents):
             "uses": [use],
             "transcriptsUsing": len(docs),
             "bySource": dict(sorted(by_source.items())),
-            "shippable": True,
             "source": {
                 "document": document_name(source),
                 "date": source["date"],

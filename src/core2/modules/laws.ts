@@ -52,7 +52,7 @@ import {
  * for one subject in one place, read by an engine in another family at the
  * moment it decides (this family's entry, tests/guards/families.json).
  */
-export { webReach } from "../outcome-web-reach";
+export { webReach, webFactorFor } from "../outcome-web-reach";
 /** The research links the web runs, for an engine that reads a person-level link from its own records. */
 export { WEB_LINKS } from "../outcome-web-model";
 /** Each named person's Medicaid coverage as the law reach pays it, for the health engine. */

@@ -10,7 +10,7 @@
  */
 import sceneJson from "../../../data/english/parts/scene-words.json" with { type: "json" };
 import bringJson from "../../../data/english/parts/bring-it-up.json" with { type: "json" };
-import { directorSlots, partsToSay, type BankPart } from "../bank-parts";
+import { admittedParts, directorSlots, type BankPart } from "../bank-parts";
 import bringRowsJson from "../../director/data/bring-it-up-rows.json" with { type: "json" };
 import sceneRowsJson from "../../director/data/scene-rows.json" with { type: "json" };
 import type { BringRows } from "../../director/bring-it-up";
@@ -50,18 +50,9 @@ function directorText(text: string): string {
   );
 }
 
-function variants(
-  bank: Bank,
-  subject: string,
-  role: string,
-  staged = false,
-  heldFirst = false,
-) {
-  return partsToSay(
-    bank.parts,
-    (part) =>
-      part.uses.some((use) => use.subject === subject && use.role === role),
-    heldFirst,
+function variants(bank: Bank, subject: string, role: string, staged = false) {
+  return admittedParts(bank.parts, (part) =>
+    part.uses.some((use) => use.subject === subject && use.role === role),
   ).map((part) => {
     const use = part.uses.find(
       (use) => use.subject === subject && use.role === role,
@@ -92,12 +83,9 @@ function stagesOf(uses: readonly Use[]): { stages?: string[] } {
  * or about the person it names (`other`); a line with any other choice fits
  * both.
  */
-function causeVariants(bank: Bank, role: string, heldFirst = false) {
-  return partsToSay(
-    bank.parts,
-    (part) =>
-      part.uses.some((use) => use.subject === "cause" && use.role === role),
-    heldFirst,
+function causeVariants(bank: Bank, role: string) {
+  return admittedParts(bank.parts, (part) =>
+    part.uses.some((use) => use.subject === "cause" && use.role === role),
   ).map((part) => {
     const choice = part.uses.find(
       (use) => use.subject === "cause" && use.role === role,
@@ -110,57 +98,47 @@ function causeVariants(bank: Bank, role: string, heldFirst = false) {
   });
 }
 
-/** `heldFirst` is for a grading page only: see `partsToSay`. */
 export function sceneWordsFromBank(
   bank: Bank = SCENE_BANK,
   rows: SceneRows = SCENE_ROWS,
-  heldFirst = false,
 ): SceneWords {
   return {
     version: rows.version,
     and: rows.and,
     settings: Object.fromEntries(
-      rows.settings.map((kind) => [
-        kind,
-        variants(bank, "setting", kind, false, heldFirst),
-      ]),
+      rows.settings.map((kind) => [kind, variants(bank, "setting", kind)]),
     ),
     leads: rows.leads.map((typeKey) => ({
       typeKey,
-      variants: variants(bank, "lead", typeKey, true, heldFirst),
+      variants: variants(bank, "lead", typeKey, true),
     })),
     causes: rows.causes.map((labelPrefix) => ({
       labelPrefix,
-      variants: causeVariants(bank, labelPrefix, heldFirst),
+      variants: causeVariants(bank, labelPrefix),
     })),
     openings: Object.fromEntries(
       (rows.openings ?? []).map((move) => [
         move,
-        variants(bank, "opening", move, false, heldFirst),
+        variants(bank, "opening", move),
       ]),
     ),
   };
 }
 
-/** `heldFirst` is for a grading page only: see `partsToSay`. */
 export function bringWordsFromBank(
   bank: Bank = BRING_BANK,
   rows: BringRows = BRING_ROWS,
-  heldFirst = false,
 ): BringWords {
   return {
     version: rows.version,
     changes: Object.fromEntries(
       rows.changes.map((row) => [
         row.eventKind,
-        variants(bank, "change", row.eventKind, false, heldFirst),
+        variants(bank, "change", row.eventKind),
       ]),
     ),
     blame: Object.fromEntries(
-      rows.blame.map((how) => [
-        how,
-        variants(bank, "blame", how, false, heldFirst),
-      ]),
+      rows.blame.map((how) => [how, variants(bank, "blame", how)]),
     ) as BringWords["blame"],
   };
 }

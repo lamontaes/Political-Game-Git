@@ -105,16 +105,10 @@ function directorMove(key: string, part: MinedPart, use: MinedUse): Move {
  */
 export function conversationDataFromBank(
   bank: MinedBank = CONVERSATION_BANK,
-  /** Grading and tests only: also use parts held back until graded; play never sets it. */
-  includeHeld = false,
 ): ConversationData {
   const subjects: Record<string, SubjectWords> = {};
   // A part the owner graded down and never up is not said.
-  for (const part of admittedParts(
-    bank.parts,
-    undefined,
-    includeHeld ? "all" : "shipped",
-  )) {
+  for (const part of admittedParts(bank.parts)) {
     for (const use of part.uses) {
       const field = ROLE_FIELD[use.role];
       if (!field) continue;

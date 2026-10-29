@@ -159,7 +159,6 @@
         "nps": 54,
         "wpa": 10
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -200,7 +199,6 @@
         "nasa2": 1,
         "nps": 4
       },
-      "shippable": false,
       "source": {
         "document": "DREAM DEFERRED: THE URGENT NEED TO PROTECT IMMIGRANT YOUTH",
         "date": "2024-05-08",
@@ -246,7 +244,6 @@
         "nps": 2,
         "wpa": 1
       },
-      "shippable": false,
       "source": {
         "document": "NATIVE AMERICAN EDUCATION: EXAMINING FEDERAL PROGRAMS AT THE U.S. DEPARTMENT OF EDUCATION",
         "date": "2025-04-02",
@@ -294,7 +291,6 @@
         "nps": 14,
         "wpa": 5
       },
-      "shippable": false,
       "source": {
         "document": "Remarks on Affordability in Macungie, Pennsylvania",
         "date": "2026-06-23",
@@ -332,7 +328,6 @@
         "hearings": 1,
         "wpa": 1
       },
-      "shippable": false,
       "source": {
         "document": "NOMINATIONS OF THE HONORABLE",
         "date": "2022-03-02",
@@ -381,7 +376,6 @@
         "nps": 13,
         "wpa": 5
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -422,7 +416,6 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "nasa": 1
       },
-      "shippable": false,
       "source": {
         "document": "NASA JSC Oral History Project: David J. Homan (Engineer, Shuttle RMS, MPAD; Manager, Space Station Freedom Level II; Manager, Space Station Level III Functional Area for assembly; Critical Evaluation Task Force (following the Challenger accident); Manager, Manager, Virtual Reality Lab)",
         "date": "2023-06-14",
@@ -465,7 +458,6 @@
         "nasa2": 3,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Cecil G. Dome oral history (naca collection)",
         "date": "2015-02-19",
@@ -524,7 +516,6 @@
         "nps": 3,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Reception in New York City",
         "date": "2024-02-07",
@@ -565,7 +556,6 @@
         "U.S. Senate Historical Office oral history": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "NPS History Collection oral history: bielenberg warren oct 22 2015",
         "date": "2015-10-22",
@@ -606,7 +596,6 @@
         "nasa2": 2,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Arlin Bartels oral history (discovery-and-new-frontiers collection)",
         "date": "2023-06-16",
@@ -647,7 +636,6 @@
         "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "John Celardo oral history interview",
         "date": "2025-03-31",
@@ -689,7 +677,6 @@
         "hearings": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
         "date": "2023-07-28",
@@ -725,7 +712,6 @@
       "bySource": {
         "house": 2
       },
-      "shippable": false,
       "source": {
         "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001–2007",
         "date": "2019-09-30",
@@ -760,7 +746,6 @@
         "nps": 4,
         "wpa": 7
       },
-      "shippable": true,
       "source": {
         "document": "THE ASSAULT ON WOMEN'S FREEDOMS: HOW ABORTION BANS HAVE CREATED A HEALTH CARE NIGHTMARE ACROSS AMERICA",
         "date": "2024-06-04",
@@ -795,7 +780,6 @@
         "nps": 5,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "NPS History Collection oral history: english-rias melissa sept 16 2020",
         "date": "2020-09-16",
@@ -840,7 +824,6 @@
         "nps": 4,
         "wpa": 4
       },
-      "shippable": true,
       "source": {
         "document": "MENTAL HEALTH CARE FOR OLDER ADULTS: RAISING AWARENESS, ADDRESSING STIGMA, AND PROVIDING SUPPORT",
         "date": "2022-05-19",
@@ -884,7 +867,6 @@
         "nps": 15,
         "wpa": 3
       },
-      "shippable": true,
       "source": {
         "document": "EXAMINING THE GROWTH OF",
         "date": "2025-05-07",
@@ -922,7 +904,6 @@
         "dcpd": 3,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Rally for Governor Kathleen C. Hochul in Bronxville, New York",
         "date": "2022-11-06",
@@ -960,7 +941,6 @@
         "nasa": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "PROTECTING VETERAN CHOICE: EXAMINING VA'S COMMUNITY CARE PROGRAM",
         "date": "2025-01-28",
@@ -997,7 +977,6 @@
         "U.S. Senate Historical Office oral history": 1,
         "nasa2": 1
       },
-      "shippable": false,
       "source": {
         "document": "John P. Andrews oral history (discovery-and-new-frontiers collection)",
         "date": "2023-09-29",
@@ -1038,7 +1017,6 @@
         "nasa": 2,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Secretary Jewell, National Park Service Director Jarvis Hear Community’s Vision and Support for Proposed National Park System Additions in Alabama",
         "date": "2016-10-28",
@@ -1085,7 +1063,6 @@
         "nps.gov": 1,
         "wpa": 7
       },
-      "shippable": false,
       "source": {
         "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
         "date": "2020-04-05",
@@ -1122,7 +1099,6 @@
         "hearings": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "PHASING OUT SUBMINIMUM WAGES: SUPPORTING THE TRANSITION TO COMPETITIVE INTEGRATED EMPLOYMENT FOR WORKERS WITH DISABILITIES",
         "date": "2021-07-21",
@@ -1166,7 +1142,6 @@
         "nps": 5,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to a Meeting With President Joseph Aoun of Lebanon and an Exchange With Reporters",
         "date": "2026-07-21",
@@ -1211,7 +1186,6 @@
         "nasa2": 4,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Roundtable Discussion With the Memphis Safe Task Force in Memphis, Tennessee",
         "date": "2026-03-23",
@@ -1247,7 +1221,6 @@
         "U.S. Senate Historical Office oral history": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA JSC Oral History Project: William S. McArthur (Space Shuttle and ISS Astronaut; Director of Operations, Russia; JSC Director of Safety and Mission Assurance)",
         "date": "2018-05-29",
@@ -1285,7 +1258,6 @@
         "dcpd": 4,
         "hearings": 9
       },
-      "shippable": true,
       "source": {
         "document": "DEPARTMENT OF DEFENSE AUTHORIZATION REQUEST FOR APPROPRIATIONS FOR FISCAL YEAR 2023 AND THE FUTURE YEARS DEFENSE PROGRAM",
         "date": "2022-03-08",
@@ -1331,7 +1303,6 @@
         "nasa2": 12,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Theodore Roosevelt Presidential Library in Medora, North Dakota",
         "date": "2026-07-01",
@@ -1372,7 +1343,6 @@
         "nps": 1,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA JSC Oral History Project: David W. Myers (Gallaudet Eleven human factors subject)",
         "date": "2020-01-29",
@@ -1415,7 +1385,6 @@
         "nps": 2,
         "wpa": 10
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to Departure for Palm Beach, Florida",
         "date": "2026-03-20",
@@ -1460,7 +1429,6 @@
         "nps": 7,
         "wpa": 18
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing an Executive Order on Workforce Development Strengthening Efforts in Ann Arbor, Michigan",
         "date": "2024-09-06",
@@ -1497,7 +1465,6 @@
         "hearings": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "H.R. 897, H.R. 3925, H.R. 5441, AND H.R. 6235",
         "date": "2024-01-18",
@@ -1538,7 +1505,6 @@
         "nps": 1,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Congressional Record, Senate section, 2019-12-04",
         "date": "2019-12-04",
@@ -1577,7 +1543,6 @@
         "nih": 1,
         "wpa": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Reception in Chevy Chase, Maryland",
         "date": "2023-06-27",
@@ -1615,7 +1580,6 @@
         "nasa": 1,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Commemorating the 50th Anniversary of Amtrak in Philadelphia, Pennsylvania",
         "date": "2021-04-30",
@@ -1664,7 +1628,6 @@
         "hearings": 1,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "TAX REFORM: ENSURING THAT MAIN STREET ISN'T LEFT BEHIND",
         "date": "2015-04-15",
@@ -1700,7 +1663,6 @@
         "dcpd": 2,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Proclamation on National Angel Family Day",
         "date": "2026-02-23",
@@ -1736,7 +1698,6 @@
         "dcpd": 1,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "dcpd of 2025-09-18",
         "date": "2025-09-18",
@@ -1784,7 +1745,6 @@
         "nasa2": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the National Economy in Mount Pocono, Pennsylvania",
         "date": "2025-12-09",
@@ -1825,7 +1785,6 @@
         "nih": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "NOMINATIONS OF EDWARD FORST, CHARLES ARRINGTON, JOHN CUONG TRUONG, ELANA S. SUTTENBERG, STEPHEN F. RICKARD, WILLIAM KIRK, HON. ANTHONY D'ESPOSITO, AND PLATTE MORING",
         "date": "2025-10-23",
@@ -1862,7 +1821,6 @@
         "dcpd": 4,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Proclamation To Restore United States Commercial Fishing in the Pacific and an Exchange With Reporters",
         "date": "2026-06-11",
@@ -1899,7 +1857,6 @@
         "dcpd": 14,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Roundtable Discussion on Agriculture in Chippewa Falls, Wisconsin",
         "date": "2026-06-05",
@@ -1936,7 +1893,6 @@
         "crec": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Congressional Record, House section, 2025-01-21",
         "date": "2025-01-21",
@@ -1974,7 +1930,6 @@
         "hearings": 2,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "LESSONS FROM THE MUELLER REPORT: PRESIDENTIAL OBSTRUCTION AND OTHER CRIMES",
         "date": "2019-06-10",
@@ -2012,7 +1967,6 @@
         "crec": 1,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Family Research Council's Values Voter Summit",
         "date": "2019-10-12",
@@ -2062,7 +2016,6 @@
         "nps": 76,
         "wpa": 27
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Situation in Israel and Lebanon and an Exchange With Reporters",
         "date": "2026-04-23",
@@ -2107,7 +2060,6 @@
         "nih": 1,
         "nps": 22
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the 25th Anniversary of the September 11, 2001, Terrorist Attacks in Arlington, Virginia",
         "date": "2026-09-11",
@@ -2145,7 +2097,6 @@
         "nps": 2,
         "wpa": 4
       },
-      "shippable": true,
       "source": {
         "document": "THE CHALLENGES AND IMPACTS OF FEDERAL REGULATIONS AND WILDFIRE MANAGEMENT ON OUTDOOR RECREATION, HUNTING AND FISHING OPPORTUNITIES, AND TOURISM ON PUBLIC LANDS ON THE KENAI PENINSULA",
         "date": "2016-05-31",
@@ -2181,7 +2132,6 @@
         "chrg": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2018",
         "date": "2017-03-01",
@@ -2217,7 +2167,6 @@
         "chrg": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Administration of Donald J. Trump, 2019 Remarks on Signing an Executive Order Protecting and Improving Medicare for Our Nation's Seniors in the Villages, Florida October 3, 2019 The President. Well, t",
         "date": "2019-10-03",
@@ -2254,7 +2203,6 @@
         "eisenhower": 1,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters in Rehoboth Beach, Delaware",
         "date": "2022-06-20",
@@ -2292,7 +2240,6 @@
         "nasa": 35,
         "senate": 8
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Situation in Israel and Lebanon and an Exchange With Reporters",
         "date": "2026-04-23",
@@ -2330,7 +2277,6 @@
         "nasa": 8,
         "senate": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
         "date": "2026-01-11",
@@ -2368,7 +2314,6 @@
         "nasa": 17,
         "senate": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Board of Trustees Meeting of the John F. Kennedy Center for the Performing Arts and an Exchange With Reporters",
         "date": "2026-03-16",
@@ -2405,7 +2350,6 @@
         "nasa": 12,
         "senate": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Banquet Dinner in Dublin, Ireland",
         "date": "2023-04-13",
@@ -2444,7 +2388,6 @@
         "nasa": 79,
         "senate": 7
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Working Dinner With Leaders of Central Asian Countries and an Exchange With Reporters",
         "date": "2025-11-06",
@@ -2480,7 +2423,6 @@
         "nasa": 3,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history interview with Charles R. Lewis",
         "date": "2022-06-07",
@@ -2520,7 +2462,6 @@
         "nasa": 113,
         "senate": 13
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -2555,7 +2496,6 @@
       "bySource": {
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history interview with Edward L. Shade",
         "date": "2018-08-22",
@@ -2593,7 +2533,6 @@
         "nasa": 3,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "The President's News Conference",
         "date": "2026-04-06",
@@ -2631,7 +2570,6 @@
         "eisenhower": 1,
         "nasa": 10
       },
-      "shippable": true,
       "source": {
         "document": "Nominations Of Mindy Brashears, Stella Yvette Herrell, And John Walk",
         "date": "2025-10-29",
@@ -2670,7 +2608,6 @@
         "eisenhower": 2,
         "nasa": 17
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Des Moines, Iowa",
         "date": "2025-07-03",
@@ -2706,7 +2643,6 @@
       "bySource": {
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history interview with Mark S. Geyer",
         "date": "2021-05-26",
@@ -2746,7 +2682,6 @@
         "chrg": 1,
         "senate": 1
       },
-      "shippable": false,
       "source": {
         "document": "Senate Budget Committee Mid-Session Hearings Fiscal Year 2016",
         "date": "2015-05-19",
@@ -2785,7 +2720,6 @@
       "bySource": {
         "chrg": 7
       },
-      "shippable": true,
       "source": {
         "document": "Oversight Of The Department Of Justice Antitrust Division",
         "date": "2023-11-14",
@@ -2822,7 +2756,6 @@
         "nasa": 9,
         "senate": 2
       },
-      "shippable": false,
       "source": {
         "document": "Concurrent Receipt Of Survivor",
         "date": "2015-12-09",
@@ -2862,7 +2795,6 @@
         "nasa": 12,
         "senate": 6
       },
-      "shippable": true,
       "source": {
         "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
         "date": "2025-05-01",
@@ -2899,7 +2831,6 @@
         "chrg": 1,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2016",
         "date": "2015-02-25",
@@ -2936,7 +2867,6 @@
         "chrg": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2020",
         "date": "2019-03-27",
@@ -2977,7 +2907,6 @@
         "chrg": 2,
         "dcpd": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Las Vegas, Nevada",
         "date": "2026-08-05",
@@ -3017,7 +2946,6 @@
         "dcpd": 3,
         "senate": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the National Economy in Walton, Kentucky",
         "date": "2026-03-11",
@@ -3057,7 +2985,6 @@
         "dcpd": 3,
         "senate": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the National Economy in Walton, Kentucky",
         "date": "2026-03-11",
@@ -3088,7 +3015,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3115,7 +3041,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3142,7 +3067,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3169,7 +3093,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3196,7 +3119,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3223,7 +3145,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3250,7 +3171,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3284,7 +3204,6 @@
         "nasa": 4,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Affordability in Macungie, Pennsylvania",
         "date": "2026-06-23",
@@ -3321,7 +3240,6 @@
         "chrg": 2,
         "dcpd": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During an Event With Seniors in Middleton, Florida",
         "date": "2026-05-01",
@@ -3357,7 +3275,6 @@
       "bySource": {
         "dcpd": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Event in Greenwich, Connecticut",
         "date": "2024-06-03",
@@ -3390,7 +3307,6 @@
         "dcpd": 4,
         "nasa": 3
       },
-      "shippable": false,
       "source": {
         "document": "Remarks Following a Document Signing Ceremony on Semiconductor Supply and Citizenship and Immigration and an Exchange With Reporters",
         "date": "2026-08-06",
@@ -3420,7 +3336,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Document Signing Ceremony and an Exchange With Reporters",
         "date": "2025-05-05",
@@ -3452,7 +3367,6 @@
         "nasa": 2,
         "senate": 3
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history interview with Mark S. Geyer",
         "date": "2019-06-20",
@@ -3489,7 +3403,6 @@
         "house": 1,
         "nasa": 1
       },
-      "shippable": false,
       "source": {
         "document": "The Family First Prevention Services Act: Successes, Roadblocks, And Opportunities For Improvement",
         "date": "2015-01-01",
@@ -3524,7 +3437,6 @@
       "bySource": {
         "chrg": 11
       },
-      "shippable": true,
       "source": {
         "document": "Advancing Innovation (Ai): Harnessing Artificial Intelligence To Defend And Secure The Homeland",
         "date": "2024-02-12",
@@ -3564,7 +3476,6 @@
         "news-epa": 2,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Biden-Harris Administration Announces $43,716,000 for Water Infrastructure in Alabama Through Investing in America Agenda",
         "date": "2024-10-24",
@@ -3603,7 +3514,6 @@
       "bySource": {
         "chrg": 2
       },
-      "shippable": true,
       "source": {
         "document": "The National Defense Strategy And The Nuclear Posture Review",
         "date": "2018-02-06",
@@ -3639,7 +3549,6 @@
         "chrg": 5,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Examining Cbo'S Updated 2024-2034 Budget And Economic Outlook",
         "date": "2024-07-09",
@@ -3675,7 +3584,6 @@
         "chrg": 3,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "American Innovation And The Future Of Digital Assets: From Blueprint To A Functional Framework--Day 1",
         "date": "2025-06-04",
@@ -3706,7 +3614,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -3733,7 +3640,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -3760,7 +3666,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
       "date": "2026-10-27",
@@ -3787,7 +3692,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
       "date": "2026-10-27",
@@ -3814,7 +3718,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
       "date": "2026-10-27",
@@ -3841,7 +3744,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
       "date": "2026-10-27",
@@ -3868,7 +3770,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -3895,7 +3796,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -3922,7 +3822,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -3949,7 +3848,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -3982,7 +3880,6 @@
         "dcpd": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Administration of Donald J. Trump, 2018 Remarks at a Roundtable Discussion on Tax Reform in Las Vegas, Nevada June 23, 2018 The President. Please sit down. Audience member. Give that man a hand ! Audi",
         "date": "2018-06-23",
@@ -4017,7 +3914,6 @@
       "bySource": {
         "dcpd": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
         "date": "2026-07-23",
@@ -4054,7 +3950,6 @@
         "NASA oral histories": 5,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history hurstkj-9-19-22",
         "date": "2022-09-19",
@@ -4091,7 +3986,6 @@
         "NASA oral histories": 2,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: Donna F. Edwards",
         "date": "2018-06-29",
@@ -4127,7 +4021,6 @@
         "NASA oral histories": 20,
         "U.S. House oral histories": 4
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history lewiscr-6-7-22",
         "date": "2022-06-07",
@@ -4163,7 +4056,6 @@
         "NASA oral histories": 22,
         "U.S. House oral histories": 10
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: The Honorable Michael F. Doyle",
         "date": "2022-06-14",
@@ -4198,7 +4090,6 @@
       "bySource": {
         "U.S. House oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: Donna F. Edwards",
         "date": "2018-06-29",
@@ -4233,7 +4124,6 @@
       "bySource": {
         "NASA oral histories": 3
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history weilerej-4-4-17",
         "date": "2017-04-04",
@@ -4269,7 +4159,6 @@
         "NASA oral histories": 2,
         "U.S. House oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history griffink-11-13-19",
         "date": "2019-11-13",
@@ -4306,7 +4195,6 @@
         "NASA oral histories": 3,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history bartelsa-6-30-23",
         "date": "2023-06-30",
@@ -4343,7 +4231,6 @@
         "NASA oral histories": 10,
         "U.S. House oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history lawrencedj-1-12-24",
         "date": "2024-01-12",
@@ -4380,7 +4267,6 @@
         "NASA oral histories": 1,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: Jennice Fuentes",
         "date": "2018-12-20",
@@ -4417,7 +4303,6 @@
         "NASA oral histories": 4,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: The Honorable Patricia Scott Schroeder",
         "date": "2015-06-03",
@@ -4455,7 +4340,6 @@
         "U.S. House oral histories": 1,
         "U.S. Senate oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history koosrh-8-22-23",
         "date": "2023-08-22",
@@ -4492,7 +4376,6 @@
         "NASA oral histories": 1,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history koosrh-8-24-23",
         "date": "2023-08-24",
@@ -4529,7 +4412,6 @@
         "NASA oral histories": 4,
         "U.S. House oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: The Honorable Barbara Bailey Kennelly",
         "date": "2015-09-09",
@@ -4565,7 +4447,6 @@
       "bySource": {
         "NASA oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history saltzmanej-2-17-15",
         "date": "2015-02-17",
@@ -4601,7 +4482,6 @@
       "bySource": {
         "NASA oral histories": 4
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history lousmagk-7-10-19",
         "date": "2019-07-10",
@@ -4637,7 +4517,6 @@
       "bySource": {
         "NASA oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history weisskopfga-10-24-19",
         "date": "2019-10-24",
@@ -4674,7 +4553,6 @@
         "NASA oral histories": 7,
         "U.S. House oral histories": 3
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history boruckiwj-3-20-24",
         "date": "2024-03-20",
@@ -4710,7 +4588,6 @@
         "NASA oral histories": 4,
         "U.S. House oral histories": 3
       },
-      "shippable": false,
       "source": {
         "document": "U.S. House oral history: The Honorable Tony Coelho",
         "date": "2024-07-22",
@@ -4747,7 +4624,6 @@
         "U.S. House oral histories": 3,
         "U.S. Senate oral histories": 2
       },
-      "shippable": false,
       "source": {
         "document": "U.S. House oral history: Brenda Countz",
         "date": "2024-03-29",
@@ -4783,7 +4659,6 @@
         "NASA oral histories": 8,
         "U.S. House oral histories": 4
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: The Honorable Michael F. Doyle",
         "date": "2022-06-14",
@@ -4818,7 +4693,6 @@
       "bySource": {
         "NASA oral histories": 4
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history curleyh-n-2-17-15",
         "date": "2015-02-17",
@@ -4854,7 +4728,6 @@
         "NASA oral histories": 3,
         "U.S. House oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: The Honorable Michael F. Doyle",
         "date": "2022-06-14",
@@ -4889,7 +4762,6 @@
       "bySource": {
         "NASA oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history hillps-3-24-15",
         "date": "2015-03-24",
@@ -4924,7 +4796,6 @@
       "bySource": {
         "NASA oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history staffordtp-4-23-15",
         "date": "2015-04-23",
@@ -4960,7 +4831,6 @@
         "NASA oral histories": 1,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history griffink-11-13-19",
         "date": "2019-11-13",
@@ -4997,7 +4867,6 @@
         "U.S. House oral histories": 4,
         "U.S. Senate oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history jenkinsj-6-18-24",
         "date": "2024-06-18",
@@ -5033,7 +4902,6 @@
         "NASA oral histories": 1,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: The Honorable Helen Delich Bentley",
         "date": "2016-03-21",
@@ -5068,7 +4936,6 @@
       "bySource": {
         "NASA oral histories": 4
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history lewiscr-7-6-22",
         "date": "2022-07-06",
@@ -5104,7 +4971,6 @@
         "NASA oral histories": 9,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history tersignij-7-12-18",
         "date": "2018-07-12",
@@ -5140,7 +5006,6 @@
         "NASA oral histories": 5,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history hirasakip-8-2-23",
         "date": "2023-08-02",
@@ -5176,7 +5041,6 @@
         "NASA oral histories": 3,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history newmh-2-23-22",
         "date": "2022-02-23",
@@ -5212,7 +5076,6 @@
         "NASA oral histories": 1,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: The Honorable Sue W. Kelly",
         "date": "2016-06-23",
@@ -5249,7 +5112,6 @@
         "NASA oral histories": 18,
         "U.S. House oral histories": 10
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history lawrencedj-3-22-24",
         "date": "2024-03-22",
@@ -5286,7 +5148,6 @@
         "NASA oral histories": 3,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: The Honorable Sue Myrick",
         "date": "2016-03-14",
@@ -5322,7 +5183,6 @@
       "bySource": {
         "NASA oral histories": 4
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history diazav-6-6-17",
         "date": "2017-06-06",
@@ -5359,7 +5219,6 @@
         "NASA oral histories": 23,
         "U.S. House oral histories": 3
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history lounsburyja-9-13-23",
         "date": "2023-09-13",
@@ -5397,7 +5256,6 @@
         "U.S. House oral histories": 5,
         "U.S. Senate oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history lewiscr-6-28-22",
         "date": "2022-06-28",
@@ -5433,7 +5291,6 @@
       "bySource": {
         "NASA oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history geyerms-12-3-20",
         "date": "2020-12-03",
@@ -5470,7 +5327,6 @@
         "NASA oral histories": 13,
         "U.S. House oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history sunshinej-2-25-25",
         "date": "2025-02-25",
@@ -5506,7 +5362,6 @@
       "bySource": {
         "NASA oral histories": 11
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history brekkem-8-17-17",
         "date": "2017-08-17",
@@ -5543,7 +5398,6 @@
         "NASA oral histories": 3,
         "U.S. Senate oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history saundersmp-5-11-22",
         "date": "2022-05-11",
@@ -5580,7 +5434,6 @@
         "NASA oral histories": 10,
         "U.S. House oral histories": 3
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history sunshinej-2-25-25",
         "date": "2025-02-25",
@@ -5616,7 +5469,6 @@
       "bySource": {
         "NASA oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history diazav-6-6-17",
         "date": "2017-06-06",
@@ -5653,7 +5505,6 @@
         "NASA oral histories": 1,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: Cokie Roberts",
         "date": "2017-05-25",
@@ -5690,7 +5541,6 @@
         "NASA oral histories": 3,
         "U.S. House oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history laurettads-8-12-24",
         "date": "2024-08-12",
@@ -5727,7 +5577,6 @@
         "NASA oral histories": 3,
         "U.S. Senate oral histories": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history peddiecl-4-27-23",
         "date": "2023-04-27",
@@ -5762,7 +5611,6 @@
       "bySource": {
         "U.S. House oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: The Honorable Shelley Berkley",
         "date": "2019-07-22",
@@ -5798,7 +5646,6 @@
         "NASA oral histories": 1,
         "U.S. House oral histories": 2
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House oral history: Gary Hymel",
         "date": "2022-10-31",
@@ -5829,7 +5676,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -5856,7 +5702,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-household-move-line)",
       "date": "2026-10-16",
@@ -5895,7 +5740,6 @@
         "nps": 2,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Trails Center welcomes special guest, Yufna Soldier Wolf, on May 27",
         "date": "2023-05-19",
@@ -5927,7 +5771,6 @@
           "choice": "born"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -5955,7 +5798,6 @@
           "choice": "born"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -5983,7 +5825,6 @@
           "choice": "hook"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -6010,7 +5851,6 @@
           "choice": "hook"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -6037,7 +5877,6 @@
           "choice": "hook"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -6064,7 +5903,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-main-line)",
       "date": "2026-10-19",
@@ -6091,7 +5929,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-main-line)",
       "date": "2026-10-19",
@@ -6118,7 +5955,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-main-line)",
       "date": "2026-10-19",
@@ -6145,7 +5981,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-main-line)",
       "date": "2026-10-19",
@@ -6172,7 +6007,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6199,7 +6033,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6226,7 +6059,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6253,7 +6085,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6280,7 +6111,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6307,7 +6137,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6334,7 +6163,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6361,7 +6189,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6388,7 +6215,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6415,7 +6241,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6442,7 +6267,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6469,7 +6293,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6496,7 +6319,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6523,7 +6345,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6550,7 +6371,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6577,7 +6397,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6604,7 +6423,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6631,7 +6449,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6658,7 +6475,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6685,7 +6501,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6712,7 +6527,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6739,7 +6553,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6766,7 +6579,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6793,7 +6605,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6820,7 +6631,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6847,7 +6657,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6874,7 +6683,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6901,7 +6709,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6928,7 +6735,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6955,7 +6761,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -6982,7 +6787,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -7009,7 +6813,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-25",
@@ -7036,7 +6839,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item words-law-effect-learned-journal)",
       "date": "2026-10-25",
@@ -7063,7 +6865,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item words-law-effect-learned-journal)",
       "date": "2026-10-25",
@@ -7090,7 +6891,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item words-law-effect-learned-journal)",
       "date": "2026-10-25",
@@ -7117,7 +6917,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7144,7 +6943,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7171,7 +6969,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7198,7 +6995,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7225,7 +7021,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7252,7 +7047,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7279,7 +7073,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7306,7 +7099,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7333,7 +7125,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7360,7 +7151,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7387,7 +7177,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7414,7 +7203,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7441,7 +7229,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7468,7 +7255,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
       "date": "2026-10-27",
@@ -7495,7 +7281,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -7522,7 +7307,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -7549,7 +7333,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -7576,7 +7359,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7604,7 +7386,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7632,7 +7413,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7660,7 +7440,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7687,7 +7466,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7714,7 +7492,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7741,7 +7518,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7768,7 +7544,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7795,7 +7570,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7822,7 +7596,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7849,7 +7622,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7876,7 +7648,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7903,7 +7674,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7930,7 +7700,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7957,7 +7726,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
@@ -7984,7 +7752,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (Claude Code)",
       "date": "2026-10-28",
@@ -8011,7 +7778,6 @@
           ]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (Claude Code)",
       "date": "2026-10-28",
@@ -8038,7 +7804,318 @@
           ]
         }
       ],
-      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-promise.i-made-other-a-promise",
+      "move": "scene-line-promise",
+      "kind": "spoken",
+      "text": "I made {other} a promise.",
+      "uses": [
+        {
+          "move": "scene-line-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-promise.i-gave-other-my-word-and-i-meant-it",
+      "move": "scene-line-promise",
+      "kind": "spoken",
+      "text": "I gave {other} my word, and I meant it.",
+      "uses": [
+        {
+          "move": "scene-line-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-favor-owed.i-owe-other-a-favor-now",
+      "move": "scene-line-favor-owed",
+      "kind": "spoken",
+      "text": "I owe {other} a favor now.",
+      "uses": [
+        {
+          "move": "scene-line-favor-owed",
+          "subject": "scene",
+          "role": "line",
+          "choice": "favor-owed",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:favor-owed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-favor-owed.other-came-through-for-me-i-won-t-forget-it",
+      "move": "scene-line-favor-owed",
+      "kind": "spoken",
+      "text": "{other} came through for me. I won't forget it.",
+      "uses": [
+        {
+          "move": "scene-line-favor-owed",
+          "subject": "scene",
+          "role": "line",
+          "choice": "favor-owed",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:favor-owed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-relationship-strained.things-got-tense-between-other-and-me",
+      "move": "scene-line-relationship-strained",
+      "kind": "spoken",
+      "text": "Things got tense between {other} and me.",
+      "uses": [
+        {
+          "move": "scene-line-relationship-strained",
+          "subject": "scene",
+          "role": "line",
+          "choice": "relationship-strained",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:relationship-strained",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-relationship-strained.other-and-i-didn-t-part-on-good-terms-that-day",
+      "move": "scene-line-relationship-strained",
+      "kind": "spoken",
+      "text": "{other} and I didn't part on good terms that day.",
+      "uses": [
+        {
+          "move": "scene-line-relationship-strained",
+          "subject": "scene",
+          "role": "line",
+          "choice": "relationship-strained",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:relationship-strained",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-trust-lost.other-caught-me-in-a-lie",
+      "move": "scene-line-trust-lost",
+      "kind": "spoken",
+      "text": "{other} caught me in a lie.",
+      "uses": [
+        {
+          "move": "scene-line-trust-lost",
+          "subject": "scene",
+          "role": "line",
+          "choice": "trust-lost",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:trust-lost",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-trust-lost.i-wasn-t-straight-with-other-and-i-got-caught",
+      "move": "scene-line-trust-lost",
+      "kind": "spoken",
+      "text": "I wasn't straight with {other}, and I got caught.",
+      "uses": [
+        {
+          "move": "scene-line-trust-lost",
+          "subject": "scene",
+          "role": "line",
+          "choice": "trust-lost",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:trust-lost",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-meeting-set.other-and-i-set-a-time-to-meet",
+      "move": "scene-line-meeting-set",
+      "kind": "spoken",
+      "text": "{other} and I set a time to meet.",
+      "uses": [
+        {
+          "move": "scene-line-meeting-set",
+          "subject": "scene",
+          "role": "line",
+          "choice": "meeting-set",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:meeting-set",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-meeting-set.i-put-a-meeting-with-other-on-the-calendar",
+      "move": "scene-line-meeting-set",
+      "kind": "spoken",
+      "text": "I put a meeting with {other} on the calendar.",
+      "uses": [
+        {
+          "move": "scene-line-meeting-set",
+          "subject": "scene",
+          "role": "line",
+          "choice": "meeting-set",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:meeting-set",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-story-runs.what-i-told-other-went-on-the-record",
+      "move": "scene-line-story-runs",
+      "kind": "spoken",
+      "text": "What I told {other} went on the record.",
+      "uses": [
+        {
+          "move": "scene-line-story-runs",
+          "subject": "scene",
+          "role": "line",
+          "choice": "story-runs",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:story-runs",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-story-runs.other-got-a-quote-out-of-me",
+      "move": "scene-line-story-runs",
+      "kind": "spoken",
+      "text": "{other} got a quote out of me.",
+      "uses": [
+        {
+          "move": "scene-line-story-runs",
+          "subject": "scene",
+          "role": "line",
+          "choice": "story-runs",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:story-runs",
+              "field": "line"
+            }
+          ]
+        }
+      ],
       "origin": "authored",
       "author": "Words session (Claude Code)",
       "date": "2026-10-28",

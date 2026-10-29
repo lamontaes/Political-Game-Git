@@ -602,6 +602,41 @@ function comingOfAgeMoments(
 }
 
 /**
+ * What a scene the person answered kept, from the reply record it wrote: a
+ * promise made, a favor owed, a tie strained, a lie caught, a meeting set or
+ * words on the record, each told with the other person in it. An ending that
+ * keeps nothing is not told.
+ */
+function sceneEndingMoments(
+  core: Readonly<CoreState>,
+  book: { schedule: readonly { replies?: string[] }[] },
+  personId: PersonId,
+): JournalMoment[] {
+  return book.schedule.flatMap((entry) =>
+    (entry.replies ?? []).flatMap((id): JournalMoment[] => {
+      const reply = core.durableLog.get(id);
+      const keeps = reply?.facts?.keeps;
+      const otherId = reply?.personIds.find((row) => row !== personId);
+      if (!reply || typeof keeps !== "string" || keeps === "none" || !otherId)
+        return [];
+      return [
+        {
+          id,
+          date: reply.date as IsoDate,
+          causeId: id,
+          causeKind: `scene-ending:${keeps}`,
+          counterpartIds: [otherId as PersonId],
+          selfNamed: true,
+          hindsight: zero,
+          impact: zero,
+          echoes: [],
+        },
+      ];
+    }),
+  );
+}
+
+/**
  * What the person did in office, read from the acts the office-day engine
  * keeps (a vote, a town hall, an interview): each is a moment the journal
  * tells, citing the act's own record and, for a vote, the bill.
@@ -928,6 +963,7 @@ export function composeJournal(
   const moments: JournalMoment[] = [
     ...book.moments,
     ...officeActMoments(core, personId, words),
+    ...sceneEndingMoments(core, book, personId),
     ...householdMoments(core, person),
     ...pastWorkMoments(core, person),
     ...comingOfAgeMoments(core, person),

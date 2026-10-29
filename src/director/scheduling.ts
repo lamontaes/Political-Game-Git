@@ -217,6 +217,8 @@ export interface ScheduleEntry {
    * record that stages several plays each in turn, the next once one ends.
    */
   answered?: string[];
+  /** The reply records the player's answers wrote, for the journal to tell. */
+  replies?: string[];
   coverage?: CoverageRow;
 }
 

@@ -1,5 +1,5 @@
 {
-  "about": "What the victimization records stand on (src/core2/modules/crime.ts): the national NCVS rate of each kind of crime, the share reported to police, and how exposure to it differs by income, tenure, household kind and age. Rates are before the outcome web's factor for the place; exposure only decides which household is victimized, never how many.",
+  "about": "What the victimization records stand on (src/core2/modules/crime.ts): the national NCVS rate of each kind of crime (vandalism, which the NCVS does not publish, from the FBI's NIBRS estimates), the share reported to police, and how exposure to it differs by income, tenure, household kind and age. Rates are before the outcome web's factor for the place; exposure only decides which household is victimized, never how many.",
   "types": {
     "burglary": {
       "unit": "household",
@@ -26,6 +26,26 @@
         "asOf": "2024-12-31",
         "estimatedFrom": "Total property crime less burglary, so the web's property total is not counted twice. The reported share is the three rates' weighted mean: (3.8 x 40.7 + 6.3 x 75.0 + 79.3 x 25.4) / 89.4 = 29.55 percent."
       }
+    },
+    "vandalism": {
+      "unit": "household",
+      "ratePer1000": 8.04,
+      "reportedShare": 1,
+      "webMeasures": ["crime.vandalism"],
+      "exposure": "household",
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "FBI Crime Data Explorer, NIBRS Estimates, Data Year 2024, Indicator Table 1b (property incidents, national; https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/downloads, nibrs/estimation/indicator/2024/Indicator_Tables_2024.zip, National/National/Indicator_Tables_no_supp_1_1b.csv, read Oct. 28, 2026): Destruction/Damage/Vandalism, 1,859,195 incidents (standard error 11,755), an incident rate of 546.67 per 100,000 persons, 1,076,264 of them at a residence or hotel. Households: the 133.9 million that Bureau of Justice Statistics, Criminal Victimization, 2024 (NCJ 310547), table 2 implies (13,069,560 property victimizations at 97.6 per 1,000 households).",
+        "asOf": "2024-12-31",
+        "estimatedFrom": "The 1,076,264 incidents at a residence or hotel over 133.9 million households, 8.04 per 1,000: the households' own, leaving out vandalism of businesses, schools and public property. The NIBRS counts only incidents known to police, so unreported vandalism is left out (the rate is a floor) and every counted incident is reported (reportedShare 1).",
+        "spread": {
+          "low": 5.98,
+          "high": 13.88,
+          "unit": "incidents per 1,000 households a year",
+          "citation": "The same table: the residence-or-hotel share of the location counts (1,076,264 of 2,498,826, where an incident can name more than one location) times all 1,859,195 incidents, up to every incident over the same households."
+        }
+      },
+      "note": "Vandalism is a property crime in the NIBRS but not in the NCVS's property total, so the web's property factor (police, for one) does not act on it; its own measure, crime.vandalism, does."
     },
     "robbery": {
       "unit": "person",

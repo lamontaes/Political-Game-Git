@@ -39,7 +39,6 @@
           "role": "morning"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -60,7 +59,6 @@
           "role": "morning"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -81,7 +79,6 @@
           "role": "morning"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -103,7 +100,6 @@
           "requiresFacts": ["candidate"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -125,7 +121,6 @@
           "requiresFacts": ["candidate", "opponent"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -147,7 +142,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -169,7 +163,6 @@
           "requiresFacts": ["one"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -191,7 +184,6 @@
           "requiresFacts": ["helper"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -213,7 +205,6 @@
           "requiresFacts": ["helper"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -234,7 +225,6 @@
           "role": "canvass"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -256,7 +246,6 @@
           "requiresFacts": ["several", "talked"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -278,7 +267,6 @@
           "requiresFacts": ["several", "nobody"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -300,7 +288,6 @@
           "requiresFacts": ["one", "talked"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -322,7 +309,6 @@
           "requiresFacts": ["one", "nobody"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -344,7 +330,6 @@
           "requiresFacts": ["none"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -365,7 +350,6 @@
           "role": "vote-ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -386,7 +370,6 @@
           "role": "vote-ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -408,7 +391,6 @@
           "requiresFacts": ["with"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -429,7 +411,6 @@
           "role": "stayed-home"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -450,7 +431,6 @@
           "role": "stayed-home"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -471,7 +451,6 @@
           "role": "returns-open"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -492,7 +471,6 @@
           "role": "returns-open"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -513,7 +491,6 @@
           "role": "returns-open"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -535,7 +512,6 @@
           "requiresFacts": ["contested"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -557,7 +533,6 @@
           "requiresFacts": ["contested"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -579,7 +554,6 @@
           "requiresFacts": ["uncontested"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -601,7 +575,6 @@
           "requiresFacts": ["tied"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -623,7 +596,6 @@
           "requiresFacts": ["ahead"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -645,7 +617,6 @@
           "requiresFacts": ["ahead"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -667,7 +638,6 @@
           "requiresFacts": ["even"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -688,7 +658,6 @@
           "role": "returns-call"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -709,7 +678,6 @@
           "role": "returns-call"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -730,7 +698,6 @@
           "role": "returns-call"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -752,7 +719,6 @@
           "requiresFacts": ["won"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -774,7 +740,6 @@
           "requiresFacts": ["won"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -796,7 +761,6 @@
           "requiresFacts": ["lost"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -818,7 +782,6 @@
           "requiresFacts": ["lost"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -839,7 +802,6 @@
           "role": "returns-unopposed"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -860,7 +822,6 @@
           "role": "returns-unopposed"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -882,7 +843,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -904,7 +864,6 @@
           "requiresFacts": ["one"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -926,7 +885,6 @@
           "requiresFacts": ["place"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -948,7 +906,6 @@
           "requiresFacts": ["place"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -969,7 +926,6 @@
           "role": "vote-away"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
@@ -990,7 +946,6 @@
           "role": "vote-none"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",

@@ -13,6 +13,7 @@ import {
 } from "../core2/modules/parties";
 import { contestPositions } from "../core2/contest-positions";
 import { seatHolder } from "../core2/modules/voting";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
   openFilingVisit,
   pickContest,
@@ -178,12 +179,21 @@ export function openBenchFilingVisit(
   // same office are told apart in the choice menu by their seat, election day and
   // holder (`seats` below), never by a code in the title.
   const titled = open.map((row) => `${row.title}|${row.district ?? ""}`);
+  // What the clerk tells a candidate about the race, from the contest and
+  // its office records: the dates, the term and the kind of office.
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const contests = open.map((row) => {
+    const office = offices.get(row.officeId) as unknown as
+      { termYears?: number; seats?: number } | undefined;
     return {
       id: row.id,
       title: row.district ? `${row.title} (${row.district})` : row.title,
       filingDeadline: row.filingDeadline,
-      sourceIds: row.sources,
+      electionDate: row.electionDate,
+      primaryDate: row.primaryDate,
+      termYears: office?.termYears ?? null,
+      kind: `${row.family}-${(office?.seats ?? 1) > 1 ? "body" : "single"}`,
+      sourceIds: [...row.sources, row.officeId],
     };
   });
   const seats = Object.fromEntries(
