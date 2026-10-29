@@ -381,7 +381,7 @@
       "where": "pool",
       "player": "named-in-it",
       "cast": "the day after the player graduated, someone they live with, scored on tie and sociability",
-      "typeKey": "celebration",
+      "typeKey": "diploma-home",
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceSchoolImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
