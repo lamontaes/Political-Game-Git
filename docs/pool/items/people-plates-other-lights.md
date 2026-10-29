@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-home-plates
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T23:41:42.457Z
 ---
 
 **What.** A plate names one backdrop file, so a room painted with mannequins at night drew nobody at midday, morning or in rain, though those pictures are the same painting re-lit with every piece of furniture in the same place. The home living room's plate covered only its night picture. A plate now lists the other lights of its painting in a backdrops field and serves them too; condition pictures (lived-in, rundown) add clutter on the seats and keep their own plates. This cuts the plates the art session must paint for people-home-plates and people-chamber-plates to one per room.
