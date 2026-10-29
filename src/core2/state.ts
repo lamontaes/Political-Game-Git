@@ -581,9 +581,12 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
     core.people.delete(row.id);
     throw error;
   }
-  index(core.peopleByPlace, row.placeId, row.id);
-  if (row.countyId) index(core.peopleByPlace, row.countyId, row.id);
-  index(core.peopleByTier, row.tier, row.id);
+  // A person who died before day one is a record, not a resident.
+  if (row.diedOn === undefined) {
+    index(core.peopleByPlace, row.placeId, row.id);
+    if (row.countyId) index(core.peopleByPlace, row.countyId, row.id);
+    index(core.peopleByTier, row.tier, row.id);
+  }
   core.knowledgeByPerson.set(row.id, new Map());
   return actor;
 }

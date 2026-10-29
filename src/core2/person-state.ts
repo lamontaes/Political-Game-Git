@@ -18,7 +18,7 @@ export function initialPersonState(
     knownIds: new Set(row.knownIds),
     lastActDate: core.date,
     lastContactDate: core.date,
-    alive: true,
+    alive: row.diedOn === undefined,
     actCount: p("zero"),
     actsByKind: new Map(),
     affect: {

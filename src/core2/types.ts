@@ -125,6 +125,8 @@ export interface PersonInput {
     Record<PersonId, { sourceFactId: string; learnedAt: IsoDate }>
   >;
   jobId?: string;
+  /** Set for a person who died before day one: admitted dead, in no place or tier index. */
+  diedOn?: IsoDate;
   said?: readonly string[];
   looks?: Readonly<Record<string, string>>;
   pastFacts?: readonly {

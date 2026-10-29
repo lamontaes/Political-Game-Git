@@ -1494,6 +1494,7 @@ function openingFamilies(input: OpeningFamilyInput): {
         summary: `${death.givenName} ${death.familyName}, this person's ${death.relation}, died.`,
         source: kinSource,
         facts: {
+          otherPersonId: death.personId,
           relation: death.relation,
           givenName: death.givenName,
           familyName: death.familyName,
@@ -1662,8 +1663,35 @@ function openingFamilies(input: OpeningFamilyInput): {
       pastFacts: facts.pastFacts,
     };
   });
+  // A parent who died before day one is a dead person: the same record every
+  // engine reads, with its date of death, held by no household.
+  const residentById = new Map(residents.map((row) => [row.id, row] as const));
+  const dead: PersonInput[] = kin.deaths.map((death) => {
+    const survivor = residentById.get(death.survivorId)!;
+    return {
+      id: death.personId,
+      givenName: death.givenName,
+      familyName: death.familyName,
+      birthDate: death.birthDate,
+      placeId: survivor.placeId,
+      ...(survivor.countyId ? { countyId: survivor.countyId } : {}),
+      householdId: survivor.householdId,
+      tier: OPENING_KIN.kinTier,
+      traits: {},
+      liquidMinor: p("zero"),
+      livingCostDailyMinor: p("zero"),
+      source: kinSource,
+      familyIds: [],
+      knownIds: [],
+      diedOn: death.date,
+      looks: {
+        gender: death.gender,
+        pronouns: defaultPronounsForGender(death.gender as GenderIdentityKey),
+      },
+    };
+  });
   return {
-    people: [...residents, ...relatives],
+    people: [...residents, ...relatives, ...dead],
     households: kin.households.map((row) => ({
       id: row.id,
       placeId: row.placeId,
