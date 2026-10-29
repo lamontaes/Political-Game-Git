@@ -59,6 +59,8 @@ export interface SituationCause {
      */
     causeFacts?: readonly {
       key: string;
+      /** The record must not carry the fact. */
+      absent?: true;
       is?: "subject" | "other";
       equals?: readonly string[];
       includes?: "subject";
@@ -305,6 +307,12 @@ export function causeMatches(
   if (!match) return false;
   for (const want of match.causeFacts ?? []) {
     const fact = core.durableLog.get(moment.causeId)?.facts?.[want.key];
+    // A fact the record must not carry (an interview the player did not sit
+    // for has no `sat`): a record the log did not keep carries none.
+    if (want.absent) {
+      if (fact) return false;
+      continue;
+    }
     if (typeof fact !== "string" || !fact) return false;
     if (want.is && (fact === moment.personId) !== (want.is === "subject"))
       return false;

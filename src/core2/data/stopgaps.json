@@ -3889,11 +3889,11 @@
     "file": "src/core2/modules/press.ts",
     "line": 1576,
     "whatItFakes": "An interview's answers carry the conversation's moves (plain, further, turn, brief) and the lie as record data, but the screen does not yet open the interview through the director's conversation, so the player cannot see the reporter's questions as spoken lines or pick a move from worded choices.",
-    "why": "The conversation engine and its word banks are being rewritten by the words session (PR #4156); interview lines need its mined banks and adapters.",
+    "why": "The conversation engine and its word banks are being rewritten by the words session (PR #4156); interview lines need its mined banks and adapters. Resolved: Oct 29, 2026 (Words session, owner: interviews are scenes). A yes to an outlet's invitation puts interview-accepted on the record (press.ts), the director stages the interview-sitting scene from it, and the conversation engine plays it (src/director/sitting.ts, with the interview's part in src/director/interview-sitting.ts): the reporter puts each of the interview's own questions as a line from the conversation bank, the player picks plain, further, turn or brief (or the lie where a vote of theirs allows one, or says nothing), and the sitting's end calls answerInterview with exactly those moves. The immediate platform answer on a yes is removed; the filed platform fills only a question the reporter could not put in words. Shown in src/director/interview-sitting.test.ts (a drawn place and seed each run).",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
     "replacement": "An interview subject in the director's conversation: the reporter asks each question as a line, the four moves and the lie are the player's choices, and the chosen move is passed to answerInterview.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-press-bring-it-up-row",
