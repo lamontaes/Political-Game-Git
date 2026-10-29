@@ -164,11 +164,18 @@ export function figureForSpot(
   if (ageBandOf(core, who.birthDate) === "child") return null;
   const person = packPersonOf(who);
   if (!person) return null;
+  const fits = (row: PackFigure) =>
+    row.person === person.id && row.pose === spot.pose && propHere(row, place);
+  // At a desk, a figure drawn behind a table lies its forearms on the desk as
+  // drawn (pack v4 README); where the person has one, only those are taken.
+  const behind =
+    spot.hands !== undefined &&
+    packFigures().some((row) => fits(row) && row.drawnBehindTable);
   return figureIn(
     person,
     who,
     dressesFor(core, who, place),
-    (row) => row.pose === spot.pose && propHere(row, place),
+    (row) => fits(row) && (!behind || !!row.drawnBehindTable),
     (a, b) =>
       turnApart(a.facing, spot.facing) - turnApart(b.facing, spot.facing) ||
       Number(b.seat === spot.seat) - Number(a.seat === spot.seat) ||

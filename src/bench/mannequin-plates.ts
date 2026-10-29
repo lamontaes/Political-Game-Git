@@ -78,7 +78,7 @@ const fronts = new Map<string, Buffer>();
  * written into the alpha.
  */
 export function frontPng(file: string): Buffer {
-  if (!/^[a-z0-9-]+\.front-\d+\.png$/.test(file))
+  if (!/^[a-z0-9-]+\.front-[A-Za-z0-9-]+\.png$/.test(file))
     throw new Error("Unknown front.");
   let out = fronts.get(file);
   if (!out) {

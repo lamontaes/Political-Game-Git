@@ -822,10 +822,11 @@ function whoOf(core: CoreState, id: string, looks: Looks): Who {
     birthDate: looks.birthDate,
     ...(looks.gender ? { gender: looks.gender } : {}),
     official: isOfficial(core, id),
-    // Their appearance record's seed, else the world's with their id: the
-    // same person looks the same all through one world and differs between
-    // worlds (an official known by their term has no appearance record).
-    seed: looks.seed ?? `${core.seed}:${id}`,
+    // The world's seed with their appearance record's seed (their id where
+    // they have none): the same person looks the same all through one world
+    // and differs between worlds, even an official whose appearance seed is
+    // drawn from their office's term id, the same in every world.
+    seed: `${core.seed}:${looks.seed ?? id}`,
     ...(looks.look ? { look: looks.look } : {}),
   };
 }
