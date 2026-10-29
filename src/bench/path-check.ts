@@ -225,6 +225,10 @@ function stand(): { held: boolean; takesOffice: string | null } {
         player.spend(out.hours);
       }
       week.weeks += 1;
+      if (week.weeks % 4 === 0)
+        console.error(
+          `PROGRESS ${w.core.date} weeks ${week.weeks} doors ${week.doors} reached ${week.reached} people ${w.core.people.size} heap ${Math.round(process.memoryUsage().heapUsed / 1e6)}MB ${((performance.now() - started) / 1000).toFixed(0)}s`,
+        );
       liveUntil(addDays(makeIsoDate(w.core.date), 7));
     }
     const pledged = coreAPI(w.core)
@@ -241,6 +245,11 @@ function stand(): { held: boolean; takesOffice: string | null } {
   const races = electionResults(w.core, me);
   const result = resultOf(coreAPI(w.core), enterable.contest.id);
   const won = result?.winnerId === me;
+  if (result) {
+    const fmt = (r: Readonly<Record<string, number>>) =>
+      Object.entries(r).sort((a, b) => b[1] - a[1]).map(([id, n]) => `${id === me ? "ME" : id.slice(-6)}=${Math.round(n)}`).join(" ");
+    log.push(`TALLY ${enterable.contest.title} totals[${fmt(result.totals)}] named[${fmt(result.namedVotes)}] counted[${fmt(result.countedVotes)}] namedTurnout ${result.namedTurnout}/${result.namedEligible} counted ${Math.round(result.countedTurnout)}/${Math.round(result.countedEligible)}`);
+  }
   log.push(
     `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}`,
   );
