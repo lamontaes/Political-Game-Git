@@ -59,6 +59,12 @@ export interface PackFigure {
   readonly head: HeadBox;
   /** Painted seated with its hands resting on a desk (the address pose). */
   readonly handsRestOnDesk?: boolean;
+  /**
+   * Drawn writing or resting its hands on a desk that is not in the drawing
+   * (owner, Oct 29: "she has a pen in her hand and she's writing on her green
+   * pants"): drawn only at a desk spot, cut at the hands.
+   */
+  readonly needsDesk?: boolean;
   /** Drawn behind a table with its forearms on it; its `hands` row is the art's own. */
   readonly drawnBehindTable?: boolean;
   readonly feet: { readonly x: number; readonly y: number };
