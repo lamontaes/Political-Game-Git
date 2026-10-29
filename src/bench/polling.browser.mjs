@@ -40,7 +40,7 @@ page.on("response", async (r) => {
         "CHOOSE RESULT:",
         JSON.stringify(j.result ?? null).slice(0, 300),
       );
-      if (j.result?.status === "on-ballot")
+      if (["petitioning", "on-ballot"].includes(j.result?.status ?? ""))
         filedContest = j.result.filing.contestId;
     } catch {
       // Non-JSON filing response; the UI state below is the evidence.
@@ -241,29 +241,19 @@ try {
           await choices.nth(c).click();
           await page.waitForTimeout(2000);
           console.log(
-            "Overlay open:",
-            await page.locator("#filing-overlay:not([hidden])").count(),
             "choices:",
             await page
               .locator("#talk-choices button")
               .allInnerTexts()
               .catch(() => []),
           );
-          if (await page.locator("#filing-overlay:not([hidden])").count()) {
-            await page
-              .locator("#filing-party option")
-              .nth(1)
-              .waitFor({ timeout: 10000 })
-              .catch(() => {});
-            if ((await page.locator("#filing-party option").count()) > 1)
-              await page.locator("#filing-party").selectOption({ index: 1 });
-            const confirm = page.locator("#talk-choices button", {
-              hasText: /file for this office/i,
-            });
-            if (await confirm.count()) {
-              await confirm.first().click();
-              await page.waitForTimeout(2000);
-            }
+          // No form at the counter: the filing carries the party on record.
+          const confirm = page.locator("#talk-choices button", {
+            hasText: /file for this office/i,
+          });
+          if (await confirm.count()) {
+            await confirm.first().click();
+            await page.waitForTimeout(2000);
           }
           acted = true;
           break;

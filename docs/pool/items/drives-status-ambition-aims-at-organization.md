@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/m1-11-check.ts,src/core2/modules/drives.ts
 
 **Notes.** TODO
+
+Red-main owner, Oct 28: also on main d9ae0ce8bb in Dededo, Guam (territory:GU:dededo, seed 6a86a6dce59e3f55fab7eeabe27d76b9a19ff18368eda204d32f48739a1dffa2): 5 drives aim at someone other than the party the event names, for example status-ambition:status-ambition:organization_c4b06f7b09a75282 of person_99f31857247f4651 aims at organization_c4b06f7b09a75282 while the event names person_7f36f71b2fc89906. With the retraining fade fix (fixer/red-main-m1-11-prove-oneself) the share clause passes there (20.9% of 441) and this clause still fails with 4.

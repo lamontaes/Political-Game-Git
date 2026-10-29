@@ -76,7 +76,7 @@ const play = (drawSeed: string): Found | string => {
         contestId: race.id,
         platform: [],
       });
-      if (result.status === "on-ballot")
+      if (["petitioning", "on-ballot"].includes(result.status ?? ""))
         filings.push({ filing: result.filing, entry: undefined });
     }
     if (filings.length) break;

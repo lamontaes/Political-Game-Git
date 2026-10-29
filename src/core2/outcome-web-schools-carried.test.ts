@@ -103,7 +103,6 @@ describe("school links another link from the same study carries", () => {
 describe("school links the core cannot feed yet", () => {
   const UNWIRED = [
     ["class-size-to-scores", "school.class-size-k3"],
-    ["school-move-to-scores", "housing.mid-year-school-move"],
     ["police-killing-to-graduation", "police.killing-nearby"],
     ["daca-to-graduation", "immigration.deferred-action"],
     ["homicide-nearby-to-scores", "crime.homicide-on-block"],
