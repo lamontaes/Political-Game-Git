@@ -3879,7 +3879,7 @@
       "fireflyAssetId": "urn:aaid:sc:US:9cdf20dc-3768-4e69-811c-a7b36860a4aa",
       "referencePhoto": "https://commons.wikimedia.org/wiki/File:Ohio_Statehouse_exterior.jpg",
       "referenceLicense": "CC BY-SA 4.0",
-      "referenceArtist": "Ɱ",
+      "referenceArtist": "\u2c6e",
       "approval": "live-owner-reviews-in-play-2026-09-28",
       "tags": ["kind:state-capitol-oh", "uses:shared-location"]
     },
@@ -3895,7 +3895,7 @@
       "fireflyAssetId": "urn:aaid:sc:US:807df092-8177-4c03-9104-1f1109ad5192",
       "referencePhoto": "https://commons.wikimedia.org/wiki/File:Ohio_Statehouse_exterior.jpg",
       "referenceLicense": "CC BY-SA 4.0",
-      "referenceArtist": "Ɱ",
+      "referenceArtist": "\u2c6e",
       "approval": "live-owner-reviews-in-play-2026-09-28",
       "tags": ["kind:state-capitol-oh", "uses:shared-location"]
     },
@@ -13924,6 +13924,42 @@
       "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
       "approval": "art session, Oct 28 (owner curates in play)",
       "tags": ["kind:university-lecture-hall", "light:night"]
+    },
+    {
+      "place": "white-house-colonnade",
+      "variant": "morning",
+      "file": "white-house-colonnade__morning.jpg",
+      "width": 1365,
+      "height": 768,
+      "sha256": "dc0a4f04183e3401bb235259082b924c818defff81f4750cf0762817bfc72bea",
+      "sourceFile": "white-house-colonnade__morning.jpg",
+      "sourceSha256": "dc0a4f04183e3401bb235259082b924c818defff81f4750cf0762817bfc72bea",
+      "approval": "cto-brief-2026-10-29 people-pack-v3 (owner checks by eye before merge)",
+      "tags": ["kind:white-house-colonnade", "uses:shared-location"]
+    },
+    {
+      "place": "train-depot-platform",
+      "variant": "midday",
+      "file": "train-depot-platform__midday.jpg",
+      "width": 1365,
+      "height": 768,
+      "sha256": "e5ba962ca6801a393653bee195b08d889e728a9a60ebf7b8b5ca8a875bb4d086",
+      "sourceFile": "train-depot-platform__midday.jpg",
+      "sourceSha256": "e5ba962ca6801a393653bee195b08d889e728a9a60ebf7b8b5ca8a875bb4d086",
+      "approval": "cto-brief-2026-10-29 people-pack-v3 (owner checks by eye before merge)",
+      "tags": ["kind:train-depot-platform", "uses:shared-location"]
+    },
+    {
+      "place": "oval-address-close",
+      "variant": "night",
+      "file": "oval-address-close__night.jpg",
+      "width": 1376,
+      "height": 768,
+      "sha256": "a51e0433f7dffebf1faa8f49e18198c3bdc902127ff9f83bbe4ba9253227bbdd",
+      "sourceFile": "oval-address-close__night.png",
+      "sourceSha256": "a5e07aecdf39cc26227fc8edaf7f5de5c180ef4e33c792797e2d2579361b45c6",
+      "approval": "cto-brief-2026-10-29 people-pack-v3 (owner checks by eye before merge)",
+      "tags": ["kind:oval-address-close", "uses:shared-location"]
     }
   ]
 }
