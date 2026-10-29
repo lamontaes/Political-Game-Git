@@ -79,11 +79,14 @@ try {
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card.png` });
   const chosen = await page.evaluate(() => {
     const select = document.querySelector(".draft-card select");
-    const option = [...select.options].find(
+    const allowed = [...select.options].filter(
       (o) =>
         o.value.startsWith("series:") &&
         !/Not a power|preempts|levy no|restricts/i.test(o.textContent),
     );
+    // The sales tax where the body may draft it (the case the merger found), else the first.
+    const option =
+      allowed.find((o) => /Sales tax rate/i.test(o.textContent)) ?? allowed[0];
     if (!option) return null;
     select.value = option.value;
     select.dispatchEvent(new Event("change", { bubbles: true }));
@@ -118,6 +121,12 @@ try {
   console.log("bill paper:", cells);
   assert.equal(cells.length, 2, "today's amount and the new one");
   assert.notEqual(cells[0], cells[1], "the new amount differs from today's");
+  // The card and the paper say one thing about what is in force today.
+  assert.equal(
+    cells[0],
+    chosen.today,
+    `the draft card says ${chosen.today} today, the paper says ${cells[0]}`,
+  );
   assert.deepEqual(errors, [], "page errors");
   console.log(
     "ok: the draft card and the paper show today's amount beside the new one",

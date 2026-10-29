@@ -2125,11 +2125,11 @@ async function seatRows() {
                 ? policyLabel(item.question)
                 : item.name
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-          today:
-            item.inForce != null
-              ? item.series
-                ? amount(item.inForce, item.unit)
-                : String(item.inForce)
+          // What the law in force holds, as the bill's paper cites it.
+          today: item.today
+            ? amount(item.today.value, item.today.unit)
+            : item.inForce != null
+              ? String(item.inForce)
               : null,
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
