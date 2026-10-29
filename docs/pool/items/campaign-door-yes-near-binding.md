@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/door-yes-near-binding
-pr:
+pr: #6833
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-29T22:06:49.333Z
