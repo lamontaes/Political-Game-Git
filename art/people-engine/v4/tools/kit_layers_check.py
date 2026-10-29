@@ -76,6 +76,13 @@ def check(pack, fig):
                     hit = ha & (np.sqrt(((hlab - tref) ** 2).sum(-1)) < 12) & (np.sqrt(((hlab - href) ** 2).sum(-1)) > 18)
                     if ndi.binary_opening(hit, iterations=1).sum() > 150:
                         flags.append(f'top-in-hair:{int(hit.sum())}')
+                    # small chunks of the sweater's hue at the hair's ends (Oct 29: "green on the woman's long hair"),
+                    # judged by hue alone because they are shaded lighter or darker than the sweater
+                    allh = hl_img[..., 3] > 0
+                    ab_t = np.sqrt(((hlab[..., 1:] - tref[1:]) ** 2).sum(-1)); ab_h = np.sqrt(((hlab[..., 1:] - href[1:]) ** 2).sum(-1))
+                    chunk = allh & (ab_t < 8) & (ab_h > 10) & (hlab[..., 0] > 15)
+                    if chunk.sum() > 25:
+                        flags.append(f'sweater-hue-in-hair:{int(chunk.sum())}')
     if 'top' in L and 'shoes' in L:
         if ((L['top'][..., 3] > 0) & (L['shoes'][..., 3] > 0)).sum() > 100:
             flags.append('top-holds-shoes')
