@@ -145,6 +145,12 @@ export function webReach(
   placeId: string,
   measure: string,
   subject?: Subject,
+  /**
+   * Links the caller reads from the subject's own records instead (the
+   * person-level twin of a place-level row), left out so one cause moves the
+   * subject once.
+   */
+  except?: ReadonlySet<string>,
 ): WebReach {
   const row = latestRow(api, placeId);
   const links = WIRED_INTO.get(measure);
@@ -155,6 +161,7 @@ export function webReach(
     added = 0;
   const parts: WebPart[] = [];
   for (const link of links) {
+    if (except?.has(link.key)) continue;
     const effect = row.effects[link.key];
     if (effect === undefined || effect === 0) continue;
     const weight = subjectWeight(link.key, subject);

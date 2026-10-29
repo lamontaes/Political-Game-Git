@@ -270,6 +270,8 @@
         "src/core2/housing-*.ts",
         "src/core2/hud-rents.ts",
         "src/core2/health-hazard.ts",
+        "src/core2/health-own.ts",
+        "src/core2/health-displacement.ts",
         "src/core2/health-mortality-table.ts",
         "src/core2/counted-*.ts",
         "src/core2/opening-kin.ts",
