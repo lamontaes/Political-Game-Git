@@ -349,13 +349,6 @@ const UNWIRED: ReadonlyArray<{
       "no engine bills medical care or sends a bill to collections; coverage.ts says an unpaid premium is never a debt",
   },
   {
-    outcome: "household.food-insecurity",
-    links: ["snap-to-food-insecurity"],
-    stopgap: "SG-WEB-food-insecurity-ledger",
-    reason:
-      "no engine records a household's food spending against its income or its SNAP benefit",
-  },
-  {
     outcome: "gov.nondisaster-transfers",
     links: ["disaster-to-public-transfers"],
     stopgap: "SG-EFFECT-WEB-prices-nondisaster-transfers",

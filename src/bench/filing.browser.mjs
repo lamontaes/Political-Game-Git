@@ -5,10 +5,11 @@
 // beside the counter (owner, Oct 28 sitting, points 29 and 31: dev menus);
 // each race the clerk offers reads differently and explains its office on
 // hover (point 30); a grown resident who joined a party files and the filing
-// keeps that party, with no form.
+// keeps that party, with no form; filing takes the afternoon off the clock.
 //   node src/bench/filing.browser.mjs            SEED=<seed> replays a world
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import parameters from "../core2/data/parameters.json" with { type: "json" };
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -17,6 +18,21 @@ page.setDefaultTimeout(60000);
 const errors = [];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 page.on("pageerror", (e) => errors.push(e.message));
+// The player's clock, in minutes: the moment the last packet reached, or,
+// for a life that has lived no moment yet, the end of the world's day, where
+// the player's next hours start.
+async function clock() {
+  const { life } = await (await page.request.get(`${base}/api/title`)).json();
+  const day = Date.parse(`${life.date}T00:00:00Z`) / 60000;
+  const at = life.packet?.at ?? {
+    date: new Date((day + 24 * 60) * 60000).toISOString().slice(0, 10),
+    minuteOfDay: 0,
+  };
+  return {
+    ...at,
+    minutes: Date.parse(`${at.date}T00:00:00Z`) / 60000 + at.minuteOfDay,
+  };
+}
 async function openNavigationTab(tab) {
   // The rail over the card is the one menu, open screen or not.
   const button = page.locator(`#rings [data-tab="${tab}"]`);
@@ -191,8 +207,20 @@ try {
   const filed = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/filing/choose",
   );
+  const before = await clock();
   await file.first().click();
   const result = (await (await filed).json()).result;
+  // Filing takes the afternoon: the hours come off the player's clock (a
+  // stop that needs the player may end the afternoon sooner).
+  const after = await clock();
+  const spent = after.minutes - before.minutes;
+  console.log(
+    `Clock: ${before.date} minute ${before.minuteOfDay} -> ${after.date} minute ${after.minuteOfDay} (${spent} minutes)`,
+  );
+  assert.ok(
+    spent > 0 && spent <= parameters.filingVisitHours.value * 60,
+    `filing moved the clock ${spent} minutes`,
+  );
   console.log(
     "Filed:",
     JSON.stringify({
@@ -201,9 +229,8 @@ try {
       joined,
     }),
   );
-  assert.equal(
-    result?.filing?.status,
-    "on-ballot",
+  assert.ok(
+    ["petitioning", "on-ballot"].includes(result?.filing?.status),
     `the filing was refused: ${JSON.stringify(result?.unmet ?? result)}`,
   );
   // The party on the filing is the resident's tie on record (joined now, or

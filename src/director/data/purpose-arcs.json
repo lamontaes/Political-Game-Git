@@ -643,6 +643,52 @@
         }
       ]
     },
+    "diploma-home": {
+      "state": "congratulate",
+      "replies": ["thank", "promise", "boast", "tell"],
+      "follow": {
+        "thank": ["promise"],
+        "promise": ["thank", "press"],
+        "boast": ["confront"],
+        "tell": ["ask", "promise"],
+        "apologize": ["thank"],
+        "answer": ["thank"]
+      },
+      "again": {
+        "promise": ["thank", "leave"],
+        "press": ["promise", "thank", "leave"],
+        "confront": ["apologize", "boast", "thank"],
+        "ask": ["answer", "tell", "promise"]
+      },
+      "endings": [
+        {
+          "id": "marked-it",
+          "label": "You marked it together",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank", "promise", "answer", "tell", "apologize"]
+          }
+        },
+        {
+          "id": "showing-off",
+          "label": "Showing off",
+          "keeps": "none",
+          "when": { "reply": ["boast"] }
+        },
+        {
+          "id": "resting",
+          "label": "Resting",
+          "keeps": "none",
+          "when": { "reply": ["leave"] }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "family-loss": {
       "state": "comfort",
       "replies": ["thank", "blame", "deflect", "promise"],

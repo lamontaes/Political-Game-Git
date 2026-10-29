@@ -801,20 +801,6 @@
         },
         {
           "match": {
-            "label": "circumstance:graduation-home"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "school.finished",
-          "bind": {
-            "honoree": "subject",
-            "host": "counterpart",
-            "guests": "kin"
-          },
-          "opener": "host",
-          "setting": ["home"]
-        },
-        {
-          "match": {
             "label": "money:job-started",
             "counterpart": "none"
           },
@@ -845,6 +831,55 @@
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
       }
+    },
+    {
+      "key": "diploma-home",
+      "note": "The day after the player graduated (the school engine's graduation result, passed), someone they live with marks it at home, scored on tie and sociability (circumstance row graduation-home). They say so and ask what comes next; the reply is a scene reply the core's relationship writer reads as time together.",
+      "roles": [
+        {
+          "key": "proud",
+          "fill": "household",
+          "count": "one",
+          "moves": [
+            "congratulate",
+            "ask",
+            "promise",
+            "press",
+            "confront",
+            "thank"
+          ],
+          "wants": ["engage", "help-others"],
+          "bearing": "glad"
+        },
+        {
+          "key": "graduate",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "promise", "boast", "tell"],
+          "wants": ["engage"],
+          "bearing": "proud"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": { "label": "circumstance:graduation-home" },
+          "causeEngine": "circumstance",
+          "causeRecord": "school.finished",
+          "bind": { "graduate": "subject", "proud": "counterpart" },
+          "opener": "proud",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "diploma",
+        "endpoint": "personal",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "diploma-home",
+      "asker": "proud",
+      "asked": "graduate"
     },
     {
       "key": "gathering-missing",
