@@ -6,6 +6,15 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 18:55 UTC: v4 replaces v3; the owner looks at v4 only (owner, about 2:50 PM Eastern)
+
+- **Ruling:** "I can ignore V3 because V4 changes how, like, it's, we have to regenerate things because there's going to be some standardized angles for people to slot into instead of a bunch of different ones for every room." #6778 (v3) is closed unmerged; `people-pack-v3` is dropped as superseded; the v4 PR carries v3's code (the one loader, mannequin staging, face crops, the creator, the v1 and v2 deletions) to main with the v4 people, and waits for the owner's look. The v3 art asks (the heavy man's address figures, recut fronts) are moot: v4 regenerates the people at the standard angles. `play-faces-show-the-moment-a-menu-opens` now waits on `people-pack-v4`.
+
+## Oct 29, 18:50 UTC: where an office holder stands comes from the occasion, not the office (owner, about 2:45 PM Eastern)
+
+- **Ruling:** "the president shouldn't be hard coded to be sitting. That's just for certain occasions. But he could, of course, be in different parts of the room. But yes, sitting is the idea right now." No rule ties an office holder to one spot or posture. The scene's occasion, sent by the director with the cast, picks the kind of spot (the desk seat for the address; standing or elsewhere in the room for other occasions); until an occasion is sent, the default is the seated spot, kept in data. Words and the people session agree the occasion field before either builds it (CREW.md seam). Carried on `people-pack-v4`.
+- **Also recorded:** skills-only PRs merge at once, and the AGENTS.md skills list is one skill per line so two new skills never conflict (owner, 18:45 UTC: "they change like one or two files... how are they going to conflict with anything?").
+
 ## Oct 29, 18:35 UTC: skill PRs merge without waiting on CI (owner, about 2:30 PM Eastern)
 
 - **Ruling:** "You shouldn't need to wait for checks to pass on new skills." A skills-only PR (skill files, their `.claude/skills` mirror, the AGENTS.md Skills list line, an `impact: none` declaration, dev-only scripts) is merged by the CTO as soon as it arrives: merge main in, run the skill test locally for the mirror and the list, merge. Carried in `AGENTS.md` (Skills) and the `cto` skill. First applied to #6785.
