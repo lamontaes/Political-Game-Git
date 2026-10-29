@@ -25,10 +25,12 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
   CAMPAIGNS_MODULE_ID,
+  askCircleToSign,
   campaignFor,
   type CampaignRow,
 } from "../core2/modules/campaigns";
-import { openContests } from "../core2/modules/elections";
+import { filingRequirements, openContests } from "../core2/modules/elections";
+import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 
@@ -58,10 +60,19 @@ it("someone close offers to run the campaign, joins its staff and is cast from i
     });
     director.watch(core, me);
     const api = coreAPI(core);
+    // A race whose law asks no signatures first: its filing is on the ballot
+    // at the counter, so election morning reads the campaign. Where every
+    // race asks signatures, the candidate asks their circle each day while
+    // the petition circulates, as a player does (a petition never gathered
+    // left the player off the ballot: Surgoinsville, Tennessee and La
+    // Alianza, Puerto Rico, seed chk2-g).
+    const { stateKey } = lawChain(api);
     const filed = [...openContests(api)]
       .filter((c) => c.electionDate >= addDays(makeIsoDate(core.date), 60))
       .sort(
         (a, b) =>
+          Number(filingRequirements(stateKey, a.family).petition.count > 0) -
+            Number(filingRequirements(stateKey, b.family).petition.count > 0) ||
           Number(b.family === "municipalOffice") -
             Number(a.family === "municipalOffice") ||
           a.electionDate.localeCompare(b.electionDate) ||
@@ -78,8 +89,17 @@ it("someone close offers to run the campaign, joins its staff and is cast from i
       continue;
     }
     const filingId = `filing:${filed.id}:${me}`;
+    const status = () =>
+      (
+        api.moduleState("core2-elections-v1").table("filings").get(filingId) as
+          { status?: string } | undefined
+      )?.status;
+    for (let day = 0; day < 120 && status() === "petitioning"; day += 1) {
+      askCircleToSign(api, filingId);
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    }
     let offer: { id: string; helper: string } | null = null;
-    let volunteerFirst: string | null = null;
+    const volunteersBefore: string[] = [];
     while (!offer && core.date < filed.electionDate) {
       advanceCore(
         core,
@@ -90,7 +110,7 @@ it("someone close offers to run the campaign, joins its staff and is cast from i
         if (record?.facts?.filingId !== filingId) continue;
         if (record.facts.role === "manager")
           offer = { id: record.id, helper: String(record.facts.offeredBy) };
-        else volunteerFirst ??= record.id;
+        else if (!offer) volunteersBefore.push(String(record.facts.offeredBy));
       }
     }
     if (!offer) {
@@ -99,8 +119,13 @@ it("someone close offers to run the campaign, joins its staff and is cast from i
       );
       continue;
     }
-    // Running it comes first: no one offered evenings before the manager.
-    expect(volunteerFirst, `${where}: ${offer.id}`).toBeNull();
+    // Running it is weighed first: anyone who offered evenings before the
+    // manager's offer had already weighed running it and said no.
+    const weighed = new Set(campaignFor(api, filingId).managerWeighedIds ?? []);
+    for (const id of volunteersBefore)
+      expect(weighed.has(id), `${where}: ${id} volunteered unweighed`).toBe(
+        true,
+      );
     // One record: the one who offered is on the staff, not the volunteers.
     const campaign = campaignFor(api, filingId);
     expect(campaign.staffIds, `${where}: ${offer.id}`).toContain(offer.helper);
