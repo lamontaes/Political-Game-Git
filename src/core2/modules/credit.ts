@@ -15,6 +15,7 @@ import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
 import territoryData from "../data/credit/territories.json" with { type: "json" };
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
+import smallDollarData from "../data/credit/small-dollar.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { worldLevel } from "../world-draw";
@@ -49,7 +50,13 @@ import { bankDepositLiability } from "../accounts";
 import { reviewBankDeposits } from "../credit-deposits";
 import { weightedPayrollMinor } from "../residents-economy";
 
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  POLICY_QUESTIONS,
+  webReach,
+} from "./laws";
 import { lawApplied } from "../law-reach/applied";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 
@@ -174,10 +181,146 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   };
 }
 
+/** The outcome the web keeps for these lenders: consumer lenders (payday, title, installment) per 100,000 residents. */
+const HIGH_COST_LOANS = "finance.high-cost-loans";
+
+type SmallDollarProduct = "payday" | "installment";
+interface SmallDollarRow {
+  apr: number;
+  product: SmallDollarProduct;
+  source: string;
+}
+const SMALL_DOLLAR_SOURCES = smallDollarData.sources as Record<
+  string,
+  { tag: "SOURCED" | "ESTIMATED"; citation: string }
+>;
+
+/** What a state's law and the sourced table say of a small-dollar lender in it. */
+export interface SmallDollarTerms {
+  stateKey: string;
+  product: SmallDollarProduct;
+  /** The annual rate (a ratio) the product's fee schedule works out to. */
+  annualRate: number;
+  /** The table's source key (crl, nclc), or fallback for a state it prints no rate for. */
+  source: string;
+  tag: "SOURCED" | "ESTIMATED";
+}
+
+/**
+ * A small-dollar lender operates in a state only where the state's starting
+ * answer to the consumer-loan cap question is no (a 36 percent cap ends
+ * payday lending): the one record of which states allow them is the starting
+ * law (data/research/laws/starting-law-2026). Its rate is the table's for the
+ * state, else the national typical rate as an estimate. Undefined where the
+ * state's law ends the product.
+ */
+export function smallDollarTerms(
+  stateKey: string | undefined,
+): SmallDollarTerms | undefined {
+  if (!stateKey) return undefined;
+  const answer =
+    POLICY_QUESTIONS[smallDollarData.question]?.answers[stateKey]?.answer;
+  if (answer !== smallDollarData.allowedWhenStartingAnswer) return undefined;
+  const row = (smallDollarData.states as Record<string, SmallDollarRow>)[
+    stateKey
+  ];
+  if (row)
+    return {
+      stateKey,
+      product: row.product,
+      annualRate: row.apr,
+      source: row.source,
+      tag: SMALL_DOLLAR_SOURCES[row.source]!.tag,
+    };
+  return {
+    stateKey,
+    product: "payday",
+    annualRate: p0("smallDollarFallbackApr"),
+    source: "fallback",
+    tag: "ESTIMATED",
+  };
+}
+
+/** A town's small-dollar lender as the opening writes it. */
+export interface SmallDollarLender extends SmallDollarTerms {
+  organizationId: string;
+  placeId: string;
+  /** The real households the town's counted and full households stand for. */
+  households: number;
+  /** Households that borrow in a year, from the sourced share. */
+  borrowers: number;
+  /** The year's loans written, drawn from the world's seed around the sourced volume. */
+  annualVolumeMinor: number;
+  /** The cash the lender lends from: the year's volume over the turns of its cash. */
+  capitalMinor: number;
+}
+
+/** The real households of a place at the opening: full households and counted ones times the households each stands for. */
+function townHouseholds(input: CoreInput, placeId: string): number {
+  const own = input.households.filter((h) => h.placeId === placeId).length;
+  const counted = (input.residents?.households ?? []).filter(
+    (row) => row.household.placeId === placeId,
+  ).length;
+  return own + counted * (input.residents?.weights?.[placeId] ?? 1);
+}
+
+/**
+ * The town's small-dollar lender, or nothing where its state's law ends them.
+ * Its yearly volume is the households that borrow (the FDIC's share of
+ * households using a payday loan in a year, scaled to where lenders operate
+ * by Pew) times the loans and dollars a borrower takes (Pew), moved by a
+ * level drawn from the world's seed so no two worlds open on the same figure
+ * (owner, Oct 27). Its cash is that volume over the turns a year gives it.
+ */
+export function smallDollarLenderFor(
+  input: CoreInput,
+  bank: TownBank,
+): SmallDollarLender | undefined {
+  const key = input.placeMetadata?.placeKey;
+  const place = key ? corePlaceByKey(key) : null;
+  const terms = smallDollarTerms(place?.stateJurisdictionKey ?? undefined);
+  if (!terms) return undefined;
+  const households = townHouseholds(input, bank.placeId);
+  const borrowers =
+    households *
+    p0("smallDollarBorrowerHouseholdShare") *
+    p0("smallDollarAllowedUseRatio");
+  const annualVolumeMinor = Math.round(
+    worldLevel(
+      borrowers *
+        p0("smallDollarLoansPerBorrowerYear") *
+        p0("smallDollarLoanDollars") *
+        p0("creditMinorPerDollar"),
+      input.seed,
+      "world-small-dollar-volume",
+      "worldSmallDollarVolumeSpreadShare",
+    ),
+  );
+  const capitalMinor = Math.round(
+    annualVolumeMinor / p0("smallDollarCapitalTurnsPerYear"),
+  );
+  // A place whose borrowers' yearly volume could not fund one smallest loan has no storefront; its people borrow in other places, which this record does not show.
+  if (
+    capitalMinor <
+    p0("smallDollarMinimumLoanDollars") * p0("creditMinorPerDollar")
+  )
+    return undefined;
+  return {
+    ...terms,
+    organizationId: `organization:small-dollar:${bank.placeId}`,
+    placeId: bank.placeId,
+    households,
+    borrowers,
+    annualVolumeMinor,
+    capitalMinor,
+  };
+}
+
 /** Adds the bank's opening equity; customer deposits subsequently move real cash through the journal. */
 export function withTownBank(input: CoreInput): CoreInput {
   const bank = townBankFor(input);
   if (!bank) return input;
+  const lender = smallDollarLenderFor(input, bank);
   const source: Source = {
     tag: "ESTIMATED",
     asOf: input.startedAt,
@@ -199,6 +342,27 @@ export function withTownBank(input: CoreInput): CoreInput {
         liquidMinor: bank.openingEquityMinor,
         source,
       },
+      ...(lender
+        ? [
+            {
+              id: lender.organizationId,
+              placeId: lender.placeId,
+              name: smallDollarData.lenderNamePattern.replace(
+                "{place}",
+                input.placeMetadata?.placeName?.split(",")[0] ?? lender.placeId,
+              ),
+              kind: smallDollarData.lenderKind,
+              liquidMinor: lender.capitalMinor,
+              source: {
+                tag: "ESTIMATED" as const,
+                asOf: input.startedAt,
+                citation:
+                  "FDIC 2023 National Survey of Unbanked and Underbanked Households (Table 5.2); Pew, Payday Lending in America (2012); CFPB, Payday Loans and Deposit Advance Products (2013).",
+                estimatedFrom: `${Math.round(lender.households)} households times the ${(p0("smallDollarBorrowerHouseholdShare") * 100).toFixed(1)} percent that borrow (FDIC) scaled by ${p0("smallDollarAllowedUseRatio")} where lenders operate (Pew), ${p0("smallDollarLoansPerBorrowerYear")} loans of $${p0("smallDollarLoanDollars")} each a year (Pew), moved by this world's level, over ${p0("smallDollarCapitalTurnsPerYear")} turns of its cash a year.`,
+              },
+            },
+          ]
+        : []),
     ],
   };
 }
@@ -461,7 +625,7 @@ function review(api: CoreAPI): void {
       Math.exp(
         -p("creditCapitalAppetiteSlope") * (capitalRoom - p("macroHalf")),
       ));
-  serviceLoans(api, bank.organizationId);
+  serviceLoans(api);
   let room = lendingRoom(api, book);
   // The owner decides whether to borrow, or the firm's manager where it has no owner.
   const owners = c.modules.has("business")
@@ -715,6 +879,8 @@ export const CREDIT_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       banks: {},
+      // The town's small-dollar lender: its rate, product and volume, written at the first day from the opening's record.
+      lenders: {},
       books: {},
       applications: { indexes: { byBorrower: { fields: ["organizationId"] } } },
       loans: {
@@ -774,6 +940,33 @@ export const CREDIT_MODULE: CoreModule = {
         organizationId: bank?.id ?? "",
         openingEquityMinor: bank?.liquidMinor ?? 0,
       });
+    const small = [...core(api).organizations.values()].find(
+      (row) => row.kind === smallDollarData.lenderKind,
+    );
+    const terms = smallDollarTerms(
+      core(api).placeMetadata?.placeKey
+        ? (corePlaceByKey(core(api).placeMetadata!.placeKey!)
+            ?.stateJurisdictionKey ?? undefined)
+        : undefined,
+    );
+    if (small && terms)
+      store(api)
+        .table("lenders")
+        .put({
+          id: small.id,
+          organizationId: small.id,
+          placeId: small.placeId,
+          stateKey: terms.stateKey,
+          product: terms.product,
+          annualRate: terms.annualRate,
+          rateSource: terms.source,
+          rateTag: terms.tag,
+          openingCapitalMinor: small.liquidMinor,
+          annualVolumeMinor: Math.round(
+            small.liquidMinor * api.parameter("smallDollarCapitalTurnsPerYear"),
+          ),
+          openedAt: core(api).date,
+        });
     // Households' months are reviewed with or without a bank in town.
     if (bank) review(api);
     scheduleReview(api);
@@ -787,7 +980,7 @@ interface LoanRow {
   householdId: string;
   borrowerId: string;
   lenderId: string;
-  kind: "personal" | "startup" | "mortgage";
+  kind: "personal" | "startup" | "mortgage" | "small-dollar";
   principalMinor: number;
   balanceMinor: number;
   marketAnnualRate?: number;
@@ -1054,8 +1247,8 @@ function loanWeight(api: CoreAPI, householdId: string): number {
     : 1;
 }
 
-/** Each open loan's payment: what the borrower can pay of it; late, then charged off at 120 days, from real circumstances. */
-function serviceLoans(api: CoreAPI, bankId: string): void {
+/** Each open loan's payment, to the lender that made it: what the borrower can pay of it; late, then charged off at 120 days, from real circumstances. */
+function serviceLoans(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   for (const loan of store(api)
@@ -1076,7 +1269,7 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
       api,
       `loan-payment:${loan.id}:${c.date}`,
       loan.borrowerId,
-      bankId,
+      loan.lenderId,
       due,
       false,
       {
@@ -1176,7 +1369,37 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
 const CAP_LOAN_RATES =
   "us-policy-positions:business-commerce.cap-consumer-loan-rates";
 
-/** Households short of money choose whether to borrow; the bank answers from their income and payments, on a sliding scale. */
+/** The town's small-dollar lender and the cash it has to lend this month, or nothing where its state's law ends them. */
+function smallLender(api: CoreAPI) {
+  const row = store(api).table("lenders").rows()[0] as unknown as
+    | {
+        id: string;
+        organizationId: string;
+        placeId: string;
+        product: SmallDollarProduct;
+        annualRate: number;
+        rateSource: string;
+      }
+    | undefined;
+  const organization = row && core(api).organizations.get(row.organizationId);
+  return row && organization
+    ? { ...row, roomMinor: organization.liquidMinor }
+    : undefined;
+}
+
+/**
+ * Households short of money choose whether to borrow, and from whom: the
+ * bank answers from their income and payments on a sliding scale, and a
+ * household it turns away or lends too little to (its smallest loan is
+ * `creditMinimumLoanMinor`) asks the town's small-dollar lender, which asks
+ * only for documented income and writes a loan of a share of it
+ * (`smallDollarLoanToMonthlyIncome`). Both quote under the consumer-loan cap
+ * where it governs, so a cap that never touches the bank's rate binds the
+ * storefront's. The chooser is the bank's own (`personalBorrowingDecision`),
+ * asked again at the lender's quote: a household borrows from a lender only
+ * for a shortfall on its record and when that lender's payment, against its
+ * income, still leaves borrowing the stronger pull.
+ */
 function householdApplications(
   api: CoreAPI,
   bankId: string,
@@ -1203,6 +1426,8 @@ function householdApplications(
     ).map((row) => row.householdId),
   );
   // A charge-off stays on the household's credit report for seven years (15 U.S.C. 1681c(a)(4)).
+  // A storefront lender's charge-off does not: it checks a specialty bureau for
+  // earlier payday defaults, not the credit report (CFPB white paper, April 2013).
   const reported = new Set(
     (
       store(api).table("loans").rows() as unknown as (LoanRow & {
@@ -1212,14 +1437,17 @@ function householdApplications(
       .filter(
         (row) =>
           row.standing === "charged-off" &&
+          row.kind !== "small-dollar" &&
           (!row.chargedOffAt ||
             daysBetweenText(row.chargedOffAt, c.date) <
               p("creditReportYears") * p("jobsDaysPerYear")),
       )
       .map((row) => row.householdId),
   );
+  const lender = smallLender(api);
+  let lenderRoom = lender?.roomMinor ?? 0;
   for (const household of borrowingHouseholds(api)) {
-    if (owing.has(household.id) || room <= 0) continue;
+    if (owing.has(household.id) || (room <= 0 && lenderRoom <= 0)) continue;
     // stopgapId: SG-GOV-REACH-A-consumer-credit — product-specific caps,
     // fees and counted attendance still need records. This is the catalog ceiling.
     const applicable =
@@ -1228,13 +1456,10 @@ function householdApplications(
     const ceiling = applicable
       ? lawParameters.parameters.consumerLoanRateCap.value
       : null;
-    // stopgapId: SG-WORLD-credit-rate-cap-no-small-lender — the cap binds only
-    // this bank loan, which sits far below the ceiling in an ordinary rate year.
-    if (applicable) api.stopgap("SG-WORLD-credit-rate-cap-no-small-lender");
     const rate = ceiling === null ? marketRate : Math.min(marketRate, ceiling);
     const lawId = applicable ? cap.governing!.id : null;
     // Whom the cap governed at the quote: every household quoted under it, and whether it held the rate below the market.
-    if (lawId)
+    if (lawId && room > 0)
       lawApplied(api, {
         key: CAP_LOAN_RATES,
         lawId,
@@ -1259,106 +1484,225 @@ function householdApplications(
     if (cash >= costs) continue;
     const income = household.income();
     const amount = costs * p("creditPersonalMonthsOfCosts");
-    const payment = amortizedPayment(
-      amount,
-      rate,
-      p("creditPersonalTermMonths"),
-      p,
-    );
     // Only a real shortfall pulls toward borrowing: cash below a month of costs, by how far below.
     const need = Math.max(0, 1 - cash / costs);
     if (need <= 0) continue;
-    const burden = income > 0 ? payment / income : Number.POSITIVE_INFINITY;
+    let lent = 0;
+    bank: if (room > 0) {
+      const payment = amortizedPayment(
+        amount,
+        rate,
+        p("creditPersonalTermMonths"),
+        p,
+      );
+      const burden = income > 0 ? payment / income : Number.POSITIVE_INFINITY;
+      const choice = personalBorrowingDecision(api, head, need, burden);
+      if (!choice.borrow) break bank;
+      // The bank's yes falls smoothly as payments pass the federal 43 percent debt-to-income reference.
+      const dti =
+        income > 0
+          ? (p("macroHundred") * payment) / income
+          : Number.POSITIVE_INFINITY;
+      // And as what is left after the household's costs and the payment falls below nothing (residual income).
+      const residualPct =
+        income > 0
+          ? (p("macroHundred") * (income - costs - payment)) / income
+          : -p("macroHundred");
+      const history = reported.has(household.id)
+        ? p("creditChargedOffYesShare")
+        : 1;
+      const yes = Number.isFinite(dti)
+        ? (history * appetite) /
+          (1 +
+            Math.exp(
+              p("creditDtiSlope") * (dti - p("creditDtiReferencePct")),
+            )) /
+          (1 + Math.exp(-p("creditDtiSlope") * residualPct))
+        : 0;
+      // Below the smallest loan the bank writes, there is no loan.
+      const offered = Math.floor(Math.min(amount * yes, room));
+      const principal = offered >= p("creditMinimumLoanMinor") ? offered : 0;
+      store(api)
+        .table("applications")
+        .put({
+          id: `application:${c.date}:${household.id}`,
+          householdId: household.id,
+          organizationId: null,
+          borrowerId: head.id,
+          date: c.date,
+          requestedMinor: Math.round(amount),
+          monthlyIncomeMinor: Math.round(income),
+          debtToIncomePct: Number.isFinite(dti) ? dti : null,
+          residualIncomePct: residualPct,
+          appetite,
+          approvedShare: yes,
+          limitMinor: principal,
+          approved: principal > 0,
+          kind: "personal",
+          ...(c.observer ||
+          c.focusPersonIds.has(head.id) ||
+          head.id === c.playerId
+            ? { choice }
+            : {}),
+          marketAnnualRate: marketRate,
+          annualRate: rate,
+          ceilingAnnualRate: ceiling,
+          lawId,
+        });
+      if (principal <= 0) break bank;
+      lent = personalLoanTransfer(
+        api,
+        `loan:${household.id}:${c.date}`,
+        head.id,
+        bankId,
+        principal,
+        true,
+        {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: creditData.source.citation,
+          estimatedFrom: `A personal loan quoted at ${rate}, from market rate ${marketRate}${lawId ? ` under ${lawId}` : ""}, sized from the household's costs and debt-to-income.`,
+        },
+      );
+      if (lent <= 0) break bank;
+      store(api)
+        .table("loans")
+        .put({
+          id: `loan:${household.id}:${c.date}`,
+          isLoan: true,
+          open: true,
+          householdId: household.id,
+          borrowerId: head.id,
+          lenderId: bankId,
+          kind: "personal",
+          principalMinor: lent,
+          balanceMinor: lent,
+          annualRate: rate,
+          marketAnnualRate: marketRate,
+          rateLawId: lawId,
+          paymentMinor: Math.round(
+            amortizedPayment(lent, rate, p("creditPersonalTermMonths"), p),
+          ),
+          openedAt: c.date,
+          pastDueMinor: 0,
+          standing: "current",
+        });
+      room -= lent;
+    }
+    // The lender is in one place: only its place's households ask it.
+    if (
+      lent > 0 ||
+      !lender ||
+      lenderRoom <= 0 ||
+      household.placeId !== lender.placeId
+    )
+      continue;
+    // The bank wrote no loan: the household asks the storefront lender, on the
+    // lender's own terms. Its rate is the product's, under the same cap.
+    const product = smallDollarData.products[lender.product];
+    const termMonths = p(product.termMonthsParameter);
+    const quoted =
+      ceiling === null
+        ? lender.annualRate
+        : Math.min(lender.annualRate, ceiling);
+    // A storefront lends a share of documented monthly pay, never more than the shortfall's loan, so no income is no loan.
+    const ask = Math.min(
+      amount,
+      p("smallDollarLoanToMonthlyIncome") * Math.max(0, income),
+    );
+    if (!(ask > 0)) continue;
+    // The web's factor on lenders (the cap's research: use falls where the law is in force) multiplies what this lender lends; the rate is the law's alone, read above.
+    const reach = webReach(api, household.placeId, HIGH_COST_LOANS);
+    const payment = amortizedPayment(ask * reach.factor, quoted, termMonths, p);
+    const burden = payment / income;
     const choice = personalBorrowingDecision(api, head, need, burden);
     if (!choice.borrow) continue;
-    // The bank's yes falls smoothly as payments pass the federal 43 percent debt-to-income reference.
-    const dti =
-      income > 0
-        ? (p("macroHundred") * payment) / income
-        : Number.POSITIVE_INFINITY;
-    // And as what is left after the household's costs and the payment falls below nothing (residual income).
-    const residualPct =
-      income > 0
-        ? (p("macroHundred") * (income - costs - payment)) / income
-        : -p("macroHundred");
-    const history = reported.has(household.id)
-      ? p("creditChargedOffYesShare")
-      : 1;
-    const yes = Number.isFinite(dti)
-      ? (history * appetite) /
-        (1 +
-          Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct")))) /
-        (1 + Math.exp(-p("creditDtiSlope") * residualPct))
-      : 0;
-    // Below the smallest loan the bank writes, there is no loan.
-    const offered = Math.floor(Math.min(amount * yes, room));
-    const principal = offered >= p("creditMinimumLoanMinor") ? offered : 0;
+    // Counted households are the lender's customers times their count: it lends each of them the same loan out of its one cash.
+    const offered = Math.floor(
+      Math.min(ask * reach.factor, lenderRoom / household.weight),
+    );
+    const minimum =
+      p("smallDollarMinimumLoanDollars") * p("creditMinorPerDollar");
+    const principal = offered >= minimum ? offered : 0;
+    const loanId = `loan:small-dollar:${household.id}:${c.date}`;
     store(api)
       .table("applications")
       .put({
-        id: `application:${c.date}:${household.id}`,
+        id: `application:${c.date}:${household.id}:${lender.id}`,
         householdId: household.id,
         organizationId: null,
+        lenderId: lender.organizationId,
         borrowerId: head.id,
         date: c.date,
         requestedMinor: Math.round(amount),
+        askedMinor: Math.round(ask),
         monthlyIncomeMinor: Math.round(income),
-        debtToIncomePct: Number.isFinite(dti) ? dti : null,
-        residualIncomePct: residualPct,
-        appetite,
-        approvedShare: yes,
+        debtToIncomePct: (p("macroHundred") * payment) / income,
         limitMinor: principal,
         approved: principal > 0,
-        kind: "personal",
+        kind: "small-dollar",
         ...(c.observer ||
         c.focusPersonIds.has(head.id) ||
         head.id === c.playerId
           ? { choice }
           : {}),
-        marketAnnualRate: marketRate,
-        annualRate: rate,
+        marketAnnualRate: lender.annualRate,
+        annualRate: quoted,
         ceilingAnnualRate: ceiling,
         lawId,
+        webFactor: reach.factor,
+        webRecordId: reach.recordId,
       });
     if (principal <= 0) continue;
-    const lent = personalLoanTransfer(
+    if (lawId)
+      lawApplied(api, {
+        key: CAP_LOAN_RATES,
+        lawId,
+        targetId: household.id,
+        target: household.weight > 1 ? "group" : "household",
+        count: household.weight,
+        engine: "credit",
+        what: quoted < lender.annualRate ? "quote-capped" : "quote-within-cap",
+      });
+    const moved = personalLoanTransfer(
       api,
-      `loan:${household.id}:${c.date}`,
+      loanId,
       head.id,
-      bankId,
+      lender.organizationId,
       principal,
       true,
       {
-        tag: "ESTIMATED",
+        tag: lender.rateSource === "fallback" ? "ESTIMATED" : "SOURCED",
         asOf: c.date,
-        citation: creditData.source.citation,
-        estimatedFrom: `A personal loan quoted at ${rate}, from market rate ${marketRate}${lawId ? ` under ${lawId}` : ""}, sized from the household's costs and debt-to-income.`,
+        citation: `${smallDollarData.sources[lender.rateSource as "crl" | "nclc"]?.citation ?? "CFPB, Payday Loans and Deposit Advance Products (2013)"}`,
+        estimatedFrom: `A ${lender.product} loan quoted at ${quoted}, from the lender's ${lender.annualRate}${lawId ? ` under ${lawId}` : ""}, a share of the household's documented monthly pay.`,
       },
     );
-    if (lent <= 0) continue;
+    if (moved <= 0) continue;
     store(api)
       .table("loans")
       .put({
-        id: `loan:${household.id}:${c.date}`,
+        id: loanId,
         isLoan: true,
         open: true,
         householdId: household.id,
         borrowerId: head.id,
-        lenderId: bankId,
-        kind: "personal",
-        principalMinor: lent,
-        balanceMinor: lent,
-        annualRate: rate,
-        marketAnnualRate: marketRate,
+        lenderId: lender.organizationId,
+        kind: "small-dollar",
+        product: lender.product,
+        principalMinor: moved,
+        balanceMinor: moved,
+        annualRate: quoted,
+        marketAnnualRate: lender.annualRate,
         rateLawId: lawId,
         paymentMinor: Math.round(
-          amortizedPayment(lent, rate, p("creditPersonalTermMonths"), p),
+          amortizedPayment(moved, quoted, termMonths, p),
         ),
         openedAt: c.date,
         pastDueMinor: 0,
         standing: "current",
       });
-    room -= lent;
+    lenderRoom -= moved * household.weight;
   }
   return room;
 }

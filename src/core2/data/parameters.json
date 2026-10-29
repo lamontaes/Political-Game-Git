@@ -7774,5 +7774,17 @@
     "value": 0.5,
     "tag": "SOURCED",
     "citation": "The Jeffreys prior for a binomial share, Beta(1/2, 1/2): a share read from x of n people is estimated as (x + 1/2) / (n + 1), which stays strictly between none and all for any sample. Brown, Cai and DasGupta (2001), Interval Estimation for a Binomial Proportion, Statistical Science 16(2): 101-133, recommend the Jeffreys interval for small samples; its center is this estimate. Read by publishedResidentEmploymentRate for the ACS county age cells (B23001 counts of a few dozen in small counties)."
+  },
+  "worldSmallDollarVolumeSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's small-dollar lending volume (the households that borrow from the town's payday or high-cost installment lender, and so the cash the lender lends) sits from the sourced national figure for a place, as a share of it. National household use fell from 1.5 percent in 2019 to 1.1 percent in 2021 (FDIC National Survey of Unbanked and Underbanked Households, Table 5.2), a change of about a quarter.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of the sourced volume",
+      "citation": "FDIC 2023 survey, Table 5.2, payday loan use 2019 (1.5) against 2021 and 2023 (1.1); Pew 2012, Exhibit 8, 6.3 against 6.6 percent between regulatory types."
+    }
   }
 }

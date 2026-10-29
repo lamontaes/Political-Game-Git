@@ -231,5 +231,118 @@
       "low": 7,
       "high": 31
     }
+  },
+  "smallDollarFallbackApr": {
+    "value": 3.91,
+    "tag": "ESTIMATED",
+    "citation": "The typical storefront payday loan's annual rate, for a state whose law lets the product operate and whose regulator the sources print no rate for (Puerto Rico). CFPB: \"The APR on that particular loan with a median duration of 14 days would be 391%.\" (a median $15 per $100 fee on a $350 loan); Pew: \"Lenders usually charge about $15 per $100 borrowed per two weeks (391 percent Annual Percentage Rate or APR).\" Sources: Consumer Financial Protection Bureau, Payday Loans and Deposit Advance Products: A White Paper of Initial Data Findings (April 2013), https://files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf, fetched Oct 29, 2026; The Pew Charitable Trusts, Payday Lending in America: Who Borrows, Where They Borrow, and Why (July 2012), https://www.pewtrusts.org/-/media/legacy/uploadedfiles/pcs_assets/2012/pewpaydaylendingreportpdf.pdf, fetched Oct 29, 2026.",
+    "estimatedFrom": "The national typical rate stands for a place the state tables do not cover (data/credit/small-dollar.json states). A rate is the product's fee schedule worked out, so it is law and takes no per-world spread.",
+    "spread": {
+      "low": 1.4,
+      "high": 6.62,
+      "unit": "annual rate (ratio) across the 27 states the CRL map prints",
+      "citation": "Center for Responsible Lending, Red Alert Rates (June 2023): Oregon 140% to Texas 662%."
+    }
+  },
+  "smallDollarBorrowerHouseholdShare": {
+    "value": 0.011,
+    "tag": "SOURCED",
+    "citation": "Share of households that took out a payday loan in the past 12 months. FDIC 2023 survey: \"All households were asked whether, in the past 12 months, they had ... taken out a payday loan or payday advance\"; Table 5.2, Payday Loan, All Households: 1.5 (2019), 1.1 (2021), 1.1 (2023) percent. FDIC, 2023 FDIC National Survey of Unbanked and Underbanked Households (Table 5.2), https://www.fdic.gov/household-survey/2023-fdic-national-survey-unbanked-and-underbanked-households-report, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 0.011,
+      "high": 0.015,
+      "unit": "share of households",
+      "citation": "FDIC 2023 survey Table 5.2: 1.1 percent in 2021 and 2023, 1.5 percent in 2019."
+    }
+  },
+  "smallDollarAllowedUseRatio": {
+    "value": 1.19,
+    "tag": "ESTIMATED",
+    "citation": "How much likelier a household is to use a payday loan where the state lets lenders operate than the national average, which also counts states with no storefronts. Pew Exhibit 9 (past-five-year use, storefront plus online or other): Permissive states 5.22% + 1.37% = 6.59% of 17,881 adults, Hybrid states 5.06% + 1.28% = 6.34% of 5,565, Restrictive states 1.29% + 1.58% = 2.87% of 10,130, nation 4.01% + 1.48% = 5.49%. Where a lender operates, the interview-weighted use is 6.53%, 1.19 times the nation's. The Pew Charitable Trusts, Payday Lending in America: Who Borrows, Where They Borrow, and Why (July 2012), https://www.pewtrusts.org/-/media/legacy/uploadedfiles/pcs_assets/2012/pewpaydaylendingreportpdf.pdf, fetched Oct 29, 2026.",
+    "estimatedFrom": "Pew's 2011 interview shares (33,576 adults) taken as a ratio only, applied to the FDIC 2023 household share; the two surveys measure different periods and units.",
+    "spread": {
+      "low": 1.0,
+      "high": 1.2,
+      "unit": "times the national household share",
+      "citation": "Pew Exhibit 8: use is 6.3 percent in moderately regulated states and 6.6 percent in the least regulated, against 5.5 percent nationally."
+    }
+  },
+  "smallDollarLoansPerBorrowerYear": {
+    "value": 8,
+    "tag": "SOURCED",
+    "citation": "Pew: \"Twelve million American adults use payday loans annually. On average, a borrower takes out eight loans of $375 each per year and spends $520 on interest.\" The Pew Charitable Trusts, Payday Lending in America: Who Borrows, Where They Borrow, and Why (July 2012), https://www.pewtrusts.org/-/media/legacy/uploadedfiles/pcs_assets/2012/pewpaydaylendingreportpdf.pdf, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 6,
+      "high": 11,
+      "unit": "loans per borrower per year",
+      "citation": "CFPB Data Point: Payday Lending (March 2014): a median of six loans over a year for all borrowers; CFPB white paper: a median of 11 loans in its sample approach and 10.7 mean transactions."
+    }
+  },
+  "smallDollarLoanDollars": {
+    "value": 375,
+    "tag": "SOURCED",
+    "citation": "The average payday loan, in the dollars of the source year (2010 to 2011). Pew: \"the average loan is about $375\"; CFPB: \"The median amount borrowed by consumers in our sample was $350 ... with a common maximum loan size of $500\". The Pew Charitable Trusts, Payday Lending in America: Who Borrows, Where They Borrow, and Why (July 2012), https://www.pewtrusts.org/-/media/legacy/uploadedfiles/pcs_assets/2012/pewpaydaylendingreportpdf.pdf, fetched Oct 29, 2026; Consumer Financial Protection Bureau, Payday Loans and Deposit Advance Products: A White Paper of Initial Data Findings (April 2013), https://files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 350,
+      "high": 500,
+      "unit": "dollars of the source year",
+      "citation": "CFPB white paper: median $350, mean $392, a common state maximum of $500; the top of the range also stands for prices since the source year."
+    }
+  },
+  "smallDollarCapitalTurnsPerYear": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "How many times a year the lender's cash goes out and comes back: the credit engine settles loans at its monthly review, so a loan's money returns once a month. Pew: eight loans a year of 18 days each, so a borrower's loan money would turn about 20 times a year without the monthly review.",
+    "spread": {
+      "low": 12,
+      "high": 20,
+      "unit": "turns of the lender's cash per year",
+      "citation": "Monthly review (12) to Pew's 18-day loan (365 divided by 18, about 20)."
+    }
+  },
+  "smallDollarLoanToMonthlyIncome": {
+    "value": 0.187,
+    "tag": "ESTIMATED",
+    "citation": "The most a storefront lender lends, as a share of the borrower's monthly pay: the CFPB sample's median loan, $350, over its median borrower's pay, $22,476 a year or $1,873 a month (CFPB white paper Tables 1 and 2). \"In order for a consumer to obtain a payday loan, a lender generally requires the consumer to present identification and documentation of income, and have a personal deposit account. Lenders generally do not consider a consumer's other financial obligations or credit score when determining eligibility\". Consumer Financial Protection Bureau, Payday Loans and Deposit Advance Products: A White Paper of Initial Data Findings (April 2013), https://files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf, fetched Oct 29, 2026.",
+    "estimatedFrom": "Median loan divided by median monthly income, from two medians of one sample; states also cap loan size by income ('limits on loan size based on monthly income', CFPB).",
+    "spread": {
+      "low": 0.133,
+      "high": 0.267,
+      "unit": "share of monthly pay",
+      "citation": "CFPB white paper: \"Most loans in our sample cluster around $250, $300, and $500\", over the same $1,873 monthly pay."
+    }
+  },
+  "smallDollarPaydayTermMonths": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "A single-payment payday loan is due on the borrower's next payday; the credit engine settles loans at its monthly review, so the loan is due at the next review and an unpaid balance carries forward at the loan's rate, as a rollover does. CFPB: \"We found a median loan term of 14 days, and a mean loan term of 18.3 days\"; \"If a borrower is unable to repay the full amount, the lender may give her the option to roll over the loan balance by paying a fee, usually equal to the original finance charge\". Consumer Financial Protection Bureau, Payday Loans and Deposit Advance Products: A White Paper of Initial Data Findings (April 2013), https://files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 1,
+      "high": 2,
+      "unit": "monthly reviews",
+      "citation": "One review (a 14-day term rounded to the engine's cycle) to two (a 14-day loan renewed once), CFPB: 'Over 80% of payday loans are rolled over or followed by another loan within 14 days' (Data Point: Payday Lending, March 2014)."
+    }
+  },
+  "smallDollarInstallmentTermMonths": {
+    "value": 6,
+    "tag": "SOURCED",
+    "citation": "The term of the installment loan a state with high-cost installment lending allows: NCLC's sample loan is \"a $500, six-month loan\". National Consumer Law Center, Predatory Installment Lending in the States, Appendix C (December 2025), https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 4,
+      "high": 24,
+      "unit": "months",
+      "citation": "NCLC Appendix C: \"Virginia's Short-Term Loan Act applies to loans up to $2,500 with terms between 4 and 24 months.\""
+    }
+  },
+  "smallDollarMinimumLoanDollars": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "The smallest loan a storefront lender writes, in dollars. Pew: \"Payday loans are small-dollar credit products that typically range from $100 to $500, though may be larger depending on state law\". The Pew Charitable Trusts, Payday Lending in America: Who Borrows, Where They Borrow, and Why (July 2012), https://www.pewtrusts.org/-/media/legacy/uploadedfiles/pcs_assets/2012/pewpaydaylendingreportpdf.pdf, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 100,
+      "high": 100,
+      "unit": "dollars",
+      "citation": "Pew's range starts at $100 in every state it describes; CFPB white paper: loans in its sample cluster around $250, $300 and $500."
+    }
   }
 }
