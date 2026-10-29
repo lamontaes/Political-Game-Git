@@ -20,6 +20,12 @@ milestone: play-first
 
 **Done when.** In a drawn place, a new life files at the counter before pressing Day, and src/bench/filing.browser.mjs shows the card's clock moving from the shown moment by the filing's hours, landing in the day and never after midnight; a test on the player's clock fails on main, with the place and seed named.
 
+**Time box.** 2 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** In a new life, filing at the counter before pressing Day moves the clock three hours into the day, never to 3 AM.
+
+**Screenshot.** The card's clock before and after the filing, from a drawn place, in the PR body.
+
 **Files.** src/bench/player.ts, src/bench/handler.ts, src/bench/filing.browser.mjs
 
 **Notes.** TODO
