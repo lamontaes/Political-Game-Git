@@ -6,9 +6,9 @@ lead: play-first
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: play-first/play-person-history-fill-in-writes-the-coarse-past
-pr:
+pr: #6775
 blocked-on:
 source: added with npm run pool -- add
 milestone: play-first
