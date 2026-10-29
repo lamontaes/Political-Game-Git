@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 84 of 89 (2 partly, 3 on a stopgap). Research links reaching people or carried by an engine: 165 of 245 (19 the research finds about zero, 61 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
+Laws wired: 85 of 89 (1 partly, 3 on a stopgap). Research links reaching people or carried by an engine: 166 of 245 (19 the research finds about zero, 60 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
@@ -54,7 +54,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | paid family leave                            | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | public sector collective bargaining          | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | right to work                                | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
-| legalize cannabis sales                      | business           | yes    | yes    | yes   | yes     | yes   | part | yes     | yes    | yes       | partly     | Issues, Your office, Calendar, News |
+| legalize cannabis sales                      | business           | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | cap consumer loan rates                      | business           | yes    | yes    | yes   | yes     | SG    | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office                 |
 | ban new gas hookups                          | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | clean electricity standard                   | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
@@ -151,10 +151,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **local minimum wage authority** (`us-policy-positions:labor-workforce.local-minimum-wage-authority`)
 
 - money: the law grants a local government the power to set its own minimum wage; the grant itself charges, pays and taxes no one, and any money moves through the wage a council then enacts, graded as the minimum wage law's money
-
-**legalize cannabis sales** (`us-policy-positions:business-commerce.legalize-cannabis-sales`)
-
-- web: links not built or not read: cannabis-sales-to-youth-use (no reader, SG-EW-HEALTH-condition-record)
 
 **cap consumer loan rates** (`us-policy-positions:business-commerce.cap-consumer-loan-rates`)
 

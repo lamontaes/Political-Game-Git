@@ -1,6 +1,6 @@
 # Merge first (CTO's list; mergers read this before every merge)
 
-Current as of 2026-10-29, 19:05 UTC (CTO, the owner's second account). This replaces the Oct 27 and Oct 28 lists; the crew is the owner's smaller crew of Oct 29 (`OWNER-DECISIONS.md`, Oct 29 16:30).
+Current as of 2026-10-29, 19:10 UTC (CTO, the owner's second account). This replaces the Oct 27 and Oct 28 lists; the crew is the owner's smaller crew of Oct 29 (`OWNER-DECISIONS.md`, Oct 29 16:30).
 
 **Two mergers.** Merger 0 takes even PR numbers, Merger 1 odd ones. Either takes any line below when the other is busy. Each merge is pinned to the head you checked.
 
@@ -16,9 +16,9 @@ Current as of 2026-10-29, 19:05 UTC (CTO, the owner's second account). This repl
 ## The order
 
 0. **Red main:** any PR whose line 1 is `Touches pool item: release-main-red-standing` (the red-main fixer), ahead of everything.
-1. **Words and director** (the owner's words session): #6764 (replies fit what you said), #6762 (twelve more record kinds in News), then every new words or director PR as it goes green. (#6759, #6765 and #6770 merged.)
-2. **The lane** (play-first): #6772 (anyone's history on their card), then #6775 (marriages, moves and school stages before the start; stacked on #6772), then #6787 (call donors names who gave; adopts the closed #6411's branch; Review: words for the donor parts), then #6779 (evidence only: the job offer no longer locks the game, Las Tusas NM), then #6789 (no empty heading on a person's card, `play-stop-41`), #6790 (no leftover Politics tabs over News, `play-sheet-stale-tabs`) and #6791 (evidence only: the Oct 29 verify sweep, Anguilla MS; the CTO flipped its seven items done), then `play-faces-show-the-moment-a-menu-opens` as it opens. #6772, #6775 and #6787 carry words bank pieces: words reviews them. (#6768 and #6771 merged.) Scrolling inside a panel under the gold scroller is the ruled replacement for paging (CTO, Oct 29), and the creator's step Back and Continue stay.
-3. **Laws:** #6763 (civic family; sent back for a flaky new test, the laws session has it), then the background-record PRs as they open. (#6760 and #6766 merged.)
+1. **Words and director** (the owner's words session): #6793 (delete the eviction-notice twin), then every new words or director PR as it goes green. (#6759, #6762, #6764, #6765 and #6770 merged.)
+2. **The lane** (play-first): #6772 (anyone's history on their card), then #6775 (marriages, moves and school stages before the start; stacked on #6772), then #6789 (no empty heading on a person's card, `play-stop-41`), #6790 (no leftover Politics tabs over News, `play-sheet-stale-tabs`) and #6791 (evidence only: the Oct 29 verify sweep, Anguilla MS; the CTO flipped its seven items done), #6796 (the Politics Leaders list: each leader's chamber and state under their own name, `play-politics-leaders-list-order`), then `play-faces-show-the-moment-a-menu-opens` as it opens. #6772, #6775 and #6787 carry words bank pieces: words reviews them. (#6768, #6771, #6779 and #6787 merged.) Scrolling inside a panel under the gold scroller is the ruled replacement for paging (CTO, Oct 29), and the creator's step Back and Continue stay.
+3. **Laws:** #6795 (a red on main: the defense link's range) first, then #6782, #6792, #6794, and #6763 (civic family; main merged in, five-seed proof running), then the background-record PRs as they open. (#6760 and #6766 merged.)
 4. **Older ready PRs:** #6050 (someone the player's age in every town) and #5150. Merge main in, rerun the checks, merge if green; if main already does what the PR does, comment so and the CTO closes it. (#6091, #6411, #5056 and #5695 closed by the CTO.)
 5. **People pack v4** (`people-pack-v4`, PR when it opens): **hold** for the owner's look. It replaces v3 (#6778 closed unmerged, owner Oct 29) and carries v3's loader and the v1/v2 deletions. Read it, run its checks and comment what you find, but do not merge. The CTO relays the owner's yes on the PR.
 
