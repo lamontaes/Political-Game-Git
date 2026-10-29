@@ -313,24 +313,35 @@ describe("the other school links stay unread, each with the engine that would re
   }[];
   const row = (id: string) => rows.find((r) => r.id === id)!;
 
-  it("keeps the college completion link on the web's ledger, with the state's higher education line as its cause and no engine behind it", () => {
+  it("reads the college completion link in the school engine's college step, its stopgaps naming what is left", () => {
     const key = "higher-education-spending-to-college-completion";
     const higher = link(key);
     expect(higher.from).toBe("budget.higherEducation-added-pct");
     expect(higher.to).toBe("school.college-completion-pct");
     expect(linkCoverage(higher).wired).toBe(true);
-    // No engine decides a graduate's completion, so none reads the factor.
+    // The school engine decides a graduate's completion and multiplies the
+    // graduate's rate by the web's factor, in the one file that names it.
     const naming = sources("src/core2")
       .filter((path) =>
         readFileSync(path, "utf8").includes("school.college-completion-pct"),
       )
-      .map((path) => path);
-    expect(naming).toEqual([]);
+      .map((path) => path.replaceAll("\\", "/"));
+    expect(naming).toEqual(["src/core2/school-outcomes.ts"]);
+    expect(readFileSync(naming[0]!, "utf8")).toContain("webReach(");
+    // The waiting stopgaps are resolved; what is left is registered.
     const stop = row("SG-SCHOOL-college-completion");
-    expect(stop.status).toBe("open");
+    expect(stop.status).toBe("resolved");
     expect(stop.whatItFakes).toContain(key);
     expect(stop.replacement).toContain("webReach");
     expect(stop.why).toContain("schoolingOn");
+    expect(row("SG-WEB-unread-school-college-completion-pct").status).toBe(
+      "resolved",
+    );
+    for (const id of [
+      "SG-SCHOOL-college-decided-at-graduation",
+      "SG-SCHOOL-college-stock-ledger",
+    ])
+      expect(row(id).status, id).toBe("open");
   });
 
   it("keeps the enforcement link on the web's ledger, its stopgap naming the school engine as the reader", () => {
