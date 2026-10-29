@@ -3230,9 +3230,11 @@ function startCommuterJob(
   const person = core.people.get(personId);
   if (!person || person.jobId) return false;
   const cadence = flow.cadence.every;
-  const hoursDaily = countedParameter("countedCommuterWorkdayHours");
   const weekHours =
-    hoursDaily * countedParameter("countedCommuterWorkdaysPerWeek");
+    countedParameter("countedCommuterWorkdayHours") *
+    countedParameter("countedCommuterWorkdaysPerWeek");
+  // A job's daily hours are its week spread over every day, as its daily wage is.
+  const hoursDaily = weekHours / api.parameter("daysPerWeek");
   const weeklyMinor = (amount * api.parameter("daysPerWeek")) / cadence;
   const hourlyMinor = Math.max(1, Math.round(weeklyMinor / weekHours));
   const startsAt = addDays(makeIsoDate(core.date), 1);

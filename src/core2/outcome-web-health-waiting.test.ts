@@ -33,8 +33,6 @@ const WAITING = {
   "SG-EW-HEALTH-person-level": [
     "coverage-to-catastrophic-bills",
     "coverage-to-depression",
-    "job-loss-to-death-risk",
-    "long-hours-to-heart-and-stroke",
     "child-food-stamps-to-adult-health",
     "eitc-to-low-birthweight",
   ],

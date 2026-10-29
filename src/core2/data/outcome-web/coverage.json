@@ -16,6 +16,8 @@
     "particles-to-infant-deaths",
     "water-violations-to-infant-health",
     "emission-rules-to-particulates",
+    "disaster-to-out-migration",
+    "disaster-to-home-values",
     "work-requirement-to-coverage",
     "minimum-wage-to-low-wage-jobs",
     "school-spending-to-attainment",
@@ -139,13 +141,14 @@
       "waitingOn": ["crime.reoffense"]
     },
     "pretrial-detention-to-conviction": {
-      "waitingOn": ["justice.conviction"]
+      "waitingOn": [],
+      "carriedBy": "the court's decision of each counted case (resolveDue in src/core2/public-safety.ts, run each month by runSafetyMonth), which convicts the case's defendants at the offense's base share times one plus this row's size for the share held until the case is decided, against the share money bail would have held; the sentence row (src/core2/modules/justice.ts decideCountedCase) keeps the base share, the held and money-bail shares and the size as its reasons. A named bribery defendant's verdict (hearing and convict in src/core2/modules/justice.ts) does not read it: the verdict is a margin of evidence against the defense, with no rate this proportion can scale (stopgap SG-WEB-crime-justice-links-unread)"
     },
     "pretrial-detention-to-employment": {
       "waitingOn": ["labor.formal-employment"]
     },
     "release-lower-level-to-larceny": {
-      "waitingOn": ["law.low-level-offense-reclassified", "crime.larceny"]
+      "waitingOn": ["law.low-level-offense-reclassified"]
     },
     "congestion-to-premature-births": {
       "waitingOn": [
@@ -174,13 +177,7 @@
       "needsSize": true
     },
     "disaster-to-public-transfers": {
-      "waitingOn": ["disaster.severe", "gov.nondisaster-transfers"]
-    },
-    "disaster-to-out-migration": {
-      "waitingOn": ["disaster.severe"]
-    },
-    "disaster-to-home-values": {
-      "waitingOn": ["disaster.severe", "housing.home-prices"]
+      "waitingOn": ["gov.nondisaster-transfers"]
     },
     "coverage-to-catastrophic-bills": {
       "waitingOn": ["health.coverage", "health.catastrophic-medical-bills"]
@@ -195,27 +192,22 @@
       "waitingOn": ["health.coverage", "health.blood-pressure"]
     },
     "coverage-to-mortality-55-64": {
-      "waitingOn": ["person:health.coverage-pct"]
+      "waitingOn": [],
+      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through ownCoverageFactor in src/core2/health-own.ts), which reads the Medicaid coverage the law reach pays them (medicaidCoverageSpells in src/core2/law-reach/group-b-money.ts, one obligation record per payment) and multiplies their death hazard at 55 to 64 by this row's size per covered year, twelve months after the coverage, against the coverage they held at their first look; the place-level medicaid-expansion-to-mortality row is left out of their web factor (deathWebFactor in src/core2/health-web.ts). Counted people keep the place-level row (stopgap SG-HEALTH-own-records-counted)"
     },
     "work-requirement-to-employment": {
       "waitingOn": ["labor.employment-rate"]
     },
     "job-loss-to-death-risk": {
-      "waitingOn": [
-        "person:person.displaced-from-long-job",
-        "health.death-risk"
-      ],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through displacementFactor in src/core2/health-own.ts), which reads the jobs engine's closure or layoff record on the person (displacementsNow in src/core2/job-displacement.ts: the changes table in src/core2/modules/jobs.ts, with the tenure of the job that ended) and multiplies their death hazard by one plus the paper's excess for the years since, scaled by tenure up to six years (src/core2/data/health/displacement.json). Counted people are not read (stopgap SG-HEALTH-own-records-counted)"
     },
     "recession-to-total-mortality": {
       "waitingOn": ["health.mortality-all"]
     },
     "long-hours-to-heart-and-stroke": {
-      "waitingOn": [
-        "person:labor.share-working-55-plus-hours",
-        "health.stroke-and-heart-deaths"
-      ],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through longHoursFactor in src/core2/health-own.ts), which reads the weekly hours recorded on the job they hold (hoursDaily times daysPerWeek on the job in the core's jobs) and multiplies their death hazard by one plus the heart disease and stroke shares of deaths at their age times each cause's relative risk less one at those hours (src/core2/data/health/long-hours.json), for as long as they hold it. Counted people are not read (stopgap SG-HEALTH-own-records-counted)"
     },
     "eitc-to-low-birthweight": {
       "waitingOn": ["program.eitc-dollars"]
@@ -609,10 +601,6 @@
       "owner": "OPUS-CORE",
       "links": 3
     },
-    "disaster.severe": {
-      "owner": "OPUS-CORE",
-      "links": 3
-    },
     "health.coverage": {
       "owner": "OPUS-PEOPLE",
       "links": 3
@@ -666,10 +654,6 @@
       "links": 1
     },
     "crime.all": {
-      "owner": "OPUS-CORE",
-      "links": 1
-    },
-    "crime.larceny": {
       "owner": "OPUS-CORE",
       "links": 1
     },
@@ -757,10 +741,6 @@
       "owner": "OPUS-PEOPLE",
       "links": 1
     },
-    "health.death-risk": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
     "health.depression": {
       "owner": "OPUS-PEOPLE",
       "links": 1
@@ -777,10 +757,6 @@
       "owner": "OPUS-PEOPLE",
       "links": 1
     },
-    "health.stroke-and-heart-deaths": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
     "household.child-poverty": {
       "owner": "OPUS-WORLD",
       "links": 1
@@ -789,15 +765,7 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "housing.home-prices": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "immigration.deferred-action": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "justice.conviction": {
       "owner": "OPUS-GOV",
       "links": 1
     },
@@ -853,19 +821,7 @@
       "owner": "OPUS-CORE",
       "links": 1
     },
-    "person:health.coverage-pct": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
-    "person:labor.share-working-55-plus-hours": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "person:neighborhood.years-in-better-area": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
-    "person:person.displaced-from-long-job": {
       "owner": "OPUS-PEOPLE",
       "links": 1
     },
