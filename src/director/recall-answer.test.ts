@@ -23,6 +23,7 @@ import { recallsOf } from "../core2/modules/recalls";
 import { coreAPI } from "../core2/state";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
+import { composeJournal } from "./journal";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 /** Places tried before giving up on a petition against a full-person member. */
@@ -182,6 +183,25 @@ it(`an official's answer at the petition table is read by the drive's count (see
       recall.signatures,
     );
     expect(counted.signatures).toBe(counted.count!.signatures);
+    // The member's journal tells the count: how many signed and, where the
+    // answer lowered it, by how much, citing the count's record and the reply.
+    const countId = `recall-outcome:${recall.id}:${counted.status}`;
+    const told = composeJournal(core, director, memberId as never)
+      .flatMap((chapter) => chapter.lines)
+      .find((line) => line.sourceRecordIds.includes(countId));
+    expect(told, `${where}: no journal line cites ${countId}`).toBeTruthy();
+    const fell = counted.count!.before - counted.signatures;
+    if (fell > 0) {
+      expect(told!.text, `${where}: ${told!.text}`).toMatch(/\bhear/i);
+      expect(told!.text, where).toContain(fell.toLocaleString("en-US"));
+      expect(told!.sourceRecordIds, where).toContain(replyId);
+    } else
+      expect(told!.text, where).toContain(
+        counted.signatures.toLocaleString("en-US"),
+      );
+    process.stdout.write(
+      `RECALL JOURNAL ${where}: ${countId}: ${told!.text}\n`,
+    );
     expect(counted.status, `${where}: ${recall.id}`).toBe(
       counted.signatures >= counted.required ? "on-ballot" : "failed",
     );

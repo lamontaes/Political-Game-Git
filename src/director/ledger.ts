@@ -846,6 +846,13 @@ export function createDirector(
         (entry) => entry.eventKind === row.event.kind,
       );
       if (!rule) continue;
+      // The person a fact of the event names (the official a recall's count
+      // is about) is named by it as surely as its own people: the event is
+      // theirs, and its people are who it was with.
+      const named = rule.counterpartFact
+        ? row.event.facts?.[rule.counterpartFact]
+        : undefined;
+      const self = named === book.personId;
       let raw = zero;
       if (rule.impactParameter) {
         // The event's own impact reaches the people it names and those who
@@ -860,6 +867,7 @@ export function createDirector(
             : zero;
         }
         if (
+          !self &&
           !row.event.personIds.includes(book.personId) &&
           !row.event.witnessIds?.includes(book.personId)
         ) {
@@ -879,17 +887,18 @@ export function createDirector(
         raw = Math.abs(after - before) / before;
       }
       if (raw <= zero) continue;
-      const named = rule.counterpartFact
-        ? row.event.facts?.[rule.counterpartFact]
-        : undefined;
       const made = change(
         row.event.id,
         `event:${row.event.kind}`,
         rule.channel,
         raw,
-        named ? [named] : row.event.personIds,
+        self
+          ? row.event.personIds.filter((id) => id !== book.personId)
+          : named
+            ? [named]
+            : row.event.personIds,
       );
-      if (!named && row.event.personIds.includes(book.personId))
+      if (self || (!named && row.event.personIds.includes(book.personId)))
         made.selfNamed = true;
     }
 
@@ -1621,7 +1630,21 @@ export function createDirector(
     learnedBy: readonly PersonId[],
   ): PersonId[] {
     const reached: PersonId[] = [];
-    const named = new Set([...event.personIds, ...(event.witnessIds ?? [])]);
+    // The person a fact of the event names (the official a recall's count
+    // is about, by the event's counterpart rule) is named by it too.
+    const counterpartFact = data.eventImpacts?.find(
+      (entry) => entry.eventKind === event.kind,
+    )?.counterpartFact;
+    const factNamed = counterpartFact
+      ? event.facts?.[counterpartFact]
+      : undefined;
+    const named = new Set([
+      ...event.personIds,
+      ...(event.witnessIds ?? []),
+      ...(typeof factNamed === "string" && factNamed
+        ? [factNamed as PersonId]
+        : []),
+    ]);
     const learned = new Set(learnedBy);
     const broad = data.broadEventFlags.some(
       (flag) => (event as unknown as Record<string, unknown>)[flag] === true,
