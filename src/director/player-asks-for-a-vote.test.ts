@@ -32,6 +32,7 @@ import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { CoreEventInput, PersonId } from "../core2/types";
 import replyMoves from "../core2/data/legislature/vote-replies.json" with { type: "json" };
+import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -136,6 +137,23 @@ it(`the player asks a colleague for their vote the evening before the roll, and 
       const { scene } = composed;
       expect(scene.playerAsks).toBe(true);
       expect(scene.cause.id).toBe(ask.id);
+      // The narrator sets the evening before the roll from the player's
+      // side (the bank's setups for the player's ask), naming the colleague.
+      const setup = scene.talk.narration[0];
+      expect(setup?.role, `${where}: ${ask.id}`).toBe("narrator");
+      expect(
+        (
+          sceneBank as unknown as {
+            parts: { key: string; uses?: { step?: string; key?: string }[] }[];
+          }
+        ).parts.find((part) => part.key === setup!.parts[0])?.uses,
+        `${where}: ${setup!.text}`,
+      ).toContainEqual(
+        expect.objectContaining({ step: "narrate", key: "vote-sought" }),
+      );
+      expect(setup!.text, where).toContain(
+        core.people.get(colleagueId)!.givenName,
+      );
       // The player opens with the request; the colleague answers from where
       // they stand before any favor.
       expect(scene.talk.state.speakerId).toBe(player);
@@ -210,7 +228,7 @@ it(`the player asks a colleague for their vote the evening before the roll, and 
       }
       if (counted) expect(vote.position.replyIds).toContain(replyId);
       process.stdout.write(
-        `PLAYER ASKS ${where} (GOLDEN_PATH_SEED=${seed})\n  player ${player} in ${body.id}, drafted ${drafted.join(", ")}\n  ${ask.id} (${ask.date}): the player asks ${colleagueId} about ${bill.number}, vote on ${ask.facts!.floorDate}\n  ${colleagueId} stood at ${before.total.toFixed(3)} with a favor worth ${favor.toFixed(3)}; first answer ${first.move}; the player's ${asked.line.move}; last answer ${answer}; reply ${replyId}\n  at the roll ${vote.vote} with ${vote.position.total.toFixed(3)}; bill ${billOf(api, billId).status}\n  said: ${[scene.talk.state, first, asked.line, ...(asked.next?.lines ?? [])].map((l) => `${l.speaker}: ${l.text}`).join(" / ")}\n`,
+        `PLAYER ASKS ${where} (GOLDEN_PATH_SEED=${seed})\n  player ${player} in ${body.id}, drafted ${drafted.join(", ")}\n  ${ask.id} (${ask.date}): the player asks ${colleagueId} about ${bill.number}, vote on ${ask.facts!.floorDate}\n  ${colleagueId} stood at ${before.total.toFixed(3)} with a favor worth ${favor.toFixed(3)}; first answer ${first.move}; the player's ${asked.line.move}; last answer ${answer}; reply ${replyId}\n  at the roll ${vote.vote} with ${vote.position.total.toFixed(3)}; bill ${billOf(api, billId).status}\n  said: ${[setup!, scene.talk.state, first, asked.line, ...(asked.next?.lines ?? [])].map((l) => `${l.speaker}: ${l.text}`).join(" / ")}\n`,
       );
       return;
     }

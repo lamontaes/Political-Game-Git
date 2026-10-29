@@ -740,13 +740,24 @@ export function composeSceneTalk(
       gap("reply", moves.join("/"), after.move);
       return null;
     };
-    const narrate = render(
-      { step: "narrate", move: "narrate", role: "narrator", ...base },
-      cast.askerId,
-      {},
-      "narrate",
-      none,
-    );
+    // The setup is told from the player's side: a purpose asked both ways (a
+    // vote) has the player's own setup under the type's key, and the
+    // purpose's setup plays where the bank has none.
+    const setup = (at: string) =>
+      render(
+        {
+          step: "narrate",
+          move: "narrate",
+          role: "narrator",
+          purpose,
+          key: at,
+        },
+        cast.askerId,
+        {},
+        "narrate",
+        none,
+      );
+    const narrate = setup(type.key) ?? setup(key);
     const set = narrate ? addParts(none, narrate) : none;
     const request = mine({ step: "state", move: arc.state }, "state", set);
     if (!request)
