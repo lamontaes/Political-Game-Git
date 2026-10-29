@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/old-engine-opening-port
 pr: #6637
 after: core-old-engine-02-gov-rules-duplicates
