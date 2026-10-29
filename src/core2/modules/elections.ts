@@ -26,6 +26,7 @@ import { campaignParameter } from "../campaign-views";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 import { partyName } from "../appointments";
 import fallbackData from "../data/elections/filing-fallbacks.json" with { type: "json" };
+import playerOffices from "../data/offices/player-offices.json" with { type: "json" };
 import federalQualifications from "../data/elections/federal-qualifications.json" with { type: "json" };
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
@@ -677,6 +678,32 @@ export function openContests(api: CoreAPI): readonly ContestRow[] {
         (c.filingOpens === null || c.filingOpens <= today),
     )
     .sort((a, b) => a.filingDeadline.localeCompare(b.filingDeadline));
+}
+
+/**
+ * Whether the player may file for a contest's office (owner, Oct 29: the player runs
+ * only for city council, state legislator, mayor, governor, Congress and president).
+ * The offices come from one data row (`data/offices/player-offices.json`); every other
+ * office keeps running in the world with simulated candidates through `fileCandidacy`.
+ */
+export function playerMayFileFor(api: CoreAPI, contestId: string): boolean {
+  const contest = table(api, "contests").get(contestId) as unknown as
+    ContestRow | undefined;
+  if (!contest) return false;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(contest.officeId) as { kind?: string } | undefined;
+  return playerOffices.playerOffices.some((row) =>
+    (office?.kind ?? "").startsWith(row.kindPrefix),
+  );
+}
+
+/** The open contests the player may file for: the filing screen's choices. */
+export function playerContests(api: CoreAPI): readonly ContestRow[] {
+  return openContests(api).filter((contest) =>
+    playerMayFileFor(api, contest.id),
+  );
 }
 
 /** Where a contest's filings are taken, and what that place requires. */
