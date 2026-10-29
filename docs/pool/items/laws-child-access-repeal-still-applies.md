@@ -5,12 +5,13 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/laws-child-access-repeal
+pr: #6799
 blocked-on:
 source: added with npm run pool -- add
 lead: laws
+claimed-at: 2026-10-29T19:05:20.327Z
 ---
 
 **What.** law-wiring-justice.test.ts fails on clean main with seed 2d779733f866f2e2bae37ad62eca5bf460d5c076, which draws Richmond, Maine. After the child-access-prevention law is repealed, the test still finds the law applied to a person or household. Found by the laws lead's crime and justice helper on Oct 29, which ran main's own version of the file on the same seed to confirm the red is not its branch's.
