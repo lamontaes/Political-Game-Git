@@ -2,6 +2,7 @@
 // (owner, Oct 29: "make it to where these can be updated very easily").
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
+import type * as NodeFs from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import {
   PEOPLE_PACK,
@@ -178,7 +179,7 @@ describe("the people pack", () => {
     );
     vi.resetModules();
     vi.doMock("node:fs", async () => {
-      const fs = await vi.importActual<typeof import("node:fs")>("node:fs");
+      const fs = await vi.importActual<typeof NodeFs>("node:fs");
       const readFileSync = ((path: unknown, ...rest: unknown[]) =>
         String(path instanceof URL ? path.pathname : path) === manifestPath
           ? JSON.stringify(manifest)
