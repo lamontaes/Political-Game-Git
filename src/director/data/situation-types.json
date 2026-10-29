@@ -3339,61 +3339,6 @@
       "stakes": ["job", "years"]
     },
     {
-      "key": "eviction-notice",
-      "roles": [
-        {
-          "key": "tenant",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["ask", "request", "blame"],
-          "wants": ["keep-same"],
-          "bearing": "braced"
-        },
-        {
-          "key": "landlord",
-          "fill": "counterpart",
-          "count": "one",
-          "moves": ["deliver-news", "refuse", "offer"],
-          "wants": ["change"],
-          "bearing": "calm"
-        },
-        {
-          "key": "family",
-          "fill": "household",
-          "count": "some",
-          "moves": ["comfort", "ask"],
-          "wants": ["help-others"],
-          "bearing": "anxious"
-        }
-      ],
-      "setting": ["home"],
-      "timing": "at-cause",
-      "causes": [
-        {
-          "awaitingProducer": "eviction-served",
-          "causeEngine": "housing",
-          "causeRecord": "housing.eviction",
-          "bind": {
-            "tenant": "subject",
-            "landlord": "counterpart",
-            "family": "household"
-          },
-          "opener": "landlord",
-          "opening": "deliver-news"
-        }
-      ],
-      "yieldsTo": ["news-arrives"],
-      "tag": {
-        "key": "loss",
-        "endpoint": "money",
-        "registers": ["conversation", "scene-words", "journal", "bring-it-up"]
-      },
-      "purpose": "eviction-terms",
-      "asker": "landlord",
-      "asked": "tenant",
-      "stakes": ["home", "rent"]
-    },
-    {
       "repeatsBy": "bill",
       "key": "vote-asked",
       "purpose": "ask-vote",
