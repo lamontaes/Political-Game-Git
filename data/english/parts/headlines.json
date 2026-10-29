@@ -128,7 +128,7 @@
       "key": "headlines.organization-closed.subject-closes",
       "move": "organization-closed",
       "kind": "spoken",
-      "text": "{subject} Closes",
+      "text": "{subject} closes",
       "uses": [
         {
           "move": "organization-closed",
@@ -157,7 +157,7 @@
       "key": "headlines.organization-closed.subject-closing",
       "move": "organization-closed",
       "kind": "spoken",
-      "text": "{subject} Closing",
+      "text": "{subject} closing",
       "uses": [
         {
           "move": "organization-closed",
@@ -187,7 +187,7 @@
       "key": "headlines.organization-closed.subject-closed",
       "move": "organization-closed",
       "kind": "spoken",
-      "text": "{subject} Closed",
+      "text": "{subject} closed",
       "uses": [
         {
           "move": "organization-closed",
@@ -217,7 +217,7 @@
       "key": "headlines.grant.place-to-receive-money-for-purpose",
       "move": "grant",
       "kind": "spoken",
-      "text": "{place} to Receive {money} for {purpose}",
+      "text": "{place} to receive {money} for {purpose}",
       "uses": [
         {
           "move": "grant",
@@ -274,7 +274,7 @@
       "key": "headlines.grant.body-awards-money-to-place",
       "move": "grant",
       "kind": "spoken",
-      "text": "{body} Awards {money} to {place}",
+      "text": "{body} awards {money} to {place}",
       "uses": [
         {
           "move": "grant",
@@ -306,7 +306,7 @@
       "key": "headlines.grant.body-awards-money-for-purpose",
       "move": "grant",
       "kind": "spoken",
-      "text": "{body} Awards {money} for {purpose}",
+      "text": "{body} awards {money} for {purpose}",
       "uses": [
         {
           "move": "grant",
@@ -336,7 +336,7 @@
       "key": "headlines.grant.body-announces-money-for-purpose",
       "move": "grant",
       "kind": "spoken",
-      "text": "{body} Announces {money} for {purpose}",
+      "text": "{body} announces {money} for {purpose}",
       "uses": [
         {
           "move": "grant",
@@ -366,7 +366,7 @@
       "key": "headlines.grant.body-announces-money-to-purpose",
       "move": "grant",
       "kind": "spoken",
-      "text": "{body} Announces {money} to {purpose}",
+      "text": "{body} announces {money} to {purpose}",
       "uses": [
         {
           "move": "grant",
@@ -396,7 +396,7 @@
       "key": "headlines.grant.body-invests-money-in-place",
       "move": "grant",
       "kind": "spoken",
-      "text": "{body} Invests {money} in {place}",
+      "text": "{body} invests {money} in {place}",
       "uses": [
         {
           "move": "grant",
@@ -428,7 +428,7 @@
       "key": "headlines.grant.body-awards-money-grant-to-place",
       "move": "grant",
       "kind": "spoken",
-      "text": "{body} Awards {money} Grant to {place}",
+      "text": "{body} awards {money} grant to {place}",
       "uses": [
         {
           "move": "grant",
@@ -486,7 +486,7 @@
       "key": "headlines.court.name-sentenced-to-term-in-prison",
       "move": "court",
       "kind": "spoken",
-      "text": "{name} Sentenced to {term} in Prison",
+      "text": "{name} sentenced to {term} in prison",
       "uses": [
         {
           "move": "court",
@@ -514,7 +514,7 @@
       "key": "headlines.court.name-sentenced-to-term",
       "move": "court",
       "kind": "spoken",
-      "text": "{name} Sentenced to {term}",
+      "text": "{name} sentenced to {term}",
       "uses": [
         {
           "move": "court",
@@ -542,7 +542,7 @@
       "key": "headlines.court.name-pleads-guilty-to-crime",
       "move": "court",
       "kind": "spoken",
-      "text": "{name} Pleads Guilty to {crime}",
+      "text": "{name} pleads guilty to {crime}",
       "uses": [
         {
           "move": "court",
@@ -570,7 +570,7 @@
       "key": "headlines.court.name-charged-with-crime",
       "move": "court",
       "kind": "spoken",
-      "text": "{name} Charged with {crime}",
+      "text": "{name} charged with {crime}",
       "uses": [
         {
           "move": "court",
@@ -604,7 +604,7 @@
       "key": "headlines.court.name-indicted-for-crime",
       "move": "court",
       "kind": "spoken",
-      "text": "{name} Indicted for {crime}",
+      "text": "{name} indicted for {crime}",
       "uses": [
         {
           "move": "court",
@@ -632,7 +632,7 @@
       "key": "headlines.court.name-convicted-of-crime",
       "move": "court",
       "kind": "spoken",
-      "text": "{name} Convicted of {crime}",
+      "text": "{name} convicted of {crime}",
       "uses": [
         {
           "move": "court",
@@ -666,7 +666,7 @@
       "key": "headlines.court.name-found-guilty-of-crime",
       "move": "court",
       "kind": "spoken",
-      "text": "{name} Found Guilty of {crime}",
+      "text": "{name} found guilty of {crime}",
       "uses": [
         {
           "move": "court",
@@ -694,7 +694,7 @@
       "key": "headlines.council.body-approves-measure",
       "move": "council",
       "kind": "spoken",
-      "text": "{body} Approves {measure}",
+      "text": "{body} approves {measure}",
       "uses": [
         {
           "move": "council",
@@ -744,7 +744,7 @@
       "key": "headlines.council.body-passes-measure",
       "move": "council",
       "kind": "spoken",
-      "text": "{body} Passes {measure}",
+      "text": "{body} passes {measure}",
       "uses": [
         {
           "move": "council",
@@ -794,7 +794,7 @@
       "key": "headlines.council.body-rejects-measure",
       "move": "council",
       "kind": "spoken",
-      "text": "{body} Rejects {measure}",
+      "text": "{body} rejects {measure}",
       "uses": [
         {
           "move": "council",
@@ -830,7 +830,7 @@
       "key": "headlines.council.place-approves-measure",
       "move": "council",
       "kind": "spoken",
-      "text": "{place} Approves {measure}",
+      "text": "{place} approves {measure}",
       "uses": [
         {
           "move": "council",
@@ -878,7 +878,7 @@
       "key": "headlines.council.place-adopts-measure",
       "move": "council",
       "kind": "spoken",
-      "text": "{place} Adopts {measure}",
+      "text": "{place} adopts {measure}",
       "uses": [
         {
           "move": "council",
@@ -914,7 +914,7 @@
       "key": "headlines.labor-citation.body-cites-employer",
       "move": "labor-citation",
       "kind": "spoken",
-      "text": "{body} Cites {employer}",
+      "text": "{body} cites {employer}",
       "uses": [
         {
           "move": "labor-citation",
@@ -946,7 +946,7 @@
       "key": "headlines.labor-citation.body-fines-employer",
       "move": "labor-citation",
       "kind": "spoken",
-      "text": "{body} Fines {employer}",
+      "text": "{body} fines {employer}",
       "uses": [
         {
           "move": "labor-citation",
@@ -975,7 +975,7 @@
       "key": "headlines.labor-citation.body-sues-employer",
       "move": "labor-citation",
       "kind": "spoken",
-      "text": "{body} Sues {employer}",
+      "text": "{body} sues {employer}",
       "uses": [
         {
           "move": "labor-citation",
@@ -1008,7 +1008,7 @@
       "key": "headlines.labor-citation.employer-to-pay-money-to-settle-matter",
       "move": "labor-citation",
       "kind": "spoken",
-      "text": "{employer} to Pay {money} to Settle {matter}",
+      "text": "{employer} to pay {money} to settle {matter}",
       "uses": [
         {
           "move": "labor-citation",
@@ -1037,7 +1037,7 @@
       "key": "headlines.labor-citation.employer-will-pay-money-to-settle-matter",
       "move": "labor-citation",
       "kind": "spoken",
-      "text": "{employer} Will Pay {money} to Settle {matter}",
+      "text": "{employer} will pay {money} to settle {matter}",
       "uses": [
         {
           "move": "labor-citation",
@@ -1065,7 +1065,7 @@
       "key": "headlines.labor-citation.employer-cited-for-matter",
       "move": "labor-citation",
       "kind": "spoken",
-      "text": "{employer} Cited for {matter}",
+      "text": "{employer} cited for {matter}",
       "uses": [
         {
           "move": "labor-citation",
@@ -1093,7 +1093,7 @@
       "key": "headlines.honor.place-celebrates-occasion",
       "move": "honor",
       "kind": "spoken",
-      "text": "{place} Celebrates {occasion}",
+      "text": "{place} celebrates {occasion}",
       "uses": [
         {
           "move": "honor",
@@ -1128,7 +1128,7 @@
       "key": "headlines.honor.body-celebrates-occasion",
       "move": "honor",
       "kind": "spoken",
-      "text": "{body} Celebrates {occasion}",
+      "text": "{body} celebrates {occasion}",
       "uses": [
         {
           "move": "honor",
@@ -1163,7 +1163,7 @@
       "key": "headlines.proposal.body-proposes-measure",
       "move": "proposal",
       "kind": "spoken",
-      "text": "{body} Proposes {measure}",
+      "text": "{body} proposes {measure}",
       "uses": [
         {
           "move": "proposal",
@@ -1211,7 +1211,7 @@
       "key": "headlines.proposal.body-finalizes-measure",
       "move": "proposal",
       "kind": "spoken",
-      "text": "{body} Finalizes {measure}",
+      "text": "{body} finalizes {measure}",
       "uses": [
         {
           "move": "proposal",
@@ -1247,7 +1247,7 @@
       "key": "headlines.proposal.body-seeks-comment-on-measure",
       "move": "proposal",
       "kind": "spoken",
-      "text": "{body} Seeks Comment on {measure}",
+      "text": "{body} seeks comment on {measure}",
       "uses": [
         {
           "move": "proposal",
@@ -1280,7 +1280,7 @@
       "key": "headlines.proposal.body-seeks-public-comment-on-measure",
       "move": "proposal",
       "kind": "spoken",
-      "text": "{body} Seeks Public Comment on {measure}",
+      "text": "{body} seeks public comment on {measure}",
       "uses": [
         {
           "move": "proposal",
@@ -1313,7 +1313,7 @@
       "key": "headlines.proposal.body-extends-measure",
       "move": "proposal",
       "kind": "spoken",
-      "text": "{body} Extends {measure}",
+      "text": "{body} extends {measure}",
       "uses": [
         {
           "move": "proposal",
@@ -1364,7 +1364,7 @@
       "key": "headlines.proposal.body-announces-measure",
       "move": "proposal",
       "kind": "spoken",
-      "text": "{body} Announces {measure}",
+      "text": "{body} announces {measure}",
       "uses": [
         {
           "move": "proposal",
@@ -1411,7 +1411,7 @@
       "key": "headlines.proposal.body-launches-measure",
       "move": "proposal",
       "kind": "spoken",
-      "text": "{body} Launches {measure}",
+      "text": "{body} launches {measure}",
       "uses": [
         {
           "move": "proposal",
@@ -1459,7 +1459,7 @@
       "key": "headlines.proposal.body-issues-measure",
       "move": "proposal",
       "kind": "spoken",
-      "text": "{body} Issues {measure}",
+      "text": "{body} issues {measure}",
       "uses": [
         {
           "move": "proposal",
@@ -1528,7 +1528,7 @@
       "key": "headlines.meeting.body-to-meet-in-place",
       "move": "meeting",
       "kind": "spoken",
-      "text": "{body} to Meet in {place}",
+      "text": "{body} to meet in {place}",
       "uses": [
         {
           "move": "meeting",
@@ -1565,7 +1565,7 @@
       "key": "headlines.meeting.body-to-meet",
       "move": "meeting",
       "kind": "spoken",
-      "text": "{body} to Meet",
+      "text": "{body} to meet",
       "uses": [
         {
           "move": "meeting",
@@ -1602,7 +1602,7 @@
       "key": "headlines.meeting.body-will-meet-in-place",
       "move": "meeting",
       "kind": "spoken",
-      "text": "{body} Will Meet in {place}",
+      "text": "{body} will meet in {place}",
       "uses": [
         {
           "move": "meeting",
@@ -1633,7 +1633,7 @@
       "key": "headlines.grant.place-awarded-money-for-purpose",
       "move": "grant",
       "kind": "spoken",
-      "text": "{place} Awarded {money} for {purpose}",
+      "text": "{place} awarded {money} for {purpose}",
       "uses": [
         {
           "move": "grant",
@@ -1662,7 +1662,7 @@
       "key": "headlines.organization-opened.subject-opens",
       "move": "organization-opened",
       "kind": "spoken",
-      "text": "{subject} Opens",
+      "text": "{subject} opens",
       "uses": [
         {
           "move": "organization-opened",
@@ -1692,7 +1692,7 @@
       "key": "headlines.organization-opened.subject-reopens",
       "move": "organization-opened",
       "kind": "spoken",
-      "text": "{subject} Reopens",
+      "text": "{subject} reopens",
       "uses": [
         {
           "move": "organization-opened",
@@ -1722,7 +1722,7 @@
       "key": "headlines.organization-opened.subject-reopens-to-the-public",
       "move": "organization-opened",
       "kind": "spoken",
-      "text": "{subject} Reopens to the Public",
+      "text": "{subject} reopens to the Public",
       "uses": [
         {
           "move": "organization-opened",
@@ -1752,7 +1752,7 @@
       "key": "headlines.honor.body-honors-name",
       "move": "honor",
       "kind": "spoken",
-      "text": "{body} Honors {name}",
+      "text": "{body} honors {name}",
       "uses": [
         {
           "move": "honor",
@@ -3887,7 +3887,7 @@
       "key": "headlines.office-act.name-gives-the-state-of-the-state",
       "move": "office-act",
       "kind": "written",
-      "text": "{name} gives the State of the State",
+      "text": "{name} gives the state of the state",
       "uses": [
         {
           "move": "office-act",
@@ -4938,10 +4938,10 @@
       }
     },
     {
-      "key": "headlines.law-rule.new-rule-on-measure-takes-effect-in-place",
+      "key": "headlines.law-rule.new-rule-on-the-measure-takes-effect-in-place",
       "move": "law-rule",
       "kind": "written",
-      "text": "New rule on {measure} takes effect in {place}",
+      "text": "New rule on the {measure} takes effect in {place}",
       "uses": [
         {
           "move": "law-rule",
@@ -4959,10 +4959,10 @@
       }
     },
     {
-      "key": "headlines.law-rule.new-rule-on-measure-takes-effect",
+      "key": "headlines.law-rule.new-rule-on-the-measure-takes-effect",
       "move": "law-rule",
       "kind": "written",
-      "text": "New rule on {measure} takes effect",
+      "text": "New rule on the {measure} takes effect",
       "uses": [
         {
           "move": "law-rule",
@@ -5796,6 +5796,116 @@
       ],
       "origin": "authored",
       "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.measure-stays-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{measure} stays at {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.measure-rises-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{measure} rises to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.measure-falls-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{measure} falls to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.roll-call.designation-passes-count",
+      "move": "roll-call",
+      "kind": "written",
+      "text": "{designation} passes, {count}",
+      "uses": [
+        {
+          "move": "roll-call",
+          "subject": "headline",
+          "role": "roll-call",
+          "choice": "headline",
+          "requiresFacts": ["passed", "count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.roll-call.the-law-passes-count",
+      "move": "roll-call",
+      "kind": "written",
+      "text": "The {law} passes, {count}",
+      "uses": [
+        {
+          "move": "roll-call",
+          "subject": "headline",
+          "role": "roll-call",
+          "choice": "headline",
+          "requiresFacts": ["passed", "count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
       "date": "2026-10-29",
       "tag": {
         "move": "headline",
