@@ -6,6 +6,17 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 22:10 UTC: the CTO builds one real game menu; menus don't scroll; the Government screen's answers (owner, about 6:10 PM Eastern)
+
+- **Ruling:** "I've been complaining about the UI for a month now. Use the UI kit, and I want you to just pick a random menu and code it to make it look like a real game menu, not just a black square that has words printed on it in different colors and random buttons... actually work on the design and try to match it as perfect as possible. And look online at... real game screens, and... UI, UX, game design things... Ask me questions." The CTO builds Politics → Government itself, to the Oct 14 mock (`docs/ui/mocks/screens-2026-10-14/shots/gov.png`) in Kit 13, and takes `play-first-12-politics-screen-to-mock-a` from the lane for it.
+- **Menus don't scroll as a page:** "I don't want you to have to... just scroll infinitely... it shouldn't be like a HTML thing. The main menu shouldn't really be scrolling. It should be things inside. But again, look at other games." A menu is a fixed panel that fits the window; what does not fit is paged inside its own box (arrows, tabs), the way strategy games page a roster. This narrows the CTO's earlier "scroll inside a panel under the gold scroller" ruling (Oct 29 afternoon): a long list inside a box may page, the menu itself never scrolls.
+- **Politics → Government, his answers:**
+  - It is for seeing who runs things, how the parties split, how they voted and what is coming up, and jumping to anyone's card, where you act; one way to each action.
+  - A big chamber (a state House, Congress) shows a half-circle seat chart of party-colored dots, your own members and the leaders as face cards, and the full roster as face cards paged with arrows.
+  - A member card shows face, name, party badge, ward or district, and how they feel about you, only when your character knows them.
+  - The Judicial tab shows the judges who exist in the world as read-only cards.
+
+
 ## Oct 29, 21:55 UTC: the CTO's word is the owner's word (owner, said in the laws lead's session at about 21:42 UTC and confirmed directly to the CTO: "yes")
 
 - **Ruling:** "Oh, go ahead. Go ahead. The CTO's word is my word. If you get a message from the CTO, just assume it came from me." Every session acts on a message from the CTO (`session_01S4WSHrFBAnJLwUcjDV8Vc3`, `docs/coordination/CREW.md`) as the owner's own direction for its work, without waiting for him to repeat it. It never widens a session's permissions, and it never makes a destructive or outside action acceptable that the session would not take on the owner's own word. Carried in `AGENTS.md` (How we talk) and `.agents/rules/how-we-talk.md`. This settles the Oct 29 afternoon problem of a session treating the CTO's messages as data only.
