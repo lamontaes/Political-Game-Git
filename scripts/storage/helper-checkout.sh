@@ -2,25 +2,27 @@
 # A helper's copy of the repository holding only what its task needs (owner,
 # Oct 29: helpers "should immediately delete what they don't need, or even
 # more helpfully, only clone what they do need"). A full copy is about 3.3 GB,
-# most of it art and the large docs folders; this one is about 1.2 GB, shares
-# the main checkout's objects instead of downloading them, and links its
-# node_modules instead of installing them. Skill: helper-checkout.
+# two thirds of it images (art, docs, public); this one skips image files
+# everywhere and keeps every folder, so code, data, notes and every check
+# still read what they need. It shares the main checkout's git objects
+# instead of downloading them, and links its node_modules instead of
+# installing them. Skill: helper-checkout.
 #
-#   scripts/storage/helper-checkout.sh new <dir> <branch> [--keep <path>]...
+#   scripts/storage/helper-checkout.sh new <dir> <branch> [--keep-images]
 #       A sparse copy at <dir> (outside the main checkout), on <branch>: the
 #       remote branch if it exists, otherwise a new branch from origin/main.
-#   scripts/storage/helper-checkout.sh narrow <dir> [--keep <path>]...
+#   scripts/storage/helper-checkout.sh narrow <dir> [--keep-images]
 #       Turns an existing full worktree or clone at <dir> sparse in place;
 #       edits and commits are kept.
 #
-# Run it from the main checkout. --keep brings back a folder that is skipped
-# by default (an art helper keeps art, a lane helper keeps public).
+# Run it from the main checkout. --keep-images is for a helper whose task is
+# the pictures themselves (art, people, screens).
 set -euo pipefail
 
-SKIP=(art public docs/codex docs/play-first docs/mockups docs/ui docs/screens docs/archive)
+IMAGES=(png jpg jpeg webp gif psd)
 
 usage() {
-  sed -n '9,18p' "$0" | sed 's/^# \{0,1\}//'
+  sed -n '10,20p' "$0" | sed 's/^# \{0,1\}//'
   exit 2
 }
 
@@ -34,12 +36,12 @@ if [[ $mode == new ]]; then
   branch=$1
   shift
 fi
-keep=()
+images=no
 while [[ $# -gt 0 ]]; do
   case $1 in
-    --keep)
-      keep+=("${2%/}")
-      shift 2
+    --keep-images)
+      images=yes
+      shift
       ;;
     *) usage ;;
   esac
@@ -47,14 +49,11 @@ done
 
 patterns() {
   echo '/*'
-  for skipped in "${SKIP[@]}"; do
-    local kept=no
-    for wanted in "${keep[@]+"${keep[@]}"}"; do
-      [[ $wanted == "$skipped" ]] && kept=yes
-    done
-    [[ $kept == no ]] && echo "!/$skipped/"
+  [[ $images == yes ]] && return 0
+  for kind in "${IMAGES[@]}"; do
+    echo "!*.$kind"
+    echo "!*.${kind^^}"
   done
-  return 0
 }
 
 main=$(git rev-parse --show-toplevel)
@@ -91,4 +90,4 @@ case $mode in
   *) usage ;;
 esac
 
-echo "helper-checkout: $dir on $(git -C "$dir" branch --show-current), $(du -sh --exclude=node_modules "$dir" | cut -f1) on disk; skipped: $(patterns | sed -n 's|^!/||p' | tr '\n' ' ')"
+echo "helper-checkout: $dir on $(git -C "$dir" branch --show-current), $(du -sh --exclude=node_modules "$dir" | cut -f1) on disk; $([[ $images == yes ]] && echo "images kept" || echo "image files skipped (${IMAGES[*]})")"
