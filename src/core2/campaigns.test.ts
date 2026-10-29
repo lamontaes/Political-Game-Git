@@ -38,14 +38,17 @@ import {
   campaignTurn,
   runAd,
   shiftReason,
+  shiftShare,
   volunteerShifts,
   type CauseRow,
   type ImpressionRow,
 } from "./modules/campaigns";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-views";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
-import { leanedYes } from "./trait-decisions";
 import { setKeepEveryonesWhy } from "./why-kept";
+import { discretionaryHours } from "./modules/work";
+import { OPENING_CARRY } from "./turnout";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreEventInput, PersonState } from "./types";
 
 // Reads every reached voter's recorded cause for people outside the player's circle.
@@ -275,16 +278,11 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     const candidateId = filing!.personId;
     const campaign = campaignFor(api, filing!.id);
     const shiftHours = campaignParameter("volunteerShiftHours");
-    // Whose own reasons send them out tonight, with the whole evening free.
+    // Whose own reasons send them out on the campaign's first working day
+    // (their share of working days, added to an even start, makes a whole
+    // evening), with the whole evening free.
     const goes = (p: Readonly<PersonState>) =>
-      leanedYes(
-        core,
-        p,
-        "campaigns.volunteer",
-        "volunteer",
-        "decline",
-        shiftReason(api, campaign, p),
-      );
+      OPENING_CARRY + shiftShare(api, campaign, p) >= 1;
     const willing = [...core.people.values()]
       .filter(
         (p) =>
@@ -344,6 +342,15 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     expect(goes(busy)).toBe(true);
     for (const p of [busy, first, second])
       expect(enlistVolunteer(api, filing!.id, p.id)).toBe(true);
+    // The second has spent all but an hour of their day already: the evening
+    // gives the doors only what the day's discretionary budget has left.
+    const perHour = api.parameter("minutesPerHour");
+    api.recordDiscretionaryTime(
+      second.id,
+      (discretionaryHours(api, second.id) - 1) * perHour,
+    );
+    expect(canvassHoursFree(api, second)).toBeCloseTo(1, 9);
+    const firstBudget = discretionaryHours(api, first.id);
 
     const events: CoreEventInput[] = [];
     api.subscribeEvents(
@@ -354,8 +361,8 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
       },
     );
     const people = core.people.size;
-    const given = new Map<string, number>();
-    const shifts = volunteerShifts(api, filing!.id, given);
+    const walked = new Set<string>();
+    const shifts = volunteerShifts(api, filing!.id, walked);
 
     // The two with the evening free went; the one at work stayed home.
     expect(shifts.map((s) => s.volunteerId).sort()).toEqual(
@@ -364,10 +371,26 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     // Nobody was filled in: a volunteer's doors reach the counted as a count.
     expect(core.people.size).toBe(people);
     const causes = api.moduleState(CAMPAIGNS_MODULE_ID).table("causes");
+    // The evening came out of the day's budget every engine reads.
+    const hoursOf = new Map(shifts.map((s) => [s.volunteerId, s.hours]));
+    expect(hoursOf.get(first.id)).toBe(shiftHours);
+    expect(hoursOf.get(second.id)).toBeCloseTo(1, 9);
+    expect(discretionaryHours(api, first.id)).toBeCloseTo(
+      firstBudget - shiftHours,
+      9,
+    );
+    expect(discretionaryHours(api, second.id)).toBeCloseTo(0, 9);
+    // What their working day owed them, less the evening it sent them on.
+    const held = campaignFor(api, filing!.id);
+    expect(held.shiftCarries?.[first.id]).toBeCloseTo(
+      OPENING_CARRY + shiftShare(api, campaign, first) - 1,
+      9,
+    );
+    expect(held.shiftCarries?.[busy.id]).toBeUndefined();
     for (const shift of shifts) {
-      expect(shift.hours).toBe(shiftHours);
       expect(shift.doorsKnocked).toBeGreaterThan(0);
-      expect(shift.causeIds.length).toBeGreaterThan(0);
+      if (shift.volunteerId === first.id)
+        expect(shift.causeIds.length).toBeGreaterThan(0);
       for (const id of shift.causeIds) {
         const cause = causes.get(id) as unknown as CauseRow;
         expect(cause.act).toBe("volunteer-door");
@@ -384,6 +407,8 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
       );
       expect(event?.personIds).toContain(shift.volunteerId);
       expect(event?.facts?.doorsKnocked).toBe(String(shift.doorsKnocked));
+      expect(event?.facts?.firstShift).toBe("true");
+      expect(held.shiftNotedOn?.[shift.volunteerId]).toBe(START);
     }
     const byCandidate = causes.query("byCandidate", [
       candidateId,
@@ -393,7 +418,39 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
       shifts.reduce((sum, s) => sum + s.doorsKnocked, 0),
     );
     // An evening given is gone: the same day asks nothing more of them.
-    expect(volunteerShifts(api, filing!.id, given)).toEqual([]);
+    expect(volunteerShifts(api, filing!.id, walked)).toEqual([]);
+    // The next day they may walk again, but an evening is kept as an event
+    // at most once a week: only the one who stayed home has a first to note.
+    const nextDay = addDays(makeIsoDate(START), 1);
+    core.date = nextDay;
+    const again = volunteerShifts(api, filing!.id);
+    const noted = events.filter((e) => e.date === nextDay);
+    expect(
+      noted.every(
+        (e) =>
+          e.facts?.volunteerId === busy.id && e.facts?.firstShift === "true",
+      ),
+    ).toBe(true);
+    expect(noted.length).toBe(
+      again.filter((s) => s.volunteerId === busy.id).length,
+    );
+    // A week on, an evening of the two noted on the first day is noted again
+    // (the one at work has their evening shift that day again).
+    const weekOn = addDays(
+      makeIsoDate(START),
+      campaignParameter("volunteerShiftEventDays"),
+    );
+    core.date = weekOn;
+    const later = volunteerShifts(api, filing!.id);
+    for (const shift of later.filter((s) => s.volunteerId !== busy.id))
+      expect(
+        events.some(
+          (e) =>
+            e.date === weekOn &&
+            e.facts?.volunteerId === shift.volunteerId &&
+            e.facts?.firstShift === "false",
+        ),
+      ).toBe(true);
     govReport(
       "campaigns-volunteer-shifts",
       JSON.stringify({

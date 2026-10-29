@@ -1377,8 +1377,20 @@
     "volunteerShiftThreshold": {
       "value": 0,
       "tag": "TUNABLE",
-      "source": "How strong a volunteer's pull must be, before personality, to give an evening of doors on a day the campaign works: the same reasons as an ask to volunteer (warmth, closeness, family, against weekly work hours) against this bar instead of the ask's (volunteerThreshold). At 0 someone who said yes to an ask or offered unasked goes on most shifts, and a relative enlisted at home who works full time goes when closeness and liking outweigh the work week. Checked by src/core2/campaigns.test.ts in a drawn place; not yet calibrated against a measured volunteer show-up rate.",
+      "source": "Where a volunteer's pull sits, before personality, against the bar for an evening of doors on a day the campaign works: the same reasons as an ask to volunteer (warmth, closeness, family, against weekly work hours) less this instead of the ask's bar (volunteerThreshold). The pull slides to the share of the campaign's working days they go (volunteerShiftScale): right at this bar one working day in two, past it most of them, short of it now and then, never always or never. At 0 someone who said yes to an ask or offered unasked, whose pull cleared the ask's higher bar, goes on more than half, and a relative enlisted at home who works full time goes more often as closeness and liking outweigh the work week. Checked by src/core2/campaigns.test.ts in a drawn place; not yet calibrated against a measured volunteer show-up rate.",
       "spread": [-0.5, 1]
+    },
+    "volunteerShiftScale": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a volunteer's pull past the shift's bar (volunteerShiftThreshold) slides the share of the campaign's working days they give an evening of doors (a logistic step, the same scale doorAnswerScale gives a home's readiness to open): right at the bar one day in two, this far past it about three in four, this far short about one in four. Each working day adds the share to what the campaign's days owe the volunteer, starting even, and they go when it comes to a whole evening. Checked by src/core2/campaigns.test.ts in a drawn place; not yet calibrated against a measured volunteer show-up rate.",
+      "spread": [0.25, 1]
+    },
+    "volunteerShiftEventDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "source": "How many days apart a volunteer's evenings of doors are kept as an event the director can stage: their first evening, then at most one a week, so a campaign's regulars report back about weekly instead of on every working day (the campaign turn's own spacing, campaignTurnDays, sets how often they walk).",
+      "spread": [3, 14]
     },
     "offerSpacingDays": {
       "value": 7,
