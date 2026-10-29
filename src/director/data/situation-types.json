@@ -221,21 +221,12 @@
       ],
       "setting": ["home"],
       "timing": "effective-date",
-      "causes": [
-        {
-          "match": {
-            "label": "feeling:event:justice.released",
-            "counterpart": "some"
-          },
-          "causeEngine": "justice",
-          "causeRecord": "justice.released",
-          "bind": { "returning": "counterpart", "waiting": "subject" },
-          "opener": "returning",
-          "setting": ["home"]
-        }
-      ],
       "causes": [],
-      "awaiting": ["record:homecoming", "record:moving-back"],
+      "awaiting": [
+        "record:release-from-jail",
+        "record:homecoming",
+        "record:moving-back"
+      ],
       "tag": {
         "key": "arrival",
         "endpoint": "personal",
