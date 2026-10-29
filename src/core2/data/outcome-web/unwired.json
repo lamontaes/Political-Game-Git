@@ -177,14 +177,8 @@
     },
     {
       "link": "police-killing-to-graduation",
-      "outcome": "school.graduation",
-      "reason": "no measure: the web does not keep school.graduation and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-SCHOOL-links-not-running"
-    },
-    {
-      "link": "school-move-to-scores",
-      "outcome": "school.test-scores",
-      "reason": "no measure: the web does not keep school.test-scores and no engine produces it; its research gives no size the game can apply, so the web does not run it",
+      "outcome": "school.graduation-pct",
+      "reason": "the web does not run it: it waits on police.killing-nearby, and it has no researched size; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-SCHOOL-links-not-running"
     },
     {
@@ -203,12 +197,12 @@
       "link": "enforcement-to-hispanic-enrollment",
       "outcome": "school.hispanic-enrollment",
       "reason": "engine doesn't read the factor: school.hispanic-enrollment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces school.hispanic-enrollment",
-      "stopgapId": "SG-WEB-unread-school-hispanic-enrollment"
+      "stopgapId": "SG-SCHOOL-hispanic-enrollment"
     },
     {
       "link": "daca-to-graduation",
-      "outcome": "school.graduation",
-      "reason": "no measure: the web does not keep school.graduation and no engine produces it; its research gives no size the game can apply, so the web does not run it",
+      "outcome": "school.graduation-pct",
+      "reason": "the web does not run it: it waits on immigration.deferred-action, and it has no researched size; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-SCHOOL-links-not-running"
     },
     {
@@ -454,8 +448,8 @@
     {
       "link": "higher-education-spending-to-college-completion",
       "outcome": "school.college-completion-pct",
-      "reason": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, budget.higherEducation-added-pct",
-      "stopgapId": "SG-WEB-unread-school-college-completion-pct"
+      "reason": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces school.college-completion-pct",
+      "stopgapId": "SG-SCHOOL-college-completion"
     }
   ]
 }
