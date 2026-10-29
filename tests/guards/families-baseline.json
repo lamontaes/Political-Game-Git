@@ -254,7 +254,6 @@
     "src/director/speech-builder.ts": 3,
     "src/director/tooling/director-year.ts": 1,
     "src/english/mined/conversation-bank.ts": 1,
-    "src/english/mined/filing-bank.ts": 1,
     "src/english/mined/journal-bank.ts": 1,
     "src/english/mined/scene-bank.ts": 2,
     "src/english/speech-registers.ts": 1
