@@ -3387,6 +3387,46 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-manager-offer-other.other-has-come-to-talk-about-running-your-campaign",
+      "move": "lead-manager-offer-other",
+      "kind": "spoken",
+      "text": "{other} has come to talk about running your campaign.",
+      "uses": [
+        {
+          "move": "lead-manager-offer-other",
+          "subject": "lead",
+          "role": "manager-offer",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-manager-offer-alone.someone-close-has-come-to-talk-about-running-your-campaign",
+      "move": "lead-manager-offer-alone",
+      "kind": "spoken",
+      "text": "Someone close has come to talk about running your campaign.",
+      "uses": [
+        {
+          "move": "lead-manager-offer-alone",
+          "subject": "lead",
+          "role": "manager-offer",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }
