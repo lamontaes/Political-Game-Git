@@ -4326,6 +4326,7 @@
     {
       "key": "desk-bill",
       "purpose": "desk-bill",
+      "yieldsTo": ["desk-visit"],
       "asker": "aide",
       "asked": "you",
       "stakes": ["bill", "section", "votes"],

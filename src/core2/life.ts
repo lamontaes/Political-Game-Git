@@ -63,26 +63,33 @@ export type Controller = (
 ) => string | undefined;
 
 // The base world's engines keep all their state where a world snapshot
-// reaches it (src/core2/snapshot.test.ts proves the round trip).
-declareSnapshotCovered(
-  LIFE_MODULE.id,
-  PEOPLE_MODULE.id,
-  SCHOOL_MODULE.id,
-  DISASTERS_MODULE.id,
-  WORK_MODULE.id,
-  FINANCE_MODULE.id,
-  ACCOUNTS_MODULE.id,
-  PURCHASE_TAX_MODULE.id,
-  RESIDENTS_MODULE.id,
-  RETIREMENT_CLAIMS_MODULE.id,
-  COUNTED_MOVES_MODULE.id,
-  COUNTED_DEMOTION_MODULE.id,
-  // Installed on first use: the journal's cash writers.
-  ...[
-    DEFAULT_DATA.finance?.cashJournal?.moduleId,
-    DEFAULT_DATA.work?.payrollCashModuleId,
-  ].filter((id): id is string => !!id),
-);
+// reaches it (src/core2/snapshot.test.ts proves the round trip). Declared
+// when the first base world is made, not as this file loads: an engine that
+// reads this file can load before the engines listed here have.
+let baseCovered = false;
+function coverBaseWorld(): void {
+  if (baseCovered) return;
+  baseCovered = true;
+  declareSnapshotCovered(
+    LIFE_MODULE.id,
+    PEOPLE_MODULE.id,
+    SCHOOL_MODULE.id,
+    DISASTERS_MODULE.id,
+    WORK_MODULE.id,
+    FINANCE_MODULE.id,
+    ACCOUNTS_MODULE.id,
+    PURCHASE_TAX_MODULE.id,
+    RESIDENTS_MODULE.id,
+    RETIREMENT_CLAIMS_MODULE.id,
+    COUNTED_MOVES_MODULE.id,
+    COUNTED_DEMOTION_MODULE.id,
+    // Installed on first use: the journal's cash writers.
+    ...[
+      DEFAULT_DATA.finance?.cashJournal?.moduleId,
+      DEFAULT_DATA.work?.payrollCashModuleId,
+    ].filter((id): id is string => !!id),
+  );
+}
 
 export function createLifeCore(
   input: CoreInput,
@@ -93,6 +100,7 @@ export function createLifeCore(
     modules?: readonly CoreModule[];
   } = {},
 ): CoreState {
+  coverBaseWorld();
   const { scheduledWork = true, ...coreOptions } = options;
   const data = options.data ?? DEFAULT_DATA;
   const primaryJobByPerson = new Map(
