@@ -81,6 +81,7 @@ export function packPersonOf(who: FigurePerson): PackPerson | null {
   return from[mixed(`${who.seed ?? who.id}:person`) % from.length]!;
 }
 
+// stopgapId: SG-PLAY-people-everyday-falls-back-to-work
 /**
  * The dresses someone wears here, most fitting first: an official at a
  * government place a formal look, someone at their own workplace a business

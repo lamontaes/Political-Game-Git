@@ -7546,7 +7546,7 @@
     "id": "SG-PLAY-people-pack-six",
     "kind": "placeholder-art",
     "file": "src/bench/whole-figures.ts",
-    "line": 174,
+    "line": 175,
     "whatItFakes": "Everyone drawn in a room is one of the people pack's six painted adults (a woman and a man, each slim, medium and heavy), each with their own painted skin and face; a child is not drawn, a teen is drawn as one of the adults, and a person is drawn only where a mannequin plate has a spot in a pose the pack paints them in.",
     "why": "Pack v3 ships six people (owner, Oct 29: six now, six more faces follow as manifest rows) and five mannequin plates; the CTO adds plates golden path first.",
     "addedBy": "claude/people-pack-v3",
@@ -7558,12 +7558,24 @@
     "id": "SG-PLAY-people-pack-v4-pose-gaps",
     "kind": "placeholder-art",
     "file": "src/bench/whole-figures.ts",
-    "line": 175,
+    "line": 176,
     "whatItFakes": "Pack v4 paints the standard Oval Office poses for some people and not others: the medium and slim men and the heavy woman have no `stand` figure, the heavy man no `couch` figure, and the three women and the heavy man no `gesture` figure. A person without the pose a spot needs is not drawn there and takes another spot, so a President drawn as the medium man sits at the desk but cannot stand behind it, and the heavy man never sits on the Oval Office couches.",
     "why": "The art session drew the standard poses for some people first (pack v4 README); the rest follow as manifest rows.",
     "addedBy": "claude/people-pack-v4",
     "addedAt": "2026-10-29",
     "replacement": "A `stand`, `couch` and `gesture` figure for every pack person at the five angles, added as manifest rows (pool item people-pack-v4-pose-gaps); no code change.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-people-everyday-falls-back-to-work",
+    "kind": "placeholder-art",
+    "file": "src/bench/whole-figures.ts",
+    "line": 84,
+    "whatItFakes": "Where a person should wear everyday clothes (at home, on the street) but the pack paints no everyday figure for them in the spot's pose, they are drawn in their work clothes instead of being left out of the scene. In the opening home the slim woman sits on the couch in a blazer because the pack has no everyday seated-talking figure for her.",
+    "why": "A view never drops someone the simulation put in the scene (CTO ruling, Oct 29, on the owner's everyday-and-work-clothes ruling); the pack's everyday kit is painted in fewer poses than the work looks.",
+    "addedBy": "claude/people-pack-v4",
+    "addedAt": "2026-10-29",
+    "replacement": "An everyday figure for every pack person in every pose a plate uses (talk and listen on chairs, couch, write at a desk, stand), added as manifest rows; then `dressOrder.everyday` drops its work dresses in data.",
     "status": "open"
   }
 ]
