@@ -15,9 +15,10 @@ import { residentsRuntime } from "./modules/residents";
 import { campaignParameter } from "./campaign-views";
 import {
   CAMPAIGNS_MODULE_ID,
+  donationAnswer,
+  type DonationWhy,
   unitPrice,
   askCircleToSign,
-  askForDonation,
   campaignFor,
   doorsKnockedOf,
   giftOf,
@@ -121,6 +122,12 @@ export interface CampaignDayResult {
   readonly asked: number;
   /** Gift rows (`filingId|donorId`) that grew, and the minor units they added. */
   readonly giftIds: readonly string[];
+  /** Each person asked for money, with what they gave or why not (raise-money). */
+  readonly answers: readonly {
+    readonly personId: string;
+    readonly givenMinor: number;
+    readonly why: DonationWhy;
+  }[];
   readonly raisedMinor: number;
   /** The money record id of the event's venue, on the journal's `campaigns:purchase`. */
   readonly eventMoneyId: string | null;
@@ -509,6 +516,7 @@ export function takeCampaignDayChoice(
     doorsKnocked: 0,
     asked: 0,
     giftIds: [],
+    answers: [],
     raisedMinor: 0,
     eventMoneyId: null,
     interview: null,
@@ -586,8 +594,14 @@ export function takeCampaignDayChoice(
     spendTime();
     let raised = 0;
     const giftIds: string[] = [];
+    const answers: {
+      personId: string;
+      givenMinor: number;
+      why: DonationWhy;
+    }[] = [];
     for (const id of askedIds) {
-      const amount = askForDonation(api, filingId, id);
+      const { givenMinor: amount, why } = donationAnswer(api, filingId, id);
+      answers.push({ personId: id, givenMinor: amount, why });
       if (amount > 0) {
         raised += amount;
         giftIds.push(`${filingId}|${id}`);
@@ -601,7 +615,13 @@ export function takeCampaignDayChoice(
         ...latest,
         askCursor: pool.length ? (start + steps) % pool.length : 0,
       } as unknown as ModuleRow);
-    return { ...base, asked: askedIds.length, giftIds, raisedMinor: raised };
+    return {
+      ...base,
+      asked: askedIds.length,
+      giftIds,
+      answers,
+      raisedMinor: raised,
+    };
   }
 
   // rest: no campaign act and no activity record; the day is the player's own.

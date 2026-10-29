@@ -5,9 +5,9 @@ area: art
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/people-pack-v4
-pr:
+pr: #6801
 blocked-on: people-pack-v3 (#6778) merged first; this builds on its loader
 source: owner, Oct 29 (CTO brief)
 claimed-at: 2026-10-29T18:26:18.818Z
@@ -25,7 +25,8 @@ claimed-at: 2026-10-29T18:26:18.818Z
 3. Depth: draw a scene's people from the farthest spot to the nearest (smallest `feet` row first), so nearer people overlap farther ones; desk spots draw before standing spots in front of the desk.
 4. Props (owner, Oct 29): a figure with `prop` is chosen only where that prop belongs (phones at rallies and on the street, paper at a hearing or the address desk, pen and paper at a desk); never at home.
 5. Creator: a person's looks list every `look` row by `outfitLabel`, so the same person can be dressed several ways.
-6. `pictures` (frame boxes in a plate): leave them showing plain glass unless the room owner has a family photo to fill them with; never a painted face.
+6. `needsDesk` (owner, Oct 29: "she has a pen in her hand and she's writing on her green pants"): a figure with it is chosen only for a desk spot (`deskEdge`), cut at the hands, never for a chair, couch or standing spot.
+7. `pictures` (frame boxes in a plate): leave them showing plain glass unless the room owner has a family photo to fill them with; never a painted face.
 
 **Time box.** One session, about 2 hours (the loader already exists).
 

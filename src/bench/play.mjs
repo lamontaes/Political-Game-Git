@@ -1285,6 +1285,8 @@ function volunteerCount(n) {
 
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
+// Each person the last call reached, in the English engine's words.
+let campaignLines = [];
 // The speech being built: the parts said and the four on offer, from the server.
 let speechState = null;
 /**
@@ -1316,6 +1318,13 @@ async function campaignRows() {
       );
       // The outing's hours moved the clock: the card shows the new time.
       if (result.packet) renderPacket(result.packet);
+      campaignLines = (result.calls ?? []).map((call) => call.line);
+      // The calls are read on the sheet, each person with what they gave or why not.
+      if (outing === "calls" && result.callsLine) {
+        campaignResult = result.callsLine;
+        openSheet("campaigns");
+        return;
+      }
       campaignResult = [
         controls.campaignOutings[outing],
         result.doorsKnocked
@@ -1342,6 +1351,7 @@ async function campaignRows() {
       if (!result.scene && !moment) openSheet("campaigns");
     };
     const act = async (kind, extra = {}) => {
+      campaignLines = [];
       const result = await post(
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
       );
@@ -1494,6 +1504,7 @@ async function campaignRows() {
         bold(controls.raceStanding.title),
         ...(standing ?? []).map((text) => listRow("", { textContent: text })),
         campaignResult ? line(campaignResult) : "",
+        ...campaignLines.map((text) => line(text)),
       ),
     );
   }
@@ -1721,7 +1732,11 @@ async function showPerson(person) {
         c.shared?.length && {
           title: labels.together,
           items: c.shared.map((s) => {
-            const line = row(labels.sharedWords?.[s.kind], s.name ?? "");
+            // A tie with no name to give (living in the same home) is a plain line,
+            // never a label with nothing beside it.
+            const line = s.name
+              ? row(labels.sharedWords?.[s.kind], s.name)
+              : prose(labels.sharedWords?.[s.kind] ?? "");
             line.dataset.record = s.recordId;
             return { node: line };
           }),
