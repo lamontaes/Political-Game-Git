@@ -1,0 +1,716 @@
+{
+  "about": "Read-only map of why only the town state and Congress sit and why Congress passes no policy law (laws lead, map-world-governing workflow, Oct 29): four readers, a planner and a completeness critic. The plan with the critic corrections applied is world-governing-plan-2026-10-29.md; the corrections are applied there, not here.",
+  "maps": {
+    "states": {
+      "findings": [
+        {
+          "claim": "(a) Every state's session calendar comes from one data table read by sessionYear(): data/research/laws/state-session-calendars.json, which has rows for all 56 places (50 states, US-DC, US-AS, US-GU, US-MP, US-PR, US-VI) for 2025, 2026 and 2027: 168 rows, 107 SOURCED and 61 ESTIMATED. A year past the table repeats the latest year with the same odd/even parity, marked ESTIMATED. windowsIn() uses this table for states and congress-sessions.json for Congress.",
+          "where": "src/core2/state-session-calendar.ts:1-77; src/core2/modules/world-legislating.ts:791-820"
+        },
+        {
+          "claim": "(a) The game starts 2025-01-20, and all 56 places have a 2025 session row, so in a played year every legislature has a window. Sessions already sitting at the opening are picked up the next day (scheduleOpening with includeSitting). In 2026, MT, NV, ND and TX do not meet, and 11 places sit the full year.",
+          "where": "src/core2/data/parameters.json:5230-5233; src/core2/modules/world-legislating.ts:841-864"
+        },
+        {
+          "claim": "(a) The other per-state rows a state act needs also cover all 56 places: effective-date rules, enacting clauses, and starting answers for all 54 platform questions. answerIn() works for any state key.",
+          "where": "data/research/laws/local-starting-law/state-effective-dates.json; src/core2/data/legislature/enacting-clauses.json; data/research/laws/starting-law-2026/*.json; src/core2/modules/world-legislating.ts:218-239"
+        },
+        {
+          "claim": "Only Congress and the town's own state are scheduled to open a session. Other states never get a session-open calendar entry, so they never sit.",
+          "where": "src/core2/modules/world-legislating.ts:192-193"
+        },
+        {
+          "claim": "(b) At the opening the offices engine seats only the town's state: stateOffices(stateKey, geoid) builds every chamber and every seat, each with a named official (personId null). openOfficials then turns every serving term with no person into a full person in one seatAll batch (fillInIdentity, tier 'calendar').",
+          "where": "src/core2/modules/offices.ts:599-657; src/core2/modules/officials.ts:465-509, 654-677, 704-852; src/core2/data/officials/officials.json:289-290"
+        },
+        {
+          "claim": "(b) Other states' chambers do NOT exist as offices at the opening. The officials engine seats only a sample: 8 members per chamber (stateSample.perChamber, TUNABLE), each standing for n/8 members (standsFor). Their seat ids are seat:<state>:<chamber>:sample:<party>:<i>, with no term and no office row.",
+          "where": "src/core2/modules/officials.ts:588-640; src/core2/data/officials/officials.json stateSample"
+        },
+        {
+          "claim": "(b) Because chamber() looks up offices by jurisdiction, it returns null for any state that has not been loaded. openSession then has no lower chamber and files nothing, and sessionChambers() and originChamber() are empty.",
+          "where": "src/core2/modules/world-legislating.ts:241-256, 920-965, 1073-1107"
+        },
+        {
+          "claim": "(b) The same builder already exists: officesOfState(api, stateKey). It builds a state's federal and state offices with every seat, a named official (seatNamedOfficial) and past terms, and runs only the first time anything reads that state. Today only the bench Politics screen and tests call it. The earlier pool item gov-other-state-legislatures closed on this on-demand design and left open whether seating every state up front is worth its cost.",
+          "where": "src/core2/modules/offices.ts:979-1018; src/bench/government.ts:109; docs/pool/items/gov-other-state-legislatures.md (Update Oct 17)"
+        },
+        {
+          "claim": "(b) members() calls holderOf() on every seat. holderOf makes each named official a full person on first read through seatOfficial(), so any session that reads another state's chamber fills in all its members. seatOfficial runs colleagues(), which scans every officials row and every Congress delegation pair, once per call. Seating about 7,400 members one at a time during play would be quadratic; seating them in the opening batch costs one colleagues() pass.",
+          "where": "src/core2/modules/legislature.ts:2294-2309; src/core2/modules/officials.ts:1075-1106, 1115-1166, 926-1020"
+        },
+        {
+          "claim": "(b) The roster's seatParties seats 7,420 members across 52 places (50 states, DC, PR). GU, VI, AS and MP have no roster; stateOffices seats them at large with party null under SG-GOV-territory-legislature-districts.",
+          "where": "data/research/offices/legislature-party-counts-2026.json; src/core2/offices-state.ts:672-680"
+        },
+        {
+          "claim": "(c) Critical mis-file: billJurisdiction() returns the town's own state (lawChain(api).stateKey) for ANY state bill, and the town's own place for any city bill. Another state's act would be enacted as law:<town's state>:state:<question>:... and lawInForce would treat it as the town's state law, because levelRow matches on jurisdiction and level.",
+          "where": "src/core2/modules/legislature.ts:1780-1790, 5137-5149; src/core2/modules/laws.ts:617; src/core2/laws-in-force.ts:88-127"
+        },
+        {
+          "claim": "(c) effectiveRule() dates every state act by the town's state's effective-date rule.",
+          "where": "src/core2/modules/legislature.ts:1834-1846"
+        },
+        {
+          "claim": "(c) mootAtFloor() checks another state's bill against the town's state law, because it goes through billJurisdiction.",
+          "where": "src/core2/modules/world-legislating.ts:663-679"
+        },
+        {
+          "claim": "(c) The power checks read the TOWN's jurisdiction kind (federal-district or territory) for every body. In a DC or territory world, other states' bills are checked against the DC or territory column; in a state world, a territory's legislature is checked against the state column.",
+          "where": "src/core2/policy-authority.ts:62-79; src/core2/modules/world-legislating.ts:134-146"
+        },
+        {
+          "claim": "(c) filerOf() sets home = townLean(api) for every filer who is a full person. Every official is a full person, so every state legislator and member of Congress files weighted by the player's town's lean rather than their district's (districtLean is on the official row).",
+          "where": "src/core2/modules/world-legislating.ts:347-369 (line 355)"
+        },
+        {
+          "claim": "(c) The floor leader's order in every legislature is weighted by the town's residents' concern share.",
+          "where": "src/core2/modules/world-legislating.ts:538-544"
+        },
+        {
+          "claim": "(c, d) Settledness and reversal reluctance read across all jurisdictions: lastEnactment() uses the bySeriesOnly index. One state's fresh act would make the question 'fresh' for every body, including the town's own state, Congress and the council, and set their reversal reluctance from that act's margin.",
+          "where": "src/core2/modules/laws.ts:404-409, 453-478; src/core2/modules/legislature.ts:2660-2672, 2712-2716; src/core2/modules/world-legislating.ts:378-394"
+        },
+        {
+          "claim": "(c) A few signing paths read the town's state for any body: the mayor veto rule, the line-item veto and the governor's veto window. They matter only on the player's desk.",
+          "where": "src/core2/modules/legislature.ts:4821, 4878, 5271"
+        },
+        {
+          "claim": "(c) For other towns' bodies, two more paths read the town's own chain: countyOfBody uses the town's county, and recalls' weighOrdinance lets the town's adults weigh recalls over any city or county law.",
+          "where": "src/core2/modules/legislature.ts:5000-5013; src/core2/modules/recalls.ts:434-436"
+        },
+        {
+          "claim": "(c) The interest-groups beforeVote hook runs on every bill. organizeResidents scans every town adult (viewOn), and employerStakes covers the town's employers, so town residents would organize over another state's bill. This is a mis-read and also a cost that scales with the number of bills.",
+          "where": "src/core2/modules/interest-groups.ts:149-166, 202-207, 568-588"
+        },
+        {
+          "claim": "(c) chamberVote emits office.voted for every member who is a full person (all officials), with no town filter; record.ts already filters vote-recorded to town news. Each chamber vote also emits legislative-vote with placeId set to the town.",
+          "where": "src/core2/modules/legislature.ts:3449-3464, 3498-3505; src/core2/modules/record.ts:82-87"
+        },
+        {
+          "claim": "(c) If officesOfState runs after openOfficials (the lazy path), the other state's governor seat seat:US-XX:governor gets a new term. holderOf then seats official:<termId>, and seatOfficial ends the opening governor (official:seat:US-XX:governor): a governor swap on first read. The Politics screen path can already trigger this today.",
+          "where": "src/core2/modules/offices.ts:979-1018; src/core2/modules/officials.ts:544-585, 1137-1144"
+        },
+        {
+          "claim": "(c) Loading other states' federal offices, which officesOfState also does, would duplicate their House races. racesIn adds a seatRace for every us-house or legislature seat not covering the town in ANY state, and its roster loop adds every other state's House seats again. racesIn and nextRaceYear also scan every legislative seat in the offices table, not only the town's state that their comments describe.",
+          "where": "src/core2/modules/voting.ts:3535-3567, 4303-4360"
+        },
+        {
+          "claim": "(c) specs() passes townState into unrecordedParty for every held term. For seats with no roster party (the GU, VI, AS and MP at-large seats), the party fallback would read the town's state.",
+          "where": "src/core2/modules/officials.ts:483, 401-461"
+        },
+        {
+          "claim": "(c) If the sample members stay once real members are seated, bodyRead would count each chamber twice: it sums the officialsIn(body) party and wing means weighted by standsFor. The Nebraska sample also sits in body 'US-NE:legislature-legislature' while its office kind is legislature-unicameral.",
+          "where": "src/core2/modules/officials.ts:1218-1238, 599, 627"
+        },
+        {
+          "claim": "(d) A law enacted in play is stored as law:<jurisdiction>:<level>:<series>:general:<effectiveDate>:<bill number>. With billJurisdiction fixed, another state's act would be law:US-NV:state:us-policy-positions:<question>:general:<date>:<number>. Today the laws table holds only the town's chain rows (openLaws loads startingLawRows(chain)), so the readers that span all jurisdictions are harmless until other states enact.",
+          "where": "src/core2/modules/laws.ts:145-176, 617"
+        },
+        {
+          "claim": "(d) Reads that would wrongly treat another state's correctly keyed law as the town's: (1) outcome-web lawValue returns 1 when ANY jurisdiction's latest row says yes (it reads bySeriesOnly); (2) lastEnactment and settledness, above; (3) lawTookEffect: when the row's jurisdiction is not in the town's chain, 'governing' is undefined, so it still emits law-took-effect with placeId=town and news=true, and computes before, ends and replacesLawId from the town's chain, so another state's repeal would read as the town's law ending; (4) law-reach runHandlers then reruns the town's handlers with the other state's lawId whenever the town's chain already has the law in force.",
+          "where": "src/core2/modules/outcome-web.ts:200-229; src/core2/data/outcome-web/outcome-web.json:30-35; src/core2/modules/laws.ts:735-812 (748, 752-783); src/core2/law-reach/host.ts:143-169"
+        },
+        {
+          "claim": "(d) Reads already safe against other states: lawInForce and levelRow filter to the chain's jurisdictions; localAuthority filters to chain.stateKey; policyAuthority's stateLaw reads only chain.stateKey; inForceForTown walks chain.levels; the withholding read (budgets.ts) resolves through the chain; the food-aid read filters to the governing row's jurisdiction.",
+          "where": "src/core2/laws-in-force.ts:88-150, 206-224; src/core2/policy-authority.ts:42-59; src/core2/modules/world-legislating.ts:280-287; src/core2/modules/budgets.ts:1515-1535; src/core2/law-reach/group-b-food-aid.ts:55-80"
+        },
+        {
+          "claim": "How speed:year is measured: package.json runs scripts/speed-years/run.ts. It builds buildBenchWorld two-level with bookkeeping off and the place drawn from all 56 by the seed, times advanceCore over each 365-day year, and fails a year that is more than 1.2x the --baseline receipt (main on the same machine). The last recorded main base is about 120-130 s for Long Hill, seed m7b, so the 20 percent limit leaves roughly 24-26 s for all 55 extra legislatures (about 0.45 s each per year).",
+          "where": "package.json scripts.speed:year; scripts/speed-years/run.ts:1-118; scripts/speed-years/compare.ts:51-55; docs/coordination/LEADS-2026-10-24.md:1107, 1117"
+        },
+        {
+          "claim": "Cost per sitting day (estimated from the code; nothing was measured). M is the member count of both chambers: the roster averages 7,420/52 ≈ 143, New Hampshire about 424, Nebraska 49. A session-open day costs filerOf × M, plus up to 54 questions × M filingReason calls (about 7,700 at M=143), plus a positionOn per lower-chamber member for each question no member files. A floor-week day (one calendar day a week) takes up to perWeek = round(4 × 6) = 24 bills filed at least 21 days earlier. Each bill costs about M positionOn, the committee's positionOn, M legislature vote rows, M record-vote rows, M office.voted events, 1-2 legislative-vote events, an executive positionOn, and the before-vote hooks, including the interest-groups scan of town adults. A full floor day is therefore about 3,400 positionOn and about 10,000 row writes and events for an average state. Bills per session are capped by the 54 questions, and the existing pool item measured 10-19 changed questions per sitting. Empty floor weeks still run chamberBills, a full scan of the unindexed bills table.",
+          "where": "src/core2/modules/world-legislating.ts:914-1038, 980-988, 1115-1140, 1196-1263; src/core2/data/campaigns/parameters.json (legislativeDaysPerWeek 4, floorBillsPerLegislativeDay 6, sessionCommitteeDays 21, sessionFilingShare 0.33); src/core2/modules/legislature.ts:302, 3413-3497; docs/pool/items/laws-session-moves-too-many-questions.md:16"
+        }
+      ],
+      "blockers": [
+        "src/core2/modules/world-legislating.ts:192 schedules only 'US' and lawChain(api).stateKey, so the other 55 legislatures never sit.",
+        "src/core2/modules/world-legislating.ts:248-255 (chamber) finds no offices for states that were never loaded; officesOfState (src/core2/modules/offices.ts:979) is called only by bench/government.ts:109 and tests, so openSession (world-legislating.ts:921-965) files nothing for them.",
+        "src/core2/modules/legislature.ts:1780-1790 billJurisdiction returns chain.stateKey for any state bill, so another state's act would be enacted as the town's state law (laws.ts:617 id; lawInForce reads it in force).",
+        "src/core2/modules/legislature.ts:1834-1846 effectiveRule dates every state act by the town's state's rule.",
+        "src/core2/modules/laws.ts:735-812 lawTookEffect, src/core2/law-reach/host.ts:143-169 and src/core2/modules/outcome-web.ts:200-229 would read another state's law in the town once one exists (the done-when needs those law rows to exist).",
+        "src/core2/modules/officials.ts:588-640 sample members would double count with the real members in bodyRead (officials.ts:1226-1238) unless they are deleted when the chambers are seated.",
+        "A speed:year base receipt on the same machine is needed to show the 20 percent bound (scripts/speed-years/compare.ts:51-55); this reader could not run it."
+      ],
+      "smallestPath": "1. Seat every legislature at the opening through the existing builder, in the batch before openOfficials. In openOffices (src/core2/modules/offices.ts:599-657), after the town's own offices, loop over the session-calendar places: export a sessionPlaces() from src/core2/state-session-calendar.ts that lists data.places keys, 56 rows. For each place except the town's state, put stateOffices(stateKey, \"\", date) (chambers, governor and statewide executives, NOT federalOffices) through the putOffice + seatNamedOfficial + pastTerms path that officesOfState uses. Factor that body into one helper with a 'state only' option and a loaded key such as `state-offices:${stateKey}`, so officesOfState still loads the federal part lazily. bench/world.ts:443-446 already runs openOffices before openOfficials, so specs() (officials.ts:470-509) picks the new held terms up in the one opening seatAll as full people (tier 'calendar'). That gives one colleagues() pass instead of one per seat. The governor seats become held, so the corpus.governors loop (officials.ts:544-585) skips them: no duplicate and no swap. Replace, never layer: delete the sample block (officials.ts:588-640) and stateSample in src/core2/data/officials/officials.json. Pass the term's own state (office.jurisdiction) into unrecordedParty at officials.ts:483.\n2. Sit them on their own calendars. In openWorldLegislating (world-legislating.ts:192), loop `for (const j of [\"US\", ...sessionPlaces()]) scheduleOpening(api, j, core.date, true)`. Only session-open, bill-filing, floor-week and session-close calendar work follows, so there are no daily world scans and nothing changes in openSession, floorWeek or closeSession.\n3. File each state's law under that state. In billJurisdiction (legislature.ts:1780-1790), a state body returns bodyOf(api, bill.bodyOfficeId).jurisdiction instead of chain.stateKey. effectiveRule (legislature.ts:1834-1846) calls stateActEffectiveDate with that key. Pass the body's state key into policyAuthority (policy-authority.ts:62-79) and questionForLevel/levelMayDecide (world-legislating.ts:134-168) through checkedText (legislature.ts:2200ff) instead of reading lawChain(api).stateKey.\n4. Give members their own reasons. In filerOf (world-legislating.ts:355), use officialOf(api, key)?.districtLean for an official and townLean only for a town resident. In lawStanding (world-legislating.ts:378-394), settledness and lastEnactment (legislature.ts:2660-2672, laws.ts:453-478) read the jurisdiction's own rows through the laws 'bySeries' [jurisdiction, series] index instead of bySeriesOnly. Weight the floor order by townConcernShare (world-legislating.ts:542) only for bodies in the town's chain.\n5. Keep other states' laws out of the town. In lawTookEffect (laws.ts:735-812), a row whose jurisdiction is outside lawChain(api).levels (and is not chain.stateKey) skips the town's before/after reads, emits news:false, and does not run the town's handlers (the same guard in law-reach host.ts runHandlers). outcome-web lawValue (outcome-web.ts:200-229) keeps only the chain's jurisdictions. interest-groups organize (interest-groups.ts:202-207) returns unless billJurisdiction is in the chain. chamberVote's office.voted emit (legislature.ts:3449-3464) applies only to members for whom votesAreTownNews is true, as recordVote does.\n6. Test: add a test file such as src/core2/world-legislating-every-state.test.ts. Draw the place and seed with drawPlace from all 56 and call buildBenchWorld(seed, gameStartDate(), {twoLevel: true, placeKey}). Advance 365 days. Collect the legislativeSessions rows (world-legislating.ts:897-904) with at least one bill whose status is enacted or overridden, and its law row law:<jurisdiction>:state:... from the laws table. Assert at least 40 distinct state jurisdictions. Assert that no town lawInForce(api, q).levels row comes from a jurisdiction outside the chain. Print the place, seed and law ids. Then run npm run speed:year -- --seed <s> --baseline <main receipt> on the same machine.",
+      "dataNeeded": [
+        "No new calendar, effective-date, enacting-clause or starting-answer rows are needed; all four cover 56 places (state-session-calendars.json 2025-2027, state-effective-dates.json, enacting-clauses.json, starting-law-2026).",
+        "Party rosters for the GU, VI, AS and MP legislatures (legislature-party-counts-2026.json has 52 places). Until they exist, those seats stay at large with an estimated party under SG-GOV-territory-legislature-districts and SG-OFFICIALS-unrecorded-party.",
+        "A main speed:year receipt (--out) on the same machine as the builder's run, as the 20 percent base.",
+        "A measured cost per state session (positionOn and row writes per floor day) from one played year; not available here because this brief allows no probe."
+      ],
+      "risks": [
+        "Opening size: seating every state's chambers and statewide offices adds about 7,400 legislators and about 300 executives as full people (fillInIdentity). Every O(people) scan grows, for example townConcernShare (meetings.ts:555) and recalls adults() (recalls.ts:141-149). This mostly lands in build time, not in the timed year.",
+        "official-pay review (official-pay.ts:330-341) gives every official row a paid job, so about 7,700 more jobs go on payroll each pay period during the timed year.",
+        "Volume: the existing measure is 10-19 changed questions per sitting (laws-session-moves-too-many-questions.md:16). Across 55 more legislatures that is about 550-1,000 new law rows and law-took-effect events a year, each currently placed at the town with news:true (laws.ts:777).",
+        "The bills table has no index (legislature.ts:302). chamberBills (world-legislating.ts:1124-1129), floorAgendaOn (legislature.ts:5414, run daily via askBeforeTheRoll when the player holds office, legislature.ts:330/502-515) and liveBills scan every bill, and bill counts would grow about 55x.",
+        "The interest-groups organize hook scans every town adult per bill (interest-groups.ts:568-588). Unless it is gated to bills that reach the town, it is both a mis-read and probably the largest per-bill cost.",
+        "The lazy officesOfState path (Politics screen, bench/government.ts:109) can already swap a state's governor (officials.ts:1137-1144) and duplicate House races (voting.ts:4316-4360). Seating up front fixes the governor case only if it runs before openOfficials; the federal-offices duplicate stays until racesIn filters to the town's state.",
+        "Once other states' legislative seats are in the offices table, racesIn (voting.ts:4316-4336) also elects them coarsely in their own years: NJ and VA in Nov 2025 fall inside the played year. Their seats are not covering the town, so this is consistent with the ruling but adds races and cost.",
+        "Each chamber vote also emits legislative-vote with placeId set to the town (legislature.ts:3498-3505). The director and press may then tell other states' roll calls as town events.",
+        "If the town is in DC or a territory, policyAuthority and questionForLevel read the town's kind for every body until step 3 lands (policy-authority.ts:67-79; world-legislating.ts:139-145).",
+        "Other towns' councils (the other half of the item) would hit the same billJurisdiction problem (city bills go to the town's own place, legislature.ts:1789), plus countyOfBody (legislature.ts:5011), the mayor veto rule (legislature.ts:4821), recalls weighOrdinance (recalls.ts:434-436) and meetings publicComment local() (meetings.ts:272-274)."
+      ],
+      "notFound": [
+        "No measured time per state sitting day or per session; no probe was allowed, so all cost figures are structural estimates from the code.",
+        "No existing test or record showing any legislature outside the town's state holding a session (searched world-legislating.ts and the officesOfState callers).",
+        "No registered stopgap for 'other states do not sit'; the town-and-Congress-only scheduling at world-legislating.ts:192 is not registered in src/core2/data/stopgaps.json.",
+        "No index on the legislature bills table (legislature.ts:302).",
+        "No party roster rows for the GU, VI, AS and MP legislatures in legislature-party-counts-2026.json."
+      ]
+    },
+    "towns": {
+      "findings": [
+        {
+          "claim": "A built world knows other towns only as reference data, never as records. Every locality in all 56 jurisdictions is in the place index (32,350 Census Gazetteer rows plus territory villages), keyed by GEOID.",
+          "where": "src/core2/places.ts:68-131 (placeLocalities), src/core2/data/places/localities.json (columns geoid, displayName, stateUsps)"
+        },
+        {
+          "claim": "Every general-purpose government is listed with its county area and the place it governs: 38,704 units, 19,489 municipalities, all with a county GEOID, and governmentUnitsForState(usps) returns a state's units. This is the data rule for finding other towns in the same county or state. 1,643 county areas hold 5 or more municipalities (median 5, largest 121), 378 hold exactly 1, and 77 county governments have none.",
+          "where": "src/core2/reference/government-units.ts:145-206; src/core2/reference/government-units.generated.ts (GOVERNMENT_UNITS_META counts)"
+        },
+        {
+          "claim": "Each other town's population can already be read: placeReferencePopulation(geoid, seed) gives the world's figure (Census Vintage 2025, else ACS 2020-24, else the 2020 island-area count), with the same per-world spread the drawn town gets. County populations are in public-budget-bases countyPopulation2024.",
+          "where": "src/core2/gov-rules/place-population.ts:63-116; src/core2/office-day-calendar.ts:39-41"
+        },
+        {
+          "claim": "No counted population and no people exist for other towns. Opening kin live in the county record or the state placeholder, 'never in the town itself'. Officials outside the town are calendar-tier people placed at a state key.",
+          "where": "src/core2/opening-kin.ts:418-431; src/core2/modules/officials.ts:795-809; src/core2/data/officials/*.json:289-290 (tier calendar)"
+        },
+        {
+          "claim": "Only the drawn town's local offices are created. openOffices seats federal and own-state offices, then localOfficesForPlace(placeKey) for the town alone, all with coversTown true. The one lazy loader for 'elsewhere' is officesOfState, which covers another state's offices with coversTown false and named officials. No loader exists for another place's council or mayor.",
+          "where": "src/core2/modules/offices.ts:599-708 (local loop 649-707), 978-1020 (officesOfState)"
+        },
+        {
+          "claim": "Office data can already be built for any municipality. cityOffices builds a council (seat count read where known, else the ICMA modal size) and a mayor from data, with ids office:<gus id>:council and office:<gus id>:mayor and jurisdiction set to the gus unit id. localOfficesForPlace also returns the county board and county row offices, whose ids would match the drawn town's own county offices when the other town is in the same county.",
+          "where": "src/core2/offices-local.ts:156-210, 212-274, 276-288; src/core2/gov-rules/local-governing-body-rules.ts:91-115"
+        },
+        {
+          "claim": "The members of another town's council would become officials (thin saved people) automatically. members() calls holderOf, which calls seatOfficial and seats each serving term as an official the first time it is read. holderOf takes the state from the drawn town's stateKey for any non-state office, which is correct only for towns in the same state.",
+          "where": "src/core2/modules/legislature.ts:2294-2309; src/core2/modules/officials.ts:1075-1100, 1115-1170"
+        },
+        {
+          "claim": "townBodies picks every office of kind council, county-board or township-board without filtering on coversTown. openWorldLegislating calls it once, at opening, with only the town's offices loaded.",
+          "where": "src/core2/modules/world-legislating.ts:182-209"
+        },
+        {
+          "claim": "scheduleMeeting and nextMeeting are already per office and act only on meeting days (a calendar entry local-meeting:<office>:<date>), with no daily scan. The interval comes from the body's size band. bodyPopulation reads the drawn town's referencePopulation for any council, so another town's council would meet on the drawn town's band.",
+          "where": "src/core2/modules/world-legislating.ts:1513-1542; src/core2/office-day-calendar.ts:63-112"
+        },
+        {
+          "claim": "localMeeting works out which government the body makes law for from the drawn town's chain, not from the body. A council always maps to chain.levels[last], the drawn town's place:<geoid>. needsChange reads inForceForTown (the drawn town's chain). allowed reads levelMayDecide, which reads the drawn town's state.",
+          "where": "src/core2/modules/world-legislating.ts:1409-1441, 280-287, 156-168"
+        },
+        {
+          "claim": "Agenda and filing read the drawn town's conditions: filerOf sets home = townLean(api) for any member who is a person (officials are), and the floor order weighs townConcernShare, which counts the drawn town's residents only.",
+          "where": "src/core2/modules/world-legislating.ts:347-369 (line 355), 538-550; src/core2/modules/meetings.ts:544-584"
+        },
+        {
+          "claim": "Each other town's lean is available from data, the same way the town's own is set: districtLean(townDistrict(geoid, usps, 'congressional', date)).",
+          "where": "src/core2/modules/campaigns.ts:372-392; src/core2/offices-state.ts:195"
+        },
+        {
+          "claim": "LEAK: a council's law would be written as the drawn town's law. billJurisdiction returns chain.levels[last] (the drawn town) for every city-level body and chain.stateKey for every state body. effectiveRule and enact write the row under that jurisdiction. countyOfBody looks the county board up among governmentUnitsForPlace(drawn town), which only holds municipalities, so it always falls back to chain.countyGeoids[0].",
+          "where": "src/core2/modules/legislature.ts:1780-1790, 1806-1830, 5000-5016, 5020-5160"
+        },
+        {
+          "claim": "Law rows are keyed by jurisdiction (id law:<jurisdiction>:<level>:<series>:general:<date>:<measure>; index bySeries = [jurisdiction, series]). Readers that go through the chain are safe from other places' rows: lawInForce/resolveLawInForce (levels from chain.levels, pending filtered to chain), yesLevels, answerIn, questionSettled, law-reach's inForce (via yesLevels), policyAuthority's stateLaw, the SNAP allotments read and budgets' residentLaw.",
+          "where": "src/core2/modules/laws.ts:479-538, 560-593, 617; src/core2/laws-in-force.ts:206-251; src/core2/law-reach/host.ts:139-170; src/core2/policy-authority.ts:42-59; src/core2/law-reach/group-b-food-aid.ts:63-75"
+        },
+        {
+          "claim": "LEAK: readers that look a law up by series alone, in every jurisdiction: lastEnactment (the bySeriesOnly index), and through it settledness, lawStanding's reversal reluctance, the executive's lean and recordConsistency. Another town's fresh act would make the drawn town's law look fresh.",
+          "where": "src/core2/modules/laws.ts:404-409, 453-476; src/core2/modules/legislature.ts:2660-2671, 2702, 2714; src/core2/modules/world-legislating.ts:378-394"
+        },
+        {
+          "claim": "LEAK: outcome-web lawValue reads every jurisdiction's rows by series (index bySeriesOnly) and returns 1 when any jurisdiction's latest row is yes. Another town's or another state's enacted yes would move the drawn town's outcomes.",
+          "where": "src/core2/modules/outcome-web.ts:200-229; src/core2/data/outcome-web/outcome-web.json:30-36"
+        },
+        {
+          "claim": "LEAK: lawTookEffect emits law-took-effect with placeId set to the drawn town and news:true for every row. Its governing check returns early only when the row's jurisdiction is a chain level, so an outside row still emits. The consumers are outcome-web (records the law and reruns), law-reach host, budgets, recalls, press and news ('*'), bench/changes.ts and bench/reached.ts.",
+          "where": "src/core2/modules/laws.ts:741-811; src/core2/modules/outcome-web.ts:673-704; src/core2/law-reach/host.ts:41; src/core2/modules/budgets.ts:348; src/core2/modules/recalls.ts:119; src/core2/modules/press.ts:370; src/core2/modules/news.ts:594; src/bench/changes.ts:13-60"
+        },
+        {
+          "claim": "LEAK: the press would print another town's law or vote as the town's own news. wireItem maps facts.level 'city' to 'town'. The legislative-vote events (and eight other legislature events) carry placeId set to the drawn town for any body.",
+          "where": "src/core2/press-topics.ts:39-50, 87-104; src/core2/modules/legislature.ts:987, 998, 3505, 3516 (also 844, 2979, 3696, 3755, 3945, 4131, 4175, 4430)"
+        },
+        {
+          "claim": "Smaller leaks from the drawn town into other towns' bills. The town's interest groups lobby every council's members. draftBill's recordHomeRule targets the drawn town. mayorVeto reads the drawn town's population. budgetChambers and executivePriorities each take the first council or first city-level mayor found among all offices, so the answer depends on insertion order.",
+          "where": "src/core2/modules/interest-groups.ts:516-523; src/core2/modules/legislature.ts:1947-1950, 4816-4831, 1113-1121, 1191-1198, 1225-1230; src/core2/policy-authority.ts:182"
+        },
+        {
+          "claim": "Coarser-level rule (DECISION-REGISTER Sept 26). Every other city and county meets on its real schedule, usually twice a month. On a meeting date that meeting is resolved: the agenda comes from that place's conditions and each member votes from their own saved record. Nothing is computed between meetings. Their laws are real records with real effects. Council members are real saved people, thin at first. So other towns may skip daily simulation, counted people, treasuries and individual residents. They may not skip their own law records or their own conditions driving the agenda.",
+          "where": "docs/coordination/DECISION-REGISTER.md:276-284; AGENTS.md (Oct 10 and Oct 11 Keep it simple); docs/packages/M1-other-places.md (councils passing measures moved to M3-10, news to M2-09)"
+        },
+        {
+          "claim": "How other-town law news would reach the player (named only, not designed). retainLog keeps any news:true event wherever it happened (a publicRecord-only event is kept only for visible places). The press and news modules read every event through wireItem, which has no 'another town' level today. Open items cover keeping and showing events from elsewhere: news-other-places-events-not-kept (and the play-other-states-news-on-screen it names), plus views and the director journal's place handling.",
+          "where": "src/core2/state.ts:721-739; src/core2/press-topics.ts:87-104; docs/pool/items/news-other-places-events-not-kept.md; src/director/journal.ts:240"
+        },
+        {
+          "claim": "Other towns' council seats are never re-elected: world races cover only us-house and legislature seats.",
+          "where": "src/core2/modules/voting.ts:4304-4330 (filter at 4329)"
+        }
+      ],
+      "blockers": [
+        "src/core2/modules/world-legislating.ts:182-209: openWorldLegislating and townBodies schedule only the town's own council, county board and township board; no other town's office exists to schedule.",
+        "src/core2/modules/offices.ts:599-708 and 978-1020: no loader puts another place's council and mayor (only officesOfState exists, for states).",
+        "src/core2/modules/legislature.ts:1780-1790: billJurisdiction writes every city-body law under the drawn town's place:<geoid> (and every state-body law under chain.stateKey). Another town's enacted law would become the drawn town's law, and the done-when's 'by law record id' would cite rows under the wrong jurisdiction.",
+        "src/core2/modules/legislature.ts:5000-5016: countyOfBody always falls back to the drawn town's county.",
+        "src/core2/modules/world-legislating.ts:1409-1441: localMeeting's jurisdiction, needsChange (inForceForTown, 280-287) and filer home lean (355) come from the drawn town's chain and lean.",
+        "src/core2/office-day-calendar.ts:63-73: bodyPopulation sizes every council's meeting band from the drawn town's population.",
+        "src/core2/modules/laws.ts:741-781: lawTookEffect emits an outside place's law as the drawn town's (placeId town, news:true), which reaches outcome-web, law-reach, press, news, recalls, budgets and the bench changes screen.",
+        "src/core2/modules/outcome-web.ts:200-229: lawValue counts a yes in any jurisdiction as the town's law.",
+        "src/core2/modules/laws.ts:453-476 (lastEnactment) feeding legislature.ts:2660-2671 (settledness): another town's act changes the drawn town's settledness and reluctance.",
+        "src/core2/press-topics.ts:39-50, 96: a city-level law or vote from any council is classified as town news.",
+        "src/core2/reference/government-units.generated.ts (META): DC and HI list one municipality each, and the Census listing has no GU, VI, AS or MP units (PR only through municipio codes). For those draws, three other in-state towns' councils cannot exist, so the done-when fails there unless county councils or municipios count."
+      ],
+      "smallestPath": "1) Offices: next to officesOfState (offices.ts:978-1020), add officesOfPlace(api, unitId), loaded once per unit. It puts only that unit's city offices (export cityOffices from offices-local.ts:156-210, or filter localOfficesForPlace to level \"city\"; never its county or township offices, whose ids match the drawn town's). Office and seats get coversTown:false. Every seat gets seatNamedOfficial plus pastTerms, as officesOfState does, and the loaded row is marked place:<unitId>. Members become officials lazily through members()/holderOf (officials.ts:1075).\n\n2) Which towns, from data: in world-legislating.ts, add otherTownBodies(api) over governmentUnitsForState(usps of chain.stateKey). Keep municipalities that are functionalActive, have a placeGeoid, and are not the town's own unit. Order: county area in chain.countyGeoids first, then placeReferencePopulation(placeGeoid, worldSeed) descending, then id. Take N from a new TUNABLE parameter row (for example campaigns/parameters.json otherTownsSitting, spread stated), behind a registered stopgap SG-GOV-other-towns-coverage. Its replacement is REG:276-284's 'every other city and county'; the cap exists only to keep the year under two minutes. In openWorldLegislating (182-194), load each through officesOfPlace and scheduleMeeting its council. Make townBodies (196-209) filter coversTown so nothing is scheduled twice.\n\n3) Meeting band: in bodyPopulation (office-day-calendar.ts:63-73), an office not covering the town reads its own place's world population: governmentUnit(office.jurisdiction).placeGeoid, then placeReferencePopulation (place-population.ts:103-116). A county kind reads its own unit.countyGeoid.\n\n4) Same localMeeting path, each body's own place (world-legislating.ts:1392-1442). Jurisdiction comes from the office row: a council's is place:<governmentUnit(office.jurisdiction).placeGeoid>. needsChange reads that place's chain, lawChainForPlace(geoid) (laws-starting.ts:85-121), per level through answerIn and ownRow instead of inForceForTown. filerOf.home (355) for a member whose seat does not cover the town reads that place's districtLean(townDistrict(...)), as openCampaigns does at campaigns.ts:372-392. The townConcernShare weight (538-544) is zero for another town, under a registered stopgap pointing to world-other-places-coarse-population.\n\n5) Write the law under the body's own place. billJurisdiction (legislature.ts:1780-1790) reads the body's own office row: place:<unit.placeGeoid> for a council, county:<governmentUnit(office.jurisdiction).countyGeoid> in countyOfBody (5000-5016). enact (5020+) then writes law:place:<otherGeoid>:city:<question>:general:<date>:<billNumber>. The same change fixes the state branch for item 1 (office jurisdiction instead of chain.stateKey).\n\n6) Keep other places' laws from applying to the town:\n- laws.ts lawTookEffect (741-811): for a row outside chain.levels, emit with the row's own place (its jurisdiction) and skip the town-only follow-ups (raiseToFloor, recordPublicPay).\n- outcome-web lawValue (200-229): keep only rows whose jurisdiction is a chain level.\n- lastEnactment (laws.ts:453-476): keep only chain-level rows, or the deciding body's own jurisdiction.\n- legislative-vote and the other bill events (legislature.ts:987, 3505 and the other placeId sites): carry the body's own place.\n- bench/changes.ts:13-60: filter to the chain.\n\n7) Test beside src/core2/modules/world-legislating tests: buildBenchWorld from a drawn place and seed (named), one played year. Assert at least 3 sessions rows whose bodyOfficeId is a council with coversTown:false. Assert law rows whose jurisdiction is place:<other geoid> carrying terms.enactedByBill from that council, each named by id. Assert lawInForce for the town is unchanged by them. Run npm run speed:year against its base.",
+      "dataNeeded": [
+        "A ruling or data row for draws with no other in-state municipalities. DC and HI list one municipality each. GU, VI, AS and MP are absent from the Census government-units listing; PR exists only through municipio codes in data/research/local-government/county-governing-bodies.json. Either HI county councils, PR municipios and territory village or municipal bodies count as 'other towns' councils', or the done-when names these draws as exceptions.",
+        "Other towns' own starting city law: starting-law.json holds 135 place jurisdictions, but only the drawn chain's rows load (laws-starting.ts:1-8; startingLawRows). A loaded-on-first-meeting path, or a registered stopgap that treats a missing city row as 'not law', is needed.",
+        "Each town's real meeting day and hour: only band medians exist (data/research/local-government/council-meeting-intervals.json) and one tunable weekday and hour (office-day-calendar.ts:94-101). Already evidence on office-stopgap-office-day-calendar-calendar.",
+        "A TUNABLE parameter row and a stopgap row for how many other towns sit (SG-GOV-other-towns-coverage), and a stopgap for the other-town agenda's concern weight until world-other-places-coarse-population lands.",
+        "Not measured: the speed:year base and the cost of the added meetings. I ran no probes."
+      ],
+      "risks": [
+        "Office id collision: localOfficesForPlace(otherTown) returns the shared county board office:<countyUnit>:board and the county row offices. putOffice would overwrite the drawn town's county board with coversTown:false. Load city offices only.",
+        "Cross-state towns are unsafe today. policyAuthority, levelMayDecide and questionForLevel read lawChain(api).stateKey (policy-authority.ts:62-67; world-legislating.ts:134-146), holderOf gives local officials the drawn town's state (officials.ts:1093-1095), and mayorVeto reads the drawn state and population (legislature.ts:4816-4831). Stay in-state or make each of these read the body's own state.",
+        "Speed. recentlyDefeated scans the whole sessions table and, for each drafted bill, liveBills scans the whole bills table, once per question and direction per meeting (world-legislating.ts:1445-1505). chamberBills scans all bills every floor week (1115-1140). bills and sessions have no indexes (legislature.ts:302; world-legislating.ts:176). Item 1's 40+ legislatures and these towns both grow those tables, so add a byBody index before measuring speed:year.",
+        "Order-dependent choices once several councils and mayors exist: budgetChambers (legislature.ts:1191-1198, 1225-1230) and executivePriorities (1113-1121) take the first council or mayor found. Inserting other towns after openOffices keeps the town first by insertion order only.",
+        "The town's interest groups would lobby other towns' councils (interest-groups.ts:516-523), and recordHomeRule would log the town as reached by another town's draft (legislature.ts:1947-1950; policy-authority.ts:182).",
+        "If other-town laws keep emitting law-took-effect as the town's own, every one reruns outcome-web (outcome-web.ts:700-704) and the law-reach handlers. That costs time even where inForce stays unchanged.",
+        "Other towns' seats are never re-elected (voting.ts:4329). Over three played years, what ends or fills those terms was not found.",
+        "A fix to billJurisdiction or lastEnactment changes how the town's own state and federal bills are read. Re-run the existing world-legislating and legislature tests.",
+        "Loading other towns before openThePast is safe, because past-bodies filters coversTown (past-bodies.ts:45-52), but the order should stay after openOfficials so holderOf can seat officials."
+      ],
+      "notFound": [
+        "A loader for another place's local offices (only officesOfState exists for states).",
+        "Any per-place lean, concern share or conditions reader for a place other than the drawn town inside world-legislating.",
+        "Any reader that ends a non-town council term or elects its successor.",
+        "A press or wire level for 'another town' (press-topics.ts LEVELS has town, county, state and nation only).",
+        "A registered stopgap covering other towns' councils or every other city and county sitting.",
+        "Per-town real meeting calendars in data.",
+        "Municipal government units for GU, VI, AS or MP in the government-units listing.",
+        "Whether api.state.seed equals the offices 'loaded' town worldSeed. The world population should use the seed buildPopulation used (population.ts:1370-1377); I did not confirm which field holds it."
+      ]
+    },
+    "congress": {
+      "findings": [
+        {
+          "claim": "The stopgap SG-GOV-federal-proposal-coverage is open. Its row still points at line 849, but the real marker is at world-legislating.ts:945-947, inside openSession, where it is called on every federal session.",
+          "where": "src/core2/data/stopgaps.json:4765-4775; src/core2/modules/world-legislating.ts:945-947"
+        },
+        {
+          "claim": "Congress session path. openWorldLegislating schedules an opening for 'US' (192-193). scheduleOpening reads congress-sessions.json (2025-01-03..2025-12-19, 2026, 2027; later years repeat the last row as ESTIMATED). openSession files from all House and Senate members (940-944), with FEDERAL_HOUSE as the body and floor leader. introduce drafts each bill in the sponsor's own chamber (1045-1070, originChamber 1073-1083). floorWeek calls holdVote (1222-1263). closeSession kills bills the floor never reached (1342-1384).",
+          "where": "src/core2/modules/world-legislating.ts:182-194, 791-808, 841-864, 914-1038, 1045-1083, 1222-1263, 1342-1384; src/core2/data/legislature/congress-sessions.json"
+        },
+        {
+          "claim": "BLOCKER 1: Congress never even considers a federal-only question. fileChanges loops over PLATFORM_QUESTIONS only, which is the keys of issue-axes-2026.json. Those axes are measured across states, so no us-federal-positions:* question (20), us-tax-terms:federal question (5) or work-requirement-for-assistance has one. None of them is ever looked at.",
+          "where": "src/core2/modules/world-legislating.ts:469; src/core2/campaign-views.ts:38-39; data/research/campaigns/issue-axes-2026.json (54 keys, none federal-only)"
+        },
+        {
+          "claim": "BLOCKER 2: of the 54 platform questions, the federal level may file only one: medicaid-work-requirement. The allowed check is levelMayDecide('federal'), which calls questionForLevel. That reads question-powers.json, whose levels list 'federal' for that question alone. series-powers.json separately gives Congress power over 25 platform questions. The two files are duplicate sources for one fact, and levelMayDecide requires both.",
+          "where": "src/core2/modules/world-legislating.ts:472, 960-961, 134-146, 156-168; data/research/powers-catalog/question-powers.json:94; src/core2/data/legislature/series-powers.json (questions: 25 list federal); src/core2/modules/legislature.ts:1484-1501"
+        },
+        {
+          "claim": "BLOCKER 3: Congress files to enact a law that already exists. answerIn('US') looks for laws rows keyed [US, question], then falls back to FEDERAL_ANSWERS (federal-answers.json). That file has 2 rows, adopt-income-tax and graduated-income-tax, and both are state-only questions. The laws engine records the medicaid work requirement's starting answer at the state level whenever the state's own answer is known (52 of 56 places), so no US row exists. answerIn therefore returns null, needsChange(+1, null) is true, and Congress files 'enact medicaid-work-requirement'. Federal law already requires it: the research's answers.US is yes, P.L. 119-21 sec. 71119, operative 2027-01-01.",
+          "where": "src/core2/modules/world-legislating.ts:212-239, 271-273, 957-958; src/core2/modules/laws.ts:204-208; src/core2/data/legislature/federal-answers.json; data/research/laws/starting-law-2026/health-human-services.json:645-649"
+        },
+        {
+          "claim": "That one bill dies in its first chamber. A member's own view is memberSupportAt = lean*axis + |axis|*(2*yesShare-1), which here is lean*0.114 - 0.096 (axis 0.114, yesShare 0.078). It is negative for every member below lean 0.84, so all Democrats and roughly half of Republicans oppose, and the party term follows the leader's sign. The bill is held in committee (chair not heard at 3660, failed at 4221-4226) or fails the floor at 4269 (yes <= no). Which of the two happened in the CTO's Middleport run (Congress: 2 bills, 0 enacted) is not determined, because no run was allowed.",
+          "where": "src/core2/officials-roster.ts:292-311, 314-326; data/research/campaigns/issue-axes-2026.json:156; src/core2/modules/legislature.ts:3654-3660, 4221-4227, 4269-4274; docs/work-orders/governing-2026-10-29/02-engine.md:3,18"
+        },
+        {
+          "claim": "BLOCKER 4: if federal-only questions were let in, nobody would hold a position on them. questionAxis returns 0 (no axis row), so personStance and publicOffset are 0, and memberSupportAt has no 'adopted' row. Every member's filingReason is therefore at most 0 and no member files. The president's own filingReason is also at most 0, so proposeAsExecutive is never called. Every vote total would be about 0, and a bill needs yes > no.",
+          "where": "src/core2/campaign-views.ts:286-288, 298-302, 348-355; src/core2/officials-roster.ts:305-311; src/core2/modules/world-legislating.ts:404-408, 479-480, 490-495"
+        },
+        {
+          "claim": "BLOCKER 5 (and it is real-world correct): the Senate needs yes >= ceil(members*0.6) to end debate. The value is in data: senateClotureShare 0.6, SOURCED from Senate Rule XXII. With the 2025-26 roster (53-47), any party-line federal bill dies here. For example, raise-federal-minimum-wage with its state twin's axis -0.511 and Pew party split D .87 / R .35 fails, so a policy law needs members of both parties.",
+          "where": "src/core2/modules/legislature.ts:4261-4268; src/core2/data/campaigns/parameters.json:382; data/research/campaigns/policy-support-2026.json:420"
+        },
+        {
+          "claim": "The second chamber and committees are already wired for Congress. chambersOf sends a bill from its origin chamber to the other; countVote holds committee and floor in each; committeeStage seats members by seniority and party ratio (or the leadership roster), and the chair hears the bill when position plus temperament >= 0. On a tie the Vice President breaks it.",
+          "where": "src/core2/modules/legislature.ts:3250-3277, 4204-4283, 3580-3660, 4236-4259"
+        },
+        {
+          "claim": "The president's desk is wired, and nothing is missing there. executiveOf looks up the jurisdiction 'US' elected office whose kind matches /president/ (office:US:president, elected true). executiveAction then runs decideAtDesk: sign or veto from the president's own position plus temperament, recorded as an executive-action event and a vote row. A veto goes to overrideVote (two thirds of each chamber). A president who is the player waits until the signing deadline. The president also brings bills through a member who carries them (executive-proposal.json, president, by-request, SOURCED).",
+          "where": "src/core2/modules/legislature.ts:4289-4330 (regex 4312), 4376-4470, 4511-4627, 4636-4781, 3046-3112; src/core2/offices-state.ts:362-411; src/core2/data/legislature/executive-proposal.json"
+        },
+        {
+          "claim": "A federal law is written to the law store and takes effect the same day. enact uses effectiveRule: federal means on enactment (Gozlon-Peretz), billJurisdiction 'US', level 'federal'. enactLaw writes law:US:federal:<question>:general:<date>:<bill number>, and because that date is today, lawTookEffect runs at once and emits law-took-effect with facts {lawId, series, level, jurisdiction}.",
+          "where": "src/core2/modules/legislature.ts:1780-1790, 1809-1833, 5020-5159 (policy question 5116-5150); src/core2/modules/laws.ts:600-692 (683-690), 735-790"
+        },
+        {
+          "claim": "law-reach already reads federal rows. runHandlers decides inForce from yesLevels. yesLevels goes through lawInForce and resolveLawInForce over the town's chain, whose first level is {federal, US}, so a federal 'yes' counts. reachedBy and reachOn return the named people from the reach-A table, the reach-B table and the applied table. For raise-federal-minimum-wage the full chain exists: group-a registers records and federalMinimumWage; holdFederalWage writes a US minimum-wage row effective the next day; the wage floor raises jobs below it; reach-group-a.json:53-71 marks every employed person. medicaid-work-requirement and work-requirement-for-assistance have group-B handlers.",
+          "where": "src/core2/law-reach/host.ts:143-170, 252-353; src/core2/modules/laws.ts:516-538; src/core2/laws-in-force.ts:206-240; src/core2/laws-starting.ts:103; src/core2/law-reach/group-a.ts:58; src/core2/question-wages.ts:168-186; src/core2/law-reach/group-a-records.ts:501-522; src/core2/data/laws/reach-group-a.json:53-71; src/core2/law-reach/group-b.ts:895-909"
+        },
+        {
+          "claim": "inForceForTown already counts a federal row (it reads ownRow for 'US', including acts not yet in effect), so a council does not re-file what Congress enacted. It is used only for local filings.",
+          "where": "src/core2/modules/world-legislating.ts:280-302, 1433-1436"
+        },
+        {
+          "claim": "raise-federal-minimum-wage is the one federal-only question that has every part except a stance. It has a starting US answer 'no' (written as a US row, laws.ts:193-231), a bill-catalog row with level federal, federal committee routing, an allowed policyAuthority (catalog federal 'yes'), and a law-reach reader. It is missing only a membership in Congress's question list and an axis or support row.",
+          "where": "data/research/laws/starting-law-2026/labor-commerce.json:3; src/core2/data/legislature/bill-catalog.json:643-649; src/core2/data/office-day/federal-committees.json:150; data/research/powers-catalog/question-powers.json:347"
+        },
+        {
+          "claim": "Defect: filerOf gives every seated official home = townLean. Officials are in state.people (congressMembers line 2517), so every member of Congress and every state legislator decides what to file by the player's town's lean, not their own district's. The doc comment at 329-331 says 'their own seat'. The vote itself reads the official's own districtLean (officials.ts:1295-1300).",
+          "where": "src/core2/modules/world-legislating.ts:329-331, 350-355; src/core2/modules/legislature.ts:2517-2518; src/core2/modules/officials.ts:1295-1300"
+        },
+        {
+          "claim": "federal-answers.json is a second copy of the research's federal answers (answers.US). Besides answerIn, only scripts/law-wiring/catalog.ts reads it, and that script already treats answers.US as the federal answer.",
+          "where": "src/core2/modules/world-legislating.ts:33, 212-216; scripts/law-wiring/catalog.ts:14, 160-176"
+        },
+        {
+          "claim": "The existing played test for Congress asserts that filings > 0 and that every filing is a federal-level question. It allows zero enactments.",
+          "where": "src/core2/world-legislating.test.ts:296-339"
+        },
+        {
+          "claim": "Pool parts for this fix already exist and are open: gov-federal-questions-answers-stances, gov-federal-questions-money-readers, gov-federal-questions-rule-readers and gov-federal-questions-admitted (whose done-when names src/core2/world-legislating-federal.test.ts). gov-congress-passes-policy-laws should cite them as the parts it depends on, not duplicate them.",
+          "where": "docs/pool/items/gov-federal-questions-*.md; docs/pool/items/gov-stopgap-world-legislating-missing-mechanic.md"
+        }
+      ],
+      "blockers": [
+        "src/core2/modules/world-legislating.ts:469 - Congress's question list is PLATFORM_QUESTIONS (campaign-views.ts:38-39, the keys of issue-axes-2026.json), so no federal-only question (us-federal-positions:*, us-tax-terms:federal, work-requirement-for-assistance) is ever looked at",
+        "src/core2/modules/world-legislating.ts:472 with 960-961 -> 142-145 - questionForLevel (question-powers.json) lets the federal level take only medicaid-work-requirement of the 54 platform questions",
+        "src/core2/modules/world-legislating.ts:234-238 with 957-958 - answerIn('US') falls back to federal-answers.json (2 rows, both on state-only questions) and misses the research's answers.US, so Congress files to enact the Medicaid work requirement that P.L. 119-21 already enacted (laws.ts:204-208 writes that starting row at the state level)",
+        "src/core2/officials-roster.ts:305-311 - for that question memberSupportAt = lean*0.114 - 0.096, negative for every member below lean 0.84; the bill dies in its first chamber, either held in committee (legislature.ts:3660, 4221-4226) or failing the floor at legislature.ts:4269 (exact line not determined without a run)",
+        "src/core2/campaign-views.ts:298-302 and 348-355 - questionAxis and publicOffset return 0 for any question without an axis row, so even an admitted federal-only question gets filingReason <= 0 (world-legislating.ts:404-408, 480) and votes near 0",
+        "src/core2/modules/legislature.ts:4261-4268 - 60 percent cloture (correct, from data) kills any party-line federal bill in a 53-47 Senate, so at least one admitted question needs support from members of both parties"
+      ],
+      "smallestPath": "All steps run through the one engine; no new writer and no dice.\n\n1. One source for federal law (replace, never layer). In answerIn (world-legislating.ts:234-238), for stateKey 'US', fall back to POLICY_QUESTIONS[question]?.answers.US?.answer, the same researched file the state branch already reads. Delete src/core2/data/legislature/federal-answers.json and FEDERAL_ANSWERS (world-legislating.ts:33, 212-216). Point scripts/law-wiring/catalog.ts:14,166,175 at answers.US only. Its two rows are on state-only questions Congress can never take, so nothing in core2 loses a read. Effect: Congress sees P.L. 119-21's Medicaid work requirement as federal law and stops filing to re-enact it; members whose reasons favor repealing it may file a repeal instead.\n\n2. Congress files on the federal questions in data. Give fileChanges a `questions` input in place of the hard-coded PLATFORM_QUESTIONS (world-legislating.ts:469). holdSession (local) and state sessions keep passing PLATFORM_QUESTIONS. openSession, when the session is federal (around 948-965), passes a list built from data: keys of question-powers.json whose levels include 'federal', that have a stance row (questionAxis != 0), and that have a registered law-reach handler (policyHandlerKeys(), law-reach/host.ts:139-141). The last condition makes 'an effect is a read' a rule the code checks. Do not add federal questions to PLATFORM_QUESTIONS: officials' signature draws (officials-roster.ts:237), press (press.ts:1471), parties (parties.ts:842) and office-day-state (943) all read that list.\n\n3. Stances as data rows. Add a federal stance table, for example data/research/campaigns/federal-issue-axes-2026.json (axis, plus support and party shares). Read it in questionAxis and publicOffset (campaign-views.ts:298-302, 348-355) and in the 'adopted' term of memberSupportAt (officials-roster.ts:292-311). For raise-federal-minimum-wage the poll is already on file: the raise-minimum-wage row in policy-support-2026.json:420 is Pew Apr 2021 on the $15 federal minimum (support .62, D .87, R .35). Estimate the axis from the party gap, calibrated against the 54 state questions that carry both an axis and a party split (gap .52 against axis -.511; gap .10 against -.153; gap .02 against -.027). Mark it ESTIMATED with that spread.\n\n4. At least one question with support from both parties and a reader, so that cloture (legislature.ts:4261-4268) can be met honestly. Add to reach-group-a.json one data row for a federal question that reuses an existing mechanic, for example national-data-privacy mirroring consumer-data-privacy-law's 'consumers' row (mechanic none, which writes the records). Give that question its starting US answer ('no': no comprehensive federal privacy law) and its stance row. Whether it passes is then decided by the members, the party leaders, the 60 percent cloture vote and the president's lean at decideAtDesk. The president's desk, override, law store, same-day effect and law-reach are already wired (legislature.ts:4376-4627, 5020-5159; laws.ts:600-692; host.ts:143-170).\n\n5. Fix filerOf (world-legislating.ts:355): give a seated official their own district's lean (the officials row districtLean), not townLean.\n\n6. Delete the stopgap call and marker (world-legislating.ts:945-947) and mark SG-GOV-federal-proposal-coverage resolved. Federal questions that still lack a reader stay out under the reader rule, which is not a fake. Write src/core2/world-legislating-federal.test.ts: buildBenchWorld in a drawn place with a seed the builder did not pick. Assert a 'session:US:<conveneAt>' bill with status signed, enacted or overridden; an executive-action event whose executiveId is the president's key; the row law:US:federal:<question>:general:<date>:<bill number>; and reachedBy(api, question, lawId) naming a person in the town.\n\nBefore claiming the done-when, run one played year and read whether any bill clears cloture. If only party-line questions are admitted, none will in a 53-47 Senate, and that is the honest result.",
+      "dataNeeded": [
+        "A stance row for each federal-only question to be let in: national support and the support share in each party (the policy-support-2026.json format, with poll and URL), plus an axis. The axis cannot come from issue-axes-2026.json's across-states method, so it needs a party-gap estimate calibrated on the 54 state questions.",
+        "A measure of agreement among lawmakers for federal-only questions, standing in for yesShare (the share of states with the law) in memberSupportAt; for example, the share of each party's members who cosponsored or voted for the most recent bill on it in the 118th or 119th Congress. Without it, no federal question gets support from members of both parties, and nothing can pass cloture.",
+        "Starting federal answers (answers.US with cite) for the 19 us-federal-positions questions that have none. Examples: medicare-drug-price-negotiation yes (IRA 2022); ban-congressional-stock-trading no (the STOCK Act requires disclosure only); national-data-privacy no; cap-consumer-loan-interest no (the Military Lending Act covers servicemembers only).",
+        "A law-reach data row for at least one federal question with support from both parties (national-data-privacy, cap-consumer-loan-interest, reduce-mandatory-minimums or ban-congressional-stock-trading), reusing a mechanic that already exists."
+      ],
+      "risks": [
+        "If raise-federal-minimum-wage is the only question let in, it dies at cloture (legislature.ts:4261-4268) in a world that starts in 2025. That is correct, but the done-when ('Congress enacting at least one policy law') then fails unless a question with support from both parties and a reader is also let in. Cannot confirm either way without a run.",
+        "Adding federal questions to PLATFORM_QUESTIONS instead of passing a separate list would change officials' signature draws, press topics, party platforms and office-day-state answers in every world. That means seed-dependent test churn.",
+        "Step 1 removes the only filing Congress makes today (enact medicaid-work-requirement). world-legislating.test.ts:302 asserts filings > 0, and it stays green only if the repeal filings or newly admitted questions appear in the same change.",
+        "Moving the two income-tax rows from federal-answers.json into fiscal.json's answers.US would make laws.ts:204-208 write US starting rows in places whose state answer is unknown, which would change law-reach for adopt-income-tax there. Drop them instead; no core2 reader needs them.",
+        "Fixing filerOf's home lean (world-legislating.ts:355) also changes which members file in every state legislature, because filerOf is shared. Expect played-test churn in state session counts.",
+        "Two tables decide whether a level may answer a question: series-powers.json 'questions' (25 platform questions marked federal) and question-powers.json (1), and levelMayDecide requires both. Widening question-powers.json so state-worded questions also count as federal would make two keys for one federal law (for example raise-minimum-wage and raise-federal-minimum-wage). Use the us-federal-positions keys.",
+        "Speed: adding a few questions times 535 members happens once per session, which is negligible against the 20 percent limit (not measured)."
+      ],
+      "notFound": [
+        "Which exact line killed the 2 Congress bills in the CTO's Middleport year (committee hold at legislature.ts:4221-4226 or floor at 4269). No run was allowed, and the CTO's year3.ts script is not in the repo.",
+        "An axis, support row or measure of agreement among lawmakers for any us-federal-positions question.",
+        "Starting answers.US for 19 of the 20 us-federal-positions questions (only raise-federal-minimum-wage has one).",
+        "Any mapping between federal-only questions and their state twins in data.",
+        "src/core2/world-legislating-federal.test.ts (named in the pool items; does not exist).",
+        "A law-reach row for any us-federal-positions question other than raise-federal-minimum-wage."
+      ]
+    },
+    "baseline": {
+      "findings": [
+        {
+          "claim": "BASELINE RUN. Place Fort Lupton, Colorado (place key 0827700, state US-CO). Seed: 'laws-baseline-2026-10-29', drawn with drawPlace(seed, 'played-world'), giving world seed 4549cb862974c30e3e09008e329a2c4295900ea1cc57328db2ffc96ffa3ef027. Built and stepped the way tests/golden-path/played-world.node-test.ts:244-341 does it: setBookkeeping(false), buildBenchWorld twoLevel, advanceCore one day at a time. Opening day 2025-01-20, played to 2026-01-20. Build took 28.1 s. The year took 191.4 s wall on a shared machine (only laws runs were serialized by the lock). Run on checkout f8f425cbbe. The first invocation died in the transform step (top-level await compiled as CJS) before any world was built; the second is the one reported here. Output saved at /tmp/claude-0/-home-user-Political-Game-Git/8a63c6d9-f891-5b87-bc4b-1b9dd3abba92/scratchpad/baseline-out.txt. The probe folder is deleted.",
+          "where": "probe run, seed laws-baseline-2026-10-29"
+        },
+        {
+          "claim": "The opening world has only 20 office rows. The only legislature chambers are the town's own state (office:US-CO:legislature-lower and -upper). There is one federal:us-house, one us-senate and one president row. The only local bodies are the town council office:gus2025:161427:council (5 of 5 seated) and the county board office:gus2025:184124:board (7 of 7 seated). No other state's legislature or governor exists as an office, and no other town's council exists.",
+          "where": "probe opening; src/core2/modules/offices.ts:620-623 (federalOffices/stateOffices only for the town's stateKey), src/core2/modules/offices.ts:651 (localOfficesForPlace only for the town's placeKey)"
+        },
+        {
+          "claim": "The world-legislating module state after the year has four legislativeSessions rows. (1) session:US-CO:2025-01-08, 2025-01-08 to 2025-05-07: 52 filings, all 52 introduced, 37 session bills (2 voted/enacted, 34 voted/failed, 1 moot/failed). (2) session:US:2025-01-03, 2025-01-03 to 2025-12-19: 1 filing, 2 session bills, both voted/failed. (3) session:US:2026-01-03: 1 filing, 1 introduced, none decided yet. (4) session:US-CO:2026-01-14: 49 filings, 9 introduced. The sessions table has 78 rows: the council (jurisdiction place:0827700) sat 25 times with 9 bills (3 overridden, 1 enacted, 1 vetoed, 3 failed, 1 moot); the county board (county:08123) sat 53 times with 15 bills (3 enacted, 4 failed, 8 moot). nextMeetings holds only those two bodies. No other jurisdiction ever sat.",
+          "where": "probe; module core2-world-legislating-v1, tables legislativeSessions/sessions/nextMeetings"
+        },
+        {
+          "claim": "91 bills were introduced in the year (legislature bills table). Congress (federal:us-house): 3 — 1 failed, 1 enacted that is not a policy bill (most likely the budget; not verified), 1 still drafted; 2 of the 3 are policy bills. Council: 10 (2 enacted, 3 overridden, 1 vetoed, 4 failed). County board: 16 (4 enacted, 12 failed). US-CO lower: 15 (7 enacted, 1 overridden, 7 failed). US-CO upper: 47 (2 enacted, 36 failed, 9 drafted).",
+          "where": "probe; module core2-legislature, table bills"
+        },
+        {
+          "claim": "21 law rows were enacted in play (rows with terms.enactedBy): place:0827700 5, county:08123 4, US-CO 12, US/federal 0. Congress enacted no law record, so there is no Congress law id to name. Law-reach has 45,416 applied rows in total and 0 for any in-play federal law.",
+          "where": "probe; core2-laws-v1 laws table; core2-law-effects-v1 applied table"
+        },
+        {
+          "claim": "Only Congress and the town's state ever open a session. openWorldLegislating schedules session openings for exactly ['US', lawChain(api).stateKey], and townBodies takes only council, county-board and township-board rows already in the offices table, which holds only the town's own.",
+          "where": "src/core2/modules/world-legislating.ts:182-194, 196-209"
+        },
+        {
+          "claim": "Even if every state's opening were scheduled, a state with no office rows files nothing. chamber() looks up offices byJurisdiction, so it returns null for other states. openSession then files only when lower is set, and a body with no lower chamber gets filed = [].",
+          "where": "src/core2/modules/world-legislating.ts:241-256, 921-924, 949-966"
+        },
+        {
+          "claim": "CORRECTNESS BLOCKER. A bill's law jurisdiction comes from the town's law chain, not from the body that passed it. billJurisdiction returns chain.stateKey for any state bill and the town's place for any city bill. countyOfBody falls back to the town's county. effectiveRule uses chain.stateKey for the effective date. So another state's act or another town's ordinance would be written as the player town's own state or place law.",
+          "where": "src/core2/modules/legislature.ts:1780-1790, 1822-1838, 5000-5013"
+        },
+        {
+          "claim": "Other states have no executive at the desk. executiveOf finds the governor through the offices table by jurisdiction. Another state has no governor row, so executiveAction keeps its default status 'enacted' with no desk decision. Voting already registers another state's governor as a stopgap: kept by party and date only, with no engine acting as that executive.",
+          "where": "src/core2/modules/legislature.ts:4289-4329, 4386-4388; src/core2/modules/voting.ts:3615-3616; src/core2/data/stopgaps.json:1298"
+        },
+        {
+          "claim": "The data needed to seat other legislatures exists for 52 of 56 places. worldRoster(seed).places, from legislature-party-counts-2026.json, has seat-by-seat parties for the 50 states, D.C. and Puerto Rico, but not US-GU, US-VI, US-AS or US-MP. Congress already seats all of its members from this roster as named officials through congressMembers. stateOffices(stateKey, placeGeoid, date) builds any state's chambers and executives, and localOfficesForPlace(placeKey) builds any place's council.",
+          "where": "src/core2/electorate-places.ts:650-690; data/research/offices/legislature-party-counts-2026.json; src/core2/modules/legislature.ts:2294-2310, 2437-2530; src/core2/offices-state.ts:520; src/core2/offices-local.ts:276"
+        },
+        {
+          "claim": "Session calendars exist for all 56 places, and all 56 meet in 2025. In 2026, MT, ND, NV and TX do not meet (biennial). Starting answers exist for all 56 places on all 54 platform questions, so answerIn works for any state without new law rows.",
+          "where": "data/research/laws/state-session-calendars.json; src/core2/state-session-calendar.ts:48-75; src/core2/policy-answers.ts:39; src/core2/modules/world-legislating.ts:218-238"
+        },
+        {
+          "claim": "A local meeting decides everything for the town's own government. It reads lawChain(api) to pick its own jurisdiction, uses inForceForTown for needsChange, and uses levelMayDecide/authorityFor, which read the town's state. scheduleMeeting uses the town's county geoid. Another town's council would therefore legislate for the player's town. lawChainForPlace(placeKey) exists to give a body its own chain.",
+          "where": "src/core2/modules/world-legislating.ts:1408-1440, 1518; src/core2/modules/world-legislating.ts:280-288; src/core2/laws-starting.ts:85"
+        },
+        {
+          "claim": "Law-reach would misattribute other places' laws. runHandlers runs the handlers for every law-took-effect event and computes inForce from the town's chain (yesLevels), with no check that facts.jurisdiction is in that chain. Another state's act on a question would re-run the town's handlers with the other state's lawId.",
+          "where": "src/core2/law-reach/host.ts:143-169"
+        },
+        {
+          "claim": "CONGRESS ROOT CAUSE, part 1: the question pool. fileChanges loops only over PLATFORM_QUESTIONS: 54 questions, taken from the keys of issue-axes-2026.json. That pool contains none of the 20 us-federal-positions questions and none of the 5 us-tax-terms:federal questions. Of the 27 questions whose question-powers levels include 'federal', only us-policy-positions:health-human-services.medicaid-work-requirement is in it. FEDERAL_ANSWERS has no row for that question, so answerIn returns null and only the 'enact' direction needs a change. That is why each Congress session shows exactly 1 filing in the run.",
+          "where": "src/core2/modules/world-legislating.ts:469, 234-236; src/core2/campaign-views.ts:39; data/research/powers-catalog/question-powers.json; probe sessions session:US:2025-01-03 and session:US:2026-01-03"
+        },
+        {
+          "claim": "CONGRESS ROOT CAUSE, part 2: stances. Even if federal-only questions were admitted, every member's stance on them is 0. questionAxis returns 0 for a question with no axis row; ownStance → memberSupportAt = personStance(lean, q) plus the adopted-row term; officialStance builds on that. filingReason would be at or below 0, so no sponsor files. federal-answers.json has only 2 answers, and both are state-level us-policy-positions fiscal questions, not federal-scoped ones.",
+          "where": "src/core2/campaign-views.ts:286-302; src/core2/officials-roster.ts:305-326; src/core2/modules/officials.ts:1695-1710; src/core2/modules/world-legislating.ts:397-420; src/core2/data/legislature/federal-answers.json:4-12"
+        },
+        {
+          "claim": "The parts of the Congress path that already exist: the Senate cloture row in data, read on the floor (senateClotureShare) and in the budget loop; the president's desk through executiveAction/decideAtDesk; and law-reach handlers for two federal-level questions. raise-federal-minimum-wage has a handler (reach-group-a.json:53, federalMinimumWage at group-a-wages.ts:27). medicaid-work-requirement has one too (group-b.ts:272, reach-group-b.json:61).",
+          "where": "src/core2/modules/legislature.ts:4262-4269, 923-930, 4376-4470; src/core2/data/campaigns/parameters.json:382; src/core2/law-reach/group-a-wages.ts:27; src/core2/law-reach/group-b.ts:272"
+        },
+        {
+          "claim": "The federal proposal stopgap fires on every Congress session open.",
+          "where": "src/core2/modules/world-legislating.ts:946-948; src/core2/data/stopgaps.json:4765"
+        },
+        {
+          "claim": "SPEED. Several readers scan whole tables, and their cost grows with every new sitting body. The bills table has no index. chamberBills reads bills.rows() on every floor week of every session. weeklyFloorOn walks floorWeeks → floorQueue → chamberBills for every sitting legislature, and is called daily through floorAgendaOn from askBeforeTheRoll whenever the player is seated. recentlyDefeated scans every sessions row and calls liveBills, which reads all bills, for each drafted bill at each local meeting.",
+          "where": "src/core2/modules/legislature.ts:302, 330, 502-515, 5408-5420; src/core2/modules/world-legislating.ts:1115-1141, 1169-1215, 1320-1338, 1445-1505"
+        },
+        {
+          "claim": "Discrepancy in the run, cause not traced. The CO 2025 session row lists 37 decided bills (2 enacted) for 52 filings, while the bills table shows 9 enacted plus 1 overridden in the CO chambers and 12 US-CO law rows. The session row stores status as it stood on the floor day, and bills that hold a legislature 'meeting:' calendar key are left out of chamberBills (inferred). Separately, Congress's session row shows 2 voted/failed, but the bills table holds only 1 failed federal:us-house bill.",
+          "where": "src/core2/modules/world-legislating.ts:1247, 1133, 1342-1390; probe"
+        },
+        {
+          "claim": "OVERLAP: the two items are already claimed. On origin/main, which is 36 commits ahead of this checkout (ca4b7cda9e against f8f425cbbe), gov-every-state-and-town-governs is claimed by claude/gov-every-state-and-town-governs and gov-congress-passes-policy-laws by claude/gov-congress-passes-policy-laws, both at about 21:28 UTC, lead laws. None of those 36 commits touches world-legislating.ts, legislature.ts, laws.ts, offices*.ts or executive.ts; voting.ts changed by 46 lines.",
+          "where": "git diff HEAD origin/main -- docs/pool/items/gov-*.md"
+        },
+        {
+          "claim": "OVERLAP: four open, unclaimed items cover the same ground as gov-congress-passes-policy-laws, in four parts. All are area gov, priority 3, no lead. (1) gov-federal-questions-answers-stances: federal answers plus member stances in world-legislating.ts and officials.ts; its Notes of Oct 27-28 say the president's stance is 0 on every federal question. (2) gov-federal-questions-money-readers (after 1). (3) gov-federal-questions-rule-readers (after 1). (4) gov-federal-questions-admitted (after 2 and 3): it deletes SG-GOV-federal-proposal-coverage and adds world-legislating-federal.test.ts. The laws lead should fold or claim these rather than build a twin.",
+          "where": "docs/pool/items/gov-federal-questions-answers-stances.md, gov-federal-questions-money-readers.md, gov-federal-questions-rule-readers.md, gov-federal-questions-admitted.md"
+        },
+        {
+          "claim": "OVERLAP: open items with lead laws-effects whose Files name world-legislating.ts and legislature.ts. laws-player-bill-reaches-the-floor: open, p1, blocked-on play-legislature-floor-date-and-whip, branch claude/laws-player-bill-floor kept; it changes floorWeek/chamberBills; 04-backlog says both halves are on main and it only needs closing out. laws-session-moves-too-many-questions: open, p3; it concerns the session's filing volume, which 50 more legislatures multiply. Also open with lead laws-effects and touching legislature.ts: engine-records-for-waiting-civic-scenes (p2) and laws-hold-record-names-the-sponsor (p2).",
+          "where": "docs/pool/items/laws-player-bill-reaches-the-floor.md; laws-session-moves-too-many-questions.md; engine-records-for-waiting-civic-scenes.md; laws-hold-record-names-the-sponsor.md"
+        },
+        {
+          "claim": "OVERLAP: open items with no lead touching the same code. laws-other-places-chains (p3): records other places' law chains so a law enacted elsewhere is read, e.g. by withholding (SG-WORLD-withholding-residence-law); Files include world-legislating.ts and laws.ts. gov-a-background-year-with-a-full-chain (p3): world-legislating.ts, legislature.ts, interest-groups.ts, corruption.ts. Also open on legislature.ts: gov-chamber-committees-reader (p3), gov-standin-legislature-committees (p2), gov-leadership-committee-appointer-by-chamber (p3), gov-legislature-local-rules-by-place (p3), gov-poison-pill-guards-measured (p3), gov-item-veto-deadlines-and-categories (p3), gov-city-budget-unvoted-where-council-is-state-body (p2), gov-standin-budgets-adopted-by-rule (p2), research-legislature-sourced-parameters (p3), laws-income-tax-flatten-sponsor-rate (p2), and elections-measures-from-the-world (p2, lead wire-elections). Open on executive.ts: world-governor-declares-emergency-in-play (p2, laws-effects), world-local-emergency-declaration (p3, laws-effects), world-executives-meet-in-records (p3, laws-effects), world-appointment-names-the-appointer (p2, m0-m2), world-department-head-vacancy-is-recorded (p3, m0-m2), gov-president-approval-record (p3), office-presidential-pardons (p3), office-presidential-orders-pardons-the-situation-room (p3), office-the-budget-season (p2), gov-appointments-weigh-counted-adults (p2).",
+          "where": "docs/pool/items/*.md (Files lines)"
+        },
+        {
+          "claim": "OVERLAP: items another session holds. play-player-runs-only-six-offices (claimed by play-first/play-player-runs-only-six-offices, lead play-first) lists src/core2/data/offices/bodies.json in its Files, the same file gov-every-state-and-town-governs names, so the two must agree before either edits it. words-scene-web-legislating (claimed by words/web-legislating, lead words) is data and director only. play-vote-and-bill-screens-redesign (claimed on origin/main by play-first) is src/bench only. words-swearing-in-scene-and-speech (claimed by words/swearing-in) reads the took-office record. campaign-like-real-races (claimed by governing/campaign-like-real-races, lead governing) covers campaigns.ts, voting.ts and src/bench and does not touch world-legislating.ts. office-budget-season-attend-hearing is blocked under claude/budget-hearing-agenda (legislature.ts, budgets.ts).",
+          "where": "docs/pool/items/play-player-runs-only-six-offices.md; words-scene-web-legislating.md; campaign-like-real-races.md; office-budget-season-attend-hearing.md"
+        },
+        {
+          "claim": "Governing lead's lane, from its work order. It owns the player's path. Phase A is campaign-like-real-races. Phases B and D (desk, budget, appointments) will touch legislature.ts executiveAction and budgets. Phase F (state legislator, governor, Congress, president 'on the same engines with new data rows') will touch the same offices and Congress paths. The order's seams section gives the laws lead the world's governing: every state and town, and Congress. The CREW table agrees: laws owns the world's governing; governing (session_01S4WSHsjEAH9fEbp8WxQwGZ) owns the player's path.",
+          "where": "docs/work-orders/governing-2026-10-29.md (phases A-F, Seams); docs/coordination/CREW.md (Laws and Governing lead rows)"
+        },
+        {
+          "claim": "Dropped history worth knowing. play-councils-legislatures-and-congress-acting-on-their was measured on Oct 18 and dropped on Oct 19: world-legislating.ts took 2.4 s of 420 s of CPU in a year (Williamsburg, Virginia), within 20 percent of the same world with the module left out. gov-stopgap-world-legislating-missing-mechanic was dropped and split into the four gov-federal-questions-* items. laws-other-places-chains-enacted was folded into laws-other-places-chains.",
+          "where": "docs/pool/items/play-councils-legislatures-and-congress-acting-on-their.md (Notes); gov-federal-questions-admitted.md (Notes); laws-other-places-chains.md"
+        }
+      ],
+      "blockers": [
+        "src/core2/modules/world-legislating.ts:191-192: openings are scheduled only for 'US' and the town's state.",
+        "src/core2/modules/world-legislating.ts:196-209 with src/core2/modules/offices.ts:620-623 and 651: town bodies come from the offices table, which holds only the town's own state and town, so no other state chamber or council exists to sit.",
+        "src/core2/modules/world-legislating.ts:241-256 and 949-966: chamber() needs an office row by jurisdiction; without one, openSession files nothing.",
+        "src/core2/modules/legislature.ts:1780-1790 (billJurisdiction), 1822-1838 (effectiveRule) and 5000-5013 (countyOfBody): the law's jurisdiction and effective date come from the town's chain, so any other place's law would be written as the town's law.",
+        "src/core2/modules/legislature.ts:4289-4329 and 4386-4388: another state has no governor office, so its bills become law with no desk (SG-GOV-world-governor-executive, voting.ts:3615).",
+        "src/core2/modules/world-legislating.ts:1408-1440 and 1518: localMeeting and scheduleMeeting read lawChain(api), the town's own, for jurisdiction, needsChange, authority and county.",
+        "src/core2/law-reach/host.ts:143-169: handlers run for any law-took-effect with no check that the jurisdiction is in the town's chain, so other places' laws would be credited with town reach.",
+        "src/core2/modules/world-legislating.ts:469 with src/core2/campaign-views.ts:39: Congress files only from PLATFORM_QUESTIONS, which holds a single federal-level question (medicaid-work-requirement).",
+        "src/core2/campaign-views.ts:298-302 with src/core2/officials-roster.ts:305-326: federal-only questions have no axis row, so every member's stance on them is 0 and nobody sponsors.",
+        "src/core2/data/legislature/federal-answers.json:4-12: no standing federal answer for any of the 27 federal-scoped questions."
+      ],
+      "smallestPath": "For the laws lead, from what the run and the code show.\n\nITEM 1 (every state and town governs):\n1. Write each law to the jurisdiction of the body that passed it.\n   - legislature.ts billJurisdiction (1780): for a state body, return its office's jurisdiction instead of chain.stateKey; for a council or board, return the law key of its own government unit.\n   - effectiveRule (1822-1838): use that state's rule instead of chain.stateKey.\n   - countyOfBody (5000): drop the fallback to the town's county.\n2. Seat every other legislature and governor from existing data rows, through the offices engine.\n   - In openOffices (offices.ts:620), or a step it calls, loop over the states with roster rows (worldRoster(seed).places, electorate-places.ts:650).\n   - For each, put the stateOffices(stateKey, '', date) legislature chambers and the governor as offices with coversTown false.\n   - Seat them with seatNamedOfficial terms (personId null, light), never full people.\n   - The four territories missing from the roster stay a registered stopgap until their rosters are added.\n3. In openWorldLegislating (world-legislating.ts:182-194), schedule scheduleOpening for every jurisdiction with a state-session-calendars row and a seated chamber, not only ['US', stateKey]. Sessions then act only on their own convene, floor-week and close days.\n4. Other towns: take the localities sharing the town's county from the government-units data (data decides which, no names in code).\n   - Build their councils with localOfficesForPlace(key) (offices-local.ts:276) and named officials.\n   - Make localMeeting and scheduleMeeting (world-legislating.ts:1392-1440, 1513-1545) read the body's own chain via lawChainForPlace (laws-starting.ts:85), not lawChain(api).\n5. In law-reach runHandlers (host.ts:143), skip a law-took-effect whose jurisdiction is outside the town's chain.\n6. Speed:\n   - Add a bodyOfficeId index to the legislature bills table (legislature.ts:302) and use it in chamberBills (world-legislating.ts:1115), liveBills (1445) and floorAgendaOn (legislature.ts:5408).\n   - Index the sessions rows by body for recentlyDefeated (1462).\n   - Check with npm run speed:year on one base receipt before and after.\n7. Test: a buildBenchWorld played year that names place and seed and counts law rows with terms.enactedBy, by jurisdiction: 40 or more US-XX keys plus 3 other place: keys.\n\nITEM 2 (Congress passes policy laws):\n1. Let a session file on its own level's questions: at world-legislating.ts:469, the federal session takes the questions whose question-powers levels include 'federal', instead of PLATFORM_QUESTIONS alone.\n2. Give those questions stance data (this is gov-federal-questions-answers-stances; fold it in or claim it):\n   - an axis and support row each, read by questionAxis and memberSupportAt (campaign-views.ts:298, officials-roster.ts:305);\n   - a standing answer each in federal-answers.json.\n3. Start with the two federal-level questions that already have law-reach handlers: raise-federal-minimum-wage (group-a-wages.ts:27) and medicaid-work-requirement (group-b.ts:272). An enacted one then reaches a named worker or enrollee through lawApplied.\n4. The floor, cloture (legislature.ts:4262) and the president's desk (executiveAction 4376) run unchanged. Narrow the stopgap at world-legislating.ts:946-948 only for questions that are admitted.\n5. Test: a played year naming place and seed, the Congress law id (law:US:federal:...), the desk decision in the law's terms (decidedBy/decision, legislature.ts:5032-5036), and a law-reach applied row for a named town person.",
+      "dataNeeded": [
+        "Legislature seat rosters for US-GU, US-VI, US-AS and US-MP; legislature-party-counts-2026.json covers only 52 of 56 places.",
+        "Axis and support rows for the 25 federal-only questions (20 us-federal-positions and 5 us-tax-terms:federal) in data/research/campaigns/issue-axes-2026.json or a federal table read by questionAxis, sourced from party polling.",
+        "Standing federal answers, with statute citations, for the 27 federal-scoped questions in src/core2/data/legislature/federal-answers.json (2 rows today, neither federal-scoped).",
+        "A data rule for which other towns sit, e.g. the town county's other localities from the government-units data; no row decides this today.",
+        "Whether office-day-calendar meetingRule (src/core2/office-day-calendar.ts:126) gives a schedule for a council outside the town; not verified.",
+        "A speed:year base receipt on the machine that will measure the change; none found. This run's year took 191.4 s for Fort Lupton, Colorado on a shared machine."
+      ],
+      "risks": [
+        "Wrong results. Until billJurisdiction, effectiveRule and countyOfBody are fixed, every bill another state or town passes becomes the player town's own law and changes its law in force (legislature.ts:1780-1790, 1822-1838, 5000-5013).",
+        "Wrong credit. Law-reach would record another place's law id as reaching town people (host.ts:143-169).",
+        "No desk for other states. Without governor office rows, their bills skip the governor (legislature.ts:4386-4388).",
+        "Elections side effects. Adding other states' offices and seats to the offices table may make the elections and voting engines hold races or fill vacancies for them. Not verified; check elections.ts and voting.ts readers of the offices and seats tables.",
+        "Speed. Full-table bill scans grow with every sitting body: chamberBills, floorQueue and weeklyFloorOn run daily through askBeforeTheRoll while the player is seated, and liveBills and recentlyDefeated run at each local meeting. The year is already over 120 s here (191.4 s).",
+        "Volume. laws-session-moves-too-many-questions already reports 10 to 19 policy questions changed per state session; 50 legislatures multiply the law rows and the law-took-effect events.",
+        "Ripple effects of new axes. Adding federal questions to issue-axes-2026.json also adds them to PLATFORM_QUESTIONS, which press.ts:1471, parties.ts:32 and every local body's filing loop read. That changes party platforms and press topics, and adds filing-loop cost.",
+        "Shared file. play-player-runs-only-six-offices (claimed by the lane) also edits src/core2/data/offices/bodies.json.",
+        "Unexplained failure. Medicaid-work-requirement already failed twice in Congress in this run, with no traced reason (House vote, Senate cloture or desk), so admitting more questions may still yield zero laws if cloture blocks party-line bills. Questions with bipartisan support data are the likeliest to pass."
+      ],
+      "notFound": [
+        "A '## Governing' section in docs/coordination/LEADS-2026-10-24.md: not on the checkout and not on origin/main. The CTO section's newest block is 17:05 UTC Oct 29 and does not mention world governing.",
+        "Record ids for Congress's bills in the run: the probe looked up a bill's jurisdiction in the offices table, which has no federal:us-house row. The bills show only as the count line '?|?|federal:us-house'.",
+        "Why Congress's two 2025 bills failed (House vote, Senate cloture or desk): not traced.",
+        "Why the CO session row shows 2 enacted against 9 enacted plus 1 overridden in the bills table, and 15 of 52 filings missing from the session's bills list: cause not traced.",
+        "Whether the elections and voting engines would run races for other states' legislature offices if they were added to the offices table.",
+        "A speed:year base receipt for this machine."
+      ]
+    }
+  },
+  "plan": {
+    "order": "Build gov-every-state-and-town-governs first, then gov-congress-passes-policy-laws. The CTO set this order: \"the laws lead ... takes the world's governing (gov-every-state-and-town-governs, then gov-congress-passes-policy-laws)\" (OWNER-DECISIONS on origin/main, Oct 29, line 25). Item 1 ships as five PRs, in this order: U1 seats every chamber, U1b moves other states' governor races, U2 makes each body's law its own, U3 lets every legislature sit, U4 lets other towns' councils sit.\n\nWhy U1 comes first: the biggest speed unknown is about 7,400 more officials as full people, and U1 measures that cost before any sitting is added. On Oct 13, adding 1,614 calendar-tier officials took a year from 96.6 s to 174.8 s (docs/coordination/core.md:285). Its main cause, the daily drive prediction for every person, is gone (drives.ts:1652-1666), but the rest was never measured again.\n\nWhy U2 comes before U3: without U2, an act passed in another state would be written as the town's own state law. billJurisdiction returns chain.stateKey for every state bill (legislature.ts:1780-1790), and lawTookEffect then puts that law at the town with news:true (laws.ts:741-781).\n\nItem 2's data research has no code in it. One Sonnet helper does it during U1 and U2: stance rows, answers.US with citations, and reach rows. Item 2's code unit C1 lands after U2, because both edit filerOf, settledness and answerIn. C3, the played-year test and the stopgap's resolution, comes last. Item 2 costs almost no speed, so it does not compete with item 1's 20 percent budget.",
+    "items": [
+      {
+        "id": "gov-every-state-and-town-governs",
+        "steps": [
+          "U1. src/core2/state-session-calendar.ts: export sessionPlaces(), the sorted keys of data.places. Verified: 56 keys, and every one has a 2025 session row that meets.",
+          "U1. src/core2/modules/offices.ts: move the per-entry body of officesOfState (979-1018) into one writer, seatOutsideOffices(api, worldSeed, entries, date). It calls putOffice with coversTown:false on the office and every seat, then seatNamedOfficial and pastTerms. openOffices (599-657) calls it for each sessionPlaces() key other than the town's state, with worldParties(worldSeed, stateOffices(key, '', date)), and puts loaded `state:${key}`. officesOfState keeps loading only the federal part, under a new loaded key `federal:${key}`, so the Politics screen (src/bench/government.ts:109) works unchanged.",
+          "U1. Order check: bench/world.ts already runs openOffices (443) before openOfficials (446). specs() in src/core2/modules/officials.ts (465-509) therefore picks up every new serving term that has no person and seats it in the one opening seatAll batch, as a calendar-tier person with one colleagues() pass. No lazy seating happens one at a time during play.",
+          "U1. Replace, never layer. src/core2/modules/officials.ts: delete the sample block for other states' legislatures (588-640) and stateSample in src/core2/data/officials/officials.json (268-273). Delete the corpus.governors loop (544-585) once the U1 test shows every sessionPlaces governor seat is held at the opening; otherwise keep it only for the places with no governor row. At 483, pass the office's own state (office.jurisdiction when it starts with 'US-') to unrecordedParty instead of townState. Narrow SG-GOV-unheld-filler-party to Congress members outside the town.",
+          "U1. Register SG-GOV-other-legislatures-not-sitting in src/core2/data/stopgaps.json, with its marker at world-legislating.ts:192 (only US and the town's state are scheduled; this gap is not registered today). U3 replaces it.",
+          "U1b (one PR). src/core2/modules/voting.ts racesIn (4316-4334): the seat loop also races an elected governor seat with coversTown false in its cycle. Delete the other-state branch of governorRaces (stateOffices rebuild, SG-GOV-world-governor-executive). Keep the territory check and its stopgap SG-GOV-territory-governor-race. In seatRaceWinner, draw the new holder's identity from the office's own state instead of lawChain(api).stateKey. Then the offices engine's term is the one record executiveOf (legislature.ts:4289-4329) reads. Resolve SG-GOV-world-governor-executive.",
+          "U2 (each body's law is its own; changes nothing in today's worlds). In src/core2/modules/legislature.ts: billJurisdiction (1780-1790) returns bodyOf(api, bill.bodyOfficeId).jurisdiction for a state body. For a council outside the chain it returns `place:${governmentUnit(office.jurisdiction).placeGeoid}`. effectiveRule (1834-1846) calls stateActEffectiveDate with that jurisdiction; all 56 places have a row in state-effective-dates.json. countyOfBody (5000-5016) reads governmentUnit(office.jurisdiction).countyGeoid and falls back to the chain only for a body that covers the town.",
+          "U2. src/core2/policy-authority.ts policyAuthority (62-79) and stateLaw (42-59) take the body's stateKey (default lawChain(api).stateKey). checkedText (legislature.ts:2176-2200) passes the body's own state. In src/core2/modules/world-legislating.ts, questionForLevel (134-146) and levelMayDecide (156-168) take an optional stateKey, and openSession's allowed passes the session's jurisdiction.",
+          "U2. world-legislating.ts filerOf (355): home is officialOf(api, key)?.districtLean (officials.ts:85), else townLean for a town resident. The doc comment at 329-331 already says 'their own seat'. Expect test churn in the town's state sessions.",
+          "U2. src/core2/modules/laws.ts lastEnactment (453-478) takes a set of jurisdictions and filters seriesRows. src/core2/modules/legislature.ts settledness (2660-2672), recordConsistency (2702) and billSettledness (2714) pass a new helper, bodyJurisdictions(api, bodyOfficeId): the chain's jurisdictions for a body in the chain, ['US', state] for another state's chamber, and lawChainForPlace(...) levels for another town. world-legislating.ts lawStanding (378-394) passes the session's set.",
+          "U2. src/core2/modules/outcome-web.ts lawValue (200-229): while the laws module is open, keep only rows whose jurisdiction is one of lawChain(api).levels.",
+          "U2. src/core2/modules/laws.ts lawTookEffect (735-812): for a row whose jurisdiction is not a chain level, return before the town's reads. No town event is emitted, so law-reach host.ts:143-169, outcome-web onEvent (700-704), budgets.ts:348, recalls.ts:119, press and news never see it: one gate, with no edits in the consumers. Register SG-GOV-other-place-law-effects at that marker. Who reads these rows today: the body's own next sitting (ownRow, answerIn, settledness), and budgets.ts:1515-1535 withholding for workers living in that state.",
+          "U2. src/core2/modules/interest-groups.ts organize (202-207) returns unless billJurisdiction is a chain level. Today organizeResidents (568-588) scans every town adult per bill, a mis-read and the largest per-bill cost. In src/core2/modules/legislature.ts chamberVote (3449-3464), emit office.voted only when votesAreTownNews(api, key) is true (officials.ts:1717), as record.ts:82-87 already does.",
+          "U2. The legislative-vote event (3498-3505) and the 12 other emits that set placeId: lawChain(api).townPlaceId (844, 987, 2979, 3696, 3755, 3945, 4131, 4175, 4430, 4554, 4603, 4969) go through one helper, billPlace(api, bill). It returns {placeId: the town's place, news: true} for a chain body, and {placeId: the body's own jurisdiction, news: false} otherwise. This follows the press ruling (prior-rulings/press.md:42: other towns' small news stays out).",
+          "U2. world-legislating.ts fileChanges (538-544): the townConcernShare weight applies only when the session's jurisdiction is a chain level. Elsewhere it is 0 under a registered SG-GOV-other-place-concern-weight; its replacement is a coarse population for other places.",
+          "U3 (every legislature sits). In world-legislating.ts openWorldLegislating (191-193), loop over ['US', ...sessionPlaces()] and call scheduleOpening(api, j, core.date, true). Then only session-open, bill-filing, floor-week and session-close calendar work runs, with no daily scan. Mark SG-GOV-other-legislatures-not-sitting resolved.",
+          "U3, speed before measuring. In src/core2/modules/legislature.ts, add indexes: {byBody: {fields: ['bodyOfficeId']}} to the bills table (302). chamberBills (world-legislating.ts:1115-1140) unions byBody per chamber. liveBills (1445) uses byBody and is built once per recentlyDefeated call instead of inside .some (1462-1505). The sessions table (176) gets a byBody index. askBeforeTheRoll (legislature.ts:502-515) and floorAgendaOn (5408-5420) read weeklyFloorOn (world-legislating.ts:1320-1338) only for sessions whose chambers include an office the player holds.",
+          "U3. Measure, then profile if the year is over the limit. Steps are in the speed plan.",
+          "U3 test, part 1: src/core2/world-legislating-every-place.test.ts asserts the state legislatures (see the test field).",
+          "U4 (other towns' councils sit). src/core2/reference/government-units.ts: add localGovernmentsOfState(usps), the functionalActive municipal and township units that have a placeGeoid, plus Puerto Rico's municipios through municipioUnit from county-governing-bodies.json. It is data only, with no places named.",
+          "U4. src/core2/modules/offices.ts: add officesOfPlace(api, worldSeed, unit, date). It builds only the unit's own city offices (export cityOffices, offices-local.ts:156-210) or boardOffices(unit, 'township'), never the county offices, whose ids collide with the town's. Seating goes through seatOutsideOffices, with loaded `place:${unit.id}`. openOffices calls it for otherTowns(api): the town's state, excluding the town's own units, the same county area (chain.countyGeoids) first, then placeReferencePopulation(placeGeoid, worldSeed) descending, then id. The count comes from a new TUNABLE row, otherTownsSitting, in src/core2/data/campaigns/parameters.json, under SG-GOV-other-towns-coverage. Its replacement is DECISION-REGISTER 276-284, every other city and county.",
+          "U4. Load each other town's own city-level starting rows: startingLawRows(lawChainForPlace(placeKey)) filtered to its `place:` level, at load. A place with no rows in starting-law.json (135 places have rows) reads as no local law, under SG-GOV-other-town-starting-law.",
+          "U4. src/core2/office-day-calendar.ts bodyPopulation (63-73) reads an office that does not cover the town by its own place: governmentUnit(jurisdiction).placeGeoid, then placeReferencePopulation. world-legislating.ts scheduleMeeting (1513-1545) passes the body's own county.",
+          "U4. world-legislating.ts localMeeting (1392-1442): the jurisdiction comes from the office row through bodyJurisdictions. needsChange reads that place's chain (answerIn for the state, ownRow for county and city), not inForceForTown (280-302). For a member whose seat does not cover the town, filerOf home is that place's lean: districtLean(townDistrict(geoid, usps, 'congressional', date)), as campaigns.ts:372-392 does.",
+          "U4. legislature.ts: mayorVeto (4816-4831) takes the body and reads its own place's population. budgetChambers and executivePriorities (1113-1121, 1180-1230) consider only offices that cover the town, so insertion order cannot pick another town's council. Other towns' seats are never raced (voting.ts:4329): register SG-GOV-other-town-seats-not-elected; its replacement is that place's contests in the elections engine.",
+          "U4 test, part 2, in the same file (see the test field). The final speed:year receipt goes in the PR body."
+        ],
+        "test": "Builder: the laws lead's Sonnet builder, in src/core2/world-legislating-every-place.test.ts (vitest, played year, worker heap 4 GB or more as tests-world-tests-outgrow-worker-heap asks).\n\nSetup:\n- Seed from GOVERNS_SEED, else a random hex.\n- Draw the place with drawPlace(seed, 'every-place-governs') (scripts/core2-year/place) from all 56.\n- For part 2 only, redraw (bounded) when localGovernmentsOfState gives fewer than three other councils, naming each skipped place and why, as world-legislating.test.ts:341 does today.\n- setBookkeeping(false); buildBenchWorld(place.seed, gameStartDate(), {twoLevel: true, placeKey}); advanceCore 365 days.\n\nPart 1 (U3): count legislativeSessions rows (world-legislating.ts:897-904) by jurisdiction, and laws-table rows that carry terms.enactedByBill, by jurisdiction. Assert at least 40 distinct US-XX keys that each have:\n- a session row;\n- at least one row law:US-XX:state:<question>:general:<date>:<bill number>;\n- a bill (legislature bills table) whose bodyOfficeId is that state's chamber office, with votes rows byBill and status enacted or overridden. This shows it went through draftBill, committee, floor and the governor.\n\nPart 2 (U4): assert at least three distinct council offices with coversTown false, each with a sessions row and at least one row law:place:<their geoid>:city:...:<bill number> from its own bill.\n\nIsolation, both parts:\n- For every PLATFORM_QUESTIONS question, every row lawInForce(api, q).levels reads has a chain jurisdiction.\n- Every law-reach applied row's lawId has a chain jurisdiction.\n- The town's lawInForce is unchanged by any outside row.\n\nPrint the place, seed, and one law id and bill id per state and per town (govReport).\n\nThe U1 test, src/core2/offices-every-legislature.test.ts, asserts for every other sessionPlaces key:\n- a lower or unicameral chamber whose serving terms equal the roster's seat count (52 places; GU, VI, AS and MP at large);\n- each holder is an official person whose homeState is that key;\n- the governor seat is held;\n- no ':sample:' official remains.\nAfter one year it also names the NJ or VA Nov 2025 seatRace winners seated into those office terms by the voting engine, by race and term id.",
+        "speed": "Risk is high, and nothing has been measured; the reader runs were not timed.\n\nBase: npm run speed:year on main is about 118-135 s for Long Hill, seed m7b (LEADS-2026-10-24.md:1003, 1107). The 1.2x rule (scripts/speed-years/compare.ts:51-55) leaves about 24-27 s for everything item 1 adds.\n\nThree known costs:\n- About 7,400 officials as calendar-tier people go through every whole-people loop: resting-stress.ts:32, trait-change.ts:165, jobs.ts:2055, health.ts:737/804/839, credit.ts:678, official-pay.ts review and pay. On Oct 13, 1,614 such officials nearly doubled a year (core.md:285); the drive-prediction part of that is fixed (drives.ts:1652-1666).\n- One state's legislating was 2.4 s of 420 s CPU (play-councils-legislatures-and-congress-acting-on-their Notes, line 26). That cost now multiplies by 55.\n- About 50 bills per state a year, each costing two chambers times about 143 member positions.\n\nPlan:\n1. Before U1, write a main receipt on the same machine: npm run speed:year -- --seed m7b --exclusive --out main.json.\n2. U1 alone: run --baseline main.json. If U1 alone is over 1.1x, profile with --cpu-prof. Cut the town-only loops that scan calendar-tier officials, each cut exact with the town's fingerprint identical, before U3.\n3. U3 levers that change no behavior:\n   - the bills and sessions byBody indexes;\n   - no town event for outside law rows, which cuts outcome-web reruns and law-reach;\n   - office.voted only for town-news members (about 350,000 events a year otherwise);\n   - interest-groups organize gated to the chain;\n   - floorAgendaOn read only for the player's own bodies.\n4. If U3 is still over 1.2x, the ruled lever is volume: real bill rates (prior-rulings/laws-and-money.md items 19-20). Sessions now move 10 to 19 questions against about 6 real adoptions a state a year (laws-session-moves-too-many-questions). That item is lead laws-effects; ask the CTO to assign it, or take it.\n5. Only if it is still over after that, report the numbers to the CTO.\n\nU4 adds a configurable handful of councils, about 24 meetings each, which costs little once liveBills is indexed. Every receipt goes in its PR body: one run, one number.",
+        "size": "About 22-34 hours of builder time, plus about 6 minutes per played-year test run and 3-4 minutes per speed:year run.\n- U1: 5-7 h\n- U1b: 2-3 h\n- U2: 5-7 h; many small reads, re-baselining existing tests\n- U3: 4-8 h; the speed work is the uncertain part\n- U4: 6-9 h",
+        "data": [
+          "Nothing new is needed for calendars, effective dates or starting answers. Verified: state-session-calendars.json has 56 places, all meeting in 2025, and state-effective-dates.json covers 56. The reader confirms enacting-clauses.json and starting-law-2026 cover all 56.",
+          "Party rosters for the GU, VI, AS and MP legislatures. legislature-party-counts-2026.json has 52 places (verified). Until they exist those seats stay at large under SG-GOV-territory-legislature-districts and SG-OFFICIALS-unrecorded-party; this is a researcher item.",
+          "A new TUNABLE row, otherTownsSitting, in src/core2/data/campaigns/parameters.json, with its spread and why.",
+          "New stopgap rows: SG-GOV-other-legislatures-not-sitting (U1 to U3), SG-GOV-other-place-law-effects, SG-GOV-other-place-concern-weight, SG-GOV-other-towns-coverage, SG-GOV-other-town-starting-law, SG-GOV-other-town-seats-not-elected. Narrow SG-GOV-unheld-filler-party. Resolve SG-GOV-world-governor-executive in U1b.",
+          "Delete stateSample from src/core2/data/officials/officials.json.",
+          "Puerto Rico municipios as local governments, from data/research/local-government/county-governing-bodies.json, which already exists.",
+          "A main speed:year receipt (--out) on the machine that measures each PR."
+        ],
+        "splits": [
+          "U1: every other legislature, governor and statewide executive is seated at the opening as named full people, and the sample is deleted. Proof: NJ/VA Nov 2025 race winners are seated into those terms. Speed receipt.",
+          "U1b: other states' governors are raced through the offices seat loop; the second governor writer (governorRaces' other-state branch) is deleted.",
+          "U2: each body's law, effective date, power check, filer lean, settledness, events and interest-group reads are its own. Today's worlds see no change; tested with an edge fixture bill in another state's chamber.",
+          "U3: every legislature sits on its own calendar, with the bills and sessions indexes and the played-year test, part 1 (at least 40 legislatures by law id), plus a speed receipt.",
+          "U4: other towns' councils are loaded, meet on their own band, and legislate for their own place. Played-year test part 2 (three councils by law id); final receipt; the item's done-when is met."
+        ],
+        "stopgaps": [
+          "SG-GOV-other-legislatures-not-sitting (new, marker at world-legislating.ts:192): seated chambers do not sit yet. U3 replaces it by scheduling every sessionPlaces key.",
+          "SG-GOV-world-governor-office-not-raced (new, if U1 ships before U1b): another state's governor office term is not replaced by its race's winner (governorRaces still writes only the voting seats table). U1b replaces it by racing the office seat.",
+          "SG-GOV-territory-legislature-districts (existing, now covers four more chambers seated at large) and SG-OFFICIALS-unrecorded-party (existing). Replaced by researched GU, VI, AS and MP rosters.",
+          "SG-GOV-unheld-filler-party (existing, narrowed to Congress members outside the town). Replaced when Congress seats become offices-engine terms."
+        ]
+      },
+      {
+        "id": "gov-congress-passes-policy-laws",
+        "steps": [
+          "C1 (one source for federal law). src/core2/modules/world-legislating.ts answerIn (218-239): for 'US', fall back to POLICY_QUESTIONS[question]?.answers.US?.answer, the researched file the state branch already reads. Delete FEDERAL_ANSWERS (33, 212-216) and src/core2/data/legislature/federal-answers.json; its 2 rows are state-level income-tax questions that Congress may never take. Point scripts/law-wiring/catalog.ts (14, 160-176) at answers.US. Result: Congress stops filing to re-enact the Medicaid work requirement that P.L. 119-21 already enacted (health-human-services.json:645-649, answers.US yes).",
+          "C1. world-legislating.ts fileChanges (around 440-470): replace the hard-coded PLATFORM_QUESTIONS loop (469) with an input `questions`. holdSession and the state openSession pass PLATFORM_QUESTIONS. The federal openSession (948-965) passes a new exported federalQuestions(api): the question-powers.json keys whose levels include 'federal' (27, verified; all have a federal catalog cell of may yes), that also have a recorded US answer (answerIn not null), a stance row (questionAxis(q) not 0) and a registered law-reach handler (policyHandlerKeys(), law-reach/host.ts:139-141). Do not add federal questions to PLATFORM_QUESTIONS: officials' signature draws, press, parties and every local filing loop read that list.",
+          "C1. Narrow SG-GOV-federal-proposal-coverage (stopgaps.json:4765; its line field is stale, the real marker is world-legislating.ts:945-947) to 'federal questions without an answer, a stance or a reader stay out'. Update world-legislating.test.ts:296-339 so that no filing re-enacts a question whose answerIn('US') is already 1.",
+          "C2 (data, one Sonnet researcher helper, research only). Add data/research/campaigns/federal-issue-axes-2026.json with one row per candidate federal question. Fields:\n- axis: ESTIMATED from the party gap, calibrated against the 54 state rows that carry both an axis and party splits.\n- consensusShare: the members' yes share on the latest recorded floor roll call that answers the question, SOURCED with its URL. It is the federal counterpart of yesShare, the elite consensus memberSupportAt already reads.\n- Source and tag.\nAdd the matching poll rows (support and party splits) to policy-support-2026.json. Candidates, each to verify by fetch: raise-federal-minimum-wage, national-data-privacy, reduce-mandatory-minimums, ban-congressional-stock-trading, cap-consumer-loan-interest.",
+          "C2. Starting federal law: add answers.US with a citation for each candidate that lacks one in data/research/laws/starting-law-2026/*.json; only raise-federal-minimum-wage has one today (verified). laws.ts:193-231 already writes a US starting row for us-federal-positions questions with a known US answer. Update starting-law-2026/expected-digests.",
+          "C3 (readers, test, stopgap resolved). src/core2/campaign-views.ts questionAxis (298-302) also reads the federal table. src/core2/officials-roster.ts memberSupportAt (292-311) reads consensusShare where the platform axes have no row, with the same formula |axis|*(2*share-1). officialStance, the president's decideAtDesk and the members' vote positions then all have stances; today all three are 0 (gov-federal-questions-answers-stances Notes, Oct 27-28).",
+          "C3. Law-reach: add src/core2/data/laws/reach-group-a.json policies rows only for admitted questions whose existing mechanic reads that question's own key. Today that is raise-federal-minimum-wage (federal-minimum-wage, group-a.ts:58), plus national-data-privacy as a records-only 'consumers' row mirroring consumer-data-privacy-law under the existing SG-GOV-REACH-A-data-privacy, widened. A federal loan cap would also need credit.ts householdApplications (1176-1196) to read the federal key; that waits for the loan-cap PR.",
+          "C3. Delete the api.stopgap('SG-GOV-federal-proposal-coverage') call and its marker (world-legislating.ts:945-947). Mark the row resolved: the admission rule replaces it, and questions without a reader stay out by that rule, which fakes nothing. Write src/core2/world-legislating-federal.test.ts. The floor, the 60 percent cloture (legislature.ts:4261-4268, senateClotureShare in parameters.json:382), the president's desk (executiveOf 4289-4330, decideAtDesk, override) and the law store (enact 5020-5159, same-day effect through Gozlon-Peretz) run unchanged."
+        ],
+        "test": "Builder: the laws lead's Sonnet builder, in src/core2/world-legislating-federal.test.ts (the file gov-federal-questions-admitted names; vitest, played year, heap 4 GB or more).\n\nSetup: seed from FEDERAL_SEED, else a random hex; drawPlace(seed, 'congress-policy') from all 56; setBookkeeping(false); buildBenchWorld(place.seed, gameStartDate(), {twoLevel: true, placeKey}); advanceCore 365 days.\n\nFind the laws-table rows with jurisdiction 'US', level 'federal' and terms.enactedByBill, whose series is a question in federalQuestions(api). Assert at least one. For it, read:\n- its bill: status enacted or overridden, bodyOfficeId federal:us-house or federal:us-senate, votes rows byBill in both chambers;\n- the row's terms.decidedBy, equal to the serving president's member key from executiveOf, with decision signed or overridden (legislature.ts:5032-5036).\n\nThen assert reachedBy(api, series, lawId) (law-reach/host.ts:317) names at least one personId that is a full person in api.state.people whose placeId is lawChain(api).townPlaceId.\n\nPrint the place, seed, session id session:US:<conveneAt>, bill id, law id and person id. If no bill clears cloture in the drawn world, the test fails and the PR reports the vote records. The test is never loosened.",
+        "speed": "Low risk. Admitting k federal questions adds about k x 2 x 535 filingReason calls at each Congress session opening (two in a played year), plus one to a few federal bills of 535 member positions each. That is well under a second (an estimate, not measured). It is checked once at C3: npm run speed:year -- --seed m7b --exclusive --baseline <main receipt from the same machine>, with the receipt in the PR body.",
+        "size": "About 8-13 hours:\n- C1: 2-3 h\n- C2 research: 3-5 h, by a Sonnet helper in parallel with item 1's U1 and U2\n- C3: 3-5 h, including a played-year test of about 5 minutes",
+        "data": [
+          "New file data/research/campaigns/federal-issue-axes-2026.json: per admitted question, axis (ESTIMATED, calibrated from party gaps on the 54 state rows), consensusShare (SOURCED from the latest floor roll call answering it) and sources.",
+          "Rows in policy-support-2026.json for the admitted federal questions (national poll plus D and R shares). raise-minimum-wage at line 420 is the state twin's poll; the federal key needs its own row.",
+          "answers.US with a citation in starting-law-2026 for each admitted question; 19 of the 20 us-federal-positions questions lack one (verified). expected-digests updated.",
+          "src/core2/data/laws/reach-group-a.json policies rows for admitted questions that reuse an existing mechanic.",
+          "Delete src/core2/data/legislature/federal-answers.json."
+        ],
+        "splits": [
+          "C1: Congress reads one source of federal law and files on a question list built from data (federal level, US answer, stance, reader); FEDERAL_ANSWERS is deleted. It stops re-enacting the Medicaid work requirement.",
+          "C2: data only. The federal stance rows, poll rows, answers.US citations and reach rows, researched and SOURCED or ESTIMATED.",
+          "C3: the stance readers read the rows. The played-year test shows Congress enacting a policy law at the president's desk that reaches a named town person; SG-GOV-federal-proposal-coverage is resolved and gov-federal-questions-admitted closes with it."
+        ],
+        "stopgaps": [
+          "SG-GOV-federal-proposal-coverage (existing, narrowed in C1 to 'questions without an answer, a stance or a reader stay out'). C3 replaces it with the admission rule and resolves it.",
+          "Found, not a stopgap of this item: medicaid-work-requirement's federal answer (P.L. 119-21) gets no US starting row, because laws.ts:204-208 writes the state's answer at the state level wherever the state's answer is known. The town's lawInForce therefore misses federal law, while answerIn('US') now sees it. File a pool item (lead laws) to write US rows for federal-and-state questions at their operativeAt date."
+        ]
+      }
+    ],
+    "overlap": [
+      "CTO (session_01S4WSHrFBAnJLwUcjDV8Vc3), before C1:\n- Fold gov-federal-questions-admitted into gov-congress-passes-policy-laws: same test file, same stopgap, same done-when.\n- Narrow gov-federal-questions-answers-stances to the questions C2 leaves out.\n- If U3's speed receipt is over 1.1x, assign laws-session-moves-too-many-questions (lead laws-effects); realistic bill rates are a prior ruling.\n- Note that laws-other-places-chains becomes buildable after U3, through the budgets.ts:1515-1535 withholding read.\n- File the found defects: officesOfState's federal part adds House seats that racesIn races again (voting.ts:4316-4360); the US starting row is missing for federal-and-state questions.\n- Carry the one question below.",
+      "Governing lead (session_01S4WSHsjEAH9fEbp8WxQwGZ), before U1b and U2:\n- U1b edits voting.ts (racesIn, governorRaces, seatRaceWinner), which its claimed campaign-like-real-races also edits.\n- U2 edits legislature.ts (billJurisdiction, effectiveRule, countyOfBody, mayorVeto and 13 placeId emits around executiveAction) next to its phases B and D (desk and budget).\n- Its phase F seats the player in other chambers through the same office rows U1 creates.\n- Agree on file order, and that seatOutsideOffices is the one writer for seats outside the town.",
+      "Words (session_01J5HkKbts1QhKYPKVHcFASz), before U2:\n- U2 stops law-took-effect for other places' laws (laws.ts:735-812).\n- It moves legislative-vote and 12 other legislature events to the body's own place with news false outside the chain.\n- It emits office.voted only for town-news members.\n- The press (press.ts, owned by Words) and the director read all of these. Ask which record the later 'news from other places' story wants, so nothing is built twice.\n- Also tell Words that C3 gives the president and members stances on federal questions, which the opening address's Congress section waits on.",
+      "Play-first lane (session_01S4WSHpJWHzmGsPvFQC9BCj), before U1: src/bench/government.ts:109 (the Politics screen) calls officesOfState. U1 seats every state's state offices at the opening, and officesOfState then lazily loads only the federal part, under a new loaded key. No bench file changes. The bodies.json overlap is gone: play-player-runs-only-six-offices is done on origin/main, and this plan does not edit src/core2/data/offices/bodies.json."
+    ],
+    "questions": [
+      "For D.C., the U.S. Virgin Islands, Guam, American Samoa and the Northern Marianas, the done-when's 'three other towns' councils' cannot be met in-state. The government-units data (src/core2/reference/government-units.ts governmentUnitsForState) lists:\n- D.C.: one municipality, itself;\n- the Virgin Islands: no local government, as in real life;\n- Guam, American Samoa and the Northern Marianas: no units.\nHawaii lists no municipality with a place GEOID, only its county councils. Puerto Rico has only municipios, through county-governing-bodies.json.\n\nThe plan does two things:\n- It counts Hawaii's county councils and Puerto Rico's municipal assemblies as other places' councils.\n- For the other five, the test redraws the place and names why, as world-legislating.test.ts:341 already does for a place with no council.\n\nIs that acceptable? The alternative is drawing councils from across the state line, which needs every local read in policy-authority.ts, officials.ts holderOf and legislature.ts mayorVeto to read the body's own state first.\n\nRead: OWNER-DECISIONS (origin/main, Oct 29, lines 25 and 40); DECISION-REGISTER 276-284; prior-rulings/laws-and-money.md item 19 ('every state, D.C., the territories and the localities'); prior-rulings/press.md:42; docs/play-first/LAW.md (no match); docs search; the pool (gov-every-state-and-town-governs, news-other-places-events-not-kept, laws-other-places-chains)."
+    ]
+  },
+  "critique": {
+    "wrong": [
+      {
+        "claim": "U2 (each body's law is its own) 'changes nothing in today's worlds'.",
+        "evidence": "Two of U2's own steps change today's worlds. (1) The filerOf home-lean change: today every seated official files by townLean (world-legislating.ts:355). The plan itself expects 'test churn in the town's state sessions'. (2) Gating office.voted on votesAreTownNews (officials.ts:1717-1725, seat.coversTown) stops the vote record for every member of Congress and state legislator outside the town's own seats. That includes members in the player's circle, whose events retainLog keeps (state.ts:720-736). The journal reads office.voted (src/director/data/journal-rows.json:360, director.json:1103), and the code comment says 'a record their journal and the director read' (legislature.ts:3447-3448).",
+        "correction": "Say that U2 changes behavior and re-baseline the tests. Gate office.voted by the bill's body instead of by the member: emit it for chain bodies (Congress, the town's state, the town's own bodies), and for other bodies only for members in the player's circle."
+      },
+      {
+        "claim": "billPlace ({placeId: the body's own jurisdiction, news: false} outside the chain) keeps other places' roll calls out of the town's news, following prior-rulings/press.md:42.",
+        "evidence": "The press reads every event (eventKinds '*') and puts every publicRecord event through wireItem, whatever its news flag (press.ts:370, 390-397). wireItem sets the level from facts.level before it looks at placeId (press-topics.ts:94-96; LEVELS maps city->town and state->state, 36-49). legislative-vote keeps publicRecord:true and facts.level = billReach(...).level (legislature.ts:3511-3516). So another state's roll call still reaches the town's wire as 'state' news, and another town's council vote as 'town' news. Each one also adds a wire row, which costs speed.",
+        "correction": "The press side also has to change: wireItem must check that the record's jurisdiction is in the town's chain (put facts.jurisdiction on the event), or the outside events must drop publicRecord. Since press.ts belongs to Words, name this exact change in the message to Words before U2."
+      },
+      {
+        "claim": "C3: questionAxis reading the federal table, plus consensusShare in memberSupportAt, gives members, the president and the vote positions their stances. The poll rows C2 adds to policy-support-2026.json feed this.",
+        "evidence": "publicSupport and publicOffset read axisOf (issue-axes-2026.json) directly, not questionAxis (campaign-views.ts:343 and 351). A member's district and state terms go through supportAt -> publicOffset (officials-roster.ts:284-289; officials.ts:1296-1304), and so does the press term (officials.ts:1375). With the axis at 0 there, the new poll rows are multiplied by zero and never read. Popularity is the path that 'draws members of both parties' (officials-roster.ts:279-283), which is what cloture needs.",
+        "correction": "Make publicOffset and publicSupport take their axis from questionAxis(q). Better: keep one axes table, add the federal rows to it, and have PLATFORM_QUESTIONS (campaign-views.ts:38-39) filter them out, so every axis reader reads the same source."
+      },
+      {
+        "claim": "C1's result: 'Congress stops filing to re-enact the Medicaid work requirement that P.L. 119-21 already enacted.'",
+        "evidence": "After C1, answerIn('US') is yes, so the only move left on medicaid-work-requirement is a repeal. The question stays in federalQuestions: it is federal in question-powers, has axis 0.114 and a group-b handler. Its elite-consensus term is the share of states with a state work requirement (yesShare 0.078, issue-axes-2026.json), so memberSupportAt = 0.114*lean - 0.096 (officials-roster.ts:305-311). The repeal reason is then 0.096 - 0.114*lean (world-legislating.ts:397-420), positive for every member below lean about 0.84. A majority leader below that line also turns the party pull toward repeal (officials.ts:1326-1338). The likely new filing is a repeal of §71119 with support from both parties, and the C3 test would accept that repeal as Congress's policy law.",
+        "correction": "In C2 and C3, give every question a federal session takes Congress's own consensusShare, not only the questions with no axis row. P.L. 119-21 passed 218-214 in the House and 51-50 in the Senate, a share near 0.5, so the vote splits by party. Check this in the C3 played year."
+      },
+      {
+        "claim": "Questions section: the plan counts Hawaii's county councils and Puerto Rico's municipal assemblies as other places' councils.",
+        "evidence": "U4 does not do this. localGovernmentsOfState keeps only municipal and township units that have a placeGeoid, and officesOfPlace builds 'never the county offices'. municipioUnit returns unitType 'county' with placeGeoid null (government-units.ts:64-95), and its body is boardOffices(unit, 'county') (offices-local.ts:276-288). Hawaii's four units are counties, or a city-county with placeGeoid null (government-units.generated.ts rows 162013, 183701, 184856, 189877). The U2 council branch would return 'place:null', and the part-2 test asserts council offices with law:place:<geoid>:city rows.",
+        "correction": "Choose one. Either build those bodies as county boards that write county:<geoid> rows through countyOfBody, and let the test accept them for those places, or state that HI and PR are redrawn along with DC, GU, VI, AS and MP."
+      },
+      {
+        "claim": "C2: 'add answers.US with a citation for each candidate that lacks one in starting-law-2026'. 19 of 20 'lack one'.",
+        "evidence": "Those 19 questions are not in starting-law-2026 at all; only raise-federal-minimum-wage is (labor-commerce.json). A new key also needs a question-order.json entry, or index.ts throws at import (starting-law-2026/index.ts:52-61). Once the questions are in POLICY_QUESTIONS with a nonzero questionAxis, every reader that walks POLICY_QUESTIONS filtered by axis != 0 picks them up: residents' meeting topics (meetings.ts:634-636), officials' past positions (past-elections.ts:343-344), office-day-acts.ts:656-657, and ownSections (legislature.ts:3835). That is the ripple the plan avoids for PLATFORM_QUESTIONS.",
+        "correction": "Add the full question entries and question-order.json to C2. List these four readers, decide whether federal questions belong in town meeting topics, and tell Words."
+      },
+      {
+        "claim": "C3: national-data-privacy enters as a records-only row 'under SG-GOV-REACH-A-data-privacy, widened', and 'questions without a reader stay out by that rule, which fakes nothing'.",
+        "evidence": "That stopgap says the state law's compliance cost IS read by the business engine (stopgaps.json:4536-4545). readBusinessDuty is keyed to the state question only (business.ts:1269-1270, 1316-1330), so the federal row would have no reader at all. policyHandlerKeys() also includes every mechanic:'none' records row (group-a.ts:76-79), so the admission rule admits records that nothing reads.",
+        "correction": "Add the federal key as a BusinessDuty row in business.ts, which gives it a real read cheaply, or register a new stopgap saying the federal law has no reader. Drop the 'fakes nothing' claim."
+      },
+      {
+        "claim": "Speed: '1.2x leaves about 24-27 s for everything item 1 adds.'",
+        "evidence": "The item's own Rules say 'a town's game year stays under two minutes' (gov-every-state-and-town-governs.md, Rules), and the AGENTS.md Speed rule says the same. Main is already 118-135 s for Long Hill (LEADS-2026-10-24.md:1003-1006, 1107). The real budget is about zero, not 24-27 s.",
+        "correction": "Plan exact cuts that pay for U1 and U3, or take the conflict between the two limits to the CTO before U1 lands, not after U3."
+      },
+      {
+        "claim": "U1's test names the NJ or VA Nov 2025 race winners seated into those office terms, with each holder's homeState being that state.",
+        "evidence": "Until U1b, seatRaceWinner draws a new holder's identity with stateUsps and homeState from lawChain(api).stateKey (voting.ts:4669-4686) whenever the party changes. U1 is what makes those seats office terms that racesIn races (voting.ts:4318-4332), so a flipped NJ or VA seat gets a holder from the town's state. The test also names states in its logic (one-rule-all-places).",
+        "correction": "Move the seatRaceWinner home-state fix into U1. Have the test read whichever other-state seats the voting engine raced in the year (seats whose electionYear falls in it), not NJ or VA by name."
+      }
+    ],
+    "missing": [
+      "Leak the isolation test misses: the 'officeholders' reach selector marks every serving term with a full person (group-a-records.ts:459-476). The town's own ban-lobbying-after-office and legislative-term-limits laws (reach-group-a.json:654-690) would then reach about 7,400 other-state legislators after U1, and other towns' council members after U4. The lawId is a chain law, so the planned 'lawId has a chain jurisdiction' check cannot catch it. Filter the selector to seats with coversTown.",
+      "Leak: when another town's council drafts a bill, recordHomeRule credits the town's own city government as reached by the state's home-rule grant (legislature.ts:1946-1950 -> policy-authority.ts:176-185, target governments(api).find(level)). U4 should skip it, or target the body's own government, for bodies outside the town.",
+      "pastTerms caps every legislative office's past service by the town's state term-limit answer (offices.ts:841-860, loaded 'town'.stateKey). U1 runs pastTerms for every other state's chamber through seatOutsideOffices, so it needs office.jurisdiction for state chambers.",
+      "U1b deletes governorRaces' other-state branch, but nextRaceYear uses governorRaces to decide whether an odd year has an election (voting.ts:3559-3566). Count elected governor seats with coversTown false in its oddYears set.",
+      "Replace, never layer: once every state chamber and governor is a held term, the legislature and governor branches of unheld() (officials.ts:155-160) and unheldOffice/vacateUnheldSeat's stateOffices path (offices.ts:1125-1215) are dead. Narrow them to Congress in U1, not only the stopgap.",
+      "Done-when risk for item 2: consensusShare is defined as 'the latest recorded floor roll call', and national-data-privacy may have none. From the public record (not fetched here): ADPPA was reported 53-2 by House Energy and Commerce in July 2022 and never reached the floor, and APRA was never marked up. The only admitted question with a floor vote, raise-federal-minimum-wage (Senate, March 2021, 42-58), fails cloture (legislature.ts:4261-4268). The plan names no question that can honestly clear 60 votes and has a reader (reduce-mandatory-minimums has the First Step Act's floor votes but no reader). Name one, or wire a reader for it.",
+      "The part-1 test treats bill status 'enacted' as proof the governor acted, but 'enacted' is executiveAction's default when no executive acts (legislature.ts:4386). Assert terms.decidedBy is the governor's member key, as the item-2 test does for the president.",
+      "SG-GOV-other-place-concern-weight should name its replacement as the existing open pool item world-other-places-coarse-population, not a new description."
+    ],
+    "verdict": "The plan is mostly sound, but it needs fixes before building. Most cited lines check out: openWorldLegislating, billJurisdiction, effectiveRule, countyOfBody, lawTookEffect, officesOfState, specs and the sample block, racesIn and seatRaceWinner, answerIn and FEDERAL_ANSWERS, fileChanges' PLATFORM_QUESTIONS loop, the 13 town-placed emits, the cloture row, and policyHandlerKeys and reachedBy. Its shape is right: one engine, places from data, calendar work only, no dice. Defects I can show by line: the press would still carry other places' roll calls, because wireItem reads facts.level first. publicOffset ignores the new federal axes, so the poll rows are dead. Under C1, Congress's likely filing becomes a repeal of the Medicaid work requirement with support from both parties, which the C3 test would accept. Three isolation leaks the test cannot see: the officeholders reach selector, recordHomeRule, and pastTerms' term-limit cap. The 'changes nothing today' claim for U2 is false. The Hawaii and Puerto Rico question contradicts U4's own steps. The speed budget ignores the item's two-minute rule, and main is already at about two minutes. U1's own race winners take the town's home state until U1b."
+  }
+}
