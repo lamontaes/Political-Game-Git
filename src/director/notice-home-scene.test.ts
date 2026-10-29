@@ -7,7 +7,10 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { countedLate } from "../core2/housing-homeless";
 import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
+import { residentsRuntime } from "../core2/modules/residents";
+import { coreAPI, fillInPerson } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -19,10 +22,13 @@ import type { ScheduleEntry } from "./scheduling";
 // person lives with brings it to them at home: what is owed and the day it is
 // due, from the record. The person's answer is written back, and a promise to
 // pay is kept on its record and told in their journal. Places are drawn in
-// turn until a household of two or more is served notice.
+// turn until a household of two or more that the player has met is served
+// notice by the landlord's own weighing.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 4;
-const DAYS = 240;
+const DAYS = 180;
+const LEAD_DAYS = 60;
+const WATCH = 6;
 const LABEL = "circumstance:notice-home";
 
 /** Every path of a tree: the replies chosen, the node it reaches. */
@@ -44,17 +50,37 @@ it(`a notice to pay or leave is talked over at home, from the record (seed ${see
         twoLevel: true,
         placeKey: place.key,
       });
-      // Everyone full who lives with someone: whoever is served, the
-      // director has their ledger.
-      const watched = [...core.people.values()]
-        .filter(
-          (row) =>
-            row.alive &&
-            row.tier !== "husk" &&
-            (core.households.get(row.householdId)?.memberIds.length ?? 0) > 1,
-        )
-        .map((row) => row.id as PersonId);
-      for (const id of watched) director.watch(core, id);
+      // Two months in, the households the counts hold behind on rent are
+      // the ones the landlord weighs. The player meets one (it is filled in,
+      // its arrears now its lease's), and the director keeps its members'
+      // ledgers from then on.
+      advanceCore(core, addDays(makeIsoDate(core.date), LEAD_DAYS));
+      const api = coreAPI(core);
+      const town = (core.placeMetadata as { housingTown?: string } | undefined)
+        ?.housingTown;
+      const store = residentsRuntime(core)?.store;
+      const behind = town && store ? countedLate(api, town, () => false) : [];
+      const counted = new Map(
+        [...(store?.liveHouseholds() ?? [])].map((row) => [row.id, row]),
+      );
+      const watched: PersonId[] = [];
+      for (const row of behind) {
+        const household = counted.get(row.householdId);
+        const people = household ? store!.peopleOf(household) : [];
+        if (people.length < 2) continue;
+        fillInPerson(core, people[0]!.id as PersonId);
+        for (const member of core.households.get(row.householdId)?.memberIds ??
+          [])
+          if (core.people.get(member)?.alive) {
+            director.watch(core, member);
+            watched.push(member);
+          }
+        if (watched.length >= WATCH) break;
+      }
+      if (!watched.length) {
+        tried.push(`${where}: no household of two behind on rent`);
+        continue;
+      }
       let found: { personId: PersonId; entry: ScheduleEntry } | undefined;
       for (let day = 0; day < DAYS && !found; day += 1) {
         advanceCore(core, addDays(makeIsoDate(core.date), 1));
