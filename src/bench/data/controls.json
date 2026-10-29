@@ -145,8 +145,6 @@
     "since": "Since",
     "record": "Record",
     "publicRecordTitle": "Public record",
-    "closeness": "How close you are",
-    "closenessEnds": ["Distant", "Close"],
     "earlier": "Earlier years",
     "later": "Later years",
     "seat": "Seat held"
@@ -498,11 +496,6 @@
     "page": "{page} of {pages}",
     "previousPage": "Previous page",
     "nextPage": "Next page",
-    "feeling": {
-      "warm": "Thinks well of you",
-      "known": "Knows you",
-      "cool": "Cold toward you"
-    },
     "delegation": "{state}'s members",
     "ward": "Ward {n}",
     "district": "District {n}",

@@ -664,7 +664,7 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
 }
 
 /** The tie between two people, either way round, when they have one. */
-export function tieBetween(core: CoreState, viewerId: string, otherId: string) {
+function tieBetween(core: CoreState, viewerId: string, otherId: string) {
   return [...(core.relationshipsByPerson.get(viewerId) ?? [])]
     .map((id) => core.relationships.get(id))
     .find(

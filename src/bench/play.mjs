@@ -27,7 +27,6 @@ import { splitScreen } from "./ui/split-screen.mjs";
 import { section } from "./ui/section.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
 import { plate, factPlates, chips } from "./ui/plate.mjs";
-import { meter } from "./ui/meter.mjs";
 import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
@@ -1715,8 +1714,10 @@ async function showPerson(person) {
   const stance = voteWords();
   // The card as the mock draws it, on framed plates (owner, Oct 29): what
   // they are to you as chips, what they are like, small plates for their
-  // work, seats, home and school beside how close you are, then a tab rail
-  // over one plate: their history as a timeline, or their record.
+  // work, seats, home and school, then a tab rail over one plate: their
+  // history as a timeline, or their record. How they feel about you is never
+  // a meter or a mark (owner, Oct 29; OCD-LIFE-008, "never a visible
+  // meter"): it shows in what they do and what happened between you.
   const together = [
     ...(known?.party ? [{ text: known.party }] : []),
     // What the two share, by the records the director's scenes read too. A
@@ -1752,16 +1753,6 @@ async function showPerson(person) {
     })),
     c.placeName && { title: labels.place, value: c.placeName },
     c.school && { title: labels.school, value: c.school.name },
-    // How close you are, on the tie the player has with them (0 to 1).
-    c.tie && {
-      node: meter({
-        label: labels.closeness,
-        value: c.tie.level,
-        ends: labels.closenessEnds,
-      }),
-      wide: true,
-      record: c.tie.recordId,
-    },
   ].filter(Boolean);
   // Their record: what the public knows of them, then the people they know
   // in office, closest first, from their ties.
@@ -3150,17 +3141,6 @@ const sheets = {
       key === gov.homeState?.key
         ? gov.homeState.name
         : (states.find((st) => st.key === key)?.name ?? key);
-    // How a member feels about you, in three bands of the tie's closeness
-    // (-1 to 1): display wording only, never a choice.
-    const FEELING_WARM = 0.5;
-    const feelingOf = (level) =>
-      level === null || level === undefined
-        ? null
-        : level < 0
-          ? "cool"
-          : level >= FEELING_WARM
-            ? "warm"
-            : "known";
     // A seat as a voter says it: a town's ward, a state's district, at large.
     const seatWords = (body, district) =>
       !district
@@ -3172,22 +3152,18 @@ const sheets = {
               n: Number(district),
             })
           : district;
-    const card = (body, m, line, large = false) => {
-      const feeling = feelingOf(m.feeling);
-      return memberCard(
+    const card = (body, m, line, large = false) =>
+      memberCard(
         {
           name: m.name,
           line,
           party: m.party,
           badge: m.party ? m.party.charAt(0) : null,
           face: m.face,
-          feeling,
-          feelingLabel: feeling ? labels.feeling?.[feeling] : null,
           onOpen: open(m.cardId, m.face),
         },
         { large },
       );
-    };
     const sinceLine = (m) =>
       m.party
         ? fill(labels.partySince, {
@@ -3328,13 +3304,9 @@ const sheets = {
               .map((m) => card(body, m, seatWords(body, m.district))),
             ...body.leaders.map((l) => {
               // A leader who sits in this chamber is drawn as its member,
-              // party and feeling included; one from elsewhere by name.
+              // party included; one from elsewhere by name.
               const seated = body.members.find((m) => m.cardId === l.cardId);
-              return card(
-                body,
-                seated ?? { ...l, party: null, feeling: null },
-                words(l.post),
-              );
+              return card(body, seated ?? { ...l, party: null }, words(l.post));
             }),
             ...[...body.members]
               .filter((m) => !m.own && !leaderIds.has(m.cardId))

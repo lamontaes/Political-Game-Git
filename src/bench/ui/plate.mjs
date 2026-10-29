@@ -19,28 +19,24 @@ export function plate(title, ...content) {
 /**
  * Small plates side by side, one per fact (Work, Home, School): its label,
  * the fact in bold, and a second line under it when there is one.
- * `facts`: [{ title?, value, note?, record? }], or [{ node, wide? }] for a
- * plate holding another part (a meter), two columns wide when `wide`.
+ * `facts`: [{ title?, value, note?, record? }].
  */
 export function factPlates(facts) {
   return el(
     "div",
     { className: "fact-plates" },
     ...facts.map((fact) => {
-      const node = fact.node
-        ? el("div", { className: "plate fact-plate" }, fact.node)
-        : el(
-            "div",
-            { className: "plate fact-plate" },
-            ...(fact.title
-              ? [el("span", { className: "label", textContent: fact.title })]
-              : []),
-            el("strong", { className: "fact-value", textContent: fact.value }),
-            ...(fact.note
-              ? [el("span", { className: "fact-note", textContent: fact.note })]
-              : []),
-          );
-      if (fact.wide) node.classList.add("wide");
+      const node = el(
+        "div",
+        { className: "plate fact-plate" },
+        ...(fact.title
+          ? [el("span", { className: "label", textContent: fact.title })]
+          : []),
+        el("strong", { className: "fact-value", textContent: fact.value }),
+        ...(fact.note
+          ? [el("span", { className: "fact-note", textContent: fact.note })]
+          : []),
+      );
       if (fact.record) node.dataset.record = fact.record;
       return node;
     }),

@@ -1,16 +1,16 @@
 // The one member card: a person who holds a seat, as a control that opens
-// their card. Face, name, the seat under it, the party's badge at the right,
-// and a mark for how they feel about you when your character knows them
-// (owner, Oct 29). `large` is the executive's card (the mock's Mayor).
+// their card. Face, name, the seat under it and the party's badge at the
+// right; never a mark for how they feel about you (owner, Oct 29: no scale of
+// what someone thinks of you). `large` is the executive's card (the mock's
+// Mayor).
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { headshot } from "./headshot.mjs";
 import { partyClass } from "./map.mjs";
 
 /**
- * `person`: { name, line, party, badge, face, feeling, feelingLabel, onOpen }.
- * `line` is the seat or post in words, `badge` the party's letter, `feeling`
- * one of "warm", "known", "cool" or null, `feelingLabel` its words.
+ * `person`: { name, line, party, badge, face, onOpen }. `line` is the seat or
+ * post in words, `badge` the party's letter.
  */
 export function memberCard(person, { large = false } = {}) {
   const face = person.face
@@ -31,15 +31,6 @@ export function memberCard(person, { large = false } = {}) {
         ? [el("span", { className: "member-line", textContent: person.line })]
         : []),
     ),
-    ...(person.feeling
-      ? [
-          el("span", {
-            className: `member-feeling ${person.feeling}`,
-            title: person.feelingLabel ?? "",
-            ariaLabel: person.feelingLabel ?? "",
-          }),
-        ]
-      : []),
     ...(person.badge
       ? [
           el("span", {

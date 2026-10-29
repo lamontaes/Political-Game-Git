@@ -1793,10 +1793,10 @@ body.dev .dev-ring {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: min(1060px, calc(100vw - 2 * var(--gutter)));
+  width: min(1120px, calc(100vw - 2 * var(--gutter)));
   height: min(780px, calc(100vh - 2 * var(--gutter)));
   display: grid;
-  grid-template-columns: minmax(200px, 30%) minmax(0, 1fr);
+  grid-template-columns: minmax(220px, 36%) minmax(0, 1fr);
   column-gap: 26px;
   padding: 26px 30px 28px;
 }
@@ -1832,9 +1832,8 @@ body.dev .dev-ring {
   background-size: 13px 13px;
 }
 .dossier #person-media .screen-portrait {
-  inset: 18px 8px 0;
-  width: calc(100% - 16px);
-  height: calc(100% - 18px);
+  inset: 14px 0 0;
+  height: calc(100% - 14px);
 }
 .dossier-main {
   display: flex;
@@ -3720,21 +3719,6 @@ details.entry[open] {
     0 0 0 1px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
-.member-feeling {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
-}
-.member-feeling.warm {
-  background: #7fa864;
-}
-.member-feeling.known {
-  background: var(--gold);
-}
-.member-feeling.cool {
-  background: var(--red);
-}
 #sheet-body .member-card.large {
   grid-template-columns: 64px max-content auto auto;
   justify-content: start;
@@ -3893,7 +3877,7 @@ details.entry[open] {
   margin: 0;
 }
 
-/* ---- Framed plates, trays, the timeline and the meter (owner, Oct 29, 22:45) ----
+/* ---- Framed plates, trays and the timeline (owner, Oct 29, 22:45) ----
    Content never sits on the bare panel: every group sits on a framed plate (a soft
    gradient, a thin brass edge, an inner shadow, small brass corners). A plate inside a
    plate is a plain group, so the frame is one deep. Buttons sit in a recessed tray. */
@@ -3951,10 +3935,6 @@ details.entry[open] {
 }
 .fact-plate .label {
   margin: 0;
-}
-.fact-plate.wide {
-  grid-column: span 2;
-  justify-content: center;
 }
 .fact-value {
   font: 600 15.5px/1.25 var(--ui);
@@ -4100,63 +4080,4 @@ details.entry[open] {
   padding: 0;
   margin: 0;
   font: 600 18px/1 var(--ui);
-}
-/* The meter: a label, the brass-framed bar with its fill and handle, its two ends. */
-.meter {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.meter-label {
-  font: 600 10.5px var(--ui);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.meter-track {
-  position: relative;
-  height: 10px;
-  border: 1px solid var(--brass);
-  border-radius: 5px;
-  background: linear-gradient(#0d0c0b, #1f1d1b);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.6),
-    inset 0 1px 3px rgba(0, 0, 0, 0.8);
-}
-.meter-fill {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  border-radius: 4px;
-  background: linear-gradient(
-    90deg,
-    var(--brass-lo),
-    var(--gold) 70%,
-    var(--brass-hi)
-  );
-}
-.meter-handle {
-  position: absolute;
-  top: -5px;
-  width: 7px;
-  height: 18px;
-  margin-left: -3.5px;
-  border-radius: 2px;
-  border: 1px solid #141412;
-  background: linear-gradient(
-    90deg,
-    var(--brass-lo),
-    var(--brass-hi) 50%,
-    var(--brass-lo)
-  );
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
-}
-.meter-ends {
-  display: flex;
-  justify-content: space-between;
-  font: 500 10.5px var(--ui);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-3);
 }
