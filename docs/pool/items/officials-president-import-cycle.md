@@ -21,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/officials-president.ts, src/core2/officials-roster.ts, src/core2/appointments.ts, src/core2/modules/elections.ts
 
-**Notes.** TODO
+**Notes.** Oct 29 07:05 UTC, Words and director: #6753 removes the two load-time reads of the roster's copy (officials-president.ts DATA, modules/officials.ts candidacy), so the vote-ask test loads and passes again (Edgeley, North Dakota, run seed e1862627959d449c). The cycle itself (done-when line 2) is still open for the elections lead.

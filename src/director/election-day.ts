@@ -40,6 +40,9 @@ export function electionDayLine(
       },
     ]),
   );
+  // Election day and night are told on the election's own day (the bench
+  // calls these on it), so "today" and "tonight" are true.
+  cited["same-day"] = { text: "yes", sourceRecordIds: [...moment.recordIds] };
   const worded = wordSceneMove({
     move: {
       step: "narrate",
