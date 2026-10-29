@@ -1,6 +1,31 @@
 {
   "entries": [
     {
+      "version": "0.66.0",
+      "releasedOn": "2026-10-29",
+      "revision": "55e28f66880504f69d282f94470706cbb47e13c6",
+      "changeIds": [
+        "cto-oct29-room-spots-adobe",
+        "effects-crime-justice-2",
+        "laws-college-step",
+        "laws-snap-stopped-heads-test",
+        "laws-social-media-age-check",
+        "people-pack-v3",
+        "people-pack-v4",
+        "play-people-center-face-check-headshot",
+        "play-politics-leaders-list-order",
+        "release-main-red-health-web-test-controls",
+        "release-main-red-seat-leavings-state-draw",
+        "release-red-main-skill-lessons",
+        "skills-checker-traps",
+        "skills-people-pack",
+        "skills-play-first-pr-images",
+        "skills-wiring-audit-oct29",
+        "words-interview-sitting",
+        "words-printed-bodies-side-briefs"
+      ]
+    },
+    {
       "version": "0.65.0",
       "releasedOn": "2026-10-29",
       "revision": "c933129b1d0d66bca82f73b799bbb09ab13b2263",
