@@ -16,12 +16,12 @@ import {
   personalityShares,
   startingConditionAssignments,
 } from "../condition-pack";
-import { webReach } from "../outcome-web-reach";
 import { remainingDaysAfterOnset } from "../death-causes";
 import {
   DEATH_WEB_REFRESH_DAY,
   deathWebFactor,
   markWaitingHealthLinks,
+  youthCannabisWeb,
 } from "../health-web";
 import {
   assignDeathCause,
@@ -677,8 +677,9 @@ function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
 
 /**
  * The share of people this age in a place who used cannabis in the past
- * month, before personality: the national share (NSDUH) times the outcome
- * web's factor for the place (cannabis-sales-to-youth-use moves it where the
+ * month, before personality: the national share (NSDUH) times this world's
+ * chronic-conditions factor (the one the adult drug-use condition takes) and
+ * the outcome web's factor for the place (cannabis-sales-to-youth-use moves it where the
  * state's sales law is in force). Null outside the teen ages. One rule for
  * both tiers: a full teen's share is moved by their conscientiousness from
  * this, and a counted teen carries it times their count (births-counted.ts).
@@ -692,11 +693,13 @@ export function youthCannabisShare(
   const band = data.youthCannabis;
   const whole = Math.floor(age);
   if (whole < band.fromAge || whole >= band.belowAge) return null;
-  const web = webReach(api, placeId, band.measure, { age: whole });
+  const web = youthCannabisWeb(api, placeId, band.measure, whole);
   return {
     share: Math.min(
       api.parameter("one"),
-      api.parameter(band.shareParameter) * web.factor,
+      api.parameter(band.shareParameter) *
+        worldRateFactor(api.state.seed, "conditions") *
+        web.factor,
     ),
     factor: web.factor,
     recordId: web.recordId,

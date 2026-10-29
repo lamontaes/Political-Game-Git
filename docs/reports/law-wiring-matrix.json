@@ -130,14 +130,14 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 83,
-    "partly": 2,
+    "wired": 84,
+    "partly": 1,
     "stopgapped": 4,
     "researchLinks": {
       "links": 244,
-      "reaching": 161,
+      "reaching": 162,
       "aboutZero": 19,
-      "unread": 64,
+      "unread": 63,
       "unreadWithNoStopgap": 0
     },
     "shownOnAScreen": 87,
@@ -192,8 +192,8 @@
         "n/a": 8
       },
       "web": {
-        "wired": 67,
-        "partial": 2,
+        "wired": 68,
+        "partial": 1,
         "missing": 0,
         "stopgap": 4,
         "n/a": 16
@@ -3569,7 +3569,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:801, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:801, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:801, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:958, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:958, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:958, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78",
           "why": ""
         },
         "knowing": {
@@ -4212,7 +4212,7 @@
       "family": "business",
       "reachGroup": "A",
       "mechanic": "none",
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -4226,32 +4226,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 101 open (full 38, counted groups 41/294 people, households 16, orgs 6, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting:adults:person_ae720410206893b1:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 124 open (full 59, counted groups 36/229 people, households 23, orgs 6, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_eadfec9a418d1fed:2025-01-21",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 104 open (full 43, counted groups 33/273 people, households 22, orgs 6, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting:adults:person_ae720410206893b1:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 120 open (full 65, counted groups 33/216 people, households 16, orgs 6, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_8dde72f186b97e08:2025-01-21",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/place-prices.ts:694",
+          "evidence": "src/core2/modules/place-prices.ts:953",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c: 6407882 (journal:2025-02-03:7629); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:business-commerce.legalize-cannabis-sales: 5862780 (journal:2025-02-03:7565); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 3 the law paid or charged, the payments that changed first: 3 accounts.transfer paid in (src/core2/counted-money.ts:809 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 41821 here, journal:2025-02-03:7806); 3 accounts.transfer paid in (src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 37433 here, journal:2025-02-03:7636); 3 accounts.transfer paid out (src/core2/modules/purchase-tax.ts:274 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, -1203 here, journal:2025-02-03:7637)",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c: 5519727 (journal:2025-02-03:8061); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:business-commerce.legalize-cannabis-sales: 6184183 (journal:2025-02-03:7969); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 3 the law paid or charged, the payments that changed first: 3 accounts.transfer paid in (src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 45416 here, journal:2025-02-03:8195); 3 accounts.transfer paid in (src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 31556 here, journal:2025-02-03:8065); 3 accounts.transfer paid out (src/core2/modules/purchase-tax.ts:341 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, -1178 here, journal:2025-02-03:8066)",
           "why": ""
         },
         "web": {
-          "status": "partial",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-01 cannabis-sales-to-overdose-deaths -0.0500, read by src/core2/death-cause.ts:334",
-          "why": "links not built or not read: cannabis-sales-to-youth-use (no reader, SG-EW-HEALTH-condition-record)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 cannabis-sales-to-youth-use 0.0400, read by src/core2/modules/health.ts:1195; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 cannabis-sales-to-youth-use 0.0400, read by src/core2/modules/health.ts:1195; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 cannabis-sales-to-youth-use 0.0400, read by src/core2/modules/health.ts:1195",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 69 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 106 people heard (person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 70 people heard (person_e02fea68a64aaf0b:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 101 -> after repeal 0 -> re-enacted 131; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 124 open -> after repeal 0 open, 98 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 104 -> after repeal 0 -> re-enacted 129; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 120 open -> after repeal 0 open, 91 ended",
           "why": ""
         },
         "allPlaces": {
@@ -6930,7 +6930,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-infant-deaths 0.0600, read by src/core2/health-web.ts:64; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-infant-deaths 0.0600, read by src/core2/health-web.ts:64; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229",
           "why": ""
         },
         "knowing": {
