@@ -327,6 +327,13 @@ export const SCHOOL_MODULE: PreStartModule = {
       },
       groups: { indexes: { byPlace: { fields: ["placeId"] } } },
       measures: { indexes: { byPlace: { fields: ["placeId"] } } },
+      // Each graduate's college step: enrolled, completes, and the degree's day.
+      college: {
+        indexes: {
+          byPerson: { fields: ["personId"] },
+          byPlace: { fields: ["placeId"] },
+        },
+      },
     },
   },
   onDay: (api) => {
