@@ -17,7 +17,8 @@ import { gameStartDate } from "../core2/game-start";
 import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { openContests } from "../core2/modules/elections";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { ELECTIONS_MODULE_ID, openContests } from "../core2/modules/elections";
 import { ballotOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -58,16 +59,29 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
           a.electionDate.localeCompare(b.electionDate) ||
           a.id.localeCompare(b.id),
       )
-      .find(
-        (contest) =>
+      .find((contest) =>
+        ["petitioning", "on-ballot"].includes(
           (
             fileForOffice(core, playerId!, contest.id) as {
               filing?: { status?: string };
             }
-          ).filing?.status === "on-ballot",
+          ).filing?.status ?? "",
+        ),
       );
     if (!filed) {
       tried.push(`${where}: no race the player could enter`);
+      continue;
+    }
+    // Filing is a petition: the player canvasses for signatures until it
+    // holds what the clerk counts, and the clerk checks it.
+    const filingId = `filing:${filed.id}:${playerId}`;
+    gatherSignatures(core, filingId);
+    const status = (
+      api.moduleState(ELECTIONS_MODULE_ID).table("filings").get(filingId) as
+        { status?: string } | undefined
+    )?.status;
+    if (status !== "on-ballot") {
+      tried.push(`${where}: the petition for ${filed.id} came up ${status}`);
       continue;
     }
     // The world runs to the week before; the player lives the last days.

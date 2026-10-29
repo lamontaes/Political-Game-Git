@@ -17,8 +17,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.deliberative.mild",
@@ -27,8 +26,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.impulsive.strong",
@@ -37,8 +35,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.impulsive.mild",
@@ -47,8 +44,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.reserved.strong",
@@ -57,8 +53,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.reserved.mild",
@@ -67,8 +62,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.outgoing.strong",
@@ -77,8 +71,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.outgoing.mild",
@@ -87,8 +80,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.conciliatory.strong",
@@ -97,8 +89,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.conciliatory.mild",
@@ -107,8 +98,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.confrontational.strong",
@@ -117,8 +107,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.confrontational.mild",
@@ -127,8 +116,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.lets-things-slip.strong",
@@ -137,8 +125,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.lets-things-slip.mild",
@@ -147,8 +134,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.dependable.strong",
@@ -157,8 +143,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.dependable.mild",
@@ -167,8 +152,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.cautious.strong",
@@ -177,8 +161,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.cautious.mild",
@@ -187,8 +170,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.risk-taking.strong",
@@ -197,8 +179,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.risk-taking.mild",
@@ -207,8 +188,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.balanced.1",
@@ -217,8 +197,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-27",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.deliberative.strong-third",
@@ -227,8 +206,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.deliberative.strong-they",
@@ -237,8 +215,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.deliberative.mild-third",
@@ -247,8 +224,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.deliberative.mild-they",
@@ -257,8 +233,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.impulsive.strong-third",
@@ -267,8 +242,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.impulsive.strong-they",
@@ -277,8 +251,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.impulsive.mild-third",
@@ -287,8 +260,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.impulsive.mild-they",
@@ -297,8 +269,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.reserved.strong-third",
@@ -307,8 +278,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.reserved.strong-they",
@@ -317,8 +287,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.reserved.mild-third",
@@ -327,8 +296,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.reserved.mild-they",
@@ -337,8 +305,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.outgoing.strong-third",
@@ -347,8 +314,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.outgoing.strong-they",
@@ -357,8 +323,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.outgoing.mild-third",
@@ -367,8 +332,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.outgoing.mild-they",
@@ -377,8 +341,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.conciliatory.strong-third",
@@ -387,8 +350,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.conciliatory.strong-they",
@@ -397,8 +359,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.conciliatory.mild-third",
@@ -407,8 +368,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.conciliatory.mild-they",
@@ -417,8 +377,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.confrontational.strong-third",
@@ -427,8 +386,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.confrontational.strong-they",
@@ -437,8 +395,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.confrontational.mild-third",
@@ -447,8 +404,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.confrontational.mild-they",
@@ -457,8 +413,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.lets-things-slip.strong-third",
@@ -467,8 +422,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.lets-things-slip.strong-they",
@@ -477,8 +431,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.lets-things-slip.mild-third",
@@ -487,8 +440,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.lets-things-slip.mild-they",
@@ -497,8 +449,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.dependable.strong-third",
@@ -507,8 +458,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.dependable.strong-they",
@@ -517,8 +467,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.dependable.mild-third",
@@ -527,8 +476,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.dependable.mild-they",
@@ -537,8 +485,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.cautious.strong-third",
@@ -547,8 +494,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.cautious.strong-they",
@@ -557,8 +503,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.cautious.mild-third",
@@ -567,8 +512,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.cautious.mild-they",
@@ -577,8 +521,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.risk-taking.strong-third",
@@ -587,8 +530,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.risk-taking.strong-they",
@@ -597,8 +539,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.risk-taking.mild-third",
@@ -607,8 +548,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.risk-taking.mild-they",
@@ -617,8 +557,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.balanced.1-third",
@@ -627,8 +566,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-sketch.balanced.1-they",
@@ -637,8 +575,7 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     }
   ]
 }

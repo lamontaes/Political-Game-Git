@@ -17,7 +17,7 @@
 import newscastJson from "../../data/english/parts/newscast.json" with { type: "json" };
 import headlinesJson from "../../data/english/parts/headlines.json" with { type: "json" };
 import newsJson from "../../data/english/parts/news.json" with { type: "json" };
-import { directorSlots, partsToSay, type BankPart } from "./bank-parts";
+import { admittedParts, directorSlots, type BankPart } from "./bank-parts";
 import {
   composeGroundedLine,
   type ComposedLineBank,
@@ -156,17 +156,12 @@ export type StoryKind = keyof typeof STORY_KINDS;
 /** A mined sentence as the engine's template variant. */
 type MinedVariant = Extract<LinePartVariant, { kind: "template" }>;
 
-/** A role's sentences (`heldFirst` is for a grading page only: see `partsToSay`). */
+/** A role's sentences. */
 function variants(
   bank: Bank,
   match: (use: { subject: string; role: string }) => boolean,
-  heldFirst = false,
 ): MinedVariant[] {
-  const parts = partsToSay(
-    bank.parts,
-    (part) => part.uses.some(match),
-    heldFirst,
-  );
+  const parts = admittedParts(bank.parts, (part) => part.uses.some(match));
   return parts.map((part) => {
     // "Good morning" is said only in the morning, "Good evening" and
     // "tonight" only in the evening, from the broadcast's record.
@@ -252,9 +247,7 @@ export interface NewsStory {
 export function composeNewsStory(
   packet: GroundedEnglishPacket,
   kind: StoryKind,
-  options: { heldFirst?: boolean } = {},
 ): NewsStory {
-  const heldFirst = options.heldFirst ?? false;
   const roles = STORY_KINDS[kind];
   const ids = new Set<string>();
   const keep = (
@@ -270,10 +263,8 @@ export function composeNewsStory(
       `${kind}/headline`,
       "news",
       "tell",
-      variants(
-        HEADLINES_BANK,
-        (use) => (roles.headline as readonly string[]).includes(use.role),
-        heldFirst,
+      variants(HEADLINES_BANK, (use) =>
+        (roles.headline as readonly string[]).includes(use.role),
       ),
     ),
   );
@@ -283,10 +274,8 @@ export function composeNewsStory(
       `${kind}/lede`,
       "news",
       "tell",
-      variants(
-        NEWS_BANK,
-        (use) => (roles.lede as readonly string[]).includes(use.role),
-        heldFirst,
+      variants(NEWS_BANK, (use) =>
+        (roles.lede as readonly string[]).includes(use.role),
       ),
     ),
   );
@@ -299,7 +288,7 @@ export function composeNewsStory(
       `${kind}/${name}`,
       "news",
       "tell",
-      variants(NEWS_BANK, (use) => use.role === name, heldFirst),
+      variants(NEWS_BANK, (use) => use.role === name),
     );
     if (!composed) continue;
     // A sentence that only repeats what the lede or an earlier sentence said
@@ -321,7 +310,6 @@ export function composeNewsStory(
     variants(
       NEWSCAST_BANK,
       (use) => use.subject === subject && use.role === name,
-      heldFirst,
     );
   const broadcast: NewsStory["broadcast"] = [];
   const say = (

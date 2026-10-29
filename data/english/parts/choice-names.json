@@ -116,7 +116,6 @@
         "briefing": 1,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the International Association of Fire Fighters Legislative Conference",
         "date": "2023-03-06",
@@ -151,7 +150,6 @@
         "nih": 3,
         "nps": 4
       },
-      "shippable": true,
       "source": {
         "document": "ALL MEANS ALL: EMPOWERING PEOPLE WITH DISABILITIES TO THRIVE IN CAREERS AND THE WORKPLACE",
         "date": "2024-02-29",
@@ -183,7 +181,6 @@
         "crec": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
         "date": "2020-03-26",
@@ -214,7 +211,6 @@
         "dol-osha": 4,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Lod, Israel",
         "date": "2025-10-12",
@@ -246,7 +242,6 @@
         "nps": 1,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Picnic on the Armory Grounds",
         "date": "2024-12-01",
@@ -280,7 +275,6 @@
         "nasa2": 1,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During Telerally for Virginia Republican Gubernatorial Candidate Winsome Earle-Sears and Attorney General Candidate Jason S. Miyares",
         "date": "2025-11-03",
@@ -321,7 +315,6 @@
         "nasa2": 2,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Democratic National Committee Reception in Beverly Hills, California",
         "date": "2022-06-10",
@@ -353,7 +346,6 @@
         "nps.gov": 4,
         "nps.gov (PDF)": 3
       },
-      "shippable": true,
       "source": {
         "document": "EPA Begins Sewer Design Project in Wahikuli, Maui",
         "date": "2024-09-23",
@@ -383,7 +375,6 @@
         "U.S. Senate Historical Office oral history": 2,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House Oral History: Hymel, Gary - Administrative Assistant, Representative Hale Boggs of Louisiana and Speaker Thomas P. “Tip” O’Neill Jr. of Massachusetts - 1965–1981",
         "date": "2022-10-31",
@@ -417,7 +408,6 @@
         "house": 1,
         "nasa2": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters at Morristown Municipal Airport in Morristown, New Jersey",
         "date": "2025-04-27",
@@ -447,7 +437,6 @@
         "crec": 1,
         "dcpd": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Bill Signing Ceremony and an Exchange With Reporters",
         "date": "2025-05-09",
@@ -484,7 +473,6 @@
         "nps.gov": 13,
         "nps.gov (PDF)": 1
       },
-      "shippable": true,
       "source": {
         "document": "Take a Hike and Make your own Rag Doll: California Trail Interpretive Center announces January programs",
         "date": "2020-01-03",
@@ -514,7 +502,6 @@
         "crec": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Congressional Record, House section, 2019-01-17",
         "date": "2019-01-17",
@@ -546,7 +533,6 @@
         "hearings": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "HOUSING SOLUTIONS: CUTTING THROUGH GOVERNMENT RED TAPE",
         "date": "2024-07-24",
@@ -575,7 +561,6 @@
       "bySource": {
         "nps.gov": 2
       },
-      "shippable": true,
       "source": {
         "document": "Pony Express National Historic Trail Passport Stamp",
         "date": "2025-09-04",
@@ -605,7 +590,6 @@
         "hearings": 1,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "RESTORING CONGRESSIONAL OVERSIGHT OVER EMERGENCY POWERS: EXPLORING OPTIONS TO REFORM THE NATIONAL EMERGENCIES ACT",
         "date": "2024-05-22",
@@ -635,7 +619,6 @@
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Virtual Grassroots Event and Question-and-Answer Session of the Democratic National Committee",
         "date": "2021-11-09",
@@ -667,7 +650,6 @@
         "hearings": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "The President's News Conference in Évian-les-Bains, France",
         "date": "2026-06-17",
@@ -697,7 +679,6 @@
         "crec": 6,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Energy in Corpus Christi, Texas",
         "date": "2026-02-27",
@@ -729,7 +710,6 @@
         "house": 1,
         "hud": 1
       },
-      "shippable": true,
       "source": {
         "document": "HUD Secretary Marcia L. Fudge Delivers Remarks at Columbia, SC Branch NAACP 36th Annual Freedom Fund Awards Gala",
         "date": "2023-09-18",
@@ -759,7 +739,6 @@
         "crec": 1,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Congressional Record, Senate section, 2020-10-25",
         "date": "2020-10-25",
@@ -794,7 +773,6 @@
         "nasa": 2,
         "nps": 13
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Law Enforcement in Garden City, New York",
         "date": "2026-08-14",
@@ -824,7 +802,6 @@
         "dcpd": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks With Former Presidents Barack Obama and William J. Clinton in a Question-and-Answer Session Moderated by Stephen T. Colbert at a Campaign Reception in New York City",
         "date": "2024-03-28",
@@ -855,7 +832,6 @@
         "briefing": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre, National Monkeypox Response Coordinator Bob Fenton and Deputy Coordinator Dr. Demetre Daskalakis",
         "date": "2022-09-07",
@@ -888,7 +864,6 @@
         "dcpd": 3,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
         "date": "2020-04-03",
@@ -917,7 +892,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Governor Douglas A. Ducey of Arizona and an Exchange With Reporters",
         "date": "2020-08-05",
@@ -947,7 +921,6 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "briefing": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Gaggle by Press Secretary Karine Jean-Pierre and Office of Public Engagement Director Stephen Benjamin en Route Austin, TX",
         "date": "2024-07-29",
@@ -977,7 +950,6 @@
         "briefing": 1,
         "nps.gov (PDF)": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Jen Psaki and National Security Advisor Jake Sullivan, March 12, 2021",
         "date": "2021-03-12",
@@ -1006,7 +978,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Event in Philadelphia, Pennsylvania",
         "date": "2024-05-29",
@@ -1036,7 +1007,6 @@
         "crec": 2,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a South Carolina Democratic Party Dinner in Columbia, South Carolina",
         "date": "2024-01-27",
@@ -1067,7 +1037,6 @@
         "hearings": 1,
         "nps.gov (PDF)": 1
       },
-      "shippable": true,
       "source": {
         "document": "THE DEPARTMENT OF ENERGY'S DUE DILIGENCE PROCESS FOR AWARDING COMPETITIVE GRANTS AND LOANS FUNDED THROUGH THE INFLATION REDUCTION ACT AND THE BIPARTISAN INFRASTRUCTURE LAW AND THE DEPARTMENT'S OVERALL INNOVATION INVESTMENT STRATEGY",
         "date": "2023-10-19",
@@ -1096,7 +1065,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the COVID–19 Response and National Vaccination Efforts and an Exchange With Reporters",
         "date": "2021-12-21",
@@ -1126,7 +1094,6 @@
         "briefing": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks by President Trump, Vice President Pence, and Members of the C oronavirus Task Force in Press Briefing",
         "date": "2020-03-20",
@@ -1156,7 +1123,6 @@
         "hearings": 1,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "DEPARTMENT OF LABOR, HEALTH AND HUMAN SERVICES, AND EDUCATION, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2019",
         "date": "2019-11-05",
@@ -1185,7 +1151,6 @@
       "bySource": {
         "dcpd": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks to the National Education Association Annual Meeting and Representative Assembly",
         "date": "2023-07-04",
@@ -1232,7 +1197,6 @@
         "nps.gov": 1,
         "usfa.fema.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on United States Nuclear Innovation and an Exchange With Reporters",
         "date": "2026-07-24",
@@ -1269,7 +1233,6 @@
         "nps": 4,
         "nps.gov (PDF)": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Affordability in Macungie, Pennsylvania",
         "date": "2026-06-23",
@@ -1301,7 +1264,6 @@
         "dcpd": 54,
         "hearings": 85
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on United States Nuclear Innovation and an Exchange With Reporters",
         "date": "2026-07-24",
@@ -1346,7 +1308,6 @@
         "nih": 1,
         "nps": 15
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Law Enforcement in Garden City, New York",
         "date": "2026-08-14",
@@ -1379,7 +1340,6 @@
         "hearings": 19,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Efforts To Reduce Prescription Drug Prices and an Exchange With Reporters",
         "date": "2026-08-31",
@@ -1411,7 +1371,6 @@
         "hearings": 11,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
         "date": "2026-09-04",
@@ -1443,7 +1402,6 @@
         "dcpd": 2,
         "hearings": 4
       },
-      "shippable": true,
       "source": {
         "document": "DEPARTMENT OF DEFENSE AUTHORIZATION REQUEST FOR APPROPRIATIONS FOR FISCAL YEAR 2024 AND THE FUTURE YEARS DEFENSE PROGRAM",
         "date": "2023-05-02",
@@ -1475,7 +1433,6 @@
         "dcpd": 4,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "HEARING TO CONSIDER PENDING LEGISLATION",
         "date": "2025-12-10",
@@ -1510,7 +1467,6 @@
         "nasa": 2,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "HEARING ON THE WEAPONIZATION OF THE FEDERAL GOVERNMENT",
         "date": "2024-05-15",
@@ -1541,7 +1497,6 @@
         "dcpd": 3,
         "hearings": 5
       },
-      "shippable": true,
       "source": {
         "document": "dcpd of 2025-02-27",
         "date": "2025-02-27",
@@ -1570,7 +1525,6 @@
       "bySource": {
         "crec": 2
       },
-      "shippable": true,
       "source": {
         "document": "Congressional Record, Senate section, 2025-01-21",
         "date": "2025-01-21",
@@ -1617,7 +1571,6 @@
         "nih": 4,
         "nps": 63
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Ahmad Husayn al-Shara' of Syria and an Exchange With Reporters in Ankara, Turkey",
         "date": "2026-07-08",
@@ -1673,7 +1626,6 @@
         "nps.gov": 2,
         "wpa": 22
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -1703,7 +1655,6 @@
         "U.S. Senate Historical Office oral history": 1,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Briefing on Hurricane Helene Recovery Efforts and an Exchange With Reporters in Fletcher, North Carolina",
         "date": "2025-01-24",
@@ -1733,7 +1684,6 @@
         "briefing": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
         "date": "2020-04-20",
@@ -1770,7 +1720,6 @@
         "nasa": 2,
         "nasa2": 3
       },
-      "shippable": true,
       "source": {
         "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -1823,7 +1772,6 @@
         "nps": 111,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -1866,7 +1814,6 @@
         "nps": 9,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -1912,7 +1859,6 @@
         "nih": 1,
         "nps": 39
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Coal and an Exchange With Reporters",
         "date": "2026-06-04",
@@ -1948,7 +1894,6 @@
         "nasa2": 2,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "ANTISEMITIC DISRUPTIONS ON CAMPUS: ENSURING SAFE LEARNING ENVIRONMENTS FOR ALL STUDENTS",
         "date": "2025-03-27",
@@ -1991,7 +1936,6 @@
         "nasa2": 8,
         "nps": 8
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Rose Garden Club Dinner",
         "date": "2026-09-02",
@@ -2040,7 +1984,6 @@
         "nasa2": 24,
         "nps": 26
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
         "date": "2026-07-08",
@@ -2070,7 +2013,6 @@
         "chrg": 1,
         "eisenhower": 2
       },
-      "shippable": true,
       "source": {
         "document": "Denying Terrorists Entry To The United States: Examining Visa Security",
         "date": "2017-05-03",
@@ -2100,7 +2042,6 @@
         "dcpd": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the Hard Work, Heroism, and Hope Demonstrated by American Citizens During the Coronavirus Pandemic",
         "date": "2020-05-15",
@@ -2135,7 +2076,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Administration of Donald J. Trump, 2018 Remarks at a Federal Emergency Management Agency Aid Distribution Center and an Exchange With Reporters in Lynn Haven, Florida October 15, 2018 The President. T",
         "date": "2018-10-15",
@@ -2165,7 +2105,6 @@
         "chrg": 2,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "An Overview Of The Budget Proposal",
         "date": "2023-05-10",
@@ -2195,7 +2134,6 @@
         "chrg": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Governor Jared S. Polis of Colorado and Governor Douglas J. Burgum of North Dakota and an Exchange With Reporters",
         "date": "2020-05-13",

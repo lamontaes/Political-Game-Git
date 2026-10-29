@@ -38,6 +38,7 @@ import {
   topicInSentence,
 } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
+import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
 import { withArticle } from "../english/journal-words";
 import { JOB_OFFERED_EVENT } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
@@ -308,6 +309,22 @@ function composeBinding(
     if (said.deadline)
       facts.deadline = {
         text: spokenDate(said.deadline, core.date),
+        sourceRecordIds: ids,
+      };
+  }
+  // A notice to pay or leave (housing.ts): what the household owes, to the
+  // dollar, and the day it must pay by.
+  if (record?.kind === NOTICE_SERVED_EVENT) {
+    const ids = [moment.causeId, said.caseId ?? moment.causeId];
+    const owed = Number(said.owedMinor);
+    if (owed > P.zero)
+      facts.owed = {
+        text: dollars(Math.round(owed / P.minorPerDollar) * P.minorPerDollar),
+        sourceRecordIds: ids,
+      };
+    if (said.cureBy)
+      facts.deadline = {
+        text: spokenDate(said.cureBy, core.date),
         sourceRecordIds: ids,
       };
   }
@@ -946,6 +963,7 @@ export function replyInScene(
       asOf: core.date,
     },
   });
+  entry.replies = [...(entry.replies ?? []), id];
   // Talking is time together, recorded through the core's own writer.
   coreAPI(core).relationship(
     scene.askedId,

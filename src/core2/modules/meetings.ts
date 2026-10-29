@@ -855,8 +855,7 @@ function considerTownHalls(api: CoreAPI): void {
         c.level !== "federal",
     ))
       for (const f of ballot(api, contest.id))
-        if (f.status === "on-ballot")
-          raise(f.personId, 1, "race", contest.id, f.id);
+        raise(f.personId, 1, "race", contest.id, f.id);
   }
   const town = lawChain(api).townPlaceId;
   for (const [hostId, why] of [...reasons.entries()].sort((a, b) =>
@@ -943,9 +942,8 @@ function holdDebate(
   row: DebateRow,
   playerAnswers?: readonly InterviewAnswer[],
 ): DebateRow {
-  const filings = ballot(api, row.contestId).filter(
-    (f) => f.status === "on-ballot",
-  );
+  // The ballot after the clerk's check: the names on it.
+  const filings = ballot(api, row.contestId);
   const playerId = (api.state as CoreState).playerId;
   const outlet = row.outletId
     ? { id: row.outletId, audience: followersOf(api, row.outletId) }
@@ -1148,9 +1146,7 @@ function debateWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     .filter((c) => c.electionDate >= from && c.electionDate <= to)
     .sort((a, b) => a.id.localeCompare(b.id))) {
     if (debatesIn(api, contest.id).length) continue;
-    const filings = ballot(api, contest.id).filter(
-      (f) => f.status === "on-ballot",
-    );
+    const filings = ballot(api, contest.id);
     if (filings.length < 2) continue;
     const row: DebateRow = {
       id: `debate:${contest.id}`,

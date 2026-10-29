@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/director/race-told-scene.test.ts,data/english
 
-**Notes.** lead: words. Filed by the elections wire session, Oct 28, while running the petition line's tests.
+**Notes.** lead: words. Filed by the elections wire session, Oct 28, while running the petition line's tests. Oct 29, 02:35 UTC (words session): on main, GOLDEN_PATH_SEED=pet-run-1 passes, and of ten fresh seeds rt-1 to rt-10, seven tell a race with the two speakers' lines different (Questa, New Mexico (3560870), world seed 83580b1b89219181e211855f4aa4cfdefbc9e7fd5be4eea99e80e7a972583e7d, record election-result:contest:seat:gus2025:208799:council:2:2025-11-04; Richmond, Vermont (5059200), record election-result:contest:seat:gus2025:176592:board:0:2026-03-03; Fredonia, Wisconsin (5527550), record election-result:contest:seat:gus2025:136509:board:6:2026-04-07). Seeds rt-2, rt-7 and rt-8 fail before any line is said: none of the eight places the test draws had a race told that year. The lines hold; what is left is the test's draw, which needs more places or a place drawn among those with a race that year.

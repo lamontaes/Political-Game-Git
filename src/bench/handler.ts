@@ -3,6 +3,7 @@ import { drawnFigure } from "./figure-hair";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
+import { parameter } from "../core2/parameters";
 import { SITUATION_LIBRARY } from "../director/scheduling";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
@@ -1121,6 +1122,7 @@ export async function benchRequest(
       }
       if (request.method === "POST" && url.pathname === "/api/filing/choose") {
         if (!filingVisit) throw new Error("No filing visit is open.");
+        const before = filingVisit.result;
         filingVisit = chooseAtCounter(
           requireCore(),
           filingVisit,
@@ -1130,7 +1132,22 @@ export async function benchRequest(
             party: url.searchParams.get("party") || null,
           },
         );
-        send(200, filingVisit);
+        // Filing takes the afternoon at the counter: taking out the
+        // petition, the clerk's questions, the wait. The hours come off the
+        // same clock the packet reports.
+        const filed = filingVisit.result as { status?: string } | undefined;
+        const spent =
+          filed && filed !== before && filed.status !== "refused"
+            ? player?.spend(
+                parameter("filingVisitHours", requireCore().data.parameters),
+              )
+            : undefined;
+        send(200, {
+          ...filingVisit,
+          ...(spent
+            ? { packet: spent.packet, names: namesFor(spent.packet) }
+            : {}),
+        });
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/filing/leave") {

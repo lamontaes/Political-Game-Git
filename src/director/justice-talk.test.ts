@@ -15,13 +15,7 @@ import {
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { openConversation, subjectsBetween } from "./conversation";
-import {
-  heldConversationWords,
-  pieceServes as serves,
-} from "../english/conversation-words";
-
-// The new parts are held until the owner grades them, so the talk reads them through the grading-only option.
-const HELD_DATA = heldConversationWords();
+import { pieceServes as serves } from "../english/conversation-words";
 
 // A piece serves a subject by a use of its own, whether it was written for it or shared with another subject.
 
@@ -89,14 +83,8 @@ it(`the accused and their friend talk about a charge and its verdict in the word
     )!;
     expect(row.facts.case!.sourceRecordIds, where).toContain(caseId);
     // Each way round: the accused tells their friend, and the friend asks them.
-    const told = openConversation(core, friendId, accused.id, {
-      director,
-      data: HELD_DATA,
-    });
-    const asked = openConversation(core, accused.id, friendId, {
-      director,
-      data: HELD_DATA,
-    });
+    const told = openConversation(core, friendId, accused.id, { director });
+    const asked = openConversation(core, accused.id, friendId, { director });
     for (const talk of [told, asked]) {
       const line = talk.lines.find((row) => row.kind.startsWith(kind));
       expect(line, `${where}: ${kind}`).toBeDefined();

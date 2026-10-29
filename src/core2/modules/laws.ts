@@ -52,7 +52,7 @@ import {
  * for one subject in one place, read by an engine in another family at the
  * moment it decides (this family's entry, tests/guards/families.json).
  */
-export { webReach } from "../outcome-web-reach";
+export { webReach, webFactorFor } from "../outcome-web-reach";
 
 export const LAWS_MODULE_ID = "core2-laws-v1";
 const CHAIN_ID = "chain";

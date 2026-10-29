@@ -801,20 +801,6 @@
         },
         {
           "match": {
-            "label": "circumstance:graduation-home"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "school.finished",
-          "bind": {
-            "honoree": "subject",
-            "host": "counterpart",
-            "guests": "kin"
-          },
-          "opener": "host",
-          "setting": ["home"]
-        },
-        {
-          "match": {
             "label": "money:job-started",
             "counterpart": "none"
           },
@@ -845,6 +831,55 @@
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
       }
+    },
+    {
+      "key": "diploma-home",
+      "note": "The day after the player graduated (the school engine's graduation result, passed), someone they live with marks it at home, scored on tie and sociability (circumstance row graduation-home). They say so and ask what comes next; the reply is a scene reply the core's relationship writer reads as time together.",
+      "roles": [
+        {
+          "key": "proud",
+          "fill": "household",
+          "count": "one",
+          "moves": [
+            "congratulate",
+            "ask",
+            "promise",
+            "press",
+            "confront",
+            "thank"
+          ],
+          "wants": ["engage", "help-others"],
+          "bearing": "glad"
+        },
+        {
+          "key": "graduate",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "promise", "boast", "tell"],
+          "wants": ["engage"],
+          "bearing": "proud"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": { "label": "circumstance:graduation-home" },
+          "causeEngine": "circumstance",
+          "causeRecord": "school.finished",
+          "bind": { "graduate": "subject", "proud": "counterpart" },
+          "opener": "proud",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "diploma",
+        "endpoint": "personal",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "diploma-home",
+      "asker": "proud",
+      "asked": "graduate"
     },
     {
       "key": "gathering-missing",
@@ -4291,6 +4326,7 @@
     {
       "key": "desk-bill",
       "purpose": "desk-bill",
+      "yieldsTo": ["desk-visit"],
       "asker": "aide",
       "asked": "you",
       "stakes": ["bill", "section", "votes"],
@@ -5271,6 +5307,63 @@
         "endpoint": "political",
         "registers": ["scene-talk", "scene-words"]
       }
+    },
+    {
+      "key": "notice-home",
+      "note": "The day the landlord serves the player's household notice to pay what it owes or leave (the housing engine's notice record, circumstance row notice-home), someone they live with brings it to them at home: what is owed and the day it is due. The reply is a scene reply; a promise to pay is kept on its record and told in the journal.",
+      "roles": [
+        {
+          "key": "family",
+          "fill": "household",
+          "count": "one",
+          "moves": [
+            "deliver-news",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "refuse",
+            "warn",
+            "promise"
+          ],
+          "wants": ["help-others", "keep-same"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["promise", "ask", "offer", "deflect"],
+          "wants": ["keep-same"],
+          "bearing": "braced"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:notice-home"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "housing.notice-served",
+          "bind": {
+            "you": "subject",
+            "family": "counterpart"
+          },
+          "opener": "family",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "notice",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "notice-home",
+      "asker": "family",
+      "asked": "you",
+      "stakes": ["home", "rent"]
     }
   ]
 }

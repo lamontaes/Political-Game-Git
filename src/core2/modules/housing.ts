@@ -58,6 +58,7 @@ import {
   housingWorldOffset,
   type PriceLevel,
 } from "../housing-prices";
+import { HOME_VALUE_MEASURE } from "../housing-sale";
 import {
   occupyCompletedRentals,
   houseUnassignedHouseholds,
@@ -68,7 +69,7 @@ import {
   renewRentalLeases,
 } from "../housing-occupancy";
 import { residentsRuntime } from "./residents";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce, webFactorFor } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
@@ -98,6 +99,8 @@ import type {
 } from "../types";
 
 export const HOUSING_MODULE_ID = "housing";
+/** The record a household is served notice by: pay what is owed or leave. */
+export const NOTICE_SERVED_EVENT = "housing.notice-served";
 export const HOUSING_PARAMETERS = housingParameters as unknown as Readonly<
   Record<string, Parameter>
 >;
@@ -1204,11 +1207,14 @@ function buyHomes(api: CoreAPI): void {
       c.seed,
       macroPrices(api),
     );
-    // The home the household's income would buy at the county's median, as rent scales with income.
+    // The home the household's income would buy at the county's median, as rent scales with income,
+    // at the outcome web's factor on home values here (a severe disaster's lower prices).
+    const webFactor = webFactorFor(api, household.placeId, HOME_VALUE_MEASURE);
     const value =
       town[1] *
       100 *
       prices *
+      webFactor *
       (lease.amountMinor / ((town[0] ?? 1) * 100 || 1));
     const down = value * housingData.mortgage.downPayment.firstTime;
     const payment = factor(value - down);
@@ -1320,6 +1326,8 @@ function buyHomes(api: CoreAPI): void {
         // A first home bought here is a house (the seller's unit kind isn't recorded yet).
         kind: "house",
         valueMinor: Math.round(down) - owed + lent,
+        // The web's factor on home values the price stands at, so a later change in it moves the home's value.
+        webFactor,
         loanHolderId:
           lent > 0
             ? ([...c.organizations.values()].find(
@@ -1458,6 +1466,32 @@ function review(api: CoreAPI): void {
         reasonKey: housingData.reasons.notice,
       });
     schedule(api, `cure:${caseId}`, cureBy, "housing-cure-deadline", caseId);
+    // The notice reaches the people it is served on: a record of their own
+    // that the story director reads (the household talks it over that day).
+    const household = c.households.get(householdId);
+    const servedOn = (household?.memberIds ?? []).filter(
+      (member) => c.people.get(member)?.alive,
+    );
+    if (servedOn.length)
+      api.emit({
+        id: `event:${NOTICE_SERVED_EVENT}:${caseId}`,
+        date: c.date,
+        kind: NOTICE_SERVED_EVENT,
+        personIds: servedOn,
+        placeId: household?.placeId ?? "",
+        topic: lease?.payeeId ?? late!.landlordId,
+        facts: {
+          caseId,
+          owedMinor: String(lease?.arrearsMinor ?? late!.owedMinor),
+          cureBy,
+        },
+        source: {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: String(law.statute ?? housingData.source.citation),
+          estimatedFrom: `A notice to pay or leave by ${cureBy}, after ${id}'s rent went unpaid.`,
+        },
+      });
   }
 }
 
@@ -2406,11 +2440,13 @@ export function ownedHomes(
     ));
   const out: { householdId: string; placeId: string; valueMinor: number }[] =
     [];
+  const webFactors = new Map<string, number>();
   for (const row of store(api).table("dwellings").rows() as unknown as {
     householdId: string;
     tenure: string;
     valueMinor?: number;
     basis: string;
+    webFactor?: number;
   }[]) {
     if (row.tenure !== "own" || !row.valueMinor) continue;
     const placeId =
@@ -2418,12 +2454,22 @@ export function ownedHomes(
       countedHousehold(c, row.householdId)?.placeId;
     if (!placeId || (atPlaceId !== undefined && placeId !== atPlaceId))
       continue;
+    // The web's factor on home values is one per place and month.
+    let web = webFactors.get(placeId);
+    if (web === undefined) {
+      web = webFactorFor(api, placeId, HOME_VALUE_MEASURE);
+      webFactors.set(placeId, web);
+    }
     // Opening values move with prices since the opening; a purchase is valued at its price.
+    // Either moves with the outcome web's factor on home values since the home was valued
+    // (a severe disaster's lower prices), so a steady factor is not counted twice.
     out.push({
       householdId: row.householdId,
       placeId,
       valueMinor: Math.round(
-        row.valueMinor * (row.basis === "opening" ? prices() : 1),
+        row.valueMinor *
+          (row.basis === "opening" ? prices() : 1) *
+          (web / (row.webFactor ?? 1)),
       ),
     });
   }
