@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/job-offer-says-job-and-pay
+pr: #6746
 blocked-on:
 source: "Integrator (Opus), Oct 27, from the owner's v0.56.2 sitting (Salida, Colorado): a job offer came with no person, no interview and no scene"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-29T05:40:52.373Z
 ---
 
 **What.** The owner met "Warehouse worker / Quinn Supply Company / $15.99 per hour" in a side panel with no person, no interview and no scene, and ruled that a job offer comes through a person and a scene or not at all. The integration PR for integration-one-employment-record makes the jobs engine name the person at the employer who makes the offer and record it as `job-offered` (facts offeredBy, invitedId, offerId, organizationId, title, hourlyMinor, deadline); the director stages it as situation type `job-offer` (roles employer and you, setting phone) with purpose `job-offer` (replies ask, agree, decline, stall; endings hired, thinking, turned-down, left-there). No bank has lines for that purpose yet, so the scene does not compose (stopgap SG-DIR-job-offer-lines). This item writes them.

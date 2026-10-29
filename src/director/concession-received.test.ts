@@ -110,6 +110,10 @@ const run = (drawSeed: string): string | null => {
       .table("filings")
       .rows() as unknown as FilingRow[]
   ).filter((f) => f.contestId === contest!.id && f.status === "on-ballot");
+  // A filer whose petition fell short is not on the ballot; with one name
+  // left the winner is unopposed and nobody calls (the race is passed over).
+  if (onBallot.length < 2)
+    return `${where}: ${contest.id} has ${onBallot.length} on the ballot`;
   for (const f of onBallot) director.watch(core, f.personId as PersonId);
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), 2));
   const result = resultOf(api, contest.id);
@@ -154,9 +158,14 @@ const run = (drawSeed: string): string | null => {
   expect(scene.cause.id, where).toBe(causeId);
   expect(scene.askerId, where).toBe(callerId);
   expect(scene.askedId, where).toBe(winner);
-  // The lead is the count's own difference, citing the record.
+  // The lead is the count's own difference, citing the record; the bank's
+  // lines say "votes", or "one vote" where the flag says it was one.
   const lead = scene.facts.find((row) => row.key === "lead");
-  expect(lead?.text, where).toMatch(/^[\d,]+ votes?$/);
+  expect(lead?.text, where).toMatch(/^[\d,]+$/);
+  expect(
+    scene.facts.some((row) => row.key === "lead-one"),
+    where,
+  ).toBe(lead?.text === "1");
   expect(lead?.recordIds, where).toContain(causeId);
   expect(Number.parseInt(lead!.text.replaceAll(",", ""), 10), where).toBe(
     ranked[0]![1] - ranked[1]![1],

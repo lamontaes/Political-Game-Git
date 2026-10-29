@@ -148,8 +148,10 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     const said = (key: string) => scene.facts.find((row) => row.key === key);
     expect(said("for"), where).toBeTruthy();
     expect(said("against"), where).toBeFalsy();
-    expect(said("roll")?.text, where).toMatch(/^\d+ to \d+$/);
-    expect(said("roll")?.recordIds, where).toContain(first.bill.id);
+    // The roll's two counts; the bank's lines join them ("5 to 2").
+    expect(said("ayes")?.text, where).toMatch(/^\d+$/);
+    expect(said("nays")?.text, where).toMatch(/^\d+$/);
+    expect(said("ayes")?.recordIds, where).toContain(first.bill.id);
     expect(said("deadline")?.recordIds, where).toContain(scene.cause.id);
 
     // Plain words on every path, and four replies that are four stances.
