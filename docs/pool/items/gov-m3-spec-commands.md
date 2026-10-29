@@ -14,7 +14,7 @@ lead: governing
 claimed-at: 2026-10-29T22:45:54.494Z
 ---
 
-**What.** The governing work order's first task: M3-01 writing a bill, M3-02 negotiating, M3-04 laws change the world and M3-05 the executive have no command in docs/roadmap/features.json, so nobody can check whether they are done. Each gets the command that runs the existing tests covering the most of its test sentence, passes stays false, and every clause no test covers becomes its own pool item with lead governing.
+**What.** The governing work order's first task: M3-01 writing a bill, M3-02 negotiating, M3-04 laws change the world and M3-05 the executive have no command in docs/roadmap/features.json, so nobody can check whether they are done. Each gets the command that runs the existing tests covering the most of its test sentence, passes stays false, and every clause no test covers becomes its own pool item with lead governing. The commands are the M4-06 form on the root vitest config, one worker at a time.
 
 **Rules.** Look before you ask: the existing tests are named and cited per clause rather than written again, and the uncovered clauses are filed after searching the pool for twins. One rule, all 56 places: every named test draws its place from all 56 and reads GOLDEN_PATH_SEED so the runner's reported place and seed are the ones that ran.
 
