@@ -42,6 +42,7 @@ import { withArticle } from "../english/journal-words";
 import { JOB_OFFERED_EVENT } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
+import { petitionAtDoor } from "./doors";
 import {
   SITUATION_LIBRARY,
   type ScheduleEntry,
@@ -586,7 +587,7 @@ function composeBinding(
   // and the race the player asks them about.
   const door =
     type.playerAsks && moment.causeKind === "event:campaign.door"
-      ? doorStanding(core, moment.causeId, askerId)
+      ? doorStanding(core, moment.causeId, askerId, type.purpose ?? "")
       : undefined;
   const standing = door
     ? door.standing
@@ -658,13 +659,16 @@ function composeBinding(
 /**
  * Where a resident stands after the player knocked on their door: the
  * campaign engine's warmth toward the player after the knock (its causes
- * table), and the race of the campaign, by its contest's title. A favor
- * plays no part at a door. Null where the knock or the race is not on record.
+ * table), and the race of the campaign, by its contest's title. Asked to
+ * sign the petition, the resident answers from the petition record: signed
+ * or not. A favor plays no part at a door. Null where the knock, the race or
+ * (for a signature) the circulating petition is not on record.
  */
 function doorStanding(
   core: Readonly<CoreState>,
   causeId: string,
   residentId: PersonId,
+  purpose: string,
 ): { standing: AskStanding; office: string; contestId: string } | null {
   if (
     !core.modules.has(CAMPAIGNS_MODULE_ID) ||
@@ -689,8 +693,16 @@ function doorStanding(
         .get(impression.contestId) as unknown as { title?: string } | undefined)
     : undefined;
   if (!contest?.title) return null;
+  const petition =
+    purpose === "ask-signature"
+      ? petitionAtDoor(core, cause.candidateId as PersonId, residentId)
+      : undefined;
+  if (petition === null) return null;
   return {
-    standing: { lean: cause.warmthAfter, favor: P.zero },
+    standing: {
+      lean: petition ? (petition.signed ? P.one : -P.one) : cause.warmthAfter,
+      favor: P.zero,
+    },
     office: contest.title,
     contestId: impression!.contestId!,
   };
