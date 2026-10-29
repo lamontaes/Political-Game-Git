@@ -1,0 +1,172 @@
+{
+  "version": "small-dollar-v1",
+  "about": "The small-dollar lender (payday and high-cost installment) a place has where its state's law allows one: the lender's kind and name, the question whose starting answer says whether the state allows it, and the typical annual rate of the product in each state that does. Read by src/core2/modules/credit.ts (smallDollarTerms) at the opening; a state whose starting answer to the question is no and that has no row here takes the national typical rate, marked as an estimate (parameter smallDollarFallbackApr). A state whose starting answer is yes (a 36 percent cap that ends payday lending, or a lower one) has no lender. The question's starting answers (data/research/laws/starting-law-2026/business-commerce.json) are the one record of which states allow them, and src/core2/credit-small-dollar.test.ts fails when a row here and that record disagree.",
+  "lenderKind": "small-dollar-lender",
+  "lenderNamePattern": "{place} Cash Advance",
+  "question": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+  "allowedWhenStartingAnswer": "no",
+  "sources": {
+    "crl": {
+      "tag": "SOURCED",
+      "asOf": "2023-06-01",
+      "citation": "Center for Responsible Lending, Red Alert Rates: Annual Percentage Rates on $400, Single-Payment Payday Loans in the United States (June 2023), https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf: the average APR each state regulator reports for a single-payment payday loan, else five online lenders' terms for a $400, 14-day loan (\"A typical payday loan has an Annual Percentage Rate (APR) just under 400%\")."
+    },
+    "nclc": {
+      "tag": "SOURCED",
+      "asOf": "2025-09-01",
+      "citation": "National Consumer Law Center, Predatory Installment Lending in the States (December 2025), Appendix C, https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf: the APR the state's law allows on a $500 six-month installment loan, for a state whose law replaced single-payment payday loans with installment loans."
+    }
+  },
+  "states": {
+    "US-AK": {
+      "apr": 4.24,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-AL": {
+      "apr": 4.56,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-CA": {
+      "apr": 4.6,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-DE": {
+      "apr": 6.39,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-FL": {
+      "apr": 2.93,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-HI": {
+      "apr": 1.46,
+      "product": "installment",
+      "source": "nclc"
+    },
+    "US-IA": {
+      "apr": 2.47,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-ID": {
+      "apr": 4.75,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-IN": {
+      "apr": 3.72,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-KS": {
+      "apr": 3.91,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-KY": {
+      "apr": 4.5,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-LA": {
+      "apr": 4.1,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-ME": {
+      "apr": 2.28,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-MI": {
+      "apr": 3.56,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-MO": {
+      "apr": 6.52,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-MS": {
+      "apr": 5.72,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-ND": {
+      "apr": 5.21,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-NV": {
+      "apr": 5.48,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-OH": {
+      "apr": 1.45,
+      "product": "installment",
+      "source": "nclc"
+    },
+    "US-OK": {
+      "apr": 4.24,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-OR": {
+      "apr": 1.4,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-RI": {
+      "apr": 2.61,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-SC": {
+      "apr": 3.91,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-TN": {
+      "apr": 4.6,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-TX": {
+      "apr": 6.62,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-UT": {
+      "apr": 5.43,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-VA": {
+      "apr": 1.29,
+      "product": "installment",
+      "source": "nclc"
+    },
+    "US-WA": {
+      "apr": 3.91,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-WI": {
+      "apr": 5.37,
+      "product": "payday",
+      "source": "crl"
+    },
+    "US-WY": {
+      "apr": 3.16,
+      "product": "payday",
+      "source": "crl"
+    }
+  }
+}
