@@ -29,7 +29,11 @@ import {
   campaignFor,
   type CampaignRow,
 } from "../core2/modules/campaigns";
-import { filingRequirements, openContests } from "../core2/modules/elections";
+import {
+  filingRequirements,
+  openContests,
+  playerMayFileFor,
+} from "../core2/modules/elections";
 import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -68,7 +72,12 @@ it("someone close offers to run the campaign, joins its staff and is cast from i
     // Alianza, Puerto Rico, seed chk2-g).
     const { stateKey } = lawChain(api);
     const filed = [...openContests(api)]
-      .filter((c) => c.electionDate >= addDays(makeIsoDate(core.date), 60))
+      // The six offices the player may run for (owner, Oct 29).
+      .filter(
+        (c) =>
+          c.electionDate >= addDays(makeIsoDate(core.date), 60) &&
+          playerMayFileFor(api, c.id),
+      )
       .sort(
         (a, b) =>
           Number(filingRequirements(stateKey, a.family).petition.count > 0) -
