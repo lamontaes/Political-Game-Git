@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/job-offer-says-job-and-pay
-pr:
+pr: #6746
 blocked-on:
 source: "Integrator (Opus), Oct 27, from the owner's v0.56.2 sitting (Salida, Colorado): a job offer came with no person, no interview and no scene"
 lead: words
