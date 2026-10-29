@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: dropped
 claimed-by: claude/director-law-reached-scene-teller
 pr: #5150
 blocked-on:
