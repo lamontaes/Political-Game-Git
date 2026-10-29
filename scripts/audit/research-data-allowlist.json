@@ -147,11 +147,6 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/federal/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/housing/",
       "files": 7,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
