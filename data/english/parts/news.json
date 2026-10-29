@@ -154,7 +154,6 @@
         "hearings": 1,
         "house": 4
       },
-      "shippable": true,
       "source": {
         "document": "DEPARTMENT OF LABOR, HEALTH AND HUMAN SERVICES, AND EDUCATION, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2018",
         "date": "2018-05-02",
@@ -186,7 +185,6 @@
         "hearings": 1,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "LEGISLATIVE HEARING ON. H.R. 3123, H.R. 3627, H.R. 3833, H.R. 3834, H.R. 3835, H.R. 3854, H.R. 3983, H.R. 3951, H.R. 659, H.R. 2055, H.R. 2701, AND H.R. 2721",
         "date": "2025-06-24",
@@ -222,7 +220,6 @@
         "nps": 1,
         "wpa": 9
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
         "date": "2026-07-23",
@@ -269,7 +266,6 @@
         "nps.gov": 1,
         "wpa": 4
       },
-      "shippable": true,
       "source": {
         "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
         "date": "2025-05-01",
@@ -299,7 +295,6 @@
       "bySource": {
         "crec": 9
       },
-      "shippable": true,
       "source": {
         "document": "Congressional Record, House section, 2025-05-15",
         "date": "2025-05-15",
@@ -329,7 +324,6 @@
       "bySource": {
         "crec": 2
       },
-      "shippable": true,
       "source": {
         "document": "Congressional Record, Senate section, 2025-05-15",
         "date": "2025-05-15",
@@ -360,7 +354,6 @@
         "crec": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Lee Jae-myung of South Korea and an Exchange With Reporters",
         "date": "2025-08-25",
@@ -391,7 +384,6 @@
         "National Archives History Office oral history project": 1,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "Alan Lowe oral history interview",
         "date": "2016-06-15",
@@ -417,7 +409,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item play-stop-22-election-win-never-shown-b)",
       "date": "2026-10-26",
@@ -439,7 +430,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item play-stop-22-election-win-never-shown-b)",
       "date": "2026-10-26",
@@ -462,7 +452,6 @@
           "requiresFacts": ["won"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item play-stop-22-election-win-never-shown-b)",
       "date": "2026-10-26",
@@ -484,7 +473,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item play-stop-22-election-win-never-shown-b)",
       "date": "2026-10-26",
@@ -507,7 +495,6 @@
           "requiresFacts": ["lost"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item play-stop-22-election-win-never-shown-b)",
       "date": "2026-10-26",
@@ -535,7 +522,6 @@
         "crec": 3,
         "nih": 1
       },
-      "shippable": true,
       "source": {
         "document": "Board of Advisors Meeting — transcript (EAC0419VerbatimBOA.pdf)",
         "date": "2019-04-24",
@@ -564,7 +550,6 @@
       "bySource": {
         "hearings": 3
       },
-      "shippable": true,
       "source": {
         "document": "DEPARTMENT OF HOMELAND SECURITY APPROPRIATIONS FOR FISCAL YEAR 2021",
         "date": "2020-02-25",
@@ -594,7 +579,6 @@
       "bySource": {
         "chrg": 2
       },
-      "shippable": true,
       "source": {
         "document": "Legislative Hearing On H.R. 2925, To Amend The Omnibus Budget Reconcili- Ation Act Of 1993 To Provide For Secu- Rity Of Tenure For Use Of Mining Claims For Ancillary Activities, And For Other Purpos",
         "date": "2024-01-31",
@@ -625,7 +609,6 @@
       "bySource": {
         "fr": 17
       },
-      "shippable": true,
       "source": {
         "document": "U.S. Citizenship and Immigration Services Fee Schedule and Changes to Certain Other Immigration Benefit Request Requirements; Second Correction (Federal Register)",
         "date": "2025-01-17",
@@ -656,7 +639,6 @@
       "bySource": {
         "fr": 40
       },
-      "shippable": true,
       "source": {
         "document": "Partitioning, Disaggregation, and Leasing of Spectrum (Federal Register)",
         "date": "2019-04-02",
@@ -682,7 +664,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -704,7 +685,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -726,7 +706,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -748,7 +727,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -771,7 +749,6 @@
           "requiresFacts": ["effective"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -794,7 +771,6 @@
           "requiresFacts": ["ended"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -817,7 +793,6 @@
           "requiresFacts": ["same"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -840,7 +815,6 @@
           "requiresFacts": ["same"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -862,7 +836,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -885,7 +858,6 @@
           "requiresFacts": ["down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -908,7 +880,6 @@
           "requiresFacts": ["up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -931,7 +902,6 @@
           "requiresFacts": ["down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -954,7 +924,6 @@
           "requiresFacts": ["up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -977,7 +946,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1000,7 +968,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1023,7 +990,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1046,7 +1012,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1069,7 +1034,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1092,7 +1056,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1115,7 +1078,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1138,7 +1100,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1161,7 +1122,6 @@
           "requiresFacts": ["held"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1184,7 +1144,6 @@
           "requiresFacts": ["held"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1207,7 +1166,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1230,7 +1188,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1253,7 +1210,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1276,7 +1232,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1299,7 +1254,6 @@
           "requiresFacts": ["signed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1322,7 +1276,6 @@
           "requiresFacts": ["signed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1345,7 +1298,6 @@
           "requiresFacts": ["signed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1368,7 +1320,6 @@
           "requiresFacts": ["vetoed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1391,7 +1342,6 @@
           "requiresFacts": ["vetoed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1413,7 +1363,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1436,7 +1385,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1458,7 +1406,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1480,7 +1427,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1502,7 +1448,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1525,7 +1470,6 @@
           "requiresFacts": ["cut"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1548,7 +1492,6 @@
           "requiresFacts": ["added"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1571,7 +1514,6 @@
           "requiresFacts": ["cut"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1594,7 +1536,6 @@
           "requiresFacts": ["added"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1616,7 +1557,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1638,7 +1578,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1660,7 +1599,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1682,7 +1620,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1704,7 +1641,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1726,7 +1662,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (Words: the area a jobs rate covers, said as a reader would)",
       "date": "2026-10-28",
@@ -1749,7 +1684,6 @@
           "requiresFacts": ["unemployment", "up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1772,7 +1706,6 @@
           "requiresFacts": ["unemployment", "down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1795,7 +1728,6 @@
           "requiresFacts": ["burglary", "up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1818,7 +1750,6 @@
           "requiresFacts": ["burglary", "down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1841,7 +1772,6 @@
           "requiresFacts": ["robbery", "up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1864,7 +1794,6 @@
           "requiresFacts": ["robbery", "down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1887,7 +1816,6 @@
           "requiresFacts": ["assault", "up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1910,7 +1838,6 @@
           "requiresFacts": ["assault", "down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1933,7 +1860,6 @@
           "requiresFacts": ["vandalism", "up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1956,7 +1882,6 @@
           "requiresFacts": ["vandalism", "down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1979,7 +1904,6 @@
           "requiresFacts": ["up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2002,7 +1926,6 @@
           "requiresFacts": ["down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2025,7 +1948,6 @@
           "requiresFacts": ["held"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2048,7 +1970,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2070,7 +1991,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2092,7 +2012,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2115,7 +2034,6 @@
           "requiresFacts": ["number", "several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2138,7 +2056,6 @@
           "requiresFacts": ["none"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2160,7 +2077,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2182,7 +2098,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2204,7 +2119,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2226,7 +2140,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2248,7 +2161,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2271,7 +2183,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2293,7 +2204,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2315,7 +2225,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2337,7 +2246,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2359,7 +2267,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2381,7 +2288,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2403,7 +2309,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2425,7 +2330,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2447,7 +2351,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2470,7 +2373,6 @@
           "requiresFacts": ["died"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2493,7 +2395,6 @@
           "requiresFacts": ["left"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2516,7 +2417,6 @@
           "requiresFacts": ["special"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2538,7 +2438,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2560,7 +2459,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2582,7 +2480,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2605,7 +2502,6 @@
           "requiresFacts": ["presides"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2628,7 +2524,6 @@
           "requiresFacts": ["presides"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2650,7 +2545,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2672,7 +2566,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2694,7 +2587,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2716,7 +2608,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2738,7 +2629,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2761,7 +2651,6 @@
           "requiresFacts": ["kept"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2784,7 +2673,6 @@
           "requiresFacts": ["removed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2807,7 +2695,6 @@
           "requiresFacts": ["kept"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2829,7 +2716,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2851,7 +2737,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2873,7 +2758,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2895,7 +2779,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2918,7 +2801,6 @@
           "requiresFacts": ["released"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2941,7 +2823,6 @@
           "requiresFacts": ["money"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2963,7 +2844,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2985,7 +2865,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3007,7 +2886,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3029,7 +2907,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3052,7 +2929,6 @@
           "requiresFacts": ["floor-session", "missed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3075,7 +2951,6 @@
           "requiresFacts": ["floor-session", "attended"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3098,7 +2973,6 @@
           "requiresFacts": ["committee", "attended"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3121,7 +2995,6 @@
           "requiresFacts": ["committee", "missed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3144,7 +3017,6 @@
           "requiresFacts": ["state-of-the-state"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3167,7 +3039,6 @@
           "requiresFacts": ["executive-order", "issued"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3190,7 +3061,6 @@
           "requiresFacts": ["executive-order", "revoked"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3213,7 +3083,6 @@
           "requiresFacts": ["budget-proposal"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3236,7 +3105,6 @@
           "requiresFacts": ["clemency", "granted"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3259,7 +3127,6 @@
           "requiresFacts": ["clemency", "denied"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3282,7 +3149,6 @@
           "requiresFacts": ["legislative-leaders", "attended"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3305,7 +3171,6 @@
           "requiresFacts": ["legislative-leaders", "missed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3328,7 +3193,6 @@
           "requiresFacts": ["caucus", "attended"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3351,7 +3215,6 @@
           "requiresFacts": ["caucus", "missed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3374,7 +3237,6 @@
           "requiresFacts": ["interim-committee", "attended"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3397,7 +3259,6 @@
           "requiresFacts": ["interim-committee", "missed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3419,7 +3280,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3442,7 +3302,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3465,7 +3324,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3487,7 +3345,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3509,7 +3366,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3531,7 +3387,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3553,7 +3408,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3575,7 +3429,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3597,7 +3450,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3619,7 +3471,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3641,7 +3492,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3663,7 +3513,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3685,7 +3534,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3707,7 +3555,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3729,7 +3576,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3751,7 +3597,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3773,7 +3618,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3795,7 +3639,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3817,7 +3660,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3840,7 +3682,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3863,7 +3704,6 @@
           "requiresFacts": ["one"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3885,7 +3725,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3908,7 +3747,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3931,7 +3769,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3953,7 +3790,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3975,7 +3811,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3997,7 +3832,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4020,7 +3854,6 @@
           "requiresFacts": ["inaugural"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4043,7 +3876,6 @@
           "requiresFacts": ["joint-session"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4066,7 +3898,6 @@
           "requiresFacts": ["inaugural"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
@@ -4089,7 +3920,6 @@
           "requiresFacts": ["joint-session"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
@@ -4112,7 +3942,6 @@
           "requiresFacts": ["unemployment-rate"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
@@ -4135,7 +3964,6 @@
           "requiresFacts": ["unemployment-rate"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
@@ -4158,7 +3986,6 @@
           "requiresFacts": ["wage-growth"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
@@ -4181,7 +4008,6 @@
           "requiresFacts": ["wage-growth"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
@@ -4204,7 +4030,6 @@
           "requiresFacts": ["quote"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
@@ -4227,7 +4052,6 @@
           "requiresFacts": ["quote"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
@@ -4249,7 +4073,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4271,7 +4094,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4294,7 +4116,6 @@
           "requiresFacts": ["on-ballot"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4317,7 +4138,6 @@
           "requiresFacts": ["short"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4339,7 +4159,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4361,7 +4180,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4383,7 +4201,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4406,7 +4223,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4428,7 +4244,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4450,7 +4265,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4472,7 +4286,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4494,7 +4307,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4516,7 +4328,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4539,7 +4350,6 @@
           "requiresFacts": ["federal"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4562,7 +4372,6 @@
           "requiresFacts": ["federal"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4585,7 +4394,6 @@
           "requiresFacts": ["held"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4608,7 +4416,6 @@
           "requiresFacts": ["yes"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4631,7 +4438,6 @@
           "requiresFacts": ["no"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4654,7 +4460,6 @@
           "requiresFacts": ["yes"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4677,7 +4482,6 @@
           "requiresFacts": ["no"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4699,7 +4503,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4721,7 +4524,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4743,7 +4545,6 @@
           "choice": "context"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (Words: printed stories get body paragraphs)",
       "date": "2026-10-28",
@@ -4765,7 +4566,6 @@
           "choice": "context"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (Words: printed stories get body paragraphs)",
       "date": "2026-10-28",
@@ -4787,7 +4587,6 @@
           "choice": "context"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (Words: printed stories get body paragraphs)",
       "date": "2026-10-28",
@@ -4809,7 +4608,6 @@
           "choice": "context"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (Words: printed stories get body paragraphs)",
       "date": "2026-10-28",
@@ -4831,7 +4629,6 @@
           "choice": "context"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (Words: printed stories get body paragraphs)",
       "date": "2026-10-28",
@@ -4853,7 +4650,6 @@
           "choice": "context"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (Words: printed stories get body paragraphs)",
       "date": "2026-10-28",
@@ -4875,7 +4671,6 @@
           "choice": "context"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (Words: printed stories get body paragraphs)",
       "date": "2026-10-28",
@@ -4897,7 +4692,6 @@
           "choice": "context"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (Words: printed stories get body paragraphs)",
       "date": "2026-10-28",
@@ -4919,7 +4713,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4941,7 +4734,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4963,7 +4755,6 @@
           "choice": "lede"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",

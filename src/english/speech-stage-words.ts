@@ -7,7 +7,7 @@
  */
 import stagesJson from "../../data/english/parts/speech-stages.json" with { type: "json" };
 import type { PersonId } from "../core2/types";
-import { partsToSay, type BankPart } from "./bank-parts";
+import { admittedParts, type BankPart } from "./bank-parts";
 import {
   renderLine,
   type Fact,
@@ -24,19 +24,11 @@ export const SPEECH_STAGES_VERSION = "words-speech-stages-v1";
 
 /**
  * The pieces that may word one stage role ("opener", "core:work", ...), as
- * renderer variants. Play offers only shipped pieces. A grading page
- * (`heldFirst`) offers the held ones wherever one fits, so the owner hears
- * each in a real speech; a stage no held piece fits keeps its shipped pieces.
+ * renderer variants: every piece the owner's grades leave in.
  */
-export function speechStageVariants(
-  role: string,
-  heldFirst = false,
-): Variant[] {
-  return partsToSay(
-    BANK.parts,
-    (part) =>
-      part.uses.some((use) => use.subject === "stage" && use.role === role),
-    heldFirst,
+export function speechStageVariants(role: string): Variant[] {
+  return admittedParts(BANK.parts, (part) =>
+    part.uses.some((use) => use.subject === "stage" && use.role === role),
   ).map((part) => ({
     key: part.key,
     // The bank writes a slot as {name}; the renderer reads {{name}}.
@@ -45,8 +37,8 @@ export function speechStageVariants(
 }
 
 /** The pieces that may word a stage role, by key: each is offered as its own choice at an edge of the speech. */
-export function speechStagePieces(role: string, heldFirst = false): string[] {
-  return speechStageVariants(role, heldFirst).map((variant) => variant.key);
+export function speechStagePieces(role: string): string[] {
+  return speechStageVariants(role).map((variant) => variant.key);
 }
 
 /**
@@ -61,10 +53,9 @@ export function wordSpeechPart(request: {
   speakerId: PersonId;
   facts: Record<string, Fact>;
   momentKey: string;
-  heldFirst?: boolean;
   pieceKey?: string;
 }): RenderedLine | null {
-  const variants = speechStageVariants(request.role, request.heldFirst).filter(
+  const variants = speechStageVariants(request.role).filter(
     (variant) => !request.pieceKey || variant.key === request.pieceKey,
   );
   return renderLine({
