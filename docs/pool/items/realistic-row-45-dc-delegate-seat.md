@@ -1,7 +1,7 @@
 ---
 id: realistic-row-45-dc-delegate-seat
 title: "The two-seeds-differ guard fails whenever it draws Washington, D.C.: the delegate seat 98 maps to no roster holder"
-area: tests
+area: core
 kind: bug
 priority: 1
 size: S
