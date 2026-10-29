@@ -17,7 +17,7 @@ Current as of 2026-10-29, 18:10 UTC (CTO, the owner's second account). This repl
 
 0. **Red main:** any PR whose line 1 is `Touches pool item: release-main-red-standing` (the red-main fixer), ahead of everything.
 1. **Words and director** (the owner's words session): #6764 (replies fit what you said), #6762 (twelve more record kinds in News), then every new words or director PR as it goes green. (#6759, #6765 and #6770 merged.)
-2. **The lane** (play-first): #6772 (anyone's history on their card), then `play-faces-show-the-moment-a-menu-opens` and the history fill-in as they open. (#6768 and #6771 merged.) Scrolling inside a panel under the gold scroller is the ruled replacement for paging (CTO, Oct 29), and the creator's step Back and Continue stay.
+2. **The lane** (play-first): #6772 (anyone's history on their card), then #6775 (marriages, moves and school stages before the start; stacked on #6772), then `play-faces-show-the-moment-a-menu-opens` as it opens. Both carry words bank pieces: words reviews them. (#6768 and #6771 merged.) Scrolling inside a panel under the gold scroller is the ruled replacement for paging (CTO, Oct 29), and the creator's step Back and Continue stay.
 3. **Laws:** #6763 (civic family; sent back for a flaky new test, the laws session has it), then the background-record PRs as they open. (#6760 and #6766 merged.)
 4. **Older ready PRs:** #6050 (someone the player's age in every town) and #5150. Merge main in, rerun the checks, merge if green; if main already does what the PR does, comment so and the CTO closes it. (#6091, #6411, #5056 and #5695 closed by the CTO.)
 5. **People pack v3** (`people-pack-v3`): **hold** for the owner's look. Read it, run its checks and comment what you find, but do not merge.
