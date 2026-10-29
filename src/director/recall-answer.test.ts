@@ -23,6 +23,7 @@ import { recallsOf } from "../core2/modules/recalls";
 import { coreAPI } from "../core2/state";
 import { wordPrintedStory } from "../bench/archive-words";
 import { purposeScene, replyInScene } from "./purpose-scene";
+import type { TreeNode } from "./scene-talk";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 /** Places tried before giving up on a petition against a full-person member. */
@@ -129,6 +130,26 @@ it(`an official's answer at the petition table is read by the drive's count (see
     ).toBe("composed");
     if (composed?.kind !== "composed") return;
     expect(composed.scene.cause.id).toBe(`recall-petition:${recall.id}`);
+    // The organizer says what the petition's record holds: the vote. With no
+    // record of a promise on the bill, no line on any path claims one.
+    const said: string[] = [];
+    const walk = (node: TreeNode | null | undefined): void => {
+      if (!node) return;
+      for (const line of node.lines) said.push(line.text);
+      for (const reply of node.replies) {
+        said.push(reply.line.text);
+        walk(reply.next);
+      }
+    };
+    walk(composed.scene.talk.tree);
+    if (!composed.scene.facts.some((row) => row.key === "promised-against"))
+      for (const text of said)
+        expect(text, `${where}: ${recall.id}`).not.toMatch(
+          /telling us you wouldn't|never said that|office hours|mailer|changed (?:my|your) mind/i,
+        );
+    process.stdout.write(
+      `RECALL ${where}: ${recall.id}: ${composed.scene.talk.state.text} / ${said.filter((text) => /voted for|one vote/i.test(text)).join(" / ")}\n`,
+    );
     // The member hears them out: an answer.
     const path = composed.scene.talk.tree.replies.findIndex(
       (reply) => reply.line.move === "ask",

@@ -133,7 +133,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "morning",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -181,7 +182,7 @@
           "step": "narrate",
           "move": "ballot",
           "role": "narrator",
-          "requiresFacts": ["candidate", "opponent"]
+          "requiresFacts": ["candidate", "opponent", "same-day"]
         }
       ],
       "origin": "authored",
@@ -466,7 +467,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-ask",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -536,7 +538,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "stayed-home",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -1008,7 +1011,7 @@
           "step": "narrate",
           "move": "returns-nation",
           "role": "narrator",
-          "requiresFacts": ["several"]
+          "requiresFacts": ["same-day", "several"]
         }
       ],
       "origin": "authored",
@@ -1032,7 +1035,7 @@
           "step": "narrate",
           "move": "returns-nation",
           "role": "narrator",
-          "requiresFacts": ["one"]
+          "requiresFacts": ["one", "same-day"]
         }
       ],
       "origin": "authored",
@@ -1055,7 +1058,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-away",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -1101,7 +1105,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-away",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -1124,7 +1129,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-none",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -23770,31 +23776,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.that-and-you-stopped-holding-office-hours",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "That and you stopped holding office hours.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "recall-confront",
-          "key": "threat",
-          "after": "ask"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.don-t-walk-past-tell-me-why-you-voted-for-it",
       "move": "follow-press",
       "kind": "spoken",
@@ -41251,7 +41232,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "first-day-ropes",
-          "key": "arrival"
+          "key": "arrival",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "curious",
@@ -48347,7 +48329,8 @@
           "role": "asker",
           "purpose": "recall-confront",
           "key": "threat",
-          "after": "scene-talk.reply-ask.what-does-it-say-i-did"
+          "after": "scene-talk.reply-ask.what-does-it-say-i-did",
+          "requiresFacts": ["promised-against"]
         }
       ],
       "bearing": "braced",
@@ -48447,7 +48430,8 @@
           "role": "asked",
           "purpose": "recall-confront",
           "key": "threat",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["promised-against"]
         }
       ],
       "bearing": "calm",
@@ -48472,7 +48456,8 @@
           "role": "asked",
           "purpose": "recall-confront",
           "key": "threat",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["promised-against"]
         }
       ],
       "bearing": "braced",
@@ -48738,7 +48723,7 @@
       "key": "scene-talk.follow-accept.okay-i-m-listening-start-with-why-you-changed-your-mind",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. I'm listening. Start with why you changed your mind.",
+      "text": "Okay. I'm listening. Start with why you voted for it.",
       "uses": [
         {
           "subject": "scene",
@@ -58606,7 +58591,7 @@
       "key": "scene-talk.follow-accept.well-that-s-more-honest-than-the-mailer",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Well. That's more honest than the mailer.",
+      "text": "Well. That's more honest than I expected.",
       "uses": [
         {
           "subject": "scene",
@@ -60192,7 +60177,7 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["introduced"]
+          "requiresFacts": ["introduced", "same-day"]
         }
       ],
       "bearing": "guarded",
@@ -63818,7 +63803,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "desk-bill",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "calm",
@@ -73472,7 +73458,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "join-cause",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "curious",
@@ -82303,7 +82290,7 @@
           "role": "narrator",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate"]
+          "requiresFacts": ["debate", "same-day"]
         }
       ],
       "bearing": "braced",
@@ -88303,7 +88290,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "diploma-home",
-          "key": "diploma"
+          "key": "diploma",
+          "requiresFacts": ["day-after"]
         }
       ],
       "bearing": "glad",
@@ -102676,7 +102664,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "housemate-arrives",
-          "key": "arrival"
+          "key": "arrival",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "curious",
@@ -102725,7 +102714,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["kin"]
+          "requiresFacts": ["kin", "same-day"]
         }
       ],
       "bearing": "tender",
@@ -102750,7 +102739,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["kin"]
+          "requiresFacts": ["kin", "same-day"]
         }
       ],
       "bearing": "glad",
@@ -102800,7 +102789,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["stranger"],
+          "requiresFacts": ["same-day", "stranger"],
           "excludesFacts": ["kin"]
         }
       ],
@@ -102826,7 +102815,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["stranger"],
+          "requiresFacts": ["same-day", "stranger"],
           "excludesFacts": ["kin"]
         }
       ],
@@ -120296,6 +120285,183 @@
       "tag": {
         "move": "answer",
         "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.it-came-down-to-a-drawing-and-your-name-came-out-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "It came down to a drawing, and your name came out. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["tied-lot"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.we-tied-and-the-vote-to-settle-it-went-your-way-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "We tied, and the vote to settle it went your way. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["tied-vote"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.we-tied-and-the-drawing-settled-it-that-s-the-law-here-and-it-won-t-change",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "We tied, and the drawing settled it. That's the law here, and it won't change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "ask",
+          "requiresFacts": ["tied-lot"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.we-tied-and-the-vote-to-settle-it-is-done-i-don-t-expect-that-to-change",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "We tied, and the vote to settle it is done. I don't expect that to change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "ask",
+          "requiresFacts": ["tied-vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.as-far-as-i-know-every-ballot-is-counted-i-don-t-expect-it-to-move",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "As far as I know, every ballot is counted. I don't expect it to move.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-s-it-one-vote-and-enough-of-us-remember-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That's it. One vote, and enough of us remember it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "recall-confront",
+          "key": "threat",
+          "after": "ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-you-voted-for-bill-that-s-all-it-needs-to-say",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That you voted for {bill}. That's all it needs to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "recall-confront",
+          "key": "threat",
+          "after": "scene-talk.reply-ask.what-does-it-say-i-did"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
       }
     }
   ]

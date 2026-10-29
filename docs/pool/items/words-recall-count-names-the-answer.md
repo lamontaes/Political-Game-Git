@@ -7,11 +7,12 @@ area: play
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/recall-count-names-the-answer
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T06:34:45.108Z
 ---
 
 **What.** With recall-reply-moves-the-drive, the recall's due-day count reads the official's answer to the petition's organizer: the recall-outcome record (failed or on-ballot) now carries signatures, required, before (the count without the answer) and answerIds (the scene replies it read). The news and headline banks still say only that a petition got enough signatures or did not ('The petition to recall {name} has enough signatures for a vote.'), so the player never sees the count or why it moved. In Glen Gardner, New Jersey (seed recall-a1 draw 4), the member heard the petitioners out and 21 fewer signed (463 to 442), and nothing on screen says so.

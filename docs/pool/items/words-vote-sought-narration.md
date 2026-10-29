@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/vote-sought-narration
 pr:
 blocked-on:
 lead: words
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T06:39:08.071Z
 ---
 
 **What.** The new vote-sought scene (src/director/ask-talk.ts) lets the player ask a colleague for their vote the evening before the floor vote on the player's own bill. It reuses the ask-vote purpose's lines with the speakers turned around, so the request, plea, trade, press and thanks are the player's and the yes, not-yet and no are the colleague's. The one piece it lacks is its setup: every ask-vote narration is written as the colleague coming to the player ("{name} knocks on the open door"), so vote-sought plays with no narration of its own.

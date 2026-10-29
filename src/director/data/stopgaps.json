@@ -431,5 +431,17 @@
     "addedAt": "2026-10-28",
     "replacement": "The legislature's keepReply and the campaigns engine read keeps (favor-owed, promise) from scene.reply and record the obligation and the promise; the journal says it from that record.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-recall-promise-record",
+    "kind": "missing-data",
+    "file": "src/director/purpose-scene.ts",
+    "line": 1,
+    "whatItFakes": "At the recall table, the organizer's line that the member voted for the bill 'after telling us you wouldn't', and the member's two answers to it, need a promised-against fact; no engine records a promise to vote against a bill, so they never play and the organizer names only the vote.",
+    "why": "Ask why: a broken promise is said only where a record holds the promise (a pledge, a platform stance against the bill's question, a reply in an earlier scene). The legislature records only a promise to vote for a bill (vote-promise, a committee trade).",
+    "addedBy": "Words and director session",
+    "addedAt": "2026-10-29",
+    "replacement": "purpose-scene sets promised-against for a recall petition when the member's filed platform takes the stand against the bill's question, or a scene reply recorded a promise against it, citing that record.",
+    "status": "open"
   }
 ]
