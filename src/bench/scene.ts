@@ -723,8 +723,16 @@ export function stagePeople(
   ids: readonly { id: string; name: string; reason: StageReason }[],
   /** Whose speech it is: at the address desk or lectern, where the plate has one. */
   speaker?: string,
+  /**
+   * The scene's occasion from the director (address, signing, meeting,
+   * visit, briefing, debate, ceremony; agreed with Words, Oct 29): it decides
+   * whether an office holder sits, stands or takes a podium. Absent, the
+   * data's default (seated; owner, Oct 29: "sitting is the idea right now").
+   */
+  occasion?: string,
 ): { people: BenchScenePerson[]; unplaced: BenchScene["unplaced"] } {
   const place = placeOfBackdrop(backdropFile);
+  const posture = POSTURES[occasion ?? ""] ?? OCCASIONS.default;
   const plate = plateFor(backdropFile);
   const people: BenchScenePerson[] = [];
   const unplaced: BenchScene["unplaced"] = [];
@@ -765,12 +773,28 @@ export function stagePeople(
     const kept = officeKinds(core, id).flatMap(
       (kind) => SEAT_ROLES[kind] ?? [],
     );
-    // A seat kept for their office first, the speaker's desk or lectern for
-    // the speaker, then any free mannequin; a kept seat whose holder is here
+    // An office holder takes the spot the occasion's posture calls for: the
+    // spot kept for their office in that posture, else one in that posture
+    // anywhere in the room (owner, Oct 29: no rule ties an office holder to
+    // one spot or posture). Then the speaker's desk or lectern for the
+    // speaker, then any free mannequin; a kept spot whose holder is here
     // stays free for them, and one whose holder is away is anyone's last.
     const own = (spot: PlateSpot) => !!spot.role && kept.includes(spot.role);
     const open = (spot: PlateSpot) => !spot.role || !held.has(spot.role);
+    const posed = kept.length
+      ? [
+          ...free.filter((spot) => own(spot) && inPosture(spot, posture)),
+          ...free.filter(
+            (spot) => !own(spot) && open(spot) && inPosture(spot, posture),
+          ),
+          // A podium occasion in a room with no lectern: standing.
+          ...(posture === "podium"
+            ? free.filter((spot) => open(spot) && inPosture(spot, "standing"))
+            : []),
+        ]
+      : [];
     const order = [
+      ...posed,
       ...free.filter(own),
       ...(id === speaker
         ? free.filter((spot) => SPEAKING.has(spot.pose) && open(spot))
@@ -811,6 +835,15 @@ export function stagePeople(
       figureUrl: drawnUrl(figure, who, ageBandOf(core, who.birthDate)),
     });
   return { people, unplaced };
+}
+/** How each occasion places an office holder (data/whole-figures.json `occasions`). */
+const OCCASIONS = figureRules.occasions;
+const POSTURES: Readonly<Record<string, string>> = OCCASIONS.postures;
+/** Whether a spot is in a posture: seated on any seat, at a lectern, or standing. */
+function inPosture(spot: PlateSpot, posture: string): boolean {
+  if (posture === "seated") return spot.seat !== "none";
+  if (posture === "podium") return spot.pose === "lectern";
+  return spot.seat === "none" && spot.pose !== "lectern";
 }
 /** The poses a speaker takes: behind the address desk or at a lectern. */
 const SPEAKING = new Set(["address", "lectern"]);

@@ -1,6 +1,7 @@
 // The people pack is swapped by one setting and grown by manifest rows
 // (owner, Oct 29: "make it to where these can be updated very easily").
 import { execFileSync } from "node:child_process";
+import { randomBytes } from "node:crypto";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import type * as NodeFs from "node:fs";
 import { describe, expect, it, vi } from "vitest";
@@ -20,6 +21,11 @@ import {
   moveAppearance,
 } from "./appearance";
 import type { CoreState } from "../core2/types";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { setBookkeeping } from "../core2/bookkeeping";
+import { gameStartDate } from "../core2/game-start";
+import { buildBenchWorld } from "./world";
+import { stagePeople } from "./scene";
 import { figureForSpot, fitOn, packPersonOf } from "./whole-figures";
 
 const ROOT = new URL("../../", import.meta.url);
@@ -272,6 +278,42 @@ describe("the people pack", () => {
           if (figure) expect(figure.dress, figure.id).not.toBe("casual");
         }
   });
+
+  it(
+    "seats an office holder by default and stands them when the occasion calls for it",
+    { timeout: 600_000 },
+    () => {
+      const seed =
+        process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+      const place = drawPlace(seed, "people-pack-occasion");
+      const where = `${place.name} (${place.key}), seed ${seed}`;
+      setBookkeeping(false);
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const president = world.director.ledger.opening!.president;
+      const office = plates().find((plate) =>
+        plate.spots.some((spot) => spot.role === "president" && spot.feet),
+      )!;
+      const stage = (occasion?: string) =>
+        stagePeople(
+          world.core,
+          office.backdrop,
+          [{ id: president.id, name: president.name, reason: "official" }],
+          undefined,
+          occasion,
+        ).people[0];
+      const spotOf = (id: string | undefined) =>
+        office.spots.find((spot) => spot.id === id);
+      const seated = stage();
+      if (seated) expect(spotOf(seated.spotId)!.seat, where).not.toBe("none");
+      const standing = stage("ceremony");
+      if (standing) expect(spotOf(standing.spotId)!.seat, where).toBe("none");
+      // Somewhere in the room either way: the President is painted sitting or standing.
+      expect(seated ?? standing, where).toBeTruthy();
+    },
+  );
 
   it("offers a new manifest row in the creator with no code change", async () => {
     // A seventh person, added the way the art session adds one: a row in the
