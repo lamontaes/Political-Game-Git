@@ -6,6 +6,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 22:40 UTC: CTO rulings on the world-governing plan (laws lead's questions; docs/reports/world-governing-plan-2026-10-29.md)
+
+- **Speed (standing rule "Speed"; "Keep it simple", two-level population):** both limits hold for every change: a town's year stays under two minutes on `npm run speed:year`, and no change makes it more than 20% slower than its base on the same machine. Other states' and other towns' members sit as named officials on their term rows (the `official:<term>` form the Politics screens already read), filled in as full people only when the player meets or opens them, never 7,400 full people at the opening. Measure U1 alone first; cutting town-only loops that scan officials without changing behavior is welcome. Yes, take `laws-session-moves-too-many-questions` (real bill volume) as the ruled lever.
+- **"Three other towns" in places with no other local government (D.C., the Virgin Islands, Guam, American Samoa, the Northern Marianas):** the test redraws those, naming why, and Hawaii's and Puerto Rico's county-level bodies sit as county boards, all from data (one rule, all 56 places).
+- **`gov-federal-questions-admitted` folds into `gov-congress-passes-policy-laws`** (same test, stopgap and done-when); the twin is dropped with its Notes carried over.
+- **Time boxes don't end good work while the owner is awake and usage holds:** the laws lead keeps going past 00:40 UTC on U1 and the C2 research, pushing its branches and writing Notes every hour so a handoff is always ready, and stops only if usage runs out or the owner says so.
+
 ## Oct 29, 22:15 UTC: CTO rulings: menu scrolling read exactly; four effects-web grades; the laws lead runs parallel workflows
 
 - **Menu scrolling, read from the owner's own words (CTO, correcting the 22:10 entry's wording).** He said: "I don't want you to have to, like, just scroll infinitely... it shouldn't be like a HTML thing. The main menu shouldn't really be scrolling. It should be things inside." So the menu panel itself never scrolls as a page; a box inside it (a list, an agenda, a roster) may page with arrows or tabs or scroll within its own bounded box, and paging is preferred where a game would page. The lane's #6768 made whole sheet bodies scroll under the gold scroller; that is the page scrolling he does not want, so every menu moves to a fixed panel with bounded boxes inside (`play-menus-fixed-panels`, lane), Politics → Government first (#6832).
