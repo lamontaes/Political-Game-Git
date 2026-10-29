@@ -35,8 +35,13 @@ P2 = [('write', 'desk-chair', -45), ('talk', 'chair', 45), ('listen', 'chair', -
 ADDRESS = [('address', 'desk-chair', 0)] * 5
 LOOKS = {'man': {'suitnavy': ('navy suit, red tie', 'formal'), 'suitcharcoal': ('charcoal suit, blue tie', 'formal'), 'blazer': ('navy blazer, open collar', 'business')},
          'woman': {'pantsuitnavy': ('navy pantsuit', 'formal'), 'pantsuitblack': ('black pantsuit', 'formal'), 'blazercamel': ('camel blazer', 'business')}}
-SKIP = {('woman-medium', 'blazercamel', 0): 'drawn standing, not seated', ('woman-heavy', 'pantsuitblack', 1, 0): 'cut off',
-        ('man-heavy', 'address'): 'a desk line is drawn across'}
+SKIP = {('woman-medium', 'blazercamel', 0): 'drawn standing, not seated', ('woman-heavy', 'pantsuitblack', 1, 0): 'cut off'}
+# Oct 29: the heavy man's address sheet was redrawn without the desk line, with a sixth figure writing at the desk
+ADDRESS_COUNT = {'man-heavy': 6}
+ADDRESS_POSE = {5: ('write', 'desk-chair', 0)}
+# owner, Oct 29: nobody holds anything unless the scene calls for it; figures holding something say what
+PROP = {'phone': 'phone', 'film': 'phone', 'write': 'pen-paper'}
+ADDRESS_PROP = {3: 'paper', 5: 'pen-paper'}
 
 
 BAD_SPLITS = {'woman-slim-2': 'the split put body into the trousers part; redo', 'man-medium-2': 'the split put body into the trousers part; redo'}
@@ -152,18 +157,25 @@ def main():
             man['skipped'].append({'sheet': os.path.basename(sheet), 'why': SKIP[(p, 'address')]})
         elif os.path.exists(sheet):
             look = 'suitnavy' if sex == 'man' else 'pantsuitnavy'
-            for k, f in enumerate(lift(sheet)):
+            for k, f in enumerate(lift(sheet, count=ADDRESS_COUNT.get(p, 5))):
                 fid = f'{p}/look/address/a{k:02d}'
                 os.makedirs(os.path.join(OUT, 'people', os.path.dirname(fid)), exist_ok=True)
                 f['img'].save(os.path.join(OUT, 'people', fid + '.png'))
-                man['figures'].append({'id': fid, 'person': p, 'kind': 'look', 'pose': 'address', 'seat': 'desk-chair', 'facing': 0, 'dress': 'formal',
-                                       'outfit': look, 'file': f'people/{fid}.png', 'handsRestOnDesk': True, **metrics(f['img'])})
+                pose, seat, facing = ADDRESS_POSE.get(k, ('address', 'desk-chair', 0))
+                fig = {'id': fid, 'person': p, 'kind': 'look', 'pose': pose, 'seat': seat, 'facing': facing, 'dress': 'formal',
+                       'outfit': look, 'file': f'people/{fid}.png', 'handsRestOnDesk': True, **metrics(f['img'])}
+                if k in ADDRESS_PROP:
+                    fig['prop'] = ADDRESS_PROP[k]
+                man['figures'].append(fig)
     tools = os.path.join(OUT, 'tools'); os.makedirs(tools)
     for f in ['engine.py', 'colors.py', 'export_kit.py', 'kit_check.py', 'master.py', 'kit.py']:
         shutil.copy(os.path.join(SC, 'build-rally', f), tools)
     shutil.copy(os.path.join(SC, 'looks', 'lift.py'), tools)
     shutil.copy(os.path.join(SC, 'intro', 'mannequins.py'), tools)
     shutil.copy(os.path.abspath(__file__), tools)
+    for f in man['figures']:
+        if f['pose'] in PROP and 'prop' not in f:
+            f['prop'] = PROP[f['pose']]
     json.dump(man, open(os.path.join(OUT, 'manifest.json'), 'w'), indent=1)
     kinds = {}
     for f in man['figures']:

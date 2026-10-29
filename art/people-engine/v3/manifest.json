@@ -1426,7 +1426,8 @@
     "x": 126.5,
     "y": 711
    },
-   "stature": 677
+   "stature": 677,
+   "prop": "phone"
   },
   {
    "id": "woman-medium/kit/r04",
@@ -1783,7 +1784,8 @@
     "x": 258.0,
     "y": 710
    },
-   "stature": 674
+   "stature": 674,
+   "prop": "pen-paper"
   },
   {
    "id": "woman-medium/kit/s01",
@@ -2191,7 +2193,8 @@
     "x": 167.5,
     "y": 759
    },
-   "stature": 724
+   "stature": 724,
+   "prop": "phone"
   },
   {
    "id": "woman-medium/kit/s09",
@@ -2268,7 +2271,8 @@
     "x": 193.0,
     "y": 575
    },
-   "stature": 570
+   "stature": 570,
+   "prop": "pen-paper"
   },
   {
    "id": "woman-medium/look/pantsuitnavy/s01",
@@ -2476,7 +2480,8 @@
     "x": 138.0,
     "y": 679
    },
-   "stature": 673
+   "stature": 673,
+   "prop": "phone"
   },
   {
    "id": "woman-medium/look/pantsuitnavy/s09",
@@ -2528,7 +2533,8 @@
     "x": 171.0,
     "y": 510
    },
-   "stature": 506
+   "stature": 506,
+   "prop": "pen-paper"
   },
   {
    "id": "woman-medium/look/pantsuitblack/s01",
@@ -2736,7 +2742,8 @@
     "x": 129.5,
     "y": 682
    },
-   "stature": 676
+   "stature": 676,
+   "prop": "phone"
   },
   {
    "id": "woman-medium/look/pantsuitblack/s09",
@@ -2866,7 +2873,8 @@
     "x": 129.0,
     "y": 678
    },
-   "stature": 673
+   "stature": 673,
+   "prop": "phone"
   },
   {
    "id": "woman-medium/look/blazercamel/s09",
@@ -2996,7 +3004,8 @@
     "x": 106.5,
     "y": 629
    },
-   "stature": 623
+   "stature": 623,
+   "prop": "paper"
   },
   {
    "id": "woman-medium/look/address/a04",
@@ -3226,7 +3235,8 @@
     "x": 161.5,
     "y": 689
    },
-   "stature": 654
+   "stature": 654,
+   "prop": "phone"
   },
   {
    "id": "woman-slim/kit/r04",
@@ -3558,7 +3568,8 @@
     "x": 194.0,
     "y": 564
    },
-   "stature": 558
+   "stature": 558,
+   "prop": "pen-paper"
   },
   {
    "id": "woman-slim/look/pantsuitnavy/s01",
@@ -3766,7 +3777,8 @@
     "x": 130.0,
     "y": 686
    },
-   "stature": 683
+   "stature": 683,
+   "prop": "phone"
   },
   {
    "id": "woman-slim/look/pantsuitnavy/s09",
@@ -3818,7 +3830,8 @@
     "x": 167.5,
     "y": 478
    },
-   "stature": 473
+   "stature": 473,
+   "prop": "pen-paper"
   },
   {
    "id": "woman-slim/look/pantsuitblack/s01",
@@ -4026,7 +4039,8 @@
     "x": 122.0,
     "y": 665
    },
-   "stature": 661
+   "stature": 661,
+   "prop": "phone"
   },
   {
    "id": "woman-slim/look/pantsuitblack/s09",
@@ -4078,7 +4092,8 @@
     "x": 102.5,
     "y": 590
    },
-   "stature": 586
+   "stature": 586,
+   "prop": "pen-paper"
   },
   {
    "id": "woman-slim/look/blazercamel/s01",
@@ -4286,7 +4301,8 @@
     "x": 124.5,
     "y": 682
    },
-   "stature": 679
+   "stature": 679,
+   "prop": "phone"
   },
   {
    "id": "woman-slim/look/blazercamel/s09",
@@ -4416,7 +4432,8 @@
     "x": 99.5,
     "y": 574
    },
-   "stature": 570
+   "stature": 570,
+   "prop": "paper"
   },
   {
    "id": "woman-slim/look/address/a04",
@@ -4646,7 +4663,8 @@
     "x": 145.0,
     "y": 704
    },
-   "stature": 669
+   "stature": 669,
+   "prop": "phone"
   },
   {
    "id": "woman-heavy/kit/r04",
@@ -5054,7 +5072,8 @@
     "x": 247.5,
     "y": 667
    },
-   "stature": 631
+   "stature": 631,
+   "prop": "pen-paper"
   },
   {
    "id": "woman-heavy/kit/s01",
@@ -5462,7 +5481,8 @@
     "x": 120.0,
     "y": 724
    },
-   "stature": 691
+   "stature": 691,
+   "prop": "phone"
   },
   {
    "id": "woman-heavy/kit/s09",
@@ -5539,7 +5559,8 @@
     "x": 183.0,
     "y": 533
    },
-   "stature": 527
+   "stature": 527,
+   "prop": "pen-paper"
   },
   {
    "id": "woman-heavy/look/pantsuitnavy/s01",
@@ -5747,7 +5768,8 @@
     "x": 83.0,
     "y": 639
    },
-   "stature": 635
+   "stature": 635,
+   "prop": "phone"
   },
   {
    "id": "woman-heavy/look/pantsuitnavy/s09",
@@ -5799,7 +5821,8 @@
     "x": 166.0,
     "y": 483
    },
-   "stature": 478
+   "stature": 478,
+   "prop": "pen-paper"
   },
   {
    "id": "woman-heavy/look/pantsuitblack/s01",
@@ -5981,7 +6004,8 @@
     "x": 85.5,
     "y": 653
    },
-   "stature": 649
+   "stature": 649,
+   "prop": "phone"
   },
   {
    "id": "woman-heavy/look/pantsuitblack/s09",
@@ -6033,7 +6057,8 @@
     "x": 135.0,
     "y": 384
    },
-   "stature": 379
+   "stature": 379,
+   "prop": "pen-paper"
   },
   {
    "id": "woman-heavy/look/blazercamel/s01",
@@ -6241,7 +6266,8 @@
     "x": 82.0,
     "y": 623
    },
-   "stature": 619
+   "stature": 619,
+   "prop": "phone"
   },
   {
    "id": "woman-heavy/look/blazercamel/s09",
@@ -6371,7 +6397,8 @@
     "x": 114.2,
     "y": 637
    },
-   "stature": 631
+   "stature": 631,
+   "prop": "paper"
   },
   {
    "id": "woman-heavy/look/address/a04",
@@ -6601,7 +6628,8 @@
     "x": 254.0,
     "y": 694
    },
-   "stature": 661
+   "stature": 661,
+   "prop": "phone"
   },
   {
    "id": "man-medium/kit/r04",
@@ -7011,7 +7039,8 @@
     "x": 89.5,
     "y": 677
    },
-   "stature": 672
+   "stature": 672,
+   "prop": "phone"
   },
   {
    "id": "man-medium/look/suitnavy/s09",
@@ -7063,7 +7092,8 @@
     "x": 162.5,
     "y": 522
    },
-   "stature": 517
+   "stature": 517,
+   "prop": "pen-paper"
   },
   {
    "id": "man-medium/look/suitcharcoal/s01",
@@ -7271,7 +7301,8 @@
     "x": 89.0,
     "y": 680
    },
-   "stature": 674
+   "stature": 674,
+   "prop": "phone"
   },
   {
    "id": "man-medium/look/suitcharcoal/s09",
@@ -7323,7 +7354,8 @@
     "x": 164.0,
     "y": 520
    },
-   "stature": 515
+   "stature": 515,
+   "prop": "pen-paper"
   },
   {
    "id": "man-medium/look/blazer/s01",
@@ -7531,7 +7563,8 @@
     "x": 88.5,
     "y": 656
    },
-   "stature": 650
+   "stature": 650,
+   "prop": "phone"
   },
   {
    "id": "man-medium/look/blazer/s09",
@@ -7661,7 +7694,8 @@
     "x": 117.0,
     "y": 573
    },
-   "stature": 567
+   "stature": 567,
+   "prop": "paper"
   },
   {
    "id": "man-medium/look/address/a04",
@@ -7891,7 +7925,8 @@
     "x": 295.0,
     "y": 696
    },
-   "stature": 665
+   "stature": 665,
+   "prop": "phone"
   },
   {
    "id": "man-slim/kit/r04",
@@ -8248,7 +8283,8 @@
     "x": 246.5,
     "y": 698
    },
-   "stature": 655
+   "stature": 655,
+   "prop": "pen-paper"
   },
   {
    "id": "man-slim/kit/s01",
@@ -8656,7 +8692,8 @@
     "x": 119.0,
     "y": 741
    },
-   "stature": 706
+   "stature": 706,
+   "prop": "phone"
   },
   {
    "id": "man-slim/kit/s09",
@@ -8733,7 +8770,8 @@
     "x": 171.5,
     "y": 529
    },
-   "stature": 519
+   "stature": 519,
+   "prop": "pen-paper"
   },
   {
    "id": "man-slim/look/suitnavy/s01",
@@ -8941,7 +8979,8 @@
     "x": 81.0,
     "y": 665
    },
-   "stature": 660
+   "stature": 660,
+   "prop": "phone"
   },
   {
    "id": "man-slim/look/suitnavy/s09",
@@ -8993,7 +9032,8 @@
     "x": 179.5,
     "y": 567
    },
-   "stature": 557
+   "stature": 557,
+   "prop": "pen-paper"
   },
   {
    "id": "man-slim/look/suitcharcoal/s01",
@@ -9201,7 +9241,8 @@
     "x": 84.0,
     "y": 681
    },
-   "stature": 676
+   "stature": 676,
+   "prop": "phone"
   },
   {
    "id": "man-slim/look/suitcharcoal/s09",
@@ -9253,7 +9294,8 @@
     "x": 177.0,
     "y": 553
    },
-   "stature": 544
+   "stature": 544,
+   "prop": "pen-paper"
   },
   {
    "id": "man-slim/look/blazer/s01",
@@ -9461,7 +9503,8 @@
     "x": 86.0,
     "y": 676
    },
-   "stature": 670
+   "stature": 670,
+   "prop": "phone"
   },
   {
    "id": "man-slim/look/blazer/s09",
@@ -9591,7 +9634,8 @@
     "x": 117.6,
     "y": 591
    },
-   "stature": 585
+   "stature": 585,
+   "prop": "paper"
   },
   {
    "id": "man-slim/look/address/a04",
@@ -9821,7 +9865,8 @@
     "x": 114.5,
     "y": 705
    },
-   "stature": 672
+   "stature": 672,
+   "prop": "phone"
   },
   {
    "id": "man-heavy/kit/r04",
@@ -10178,7 +10223,8 @@
     "x": 252.5,
     "y": 709
    },
-   "stature": 669
+   "stature": 669,
+   "prop": "pen-paper"
   },
   {
    "id": "man-heavy/kit/s01",
@@ -10586,7 +10632,8 @@
     "x": 138.0,
     "y": 737
    },
-   "stature": 701
+   "stature": 701,
+   "prop": "phone"
   },
   {
    "id": "man-heavy/kit/s09",
@@ -10663,7 +10710,8 @@
     "x": 162.0,
     "y": 497
    },
-   "stature": 490
+   "stature": 490,
+   "prop": "pen-paper"
   },
   {
    "id": "man-heavy/look/suitnavy/s01",
@@ -10871,7 +10919,8 @@
     "x": 91.5,
     "y": 609
    },
-   "stature": 606
+   "stature": 606,
+   "prop": "phone"
   },
   {
    "id": "man-heavy/look/suitnavy/s09",
@@ -10923,7 +10972,8 @@
     "x": 166.0,
     "y": 510
    },
-   "stature": 502
+   "stature": 502,
+   "prop": "pen-paper"
   },
   {
    "id": "man-heavy/look/suitcharcoal/s01",
@@ -11131,7 +11181,8 @@
     "x": 91.5,
     "y": 617
    },
-   "stature": 614
+   "stature": 614,
+   "prop": "phone"
   },
   {
    "id": "man-heavy/look/suitcharcoal/s09",
@@ -11183,7 +11234,8 @@
     "x": 160.5,
     "y": 490
    },
-   "stature": 483
+   "stature": 483,
+   "prop": "pen-paper"
   },
   {
    "id": "man-heavy/look/blazer/s01",
@@ -11391,7 +11443,8 @@
     "x": 91.0,
     "y": 623
    },
-   "stature": 619
+   "stature": 619,
+   "prop": "phone"
   },
   {
    "id": "man-heavy/look/blazer/s09",
@@ -11418,6 +11471,164 @@
     "y": 623
    },
    "stature": 620
+  },
+  {
+   "id": "man-heavy/look/address/a00",
+   "person": "man-heavy",
+   "kind": "look",
+   "pose": "address",
+   "seat": "desk-chair",
+   "facing": 0,
+   "dress": "formal",
+   "outfit": "suitnavy",
+   "file": "people/man-heavy/look/address/a00.png",
+   "handsRestOnDesk": true,
+   "size": [
+    188,
+    379
+   ],
+   "head": {
+    "top": 4,
+    "x": 90.5,
+    "width": 59
+   },
+   "feet": {
+    "x": 94.5,
+    "y": 377
+   },
+   "stature": 373
+  },
+  {
+   "id": "man-heavy/look/address/a01",
+   "person": "man-heavy",
+   "kind": "look",
+   "pose": "address",
+   "seat": "desk-chair",
+   "facing": 0,
+   "dress": "formal",
+   "outfit": "suitnavy",
+   "file": "people/man-heavy/look/address/a01.png",
+   "handsRestOnDesk": true,
+   "size": [
+    229,
+    379
+   ],
+   "head": {
+    "top": 4,
+    "x": 137.0,
+    "width": 60
+   },
+   "feet": {
+    "x": 128.7,
+    "y": 377
+   },
+   "stature": 373
+  },
+  {
+   "id": "man-heavy/look/address/a02",
+   "person": "man-heavy",
+   "kind": "look",
+   "pose": "address",
+   "seat": "desk-chair",
+   "facing": 0,
+   "dress": "formal",
+   "outfit": "suitnavy",
+   "file": "people/man-heavy/look/address/a02.png",
+   "handsRestOnDesk": true,
+   "size": [
+    200,
+    379
+   ],
+   "head": {
+    "top": 5,
+    "x": 94.5,
+    "width": 59
+   },
+   "feet": {
+    "x": 97.5,
+    "y": 377
+   },
+   "stature": 372
+  },
+  {
+   "id": "man-heavy/look/address/a03",
+   "person": "man-heavy",
+   "kind": "look",
+   "pose": "address",
+   "seat": "desk-chair",
+   "facing": 0,
+   "dress": "formal",
+   "outfit": "suitnavy",
+   "file": "people/man-heavy/look/address/a03.png",
+   "handsRestOnDesk": true,
+   "size": [
+    189,
+    379
+   ],
+   "head": {
+    "top": 5,
+    "x": 93.5,
+    "width": 59
+   },
+   "feet": {
+    "x": 91.8,
+    "y": 377
+   },
+   "stature": 372,
+   "prop": "paper"
+  },
+  {
+   "id": "man-heavy/look/address/a04",
+   "person": "man-heavy",
+   "kind": "look",
+   "pose": "address",
+   "seat": "desk-chair",
+   "facing": 0,
+   "dress": "formal",
+   "outfit": "suitnavy",
+   "file": "people/man-heavy/look/address/a04.png",
+   "handsRestOnDesk": true,
+   "size": [
+    188,
+    379
+   ],
+   "head": {
+    "top": 5,
+    "x": 93.0,
+    "width": 60
+   },
+   "feet": {
+    "x": 93.0,
+    "y": 377
+   },
+   "stature": 372
+  },
+  {
+   "id": "man-heavy/look/address/a05",
+   "person": "man-heavy",
+   "kind": "look",
+   "pose": "write",
+   "seat": "desk-chair",
+   "facing": 0,
+   "dress": "formal",
+   "outfit": "suitnavy",
+   "file": "people/man-heavy/look/address/a05.png",
+   "handsRestOnDesk": true,
+   "size": [
+    193,
+    379
+   ],
+   "head": {
+    "top": 6,
+    "x": 96.5,
+    "width": 59
+   },
+   "feet": {
+    "x": 95.5,
+    "y": 377
+   },
+   "stature": 371,
+   "prop": "pen-paper"
   }
  ],
  "skipped": [
@@ -11441,10 +11652,6 @@
   {
    "sheet": "mm-suitnavy-p2r0.png",
    "why": "missing"
-  },
-  {
-   "sheet": "mh-address.png",
-   "why": "a desk line is drawn across"
   }
  ]
 }

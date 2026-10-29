@@ -26,3 +26,8 @@ A person is drawn only at a spot that has a mannequin painted in that figure's p
 - More clothes for a pose: draw the look on the pose sheet (Firefly, the same person), add `people/<person>/look/<outfit>/` and run `build_pack.py`; new rows appear in the manifest.
 - More colors: add to the person's palettes (`master.py`).
 - More people or a new set: build `v4` into its own folder with the same manifest shape and switch the game's pack setting.
+
+## Oct 29 additions
+- **Heavy man at the desk:** `man-heavy/look/address/a00`–`a05`, redrawn without the stray desk line (navy suit, matching trousers): five address poses like everyone else's, plus `a05` writing at the desk (`pose: write`, facing 0, `seat: desk-chair`).
+- **Props (owner: no accessories unless the scene calls for them; never books or clipboards at home):** figures that hold something carry `prop`: `phone` (on the phone, filming at a rally), `paper` (reading the speech at the address desk), `pen-paper` (writing at a desk). Use a `prop` figure only where that prop belongs: phones at rallies and on the street, papers at hearings and the address desk, pen and paper at desks. Figures without `prop` hold nothing.
+- **Mannequin plates:** the front cutouts were removed (they were room seen between legs or arms, not furniture); see art/people-rooms/mannequin-plates/README.md.
