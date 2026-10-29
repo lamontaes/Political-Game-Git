@@ -6,9 +6,9 @@ lead: play-first
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: play-first/play-news-paper-prints-the-stories
-pr:
+pr: #6771
 after:
 blocked-on:
 milestone: play-first

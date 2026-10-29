@@ -92,7 +92,7 @@ describe("home talks", () => {
       }
     }
     // A piece with slots plays when a heard line matches it with every slot
-    // filled (the headline, the outlet, the weekday).
+    // filled (the headline, the outlet).
     const pattern = (text: string) =>
       new RegExp(
         `^${text
@@ -122,8 +122,28 @@ describe("home talks", () => {
       [...(NEW.get(move) ?? [])]
         .filter((text) => text.includes(`{${slot}}`))
         .some((text) => lines.some((line) => pattern(text).test(line)));
-    // News is raised by its headline, and a quiet day opens on the day itself.
+    // News is raised by its headline, and a quiet day opens on a record of
+    // the day: a work day, by the job's own hours. (Lines naming the weekday
+    // went with the owner's sitting bans of Oct 28.)
     expect(plays("news-raise-heard", "headline"), where).toBe(true);
-    expect(plays("quiet-raise-day", "weekday"), where).toBe(true);
+    const workDay = (
+      bank as {
+        parts: {
+          move: string;
+          text: string;
+          uses: { requiresFacts?: string[] }[];
+        }[];
+      }
+    ).parts
+      .filter(
+        (part) =>
+          part.move === "quiet-raise-day" &&
+          part.uses.some((use) => use.requiresFacts?.includes("dayDone")),
+      )
+      .map((part) => part.text);
+    expect(
+      workDay.some((text) => lines.includes(text)),
+      where,
+    ).toBe(true);
   }, 900_000);
 });

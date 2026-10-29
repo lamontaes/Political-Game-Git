@@ -55,6 +55,7 @@ import {
   newsKey,
   storiesHeard,
   storyOfReadEvent,
+  type Story,
 } from "../core2/modules/news";
 import type { EntityId } from "../core2/kernel/brands";
 import {
@@ -757,13 +758,29 @@ function printedHeard(
   speakerId: PersonId,
   director: Director | undefined,
 ): Subject | null {
-  const words = director?.storyWords;
-  if (!words || !core.modules.has(NEWS_MODULE_ID)) return null;
+  if (!director?.storyWords || !core.modules.has(NEWS_MODULE_ID)) return null;
   const since = addDays(makeIsoDate(core.date), -recentDays());
   for (const story of storiesHeard(coreAPI(core), speakerId, since)) {
-    if (story.kind !== PRINTED_STORY) continue;
+    const subject = printedSubject(core, story, director);
+    if (subject) return subject;
+  }
+  return null;
+}
+
+/**
+ * One printed story as a subject: its headline and the outlet that printed
+ * it, or null where it is not a printed story or has no headline in words.
+ */
+function printedSubject(
+  core: Readonly<CoreState>,
+  story: Story,
+  director: Director | undefined,
+): Subject | null {
+  const words = director?.storyWords;
+  if (!words || story.kind !== PRINTED_STORY) return null;
+  {
     const said = words(core as CoreState, story);
-    if (!said?.headline) continue;
+    if (!said?.headline) return null;
     const cited = [story.id, ...said.sourceRecordIds];
     const outlet = story.outletId
       ? core.organizations.get(story.outletId as EntityId)
@@ -799,7 +816,6 @@ function printedHeard(
       },
     };
   }
-  return null;
 }
 
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
@@ -2004,11 +2020,28 @@ export function openConversation(
       `news:${brought.change.eventId}`,
       ...(storyId ? [`news:${storyId}`] : []),
     ];
-    const news = subjectsBetween(core, otherId, playerId, conversation.director)
-      .filter((row) => ids.includes(row.id))
-      .at(zero);
+    // A printed story is raised by its own headline and outlet ("I saw it in
+    // the Courier: ..."); other news by the lines bring-it-up worded.
+    const story = storyId
+      ? storiesHeard(coreAPI(core), otherId).find((row) => row.id === storyId)
+      : undefined;
+    const headline = story
+      ? printedSubject(core, story, conversation.director)
+      : null;
+    const news =
+      headline ??
+      subjectsBetween(core, otherId, playerId, conversation.director)
+        .filter((row) => ids.includes(row.id))
+        .at(zero);
     raisedBrought = news
-      ? raiseSubject(core, conversation, data, news, false, brought.lines)
+      ? raiseSubject(
+          core,
+          conversation,
+          data,
+          news,
+          false,
+          headline ? undefined : brought.lines,
+        )
       : false;
     // News the talk can't go on from is still said, and not raised again.
     if (!raisedBrought) {
