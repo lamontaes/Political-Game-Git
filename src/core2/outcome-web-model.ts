@@ -469,6 +469,10 @@ export function linkCoverage(link: WebLink): Coverage {
   if (link.moderator && !causeAvailable(link.moderator.measure))
     waitingOn.push(link.moderator.measure);
   if (!keptOutcome(link.to)) waitingOn.push(link.to);
+  // An outcome an engine owns (poverty) stands at the engine's record: the web
+  // multiplies none of its links in (recordMonth in modules/outcome-web.ts),
+  // so a link into it waits on that engine reading its cause.
+  if (engineOwned(link.to)) waitingOn.push(link.to);
   const needsSize = link.size === null;
   if (waitingOn.length || needsSize)
     return {

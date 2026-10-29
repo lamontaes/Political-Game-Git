@@ -95,15 +95,21 @@ function playTown(drawSeed: string) {
 
 describe(`poverty from incomes (${firstPlace.name}, seed ${seed})`, () => {
   it("is the engine's record, spreads by household and moves with pay", () => {
-    // Links into poverty are the engine's, not the web's: none runs.
+    // Links into poverty are the engine's, not the web's: none runs. Each is
+    // carried by the engine that moves incomes or, where no engine does yet,
+    // waits on one (licensing-reform-to-poverty, on its open stopgap).
     const into = WEB_LINKS.filter((l) => l.to === "household.poverty-pct");
     expect(into.length).toBeGreaterThanOrEqual(14);
     for (const link of into) {
       const c = linkCoverage(link);
       expect(c.wired, link.key).toBe(false);
-      expect("carriedBy" in c && c.carriedBy, link.key).toBe(link.carriedBy);
-      expect(link.carriedBy, link.key).toBeTruthy();
+      if (link.carriedBy)
+        expect("carriedBy" in c && c.carriedBy, link.key).toBe(link.carriedBy);
+      else expect(c.waitingOn, link.key).toContain("household.poverty-pct");
     }
+    expect(into.filter((l) => !l.carriedBy).map((l) => l.key)).toEqual([
+      "licensing-reform-to-poverty",
+    ]);
     expect(WIRED_INTO.get("household.poverty-pct")).toBeUndefined();
 
     // A town needs both poor and non-poor households to show the spread; a

@@ -87,7 +87,6 @@
     "property-tax-cap-to-math",
     "civilian-oversight-to-crime",
     "harm-reduction-to-crime",
-    "licensing-reform-to-poverty",
     "independent-redistricting-to-turnout",
     "term-limits-to-turnout",
     "library-funding-to-math",
@@ -461,6 +460,9 @@
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
     },
+    "licensing-reform-to-poverty": {
+      "waitingOn": ["household.poverty-pct"]
+    },
     "income-tax-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
@@ -733,6 +735,10 @@
       "links": 1
     },
     "household.child-poverty": {
+      "owner": "OPUS-WORLD",
+      "links": 1
+    },
+    "household.poverty-pct": {
       "owner": "OPUS-WORLD",
       "links": 1
     },

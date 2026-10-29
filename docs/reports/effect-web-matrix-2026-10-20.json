@@ -3,7 +3,7 @@
   "summary": {
     "links": 246,
     "lawLinks": 135,
-    "webCoverageWired": 131,
+    "webCoverageWired": 130,
     "allEightPoints": 0,
     "reachesOrCarried": 173,
     "namedInAStopgap": 88,
@@ -8165,7 +8165,7 @@
       "to": "household.poverty-pct",
       "causeKind": "law",
       "lawLink": true,
-      "webCoverage": "wired",
+      "webCoverage": "waiting",
       "points": {
         "cause": {
           "status": "pass",
