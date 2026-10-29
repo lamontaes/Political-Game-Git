@@ -43,7 +43,7 @@ describe("year speed budget", () => {
     };
     expect(compareYears(baseline, changed)).toEqual([]);
     expect(compareYears(baseline, changed, true)).toEqual([
-      "Year 1: saved world fingerprint differs",
+      "Year 1: records differ",
     ]);
   });
   it("accepts explicitly coordinated coexistence without claiming exclusivity", () => {

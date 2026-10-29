@@ -13,6 +13,7 @@ import {
   type LawLevel,
 } from "./dev-mode";
 import { traceNode, traceReport } from "./dev-trace";
+import { compareProofs, recordProof, type RecordProof } from "./dev-proof";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
 import type { BenchPlayer } from "./player";
@@ -239,6 +240,35 @@ export async function handleDev(
       await mkdir(new URL(".", file), { recursive: true });
       await writeFile(file, text);
       send(200, { file: file.pathname, text });
+      return true;
+    }
+    case "POST proof/save": {
+      // This build's records at today's date, to compare with another build's run.
+      const proof = recordProof(core, { rows: true });
+      const file = new URL(`proofs/${core.seed}-${core.date}.json`, LOCAL);
+      await mkdir(new URL(".", file), { recursive: true });
+      await writeFile(file, JSON.stringify(proof));
+      send(200, { file: file.pathname, digest: proof.digest });
+      return true;
+    }
+    case "POST proof/compare": {
+      const input = await body(request);
+      const base = JSON.parse(
+        await readFile(String(input.file), "utf8"),
+      ) as RecordProof;
+      const differences = compareProofs(
+        base,
+        recordProof(core, { rows: true }),
+      );
+      send(200, {
+        same: differences.length === 0,
+        differences: differences.map((row) => ({
+          ...row,
+          trace: row.firstId
+            ? traceNode(core, mode.director, row.firstId)
+            : undefined,
+        })),
+      });
       return true;
     }
     case "GET person":
