@@ -366,12 +366,6 @@
       "outcome": "rail.intercity-ridership",
       "reason": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-WEB-unread-rail-intercity-ridership"
-    },
-    {
-      "link": "higher-education-spending-to-college-completion",
-      "outcome": "school.college-completion-pct",
-      "reason": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces school.college-completion-pct",
-      "stopgapId": "SG-SCHOOL-college-completion"
     }
   ]
 }

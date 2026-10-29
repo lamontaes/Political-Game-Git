@@ -5096,6 +5096,33 @@
     "addedBy": "EFFECT-WEB-SCHOOLS",
     "addedAt": "2026-10-20",
     "replacement": "A college engine that gives each graduate an enrollment and completion record by the same standing rule, and a degree on each adult, read back as this measure. That engine, at the moment it decides a graduate's completion, multiplies the graduate's own rate by webReach(api, placeId, \"school.college-completion-pct\", subject), which is how higher-education-spending-to-college-completion reaches a person; schoolingOn then reads the degree when it prices a hire.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-29",
+    "resolvedBy": "claude/laws-college-step",
+    "resolution": "Resolved by the college step in decideCollege (src/core2/school-outcomes.ts): on the day a senior year's graduation is decided, each graduate is ranked by the same standing, within their income fifth, for whether they enroll in college and, of those who enroll, whether they complete a bachelor's. The completion rate is the NCES six-year share (moved by the world's own factor) times webReach(api, placeId, \"school.college-completion-pct\", { incomeFifth }), which is how higher-education-spending-to-college-completion reaches a named graduate; the rate, factor and web month row are kept on the graduate's college record (the school module's college table). schoolingOn (src/core2/modules/jobs.ts) reads the record once normal time has ended, a bachelor's for a completer and some college for an enrolled graduate who does not complete, and prices the hire on it. The share of adults holding a degree is still the web's ledger (SG-SCHOOL-college-stock-ledger); the step is decided at graduation (SG-SCHOOL-college-decided-at-graduation). Proved by src/core2/law-wiring-college-step.test.ts."
+  },
+  {
+    "id": "SG-SCHOOL-college-decided-at-graduation",
+    "kind": "estimated-rule",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 524,
+    "whatItFakes": "A graduate's college enrollment and bachelor's completion are both decided on the day the senior year's graduation is decided, at the national NCES shares (62 percent of completers enroll; 64 percent of first-time full-time starters at four-year schools finish in six years) spread over the income fifths by researched gradients, not year by year in college; the six-year share of four-year starters is applied to every enrolled graduate, two-year enrollees included; every completer holds the bachelor's at normal time (four years), though about a third take longer.",
+    "why": "The core records nothing of a student's years in college (credits, tuition paid, terms, a school), so there is nothing for a later year's completion to read except the spending that was in force when the web's factor was read. The step is a background simulation the owner ruled for on Oct 29, 2026 (docs/coordination/OWNER-DECISIONS.md), not a step the player takes, so the smallest version is a decision at graduation with the record kept for the years after.",
+    "addedBy": "claude/laws-college-step",
+    "addedAt": "2026-10-29",
+    "replacement": "A completion decided in the spring each enrolled graduate's normal time ends (and later for those who take longer), ranked by the same standing and multiplied by the web's factor for school.college-completion-pct as it then stands, with the NCES shares for the starters at four-year schools and for the two-year enrollees each applied to their own, each in src/core2/data/school/outcomes.json.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-college-stock-ledger",
+    "kind": "missing-record",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 526,
+    "whatItFakes": "The share of adults with a bachelor's degree (school.college-completion-pct) stays the outcome web's ledger number (its 2024 base times the links' factors); the degrees the school engine decides for each graduating class are its yearly flow and are not summed into it.",
+    "why": "The measure is a stock of every adult 25 and older, and the core holds degrees only for the graduates who finished a senior year in play: the adults who left school before the world opened carry the education record they were generated with, not a decided degree. Summing the two into one stock is the replacement of the ledger and is its own step (web-college-completion-stock-not-accumulated).",
+    "addedBy": "claude/laws-college-step",
+    "addedAt": "2026-10-29",
+    "replacement": "The measure read from the degrees: the share of a place's adults whose schoolingOn is a bachelor's, with the web's ledger keeping no copy of it (docs/pool/items/web-college-completion-stock-not-accumulated.md).",
     "status": "open"
   },
   {
@@ -6601,8 +6628,11 @@
     "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, budget.higherEducation-added-pct",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-SCHOOL-college-completion: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "Resolved with SG-SCHOOL-college-completion: the school engine's college step multiplies each enrolled graduate's completion rate by the web's factor for school.college-completion-pct (decideCollege, src/core2/school-outcomes.ts), so higher-education-spending-to-college-completion reaches a named graduate's record. It is off the unwired list.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-29",
+    "resolvedBy": "claude/laws-college-step",
+    "resolution": "The link reaches an engine's own records: decideCollege reads its factor through webReach when it decides a graduate's completion (scripts/outcome-web/effect-matrix.ts grades it as reaching)."
   },
   {
     "id": "SG-WEB-unread-government-member-market-returns",

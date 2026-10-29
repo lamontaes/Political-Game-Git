@@ -7339,6 +7339,30 @@
       "citation": "src/core2/data/time-use-reference.json (BLS ATUS)."
     }
   },
+  "worldBaseRateCollegeEnrollmentSpreadShare": {
+    "value": 0.06,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's immediate college enrollment share sits from the NCES figure, as a share: about the swing in the national rate across the years NCES publishes it. NCES Digest of Education Statistics 2023, Table 302.10 (https://nces.ed.gov/programs/digest/d23/tables/dt23_302.10.asp), percent of recent high school completers enrolled in college, 2010 to 2022: 68.1, 68.2, 66.2, 65.9, 68.4, 69.2, 69.8, 66.7, 69.1, 66.2, 62.7, 61.8, 62.0 (mean 66.5, range 61.8 to 69.8, 7 percent below to 5 percent above the mean).",
+    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use, college enrollment, college completion) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.03,
+      "high": 0.1,
+      "unit": "share of the published rate",
+      "citation": "The same Digest table: the lowest and highest years sit 7.1 percent below and 5.0 percent above the thirteen-year mean."
+    }
+  },
+  "worldBaseRateCollegeCompletionSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's six-year bachelor's completion share sits from the NCES figure, as a share: about the change between entering cohorts. NCES Condition of Education 2022, Undergraduate Retention and Graduation Rates (https://nces.ed.gov/programs/coe/indicator/ctr/undergrad-retention-graduation): \"This 6-year graduation rate increased from 58 percent (for students who began their studies in 2004) to 64 percent (for students who began their studies in 2014).\"",
+    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use, college enrollment, college completion) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.03,
+      "high": 0.08,
+      "unit": "share of the published rate",
+      "citation": "The same page: 58 and 64 percent sit 5 percent below and above their midpoint, 61."
+    }
+  },
   "worldPopulationSpreadShare": {
     "value": 0.03,
     "tag": "ESTIMATED",

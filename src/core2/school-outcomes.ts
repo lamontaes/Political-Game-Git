@@ -21,9 +21,12 @@
  * for whether they enroll (the immediate enrollment share) and, of those who
  * enroll, whether they complete a bachelor's (the six-year completion share
  * times the web's factor for the college completion outcome, which is how
- * the state's higher education line reaches a named graduate). A completer
- * holds the degree from its award day (degreeOf), which the jobs engine
- * reads when it prices a hire.
+ * the state's higher education line reaches a named graduate). Each share is
+ * the NCES figure moved by the world's own factor for that table
+ * (worldRateFactor), so no two worlds open on the same college-going rate. A
+ * completer holds a bachelor's, and an enrolled graduate who does not holds
+ * some college, from the day normal time ends (collegeOf), which the jobs
+ * engine reads when it prices a hire.
  */
 import data from "./data/school/outcomes.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
@@ -45,6 +48,7 @@ import { baseOf } from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
 import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";
 import type { CoreAPI, CoreState } from "./types";
+import { worldRateFactor } from "./world-base-rates";
 
 export type SchoolKind = "math" | "reading" | "graduation";
 
@@ -113,10 +117,11 @@ export interface SchoolGroupRow {
 
 /**
  * A graduate's college record, one for each senior who graduated: whether they
- * enrolled and, if so, whether they complete a bachelor's and when they hold
- * it. The completion rate is the graduate's income fifth's researched share
- * times the web's factor for the college completion outcome, read from the web
- * month row `webRecordId` the day it was decided.
+ * enrolled and, if so, whether they complete a bachelor's and the day they
+ * hold the result from. The completion rate is the graduate's income fifth's
+ * researched share, moved by the world's factor for it, times the web's factor
+ * for the college completion outcome, read from the web month row
+ * `webRecordId` the day it was decided.
  */
 export interface CollegeRow {
   readonly id: string;
@@ -138,8 +143,8 @@ export interface CollegeRow {
   readonly factor?: number;
   /** Enrolled: the web month row the factor stood on. */
   readonly webRecordId?: string | null;
-  /** A completer: the day the degree is held from. */
-  readonly degreeOn?: string;
+  /** Enrolled: the day normal time ends, from which a completer holds the bachelor's and one who does not holds some college. */
+  readonly endsOn?: string;
   /** A counted graduate's household weight: the students the record stands for. */
   readonly weight?: number;
   readonly measureId: string;
@@ -516,13 +521,16 @@ function decideCollege(
   startYear: number,
 ): void {
   if (!graduates.length) return;
-  // stopgapId: SG-SCHOOL-college-decided-at-graduation (enrollment and completion are decided on the senior year's last day at national rates, not year by year in college; every completer holds the degree at normal time)
+  // stopgapId: SG-SCHOOL-college-decided-at-graduation (enrollment and completion are both decided on the senior year's last day at the NCES national shares, not year by year in college; every completer holds the degree at normal time)
   api.stopgap(data.stopgaps.collegeDecidedAtGraduation);
-  // stopgapId: SG-SCHOOL-college-stock-ledger (the share of adults with a degree stays the web's ledger; the degrees decided here are its yearly flow and are not yet summed into it)
+  // stopgapId: SG-SCHOOL-college-stock-ledger (the share of adults with a degree stays the outcome web's ledger; the degrees decided here are its yearly flow and are not yet summed into it)
   api.stopgap(data.stopgaps.collegeStockLedger);
   const date = api.state.date;
   const { enrollment, completion } = data.college;
   const classMeasureId = `${placeId}:${SCHOOL_MEASURE.college}:${startYear}`;
+  // The NCES shares are the center; this world's own factor moves each once.
+  const worldEnrollment = worldRateFactor(api.state.seed, "collegeEnrollment");
+  const worldCompletion = worldRateFactor(api.state.seed, "collegeCompletion");
   // Enrollment, from the whole graduating class.
   const classWeight = weightOf(graduates);
   const classFifths = groupByFifth(graduates);
@@ -536,7 +544,9 @@ function decideCollege(
     const weight = weightOf(list);
     const share = Math.min(
       1,
-      (enrollment.share.value / 100) * (enrollmentGradient(fifth) / enrollNorm),
+      (enrollment.share.value / 100) *
+        worldEnrollment *
+        (enrollmentGradient(fifth) / enrollNorm),
     );
     enrollRate.set(fifth, share);
     const { cleared, passed } = clearByStanding(
@@ -564,7 +574,8 @@ function decideCollege(
   const enrolledFifths = groupByFifth(enrolled);
   let completeNorm = 0;
   for (const [fifth, list] of enrolledFifths)
-    completeNorm += (weightOf(list) / enrolledWeight) * completionGradient(fifth);
+    completeNorm +=
+      (weightOf(list) / enrolledWeight) * completionGradient(fifth);
   const decided = new Map<
     string,
     {
@@ -584,6 +595,7 @@ function decideCollege(
     const baseRate = Math.min(
       1,
       (completion.share.value / 100) *
+        worldCompletion *
         (completionGradient(fifth) / completeNorm),
     );
     const rate = Math.min(1, baseRate * reach.factor);
@@ -615,7 +627,7 @@ function decideCollege(
   }
   // Every graduate keeps their college record: the enrollment they were ranked
   // for and, if they enrolled, the completion decided for them.
-  const degreeOn = `${startYear + 1 + data.college.yearsToDegree.value}-${data.college.awardDay.value}`;
+  const endsOn = `${startYear + 1 + data.college.yearsToDegree.value}-${data.college.awardDay.value}`;
   for (const s of graduates) {
     const done = decided.get(s.id);
     table(api, "college").put({
@@ -636,7 +648,7 @@ function decideCollege(
             webRecordId: done.webRecordId,
           }
         : {}),
-      ...(done?.completes ? { degreeOn } : {}),
+      ...(done ? { endsOn } : {}),
       ...(s.full ? {} : { weight: s.weight }),
       measureId: classMeasureId,
     } satisfies CollegeRow as never);
@@ -772,7 +784,7 @@ export function graduationOf(
   );
 }
 
-/** A person's college record, if their senior year was decided in play. */
+/** A person's college record, if their senior year was decided in play: the jobs engine reads it, from the day normal time ends, when it prices a hire. */
 export function collegeOf(
   api: CoreAPI,
   personId: string,
@@ -785,20 +797,6 @@ export function collegeOf(
     personId,
     birthDate,
   );
-}
-
-/**
- * A person's degree, if the college step decided they complete: the college
- * record that holds it from its award day (`degreeOn`). The jobs engine reads
- * it once the day has come.
- */
-export function degreeOf(
-  api: CoreAPI,
-  personId: string,
-  birthDate: string,
-): CollegeRow | undefined {
-  const row = collegeOf(api, personId, birthDate);
-  return row?.completes ? row : undefined;
 }
 
 /** The row a table keeps for a person's senior year: the school year that began when they were a senior's age. */
