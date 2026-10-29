@@ -25,6 +25,7 @@ import {
   type TownHallRow,
 } from "../core2/modules/meetings";
 import { viewOn } from "../core2/modules/views";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
@@ -611,6 +612,18 @@ function composeBinding(
     cutFacts(core, facts, said, moment.causeId, askerId);
   if (record?.kind === "bill-presented")
     deskFacts(core, facts, said, moment.causeId, askerId);
+
+  // A recall petition names the member's vote; a promise to vote against
+  // the bill (`promised-against`) is said only from a record of one, which no
+  // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
+
+  // "Today" and "tonight" are true only on the record's own day, and
+  // "yesterday" only the day after: a scene that plays later says neither.
+  const recordDay = record?.date ?? moment.date;
+  if (recordDay === core.date)
+    facts["same-day"] = { text: "yes", sourceRecordIds: [moment.causeId] };
+  else if (addDays(makeIsoDate(recordDay), P.one) === core.date)
+    facts["day-after"] = { text: "yes", sourceRecordIds: [moment.causeId] };
 
   const wording = options.includeHeld ? { includeHeld: true } : {};
   // A door on the player's own canvass: where the knock left the resident,

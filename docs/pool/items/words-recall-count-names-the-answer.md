@@ -29,4 +29,4 @@ claimed-at: 2026-10-29T06:34:45.108Z
 
 **Files.** data/english/parts/news.json, data/english/parts/journal.json, src/director/data/journal-rows.json
 
-**Notes.** Found Oct 28 01:20 by the laws-and-effects lead building recall-reply-moves-the-drive.
+**Notes.** Found Oct 28 01:20 by the laws-and-effects lead building recall-reply-moves-the-drive. Oct 29 07:05 UTC, Words and director: the news half is in #6752 (branch words/recall-count-names-the-answer): the count's story says signatures against required and, where the answer lowered it, by how much, citing the reply. The journal half is next on a new branch: the director already gives the member the count's moment (director.json reads the record's memberId), but src/director/data/journal-rows.json has no row for event:recall-outcome, so the journal tells nothing; it needs the row, the drop from before to signatures as a fact, and first-person lines.
