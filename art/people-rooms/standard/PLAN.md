@@ -26,6 +26,9 @@ Rulings (OWNER-DECISIONS Oct 29 16:30 UTC): every pose at 5 angles (front, 3/4 l
 5. Check: plate and empty room line up; mannequins in furniture; people fitted look right at full size (people-art-checks).
 
 ## 4. People pack v4
+- Oct 29 owner: "I want to see the people and changing their clothes like and hairstyles and stuff working in the oval office just as a proof of concept and get me multiple ones of people doing different things or different angles... once that's good then you can go all out."
+- Proof: each sheet = one person, one outfit and hairstyle, drawn over a pose strip (`strips/<pose>.png`, refs: strip + the person's 8-angle sheet, prompt `__V4P` in the Firefly tabs). `v4.py` cuts the five angles into `v4/people/<person>/<outfit>/<pose>/<angle>.png` + `v4/manifest.json`; `preview.py` takes `v4:<id>`. Set A and set B (same six people, new clothes, hair and roles) for the Oval wide and address shots.
+- Desk: old pack figures were drawn with no desk, so their forearms hang where the desk top is and no cut works (owner: "the hands and the arms aren't lined up. And the wood is still going through"). People drawn on the sitdesk pose show wherever the mannequin lies on the desk (`onDesk` mask).
 Each of the six people (then six second faces) redrawn on each library pose sheet (reference = the mannequin sheet + the person's 8-angle sheet): same angles, the person's own face and clothes; formal looks the same way. Ordinary bodies, never superheroes.
 
 ## Order of rooms (golden path)
