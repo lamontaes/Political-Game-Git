@@ -61,10 +61,11 @@ it("a campaign volunteer is met as someone known, with distinct replies", () => 
           a.electionDate.localeCompare(b.electionDate) ||
           a.id.localeCompare(b.id),
       )
-      .find(
-        (c) =>
+      .find((c) =>
+        ["petitioning", "on-ballot"].includes(
           (fileForOffice(core, me, c.id) as { filing?: { status?: string } })
-            .filing?.status === "on-ballot",
+            .filing?.status ?? "",
+        ),
       );
     if (!filed) {
       tried.push(`${where}: no race two months out the player could enter`);

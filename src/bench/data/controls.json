@@ -173,11 +173,10 @@
   },
   "filing": {
     "file": "File for this office",
-    "chooseRace": "Choose a race",
-    "openRaces": "Open races",
-    "metOn": "From",
     "status": {
+      "petitioning": "Your petition is out for signatures",
       "on-ballot": "You are on the ballot",
+      "short": "Your petition came up short",
       "withdrawn": "Withdrawn",
       "refused": "Not accepted"
     },
@@ -193,9 +192,7 @@
     "seat": "Seat",
     "heldBy": "Held by",
     "openSeat": "No one holds it now",
-    "for": "For",
-    "against": "Against",
-    "noStance": "—"
+    "election": "Election"
   },
   "authority": {
     "level-lacks-power": "Not a power of this body",

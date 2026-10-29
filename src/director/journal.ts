@@ -18,6 +18,7 @@ import {
   billTitleOf,
   billTitleSaid,
 } from "../english/bill-names";
+import { topicInSentence } from "../english/policy-names";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import {
   addDays,
@@ -149,6 +150,23 @@ function lawName(
   const billId = law?.terms?.enactedByBill;
   const text = typeof billId === "string" ? billName(core, billId) : undefined;
   return text ? { text, recordIds: [lawId, billId as string] } : undefined;
+}
+
+/**
+ * A law no bill enacted (a starting law), by what it is about ("electricity
+ * and the grid"), from its own record: what the line says in place of a name.
+ */
+function lawTopic(
+  core: Readonly<CoreState>,
+  lawId: string | undefined,
+): { text: string; recordIds: string[] } | undefined {
+  if (!lawId || !core.modules.has(LAWS_MODULE_ID)) return undefined;
+  const law = coreAPI(core as CoreState)
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(lawId) as unknown as LawRowInput | undefined;
+  const text = law ? topicInSentence(law.series) : null;
+  return text ? { text, recordIds: [lawId] } : undefined;
 }
 
 /**
@@ -789,6 +807,16 @@ export function composeJournal(
         spec.format === "lawName"
           ? lawName(core, logged?.facts?.[spec.fact])
           : undefined;
+      // A law no bill enacted is told by what it is about.
+      if (spec.format === "lawName" && !law) {
+        const about = lawTopic(core, logged?.facts?.[spec.fact]);
+        if (!about) return null;
+        facts.topic = {
+          text: about.text,
+          sourceRecordIds: [moment.causeId, ...about.recordIds],
+        };
+        continue;
+      }
       // An organization the event is about is named from its own record.
       const value =
         spec.format === "organization"

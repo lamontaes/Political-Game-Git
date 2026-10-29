@@ -646,7 +646,7 @@ export function platformFromViews(
   ).map(({ question, position }) => `${question}=${position}`);
 }
 
-/** File for a runner: no fee and no petition, so a filing is on the ballot. */
+/** File for a runner: no fee; the filing's petition circulates until the clerk's check. */
 function fileFor(
   api: CoreAPI,
   person: Readonly<PersonState>,
@@ -1256,8 +1256,8 @@ function answerPartyAsk(api: CoreAPI, event: Readonly<CoreEventInput>): void {
 /**
  * A race whose filing closed before the record began: the town's adults
  * weighed it then, and each runner's filing is part of the opening record
- * (dated at the deadline), beside the
- * incumbent's.
+ * (dated at the deadline), beside the incumbent's. Its petition was checked
+ * before the record began, so the filing stands on the ballot.
  */
 function weighClosedContest(
   api: CoreAPI,
