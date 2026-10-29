@@ -99,6 +99,8 @@ import {
   campaignFor,
   impressionOf,
   parsePlatform,
+  pledgesOf,
+  type PledgeRow,
 } from "./campaigns";
 import {
   OFFICES_MODULE_ID,
@@ -134,7 +136,7 @@ import {
 } from "./parties";
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
 import { caucusSide, nationalParty, partySide } from "../appointments";
-import { recordAppeal, type RecordReason } from "./record";
+import { promisesOf, recordAppeal, votesOf, type RecordReason } from "./record";
 import { candidacyModule, CANDIDACY_MODULE_ID } from "./candidacy";
 import {
   agreementWith,
@@ -215,6 +217,8 @@ export interface BallotRow {
         readonly record: number;
         /** How they stand with the candidate personally, where they know them. */
         readonly relationship?: number;
+        /** Their own "yes" at the candidate's door, as far as it still holds. */
+        readonly pledge?: number;
       }
     >
   >;
@@ -293,6 +297,8 @@ interface CountedBallotsRow {
   /** Each voter's faith and degree against their age band's average (null where none is recorded; absent on rows kept before the loadings). */
   readonly faith?: readonly (number | null)[];
   readonly college?: readonly (number | null)[];
+  /** Each voter's door "yes" as it held on the day (null where they gave none; absent on rows kept before pledges). */
+  readonly pledges?: readonly (Readonly<Record<string, number>> | null)[];
 }
 
 /** One voter's turnout on a ballot: its parts and the propensity they came to. */
@@ -670,6 +676,100 @@ export function voterLean(api: CoreAPI, voter: Readonly<PersonState>): number {
   return personLean(api.state.people, voter, townLean(api));
 }
 
+/**
+ * The candidates a named voter told at the door they would vote for in this
+ * contest, each with how far that word still holds: 1 as given, less by
+ * what heavy they learned since (`pledgeDoubt`). Nothing is rolled.
+ */
+function namedPledges(
+  api: CoreAPI,
+  voter: Readonly<PersonState>,
+  lean: number,
+  contestId: string,
+  field: readonly CountedFieldEntry[],
+): Readonly<Record<string, number>> | undefined {
+  const pledges = pledgesOf(api, voter.id).filter(
+    (p) => p.contestId === contestId,
+  );
+  if (!pledges.length) return undefined;
+  const held: Record<string, number> = {};
+  for (const pledge of pledges)
+    held[pledge.candidateId] = 1 - pledgeDoubt(api, voter, lean, pledge, field);
+  return held;
+}
+
+/**
+ * How far something heavy the voter learned since their "yes" at the door
+ * undoes it, 0 to 1, read from their own records (owner, Oct 29: near-binding
+ * unless something heavy changes their mind): a scandal story about the
+ * candidate that reached them after they said it, by how far they trust the
+ * press; a rival in the race they are closer to than the candidate; and the
+ * candidate's promises they heard made that the candidate's votes have broken
+ * since. Each slides; none flips.
+ */
+export function pledgeDoubt(
+  api: CoreAPI,
+  voter: Readonly<PersonState>,
+  lean: number,
+  pledge: PledgeRow,
+  field: readonly { readonly id: string }[],
+): number {
+  const scandal = scandalStoriesOf(
+    api,
+    pledge.candidateId,
+    api.state.date,
+  ).some(
+    (storyId) =>
+      (api.knows(voter.id, newsKey(storyId))?.learnedAt ?? "") > pledge.date,
+  )
+    ? trustWeight(api, lean)
+    : 0;
+  const own = relationshipWith(api, voter, pledge.candidateId);
+  let rival = 0;
+  for (const entry of field)
+    if (entry.id !== pledge.candidateId)
+      rival = Math.max(rival, relationshipWith(api, voter, entry.id) - own);
+  const heard = promisesOf(api, pledge.candidateId).filter(
+    (status) =>
+      status.status !== "open" && api.knows(voter.id, status.promise.id),
+  );
+  const votes = heard.length ? votesOf(api, pledge.candidateId) : [];
+  const broken = heard.filter(
+    (status) =>
+      status.status === "broken" &&
+      (votes.find((v) => v.id === status.voteId)?.date ?? "") > pledge.date,
+  ).length;
+  const brokenShare = heard.length ? broken / heard.length : 0;
+  return Math.min(1, Math.max(0, scandal + rival + brokenShare));
+}
+
+/**
+ * A counted voter's door "yes" in this contest, each held by how far the
+ * town's scandal story about the candidate reached the town's people and the
+ * voter trusts it: the one heavy reason a counted record can know (it has no
+ * ties and hears no promises), times its count like every other term.
+ */
+function countedPledges(
+  api: CoreAPI,
+  voterId: string,
+  trust: number,
+  contestId: string,
+  field: readonly CountedFieldEntry[],
+): Readonly<Record<string, number>> | undefined {
+  const pledges = pledgesOf(api, voterId).filter(
+    (p) => p.contestId === contestId,
+  );
+  if (!pledges.length) return undefined;
+  const scandalFull = appealOfShare(electorateParameter("scandalShare"));
+  const held: Record<string, number> = {};
+  for (const pledge of pledges) {
+    const entry = field.find((f) => f.id === pledge.candidateId);
+    const reached = scandalFull > 0 ? (entry?.scandal ?? 0) / scandalFull : 0;
+    held[pledge.candidateId] = 1 - Math.min(1, Math.max(0, reached * trust));
+  }
+  return held;
+}
+
 /** How a voter stands with a candidate they know personally, -1 to 1. */
 function relationshipWith(
   api: CoreAPI,
@@ -724,6 +824,7 @@ function appealFor(
     profile: api.state.modules.has(VIEWS_MODULE_ID)
       ? viewOf(api, voter.id)
       : undefined,
+    pledges: namedPledges(api, voter, lean, contest.id, view.field),
   });
   const tie = partyTie(api, voter.id);
   let heardPlatform = false;
@@ -784,7 +885,8 @@ function appealFor(
         relationship +
         record +
         parts.ballot +
-        scandal,
+        scandal +
+        parts.pledge,
       party: parts.party,
       standing,
       incumbent: parts.incumbent,
@@ -796,6 +898,7 @@ function appealFor(
       record,
       ballot: parts.ballot,
       scandal,
+      pledge: parts.pledge,
     };
   }
   const basis: "platform" | "party-name-incumbency" = heardPlatform
@@ -1589,14 +1692,16 @@ export function holdPrimary(
       new Set(field.map((f) => f.personId)),
     );
     for (const [form, voter] of who.entries()) {
+      const trust = trustWeight(api, leanOf.get(voter.id) ?? 0);
       const appeal = countedAppeal(leanOf.get(voter.id) ?? 0, entries, {
         inTown: true,
         local: true,
         incumbentLean: incumbentLeanOf(api, voter),
-        trust: trustWeight(api, leanOf.get(voter.id) ?? 0),
+        trust,
         // The town's people hold each form of a rotated ballot in turn.
         ballotForm: form,
         profile: countedStanceProfile(api, voter),
+        pledges: countedPledges(api, voter.id, trust, contest.id, entries),
       });
       // Each counted voter stands for the town's people like them: their
       // vote counts at the share of them who turn out.
@@ -1932,6 +2037,13 @@ function atThePolls(
             inTown: true,
             local: true,
             incumbentLean,
+            pledges: countedPledges(
+              api,
+              voter.id,
+              1,
+              race.contest.id,
+              countedField(api, race.contest, race.field),
+            ),
           }),
         ),
       );
@@ -2441,6 +2553,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     weight: [] as number[],
     faith: [] as (number | null)[],
     college: [] as (number | null)[],
+    /** Each voter's door "yes" as it held on the day (null where they gave none). */
+    pledges: [] as (Readonly<Record<string, number>> | null)[],
   };
   const countedAdults = wards > 0 ? countedAdultsToday(api) : 0;
   let countedAdultIndex = 0;
@@ -2463,6 +2577,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     countedEligible += voter.weight;
     const lean = personLean(api.state.people, voter, townLean(api));
     const incumbentLean = incumbentLeanOf(api, voter);
+    const pledges = countedPledges(
+      api,
+      voter.id,
+      trustWeight(api, lean),
+      contestId,
+      field,
+    );
     const appeal = countedAppeal(lean, field, {
       inTown: true,
       local: true,
@@ -2471,6 +2592,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       // The town's people hold each form of a rotated ballot in turn.
       ballotForm: kept.voterIds.length,
       profile: countedStanceProfile(api, voter),
+      pledges,
     });
     const t = atThePolls(
       api,
@@ -2494,6 +2616,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // Module data holds JSON: a missing distance is kept as null.
     kept.faith.push(profile.faithFromAverage ?? null);
     kept.college.push(profile.collegeFromAverage ?? null);
+    kept.pledges.push(pledges ?? null);
     countedVoted += t.propensity * voter.weight;
     if (choice)
       countedVotes[choice] =
@@ -3390,6 +3513,7 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       incumbentLean: row.incumbentLean[i]!,
       trust: row.trust?.[i] ?? 1,
       ballotForm: i,
+      pledges: row.pledges?.[i] ?? undefined,
       profile:
         row.faith && row.college && Number.isFinite(row.faith[i])
           ? {
