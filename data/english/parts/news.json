@@ -4831,6 +4831,357 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.vacancy.a-post-from-place-has-died-in-office-and-the-seat-is-empty",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "A {post} from {place} has died in office, and the seat is empty.",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "news",
+          "role": "vacancy",
+          "choice": "lede",
+          "requiresFacts": ["died", "post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy.a-post-from-place-has-left-office-and-the-seat-is-empty",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "A {post} from {place} has left office, and the seat is empty.",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "news",
+          "role": "vacancy",
+          "choice": "lede",
+          "requiresFacts": ["left", "post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy.a-post-from-place-is-no-longer-in-office-and-the-seat-is-empty",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "A {post} from {place} is no longer in office, and the seat is empty.",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "news",
+          "role": "vacancy",
+          "choice": "lede",
+          "requiresFacts": ["post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.exposed.records-show-name-took-a-bribe-while-in-office",
+      "move": "exposed",
+      "kind": "written",
+      "text": "Records show {name} took a bribe while in office.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["bribe"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.exposed.name-the-office-took-a-bribe-records-show",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name}, the {office}, took a bribe, records show.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["bribe", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.exposed.records-show-name-voted-on-a-public-contract-for-a-firm-with-personal-ties",
+      "move": "exposed",
+      "kind": "written",
+      "text": "Records show {name} voted on a public contract for a firm with personal ties.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["conflict"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office.a-new-post-from-place-took-the-oath-of-office",
+      "move": "took-office",
+      "kind": "written",
+      "text": "A new {post} from {place} took the oath of office.",
+      "uses": [
+        {
+          "move": "took-office",
+          "subject": "news",
+          "role": "took-office",
+          "choice": "lede",
+          "requiresFacts": ["post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.hiring.subject-is-hiring-number-workers",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} is hiring {number} workers.",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "news",
+          "role": "hiring",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.hiring.subject-posted-number-new-jobs",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} posted {number} new jobs.",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "news",
+          "role": "hiring",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.hiring.subject-is-hiring",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} is hiring.",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "news",
+          "role": "hiring",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.petition-check.name-has-enough-valid-signatures-to-run-for-office",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name} has enough valid signatures to run for {office}.",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "news",
+          "role": "petition-check",
+          "choice": "lede",
+          "requiresFacts": ["on-ballot"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.petition-check.name-is-on-the-ballot-for-office-with-signatures-valid-signatures-of-required-needed",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name} is on the ballot for {office}, with {signatures} valid signatures of {required} needed.",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "news",
+          "role": "petition-check",
+          "choice": "lede",
+          "requiresFacts": ["on-ballot", "signatures", "required"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.petition-check.name-s-petition-for-office-came-up-short-with-signatures-valid-signatures-of-required-needed",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name}'s petition for {office} came up short, with {signatures} valid signatures of {required} needed.",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "news",
+          "role": "petition-check",
+          "choice": "lede",
+          "requiresFacts": ["short", "signatures", "required"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.petition-check.name-s-petition-for-office-did-not-have-enough-valid-signatures",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name}'s petition for {office} did not have enough valid signatures.",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "news",
+          "role": "petition-check",
+          "choice": "lede",
+          "requiresFacts": ["short"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee.designation-failed-in-committee-count",
+      "move": "committee",
+      "kind": "written",
+      "text": "{designation} failed in committee, {count}.",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "news",
+          "role": "committee",
+          "choice": "lede",
+          "requiresFacts": ["failed", "count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee.a-committee-voted-count-against-designation",
+      "move": "committee",
+      "kind": "written",
+      "text": "A committee voted {count} against {designation}.",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "news",
+          "role": "committee",
+          "choice": "lede",
+          "requiresFacts": ["failed", "count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

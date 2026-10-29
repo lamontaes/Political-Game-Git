@@ -115,6 +115,9 @@ export const STORY_KINDS = {
   primary: { headline: ["primary"], lede: ["primary"] },
   "took-office": { headline: ["took-office"], lede: ["took-office"] },
   vacancy: { headline: ["vacancy"], lede: ["vacancy"] },
+  exposed: { headline: ["exposed"], lede: ["exposed"] },
+  hiring: { headline: ["hiring"], lede: ["hiring"] },
+  "petition-check": { headline: ["petition-check"], lede: ["petition-check"] },
   appointed: { headline: ["appointed"], lede: ["appointed"] },
   chamber: { headline: ["chamber"], lede: ["chamber"] },
   "recall-petition": {
