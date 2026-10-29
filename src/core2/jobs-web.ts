@@ -231,6 +231,7 @@ export function authorizationMeasure(
   const share = citizenShareOf(
     c.placeMetadata.placeKey,
     lawChain(api).stateKey.slice(3),
+    c.seed,
   );
   if (
     isUnauthorized(c.seed, personId, share, p("unauthorizedShareOfNoncitizens"))
