@@ -11,7 +11,8 @@
     "title": "The job's title from the job record.",
     "employer": "The employer's name from the organization record.",
     "relation": "Mother or Father, from the record, at the start of a sentence.",
-    "office": "The office won, in lower case: president, mayor."
+    "office": "The office won, in lower case: president, mayor.",
+    "stage": "The school stage as its record writes it: elementary, middle or high."
   },
   "maxWords": 12,
   "parts": [
@@ -139,6 +140,60 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.work.spell",
+      "move": "work",
+      "text": "Started work at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (play-first lane, play-person-history-for-everyone-you-open)",
+      "date": "2026-10-29",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.office.appointed",
+      "move": "office",
+      "text": "Appointed {office} in {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (play-first lane, play-person-history-for-everyone-you-open)",
+      "date": "2026-10-29",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.office.entered",
+      "move": "office",
+      "text": "Took office as {office} in {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (play-first lane, play-person-history-for-everyone-you-open)",
+      "date": "2026-10-29",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.partner.home",
+      "move": "partner",
+      "text": "Set up home with {name} in {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (play-first lane, play-person-history-fill-in-writes-the-coarse-past)",
+      "date": "2026-10-29",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.partner.home-you",
+      "move": "partner",
+      "text": "Set up home with you in {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (play-first lane, play-person-history-fill-in-writes-the-coarse-past)",
+      "date": "2026-10-29",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.school.stage",
+      "move": "school",
+      "text": "Started {stage} school in {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (play-first lane, play-person-history-fill-in-writes-the-coarse-past)",
+      "date": "2026-10-29",
       "kind": "written"
     }
   ]

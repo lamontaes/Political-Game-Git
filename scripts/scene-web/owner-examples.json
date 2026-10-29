@@ -286,7 +286,7 @@
     "quote": "Money trouble shows in scenes and in how the person looks and lives (a worn look when broke, a scene that breaks the wallet).",
     "source": "OD:133",
     "kind": "scene",
-    "types": ["layoff", "eviction-notice"],
+    "types": ["layoff", "notice-home"],
     "why": "money-trouble causes (job lost, eviction); no wallet-breaking scene itself"
   },
   {
