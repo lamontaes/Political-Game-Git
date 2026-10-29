@@ -491,10 +491,7 @@ export function createCore(
   for (const actor of core.people.values()) {
     assertKnownIdSources(core, actor);
     api.stopgap("SG-P8-opening-family-closeness");
-    if (
-      actor.diedOn === undefined &&
-      !core.households.get(actor.householdId)?.memberIds.includes(actor.id)
-    )
+    if (!core.households.get(actor.householdId)?.memberIds.includes(actor.id))
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
       // Relatives in the counts are husks until met (two-level population).
@@ -584,12 +581,9 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
     core.people.delete(row.id);
     throw error;
   }
-  // A person who died before day one is a record, not a resident.
-  if (row.diedOn === undefined) {
-    index(core.peopleByPlace, row.placeId, row.id);
-    if (row.countyId) index(core.peopleByPlace, row.countyId, row.id);
-    index(core.peopleByTier, row.tier, row.id);
-  }
+  index(core.peopleByPlace, row.placeId, row.id);
+  if (row.countyId) index(core.peopleByPlace, row.countyId, row.id);
+  index(core.peopleByTier, row.tier, row.id);
   core.knowledgeByPerson.set(row.id, new Map());
   return actor;
 }
@@ -2747,8 +2741,6 @@ export function assertCoreIntegrity(core: CoreState): void {
     if (!condition) throw new Error(`Core invariant failed: ${what}`);
   };
   for (const actor of core.people.values()) {
-    // Someone who died before day one is a record in no place or tier index.
-    if (actor.diedOn !== undefined) continue;
     fail(
       core.peopleByTier.get(actor.tier)?.has(actor.id) === true,
       `tier:${actor.id}`,

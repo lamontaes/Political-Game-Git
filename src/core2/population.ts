@@ -119,6 +119,7 @@ import type {
   JobInput,
   OrganizationInput,
   PersonInput,
+  HuskInput,
   Source,
 } from "./types";
 
@@ -1328,6 +1329,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     workCommitments: payroll.workCommitments,
     workPayrollCalendars: payroll.calendars,
     familyLinks: [...familyLinks, ...family.familyLinks],
+    ...(family.husks.length ? { husks: family.husks } : {}),
     focusPersonIds: [],
     focusPlaceIds: [],
     visiblePlaceIds: [
@@ -1405,6 +1407,7 @@ function openingFamilies(input: OpeningFamilyInput): {
   people: PersonInput[];
   households: HouseholdInput[];
   familyLinks: FamilyLink[];
+  husks: HuskInput[];
 } {
   const { world, startedAt, source } = input;
   const kin = buildOpeningKin(
@@ -1663,35 +1666,30 @@ function openingFamilies(input: OpeningFamilyInput): {
       pastFacts: facts.pastFacts,
     };
   });
-  // A parent who died before day one is a dead person: the same record every
-  // engine reads, with its date of death, held by no household.
+  // A parent who died before day one is a named record with a date of death:
+  // a husk (the tier people loops never count), never filled in.
   const residentById = new Map(residents.map((row) => [row.id, row] as const));
-  const dead: PersonInput[] = kin.deaths.map((death) => {
+  const dead: HuskInput[] = kin.deaths.map((death) => {
     const survivor = residentById.get(death.survivorId)!;
     return {
       id: death.personId,
       givenName: death.givenName,
       familyName: death.familyName,
-      birthDate: death.birthDate,
       placeId: survivor.placeId,
       ...(survivor.countyId ? { countyId: survivor.countyId } : {}),
-      householdId: survivor.householdId,
-      tier: OPENING_KIN.kinTier,
-      traits: {},
-      liquidMinor: p("zero"),
-      livingCostDailyMinor: p("zero"),
-      source: kinSource,
-      familyIds: [],
-      knownIds: [],
-      diedOn: death.date,
       looks: {
         gender: death.gender,
         pronouns: defaultPronounsForGender(death.gender as GenderIdentityKey),
       },
+      said: [],
+      birthDate: death.birthDate,
+      diedOn: death.date,
+      source: kinSource,
     };
   });
   return {
-    people: [...residents, ...relatives, ...dead],
+    people: [...residents, ...relatives],
+    husks: dead,
     households: kin.households.map((row) => ({
       id: row.id,
       placeId: row.placeId,
