@@ -41,7 +41,7 @@ def defringe(img, sheet=(214, 214, 216), reach=2):
     return Image.fromarray(a)
 
 
-def desk(canvas, d, head_top_y, hands_y, center_x, desk_edge_y):
+def desk(canvas, d, head_top_y, hands_y, center_x, desk_edge_y, on_desk=None):
     """Seat a figure behind a desk: head top and hands on the spot's rows; below the desk's back edge only
     the hands and their own drawn outline show (no cuff or sleeve slivers floating beside them)."""
     ht, hl = d['head_top'], hands_line(d)
@@ -54,17 +54,42 @@ def desk(canvas, d, head_top_y, hands_y, center_x, desk_edge_y):
     keep = ndi.binary_fill_holes(skin | (line & ndi.binary_dilation(skin, iterations=2)))
     edge_src = int(round(ht + (desk_edge_y - head_top_y) / s))
     below = np.zeros(skin.shape, bool); below[edge_src:] = True
+    xs = np.nonzero(np.asarray(d['img'])[ht:ht + 8, :, 3].any(0))[0]
+    cx = xs.mean() if len(xs) else a.shape[1] / 2
+    ox, oy = int(round(center_x - cx * s)), int(round(head_top_y - ht * s))
+    if on_desk is not None:
+        # the forearms and hands lying on the desk, from the mannequin: map its mask into the figure's pixels
+        mask, (mx, my) = on_desk
+        m = np.zeros(skin.shape, bool)
+        yy, xx = np.nonzero(np.asarray(mask) > 128)
+        sy = np.clip(((yy + my - oy) / s).round().astype(int), 0, skin.shape[0] - 1)
+        sx = np.clip(((xx + mx - ox) / s).round().astype(int), 0, skin.shape[1] - 1)
+        m[sy, sx] = True
+        m = ndi.binary_dilation(ndi.binary_closing(m, iterations=2), iterations=max(2, int(4 / s)))
+        # within the mannequin's forearms, only what reaches back from the hands (cuff and lower sleeve),
+        # never the jacket or tie between two hands
+        reach = ndi.binary_dilation(skin, iterations=max(3, int(0.35 * (skin.any(0).sum() ** 0.5))))
+        side = np.zeros_like(skin)
+        lab, n = ndi.label(ndi.binary_dilation(skin & below, iterations=2))
+        for sl in ndi.find_objects(lab):   # forearms come in from the outer side of each hand
+            cxh = (sl[1].start + sl[1].stop) / 2
+            if cxh < cx:
+                side[sl[0].start - 40:sl[0].stop, :sl[1].stop] = True
+            else:
+                side[sl[0].start - 40:sl[0].stop, sl[1].start:] = True
+        keep = keep | (m & reach & side)
     a[below & ~keep, 3] = 0
     a[hl + int(8 / s):] = 0
     im = Image.fromarray(a).convert('RGBa').resize((max(1, int(a.shape[1] * s)), max(1, int(a.shape[0] * s))), Image.LANCZOS).convert('RGBA')
-    xs = np.nonzero(np.asarray(d['img'])[ht:ht + 8, :, 3].any(0))[0]
-    cx = xs.mean() if len(xs) else a.shape[1] / 2
-    canvas.alpha_composite(im, (int(round(center_x - cx * s)), int(round(head_top_y - ht * s))))
+    canvas.alpha_composite(im, (ox, oy))
 
 
 def place(canvas, spot, f, d, fronts):
     if 'deskEdge' in spot:
-        desk(canvas, d, spot['head']['top'], spot['hands'], spot['head']['x'], spot['deskEdge'])
+        od = None
+        if spot.get('onDesk'):
+            od = (Image.open(os.path.join(HERE, 'plates', spot['onDesk'])).convert('L'), tuple(spot['box'][:2]))
+        desk(canvas, d, spot['head']['top'], spot['hands'], spot['head']['x'], spot['deskEdge'], od)
         return
     s = (spot['feet'] - spot['head']['top']) / max(d['feet'] - d['head_top'], 1)
     im = d['img'].convert('RGBa').resize((max(1, int(d['img'].width * s)), max(1, int(d['img'].height * s))), Image.LANCZOS).convert('RGBA')

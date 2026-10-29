@@ -14,7 +14,7 @@ from scipy import ndimage as ndi
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', 'intro'))
-from mannequins import green_mask, front_pieces  # noqa: E402
+from mannequins import green_mask, front_pieces, with_outline  # noqa: E402
 
 FACING = {'front': 0, 'tq-left': -45, 'tq-right': 45, 'btq-left': -135, 'btq-right': 135}
 SEAT = {'sitdesk': 'desk-chair', 'sit': 'chair', 'couch': 'couch'}
@@ -67,6 +67,12 @@ def export(shot, template, frames=()):
             # the body stops at the desk's back edge (the strongest level edge in the empty room between the
             # chest and the hands); only the hands and cuffs come forward onto the desk top
             spot.update(hands=mb, deskEdge=desk_back_edge(empty, spot, mb))
+            # what of the body lies on the desk (forearms and hands): the mannequin's shape below the desk edge
+            bx0, by0, bx1, by1 = spot['box']
+            on = with_outline(M, plate).copy(); on[:spot['deskEdge']] = False
+            fn = f'{shot}.ondesk-{len(spots)}.png'
+            Image.fromarray((on[by0:by1, bx0:bx1] * 255).astype(np.uint8)).save(os.path.join(HERE, 'plates', fn))
+            spot['onDesk'] = fn
         else:
             spot.update(feet=mb)
             front = front_pieces(M, plate, xs, ys, mt, mb)
