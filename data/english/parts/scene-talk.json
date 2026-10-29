@@ -121305,6 +121305,30 @@
         "move": "accept",
         "key": "talk"
       }
+    },
+    {
+      "key": "scene-talk.follow-comfort.i-missed-you-too",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I missed you too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "quiet:miss"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "comfort",
+        "key": "talk"
+      }
     }
   ]
 }

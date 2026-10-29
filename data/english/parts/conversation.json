@@ -19929,7 +19929,7 @@
           "move": "quiet-answer-talk",
           "subject": "quiet",
           "role": "answer",
-          "choice": "talk"
+          "choice": "miss"
         }
       ],
       "origin": "authored",

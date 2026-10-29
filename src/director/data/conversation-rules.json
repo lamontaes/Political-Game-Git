@@ -182,7 +182,8 @@
       "tired": "tell",
       "fine": "answer",
       "talk": "request",
-      "alone": "decline"
+      "alone": "decline",
+      "miss": "tell"
     },
     "address-view": {
       "agree": "agree",

@@ -2208,6 +2208,10 @@ function offerChoices(
       raisable(data, row.kind),
   );
   const taken = new Set<string>();
+  // A question put to the player is answered before anything is asked back
+  // (owner, Oct 29): no reply to it opens with a question of its own.
+  const said = conversation.lines.at(-one);
+  const putQuestion = !!said && asksQuestion(said);
   // A reply's second move follows from its first (owner, batch 6): turning
   // the same question back ("I'm from here. And you?"), or asking about their
   // work after naming yours. Never an unrelated subject tacked on.
@@ -2311,12 +2315,15 @@ function offerChoices(
         !!replyFacts(core, otherId, raised)) ||
       !!data.tells?.[last.kind]?.[choiceKey] ||
       REPLY_MOVES.answerable.includes(replyMoveOf(last.kind, choiceKey));
-    if (asksLast && !heard) {
+    const text = joinedReply(head, tail);
+    const opensAsking = asksQuestion({
+      text: text.match(/^[^.?!]*[.?!]/)?.[zero] ?? text,
+    });
+    if ((asksLast && !heard) || (putQuestion && opensAsking)) {
       if (!statementsOnly && !raised)
         add(choiceKey, group, raised, bank, again, true);
       return;
     }
-    const text = joinedReply(head, tail);
     if (seen.has(text)) return;
     seen.add(text);
     if (raised) taken.add(raised.id);
