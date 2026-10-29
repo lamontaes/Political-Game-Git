@@ -139,12 +139,12 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
           .slice(0, TRIED)
           .find((p) => {
             director.watch(core, p.id);
-            return (
+            return ["petitioning", "on-ballot"].includes(
               fileCandidacy(api, {
                 personId: p.id,
                 contestId: race.id,
                 platform: [],
-              }).status === "on-ballot"
+              }).status ?? "",
             );
           })
       : undefined;
