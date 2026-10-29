@@ -113,6 +113,19 @@ describe("the filing visit", () => {
     expect(clerk.some((text) => /closed/.test(text))).toBe(false);
     expect(visit.choices.map((row) => row.action.kind)).toEqual(["done"]);
     expect(visit.choices.map((row) => row.control)).toEqual(["acknowledge"]);
+    // Where the player lives and whether they are registered, each from its
+    // rule, through the same word maker as every scene.
+    const other = openFilingVisit(core, player.id, [contest]);
+    pickContest(core, other, contest.id, terms, [
+      check("residency", false, "Springfield", "Shelbyville"),
+      check("registered-voter", false, "registered", "not registered"),
+    ]);
+    const told = other.lines
+      .filter((row) => row.speaker === "clerk")
+      .map((row) => row.text)
+      .join(" ");
+    expect(told).toContain("City Clerk");
+    expect(told).toMatch(/registered voter/);
   });
 
   it("says, once the filing is taken, the signatures its petition needs and the day they are due", () => {

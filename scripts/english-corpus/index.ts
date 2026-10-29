@@ -12,7 +12,6 @@
  * OPUS-WORDS owns the banks and these adapters; OPUS-PEOPLE owns the engine.
  */
 import { MINED_CONVERSATION } from "../../src/english/mined/conversation-bank";
-import { filingWordsFromBank } from "../../src/english/mined/filing-bank";
 import { journalDataFromBank } from "../../src/english/mined/journal-bank";
 import { benchControlNames, stanceWords } from "./choice-names-bank";
 import { composeNewsStory } from "./newscast-bank";
@@ -26,7 +25,6 @@ export const MINED_WORDS = {
   /** Every wording of every choice; the renderer's stable pick chooses one per moment. */
   conversation: () => MINED_CONVERSATION,
   journal: journalDataFromBank(),
-  filingVisit: filingWordsFromBank(),
   scene: sceneWordsFromBank(),
   bringItUp: { words: bringWordsFromBank() },
   /** The pieces of the President's address that opens the game, one role at a time. */
