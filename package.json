@@ -71,7 +71,6 @@
     "prose:eval": "node --import tsx scripts/prose-eval/cli.ts",
     "spelling": "node --import tsx scripts/prose-eval/spelling.ts",
     "dialogue:report": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-report/report.ts",
-    "words:coverage": "node --import tsx scripts/dialogue-batch/coverage-table.ts",
     "scene-web": "node --max-old-space-size=8192 --import tsx scripts/scene-web/build.ts",
     "speed:year": "node --max-old-space-size=8192 --max-semi-space-size=64 --import tsx scripts/speed-years/run.ts",
     "report:check": "node scripts/report-check/cli.mjs",
