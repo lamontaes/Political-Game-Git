@@ -187,9 +187,11 @@ export function peopleWeb({
                 className: "circle-why",
                 textContent: [
                   changed.mark === "joined" ? labels.joined : labels.left,
-                  labels.causes?.[changed.cause] ?? "",
+                  labels.causes?.[changed.cause],
                   dateText(changed.date),
-                ].join(" · "),
+                ]
+                  .filter(Boolean)
+                  .join(" · "),
               }),
             ]
           : []),

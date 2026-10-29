@@ -14,13 +14,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** Two single adults who are close, fit in age and can afford a home together become one household, as a decision read from each person's traits, closeness and money. The core calls exist but nothing uses them in play: setPartnersV1 with together true (src/core2/state.ts, around line 1764) links two living single adults and emits family.partnered, and changeHouseholdV1 moves one into the other's household with the lease following (done item core-household-membership-change). After the opening sets partnerships once (src/core2/opening-partnership.ts), households change only by births, deaths and moves, and the director's married and started-dating scenes (src/director/data/situation-types.json, marked awaitingProducer) have no record to wait on. The owner's Oct 19 pairing ruling (docs/coordination/OWNER-DECISIONS.md, Pairing) says people can move in together, who pairs with whom reads each person's own record including orientation, two homeowners can pair and combine households like anyone else, and the home they leave returns to the market; the woman-and-man-only and never-two-homeowners rules in PR #4963 are defects to replace.
 
-**Rules.** TODO
+**Rules.** No dice: a pair forms from the people's ages, closeness, traits, money and housing, never from a fixed percentage, and real marriage rates (CDC and ACS) check totals only. Wire to the world: a new household moves a dwelling, lease and cash by journal record, through changeHouseholdV1. One model, two tiers: counted pairs follow the same weighing times their count, which is the open item people-partnership-counted.
 
-**Done when.** TODO **On screen.** Nothing yet: it would show on a person's card in the People web, and nothing there reads it.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) a named couple is traced from their closeness record to the partner link id, the household they now share, the lease id that followed and the journal record that moved their cash, with the pair not assumed to be a woman and a man and two homeowners able to pair, shown by a test in src/core2 that names the place and seed. **On screen.** Nothing yet: it would show on a person's card in the People web, and nothing there reads it.
 
-**Files.** TODO
+**Files.** src/core2/modules/people.ts, src/core2/state.ts, src/core2/modules/housing.ts, src/core2/closeness.ts
 
 **Notes.** TODO
 
