@@ -6,12 +6,13 @@ lead: play-first
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-vote-and-bill-screens-redesign
+pr: #6830
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 voice note on the governing brief
+claimed-at: 2026-10-29T21:34:13.429Z
 ---
 
 **What.** The owner, Oct 29, on the governing brief's screenshots: "We'll have to work on the voting screen. I mean, still the UI is terrible", "I still haven't seen what the bill interface looks like. And it's all about how this stuff is communicated through the English engine", and "The layout of all those bill screens needs to be adjusted, and... they need to be tied to places." Today the council meeting is a text panel over an empty chamber with no tally or result, and the draft line is one dropdown with no current amount, so neither matches his Oct 26 ruling of an illustrated bill paper you click part by part with the cost estimate beside it.
