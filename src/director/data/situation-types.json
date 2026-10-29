@@ -917,7 +917,7 @@
       "roles": [
         {
           "key": "mourners",
-          "fill": "present",
+          "fill": "bereaved",
           "count": "some",
           "moves": ["comfort", "recall", "tell", "farewell"],
           "wants": ["help-others", "engage"],
@@ -951,8 +951,9 @@
           "bind": {
             "family": "subject",
             "deceased": "counterpart",
-            "mourners": "present"
-          }
+            "mourners": "bereaved"
+          },
+          "opener": "mourners"
         }
       ],
       "tag": {

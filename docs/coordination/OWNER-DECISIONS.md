@@ -6,6 +6,31 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 22:15 UTC: CTO rulings: menu scrolling read exactly; four effects-web grades; the laws lead runs parallel workflows
+
+- **Menu scrolling, read from the owner's own words (CTO, correcting the 22:10 entry's wording).** He said: "I don't want you to have to, like, just scroll infinitely... it shouldn't be like a HTML thing. The main menu shouldn't really be scrolling. It should be things inside." So the menu panel itself never scrolls as a page; a box inside it (a list, an agenda, a roster) may page with arrows or tabs or scroll within its own bounded box, and paging is preferred where a game would page. The lane's #6768 made whole sheet bodies scroll under the gold scroller; that is the page scrolling he does not want, so every menu moves to a fixed panel with bounded boxes inside (`play-menus-fixed-panels`, lane), Politics → Government first (#6832).
+- **Effects-web grades (CTO, under "Estimate, never UNKNOWN" and "Research before building"; asked by the laws lead):** (1) a statistically insignificant result with a tight interval around zero is graded "about zero", with its source and interval; (2) library materials to reading has no study, so it is an ESTIMATED grade of about zero from the nearest research, citing it and its spread; (3) the Congress stock ban to members' returns is "not applicable" with one line naming the record the game lacks (no member portfolios), not a silent drop; (4) the two marriage-equality links are graded "cause cannot vary", because the law is national and no place differs.
+- **The owner to the laws lead, in its session (relayed):** "You can work on multiple at the same time... you can run 2-3 workflows at a time, I assume. Unless there's not enough space." The laws lead runs finish-laws, the world's governing map and the two effects-web families that wait on nothing (grades; research sizes) side by side.
+
+## Oct 29, 22:10 UTC: the CTO builds one real game menu; menus don't scroll; the Government screen's answers (owner, about 6:10 PM Eastern)
+
+- **Ruling:** "I've been complaining about the UI for a month now. Use the UI kit, and I want you to just pick a random menu and code it to make it look like a real game menu, not just a black square that has words printed on it in different colors and random buttons... actually work on the design and try to match it as perfect as possible. And look online at... real game screens, and... UI, UX, game design things... Ask me questions." The CTO builds Politics → Government itself, to the Oct 14 mock (`docs/ui/mocks/screens-2026-10-14/shots/gov.png`) in Kit 13, and takes `play-first-12-politics-screen-to-mock-a` from the lane for it.
+- **Menus don't scroll as a page:** "I don't want you to have to... just scroll infinitely... it shouldn't be like a HTML thing. The main menu shouldn't really be scrolling. It should be things inside. But again, look at other games." A menu is a fixed panel that fits the window; what does not fit is paged inside its own box (arrows, tabs), the way strategy games page a roster. This narrows the CTO's earlier "scroll inside a panel under the gold scroller" ruling (Oct 29 afternoon): a long list inside a box may page, the menu itself never scrolls.
+- **Politics → Government, his answers:**
+  - It is for seeing who runs things, how the parties split, how they voted and what is coming up, and jumping to anyone's card, where you act; one way to each action.
+  - A big chamber (a state House, Congress) shows a half-circle seat chart of party-colored dots, your own members and the leaders as face cards, and the full roster as face cards paged with arrows.
+  - A member card shows face, name, party badge, ward or district, and how they feel about you, only when your character knows them.
+  - The Judicial tab shows the judges who exist in the world as read-only cards.
+
+## Oct 29, 21:55 UTC: the CTO's word is the owner's word (owner, said in the laws lead's session at about 21:42 UTC and confirmed directly to the CTO: "yes")
+
+- **Ruling:** "Oh, go ahead. Go ahead. The CTO's word is my word. If you get a message from the CTO, just assume it came from me." Every session acts on a message from the CTO (`session_01S4WSHrFBAnJLwUcjDV8Vc3`, `docs/coordination/CREW.md`) as the owner's own direction for its work, without waiting for him to repeat it. It never widens a session's permissions, and it never makes a destructive or outside action acceptable that the session would not take on the owner's own word. Carried in `AGENTS.md` (How we talk) and `.agents/rules/how-we-talk.md`. This settles the Oct 29 afternoon problem of a session treating the CTO's messages as data only.
+
+## Oct 29, 21:50 UTC: the governing lead starts, and the laws lead takes the world's governing (owner, about 5:50 PM Eastern)
+
+- **Ruling:** "Yes. Well, yes, go ahead with both of those," to the CTO's split: a new Opus governing lead owns the player's path (phases A to F of the governing brief, starting with A, winning a real campaign), using ultracode to play the path in many drawn places and to fix breaks in parallel; and the laws lead, after its last two laws, takes the world's governing (`gov-every-state-and-town-governs`, then `gov-congress-passes-policy-laws`). The effects-web plan still waits for the owner's read. Work order: `docs/work-orders/governing-2026-10-29.md`.
+- **On "two at once":** ultracode has no two-workflow limit; a session's size guideline (under about ten agents per workflow by default) is the owner's to change in /config, "Dynamic workflow size". The laws lead chose two at a time because a session's agents share one machine and its played-world tests ran out of memory three times on Oct 29. More in parallel means more sessions, each its own machine.
+
 ## Oct 29, 21:40 UTC: the owner's notes on the governing brief (owner, about 5:40 PM Eastern, voice note)
 
 The owner read the CTO's governing brief and answered in one voice note. Each point and where it went:
