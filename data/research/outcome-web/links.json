@@ -1124,8 +1124,8 @@
     },
     {
       "key": "child-benefit-to-child-poverty",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "household.child-poverty",
       "strength": "strong",
       "shape": {
@@ -1136,11 +1136,11 @@
       "lagMonths": 0,
       "group": "families with children",
       "owner": "F",
-      "anchor": "2021 credit: child poverty to 5.2%; 12.4% the year after it ended",
+      "anchor": "Census, Poverty in the United States: 2022 (P60-280): the supplemental measure's child poverty rate more than doubled, from 5.2 percent in 2021 to 12.4 percent in 2022, and refundable tax credits moved 6.4 million people out of that poverty in 2022, down from 9.6 million in 2021. One program's before and after, not a rate per dollar of benefit; the page does not itself attribute the change to the expanded child credit.",
       "source": "Census SPM 2021-22",
       "from": "program.child-benefit-dollars",
       "evidence": "researched",
-      "notes": "Unsupported until a bill sets the benefit: the 2021 credit's drop in child poverty came from its own dollar amounts, the game records no child benefit by place, and child poverty is not a kept place outcome."
+      "notes": "Left unread, for a cause that does not exist and a size that cannot be set. Nothing in the game pays a household a benefit for a child: no law question, bill-catalog policy or budget line does, the income tax code has no child credit, and the welfare line's cash assistance (assistanceIncomeByHousehold in src/core2/law-reach/group-b-money.ts) goes to a household's head by the household's income against the poverty line, not per child. So the cause has no value in any place. The research is one program's before and after at its own dollar amounts (the anchor), so it gives no size per dollar either. Child poverty is not kept as a place outcome, but the poverty count (householdPoverty in src/core2/world-poverty.ts) already sets every named and counted household's income against a line for its size and children, so a benefit that lands in a household's income would move the children in poor households there, and the link would be carried by that payment, not by a place factor (stopgap SG-FAMILY-child-benefit-not-paid)."
     },
     {
       "key": "snap-to-food-insecurity",
@@ -2437,28 +2437,28 @@
     },
     {
       "key": "baby-bonus-to-births",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "births.rate",
       "strength": "weak",
       "shape": {
         "kind": "linear"
       },
       "size": null,
-      "per": "large bonus: +5 to 10%",
+      "per": "C$1,000 of first-year benefit: +16.9% in the chance of a birth",
       "lagMonths": 9,
       "group": "families",
       "owner": "B",
-      "anchor": "Quebec: +5-10%, up to +25% for third children, at high cost",
+      "anchor": "Milligan 2005 on Quebec's Allowance for Newborn Children (C$500 for a first or second child, C$8,000 over five years for a third or later): fertility of those eligible rose 12 percent on average and 25 percent for those eligible for the maximum benefit, and a C$1,000 increase in first-year benefits raised the probability of having a child 16.9 percent, a benefit elasticity of 0.107.",
       "source": "Milligan 2005",
       "from": "program.birth-bonus-dollars",
       "evidence": "researched",
-      "notes": "Unsupported as a straight line: Milligan finds +16.9% births per C$1,000 of first-year benefit (an elasticity near 0.11) around Quebec's own amounts, which would overstate a large U.S. bonus if applied per dollar; it needs a bill's own payment schedule, and the game records no birth bonus dollars by place."
+      "notes": "Left unread, for a cause that does not exist. The outcome has readers: a named mother's plan for a child weighs the web's births.rate factor for her age and home (src/core2/births-plan.ts), and counted women's births scale by it (src/core2/births-counted.ts). But nothing in the game pays a household a bonus for a birth: no law question, bill-catalog policy (its child-care assistance topic is unsupported and holds none), budget line or payment does, so the cause has no value in any place and the web has nothing to run. The research gives a size only around Quebec's own schedule, by parity and in Canadian dollars, which a game bill of another amount would not follow per dollar, so none is set. A birth-bonus bill would pay each household on a birth, and the size would then come from that amount through Milligan's elasticity (stopgap SG-FAMILY-birth-bonus-not-paid)."
     },
     {
       "key": "marriage-equality-to-marriages",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "family.same-sex-marriages",
       "strength": "strong",
       "shape": {
@@ -2469,11 +2469,11 @@
       "lagMonths": 0,
       "group": "same-sex couples",
       "owner": "C",
-      "anchor": "Marriage take-up rose",
+      "anchor": "Carpenter and others (NBER w24651, BRFSS 2000 to 2016): legal same-sex marriage raised the chance a woman in a same-sex household reports being married by 3.7 points (from 4.7 percent) and a man by 5.7 points (from 13.6 percent). The 2021 paper's abstract reports that marriage take-up rose, without a number.",
       "source": "Carpenter, Eppink, Gonzales and McKay 2021 (JPAM)",
       "from": "law.marriage-equality",
       "evidence": "researched",
-      "notes": "Unsupported: marriage equality has been national law since 2015, so no place differs on it, and same-sex marriages are not a kept place outcome."
+      "notes": "Left unread, for three missing pieces and no size problem. The cause: marriage equality is not a law question the game holds (the starting-law set has no row for it, the bill catalog's marriage, divorce and custody topic is unsupported with no policy, and the cause key law.marriage-equality is not a law: key the web reads), and it has been national law since 2015, so no place differs on it. The record: the core keeps no marriage at all; family links are parent-child and partner only, couples exist as the opening drew them, and no engine decides in play who partners, marries or separates (stopgap SG-TRAITS-partnerships-no-engine). The owner has not decided how marriage works (OWNER-DECISIONS.md, Marriage and children, Oct 14). The outcome: nothing counts same-sex marriages by place. The research does give a size, in points of same-sex-household adults who report being married (the anchor), but it is not a rate on a count the game keeps. A marriage engine would read the marriage law in force when two people of any sex decide to marry, and the count would come from those records (stopgap SG-FAMILY-marriage-not-recorded). marriage-equality-to-coverage waits on the same cause."
     },
     {
       "key": "marriage-equality-to-coverage",
