@@ -26,6 +26,7 @@
  * - `voting.party-share`: the Democratic share of the two-party vote in the
  *   latest decided partisan race covering the town (0 to 1).
  */
+import defenseContracts from "../../data/research/federal/defense-contracts-by-state-fy2024.json" with { type: "json" };
 import { GOV_MEASURES } from "./gov-measure-keys";
 import type { CoreAPI, CoreState } from "./types";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
@@ -348,4 +349,47 @@ export function snapMaximumChangePct(
         recordId: now.governing?.id ?? null,
       }
     : null;
+}
+
+/** What each state draws in defense contracts and produces, per resident (fiscal 2024; USAspending.gov and the BEA). */
+const DEFENSE_PLACES = defenseContracts.places as unknown as Readonly<
+  Record<string, { contractsPerResident: number; gdpPerResident: number }>
+>;
+/** The federal budget line the defense contracts are paid from. */
+const DEFENSE_LINE = "nationalDefense";
+
+/**
+ * The extra defense contracts a state draws, as a percent of what it
+ * produces (`federal.defense-boost-pct`): the federal government's national
+ * defense line in force above its base, as a share of that base, reaches the
+ * states in proportion to the contracts each drew in fiscal 2024, so a
+ * state's extra contracts per resident are that share of its contracts per
+ * resident, set against its output per resident. Null where the federal
+ * budget or the state's figures are not recorded. The record is the federal
+ * budget row the line stands on.
+ */
+export function defenseBoostPct(
+  api: CoreAPI,
+  stateKey: string,
+): { value: number; recordId: string | null } | null {
+  const state = DEFENSE_PLACES[stateKey];
+  if (!state || !api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+  const date = api.state.date;
+  const us = governments(api).find((gov) => gov.level === "federal");
+  const budget = us
+    ? [...budgetsOf(api, us.id)]
+        .filter((row) => row.startsOn <= date)
+        .sort((a, b) => a.startsOn.localeCompare(b.startsOn))
+        .at(-1)
+    : undefined;
+  if (!us || !budget) return null;
+  const base = baseBudget(api, us, budget.fiscalYear).spendingMinor[
+    DEFENSE_LINE
+  ];
+  if (!base) return null;
+  const added = (budget.spendingMinor[DEFENSE_LINE] ?? 0) / base - 1;
+  return {
+    value: ((added * state.contractsPerResident) / state.gdpPerResident) * 100,
+    recordId: budget.id,
+  };
 }

@@ -2,17 +2,19 @@
  * The labor links that wait, each with the one reason it cannot reach a
  * person's records yet (web-reach-labor). Each cites the labor engine's own
  * stopgap in the unwired list, that stopgap names it, and the reason holds in
- * the code: the cause is a person's own exposure history no record keeps, the link has no size (or about
- * zero), or no engine records formal-sector employment. The day an engine
- * file names one of these outcomes, or an unsized link gets a size, this test
- * fails and says to wire the link.
+ * the code: the cause is a person's own exposure history no record keeps, or
+ * the link has no size (or about zero). The day an engine file names one of
+ * these outcomes, or an unsized link gets a size, this test fails and says to
+ * wire the link. (Having been held while waiting for a hearing is a record the
+ * justice engine keeps, so pretrial-detention-to-employment is carried by the
+ * jobs engine: law-wiring-labor-web.test.ts.)
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
 import stopgaps from "./data/stopgaps.json" with { type: "json" };
-import { WEB_LINKS } from "./outcome-web-model";
+import { engineMeasure, WEB_LINKS } from "./outcome-web-model";
 
 const WAITING = {
   /** The cause is the person's own exposure history, which no record keeps. */
@@ -29,8 +31,6 @@ const WAITING = {
     "incentive-deal-to-industry-jobs",
     "more-immigration-to-workforce",
   ],
-  /** No engine records formal-sector employment. */
-  "SG-LABOR-pretrial-employment": ["pretrial-detention-to-employment"],
 } as const;
 
 /**
@@ -126,7 +126,7 @@ describe("labor links that wait, and why", () => {
   // outcome, for an unsized link as for one with no record.
   for (const key of [
     "transit-loss-to-unemployment",
-    "pretrial-detention-to-employment",
+    "incentive-deal-to-industry-jobs",
   ])
     it(`the reader check trips when an engine reads ${key}'s outcome`, () => {
       const outcome = link(key).to;
@@ -142,4 +142,68 @@ describe("labor links that wait, and why", () => {
         "src/core2/modules/engine-that-reads.ts",
       ]);
     });
+});
+
+/** The engine files that name a text: the day one names a cause below, it produces it. */
+const naming = (text: string): string[] =>
+  SOURCES.filter((file) => file.text.includes(text)).map((file) => file.path);
+
+/** A named object anywhere in a parsed JSON file. */
+function findNamed(value: unknown, name: string): unknown {
+  if (Array.isArray(value))
+    for (const item of value) {
+      const found = findNamed(item, name);
+      if (found) return found;
+    }
+  else if (value && typeof value === "object") {
+    if ((value as { name?: unknown }).name === name) return value;
+    for (const item of Object.values(value)) {
+      const found = findNamed(item, name);
+      if (found) return found;
+    }
+  }
+  return undefined;
+}
+
+describe("labor links whose cause nothing in the game produces", () => {
+  it("no engine writes an incentive deal, and the bill catalog marks development incentives unsupported", () => {
+    expect(naming(link("incentive-deal-to-industry-jobs").from)).toEqual([]);
+    const category = findNamed(
+      JSON.parse(
+        readFileSync("src/core2/data/legislature/bill-catalog.json", "utf8"),
+      ),
+      "Development incentives",
+    ) as { supported: boolean; policies: unknown[] };
+    expect(category.supported).toBe(false);
+    expect(category.policies).toEqual([]);
+  });
+
+  it("no engine reads the law that admits more immigrants or admits people from abroad", () => {
+    const question = link("more-immigration-to-workforce").from.replace(
+      /^law:/,
+      "",
+    );
+    expect(question).toBe(
+      "us-federal-positions:immigration.admit-more-immigrants",
+    );
+    // No starting row, handler or reader names the question or its dial.
+    expect(naming(question)).toEqual([]);
+    expect(naming("immigration-admission")).toEqual([]);
+  });
+
+  it("the transit and broadband causes are the web's own ledgers, each moved by one law's link and recorded by no engine", () => {
+    const into = (outcome: string) =>
+      WEB_LINKS.filter((row) => row.to === outcome).map((row) => row.key);
+    expect(into("transit.service-access")).toEqual([
+      "highway-money-for-transit-to-service",
+    ]);
+    expect(into("broadband.home-access")).toEqual([
+      "public-broadband-to-home-access",
+    ]);
+    for (const key of [
+      "transit-loss-to-unemployment",
+      "broadband-to-employment",
+    ])
+      expect(engineMeasure(link(key).from), key).toBeUndefined();
+  });
 });
