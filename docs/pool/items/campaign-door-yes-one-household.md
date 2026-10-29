@@ -9,7 +9,8 @@ status: claimed
 claimed-by: governing/door-yes-counted-split
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 29 (review of #6833)
+lead: governing
 claimed-at: 2026-10-29T22:16:51.687Z
 ---
 
