@@ -14,7 +14,14 @@ Bench 1440×900 on main (merge of Oct 29, 18:30 UTC), at the CTO's request. Plac
 | play-stop-05-politics-lists-wrong-officials-b | `politics-government.png`: the mayor, council terms ("Term ends July 2025") and county offices are listed.                                                                                  |
 | play-first-12-politics-screen-to-mock-b       | Issues is law cards (seen in the item 100 shots, `docs/play-first/shots/play-menus-no-continue-back/after-politics-issues.png`).                                                            |
 
-Items 28 to 34, 42 to 43, 46 and 47 of the Oct 28 sitting are done on main and look right in the same shots: the title and creator (`creator-1.png`, name set apart, labels on a grid, the age line, the gold search field), hair and color swatches (`creator-look.png`), the calendar skip-forward on a future day (`calendar-future.png`) and Travel place cards (`travel.png`).
+Items 27, 28 to 34, 42 to 43, 46 and 47 of the Oct 28 sitting are done on main and look right in the same shots: the title and creator (`creator-1.png`, name set apart, labels on a grid, the age line, the gold search field), hair and color swatches (`creator-look.png`), the calendar skip-forward on a future day (`calendar-future.png`) and Travel place cards (`travel.png`).
+
+Added on the second pass:
+
+| Item                                            | Evidence                                                                                                                                                                                            |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| play-stop-27-title-motion-and-rotation-restored | `title-1500ms.png` and `title-12000ms.png`: the painting has moved between frames (mean gray difference 4.8 between 1.5 s and 6 s, 8.3 between 6 s and 12 s, 38.9 at 22 s where the scene changes). |
+| play-stop-45-talk-history-set-apart             | `talk-history-set-apart.png` (Las Tusas, New Mexico, seed `f6155a0a-9d7e-4943-ba8c-e4fddab81239`): earlier lines are small, italic and labeled by speaker above a rule; the line now said is large. |
 
 ## Still broken
 
@@ -32,4 +39,4 @@ Items 28 to 34, 42 to 43, 46 and 47 of the Oct 28 sitting are done on main and l
 
 ## Not checked
 
-play-stop-27 (title motion; needs video), 32 (no same-named town in the list drawn), 45 (talk history), 35, 37 and 38 (figures; People v3 is rewriting them), 19-b, and the laws items 86 and 90.
+32 (no same-named town in the list drawn), 35, 37 and 38 (figures; People v3 is rewriting them), 19-b, and the laws items 86 and 90.
