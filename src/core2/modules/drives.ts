@@ -560,6 +560,11 @@ function driveIdentity(
     api.state.people,
     countedIn(api),
   );
+  // A drive held against someone still in the wider population (an owner
+  // nobody has met who decided the layoff) names them: they are filled in from
+  // the records, as anyone named is, so every engine reads the same person.
+  if (!kind.shareable && responsible && countedIn(api)(responsible))
+    fillInPerson(api.state as CoreState, responsible);
   const topic =
     kind.shareable && event.topic
       ? event.topic
@@ -1830,9 +1835,7 @@ export function createDrivesModule(
         servingDrives(api, actor, action)
           .filter(
             (drive) =>
-              drive.targetId &&
-              (api.state.people.get(drive.targetId)?.alive ||
-                countedIn(api)(drive.targetId)),
+              drive.targetId && api.state.people.get(drive.targetId)?.alive,
           )
           .map((drive) => ({
             ...driveOffer(api, action, drive.targetId!, drive),
@@ -2030,10 +2033,6 @@ export function createDrivesModule(
       confront: (api, actorId, offer) => {
         const drive = drivesOf(api, actorId, offer);
         traceAct(api, actorId, offer, drive);
-        // Having it out with someone still in the wider population is meeting
-        // them: they are filled in as they are for anyone who meets them.
-        if (countedIn(api)(offer.targetId))
-          fillInPerson(api.state as CoreState, offer.targetId);
         api.relationship(
           actorId,
           offer.targetId,

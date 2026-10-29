@@ -67,7 +67,9 @@ it(`a grudge against a counted layoff decider is confronted and costs the tie in
     }
   }
   expect(holder, `${where}: someone held a grudge`).toBeDefined();
-  expect(core.people.has(decider), "not yet met").toBe(false);
+  // The grudge names them, so they are filled in from the records, the same
+  // person every engine reads (drives.ts driveIdentity).
+  expect(core.people.has(decider), `${where}: filled in when named`).toBe(true);
 
   let falloutCalls = 0;
   setTraitProbe({
@@ -80,8 +82,7 @@ it(`a grudge against a counted layoff decider is confronted and costs the tie in
   } finally {
     setTraitProbe(undefined);
   }
-  // The confrontation met them, and the quarrel ran the personality decision.
-  expect(core.people.has(decider), `${where}: filled in`).toBe(true);
+  // The quarrel ran the personality decision.
   expect(falloutCalls, `${where}: relationships.fall-out ran`).toBeGreaterThan(
     0,
   );
