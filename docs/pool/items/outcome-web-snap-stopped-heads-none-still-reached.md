@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/outcome-web-public-finance.test.ts,src/core2/law-reach/group-b-food-aid.ts
 
 **Notes.** TODO
+
+Oct 29 00:40 UTC (laws session): evidence. Red again on clean main (dfcfc8691d) with PUBLIC_FINANCE_SEED=90a0a7a5c5c3738a: Gallipolis Ferry, West Virginia (5429716, US-WV), place seed 3809cf3e584e286967cdccca1a1117165adf9be619e6881895a94a97ff630dbf, "a stopped head the law still reaches: expected 0 to be greater than 0". It turned the unit run of PR 6708 red.

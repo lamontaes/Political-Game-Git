@@ -7,7 +7,7 @@ priority: 1
 size: L
 status: in-pr
 claimed-by: claude/wire-elections-2
-pr: #6657
+pr: #6724
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T14:49:45.722Z
