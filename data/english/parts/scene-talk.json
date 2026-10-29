@@ -122559,6 +122559,197 @@
         "move": "accept",
         "key": "honor"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-family-has-come-and-so-have-the-people-you-will-work-with-name-wait",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your family has come, and so have the people you will work with. {name} waits for you to step forward.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["family-here", "colleagues-here"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-people-closest-to-you-are-here-and-so-are-the-people-you-will-work-w",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The people closest to you are here, and so are the people you will work with. {name} has the oath ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["family-here", "colleagues-here"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-asks-for-quiet-your-family-and-the-people-you-will-work-with-are-wa",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} asks for quiet. Your family and the people you will work with are watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["family-here", "colleagues-here"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-steps-forward-with-the-oath-your-family-is-watching",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} steps forward with the oath. Your family is watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["family-here"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-family-is-close-by-name-has-the-oath-ready",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your family is close by. {name} has the oath ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["family-here"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-steps-forward-with-the-oath-the-people-you-will-work-with-are-watch",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} steps forward with the oath. The people you will work with are watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["colleagues-here"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-asks-for-quiet-it-is-time-for-the-oath",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} asks for quiet. It is time for the oath.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sat-in-this-seat-until-you-took-it-and-gives-the-oath-themselves",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sat in this seat until you took it, and gives the oath themselves.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["outgoing"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
     }
   ]
 }

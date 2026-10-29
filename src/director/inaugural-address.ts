@@ -15,9 +15,6 @@ import { P } from "../core2/parameters";
 import { standsOf } from "./speech-builder";
 import { swornOffice } from "./swearing-in";
 
-/** What a swearing-in's endings keep on the scene's reply record. */
-export const OATH_KEEPS = "oath";
-export const ADDRESS_KEEPS = "address";
 /** The move whose reply argues the speaker's own stand in the address. */
 const ARGUES_MOVE = "tell";
 /** What the address is called in its record id, which names the occasion. */
@@ -75,9 +72,7 @@ export function giveInauguralAddress(
   const id = `speech:${INAUGURAL}:${sworn.seatId}:${sworn.date}`;
   if (core.eventIds.has(id)) return id;
   const stand =
-    input.move === ARGUES_MOVE
-      ? inauguralStand(core, input.speakerId)
-      : null;
+    input.move === ARGUES_MOVE ? inauguralStand(core, input.speakerId) : null;
   deliverSpeech(api, {
     id,
     speakerId: input.speakerId,

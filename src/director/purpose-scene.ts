@@ -70,12 +70,15 @@ import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { properName, spoken, spokenDate } from "./words";
 import { PRESS_STORY_EVENT } from "../core2/press-desk";
+import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
   ADDRESS_KEEPS,
-  giveInauguralAddress,
-  inauguralStand,
-} from "./inaugural-address";
-import { outgoingHolder, swornOffice } from "./swearing-in";
+  OATH_KEEPS,
+  meetOfficiant,
+  outgoingHolder,
+  swornOffice,
+  titleInSentence,
+} from "./swearing-in";
 
 export interface PurposeScene {
   typeKey: string;
@@ -631,7 +634,7 @@ function composeBinding(
   const sworn = swornOffice(core, moment.causeId);
   if (sworn) {
     const ids = [moment.causeId, sworn.officeId];
-    facts.office = { text: sworn.title, sourceRecordIds: ids };
+    facts.office = { text: titleInSentence(sworn.title), sourceRecordIds: ids };
     if (sworn.givesAddress) {
       facts.address = { text: "", sourceRecordIds: ids };
       const stand = inauguralStand(core, askedId);
@@ -1074,15 +1077,30 @@ export function replyInScene(
           ?.presentIds ?? [],
       move: line.move,
     });
-  // Talking is time together, recorded through the core's own writer.
-  coreAPI(core).relationship(
-    scene.askedId,
-    scene.askerId,
-    "contact",
-    conversationRules.minutesPerExchange / P.minutesPerHour,
-    undefined,
-    { cause: "scene-reply", sourceId: id },
-  );
+  // Talking is time together, recorded through the core's own writer. A
+  // swearing-in's ending is also a first meeting with the one who gave the
+  // oath, whom the player knows by name after.
+  const hours = conversationRules.minutesPerExchange / P.minutesPerHour;
+  const swornIn =
+    ending?.keeps === OATH_KEEPS || ending?.keeps === ADDRESS_KEEPS;
+  const met =
+    swornIn &&
+    meetOfficiant(core, {
+      playerId: scene.askedId,
+      officiantId: scene.askerId,
+      causeId: scene.cause.id,
+      recordId: id,
+      hours,
+    });
+  if (!met)
+    coreAPI(core).relationship(
+      scene.askedId,
+      scene.askerId,
+      "contact",
+      hours,
+      undefined,
+      { cause: "scene-reply", sourceId: id },
+    );
   // stopgapId: SG-WORDS-favor-promise-keeps-unread
   const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;
   if (strain)

@@ -542,12 +542,14 @@
     {
       "kindPrefix": "scene-ending:oath",
       "turn": false,
-      "entry": "story"
+      "entry": "story",
+      "toldWithoutOther": true
     },
     {
       "kindPrefix": "scene-ending:address",
       "turn": false,
-      "entry": "story"
+      "entry": "story",
+      "toldWithoutOther": true
     }
   ],
   "firstTitle": [

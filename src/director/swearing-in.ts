@@ -26,6 +26,11 @@ import data from "./data/swearing-in.json" with { type: "json" };
 
 /** The record the offices engine writes when it seats someone. */
 export const TOOK_OFFICE = "took-office";
+/** What a swearing-in's endings keep on the scene's reply record. */
+export const OATH_KEEPS = "oath";
+export const ADDRESS_KEEPS = "address";
+/** Why two people first met, on the encounter the oath is. */
+const MET_AT_OATH = "swearing-in";
 
 const ADDRESS_KINDS: ReadonlySet<string> = new Set(data.address.kinds);
 const COLLEAGUES_MAX = data.parameters.colleaguesMax.value;
@@ -44,6 +49,18 @@ export interface SwornOffice {
   readonly resultId: string | undefined;
   /** Whether the office gives an address when its holder is sworn in. */
   readonly givesAddress: boolean;
+}
+
+/**
+ * An office's title as it reads inside a sentence: a title written in
+ * sentence case ("Council member", "Mayor") is lower case there ("the work of
+ * mayor"), one written in title case ("County Commissioner", "U.S. Senator")
+ * stays as the office names itself.
+ */
+export function titleInSentence(title: string): string {
+  return /^[A-Z][^A-Z]*$/.test(title)
+    ? `${title.charAt(P.zero).toLowerCase()}${title.slice(P.one)}`
+    : title;
 }
 
 export function swornOffice(
@@ -148,9 +165,7 @@ export function oathGiver(
   const presiding = api.state.modules.has(LEADERSHIP_MODULE_ID)
     ? presidingOfficer(api, sworn.officeId)
     : null;
-  return pick(
-    presiding ?? legislativeLeaders(api, sworn.jurisdiction)[P.zero],
-  );
+  return pick(presiding ?? legislativeLeaders(api, sworn.jurisdiction)[P.zero]);
 }
 
 /**
@@ -188,4 +203,31 @@ export function colleagues(
     .sort(([left], [right]) => left - right)
     .flatMap(([, ids]) => closest([...new Set(ids)]))
     .slice(P.zero, COLLEAGUES_MAX);
+}
+
+/**
+ * The one who gave the oath is met by the one sworn in: they stood face to
+ * face and said their names, so the player knows them after (and the journal
+ * can say who swore them in). False where they already knew each other.
+ */
+export function meetOfficiant(
+  core: CoreState,
+  input: {
+    readonly playerId: PersonId;
+    readonly officiantId: PersonId;
+    readonly causeId: string;
+    /** The scene's reply record, which the meeting cites. */
+    readonly recordId: string;
+    readonly hours: number;
+  },
+): boolean {
+  const sworn = swornOffice(core, input.causeId);
+  const player = core.people.get(input.playerId);
+  if (!sworn || !player || player.knownIds.has(input.officiantId)) return false;
+  return coreAPI(core).meet(input.playerId, input.officiantId, {
+    placeId: sworn.placeId,
+    sourceId: input.recordId,
+    cause: MET_AT_OATH,
+    hours: input.hours,
+  });
 }
