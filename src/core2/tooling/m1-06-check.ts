@@ -99,7 +99,7 @@ try {
 
 interface Loan {
   id: string;
-  kind: "personal" | "startup" | "mortgage";
+  kind: "personal" | "startup" | "mortgage" | "medical";
   householdId: string;
   borrowerId: string;
   lenderId: string;
@@ -126,7 +126,10 @@ interface Payment {
 /** One world's loans, their payment records, and each loan's payments in date order. */
 function loanBook(read: CoreAPI) {
   const store = read.moduleState("credit");
-  const loans = store.table("loans").rows() as unknown as Loan[];
+  // A medical debt is a bill placed for collection, not money lent: it has no disbursement.
+  const loans = (store.table("loans").rows() as unknown as Loan[]).filter(
+    (loan) => loan.kind !== "medical",
+  );
   const payments = store.table("payments").rows() as unknown as Payment[];
   const perLoan = new Map<string, Payment[]>();
   for (const row of [...payments].sort((a, b) => a.date.localeCompare(b.date)))

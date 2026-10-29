@@ -1,0 +1,102 @@
+{
+  "about": "Out-of-pocket medical bills (world-medical-spending-categories) and the medical debt they leave (health-medical-debt-record), as the coverage engine pays them on the 1st (src/core2/medical-bills.ts). The Consumer Expenditure Survey's medical services line (the opening-customer parent parameters in parameters.json, BLS series CXUMEDSERVSLB0101M, 2024: $1,252 a consumer unit) less the clinic component the opening's customers already buy is each household's average; each member's share of it follows the care their health asks (the health record's care need) and the part of that care their coverage leaves them to pay (MEPS). What a household cannot pay from what it holds, less what it keeps back for its home, goes to collections as a medical-debt record on its books, times the outcome web's factor for finance.medical-debt-in-collections.",
+  "outcome": "finance.medical-debt-in-collections",
+  "personLevel": {
+    "about": "Where a full person's own Medicaid coverage is modeled (the law reach pays it to named people, read through coverageSpellsNow), the expansion lowers their bill through that record, so the place-level expansion row is left out of their household's web factor: the expansion moves them once. Counted households have no Medicaid record of their own (stopgap SG-HEALTH-own-records-counted) and keep the place-level row.",
+    "placeTwin": "medicaid-expansion-to-medical-debt",
+    "policy": "us-policy-positions:health-human-services.expand-medicaid-eligibility"
+  },
+  "medicalSellerClassifications": [
+    "service:hospital",
+    "service:clinic",
+    "enterprise:hospital",
+    "enterprise:health-care",
+    "enterprise:health"
+  ],
+  "medicalServicesParent": "medicalServices",
+  "parameters": {
+    "medicalPatientShareEmployer": {
+      "value": 0.297,
+      "tag": "SOURCED",
+      "citation": "Machlin and Carper, Out-of-Pocket Health Care Expenses by Age and Insurance Coverage, 2011, MEPS Statistical Brief #441 (AHRQ, June 2014), Figure 6, https://meps.ahrq.gov/data_files/publications/st441/stat441.pdf: percentage of expenses paid out of pocket, people under 65 with any private coverage, \"29.7%\".",
+      "spread": {
+        "low": 0.234,
+        "high": 0.297,
+        "unit": "share of the cost of care the patient pays",
+        "citation": "Same figure: Medicare and private 23.4% to any private 29.7%; an employer plan is the brief's private coverage."
+      }
+    },
+    "medicalPatientShareMedicaid": {
+      "value": 0.091,
+      "tag": "SOURCED",
+      "citation": "MEPS Statistical Brief #441, Figure 6 and text: \"the average proportions paid out of pocket for people under age 65 with public coverage and for the elderly with Medicare and other public coverage were only 9.1 percent and 10.8 percent, respectively.\"",
+      "spread": {
+        "low": 0.091,
+        "high": 0.108,
+        "unit": "share of the cost of care the patient pays",
+        "citation": "Same sentence: 9.1% public coverage under 65 to 10.8% Medicare and other public."
+      }
+    },
+    "medicalPatientShareMedicare": {
+      "value": 0.261,
+      "tag": "SOURCED",
+      "citation": "MEPS Statistical Brief #441, Figure 6: percentage of expenses paid out of pocket, people 65 and older with Medicare only, \"26.1%\" (the coverage engine records no supplemental plan).",
+      "spread": {
+        "low": 0.108,
+        "high": 0.261,
+        "unit": "share of the cost of care the patient pays",
+        "citation": "Same figure: Medicare and other public 10.8% to Medicare only 26.1%."
+      }
+    },
+    "medicalPatientShareUninsured": {
+      "value": 0.638,
+      "tag": "SOURCED",
+      "citation": "MEPS Statistical Brief #441, Figure 6 and text: uninsured people under 65 paid \"an average of nearly two-thirds of their health care expenses paid out of pocket\" (Figure 6: 63.8%). The rest of their care was paid by other sources (the brief: \"miscellaneous sources that are not classified as health insurance\"), so the bill a household receives is this share, not the full charge.",
+      "spread": {
+        "low": 0.5,
+        "high": 0.8,
+        "unit": "share of the cost of care the patient pays",
+        "citation": "ESTIMATED around the brief's 63.8%: the brief gives no interval; the bound is the share of care that free care and charity programs leave to the patient."
+      }
+    },
+    "medicalPatientShareAverage": {
+      "value": 0.282,
+      "tag": "SOURCED",
+      "citation": "MEPS Statistical Brief #441, text: \"Among people with health care expenses in 2011, an average of 28.2 percent was paid out of pocket\". Each member's coverage share is read against it, so the town's average bill is the Consumer Expenditure average.",
+      "spread": {
+        "low": 0.18,
+        "high": 0.282,
+        "unit": "share of the cost of care the patient pays",
+        "citation": "Same sentence: \"the median was about 10 percentage points lower\"."
+      }
+    },
+    "medicalCollectionsWaitDays": {
+      "value": 120,
+      "tag": "SOURCED",
+      "citation": "26 CFR 1.501(r)-6(c), https://www.ecfr.gov/current/title-26/part-1/section-1.501(r)-6: a hospital has not made reasonable efforts to find whether a patient qualifies for financial assistance \"unless it refrains from initiating the ECA(s) until 120 days after it provided the first post-discharge billing statement\"; extraordinary collection actions include \"Selling an individual's debt to another party\" and \"Reporting adverse information about the individual to consumer credit reporting agencies or credit bureaus.\" A bill still unpaid this many days after it was billed is placed for collection.",
+      "spread": {
+        "low": 120,
+        "high": 180,
+        "unit": "days from the bill to collection",
+        "citation": "The 501(r) floor of 120 days to the 180 days CFPB 2022 reports some state laws require (\"Prohibits debt collection before 180 days after the initial billing\", California A.B. 1020)."
+      }
+    },
+    "medicalSeriousIllnessCostRatio": {
+      "value": 9.66,
+      "tag": "ESTIMATED",
+      "citation": "Mitchell, Concentration of Healthcare Expenditures and Selected Characteristics of High Spenders, U.S. Civilian Noninstitutionalized Population, 2018, MEPS Statistical Brief #533 (AHRQ, January 2021), https://meps.ahrq.gov/data_files/publications/st533/stat533.shtml: \"The top 5 percent of the population accounted for 48.3 percent of total expenditures (100 minus 51.7 percent), with an annual mean expenditure of $58,609.\"",
+      "estimatedFrom": "A person whose serious illness is under way (the health record's care need of one) stands for the top 5 percent of spenders: 48.3 percent of spending over 5 percent of people is 9.66 times the average person's care. Care need between none and one moves a person along the scale in proportion, with no step.",
+      "spread": {
+        "low": 9.66,
+        "high": 21,
+        "unit": "times the average person's cost of care",
+        "citation": "Same brief: the top 5 percent (48.3 percent of spending, 9.66 times the average) to the top 1 percent (\"accounted for 21 percent of total healthcare expenditures\", 21 times)."
+      }
+    }
+  },
+  "calibration": {
+    "about": "Checks the record's totals against research; nothing here decides one household's bill or debt.",
+    "cfpb2022": "CFPB, Medical Debt Burden in the United States (March 2022), https://files.consumerfinance.gov/f/documents/cfpb_medical-debt-burden-in-the-united-states_report_2022-03.pdf: \"CFPB research shows $88 billion in medical debt on consumer credit records as of June 2021.\" \"As of 2021, 58 percent of all third-party debt collection tradelines were for medical debt\". \"In one 2016 survey by the Kaiser Family Foundation, more than half (53 percent) of uninsured people said they had problems paying medical bills in the past year—substantially higher than the 19 percent of those with employer-sponsored plans or the 18 percent of those with Medicaid who said the same.\"",
+    "huEtAl2018": "Hu, Kaestner, Mazumder, Miller and Wong 2018, The Effect of the Affordable Care Act Medicaid Expansions on Financial Wellbeing, J Public Econ 163 (NBER w22170), https://www.nber.org/papers/w22170, abstract: the expansions \"significantly reduced the number of unpaid bills and the amount of debt sent to third-party collection agencies\", \"a reduction in collection balances of approximately $1,140\" for \"those who gain Medicaid coverage due to the ACA.\""
+  }
+}
