@@ -139,6 +139,9 @@ export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
 // rows 39 and 40 in outcome-bases-world.test.ts, row 50 in
 // budgets-world.test.ts; rows 51 and 52 below.
 
+/** The census's district code for a non-voting delegate's seat. */
+const DELEGATE_DISTRICT = 98;
+
 const seed = process.env.REALISTIC_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "realistic-not-real");
 const where = `${place.name} (${place.key}), seed ${seed}`;
@@ -944,9 +947,15 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     ) => {
       const [, stateKey, kind, last] = seatId.split(":");
       const seats = congress[stateKey!] ?? {};
+      // The census numbers a district from 1, an at-large seat 0 (or 00) and
+      // a non-voting delegate's seat 98 (Puerto Rico's resident commissioner,
+      // the island areas' and D.C.'s delegates); the roster keeps both
+      // at-large kinds under "0" (Moca, Puerto Rico, seed 08477dec014e6c2e:
+      // seat:US-PR:us-house:98 was read as no holder).
+      const district = /^\d+$/.test(last!) ? Number(last) : 0;
       return kind === "us-senate"
         ? seats.senate?.[Number(last)]
-        : seats[/^\d+$/.test(last!) ? String(Number(last)) : "0"]?.[0];
+        : seats[String(district === DELEGATE_DISTRICT ? 0 : district)]?.[0];
     };
     const members = (
       allOfficials(coreAPI(a)) as unknown as {
