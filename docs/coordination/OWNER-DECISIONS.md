@@ -6,6 +6,15 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 19:00 UTC: everything finished goes into main and a fresh Mac build; nobody stops (owner, about 3:00 PM Eastern)
+
+- **Ruling:** "I want to get everything into main and play an up-to-date playtest... and update the Mac build so I can go ahead and install it... I think I'm on like 0.64.0." Then: "But, you know, I want them to keep working. I just want to play up to date." Every session pushes and opens PRs for what is already finished and keeps working; the mergers merge every green PR on `MERGE-FIRST.md`; the CTO starts the Release package workflow from main at about 19:45 UTC, and again whenever the owner asks for a build. Not a freeze, and the people pack v4 waits for his look as before.
+
+## Oct 29, 18:45 UTC: every portrait is a standing figure (owner, directly to the people session; relayed to the CTO)
+
+- **Ruling:** "people shouldn't be sitting in their image creator. They should all be standing, or in the character creator, or in their like profile or whatever." Every portrait (the character creator, person cards, faces in menus, the title bust) uses a standing figure holding nothing. A look the pack paints only seated is not offered in the creator until a standing figure of it is drawn; it still appears in rooms at sitting spots. Built in `people-pack-v4` (session_01S4WSHrjSXRBi1MtqEkbXWF).
+- **Also found there:** the President's look came from the term id, so every world drew the same build; looks are now seeded by the world seed plus the person's appearance seed. The medium man has no standing figure yet, so where he is President he cannot stand behind the desk; v4 records that as a gap to draw.
+
 ## Oct 29, 18:55 UTC: v4 replaces v3; the owner looks at v4 only (owner, about 2:50 PM Eastern)
 
 - **Ruling:** "I can ignore V3 because V4 changes how, like, it's, we have to regenerate things because there's going to be some standardized angles for people to slot into instead of a bunch of different ones for every room." #6778 (v3) is closed unmerged; `people-pack-v3` is dropped as superseded; the v4 PR carries v3's code (the one loader, mannequin staging, face crops, the creator, the v1 and v2 deletions) to main with the v4 people, and waits for the owner's look. The v3 art asks (the heavy man's address figures, recut fronts) are moot: v4 regenerates the people at the standard angles. `play-faces-show-the-moment-a-menu-opens` now waits on `people-pack-v4`.
