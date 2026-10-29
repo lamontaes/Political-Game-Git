@@ -6,12 +6,13 @@ lead: play-first
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-territory-law-level-words
 pr:
 blocked-on:
 milestone: play-first
 source: CTO, Oct 29 Issues sweep (Puerto Real, Puerto Rico)
+claimed-at: 2026-10-29T23:37:23.361Z
 ---
 
 **What.** On Politics → Issues in Puerto Real, Puerto Rico, every law set by the island's government reads "State law since 2024", because the level words in `src/bench/data/controls.json` (`politics.issueSetBy`) name the state level the same everywhere. Puerto Rico and the Northern Marianas call themselves commonwealths and Guam, the Virgin Islands and American Samoa territories, and D.C. has its own council. The level's words should come from the place's data, so each of the 56 places names its own government's law the way its people would.
