@@ -10,7 +10,7 @@ import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
-import { openLaws } from "./modules/laws";
+import { lawChain, openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import { openRecord } from "./modules/record";
 import {
@@ -22,17 +22,29 @@ import {
 import {
   CAMPAIGNS_MODULE_ID,
   campaignFor,
+  contributeOwnMoney,
   doorsKnockedOf,
   donorReason,
   giftOf,
+  impressionOf,
   openCampaigns,
   reachablePeople,
+  type CauseRow,
 } from "./modules/campaigns";
+import {
+  MEETINGS_MODULE_ID,
+  openMeetings,
+  type TownHallRow,
+} from "./modules/meetings";
 import { campaignParameter } from "./campaign-views";
 import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
-import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
+import {
+  campaignDayChoices,
+  takeCampaignDayChoice,
+  whyNotToday,
+} from "./campaign-day";
 import { addDays, makeIsoDate } from "./kernel/dates";
 
 const START = "2026-01-05";
@@ -40,7 +52,7 @@ const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-day:${Date.now()}`).digest("hex");
 
-function setup() {
+function setup(options: { meetings?: boolean; local?: boolean } = {}) {
   const place = drawPlace(runSeed, "campaign-day");
   const core = createLifeCore(
     buildPopulation({
@@ -58,20 +70,30 @@ function setup() {
   openParties(core);
   openRecord(core);
   openPress(core);
+  if (options.meetings) openMeetings(core);
   const api = coreAPI(core);
   const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
-  // The player is the wealthiest adult old enough to file for something.
+  // The player is the wealthiest adult old enough to file for something
+  // (for a town or county race, one who lives in the town).
+  const town = lawChain(api).townPlaceId;
   const adults = [...core.people.values()]
     .filter(
       (p) =>
         p.alive &&
-        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35 &&
+        (!options.local || p.placeId === town),
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
   let filing: FilingRow | null = null;
-  for (const candidate of adults.slice(0, 5)) {
+  for (const candidate of adults.slice(0, options.local ? 30 : 5)) {
     core.playerId = candidate.id;
     for (const contest of openContests(api)) {
+      // A town or county race, where a forum is held (never state or federal).
+      if (
+        options.local &&
+        (contest.level === "state" || contest.level === "federal")
+      )
+        continue;
       const filed = fileCandidacy(api, {
         personId: candidate.id,
         contestId: contest.id,
@@ -103,7 +125,14 @@ describe("a campaign day", () => {
     expect(
       choices.map((c) => c.kind),
       where,
-    ).toEqual(["canvass", "event", "interview", "raise-money", "rest"]);
+    ).toEqual([
+      "canvass",
+      "event",
+      "forum",
+      "interview",
+      "raise-money",
+      "rest",
+    ]);
     const by = (kind: string) => choices.find((c) => c.kind === kind)!;
     expect(by("rest").available, where).toBe(true);
     expect(by("canvass").available, `doors left: ${where}`).toBe(true);
@@ -311,6 +340,133 @@ describe("a campaign day", () => {
       0.15,
     );
     expect(reached / knocked, `contact rate: ${where}`).toBeLessThan(0.45);
+  });
+
+  it("hosts a forum: the meetings engine's town hall for the race, its venue paid like an event's, met by people the campaign had not reached", () => {
+    const { core, api, filing, where } = setup({ meetings: true, local: true });
+    expect(
+      filing,
+      `the player could file for nothing: ${where}`,
+    ).not.toBeNull();
+    const id = filing!.id;
+    const playerId = filing!.personId;
+    const forum = () => {
+      const choice = campaignDayChoices(api, id).find(
+        (c) => c.kind === "forum",
+      )!;
+      if (choice.kind !== "forum") throw new Error("forum first");
+      return choice;
+    };
+
+    // Without the evening's venue in the account, the forum is grayed by the records.
+    const unpaid = forum();
+    expect(unpaid.facts.meetingsKept, where).toBe(true);
+    expect(unpaid.facts.cashMinor, where).toBe(0);
+    expect(unpaid.available, where).toBe(false);
+    expect(whyNotToday(unpaid)?.key, where).toBe("eventMoney");
+    expect(() => takeCampaignDayChoice(api, id, "forum"), where).toThrow();
+
+    // A canvass first, so the campaign has already reached part of the town.
+    takeCampaignDayChoice(api, id, "canvass");
+    const reachedBefore = new Set(reachablePeople(api, campaignFor(api, id)));
+    const heardBefore = new Set(
+      (
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("impressions")
+          .query("byCandidate", [playerId]) as unknown as {
+          voterId: string;
+          heardOf: boolean;
+        }[]
+      )
+        .filter((row) => row.heardOf)
+        .map((row) => row.voterId),
+    );
+
+    // The candidate puts the venue's price in from their own money.
+    const price = unpaid.facts.venuePriceMinor;
+    expect(
+      contributeOwnMoney(api, id, price),
+      `own money for the venue: ${where}`,
+    ).toBe(price);
+    const offered = forum();
+    expect(offered.available, `the venue is paid for: ${where}`).toBe(true);
+    const spentBefore = campaignFor(api, id).spentMinor;
+    const held = takeCampaignDayChoice(api, id, "forum");
+
+    // The meeting row is the meetings engine's town hall, hosted by the candidate for this race.
+    const row = api
+      .moduleState(MEETINGS_MODULE_ID)
+      .table("townHalls")
+      .get(held.townHall!.id) as unknown as TownHallRow;
+    expect(row.hostId, where).toBe(playerId);
+    expect(row.filingId, where).toBe(id);
+    expect(row.attendeeIds.length, `people came: ${where}`).toBeGreaterThan(0);
+    expect(held.hours, where).toBe(campaignParameter("playerForumHours"));
+
+    // The venue is paid through the event's path: one purchase on the journal, on the campaign's books.
+    expect(held.eventMoneyId, where).toBe(
+      `event:${id}:${core.date}:${spentBefore}`,
+    );
+    const money = api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("money")
+      .get(held.eventMoneyId!) as unknown as { kind: string } | undefined;
+    expect(money?.kind, where).toBe("campaigns:purchase");
+    expect(campaignFor(api, id).spentMinor, where).toBe(spentBefore + price);
+    expect(campaignFor(api, id).spentByKind?.event, where).toBe(price);
+
+    // Each attendee's view of the candidate moved by a town-hall cause on record.
+    const causes = row.causeIds.map(
+      (cid) =>
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("causes")
+          .get(cid) as unknown as CauseRow | undefined,
+    );
+    expect(held.causeIds, where).toEqual(row.causeIds);
+    for (const cause of causes) {
+      expect(cause, where).toBeDefined();
+      expect(cause!.act, where).toBe("town-hall");
+      expect(cause!.candidateId, where).toBe(playerId);
+    }
+    expect(
+      causes.map((c) => c!.voterId).sort(),
+      `every attendee has a cause: ${where}`,
+    ).toEqual([...row.attendeeIds].sort());
+
+    // New constituents came: people with no impression of the candidate
+    // before, whom the campaign can now reach (their next call can ask them).
+    const newcomers = row.attendeeIds.filter((pid) => !heardBefore.has(pid));
+    expect(
+      newcomers.length,
+      `attendees new to the campaign (${row.attendeeIds.length} came): ${where}`,
+    ).toBeGreaterThan(0);
+    const reachedAfter = new Set(reachablePeople(api, campaignFor(api, id)));
+    for (const pid of newcomers) {
+      expect(impressionOf(api, pid, playerId)?.heardOf, where).toBe(true);
+      expect(reachedAfter.has(pid), where).toBe(true);
+    }
+    expect(
+      newcomers.some((pid) => !reachedBefore.has(pid)),
+      `someone outside the campaign's reach came: ${where}`,
+    ).toBe(true);
+
+    // The day's record the director reads: a town hall naming the race.
+    expect(
+      core.durableLog.get(`town-hall:${row.id}`)?.facts?.filingId,
+      where,
+    ).toBe(id);
+
+    // One a day: the rest of today the forum is grayed, and says why.
+    const again = forum();
+    expect(again.available, where).toBe(false);
+    expect(again.facts.heldTodayId, where).toBe(row.id);
+    expect(whyNotToday(again)?.key, where).toBe("forumHeld");
+
+    process.stdout.write(
+      `forum: ${where}; filing ${id}; town hall ${row.id}; ${row.attendeeIds.length} came, ${newcomers.length} new to the campaign; causes ${row.causeIds.slice(0, 3).join(", ")}; venue ${held.eventMoneyId}\n`,
+    );
   });
 
   it("offers an interview where an outlet has room, and the press desk records it", () => {

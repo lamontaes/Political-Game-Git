@@ -114,6 +114,8 @@ export interface TownHallRow {
   readonly attendeeIds: readonly string[];
   readonly questions: readonly { askedBy: string; question: string }[];
   readonly answers: readonly InterviewAnswer[];
+  /** Each attendee's cause row (`campaigns` causes): how the room moved their view of the host. */
+  readonly causeIds: readonly string[];
   readonly moved: number;
   /** Why the host called it, where they weighed it (not the player's own choice): the cause and the parts of the decision. */
   readonly calledFor?: {
@@ -634,6 +636,10 @@ export function townHallDrives(
   const questions = Object.keys(POLICY_QUESTIONS).filter(
     (q) => questionAxis(q) !== 0,
   );
+  // The room fills from the town's full adults; its counted residents do
+  // not come yet (public comment reads them, `commentSpeakers`).
+  // stopgapId: SG-GOV-town-hall-room-full-people
+  api.stopgap("SG-GOV-town-hall-room-full-people");
   return townAdults(api)
     .filter((p) => p.id !== hostId)
     .map((p) => {
@@ -650,6 +656,11 @@ export function townHallDrives(
     })
     .filter((row) => row.drive > 0)
     .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id));
+}
+
+/** A host's town hall on a day: one a day, by who held it and when. */
+export function townHallId(hostId: string, date: string): string {
+  return `town-hall:${hostId}:${date}`;
 }
 
 /**
@@ -702,7 +713,7 @@ export function holdTownHall(
   const statements: Stance[] = answers.flatMap((a) =>
     a.position === null ? [] : [{ question: a.question, position: a.position }],
   );
-  const id = `town-hall:${input.hostId}:${api.state.date}`;
+  const id = townHallId(input.hostId, api.state.date);
   let causes: readonly CauseRow[] = [];
   if (input.filingId && api.state.modules.has(CAMPAIGNS_MODULE_ID))
     causes = makeStatements(api, {
@@ -739,6 +750,7 @@ export function holdTownHall(
     attendeeIds: attendees.map((p) => p.id),
     questions: taken,
     answers,
+    causeIds: causes.map((c) => c.id),
     moved: causes.filter((c) => c.warmthAfter !== c.warmthBefore).length,
     ...(input.calledFor ? { calledFor: input.calledFor } : {}),
   };
@@ -759,6 +771,8 @@ export function holdTownHall(
     facts: {
       townHallId: id,
       hostId: input.hostId,
+      // A candidate's forum names the race it was held for.
+      ...(input.filingId ? { filingId: input.filingId } : {}),
       attendees: String(row.attendeeIds.length),
       questions: taken.map((t) => t.question).join(","),
     },
