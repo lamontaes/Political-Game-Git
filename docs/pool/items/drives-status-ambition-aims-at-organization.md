@@ -5,8 +5,8 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: fixer/red-main-ambition-aim
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -24,3 +24,5 @@ claimed-at: 2026-10-29T02:24:02.833Z
 **Notes.** TODO
 
 Red-main owner, Oct 28: also on main d9ae0ce8bb in Dededo, Guam (territory:GU:dededo, seed 6a86a6dce59e3f55fab7eeabe27d76b9a19ff18368eda204d32f48739a1dffa2): 5 drives aim at someone other than the party the event names, for example status-ambition:status-ambition:organization_c4b06f7b09a75282 of person_99f31857247f4651 aims at organization_c4b06f7b09a75282 while the event names person_7f36f71b2fc89906. With the retraining fade fix (fixer/red-main-m1-11-prove-oneself) the share clause passes there (20.9% of 441) and this clause still fails with 4.
+
+Red-main owner, Oct 29 02:55 UTC (claimed, then set back to open): ruled out by probe on main 6855b274a5 with the pinned D.C. seed (1 misaimed: status-ambition:status-ambition:organization_9f3dcd933692fd43 formed 2025-08-01 from event:work.job-lost:2025-08-01:work-relationship_994dad8c41c3e03d, one formation). (1) Not a fill-in after the drive formed: the decider person_fa43b1c894f8283a is an opening full person (tier weekly, source asOf 2025-01-20), alive, and their household is not in the residents' filledAt. A check change reading the rule as of formation (branch fixer/red-main-ambition-aim, 5a56fc1361, not opened as a PR) leaves the counts unchanged: Dededo 4, D.C. 1; two fresh draws (Berlin Heights, Ohio, seed aim-fresh-1; Valley Grove, West Virginia, seed aim-fresh-2) pass. (2) The engine calls driveIdentity with api.state.people and the event as emitted, and the check passes responsibleId the formation trace's event facts. So the next thing to read is whether the decidedBy fact is on the work.job-lost event when the drives engine answers it, or attached to it afterward (the trace's facts object would then show it at the year's end).
