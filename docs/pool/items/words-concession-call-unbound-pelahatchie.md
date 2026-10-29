@@ -22,4 +22,4 @@ claimed-at: 2026-10-29T05:26:56.372Z
 
 **Files.** src/director/concession-received.test.ts, src/director/data/situation-types.json, src/director/civic-roles.ts
 
-**Notes.** TODO
+**Notes.** Oct 29, 05:45 UTC, words and director session: not a game bug. In Pelahatchie, Mississippi (run seed 1828b1406b544cb3:0), two residents filed, but only one reached the ballot; the count's record `election-result` for that race lists one candidate in its totals (person_40a21cfa110f9f0b, 23 votes), so there is no runner-up to call and the winner's entry binds only race-won. An unopposed winner getting no concession call is right. The test assumed two filers meant two on the ballot; it now passes over a race with fewer than two on the ballot, and passes on the next draw, Fort Ann, New York (3626704), from election-result:contest:seat:gus2025:204979:council:0:2025-11-04. Branch words/concession-call-binds.
