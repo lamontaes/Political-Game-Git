@@ -130,14 +130,14 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 83,
-    "partly": 2,
+    "wired": 84,
+    "partly": 1,
     "stopgapped": 4,
     "researchLinks": {
       "links": 244,
-      "reaching": 161,
+      "reaching": 162,
       "aboutZero": 19,
-      "unread": 64,
+      "unread": 63,
       "unreadWithNoStopgap": 0
     },
     "shownOnAScreen": 87,
@@ -192,8 +192,8 @@
         "n/a": 8
       },
       "web": {
-        "wired": 67,
-        "partial": 2,
+        "wired": 68,
+        "partial": 1,
         "missing": 0,
         "stopgap": 4,
         "n/a": 16
@@ -802,7 +802,7 @@
       "family": "healthcare",
       "reachGroup": "B",
       "mechanic": "medicaid-coverage",
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -816,32 +816,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 40 open (full 38, counted groups 2/26 people, households 0, orgs 0, govts 0) e.g. us-policy-positions:health-human-services.expand-medicaid-eligibility|person_7b570565dc6dd202|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 26 open (full 24, counted groups 2/6 people, households 0, orgs 0, govts 0) e.g. us-policy-positions:health-human-services.expand-medicaid-eligibility|person_e855af1ca8e2ee43|2025-04-01",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 42 open (full 40, counted groups 2/22 people, households 0, orgs 0, govts 0) e.g. us-policy-positions:health-human-services.expand-medicaid-eligibility|person_ae720410206893b1|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 16 open (full 14, counted groups 2/16 people, households 0, orgs 0, govts 0) e.g. us-policy-positions:health-human-services.expand-medicaid-eligibility|person_75f84bd00b55fe1d|2025-01-20",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/law-reach/group-b-money.ts:88 <- src/core2/modules/budgets.ts:722",
+          "evidence": "src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:824",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 742500 (journal:2025-08-05:53904); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 564300 (journal:2025-09-04:63649); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 3333379 (journal:2025-01-21:1591); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): in force in the control world, posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 1089634 (journal:2025-01-21:1500); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 31 the law paid or charged, the payments that changed first: 23 accounts.transfer paid in (src/core2/life.ts:558; e.g. person_0bbe6a59b6ca584c on 2025-01-21: 4836 in the control world, 0 here, journal:2025-01-21:1591); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 16 the law paid or charged, the payments that changed first: 10 accounts.transfer paid in (src/core2/life.ts:558; e.g. person_03819202b5d285c1 on 2025-01-21: 4271 in the control world, 0 here, journal:2025-01-21:1500)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 1618650 (control world 3394832) (journal:2025-08-05:56618); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 616275 (control world 1380326) (journal:2025-09-04:65335); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 3394832 (journal:2025-01-21:1603); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): in force in the control world, posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 1380326 (journal:2025-01-21:1511); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 26 the law paid or charged, the payments that changed first: 23 accounts.transfer paid in (src/core2/life.ts:570; e.g. person_64420c52d99b1844 on 2025-01-21: 44536 in the control world, 39700 here, journal:2025-01-21:1597); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 8 the law paid or charged, the payments that changed first: 6 accounts.transfer paid in (src/core2/life.ts:570; e.g. person_0682d579c2eb84c6 on 2025-01-21: 44471 in the control world, 40200 here, journal:2025-01-21:1505); 3 accounts.transfer paid out (src/core2/credit-deposits.ts:160; e.g. person_0682d579c2eb84c6 on 2025-01-21: -363454 in the control world, -359183 here, journal:2025-01-21:1555)",
           "why": ""
         },
         "web": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 medicaid-expansion-to-coverage 0.1500, read by src/core2/modules/coverage.ts:222; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 medicaid-expansion-to-coverage 0.1500, read by src/core2/modules/coverage.ts:222; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 medicaid-expansion-to-coverage 0.1500, read by src/core2/modules/coverage.ts:222",
-          "why": "links not built or not read: medicaid-expansion-to-medical-debt (no reader, SG-EW-HEALTH-medical-debt-reader)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 medicaid-expansion-to-coverage 0.1500, read by src/core2/modules/coverage.ts:227; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 medicaid-expansion-to-coverage 0.1500, read by src/core2/modules/coverage.ts:227; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 medicaid-expansion-to-coverage 0.1500, read by src/core2/modules/coverage.ts:227",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 73 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 73 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 89 people heard (person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 76 people heard (person_e02fea68a64aaf0b:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 40 -> after repeal 0 -> re-enacted 35; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 26 -> after repeal 0 -> re-enacted 18",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 42 -> after repeal 0 -> re-enacted 31; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 16 -> after repeal 0 -> re-enacted 12",
           "why": ""
         },
         "allPlaces": {
@@ -914,7 +914,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 work-requirement-to-coverage 0.3200, read by src/core2/modules/coverage.ts:222; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 work-requirement-to-coverage 0.3200, read by src/core2/modules/coverage.ts:222; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 work-requirement-to-coverage 0.3200, read by src/core2/modules/coverage.ts:222",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 work-requirement-to-coverage 0.3200, read by src/core2/modules/coverage.ts:227; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 work-requirement-to-coverage 0.3200, read by src/core2/modules/coverage.ts:227; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 work-requirement-to-coverage 0.3200, read by src/core2/modules/coverage.ts:227",
           "why": ""
         },
         "knowing": {

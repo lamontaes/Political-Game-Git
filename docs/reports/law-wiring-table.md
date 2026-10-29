@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 83 of 89 (2 partly, 4 on a stopgap). Research links reaching people or carried by an engine: 161 of 244 (19 the research finds about zero, 64 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
+Laws wired: 84 of 89 (1 partly, 4 on a stopgap). Research links reaching people or carried by an engine: 162 of 244 (19 the research finds about zero, 63 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
@@ -13,7 +13,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | shift highway funds to transit               | infrastructure     | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | Medicare tax rate                            | healthcare         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | Medicaid federal match                       | healthcare         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Calendar, Your office       |
-| expand medicaid eligibility                  | healthcare         | yes    | yes    | yes   | yes     | yes   | part | yes     | yes    | yes       | partly     | Issues, Your office, News           |
+| expand medicaid eligibility                  | healthcare         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | medicaid work requirement                    | healthcare         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | work requirement for assistance              | healthcare         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Your office                         |
 | Spending: healthAndHospitals                 | healthcare         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
@@ -105,10 +105,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **Medicaid federal match** (`medicaid-match`)
 
 - web: the federal medical assistance percentage (section 1396d(b) of title 42 of the United States Code) fixes the federal government's share of each state's Medicaid spending for the people covered. By its terms it moves who pays, not who is covered or what care they get; the expansion and the work requirement set those (their links medicaid-expansion-to-coverage, medicaid-expansion-to-mortality, medicaid-expansion-to-medical-debt and work-requirement-to-coverage). The researched response to the subsidy is in the states' own spending: an elasticity of Medicaid spending per enrollee of -0.494 to -0.579 with respect to the after-subsidy price (Bundorf and Kessler 2021, NBER Working Paper 29492, abstract). That is a budget decision of the state's body, not a place outcome the web keeps. The dollars the match moves are on the journal (the money link).
-
-**expand medicaid eligibility** (`us-policy-positions:health-human-services.expand-medicaid-eligibility`)
-
-- web: links not built or not read: medicaid-expansion-to-medical-debt (no reader, SG-EW-HEALTH-medical-debt-reader)
 
 **Spending: higherEducation** (`budget-line:higherEducation`)
 

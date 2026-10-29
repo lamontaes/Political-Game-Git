@@ -1572,7 +1572,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/medical-bills.ts:399, src/core2/medical-bills.ts:727",
+          "evidence": "outcome read by src/core2/medical-bills.ts:405, src/core2/medical-bills.ts:736",
           "why": "the web does not run it: it waits on health.coverage-pct; nothing in the core records its cause, health.coverage-pct"
         },
         "varied": {
@@ -5255,7 +5255,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/medical-bills.ts:399, src/core2/medical-bills.ts:727"
+          "evidence": "src/core2/medical-bills.ts:405, src/core2/medical-bills.ts:736"
         },
         "varied": {
           "status": "fail",
@@ -12283,7 +12283,7 @@
     {
       "measure": "finance.medical-debt-in-collections",
       "status": "engine-reads-web",
-      "evidence": "src/core2/medical-bills.ts:399, src/core2/medical-bills.ts:727",
+      "evidence": "src/core2/medical-bills.ts:405, src/core2/medical-bills.ts:736",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [

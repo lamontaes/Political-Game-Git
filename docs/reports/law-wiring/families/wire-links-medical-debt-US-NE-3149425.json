@@ -1,0 +1,919 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "kind": "question",
+      "family": "healthcare",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-NE:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:starting",
+        "law:US-NE:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035",
+        "law:US-NE:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2026-01-22:law-wiring-861da035-b"
+      ],
+      "openingReach": {
+        "fullPeople": 14,
+        "countedGroups": 2,
+        "countedPeople": 16,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 16,
+        "ended": 0,
+        "sample": [
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_75f84bd00b55fe1d|2025-01-20",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0682d579c2eb84c6|2025-01-20",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcbae4fb891ce1|2025-02-01",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcb9e4fb891b2e|2025-02-01"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "inPlay": [
+        {
+          "id": "law:US-NE:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-09-03:LB 4",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        }
+      ],
+      "applied": {
+        "rows": 6,
+        "withAmount": 6,
+        "sample": [
+          "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_00dcb5d84e33b676",
+          "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0682d579c2eb84c6",
+          "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcb9e4fb891b2e"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:212": 1111,
+        "src/core2/modules/legislature.ts:3839": 486,
+        "src/core2/modules/legislature.ts:2661": 266,
+        "src/core2/modules/world-legislating.ts:299": 154,
+        "src/core2/modules/world-legislating.ts:229": 90,
+        "src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:824": 32,
+        "src/core2/life.ts:565": 10,
+        "src/core2/law-reach/group-b.ts:236 <- src/core2/life.ts:565": 8,
+        "src/core2/modules/world-legislating.ts:384": 4,
+        "src/core2/modules/legislature.ts:5122": 1
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 514992136,
+            "control": 512797998,
+            "ids": [
+              "journal:2025-01-21:1579",
+              "journal:2025-01-21:1580",
+              "journal:2025-01-21:1581"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:570",
+            "treatment": 36063563,
+            "control": 36912914,
+            "ids": [
+              "journal:2025-01-21:1505",
+              "journal:2025-01-21:1506",
+              "journal:2025-01-21:1507"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/coverage.ts:590",
+            "treatment": 13610343,
+            "control": 12794067,
+            "ids": [
+              "journal:2025-02-01:7980",
+              "journal:2025-02-01:7981",
+              "journal:2025-02-01:7982"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+            "treatment": 3374327649,
+            "control": 3374899160,
+            "ids": [
+              "journal:2025-01-21:1512",
+              "journal:2025-01-21:1513",
+              "journal:2025-01-21:1514"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:913",
+            "treatment": 3181125,
+            "control": 3691609,
+            "ids": [
+              "journal:2025-02-01:3423",
+              "journal:2025-03-01:11065",
+              "journal:2025-04-01:19152"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+            "treatment": 1117875140,
+            "control": 1117507509,
+            "ids": [
+              "journal:2025-02-01:3460",
+              "journal:2025-02-01:3461",
+              "journal:2025-02-01:3462"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+            "treatment": 281501284,
+            "control": 281861360,
+            "ids": [
+              "journal:2025-02-01:3436",
+              "journal:2025-02-01:3437",
+              "journal:2025-02-01:3438"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 74232864,
+            "control": 74546424,
+            "ids": [
+              "journal:2025-02-01:2102",
+              "journal:2025-02-01:2105",
+              "journal:2025-02-01:2108"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/medical-bills.ts:461",
+            "treatment": 35437694,
+            "control": 35738350,
+            "ids": [
+              "journal:2025-02-01:8034",
+              "journal:2025-02-01:8035",
+              "journal:2025-02-01:8036"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+            "treatment": 5179754,
+            "control": 5466952,
+            "ids": [
+              "journal:2025-02-19:8712",
+              "journal:2025-02-19:8713",
+              "journal:2025-02-19:8714"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+            "treatment": 708465990291892,
+            "control": 708465990017303,
+            "ids": [
+              "journal:2025-02-01:1760",
+              "journal:2025-02-01:1761",
+              "journal:2025-02-01:1762"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 209765107,
+            "control": 210030382,
+            "ids": [
+              "journal:2025-02-01:2072",
+              "journal:2025-02-01:2073",
+              "journal:2025-02-01:2074"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [
+          {
+            "token": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "gross": 616275,
+            "ids": [
+              "journal:2025-09-04:65335",
+              "journal:2025-09-04:65336",
+              "journal:2025-09-04:65337"
+            ],
+            "control": 1380326
+          }
+        ],
+        "controlCited": [
+          {
+            "token": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "gross": 1380326,
+            "ids": [
+              "journal:2025-01-21:1511",
+              "journal:2025-01-21:1512",
+              "journal:2025-01-21:1513"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 8,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:570",
+              "way": "in",
+              "targets": 6,
+              "moved": 92842,
+              "earliest": "2025-01-21",
+              "sample": [
+                {
+                  "target": "person_0682d579c2eb84c6",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0682d579c2eb84c6",
+                  "date": "2025-01-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:570",
+                  "way": "in",
+                  "treatment": 40200,
+                  "control": 44471,
+                  "journal": "journal:2025-01-21:1505"
+                },
+                {
+                  "target": "person_75f84bd00b55fe1d",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_75f84bd00b55fe1d",
+                  "date": "2025-01-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:570",
+                  "way": "in",
+                  "treatment": 44100,
+                  "control": 48371,
+                  "journal": "journal:2025-01-21:1507"
+                },
+                {
+                  "target": "person_6fbcb9e4fb891b2e",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcb9e4fb891b2e",
+                  "date": "2025-02-02",
+                  "kind": "accounts.transfer @ src/core2/life.ts:570",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": 7425,
+                  "journal": "journal:2025-02-02:8146"
+                },
+                {
+                  "target": "person_6fbcbae4fb891ce1",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcbae4fb891ce1",
+                  "date": "2025-02-02",
+                  "kind": "accounts.transfer @ src/core2/life.ts:570",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": 7425,
+                  "journal": "journal:2025-02-02:8147"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+              "way": "out",
+              "targets": 4,
+              "moved": 182887,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_75f84bd00b55fe1d",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_75f84bd00b55fe1d",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "out",
+                  "treatment": -142725,
+                  "control": -154421,
+                  "journal": "journal:2025-03-01:10136"
+                },
+                {
+                  "target": "person_6fbcbae4fb891ce1",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcbae4fb891ce1",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "out",
+                  "treatment": -238648,
+                  "control": -241448,
+                  "journal": "journal:2025-05-01:26403"
+                },
+                {
+                  "target": "person_0d9670f781d88a23",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0d9670f781d88a23",
+                  "date": "2025-11-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": -125376,
+                  "journal": "journal:2025-11-01:75782"
+                },
+                {
+                  "target": "person_0d966ff781d88870",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0d966ff781d88870",
+                  "date": "2025-12-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "out",
+                  "treatment": -82957,
+                  "control": -125972,
+                  "journal": "journal:2025-12-01:84387"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/medical-bills.ts:461",
+              "way": "in",
+              "targets": 4,
+              "moved": 59554,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "person_0682d579c2eb84c6",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0682d579c2eb84c6",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:461",
+                  "way": "in",
+                  "treatment": -9483,
+                  "control": -7291,
+                  "journal": "journal:2025-02-01:8052"
+                },
+                {
+                  "target": "person_6fbcbae4fb891ce1",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcbae4fb891ce1",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:461",
+                  "way": "in",
+                  "treatment": -31555,
+                  "control": -11824,
+                  "journal": "journal:2025-03-01:15730"
+                },
+                {
+                  "target": "person_6fbcb9e4fb891b2e",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcb9e4fb891b2e",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:461",
+                  "way": "in",
+                  "treatment": -31349,
+                  "control": 0,
+                  "journal": "journal:2025-05-01:31905"
+                },
+                {
+                  "target": "person_0d966ff781d88870",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0d966ff781d88870",
+                  "date": "2025-12-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:461",
+                  "way": "in",
+                  "treatment": -9056,
+                  "control": -2774,
+                  "journal": "journal:2025-12-01:90277"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+              "way": "in",
+              "targets": 3,
+              "moved": 119214,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "person_6fbcb9e4fb891b2e",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcb9e4fb891b2e",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "in",
+                  "treatment": -2799,
+                  "control": 0,
+                  "journal": "journal:2025-05-01:26403"
+                },
+                {
+                  "target": "person_0d966ff781d88870",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0d966ff781d88870",
+                  "date": "2025-11-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "in",
+                  "treatment": -82796,
+                  "control": -351,
+                  "journal": "journal:2025-11-01:75813"
+                },
+                {
+                  "target": "person_00dcb5d84e33b676",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_00dcb5d84e33b676",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "in",
+                  "treatment": -34721,
+                  "control": -751,
+                  "journal": "journal:2026-01-01:94318"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "out",
+              "targets": 3,
+              "moved": 78844,
+              "earliest": "2025-01-21",
+              "sample": [
+                {
+                  "target": "person_0682d579c2eb84c6",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0682d579c2eb84c6",
+                  "date": "2025-01-21",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "out",
+                  "treatment": -359183,
+                  "control": -363454,
+                  "journal": "journal:2025-01-21:1555"
+                },
+                {
+                  "target": "person_6fbcbae4fb891ce1",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcbae4fb891ce1",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "out",
+                  "treatment": 231830,
+                  "control": 216980,
+                  "journal": "journal:2025-03-01:9317"
+                },
+                {
+                  "target": "person_0d9670f781d88a23",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0d9670f781d88a23",
+                  "date": "2025-12-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "out",
+                  "treatment": 59723,
+                  "control": 0,
+                  "journal": "journal:2025-12-01:84064"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "in",
+              "targets": 2,
+              "moved": 199132,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "person_6fbcbae4fb891ce1",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcbae4fb891ce1",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "in",
+                  "treatment": 42816,
+                  "control": 92247,
+                  "journal": "journal:2025-05-01:25433"
+                },
+                {
+                  "target": "person_0d9670f781d88a23",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0d9670f781d88a23",
+                  "date": "2025-11-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "in",
+                  "treatment": 81695,
+                  "control": 231396,
+                  "journal": "journal:2025-11-01:75524"
+                }
+              ]
+            },
+            {
+              "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+              "way": "in",
+              "targets": 2,
+              "moved": 76623,
+              "earliest": "2025-11-01",
+              "sample": [
+                {
+                  "target": "person_0d966ff781d88870",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0d966ff781d88870",
+                  "date": "2025-11-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "in",
+                  "treatment": -24325,
+                  "control": 0,
+                  "journal": "journal:2025-11-01:75552"
+                },
+                {
+                  "target": "person_0d9670f781d88a23",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0d9670f781d88a23",
+                  "date": "2025-12-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "in",
+                  "treatment": -59723,
+                  "control": -7425,
+                  "journal": "journal:2025-12-01:84237"
+                }
+              ]
+            },
+            {
+              "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+              "way": "out",
+              "targets": 2,
+              "moved": 76623,
+              "earliest": "2025-11-01",
+              "sample": [
+                {
+                  "target": "person_0d9670f781d88a23",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0d9670f781d88a23",
+                  "date": "2025-11-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -81695,
+                  "control": -106020,
+                  "journal": "journal:2025-11-01:75620"
+                },
+                {
+                  "target": "person_0d966ff781d88870",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0d966ff781d88870",
+                  "date": "2025-12-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -46297,
+                  "control": -98595,
+                  "journal": "journal:2025-12-01:84237"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/medical-bills.ts:461",
+              "way": "out",
+              "targets": 2,
+              "moved": 22199,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "person_6fbcbae4fb891ce1",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcbae4fb891ce1",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:461",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": -11747,
+                  "journal": "journal:2025-05-01:31940"
+                },
+                {
+                  "target": "person_0d966ff781d88870",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0d966ff781d88870",
+                  "date": "2025-11-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:461",
+                  "way": "out",
+                  "treatment": -9104,
+                  "control": -19556,
+                  "journal": "journal:2025-11-01:81804"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+              "way": "in",
+              "targets": 2,
+              "moved": 9828,
+              "earliest": "2025-02-06",
+              "sample": [
+                {
+                  "target": "person_75f84bd00b55fe1d",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_75f84bd00b55fe1d",
+                  "date": "2025-02-06",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+                  "way": "in",
+                  "treatment": -29691,
+                  "control": -25420,
+                  "journal": "journal:2025-02-06:8368"
+                },
+                {
+                  "target": "person_6fbcb9e4fb891b2e",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcb9e4fb891b2e",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+                  "way": "in",
+                  "treatment": -5557,
+                  "control": 0,
+                  "journal": "journal:2025-05-01:27303"
+                }
+              ]
+            }
+          ],
+          "paid": 6,
+          "pick": "accounts.transfer @ src/core2/life.ts:570|in",
+          "sample": [
+            {
+              "target": "person_0682d579c2eb84c6",
+              "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0682d579c2eb84c6",
+              "date": "2025-01-21",
+              "kind": "accounts.transfer @ src/core2/life.ts:570",
+              "way": "in",
+              "treatment": 40200,
+              "control": 44471,
+              "journal": "journal:2025-01-21:1505"
+            },
+            {
+              "target": "person_75f84bd00b55fe1d",
+              "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_75f84bd00b55fe1d",
+              "date": "2025-01-21",
+              "kind": "accounts.transfer @ src/core2/life.ts:570",
+              "way": "in",
+              "treatment": 44100,
+              "control": 48371,
+              "journal": "journal:2025-01-21:1507"
+            },
+            {
+              "target": "person_6fbcb9e4fb891b2e",
+              "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcb9e4fb891b2e",
+              "date": "2025-02-02",
+              "kind": "accounts.transfer @ src/core2/life.ts:570",
+              "way": "in",
+              "treatment": 0,
+              "control": 7425,
+              "journal": "journal:2025-02-02:8146"
+            },
+            {
+              "target": "person_6fbcbae4fb891ce1",
+              "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcbae4fb891ce1",
+              "date": "2025-02-02",
+              "kind": "accounts.transfer @ src/core2/life.ts:570",
+              "way": "in",
+              "treatment": 0,
+              "control": 7425,
+              "journal": "journal:2025-02-02:8147"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:570",
+              "way": "in",
+              "targets": 6,
+              "first": {
+                "target": "person_0682d579c2eb84c6",
+                "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0682d579c2eb84c6",
+                "date": "2025-01-21",
+                "kind": "accounts.transfer @ src/core2/life.ts:570",
+                "way": "in",
+                "treatment": 40200,
+                "control": 44471,
+                "journal": "journal:2025-01-21:1505"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "out",
+              "targets": 3,
+              "first": {
+                "target": "person_0682d579c2eb84c6",
+                "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0682d579c2eb84c6",
+                "date": "2025-01-21",
+                "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                "way": "out",
+                "treatment": -359183,
+                "control": -363454,
+                "journal": "journal:2025-01-21:1555"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "medicaid-expansion-to-coverage",
+            "status": "built",
+            "to": "health.uninsured-pct"
+          },
+          {
+            "key": "medicaid-expansion-to-mortality",
+            "status": "built",
+            "to": "health.mortality-55-64"
+          },
+          {
+            "key": "medicaid-expansion-to-medical-debt",
+            "status": "built",
+            "to": "finance.medical-debt-in-collections"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "link": "medicaid-expansion-to-coverage",
+            "effect": 0.15
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "link": "medicaid-expansion-to-coverage",
+            "effect": 0.15
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "link": "medicaid-expansion-to-coverage",
+            "effect": 0.15
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "link": "medicaid-expansion-to-coverage",
+            "effect": 0.15
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "link": "medicaid-expansion-to-coverage",
+            "effect": 0.15
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "link": "medicaid-expansion-to-coverage",
+            "effect": 0.15
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "link": "medicaid-expansion-to-coverage",
+            "effect": 0.15
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "link": "medicaid-expansion-to-coverage",
+            "effect": 0.15
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "link": "medicaid-expansion-to-medical-debt",
+            "effect": 0.34
+          }
+        ],
+        "firedCount": 9,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "medicaid-expansion-to-coverage",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "medicaid-expansion-to-mortality",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "medicaid-expansion-to-medical-debt",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 6,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "medicaid-expansion-to-coverage",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "medicaid-expansion-to-mortality",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "medicaid-expansion-to-medical-debt",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 6,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "medicaid-expansion-to-coverage",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "medicaid-expansion-to-mortality",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "medicaid-expansion-to-medical-debt",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 6,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "medicaid-expansion-to-coverage",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "medicaid-expansion-to-mortality",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "medicaid-expansion-to-medical-debt",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 6,
+            "treated": 0,
+            "control": 1
+          }
+        ],
+        "reenacted": {
+          "id": "law:US-NE:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-09-03:LB 4",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        }
+      },
+      "heard": {
+        "people": 76,
+        "sample": [
+          "person_e02fea68a64aaf0b:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035",
+          "person_014872ba8397579a:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035",
+          "person_e02fe968a64aad58:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 10,
+        "countedGroups": 2,
+        "countedPeople": 17,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 12,
+        "ended": 2,
+        "sample": [
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcbae4fb891ce1|2025-09-03",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_6fbcb9e4fb891b2e|2025-09-03",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_75f84bd00b55fe1d|2025-09-03",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0682d579c2eb84c6|2025-09-03"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "seconds": 73
+    }
+  ]
+}
