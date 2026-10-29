@@ -279,6 +279,7 @@ export function takeCensus(api: CoreAPI): Census {
   const citizenShare = citizenShareOf(
     core.placeMetadata.placeKey as string | undefined,
     chain.stateKey.slice(3),
+    core.seed,
   );
   const minAge = safetyParameter("offendingAgeFrom");
   const playerHome = core.playerId

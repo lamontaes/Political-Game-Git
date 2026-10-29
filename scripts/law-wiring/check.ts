@@ -53,6 +53,8 @@ import {
   type Reached,
 } from "./own-payments";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
+import { countyNonattainment } from "../../src/core2/business-operating-rules";
+import { HOUSING_MODULE_ID } from "../../src/core2/modules/housing";
 import type { LawRowInput } from "../../src/core2/laws-starting";
 import { townSeats } from "../../src/core2/modules/offices";
 import { draftBill, type Provision } from "../../src/core2/modules/legislature";
@@ -515,6 +517,97 @@ function stepHearing(
       if (heard.sample.length < 3 && !heard.sample.includes(id))
         heard.sample.push(id);
   }
+}
+
+/** Who a law could bind in the drawn place: the subjects its handler applies it to. */
+interface Subjects {
+  count: number;
+  why: string;
+  ids: string[];
+}
+
+/**
+ * For a law whose handler binds only one kind of subject, who in the drawn
+ * place it could bind, read from the records the handler reads: none means
+ * reaching nobody here is the statute's own terms, not a missing wire.
+ */
+const SUBJECTS: Readonly<
+  Record<string, (core: CoreState, since: string) => Subjects>
+> = {
+  // routeCompliance in modules/business.ts: a county out of attainment of an
+  // air quality standard (EPA Green Book) puts the plan's duty on its emitters.
+  "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties":
+    (core) => {
+      const county = core.placeMetadata?.housingCounty ?? "";
+      const year = Number(core.date.slice(0, 4));
+      const rows = county
+        ? countyNonattainment(county, year).filter((row) => !row.revoked)
+        : [];
+      return {
+        count: rows.length,
+        why: `county ${county || "(none)"} misses ${rows.length} air quality standards in ${year} (EPA Green Book)`,
+        ids: rows.map((row) => `${county}:${row.standard}`),
+      };
+    },
+  // The groundwater cap in modules/business.ts binds the town's open farms.
+  "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal":
+    (core) => {
+      const town = lawChain(coreAPI(core)).townPlaceId;
+      const farms = [...core.finance.businesses]
+        .filter(
+          ([id, book]) =>
+            !book.closedAt &&
+            core.organizations.get(id)?.placeId === town &&
+            (core.organizations.get(id)?.classification ?? "").startsWith(
+              "enterprise:agriculture",
+            ),
+        )
+        .map(([id]) => id);
+      return {
+        count: farms.length,
+        why: `${farms.length} open farms in the town`,
+        ids: farms.slice(0, 3),
+      };
+    },
+  // payCounsel in modules/housing.ts: a lawyer at the hearing of an eviction case.
+  "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": (
+    core,
+    since,
+  ) => {
+    const cases = core.modules.has(HOUSING_MODULE_ID)
+      ? (
+          coreAPI(core)
+            .moduleState(HOUSING_MODULE_ID)
+            .table("cases")
+            .rows() as unknown as { id: string; filedAt?: string }[]
+        ).filter((row) => row.filedAt && row.filedAt >= since)
+      : [];
+    return {
+      count: cases.length,
+      why: `${cases.length} eviction cases filed in the window`,
+      ids: cases.slice(0, 3).map((row) => row.id),
+    };
+  },
+};
+
+/** The law's own applied rows in the window and how many record an amount owed, paid, taken or held. */
+function appliedAmounts(
+  core: CoreState,
+  key: string,
+  lawIds: ReadonlySet<string> | null,
+): { rows: number; withAmount: number; sample: string[] } {
+  const out = { rows: 0, withAmount: 0, sample: [] as string[] };
+  if (!core.modules.has(LAW_REACH_HOST_ID)) return out;
+  for (const row of coreAPI(core)
+    .moduleState(LAW_REACH_HOST_ID)
+    .table(LAW_APPLIED_TABLE)
+    .query("byKey", [key, null]) as unknown as LawAppliedRow[]) {
+    if (lawIds && !lawIds.has(row.lawId)) continue;
+    out.rows += 1;
+    if (row.amountMinor) out.withAmount += 1;
+    if (out.sample.length < 3) out.sample.push(row.id);
+  }
+  return out;
 }
 
 function reachedTargets(
@@ -1200,6 +1293,8 @@ function checkLaw(
   // Once a body's own row takes over, the people the change reached cite that
   // row, so an enactment's reach is its widest step in the window.
   const reachAtEnd = reachOf(core, law.key, ids);
+  const subjects = SUBJECTS[law.key]?.(core, since);
+  const applied = appliedAmounts(core, law.key, opening ? null : ids);
   // The law's own payments to whom it reached, against the control world.
   const own = ownPayments(
     (id) => core.households.get(id)?.memberIds ?? [],
@@ -1415,6 +1510,8 @@ function checkLaw(
     reach,
     reachAtEnd,
     inPlay,
+    ...(subjects ? { subjects } : {}),
+    applied,
     readers: Object.fromEntries([...readers].sort((a, b) => b[1] - a[1])),
     openingRow,
     money: {

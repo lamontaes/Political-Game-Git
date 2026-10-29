@@ -2,7 +2,6 @@
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, mountPagers, buttonRow } from "./ui/button.mjs";
-import { fillChoiceMenu } from "./ui/menu.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import {
   talkLine,
@@ -29,11 +28,12 @@ import {
   noteLine,
   withNotes,
 } from "./ui/list-row.mjs";
-import { pageIn, pageWhenChanged, menuPages, pagerWords } from "./ui/pager.mjs";
+import { pageIn, pageWhenChanged, pagerWords } from "./ui/pager.mjs";
 import { fillArtwork } from "./ui/picture.mjs";
 import { barChart } from "./ui/chart.mjs";
 import {
   select,
+  searchBox,
   checkboxSetting,
   optionsOf,
   statusLine,
@@ -353,11 +353,12 @@ const learned = new Set(
   })(),
 );
 let tipTerm;
-function showTip(node, key) {
-  const term = guideTerms.get(key);
+/** The hover card at a node: a term and its line; a Guide term can be marked learned. */
+function showTipAt(node, { term, short, key }) {
   tipTerm = { node, key };
-  $("tip-term").textContent = term.term;
-  $("tip-short").textContent = term.short;
+  $("tip-term").textContent = term;
+  $("tip-short").textContent = short;
+  $("tip-learned").hidden = !key;
   show("tip", true);
   const box = node.getBoundingClientRect();
   const tip = $("tip");
@@ -366,6 +367,10 @@ function showTip(node, key) {
     box.bottom + tip.offsetHeight + 12 < window.innerHeight
       ? `${box.bottom + 6}px`
       : `${box.top - tip.offsetHeight - 6}px`;
+}
+function showTip(node, key) {
+  const term = guideTerms.get(key);
+  showTipAt(node, { term: term.term, short: term.short, key });
 }
 function hideTipSoon() {
   setTimeout(() => {
@@ -424,31 +429,13 @@ const words = (key) => {
 const amount = (value, unit) => {
   if (unit?.startsWith("minor"))
     return `${moneyWords(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+  // A rate as a person would say it: at most two decimals (a combined sales
+  // tax of 8.773% reads 8.77%; Medicare's 1.45% stays itself).
   if (unit?.startsWith("percent"))
-    return `${value}%${unit.length > 7 ? ` ${unit.slice(8).replace(/-/g, " ")}` : ""}`;
+    return `${Number(Number(value).toFixed(2))}%${unit.length > 7 ? ` ${unit.slice(8).replace(/-/g, " ")}` : ""}`;
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
   return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
 };
-/**
- * Who sets a level's rate: the level and the government its seats name
- * ("State · Texas"). A stand-in row from another series (a state's average
- * local sales tax where the town records none) says what it is instead.
- */
-const lawLevelLabel = (law, level) =>
-  [
-    controls.levels?.[level.level] ?? words(level.level),
-    level.row.series !== law.series
-      ? `${words(level.row.series)}${level.row.estimate ? ` · ${words("estimate")}` : ""}`
-      : level.government,
-  ]
-    .filter(Boolean)
-    .join(" · ");
-/** A law's later phase as a level row, with the government its level names. */
-const pendingLevel = (law, row) => ({
-  level: row.level,
-  row,
-  government: law.levels.find((l) => l.level === row.level)?.government,
-});
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -1127,10 +1114,6 @@ $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
     filing = undefined;
-    filingNarrated = false;
-    show("filing-overlay", false);
-    $("game").classList.remove("filing-open");
-    delete $("filing-title").dataset.contest;
     show("talk", false);
     await refresh();
     renderPacket();
@@ -1175,20 +1158,13 @@ function renderFiling(value) {
   // At the counter you can walk out; silence there is not an answer.
   talkControls({ silent: false, leave: true });
   fillTalk({ lines: spokenLines(lines) });
-  renderFilingOverlay(value);
-  // More races than the talk can hold open as a menu beside it, never as a long
-  // numbered list in the talk box (owner, Oct 26).
-  const races = value.visit.choices.filter((c) => c.action.kind === "pick");
-  const asMenu = races.length > 4;
+  // No form at the counter (owner, Oct 28, point 31: the rules panel was a
+  // dev menu): filing carries the party the player is tied to, from the
+  // record; the platform is SG-SCREENS-filing-platform-from-views.
   const choose = async (choice) => {
-    // Filing carries the platform and party chosen on the overlay.
     const params = new URLSearchParams({ key: choice.key });
-    if (choice.action.kind === "file") {
-      for (const select of $("filing-platform").querySelectorAll("select"))
-        if (select.value)
-          params.append("stance", `${select.name}=${select.value}`);
-      params.set("party", $("filing-party").value);
-    }
+    if (choice.action.kind === "file" && value.overlay?.party)
+      params.set("party", value.overlay.party);
     renderFiling(await post(`/api/filing/choose?${params}`));
   };
   // Each race told apart before the pick: its seat, its election day and
@@ -1203,33 +1179,15 @@ function renderFiling(value) {
       seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
     ].join(" · ");
   };
-  const choices = value.visit.choices
-    .filter((c) => !(asMenu && c.action.kind === "pick"))
-    .slice(0, 6);
+  // The counter offers six replies at most (SG-SCREENS-counter-six-replies);
+  // every race is a way in from the office's own view in Travel.
+  const choices = value.visit.choices.slice(0, 6);
   const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
     if (choice.action.kind !== "pick") return;
     buttons[i].append(smallText(factsOf(choice), "reply-facts"));
+    officeTip(buttons[i], choice.action.contestId, value);
   });
-  if (asMenu) {
-    fillChoiceMenu($("race-menu"), {
-      title: counter.openRaces,
-      rows: races.map((choice) => ({
-        key: choice.key,
-        label:
-          value.visit.contests.find((c) => c.id === choice.action.contestId)
-            ?.title ?? choice.text,
-        facts: factsOf(choice),
-      })),
-      onPick: (key) => choose(races.find((c) => c.key === key)),
-      paged: (items) => menuPages(items, 8),
-    });
-    buttons.unshift(
-      talkReply({}, counter.chooseRace, () => show("race-menu", true)),
-    );
-    if (!value.result && !value.overlay) show("race-menu", true);
-  }
-  if (!asMenu || value.overlay) show("race-menu", false);
   fillTalk({ replies: buttons });
   // The filing's record once it is made: its status, shown as the record's
   // label under the talk, not as words in the clerk's mouth.
@@ -1249,62 +1207,48 @@ function renderFiling(value) {
     );
   setScales({ available: false });
 }
-/** The named office's rules from its records, with the platform and party to file under. */
-function renderFilingOverlay(value) {
-  const overlay = value?.overlay;
-  const open = Boolean(overlay && !value.result);
-  show("filing-overlay", open);
-  // The news card sits where the overlay does; it waits until the counter closes.
-  $("game").classList.toggle("filing-open", open);
-  if (!overlay || $("filing-title").dataset.contest === overlay.contestId)
-    return;
-  $("filing-title").dataset.contest = overlay.contestId;
-  $("filing-title").textContent = overlay.title;
-  // Each rule by its control name; the filing deadline is one of the rules.
-  const ruleNames = controls.filing?.rules ?? {};
-  $("filing-checks").replaceChildren(
-    ...overlay.checks.map((check) => {
-      const line = row(
-        ruleNames[check.rule] ?? words(check.rule),
-        `${dateOrValue(check.actual ?? "")}${check.required ? ` / ${dateOrValue(check.required)}` : ""}${check.metOn ? ` · ${controls.filing?.metOn ?? ""} ${dateWords(check.metOn)}` : ""}`,
-      );
-      if (!check.met) line.classList.add("unmet");
-      return line;
-    }),
+/**
+ * An office explained on hover (owner, Oct 28, point 30: "Hovering Trustee
+ * should explain what the office does"): the hover card with what the
+ * records know of it: its district, the election day and who holds the
+ * seat now. The office's duties in words are the words session's
+ * (SG-SCREENS-office-hover-prose).
+ */
+function officeTip(node, contestId, value) {
+  const contest = value.visit.contests.find((c) => c.id === contestId);
+  const seat = value.seats?.[contestId];
+  if (!contest) return;
+  const facts = [
+    contest.district ? `${controls.travel.district} ${contest.district}` : null,
+    seat?.electionDate
+      ? `${controls.filing.election} ${dateWords(seat.electionDate)}`
+      : null,
+    seat?.holder
+      ? `${controls.filing.heldBy} ${seat.holder}`
+      : controls.filing.openSeat,
+  ].filter(Boolean);
+  node.addEventListener("mouseenter", () =>
+    showTipAt(node, { term: contest.title, short: facts.join(" · ") }),
   );
-  $("filing-platform").replaceChildren(
-    ...overlay.questions.map((question) =>
-      listRow(
-        "",
-        {},
-        bold(policyLabel(question)),
-        select({
-          name: question,
-          options: [
-            { value: "", label: controls.filing?.noStance ?? "" },
-            { value: "1", label: controls.filing?.for ?? "" },
-            { value: "-1", label: controls.filing?.against ?? "" },
-          ],
-        }),
-      ),
-    ),
-  );
-  $("filing-party").replaceChildren(
-    ...optionsOf([
-      { value: "", label: controls.filing?.noStance ?? "" },
-      ...overlay.parties.map((name) => ({
-        value: name,
-        label: name,
-        selected: name === overlay.party,
-      })),
-    ]),
-  );
+  node.addEventListener("mouseleave", hideTipSoon);
 }
-async function openFiling(filedWith) {
+async function openFiling(filedWith, contestId) {
   closeSheet();
   renderTalk(undefined);
+  const opened = await post(
+    `/api/filing/open?filedWith=${encodeURIComponent(filedWith)}`,
+  );
+  const pick =
+    contestId &&
+    opened.visit?.choices.find(
+      (c) => c.action.kind === "pick" && c.action.contestId === contestId,
+    );
   renderFiling(
-    await post(`/api/filing/open?filedWith=${encodeURIComponent(filedWith)}`),
+    pick
+      ? await post(
+          `/api/filing/choose?${new URLSearchParams({ key: pick.key })}`,
+        )
+      : opened,
   );
 }
 
@@ -1352,43 +1296,6 @@ let speechState = null;
  * with each filer by name, from the filing records, marked unopposed or
  * unfilled where that is what the records hold.
  */
-async function localRacesBlock() {
-  const { date, races } = await api("/api/government/local-races");
-  const labels = controls.localRaces;
-  // A block of its own: each race is a row under the title, not squeezed beside it.
-  const block = makeCard(
-    "race local-races",
-    {},
-    line(date ? `${labels.title} · ${dateWords(date)}` : labels.title, "label"),
-  );
-  if (!races.length) block.append(line(labels.noBallot, "label"));
-  for (const race of races) {
-    const names = race.filers.map(
-      (f) => `${f.name ?? ""}${f.party ? ` (${f.party})` : ""}`,
-    );
-    const mark = !race.filers.length
-      ? labels.noFilers
-      : race.filers.length === 1 && race.filingClosed
-        ? labels.unopposed
-        : null;
-    const line = row(
-      race.title,
-      [
-        names.join(", "),
-        mark,
-        race.filingClosed
-          ? null
-          : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
-      ]
-        .filter(Boolean)
-        .join(" · "),
-    );
-    line.classList.add("local-race");
-    line.dataset.contest = race.contestId;
-    block.append(line);
-  }
-  return block;
-}
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
@@ -2745,54 +2652,6 @@ const sheets = {
     ];
   },
   async news() {
-    // The nation, region and job numbers above the paper, from the economy's records.
-    const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
-    const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
-    const econ = controls.news?.economy ?? {};
-    // A region's series by its control name and unit; a series with no
-    // control name is not shown.
-    const count = new Intl.NumberFormat("en-US");
-    const value = (unit, v) =>
-      unit === "percent"
-        ? `${v.toFixed(1)}%`
-        : unit === "thousands"
-          ? count.format(Math.round(v * 1000))
-          : unit === "dollars"
-            ? moneyWords(Math.round(v * 100))
-            : v.toFixed(1);
-    const economy = e.nation
-      ? [
-          row(
-            `${econ.nation} · ${monthWords(e.nation.month)}`,
-            `${econ.unemployment} ${pct(e.nation.unemploymentPct)} · ${econ.inflation} ${pct(e.nation.inflationPct)} · ${econ.policyRate} ${pct(e.nation.policyRatePct)} · ${econ.mortgage} ${pct(e.nation.mortgage30Pct)}`,
-          ),
-          ...(e.region
-            ? [
-                // The region's rate under the area it covers, beside the nation's.
-                row(
-                  `${e.region.name ? e.region.name.replace(/^./, (c) => c.toUpperCase()) : econ.region} · ${monthWords(e.region.month)}`,
-                  Object.entries(e.region)
-                    .filter(
-                      ([k, v]) => typeof v === "number" && econ.series?.[k],
-                    )
-                    .map(
-                      ([k, v]) =>
-                        `${econ.series[k].label} ${value(econ.series[k].unit, v)}`,
-                    )
-                    .join(" · "),
-                ),
-              ]
-            : []),
-          ...(e.jobs
-            ? [
-                row(
-                  econ.jobsHere,
-                  `${e.jobs.employed} ${econ.employed} · ${e.jobs.seekers} ${econ.looking} · ${e.jobs.openPositions} ${econ.open}`,
-                ),
-              ]
-            : []),
-        ]
-      : [];
     const labels = controls.news;
     // One feed, what you heard, newest first: News and the toast read the
     // news engine's same stories through storyHeadline.
@@ -2815,7 +2674,6 @@ const sheets = {
         stories: [],
       });
     return [
-      ...economy,
       ...newspaperScreen({
         outlets,
         labels,
@@ -2824,56 +2682,6 @@ const sheets = {
         photoOf: storyPhoto,
       }),
     ];
-  },
-  /**
-   * Politics' own guide: what each tab is for, a page each, then how a
-   * player could run here, from the filing records: the race, the office
-   * that takes filings, and the dates.
-   */
-  async politicsGuide() {
-    const labels = controls.politics.guide;
-    const [government, terms] = await Promise.all([
-      api(`/api/government?id=${encodeURIComponent(me.id)}`),
-      api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
-    ]);
-    const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
-    const next = government.nextFiling;
-    return recordScreen({
-      paged: true,
-      sections: [
-        ...["government", "issues", "parties", "campaigns"].map((tab) => ({
-          title: controls.titles[tab],
-          items: [{ text: labels[tab] }],
-        })),
-        {
-          title: labels.runHere,
-          items: next
-            ? [
-                { fact: [labels.race, next.title] },
-                {
-                  fact: [
-                    labels.filesWith,
-                    next.filedWith.replace(
-                      /\s*\(counter: ([^)]*)\)/g,
-                      `, ${labels.atTheDeskOf} $1`,
-                    ),
-                  ],
-                },
-                { fact: [labels.filingOpens, dateWords(next.filingOpens)] },
-                {
-                  fact: [labels.filingDeadline, dateWords(next.filingDeadline)],
-                },
-                deadlineTerm && { text: deadlineTerm.short, tone: "small" },
-                next.primaryDate && {
-                  fact: [labels.primary, dateWords(next.primaryDate)],
-                },
-                { fact: [labels.election, dateWords(next.electionDate)] },
-                next.estimated && { text: labels.estimated, tone: "small" },
-              ]
-            : [{ text: labels.noRace }],
-        },
-      ],
-    });
   },
   async guide() {
     return listScreen({
@@ -2949,7 +2757,6 @@ const sheets = {
             {
               actions: [
                 { label: labels.continue, onClick: closeSheet },
-                { label: labels.guide, onClick: () => openSheet("guide") },
                 // Dev mode, for a developer's session only.
                 {
                   label: labels.devMode,
@@ -2974,19 +2781,32 @@ const sheets = {
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.travel;
-    // The offices that take your filings: one card each, naming the races.
+    // The offices that take your filings: one card each, with its races.
     const byOffice = new Map();
     for (const c of government.contests) {
       const filedWith = c.filingOffice.filedWith;
       const name = filedWith.replace(/\s*\([^)]*\)/g, "");
       if (!byOffice.has(name))
-        byOffice.set(name, { name, filedWith, titles: [], filing: true });
-      byOffice.get(name).titles.push(c.contest.title);
+        byOffice.set(name, { name, filedWith, races: [], filing: true });
+      const office = byOffice.get(name);
+      if (!office.races.some((race) => race.contestId === c.contest.id)) {
+        const seat = government.seats.find(
+          (row) => row.seatId === c.contest.seatId,
+        );
+        office.races.push({
+          contestId: c.contest.id,
+          title: c.contest.title,
+          district: c.contest.district ?? null,
+          electionDate: c.contest.electionDate,
+          holder: seat?.holder
+            ? `${seat.holder.givenName} ${seat.holder.familyName}`
+            : null,
+        });
+      }
     }
     const counters = await Promise.all(
       [...byOffice.values()].map(async (office) => ({
         ...office,
-        titles: [...new Set(office.titles)],
         presentation: {
           imageUrl: (
             await api(
@@ -2997,31 +2817,134 @@ const sheets = {
       })),
     );
     const destinations = [...counters, ...places];
-    // Why each card is listed, from the record that qualified it.
-    // Three offices named, the rest counted, so a card stays a card.
-    const someTitles = (titles) =>
-      titles.length > 3
-        ? `${titles.slice(0, 3).join(", ")} ${labels.andOthers.replace("{n}", titles.length - 3)}`
-        : titles.join(", ");
+    // Why each card is listed, from the player's own record: where they work,
+    // what they can do there, where they serve, where they file. Never what
+    // someone they know does there (owner, Oct 28, point 27: "things do not
+    // pop up because someone the player knows does them").
+    const OWN = new Set(["work", "action", "serve"]);
     const reasonLine = (p) =>
       p.filing
-        ? `${labels.reasons.filing} ${someTitles(p.titles)}`
-        : [
-            ...p.reasons.map((r) =>
-              r.kind === "known"
-                ? `${p.known.find((k) => k.personId === r.recordId)?.name} ${labels.reasons.known}`
-                : r.kind === "action"
-                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
-                  : labels.reasons[r.kind],
-            ),
-          ].join(" · ");
+        ? labels.reasons.filing
+        : p.reasons
+            .filter((r) => OWN.has(r.kind))
+            .map((r) =>
+              r.kind === "action"
+                ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
+                : labels.reasons[r.kind],
+            )
+            .join(" · ");
     // Open while someone works there now, by their own hours; else closed.
     const hereLine = (p) =>
       p.filing
         ? labels.filing
         : p.presentCount
-          ? `${labels.open} · ${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
+          ? `${labels.open} · ${p.presentNames.join(", ")}`
           : labels.closed;
+    // A card opens the place's own view: its picture, what you do there, who
+    // works there, then Go (owner, Oct 28, point 28).
+    const showPlace = (p) => {
+      const picture = p.presentation?.imageUrl;
+      // Each race named apart: its district, and its election day when two
+      // races for the same office are open at once (a regular and a special).
+      // A district code on the record ("02", "004") reads as "District 2".
+      const district = (code) =>
+        /^\d+$/.test(code) ? `${labels.district} ${Number(code)}` : code;
+      const name = (race) =>
+        race.district
+          ? `${race.title}, ${district(race.district)}`
+          : race.title;
+      // Two races for the same office at once (three selectmen's seats up
+      // the same day) are told apart by who holds each seat now, then by the
+      // election day (a regular and a special), then by their place in the
+      // office's list.
+      const counter = controls.filing;
+      const raceLabel = (race) => {
+        let named = name(race);
+        const twins = (label) =>
+          p.races.filter((other) => label(other) === label(race));
+        if (twins(name).length > 1) {
+          const held = (r) =>
+            `${name(r)} · ${r.holder ? `${counter.heldBy} ${r.holder}` : counter.openSeat}`;
+          named = held(race);
+          if (twins(held).length > 1 && race.electionDate) {
+            const dated = (r) =>
+              `${held(r)} · ${dateWords(r.electionDate ?? "")}`;
+            named = dated(race);
+            if (twins(dated).length > 1)
+              named = `${named} · ${counter.seat} ${twins(dated).indexOf(race) + 1}`;
+          }
+        }
+        return named;
+      };
+      const doHere = p.filing
+        ? [
+            {
+              actions: p.races.map((race) => ({
+                label: raceLabel(race),
+                onClick: () => openFiling(p.filedWith, race.contestId),
+              })),
+            },
+          ]
+        : reasonLine(p)
+          ? reasonLine(p)
+              .split(" · ")
+              .map((text) => ({ text }))
+          : [];
+      // The counter's role, from the office's record ("(counter: director)").
+      const role = p.filing
+        ? (p.filedWith.match(/\(counter: ([^)]*)\)/)?.[1] ?? "")
+        : "";
+      const known = new Set((p.known ?? []).map((k) => k.name));
+      const people = p.filing
+        ? role
+          ? [{ text: words(role) }]
+          : []
+        : [
+            ...(p.known ?? []).map((k) => ({
+              node: personRow({
+                name: k.name,
+                onOpen: () => {
+                  closeSheet();
+                  showPerson({ personId: k.personId });
+                },
+              }),
+            })),
+            ...p.presentNames
+              .filter((name) => !known.has(name))
+              .map((name) => ({ text: name })),
+            ...(p.staff
+              ? [{ text: `${p.staff} ${labels.staff}`, tone: "small" }]
+              : []),
+          ];
+      const go = {
+        actions: [
+          {
+            label: labels.go,
+            testid: "place-go",
+            onClick: () =>
+              p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+          },
+        ],
+      };
+      $("sheet-body").replaceChildren(
+        ...recordScreen({
+          heading: { name: p.name, meta: hereLine(p) },
+          // Go sits under the picture, in view whatever the office takes: an
+          // office with fifteen races runs past the window, and the sheet's
+          // own page-turner then turns the races, never the way in.
+          sections: [
+            { items: [picture ? { picture } : null, go] },
+            ...(doHere.length
+              ? [{ title: labels.whatYouDo, items: doHere }]
+              : []),
+            ...(people.length
+              ? [{ title: labels.whoWorks, items: people }]
+              : []),
+          ],
+        }),
+      );
+      $("sheet-body").classList.add("place-view");
+    };
     return listScreen({
       search: { placeholder: labels.search },
       layout: "cards",
@@ -3035,9 +2958,8 @@ const sheets = {
             picture: p.presentation?.imageUrl,
             lines: [hereLine(p)],
             note: reasonLine(p),
-            label: `${labels.go}: ${p.name}`,
-            onSelect: () =>
-              p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+            label: p.name,
+            onSelect: () => showPlace(p),
             // The record behind the reason, for the specs; never shown as text.
             data: {
               reason: (p.filing
@@ -3056,28 +2978,70 @@ const sheets = {
   async office() {
     return seatRows();
   },
+  /**
+   * Campaigns: the coming ballot's real races (owner, Oct 28, point 19), each
+   * opening to who runs, with their filed views, every candidate's name their
+   * card, and File for it taking you to the office that takes the filing.
+   * The player's own filed campaign stays above it (screens-campaign-board
+   * is the one board that replaces those rows).
+   */
   async campaigns() {
-    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    // A filing whose race has been decided reads as won or lost.
-    const decided = new Map(
-      (await api(`/api/results?id=${encodeURIComponent(me.id)}`))
-        .filter((race) => race.mine)
-        .map((race) => [race.contestId, race.mine.won]),
-    );
-    const labels = controls.results;
+    const [v, ballot] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api("/api/government/local-races"),
+    ]);
+    const labels = controls.localRaces;
+    const stance = voteWords();
+    const filed = new Set(v.filings.map((f) => f.contestId));
+    const candidate = (f) =>
+      withNotes(
+        personRow({
+          name: f.name ?? "",
+          party: f.party,
+          face: f.face,
+          onOpen: () => {
+            closeSheet();
+            showPerson({ personId: f.cardId, figureUrl: f.face?.url });
+          },
+        }),
+        f.stances.map((s) => ({
+          text: `${policyLabel(s.question)}: ${s.position > 0 ? (stance.for ?? "") : (stance.against ?? "")}`,
+        })),
+      );
+    const fileForIt = (race) => {
+      const b = makeButton({ textContent: labels.fileForIt });
+      b.dataset.testid = "file-for-it";
+      b.addEventListener("click", () =>
+        openFiling(race.filedWith, race.contestId),
+      );
+      return buttonRow(b);
+    };
+    const races = ballot.races.map((race) => ({
+      title: race.title,
+      value: filed.has(race.contestId)
+        ? labels.youFiled
+        : race.filers.length
+          ? labels.running.replace("{n}", race.filers.length)
+          : labels.noFilers,
+      lede: dateWords(race.electionDate),
+      note: race.filingClosed
+        ? null
+        : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
+      opens: true,
+      open: ballot.races.length === 1,
+      nodes: [
+        ...race.filers.map(candidate),
+        ...(race.filingOpen && !filed.has(race.contestId) && race.filedWith
+          ? [fileForIt(race)]
+          : []),
+      ],
+      data: { contest: race.contestId },
+    }));
     return [
-      ...(await campaignRows()),
-      await localRacesBlock(),
-      ...v.filings.map((f) =>
-        row(
-          decided.has(f.contestId)
-            ? decided.get(f.contestId)
-              ? labels.won
-              : labels.lost
-            : words(f.status),
-          f.filedWith,
-        ),
-      ),
+      ...(v.filings.length ? await campaignRows() : []),
+      ...(await listScreen({
+        entries: () => (races.length ? races : [{ title: labels.noBallot }]),
+      })),
     ];
   },
   async government() {
@@ -3108,22 +3072,27 @@ const sheets = {
           },
         })),
       });
-      if (level !== "local")
-        picker.append(
-          select({
-            className: "government-state",
-            label: labels.stateFilter,
-            value: otherState,
-            options: [
-              { value: "", label: labels.ownState },
-              ...states.map((st) => ({ value: st.key, label: st.name })),
-            ],
-            onChange: (state) => {
-              governmentState = state;
-              void redraw();
-            },
-          }),
-        );
+      // The state filter under the level tabs: the kit's dropdown in its own
+      // box, reading the player's state by name, never "Your state" (owner,
+      // Oct 28, point 15).
+      const stateFilter =
+        level !== "local"
+          ? select({
+              className: "government-state",
+              label: labels.stateFilter,
+              value: otherState,
+              options: [
+                { value: "", label: v.homeState?.name ?? labels.ownState },
+                ...states
+                  .filter((st) => st.key !== v.homeState?.key)
+                  .map((st) => ({ value: st.key, label: st.name })),
+              ],
+              onChange: (state) => {
+                governmentState = state;
+                void redraw();
+              },
+            })
+          : null;
       const holderName = (s) =>
         s.holder
           ? `${s.holder.givenName} ${s.holder.familyName}`
@@ -3341,13 +3310,14 @@ const sheets = {
       // and the notes (owner, Oct 28: real rows, not printed lines; every
       // member clickable).
       const keyLine = (k) => {
+        // A leader's post is a Guide term (Speaker, Majority leader): the
+        // carbon-copy underline, its definition on hover (owner, Oct 28,
+        // point 23); the chamber follows as a note.
+        const lead = k.post && !k.own;
         const line = withNotes(
           personRow({
             name: k.name,
-            detail:
-              k.post && !k.own
-                ? `${words(k.post)}, ${k.chamber ?? k.officeTitle}`
-                : k.officeTitle,
+            detail: lead ? termLabel(words(k.post)) : k.officeTitle,
             face: k.face,
             onOpen: () => {
               closeSheet();
@@ -3355,6 +3325,7 @@ const sheets = {
             },
           }),
           [
+            lead ? (k.chamber ?? k.officeTitle) : null,
             k.own && k.post ? words(k.post) : null,
             k.stateName,
             // The President and Vice President a territory's voters do not choose.
@@ -3377,7 +3348,7 @@ const sheets = {
       // unaffiliated.
       const party = v.party ? partyRows(v.party) : [];
       return recordScreen({
-        controls: [picker],
+        controls: [picker, stateFilter].filter(Boolean),
         // Every body and every member on the screen at once, side by side:
         // no Back and Continue in a menu (owner, Oct 28, point 22).
         grid: true,
@@ -3447,6 +3418,14 @@ const sheets = {
       })),
     });
   },
+  /**
+   * Issues: the law in force here as cards by subject (owner, Oct 28, point
+   * 21: "click an issue (minimum wage) and see the law itself and find the
+   * law"), each card opening the law's own screen: what is in force at each
+   * level and since when, the statute it rests on, the measure that enacted
+   * it, what is coming, and who voted. No row repeats the state the filter
+   * and the card already name.
+   */
   async issues() {
     const [v, changes] = await Promise.all([
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
@@ -3456,55 +3435,187 @@ const sheets = {
     // A policy question's law reads yes or no; every other law, its amount.
     const lawText = (law, value, unit) =>
       law.yesNo ? (value ? labels.yes : labels.no) : amount(value, unit);
-    return listScreen({
-      search: { placeholder: labels.searchIssues },
-      size: 4,
-      labelOf: termLabel,
-      entries: (query) =>
-        v.law
-          .filter((l) =>
-            policyLabel(l.series).toLowerCase().includes(query.toLowerCase()),
-          )
-          .map((law) => ({
-            title: policyLabel(law.series),
-            value: law.text ?? lawText(law, law.value, law.unit),
-            opens: true,
-            facts: [
-              // A level's law and when it took effect; a starting answer to a
-              // question names its statute instead, as its research did not
-              // record the day it took effect.
-              ...law.levels
-                .filter((l) => l.row)
-                .map((level) => [
-                  lawLevelLabel(law, level),
-                  [
-                    lawText(law, level.row.value, level.row.unit),
-                    !law.yesNo || level.row.terms?.enactedBy
-                      ? dateWords(level.row.effectiveDate)
-                      : level.row.terms?.cite,
-                  ]
-                    .filter(Boolean)
-                    .join(" · "),
-                ]),
-              ...law.pending.map((pending) => [
-                `${lawLevelLabel(law, pendingLevel(law, pending))} · ${dateWords(pending.effectiveDate)}`,
-                lawText(law, pending.value, pending.unit),
-              ]),
-              ...[...changes.took, ...changes.ahead]
-                .filter((c) => c.series === law.series)
-                .map((change) => [
-                  dateWords(change.date),
-                  [change.measure, change.jurisdiction, change.what]
-                    .filter(Boolean)
-                    .join(" · "),
-                ]),
-              ...(law.votes ?? []).map((vote) => [
-                vote.name,
-                controls.meeting?.[vote.vote] ?? "",
-              ]),
-            ].map(([label, value]) => [label, plain(value)]),
+    // Who sets it, by level: "Federal law", "State law", the local body's.
+    const setBy = (level) => labels.issueSetBy?.[level] ?? words(level);
+    // The subject a series belongs to: the policy question's own domain
+    // ("us-policy-positions:fiscal.adopt-income-tax"), or the table's for an amount.
+    const groupOf = (series) =>
+      series.includes(":")
+        ? series.split(":")[1].split(".")[0]
+        : (labels.issueGroupOf?.[series] ?? "fiscal");
+    const governingLevel = (law) =>
+      law.governing?.level ?? law.levels.find((l) => l.row)?.level ?? null;
+    const governingRow = (law) =>
+      law.levels.find((l) => l.level === governingLevel(law))?.row ??
+      law.governing;
+    const valueText = (law) =>
+      law.text ??
+      (law.value !== null && law.value !== undefined
+        ? lawText(law, law.value, law.unit)
+        : null);
+    // The law's own screen.
+    const showLaw = async (law) => {
+      const level = governingLevel(law);
+      const inForce = law.levels
+        .filter((l) => l.row)
+        .map((l) => ({
+          fact: [
+            setBy(l.level),
+            [
+              lawText(law, l.row.value, l.row.unit),
+              l.row.effectiveDate
+                ? `${labels.since} ${dateWords(l.row.effectiveDate)}`
+                : null,
+            ]
+              .filter(Boolean)
+              .join(" · "),
+          ],
+        }));
+      // The law itself: the statute the answer rests on, and the measure
+      // of this world that enacted it, read as its paper.
+      const statutes = law.levels
+        .filter((l) => l.row?.terms?.cite)
+        .map((l) => ({ fact: [labels.statute, l.row.terms.cite] }));
+      const measures = (
+        await Promise.all(
+          law.levels
+            .filter((l) => l.row?.terms?.enactedBy)
+            .map(async (l) => {
+              const billId = l.row.terms.enactedBy;
+              const paper = await api(
+                `/api/bill?billId=${encodeURIComponent(billId)}`,
+              ).catch(() => null);
+              return paper
+                ? {
+                    actions: [
+                      {
+                        label: `${labels.enactedBy} ${paper.title}`,
+                        onClick: () =>
+                          openBillPaper(
+                            billId,
+                            (...nodes) =>
+                              $("sheet-body").replaceChildren(...nodes),
+                            () => showLaw(law),
+                          ),
+                      },
+                    ],
+                  }
+                : null;
+            }),
+        )
+      ).filter(Boolean);
+      const coming = law.pending.map((pending) => ({
+        fact: [
+          `${setBy(pending.level)} · ${dateWords(pending.effectiveDate)}`,
+          lawText(law, pending.value, pending.unit),
+        ],
+      }));
+      const changed = [...changes.took, ...changes.ahead]
+        .filter((c) => c.series === law.series)
+        .map((change) => ({
+          fact: [
+            dateWords(change.date),
+            [change.measure, change.what].filter(Boolean).join(" · "),
+          ],
+        }));
+      const votes = (law.votes ?? []).map((vote) => ({
+        fact: [vote.name, controls.meeting?.[vote.vote] ?? ""],
+      }));
+      if (openTab !== "issues") return;
+      // One law reads in one column, in a panel that ends under it.
+      $("sheet-body").classList.remove("cols");
+      $("sheet").classList.add("fits");
+      $("sheet-body").replaceChildren(
+        ...recordScreen({
+          heading: {
+            name: policyLabel(law.series),
+            meta: level ? setBy(level) : "",
+          },
+          lede: valueText(law),
+          sections: [
+            {
+              title: labels.inForce,
+              items: [...inForce, ...statutes, ...measures],
+            },
+            coming.length && { title: labels.coming, items: coming },
+            changed.length && { title: labels.changed, items: changed },
+            votes.length && { title: labels.votes, items: votes },
+          ].filter(Boolean),
+        }),
+      );
+    };
+    // The cards, by subject, narrowed by the search.
+    const card = (law) => {
+      const level = governingLevel(law);
+      const row = governingRow(law);
+      return {
+        title: policyLabel(law.series),
+        value: valueText(law),
+        lines: [
+          level
+            ? `${setBy(level)}${row?.effectiveDate ? ` ${labels.since} ${row.effectiveDate.slice(0, 4)}` : ""}`
+            : null,
+        ],
+        label: policyLabel(law.series),
+        onSelect: () => void showLaw(law),
+        data: { series: law.series },
+      };
+    };
+    const order = Object.keys(labels.issueGroups ?? {});
+    const screen = async (query) => {
+      const match = (law) =>
+        policyLabel(law.series).toLowerCase().includes(query.toLowerCase());
+      const groups = new Map();
+      for (const law of v.law.filter(match)) {
+        const key = groupOf(law.series);
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(law);
+      }
+      const sections = await Promise.all(
+        [...groups]
+          .sort(([a], [b]) => order.indexOf(a) - order.indexOf(b))
+          .map(async ([key, laws]) => ({
+            title: labels.issueGroups?.[key] ?? words(key),
+            items: [
+              {
+                node: (
+                  await listScreen({
+                    entries: () =>
+                      laws
+                        .sort((a, b) =>
+                          policyLabel(a.series).localeCompare(
+                            policyLabel(b.series),
+                          ),
+                        )
+                        .map(card),
+                    layout: "cards",
+                  })
+                )[0],
+              },
+            ],
           })),
-    });
+      );
+      return recordScreen({
+        controls: [
+          searchBox({
+            value: query,
+            placeholder: labels.searchIssues,
+            onInput: async (text) => {
+              const nodes = await screen(text);
+              if (openTab !== "issues") return;
+              // The sheet's own rule: many sections flow in columns across
+              // the window, a few sit in a panel that ends under them.
+              const cols = nodes.length > 12;
+              $("sheet-body").classList.toggle("cols", cols);
+              $("sheet").classList.toggle("fits", !cols);
+              $("sheet-body").replaceChildren(...nodes);
+            },
+          }),
+        ],
+        sections,
+      });
+    };
+    return screen("");
   },
 };
 // Screens shown as tabs across the top of one menu screen.
@@ -3516,7 +3627,6 @@ const groups = {
     "parties",
     "issues",
     "budgets",
-    "politicsGuide",
   ],
   who: ["who", "jobs"],
 };
@@ -3569,6 +3679,9 @@ async function openSheet(tab) {
   );
   const character = tab === "who";
   $("sheet").classList.toggle("character-sheet", character);
+  // News is the paper itself: the sheet is the page, its masthead the title
+  // (owner, Oct 28, point 25).
+  $("sheet").classList.toggle("paper-sheet", tab === "news");
   $("sheet-media").hidden = !character;
   fillArtwork(
     $("sheet-media"),
@@ -3584,6 +3697,7 @@ async function openSheet(tab) {
       : {},
   );
   $("sheet-body").replaceChildren(...body);
+  $("sheet-body").classList.remove("place-view");
   $("sheet-body").classList.toggle(
     "cols",
     tab !== "who" && tab !== "calendar" && body.length > 12,
@@ -3594,7 +3708,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "who"].includes(tab) &&
+    !["calendar", "people", "who", "news"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid"),
   );
@@ -3603,8 +3717,13 @@ async function openSheet(tab) {
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
+// The creator's states and towns page like every other list; nothing in a
+// menu scrolls (kit13 APPROVED; owner, Oct 28: "the Mac's native scroller").
+pageWhenChanged($("cr-states"), $("cr-states-pager"));
+pageWhenChanged($("cr-towns"), $("cr-towns-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
-// the one menu, Who you are among them. The card under it shows only the date
+// the one menu, Who you are among them, the Guide its own entry (owner, Oct 28,
+// point 23: not a tab in Politics). The card under it shows only the date
 // and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
 // The rail is named from the controls file, so it is mounted once that loads.
 void controlsReady.then(() => {
@@ -3619,6 +3738,7 @@ void controlsReady.then(() => {
       "news",
       "people",
       "travel",
+      "guide",
     ],
     controls.titles,
   );
@@ -3851,8 +3971,17 @@ $("cr-month").addEventListener("change", async () => {
 });
 $("cr-day").addEventListener("change", () => fillYears());
 $("cr-year").addEventListener("change", derivedAge);
+/** A filled field drops its missing mark and the line at the bottom. */
+function filledIn() {
+  for (const group of document.querySelectorAll("#cr-character .missing"))
+    group.classList.remove("missing");
+  $("front-status").textContent = "";
+}
+for (const id of ["cr-given", "cr-family"])
+  $(id).addEventListener("input", filledIn);
 function pickGender(g) {
   setup.gender = g;
+  filledIn();
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
     b.setAttribute("aria-pressed", String(on));
@@ -3904,10 +4033,19 @@ $("cr-character-back").addEventListener("click", () => frontPanel("front-new"));
 $("cr-character-next").addEventListener("click", () => {
   const given = $("cr-given").value.trim();
   const family = $("cr-family").value.trim();
-  if (!setup.gender || !given || !family) {
-    $("front-status").textContent = !setup.gender
-      ? $("cr-character").querySelector("legend").textContent
-      : $("cr-random-name").textContent;
+  // A field left empty is named at the bottom and its group marked until it
+  // is filled (owner, Oct 28: "It should flash red, or say what is missing
+  // at the bottom").
+  const missing = !setup.gender
+    ? { group: "gender-choices", text: controls.creator.missingGender }
+    : !given || !family
+      ? { group: "creator-name", text: controls.creator.missingName }
+      : null;
+  if (missing) {
+    $("front-status").textContent = missing.text;
+    document
+      .querySelector(`[data-testid="${missing.group}"]`)
+      .classList.add("missing");
     return;
   }
   $("front-status").textContent = "";
@@ -3925,7 +4063,17 @@ $("cr-character-next").addEventListener("click", () => {
   void showStates();
 });
 $("cr-summary").addEventListener("click", () => frontPanel("cr-character"));
-$("cr-place-back").addEventListener("click", () => frontPanel("cr-character"));
+$("cr-place-back").addEventListener("click", () => {
+  // After a state is picked, Back returns to the states, not to the name
+  // and birthday (owner, Oct 28, point 5).
+  if (setup.state) {
+    setup.state = null;
+    setup.town = null;
+    void showStates();
+    return;
+  }
+  frontPanel("cr-character");
+});
 
 // Where are you from: a state, then a city or town with its population.
 let states = [];

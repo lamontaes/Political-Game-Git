@@ -45,6 +45,8 @@ import federalBudget from "../../data/research/money/federal-budget-fy2025.json"
 import { publishedStateStake, stateStake } from "./budget-stakes";
 import { serviceChargeShares } from "./budgets-service-charges";
 import { lawChain } from "./modules/laws";
+import { partyName } from "./appointments";
+import { allOfficials } from "./modules/officials";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { REGIONAL_MODULE_ID } from "./modules/regional";
 import { publishedRegionMonths, type RegionMonth } from "./regional-model";
@@ -103,7 +105,11 @@ import {
   publishedStateExitShare,
   stateExitShare,
 } from "./modules/business";
-import { publishedUnitPrice, unitPrice } from "./modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  publishedUnitPrice,
+  unitPrice,
+} from "./modules/campaigns";
 import {
   publishedOutletLevels,
   worldOutletCounts,
@@ -113,11 +119,20 @@ import { schoolsAttended } from "./past";
 import { NEWS_MODULE_ID } from "./modules/news";
 import { publishedSupportShare, supportShare } from "./campaign-views";
 import supportData from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
+import electoralCorpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
+import {
+  citizenShareOf,
+  publishedCitizenShareOf,
+  stateRightShare,
+  stateTwoPartyVotes,
+} from "./electorate-places";
+import { contestedStates2024 } from "./officials-president";
+import { worldRoster } from "./modules/elections";
+import partyCountsData from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
-  "realistic-elections-per-world": [42, 45],
   "world-disasters-from-conditions": [41],
 };
 // Drawn, each with its own two-world test: row 6 in housing-world.test.ts,
@@ -817,6 +832,155 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     }
     process.stdout.write(
       `VOTES-AND-POLLS ${where}: ${shared.length} past races (${large.length} of a thousand votes or more) cast ${cast(racesA)} and ${cast(racesB)} votes; ${questions[0]} polls ${supportShare(a.seed, questions[0]!).toFixed(3)} and ${supportShare(b.seed, questions[0]!).toFixed(3)} against ${publishedSupportShare(questions[0]!)}\n`,
+    );
+  });
+
+  it("the 2024 vote by state and county, its turnout, the town's citizen share and the contested map (audit row 42)", () => {
+    const states = (
+      electoralCorpus as unknown as {
+        presidentialByState: {
+          stateUsps: string;
+          totalsByParty: Record<string, number>;
+        }[];
+      }
+    ).presidentialByState;
+    expect(states.length, where).toBeGreaterThan(0);
+    for (const { stateUsps: usps, totalsByParty } of states) {
+      const dem = totalsByParty.democratic ?? 0,
+        rep = totalsByParty.republican ?? 0;
+      const shareA = stateRightShare(usps, a.seed)!,
+        shareB = stateRightShare(usps, b.seed)!;
+      expect(shareA, `${where} row 42 ${usps} share`).not.toBeCloseTo(
+        rep / (dem + rep),
+        6,
+      );
+      expect(shareA, `${where} row 42 ${usps} share`).not.toBe(shareB);
+      expect(
+        stateTwoPartyVotes(usps, a.seed),
+        `${where} row 42 ${usps} votes`,
+      ).not.toBe(stateTwoPartyVotes(usps, b.seed));
+    }
+    const usps = lawChain(coreAPI(a)).stateKey.slice(3);
+    const placeKey = a.placeMetadata.placeKey as string | undefined;
+    const published = publishedCitizenShareOf(placeKey, usps);
+    if (published < 1) {
+      expect(
+        citizenShareOf(placeKey, usps, a.seed),
+        `${where} row 42 citizens`,
+      ).not.toBe(published);
+      expect(
+        citizenShareOf(placeKey, usps, a.seed),
+        `${where} row 42 citizens`,
+      ).not.toBe(citizenShareOf(placeKey, usps, b.seed));
+    }
+    // The campaigns engine's starting town lean: the House district's 2024
+    // vote as each world's swing moved it.
+    const townLean = (core: CoreState) =>
+      (
+        coreAPI(core)
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("town")
+          .get("town") as unknown as { lean: number } | undefined
+      )?.lean;
+    const leanA = townLean(a),
+      leanB = townLean(b);
+    expect(leanA, `${where} row 42 town lean`).toBeDefined();
+    if (leanA !== 0 && Math.abs(leanA!) < 1)
+      expect(leanA, `${where} row 42 town lean`).not.toBe(leanB);
+    const map = (seed: string) =>
+      contestedStates2024(seed)
+        .map((s) => `${s.usps}:${s.democraticTwoPartyShare.toFixed(6)}`)
+        .join(" ");
+    expect(map(a.seed), `${where} row 42 contested map`).not.toBe(map(b.seed));
+    process.stdout.write(
+      `VOTE-2024 ${where}: town lean ${leanA?.toFixed(4)} and ${leanB?.toFixed(4)}; ${usps} opens at ${stateRightShare(usps, a.seed)?.toFixed(4)} and ${stateRightShare(usps, b.seed)?.toFixed(4)} Republican; contested ${contestedStates2024(
+        a.seed,
+      )
+        .map((s) => s.usps)
+        .join(",")} and ${contestedStates2024(b.seed)
+        .map((s) => s.usps)
+        .join(",")}\n`,
+    );
+  });
+
+  it("who holds the legislatures, Congress and the governorships (audit row 45)", () => {
+    // Every chamber's party counts and every congressional seat's holder.
+    const seats = (roster: ReturnType<typeof worldRoster>) =>
+      [
+        ...Object.entries(roster.places).flatMap(([state, chambers]) =>
+          Object.entries(chambers).map(
+            ([chamber, row]) =>
+              `${state}:${chamber}:${Object.entries(row.parties)
+                .filter(([, n]) => n > 0)
+                .sort()
+                .map(([party, n]) => `${party}=${n}`)
+                .join(",")}`,
+          ),
+        ),
+        ...Object.entries(roster.congress).flatMap(([state, held]) =>
+          Object.entries(held).map(
+            ([seat, parties]) => `${state}:${seat}:${parties.join(",")}`,
+          ),
+        ),
+      ].join(";");
+    const published = seats(
+      partyCountsData as unknown as ReturnType<typeof worldRoster>,
+    );
+    const worldA = seats(worldRoster(a.seed)),
+      worldB = seats(worldRoster(b.seed));
+    expect(worldA, `${where} row 45`).not.toBe(published);
+    expect(worldA, `${where} row 45`).not.toBe(worldB);
+    // The played world's own members of Congress carry its holders: every
+    // official the officials engine seats in the House or Senate (the town's
+    // state through the offices engine's terms, every other state from the
+    // roster) is of the party the world roster holds, and some seat changed
+    // hands from the published roster.
+    const world = worldRoster(a.seed).congress;
+    const real = (partyCountsData as unknown as ReturnType<typeof worldRoster>)
+      .congress;
+    const holderIn = (
+      congress: ReturnType<typeof worldRoster>["congress"],
+      seatId: string,
+    ) => {
+      const [, stateKey, kind, last] = seatId.split(":");
+      const seats = congress[stateKey!] ?? {};
+      return kind === "us-senate"
+        ? seats.senate?.[Number(last)]
+        : seats[/^\d+$/.test(last!) ? String(Number(last)) : "0"]?.[0];
+    };
+    const members = (
+      allOfficials(coreAPI(a)) as unknown as {
+        seatId: string;
+        party: string | null;
+      }[]
+    ).filter((row) => /^seat:US-[A-Z]{2}:us-(house|senate):/.test(row.seatId));
+    expect(
+      members.length,
+      `${where} row 45: members of Congress`,
+    ).toBeGreaterThan(400);
+    const moved: string[] = [];
+    for (const row of members) {
+      const held = holderIn(world, row.seatId);
+      expect(partyName(row.party), `${where} row 45 ${row.seatId}`).toBe(
+        partyName(held ?? null),
+      );
+      if (
+        partyName(held ?? null) !==
+        partyName(holderIn(real, row.seatId) ?? null)
+      )
+        moved.push(`${row.seatId} ${partyName(held ?? null)}`);
+    }
+    expect(
+      moved.length,
+      `${where} row 45: seats that changed hands`,
+    ).toBeGreaterThan(0);
+    const changed = (left: string, right: string) => {
+      const l = left.split(";"),
+        r = right.split(";");
+      return l.filter((x, i) => x !== r[i]).length;
+    };
+    process.stdout.write(
+      `ROSTER ${where}: ${members.length} members of Congress, ${moved.length} seats changed hands (${moved.slice(0, 3).join(", ")}); ${changed(worldA, published)} chambers and seats differ from the published roster in one world, ${changed(worldB, published)} in the other\n`,
     );
   });
 

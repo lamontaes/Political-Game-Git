@@ -105,6 +105,7 @@ it("stages the filing talk only for a relative with a stake, and records what th
   let sawScene = false;
   let sawEnlist = false;
   let sawPutOff = false;
+  let sawStrain = false;
   const notes: string[] = [];
   for (
     let attempt = 0;
@@ -215,6 +216,27 @@ it("stages the filing talk only for a relative with a stake, and records what th
             );
           }
         }
+        // An ending that strains the tie is written back: the scene's record
+        // keeps it, and closeness, the engine that owns the tie, drops.
+        if (!sawStrain) {
+          const ended = paths(scene.talk.tree).find((full) => {
+            let node: TreeNode | null = scene.talk.tree;
+            for (const i of full) node = node?.replies[i]?.next ?? null;
+            return node?.end?.ending?.keeps === "relationship-strained";
+          });
+          if (ended && ended.length > 1) {
+            const before = closenessBetween(core, scene.askedId, scene.askerId);
+            const id = replyInScene(core, director, filer, entry!, ended);
+            const facts = core.durableLog.get(id!)?.facts;
+            expect(facts?.keeps, here).toBe("relationship-strained");
+            expect(
+              closenessBetween(core, scene.askedId, scene.askerId),
+              `${here}: a strained ending left the tie as it was`,
+            ).toBeLessThan(before);
+            sawStrain = true;
+            notes.push(`${here}: ending ${String(facts?.ending)} kept (${id})`);
+          }
+        }
         if (root.line.move === "deflect" && !sawPutOff) {
           const before = closenessBetween(core, scene.askedId, scene.askerId);
           const id = replyInScene(core, director, filer, entry!, path);
@@ -235,5 +257,6 @@ it("stages the filing talk only for a relative with a stake, and records what th
     true,
   );
   expect(sawPutOff, `no put-off path was played, seed ${seed}`).toBe(true);
+  expect(sawStrain, `no strained ending was played, seed ${seed}`).toBe(true);
   expect(sawEnlist, `no relative said yes to helping, seed ${seed}`).toBe(true);
 }, 1_800_000);

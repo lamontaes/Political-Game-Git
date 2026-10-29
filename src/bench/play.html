@@ -331,7 +331,7 @@
               </button>
             </div>
           </div>
-          <div class="group">
+          <div class="group" data-testid="creator-name">
             <span class="label">Name</span>
             <label class="field"
               >First name
@@ -426,6 +426,7 @@
               class="choice-list"
               data-testid="state-choices"
             ></div>
+            <div id="cr-states-pager" class="acts" data-pager hidden></div>
           </div>
           <div id="cr-town-pick" hidden>
             <button
@@ -449,6 +450,7 @@
               class="choice-list"
               data-testid="place-choices"
             ></div>
+            <div id="cr-towns-pager" class="acts" data-pager hidden></div>
           </div>
           <div class="acts">
             <button id="cr-place-back" class="action small" type="button">
@@ -572,20 +574,6 @@
           </button>
           <button id="talk-leave" class="action" type="button">Leave</button>
         </div>
-      </section>
-
-      <section id="race-menu" class="panel" hidden>
-        <span data-panel-head data-close-id="race-menu-close"></span>
-        <div data-menu-rows></div>
-      </section>
-      <section id="filing-overlay" class="panel" hidden>
-        <h2 id="filing-title" class="name"></h2>
-        <div id="filing-checks"></div>
-        <div id="filing-platform"></div>
-        <label class="row"
-          ><b>Party</b>
-          <select id="filing-party"></select
-        ></label>
       </section>
 
       <section

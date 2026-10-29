@@ -1,156 +1,6 @@
 {
   "schema": "english-grade-reach/1",
   "profiles": {
-    "address.campaign-ask.get-out-and-vote": "request|none|public",
-    "address.campaign-ask.go-vote": "request|none|public",
-    "address.campaign-ask.god-bless-america": "request|none|public",
-    "address.campaign-ask.god-bless-you": "request|none|public",
-    "address.campaign-ask.i-need-your-help": "request|none|public",
-    "address.campaign-ask.i-need-your-vote": "request|none|public",
-    "address.campaign-ask.lets-get-to-work": "request|none|public",
-    "address.campaign-ask.tell-your-friends": "request|none|public",
-    "address.campaign-ask.we-can-do-this": "request|none|public",
-    "address.campaign-issue.it-s-time-to-goal-i-ll-say-it-on-my-first-day-in-office-and-": "tell|none|public",
-    "address.campaign-issue.its-time-to-goal": "tell|none|public",
-    "address.campaign-issue.people-are-hurting": "tell|none|public",
-    "address.campaign-issue.place-deserves-better": "tell|none|public",
-    "address.campaign-issue.prices-are-too-high": "tell|none|public",
-    "address.campaign-issue.prices-are-too-high-and-the-people-of-place-are-the-ones-pay": "tell|none|public",
-    "address.campaign-issue.this-election-is-about-issue": "tell|none|public",
-    "address.campaign-issue.this-election-is-about-issue-every-family-in-place-has-a-sta": "tell|none|public",
-    "address.campaign-issue.this-is-about-issue": "tell|none|public",
-    "address.campaign-issue.this-is-about-jobs": "tell|none|public",
-    "address.campaign-issue.this-is-about-jobs-good-work-close-to-home-that-pays-enough-": "tell|none|public",
-    "address.campaign-issue.this-is-about-our-children": "tell|none|public",
-    "address.campaign-issue.this-is-about-our-children-the-schools-they-go-to-and-the-to": "tell|none|public",
-    "address.campaign-issue.we-can-do-better": "tell|none|public",
-    "address.campaign-issue.we-can-goal": "tell|none|public",
-    "address.campaign-issue.we-deserve-better": "tell|none|public",
-    "address.campaign-issue.we-have-to-goal": "tell|none|public",
-    "address.campaign-issue.we-need-to-goal": "tell|none|public",
-    "address.campaign-issue.we-need-to-goal-not-next-year-not-after-the-next-election-no": "tell|none|public",
-    "address.campaign-self.i-grew-up-in-place": "tell|none|public",
-    "address.campaign-self.i-grew-up-in-place-i-know-these-streets-and-i-know-the-peopl": "tell|none|public",
-    "address.campaign-self.i-know-what-it-s-like-to-hardship-i-haven-t-forgotten-it-and": "tell|none|public",
-    "address.campaign-self.i-know-what-its-like-to-hardship": "tell|none|public",
-    "address.campaign-self.i-was-born-and-raised-in-place": "tell|none|public",
-    "address.campaign-self.i-was-born-and-raised-in-place-everything-i-have-i-owe-to-pl": "tell|none|public",
-    "address.campaign-self.i-worked-at-employer-for-years-years": "tell|none|public",
-    "address.campaign-self.i-worked-at-employer-for-years-years-i-know-what-a-paycheck-": "tell|none|public",
-    "address.campaign-self.im-a-farmer": "tell|none|public",
-    "address.campaign-self.im-a-father": "tell|none|public",
-    "address.campaign-self.im-a-mother": "tell|none|public",
-    "address.campaign-self.im-a-nurse": "tell|none|public",
-    "address.campaign-self.im-a-small-business-owner": "tell|none|public",
-    "address.campaign-self.im-a-teacher": "tell|none|public",
-    "address.campaign-self.im-a-veteran": "tell|none|public",
-    "address.campaign-thanks.im-glad-to-be-here": "thank|none|public",
-    "address.campaign-thanks.its-good-to-be-back-in-place": "thank|none|public",
-    "address.campaign-thanks.its-good-to-be-home": "thank|none|public",
-    "address.campaign-thanks.its-great-to-be-back-in-place": "thank|none|public",
-    "address.campaign-thanks.its-great-to-be-here": "thank|none|public",
-    "address.campaign-thanks.its-great-to-be-home": "thank|none|public",
-    "address.campaign-thanks.thank-you-all-for-coming": "thank|none|public",
-    "address.chair-run-meeting.all-in-favor": "put-question|none|public",
-    "address.chair-run-meeting.all-in-favor-say-aye": "put-question|none|public",
-    "address.chair-run-meeting.all-those-in-favor-say-aye": "put-question|none|public",
-    "address.chair-run-meeting.any-opposed": "put-question|none|public",
-    "address.chair-run-meeting.ill-second": "put-question|none|public",
-    "address.chair-run-meeting.is-there-a-motion": "put-question|none|public",
-    "address.chair-run-meeting.is-there-a-second": "put-question|none|public",
-    "address.chair-run-meeting.opposed": "put-question|none|public",
-    "address.chair-run-meeting.second": "put-question|none|public",
-    "address.chair-run-meeting.thank-you-for-your-comments": "thank|none|public",
-    "address.chair-run-meeting.the-ayes-have-it": "announce-result|none|public",
-    "address.chair-run-meeting.the-motion-carries": "announce-result|none|public",
-    "address.chair-run-meeting.the-motion-passes": "announce-result|none|public",
-    "address.chair-run-meeting.the-noes-have-it": "announce-result|none|public",
-    "address.chair-run-meeting.those-opposed-say-no": "put-question|none|public",
-    "address.chair-run-meeting.without-objection-so-ordered": "announce-result|none|public",
-    "address.concession-concede.i-congratulate-opponent": "congratulate|none|public",
-    "address.concession-concede.i-want-to-congratulate-opponent": "congratulate|none|public",
-    "address.concession-concede.i-wish-opponent-well": "tell|none|public",
-    "address.concession-concede.i-wish-pronoun-obj-well": "tell|none|public",
-    "address.concession-concede.thank-you-for-everything": "thank|none|public",
-    "address.concession-concede.the-fight-goes-on": "tell|none|public",
-    "address.concession-concede.this-is-not-the-end": "tell|none|public",
-    "address.concession-concede.we-didnt-win": "tell|none|public",
-    "address.concession-concede.we-will-be-back": "tell|none|public",
-    "address.debate-moderator.thank-you-both": "thank|none|public",
-    "address.hearing-open.thank-you-all-for-being-here": "address-chair|none|public",
-    "address.hearing-open.thank-you-chairman-name": "address-chair|none|public",
-    "address.hearing-open.thank-you-chairwoman-name": "address-chair|none|public",
-    "address.hearing-open.thank-you-for-being-here": "address-chair|none|public",
-    "address.hearing-open.thank-you-for-having-me": "address-chair|none|public",
-    "address.hearing-open.thank-you-for-holding-this-hearing": "address-chair|none|public",
-    "address.hearing-open.thank-you-for-the-opportunity-to-testify": "address-chair|none|public",
-    "address.hearing-open.thank-you-for-your-testimony": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-in-opposition-to-bill": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-in-strong-support-of-bill": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-to-honor-name": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-today": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-today-in-honor-of-name": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-today-in-opposition-to-bill": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-today-in-recognition-of-nam": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-today-in-support-of-bill": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-today-to-celebrate-name": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-today-to-congratulate-name": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-today-to-honor-name": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-today-to-honor-the-life-of": "address-chair|none|public",
-    "address.house-floor-address-chair.madam-speaker-i-rise-today-to-recognize-name": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-in-opposition-to-bill": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-in-strong-support-of-bill": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-to-honor-name": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-to-recognize-name": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-today": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-today-in-honor-of-name": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-today-in-opposition-to-bill": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-today-in-recognition-of-name": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-today-in-support-of-bill": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-today-to-celebrate-name": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-today-to-congratulate-name": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-today-to-honor-name": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-today-to-honor-the-life-of-nam": "address-chair|none|public",
-    "address.house-floor-address-chair.mr-speaker-i-rise-today-to-recognize-name": "address-chair|none|public",
-    "address.house-floor-tribute-close.congratulations-name": "congratulate|none|public",
-    "address.house-floor-tribute-close.i-congratulate-name": "congratulate|none|public",
-    "address.house-floor-tribute-close.i-thank-name-for-pronoun-service": "congratulate|none|public",
-    "address.house-floor-tribute-close.i-wish-pronoun-obj-the-best": "congratulate|none|public",
-    "address.house-floor-tribute-close.please-join-me-in-congratulating-name": "congratulate|none|public",
-    "address.house-floor-tribute-close.please-join-me-in-honoring-name": "congratulate|none|public",
-    "address.house-floor-tribute-story.name-graduated-from-school": "tell|none|public",
-    "address.house-floor-tribute-story.name-grew-up-in-place": "tell|none|public",
-    "address.house-floor-tribute-story.name-is-survived-by-pronoun-husband": "tell|none|public",
-    "address.house-floor-tribute-story.name-is-survived-by-pronoun-wife": "tell|none|public",
-    "address.house-floor-tribute-story.name-was-born-in-place": "tell|none|public",
-    "address.house-floor-tribute-story.name-worked-at-employer-for-years-years": "tell|none|public",
-    "address.house-floor-yield.i-urge-a-yes-vote": "request|none|public",
-    "address.house-floor-yield.i-urge-my-colleagues-to-join-me-in-supporting-th": "request|none|public",
-    "address.house-floor-yield.i-urge-my-colleagues-to-support-this-bill": "request|none|public",
-    "address.house-floor-yield.i-urge-my-colleagues-to-vote-no": "request|none|public",
-    "address.member-ask.can-i-count-on-you": "request|none|public",
-    "address.public-comment-ask.i-urge-you-to-support-issue": "request|none|public",
-    "address.public-comment-ask.we-need-your-help": "request|none|public",
-    "address.public-comment-story.i-grew-up-here": "tell|none|public",
-    "address.public-comment-story.i-lost-my-job": "tell|none|public",
-    "address.public-comment-story.its-not-safe": "tell|none|public",
-    "address.public-comment-story.we-cant-afford-it": "tell|none|public",
-    "address.senate-floor-address-chair.i-yield-the-floor": "address-chair|none|public",
-    "address.senate-floor-address-chair.mr-president-i-rise-today-to-honor-name": "address-chair|none|public",
-    "address.state-floor-address-chair.thank-you-madam-chair": "address-chair|none|public",
-    "address.state-floor-address-chair.thank-you-madam-president": "address-chair|none|public",
-    "address.state-floor-address-chair.thank-you-madam-speaker": "address-chair|none|public",
-    "address.state-floor-address-chair.thank-you-mr-chair": "address-chair|none|public",
-    "address.state-floor-address-chair.thank-you-mr-chairman": "address-chair|none|public",
-    "address.state-floor-address-chair.thank-you-mr-president": "address-chair|none|public",
-    "address.state-floor-address-chair.thank-you-mr-speaker": "address-chair|none|public",
-    "address.victory-claim.i-am-grateful": "thank|none|public",
-    "address.victory-claim.i-am-honored": "announce-result|none|public",
-    "address.victory-claim.i-am-humbled": "thank|none|public",
-    "address.victory-claim.im-grateful": "thank|none|public",
-    "address.victory-claim.im-honored": "announce-result|none|public",
-    "address.victory-claim.we-did-it": "announce-result|none|public",
-    "address.victory-claim.we-won": "announce-result|none|public",
     "campaign-standing.moved-both.among-those-you-reached-warmer-came-away-warmer-and-cooler-c": "deliver-news|none|narration",
     "campaign-standing.moved-both.of-the-voters-you-reached-warmer-warmed-to-you-and-cooler-co": "deliver-news|none|narration",
     "campaign-standing.moved-cooler.among-those-you-reached-cooler-came-away-cooler-toward-you": "deliver-news|none|narration",
@@ -649,11 +499,13 @@
     "opening-speech.occasion.plain-ina-i-m-from-home-state-and-i-ll-never-stop-being-from-there": "occasion|tender|public",
     "opening-speech.occasion.plain-ina-i-m-from-home-state-i-ve-been-prior-office-now-i-ve-been-han": "occasion|calm|public",
     "opening-speech.occasion.plain-ina-i-was-prior-office-this-is-a-different-job-and-i-know-it": "occasion|calm|public",
+    "opening-speech.occasion.plain-ina-sta-i-was-born-and-raised-in-home-state-everything-i-have-i-owe": "occasion|tender|public",
     "opening-speech.occasion.plain-ina-today-the-work-starts-and-i-mean-to-do-it-right": "occasion|calm|public",
     "opening-speech.occasion.plain-sta-i-m-from-home-state-and-i-m-here-to-tell-you-where-we-stand": "occasion|tender|public",
     "opening-speech.occasion.plain-sta-i-m-here-to-tell-you-where-the-country-stands-and-what-i-nee": "occasion|calm|public",
     "opening-speech.occasion.polished-ina-i-come-to-this-office-from-home-state-after-my-time-as-prior": "occasion|calm|public",
     "opening-speech.occasion.polished-ina-i-come-to-this-office-from-home-state-and-i-carry-it-with-me": "occasion|tender|public",
+    "opening-speech.occasion.polished-ina-sta-i-was-born-and-raised-in-home-state-and-everything-i-bring-t": "occasion|tender|public",
     "opening-speech.occasion.polished-ina-today-begins-the-work-and-i-mean-to-do-it-well": "occasion|calm|public",
     "opening-speech.occasion.polished-sta-i-come-before-you-from-home-state-and-i-report-to-you-as-som": "occasion|tender|public",
     "opening-speech.occasion.polished-sta-i-come-before-you-to-report-on-the-state-of-our-union-and-to": "occasion|calm|public",
@@ -690,6 +542,7 @@
     "scene-talk.close-accept.go-enjoy-the-pen": "accept|glad|private",
     "scene-talk.close-accept.go-i-ll-leave-a-flyer-in-your-mailbox": "accept|glad|private",
     "scene-talk.close-accept.go-on-don-t-look-back-at-the-building-nobody-ever-does": "accept|tender|private",
+    "scene-talk.close-accept.go-on-good-luck": "accept|tender|private",
     "scene-talk.close-accept.go-on-i-ll-be-here-when-you-re-ready": "accept|calm|private",
     "scene-talk.close-accept.go-on-i-ll-find-you-when-it-gets-busy": "accept|calm|private",
     "scene-talk.close-accept.go-on-i-ll-get-the-door": "accept|tender|private",
@@ -717,6 +570,7 @@
     "scene-talk.close-accept.overnight-then": "accept|calm|private",
     "scene-talk.close-accept.pie-s-on-me-the-advice-was-free": "accept|glad|private",
     "scene-talk.close-accept.polls-close-at-eight-you-ve-got-time": "accept|calm|private",
+    "scene-talk.close-accept.see-you-around-then": "accept|calm|private",
     "scene-talk.close-accept.send-me-the-new-draft": "accept|calm|private",
     "scene-talk.close-accept.take-care-of-yourself": "accept|tender|private",
     "scene-talk.close-accept.take-some-time-we-ll-talk": "accept|calm|private",
@@ -849,6 +703,7 @@
     "scene-talk.follow-accept.all-right-i-just-thought-you-should-know": "accept|calm|private",
     "scene-talk.follow-accept.all-right-i-ll-ask-again-after-the-hearings": "accept|calm|private",
     "scene-talk.follow-accept.all-right-i-ll-check-it": "accept|calm|private",
+    "scene-talk.follow-accept.all-right-i-ll-go-out-first-tonight-so-they-hear-it-from-me": "accept|calm|private",
     "scene-talk.follow-accept.all-right-i-ll-hold-it-until-deadline": "accept|calm|private",
     "scene-talk.follow-accept.all-right-i-ll-take-it-somewhere-else": "accept|calm|private",
     "scene-talk.follow-accept.all-right-i-ll-take-sorry-for-tonight": "accept|calm|private",
@@ -896,6 +751,7 @@
     "scene-talk.follow-accept.fair-enough": "accept|calm|private",
     "scene-talk.follow-accept.fair-enough-call-me-when-it-s-final": "accept|calm|private",
     "scene-talk.follow-accept.fair-enough-i-can-live-with-that": "accept|calm|private",
+    "scene-talk.follow-accept.fair-enough-i-d-rather-they-heard-it-from-me-than-read-it-in-the-paper": "accept|calm|private",
     "scene-talk.follow-accept.fair-enough-i-ll-come-back-with-a-better-draft": "accept|calm|private",
     "scene-talk.follow-accept.fair-enough-my-number-s-still-the-same-if-you-change-your-mind": "accept|tender|private",
     "scene-talk.follow-accept.fair-enough-one-day-at-a-time": "accept|tender|private",
@@ -908,6 +764,7 @@
     "scene-talk.follow-accept.fair-i-ll-call-your-office": "accept|calm|private",
     "scene-talk.follow-accept.fair-i-ll-say-you-changed-your-mind": "accept|calm|private",
     "scene-talk.follow-accept.fair-i-ll-take-second": "accept|calm|private",
+    "scene-talk.follow-accept.fair-it-s-a-lot": "accept|calm|private",
     "scene-talk.follow-accept.fair-we-ll-send-you-the-notes": "accept|calm|private",
     "scene-talk.follow-accept.fine-i-ll-ask-again-tomorrow": "accept|calm|private",
     "scene-talk.follow-accept.fine-i-ll-count-them-myself": "accept|calm|private",
@@ -924,6 +781,7 @@
     "scene-talk.follow-accept.good-that-s-the-speech": "accept|glad|private",
     "scene-talk.follow-accept.good-the-after-party-s-off-the-record-mostly": "accept|glad|private",
     "scene-talk.follow-accept.good-watch-me-today-tomorrow-you-drive": "accept|glad|private",
+    "scene-talk.follow-accept.good-you-ll-be-good-at-it": "accept|glad|private",
     "scene-talk.follow-accept.got-it-i-ll-stamp-it-and-you-re-filed": "accept|calm|private",
     "scene-talk.follow-accept.grace-it-is-i-ll-cut-the-applause-line": "accept|glad|private",
     "scene-talk.follow-accept.half-is-better-than-none-i-ll-plan-around-it": "accept|calm|private",
@@ -1053,6 +911,7 @@
     "scene-talk.follow-accept.then-i-ll-ask-again-next-month": "accept|calm|private",
     "scene-talk.follow-accept.then-i-ll-be-up-front": "accept|calm|private",
     "scene-talk.follow-accept.then-i-ll-go-bother-the-state-thanks": "accept|calm|private",
+    "scene-talk.follow-accept.then-i-ll-know-where-to-find-you": "accept|calm|private",
     "scene-talk.follow-accept.then-i-ll-make-sure-it-does-stick-with-me-this-week": "accept|tender|private",
     "scene-talk.follow-accept.then-i-ll-note-that-you-passed": "accept|calm|private",
     "scene-talk.follow-accept.then-i-ll-print-the-signature-and-nothing-else": "accept|calm|private",
@@ -1105,6 +964,7 @@
     "scene-talk.follow-accept.you-ll-need-it-come-on": "accept|glad|private",
     "scene-talk.follow-accept.your-call-just-thought-you-should-know": "accept|calm|private",
     "scene-talk.follow-accept.your-choice-we-ll-go-ahead-with-whoever-comes": "accept|calm|private",
+    "scene-talk.follow-answer.anything-but-another-year-of-this": "answer|glad|private",
     "scene-talk.follow-answer.ask-the-other-side-they-ll-tell-you-what-i-won-t": "answer|calm|private",
     "scene-talk.follow-answer.ask-the-people-against-it-they-have-their-own-numbers": "answer|calm|private",
     "scene-talk.follow-answer.asked-if-the-forms-could-be-signed-in-blue-ink-that-was-about-it": "answer|glad|private",
@@ -1132,6 +992,7 @@
     "scene-talk.follow-answer.exactly-what-i-told-you-wait-and-work": "answer|calm|private",
     "scene-talk.follow-answer.five-o-clock-friday-after-that-it-s-you-and-whoever-s-in": "answer|calm|private",
     "scene-talk.follow-answer.front-desk-answer-everything-promise-nothing": "answer|glad|private",
+    "scene-talk.follow-answer.getting-a-job-and-a-place-of-my-own": "answer|calm|private",
     "scene-talk.follow-answer.give-me-kid-oh-hello-kid": "answer|glad|private",
     "scene-talk.follow-answer.give-me-one-that-holds-up-in-any-context": "answer|calm|private",
     "scene-talk.follow-answer.go-ahead-you-have-a-minute-left": "answer|calm|private",
@@ -1519,7 +1380,9 @@
     "scene-talk.follow-press.your-office-took-my-number-last-year-too": "press|braced|private",
     "scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret": "press|braced|private",
     "scene-talk.follow-refuse.not-yet-i-ll-say-it-when-the-count-is-certified-and-not-before": "refuse|braced|private",
+    "scene-talk.follow-refuse.say-what-you-need-to-i-m-still-waiting-on-the-certified-count": "refuse|braced|private",
     "scene-talk.follow-refuse.then-i-ll-tell-them-nothing-was-promised-and-they-ll-have-to-ask-for-t": "refuse|braced|private",
+    "scene-talk.follow-refuse.then-you-ll-be-speaking-alone-tonight-i-ll-speak-when-the-count-is-fin": "refuse|braced|private",
     "scene-talk.follow-thank.a-vote-i-ll-be-there-for-it": "thank|calm|private",
     "scene-talk.follow-thank.again-it-is-thanks": "thank|calm|private",
     "scene-talk.follow-thank.already-agreed-i-ll-quote-you": "thank|calm|private",
@@ -1527,6 +1390,7 @@
     "scene-talk.follow-thank.an-hour-i-ll-hold-the-space": "thank|calm|private",
     "scene-talk.follow-thank.before-the-next-meeting-then-i-ll-be-at-the-front-of-the-room": "thank|calm|private",
     "scene-talk.follow-thank.clear-enough-thank-you": "thank|calm|private",
+    "scene-talk.follow-thank.deal-don-t-make-me-chase-you": "thank|glad|private",
     "scene-talk.follow-thank.eight-thirty-at-the-corner-by-the-school": "thank|glad|private",
     "scene-talk.follow-thank.every-page-i-ll-quote-that": "thank|calm|private",
     "scene-talk.follow-thank.fair-i-ll-run-where-to-sign-up": "thank|calm|private",
@@ -1735,6 +1599,7 @@
     "scene-talk.narrate-narrate.it-s-after-nine-name-lays-bill-on-the-blotter-open-to-the-signature-pa": "narrate|calm|private",
     "scene-talk.narrate-narrate.it-s-late-name-has-bill-in-a-blue-folder-and-a-pen-already-uncapped": "narrate|calm|private",
     "scene-talk.narrate-narrate.it-s-office-hours-and-name-is-next-in-line": "narrate|calm|private",
+    "scene-talk.narrate-narrate.it-s-the-last-day-of-the-school-year-name-has-been-meaning-to-say-something": "narrate|calm|private",
     "scene-talk.narrate-narrate.name-a-reporter-for-outlet-catches-you-on-your-way-out": "narrate|guarded|private",
     "scene-talk.narrate-narrate.name-asks-for-ten-minutes-alone-with-you": "narrate|guarded|private",
     "scene-talk.narrate-narrate.name-catches-you-before-the-vote-on-bill-there-s-a-section-they-want-changed": "narrate|calm|private",
@@ -1782,6 +1647,7 @@
     "scene-talk.narrate-narrate.the-ink-on-bill-is-barely-dry-when-name-who-covers-you-for-outlet-fall": "narrate|guarded|private",
     "scene-talk.narrate-narrate.the-job-went-out-for-bids-and-name-bid-on-it-now-name-wants-a-word-wit": "narrate|guarded|private",
     "scene-talk.narrate-narrate.the-meeting-is-over-but-name-a-reporter-is-still-here-and-still-workin": "narrate|calm|private",
+    "scene-talk.narrate-narrate.the-month-s-bills-are-spread-across-the-table-what-the-paychecks-don-t-cover-the": "narrate|guarded|private",
     "scene-talk.narrate-narrate.the-phone-rings-it-s-name-from-employer": "narrate|calm|private",
     "scene-talk.narrate-narrate.the-post-s-line-lost-cut-in-the-budget-the-council-passed-name-has-the-page": "narrate|calm|private",
     "scene-talk.narrate-narrate.the-race-for-office-opens-monday-and-you-re-the-first-one-at-name-s-co": "narrate|calm|private",
@@ -1824,6 +1690,7 @@
     "scene-talk.open-greet.got-a-minute-it-s-about-the-rent": "greet|nervous|private",
     "scene-talk.open-greet.got-a-minute-it-s-about-your-race": "greet|nervous|private",
     "scene-talk.open-greet.got-a-second": "greet|calm|private",
+    "scene-talk.open-greet.got-a-second-it-s-kind-of-now-or-never": "greet|nervous|private",
     "scene-talk.open-greet.got-five-minutes-before-you-go-home": "greet|calm|private",
     "scene-talk.open-greet.hang-on-let-me-look-again": "greet|calm|private",
     "scene-talk.open-greet.have-you-got-a-few-minutes": "greet|calm|private",
@@ -1891,6 +1758,7 @@
     "scene-talk.open-greet.title-one-question": "greet|calm|private",
     "scene-talk.open-greet.title-over-here": "greet|calm|private",
     "scene-talk.open-greet.title-we-wondered-when-you-d-come-in": "greet|calm|private",
+    "scene-talk.open-greet.well-that-s-the-year": "greet|calm|private",
     "scene-talk.open-greet.you-found-the-place-most-don-t-on-the-first-try": "greet|calm|private",
     "scene-talk.open-greet.you-got-a-minute-i-m-not-here-to-yell": "greet|calm|private",
     "scene-talk.open-greet.you-got-a-minute-it-s-about-next-year": "greet|calm|private",
@@ -2178,6 +2046,7 @@
     "scene-talk.reply-ask.tell-me-more-about-it": "ask|curious|private",
     "scene-talk.reply-ask.tell-me-what-you-re-seeing-on-your-street": "ask|curious|private",
     "scene-talk.reply-ask.were-you-ever-in-my-spot": "ask|curious|private",
+    "scene-talk.reply-ask.what-about-you-you-go-first": "ask|curious|private",
     "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying": "ask|curious|private",
     "scene-talk.reply-ask.what-did-i-miss": "ask|curious|private",
     "scene-talk.reply-ask.what-did-it-say-exactly": "ask|none|private",
@@ -2601,8 +2470,10 @@
     "scene-talk.reply-press.will-you-say-that-in-public-people-are-waiting-to-hear-it-from-you": "press|braced|private",
     "scene-talk.reply-promise.good-now-it-s-a-real-race": "promise|none|private",
     "scene-talk.reply-promise.i-ll-answer-that-thanks-for-telling-me": "promise|none|private",
+    "scene-talk.reply-promise.i-ll-tell-you-when-i-figure-it-out": "promise|none|private",
     "scene-talk.reply-promise.then-i-d-better-get-to-work": "promise|none|private",
     "scene-talk.reply-promise.then-i-d-better-say-where-i-stand-on-it": "promise|none|private",
+    "scene-talk.reply-promise.then-we-ll-figure-it-out-at-the-same-time-call-me": "promise|none|private",
     "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back": "refuse|braced|private",
     "scene-talk.reply-refuse.a-vote-isn-t-a-win-no": "refuse|braced|private",
     "scene-talk.reply-refuse.afford-is-a-funny-word-for-it-no": "refuse|braced|private",
@@ -2681,6 +2552,7 @@
     "scene-talk.reply-tell.i-ll-give-you-a-straight-answer-even-if-it-s-not-the-one-you-want": "tell|calm|private",
     "scene-talk.reply-tell.i-ll-have-to-deal-with-winner-sooner-or-later": "tell|calm|private",
     "scene-talk.reply-tell.i-ll-tell-them-the-same-thing-i-told-you-that-s-the-whole-point": "tell|calm|private",
+    "scene-talk.reply-tell.i-m-going-to-work-i-want-my-own-money-for-a-while": "tell|calm|private",
     "scene-talk.reply-tell.i-made-the-call-i-thought-was-right-i-ll-say-that-to-anyone": "tell|calm|private",
     "scene-talk.reply-tell.i-said-i-d-look-hard-at-it-i-looked-and-i-changed-my-mind-that-s-the-t": "tell|calm|private",
     "scene-talk.reply-tell.i-voted-for-it-and-i-ll-own-that-but-i-want-to-hear-what-it-s-doing-to": "tell|calm|private",
@@ -2756,6 +2628,7 @@
     "scene-talk.state-ask.quick-question-before-the-day-eats-us-did-anybody-tell-you-what-you-re": "ask|curious|private",
     "scene-talk.state-ask.say-it-plainly-savings-for-cushion-a-race-of-remaining-where-does-the-money-come": "ask|guarded|private",
     "scene-talk.state-ask.so-what-are-the-rules-here-or-are-there-rules-with-family": "ask|curious|private",
+    "scene-talk.state-ask.so-what-happens-now-for-you-i-mean": "ask|curious|private",
     "scene-talk.state-ask.then-tell-me-what-you-re-going-to-say-about-opponent-ninety-seconds-to": "ask|curious|private",
     "scene-talk.state-ask.what-are-you-working-on-these-days": "ask|curious|private",
     "scene-talk.state-ask.what-did-you-make-of-all-that-in-there-i-can-t-tell-yet-which-way-you": "ask|curious|private",
@@ -2847,12 +2720,7 @@
     "scene-words.cause-money:job-started-self.you-got-a-job-at-employer": "deliver-news|none|narration",
     "scene-words.cause-money:job-started-self.you-start-at-employer": "deliver-news|none|narration",
     "scene-words.cause-money:job-started-started.you-got-a-job": "deliver-news|none|narration",
-    "scene-words.cause-shared-other.you-and-other-are-on-the-same-side-of-an": "deliver-news|none|narration",
-    "speech-stages.stage-children.i-m-raising-number-children-here-in-": "tell|none|public",
-    "speech-stages.stage-home.i-live-in-place-i-know-these-streets": "tell|none|public",
-    "speech-stages.stage-school.i-went-to-school-what-we-teach-our-k": "tell|none|public",
-    "speech-stages.stage-work.i-work-at-employer-i-know-what-a-pay": "tell|none|public",
-    "speech-stages.stage-work.i-worked-at-employer-for-years-years": "tell|none|public"
+    "scene-words.cause-shared-other.you-and-other-are-on-the-same-side-of-an": "deliver-news|none|narration"
   },
   "groups": {
     "accept|calm|private": {
@@ -2881,12 +2749,6 @@
         "conversation.address-ask-seen.did-you-see-the-president-s-speech": 1
       }
     },
-    "address-chair|none|public": {
-      "net": 1,
-      "graded": {
-        "address.hearing-open.thank-you-all-for-being-here": 1
-      }
-    },
     "agree|calm|private": {
       "net": 1,
       "graded": {
@@ -2900,10 +2762,8 @@
       }
     },
     "announce-result|none|public": {
-      "net": 3,
+      "net": 1,
       "graded": {
-        "address.chair-run-meeting.the-motion-carries": 1,
-        "address.victory-claim.im-honored": 1,
         "minutes.vote.voting-against-this-action-members": 1
       }
     },
@@ -2988,12 +2848,6 @@
       "net": 1,
       "graded": {
         "scene-talk.state-congratulate.office-you-really-did-it": 1
-      }
-    },
-    "congratulate|none|public": {
-      "net": -1,
-      "graded": {
-        "address.house-floor-tribute-close.i-congratulate-name": -1
       }
     },
     "decline|tender|private": {
@@ -3109,12 +2963,6 @@
         "interview.official-commit.im-committed-to-issue": -1
       }
     },
-    "put-question|none|public": {
-      "net": -1,
-      "graded": {
-        "address.chair-run-meeting.is-there-a-motion": -1
-      }
-    },
     "react|glad|private": {
       "net": -1,
       "graded": {
@@ -3171,12 +3019,6 @@
         "scene-talk.reply-relent.okay-for-you-i-ll-do-it": -1
       }
     },
-    "request|none|public": {
-      "net": -1,
-      "graded": {
-        "address.public-comment-ask.we-need-your-help": -1
-      }
-    },
     "salutation|none|public": {
       "net": -1,
       "graded": {
@@ -3214,14 +3056,6 @@
         "journal.work-other-started.relation-went-to-work": -1
       }
     },
-    "tell|none|public": {
-      "net": 3,
-      "graded": {
-        "address.concession-concede.this-is-not-the-end": 1,
-        "address.concession-concede.we-didnt-win": 1,
-        "address.concession-concede.we-will-be-back": 1
-      }
-    },
     "thank|calm|private": {
       "net": 1,
       "graded": {
@@ -3232,13 +3066,6 @@
       "net": 1,
       "graded": {
         "scene-talk.reply-thank.i-couldn-t-have-done-it-without-you": 1
-      }
-    },
-    "thank|none|public": {
-      "net": 0,
-      "graded": {
-        "address.campaign-thanks.its-great-to-be-back-in-place": -1,
-        "address.concession-concede.thank-you-for-everything": 1
       }
     },
     "threaten|braced|private": {
