@@ -492,16 +492,15 @@ function composeBinding(
       sourceRecordIds: [moment.causeId],
     };
   // A bill that lost a vote (legislature.ts recordFailure): the lines about a
-  // lost vote need it, where it lost, and the count, against to for.
+  // lost vote need it, where it lost, and the count, against and for (the
+  // bank's lines say them in that order).
   if (record?.kind === "bill-failed") {
     const lost = { text: said.number ?? "", sourceRecordIds: [moment.causeId] };
     facts["bill-lost"] = lost;
     facts[said.stage === "committee" ? "lost-in-committee" : "lost-on-floor"] =
       lost;
-    facts.tally = {
-      text: `${said.no} to ${said.yes}`,
-      sourceRecordIds: [moment.causeId],
-    };
+    facts.nays = { text: said.no ?? "", sourceRecordIds: [moment.causeId] };
+    facts.ayes = { text: said.yes ?? "", sourceRecordIds: [moment.causeId] };
   }
   if (said.office)
     facts.office = {
@@ -570,11 +569,15 @@ function composeBinding(
       JSON.parse(said.totals) as Record<string, number>,
     ).sort((a, b) => b - a);
     const ahead = (counts[P.zero] ?? P.zero) - (counts[P.one] ?? P.zero);
-    if (counts.length > P.one && ahead > P.zero)
+    // The count; the bank's lines say "votes", or "one vote" for one.
+    if (counts.length > P.one && ahead > P.zero) {
       facts.lead = {
-        text: `${ahead.toLocaleString("en-US")} ${ahead === P.one ? "vote" : "votes"}`,
+        text: ahead.toLocaleString("en-US"),
         sourceRecordIds: [moment.causeId],
       };
+      if (ahead === P.one)
+        facts["lead-one"] = { text: "yes", sourceRecordIds: [moment.causeId] };
+    }
   }
 
   if (record?.kind === "budget-line-changed")
@@ -849,11 +852,16 @@ function deskFacts(
   const votes = votesOn(api, bill.id);
   const yes = votes.filter((row) => row.vote === "yes").length;
   const no = votes.filter((row) => row.vote === "no").length;
-  if (yes + no > P.zero)
-    facts.roll = {
-      text: `${yes} to ${no}`,
+  // The roll, for and against; the bank's lines join them.
+  if (yes + no > P.zero) {
+    const roll = (text: string) => ({
+      text,
       sourceRecordIds: [causeId, bill.id],
-    };
+    });
+    facts.roll = roll("yes");
+    facts.ayes = roll(String(yes));
+    facts.nays = roll(String(no));
+  }
   if (bill.sponsorId === visitorId) {
     facts.for = {
       text: said.number ?? bill.number,
