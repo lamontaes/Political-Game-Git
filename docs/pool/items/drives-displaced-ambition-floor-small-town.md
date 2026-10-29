@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/drives-economy.test.ts
 
-**Notes.** TODO
+**Notes.** Oct 29, 05:00 UTC, words and director session: also red on main 886c21ab72 and on 7abade8252 (before #6736) in Bellview, Florida (place key 1205462, seed 68c7747a284e52a1b25d6cb988de91bd09a04462452082d58f951267965e14de), the golden-path-year draw for #6736: a share of 0.0559, which is 9 of 161 displaced workers. That sample is not small, so a spread sized to the sample alone may not clear it; the rate itself sits just under the floor.
