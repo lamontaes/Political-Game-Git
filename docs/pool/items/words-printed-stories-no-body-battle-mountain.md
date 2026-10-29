@@ -5,12 +5,13 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/printed-bodies
 pr:
 blocked-on:
 lead: words
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T17:34:52.882Z
 ---
 
 **What.** src/bench/printed-words.test.ts fails in Battle Mountain, Nevada (GOLDEN_PATH_SEED=2fceb56ff6ed8412863c8c2c738d4157334295bf) on clean main at 96b3688d06: 'printed-words bodies: 0 of 582', so the check that some of the year's stories carry a body fails. Every one of the 582 stories that town's press printed has a headline and a first sentence and nothing more. Why that town's stories all lack a body (the kinds it printed, or the builders for them) is not known yet; four other drawn places passed the same test on Oct 29.
