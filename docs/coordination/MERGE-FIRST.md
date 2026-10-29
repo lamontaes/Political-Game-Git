@@ -11,7 +11,7 @@ Current as of 2026-10-29, 17:50 UTC (CTO, the owner's second account). This repl
 - Send back only for a defect a player would meet, a standing-rule break, or a claim the checks disprove. Fix one-step paperwork (a `Pool item:` line, a release declaration, a prettier run, a spelling hit) in the merge yourself and say so. Every send-back is SMART: the one defect, the check that shows it fixed, a time box.
 - A green, mergeable PR merges within the hour it goes green. A PR stacked on another merges right after its base.
 - **Never merge a PR marked OWNER VISUAL CHECK** (the people swap, art intake) until the owner says yes on it. Nobody merges their own PR.
-- Never use a scheduling tool and never edit anything under `.git`; sessions never message each other. A PR comment starting `Merger <N>:` and the pool item's Notes are your only voice (`merger` skill).
+- Never use a scheduling tool and never edit anything under `.git`. On a send-back, comment on the PR (starting `Merger <N>:`) and message the author session named in `docs/coordination/CREW.md`; questions for the owner go to the CTO (owner, Oct 29).
 
 ## The order
 
