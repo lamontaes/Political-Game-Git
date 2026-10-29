@@ -5,9 +5,9 @@ area: art
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/people-pack-v4
-pr:
+pr: #6801
 blocked-on: people-pack-v3 (#6778) merged first; this builds on its loader
 source: owner, Oct 29 (CTO brief)
 claimed-at: 2026-10-29T18:26:18.818Z
