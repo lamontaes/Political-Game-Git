@@ -44,10 +44,19 @@ const offices = (api: CoreAPI) =>
 const terms = (api: CoreAPI) =>
   api.moduleState(OFFICES_MODULE_ID).table("terms");
 
+/** The term serving in the office's seat, read by the seat's own index. */
 function servingTerm(api: CoreAPI, officeId: string): TermRow | undefined {
-  return (terms(api).rows() as unknown as TermRow[]).find(
-    (t) => t.officeId === officeId && t.status === "serving",
-  );
+  for (const seat of api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("seats")
+    .query("byOffice", [officeId])) {
+    const [term] = terms(api).query("bySeatStatus", [
+      seat.id,
+      "serving",
+    ]) as unknown as TermRow[];
+    if (term) return term;
+  }
+  return undefined;
 }
 
 /**
@@ -60,7 +69,7 @@ export function prosecutorFor(api: CoreAPI): ProsecutorOffice {
   const date = api.state.date;
   const county = api.state.modules.has(OFFICES_MODULE_ID)
     ? ((
-        offices(api).rows() as unknown as (OfficeInput & {
+        offices(api).query("byTown", [true]) as unknown as (OfficeInput & {
           coversTown?: boolean;
         })[]
       ).find((o) => o.kind === "county-prosecutor" && o.coversTown) ??

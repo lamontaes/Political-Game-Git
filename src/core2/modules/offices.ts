@@ -132,18 +132,24 @@ export interface VacancyRow {
  * Pre-start government pass (M1-14): each term that began before day one,
  * seated or ended, enters the history with how the holder reached the seat,
  * so a player can ask why anyone sits where they sit. Nothing is generated:
- * the term's own record is the source.
+ * the term's own record is the source. Another place's offices are left out:
+ * their holders are named officials no one in the town knows, and the
+ * person card reads an official's past from the term rows themselves.
  */
 function seatHistory(
   api: CoreAPI,
   window: PreStartWindow,
   history: HistoryWriter,
 ): void {
+  const town = (table(api, "loaded").get("town") as { stateKey?: string })
+    ?.stateKey;
   for (const row of table(api, "terms").rows()) {
     const term = row as unknown as TermRow;
     if (term.startDate < window.from || term.startDate > window.through)
       continue;
     const office = table(api, "offices").get(term.officeId);
+    const jurisdiction = String(office?.jurisdiction ?? "");
+    if (jurisdiction.startsWith("US-") && jurisdiction !== town) continue;
     history.record({
       id: `seat-reached:${term.id}`,
       date: makeIsoDate(term.startDate),
