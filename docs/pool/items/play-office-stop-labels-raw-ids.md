@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: golden/your-office
 pr: #6497
 blocked-on:
@@ -30,3 +30,5 @@ milestone: play-first
 **Files.** src/bench/play.mjs, src/bench/office.ts, src/bench/handler.ts, src/bench/data/controls.json, src/bench/office-screen.test.ts
 
 **Notes.** Found by the browser run on PR #5533; rescoped by the golden-path session, Oct 28.
+
+Oct 29 (CTO): set done; PR #6497 merged (the done flip failed while branch protection refused the flip job's push).

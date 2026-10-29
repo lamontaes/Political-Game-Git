@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/wire-opening-history-moves
 pr: #6648
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T16:38:14.630Z
 **Files.** src/core2/opening-kin.ts, src/core2/past-work.ts, src/core2/modules/moves.ts, src/core2/past-family.ts, src/director/conversation.ts, src/director/journal.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6648 merged (the done flip failed while branch protection refused the flip job's push).

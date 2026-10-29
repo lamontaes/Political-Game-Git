@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/creator-hair-label
 pr: #6591
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T07:03:39.869Z
 **Files.** src/bench/appearance.ts, src/bench/creator.test.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6591 merged (the done flip failed while branch protection refused the flip job's push).

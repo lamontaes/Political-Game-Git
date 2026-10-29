@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: words/web-executive
 pr: 6332
 blocked-on:
@@ -30,3 +30,5 @@ claimed-at: 2026-10-27
 **Files.** docs/design/scenes/from-life/, data/english/parts/scene-talk.json, docs/reports/scene-web.*
 
 **Notes.** Part of `words-scene-web-the-executive`, which stays open (appointment and desk-bill wait on the packets in #6256 and #6303).
+
+Oct 29 (CTO): set done; PR #6332 merged (the done flip failed while branch protection refused the flip job's push).

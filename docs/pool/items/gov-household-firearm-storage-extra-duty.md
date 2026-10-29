@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/firearm-storage-extra-duty
-pr: #5371
+status: open
+claimed-by:
+pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T11:21:11.557Z
+claimed-at:
 ---
 
 **What.** The focused household-firearms test still fails on exact clean main 4f4c069a5c4c04d5a322934429475b018d2b679c with HOUSEHOLD_FIREARMS_SEED=2724fc27c0417f7c (Atascadero, CA0603064): storage-duty rows contain 24 people while the effective-date household and ownership records expect 20. PR #4998 preserves the exact set assertion and corrects only the age reference date; the same four extra person IDs occur before and after that PR. Diagnose the record mismatch at its cause.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T11:21:11.557Z
 **Notes.** Independent same-seed baseline and PR comparison: both fail identically with extra person_76c8e949a5f5bbaa, person_76c8ea49a5f5bd5d, person_f502f74bd53befa1, person_f502f84bd53bf154. Preserve existing claims on release-suite-red-list-core2 and people-household-firearms.
 
 Sent back 2026-10-20 from PR #5371 (branch claude/firearm-storage-extra-duty): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Oct 29 (CTO, second account): PR #5371 closed as stale under the owner's standing approval; back to open. Branch `claude/firearm-storage-extra-duty` is kept; claiming this item takes it over.

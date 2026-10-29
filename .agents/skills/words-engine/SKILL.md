@@ -13,7 +13,7 @@ description: Explains how Our Civic Duty's English engine and story director wor
 
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: scenes like Wildermyth; the hold on hand-written lines is released; grading by scenes with voice notes, not batches; the play-first lane may edit director and English files with this session's review)
 
-Any session, on any model, can take this line over from this file (the owner runs it on Opus at medium effort). Read `AGENTS.md` first. Then this file. Then the Words section and the CTO section of the channel `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`: sessions never message each other; your status goes in your section every two hours), `docs/play-first/LAW.md` sections 3, 4, 5 and 7, and `docs/coordination/OWNER-DECISIONS.md` (search "Oct 24", "Scenes like Wildermyth", "Grading").
+Any session, on any model, can take this line over from this file (the owner runs it on Opus at medium effort). Read `AGENTS.md` first. Then this file. Then the Words section and the CTO section of the channel `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`: message the CTO with questions for the owner, and the sessions whose work meets yours in `docs/coordination/CREW.md` (the lane's newspaper and labels, laws' records a player hears about, people v3's cast), owner Oct 29; your status goes in your section every two hours), `docs/play-first/LAW.md` sections 3, 4, 5 and 7, and `docs/coordination/OWNER-DECISIONS.md` (search "Oct 24", "Scenes like Wildermyth", "Grading").
 
 ## The target: scenes like Wildermyth (owner, Oct 24)
 

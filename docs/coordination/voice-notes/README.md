@@ -8,6 +8,7 @@ The owner grades and directs mostly by voice ("most of my grades are going to be
 | `2026-10-15-words-orders-part-2.md` | same                                                        | Messages 17–36: the batch 15 to 20 reviews, endings, speeches by speaker, dev mode for context, ship between batches                                                                                                                                   |
 | `2026-10-24-playtest.md`            | "Our Civic Duty playtest" (Oct 24)                          | His screen-by-screen reaction to the playtester's screenshots: the home screen, Start a life, the old figures and people with no reason to be there, the speech, Wildermyth, empty histories and journal, dev language, the politics screen, no scenes |
 | `2026-10-23-words-lead.md`          | "Words engine narrative/English merge sequence" (Oct 23 on) | His reaction to batch 22, the Oct 24 overnight order, "put the new dialogue in", "fix the scenes"                                                                                                                                                      |
+| `2026-10-29-words-director.md`      | Words and director (Oct 29)                                 | Conversations that make no sense ("oh, okay. What about you?"), every text on one engine and one calibration, read the voice notes again for conversation                                                                                              |
 
 Not found yet: his notes on batches 11 and 21. Batch 12's rejection came through the CTO.
 

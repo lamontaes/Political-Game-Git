@@ -5457,6 +5457,350 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.budget-request.name-sends-congress-a-budget",
+      "move": "budget-request",
+      "kind": "written",
+      "text": "{name} sends Congress a budget",
+      "uses": [
+        {
+          "move": "budget-request",
+          "subject": "headline",
+          "role": "budget-request",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.budget-request.name-s-budget-would-cut-purpose",
+      "move": "budget-request",
+      "kind": "written",
+      "text": "{name}'s budget would cut {purpose}",
+      "uses": [
+        {
+          "move": "budget-request",
+          "subject": "headline",
+          "role": "budget-request",
+          "choice": "headline",
+          "requiresFacts": ["cut", "purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.joint-address.name-addresses-congress",
+      "move": "joint-address",
+      "kind": "written",
+      "text": "{name} addresses Congress",
+      "uses": [
+        {
+          "move": "joint-address",
+          "subject": "headline",
+          "role": "joint-address",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.trip.name-visits-place",
+      "move": "trip",
+      "kind": "written",
+      "text": "{name} visits {place}",
+      "uses": [
+        {
+          "move": "trip",
+          "subject": "headline",
+          "role": "trip",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.ribbon-cut.ribbon-cut-on-a-new-purpose-project",
+      "move": "ribbon-cut",
+      "kind": "written",
+      "text": "Ribbon cut on a new {purpose} project",
+      "uses": [
+        {
+          "move": "ribbon-cut",
+          "subject": "headline",
+          "role": "ribbon-cut",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.emergency.name-declares-an-emergency",
+      "move": "emergency",
+      "kind": "written",
+      "text": "{name} declares an emergency",
+      "uses": [
+        {
+          "move": "emergency",
+          "subject": "headline",
+          "role": "emergency",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.emergency.emergency-declared-over-the-incident",
+      "move": "emergency",
+      "kind": "written",
+      "text": "Emergency declared over the {incident}",
+      "uses": [
+        {
+          "move": "emergency",
+          "subject": "headline",
+          "role": "emergency",
+          "choice": "headline",
+          "requiresFacts": ["incident"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.succession.name-becomes-office",
+      "move": "succession",
+      "kind": "written",
+      "text": "{name} becomes {office}",
+      "uses": [
+        {
+          "move": "succession",
+          "subject": "headline",
+          "role": "succession",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.succession.name-is-acting-office",
+      "move": "succession",
+      "kind": "written",
+      "text": "{name} is acting {office}",
+      "uses": [
+        {
+          "move": "succession",
+          "subject": "headline",
+          "role": "succession",
+          "choice": "headline",
+          "requiresFacts": ["acting"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.recall-reply.name-hears-out-the-recall-petitioners",
+      "move": "recall-reply",
+      "kind": "written",
+      "text": "{name} hears out the recall petitioners",
+      "uses": [
+        {
+          "move": "recall-reply",
+          "subject": "headline",
+          "role": "recall-reply",
+          "choice": "headline",
+          "requiresFacts": ["answered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.recall-reply.name-turns-away-the-recall-petitioners",
+      "move": "recall-reply",
+      "kind": "written",
+      "text": "{name} turns away the recall petitioners",
+      "uses": [
+        {
+          "move": "recall-reply",
+          "subject": "headline",
+          "role": "recall-reply",
+          "choice": "headline",
+          "requiresFacts": ["dismissed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.measure-result.voters-approve-purpose",
+      "move": "measure-result",
+      "kind": "written",
+      "text": "Voters approve {purpose}",
+      "uses": [
+        {
+          "move": "measure-result",
+          "subject": "headline",
+          "role": "measure-result",
+          "choice": "headline",
+          "requiresFacts": ["approved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.measure-result.voters-turn-down-purpose",
+      "move": "measure-result",
+      "kind": "written",
+      "text": "Voters turn down {purpose}",
+      "uses": [
+        {
+          "move": "measure-result",
+          "subject": "headline",
+          "role": "measure-result",
+          "choice": "headline",
+          "requiresFacts": ["rejected"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.presented.designation-goes-to-name",
+      "move": "presented",
+      "kind": "written",
+      "text": "{designation} goes to {name}",
+      "uses": [
+        {
+          "move": "presented",
+          "subject": "headline",
+          "role": "presented",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.item-veto.name-strikes-items-from-designation",
+      "move": "item-veto",
+      "kind": "written",
+      "text": "{name} strikes items from {designation}",
+      "uses": [
+        {
+          "move": "item-veto",
+          "subject": "headline",
+          "role": "item-veto",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.hearing.public-hearing-held-on-the-budget",
+      "move": "hearing",
+      "kind": "written",
+      "text": "Public hearing held on the budget",
+      "uses": [
+        {
+          "move": "hearing",
+          "subject": "headline",
+          "role": "hearing",
+          "choice": "headline",
+          "requiresFacts": ["budget"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

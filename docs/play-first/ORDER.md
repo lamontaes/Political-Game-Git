@@ -1,10 +1,19 @@
 # The play-first order
 
-Current as of 2026-10-27, 01:40 UTC (the CTO: the Oct 26 sitting's items placed after Tier 2 in the order the owner met them; brackets as in the pool at this hour; the item file wins)
+Current as of 2026-10-29, 16:45 UTC (the CTO on the second account: the owner's Oct 29 play of v0.64.0 goes first as Tier 0; the brackets below Tier 0 are as of Oct 27 and the item file wins)
 
 Numbered in the order the owner will feel them. The bracket after each id is the item's state in the pool when this file was last written (`[open]`, `[open, after <sibling>]`, `[claimed, <branch>]`, `[in PR #N]`, `[done #N]`); the item file wins when they differ. Take the first line marked `[open]`, or `[claimed]`/`[in PR]` whose branch has no push in the last 3 hours and that `PROGRESS.md` does not show as done or as pushed in the last 3 hours. A line whose item waits on another (`after:` in the item) is skipped until that one is done. Each line: number, pool id, time box, what the owner will see, the PRs to adopt or read. The item file (`docs/pool/items/<id>.md`) has the rest; `LAW.md` wins over both.
 
 Blocked parents (`play-stop-01`, `-02`, `-05`, `-07`, `-11`, `-19`, `-22`) are split into `-a` and `-b`; work the parts, never the parent. The CTO sets a parent done when its last part is done.
+
+## Tier 0: the owner's play of v0.64.0 (Oct 29)
+
+Worked before every other line. Numbered from 100 so earlier lines never move.
+
+100. `play-menus-no-continue-back` [open] · 3 h · No menu shows Continue or Back; a news story opens in place on the paper.
+101. `play-news-paper-prints-the-stories` [open] · 4 h · News is a front page with every story's text printed on it.
+102. `play-person-history-for-everyone-you-open` [open] · 4 h · Click anyone and their card tells their life from the records.
+103. `play-faces-show-the-moment-a-menu-opens` [open, after people-pack-v3] · 3 h · Faces are on screen the moment a menu opens.
 
 ## Tier 1: the three dead ends
 

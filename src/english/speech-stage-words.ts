@@ -7,7 +7,7 @@
  */
 import stagesJson from "../../data/english/parts/speech-stages.json" with { type: "json" };
 import type { PersonId } from "../core2/types";
-import { admittedParts, type BankPart } from "./bank-parts";
+import { admittedParts, directorSlots, type BankPart } from "./bank-parts";
 import {
   renderLine,
   type Fact,
@@ -31,8 +31,7 @@ export function speechStageVariants(role: string): Variant[] {
     part.uses.some((use) => use.subject === "stage" && use.role === role),
   ).map((part) => ({
     key: part.key,
-    // The bank writes a slot as {name}; the renderer reads {{name}}.
-    text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
+    text: directorSlots(part.text),
   }));
 }
 
