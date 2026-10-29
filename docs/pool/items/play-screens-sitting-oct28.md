@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 1
 size: L
-status: in-pr
+status: done
 claimed-by: screens/sitting-oct28
 pr: #6703
 blocked-on:
