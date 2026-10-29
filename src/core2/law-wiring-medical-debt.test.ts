@@ -125,11 +125,21 @@ function play(core: CoreState): MedicalBillRow[] {
   return seen;
 }
 
-/** Each journal entry the bills posted: its lines, by journal id. */
+/**
+ * Each journal entry the bills posted, by world and journal id: what its
+ * lines sum to, and the lines of a full household's payment (a counted
+ * place's entry has a line for every group, so only its sum is kept).
+ */
 const posted = new Map<
   string,
-  { source: string; lines: { accountId: string; deltaMinor: number }[] }
+  {
+    source: string;
+    sum: number;
+    lines?: { accountId: string; deltaMinor: number }[];
+  }
 >();
+/** The world being played, so the two worlds' journal ids do not collide. */
+let playing = "";
 
 describe("medical bills and medical debt in a played world", () => {
   it("the expansion's medical-debt link is researched and runs from the law", () => {
@@ -146,12 +156,18 @@ describe("medical bills and medical debt in a played world", () => {
       const bookkeeping = setBookkeeping(false);
       setJournalTrace((input) => {
         if (!input.sourceRef.id.startsWith("medical:")) return;
-        posted.set(input.id, {
+        const counted = input.sourceRef.id.startsWith("medical:counted:");
+        posted.set(`${playing}|${input.id}`, {
           source: input.sourceRef.id,
-          lines: input.postings.map((p) => ({
-            accountId: p.accountId,
-            deltaMinor: p.deltaMinor,
-          })),
+          sum: input.postings.reduce((n, p) => n + p.deltaMinor, 0),
+          ...(counted
+            ? {}
+            : {
+                lines: input.postings.map((p) => ({
+                  accountId: p.accountId,
+                  deltaMinor: p.deltaMinor,
+                })),
+              }),
         });
       });
       const passed: string[] = [];
@@ -169,7 +185,9 @@ describe("medical bills and medical debt in a played world", () => {
           const enacted = enact(coreAPI(expanded));
           const repealed = repeal(coreAPI(twin));
           posted.clear();
+          playing = "expanded";
           const withLaw = play(expanded);
+          playing = "twin";
           const without = play(twin);
 
           // (a) Bills follow health and coverage, by record.
@@ -205,19 +223,27 @@ describe("medical bills and medical debt in a played world", () => {
             ill.billMinor,
             `${where}: ${ill.id} against ${healthy.id}`,
           ).toBeGreaterThan(healthy.billMinor);
-          // Each payment is one balanced entry from the household to the seller.
-          for (const row of [ill, healthy])
+          // Each payment is one balanced entry from the household to the
+          // seller, for the amount the bill row says it paid.
+          const worldOf = (row: MedicalBillRow) =>
+            withLaw.includes(row) ? "expanded" : "twin";
+          for (const row of [ill, healthy]) {
+            let moved = 0;
             for (const id of row.journalIds) {
-              const entry = posted.get(id);
+              const entry = posted.get(`${worldOf(row)}|${id}`);
               expect(entry, `${where}: ${id}`).toBeDefined();
-              expect(
-                entry!.lines.reduce((n, l) => n + l.deltaMinor, 0),
-                `${where}: ${id} balances`,
-              ).toBe(0);
+              expect(entry!.source, id).toContain(row.householdId);
+              expect(entry!.sum, `${where}: ${id} balances`).toBe(0);
+              moved += entry!.lines!.reduce(
+                (n, l) => n + Math.max(0, l.deltaMinor),
+                0,
+              );
             }
+            expect(moved, `${where}: ${row.id} paid`).toBe(row.paidMinor);
+          }
           for (const [id, entry] of posted)
             expect(
-              entry.lines.reduce((n, l) => n + l.deltaMinor, 0),
+              entry.sum,
               `${where}: ${id} (${entry.source}) balances`,
             ).toBe(0);
           // Covered members are billed less than uncovered ones, at the same
