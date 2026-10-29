@@ -16,7 +16,15 @@ import {
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { districtMap, partyLegend } from "./ui/map.mjs";
-import { faceGrid } from "./ui/face-grid.mjs";
+import { chamberHeader } from "./ui/chamber.mjs";
+import { partyBar } from "./ui/party-bar.mjs";
+import { memberCard } from "./ui/member-card.mjs";
+import { seatChart } from "./ui/seat-chart.mjs";
+import { voteBar } from "./ui/vote-bar.mjs";
+import { dateList } from "./ui/date-list.mjs";
+import { pager } from "./ui/pager.mjs";
+import { splitScreen } from "./ui/split-screen.mjs";
+import { section } from "./ui/section.mjs";
 import { makeTab, tabBar } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
@@ -332,6 +340,8 @@ let budgetGovernment;
 // The level and the other state the Government tab shows, once the player picks them.
 let governmentLevel;
 let governmentState = "";
+// The branch the Government tab shows, Legislative or Executive.
+let governmentBranch;
 let guideQuery = "";
 // Each civic term and its one-line definition.
 let guideTerms = new Map();
@@ -3049,22 +3059,364 @@ const sheets = {
       })),
     ];
   },
+  /**
+   * Politics → Government, drawn as the Oct 14 mock (docs/ui/mocks/
+   * screens-2026-10-14/shots/gov.png; owner, Oct 29: "make it look like a real
+   * game menu"). The level (Local, State, Federal) and the branch
+   * (Legislative, Executive) are two rows of tabs. A lawmaking body is its
+   * room's painting with its name and when it meets, its party split, its
+   * members as cards (a big chamber as a seat chart with your members and its
+   * leaders first), its recent roll calls as bars and what is coming up, with
+   * the level's executive beside it. One fixed panel: what does not fit pages
+   * inside its box, never a scroll (owner, Oct 29). Every card opens the
+   * person's card, where you act (owner, Oct 29: see and jump).
+   */
   async government() {
-    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
-    // The race you ran in opens first: its level, its office, its seat.
-    const race = v.ownRace;
-    // Which state's legislature the State view shows: the player's own, or any other.
-    const { states } = await api(`/api/government/state?state=`);
-    // A level or a state chosen redraws the sheet in place.
-    const redraw = async () => {
-      const nodes = await screen();
-      if (openTab === "government") $("sheet-body").replaceChildren(...nodes);
+    const [{ states }, gov] = await Promise.all([
+      api(`/api/government/state?state=`),
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+    ]);
+    const fill = (text, values) =>
+      Object.entries(values).reduce(
+        (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
+        text ?? "",
+      );
+    const short = (iso) => dateWords(iso, { month: "short", year: me.date });
+    const open = (cardId, face) => () => {
+      closeSheet();
+      showPerson({ personId: cardId, figureUrl: face?.url });
     };
+    const stateName = (key) =>
+      key === gov.homeState?.key
+        ? gov.homeState.name
+        : (states.find((st) => st.key === key)?.name ?? key);
+    // How a member feels about you, in three bands of the tie's closeness
+    // (-1 to 1): display wording only, never a choice.
+    const FEELING_WARM = 0.5;
+    const feelingOf = (level) =>
+      level === null || level === undefined
+        ? null
+        : level < 0
+          ? "cool"
+          : level >= FEELING_WARM
+            ? "warm"
+            : "known";
+    // A seat as a voter says it: a town's ward, a state's district, at large.
+    const seatWords = (body, district) =>
+      !district
+        ? body.seats > 1
+          ? labels.atLarge
+          : ""
+        : /^\d+$/.test(district)
+          ? fill(body.level === "city" ? labels.ward : labels.district, {
+              n: Number(district),
+            })
+          : district;
+    const card = (body, m, line, large = false) => {
+      const feeling = feelingOf(m.feeling);
+      return memberCard(
+        {
+          name: m.name,
+          line,
+          party: m.party,
+          badge: m.party ? m.party.charAt(0) : null,
+          face: m.face,
+          feeling,
+          feelingLabel: feeling ? labels.feeling?.[feeling] : null,
+          onOpen: open(m.cardId, m.face),
+        },
+        { large },
+      );
+    };
+    const sinceLine = (m) =>
+      m.party
+        ? fill(labels.partySince, {
+            party: m.party,
+            date: monthWords(m.serviceStart),
+          })
+        : fill(labels.sinceOnly, { date: monthWords(m.serviceStart) });
+    // How many rows of cards fit under the room's picture in this window:
+    // the panel never scrolls, so a short window pages sooner.
+    const rowsFor = (taken, most) =>
+      Math.max(
+        1,
+        Math.min(most, Math.floor((window.innerHeight - taken) / 72)),
+      );
+    const pageWords = {
+      page: labels.page,
+      previous: labels.previousPage,
+      next: labels.nextPage,
+    };
+    // When a body meets, as its rule says it: "every Tuesday", "the 1st and
+    // 3rd Tuesday of the month".
+    const scheduleWords = (rule) => {
+      if (!rule) return null;
+      const weekday = labels.weekdays?.[rule.weekday] ?? "";
+      const nth = (i) => labels.ordinals?.[i - 1] ?? String(i);
+      const schedule =
+        rule.weeksOfMonth.length === 0
+          ? fill(labels.meetsWeekly, { weekday })
+          : rule.weeksOfMonth.length > 1
+            ? fill(labels.meetsTwice, {
+                first: nth(rule.weeksOfMonth[0]),
+                second: nth(rule.weeksOfMonth[1]),
+                weekday,
+              })
+            : fill(labels.meetsMonthly, {
+                first: nth(rule.weeksOfMonth[0]),
+                weekday,
+              });
+      return fill(labels.meets, { schedule });
+    };
+    const comingWords = (item) =>
+      item.kind === "meeting"
+        ? labels.regularMeeting
+        : item.kind === "bill"
+          ? fill(labels.billOnFloor, {
+              number: item.number ?? "",
+              title: item.title ?? "",
+            })
+          : (item.title ?? "");
+    const comingList = (items) =>
+      dateList(
+        items.map((item) => ({
+          when: short(item.date),
+          text: comingWords(item),
+        })),
+        labels.nothingComing,
+      );
+    const voteList = (votes) =>
+      votes.length
+        ? votes.map((v) =>
+            voteBar({
+              title: v.title,
+              when: short(v.date),
+              yes: v.yes,
+              no: v.no,
+              yesLabel: fill(labels.yesCount, { n: v.yes }),
+              noLabel: fill(labels.noCount, { n: v.no }),
+              passed: v.passed,
+              outcome: v.passed ? labels.passed : labels.failed,
+            }),
+          )
+        : [dateList([], labels.noVotes)];
+    // The party split, largest first, nonpartisan bodies as one gray bar.
+    const splitBar = (body) => {
+      const total = fill(labels.seatsTotal, { n: body.seats });
+      const vacant = body.vacant
+        ? fill(labels.vacantCount, { n: body.vacant })
+        : "";
+      const held = body.members.length;
+      const parts = body.parties.length
+        ? body.parties.map((p) => ({
+            party: p.party,
+            seats: p.seats,
+            label: fill(labels.partyCount, {
+              n: p.seats,
+              party:
+                (p.seats === 1 ? labels.partySingular : labels.partyPlural)?.[
+                  p.party
+                ] ?? p.party,
+            }),
+          }))
+        : [
+            {
+              party: null,
+              seats: held,
+              label: `${labels.nonpartisan} · ${total}`,
+            },
+          ];
+      const unlisted = held - parts.reduce((sum, p) => sum + p.seats, 0);
+      return partyBar(
+        unlisted > 0 && body.parties.length
+          ? [
+              ...parts,
+              { party: null, seats: unlisted, label: String(unlisted) },
+            ]
+          : parts,
+        body.seats,
+        total,
+        vacant,
+      );
+    };
+    const lawmakingView = (body, executive, level, stateKey) => {
+      const election = body.comingUp.find((c) => c.kind === "election");
+      const header = chamberHeader({
+        picture: body.picture,
+        name: body.name,
+        line: [
+          level === "federal"
+            ? fill(labels.delegation, { state: stateName(stateKey) })
+            : null,
+          scheduleWords(body.meeting),
+          fill(labels.seatsTotal, { n: body.seats }),
+          election
+            ? fill(labels.nextElection, { date: dateWords(election.date) })
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      });
+      const big = body.seats > 12;
+      // A big chamber: your own members and its leaders first, then everyone
+      // by party, paged; a small body: every member, paged when it must.
+      const leaderIds = new Set(body.leaders.map((l) => l.cardId));
+      const people = big
+        ? [
+            ...body.members
+              .filter((m) => m.own)
+              .map((m) => card(body, m, seatWords(body, m.district))),
+            ...body.leaders.map((l) => {
+              // A leader who sits in this chamber is drawn as its member,
+              // party and feeling included; one from elsewhere by name.
+              const seated = body.members.find((m) => m.cardId === l.cardId);
+              return card(
+                body,
+                seated ?? { ...l, party: null, feeling: null },
+                words(l.post),
+              );
+            }),
+            ...[...body.members]
+              .filter((m) => !m.own && !leaderIds.has(m.cardId))
+              .sort(
+                (a, b) =>
+                  (a.party ?? "").localeCompare(b.party ?? "") ||
+                  a.name.localeCompare(b.name),
+              )
+              .map((m) => card(body, m, seatWords(body, m.district))),
+          ]
+        : body.members.map((m) => card(body, m, seatWords(body, m.district)));
+      const chart = big
+        ? [
+            seatChart(
+              [...body.members]
+                .sort((a, b) => (a.party ?? "~").localeCompare(b.party ?? "~"))
+                .map((m) => ({
+                  party: m.party,
+                  own: m.own,
+                  label: [m.name, m.party].filter(Boolean).join(", "),
+                })),
+              fill(labels.seatChart, { n: body.seats }),
+            ),
+          ]
+        : [];
+      // The level's chief executive beside its lawmakers, where it has one.
+      const chief = executive.find((e) => e.chief);
+      return {
+        main: [
+          header,
+          splitBar(body),
+          ...chart,
+          pager({
+            items: people,
+            render: (node) => node,
+            rows: big ? rowsFor(650, 3) : rowsFor(500, 4),
+            columns: 2,
+            rowHeight: 64,
+            gap: 8,
+            words: pageWords,
+            className: "members-pager",
+          }),
+        ],
+        side: [
+          { title: labels.recentVotes, nodes: voteList(body.recentVotes) },
+          { title: labels.comingUp, nodes: [comingList(body.comingUp)] },
+          ...(chief?.members[0]
+            ? [
+                {
+                  title: chief.title,
+                  nodes: [
+                    card(
+                      chief,
+                      chief.members[0],
+                      sinceLine(chief.members[0]),
+                      true,
+                    ),
+                  ],
+                },
+              ]
+            : []),
+        ],
+      };
+    };
+    // The executive branch: the chief executive's office on the left, the
+    // level's other elected officers and what is coming up on the right.
+    const executiveView = (executive, level) => {
+      const chief = executive.find((e) => e.chief) ?? executive[0];
+      const officers = executive.filter((e) => e !== chief);
+      const head = chief?.members[0];
+      return {
+        main: chief
+          ? [
+              chamberHeader({
+                picture: chief.picture,
+                name: chief.title,
+                // A local office is named under its government ("Village of
+                // Mokena"); a state's or the nation's never repeats the state
+                // the filter names (owner, Oct 28, point 16).
+                line: level === "local" ? chief.government : null,
+              }),
+              ...(head ? [card(chief, head, sinceLine(head), true)] : []),
+              section(
+                labels.comingUp,
+                comingList(
+                  executive
+                    .flatMap((o) => o.comingUp)
+                    .sort((a, b) => a.date.localeCompare(b.date))
+                    .slice(0, 4),
+                ),
+              ),
+            ]
+          : [],
+        side: [
+          ...(officers.length
+            ? [
+                {
+                  title: labels.officers,
+                  nodes: [
+                    pager({
+                      items: officers.flatMap((o) =>
+                        o.members.map((m) => card(o, m, o.title)),
+                      ),
+                      render: (node) => node,
+                      rows: rowsFor(450, 4),
+                      columns: 1,
+                      rowHeight: 64,
+                      gap: 8,
+                      words: pageWords,
+                      className: "members-pager",
+                    }),
+                  ],
+                },
+              ]
+            : []),
+        ],
+      };
+    };
+    // The chosen level, branch, state and body, kept while the sheet is open.
+    let bodyChoice = null;
     const screen = async () => {
-      const level = governmentLevel ?? race?.tier ?? "local";
-      const otherState = level === "local" ? "" : governmentState;
-      const picker = tabBar({
+      const level = governmentLevel ?? gov.ownRace?.tier ?? "local";
+      const stateKey = level === "local" ? "" : governmentState;
+      const v = await api(
+        `/api/government/bodies?${new URLSearchParams({ id: me.id, level, state: stateKey })}`,
+      );
+      // A branch the level has nothing in is not offered (nothing on screen
+      // does nothing): a township with no executive shows its board alone.
+      // SG-PLAY-government-judicial-no-judges: no Judicial branch yet, since no
+      // judge exists in the world to show (owner, Oct 29: judges read-only).
+      const offered = ["legislative", "executive"].filter((key) =>
+        key === "legislative" ? v.legislative.length : v.executive.length,
+      );
+      const branch = offered.includes(governmentBranch)
+        ? governmentBranch
+        : (offered[0] ?? "legislative");
+      const redraw = async () => {
+        const node = await screen();
+        if (openTab === "government") $("sheet-body").replaceChildren(node);
+      };
+      const levels = tabBar({
         attr: "level",
         className: "government-picker",
         active: level,
@@ -3073,317 +3425,84 @@ const sheets = {
           label: controls.levels?.[key] ?? words(key),
           onSelect: () => {
             governmentLevel = key;
+            bodyChoice = null;
             void redraw();
           },
         })),
       });
-      // The state filter under the level tabs: the kit's dropdown in its own
-      // box, reading the player's state by name, never "Your state" (owner,
-      // Oct 28, point 15).
+      const branches = tabBar({
+        attr: "branch",
+        className: "government-branch",
+        active: branch,
+        tabs: offered.map((key) => ({
+          key,
+          label: labels.branches?.[key] ?? words(key),
+          onSelect: () => {
+            governmentBranch = key;
+            void redraw();
+          },
+        })),
+      });
+      // The state filter: the kit's dropdown, the player's state by name
+      // first (owner, Oct 28, point 15).
       const stateFilter =
         level !== "local"
           ? select({
               className: "government-state",
               label: labels.stateFilter,
-              value: otherState,
+              value: stateKey,
               options: [
-                { value: "", label: v.homeState?.name ?? labels.ownState },
+                { value: "", label: gov.homeState?.name ?? labels.ownState },
                 ...states
-                  .filter((st) => st.key !== v.homeState?.key)
+                  .filter((st) => st.key !== gov.homeState?.key)
                   .map((st) => ({ value: st.key, label: st.name })),
               ],
               onChange: (state) => {
                 governmentState = state;
+                bodyChoice = null;
                 void redraw();
               },
             })
           : null;
-      const holderName = (s) =>
-        s.holder
-          ? `${s.holder.givenName} ${s.holder.familyName}`
-          : labels.vacant;
-      // The term as a voter would say it: when it ends, and how the holder won
-      // it where the world ran the race.
-      // Every holder is a person row: their headshot, their name opening
-      // their card (a named official's public card), their party.
-      const holderRow = (s, detail) =>
-        s.holder
-          ? personRow({
-              name: holderName(s),
-              detail,
-              party: s.holder.party,
-              face: s.holder.face,
-              onOpen: () => {
-                closeSheet();
-                showPerson({
-                  personId: s.holder.cardId,
-                  figureUrl: s.holder.face?.url,
-                });
-              },
-            })
-          : row(holderName(s), "");
-      const member = (s, withOffice = false) => {
-        const line = holderRow(s, withOffice ? s.title : undefined);
-        const won =
-          s.holder && s.elections.find((e) => e.termId === s.holder.termId);
-        const result = controls.results;
-        // Years of service and how the holder won, from the term and the seat's
-        // elections; who won the seat and has not taken it yet; your own race.
-        return withNotes(
-          line,
-          s.holder
-            ? [
-                {
-                  text: [
-                    won
-                      ? labels.electedWith
-                          .replace("{date}", monthWords(won.date))
-                          .replace("{share}", `${Math.round(won.share * 100)}%`)
-                      : null,
-                    s.holder.endDate
-                      ? labels.termEnds.replace(
-                          "{date}",
-                          monthWords(s.holder.endDate),
-                        )
-                      : null,
-                  ]
-                    .filter(Boolean)
-                    .join(". "),
-                  // The record the line reads, for the specs; never shown as text.
-                  data: {
-                    term: s.holder.termId,
-                    ...(won ? { election: won.termId } : {}),
+      const bodies = v.legislative;
+      const body =
+        bodies.find((b) => b.officeId === bodyChoice) ?? bodies[0] ?? null;
+      // More than one lawmaking body at a level (a town council and the
+      // county board; a state's two chambers): one tab each.
+      const bodyTabs =
+        branch === "legislative" && bodies.length > 1
+          ? [
+              tabBar({
+                attr: "body",
+                className: "government-bodies",
+                active: body?.officeId,
+                tabs: bodies.map((b) => ({
+                  key: b.officeId,
+                  label: b.name,
+                  onSelect: () => {
+                    bodyChoice = b.officeId;
+                    void redraw();
                   },
-                },
-              ]
-            : [],
-          [
-            s.elect && {
-              variant: "elect",
-              text: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${dateWords(s.elect.takesOffice)}`,
-              data: { contest: s.elect.contestId },
-            },
-            race &&
-              s.seatId === race.seatId && {
-                variant: "own-race",
-                text: [
-                  result.yourRace,
-                  race.won ? result.won : result.lost,
-                  `${result.you} ${race.votes.toLocaleString("en-US")}`,
-                  race.rival
-                    ? `${race.rival.name} ${race.rival.votes.toLocaleString("en-US")}`
-                    : null,
-                ]
-                  .filter(Boolean)
-                  .join(" · "),
-                data: { contest: race.contestId, record: race.recordId },
-              },
-          ],
-        );
-      };
-      let bodies;
-      if (otherState) {
-        // Another state's members at this level, its legislature or its members
-        // of Congress: every sitting member, by chamber.
-        const other = await api(
-          `/api/government/state?${new URLSearchParams({ state: otherState, level })}`,
-        );
-        const chambers = new Map();
-        for (const s of other.legislators) {
-          if (!chambers.has(s.officeId)) chambers.set(s.officeId, []);
-          chambers.get(s.officeId).push(s);
-        }
-        bodies = [...chambers.values()].map((seats) => ({
-          title: seats[0].title,
-          items: [
-            // The state is the one the filter names; no line repeating it.
-            ...seats.map((s) => ({ node: holderRow(s) })),
-          ],
-        }));
-      } else {
-        const offices = new Map();
-        for (const s of v.seats.filter((s) => s.tier === level)) {
-          if (!offices.has(s.officeId)) offices.set(s.officeId, []);
-          offices.get(s.officeId).push(s);
-        }
-        // A body of several seats is its own section; the one-seat offices
-        // of one government (a county's sheriff, clerk, assessor) share a
-        // section named for it, each row naming the office, so the screen
-        // holds every office at once (owner, Oct 28, point 22).
-        const body = (seats, title, detail) => {
-          const first = seats[0];
-          const parties = v.partySeatsByOffice[first.officeId] ?? [];
-          return {
-            title,
-            items: [
-              // A local one-seat office is named under its body ("Clerk /
-              // Apache County"); a state or federal office's government is
-              // the state the filter already names, so no "Governor / Ohio"
-              // line (owner, Oct 28, point 16).
-              level === "local" && first.body && first.body !== title
-                ? { text: first.body, tone: "place" }
-                : null,
-              first.presentation?.chamberUrl && {
-                picture: first.presentation.chamberUrl,
-              },
-              // The parties' seats, for a body of more than one seat: one
-              // governor gets no bar with a 1 on it (owner, Oct 28, point 17),
-              // and neither does a government's group of one-seat offices.
-              parties.length && seats.length > 1 && !detail
-                ? {
-                    node: barChart(
-                      parties.map((p) => ({ label: p.party, value: p.seats })),
-                      labels.seats,
-                    ),
-                  }
-                : null,
-              // A body of more than twelve seats (a legislature) shows its
-              // members as a grid of headshots, each opening their card.
-              ...(seats.length > 12
-                ? [
-                    {
-                      node: faceGrid(
-                        seats.map((s) => ({
-                          name: holderName(s),
-                          party: s.holder?.party ?? null,
-                          face: s.holder?.face ?? null,
-                          district: s.district,
-                          onOpen: () => {
-                            if (!s.holder) return;
-                            closeSheet();
-                            showPerson({
-                              personId: s.holder.cardId,
-                              figureUrl: s.holder.face?.url,
-                            });
-                          },
-                        })),
-                        (person) =>
-                          [person.name, person.party, person.district]
-                            .filter(Boolean)
-                            .join(", "),
-                      ),
-                    },
-                  ]
-                : seats.map((s) => ({ node: member(s, detail) }))),
-              // Future public view records can supply these without changing the layout.
-              ...(first.votes ?? []).flatMap((vote) => [
-                { text: vote.title, tone: "subhead" },
-                {
-                  node: barChart(
-                    [
-                      { label: labels.yes, value: vote.yes },
-                      { label: labels.no, value: vote.no },
-                    ],
-                    labels.votes,
-                  ),
-                },
-              ]),
-              ...(first.agenda ?? []).map((item) => ({
-                node: row(item.date, item.title),
-              })),
-            ],
-          };
-        };
-        const several = [...offices.values()].filter((s) => s.length > 1);
-        const single = new Map();
-        for (const seats of [...offices.values()].filter(
-          (s) => s.length === 1,
-        )) {
-          const key = seats[0].body ?? seats[0].government ?? seats[0].title;
-          if (!single.has(key)) single.set(key, []);
-          single.get(key).push(seats[0]);
-        }
-        bodies = [
-          // A body of several seats is titled with its name ("Taos County
-          // Board of Commissioners", a state's "Senate").
-          ...several.map((seats) =>
-            body(seats, seats[0].body ?? seats[0].government ?? seats[0].title),
-          ),
-          ...[...single].map(([name, seats]) =>
-            seats.length === 1
-              ? body(seats, seats[0].title)
-              : body(seats, name, true),
-          ),
-        ];
-      }
-      // The key people: the player's own members first, then the President,
-      // the Vice President and each chamber's leader by post and chamber (a
-      // leader from another state names the state they serve). Every other
-      // member is behind the State and Federal filters.
-      // A key person is a person row: their headshot, their name opening
-      // their card, then the office (a leader: the post and the chamber)
-      // and the notes (owner, Oct 28: real rows, not printed lines; every
-      // member clickable).
-      const keyLine = (k) => {
-        // A leader's post is a Guide term (Speaker, Majority leader): the
-        // carbon-copy underline, its definition on hover (owner, Oct 28,
-        // point 23); the chamber follows as a note.
-        const lead = k.post && !k.own;
-        const line = withNotes(
-          personRow({
-            name: k.name,
-            detail: lead ? termLabel(words(k.post)) : k.officeTitle,
-            face: k.face,
-            onOpen: () => {
-              closeSheet();
-              showPerson({ personId: k.personId, figureUrl: k.face?.url });
-            },
-          }),
-          [
-            // A leader's chamber and the state they serve read as one note, so the
-            // state never floats on a line of its own.
-            lead
-              ? {
-                  text: [k.chamber ?? k.officeTitle, k.stateName]
-                    .filter(Boolean)
-                    .join(" · "),
-                  className: "person-row-note person-row-sub",
-                }
-              : null,
-            k.own && k.post ? words(k.post) : null,
-            lead ? null : k.stateName,
-            // The President and Vice President a territory's voters do not choose.
-            k.chosenByHere === false ? controls.politics.notChosenHere : null,
-          ].map((note) =>
-            note !== null && typeof note === "object" ? note : { text: note },
-          ),
-        );
-        // Play anyone: a resident officeholder can be taken over (bench only).
-        if (k.resident && k.personId !== me.id) {
-          const b = makeButton({
-            className: "dev-only",
-            textContent: controls.handoff?.play ?? "",
-          });
-          b.addEventListener("click", () => playAs(k.personId));
-          line.append(b);
-        }
-        return line;
-      };
-      // The party the player belongs to, with the tie's record and how their
-      // views fit it; the parties they could join otherwise. Never joined: files
-      // unaffiliated.
-      const party = v.party ? partyRows(v.party) : [];
-      return recordScreen({
-        controls: [picker, stateFilter].filter(Boolean),
-        // Every body and every member on the screen at once, side by side:
-        // no Back and Continue in a menu (owner, Oct 28, point 22).
-        grid: true,
-        sections: [
-          ...bodies,
-          ...[
-            [labels.yourMembers, v.keyPeople.filter((k) => k.own)],
-            [labels.leaders, v.keyPeople.filter((k) => !k.own)],
-          ]
-            .filter(([, rows]) => rows.length)
-            .map(([title, rows]) => ({
-              title,
-              items: rows.map((k) => ({ node: keyLine(k) })),
-            })),
-          ...(party.length ? [{ items: party.map((node) => ({ node })) }] : []),
-        ],
+                })),
+              }),
+            ]
+          : [];
+      const view =
+        branch === "executive" || !body
+          ? executiveView(v.executive, level)
+          : lawmakingView(body, v.executive, level, v.state.key);
+      return splitScreen({
+        className: "government-screen",
+        controls: [
+          levels,
+          stateFilter,
+          offered.length > 1 ? branches : null,
+        ].filter(Boolean),
+        main: [...bodyTabs, ...view.main],
+        side: view.side,
       });
     };
-    return screen();
+    return [await screen()];
   },
   /**
    * Parties, illustrated: the state's map with the player's districts and
@@ -3411,27 +3530,36 @@ const sheets = {
       party,
       seats: seats.length,
     }));
+    // The party the player belongs to, with how their views fit it, or the
+    // parties they could join (moved here from Government, which now draws
+    // the mock; never joined: files unaffiliated).
+    const membership = v.party ? partyRows(v.party) : [];
     return recordScreen({
       controls: m
         ? [districtMap(m, { wordHolders }), partyLegend(parties, seatWords)]
         : [],
       grid: true,
-      sections: v.parties.map(({ party, seats }) => ({
-        title: party,
-        items: [
-          ...seats.map((s) => ({
-            node: personRow({
-              name: s.name,
-              detail: s.title,
-              face: s.face,
-              onOpen: () => {
-                closeSheet();
-                showPerson({ personId: s.cardId, figureUrl: s.face?.url });
-              },
-            }),
-          })),
-        ],
-      })),
+      sections: [
+        ...(membership.length
+          ? [{ items: membership.map((node) => ({ node })) }]
+          : []),
+        ...v.parties.map(({ party, seats }) => ({
+          title: party,
+          items: [
+            ...seats.map((s) => ({
+              node: personRow({
+                name: s.name,
+                detail: s.title,
+                face: s.face,
+                onOpen: () => {
+                  closeSheet();
+                  showPerson({ personId: s.cardId, figureUrl: s.face?.url });
+                },
+              }),
+            })),
+          ],
+        })),
+      ],
     });
   },
   /**
@@ -3728,7 +3856,7 @@ async function openSheet(tab) {
     "fits",
     !["calendar", "people", "who", "news"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
-      !$("sheet-body").querySelector(".screen-grid"),
+      !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
   show("sheet", true);
   $("game").classList.add("sheet-open");
