@@ -3330,12 +3330,23 @@ const sheets = {
             },
           }),
           [
-            lead ? (k.chamber ?? k.officeTitle) : null,
+            // A leader's chamber and the state they serve read as one note, so the
+            // state never floats on a line of its own.
+            lead
+              ? {
+                  text: [k.chamber ?? k.officeTitle, k.stateName]
+                    .filter(Boolean)
+                    .join(" · "),
+                  className: "person-row-note person-row-sub",
+                }
+              : null,
             k.own && k.post ? words(k.post) : null,
-            k.stateName,
+            lead ? null : k.stateName,
             // The President and Vice President a territory's voters do not choose.
             k.chosenByHere === false ? controls.politics.notChosenHere : null,
-          ].map((text) => ({ text })),
+          ].map((note) =>
+            note !== null && typeof note === "object" ? note : { text: note },
+          ),
         );
         // Play anyone: a resident officeholder can be taken over (bench only).
         if (k.resident && k.personId !== me.id) {
