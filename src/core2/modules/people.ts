@@ -38,6 +38,9 @@ import {
   pastWorkFor,
   pastWorkHistory,
   pastWorkOf,
+  preStartHistory,
+  preStartWindowOf,
+  recordPreStartLater,
   residenceOn,
   type HistoryRecord,
   type HistoryWriter,
@@ -390,12 +393,112 @@ function partneredRecords(
   return rows;
 }
 
+/**
+ * The couples among people filled in from the counts, written as the run writes
+ * the opening's couples (`partneredRecords`): the counted columns record who shares a
+ * home but not who is partnered, so two grown members of one household who are
+ * both kin to the same child under the adult age at home are told as a couple
+ * (SG-HIST-counted-couples-from-household). Dated by the same rule: the later of the
+ * days each was grown and working, no later than the child's birth. No dice.
+ */
+export function partneredForFilledIn(
+  api: CoreAPI,
+  people: readonly PersonState[],
+  moduleId: string,
+): void {
+  const core = api.state as CoreState;
+  const window = preStartWindowOf(core);
+  if (!window || !people.length) return;
+  api.stopgap("SG-HIST-counted-couples-from-household");
+  const adultYears = api.parameter("votingAge");
+  const daysPerYear = api.parameter("daysPerMeanYear");
+  const grown = (person: Readonly<PersonState>) =>
+    addDays(
+      makeIsoDate(person.birthDate),
+      Math.round(adultYears * daysPerYear),
+    );
+  const grownOn = (person: Readonly<PersonState>) => {
+    const first = pastWorkOf(core, person.id).find(
+      (row) => row.kind === PAST_WORK_SPELL && row.facts.how === "first-job",
+    );
+    const working = first ? String(first.facts.startedAt) : grown(person);
+    return working > grown(person) ? working : grown(person);
+  };
+  const told = new Set(
+    preStartHistory(core, { kind: FAMILY_PARTNERED }).map((row) => row.id),
+  );
+  const rows: Omit<HistoryRecord, "moduleId">[] = [];
+  for (const a of people) {
+    if (!a.alive || !a.householdId) continue;
+    const home = core.households.get(a.householdId);
+    if (!home) continue;
+    const members = [...home.memberIds]
+      .map((id) => core.people.get(id as PersonId))
+      .filter((row): row is PersonState => !!row && row.alive);
+    if (grown(a) > core.date) continue;
+    // A child at home is born once the person was grown: a younger sibling of a
+    // grown child is nobody's child here.
+    const kids = members.filter(
+      (row) =>
+        grown(row) > core.date &&
+        row.familyIds.has(a.id) &&
+        a.familyIds.has(row.id) &&
+        row.birthDate >= grown(a),
+    );
+    // The one other grown member who is kin to every one of their children.
+    const mates = members.filter(
+      (row) =>
+        row.id !== a.id &&
+        grown(row) <= core.date &&
+        kids.length > 0 &&
+        kids.every(
+          (kid) => kid.familyIds.has(row.id) && kid.birthDate >= grown(row),
+        ),
+    );
+    if (mates.length !== 1) continue;
+    const b = mates[0]!;
+    const key = pairKey(a.id, b.id);
+    const id = `${FAMILY_PARTNERED}:${key}`;
+    if (told.has(id)) continue;
+    told.add(id);
+    const firstChild = kids.map((kid) => kid.birthDate).sort()[0];
+    const both = [grownOn(a), grownOn(b)].sort()[1]!;
+    const date = makeIsoDate(
+      firstChild && firstChild < both ? firstChild : both,
+    );
+    if (date < window.from || date > window.through) continue;
+    const where = residenceOn(core, a, date);
+    rows.push({
+      id,
+      date,
+      kind: FAMILY_PARTNERED,
+      placeId: where.placeId,
+      personIds: [a.id, b.id].sort() as PersonId[],
+      facts: {
+        householdId: a.householdId,
+        residenceRecordId: where.recordId,
+        ...(firstChild ? { firstChildBorn: firstChild } : {}),
+      },
+      publicRecord: false,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation:
+          "The household's own records: two grown members, each kin to the same child at home, and their first jobs in the working-life run (src/core2/past-work.ts).",
+        estimatedFrom:
+          "Who is partnered is read from who shares a home and a child; when, by the later of the days each was grown and working, no later than that child's birth.",
+      },
+    });
+  }
+  recordPreStartLater(core, moduleId, rows);
+}
+
 export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
   preStart: { phase: "people", run: peopleHistory },
   // Someone filled in from the counts gets the working life the run would
   // have given them, read against the same economy and openings.
-  onFillIn: (api, { memberIds }) =>
+  onFillIn: (api, { memberIds }) => {
     pastWorkFor(
       api.state as CoreState,
       memberIds.flatMap((id) => {
@@ -406,7 +509,17 @@ export const PEOPLE_MODULE: PreStartModule = {
           : [];
       }),
       PEOPLE_MODULE_ID,
-    ),
+    );
+    // Then the couple among them, from the working lives just written.
+    partneredForFilledIn(
+      api,
+      memberIds.flatMap((id) => {
+        const person = api.state.people.get(id as PersonId);
+        return person ? [person] : [];
+      }),
+      PEOPLE_MODULE_ID,
+    );
+  },
   onDay: (api) => {
     shareHomeTime(api);
   },

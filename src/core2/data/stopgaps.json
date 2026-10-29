@@ -7613,5 +7613,16 @@
     "addedAt": "2026-10-29",
     "replacement": "The health engine keeps an adolescent depression condition per full teen (and a count for counted teens) decided from the teen's own traits, home and use, calibrated to the NSDUH share in an episode (health.youth-major-depressive-episode), with the web's factor multiplying that rate where the health engine decides it; a teen's social media use becomes a free-time act the age check removes for the teens it reaches; resting stress then reads the condition instead of scaling the age gap.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-counted-couples-from-household",
+    "kind": "partial-model",
+    "file": "src/core2/modules/people.ts",
+    "whatItFakes": "A couple among people filled in from the counts is told from who shares a home and a child (two grown members of one household who are both kin to the child at home), because the counted columns record shared homes but not who is partnered; a couple with no child at home, or a household of several grown kin, is not told, and a former partner is never told.",
+    "why": "The counted population keeps no individual past (two-level population); the card must tell a spouse who exists without inventing one, and the household is the record that says who lives with whom (owner, Oct 28, 14:50: the one history from the birth year, coarse and general).",
+    "addedBy": "play-first lane (Claude)",
+    "addedAt": "2026-10-29",
+    "replacement": "Carry the partnership in the counted household record when the opening generates it, with the day it began, so fill-in reads it instead of inferring it.",
+    "status": "open"
   }
 ]
