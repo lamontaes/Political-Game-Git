@@ -13,7 +13,7 @@ Worked before every other line. Numbered from 100 so earlier lines never move.
 100. `play-menus-no-continue-back` [open] · 3 h · No menu shows Continue or Back; a news story opens in place on the paper.
 101. `play-news-paper-prints-the-stories` [open] · 4 h · News is a front page with every story's text printed on it.
 102. `play-person-history-for-everyone-you-open` [open] · 4 h · Click anyone and their card tells their life from the records.
-103. `play-faces-show-the-moment-a-menu-opens` [open, after people-pack-v3] · 3 h · Faces are on screen the moment a menu opens.
+103. `play-faces-show-the-moment-a-menu-opens` [open, after people-pack-v4] · 3 h · Faces are on screen the moment a menu opens.
 
 ## Tier 1: the three dead ends
 

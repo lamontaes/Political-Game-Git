@@ -472,7 +472,41 @@ export function campaignDay(
     ...(input.outletId ? { outletId: input.outletId } : {}),
   });
   const met = outingPeople(core, kind, result);
+  // Each person asked for money: their name, what they gave or why not, in words.
+  const calls = result.answers.map((answer) => {
+    const person = core.people.get(answer.personId);
+    const name = person ? `${person.givenName} ${person.familyName}` : "";
+    const recordId = `${input.filingId}|${answer.personId}`;
+    return {
+      personId: answer.personId,
+      name,
+      givenMinor: answer.givenMinor,
+      why: answer.why,
+      line: standingLine(
+        core.seed,
+        personId,
+        answer.why === "gave" ? "gave" : answer.why,
+        recordId,
+        { name, amount: dollarsOf(answer.givenMinor) },
+      ),
+    };
+  });
+  const gave = calls.filter((c) => c.givenMinor > 0).length;
+  const callsLine =
+    kind !== "raise-money" || calls.length === 0
+      ? ""
+      : gave > 0
+        ? standingLine(core.seed, personId, "total", input.filingId, {
+            amount: dollarsOf(result.raisedMinor),
+            gave,
+            asked: calls.length,
+          })
+        : standingLine(core.seed, personId, "none-gave", input.filingId, {
+            asked: calls.length,
+          });
   return {
+    calls,
+    callsLine,
     ...(met.length ? { scene: outingScene(core, personId, kind, met) } : {}),
     households: [
       ...new Set(met.map((id) => core.people.get(id)?.householdId ?? "")),

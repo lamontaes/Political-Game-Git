@@ -5262,11 +5262,23 @@
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
     "line": 76,
-    "whatItFakes": "Child asthma (gas-hookup-ban-to-child-asthma), teen cannabis use (cannabis-sales-to-youth-use), Medicare out-of-pocket drug cost (drug-negotiation-to-out-of-pocket) and low birth weight from drinking-water violations (water-violations-to-infant-health) move only the web's number.",
-    "why": "No condition, use, prescription or birth-weight record exists for a child's asthma, a teen's cannabis use, an enrollee's drug spending or a newborn; condition-pack.ts holds adult chronic conditions only.",
+    "whatItFakes": "Child asthma (gas-hookup-ban-to-child-asthma), Medicare out-of-pocket drug cost (drug-negotiation-to-out-of-pocket) and low birth weight from drinking-water violations (water-violations-to-infant-health) move only the web's number. (A teen's past-month cannabis use is now the health engine's record: SG-HEALTH-youth-cannabis-record-unread.)",
+    "why": "No condition, prescription or birth-weight record exists for a child's asthma, an enrollee's drug spending or a newborn; condition-pack.ts holds adult chronic conditions only.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "A childhood asthma condition, a teen substance-use record and Part D spending on the household's books, each decided from the engine's own records times the web's factor.",
+    "replacement": "A childhood asthma condition and Part D spending on the household's books, each decided from the engine's own records times the web's factor.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HEALTH-youth-cannabis-record-unread",
+    "kind": "missing-reader",
+    "file": "src/core2/modules/health.ts",
+    "line": 750,
+    "whatItFakes": "Each full teen's monthly past-month cannabis use record (and the counted teens' count in the counted monthly row) is decided from their own conscientiousness and the place's share, which the state's sales law moves through the outcome web, but no other engine reads the record yet: a teen who used is no different at school, at home or at 18.",
+    "why": "The owner's Oct 29 ruling builds the record as a background simulation for the sales law; the readers the research names (school performance and leaving school, the adult substance-use condition at 18, a parent's worry) are engines that do not take a teen's use as an input today.",
+    "addedBy": "laws lead (health-teen-substance-use-record)",
+    "addedAt": "2026-10-29",
+    "replacement": "The school engine reads a teen's use where it decides grades and leaving school, and the health engine reads it where a person turning 18 is given the adult substance-use condition, each at a researched size.",
     "status": "open"
   },
   {

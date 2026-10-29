@@ -6,6 +6,41 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 19:20 UTC: people pack v4's look is approved; it goes into main and the build (owner, about 3:20 PM Eastern)
+
+- **Ruling:** "No, I've already approved the general look of V4. I'd like that to go in too." The owner's visual check on `people-pack-v4` is given for the general look; the PR is no longer held. It merges like any PR once its checks are green and a merger has checked it (not its author), and the Mac build waits for it. Later visual changes to single figures are ordinary fixes, not a new hold. Replaces the hold in `MERGE-FIRST.md` line 5 and in the 19:00 entry below.
+
+## Oct 29, 19:10 UTC: everyday clothes and work clothes are chosen apart (owner, directly to the people session; relayed to the CTO)
+
+- **Ruling:** "The creator mixes like formal clothes, like with a suit and tie, with regular clothes. There needs to be two separate ones. So that way also, like, the president doesn't render in normal clothes. They render in their, you know, quote-unquote work clothes." The character creator picks everyday clothes (with colors) and work clothes separately and shows both portraits. Officials at government places, and anyone at their own workplace, are drawn in work clothes only; elsewhere in everyday clothes. Built in `people-pack-v4`.
+- **CTO ruling on the open fallback (standing rule: the simulation decides who is present, and a view never drops a record):** where a person is in the scene's cast but the pack has no everyday figure in that room's pose (the slim woman on a couch at home), they are drawn in work clothes rather than left out, as a registered stopgap in v4 that names the figure to draw. The owner can overrule it in one line.
+
+## Oct 29, 19:00 UTC: everything finished goes into main and a fresh Mac build; nobody stops (owner, about 3:00 PM Eastern)
+
+- **Ruling:** "I want to get everything into main and play an up-to-date playtest... and update the Mac build so I can go ahead and install it... I think I'm on like 0.64.0." Then: "But, you know, I want them to keep working. I just want to play up to date." Every session pushes and opens PRs for what is already finished and keeps working; the mergers merge every green PR on `MERGE-FIRST.md`; the CTO starts the Release package workflow from main at about 19:45 UTC, and again whenever the owner asks for a build. Not a freeze. (People pack v4: approved at 19:20 UTC, above.)
+
+## Oct 29, 18:45 UTC: every portrait is a standing figure (owner, directly to the people session; relayed to the CTO)
+
+- **Ruling:** "people shouldn't be sitting in their image creator. They should all be standing, or in the character creator, or in their like profile or whatever." Every portrait (the character creator, person cards, faces in menus, the title bust) uses a standing figure holding nothing. A look the pack paints only seated is not offered in the creator until a standing figure of it is drawn; it still appears in rooms at sitting spots. Built in `people-pack-v4` (session_01S4WSHrjSXRBi1MtqEkbXWF).
+- **Also found there:** the President's look came from the term id, so every world drew the same build; looks are now seeded by the world seed plus the person's appearance seed. The medium man has no standing figure yet, so where he is President he cannot stand behind the desk; v4 records that as a gap to draw.
+
+## Oct 29, 18:55 UTC: v4 replaces v3; the owner looks at v4 only (owner, about 2:50 PM Eastern)
+
+- **Ruling:** "I can ignore V3 because V4 changes how, like, it's, we have to regenerate things because there's going to be some standardized angles for people to slot into instead of a bunch of different ones for every room." #6778 (v3) is closed unmerged; `people-pack-v3` is dropped as superseded; the v4 PR carries v3's code (the one loader, mannequin staging, face crops, the creator, the v1 and v2 deletions) to main with the v4 people, and waits for the owner's look. The v3 art asks (the heavy man's address figures, recut fronts) are moot: v4 regenerates the people at the standard angles. `play-faces-show-the-moment-a-menu-opens` now waits on `people-pack-v4`.
+
+## Oct 29, 18:50 UTC: where an office holder stands comes from the occasion, not the office (owner, about 2:45 PM Eastern)
+
+- **Ruling:** "the president shouldn't be hard coded to be sitting. That's just for certain occasions. But he could, of course, be in different parts of the room. But yes, sitting is the idea right now." No rule ties an office holder to one spot or posture. The scene's occasion, sent by the director with the cast, picks the kind of spot (the desk seat for the address; standing or elsewhere in the room for other occasions); until an occasion is sent, the default is the seated spot, kept in data. Words and the people session agree the occasion field before either builds it (CREW.md seam). Carried on `people-pack-v4`.
+- **Also recorded:** skills-only PRs merge at once, and the AGENTS.md skills list is one skill per line so two new skills never conflict (owner, 18:45 UTC: "they change like one or two files... how are they going to conflict with anything?").
+
+## Oct 29, 18:35 UTC: skill PRs merge without waiting on CI (owner, about 2:30 PM Eastern)
+
+- **Ruling:** "You shouldn't need to wait for checks to pass on new skills." A skills-only PR (skill files, their `.claude/skills` mirror, the AGENTS.md Skills list line, an `impact: none` declaration, dev-only scripts) is merged by the CTO as soon as it arrives: merge main in, run the skill test locally for the mirror and the list, merge. Carried in `AGENTS.md` (Skills) and the `cto` skill. First applied to #6785.
+
+## Oct 29, 18:25 UTC: helpers never copy the whole repository (owner, about 2:15 PM Eastern, in the laws session; relayed by the laws lead)
+
+- **Ruling:** "be sure the subagents, even if they clone the entire repository, they shouldn't. They should immediately delete what they don't need, or even more helpfully, only clone what they do need." And: "This needs to be a project rule... I'm talking about the thing with the sub-agents." A helper or sub-agent works in a sparse copy holding only the folders its task needs (by default everything except `art/`, `public/`, `desktop/` and the large docs folders), shares the main checkout's git objects, and links `node_modules` instead of installing it; a session that finds a full helper copy narrows it at once. Why: a full copy is about 3.3 GB (art alone 1.6 GB); six helper copies filled the laws session's roughly 40 GB allowance at 18:00 UTC and writes failed until the lead narrowed them to 1.2 GB each. Carried in `AGENTS.md` (Models, effort and helpers) and the laws lead's `helper-checkout` skill.
+
 ## Oct 29, 18:20 UTC: every session makes and updates skills (owner, about 2:15 PM Eastern)
 
 - **Ruling:** "Make sure every session knows that it can proactively create skills and update the skills that they use if they find stuff, or they can ask if it's a, you know, that kind of thing. I want skills to be made." Every session adds a line to the skill that should have told it what it just learned (a trap, a fix that worked, a method used twice, a check that caught a defect) or creates a new skill when none covers it, in the same pass, mirrored to `.claude/skills/`, named in AGENTS.md's Skills list, with `test:skill-ops` passing and an `impact: none` declaration. It ships inside the work PR or as its own `skills:` PR the CTO merges. A skill line records a ruling, a standing rule or a working method and never makes policy; when unsure, the session asks the CTO. Carried in `AGENTS.md` (Skills) and the `skill-lessons` skill. Extends the Oct 27 rulings that skills learn from errors and from what works. The owner added: "it can be a project skill... deleting helper's entire cloned repositories and only keeping what's needed. So that way they have plenty of gigabytes to work with. I told it to make a skill for that. So it can be meta like that, or it can be... anything in game as well."

@@ -266,12 +266,6 @@
       "stopgapId": "SG-WEB-crime-justice-links-unread"
     },
     {
-      "link": "cannabis-sales-to-youth-use",
-      "outcome": "health.youth-cannabis-use",
-      "reason": "engine doesn't read the factor: health.youth-cannabis-use moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-EW-HEALTH-condition-record"
-    },
-    {
       "link": "loan-rate-cap-to-high-cost-borrowing",
       "outcome": "finance.high-cost-loans",
       "reason": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it",
