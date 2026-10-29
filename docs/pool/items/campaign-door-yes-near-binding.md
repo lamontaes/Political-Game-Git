@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/door-yes-near-binding
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T22:06:49.333Z
 ---
 
 **What.** A resident who tells a campaign at the door that they will vote for its candidate is held to it at the ballot (owner, Oct 29: near-binding). Today the door answer is only a scene line and the vote reads a door visit as recognition and a small warmth term, so about ten residents in Gilbert WV who said yes voted against the player. This is phase A's first unit of campaign-like-real-races: the knock writes a pledge row from the rule the door answer already uses, and the one appeal function reads it for full people and counted residents.
