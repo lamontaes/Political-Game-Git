@@ -60,6 +60,14 @@ export function plates(): readonly Plate[] {
   return [...PLATES.values()];
 }
 
+/**
+ * How far into the room a spot is: the row its feet stand on, or behind a
+ * desk the row its hands rest on. People are drawn smallest first (farthest
+ * to nearest), so a desk spot draws before someone standing in front of it.
+ */
+export const depthOf = (spot: PlateSpot) =>
+  spot.feet ?? spot.hands ?? spot.box[3];
+
 /** Where the screen fetches a spot's front mask. */
 export const frontUrl = (file: string) => `/art/people-rooms/fronts/${file}`;
 

@@ -12,8 +12,10 @@ import {
   packFigures,
   packPeople,
 } from "./people-pack";
-import { plates } from "./mannequin-plates";
-import { fitOn, packPersonOf } from "./whole-figures";
+import { depthOf, plates } from "./mannequin-plates";
+import { appearanceRows, drawnAppearance, moveAppearance } from "./appearance";
+import type { CoreState } from "../core2/types";
+import { figureForSpot, fitOn, packPersonOf } from "./whole-figures";
 
 const ROOT = new URL("../../", import.meta.url);
 const tracked = execFileSync("git", ["ls-files"], {
@@ -54,12 +56,13 @@ describe("the people pack", () => {
     expect(opening).toEqual([]);
   });
 
-  it("leaves no v1, v2 or whole-figure file to reference or package", () => {
+  it("leaves no v1, v2, v3 or whole-figure file to reference or package", () => {
     for (const gone of [
       "art/people-engine/v1",
       "art/people-engine/v2",
       "art/people-whole",
       "art/people-rooms/poses",
+      "art/people-engine/v3",
     ]) {
       expect(existsSync(new URL(gone, ROOT)), gone).toBe(false);
       expect(
@@ -154,6 +157,73 @@ describe("the people pack", () => {
       Array.from({ length: 24 }, (_, n) => packPersonOf(who(`world-${n}`))!.id),
     );
     expect(drawn.size).toBeGreaterThan(1);
+  });
+
+  it("never puts a phone or paper in someone's hand at home, and does at a rally", () => {
+    // A world with no records but its date: nobody holds office or works here.
+    const core = {
+      date: "2026-01-01",
+      people: new Map(),
+      jobs: new Map(),
+    } as unknown as CoreState;
+    const someone = (n: number) => ({
+      id: `person-${n}`,
+      birthDate: "1980-01-01",
+      official: false,
+      seed: `props:${n}`,
+    });
+    const poses = [...new Set(packFigures().map((row) => row.pose))];
+    let held = 0;
+    for (const pose of poses)
+      for (let n = 0; n < 24; n++) {
+        const spot = { ...plates()[0]!.spots[0]!, pose, facing: 0 };
+        const home = figureForSpot(
+          core,
+          someone(n),
+          "house-suburban-living",
+          spot,
+        );
+        expect(home?.prop, `${pose} ${home?.id}`).toBeUndefined();
+        if (figureForSpot(core, someone(n), "rally-stage", spot)?.prop) held++;
+      }
+    // Where a phone belongs, someone painted only with one is drawn holding it.
+    expect(held).toBeGreaterThan(0);
+  });
+
+  it("gives every desk figure the row its hands rest on", () => {
+    // Measured by scripts/people/measure-hands.ts, or the art's own where it
+    // was drawn behind a table; without it a desk figure's lap shows.
+    const missing = packFigures()
+      .filter((row) => row.handsRestOnDesk && row.hands === undefined)
+      .map((row) => row.id);
+    expect(missing).toEqual([]);
+  });
+
+  it("draws farther spots first: the desk before anyone standing in front of it", () => {
+    // The Oval Office wide shot: a desk spot and people standing before it.
+    const office = plates().find(
+      (plate) =>
+        plate.spots.some((spot) => spot.hands !== undefined) &&
+        plate.spots.some((spot) => spot.feet !== undefined),
+    )!;
+    const desk = office.spots.find((spot) => spot.hands !== undefined)!;
+    const front = office.spots.filter(
+      (spot) => spot.feet !== undefined && spot.feet > desk.hands!,
+    );
+    expect(front.length).toBeGreaterThan(0);
+    for (const spot of front) expect(depthOf(desk)).toBeLessThan(depthOf(spot));
+  });
+
+  it("lists every look a person has in the creator, three or more", () => {
+    let look = drawnAppearance("male", "looks", 0);
+    const seen = new Set<string>();
+    for (let n = 0; n < 12; n++) {
+      seen.add(
+        appearanceRows(look, "male").find((row) => row.id === "outfit")!.value,
+      );
+      look = moveAppearance(look, "male", "outfit", 1);
+    }
+    expect(seen.size).toBeGreaterThanOrEqual(3);
   });
 
   it("offers a new manifest row in the creator with no code change", async () => {

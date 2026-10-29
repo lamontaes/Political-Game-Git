@@ -61,7 +61,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   let text = readFileSync(MANIFEST_URL, "utf8");
   let changed = 0;
   for (const figure of packFigures()) {
-    if (!figure.handsRestOnDesk) continue;
+    // A figure drawn behind a table carries the art's own hands row.
+    if (!figure.handsRestOnDesk || figure.drawnBehindTable) continue;
     const hands = handsRow(figure);
     console.log(`${figure.id}: hands ${hands ?? "not found"}`);
     if (hands === null || figure.hands === hands) continue;

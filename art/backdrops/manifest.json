@@ -13950,16 +13950,28 @@
       "tags": ["kind:train-depot-platform", "uses:shared-location"]
     },
     {
-      "place": "oval-address-close",
-      "variant": "night",
-      "file": "oval-address-close__night.jpg",
+      "place": "oval-office-standard",
+      "variant": "midday",
+      "file": "oval-office-standard__midday.jpg",
       "width": 1376,
       "height": 768,
-      "sha256": "a51e0433f7dffebf1faa8f49e18198c3bdc902127ff9f83bbe4ba9253227bbdd",
-      "sourceFile": "oval-address-close__night.png",
-      "sourceSha256": "a5e07aecdf39cc26227fc8edaf7f5de5c180ef4e33c792797e2d2579361b45c6",
-      "approval": "cto-brief-2026-10-29 people-pack-v3 (owner checks by eye before merge)",
-      "tags": ["kind:oval-address-close", "uses:shared-location"]
+      "sha256": "350dbcb1cf351e9eecd7fc29bfb5b72829d48a05f48d820a0cc255fa3028659f",
+      "sourceFile": "oval-office-standard__midday.png",
+      "sourceSha256": "692277349e37f650f763015a320a3f45d2c8ec9203af0eccb154414dfee60d0d",
+      "approval": "cto-brief-2026-10-29 people-pack-v4 (owner checks by eye before merge)",
+      "tags": ["kind:oval-office-standard", "uses:shared-location"]
+    },
+    {
+      "place": "oval-address-standard",
+      "variant": "night",
+      "file": "oval-address-standard__night.jpg",
+      "width": 1376,
+      "height": 768,
+      "sha256": "3ad3513c1fdf820cb71b15275cd3b0e18ab9a9197a17485e488b6d3e326e7e72",
+      "sourceFile": "oval-address-standard__night.png",
+      "sourceSha256": "d390b10d1a873c99b6ee63e09fcdf2aa2d553064d37a27f793024e377e7a543c",
+      "approval": "cto-brief-2026-10-29 people-pack-v4 (owner checks by eye before merge)",
+      "tags": ["kind:oval-address-standard", "uses:shared-location"]
     }
   ]
 }

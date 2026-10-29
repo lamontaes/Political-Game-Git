@@ -8,7 +8,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 
 /** The pack the game draws its people from. */
-export const PEOPLE_PACK = "v3";
+export const PEOPLE_PACK = "v4";
 
 const PACK_DIR = new URL(
   `../../art/people-engine/${PEOPLE_PACK}/`,
@@ -49,10 +49,18 @@ export interface PackFigure {
   readonly dress: string;
   readonly outfit: string;
   readonly outfitLabel?: string;
+  /** The hairstyle drawn, where a person has looks in several. */
+  readonly hair?: string;
+  /** What the figure holds (phone, paper, pen-paper); none holds nothing. */
+  readonly prop?: string;
+  /** The drawn angle: front, tq-left, tq-right, btq-left, btq-right. */
+  readonly angle?: string;
   readonly size: readonly [number, number];
   readonly head: HeadBox;
   /** Painted seated with its hands resting on a desk (the address pose). */
   readonly handsRestOnDesk?: boolean;
+  /** Drawn behind a table with its forearms on it; its `hands` row is the art's own. */
+  readonly drawnBehindTable?: boolean;
   readonly feet: { readonly x: number; readonly y: number };
   /** Seated at a desk: the row its hands rest on, in its own pixels, where the manifest gives it. */
   readonly hands?: number;
@@ -86,6 +94,23 @@ const BY_ID = new Map(MANIFEST.figures.map((row) => [row.id, row]));
 const PEOPLE = new Map(MANIFEST.people.map((row) => [row.id, row]));
 export const packFigure = (id: string) => BY_ID.get(id);
 export const packPerson = (id: string) => PEOPLE.get(id);
+
+/**
+ * One look of a person: everyday clothes (the kit), or an outfit in one
+ * hairstyle. The same person may have several looks of one outfit.
+ */
+export const lookKey = (figure: PackFigure) =>
+  figure.kind === "kit"
+    ? "everyday"
+    : figure.hair
+      ? `${figure.outfit}:${figure.hair}`
+      : figure.outfit;
+/** A look's worded name: the manifest's label of one of its rows, else none. */
+export function lookLabel(person: string, look: string): string | undefined {
+  return MANIFEST.figures.find(
+    (row) => row.person === person && lookKey(row) === look && row.outfitLabel,
+  )?.outfitLabel;
+}
 
 /** The parts a kit figure is recolored by: the person's palettes, in their order. */
 export function colorParts(person: PackPerson): readonly string[] {

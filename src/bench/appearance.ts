@@ -3,6 +3,8 @@ import { faceOfFigure } from "./scene";
 import {
   colorParts,
   figurePng,
+  lookKey,
+  lookLabel,
   packFigures,
   packPeople,
   packPerson,
@@ -50,20 +52,21 @@ const sentenceCase = (name: string) =>
 
 const sexes = () => [...new Set(packPeople().map((row) => row.sex))];
 const peopleOf = (sex: string) => packPeople().filter((row) => row.sex === sex);
+/**
+ * Every look a person has (people-pack.ts `lookKey`: everyday clothes, or an
+ * outfit in one hairstyle), each one they can be drawn in holding nothing.
+ */
 const outfitsOf = (person: string) => [
   ...new Set(
     packFigures()
-      .filter((row) => row.person === person)
-      .map((row) => row.outfit),
+      .filter((row) => row.person === person && !row.prop)
+      .map(lookKey),
   ),
 ];
-/** An outfit's worded name: everyday clothes, else the manifest's own label for it. */
-function outfitLabel(outfit: string): string {
-  if (outfit === EVERYDAY) return LABELS.everyday;
-  const label = packFigures().find(
-    (row) => row.outfit === outfit && row.outfitLabel,
-  )?.outfitLabel;
-  return sentenceCase(label ?? outfit);
+/** A look's worded name: everyday clothes, else the manifest's own label for it. */
+function outfitLabel(person: string, look: string): string {
+  if (look === EVERYDAY) return LABELS.everyday;
+  return sentenceCase(lookLabel(person, look) ?? look.split(":")[0]!);
 }
 const partLabel = (part: string) =>
   (LABELS.parts as Record<string, string>)[part] ??
@@ -112,7 +115,11 @@ export function appearanceRows(
       ? [{ id: "body", label: "Body", value: sexLabel(person.sex) }]
       : []),
     { id: "build", label: "Build", value: sentenceCase(person.build) },
-    { id: "outfit", label: "Clothes", value: outfitLabel(recipe.outfit) },
+    {
+      id: "outfit",
+      label: "Clothes",
+      value: outfitLabel(person.id, recipe.outfit),
+    },
     ...partsOf(recipe, person).map((part) => {
       const list = swatches(person, part);
       const current = recipe.colors?.[part] ?? list[0]!.id;

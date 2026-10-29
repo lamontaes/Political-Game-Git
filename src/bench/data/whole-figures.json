@@ -1,5 +1,5 @@
 {
-  "about": "How people are dressed and seated in rooms (src/bench/whole-figures.ts), read against the people pack's manifest (src/bench/people-pack.ts). `dressOrder`: the pack's dress values a person wears, most fitting first: an official at a government place, someone at their own workplace, anyone else. `packSex`: the pack's word for a recorded gender; a gender not listed may be any of the pack's people. `olderHair`: the palette color someone 65 or older wears where their palette has it.",
+  "about": "How people are dressed and seated in rooms (src/bench/whole-figures.ts), read against the people pack's manifest (src/bench/people-pack.ts). `dressOrder`: the pack's dress values a person wears, most fitting first: an official at a government place, someone at their own workplace, anyone else. `packSex`: the pack's word for a recorded gender; a gender not listed may be any of the pack's people. `olderHair`: the palette color someone 65 or older wears where their palette has it. `propPlaces`: where a figure holding something may be drawn, by its `prop` (owner, Oct 29: phones at a rally or on the street, paper at a hearing or the address desk, pen and paper at a desk; never at home).",
   "dressOrder": {
     "official": ["formal", "business", "casual"],
     "work": ["business", "formal", "casual"],
@@ -27,9 +27,9 @@
     "county-clerk",
     "dmv-office",
     "regional-office",
-    "oval-office-resolute",
-    "oval-address-close",
-    "white-house-colonnade"
+    "white-house-colonnade",
+    "oval-office-standard",
+    "oval-address-standard"
   ],
   "seatRoles": {
     "about": "A seat a room keeps for an office, by the office kind on its records: the role a mannequin plate's spot carries. The holder takes it when present; anyone else may sit there when it is free.",
@@ -49,5 +49,45 @@
       "shoes": "Shoes color",
       "hair": "Hair color"
     }
+  },
+  "propPlaces": {
+    "phone": [
+      "rally-courthouse-square",
+      "rally-downtown-plaza",
+      "rally-county-fairground",
+      "rally-union-hall-parking-lot",
+      "rally-stage",
+      "rally-airport-hangar",
+      "rally-town-square",
+      "rally-high-school-gym",
+      "courthouse-square",
+      "city-hall-steps-event",
+      "courthouse-steps",
+      "main-street",
+      "downtown-sidewalk",
+      "sidewalk-downtown",
+      "sidewalk-main-street",
+      "sidewalk-suburban",
+      "train-depot-platform",
+      "strip-mall-parking-lot",
+      "convention-hall",
+      "national-convention-floor"
+    ],
+    "paper": [
+      "committee-hearing-room",
+      "hearing-room-paneled",
+      "oval-address-standard",
+      "press-briefing-room"
+    ],
+    "pen-paper": [
+      "oval-office-standard",
+      "mayor-office",
+      "governor-office",
+      "congressional-office",
+      "county-office-cramped",
+      "office",
+      "campaign-office-storefront",
+      "local-newspaper-office"
+    ]
   }
 }

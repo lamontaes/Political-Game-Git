@@ -26,7 +26,7 @@ import {
   type FigurePerson,
 } from "./whole-figures";
 import type { PackFigure } from "./people-pack";
-import { plateFor, type PlateSpot } from "./mannequin-plates";
+import { depthOf, plateFor, type PlateSpot } from "./mannequin-plates";
 
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
 
@@ -797,8 +797,8 @@ export function stagePeople(
       spot: found.spot,
     });
   }
-  // Drawn far to near: the lower a mannequin's feet or hands, the nearer.
-  const depth = (spot: PlateSpot) => spot.feet ?? spot.hands ?? spot.box[3];
+  // Drawn far to near, so nearer people overlap farther ones.
+  const depth = depthOf;
   const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
   for (const { id, name, reason, who, figure, spot } of order)
     people.push({

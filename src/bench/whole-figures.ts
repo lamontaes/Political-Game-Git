@@ -11,6 +11,7 @@ import { orgPlace } from "./scene";
 import {
   colorParts,
   figureUrl,
+  lookKey,
   packFigures,
   packPeople,
   packPerson,
@@ -28,7 +29,7 @@ export function ageBandOf(core: CoreState, birthDate: string): AgeBand {
   return age < 13 ? "child" : age < 18 ? "teen" : age < 65 ? "adult" : "older";
 }
 
-/** A look chosen in the creator: one of the pack's people, an outfit, and a palette color per part. */
+/** A look chosen in the creator: one of the pack's people, one of their looks (people-pack.ts `lookKey`), and a palette color per part. */
 export interface ChosenLook {
   person: string;
   outfit: string;
@@ -96,8 +97,8 @@ function dressesFor(
 }
 
 /**
- * The person's figure in a pose: their chosen outfit first, then each dress
- * in turn, and in a dress their own outfit (set once from their seed); among
+ * The person's figure in a pose: their chosen look first, then each dress
+ * in turn, and in a dress their own look (set once from their seed); among
  * those, the one turned most nearly as the spot faces, then on the same seat.
  */
 function figureIn(
@@ -113,27 +114,38 @@ function figureIn(
   const seed = who.seed ?? who.id;
   const groups = [
     ...(who.look
-      ? [mine.filter((row) => row.outfit === who.look!.outfit)]
+      ? [mine.filter((row) => lookKey(row) === who.look!.outfit)]
       : []),
     ...dresses.map((dress) => {
       const rows = mine.filter((row) => row.dress === dress);
-      const outfits = [
+      const looks = [
         ...new Set(
           packFigures()
             .filter((row) => row.person === person.id && row.dress === dress)
-            .map((row) => row.outfit),
+            .map(lookKey),
         ),
       ].sort();
-      const own = outfits.length
-        ? outfits[mixed(`${seed}:${dress}`) % outfits.length]
+      const own = looks.length
+        ? looks[mixed(`${seed}:${dress}`) % looks.length]
         : undefined;
-      const worn = rows.filter((row) => row.outfit === own);
+      const worn = rows.filter((row) => lookKey(row) === own);
       return worn.length ? worn : rows;
     }),
   ];
   const rows = groups.find((group) => group.length);
   return rows ? [...rows].sort(rank)[0]! : null;
 }
+
+/**
+ * A figure holding something is drawn only where that thing belongs (owner,
+ * Oct 29: phones at a rally or on the street, paper at a hearing or the
+ * address desk, pen and paper at a desk; never at home), read from
+ * data/whole-figures.json `propPlaces`; one holding nothing goes anywhere.
+ */
+const PROP_PLACES: Readonly<Record<string, readonly string[]>> =
+  rules.propPlaces;
+const propHere = (figure: PackFigure, place: string) =>
+  !figure.prop || (PROP_PLACES[figure.prop] ?? []).includes(place);
 
 const turnApart = (a: number, b: number) => {
   const d = Math.abs(a - b) % 360;
@@ -156,7 +168,7 @@ export function figureForSpot(
     person,
     who,
     dressesFor(core, who, place),
-    (row) => row.pose === spot.pose,
+    (row) => row.pose === spot.pose && propHere(row, place),
     (a, b) =>
       turnApart(a.facing, spot.facing) - turnApart(b.facing, spot.facing) ||
       Number(b.seat === spot.seat) - Number(a.seat === spot.seat) ||
@@ -189,7 +201,7 @@ export function portraitOf(
     person,
     who,
     dresses,
-    () => true,
+    (row) => !row.prop,
     (a, b) =>
       Number(a.seat !== "none") - Number(b.seat !== "none") ||
       turnApart(a.facing, 0) - turnApart(b.facing, 0) ||
