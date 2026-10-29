@@ -596,8 +596,9 @@ describe("story director on the new core", () => {
         ),
     ).toBe(false);
     // A door the player's own canvass knocked, the first time or again: the
-    // player asks the resident for their vote (golden-door-ask), and no
-    // general first meeting or visit plays it too.
+    // player asks the resident for their vote (golden-door-ask), or, while
+    // the player's petition circulates, for their signature; and no general
+    // first meeting or visit plays it too.
     const knocked = (key: string) =>
       types
         .find((row) => row.key === key)!
@@ -606,6 +607,7 @@ describe("story director on the new core", () => {
             row.causeRecord === "campaign.door" && row.reason === "canvass",
         ).length;
     expect(knocked("door-ask")).toBe(2);
+    expect(knocked("door-signature")).toBe(1);
     expect(knocked("first-meeting")).toBe(0);
     expect(knocked("visit")).toBe(0);
   });
