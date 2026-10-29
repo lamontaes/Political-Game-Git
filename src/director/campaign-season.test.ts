@@ -110,10 +110,16 @@ it("a filed candidate's months are never silent, and each season scene writes ba
         api.moduleState(module).table(name).get(id) as unknown as
           Record<string, unknown> | undefined;
       if (typeKey === "interview-invite") {
+        // A yes puts the sitting on the record; the interview is published
+        // when the player has sat for it (interview-sitting.test.ts).
         const row = table("core2-press-v1", "interviews", said.interviewId!);
+        const sitting = core.durableLog.get(
+          `interview-accepted:${said.interviewId}` as never,
+        );
         return {
-          ok: row?.status === "published",
-          what: `${said.interviewId} ${String(row?.status)}`,
+          ok:
+            row?.status === "invited" && sitting?.kind === "interview-accepted",
+          what: `${said.interviewId} ${String(row?.status)}, sitting ${sitting ? "on the record" : "missing"}`,
         };
       }
       if (typeKey === "debate-invite") {

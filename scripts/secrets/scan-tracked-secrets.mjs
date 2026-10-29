@@ -1,7 +1,7 @@
 /* global Buffer, console, process */
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -93,7 +93,11 @@ export function scanTrackedFiles(root = process.cwd()) {
     .filter(Boolean);
   const findings = [];
   for (const relativePath of tracked) {
-    const content = readFileSync(path.join(root, relativePath));
+    const fullPath = path.join(root, relativePath);
+    // A helper's sparse copy (helper-checkout) lists the image files it skips
+    // in `git ls-files`; only scan what this checkout holds. CI scans all.
+    if (!existsSync(fullPath)) continue;
+    const content = readFileSync(fullPath);
     findings.push(...inspectTrackedEntry(relativePath, content));
   }
   return findings;

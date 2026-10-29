@@ -121,6 +121,7 @@
       "cause:event:primary-result",
       "cause:event:press-story",
       "cause:event:interview-invited",
+      "cause:event:interview-accepted",
       "cause:event:debate-invited",
       "cause:event:rival-word",
       "cause:event:rival-filed",
@@ -2685,7 +2686,13 @@
           "opening": "greet",
           "match": {
             "label": "cause:event:interview-published",
-            "selfNamed": true
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "sat",
+                "absent": true
+              }
+            ]
           }
         },
         {
@@ -3330,61 +3337,6 @@
       "asker": "boss",
       "asked": "worker",
       "stakes": ["job", "years"]
-    },
-    {
-      "key": "eviction-notice",
-      "roles": [
-        {
-          "key": "tenant",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["ask", "request", "blame"],
-          "wants": ["keep-same"],
-          "bearing": "braced"
-        },
-        {
-          "key": "landlord",
-          "fill": "counterpart",
-          "count": "one",
-          "moves": ["deliver-news", "refuse", "offer"],
-          "wants": ["change"],
-          "bearing": "calm"
-        },
-        {
-          "key": "family",
-          "fill": "household",
-          "count": "some",
-          "moves": ["comfort", "ask"],
-          "wants": ["help-others"],
-          "bearing": "anxious"
-        }
-      ],
-      "setting": ["home"],
-      "timing": "at-cause",
-      "causes": [
-        {
-          "awaitingProducer": "eviction-served",
-          "causeEngine": "housing",
-          "causeRecord": "housing.eviction",
-          "bind": {
-            "tenant": "subject",
-            "landlord": "counterpart",
-            "family": "household"
-          },
-          "opener": "landlord",
-          "opening": "deliver-news"
-        }
-      ],
-      "yieldsTo": ["news-arrives"],
-      "tag": {
-        "key": "loss",
-        "endpoint": "money",
-        "registers": ["conversation", "scene-words", "journal", "bring-it-up"]
-      },
-      "purpose": "eviction-terms",
-      "asker": "landlord",
-      "asked": "tenant",
-      "stakes": ["home", "rent"]
     },
     {
       "repeatsBy": "bill",
@@ -4987,6 +4939,57 @@
       "asker": "reporter",
       "asked": "you",
       "stakes": ["outlet", "race", "views"]
+    },
+    {
+      "key": "interview-sitting",
+      "note": "The candidate said yes to an outlet's invitation: the press engine's interview-accepted record names the candidate, the reporter who will ask and the outlet. The sitting is played in the conversation engine, never answered for them: the reporter puts each of the interview's own questions as a line, the candidate picks how to answer each (plainly, with a further fact from their record, by turning it back on a rival, briefly, or the lie where their record allows one) or says nothing, and when the sitting ends the press engine publishes the interview with exactly those moves. A question the reporter cannot put in words is answered from the candidate's filed platform.",
+      "roles": [
+        {
+          "key": "reporter",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["greet", "ask", "press", "close"],
+          "wants": ["engage"],
+          "bearing": "curious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["answer", "deflect", "tell", "lie"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:interview-accepted",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "invitedId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "press",
+          "causeRecord": "interview-accepted",
+          "bind": {
+            "reporter": "counterpart",
+            "you": "subject"
+          },
+          "opener": "reporter",
+          "opening": "greet"
+        }
+      ],
+      "tag": {
+        "key": "routine",
+        "endpoint": "political",
+        "registers": ["conversation", "scene-words", "journal"]
+      }
     },
     {
       "key": "debate-invite",

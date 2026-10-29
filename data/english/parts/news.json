@@ -51,7 +51,34 @@
     "candidate": "A candidate, by name, from the campaign's record.",
     "signatures": "How many signed the petition, from the recall's count.",
     "required": "How many signatures the law required, from the recall's count.",
-    "fewer": "How many fewer signed after the member's answer, from the count's reasons."
+    "fewer": "How many fewer signed after the member's answer, from the count's reasons.",
+    "asker": "The citizen who asked a member to carry a bill, by name, from the ask record.",
+    "also": "A second condition that moved the same month, from the outcome web month record.",
+    "jobless": "How many residents are looking for work, from the economic month record.",
+    "members": "How many members sit on the body, from the meeting record.",
+    "staff": "The staff a business plans for or starts with, from its staffing record.",
+    "industry": "What a business does, from the business books' industry for its kind.",
+    "years": "How many years a business was open, from its founding date.",
+    "ordinal": "Which of the month's victimization records of its kind this one is, from the crime month record.",
+    "graduates": "How many seniors graduated, from the school outcome record.",
+    "math": "The share of tested students proficient in math, from the school outcome record.",
+    "reading": "The share of tested students proficient in reading, from the school outcome record.",
+    "affordable": "How many of the new homes are priced below market, from the project record.",
+    "began": "The month and year work on a project began, from the project record.",
+    "down": "The down payment, from the purchase record.",
+    "raised": "What a campaign has raised in all, from the campaign record.",
+    "total": "What a donor has given a campaign in all, from the gift record.",
+    "majority": "The majority leader, by name, from the chamber record.",
+    "minority": "The minority leader, by name, from the chamber record.",
+    "successor": "Who takes a vacated seat by law, from the office rule.",
+    "before": "Who held the seat before, from the seat's earlier term.",
+    "owner": "A business owner, by name, from the ownership record.",
+    "previous": "The former owner, by name, from the ownership record.",
+    "spending": "A government's planned spending for the year, from its budget record.",
+    "revenue": "The revenue a government expects for the year, from its budget record.",
+    "relation": "How the person who died was related to the reader, from the family record.",
+    "survivor": "The relative who survives, by name, from the family record.",
+    "margin": "How many votes the winning side led by, from the vote record."
   },
   "maxWords": 14,
   "mining": {
@@ -209,8 +236,9 @@
         {
           "move": "life-death",
           "subject": "news",
-          "role": "life.death",
-          "choice": "lede"
+          "role": "death-age",
+          "choice": "context",
+          "requiresFacts": ["age"]
         }
       ],
       "transcriptsUsing": 37,
@@ -244,8 +272,9 @@
         {
           "move": "life-death",
           "subject": "news",
-          "role": "life.death",
-          "choice": "lede"
+          "role": "death-age",
+          "choice": "context",
+          "requiresFacts": ["age"]
         }
       ],
       "transcriptsUsing": 57,
@@ -4298,10 +4327,10 @@
       }
     },
     {
-      "key": "news.law-rule.a-place-law-on-measure-took-effect-on-date",
+      "key": "news.law-rule.a-place-law-on-the-measure-took-effect-on-date",
       "move": "law-rule",
       "kind": "written",
-      "text": "A {place} law on {measure} took effect on {date}.",
+      "text": "A {place} law on the {measure} took effect on {date}.",
       "uses": [
         {
           "move": "law-rule",
@@ -4319,10 +4348,10 @@
       }
     },
     {
-      "key": "news.law-rule.a-new-law-on-measure-took-effect-on-date",
+      "key": "news.law-rule.a-new-law-on-the-measure-took-effect-on-date",
       "move": "law-rule",
       "kind": "written",
-      "text": "A new law on {measure} took effect on {date}.",
+      "text": "A new law on the {measure} took effect on {date}.",
       "uses": [
         {
           "move": "law-rule",
@@ -5742,6 +5771,3171 @@
       ],
       "origin": "authored",
       "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.the-bill-deals-with-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "The bill deals with {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.at-issue-is-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "At issue is {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.the-law-is-about-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "The {law} is about {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["law", "purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.designation-concerns-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "{designation} concerns {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["designation", "purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.the-bill-goes-back-to-lawmakers-who-can-vote-to-override-the-veto",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "The bill goes back to lawmakers, who can vote to override the veto.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["vetoed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.lawmakers-can-still-override-the-veto-with-enough-votes",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "Lawmakers can still override the veto with enough votes.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["vetoed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.designation-becomes-law-with-name-s-signature",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "{designation} becomes law with {name}'s signature.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["signed", "designation", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.with-the-signature-the-law-becomes-law",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "With the signature, the {law} becomes law.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["signed", "law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-bill-will-not-reach-the-floor-unless-the-committee-takes-it-up-aga",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The bill will not reach the floor unless the committee takes it up again.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.without-the-committee-s-support-the-bill-goes-no-further",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "Without the committee's support, the bill goes no further.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-bill-now-goes-to-the-floor-for-a-vote",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The bill now goes to the floor for a vote.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.next-the-full-body-votes-on-it",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "Next, the full body votes on it.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.override-next.the-veto-stands-and-the-bill-does-not-become-law",
+      "move": "override-next",
+      "kind": "written",
+      "text": "The veto stands, and the bill does not become law.",
+      "uses": [
+        {
+          "move": "override-next",
+          "subject": "news",
+          "role": "override-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.override-next.the-bill-will-not-take-effect",
+      "move": "override-next",
+      "kind": "written",
+      "text": "The bill will not take effect.",
+      "uses": [
+        {
+          "move": "override-next",
+          "subject": "news",
+          "role": "override-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.override-next.the-bill-now-takes-effect-despite-the-veto",
+      "move": "override-next",
+      "kind": "written",
+      "text": "The bill now takes effect despite the veto.",
+      "uses": [
+        {
+          "move": "override-next",
+          "subject": "news",
+          "role": "override-next",
+          "choice": "context",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.roll-call-next.the-body-took-the-vote",
+      "move": "roll-call-next",
+      "kind": "written",
+      "text": "The {body} took the vote.",
+      "uses": [
+        {
+          "move": "roll-call-next",
+          "subject": "news",
+          "role": "roll-call-next",
+          "choice": "context",
+          "requiresFacts": ["body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.roll-call-next.the-vote-was-in-the-body",
+      "move": "roll-call-next",
+      "kind": "written",
+      "text": "The vote was in the {body}.",
+      "uses": [
+        {
+          "move": "roll-call-next",
+          "subject": "news",
+          "role": "roll-call-next",
+          "choice": "context",
+          "requiresFacts": ["body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.introduced-sponsor.name-is-the-bill-s-sponsor",
+      "move": "introduced-sponsor",
+      "kind": "written",
+      "text": "{name} is the bill's sponsor.",
+      "uses": [
+        {
+          "move": "introduced-sponsor",
+          "subject": "news",
+          "role": "introduced-sponsor",
+          "choice": "context",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.introduced-sponsor.its-sponsor-is-name",
+      "move": "introduced-sponsor",
+      "kind": "written",
+      "text": "Its sponsor is {name}.",
+      "uses": [
+        {
+          "move": "introduced-sponsor",
+          "subject": "news",
+          "role": "introduced-sponsor",
+          "choice": "context",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.jobs-nation.across-the-country-the-rate-was-nation",
+      "move": "jobs-nation",
+      "kind": "written",
+      "text": "Across the country, the rate was {nation}.",
+      "uses": [
+        {
+          "move": "jobs-nation",
+          "subject": "news",
+          "role": "jobs-nation",
+          "choice": "context",
+          "requiresFacts": ["nation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.jobs-nation.the-national-rate-was-nation",
+      "move": "jobs-nation",
+      "kind": "written",
+      "text": "The national rate was {nation}.",
+      "uses": [
+        {
+          "move": "jobs-nation",
+          "subject": "news",
+          "role": "jobs-nation",
+          "choice": "context",
+          "requiresFacts": ["nation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.rate-from.it-had-been-from",
+      "move": "rate-from",
+      "kind": "written",
+      "text": "It had been {from}.",
+      "uses": [
+        {
+          "move": "rate-from",
+          "subject": "news",
+          "role": "rate-from",
+          "choice": "context",
+          "requiresFacts": ["from"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.rate-from.the-rate-was-from-before-the-meeting",
+      "move": "rate-from",
+      "kind": "written",
+      "text": "The rate was {from} before the meeting.",
+      "uses": [
+        {
+          "move": "rate-from",
+          "subject": "news",
+          "role": "rate-from",
+          "choice": "context",
+          "requiresFacts": ["from"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.staff-cut-remaining.subject-now-plans-to-run-with-about-staff-people",
+      "move": "staff-cut-remaining",
+      "kind": "written",
+      "text": "{subject} now plans to run with about {staff} people.",
+      "uses": [
+        {
+          "move": "staff-cut-remaining",
+          "subject": "news",
+          "role": "staff-cut-remaining",
+          "choice": "context",
+          "requiresFacts": ["staff"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.staff-cut-remaining.the-employer-is-planning-for-a-staff-of-about-staff",
+      "move": "staff-cut-remaining",
+      "kind": "written",
+      "text": "The employer is planning for a staff of about {staff}.",
+      "uses": [
+        {
+          "move": "staff-cut-remaining",
+          "subject": "news",
+          "role": "staff-cut-remaining",
+          "choice": "context",
+          "requiresFacts": ["staff"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.business-kind.subject-is-listed-under-industry",
+      "move": "business-kind",
+      "kind": "written",
+      "text": "{subject} is listed under {industry}.",
+      "uses": [
+        {
+          "move": "business-kind",
+          "subject": "news",
+          "role": "business-kind",
+          "choice": "context",
+          "requiresFacts": ["industry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.business-kind.the-business-is-in-industry",
+      "move": "business-kind",
+      "kind": "written",
+      "text": "The business is in {industry}.",
+      "uses": [
+        {
+          "move": "business-kind",
+          "subject": "news",
+          "role": "business-kind",
+          "choice": "context",
+          "requiresFacts": ["industry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-jobless.in-all-jobless-people-in-place-are-looking-for-work",
+      "move": "conditions-jobless",
+      "kind": "written",
+      "text": "In all, {jobless} people in {place} are looking for work.",
+      "uses": [
+        {
+          "move": "conditions-jobless",
+          "subject": "news",
+          "role": "conditions-jobless",
+          "choice": "context",
+          "requiresFacts": ["jobless", "unemployment"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-jobless.that-leaves-jobless-people-in-place-looking-for-work",
+      "move": "conditions-jobless",
+      "kind": "written",
+      "text": "That leaves {jobless} people in {place} looking for work.",
+      "uses": [
+        {
+          "move": "conditions-jobless",
+          "subject": "news",
+          "role": "conditions-jobless",
+          "choice": "context",
+          "requiresFacts": ["jobless", "unemployment"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-rose-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} rose too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-went-up-as-well",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} went up as well.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-fell-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} fell too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-went-down-as-well",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} went down as well.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.at-the-same-time-also-fell",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "At the same time, {also} fell.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.at-the-same-time-also-rose",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "At the same time, {also} rose.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meeting-members.the-body-has-members-members",
+      "move": "meeting-members",
+      "kind": "written",
+      "text": "The {body} has {members} members.",
+      "uses": [
+        {
+          "move": "meeting-members",
+          "subject": "news",
+          "role": "meeting-members",
+          "choice": "context",
+          "requiresFacts": ["body", "members"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meeting-members.members-members-sit-on-the-body",
+      "move": "meeting-members",
+      "kind": "written",
+      "text": "{members} members sit on the {body}.",
+      "uses": [
+        {
+          "move": "meeting-members",
+          "subject": "news",
+          "role": "meeting-members",
+          "choice": "context",
+          "requiresFacts": ["body", "members"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meeting-bill.it-took-up-designation-which-deals-with-purpose",
+      "move": "meeting-bill",
+      "kind": "written",
+      "text": "It took up {designation}, which deals with {purpose}.",
+      "uses": [
+        {
+          "move": "meeting-bill",
+          "subject": "news",
+          "role": "meeting-bill",
+          "choice": "context",
+          "requiresFacts": ["designation", "purpose", "one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meeting-bill.among-them-was-designation-which-deals-with-purpose",
+      "move": "meeting-bill",
+      "kind": "written",
+      "text": "Among them was {designation}, which deals with {purpose}.",
+      "uses": [
+        {
+          "move": "meeting-bill",
+          "subject": "news",
+          "role": "meeting-bill",
+          "choice": "context",
+          "requiresFacts": ["designation", "purpose", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.profile.name-is-the-subject-of-this-profile",
+      "move": "profile",
+      "kind": "written",
+      "text": "{name} is the subject of this profile.",
+      "uses": [
+        {
+          "move": "profile",
+          "subject": "news",
+          "role": "profile",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.profile.this-profile-looks-at-the-career-of-name",
+      "move": "profile",
+      "kind": "written",
+      "text": "This profile looks at the career of {name}.",
+      "uses": [
+        {
+          "move": "profile",
+          "subject": "news",
+          "role": "profile",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.profile.this-weeks-profile-is-of-name",
+      "move": "profile",
+      "kind": "written",
+      "text": "This week's profile is of {name}.",
+      "uses": [
+        {
+          "move": "profile",
+          "subject": "news",
+          "role": "profile",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.profile-office.name-serves-as-office",
+      "move": "profile-office",
+      "kind": "written",
+      "text": "{name} serves as {office}.",
+      "uses": [
+        {
+          "move": "profile-office",
+          "subject": "news",
+          "role": "profile-office",
+          "choice": "context",
+          "requiresFacts": ["name", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.profile-office.name-serves-as-post-for-place",
+      "move": "profile-office",
+      "kind": "written",
+      "text": "{name} serves as {post} for {place}.",
+      "uses": [
+        {
+          "move": "profile-office",
+          "subject": "news",
+          "role": "profile-office",
+          "choice": "context",
+          "requiresFacts": ["name", "post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.profile-party.name-belongs-to-the-party-party",
+      "move": "profile-party",
+      "kind": "written",
+      "text": "{name} belongs to the {party} Party.",
+      "uses": [
+        {
+          "move": "profile-party",
+          "subject": "news",
+          "role": "profile-party",
+          "choice": "context",
+          "requiresFacts": ["name", "party"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.profile-party.name-is-an-independent",
+      "move": "profile-party",
+      "kind": "written",
+      "text": "{name} is an independent.",
+      "uses": [
+        {
+          "move": "profile-party",
+          "subject": "news",
+          "role": "profile-party",
+          "choice": "context",
+          "requiresFacts": ["name", "independent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.profile-since.name-has-served-since-year",
+      "move": "profile-since",
+      "kind": "written",
+      "text": "{name} has served since {year}.",
+      "uses": [
+        {
+          "move": "profile-since",
+          "subject": "news",
+          "role": "profile-since",
+          "choice": "context",
+          "requiresFacts": ["name", "year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy-fill.the-by-appoints-a-replacement",
+      "move": "vacancy-fill",
+      "kind": "written",
+      "text": "The {by} appoints a replacement.",
+      "uses": [
+        {
+          "move": "vacancy-fill",
+          "subject": "news",
+          "role": "vacancy-fill",
+          "choice": "context",
+          "requiresFacts": ["appointed", "by"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy-fill.under-the-rules-the-by-names-the-replacement",
+      "move": "vacancy-fill",
+      "kind": "written",
+      "text": "Under the rules, the {by} names the replacement.",
+      "uses": [
+        {
+          "move": "vacancy-fill",
+          "subject": "news",
+          "role": "vacancy-fill",
+          "choice": "context",
+          "requiresFacts": ["appointed", "by"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy-fill.the-by-appoints-a-replacement-and-a-special-election-follows",
+      "move": "vacancy-fill",
+      "kind": "written",
+      "text": "The {by} appoints a replacement, and a special election follows.",
+      "uses": [
+        {
+          "move": "vacancy-fill",
+          "subject": "news",
+          "role": "vacancy-fill",
+          "choice": "context",
+          "requiresFacts": ["then-special", "by"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy-fill.a-replacement-is-named-by-the-by-with-a-special-election-to-foll",
+      "move": "vacancy-fill",
+      "kind": "written",
+      "text": "A replacement is named by the {by}, with a special election to follow.",
+      "uses": [
+        {
+          "move": "vacancy-fill",
+          "subject": "news",
+          "role": "vacancy-fill",
+          "choice": "context",
+          "requiresFacts": ["then-special", "by"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy-fill.under-the-rules-the-successor-takes-the-seat",
+      "move": "vacancy-fill",
+      "kind": "written",
+      "text": "Under the rules, the {successor} takes the seat.",
+      "uses": [
+        {
+          "move": "vacancy-fill",
+          "subject": "news",
+          "role": "vacancy-fill",
+          "choice": "context",
+          "requiresFacts": ["successor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy-fill.the-seat-stays-open-under-the-rules",
+      "move": "vacancy-fill",
+      "kind": "written",
+      "text": "The seat stays open under the rules.",
+      "uses": [
+        {
+          "move": "vacancy-fill",
+          "subject": "news",
+          "role": "vacancy-fill",
+          "choice": "context",
+          "requiresFacts": ["empty"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy-election.the-special-election-is-set-for-when",
+      "move": "vacancy-election",
+      "kind": "written",
+      "text": "The special election is set for {when}.",
+      "uses": [
+        {
+          "move": "vacancy-election",
+          "subject": "news",
+          "role": "vacancy-election",
+          "choice": "context",
+          "requiresFacts": ["when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy-election.voters-will-choose-on-when",
+      "move": "vacancy-election",
+      "kind": "written",
+      "text": "Voters will choose on {when}.",
+      "uses": [
+        {
+          "move": "vacancy-election",
+          "subject": "news",
+          "role": "vacancy-election",
+          "choice": "context",
+          "requiresFacts": ["when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.chamber-majority.majority-was-named-majority-leader",
+      "move": "chamber-majority",
+      "kind": "written",
+      "text": "{majority} was named majority leader.",
+      "uses": [
+        {
+          "move": "chamber-majority",
+          "subject": "news",
+          "role": "chamber-majority",
+          "choice": "context",
+          "requiresFacts": ["majority"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.chamber-majority.majority-was-chosen-to-lead-the-majority",
+      "move": "chamber-majority",
+      "kind": "written",
+      "text": "{majority} was chosen to lead the majority.",
+      "uses": [
+        {
+          "move": "chamber-majority",
+          "subject": "news",
+          "role": "chamber-majority",
+          "choice": "context",
+          "requiresFacts": ["majority"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.chamber-minority.minority-was-named-minority-leader",
+      "move": "chamber-minority",
+      "kind": "written",
+      "text": "{minority} was named minority leader.",
+      "uses": [
+        {
+          "move": "chamber-minority",
+          "subject": "news",
+          "role": "chamber-minority",
+          "choice": "context",
+          "requiresFacts": ["minority"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.chamber-minority.minority-was-chosen-to-lead-the-minority",
+      "move": "chamber-minority",
+      "kind": "written",
+      "text": "{minority} was chosen to lead the minority.",
+      "uses": [
+        {
+          "move": "chamber-minority",
+          "subject": "news",
+          "role": "chamber-minority",
+          "choice": "context",
+          "requiresFacts": ["minority"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.owner-new.owner-is-the-new-owner",
+      "move": "owner-new",
+      "kind": "written",
+      "text": "{owner} is the new owner.",
+      "uses": [
+        {
+          "move": "owner-new",
+          "subject": "news",
+          "role": "owner-new",
+          "choice": "context",
+          "requiresFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.owner-new.the-new-owner-is-owner",
+      "move": "owner-new",
+      "kind": "written",
+      "text": "The new owner is {owner}.",
+      "uses": [
+        {
+          "move": "owner-new",
+          "subject": "news",
+          "role": "owner-new",
+          "choice": "context",
+          "requiresFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.owner-before.previous-owned-it-before",
+      "move": "owner-before",
+      "kind": "written",
+      "text": "{previous} owned it before.",
+      "uses": [
+        {
+          "move": "owner-before",
+          "subject": "news",
+          "role": "owner-before",
+          "choice": "context",
+          "requiresFacts": ["previous"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.owner-before.the-former-owner-previous-died",
+      "move": "owner-before",
+      "kind": "written",
+      "text": "The former owner, {previous}, died.",
+      "uses": [
+        {
+          "move": "owner-before",
+          "subject": "news",
+          "role": "owner-before",
+          "choice": "context",
+          "requiresFacts": ["previous", "died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-before.before-held-the-seat-before",
+      "move": "took-office-before",
+      "kind": "written",
+      "text": "{before} held the seat before.",
+      "uses": [
+        {
+          "move": "took-office-before",
+          "subject": "news",
+          "role": "took-office-before",
+          "choice": "context",
+          "requiresFacts": ["before"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-before.the-seat-was-last-held-by-before",
+      "move": "took-office-before",
+      "kind": "written",
+      "text": "The seat was last held by {before}.",
+      "uses": [
+        {
+          "move": "took-office-before",
+          "subject": "news",
+          "role": "took-office-before",
+          "choice": "context",
+          "requiresFacts": ["before"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-by.the-appointment-came-from-the-by",
+      "move": "took-office-by",
+      "kind": "written",
+      "text": "The appointment came from the {by}.",
+      "uses": [
+        {
+          "move": "took-office-by",
+          "subject": "news",
+          "role": "took-office-by",
+          "choice": "context",
+          "requiresFacts": ["by"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-by.the-by-made-the-appointment",
+      "move": "took-office-by",
+      "kind": "written",
+      "text": "The {by} made the appointment.",
+      "uses": [
+        {
+          "move": "took-office-by",
+          "subject": "news",
+          "role": "took-office-by",
+          "choice": "context",
+          "requiresFacts": ["by"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-cause.the-seat-opened-when-its-holder-died",
+      "move": "took-office-cause",
+      "kind": "written",
+      "text": "The seat opened when its holder died.",
+      "uses": [
+        {
+          "move": "took-office-cause",
+          "subject": "news",
+          "role": "took-office-cause",
+          "choice": "context",
+          "requiresFacts": ["died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-cause.the-seat-opened-after-its-holder-moved-away",
+      "move": "took-office-cause",
+      "kind": "written",
+      "text": "The seat opened after its holder moved away.",
+      "uses": [
+        {
+          "move": "took-office-cause",
+          "subject": "news",
+          "role": "took-office-cause",
+          "choice": "context",
+          "requiresFacts": ["moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.it-applies-across-the-country",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "It applies across the country.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.it-covers-everyone-in-the-country",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "It covers everyone in the country.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.it-applies-across-place",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "It applies across {place}.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.it-covers-everyone-in-place",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "It covers everyone in {place}.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-place.name-lived-in-place",
+      "move": "death-place",
+      "kind": "written",
+      "text": "{name} lived in {place}.",
+      "uses": [
+        {
+          "move": "death-place",
+          "subject": "news",
+          "role": "death-place",
+          "choice": "context",
+          "requiresFacts": ["name", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-place.name-was-a-resident-of-place",
+      "move": "death-place",
+      "kind": "written",
+      "text": "{name} was a resident of {place}.",
+      "uses": [
+        {
+          "move": "death-place",
+          "subject": "news",
+          "role": "death-place",
+          "choice": "context",
+          "requiresFacts": ["name", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.campaign-gift-office.candidate-is-running-for-office",
+      "move": "campaign-gift-office",
+      "kind": "written",
+      "text": "{candidate} is running for {office}.",
+      "uses": [
+        {
+          "move": "campaign-gift-office",
+          "subject": "news",
+          "role": "campaign-gift-office",
+          "choice": "context",
+          "requiresFacts": ["candidate", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.campaign-gift-office.candidate-is-a-candidate-for-office",
+      "move": "campaign-gift-office",
+      "kind": "written",
+      "text": "{candidate} is a candidate for {office}.",
+      "uses": [
+        {
+          "move": "campaign-gift-office",
+          "subject": "news",
+          "role": "campaign-gift-office",
+          "choice": "context",
+          "requiresFacts": ["candidate", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.campaign-gift-raised.the-campaign-has-raised-raised-so-far",
+      "move": "campaign-gift-raised",
+      "kind": "written",
+      "text": "The campaign has raised {raised} so far.",
+      "uses": [
+        {
+          "move": "campaign-gift-raised",
+          "subject": "news",
+          "role": "campaign-gift-raised",
+          "choice": "context",
+          "requiresFacts": ["raised"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.campaign-gift-raised.candidate-s-campaign-has-now-raised-raised",
+      "move": "campaign-gift-raised",
+      "kind": "written",
+      "text": "{candidate}'s campaign has now raised {raised}.",
+      "uses": [
+        {
+          "move": "campaign-gift-raised",
+          "subject": "news",
+          "role": "campaign-gift-raised",
+          "choice": "context",
+          "requiresFacts": ["candidate", "raised"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.campaign-gift-total.name-has-given-total-in-all",
+      "move": "campaign-gift-total",
+      "kind": "written",
+      "text": "{name} has given {total} in all.",
+      "uses": [
+        {
+          "move": "campaign-gift-total",
+          "subject": "news",
+          "role": "campaign-gift-total",
+          "choice": "context",
+          "requiresFacts": ["name", "total"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.campaign-gift-total.name-has-now-given-total-to-the-campaign",
+      "move": "campaign-gift-total",
+      "kind": "written",
+      "text": "{name} has now given {total} to the campaign.",
+      "uses": [
+        {
+          "move": "campaign-gift-total",
+          "subject": "news",
+          "role": "campaign-gift-total",
+          "choice": "context",
+          "requiresFacts": ["name", "total"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.carry.name-agreed-to-carry-designation-at-asker-s-request",
+      "move": "carry",
+      "kind": "written",
+      "text": "{name} agreed to carry {designation} at {asker}'s request.",
+      "uses": [
+        {
+          "move": "carry",
+          "subject": "news",
+          "role": "carry",
+          "choice": "lede",
+          "requiresFacts": ["name", "asker", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.carry.at-asker-s-request-name-agreed-to-carry-designation",
+      "move": "carry",
+      "kind": "written",
+      "text": "At {asker}'s request, {name} agreed to carry {designation}.",
+      "uses": [
+        {
+          "move": "carry",
+          "subject": "news",
+          "role": "carry",
+          "choice": "lede",
+          "requiresFacts": ["name", "asker", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.carry.asker-asked-name-to-carry-designation-and-name-agreed",
+      "move": "carry",
+      "kind": "written",
+      "text": "{asker} asked {name} to carry {designation}, and {name} agreed.",
+      "uses": [
+        {
+          "move": "carry",
+          "subject": "news",
+          "role": "carry",
+          "choice": "lede",
+          "requiresFacts": ["name", "asker", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-home-in-place-was-broken-into-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "A home in {place} was broken into on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-home-in-place-was-broken-into-on-date-the-ordinal-burglary-rec",
+      "move": "crime",
+      "kind": "written",
+      "text": "A home in {place} was broken into on {date}, the {ordinal} burglary recorded this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-property-crime-was-recorded-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "A property crime was recorded in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["property"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-property-crime-was-recorded-in-place-on-date-the-ordinal-this",
+      "move": "crime",
+      "kind": "written",
+      "text": "A property crime was recorded in {place} on {date}, the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["property", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.vandals-damaged-property-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Vandals damaged property in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.vandals-damaged-property-in-place-on-date-the-ordinal-case-recor",
+      "move": "crime",
+      "kind": "written",
+      "text": "Vandals damaged property in {place} on {date}, the {ordinal} case recorded this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-resident-of-place-was-robbed-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "A resident of {place} was robbed on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-resident-of-place-was-robbed-on-date-the-ordinal-robbery-recor",
+      "move": "crime",
+      "kind": "written",
+      "text": "A resident of {place} was robbed on {date}, the {ordinal} robbery recorded this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-resident-of-place-was-assaulted-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "A resident of {place} was assaulted on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-resident-of-place-was-assaulted-on-date-the-ordinal-assault-re",
+      "move": "crime",
+      "kind": "written",
+      "text": "A resident of {place} was assaulted on {date}, the {ordinal} assault recorded this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.graduation.graduates-of-the-number-seniors-in-place-graduated",
+      "move": "graduation",
+      "kind": "written",
+      "text": "{graduates} of the {number} seniors in {place} graduated.",
+      "uses": [
+        {
+          "move": "graduation",
+          "subject": "news",
+          "role": "graduation",
+          "choice": "lede",
+          "requiresFacts": ["graduates", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.graduation.place-graduated-percent-of-its-seniors-this-year",
+      "move": "graduation",
+      "kind": "written",
+      "text": "{place} graduated {percent} of its seniors this year.",
+      "uses": [
+        {
+          "move": "graduation",
+          "subject": "news",
+          "role": "graduation",
+          "choice": "lede",
+          "requiresFacts": ["graduates", "percent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.graduation.none-of-the-number-seniors-in-place-graduated",
+      "move": "graduation",
+      "kind": "written",
+      "text": "None of the {number} seniors in {place} graduated.",
+      "uses": [
+        {
+          "move": "graduation",
+          "subject": "news",
+          "role": "graduation",
+          "choice": "lede",
+          "requiresFacts": ["none", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.school-tests.in-place-math-of-tested-students-were-proficient-in-math",
+      "move": "school-tests",
+      "kind": "written",
+      "text": "In {place}, {math} of tested students were proficient in math.",
+      "uses": [
+        {
+          "move": "school-tests",
+          "subject": "news",
+          "role": "school-tests",
+          "choice": "lede",
+          "requiresFacts": ["math"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.school-tests.in-place-reading-of-tested-students-were-proficient-in-reading",
+      "move": "school-tests",
+      "kind": "written",
+      "text": "In {place}, {reading} of tested students were proficient in reading.",
+      "uses": [
+        {
+          "move": "school-tests",
+          "subject": "news",
+          "role": "school-tests",
+          "choice": "lede",
+          "requiresFacts": ["reading"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.school-tests.math-proficiency-in-place-stood-at-math-and-reading-at-reading",
+      "move": "school-tests",
+      "kind": "written",
+      "text": "Math proficiency in {place} stood at {math}, and reading at {reading}.",
+      "uses": [
+        {
+          "move": "school-tests",
+          "subject": "news",
+          "role": "school-tests",
+          "choice": "lede",
+          "requiresFacts": ["math", "reading"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homes-built.subject-finished-number-new-homes-in-place",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "{subject} finished {number} new homes in {place}.",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "news",
+          "role": "homes-built",
+          "choice": "lede",
+          "requiresFacts": ["subject", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homes-built.subject-finished-a-new-home-in-place",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "{subject} finished a new home in {place}.",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "news",
+          "role": "homes-built",
+          "choice": "lede",
+          "requiresFacts": ["subject", "one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homes-built.builders-finished-number-new-apartments-in-place",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "Builders finished {number} new apartments in {place}.",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "news",
+          "role": "homes-built",
+          "choice": "lede",
+          "requiresFacts": ["apartments", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homes-built.builders-finished-number-new-homes-in-place-affordable-priced-be",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "Builders finished {number} new homes in {place}, {affordable} priced below market.",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "news",
+          "role": "homes-built",
+          "choice": "lede",
+          "requiresFacts": ["several", "affordable"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homes-built.subject-finished-number-new-apartments-in-place-work-that-began",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "{subject} finished {number} new apartments in {place}, work that began in {began}.",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "news",
+          "role": "homes-built",
+          "choice": "lede",
+          "requiresFacts": ["subject", "apartments", "several", "began"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homes-built.a-new-home-was-finished-in-place-built-by-subject",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "A new home was finished in {place}, built by {subject}.",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "news",
+          "role": "homes-built",
+          "choice": "lede",
+          "requiresFacts": ["one", "subject"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homes-built.all-number-new-homes-finished-in-place-are-priced-below-market",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "All {number} new homes finished in {place} are priced below market.",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "news",
+          "role": "homes-built",
+          "choice": "lede",
+          "requiresFacts": ["all-affordable", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homes-built.work-that-began-in-began-ended-with-number-new-homes-in-place",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "Work that began in {began} ended with {number} new homes in {place}.",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "news",
+          "role": "homes-built",
+          "choice": "lede",
+          "requiresFacts": ["began", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.home-sale.a-home-in-place-sold-to-the-family-family-for-money",
+      "move": "home-sale",
+      "kind": "written",
+      "text": "A home in {place} sold to the {family} family for {money}.",
+      "uses": [
+        {
+          "move": "home-sale",
+          "subject": "news",
+          "role": "home-sale",
+          "choice": "lede",
+          "requiresFacts": ["money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.home-sale.the-family-family-bought-a-home-in-place-for-money",
+      "move": "home-sale",
+      "kind": "written",
+      "text": "The {family} family bought a home in {place} for {money}.",
+      "uses": [
+        {
+          "move": "home-sale",
+          "subject": "news",
+          "role": "home-sale",
+          "choice": "lede",
+          "requiresFacts": ["money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.home-sale.the-family-family-bought-a-home-in-place-with-down-down",
+      "move": "home-sale",
+      "kind": "written",
+      "text": "The {family} family bought a home in {place} with {down} down.",
+      "uses": [
+        {
+          "move": "home-sale",
+          "subject": "news",
+          "role": "home-sale",
+          "choice": "lede",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.home-sale.the-family-family-who-had-been-renting-bought-a-home-in-place",
+      "move": "home-sale",
+      "kind": "written",
+      "text": "The {family} family, who had been renting, bought a home in {place}.",
+      "uses": [
+        {
+          "move": "home-sale",
+          "subject": "news",
+          "role": "home-sale",
+          "choice": "lede",
+          "requiresFacts": ["renting"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.home-sale.the-family-family-bought-a-home-in-place-at-a-percent-mortgage-r",
+      "move": "home-sale",
+      "kind": "written",
+      "text": "The {family} family bought a home in {place} at a {percent} mortgage rate.",
+      "uses": [
+        {
+          "move": "home-sale",
+          "subject": "news",
+          "role": "home-sale",
+          "choice": "lede",
+          "requiresFacts": ["percent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.birth.name-was-born-in-place-on-date-to-parent-and-other",
+      "move": "birth",
+      "kind": "written",
+      "text": "{name} was born in {place} on {date}, to {parent} and {other}.",
+      "uses": [
+        {
+          "move": "birth",
+          "subject": "news",
+          "role": "birth",
+          "choice": "lede",
+          "requiresFacts": ["place", "other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.birth.parent-and-other-welcomed-name-in-place-on-date",
+      "move": "birth",
+      "kind": "written",
+      "text": "{parent} and {other} welcomed {name} in {place} on {date}.",
+      "uses": [
+        {
+          "move": "birth",
+          "subject": "news",
+          "role": "birth",
+          "choice": "lede",
+          "requiresFacts": ["place", "other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.birth.name-was-born-in-place-to-parent-on-date",
+      "move": "birth",
+      "kind": "written",
+      "text": "{name} was born in {place} to {parent} on {date}.",
+      "uses": [
+        {
+          "move": "birth",
+          "subject": "news",
+          "role": "birth",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization-opened.subject-has-opened-for-business-in-industry",
+      "move": "organization-opened",
+      "kind": "written",
+      "text": "{subject} has opened for business in {industry}.",
+      "uses": [
+        {
+          "move": "organization-opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["industry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization-opened.subject-opened-with-a-staff-of-staff",
+      "move": "organization-opened",
+      "kind": "written",
+      "text": "{subject} opened with a staff of {staff}.",
+      "uses": [
+        {
+          "move": "organization-opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["staff"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.founded.name-has-opened-a-business-in-industry",
+      "move": "founded",
+      "kind": "written",
+      "text": "{name} has opened a business in {industry}.",
+      "uses": [
+        {
+          "move": "founded",
+          "subject": "news",
+          "role": "founded",
+          "choice": "lede",
+          "requiresFacts": ["industry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.founded.name-opened-a-business-in-industry-in-place-on-date",
+      "move": "founded",
+      "kind": "written",
+      "text": "{name} opened a business in {industry} in {place} on {date}.",
+      "uses": [
+        {
+          "move": "founded",
+          "subject": "news",
+          "role": "founded",
+          "choice": "lede",
+          "requiresFacts": ["industry", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-years.it-had-been-open-for-years-years",
+      "move": "closing-years",
+      "kind": "written",
+      "text": "It had been open for {years} years.",
+      "uses": [
+        {
+          "move": "closing-years",
+          "subject": "news",
+          "role": "closing-years",
+          "choice": "context",
+          "requiresFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-years.it-was-in-business-for-years-years",
+      "move": "closing-years",
+      "kind": "written",
+      "text": "It was in business for {years} years.",
+      "uses": [
+        {
+          "move": "closing-years",
+          "subject": "news",
+          "role": "closing-years",
+          "choice": "context",
+          "requiresFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-workers.number-people-worked-there",
+      "move": "closing-workers",
+      "kind": "written",
+      "text": "{number} people worked there.",
+      "uses": [
+        {
+          "move": "closing-workers",
+          "subject": "news",
+          "role": "closing-workers",
+          "choice": "context",
+          "requiresFacts": ["number", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-workers.it-employed-number-people",
+      "move": "closing-workers",
+      "kind": "written",
+      "text": "It employed {number} people.",
+      "uses": [
+        {
+          "move": "closing-workers",
+          "subject": "news",
+          "role": "closing-workers",
+          "choice": "context",
+          "requiresFacts": ["number", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-why.the-owner-was-retiring",
+      "move": "closing-why",
+      "kind": "written",
+      "text": "The owner was retiring.",
+      "uses": [
+        {
+          "move": "closing-why",
+          "subject": "news",
+          "role": "closing-why",
+          "choice": "context",
+          "requiresFacts": ["retiring"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-why.no-one-was-in-line-to-take-it-over",
+      "move": "closing-why",
+      "kind": "written",
+      "text": "No one was in line to take it over.",
+      "uses": [
+        {
+          "move": "closing-why",
+          "subject": "news",
+          "role": "closing-why",
+          "choice": "context",
+          "requiresFacts": ["no-successor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-why.it-had-been-losing-money",
+      "move": "closing-why",
+      "kind": "written",
+      "text": "It had been losing money.",
+      "uses": [
+        {
+          "move": "closing-why",
+          "subject": "news",
+          "role": "closing-why",
+          "choice": "context",
+          "requiresFacts": ["losses"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-why.it-ran-out-of-cash-to-pay-what-it-owed",
+      "move": "closing-why",
+      "kind": "written",
+      "text": "It ran out of cash to pay what it owed.",
+      "uses": [
+        {
+          "move": "closing-why",
+          "subject": "news",
+          "role": "closing-why",
+          "choice": "context",
+          "requiresFacts": ["broke"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-owner.owner-owned-the-business",
+      "move": "closing-owner",
+      "kind": "written",
+      "text": "{owner} owned the business.",
+      "uses": [
+        {
+          "move": "closing-owner",
+          "subject": "news",
+          "role": "closing-owner",
+          "choice": "context",
+          "requiresFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-owner.the-owner-was-owner",
+      "move": "closing-owner",
+      "kind": "written",
+      "text": "The owner was {owner}.",
+      "uses": [
+        {
+          "move": "closing-owner",
+          "subject": "news",
+          "role": "closing-owner",
+          "choice": "context",
+          "requiresFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-share.name-took-percent-of-the-vote",
+      "move": "election-share",
+      "kind": "written",
+      "text": "{name} took {percent} of the vote.",
+      "uses": [
+        {
+          "move": "election-share",
+          "subject": "news",
+          "role": "election-share",
+          "choice": "context",
+          "requiresFacts": ["name", "percent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-share.name-won-with-percent-of-the-vote",
+      "move": "election-share",
+      "kind": "written",
+      "text": "{name} won with {percent} of the vote.",
+      "uses": [
+        {
+          "move": "election-share",
+          "subject": "news",
+          "role": "election-share",
+          "choice": "context",
+          "requiresFacts": ["name", "percent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-turnout.number-votes-were-cast",
+      "move": "election-turnout",
+      "kind": "written",
+      "text": "{number} votes were cast.",
+      "uses": [
+        {
+          "move": "election-turnout",
+          "subject": "news",
+          "role": "election-turnout",
+          "choice": "context",
+          "requiresFacts": ["number"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-turnout.in-all-number-votes-were-cast",
+      "move": "election-turnout",
+      "kind": "written",
+      "text": "In all, {number} votes were cast.",
+      "uses": [
+        {
+          "move": "election-turnout",
+          "subject": "news",
+          "role": "election-turnout",
+          "choice": "context",
+          "requiresFacts": ["number"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget-spending.the-budget-plans-to-spend-spending-against-revenue-in-revenue",
+      "move": "budget-spending",
+      "kind": "written",
+      "text": "The budget plans to spend {spending}, against {revenue} in revenue.",
+      "uses": [
+        {
+          "move": "budget-spending",
+          "subject": "news",
+          "role": "budget-spending",
+          "choice": "context",
+          "requiresFacts": ["spending", "revenue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget-spending.planned-spending-is-spending-with-revenue-expected-in-revenue",
+      "move": "budget-spending",
+      "kind": "written",
+      "text": "Planned spending is {spending}, with {revenue} expected in revenue.",
+      "uses": [
+        {
+          "move": "budget-spending",
+          "subject": "news",
+          "role": "budget-spending",
+          "choice": "context",
+          "requiresFacts": ["spending", "revenue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget-largest.the-largest-line-purpose-gets-money",
+      "move": "budget-largest",
+      "kind": "written",
+      "text": "The largest line, {purpose}, gets {money}.",
+      "uses": [
+        {
+          "move": "budget-largest",
+          "subject": "news",
+          "role": "budget-largest",
+          "choice": "context",
+          "requiresFacts": ["purpose", "money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-kin.name-was-the-relation-of-survivor",
+      "move": "death-kin",
+      "kind": "written",
+      "text": "{name} was the {relation} of {survivor}.",
+      "uses": [
+        {
+          "move": "death-kin",
+          "subject": "news",
+          "role": "death-kin",
+          "choice": "context",
+          "requiresFacts": ["name", "relation", "survivor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.council-vote.the-body-voted-count-on-date",
+      "move": "council-vote",
+      "kind": "written",
+      "text": "The {body} voted {count} on {date}.",
+      "uses": [
+        {
+          "move": "council-vote",
+          "subject": "news",
+          "role": "council-vote",
+          "choice": "lede",
+          "requiresFacts": ["body", "count", "date"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.council-vote.on-date-the-body-voted-count",
+      "move": "council-vote",
+      "kind": "written",
+      "text": "On {date}, the {body} voted {count}.",
+      "uses": [
+        {
+          "move": "council-vote",
+          "subject": "news",
+          "role": "council-vote",
+          "choice": "lede",
+          "requiresFacts": ["body", "count", "date"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vote-margin.it-carried-by-a-single-vote",
+      "move": "vote-margin",
+      "kind": "written",
+      "text": "It carried by a single vote.",
+      "uses": [
+        {
+          "move": "vote-margin",
+          "subject": "news",
+          "role": "vote-margin",
+          "choice": "context",
+          "requiresFacts": ["one-vote", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vote-margin.it-carried-by-margin-votes",
+      "move": "vote-margin",
+      "kind": "written",
+      "text": "It carried by {margin} votes.",
+      "uses": [
+        {
+          "move": "vote-margin",
+          "subject": "news",
+          "role": "vote-margin",
+          "choice": "context",
+          "requiresFacts": ["margin", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vote-margin.it-fell-short-by-a-single-vote",
+      "move": "vote-margin",
+      "kind": "written",
+      "text": "It fell short by a single vote.",
+      "uses": [
+        {
+          "move": "vote-margin",
+          "subject": "news",
+          "role": "vote-margin",
+          "choice": "context",
+          "requiresFacts": ["one-vote", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vote-margin.it-fell-short-by-margin-votes",
+      "move": "vote-margin",
+      "kind": "written",
+      "text": "It fell short by {margin} votes.",
+      "uses": [
+        {
+          "move": "vote-margin",
+          "subject": "news",
+          "role": "vote-margin",
+          "choice": "context",
+          "requiresFacts": ["margin", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
       "date": "2026-10-29",
       "tag": {
         "move": "deliver-news",

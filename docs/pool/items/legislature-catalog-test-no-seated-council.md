@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:22:35.834Z
 ---
 
-**What.** TODO
+**What.** The catalog case in src/core2/legislature.test.ts (the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills) starts by calling the file's town helper. That helper draws up to 12 towns by seed and throws "no town with a seated council" when none has three or more seated council members. The title says this error appeared on some seeds, on main too. On Oct 28 a pool worker could not reproduce it: the case passed on ten fresh GOLDEN_PATH_SEED values and the whole file passed 20 of 20 in six more runs, so the item is probably already fixed or rare enough that it needs a recorded failing seed before any change.
 
-**Rules.** TODO
+**Rules.** One rule, all 56 places: the helper draws its town by seed, so a failing seed is named with the place it drew, and any fix is made in the data or in the draw, never by naming a state or skipping the case.
 
-**Done when.** TODO **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** Either a failing seed is recorded and the catalog case in src/core2/legislature.test.ts is shown failing on it before the fix and passing after, with the drawn place named in the PR body, or the item is closed with the Oct 28 evidence quoted from the test runs (ten fresh seeds passing and 20 of 20 whole-file runs). **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
-**Files.** TODO
+**Files.** src/core2/legislature.test.ts
 
 **Notes.** TODO Released from idle draft #5217 by the CTO, Oct 26.
 

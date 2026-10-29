@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-stop-23-job-offer-hold-locks-the-game
-pr: #5971
+pr: #6779
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first

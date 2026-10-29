@@ -14,6 +14,7 @@ import { buildBenchWorld } from "./world";
 import { BenchPlayer, ownPick } from "./player";
 import { benchScene, stagePeople, type BenchScenePerson } from "./scene";
 import { storyScene } from "./story";
+import { plateFor } from "./mannequin-plates";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 
@@ -64,7 +65,7 @@ describe("people in a room", () => {
         new Set(
           core.households.get(core.people.get(me)!.householdId)?.memberIds,
         );
-      const seen = { scenes: 0, people: 0, moments: 0 };
+      const seen = { scenes: 0, plated: 0, people: 0, moments: 0 };
       const check = (
         people: readonly BenchScenePerson[],
         allowed: Record<string, (id: string) => boolean>,
@@ -100,6 +101,9 @@ describe("people in a room", () => {
             at: { ...packet.at, minuteOfDay },
           } as never);
           seen.scenes++;
+          // A picture with no mannequin plate draws nobody (owner, Oct 28 and 29).
+          if (plateFor(scene.backdrop.file)) seen.plated++;
+          else expect(scene.people, `at ${scene.place} ${at}`).toEqual([]);
           check(
             scene.people,
             {
@@ -165,8 +169,8 @@ describe("people in a room", () => {
       );
       expect(seen.scenes, where).toBeGreaterThan(60);
       expect(seen.moments, where).toBeGreaterThan(0);
-      // Someone besides the player was drawn: the checks above read real rooms.
-      expect(seen.people, where).toBeGreaterThan(seen.scenes);
+      // Where the picture has a plate, people were drawn: the checks above read real rooms.
+      if (seen.plated) expect(seen.people, where).toBeGreaterThan(0);
     },
   );
 });

@@ -22,4 +22,4 @@ claimed-at: 2026-10-29T16:54:38.396Z
 
 **Files.** data/research/outcome-web/links.json; src/core2/modules/outcome-web.ts; the engine that keeps a teen's mood
 
-**Notes.** TODO
+**Notes.** Laws helper, Oct 29 (claude/laws-social-media-age-check): one folded link from the law to the share of 12- to 17-year-olds in a major depressive episode (NSDUH 2023-2024 Table 38 is the new kept outcome `health.youth-major-depressive-episode`), read where a teen's mood is kept: `restingStress` (src/core2/resting-stress.ts) multiplies a 13- to 17-year-old's youth gap by the web's factor, for the full person (monthly module) and the counted one (`initialPersonState`) alike. The size is an estimate with a spread across zero; the shortcut is SG-LAW-age-check-teen-distress (no mood or depression record per teen). Test: src/core2/law-wiring-social-media-age-check.test.ts.
