@@ -278,10 +278,14 @@ describe("newspaper-closure-to-engagement reaches the town's voters", () => {
             both(addDays(makeIsoDate(closed.date), 30));
             race = nextLocalRace(api, closed.date);
           }
-          expect(
-            race,
-            "a local race with candidates within two years of the link taking hold",
-          ).toBeDefined();
+          // A town with no local race on the ballot in the window cannot show
+          // the election-day read; the next drawn place is taken instead.
+          if (!race) {
+            passed.push(
+              `${drawn.name}, ${drawn.state} (${drawn.key}): no local race with candidates within two years of the link taking hold`,
+            );
+            continue;
+          }
           // A ballot keeps its turnout reasons only for the player's circle in
           // play; this debug switch keeps everyone's so the test can read them.
           const keptBefore = setKeepEveryonesWhy(true);
@@ -320,7 +324,7 @@ describe("newspaper-closure-to-engagement reaches the town's voters", () => {
           return;
         }
         throw new Error(
-          `No drawn place had a local newspaper business: ${passed.join("; ")}`,
+          `No drawn place had a local newspaper business and a local race with candidates: ${passed.join("; ")}`,
         );
       } finally {
         setBookkeeping(bookkeeping);
