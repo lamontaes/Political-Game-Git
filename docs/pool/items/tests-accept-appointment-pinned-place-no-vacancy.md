@@ -5,12 +5,13 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/accept-appointment-drawn
+pr: #6716
 blocked-on:
 lead: traits
 source: wire-office session, Oct 28 (found red on main)
+claimed-at: 2026-10-28T22:07:51.147Z
 ---
 
 **What.** `src/core2/offices-accept-appointment-played.test.ts` fails on clean main at 2026-10-28 evening: "Ilwaco, Washington (5333000), seed 92ca8748de59, 2025-01-20 to 2026-01-20: offices.accept-appointment calls: expected 0 to be greater than 0". The test pins one place and seed, and the world main now builds there holds no local vacancy filled by appointment in the year, so the decision is never weighed. The same failure reproduces with the wire-office session's offices and officials changes set aside.

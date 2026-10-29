@@ -14,7 +14,7 @@
  * into a move for `composeAddress`. It holds no sentence and no order.
  */
 import bankJson from "../../data/english/parts/opening-speech.json" with { type: "json" };
-import { heldByGrades } from "./english-grades";
+import { admittedParts, type BankPart } from "./bank-parts";
 import type {
   AddressMove,
   ComposedLineBank,
@@ -22,11 +22,7 @@ import type {
   SpeechAct,
 } from "./english-composition";
 
-interface OpeningPart {
-  key: string;
-  text: string;
-  uses: { subject: string; role: string; requiresFacts?: string[] }[];
-  shippable: boolean;
+interface OpeningPart extends BankPart {
   /** The speaker's manner this wording is for. */
   voice: SpeechVoice;
   /** How the sentence lands (glad, braced, tender, calm), for the speaker's trait pulls. */
@@ -80,29 +76,26 @@ function variantsFor(
   role: string,
   topic?: string,
 ): LinePartVariant[] {
-  return OPENING_SPEECH_BANK.parts
-    .filter(
-      (part) =>
-        part.shippable &&
-        part.voice === voice &&
-        !heldByGrades(part.key) &&
-        (!topic || part.topic === topic) &&
-        part.uses.some((use) => use.subject === kind && use.role === role),
-    )
-    .map((part) => {
-      const requires =
-        part.uses.find((use) => use.subject === kind && use.role === role)
-          ?.requiresFacts ?? [];
-      return {
-        key: part.key,
-        kind: "template" as const,
-        text: engineText(part.text),
-        pieceKey: part.key,
-        ...(part.bearing ? { bearing: part.bearing } : {}),
-        ...(part.stages ? { stages: part.stages } : {}),
-        ...(requires.length ? { requiresFacts: requires } : {}),
-      };
-    });
+  return admittedParts(
+    OPENING_SPEECH_BANK.parts,
+    (part) =>
+      part.voice === voice &&
+      (!topic || part.topic === topic) &&
+      part.uses.some((use) => use.subject === kind && use.role === role),
+  ).map((part) => {
+    const requires =
+      part.uses.find((use) => use.subject === kind && use.role === role)
+        ?.requiresFacts ?? [];
+    return {
+      key: part.key,
+      kind: "template" as const,
+      text: engineText(part.text),
+      pieceKey: part.key,
+      ...(part.bearing ? { bearing: part.bearing } : {}),
+      ...(part.stages ? { stages: part.stages } : {}),
+      ...(requires.length ? { requiresFacts: requires } : {}),
+    };
+  });
 }
 
 /**

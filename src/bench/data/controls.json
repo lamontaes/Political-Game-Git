@@ -151,7 +151,6 @@
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
     "continue": "Continue",
-    "guide": "Guide",
     "devMode": "Dev mode",
     "quitToTitle": "Quit to title"
   },
@@ -174,9 +173,6 @@
   },
   "filing": {
     "file": "File for this office",
-    "chooseRace": "Choose a race",
-    "openRaces": "Open races",
-    "metOn": "From",
     "status": {
       "on-ballot": "You are on the ballot",
       "withdrawn": "Withdrawn",
@@ -194,9 +190,7 @@
     "seat": "Seat",
     "heldBy": "Held by",
     "openSeat": "No one holds it now",
-    "for": "For",
-    "against": "Against",
-    "noStance": "—"
+    "election": "Election"
   },
   "authority": {
     "level-lacks-power": "Not a power of this body",
@@ -280,20 +274,17 @@
     "search": "Search destinations",
     "filing": "Filing office",
     "go": "Go",
-    "back": "Back",
-    "next": "Continue",
     "open": "Open now",
     "closed": "Closed now",
-    "andOthers": "and {n} more",
     "reasons": {
       "work": "You work here",
-      "family": "Your family works here",
-      "study": "Someone at home studies here",
-      "known": "works here",
       "action": "You can",
       "serve": "Where you serve",
-      "filing": "You file here for"
-    }
+      "filing": "You file here"
+    },
+    "whatYouDo": "What you do here",
+    "whoWorks": "Who works here",
+    "district": "District"
   },
   "time": {
     "week": "Week"
@@ -375,40 +366,7 @@
     }
   },
   "news": {
-    "title": "News",
-    "economy": {
-      "nation": "Nation",
-      "region": "Region",
-      "jobsHere": "Jobs here",
-      "unemployment": "Unemployment",
-      "inflation": "Inflation",
-      "policyRate": "Policy rate",
-      "mortgage": "Mortgage",
-      "employed": "employed",
-      "looking": "looking",
-      "open": "open",
-      "series": {
-        "unemploymentPct": {
-          "label": "Unemployment",
-          "unit": "percent"
-        },
-        "jobsThousands": {
-          "label": "Jobs",
-          "unit": "thousands"
-        },
-        "hourlyEarnings": {
-          "label": "Hourly pay",
-          "unit": "dollars"
-        },
-        "priceLevelPct": {
-          "label": "Price level",
-          "unit": "index"
-        }
-      }
-    },
-    "back": "Back to front page",
-    "previous": "Back",
-    "next": "Continue"
+    "title": "News"
   },
   "jobs": {
     "work": "Work",
@@ -493,22 +451,6 @@
     "seriesNames": {
       "income-tax": "Income tax rate",
       "sales-tax": "Sales tax rate"
-    },
-    "guide": {
-      "government": "Who holds each seat over you, from your town to the nation, and when each term ends.",
-      "issues": "The laws in force where you live, and who can change them.",
-      "parties": "The parties here, what each stands for, and how close each is to you.",
-      "campaigns": "Your race once you file: money, volunteers, ads, and how the vote leans.",
-      "runHere": "How you could run here",
-      "race": "Next race",
-      "filesWith": "Files with",
-      "atTheDeskOf": "at the desk of the",
-      "filingOpens": "Filing opens",
-      "filingDeadline": "Filing deadline",
-      "primary": "Primary",
-      "election": "Election day",
-      "estimated": "These dates are estimates; no calendar on record names them.",
-      "noRace": "No race here is open for filing yet."
     }
   },
   "results": {
@@ -626,11 +568,7 @@
     "options": "Options",
     "patchNotes": "Patch notes",
     "guide": "Guide",
-    "politicsGuide": "Guide",
     "handoff": "Carry on as",
     "news": "News"
-  },
-  "guide": {
-    "search": "Search"
   }
 }
