@@ -6,9 +6,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/recall-answer-names-the-vote
-pr:
+pr: #6751
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-29T06:21:53.888Z
