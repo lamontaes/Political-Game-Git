@@ -25,7 +25,6 @@ const WAITING = {
   "SG-EW-HEALTH-unsized-links": [
     "congestion-to-premature-births",
     "heat-to-deaths",
-    "education-to-mortality",
     "eviction-to-hospital-visits",
   ],
   /** The cause is the person's own history, which no record keeps. */

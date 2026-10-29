@@ -5156,11 +5156,11 @@
     "kind": "missing-engine",
     "file": "src/core2/school-outcomes.ts",
     "line": 1,
-    "whatItFakes": "Seven researched links into school outcomes do not run, each because its cause is not recorded: class-size-to-scores (no K-3 class size), police-killing-to-graduation (no police killing, and the effect is for students who live near one), daca-to-graduation (no deferred action and no student immigration status), homicide-nearby-to-scores (no homicide below the place, and the effect is for a child tested right after one on their block), lead-to-reading (no blood lead), heat-to-learning (no school-year temperature) and carbon-monoxide-to-absence (no carbon monoxide). school-move-to-scores is no longer one of them: the school engine reads a student's own move (stopgap SG-SCHOOL-switch-window). Family income reaches only math: family-income-to-scores is carried by poverty-to-math-proficiency, and nothing moves reading proficiency by family income.",
-    "why": "Each needs a cause or a per-student exposure record the core does not keep; the school engine reads only links that run or are carried. The engine that would read each once its cause is recorded: decideSchoolOutcome in src/core2/school-outcomes.ts for class-size-to-scores (the grade 8 math and reading tests, from a K-3 roster, which the school engine does not hold because a town has one district and no classrooms), homicide-nearby-to-scores (the testing day, from a homicide record with a block group), lead-to-reading (the reading test, from a child's blood lead record; the effect is on the share far below proficient, which the engine does not decide and the research does not convert to the proficient share), police-killing-to-graduation and daca-to-graduation (the senior's graduation, from a killing record near the student's home and from the student's immigration status, whose research sizes are not set); schoolDay in src/core2/modules/school.ts for carbon-monoxide-to-absence (a student's daily choice to attend, from a carbon monoxide reading; the study's effect is a threshold on daily readings with no size the game can apply); and no engine at all for heat-to-learning (school.learning: the engine decides proficiency and graduation, not a year's learning). The other links in the family are settled: school-spending-to-attainment runs on the schools budget line, prek-to-graduation, child-coverage-to-graduation and family-income-to-scores are carried by built links from the same studies, and home-internet-to-scores and tuition-freeze-to-college-completion are about zero in the research.",
+    "whatItFakes": "Seven researched links into school outcomes do not run, each because its cause is not recorded: class-size-to-scores (no K-3 class size), police-killing-to-graduation (no police killing, and the effect is for students who live near one), daca-to-graduation (no deferred action; a student's immigration status is seeded at both tiers, isUnauthorized in src/core2/citizenship.ts, but children take the adult citizen share), homicide-nearby-to-scores (no homicide below the place, and the effect is for a child tested right after one on their block), lead-to-reading (no blood lead), heat-to-learning (no school-year temperature) and carbon-monoxide-to-absence (no carbon monoxide). school-move-to-scores is no longer one of them: the school engine reads a student's own move (stopgap SG-SCHOOL-switch-window). Family income reaches only math: family-income-to-scores is carried by poverty-to-math-proficiency, and nothing moves reading proficiency by family income.",
+    "why": "Each needs a cause or a per-student exposure record the core does not keep; the school engine reads only links that run or are carried. The engine that would read each once its cause is recorded: decideSchoolOutcome in src/core2/school-outcomes.ts for class-size-to-scores (the grade 8 math and reading tests, from a K-3 roster, which the school engine does not hold because a town has one district and no classrooms), homicide-nearby-to-scores (the testing day, from a homicide record with a block group), lead-to-reading (the reading test, from a child's blood lead record; the effect is on the share far below proficient, which the engine does not decide and the research does not convert to the proficient share), police-killing-to-graduation and daca-to-graduation (the senior's graduation, from a killing record near the student's home and from a deferred-action record read with the student's own immigration status (isUnauthorized in src/core2/citizenship.ts), whose research sizes are not set); schoolDay in src/core2/modules/school.ts for carbon-monoxide-to-absence (a student's daily choice to attend, from a carbon monoxide reading; the study's effect is a threshold on daily readings with no size the game can apply); and no engine at all for heat-to-learning (school.learning: the engine decides proficiency and graduation, not a year's learning). The other links in the family are settled: school-spending-to-attainment runs on the schools budget line, prek-to-graduation, child-coverage-to-graduation and family-income-to-scores are carried by built links from the same studies, and home-internet-to-scores and tuition-freeze-to-college-completion are about zero in the research.",
     "addedBy": "EFFECT-WEB-SCHOOLS",
     "addedAt": "2026-10-20",
-    "replacement": "Record each cause (class size, blood lead, school-year heat, carbon monoxide, a police killing or homicide with a place below the town, deferred action with student status) or a per-student exposure record, size the link from its study in the engine's units (for a standard-deviation effect on a proficiency share, the normal-density conversion at the base share as school-move-to-scores does), and read it where the engine named above decides, as the school-move read in decideSchoolOutcome does. A reading link from family income needs the poverty-to-math-proficiency per-point size confirmed first.",
+    "replacement": "Record each cause (class size, blood lead, school-year heat, carbon monoxide, a police killing or homicide with a place below the town, deferred action, with a child's own noncitizen share for student status) or a per-student exposure record, size the link from its study in the engine's units (for a standard-deviation effect on a proficiency share, the normal-density conversion at the base share as school-move-to-scores does), and read it where the engine named above decides, as the school-move read in decideSchoolOutcome does. A reading link from family income needs the poverty-to-math-proficiency per-point size confirmed first.",
     "status": "open"
   },
   {
@@ -5313,11 +5313,11 @@
     "kind": "missing-data",
     "file": "src/core2/health-web.ts",
     "line": 77,
-    "whatItFakes": "Congestion to premature births (congestion-to-premature-births), heat to deaths (heat-to-deaths), education to mortality (education-to-mortality) and eviction to hospital visits (eviction-to-hospital-visits) have no researched size, and coverage to blood pressure (coverage-to-blood-pressure) and a recession to total mortality (recession-to-total-mortality) find about zero, so nothing moves.",
-    "why": "Four links are unsized in links.json and no producer exists for premature births, heat deaths or hospital visits; the two about-zero links run at size 0.",
+    "whatItFakes": "Congestion to premature births (congestion-to-premature-births), heat to deaths (heat-to-deaths) and eviction to hospital visits (eviction-to-hospital-visits) have no researched size, and coverage to blood pressure (coverage-to-blood-pressure) and a recession to total mortality (recession-to-total-mortality) find about zero, so nothing moves.",
+    "why": "Three links are unsized in links.json and no producer exists for premature births, heat deaths or hospital visits; the two about-zero links run at size 0.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "Sized links from fetched research, then the death and birth engines read them like the wired ones. education-to-mortality (contested: Lleras-Muney 2005 and the re-examinations) is left unread on purpose: no size the notes would accept was found. Its reader, the day a sourced size exists, is the monthly look in src/core2/modules/health.ts (refreshWebFactors, through src/core2/health-own.ts), reading the education category on the person's record (profile:education, src/core2/opening-profile.ts) as the cause.",
+    "replacement": "Sized links from fetched research, then the death and birth engines read them like the wired ones.",
     "status": "open"
   },
   {
@@ -5586,11 +5586,47 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/outcome-web.ts",
     "line": 524,
-    "whatItFakes": "Reducing occupational licensing is meant to open licensed work and raise pay at the bottom, but no engine lets the law change who may take a licensed job, so the law reaches no household's income and the poverty measure does not move for it.",
-    "why": "The jobs engine has no licensing requirement per occupation to repeal.",
+    "whatItFakes": "Reducing occupational licensing (licensing-reform-to-poverty) is meant to open licensed work and raise pay at the bottom, but no engine lets the law change who may take a licensed job, so the law reaches no household's income and the poverty measure does not move for it.",
+    "why": "The jobs engine has no licensing requirement per occupation to repeal, and the poverty measure is the engine's own count, which the web holds as read, so the link moves nothing.",
     "addedBy": "effect-web-poverty",
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine reads a licensing law row when seekers match to jobs, so a repeal opens licensed jobs to seekers (pool item world-licensing-reform-jobs).",
+    "status": "open"
+  },
+  {
+    "id": "SG-FAMILY-child-benefit-not-paid",
+    "kind": "missing-mechanic",
+    "file": "data/research/outcome-web/links.json",
+    "line": 1126,
+    "whatItFakes": "A child benefit's effect on child poverty (child-benefit-to-child-poverty) moves nothing: nothing in the game pays a household a benefit for a child (no law question, bill-catalog policy, budget line or tax credit does; the welfare line's cash assistance goes to household heads below a share of the poverty line, the same amount per household, not per child), so the cause has no value in any place.",
+    "why": "The research (the Census supplemental measure, 2021 against 2022) is one program's before and after at its own amounts, not a rate per dollar, and the game has no child benefit for it to scale.",
+    "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
+    "addedAt": "2026-10-29",
+    "replacement": "A child benefit (a law question or bill-catalog policy) paid to each household by its children through the law reach's money group, as the welfare line pays (src/core2/law-reach/group-b-money.ts); the poverty count (householdPoverty in src/core2/world-poverty.ts) then reads it as income, so the link is carried by the payment, not run by the web.",
+    "status": "open"
+  },
+  {
+    "id": "SG-FAMILY-birth-bonus-not-paid",
+    "kind": "missing-mechanic",
+    "file": "data/research/outcome-web/links.json",
+    "line": 2445,
+    "whatItFakes": "A birth bonus's effect on births (baby-bonus-to-births) moves nothing: nothing in the game pays a household a bonus for a birth (no law question, bill-catalog policy or budget line does; the child-care assistance topic is unsupported and holds no policy), so the cause, program.birth-bonus-dollars, has no value in any place.",
+    "why": "Milligan's estimate holds around Quebec's own schedule, by parity and in Canadian dollars, so no per-dollar size carries over to a game bill of another amount.",
+    "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
+    "addedAt": "2026-10-29",
+    "replacement": "A birth-bonus bill that pays each household on a birth; the link is then sized from that amount through Milligan's benefit elasticity (0.107) and read where births are decided (src/core2/births-plan.ts and src/core2/births-counted.ts already read the web's births.rate factor).",
+    "status": "open"
+  },
+  {
+    "id": "SG-FAMILY-marriage-not-recorded",
+    "kind": "missing-engine",
+    "file": "data/research/outcome-web/links.json",
+    "line": 2465,
+    "whatItFakes": "Marriage equality's effect on same-sex marriages (marriage-equality-to-marriages) moves nothing: marriage equality is not a law question the game holds and has been national law since 2015, so no place differs on it; the core keeps no marriage (couples exist as the opening drew them, stopgap SG-TRAITS-partnerships-no-engine); and nothing counts same-sex marriages by place.",
+    "why": "How marriage works in play is not yet decided (OWNER-DECISIONS.md, Marriage and children), and no engine decides who partners or marries.",
+    "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
+    "addedAt": "2026-10-29",
+    "replacement": "A marriage engine that reads the marriage law in force when two people decide to marry, counting same-sex marriages by place from those records; the link then takes a size in that count's unit.",
     "status": "open"
   },
   {
@@ -5602,8 +5638,8 @@
     "why": "The jobs engine prices a hire from the occupation and market, not from the person's schooling.",
     "addedBy": "effect-web-poverty",
     "addedAt": "2026-10-20",
-    "replacement": "The jobs engine prices schooling into hires and wages from the person's own schooling record (pool item world-schooling-to-pay).",
-    "status": "open"
+    "replacement": "Resolved: the jobs engine prices schooling into every hire (hirePay, schoolingWeekly and schoolingOn in src/core2/modules/jobs.ts reading graduationOf in src/core2/school-outcomes.ts; pool item world-schooling-to-pay), and the poverty count (householdPoverty in src/core2/world-poverty.ts) reads that pay, so graduation-to-poverty is carried by those records (links.json carriedBy), proven by src/core2/jobs-graduation-income.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-coarse-place-no-payroll",
@@ -5660,11 +5696,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/jobs-web.ts",
     "line": 1,
-    "whatItFakes": "Birth-year pollution (birth-year-pollution-to-adult-earnings), teacher quality (teacher-quality-to-earnings) and neighborhood years (neighborhood-years-to-adult-outcomes) acting on adult earnings: they need each person's own exposure-years record, which no engine keeps, and none has a size the game can apply.",
-    "why": "The links are person-level (exposure-years shape); a place rate would apply them to the wrong people.",
+    "whatItFakes": "Birth-year pollution (birth-year-pollution-to-adult-earnings), teacher quality (teacher-quality-to-earnings) and neighborhood years (neighborhood-years-to-adult-outcomes) acting on adult earnings move nothing, each for its own missing piece. Birth-year pollution: the exposure is on record for anyone born in play (a person:birth fact with place and date, src/core2/births-people.ts, and the web's month rows of env.particulates for that place), but no pay decision reads it and the link has no size. Teacher quality: nothing records a teacher's value-added or which teacher a student has, and no law or engine moves teacher value-added, so the cause has no producer and no policy to carry. Neighborhood years: where each person lived each year is on record (residenceOn in src/core2/past-moves.ts, and moves in play), but no data row holds a county's childhood exposure effect, no pay decision reads it and the link has no size.",
+    "why": "The links are person-level (exposure-years shape): a place rate would apply them to the wrong people, so each must be read from the person's own history when pay is set.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A per-person exposure record (air in the birth year, teachers' value-added, years in a better neighborhood) read when pay is set.",
+    "replacement": "Birth-year pollution: a read in src/core2/jobs-web.ts of the person's birth fact and the web's particulates over their birth year, sized from its study. Teacher quality: parked until a researched link moves teacher value-added (a teacher-pay or evaluation law); then the school engine keeps a value-added per teacher and a yearly classroom, and hirePay reads its mean. Neighborhood years: a county row of childhood exposure effects, read in hirePay from residenceOn and in-play moves.",
     "status": "open"
   },
   {
@@ -5672,11 +5708,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/jobs-web.ts",
     "line": 1,
-    "whatItFakes": "Graduation to earnings (graduation-to-earnings), transit loss to unemployment (transit-loss-to-unemployment), broadband to employment (broadband-to-employment), incentive deals to industry jobs (incentive-deal-to-industry-jobs) and more immigrants to the workforce (more-immigration-to-workforce) have no researched size the game can use, and a Medicaid work requirement's effect on employment (work-requirement-to-employment) is about zero, so an engine would multiply by one.",
+    "whatItFakes": "Transit loss to unemployment (transit-loss-to-unemployment), broadband to employment (broadband-to-employment), incentive deals to industry jobs (incentive-deal-to-industry-jobs) and more immigrants to the workforce (more-immigration-to-workforce) have no researched size the game can use, and a Medicaid work requirement's effect on employment (work-requirement-to-employment) is about zero, so an engine would multiply by one.",
     "why": "Their sources give a study-unit effect (one lost line, a county gaining broadband, one deal) that no conversion turns into the game's slopes; the sizes are to confirm.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "Sizes confirmed from the sources and the cause measures (graduation share, transit access, deal records) recorded by their engines.",
+    "replacement": "Sizes confirmed from the sources and the cause measures (transit access, deal records) recorded by their engines.",
     "status": "open"
   },
   {
@@ -5879,11 +5915,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/crime.ts",
     "line": 494,
-    "whatItFakes": "Six researched links into crime and justice outcomes move nothing, each because the engine that would decide its outcome has no cause, no size or no producer to read. summer-jobs-to-youth-violence: no engine runs a summer jobs program, so no one is a participant, and the 43 percent fall in violent-crime arrests is the participants' own (J-PAL's summary of Heller 2014); the public-safety engine's arrest share-out by age band (arrest in src/core2/public-safety.ts) would read a participant's record once arrests have offenders. housing-vouchers-to-crime: the Chicago lottery's arrest effects are mostly statistically insignificant, so there is no size; the web keeps no crime.rate-index and no engine issues vouchers under the federal question. graduation-to-incarceration: the research is a person's own drop in the chance of prison (0.76 points for white men, 3.4 for Black men, Lochner and Moretti) with no base chance to make a factor, and no engine decides a person's offense, so the schooling on a person's record (schoolingOn in src/core2/modules/jobs.ts) has nothing to lower (see SG-CORE-crime-offenders and SG-LAW-justice-named-offender-acts). mandatory-minimums-to-incarceration: the state panel study counts mandatory laws and gives no size for one, the question has no starting row and no engine reads it; the court's decision of each counted case (resolveDue in src/core2/public-safety.ts) and a named defendant's custody months (convict in src/core2/modules/justice.ts) would. mandatory-minimum-cut-to-federal-prisoners is sized (a 0.8 percent fall in the prison rate) but no engine sentences or holds federal prisoners, since every case is tried in the state's courts, so justice.federal-incarcerated-per-100k moves only in the web's ledger. release-lower-level-to-larceny is sized on crime.property (0.0731, the larceny share of the NCVS property total), which the crime engine reads in typeFactor, but no policy question reclassifies low-level offenses, so its cause is never in force. The counted court reads pretrial-detention-to-conviction (resolveDue in src/core2/public-safety.ts), but a named bribery defendant's verdict (hearing and convict in src/core2/modules/justice.ts) is a margin of evidence against the defense, with no rate this proportion can scale, so the named tier does not read it.",
+    "whatItFakes": "Five researched links into crime and justice outcomes move nothing, each because the engine that would decide its outcome has no cause, no size or no producer to read. summer-jobs-to-youth-violence: no engine runs a summer jobs program, so no one is a participant, and the 43 percent fall in violent-crime arrests is the participants' own (J-PAL's summary of Heller 2014); the public-safety engine's arrest share-out by age band (arrest in src/core2/public-safety.ts) would read a participant's record once arrests have offenders. graduation-to-incarceration: the research is a person's own drop in the chance of prison (0.76 points for white men, 3.4 for Black men, Lochner and Moretti) with no base chance to make a factor, and no engine decides a person's offense, so the schooling on a person's record (schoolingOn in src/core2/modules/jobs.ts) has nothing to lower (see SG-CORE-crime-offenders and SG-LAW-justice-named-offender-acts). mandatory-minimums-to-incarceration: the state panel study counts mandatory laws and gives no size for one, the question has no starting row and no engine reads it; the court's decision of each counted case (resolveDue in src/core2/public-safety.ts) and a named defendant's custody months (convict in src/core2/modules/justice.ts) would. mandatory-minimum-cut-to-federal-prisoners runs at -0.008, a 0.8 percent fall, which is the anchor's fall in all U.S. prisoners although the link now points at federal prisoners (by the anchor's own arithmetic, about 13,000 fewer of the federal count, the federal fall is about 6 percent, so the size sits on the old base until it is resized); it moves justice.federal-incarcerated-per-100k only in the web's ledger, since no engine sentences or holds federal prisoners and every case is tried in the state's courts. release-lower-level-to-larceny is sized on crime.property (0.0731, the larceny share of the NCVS property total), which the crime engine reads in typeFactor, but no policy question reclassifies low-level offenses, so its cause is never in force. The counted court reads pretrial-detention-to-conviction (resolveDue in src/core2/public-safety.ts), but a named bribery defendant's verdict (hearing and convict in src/core2/modules/justice.ts) is a margin of evidence against the defense, with no rate this proportion can scale, so the named tier does not read it.",
     "why": "A link moves an outcome only when the engine that decides it reads the link's cause, from a place's rate or a person's own record, at a size the research gives in that engine's units; for these the cause is unrecorded, the research gives no usable size, or no engine decides the outcome.",
     "addedBy": "wire-laws crime-and-justice helper",
     "addedAt": "2026-10-28",
-    "replacement": "Record each cause (a summer jobs program's participants, voucher holders under a voucher law, a mandatory-minimum floor in a starting law or bill, a low-level-offense reclassification question); give arrests offenders whose own records (schooling, program, voucher) an offending engine reads; size each link from its study in the deciding engine's units and have the engine named above read it; give federal defendants a court engine; give a named defendant's plea a term for custody before trial.",
+    "replacement": "Record each cause (a summer jobs program's participants, a mandatory-minimum floor in a starting law or bill, a low-level-offense reclassification question); give arrests offenders whose own records (schooling, program) an offending engine reads; size each link from its study in the deciding engine's units (the federal cut on the federal count, about -0.06, not the all-prisoner -0.008) and have the engine named above read it; give federal defendants a court engine; give a named defendant's plea a term for custody before trial.",
     "status": "open"
   },
   {
@@ -6196,8 +6232,8 @@
     "why": "no measure: the web does not keep household.child-poverty and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records household.child-poverty for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-FAMILY-child-benefit-not-paid: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-household-food-insecurity",
@@ -6376,14 +6412,14 @@
     "why": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records family.same-sex-marriages for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-FAMILY-marriage-not-recorded: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-finance-past-due-debt",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 218,
+    "line": 200,
     "whatItFakes": "abortion-denied-to-financial-distress is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied); student-debt-relief-to-finances is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6407,7 +6443,7 @@
     "id": "SG-WEB-unread-gov-borrowing-cost",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 224,
+    "line": 206,
     "whatItFakes": "newspaper-closure-to-borrowing-cost is not run by the outcome web, so it moves nothing (it has no researched size; its research gives no size the game can apply, so the web does not run it); federal-deficit-to-borrowing-cost is not run by the outcome web, so it moves nothing (it waits on federal.deficit-change-pct-of-gdp); no person, household or organization record changes.",
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6419,7 +6455,7 @@
     "id": "SG-WEB-unread-press-media-trust",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 230,
+    "line": 212,
     "whatItFakes": "press-attacks-to-media-trust is not run by the outcome web, so it moves nothing (no measure: the web does not keep press.media-trust and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep press.media-trust and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6443,7 +6479,7 @@
     "id": "SG-WEB-unread-disaster-damage",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 242,
+    "line": 224,
     "whatItFakes": "preparedness-to-disaster-damage is not run by the outcome web, so it moves nothing (no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6515,7 +6551,7 @@
     "id": "SG-WEB-unread-finance-high-cost-loans",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 260,
+    "line": 242,
     "whatItFakes": "loan-rate-cap-to-high-cost-borrowing, federal-loan-cap-to-high-cost-loans move finance.high-cost-loans only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6539,7 +6575,7 @@
     "id": "SG-WEB-unread-env-litter",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 266,
+    "line": 248,
     "whatItFakes": "container-deposit-to-litter moves env.litter only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: env.litter moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6551,7 +6587,7 @@
     "id": "SG-WEB-unread-disaster-flood-damage",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 272,
+    "line": 254,
     "whatItFakes": "flood-zone-limits-to-damage is not run by the outcome web, so it moves nothing (no measure: the web does not keep disaster.flood-damage and no engine produces it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep disaster.flood-damage and no engine produces it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6655,8 +6691,8 @@
     "why": "no measure: the web does not keep government.member-market-returns and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records government.member-market-returns for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Resolved: the research finds every link this row named about zero, so there is no effect for an engine to read (scripts/outcome-web/effect-matrix.ts grades it not applicable), and it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-farmland-developed-acres",
@@ -6686,7 +6722,7 @@
     "id": "SG-WEB-unread-farmland-value-per-acre",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 338,
+    "line": 302,
     "whatItFakes": "farm-payments-cut-to-land-values moves farmland.value-per-acre only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: farmland.value-per-acre moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6698,7 +6734,7 @@
     "id": "SG-WEB-unread-rail-intercity-ridership",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 350,
+    "line": 314,
     "whatItFakes": "federal-rail-expansion-to-riders moves rail.intercity-ridership only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -7030,8 +7066,8 @@
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns housing.homelessness multiplies its own person, household or organization rate by webReach(api, placeId, \"housing.homelessness\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-births-rate",
@@ -7042,8 +7078,8 @@
     "why": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns births.rate multiplies its own person, household or organization rate by webReach(api, placeId, \"births.rate\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Superseded by SG-FAMILY-birth-bonus-not-paid: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-school-graduation-pct",
@@ -7054,8 +7090,8 @@
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns school.graduation-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"school.graduation-pct\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-school-reading-proficient-pct",
@@ -7066,8 +7102,8 @@
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns school.reading-proficient-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"school.reading-proficient-pct\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-recall-counted-exposure",

@@ -513,7 +513,7 @@
       "shape": {
         "kind": "linear"
       },
-      "size": 4e-5,
+      "size": 0.00004,
       "per": "violent crime per 100,000 residents",
       "lagMonths": 0,
       "group": "families with children, higher incomes",
@@ -534,7 +534,7 @@
       },
       "notes": "Unsupported until a unit adapter exists: the study measures people leaving per added reported crime, but the game keeps violent crime per 100,000, not total reported crime per resident; see the research packet in researchSizing. The new core reads the cause from the victimization records (reported to police a year, per resident); the link still waits on a researched size and a unit adapter. Size by the paper's own conversion: the study counts all reported index crimes (violent and property, 'similar coefficients on both types') per resident and the game's cause is violent crime per 100,000 residents, so one more violent crime per 100,000 is one more reported crime per 100,000. 95% interval of the coefficient (0.063 to 2.297) gives the range. The paper measures a one-time loss over five years from a five-year rise in crime; the web applies it as a sustained rate while the level stays up, which overstates a level that stays high for many years. By schooling the relative response is nearly flat (Table 6a divided by Table 4 Goers: more than 12 years 1.54/0.413 = 3.7, 12 years 1.27/0.292 = 4.3, under 12 years 0.77/0.172 = 4.5), so no income moderator is added. Chain: the cause crime.violent is the web's own kept value today (moved by the crime links, e.g. unemployment and policing laws); it has no engine record, so the chain is law or unemployment -> crime.violent (web ledger) -> leaving (moves.ts and counted-moves.ts).",
       "readFrom": "crime.reported-per-capita",
-      "range": [2.1e-6, 7.8e-5],
+      "range": [0.0000021, 0.000078],
       "phaseInMonths": 60,
       "varies": [
         {
@@ -1124,8 +1124,8 @@
     },
     {
       "key": "child-benefit-to-child-poverty",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "household.child-poverty",
       "strength": "strong",
       "shape": {
@@ -1136,11 +1136,11 @@
       "lagMonths": 0,
       "group": "families with children",
       "owner": "F",
-      "anchor": "2021 credit: child poverty to 5.2%; 12.4% the year after it ended",
-      "source": "Census SPM 2021-22",
+      "anchor": "Census, Poverty in the United States: 2022 (P60-280): \"The SPM child poverty rate more than doubled, from 5.2 percent in 2021 to 12.4 percent in 2022\", and \"refundable tax credits moved 6.4 million people out of SPM poverty, down from 9.6 million people in 2021.\" One program's before and after, not a rate per dollar of benefit; the page does not itself attribute the change to the expanded child credit.",
+      "source": "Census SPM 2021-22: Poverty in the United States: 2022 (P60-280), read at https://www.census.gov/library/publications/2023/demo/p60-280.html",
       "from": "program.child-benefit-dollars",
       "evidence": "researched",
-      "notes": "Unsupported until a bill sets the benefit: the 2021 credit's drop in child poverty came from its own dollar amounts, the game records no child benefit by place, and child poverty is not a kept place outcome."
+      "notes": "Left unread, for a cause that does not exist and a size that cannot be set. Nothing in the game pays a household a benefit for a child: no law question, bill-catalog policy or budget line does, the income tax code has no child credit, and the welfare line's cash assistance (assistanceIncomeByHousehold in src/core2/law-reach/group-b-money.ts) goes to household heads below a share of the poverty line, the same amount per household, not per child. So the cause has no value in any place. The research is one program's before and after at its own dollar amounts (the anchor), so it gives no size per dollar either. Child poverty is not kept as a place outcome, but the poverty count (householdPoverty in src/core2/world-poverty.ts) already sets every named and counted household's income against a line for its size and children, so a benefit that lands in a household's income would move the children in poor households there, and the link would be carried by that payment, not by a place factor (stopgap SG-FAMILY-child-benefit-not-paid)."
     },
     {
       "key": "snap-to-food-insecurity",
@@ -1669,7 +1669,7 @@
       "source": "Kuka, Shenhav and Shih 2020",
       "from": "immigration.deferred-action",
       "evidence": "researched",
-      "notes": "Left unwired: deferred action is not recorded and is not a policy question the game asks, and no student's immigration status is recorded, so the eligible share of a place's students is unknown; the +15% is for eligible youth only. Re-pointed from school.graduation: high school graduation is the measure the school engine decides for every senior (decideSchoolOutcome in src/core2/school-outcomes.ts, school.graduation-pct), so that engine would read the link, on the senior's own rate, once a student's status is recorded. The size stays unset: the +15% is for the eligible only and the eligible share of a place is unknown, so a place-wide conversion would be a guess."
+      "notes": "Left unwired: deferred action is not recorded and is not a policy question the game asks. A student's immigration status is now seeded per person at both tiers (isUnauthorized in src/core2/citizenship.ts, read for the 287(g) law in src/core2/jobs-web.ts), but children take the adult citizen share, so the eligible share of a place's students is not yet right; the +15% is for eligible youth only. Re-pointed from school.graduation: high school graduation is the measure the school engine decides for every senior (decideSchoolOutcome in src/core2/school-outcomes.ts, school.graduation-pct), so that engine would read the link, on the senior's own rate, once deferred action is recorded. The size stays unset: the +15% is for the eligible only and the eligible share of a place is unknown, so a place-wide conversion would be a guess."
     },
     {
       "key": "graduation-to-earnings",
@@ -1711,7 +1711,8 @@
       "who": "Actual graduates entering affected labor markets; the link lacks a confirmed causal size and cannot assign a statewide percentage to every person.",
       "lagWhy": "The current lag0 ignores transition from school to work. A hire and paid period must occur; Team9 must verify the earnings age/horizon and denominator.",
       "aboutZero": false,
-      "notes": "Unsupported until confirmed: the row is marked to confirm, and labor earnings by this key is not a kept place outcome."
+      "notes": "Carried by the jobs engine, not run by the web: every hire's pay reads the person's own schooling on the day it is priced, and a senior's schooling is their graduation record from play (pool item world-schooling-to-pay, done), proven in twin played worlds by src/core2/jobs-graduation-income.test.ts (a senior who graduates only in the raised world is hired at a diploma's pay there, by job and result record ids). The engine uses its own size: the BLS weekly earnings of a diploma against none ($966 against $770, src/core2/data/jobs/parameters.json) times the within-role share 0.4 (stopgap SG-WORLD-jobs-schooling-pay-share), about 7 percent more within one role. The row keeps no size of its own: a web factor on top would count the diploma twice.",
+      "carriedBy": "src/core2/modules/jobs.ts hirePay prices each hire from the person's own schooling on the day it is set (schoolingWeekly, then schoolingOn, which reads the senior's graduation record from graduationOf in src/core2/school-outcomes.ts): a senior who graduated in play is paid at the diploma's row of BLS weekly earnings and one who did not at the no-diploma row, times the within-role share, named and counted hires alike"
     },
     {
       "key": "graduation-to-incarceration",
@@ -1778,23 +1779,25 @@
     },
     {
       "key": "education-to-mortality",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "health.mortality-all",
-      "strength": "weak",
+      "strength": "about-zero",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0,
       "per": "year of school",
       "lagMonths": 0,
       "group": "adults",
       "owner": "F",
-      "anchor": "The famous large estimate didn't hold up on later checks",
-      "source": "Lleras-Muney 2005 and re-examinations",
+      "anchor": "The large early estimate did not hold up. Lleras-Muney 2005, as Clark and Royer give it: \"an extra year of education reduces 10-year mortality rates between 3 and 4 percentage points off of a mean base mortality rate of 10 percent.\" Britain's 1947 and 1972 school-leaving reforms raised schooling sharply, yet \"we can rule out reduced-form mortality reductions larger than 0.08 percentage points (off a base of 18.4%)\" between ages 45 and 69. Sweden's reform: \"we estimate insignificant effects of the reform on mortality in the affected cohort. From the confidence intervals, we can rule out effects larger than 1–1.4 months of increased life expectancy.\"",
+      "source": "Clark and Royer, The Effect of Education on Adult Health and Mortality: Evidence from Britain, NBER Working Paper 16013 (2010; AER 2013), full text read at https://www.nber.org/system/files/working_papers/w16013/w16013.pdf (Tables 1 and 2); Meghir, Palme and Simeonova 2018, Education and Mortality: Evidence from a Social Experiment, AEJ: Applied 10(2):234-56, abstract read at https://econpapers.repec.org/RePEc:aea:aejapp:v:10:y:2018:i:2:p:234-56",
       "from": "school.years-completed",
-      "evidence": "contested",
-      "notes": "Contested and unsized: the large early estimate did not hold up in later checks, so no defensible size exists, and all-cause mortality is not a kept place outcome."
+      "evidence": "about-zero",
+      "range": [-0.009, 0.091],
+      "rangeSource": "ESTIMATED from Clark and Royer (NBER w16013): Table 2 Panel C (overall), deaths between ages 45 and 69 per 1,000 of the birth cohort, reduced form \"3.590\" with standard error \"(2.240)\" against a 1933Q1 rate of \"184.31\", a 95% interval of -0.80 to 7.98, or -0.0043 to 0.0433 proportional; Table 1 column 2, the 1947 change added \"0.420\" years of education for men and \"0.527\" for women, about 0.47 on average, so per year of school -0.009 to 0.091. The lower end is the paper's own bound on a reduction.",
+      "notes": "Graded about zero: the reform studies find no mortality effect of schooling itself. Its cause, school.years-completed, is no measure the core keeps and health.mortality-all is no kept outcome, so nothing reads this link, and at about zero nothing would; the death engine needs no reader for it."
     },
     {
       "key": "new-apartments-to-nearby-rent",
@@ -1905,7 +1908,8 @@
       "source": "Zillow and UNH 2018; Colburn and Aldern 2022",
       "from": "housing.rent-to-income-pct",
       "evidence": "researched",
-      "notes": "Unsupported until a slope is found: the study gives thresholds at 22% and 32% rent burden but no published slope, and the game records no rent-to-income share by place."
+      "notes": "Carried by the housing engine, not run by the web, following eviction-to-homelessness: each household's own rent against its own pay and cash decides whether it falls behind, is evicted and can rent again, and the place's rent-to-income share (world-metrics months.rentToEarnings) is the sum of those same leases and pay, so a web factor on top would count it twice. The research's thresholds stay as a check on finished runs: src/core2/housing-calibration.test.ts plays a drawn town for a year and checks that court cases gather among renter households above 22 percent of income and rise faster past 32. No slope is set.",
+      "carriedBy": "the housing engine's own leases and removals, household by household: a lease whose rent the household's pay and cash cannot cover falls into arrears (accruesArrears, src/core2/modules/housing.ts), arrears past the grace period start notice, filing and judgment (review in src/core2/modules/housing.ts; counted households by their group's arrears, countedLate in src/core2/housing-homeless.ts), the removal puts the household with kin, in a shelter bed or on the street (placeRemovedHousehold), and reviewHomeless in src/core2/housing-homeless.ts rehouses it only once its monthly income reaches the rent times housingRehouseIncomeMultiple, named and counted households alike"
     },
     {
       "key": "eviction-to-homelessness",
@@ -2439,28 +2443,28 @@
     },
     {
       "key": "baby-bonus-to-births",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "births.rate",
       "strength": "weak",
       "shape": {
         "kind": "linear"
       },
       "size": null,
-      "per": "large bonus: +5 to 10%",
+      "per": "C$1,000 of first-year benefit: +16.9% in the chance of a birth",
       "lagMonths": 9,
       "group": "families",
       "owner": "B",
-      "anchor": "Quebec: +5-10%, up to +25% for third children, at high cost",
-      "source": "Milligan 2005",
+      "anchor": "Milligan on Quebec's Allowance for Newborn Children (from 1992, C$500 at the birth of a first or second child, a second C$500 a year later for a second child, and C$8,000 over five years for a third or later): \"the fertility of those eligible for the new program is estimated to have increased by 12 per cent on average, and by 25 per cent for those eligible for the maximum benefit\", and \"a $1,000 increase in the benefits received in the first year would increase the probability of having a child by 16.9 per cent\", a benefit elasticity of \"0.107\".",
+      "source": "Milligan 2005 (Review of Economics and Statistics 87(3):539-555); working paper, Subsidizing the Stork: New Evidence on Tax Incentives and Fertility, NBER Working Paper 8845, read at https://www.nber.org/system/files/working_papers/w8845/w8845.pdf",
       "from": "program.birth-bonus-dollars",
       "evidence": "researched",
-      "notes": "Unsupported as a straight line: Milligan finds +16.9% births per C$1,000 of first-year benefit (an elasticity near 0.11) around Quebec's own amounts, which would overstate a large U.S. bonus if applied per dollar; it needs a bill's own payment schedule, and the game records no birth bonus dollars by place."
+      "notes": "Left unread, for a cause that does not exist. The outcome has readers: a named mother's plan for a child weighs the web's births.rate factor for her age and home (src/core2/births-plan.ts), and counted women's births scale by it (src/core2/births-counted.ts). But nothing in the game pays a household a bonus for a birth: no law question, bill-catalog policy (its child-care assistance topic is unsupported and holds none), budget line or payment does, so the cause has no value in any place and the web has nothing to run. The research gives a size only around Quebec's own schedule, by parity and in Canadian dollars, which a game bill of another amount would not follow per dollar, so none is set. A birth-bonus bill would pay each household on a birth, and the size would then come from that amount through Milligan's elasticity (stopgap SG-FAMILY-birth-bonus-not-paid)."
     },
     {
       "key": "marriage-equality-to-marriages",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "family.same-sex-marriages",
       "strength": "strong",
       "shape": {
@@ -2471,11 +2475,11 @@
       "lagMonths": 0,
       "group": "same-sex couples",
       "owner": "C",
-      "anchor": "Marriage take-up rose",
-      "source": "Carpenter, Eppink, Gonzales and McKay 2021 (JPAM)",
+      "anchor": "Carpenter, Eppink, Gonzales and McKay (NBER w24651, BRFSS 2000 to 2016): \"legal SSM was associated with a significant 3.7 percentage point increase in the likelihood a woman in a SSH reported being married. Relative to a pre-reform mean of 4.7 percent\"; for men, \"a 5.7 percentage point increase in the likelihood that a man in a same-sex household reports being married\", against \"the pre-reform mean of 13.6 percent.\" A size in points of same-sex-household adults who report being married, not a rate on a count the game keeps.",
+      "source": "Carpenter, Eppink, Gonzales and McKay 2021 (JPAM); working paper, Effects of Access to Legal Same-Sex Marriage on Marriage and Health: Evidence from BRFSS, NBER Working Paper 24651, read at https://www.nber.org/system/files/working_papers/w24651/w24651.pdf",
       "from": "law.marriage-equality",
       "evidence": "researched",
-      "notes": "Unsupported: marriage equality has been national law since 2015, so no place differs on it, and same-sex marriages are not a kept place outcome."
+      "notes": "Left unread, for three missing pieces. The cause: marriage equality is not a law question the game holds (the starting-law set has no row for it, the bill catalog's marriage, divorce and custody topic is unsupported with no policy, and the cause key law.marriage-equality is not a law: key the web reads), and it has been national law since 2015, so no place differs on it. The record: the core keeps no marriage; couples exist as the opening drew them, and no engine decides in play who partners, marries or separates (stopgap SG-TRAITS-partnerships-no-engine). How marriage works is not yet decided (OWNER-DECISIONS.md, Marriage and children). The outcome: nothing counts same-sex marriages by place. A marriage engine would read the marriage law in force when two people decide to marry, and the count would come from those records (stopgap SG-FAMILY-marriage-not-recorded). marriage-equality-to-coverage waits on the same cause."
     },
     {
       "key": "marriage-equality-to-coverage",
@@ -2785,7 +2789,7 @@
       "source": "Ferraz and Finan 2008 (QJE)",
       "moderator": {
         "measure": "press.local-outlets",
-        "effectAtFull": 1.0
+        "effectAtFull": 1
       },
       "from": "gov.corruption-exposed",
       "evidence": "researched",
@@ -4427,8 +4431,8 @@
       "from": "school.graduation-pct",
       "to": "household.poverty-pct",
       "range": [-0.008, -0.001],
-      "notes": "No engine path: no engine ties a school's graduation to the pay its graduates earn a decade later (stopgap SG-WEB-poverty-graduation-no-engine). Once the jobs engine prices schooling into hires and wages, the poverty measure reads it. Pool item world-schooling-to-pay.",
-      "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-graduation-no-engine); the measure reads the pay once the jobs engine prices schooling"
+      "notes": "Carried: the jobs engine prices schooling into every hire (hirePay, schoolingWeekly and schoolingOn in src/core2/modules/jobs.ts reading graduationOf; pool item world-schooling-to-pay, done), proven in twin played worlds by src/core2/jobs-graduation-income.test.ts, and the poverty count reads that pay. The size and its range stay as a check on finished runs; the web does not run it.",
+      "carriedBy": "src/core2/modules/jobs.ts hirePay prices each hire from the person's own schooling, their graduation record from play (schoolingOn reading graduationOf in src/core2/school-outcomes.ts), and src/core2/world-poverty.ts householdPoverty counts that pay in the household's income against its poverty line, named and counted households alike"
     },
     {
       "key": "crime-level-to-burglary",
@@ -4827,8 +4831,7 @@
       "anchor": "Licensing an occupation cuts its employment about 29% and burdens low-income work most; no study measures the poverty change, so the size is scaled to the few percent of workers such a law frees",
       "source": "Kleiner and Soltas 2019; Institute for Justice, License to Work",
       "range": [-0.006, 0],
-      "notes": "No engine path: no engine lets a licensing law change who may take a licensed job, so the cause never reaches pay (stopgap SG-WEB-poverty-licensing-no-engine). Once the jobs engine opens licensed occupations to seekers where the law is repealed, the poverty measure reads the new pay and this link is carried. Pool item world-licensing-reform-jobs.",
-      "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-licensing-no-engine); the measure reads the pay once the jobs engine opens licensed jobs"
+      "notes": "Unread: no engine lets a licensing law change who may take a licensed job, so the cause never reaches pay (stopgap SG-WEB-poverty-licensing-no-engine). The poverty measure is the engine's own count (householdPoverty in src/core2/world-poverty.ts), which the web holds as read and does not multiply, so the web moves nothing with this link either. Once the jobs engine opens licensed occupations to seekers where the law is repealed, the poverty measure reads the new pay and this link is carried. Pool item world-licensing-reform-jobs."
     },
     {
       "key": "independent-redistricting-to-turnout",
@@ -5294,43 +5297,47 @@
     },
     {
       "key": "housing-vouchers-to-graduation",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "to": "school.graduation-pct",
-      "strength": "weak",
+      "strength": "about-zero",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0,
       "per": "law in force",
       "lagMonths": 0,
       "group": "children in families who qualify",
       "owner": "C",
-      "evidence": "to-confirm",
-      "anchor": "Chicago's 1997 voucher lottery (82,607 applicants), children tracked 14 years: effects on schooling mostly statistically insignificant",
-      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
-      "notes": "The cited Chicago voucher lottery found mostly statistically insignificant schooling effects and supplies no transportable numeric effect for this outcome. The link therefore remains inactive instead of treating statistical insignificance as a measured zero."
+      "evidence": "about-zero",
+      "anchor": "Chicago's 1997 voucher lottery (82,607 applicants), children followed 14 years: \"Estimated effects are mostly statistically insignificant.\" Boys 6 to 18 at the lottery graduated high school 1.5 points more where their family was offered a voucher (standard error 0.94, control mean 39.4 percent) and girls 1.0 point more (0.94, control mean 57.7 percent); \"If we account for multiple testing by controlling for either the FDR or FWER, then none of these estimates are statistically significant at conventional cutoffs.\"",
+      "source": "Jacob, Kapustin and Ludwig, Human Capital Effects of Anti-Poverty Programs: Evidence from a Randomized Housing Voucher Lottery, NBER Working Paper 20164 (May 2014; published in the QJE 2015); abstract read at https://www.nber.org/papers/w20164, full text at https://www.nber.org/system/files/working_papers/w20164/w20164.pdf (Table III)",
+      "range": [-0.014, 0.085],
+      "rangeSource": "ESTIMATED from Jacob, Kapustin and Ludwig (NBER w20164) Table III, high school graduation, children 6 to 18 at the lottery, intent-to-treat (a family offered a voucher, as a law offering one to every eligible family does): boys \"0.3940 0.0150\" with standard error \"(0.0094)\", a 95% interval of -0.0034 to 0.0334 on a control mean of 0.3940, or -0.009 to 0.085 proportional; girls \"0.5766 0.0101\" with \"(0.0094)\", -0.0083 to 0.0285, or -0.014 to 0.049. The range spans both. It is the change for a child whose family is offered a voucher; a place's graduation share moves by that times the share of its seniors in newly offered families, so this is an outer bound.",
+      "notes": "Graded about zero from the lottery's null, as public-bargaining-to-graduation was: a judgment over the study's intervals by the laws lead, not a ruling that statistical insignificance is zero (no owner ruling covers it). The school engine reads the web's graduation factor for every senior (decideSchoolOutcome in src/core2/school-outcomes.ts), so the law runs at size 0 and moves no one. The study's one schooling result near significance is on test scores for boys 0 to 6 at the lottery (0.0369, p 0.052), not on graduation."
     },
     {
       "key": "housing-vouchers-to-crime",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "to": "crime.rate-index",
-      "strength": "weak",
+      "strength": "about-zero",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0,
       "per": "law in force",
       "lagMonths": 0,
       "group": "children in families who qualify",
       "owner": "C",
-      "evidence": "to-confirm",
-      "anchor": "Same lottery: effects on arrests mostly statistically insignificant",
-      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
-      "notes": "Unread: no size and no outcome. The Chicago voucher lottery (Jacob, Kapustin and Ludwig, NBER w20164, https://www.nber.org/papers/w20164, abstract read October 29, 2026) tracks \"schooling, arrests, and health\" for 14 years and reports \"Estimated effects are mostly statistically insignificant\", with no transportable number for arrests, so the link stays inactive rather than treating insignificance as a measured zero. The web keeps no crime.rate-index (the crime engine keeps a violent and a property index on its own month records, src/core2/modules/crime.ts), and the federal voucher question has no reader in the new core: no engine issues vouchers under it, so no family holds one. Were a size and the vouchers recorded, the public-safety engine's arrest share-out (arrest in src/core2/public-safety.ts) would read a voucher holder's own record, not a place rate, once arrests have offenders (stopgap SG-CORE-crime-offenders) (stopgap SG-WEB-crime-justice-links-unread)."
+      "evidence": "about-zero",
+      "anchor": "Two voucher lotteries find no effect on arrests. Chicago, children followed 14 years: \"Estimated effects are mostly statistically insignificant\"; the yearly social cost of boys' arrests fell $160.63 (standard error 98.29, control mean $3,084.21) and girls' rose $60.84 (30.06, control mean $573.66), and \"If we account for multiple testing by controlling for either the FDR or FWER, then none of these estimates are statistically significant at conventional cutoffs.\" Houston, adult household heads: \"we find that voucher receipt has no effect on the likelihood of arrest. Even among the groups with the highest propensities for crime, the vouchers have no impact.\"",
+      "source": "Jacob, Kapustin and Ludwig, Human Capital Effects of Anti-Poverty Programs: Evidence from a Randomized Housing Voucher Lottery, NBER Working Paper 20164 (May 2014; published in the QJE 2015); abstract read at https://www.nber.org/papers/w20164, full text at https://www.nber.org/system/files/working_papers/w20164/w20164.pdf (Table III); Carr and Koppa 2020, Housing Vouchers, Income Shocks and Crime: Evidence from a Lottery, Journal of Economic Behavior & Organization 177:475-493, abstract read at https://econpapers.repec.org/RePEc:eee:jeborg:v:177:y:2020:i:c:p:475-493",
+      "range": [-0.115, 0.209],
+      "rangeSource": "ESTIMATED from Jacob, Kapustin and Ludwig (NBER w20164) Table III, \"Soc. costs, most conservative\" (each youth arrest valued at its cost to society), intent-to-treat: boys \"3,084.2100 -160.6255\" with standard error \"(98.2894)\", a 95% interval of -353.27 to 32.02, or -0.115 to 0.010 of the control mean; girls \"573.6593 60.8371**\" with \"(30.0558)\", 1.93 to 119.75, or 0.003 to 0.209. The range spans both, as a proportional change per family offered a voucher; Carr and Koppa's abstract gives no interval.",
+      "notes": "Graded about zero over two lotteries: a judgment over their intervals by the laws lead, as for the payroll taxes, not a ruling that statistical insignificance is zero (no owner ruling covers it). The Chicago girls' cost of arrests rose at the 5 percent level before the multiple-testing adjustment, and the authors note \"some indication that housing voucher receipt may be associated with an increase in arrests for violent crimes\" for girls 6 to 18; the range carries it. The web keeps no crime.rate-index and no engine issues vouchers under the federal question, so nothing reads this link, and at about zero nothing would."
     },
     {
       "key": "top-income-tax-rate-to-poverty",
@@ -5798,23 +5805,25 @@
     },
     {
       "key": "congress-stock-ban-to-member-returns",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
       "to": "government.member-market-returns",
-      "strength": "weak",
+      "strength": "about-zero",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
       "group": "place",
       "owner": "B-cloud",
-      "evidence": "to-confirm",
-      "anchor": "Members of Congress' stock trades matched or trailed the market after the 2012 STOCK Act, so barring the trades changes no market return the game measures; the game keeps no member holdings to change",
-      "source": "Chen and Sacerdote 2026, NBER Working Paper 35041 (Research 1's federal table, September 29, 2026)",
-      "notes": "Evidence gap, not a measured zero: members' trades matching the market after the STOCK Act does not measure a ban, and the game keeps no member holdings for one to move."
+      "evidence": "about-zero",
+      "anchor": "Members' trades did not beat the market after the 2012 STOCK Act, so a ban takes away no excess return: \"We find that, on average, legislators’ portfolios underperform or, at best, match market benchmarks after the STOCK Act.\" Senators' purchases \"slightly underperform stocks in the same industry and size (market cap) categories by 11 basis points, 28 basis points and 17 basis points at the 1, 3, and 6-month time horizons.\" The contrary finding is for leaders only: lawmakers \"who later ascend to leadership positions perform similarly to matched peers beforehand but outperform them by 47 percentage points annually after ascension\"; the game keeps no member holdings, so that is outside what it measures.",
+      "source": "Chen and Sacerdote 2026, Capital in the Capitol: Congressional Trades Resemble Uninformed Retail Trading, NBER Working Paper 35041, abstract read at https://www.nber.org/papers/w35041; Belmont, Sacerdote, Sehgal and Van Hoek 2020, Relief Rally: Senators As Feckless As the Rest of Us at Stock Picking, NBER Working Paper 26975, abstract read at https://www.nber.org/papers/w26975; Wei and Zhou 2025, \"Captain Gains\" on Capitol Hill, NBER Working Paper 34524, abstract read at https://www.nber.org/papers/w34524",
+      "range": [-0.005, 0.005],
+      "rangeSource": "ESTIMATED: the abstracts give no interval. Every rank-and-file estimate they print is within 50 basis points of the benchmark (senators' purchases -11, -28 and -17 basis points at 1, 3 and 6 months; sales +14, \"statistically insignificant\", at a year; Republican senators' sales -50 over three months), so a ban's change in members' returns is taken as -0.005 to +0.005 of the amount invested. The leaders' 47 points a year is left out: the game keeps no member holdings.",
+      "notes": "Graded about zero, and not applicable in play: the game keeps no member stock holdings, so no engine could read a return, and building portfolios is outside the golden path. The ban's route into the game is voters' views of the law. The CTO may rule it contested because of the leaders' result (Wei and Zhou)."
     },
     {
       "key": "privacy-law-to-earnings",
@@ -5854,23 +5863,25 @@
     },
     {
       "key": "library-materials-to-reading",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:civil-family-community.local-control-of-library-materials",
       "to": "school.reading-proficient-pct",
-      "strength": "weak",
+      "strength": "about-zero",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
       "group": "place",
       "owner": "F-cloud",
-      "evidence": "to-confirm",
-      "anchor": "Leaving the choice to local boards changes which titles stay on the shelf: challenges reached 4,240 titles nationwide in 2023, a small share of any library's collection, and no study links removals to reading scores. What moves reading is money for the library itself, a different question",
-      "source": "American Library Association, Office for Intellectual Freedom, 2023 book challenge data; Gilpin, Karger and Nencka 2024, AEJ: Economic Policy",
-      "notes": "The cited evidence supplies no numeric link from local book removals to reading scores. The link remains inactive rather than converting the absence of a measured effect into zero."
+      "evidence": "about-zero",
+      "anchor": "No study measures what removing library titles does to reading scores, so this is the nearest research rounded to zero. Removals touch a small share of collections: the American Library Association counted \"efforts to censor 4,240 unique book titles* in schools and libraries\" in 2023, nationwide. What moves reading is investment in the library itself, \"a $200 or greater per student capital investment in local public libraries increases reading test scores by 0.01–0.04 standard deviations in subsequent years\", a whole program's worth, which library-funding-to-reading carries at 0.01.",
+      "source": "ESTIMATED, no study of this law: American Library Association, release of March 14, 2024 on its 2023 censorship data, read at https://www.ala.org/news/2024/03/american-library-association-reports-record-number-unique-book-titles; Gilpin, Karger and Nencka 2024, The Returns to Public Library Investment, AEJ: Economic Policy 16(2):78-109, abstract read at https://www.aeaweb.org/articles?id=10.1257/pol.20210300",
+      "range": [-0.03, 0],
+      "rangeSource": "ESTIMATED: no study gives an interval for this law. A board's removals take titles away, so the change is not positive, and it is no larger than undoing a whole capital investment of $200 or more per student, which library-funding-to-reading sizes at 0.01 with range 0 to 0.03 on the same proportional scale (Gilpin, Karger and Nencka). So -0.03 to 0, an outer bound.",
+      "notes": "An ESTIMATED zero, said plainly: no study measures removals against reading scores (the nearest are educator surveys), so this is the nearest research rounded to zero, not a measured null; how estimated zeros are graded is the CTO's to rule. The school engine reads the web's reading factor for every grade 8 student (decideSchoolOutcome in src/core2/school-outcomes.ts), so the law runs at size 0 and moves no one. The law keeps its political weight through issue stances, not this link."
     },
     {
       "key": "city-anti-discrimination-to-poverty",
@@ -6580,7 +6591,7 @@
       "evidence": "provisional",
       "from": "budget.higherEducation-added-pct",
       "to": "school.college-completion-pct",
-      "range": [6e-5, 0.00017],
+      "range": [0.00006, 0.00017],
       "rangeSource": "Deming and Walters Table 4 Panel C gives 4.6 percent at t + 2 and 4.5 at t + 3 with significance at the 5 and 10 percent levels and no reported interval; the range is half to one and a half times the size, the conversion to a stock being ours.",
       "phaseInMonths": 24,
       "phaseInSource": "Deming and Walters 2017, section 4.3: \"a 10 percent increase in total spending in year t leads to only a 2 percent increase in total awards in year t, but larger increases of 7.8, 9.4 and 6.4 percent in years t + 1 through t + 3\": the extra degrees build over about two years.",

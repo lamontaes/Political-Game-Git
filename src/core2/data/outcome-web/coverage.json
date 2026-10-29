@@ -87,6 +87,7 @@
     "property-tax-cap-to-math",
     "civilian-oversight-to-crime",
     "harm-reduction-to-crime",
+    "licensing-reform-to-poverty",
     "independent-redistricting-to-turnout",
     "term-limits-to-turnout",
     "library-funding-to-math",
@@ -101,6 +102,7 @@
     "mandatory-minimums-to-violent-crime",
     "clean-electricity-to-particulates",
     "carbon-price-to-particulates",
+    "housing-vouchers-to-graduation",
     "harm-reduction-to-overdose-deaths",
     "public-bargaining-to-earnings",
     "library-funding-to-reading",
@@ -118,6 +120,7 @@
     "fare-free-transit-to-ridership",
     "cannabis-sales-to-overdose-deaths",
     "privacy-law-to-earnings",
+    "library-materials-to-reading",
     "highway-money-for-transit-to-service",
     "defense-contracts-to-earnings",
     "transit-service-to-ridership",
@@ -304,16 +307,15 @@
       "needsSize": true
     },
     "graduation-to-earnings": {
-      "waitingOn": ["school.graduation", "labor.earnings"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/jobs.ts hirePay prices each hire from the person's own schooling on the day it is set (schoolingWeekly, then schoolingOn, which reads the senior's graduation record from graduationOf in src/core2/school-outcomes.ts): a senior who graduated in play is paid at the diploma's row of BLS weekly earnings and one who did not at the no-diploma row, times the within-role share, named and counted hires alike"
     },
     "graduation-to-incarceration": {
       "waitingOn": ["school.graduation", "justice.incarceration-risk"],
       "needsSize": true
     },
     "education-to-mortality": {
-      "waitingOn": ["school.years-completed", "health.mortality-all"],
-      "needsSize": true
+      "waitingOn": ["school.years-completed", "health.mortality-all"]
     },
     "new-apartments-to-nearby-rent": {
       "waitingOn": [],
@@ -321,7 +323,7 @@
     },
     "rent-burden-to-homelessness": {
       "waitingOn": [],
-      "needsSize": true
+      "carriedBy": "the housing engine's own leases and removals, household by household: a lease whose rent the household's pay and cash cannot cover falls into arrears (accruesArrears, src/core2/modules/housing.ts), arrears past the grace period start notice, filing and judgment (review in src/core2/modules/housing.ts; counted households by their group's arrears, countedLate in src/core2/housing-homeless.ts), the removal puts the household with kin, in a shelter bed or on the street (placeRemovedHousehold), and reviewHomeless in src/core2/housing-homeless.ts rehouses it only once its monthly income reaches the rent times housingRehouseIncomeMultiple, named and counted households alike"
     },
     "eviction-to-homelessness": {
       "waitingOn": [],
@@ -445,7 +447,7 @@
     },
     "graduation-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-graduation-no-engine); the measure reads the pay once the jobs engine prices schooling"
+      "carriedBy": "src/core2/modules/jobs.ts hirePay prices each hire from the person's own schooling, their graduation record from play (schoolingOn reading graduationOf in src/core2/school-outcomes.ts), and src/core2/world-poverty.ts householdPoverty counts that pay in the household's income against its poverty line, named and counted households alike"
     },
     "crime-level-to-robbery": {
       "waitingOn": [],
@@ -458,10 +460,6 @@
     "grocery-exemption-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
-    },
-    "licensing-reform-to-poverty": {
-      "waitingOn": [],
-      "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-licensing-no-engine); the measure reads the pay once the jobs engine opens licensed jobs"
     },
     "income-tax-to-poverty": {
       "waitingOn": [],
@@ -489,13 +487,8 @@
     "federal-mandatory-minimums-to-crime": {
       "waitingOn": ["crime.rate-index"]
     },
-    "housing-vouchers-to-graduation": {
-      "waitingOn": [],
-      "needsSize": true
-    },
     "housing-vouchers-to-crime": {
-      "waitingOn": ["crime.rate-index"],
-      "needsSize": true
+      "waitingOn": ["crime.rate-index"]
     },
     "top-income-tax-rate-to-poverty": {
       "waitingOn": [],
@@ -510,12 +503,7 @@
       "carriedBy": "the sales tax engine, which spares the grocery share of each retail seller's sales where the exemption holds (syncSalesTax in src/core2/modules/budgets.ts), the business price review, which passes the tax change into the seller's tax-inclusive price (salesTaxPassThrough in src/core2/finance-state.ts), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan at those prices from what its members hold, so the exemption buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     "congress-stock-ban-to-member-returns": {
-      "waitingOn": ["government.member-market-returns"],
-      "needsSize": true
-    },
-    "library-materials-to-reading": {
-      "waitingOn": [],
-      "needsSize": true
+      "waitingOn": ["government.member-market-returns"]
     },
     "city-anti-discrimination-to-poverty": {
       "waitingOn": [],
@@ -633,10 +621,6 @@
       "links": 2
     },
     "program.child-benefit-dollars": {
-      "owner": "OPUS-GOV",
-      "links": 2
-    },
-    "school.graduation": {
       "owner": "OPUS-GOV",
       "links": 2
     },
@@ -768,10 +752,6 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "labor.earnings": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "labor.earnings-at-28": {
       "owner": "OPUS-WORLD",
       "links": 1
@@ -849,6 +829,10 @@
       "links": 1
     },
     "school.far-below-proficient": {
+      "owner": "OPUS-GOV",
+      "links": 1
+    },
+    "school.graduation": {
       "owner": "OPUS-GOV",
       "links": 1
     },

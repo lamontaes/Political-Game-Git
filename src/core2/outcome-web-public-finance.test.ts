@@ -370,7 +370,7 @@ const UNWIRED: ReadonlyArray<{
   {
     outcome: "household.child-poverty",
     links: ["child-benefit-to-child-poverty"],
-    stopgap: null,
+    stopgap: "SG-FAMILY-child-benefit-not-paid",
     reason:
       "no child benefit is paid and no engine counts child poverty apart from the poverty measure",
   },

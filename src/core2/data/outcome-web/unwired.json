@@ -88,8 +88,8 @@
     {
       "link": "child-benefit-to-child-poverty",
       "outcome": "household.child-poverty",
-      "reason": "no measure: the web does not keep household.child-poverty and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-household-child-poverty"
+      "reason": "no measure: the web does not keep household.child-poverty and no engine produces it; nothing in the core records its cause, program.child-benefit-dollars",
+      "stopgapId": "SG-FAMILY-child-benefit-not-paid"
     },
     {
       "link": "teacher-quality-to-earnings",
@@ -146,28 +146,10 @@
       "stopgapId": "SG-SCHOOL-links-not-running"
     },
     {
-      "link": "graduation-to-earnings",
-      "outcome": "labor.earnings",
-      "reason": "no measure: the web does not keep labor.earnings and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-LABOR-unsized-links"
-    },
-    {
       "link": "graduation-to-incarceration",
       "outcome": "justice.incarceration-risk",
       "reason": "no measure: the web does not keep justice.incarceration-risk and no engine produces it; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-crime-justice-links-unread"
-    },
-    {
-      "link": "education-to-mortality",
-      "outcome": "health.mortality-all",
-      "reason": "no measure: the web does not keep health.mortality-all and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-EW-HEALTH-unsized-links"
-    },
-    {
-      "link": "rent-burden-to-homelessness",
-      "outcome": "housing.homelessness",
-      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-housing-homelessness"
     },
     {
       "link": "eviction-to-hospital-visits",
@@ -196,14 +178,14 @@
     {
       "link": "baby-bonus-to-births",
       "outcome": "births.rate",
-      "reason": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-births-rate"
+      "reason": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; nothing in the core records its cause, program.birth-bonus-dollars",
+      "stopgapId": "SG-FAMILY-birth-bonus-not-paid"
     },
     {
       "link": "marriage-equality-to-marriages",
       "outcome": "family.same-sex-marriages",
-      "reason": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-family-same-sex-marriages"
+      "reason": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; nothing in the core records its cause, law.marriage-equality",
+      "stopgapId": "SG-FAMILY-marriage-not-recorded"
     },
     {
       "link": "marriage-equality-to-coverage",
@@ -302,34 +284,16 @@
       "stopgapId": "SG-LABOR-unsized-links"
     },
     {
-      "link": "housing-vouchers-to-graduation",
-      "outcome": "school.graduation-pct",
-      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-school-graduation-pct"
-    },
-    {
-      "link": "housing-vouchers-to-crime",
-      "outcome": "crime.rate-index",
-      "reason": "no measure: the web does not keep crime.rate-index and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-crime-justice-links-unread"
+      "link": "licensing-reform-to-poverty",
+      "outcome": "household.poverty-pct",
+      "reason": "engine doesn't read the factor: an engine records household.poverty-pct, but nothing multiplies its rates by the link's effect",
+      "stopgapId": "SG-WEB-poverty-licensing-no-engine"
     },
     {
       "link": "gas-hookup-ban-to-child-asthma",
       "outcome": "health.child-asthma-pct",
       "reason": "engine doesn't read the factor: health.child-asthma-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-EW-HEALTH-condition-record"
-    },
-    {
-      "link": "congress-stock-ban-to-member-returns",
-      "outcome": "government.member-market-returns",
-      "reason": "no measure: the web does not keep government.member-market-returns and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-government-member-market-returns"
-    },
-    {
-      "link": "library-materials-to-reading",
-      "outcome": "school.reading-proficient-pct",
-      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-school-reading-proficient-pct"
     },
     {
       "link": "farm-payments-cut-to-land-values",
