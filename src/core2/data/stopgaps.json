@@ -7589,5 +7589,41 @@
     "addedAt": "2026-10-28",
     "replacement": "Signatures gathered in the district's other places at a coarse step, from the campaign's effort there, checked against the law's whole count.",
     "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-honors-no-history",
+    "kind": "history-gap",
+    "file": "src/core2/school-honors.ts",
+    "line": 217,
+    "whatItFakes": "Every place opens owing no school honors: each place's remainder (the fraction of a spelling-bee or Division I signing its students were expected to earn) starts at zero on the day the world opens, though the years before the start would have left each place somewhere between zero and one.",
+    "why": "The school years before the start (schoolHistory in past-school.ts) record where each person went to school but decide no honors, so there is no past remainder to read. The effect is that a small town's first honor comes about as many years after the start as it takes its expected counts to add up to one student, and a large town's comes in the first year.",
+    "addedBy": "words-school-honors",
+    "addedAt": "2026-10-29",
+    "replacement": "The school years before the start run the honors (the same rule, each past year's students and rate) so every place opens with the remainder its past leaves it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-honors-athletic-ability",
+    "kind": "missing-record",
+    "file": "src/core2/school-honors.ts",
+    "line": 219,
+    "whatItFakes": "Which seniors sign to play at a Division I school is ranked by the school standing plus three personality traits (competitive, persistent, voluntary effort), because no record in the world gives a student's athletic ability, teams or sports. The traits only rank the seniors; the count comes from the NCAA rate and the place's students.",
+    "why": "No engine keeps a fitness, sport or team record for a student, and the health engine keeps conditions and strain, not fitness. Competing against others, sticking with practice and effort no one requires are the closest recorded traits.",
+    "addedBy": "words-school-honors",
+    "addedAt": "2026-10-29",
+    "replacement": "A student's sports and athletic ability as a record (a body and fitness record that grows with practice, and school teams with rosters), read by the honors in place of the traits, which then only break ties.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-honors-one-signing-day",
+    "kind": "estimated-calendar",
+    "file": "src/core2/school-honors.ts",
+    "line": 220,
+    "whatItFakes": "Every Division I signing of a senior class is decided on one day, the first Wednesday of December (the football early signing period), though the signings fall across the early period, the first Wednesday of February and the other sports' November and April periods.",
+    "why": "The research found the football dates (ESPN, Dec 3, 2025 and Feb 4, 2026) but no source for the share of a class that signs in each period, and a share would be a typed number.",
+    "addedBy": "words-school-honors",
+    "addedAt": "2026-10-29",
+    "replacement": "One row per signing period in honors.json, each with the share of the year's Division I signings that fall in it, from NCAA signing-period data.",
+    "status": "open"
   }
 ]

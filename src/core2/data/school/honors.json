@@ -1,0 +1,86 @@
+{
+  "version": "core2-school-honors-v1",
+  "citation": "School honors are decided on their real calendar days from each place's own students. A place's expected count is its students of the honor's grades times the national rate (winners a year over students nationally in those grades); the students who rank highest on the honor's standing clear in order, and the fraction left over carries to the next year. There is no roll.",
+  "event": "school.honor",
+  "calendar": {
+    "daysPerWeek": 7,
+    "about": "A week has seven days; a day rule names the nth weekday of a month (weekday 0 is Sunday, as JavaScript's getUTCDay counts)."
+  },
+  "ranking": {
+    "traitWeightParameter": "schoolStandingTraitWeight",
+    "about": "A student's rank for an honor is the school engine's standing (attendance and the study traits, school-outcomes.ts) plus the honor's own traits, averaged and weighted by the same trait weight, so a spelling bee ranks on standing alone and an athletic signing ranks on standing (the academic eligibility the NCAA requires) and the athletic traits together."
+  },
+  "honors": [
+    {
+      "key": "spelling-bee-regional",
+      "tier": "regional",
+      "about": "A middle-school student who wins a Scripps National Spelling Bee regional bee (or a state's bee that is its regional partner's) and goes to the national competition.",
+      "grades": [5, 6, 7, 8],
+      "gradesTag": "ESTIMATED",
+      "gradesSource": "Scripps 2026 Official Rules, Rule 1: a speller 'must not have passed beyond the eighth grade' and 'must not have reached their 15th birthday on or before August 31, 2025' (https://spellingbee.com/sites/default/files/inline-files/SCRIPPS--2026%20SPELLING%20BEE%20OFFICIAL%20RULES_FINAL.pdf). The rules set no lower bound. The school engine's grades 5 to 8 (ages 10 to 13 on September 1) are taken as the middle school grades, and the rate below is taken over those four grades only.",
+      "day": {
+        "month": "03",
+        "date": "01",
+        "tag": "ESTIMATED",
+        "source": "spellingbee.com (fetched Oct 29, 2026): 'In February and March, school champions from across the country will compete' in regional events, and 'Regional champions advance to the national competition in May'; the 2026 rules (Rule 11) count a regional champion 'on or after February 1, 2026'. The middle of the February-to-March window is March 1.",
+        "spread": "February 1 to March 31 (the whole regional season)."
+      },
+      "rate": {
+        "winnersPerYear": 247,
+        "studentsNationally": 15145000,
+        "tag": "ESTIMATED",
+        "source": "Winners: spellingbee.com (fetched Oct 29, 2026): 'For 247 students, that journey took them all the way to the National Competition in Washington, D.C.' (2026); Rule 11 of the 2026 rules makes each one the champion of a regional bee. Students: NCES Digest of Education Statistics, Table 203.10, public school enrollment fall 2020 in thousands, grade 5 3,647 + grade 6 3,748 + grade 7 3,861 + grade 8 3,889 = 15,145 (https://nces.ed.gov/programs/digest/d21/tables/dt21_203.10.asp).",
+        "derivation": "247 / 15,145,000 = 0.0000163 a year for a student of grades 5 to 8. Public enrollment only (private schools also enter Scripps bees, which makes the true rate per student a little lower), and a few national spellers are invited rather than regional champions.",
+        "spread": {
+          "low": 0.00000725,
+          "high": 0.0000319,
+          "about": "Low: 247 over all 34,059,000 prekindergarten-to-grade-8 students (NCES Table 203.10, fall 2020), if every grade were equally likely. High: 247 over the 7,750,000 students of grades 7 and 8 alone, where most national spellers are."
+        }
+      },
+      "traits": [],
+      "stopgaps": []
+    },
+    {
+      "key": "division-one-signing",
+      "tier": "division-one",
+      "about": "A senior who signs to play a sport at an NCAA Division I school on the national signing day.",
+      "grades": [12],
+      "gradesTag": "SOURCED",
+      "gradesSource": "High school seniors are the grade 12 the school engine already decides graduation for (outcomes.json tested.graduation).",
+      "day": {
+        "month": "12",
+        "weekday": 3,
+        "nth": 1,
+        "tag": "ESTIMATED",
+        "source": "ESPN (fetched Oct 29, 2026): 'College football's early signing period started Wednesday' (December 3, 2025, the first Wednesday of December), and 'The early signing period for the 2025 cycle starts Dec. 4, 2024, followed by the traditional signing period beginning Feb. 5, 2025' (December 4, 2024 and February 5, 2025 are the first Wednesdays of their months). The first Wednesday of December is the day the class's signings are decided.",
+        "spread": "December 3, 2025 and December 4, 2024 are the two early periods fetched; the regular football period is the first Wednesday of February (February 5, 2025 and February 4, 2026). The other signing periods are folded into this one day (SG-SCHOOL-honors-one-signing-day)."
+      },
+      "rate": {
+        "winnersPerYear": 38737,
+        "studentsNationally": 3662000,
+        "tag": "ESTIMATED",
+        "source": "Winners: NCAA, Estimated Probability of Competing in College Athletics, 2022-23 table (https://ncaaorg.s3.amazonaws.com/research/pro_beyond/2023RES_ProbabilityBeyondHSFiguresMethod.pdf): for each of its 27 sports, high school participants (7,109,290 together, from NFHS 2022-23) times the percent 'HS to NCAA Division I' gives 154,946 Division I roster places; the NCAA's methodology says 'both HS and college participation numbers include four classes of students, and both sets of teams turn over roughly one-quarter of their rosters each year', so a quarter, 38,737, is a year's entering Division I class. Students: NCES Digest of Education Statistics, Table 203.10, public school grade 12 enrollment fall 2020, 3,662 thousand (https://nces.ed.gov/programs/digest/d21/tables/dt21_203.10.asp).",
+        "derivation": "(154,946 / 4) / 3,662,000 = 0.01058 a year for a senior. The entering class counts walk-ons, transfers and international players, and the denominator is public school seniors only, so the rate runs a little high for a signing news story.",
+        "spread": {
+          "low": 0.0094,
+          "high": 0.01112,
+          "about": "Low: the NCAA's own 4.5-year cohort length (its draft-cohort note) instead of 4 gives 34,432 a year. High: the 2024-25 edition's percentages (https://www.ncaa.org/student-athletes/probability-of-competing-beyond-high-school, fetched Oct 29, 2026) on the 2022-23 participants give 162,917 places, 40,729 a year."
+        }
+      },
+      "traits": [
+        "personality-v1:facet-competitive",
+        "personality-v1:facet-persistent",
+        "personality-v1:voluntary-effort"
+      ],
+      "traitsTag": "ESTIMATED",
+      "traitsSource": "No record in the world gives a student's athletic ability. Competing against others (facet-competitive), sticking with practice (facet-persistent) and effort that no one requires (voluntary-effort) are the closest recorded traits; they rank the seniors and never set how many sign (SG-SCHOOL-honors-athletic-ability).",
+      "stopgaps": [
+        "SG-SCHOOL-honors-athletic-ability",
+        "SG-SCHOOL-honors-one-signing-day"
+      ]
+    }
+  ],
+  "stopgaps": {
+    "noHistory": "SG-SCHOOL-honors-no-history"
+  }
+}
