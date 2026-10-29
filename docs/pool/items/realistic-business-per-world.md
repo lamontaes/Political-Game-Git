@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/realistic-business-rows
 pr: #6600
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at: 2026-10-28T07:21:38.436Z
 **Files.** src/core2/modules/business.ts, src/core2/membership-dues.ts, src/simulation/local-business-counts.ts, src/core2/modules/press.ts, src/core2/modules/campaigns.ts
 
 **Notes.** Filed by the realistic-not-real audit of Oct 27.
+
+Oct 29 (CTO): set done; PR #6600 merged (the done flip failed while branch protection refused the flip job's push).

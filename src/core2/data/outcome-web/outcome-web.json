@@ -424,6 +424,13 @@
       "field": "",
       "unitScale": 1
     },
+    "federal.defense-boost-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the federal budget row's national defense line in force (the budgets module), above its base as a share of the base, times the state's fiscal 2024 defense contracts per resident over its output per resident (data/research/federal/defense-contracts-by-state-fy2024.json), as a percent of what the state produces",
+      "reader": "defense-boost-pct",
+      "field": "",
+      "unitScale": 1
+    },
     "program.snap-maximum-change-pct": {
       "owner": "OPUS-GOV",
       "record": "the SNAP one-person maximum allotment in force (the federal snap-maximum law row), against the one in force at the opening, as a percent",

@@ -10,6 +10,28 @@
     }
   },
   "purposes": {
+    "talk": {
+      "note": "Everyday talk (owner, Oct 29: one engine, and calibration reaches all of it): how a person takes in what the player answered in a conversation. The talk engine (src/director/conversation.ts) names the move the answer made from conversation-rules.json `replyMoves`; `follow` gives the moves that answer it, the speaker's trait lean picks one, and the scene bank words it fitted to the answer (a piece may name the move or the subject and choice it answers in `after`). After a move in `closes` the answer ends the talk and no goodbye follows it.",
+      "state": "tell",
+      "replies": [],
+      "follow": {
+        "answer": ["accept"],
+        "tell": ["comfort"],
+        "agree": ["agree"],
+        "disagree": ["accept", "disagree"],
+        "stall": ["agree", "accept"],
+        "ask": ["agree"],
+        "request": ["accept"],
+        "decline": ["accept"],
+        "react": ["answer"],
+        "thank": ["accept"],
+        "refuse": ["accept"],
+        "deflect": "refuse",
+        "confess": ["comfort", "accept"],
+        "apologize": ["accept"]
+      },
+      "closes": ["request", "decline"]
+    },
     "ask-vote": {
       "state": "request",
       "asks": {

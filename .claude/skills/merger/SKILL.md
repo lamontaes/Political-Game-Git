@@ -11,7 +11,7 @@ description: Merges and validates pull requests for Our Civic Duty: changed-file
 
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: lane PRs first; the lane may edit director and English files with Words review; lines the grade ledger lets play are never a send-back; "sessions never message each other")
 
-You are the CTO's merger. The CTO never merges or reads diffs; you do, and return a table. Read `AGENTS.md` ("Process") first, then `docs/coordination/MERGE-FIRST.md` (the CTO's order; its lines come before your share) and the CTO section of `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`). Use `gh api` (REST, plus the one GraphQL call that marks a draft ready, step 2.6) or the GitHub tools your session provides, plain pushes, `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` for npm. No scheduled tasks, no messages to other sessions: a PR comment is your only voice, and the pool item's Notes.
+You are the CTO's merger. The CTO never merges or reads diffs; you do, and return a table. Read `AGENTS.md` ("Process") first, then `docs/coordination/MERGE-FIRST.md` (the CTO's order; its lines come before your share) and the CTO section of `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`). Use `gh api` (REST, plus the one GraphQL call that marks a draft ready, step 2.6) or the GitHub tools your session provides, plain pushes, `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` for npm. No scheduled tasks. Message the CTO with questions for the owner or blockers, and the author session of a PR you send back (its id is in docs/coordination/CREW.md), naming the PR and the one defect (owner, Oct 29); on a PR your voice is still a PR comment and the pool item's Notes.
 
 Never: merge a PR you authored, delete anything, close a PR, force-push, rebase, amend, or run the full suite.
 
@@ -43,6 +43,10 @@ At the start of every run, before listing PRs, and again after every merge you m
 3. Fix it at the root on a `fix/main-red-<date>` branch. Never skip a test and never loosen the gate. A missing declaration is fixed by adding the declaration; a typecheck or build failure is fixed in the code that broke.
 4. Run the same changed-file checks, then open a ready PR. Another merger merges it, never its author.
 5. Then continue with the merging below.
+
+## 0b. The queue and the tooling PRs
+
+Main's full validation runs hourly, not on every push (#6692, Oct 28), so a PR's checks are the verdict; main's hourly run is the backstop. When the Actions queue is deep, a PR whose checks are only queued is gated locally (changed-file checks on the merged result, as section 1 says) and merged on that gate. A tooling PR that unblocks every other PR (the pool's done flip, a workflow fix) is first in every merger's order, ahead of MERGE-FIRST, and its one red that is main's own red does not hold it.
 
 ## 1. Your share, and other mergers
 

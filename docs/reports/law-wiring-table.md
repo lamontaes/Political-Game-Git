@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 84 of 89 (2 partly, 3 on a stopgap). Research links reaching people or carried by an engine: 162 of 245 (19 the research finds about zero, 64 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
+Laws wired: 84 of 89 (2 partly, 3 on a stopgap). Research links reaching people or carried by an engine: 164 of 245 (19 the research finds about zero, 62 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 

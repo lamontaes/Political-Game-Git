@@ -5182,6 +5182,571 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.budget-request.name-sent-congress-a-budget-for-the-coming-year",
+      "move": "budget-request",
+      "kind": "written",
+      "text": "{name} sent Congress a budget for the coming year.",
+      "uses": [
+        {
+          "move": "budget-request",
+          "subject": "news",
+          "role": "budget-request",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget-request.name-sent-congress-a-budget-that-would-cut-purpose",
+      "move": "budget-request",
+      "kind": "written",
+      "text": "{name} sent Congress a budget that would cut {purpose}.",
+      "uses": [
+        {
+          "move": "budget-request",
+          "subject": "news",
+          "role": "budget-request",
+          "choice": "lede",
+          "requiresFacts": ["cut", "purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget-request.name-sent-congress-a-budget-that-would-spend-more-on-purpose",
+      "move": "budget-request",
+      "kind": "written",
+      "text": "{name} sent Congress a budget that would spend more on {purpose}.",
+      "uses": [
+        {
+          "move": "budget-request",
+          "subject": "news",
+          "role": "budget-request",
+          "choice": "lede",
+          "requiresFacts": ["added", "purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.joint-address.name-spoke-to-a-joint-session-of-congress",
+      "move": "joint-address",
+      "kind": "written",
+      "text": "{name} spoke to a joint session of Congress.",
+      "uses": [
+        {
+          "move": "joint-address",
+          "subject": "news",
+          "role": "joint-address",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.joint-address.name-told-congress-the-country-needs-purpose",
+      "move": "joint-address",
+      "kind": "written",
+      "text": "{name} told Congress the country needs {purpose}.",
+      "uses": [
+        {
+          "move": "joint-address",
+          "subject": "news",
+          "role": "joint-address",
+          "choice": "lede",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.trip.name-visited-place",
+      "move": "trip",
+      "kind": "written",
+      "text": "{name} visited {place}.",
+      "uses": [
+        {
+          "move": "trip",
+          "subject": "news",
+          "role": "trip",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.trip.name-came-to-place-and-met-with-people-there",
+      "move": "trip",
+      "kind": "written",
+      "text": "{name} came to {place} and met with people there.",
+      "uses": [
+        {
+          "move": "trip",
+          "subject": "news",
+          "role": "trip",
+          "choice": "lede",
+          "requiresFacts": ["met"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.ribbon-cut.a-new-purpose-project-is-finished",
+      "move": "ribbon-cut",
+      "kind": "written",
+      "text": "A new {purpose} project is finished.",
+      "uses": [
+        {
+          "move": "ribbon-cut",
+          "subject": "news",
+          "role": "ribbon-cut",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.ribbon-cut.a-new-purpose-project-is-finished-subject-built-it-for-money",
+      "move": "ribbon-cut",
+      "kind": "written",
+      "text": "A new {purpose} project is finished; {subject} built it for {money}.",
+      "uses": [
+        {
+          "move": "ribbon-cut",
+          "subject": "news",
+          "role": "ribbon-cut",
+          "choice": "lede",
+          "requiresFacts": ["subject", "money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.emergency.name-declared-an-emergency",
+      "move": "emergency",
+      "kind": "written",
+      "text": "{name} declared an emergency.",
+      "uses": [
+        {
+          "move": "emergency",
+          "subject": "news",
+          "role": "emergency",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.emergency.name-declared-an-emergency-over-the-incident",
+      "move": "emergency",
+      "kind": "written",
+      "text": "{name} declared an emergency over the {incident}.",
+      "uses": [
+        {
+          "move": "emergency",
+          "subject": "news",
+          "role": "emergency",
+          "choice": "lede",
+          "requiresFacts": ["incident"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.emergency.name-declared-an-emergency-and-moved-money-to-respond",
+      "move": "emergency",
+      "kind": "written",
+      "text": "{name} declared an emergency and moved {money} to respond.",
+      "uses": [
+        {
+          "move": "emergency",
+          "subject": "news",
+          "role": "emergency",
+          "choice": "lede",
+          "requiresFacts": ["money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.succession.name-has-become-office",
+      "move": "succession",
+      "kind": "written",
+      "text": "{name} has become {office}.",
+      "uses": [
+        {
+          "move": "succession",
+          "subject": "news",
+          "role": "succession",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.succession.name-is-now-acting-office",
+      "move": "succession",
+      "kind": "written",
+      "text": "{name} is now acting {office}.",
+      "uses": [
+        {
+          "move": "succession",
+          "subject": "news",
+          "role": "succession",
+          "choice": "lede",
+          "requiresFacts": ["acting"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.recall-reply.name-met-with-the-people-behind-the-recall-petition-and-heard-them-out",
+      "move": "recall-reply",
+      "kind": "written",
+      "text": "{name} met with the people behind the recall petition and heard them out.",
+      "uses": [
+        {
+          "move": "recall-reply",
+          "subject": "news",
+          "role": "recall-reply",
+          "choice": "lede",
+          "requiresFacts": ["answered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.recall-reply.name-turned-away-the-people-behind-the-recall-petition",
+      "move": "recall-reply",
+      "kind": "written",
+      "text": "{name} turned away the people behind the recall petition.",
+      "uses": [
+        {
+          "move": "recall-reply",
+          "subject": "news",
+          "role": "recall-reply",
+          "choice": "lede",
+          "requiresFacts": ["dismissed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.measure-result.voters-approved-purpose",
+      "move": "measure-result",
+      "kind": "written",
+      "text": "Voters approved {purpose}.",
+      "uses": [
+        {
+          "move": "measure-result",
+          "subject": "news",
+          "role": "measure-result",
+          "choice": "lede",
+          "requiresFacts": ["approved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.measure-result.voters-approved-purpose-with-percent-voting-yes",
+      "move": "measure-result",
+      "kind": "written",
+      "text": "Voters approved {purpose}, with {percent} voting yes.",
+      "uses": [
+        {
+          "move": "measure-result",
+          "subject": "news",
+          "role": "measure-result",
+          "choice": "lede",
+          "requiresFacts": ["approved", "percent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.measure-result.voters-turned-down-purpose",
+      "move": "measure-result",
+      "kind": "written",
+      "text": "Voters turned down {purpose}.",
+      "uses": [
+        {
+          "move": "measure-result",
+          "subject": "news",
+          "role": "measure-result",
+          "choice": "lede",
+          "requiresFacts": ["rejected"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.measure-result.voters-turned-down-purpose-percent-voted-yes",
+      "move": "measure-result",
+      "kind": "written",
+      "text": "Voters turned down {purpose}; {percent} voted yes.",
+      "uses": [
+        {
+          "move": "measure-result",
+          "subject": "news",
+          "role": "measure-result",
+          "choice": "lede",
+          "requiresFacts": ["rejected", "percent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.presented.designation-now-goes-to-name-to-sign-or-not",
+      "move": "presented",
+      "kind": "written",
+      "text": "{designation} now goes to {name} to sign or not.",
+      "uses": [
+        {
+          "move": "presented",
+          "subject": "news",
+          "role": "presented",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.presented.designation-is-on-name-s-desk-a-decision-is-due-by-date",
+      "move": "presented",
+      "kind": "written",
+      "text": "{designation} is on {name}'s desk; a decision is due by {date}.",
+      "uses": [
+        {
+          "move": "presented",
+          "subject": "news",
+          "role": "presented",
+          "choice": "lede",
+          "requiresFacts": ["date"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.item-veto.name-struck-number-items-from-designation-with-a-line-item-veto",
+      "move": "item-veto",
+      "kind": "written",
+      "text": "{name} struck {number} items from {designation} with a line-item veto.",
+      "uses": [
+        {
+          "move": "item-veto",
+          "subject": "news",
+          "role": "item-veto",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.item-veto.name-struck-one-item-from-designation-with-a-line-item-veto",
+      "move": "item-veto",
+      "kind": "written",
+      "text": "{name} struck one item from {designation} with a line-item veto.",
+      "uses": [
+        {
+          "move": "item-veto",
+          "subject": "news",
+          "role": "item-veto",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.hearing.number-people-spoke-at-the-public-hearing-on-the-budget-designation",
+      "move": "hearing",
+      "kind": "written",
+      "text": "{number} people spoke at the public hearing on the budget, {designation}.",
+      "uses": [
+        {
+          "move": "hearing",
+          "subject": "news",
+          "role": "hearing",
+          "choice": "lede",
+          "requiresFacts": ["budget", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.hearing.the-budget-designation-had-its-public-hearing",
+      "move": "hearing",
+      "kind": "written",
+      "text": "The budget, {designation}, had its public hearing.",
+      "uses": [
+        {
+          "move": "hearing",
+          "subject": "news",
+          "role": "hearing",
+          "choice": "lede",
+          "requiresFacts": ["budget"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

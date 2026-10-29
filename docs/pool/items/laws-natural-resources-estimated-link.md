@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/laws-natural-resources-link
-pr:
+pr: #6766
 lead: laws
 blocked-on:
 source: added with npm run pool -- add

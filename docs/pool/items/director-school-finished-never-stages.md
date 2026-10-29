@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #6712
 blocked-on:
@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/director/circumstance.ts, src/director/school.ts, src/director/data/circumstances.json
 
 **Notes.** The lines are written and wait on the two branches above.
+
+Oct 29 (CTO): set done; PR #6712 merged (the done flip failed while branch protection refused the flip job's push).

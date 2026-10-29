@@ -6,7 +6,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/town-meeting-turnout
 pr: #6481
 blocked-on:
@@ -30,3 +30,5 @@ Evidence (integrator, Oct 27, 22:45 UTC): the same failure on main at d4ccbf562d
 Also fails at 136195138f in North Hodge, Louisiana (GOLDEN_PATH_PLACE_KEY=2255910, GOLDEN_PATH_SEED=4bc12f24182caba80ed52d1997eea284248784b480250618f9d25a2c32b2035c), the place CI drew for #6492: same message. Guards session, Oct 28.
 
 Also fails at 2c891bd8ee in Bradford, Vermont (GOLDEN_PATH_PLACE_KEY=5007225, GOLDEN_PATH_SEED=d05c6ceb349990fcb06d01f1126a2a0c149ad63b9d9ad981c364ba76bf1374ec), the place the golden path drew for the old engine deletion branch: same message, identical on clean main. Old engine session, Oct 28.
+
+Oct 29 (CTO): set done; PR #6481 merged (the done flip failed while branch protection refused the flip job's push).

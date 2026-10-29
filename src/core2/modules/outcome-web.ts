@@ -46,6 +46,7 @@ import { schoolsLineAboveBase } from "../school-budget-line";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
 import {
   budgetLineAddedPct,
+  defenseBoostPct,
   GOV_MEASURES,
   govMeasure,
   govMeasureRecord,
@@ -264,6 +265,12 @@ const ENGINE_READERS: Readonly<
     const line = schoolsLineAboveBase(api, placeId);
     return line ? { value: line.pct, recordId: line.recordId } : null;
   },
+  // The federal defense line above its base, as the extra contracts the town's
+  // state draws; the web keeps one state key, the town's.
+  "defense-boost-pct": (api, placeId) =>
+    api.state.placeMetadata?.housingTown === placeId
+      ? defenseBoostPct(api, stateKeyOf(api.state as CoreState))
+      : null,
   // The corporate rate in force is the town's state law; other places keep
   // their own. A state with no corporate income tax reads zero.
   "state-corporate-rate": (api, placeId) => {

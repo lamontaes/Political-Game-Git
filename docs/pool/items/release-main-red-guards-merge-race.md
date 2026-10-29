@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/main-red-guards
 pr: #6519
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T03:56:35.505Z
 **Files.** src/director/journal.ts, tests/guards/kit-only-ui-baseline.json
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6519 merged (the done flip failed while branch protection refused the flip job's push).

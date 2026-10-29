@@ -6,12 +6,12 @@ lead: traits
 kind: wiring
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/traits-fire-in-play
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "Traits lead restart, Oct 28 (CTO, on the owner's word: \"Same thing with the traits\")"
-claimed-at: 2026-10-28T18:40:00.000Z
+claimed-at:
 ---
 
 **What.** `traits-decisions-never-run` (done, #5886) gave each silent decision a gap row and taught the audit to play a place's election window, but 13 of 91 personality decisions still never fire in such a year. Measured Oct 28 on main (bf81afcfd) in place 2474560, seed 092b17e0e593, window December 3, 2025 to December 3, 2026 (`TRAIT_AUDIT_ELECTION=1`): corruption.tell, press.tip, recalls.organize, recalls.sign, recalls.vote (integrity chain); appointments.weigh, relationships.fall-out (rare people and government events); jobs.counted-retire, jobs.counted-look (work); ballot-measures.vote (no measure on that place's calendar); bring-it-up.blame, conversation.reply-reach, scene-talk.move (the player's own conversations, owned by Words). Each fires where its cause really happens through a producer in the engine that owns the moment (a read of an existing record), or carries a registered stopgap naming the engine; no new mechanic.
@@ -25,3 +25,5 @@ claimed-at: 2026-10-28T18:40:00.000Z
 **Notes.** Filed Oct 28 by the traits lead. Supersedes the "23 never run" count in the CTO's restart prompt: on the Oct 27 rebuild (Ely, Nevada, a year with no election) 21 of 90 never ran; in an election window 13 of 91 never do. Families: integrity (helper, branch claude/traits-fire-integrity), people and government (helper, branch claude/traits-fire-people), work and civic with the unemployment take-up (`research-unemployment-claim-take-up`, lead, branch claude/traits-ui-take-up).
 
 Oct 29, 02:40 UTC (traits lead): the done-when is met; for the CTO or a merger to set done (`npm run pool -- status traits-decisions-fire-in-play done --by=cto`). All three family PRs merged: work #6681 (two stale counted rows deleted; filing for unemployment fires and weighs the benefit), integrity #6684 (bribes taken, telling weighed, recalls fire where their cause happens), people #6688 (appointments weighed on a vacancy, including a cabinet member who died in play; falling out fires once a grudge names a counted owner). The matrix on main was rebuilt on #6688 with all three families: Hillsboro, Virginia (5137288, seed 7100e8c6f85d) runs 72 of 89. Across nine drawn election windows played with the three families together, 85 of 89 fire in at least one. The four that never did each have their route: press.tip has a gap row and `SG-P15-bribe-falling-out-rare` (it needs a telling that is made, not declined), and the three director reads went to Words as `words-player-trait-reads-fire`. Ballot measures fire only where the state has one on the 2026 list (`elections-measures-from-the-world`).
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/traits-fire-in-play` is kept; claiming this item takes it over.

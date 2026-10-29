@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: screens/people-faces
 pr: #6496
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T02:46:32.515Z
 **Files.** src/bench/card.ts, src/bench/scene.ts, src/bench/whole-figures.ts, src/bench/play.mjs, src/bench/play.css
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6496 merged (the done flip failed while branch protection refused the flip job's push).
