@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/family-filing-names-the-office
-pr:
+pr: #6748
 blocked-on:
 source: "found by the words-and-scenes lead, Oct 27, in the campaign-season bench run"
 lead: words
