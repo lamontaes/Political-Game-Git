@@ -14,6 +14,16 @@
  * There is no roll. A full student keeps a result record; counted students
  * are kept as group counts, and their results are read the same way by every
  * engine that reads the place's measures (schoolMeasure).
+ *
+ * The college step (owner, Oct 29, 2026: a background simulation, never a
+ * step the player takes) is decided on the same day for the seniors who
+ * graduate, by the same standing: each is ranked within their income fifth
+ * for whether they enroll (the immediate enrollment share) and, of those who
+ * enroll, whether they complete a bachelor's (the six-year completion share
+ * times the web's factor for the college completion outcome, which is how
+ * the state's higher education line reaches a named graduate). A completer
+ * holds the degree from its award day (degreeOf), which the jobs engine
+ * reads when it prices a hire.
  */
 import data from "./data/school/outcomes.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
@@ -44,6 +54,10 @@ export const SCHOOL_MEASURE = {
   reading: "school.reading-proficient-pct",
   graduation: "school.graduation-pct",
   spending: "school.spending-per-student",
+  /** Of a graduating class, the share who enroll in college; the engine's own record, not an outcome the web keeps. */
+  enrollment: "school.college-enrollment-pct",
+  /** The web's college completion outcome: the engine multiplies each enrolled graduate's completion rate by its factor. */
+  college: "school.college-completion-pct",
 } as const;
 
 export interface Student {
@@ -95,6 +109,40 @@ export interface SchoolGroupRow {
   /** A math group: the students who switched schools this year (their households' weight) and the link's size applied to each one's rate. */
   readonly switched?: number;
   readonly switchSize?: number;
+}
+
+/**
+ * A graduate's college record, one for each senior who graduated: whether they
+ * enrolled and, if so, whether they complete a bachelor's and when they hold
+ * it. The completion rate is the graduate's income fifth's researched share
+ * times the web's factor for the college completion outcome, read from the web
+ * month row `webRecordId` the day it was decided.
+ */
+export interface CollegeRow {
+  readonly id: string;
+  readonly personId: string;
+  readonly placeId: string;
+  readonly startYear: number;
+  readonly date: string;
+  readonly incomeFifth: number;
+  readonly enrolled: boolean;
+  /** The enrollment share of the graduate's income fifth (0 to 1) that the ranking filled. */
+  readonly enrollmentRate: number;
+  /** Enrolled: whether they complete. */
+  readonly completes: boolean;
+  /** Enrolled: the share of the graduate's income fifth who complete (0 to 1), the research's share times the web's factor. */
+  readonly completionRate?: number;
+  /** Enrolled: the same share before the web's factor. */
+  readonly completionBaseRate?: number;
+  /** Enrolled: the web's factor for the college completion outcome on the graduate's income fifth. */
+  readonly factor?: number;
+  /** Enrolled: the web month row the factor stood on. */
+  readonly webRecordId?: string | null;
+  /** A completer: the day the degree is held from. */
+  readonly degreeOn?: string;
+  /** A counted graduate's household weight: the students the record stands for. */
+  readonly weight?: number;
+  readonly measureId: string;
 }
 
 const table = (api: CoreAPI, name: string) =>
@@ -270,8 +318,6 @@ export function decideSchoolOutcome(
 ): SchoolMeasureRow[] {
   const measure = SCHOOL_MEASURE[kind];
   const date = api.state.date;
-  // stopgapId: SG-SCHOOL-college-completion (no engine decides who completes college; that measure stays the web's ledger)
-  if (kind === "graduation") api.stopgap(data.stopgaps.collegeCompletion);
   // stopgapId: SG-SCHOOL-hispanic-enrollment (no enrollment by ethnicity; that measure stays the web's ledger)
   api.stopgap("SG-SCHOOL-hispanic-enrollment");
   // stopgapId: SG-SCHOOL-links-not-running (seven links into school outcomes lack a recorded cause or a per-student exposure record)
@@ -311,6 +357,8 @@ export function decideSchoolOutcome(
     const measureId = `${placeId}:${measure}:${startYear}`;
     let passedAll = 0,
       expectedAll = 0;
+    /** The seniors who graduate, who go on to the college step. */
+    const graduates: Student[] = [];
     for (const fifth of [...byFifth.keys()].sort((a, b) => a - b)) {
       const list = byFifth.get(fifth)!;
       const weight = list.reduce((n, s) => n + s.weight, 0);
@@ -338,6 +386,7 @@ export function decideSchoolOutcome(
         if (clears) {
           owed -= s.weight;
           passed += s.weight;
+          if (kind === "graduation") graduates.push(s);
         }
         // A full student keeps every result; a counted senior keeps their
         // graduation, which the jobs engine reads when it prices their hire,
@@ -391,8 +440,207 @@ export function decideSchoolOutcome(
     };
     table(api, "measures").put(row as never);
     written.push(row);
+    if (kind === "graduation")
+      decideCollege(api, placeId, graduates, startYear);
   }
   return written;
+}
+
+/** One income fifth's students spent down in order of standing against an owed share, the fraction left over carried to next year. */
+function clearByStanding(
+  api: CoreAPI,
+  carryId: string,
+  list: Student[],
+  expected: number,
+): { cleared: boolean[]; passed: number } {
+  const carry = table(api, "carry");
+  let owed =
+    ((carry.get(carryId) as unknown as { owed: number } | undefined)?.owed ??
+      0) + expected;
+  list.sort((a, b) => b.standing - a.standing || (a.id < b.id ? -1 : 1));
+  const cleared = clearsInOrder(
+    list.map((s) => s.weight),
+    owed,
+  );
+  let passed = 0;
+  for (const [at, s] of list.entries())
+    if (cleared[at]) {
+      owed -= s.weight;
+      passed += s.weight;
+    }
+  carry.put({ id: carryId, owed } as never);
+  return { cleared, passed };
+}
+
+const groupByFifth = (students: readonly Student[]) => {
+  const groups = new Map<number, Student[]>();
+  for (const s of students) {
+    const list = groups.get(s.fifth);
+    if (list) list.push(s);
+    else groups.set(s.fifth, [s]);
+  }
+  return groups;
+};
+
+const weightOf = (list: readonly Student[]) =>
+  list.reduce((n, s) => n + s.weight, 0);
+
+/** How likely a graduate of this income fifth is to enroll in college, before scaling to the class. */
+function enrollmentGradient(fifth: number): number {
+  const values = data.college.enrollment.gradientByIncomeFifth.values;
+  return values[fifth] ?? values[Math.floor(values.length / 2)]!;
+}
+
+/** How likely an enrolled graduate of this income fifth is to complete, before scaling to the enrolled: the Pell-eligible and not-eligible rates, mixed by the fifth's eligible share. */
+function completionGradient(fifth: number): number {
+  const rows = data.college.completion.gradient;
+  const share = data.gradient.eligibleShareByIncomeFifth[fifth] ?? 0;
+  return share * rows.eligible + (1 - share) * rows.notEligible;
+}
+
+/**
+ * The college step of one place's graduating class, on the day graduation is
+ * decided. Enrollment first: the national immediate enrollment share, spread
+ * over the income fifths by the researched gradient so the class's mean is
+ * that share, filled from the top of each fifth by standing. Then, among those
+ * who enrolled, completion: the six-year completion share spread the same way
+ * and multiplied by the web's factor for the college completion outcome on the
+ * fifth, so a larger higher education line raises each enrolled graduate's
+ * rate (higher-education-spending-to-college-completion). A counted graduate
+ * stands for their household's weight in both. There is no roll.
+ */
+function decideCollege(
+  api: CoreAPI,
+  placeId: string,
+  graduates: readonly Student[],
+  startYear: number,
+): void {
+  if (!graduates.length) return;
+  // stopgapId: SG-SCHOOL-college-decided-at-graduation (enrollment and completion are decided on the senior year's last day at national rates, not year by year in college; every completer holds the degree at normal time)
+  api.stopgap(data.stopgaps.collegeDecidedAtGraduation);
+  // stopgapId: SG-SCHOOL-college-stock-ledger (the share of adults with a degree stays the web's ledger; the degrees decided here are its yearly flow and are not yet summed into it)
+  api.stopgap(data.stopgaps.collegeStockLedger);
+  const date = api.state.date;
+  const { enrollment, completion } = data.college;
+  const classMeasureId = `${placeId}:${SCHOOL_MEASURE.college}:${startYear}`;
+  // Enrollment, from the whole graduating class.
+  const classWeight = weightOf(graduates);
+  const classFifths = groupByFifth(graduates);
+  let enrollNorm = 0;
+  for (const [fifth, list] of classFifths)
+    enrollNorm += (weightOf(list) / classWeight) * enrollmentGradient(fifth);
+  const enrolled: Student[] = [];
+  const enrollRate = new Map<number, number>();
+  for (const fifth of [...classFifths.keys()].sort((a, b) => a - b)) {
+    const list = classFifths.get(fifth)!;
+    const weight = weightOf(list);
+    const share = Math.min(
+      1,
+      (enrollment.share.value / 100) * (enrollmentGradient(fifth) / enrollNorm),
+    );
+    enrollRate.set(fifth, share);
+    const { cleared, passed } = clearByStanding(
+      api,
+      `${placeId}:${SCHOOL_MEASURE.enrollment}:${fifth}`,
+      list,
+      share * weight,
+    );
+    for (const [at, s] of list.entries()) if (cleared[at]) enrolled.push(s);
+    table(api, "groups").put({
+      id: `${placeId}:${SCHOOL_MEASURE.enrollment}:${startYear}:${fifth}`,
+      placeId,
+      measure: SCHOOL_MEASURE.enrollment,
+      startYear,
+      incomeFifth: fifth,
+      students: weight,
+      passed,
+      expected: share * weight,
+      factor: 1,
+    } satisfies SchoolGroupRow as never);
+  }
+  // Completion, from those who enrolled: the web's factor is read here, for
+  // each fifth, the moment the engine decides it.
+  const enrolledWeight = weightOf(enrolled);
+  const enrolledFifths = groupByFifth(enrolled);
+  let completeNorm = 0;
+  for (const [fifth, list] of enrolledFifths)
+    completeNorm += (weightOf(list) / enrolledWeight) * completionGradient(fifth);
+  const decided = new Map<
+    string,
+    {
+      completes: boolean;
+      baseRate: number;
+      rate: number;
+      factor: number;
+      webRecordId: string | null;
+    }
+  >();
+  for (const fifth of [...enrolledFifths.keys()].sort((a, b) => a - b)) {
+    const list = enrolledFifths.get(fifth)!;
+    const weight = weightOf(list);
+    const reach = webReach(api, placeId, SCHOOL_MEASURE.college, {
+      incomeFifth: fifth,
+    });
+    const baseRate = Math.min(
+      1,
+      (completion.share.value / 100) *
+        (completionGradient(fifth) / completeNorm),
+    );
+    const rate = Math.min(1, baseRate * reach.factor);
+    const { cleared, passed } = clearByStanding(
+      api,
+      `${placeId}:${SCHOOL_MEASURE.college}:${fifth}`,
+      list,
+      rate * weight,
+    );
+    for (const [at, s] of list.entries())
+      decided.set(s.id, {
+        completes: cleared[at]!,
+        baseRate,
+        rate,
+        factor: reach.factor,
+        webRecordId: reach.recordId,
+      });
+    table(api, "groups").put({
+      id: `${classMeasureId}:${fifth}`,
+      placeId,
+      measure: SCHOOL_MEASURE.college,
+      startYear,
+      incomeFifth: fifth,
+      students: weight,
+      passed,
+      expected: rate * weight,
+      factor: reach.factor,
+    } satisfies SchoolGroupRow as never);
+  }
+  // Every graduate keeps their college record: the enrollment they were ranked
+  // for and, if they enrolled, the completion decided for them.
+  const degreeOn = `${startYear + 1 + data.college.yearsToDegree.value}-${data.college.awardDay.value}`;
+  for (const s of graduates) {
+    const done = decided.get(s.id);
+    table(api, "college").put({
+      id: `${SCHOOL_MEASURE.college}:${s.id}:${startYear}`,
+      personId: s.id,
+      placeId,
+      startYear,
+      date,
+      incomeFifth: s.fifth,
+      enrolled: !!done,
+      enrollmentRate: enrollRate.get(s.fifth) ?? 0,
+      completes: done?.completes ?? false,
+      ...(done
+        ? {
+            completionRate: done.rate,
+            completionBaseRate: done.baseRate,
+            factor: done.factor,
+            webRecordId: done.webRecordId,
+          }
+        : {}),
+      ...(done?.completes ? { degreeOn } : {}),
+      ...(s.full ? {} : { weight: s.weight }),
+      measureId: classMeasureId,
+    } satisfies CollegeRow as never);
+  }
 }
 
 /**
@@ -515,15 +763,59 @@ export function graduationOf(
   personId: string,
   birthDate: string,
 ): SchoolResultRow | undefined {
+  return seniorRow<SchoolResultRow>(
+    api,
+    "results",
+    SCHOOL_MEASURE.graduation,
+    personId,
+    birthDate,
+  );
+}
+
+/** A person's college record, if their senior year was decided in play. */
+export function collegeOf(
+  api: CoreAPI,
+  personId: string,
+  birthDate: string,
+): CollegeRow | undefined {
+  return seniorRow<CollegeRow>(
+    api,
+    "college",
+    SCHOOL_MEASURE.college,
+    personId,
+    birthDate,
+  );
+}
+
+/**
+ * A person's degree, if the college step decided they complete: the college
+ * record that holds it from its award day (`degreeOn`). The jobs engine reads
+ * it once the day has come.
+ */
+export function degreeOf(
+  api: CoreAPI,
+  personId: string,
+  birthDate: string,
+): CollegeRow | undefined {
+  const row = collegeOf(api, personId, birthDate);
+  return row?.completes ? row : undefined;
+}
+
+/** The row a table keeps for a person's senior year: the school year that began when they were a senior's age. */
+function seniorRow<T>(
+  api: CoreAPI,
+  tableName: string,
+  measure: string,
+  personId: string,
+  birthDate: string,
+): T | undefined {
   const age = data.gradeAgeFirst + data.tested.graduation;
-  const results = table(api, "results");
+  const rows = table(api, tableName);
   const born = Number(birthDate.slice(0, 4));
   for (const startYear of [born + age, born + age + 1]) {
     if (ageOn(birthDate, `${startYear}-09-01`) !== age) continue;
-    const row = results.get(
-      `${SCHOOL_MEASURE.graduation}:${personId}:${startYear}`,
-    );
-    if (row) return row as unknown as SchoolResultRow;
+    const row = rows.get(`${measure}:${personId}:${startYear}`);
+    if (row) return row as unknown as T;
   }
   return undefined;
 }
