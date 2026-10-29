@@ -180,6 +180,19 @@ it("stages the filing talk only for a relative with a stake, and records what th
       expect(moves, here).toEqual(
         expect.arrayContaining(["tell", "request", "comfort", "deflect"]),
       );
+      // The player's replies name a body only where it is the office they
+      // filed for, and claim no span of years the records do not hold.
+      const office = (
+        scene.facts.find((row) => row.key === "office")?.text ?? ""
+      ).toLowerCase();
+      for (const { line } of scene.talk.tree.replies) {
+        for (const body of ["council", "board", "legislature", "commission"])
+          if (new RegExp(`\\b${body}\\b`, "i").test(line.text))
+            expect(office, `${here}: "${line.text}"`).toContain(body);
+        expect(line.text, here).not.toMatch(
+          /\b(?:\d+|two|three|five|ten|twenty) years\b/i,
+        );
+      }
       notes.push(
         `${here}: ${core.people.get(scene.askerId)!.givenName} (${stakeFact!.key}): "${opener}" / ${scene.talk.tree.replies
           .map((row) => `${row.line.move}: "${row.line.text}"`)

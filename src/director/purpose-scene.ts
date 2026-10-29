@@ -579,6 +579,33 @@ function composeBinding(
       if (ahead === P.one)
         facts["lead-one"] = { text: "yes", sourceRecordIds: [moment.causeId] };
     }
+    // A tie at the top, settled the way the state's law says (the elections
+    // engine's tie record): by a drawing, or by the board or legislature
+    // voting. Nobody finished ahead, so the lines say how it was settled.
+    if (
+      counts.length > P.one &&
+      ahead === P.zero &&
+      said.contestId &&
+      core.modules.has(ELECTIONS_MODULE_ID)
+    ) {
+      const tieId = `tie:${said.contestId}`;
+      const tie = coreAPI(core as CoreState)
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("ties")
+        .get(tieId) as unknown as { method?: string } | undefined;
+      const settled =
+        tie?.method === "lot"
+          ? "tied-lot"
+          : tie?.method === "board-decides" ||
+              tie?.method === "legislature-decides"
+            ? "tied-vote"
+            : null;
+      if (settled)
+        facts[settled] = {
+          text: "yes",
+          sourceRecordIds: [moment.causeId, tieId],
+        };
+    }
   }
 
   if (record?.kind === "budget-line-changed")
