@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-child-access-repeal
 pr: #6799
 blocked-on:
