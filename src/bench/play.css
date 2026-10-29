@@ -1142,6 +1142,15 @@ input[type="range"]::-moz-range-thumb {
   height: 200px;
   margin: 0 auto 4px;
 }
+/* The creator's everyday and work clothes, side by side. */
+.portraits {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+.portraits .portrait {
+  margin: 0 0 4px;
+}
 #front .acts {
   display: flex;
   justify-content: space-between;

@@ -402,11 +402,12 @@ export function bodyScene(
     name: m.name,
     reason: m.you ? ("you" as const) : ("official" as const),
   }));
+  const backdrop = backdropFor(core, place, minute);
   return {
     title: body.title,
     place,
-    backdrop: backdropFor(core, place, minute),
-    ...stagePeople(core, place, cast),
+    backdrop,
+    ...stagePeople(core, backdrop.file, cast),
   };
 }
 
