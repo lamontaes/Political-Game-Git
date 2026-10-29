@@ -6,9 +6,9 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: cto/menus-issues
-pr:
+pr: #6846
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("redesign all the menu screens"); CTO's menu sweep the same night
