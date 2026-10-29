@@ -131,6 +131,8 @@ export interface CampaignRow {
   readonly volunteerCursor?: number;
   /** Everyone who heard of the filing and weighed offering to help (each weighs once). */
   readonly offerWeighedIds?: readonly string[];
+  /** Everyone close who heard of the filing and weighed offering to run the campaign (each weighs once). */
+  readonly managerWeighedIds?: readonly string[];
   /** The day the last offer to help came. */
   readonly lastOfferOn?: string;
   /** Everyone already asked for an endorsement (each ask is made once). */
@@ -1298,7 +1300,71 @@ export function askToVolunteer(
   return yes;
 }
 
-/** The kind of an offer to help a candidate's campaign, from someone who heard they filed. */
+/**
+ * Whether someone gives a campaign more than evenings and runs it (its
+ * manager, the point person local campaign guides put first,
+ * docs/research/words-scenes-2026-10-26.md section 1): the reasons they would
+ * volunteer, with closeness and family counted again, past the manager's own
+ * bar. A partner or a best friend clears it where an acquaintance does not.
+ */
+export function managerReason(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+): number {
+  const tie = closenessBetween(api.state, person.id, campaign.candidateId);
+  const family = person.familyIds.has(campaign.candidateId) ? 1 : 0;
+  return (
+    volunteerReason(api, campaign, person) +
+    campaignParameter("volunteerThreshold") +
+    campaignParameter("managerClosenessWeight") * (tie + family) -
+    campaignParameter("managerThreshold")
+  );
+}
+
+/**
+ * Ask someone to run the campaign. They say yes by the manager's reasons and
+ * their own temperament; a yes puts them on its staff, off its volunteers.
+ */
+export function askToManage(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+): boolean {
+  const campaign = campaignFor(api, filingId);
+  const person = api.state.people.get(personId);
+  if (
+    !person?.alive ||
+    personId === campaign.candidateId ||
+    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge")
+  )
+    return false;
+  const yes = leanedYes(
+    api.state,
+    person,
+    "campaigns.volunteer",
+    "volunteer",
+    "decline",
+    managerReason(api, campaign, person),
+  );
+  if (yes) save(api, onStaff(campaign, personId));
+  return yes;
+}
+
+/** The campaign with someone on its staff (and so off its volunteers). */
+const onStaff = (campaign: CampaignRow, personId: string): CampaignRow => ({
+  ...campaign,
+  staffIds: campaign.staffIds.includes(personId)
+    ? campaign.staffIds
+    : [...campaign.staffIds, personId],
+  volunteerIds: campaign.volunteerIds.filter((id) => id !== personId),
+});
+
+/**
+ * The kind of an offer to help a candidate's campaign, from someone who heard
+ * they filed: its `role` fact is "manager" for an offer to run it, else
+ * "volunteer".
+ */
 export const VOLUNTEER_OFFERED_EVENT = "volunteer-offered";
 
 /**
@@ -1352,6 +1418,64 @@ function offersToHelp(api: CoreAPI): void {
         addDays(makeIsoDate(date), -campaignParameter("offerSpacingDays"))
     )
       continue;
+    const heard = (id: string) =>
+      toldInPerson(id) || told.some((key) => api.knows(id, key));
+    // While nobody runs the campaign, the closest who have heard (its
+    // household too, who heard it first) weigh running it, nearest first,
+    // before anyone weighs giving evenings; the first yes is the week's offer.
+    if (!existing?.staffIds.length) {
+      const campaign = campaignFor(api, filing.id);
+      const asked = new Set(campaign.managerWeighedIds ?? []);
+      const before = asked.size;
+      const closeness = (person: Readonly<PersonState>) =>
+        closenessBetween(api.state, person.id, candidate.id) +
+        (person.familyIds.has(candidate.id) ? 1 : 0);
+      const close = [
+        ...new Set([
+          ...(api.state.households.get(candidate.householdId)?.memberIds ?? []),
+          ...candidate.knownIds,
+        ]),
+      ]
+        .filter((id) => id !== candidate.id && !asked.has(id))
+        .map((id) => api.state.people.get(id))
+        .filter(
+          (person): person is PersonState =>
+            !!person?.alive &&
+            ageOn(person, date) >= campaignParameter("minimumVolunteerAge") &&
+            (person.householdId === candidate.householdId || heard(person.id)),
+        )
+        .sort(
+          (a, b) => closeness(b) - closeness(a) || a.id.localeCompare(b.id),
+        );
+      let manager: string | null = null;
+      for (const person of close) {
+        asked.add(person.id);
+        if (
+          leanedYes(
+            api.state,
+            person,
+            "campaigns.volunteer",
+            "volunteer",
+            "decline",
+            managerReason(api, campaign, person),
+          )
+        ) {
+          manager = person.id;
+          break;
+        }
+      }
+      if (asked.size !== before) {
+        if (manager)
+          offerHelp(api, filing, contest, candidate.id, manager, "manager");
+        const current = campaignFor(api, filing.id);
+        save(api, {
+          ...(manager ? onStaff(current, manager) : current),
+          managerWeighedIds: [...asked],
+          ...(manager ? { lastOfferOn: date } : {}),
+        });
+        if (manager) continue;
+      }
+    }
     const weighed = new Set(existing?.offerWeighedIds ?? []);
     const helping = new Set(existing?.volunteerIds ?? []);
     const before = weighed.size;
@@ -1364,7 +1488,7 @@ function offersToHelp(api: CoreAPI): void {
         !person?.alive ||
         person.householdId === candidate.householdId ||
         ageOn(person, date) < campaignParameter("minimumVolunteerAge") ||
-        !(toldInPerson(id) || told.some((key) => api.knows(id, key)))
+        !heard(id)
       )
         continue;
       weighed.add(id);
@@ -1380,28 +1504,7 @@ function offersToHelp(api: CoreAPI): void {
       )
         continue;
       offered = id;
-      const weight = offerWeight(api, filing, contest, id);
-      api.emit({
-        id: `${VOLUNTEER_OFFERED_EVENT}:${filing.id}:${id}`,
-        date,
-        kind: VOLUNTEER_OFFERED_EVENT,
-        personIds: [candidate.id, id],
-        placeId: townRow(api).townPlaceId,
-        source: {
-          tag: "SOURCED",
-          citation: `${person.givenName} ${person.familyName} offers to help campaign ${filing.id}`,
-          asOf: date,
-        },
-        facts: {
-          offeredBy: id,
-          invitedId: candidate.id,
-          campaignId: filing.id,
-          filingId: filing.id,
-          contestId: contest.id,
-          office: contest.title,
-          weight: String(weight),
-        },
-      });
+      offerHelp(api, filing, contest, candidate.id, id, "volunteer");
     }
     if (weighed.size === before) continue;
     const current = campaignFor(api, filing.id);
@@ -1417,6 +1520,45 @@ function offersToHelp(api: CoreAPI): void {
         : current.volunteerIds,
     });
   }
+}
+
+/**
+ * Someone's offer to help a candidate's campaign, on the record: to give
+ * evenings ("volunteer") or to run it ("manager"). Its weight is how much it
+ * matters to the candidate's story (`offerWeight`).
+ */
+function offerHelp(
+  api: CoreAPI,
+  filing: FilingRow,
+  contest: ContestRow,
+  candidateId: string,
+  helperId: string,
+  role: "volunteer" | "manager",
+): void {
+  const person = api.state.people.get(helperId);
+  const date = api.state.date;
+  api.emit({
+    id: `${VOLUNTEER_OFFERED_EVENT}:${filing.id}:${helperId}`,
+    date,
+    kind: VOLUNTEER_OFFERED_EVENT,
+    personIds: [candidateId, helperId],
+    placeId: townRow(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `${person?.givenName ?? ""} ${person?.familyName ?? ""} offers to ${role === "manager" ? "run" : "help"} campaign ${filing.id}`,
+      asOf: date,
+    },
+    facts: {
+      offeredBy: helperId,
+      invitedId: candidateId,
+      campaignId: filing.id,
+      filingId: filing.id,
+      contestId: contest.id,
+      office: contest.title,
+      role,
+      weight: String(offerWeight(api, filing, contest, helperId)),
+    },
+  });
 }
 
 /** The kind of word of a rival's paid message, passed to a candidate by someone it reached. */
@@ -1534,8 +1676,8 @@ export function offerReason(
 
 /**
  * The candidate's answer to an offer of help, said in its scene: the one who
- * offered is already on the campaign's volunteers, and a refusal takes them
- * off it; a yes, or no answer, keeps them.
+ * offered is already on the campaign's volunteers (its staff, for an offer to
+ * run it), and a refusal takes them off; a yes, or no answer, keeps them.
  */
 function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
@@ -1548,10 +1690,15 @@ function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const candidateId = String(offer.facts?.invitedId ?? "");
   if (!event.personIds.includes(candidateId)) return;
   const campaign = campaignFor(api, filingId);
-  if (!campaign.volunteerIds.includes(helperId)) return;
+  if (
+    !campaign.volunteerIds.includes(helperId) &&
+    !campaign.staffIds.includes(helperId)
+  )
+    return;
   save(api, {
     ...campaign,
     volunteerIds: campaign.volunteerIds.filter((id) => id !== helperId),
+    staffIds: campaign.staffIds.filter((id) => id !== helperId),
   });
 }
 
