@@ -5,7 +5,7 @@ area: art
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: dropped
 claimed-by: claude/people-pack-v3
 pr: #6778
 blocked-on:
@@ -16,10 +16,12 @@ claimed-at: 2026-10-29T16:18:04.410Z
 **What.** Owner, Oct 29: "i want the v2 figures removed completely and these put in the game"; "make it to where these can be updated very easily. so either a v4 version or more clothes or anything like that. make it a quick fix." Rulings: no face drawn separately (Oct 28); "do not put people in until there are mannequins in there for every position" (Oct 28); a room with no mannequin plate shows nobody (Oct 29); ship six people now, six more faces follow as manifest rows (Oct 29). Replaces `people-swap-week-figures`.
 
 **The art (branch `claude/people-rooms-art`; merge only these folders):**
+
 - `art/people-engine/v3/`: `manifest.json` + `README.md` (read first). Six people, 295 figures. `kind: kit` = everyday clothes as stacked parts with tone maps (recolor per README); `kind: look` = suits, pantsuits and blazers drawn whole (never recolored). Each figure: `pose`, `seat`, `facing`, `dress`, `outfit`, `head`, `feet`, `stature`.
 - `art/people-rooms/mannequin-plates/`: per scene `<scene>.mannequins.json` + `front` masks (README there). The first five: home (house-suburban-living night), colonnade, depot, oval-briefing (oval-office-resolute midday), oval-address (new backdrop `oval-address-close__night.png`, add it to art/backdrops). Copy the colonnade and depot backdrops from `art/backdrops-variants/`.
 
 **Do.**
+
 1. One loader `src/bench/people-pack.ts`: a constant `PEOPLE_PACK = 'v3'` (the only place a version is named) reads `art/people-engine/<pack>/manifest.json`. Everything else reads the manifest, never file names. More clothes or people = more rows; v4 = a new folder + this constant.
 2. Person → figure: person id from sex and build (the person's saved look, else a hash of their id); dress from the place (keep `dressFor`: official places and own workplace → a `look` by dress, else `kit` casual); kit colors from the person's `palettes` (saved look, else seeded).
 3. Staging: a spot draws a person only if its scene has a mannequin spot; pick the figure whose `pose` matches (then `facing`, then `seat`); fit per the plate README (head top → feet, or head top → hands for `deskEdge` spots, head centered on `head.x`); draw the room back through `front`. Scenes without a plate draw nobody. Never mirror a figure.
@@ -36,3 +38,6 @@ claimed-at: 2026-10-29T16:18:04.410Z
 **Notes.** The CTO keeps adding mannequin plates (golden path first) and the six second faces as rows; nothing in code should change for either.
 
 - 2026-10-29 (claude/people-pack-v3, last sha 11d05efe1a): in PR #6778, ready, waiting on the owner's visual check; not merged. Art owed as data: man-heavy address and desk figures; furniture-only front masks for the seven dropped spots; everyday figures for every pose.
+
+Oct 29 (CTO): dropped, superseded by `people-pack-v4` (owner: "I can ignore V3 because V4 changes how... there's going to be some standardized angles for people to slot into"). #6778 closed unmerged; its loader, staging, face crops, creator, measure-hands script and the v1/v2 deletions carry into the v4 PR on the same branch line.
+- 2026-10-29 (CTO): art fix on `claude/people-rooms-art` (commit 55a5fc6), pull it into this PR: the owner saw "sleeves are bleeding into people's hands" in the proof (the couch woman's lap hand took the trousers' gray). Five seated kit figures had the lap hand in the trousers layer, and the heavy man's ten pose-sheet figures had a top layer holding his whole outfit, hair and shoes; both are fixed in `art/people-engine/v3/` (and v4). `tools/kit_layers_check.py art/people-engine/v3` must report 0 flags; skill `kit-layers` (#6784). Also: the opening home backdrop's mantel photos show a painted family; picture frames must show glass (owner, Oct 29), a backdrop fix for the CTO.
