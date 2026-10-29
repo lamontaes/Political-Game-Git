@@ -24,11 +24,11 @@ import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
+import { addDays, makeIsoDate } from "../kernel/dates";
 import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
-import { makeIsoDate } from "../kernel/dates";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -339,6 +339,7 @@ export const BUDGETS_MODULE: PreStartModule = {
   },
   onCalendarWork: (api, work) => {
     adoptBudget(api, work);
+    holdBudgetHearing(api, work);
     closeMonth(api, work);
     if (work.kind === "outside-revenue" || work.kind === "budget-adoption")
       syncServiceCharges(api);
@@ -767,6 +768,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       },
       sourceRecordIds: [gov.id],
     });
+    scheduleBudgetHearing(api, gov, fy + 1, core.date);
   }
   syncSalesTax(api);
   syncServiceCharges(api);
@@ -1321,6 +1323,58 @@ export function registerBudgetVote(
   councilBudgetVote = vote;
 }
 
+let councilBudgetHearing:
+  ((api: CoreAPI, gov: GovernmentRow, fy: number) => void) | null = null;
+/** The legislature engine registers how a council holds its public hearing on the budget it will vote. */
+export function registerBudgetHearing(
+  hearing: (api: CoreAPI, gov: GovernmentRow, fy: number) => void,
+): void {
+  councilBudgetHearing = hearing;
+}
+
+/** The day a government's public hearing on its next budget falls: the hearing lead before the year starts. */
+function scheduleBudgetHearing(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  after: string,
+): void {
+  const date = addDays(
+    makeIsoDate(`${fy}-${gov.fiscalYearStart}`),
+    -api.parameter("budgetHearingLeadDays"),
+  );
+  // A year already inside its hearing lead at the opening has no hearing to hold.
+  if (date <= after) return;
+  api.moduleCalendar(BUDGETS_MODULE_ID).schedule({
+    key: `hearing:${gov.id}:${fy}`,
+    date,
+    kind: "budget-hearing",
+    source: {
+      tag: "ESTIMATED",
+      citation:
+        "The body's public hearing on the executive's budget, before its vote (budgetHearingLeadDays)",
+      asOf: api.state.date,
+      estimatedFrom: "budgetHearingLeadDays",
+    },
+    sourceRecordIds: [gov.id],
+  });
+}
+
+function holdBudgetHearing(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  if (work.kind !== "budget-hearing") return;
+  const gov = table(api, "governments").get(
+    work.sourceRecordIds[0]!,
+  ) as unknown as GovernmentRow;
+  councilBudgetHearing?.(
+    api,
+    gov,
+    fiscalYearOf(api.state.date, gov.fiscalYearStart) + 1,
+  );
+}
+
 function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "budget-adoption") return;
   const gov = table(api, "governments").get(
@@ -1405,6 +1459,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     source: work.source,
     sourceRecordIds: [gov.id],
   });
+  scheduleBudgetHearing(api, gov, fy + 1, api.state.date);
 }
 
 /** The government account a law row's jurisdiction pays into. */
