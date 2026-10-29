@@ -2,7 +2,7 @@
 id: campaign-like-real-races
 title: "Winning a race the way real campaigns win: groups, money, forums, debates, meeting voters and momentum"
 area: elections
-lead: cto
+lead: governing
 kind: feature
 priority: 1
 size: L
