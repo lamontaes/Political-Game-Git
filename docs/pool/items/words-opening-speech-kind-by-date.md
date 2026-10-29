@@ -5,6 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: M
+lead: words
 status: open
 claimed-by:
 pr:
