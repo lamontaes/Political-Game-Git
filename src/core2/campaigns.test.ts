@@ -21,22 +21,32 @@ import {
 } from "./modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  VOLUNTEER_SHIFT_EVENT,
   askForDonation,
   askForEndorsement,
   askToVolunteer,
+  campaignFor,
+  canvassHoursFree,
   causesFor,
   commissionPoll,
   contributionLimit,
+  enlistVolunteer,
   giveSpeech,
+  impressionOf,
   knockDoors,
   openCampaigns,
   campaignTurn,
   runAd,
+  shiftReason,
+  volunteerShifts,
+  type CauseRow,
   type ImpressionRow,
 } from "./modules/campaigns";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-views";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { leanedYes } from "./trait-decisions";
 import { setKeepEveryonesWhy } from "./why-kept";
+import type { CoreEventInput, PersonState } from "./types";
 
 // Reads every reached voter's recorded cause for people outside the player's circle.
 setKeepEveryonesWhy(true);
@@ -230,6 +240,168 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
         poll: poll.answers,
         marginOfError: poll.marginOfError,
         whyOneVoter: causesFor(api, voter.voterId, candidate.id),
+      }),
+    );
+  });
+
+  it("volunteers walk the campaign's doors in the evening their work leaves free; one whose shift at work covers it stays home", () => {
+    const place = process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace().key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: place,
+        startedAt: START,
+        minimumPeople: 300,
+      }),
+    );
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    const api = coreAPI(core);
+    const year = (p: Readonly<PersonState>) =>
+      Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4));
+    const adults = [...core.people.values()]
+      .filter((p) => year(p) >= 35)
+      .sort(
+        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
+      );
+    const platform = [`${pick(PLATFORM_QUESTIONS, "shift-q1")}=1`];
+    let filing: FilingRow | null = null;
+    for (const contest of openContests(api)) {
+      filing = fileAndQualify(api, adults[0]!.id, contest.id, platform);
+      if (filing) break;
+    }
+    expect(filing, `no open contest to file for in ${place}`).not.toBeNull();
+    const candidateId = filing!.personId;
+    const campaign = campaignFor(api, filing!.id);
+    const shiftHours = campaignParameter("volunteerShiftHours");
+    // Whose own reasons send them out tonight, with the whole evening free.
+    const goes = (p: Readonly<PersonState>) =>
+      leanedYes(
+        core,
+        p,
+        "campaigns.volunteer",
+        "volunteer",
+        "decline",
+        shiftReason(api, campaign, p),
+      );
+    const willing = [...core.people.values()]
+      .filter(
+        (p) =>
+          p.alive &&
+          p.id !== candidateId &&
+          p.id !== core.playerId &&
+          year(p) >= campaignParameter("minimumVolunteerAge") &&
+          canvassHoursFree(api, p) === shiftHours &&
+          goes(p),
+      )
+      .sort(
+        (a, b) =>
+          shiftReason(api, campaign, b) - shiftReason(api, campaign, a) ||
+          a.id.localeCompare(b.id),
+      );
+    expect(
+      willing.length,
+      `fewer than three willing volunteers in ${place}`,
+    ).toBeGreaterThanOrEqual(3);
+    const [busy, first, second] = willing as [
+      PersonState,
+      PersonState,
+      PersonState,
+    ];
+    // A fixture for the edge case: the most willing works an evening shift
+    // that covers the canvass on this very day, once a week.
+    const from = campaignParameter("canvassStartHour") * 60;
+    const shiftId = `test-evening-shift:${busy.id}`;
+    core.work.commitments.set(shiftId, {
+      id: shiftId,
+      jobId: `test-evening-job:${busy.id}`,
+      personId: busy.id,
+      organizationId: "test-evening-employer",
+      startsAt: core.date,
+      anchorDate: core.date,
+      periodDays: 7,
+      slots: [{ offsetDays: 0, startMinute: from, minutes: shiftHours * 60 }],
+      expectedWeeklyMinutes: shiftHours * 60,
+      hourlyMinor: 0,
+      scheduleSource: {
+        tag: "SOURCED",
+        citation: "Test fixture: an evening shift on the canvass night",
+        asOf: core.date,
+      },
+      paySource: {
+        tag: "SOURCED",
+        citation: "Test fixture: an evening shift on the canvass night",
+        asOf: core.date,
+      },
+    });
+    core.work.commitmentsByPerson.set(
+      busy.id,
+      new Set([...(core.work.commitmentsByPerson.get(busy.id) ?? []), shiftId]),
+    );
+    expect(canvassHoursFree(api, busy)).toBe(0);
+    // Their reasons would still send them: only the hours keep them home.
+    expect(goes(busy)).toBe(true);
+    for (const p of [busy, first, second])
+      expect(enlistVolunteer(api, filing!.id, p.id)).toBe(true);
+
+    const events: CoreEventInput[] = [];
+    api.subscribeEvents(
+      "test-volunteer-shifts",
+      [VOLUNTEER_SHIFT_EVENT],
+      (_, e) => {
+        events.push(e);
+      },
+    );
+    const people = core.people.size;
+    const given = new Map<string, number>();
+    const shifts = volunteerShifts(api, filing!.id, given);
+
+    // The two with the evening free went; the one at work stayed home.
+    expect(shifts.map((s) => s.volunteerId).sort()).toEqual(
+      [first.id, second.id].sort(),
+    );
+    // Nobody was filled in: a volunteer's doors reach the counted as a count.
+    expect(core.people.size).toBe(people);
+    const causes = api.moduleState(CAMPAIGNS_MODULE_ID).table("causes");
+    for (const shift of shifts) {
+      expect(shift.hours).toBe(shiftHours);
+      expect(shift.doorsKnocked).toBeGreaterThan(0);
+      expect(shift.causeIds.length).toBeGreaterThan(0);
+      for (const id of shift.causeIds) {
+        const cause = causes.get(id) as unknown as CauseRow;
+        expect(cause.act).toBe("volunteer-door");
+        expect(cause.actorId).toBe(shift.volunteerId);
+        expect(cause.candidateId).toBe(candidateId);
+        const impression = impressionOf(api, cause.voterId, candidateId);
+        expect(impression?.heardOf).toBe(true);
+        expect(causesFor(api, cause.voterId, candidateId).length).toBe(
+          impression!.causes,
+        );
+      }
+      const event = events.find(
+        (e) => e.facts?.volunteerId === shift.volunteerId,
+      );
+      expect(event?.personIds).toContain(shift.volunteerId);
+      expect(event?.facts?.doorsKnocked).toBe(String(shift.doorsKnocked));
+    }
+    const byCandidate = causes.query("byCandidate", [
+      candidateId,
+    ]) as unknown as CauseRow[];
+    expect(byCandidate.some((c) => c.actorId === busy.id)).toBe(false);
+    expect(campaignFor(api, filing!.id).doorsKnockedCount).toBe(
+      shifts.reduce((sum, s) => sum + s.doorsKnocked, 0),
+    );
+    // An evening given is gone: the same day asks nothing more of them.
+    expect(volunteerShifts(api, filing!.id, given)).toEqual([]);
+    govReport(
+      "campaigns-volunteer-shifts",
+      JSON.stringify({
+        place,
+        seed,
+        filing: filing!.id,
+        shifts,
+        stayedHome: busy.id,
       }),
     );
   });

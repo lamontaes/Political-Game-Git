@@ -1368,6 +1368,18 @@
       "source": "How much of an offer's reach a candidate's first campaign carries whatever the race's size, halving with each campaign run before: a first statewide race keeps half the reach of a first council race, never all of it (owner, Oct 27, 4 PM Eastern: volunteers matter 'when you're doing small local campaigns, or maybe your first campaign'). Checked by src/director/volunteer-offer-weight.test.ts in a drawn place.",
       "spread": [0.25, 0.75]
     },
+    "volunteerShiftHours": {
+      "value": 2.5,
+      "tag": "ESTIMATED",
+      "source": "How long a volunteer's evening of doors runs, from canvassStartHour, before their work takes any of it: volunteer canvass shifts run two to three hours (Green and Gerber, Get Out the Vote, 4th ed., 2019, ch. 3, as rivalHoursWithJob cites). The repository's campaign-practice rows put one advocacy canvass at two-hour shifts (canvass-shift-aclu-ok-2018) and one get-out-the-vote canvass at four to four and a half hours (canvass-shift-9to5-ga-2014), data/research/campaign-reality/campaign-calibration.json; the American Time Use Survey 2025 puts a day of volunteering at 2.18 hours (volunteerHours). The midpoint of the two-to-three-hour shift.",
+      "spread": [2, 4.5]
+    },
+    "volunteerShiftThreshold": {
+      "value": 0,
+      "tag": "TUNABLE",
+      "source": "How strong a volunteer's pull must be, before personality, to give an evening of doors on a day the campaign works: the same reasons as an ask to volunteer (warmth, closeness, family, against weekly work hours) against this bar instead of the ask's (volunteerThreshold). At 0 someone who said yes to an ask or offered unasked goes on most shifts, and a relative enlisted at home who works full time goes when closeness and liking outweigh the work week. Checked by src/core2/campaigns.test.ts in a drawn place; not yet calibrated against a measured volunteer show-up rate.",
+      "spread": [-0.5, 1]
+    },
     "offerSpacingDays": {
       "value": 7,
       "tag": "TUNABLE",

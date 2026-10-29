@@ -7690,5 +7690,17 @@
     "addedAt": "2026-10-29",
     "replacement": "Carry the partnership in the counted household record when the opening generates it, with the day it began, so fill-in reads it instead of inferring it.",
     "status": "open"
+  },
+  {
+    "id": "SG-CAMPAIGN-volunteer-shift-no-scene",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 1797,
+    "whatItFakes": "A volunteer's evening of doors for a campaign the player's circle is in is kept as a volunteer-shift event (the volunteer, the candidate, the hours, the doors knocked, the full people met and the counted residents reached) that no scene, journal line or screen reads yet; the player sees their volunteers' work only in the voters it moved and the campaign's door count.",
+    "why": "The campaigns engine writes the record; the director and the English banks belong to the Words session, which this change may not edit.",
+    "addedBy": "governing lead builder (campaign-like-real-races, volunteer shifts)",
+    "addedAt": "2026-10-29",
+    "replacement": "A director situation type (Words session) reading volunteer-shift events by id: a volunteer reporting back on their evening of doors, or the week's journal line of what the campaign's volunteers walked, with the volunteer-door causes that name the volunteer as actor.",
+    "status": "open"
   }
 ]

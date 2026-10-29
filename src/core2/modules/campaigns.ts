@@ -1204,39 +1204,69 @@ export function unitPrice(api: CoreAPI, kind: string): number {
       );
 }
 
-/** Whether a work commitment has its holder at a shift at this minute of this day. */
-function atWork(
-  commitment: Readonly<{
-    anchorDate: string;
-    periodDays: number;
-    slots: readonly {
-      offsetDays: number;
-      startMinute: number;
-      minutes: number;
-    }[];
-    startsAt: string;
-    endsAt?: string;
-  }>,
-  date: string,
-  minute: number,
-): boolean {
-  if (commitment.startsAt > date) return false;
-  if (commitment.endsAt !== undefined && commitment.endsAt <= date)
-    return false;
+type WorkSchedule = Readonly<{
+  anchorDate: string;
+  periodDays: number;
+  slots: readonly {
+    offsetDays: number;
+    startMinute: number;
+    minutes: number;
+  }[];
+  startsAt: string;
+  endsAt?: string;
+}>;
+
+/** Which day of its repeating schedule a work commitment is on, or null on a day it is not in force. */
+function scheduleDay(commitment: WorkSchedule, date: string): number | null {
+  if (commitment.startsAt > date) return null;
+  if (commitment.endsAt !== undefined && commitment.endsAt <= date) return null;
   const days = Math.round(
     (Date.parse(`${date}T00:00:00Z`) -
       Date.parse(`${commitment.anchorDate}T00:00:00Z`)) /
       86_400_000,
   );
-  const day =
+  return (
     ((days % commitment.periodDays) + commitment.periodDays) %
-    commitment.periodDays;
-  return commitment.slots.some(
-    (slot) =>
-      slot.offsetDays === day &&
-      minute >= slot.startMinute &&
-      minute < slot.startMinute + slot.minutes,
+    commitment.periodDays
   );
+}
+
+/** Whether a work commitment has its holder at a shift at this minute of this day. */
+function atWork(
+  commitment: WorkSchedule,
+  date: string,
+  minute: number,
+): boolean {
+  const day = scheduleDay(commitment, date);
+  return (
+    day !== null &&
+    commitment.slots.some(
+      (slot) =>
+        slot.offsetDays === day &&
+        minute >= slot.startMinute &&
+        minute < slot.startMinute + slot.minutes,
+    )
+  );
+}
+
+/** How many minutes of a work commitment's shifts on this day fall between two minutes of it. */
+function minutesAtWork(
+  commitment: WorkSchedule,
+  date: string,
+  from: number,
+  to: number,
+): number {
+  const day = scheduleDay(commitment, date);
+  if (day === null) return 0;
+  let minutes = 0;
+  for (const slot of commitment.slots)
+    if (slot.offsetDays === day)
+      minutes += Math.max(
+        0,
+        Math.min(to, slot.startMinute + slot.minutes) -
+          Math.max(from, slot.startMinute),
+      );
+  return minutes;
 }
 
 /**
@@ -1643,6 +1673,157 @@ export function enlistVolunteer(
     volunteerIds: [...campaign.volunteerIds, personId],
   });
   return true;
+}
+
+/**
+ * The hours of a canvass evening a volunteer's work leaves them: a shift's
+ * length from the hour canvassing starts, less the minutes of it their
+ * scheduled work takes that day and what they already gave another
+ * campaign's doors today.
+ */
+export function canvassHoursFree(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  givenMinutes = 0,
+): number {
+  const core = api.state as CoreState;
+  const from = campaignParameter("canvassStartHour") * 60;
+  const length = campaignParameter("volunteerShiftHours") * 60;
+  let busy = givenMinutes;
+  for (const id of core.work.commitmentsByPerson.get(person.id) ?? []) {
+    const row = core.work.commitments.get(id);
+    if (row) busy += minutesAtWork(row, api.state.date, from, from + length);
+  }
+  return Math.max(0, length - busy) / 60;
+}
+
+/**
+ * Whether a volunteer gives an evening to the campaign's doors, before
+ * personality: the reasons they volunteered for (liking the candidate,
+ * closeness, family, against the hours their work takes each week), against
+ * a shift's own bar instead of the ask's.
+ */
+export function shiftReason(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+): number {
+  return (
+    volunteerReason(api, campaign, person) +
+    campaignParameter("volunteerThreshold") -
+    campaignParameter("volunteerShiftThreshold")
+  );
+}
+
+/** What one volunteer's evening of doors did. */
+export interface VolunteerShift {
+  readonly volunteerId: string;
+  readonly hours: number;
+  readonly doorsKnocked: number;
+  /** The causes of the full people who opened, each naming the volunteer as its actor. */
+  readonly causeIds: readonly string[];
+  /** Counted residents who opened, reached as a count. */
+  readonly countedReached: number;
+}
+
+/** The kind of a volunteer's evening of doors for a campaign the player's circle is in. */
+export const VOLUNTEER_SHIFT_EVENT = "volunteer-shift";
+
+/**
+ * A campaign's volunteers walk its doors. On a day the campaign works, each
+ * volunteer weighs an evening's canvass by their own reasons
+ * (`shiftReason`) and temperament, and one who goes gives the hours of the
+ * evening their work leaves them (`canvassHoursFree`): someone whose shift
+ * at work covers the evening stays home. Their doors are the campaign's own
+ * walk list, after the doors it has knocked, and whoever opens meets the
+ * volunteer (a `volunteer-door` cause naming them). A counted resident who
+ * opens is reached as a count and not filled in, since the player never met
+ * them. The player is never sent: their hours are their own choice.
+ * `given` carries the minutes each person already gave today, so someone
+ * on two campaigns walks one evening, not two.
+ */
+export function volunteerShifts(
+  api: CoreAPI,
+  filingId: string,
+  given: Map<string, number> = new Map(),
+): readonly VolunteerShift[] {
+  const filing = elections(api, "filings").get(filingId) as unknown as
+    FilingRow | undefined;
+  const held = table(api, "campaigns").get(filingId) as unknown as
+    CampaignRow | undefined;
+  if (!filing || !standing(filing) || !held?.volunteerIds.length) return [];
+  const core = api.state as CoreState;
+  const date = api.state.date;
+  const shifts: VolunteerShift[] = [];
+  for (const id of held.volunteerIds) {
+    const person = api.state.people.get(id);
+    if (!person?.alive || id === core.playerId || id === held.candidateId)
+      continue;
+    const hours = canvassHoursFree(api, person, given.get(id) ?? 0);
+    if (hours <= 0) continue;
+    const campaign = campaignFor(api, filingId);
+    if (
+      !leanedYes(
+        api.state,
+        person,
+        "campaigns.volunteer",
+        "volunteer",
+        "decline",
+        shiftReason(api, campaign, person),
+      )
+    )
+      continue;
+    const met = knockDoors(api, {
+      filingId,
+      canvasserId: id,
+      hours,
+      fillCounted: false,
+    });
+    given.set(id, (given.get(id) ?? 0) + hours * 60);
+    const after = campaignFor(api, filingId);
+    const shift: VolunteerShift = {
+      volunteerId: id,
+      hours,
+      doorsKnocked:
+        (after.doorsKnockedCount ?? 0) - (campaign.doorsKnockedCount ?? 0),
+      causeIds: met.map((c) => c.id),
+      countedReached:
+        (after.countedReached ?? 0) - (campaign.countedReached ?? 0),
+    };
+    shifts.push(shift);
+    // Kept as a cause is: where the player's circle is in it (their own
+    // campaign's volunteers, a friend walking for a rival).
+    if (!keepsWhy(core, campaign.candidateId, id)) continue;
+    // stopgapId: SG-CAMPAIGN-volunteer-shift-no-scene
+    api.stopgap("SG-CAMPAIGN-volunteer-shift-no-scene");
+    const contest = elections(api, "contests").get(filing.contestId) as
+      ContestRow | undefined;
+    api.emit({
+      id: `${VOLUNTEER_SHIFT_EVENT}:${filingId}:${id}:${date}`,
+      date,
+      kind: VOLUNTEER_SHIFT_EVENT,
+      personIds: [campaign.candidateId as PersonId, person.id],
+      placeId: townRow(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `${person.givenName} ${person.familyName} canvasses for campaign ${filingId}`,
+        asOf: date,
+      },
+      facts: {
+        volunteerId: id,
+        candidateId: campaign.candidateId,
+        campaignId: campaign.id,
+        filingId,
+        contestId: filing.contestId,
+        ...(contest ? { office: contest.title } : {}),
+        hours: String(shift.hours),
+        doorsKnocked: String(shift.doorsKnocked),
+        met: String(shift.causeIds.length),
+        countedReached: String(shift.countedReached),
+      },
+    });
+  }
+  return shifts;
 }
 
 /** The individual contribution limit for this contest, in minor units (null: no limit), and its source. */
@@ -3496,8 +3677,10 @@ const contestsSeen = new WeakMap<object, number>();
 /**
  * Every few days, each world candidate on the ballot of a contest the town
  * votes in (the player excepted) takes a campaign turn, from the day they
- * filed to election day. Races are noted when their contest appears (the
- * contests table read only when it has grown) and dropped once decided.
+ * filed to election day, and every candidate's volunteers, the player's
+ * included, weigh an evening of doors (`volunteerShifts`). Races are noted
+ * when their contest appears (the contests table read only when it has
+ * grown) and dropped once decided.
  */
 function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "campaign-turn") return;
@@ -3517,6 +3700,8 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   }
   const playerId = (api.state as CoreState).playerId;
   const turnDays = campaignParameter("campaignTurnDays");
+  // The minutes each volunteer gave a campaign's doors today.
+  const given = new Map<string, number>();
   for (const race of (
     races.rows() as unknown as {
       id: string;
@@ -3543,9 +3728,14 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       turnDays * (1 + daysLeft / campaignParameter("campaignRampDays"));
     if (race.lastTurn && daysBetween(race.lastTurn, date) < every) continue;
     races.put({ ...race, lastTurn: date } as unknown as ModuleRow);
-    for (const filing of ballot(api, race.id))
-      if (filing.personId !== playerId && filing.filedOn <= date)
+    // Every campaign's volunteers walk its doors on the days it works, the
+    // player's campaign's too (the player's own day is theirs to choose).
+    for (const filing of ballot(api, race.id)) {
+      if (filing.filedOn > date) continue;
+      volunteerShifts(api, filing.id, given);
+      if (filing.personId !== playerId)
         campaignTurn(api, filing.id, race.electionDate);
+    }
   }
 }
 
