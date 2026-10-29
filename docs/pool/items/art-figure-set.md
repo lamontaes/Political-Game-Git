@@ -4,7 +4,7 @@ title: "The layered figure set and seated rooms (#4283)"
 area: art
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #4283
 blocked-on:
