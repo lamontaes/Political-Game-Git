@@ -6,9 +6,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 19:20 UTC: people pack v4's look is approved; it goes into main and the build (owner, about 3:20 PM Eastern)
+
+- **Ruling:** "No, I've already approved the general look of V4. I'd like that to go in too." The owner's visual check on `people-pack-v4` is given for the general look; the PR is no longer held. It merges like any PR once its checks are green and a merger has checked it (not its author), and the Mac build waits for it. Later visual changes to single figures are ordinary fixes, not a new hold. Replaces the hold in `MERGE-FIRST.md` line 5 and in the 19:00 entry below.
+
 ## Oct 29, 19:00 UTC: everything finished goes into main and a fresh Mac build; nobody stops (owner, about 3:00 PM Eastern)
 
-- **Ruling:** "I want to get everything into main and play an up-to-date playtest... and update the Mac build so I can go ahead and install it... I think I'm on like 0.64.0." Then: "But, you know, I want them to keep working. I just want to play up to date." Every session pushes and opens PRs for what is already finished and keeps working; the mergers merge every green PR on `MERGE-FIRST.md`; the CTO starts the Release package workflow from main at about 19:45 UTC, and again whenever the owner asks for a build. Not a freeze, and the people pack v4 waits for his look as before.
+- **Ruling:** "I want to get everything into main and play an up-to-date playtest... and update the Mac build so I can go ahead and install it... I think I'm on like 0.64.0." Then: "But, you know, I want them to keep working. I just want to play up to date." Every session pushes and opens PRs for what is already finished and keeps working; the mergers merge every green PR on `MERGE-FIRST.md`; the CTO starts the Release package workflow from main at about 19:45 UTC, and again whenever the owner asks for a build. Not a freeze. (People pack v4: approved at 19:20 UTC, above.)
 
 ## Oct 29, 18:45 UTC: every portrait is a standing figure (owner, directly to the people session; relayed to the CTO)
 
