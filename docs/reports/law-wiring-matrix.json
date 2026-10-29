@@ -130,12 +130,12 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 85,
+    "wired": 86,
     "partly": 1,
-    "stopgapped": 3,
+    "stopgapped": 2,
     "researchLinks": {
-      "links": 245,
-      "reaching": 165,
+      "links": 246,
+      "reaching": 166,
       "aboutZero": 19,
       "unread": 61,
       "unreadWithNoStopgap": 0
@@ -192,10 +192,10 @@
         "n/a": 8
       },
       "web": {
-        "wired": 69,
+        "wired": 70,
         "partial": 1,
         "missing": 0,
-        "stopgap": 3,
+        "stopgap": 2,
         "n/a": 16
       },
       "knowing": {
@@ -6988,7 +6988,7 @@
       "family": "technology",
       "reachGroup": "A",
       "mechanic": "none",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -7002,32 +7002,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 6 open (full 4, counted groups 1/7 people, households 0, orgs 1, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_2dc9b218ebc09c07:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 18 open (full 16, counted groups 1/11 people, households 0, orgs 1, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_eadfea9a418d1c87:2025-01-21",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 8 open (full 6, counted groups 1/4 people, households 0, orgs 1, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_64420f52d99b1d5d:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 15 open (full 13, counted groups 1/13 people, households 0, orgs 1, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_8dde73f186b97fbb:2025-01-21",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/business.ts:1276, src/core2/modules/business.ts:1340",
+          "evidence": "src/core2/modules/business.ts:1319, src/core2/modules/business.ts:1383",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:technology-privacy.age-verification-for-social-media: 133387 (journal:2025-02-01:1949); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:technology-privacy.age-verification-for-social-media: 53565 (control world 10836) (journal:2025-02-01:1893); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media; e.g. organization_ba7f49eca549fa70 on 2025-02-01: 0 in the control world, -10903 here, journal:2025-02-01:1949); 1 accounts.transfer paid in (src/core2/counted-money.ts:576; e.g. organization_ba7f49eca549fa70 on 2025-02-01: -51311 in the control world, -40408 here, journal:2025-02-01:1965); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media; e.g. organization_07da3fc20d983a22 on 2025-02-01: 0 in the control world, -5280 here, journal:2025-02-01:1893); 1 accounts.transfer paid in (src/core2/counted-money.ts:576; e.g. organization_07da3fc20d983a22 on 2025-02-01: -18231 in the control world, -12951 here, journal:2025-02-01:1914)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:technology-privacy.age-verification-for-social-media: 119883 (journal:2025-02-01:1969); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:technology-privacy.age-verification-for-social-media: 73517 (journal:2025-02-01:2067); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media; e.g. organization_ba7f49eca549fa70 on 2025-02-01: 0 in the control world, -9863 here, journal:2025-02-01:1969); 1 accounts.transfer paid in (src/core2/world-transfer.ts:40; e.g. organization_ba7f49eca549fa70 on 2025-02-01: -51470 in the control world, -41607 here, journal:2025-02-01:1980); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media; e.g. organization_07da3fc20d983a22 on 2025-02-01: 0 in the control world, -9107 here, journal:2025-02-01:2067); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/business.ts:2012 2390038 -> 2385106 (journal:2025-07-01:41402); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/modules/business.ts:2012 62242562 -> 62325393 (journal:2025-02-01:2080)",
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
-          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure youth social media use and mental health (SG-LAW-outcome-link-unresearched)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 age-verification-to-youth-depressive-episode -0.0110, read by src/core2/resting-stress.ts:68; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-06 age-verification-to-youth-depressive-episode -0.0110, read by src/core2/resting-stress.ts:68; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 age-verification-to-youth-depressive-episode -0.0110, read by src/core2/resting-stress.ts:68",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 88 people heard (person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 76 people heard (person_e02fea68a64aaf0b:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 6 open -> after repeal 0 open, 5 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 18 open -> after repeal 0 open, 17 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 8 open -> after repeal 0 open, 7 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 15 open -> after repeal 0 open, 14 ended",
           "why": ""
         },
         "allPlaces": {
@@ -7053,12 +7053,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "change": "enacted at state (law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at state effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "change": "enacted at state (law:US-NE:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at no level effective 2026-01-22",
           "inForceAtOpening": false
         }
       ],
