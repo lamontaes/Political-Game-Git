@@ -6,12 +6,13 @@ lead: play-first
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-person-history-fill-in-writes-the-coarse-past
 pr:
 blocked-on:
 source: added with npm run pool -- add
 milestone: play-first
+claimed-at: 2026-10-29T17:51:50.596Z
 ---
 
 **What.** The card now reads every record there is for anyone opened (birth, school started, jobs held, offices reached, family). A U.S. senator or a counted neighbor still shows only two to four lines because the engines write few records for them: office holders carry only their current term, and adults outside the officials and the player's circle have no school or work record. When the player opens such a person, fill-in must write a coarse past from the world's own rules (the school calendar and the place they lived, the town's businesses and the jobs engine for work spells, the earlier terms of the same seat), matching what the books already say, so the card tells four or more dated lines. Each line stays on a record id.
