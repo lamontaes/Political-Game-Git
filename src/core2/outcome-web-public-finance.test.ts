@@ -275,10 +275,16 @@ describe(`the SNAP work requirement is the benefit's, not the web's (seed ${seed
           held += 1;
         }
       }
-      expect(
-        held,
-        `${where}: a stopped head the law still reaches`,
-      ).toBeGreaterThan(0);
+      // Every stopped head may have left the requirement by the last day
+      // (Washington, DC, seed 38f268298f94fbde: the one head stopped took 22
+      // hours a week at an inn, past the requirement's 20). Then this place
+      // shows no head the law still holds, and the next draw is taken.
+      if (held === 0) {
+        tried.push(
+          `${where}: all ${shifted.stopped.length} stopped heads left the requirement's reach (work at its hours, age or a young child)`,
+        );
+        continue;
+      }
       // The same heads still draw in the twin: the law is what stopped them.
       const stillDrawingInTwin = shifted.stopped.filter((stop) =>
         twin.drawing.has(stop.recipientId),
