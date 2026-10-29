@@ -92,12 +92,6 @@
       "stopgapId": "SG-WEB-unread-household-child-poverty"
     },
     {
-      "link": "parent-incarceration-to-household-income",
-      "outcome": "household.income",
-      "reason": "engine doesn't read the factor: an engine records household.income, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-household-income"
-    },
-    {
       "link": "teacher-quality-to-earnings",
       "outcome": "labor.earnings-at-28",
       "reason": "no measure: the web does not keep labor.earnings-at-28 and no engine produces it; it needs each person's own exposure record, which no engine keeps",
@@ -266,12 +260,6 @@
       "stopgapId": "SG-WEB-crime-justice-links-unread"
     },
     {
-      "link": "cannabis-sales-to-youth-use",
-      "outcome": "health.youth-cannabis-use",
-      "reason": "engine doesn't read the factor: health.youth-cannabis-use moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-EW-HEALTH-condition-record"
-    },
-    {
       "link": "loan-rate-cap-to-high-cost-borrowing",
       "outcome": "finance.high-cost-loans",
       "reason": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it",
@@ -366,12 +354,6 @@
       "outcome": "rail.intercity-ridership",
       "reason": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-WEB-unread-rail-intercity-ridership"
-    },
-    {
-      "link": "higher-education-spending-to-college-completion",
-      "outcome": "school.college-completion-pct",
-      "reason": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces school.college-completion-pct",
-      "stopgapId": "SG-SCHOOL-college-completion"
     }
   ]
 }

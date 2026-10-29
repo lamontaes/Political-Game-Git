@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: the balance check must hold in every drawn place, so the fix keeps strict equality and changes only when the outside net is read, never the tolerance.
 
-**Done when.** With the CTO's ruling recorded in the item, closures.mjs reads the outside net when it reads openingCash, and 'every dollar balances: true' prints for Dickens, Iowa (seed above) and two more places drawn from all 56, named with seeds in the PR body; with an engine minting one dollar, the check fails. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** With the CTO's ruling recorded in the item, closures.mjs reads the outside net when it reads openingCash, and 'every dollar balances: true' prints for Dickens, Iowa (seed above) and two more drawn places from all 56, named with seeds in the PR body; with an engine minting one dollar, the check fails. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/core2-year/closures.mjs
 

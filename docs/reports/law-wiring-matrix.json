@@ -130,14 +130,14 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 84,
-    "partly": 2,
-    "stopgapped": 3,
+    "wired": 87,
+    "partly": 1,
+    "stopgapped": 1,
     "researchLinks": {
-      "links": 245,
-      "reaching": 164,
-      "aboutZero": 19,
-      "unread": 62,
+      "links": 246,
+      "reaching": 169,
+      "aboutZero": 18,
+      "unread": 59,
       "unreadWithNoStopgap": 0
     },
     "shownOnAScreen": 87,
@@ -192,10 +192,10 @@
         "n/a": 8
       },
       "web": {
-        "wired": 68,
-        "partial": 2,
+        "wired": 71,
+        "partial": 1,
         "missing": 0,
-        "stopgap": 3,
+        "stopgap": 1,
         "n/a": 16
       },
       "knowing": {
@@ -1467,7 +1467,7 @@
       "family": "education",
       "reachGroup": "B",
       "mechanic": null,
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -1481,32 +1481,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 14 open (full 13, counted groups 1/0 people, households 0, orgs 0, govts 0) e.g. budget-line:higherEducation|person_805f8d3e2d89884e|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 9 open (full 8, counted groups 1/0 people, households 0, orgs 0, govts 0) e.g. budget-line:higherEducation|person_00a28a6650e55809|2025-01-20",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 20 open (full 18, counted groups 1/0 people, households 0, orgs 1, govts 0) e.g. budget-line:higherEducation|person_805f8d3e2d89884e|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 9 open (full 7, counted groups 1/0 people, households 0, orgs 1, govts 0) e.g. budget-line:higherEducation|person_571e973828a92105|2025-01-20",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/residents.ts, src/core2/budgets-treasury.ts, src/core2/work-payroll-cash.ts, src/core2/official-living.ts, src/core2/modules/counted-demotion.ts",
+          "evidence": "src/core2/counted-money.ts, src/core2/credit-deposits.ts, src/core2/finance-cash.ts, src/core2/work-payroll-cash.ts, src/core2/world-transfer.ts",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing budget-line:higherEducation: 1253776341628 (journal:2025-02-01:1830); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing budget-line:higherEducation: 254346896472 (journal:2025-02-01:1790)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): the place:2666300 treasury's payments on higherEducation, which the raise moved by 10000000: 2234928 without the raise, 7091420 with it (journal:2025-02-01:1900); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): the place:3149425 treasury's payments on higherEducation, which the raise moved by 10000000: 3886130 without the raise, 8934947 with it (journal:2025-02-01:1933)",
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 higher-education-spending-to-college-completion 0.0027 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 higher-education-spending-to-college-completion 0.0027 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 higher-education-spending-to-college-completion 0.0027 (ledger row only)",
-          "why": "no production reader: higher-education-spending-to-college-completion (SG-SCHOOL-college-completion) move only the web's ledger"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 higher-education-spending-to-college-completion 0.0027, read by src/core2/school-outcomes.ts:64; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 higher-education-spending-to-college-completion 0.0027, read by src/core2/school-outcomes.ts:64; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 higher-education-spending-to-college-completion 0.0027, read by src/core2/school-outcomes.ts:64",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:higherEducation:law-wiring-11fe5ef8); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 76 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:higherEducation:law-wiring-11fe5ef8)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_b2532d2bb80a6385:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:higherEducation:law-wiring-11fe5ef8); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 70 people heard (person_e02fea68a64aaf0b:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:higherEducation:law-wiring-11fe5ef8)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 14 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 9 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 20 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 9 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
@@ -1532,12 +1532,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "place:2666300 higherEducation 3962195 -> 13962195 by law-wiring-11fe5ef8",
+          "change": "place:2666300 higherEducation 4016428 -> 14016428 by law-wiring-11fe5ef8",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "place:3149425 higherEducation 6405069 -> 16405069 by law-wiring-11fe5ef8",
+          "change": "place:3149425 higherEducation 6645871 -> 16645871 by law-wiring-11fe5ef8",
           "inForceAtOpening": false
         }
       ],
@@ -2222,7 +2222,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:43; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:43; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:43",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:57; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:57; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:57",
           "why": ""
         },
         "knowing": {
@@ -3569,7 +3569,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:801, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:801, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:801, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78",
           "why": ""
         },
         "knowing": {
@@ -3657,7 +3657,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 minimum-wage-to-low-wage-jobs -0.0182, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2871, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2909, src/core2/modules/jobs.ts:2911, src/core2/modules/jobs.ts:2933, src/core2/modules/jobs.ts:2935; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 minimum-wage-to-low-wage-jobs -0.0182, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2871, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2909, src/core2/modules/jobs.ts:2911, src/core2/modules/jobs.ts:2933, src/core2/modules/jobs.ts:2935; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 minimum-wage-to-low-wage-jobs -0.0182, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2871, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2909, src/core2/modules/jobs.ts:2911, src/core2/modules/jobs.ts:2933, src/core2/modules/jobs.ts:2935",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 minimum-wage-to-low-wage-jobs -0.0182, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 minimum-wage-to-low-wage-jobs -0.0182, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 minimum-wage-to-low-wage-jobs -0.0182, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947",
           "why": ""
         },
         "knowing": {
@@ -3744,7 +3744,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2027-02 federal-minimum-wage-to-low-wage-jobs -0.0800, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2871, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2909, src/core2/modules/jobs.ts:2911, src/core2/modules/jobs.ts:2933, src/core2/modules/jobs.ts:2935; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2027-02 federal-minimum-wage-to-low-wage-jobs -0.0800, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2871, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2909, src/core2/modules/jobs.ts:2911, src/core2/modules/jobs.ts:2933, src/core2/modules/jobs.ts:2935",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2027-02 federal-minimum-wage-to-low-wage-jobs -0.0800, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2027-02 federal-minimum-wage-to-low-wage-jobs -0.0800, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947",
           "why": ""
         },
         "knowing": {
@@ -3903,7 +3903,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 minimum-wage-to-low-wage-jobs 0.0000, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2871, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2909, src/core2/modules/jobs.ts:2911, src/core2/modules/jobs.ts:2933, src/core2/modules/jobs.ts:2935; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 minimum-wage-to-low-wage-jobs 0.0000, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2871, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2909, src/core2/modules/jobs.ts:2911, src/core2/modules/jobs.ts:2933, src/core2/modules/jobs.ts:2935; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 minimum-wage-to-low-wage-jobs 0.0000, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2871, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2909, src/core2/modules/jobs.ts:2911, src/core2/modules/jobs.ts:2933, src/core2/modules/jobs.ts:2935",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 minimum-wage-to-low-wage-jobs 0.0000, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 minimum-wage-to-low-wage-jobs 0.0000, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 minimum-wage-to-low-wage-jobs 0.0000, read by src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947",
           "why": ""
         },
         "knowing": {
@@ -3987,7 +3987,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-02 paid-leave-to-mothers-work 0.0200, read by src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2868, src/core2/modules/jobs.ts:2877; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-02 paid-leave-to-mothers-work 0.0200, read by src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2868, src/core2/modules/jobs.ts:2877",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-02 paid-leave-to-mothers-work 0.0200, read by src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2889; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-02 paid-leave-to-mothers-work 0.0200, read by src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2889",
           "why": ""
         },
         "knowing": {
@@ -4212,7 +4212,7 @@
       "family": "business",
       "reachGroup": "A",
       "mechanic": "none",
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -4226,32 +4226,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 101 open (full 38, counted groups 41/294 people, households 16, orgs 6, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting:adults:person_ae720410206893b1:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 124 open (full 59, counted groups 36/229 people, households 23, orgs 6, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_eadfec9a418d1fed:2025-01-21",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 104 open (full 43, counted groups 33/273 people, households 22, orgs 6, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting:adults:person_ae720410206893b1:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 120 open (full 65, counted groups 33/216 people, households 16, orgs 6, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_8dde72f186b97e08:2025-01-21",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/place-prices.ts:694",
+          "evidence": "src/core2/modules/place-prices.ts:953",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c: 6407882 (journal:2025-02-03:7629); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:business-commerce.legalize-cannabis-sales: 5862780 (journal:2025-02-03:7565); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 3 the law paid or charged, the payments that changed first: 3 accounts.transfer paid in (src/core2/counted-money.ts:809 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 41821 here, journal:2025-02-03:7806); 3 accounts.transfer paid in (src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 37433 here, journal:2025-02-03:7636); 3 accounts.transfer paid out (src/core2/modules/purchase-tax.ts:274 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, -1203 here, journal:2025-02-03:7637)",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c: 5519727 (journal:2025-02-03:8061); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:business-commerce.legalize-cannabis-sales: 6184183 (journal:2025-02-03:7969); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 3 the law paid or charged, the payments that changed first: 3 accounts.transfer paid in (src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 45416 here, journal:2025-02-03:8195); 3 accounts.transfer paid in (src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, 31556 here, journal:2025-02-03:8065); 3 accounts.transfer paid out (src/core2/modules/purchase-tax.ts:341 under us-policy-positions:business-commerce.legalize-cannabis-sales; e.g. organization_31edee1019232ef0 on 2025-02-03: 0 in the control world, -1178 here, journal:2025-02-03:8066)",
           "why": ""
         },
         "web": {
-          "status": "partial",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-01 cannabis-sales-to-overdose-deaths -0.0500, read by src/core2/death-cause.ts:334",
-          "why": "links not built or not read: cannabis-sales-to-youth-use (no reader, SG-EW-HEALTH-condition-record)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 cannabis-sales-to-youth-use 0.0400, read by src/core2/modules/health.ts:1198; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 cannabis-sales-to-youth-use 0.0400, read by src/core2/modules/health.ts:1198; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 cannabis-sales-to-youth-use 0.0400, read by src/core2/modules/health.ts:1198",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 69 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 106 people heard (person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 70 people heard (person_e02fea68a64aaf0b:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 101 -> after repeal 0 -> re-enacted 131; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 124 open -> after repeal 0 open, 98 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 104 -> after repeal 0 -> re-enacted 129; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 120 open -> after repeal 0 open, 91 ended",
           "why": ""
         },
         "allPlaces": {
@@ -6930,7 +6930,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-infant-deaths 0.0600, read by src/core2/health-web.ts:64; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-infant-deaths 0.0600, read by src/core2/health-web.ts:64; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229",
           "why": ""
         },
         "knowing": {
@@ -6988,7 +6988,7 @@
       "family": "technology",
       "reachGroup": "A",
       "mechanic": "none",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -7002,32 +7002,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 6 open (full 4, counted groups 1/7 people, households 0, orgs 1, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_2dc9b218ebc09c07:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 18 open (full 16, counted groups 1/11 people, households 0, orgs 1, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_eadfea9a418d1c87:2025-01-21",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 8 open (full 6, counted groups 1/4 people, households 0, orgs 1, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_64420f52d99b1d5d:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 15 open (full 13, counted groups 1/13 people, households 0, orgs 1, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_8dde73f186b97fbb:2025-01-21",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/business.ts:1276, src/core2/modules/business.ts:1340",
+          "evidence": "src/core2/modules/business.ts:1319, src/core2/modules/business.ts:1383",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:technology-privacy.age-verification-for-social-media: 133387 (journal:2025-02-01:1949); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:technology-privacy.age-verification-for-social-media: 53565 (control world 10836) (journal:2025-02-01:1893); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media; e.g. organization_ba7f49eca549fa70 on 2025-02-01: 0 in the control world, -10903 here, journal:2025-02-01:1949); 1 accounts.transfer paid in (src/core2/counted-money.ts:576; e.g. organization_ba7f49eca549fa70 on 2025-02-01: -51311 in the control world, -40408 here, journal:2025-02-01:1965); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media; e.g. organization_07da3fc20d983a22 on 2025-02-01: 0 in the control world, -5280 here, journal:2025-02-01:1893); 1 accounts.transfer paid in (src/core2/counted-money.ts:576; e.g. organization_07da3fc20d983a22 on 2025-02-01: -18231 in the control world, -12951 here, journal:2025-02-01:1914)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:technology-privacy.age-verification-for-social-media: 119883 (journal:2025-02-01:1969); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:technology-privacy.age-verification-for-social-media: 73517 (journal:2025-02-01:2067); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media; e.g. organization_ba7f49eca549fa70 on 2025-02-01: 0 in the control world, -9863 here, journal:2025-02-01:1969); 1 accounts.transfer paid in (src/core2/world-transfer.ts:40; e.g. organization_ba7f49eca549fa70 on 2025-02-01: -51470 in the control world, -41607 here, journal:2025-02-01:1980); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media; e.g. organization_07da3fc20d983a22 on 2025-02-01: 0 in the control world, -9107 here, journal:2025-02-01:2067); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/business.ts:2012 2390038 -> 2385106 (journal:2025-07-01:41402); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/modules/business.ts:2012 62242562 -> 62325393 (journal:2025-02-01:2080)",
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
-          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure youth social media use and mental health (SG-LAW-outcome-link-unresearched)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 age-verification-to-youth-depressive-episode -0.0110, read by src/core2/resting-stress.ts:68; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-06 age-verification-to-youth-depressive-episode -0.0110, read by src/core2/resting-stress.ts:68; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 age-verification-to-youth-depressive-episode -0.0110, read by src/core2/resting-stress.ts:68",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 88 people heard (person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 76 people heard (person_e02fea68a64aaf0b:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 6 open -> after repeal 0 open, 5 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 18 open -> after repeal 0 open, 17 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 8 open -> after repeal 0 open, 7 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 15 open -> after repeal 0 open, 14 ended",
           "why": ""
         },
         "allPlaces": {
@@ -7053,12 +7053,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "change": "enacted at state (law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at state effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "change": "enacted at state (law:US-NE:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at no level effective 2026-01-22",
           "inForceAtOpening": false
         }
       ],

@@ -1196,6 +1196,11 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "interview-accepted",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "debate-invited",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"

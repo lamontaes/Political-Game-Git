@@ -15,9 +15,15 @@ import { gameStartDate } from "../core2/game-start";
 import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { lawInForce } from "../core2/modules/laws";
+import { CRIME_MODULE_ID } from "../core2/modules/crime";
+import { lawChain, lawInForce } from "../core2/modules/laws";
+import {
+  LEGISLATURE_MODULE_ID,
+  type BillRow,
+} from "../core2/modules/legislature";
 import { storiesHeard } from "../core2/modules/news";
 import { placeLocalities } from "../core2/places";
+import { SCHOOL_MODULE_ID } from "../core2/school-measures";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { wordPrintedStory } from "./archive-words";
@@ -68,6 +74,8 @@ describe("printed stories in News", () => {
       for (const text of [worded.headline, worded.lede])
         if (text)
           expect(text, `${story.id} in ${where}`).not.toMatch(DEVELOPER);
+      // A brief is a headline and one line, never a body.
+      if (worded.brief) expect(worded.paragraphs, story.id).toBeUndefined();
       // A story with a body prints the lede first, then sentences that each
       // say something new.
       if (worded.paragraphs) {
@@ -119,6 +127,131 @@ describe("printed stories in News", () => {
         ("headline" in row && row.headline) || ("lede" in row && row.lede),
         `${row.id} in ${where}`,
       ).toBeTruthy();
+  }, 900_000);
+
+  it("words the side briefs the town's records hold, and a member carrying a bill", () => {
+    setBookkeeping(false);
+    const place = drawPlace(seed, "printed-words-briefs");
+    const where = `${place.name} (${place.key}), seed ${seed}`;
+    console.log(`printed-words briefs: ${where}`);
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const core = world.core;
+    const api = coreAPI(core);
+    advanceCore(core, addDays(makeIsoDate(core.date), 365));
+    const printedAs = (
+      sourceRecordId: string,
+      date: string,
+      facts: Record<string, string> = {},
+    ) => ({
+      id: `printed:test:${sourceRecordId}`,
+      kind: "press.printed",
+      date,
+      facts: { ...facts, sourceRecordId },
+    });
+    const told: string[] = [];
+    // The school year's graduation and spring tests, from the school
+    // engine's own outcome rows: a headline and one line.
+    const done = api
+      .moduleState(SCHOOL_MODULE_ID)
+      .table("done")
+      .rows() as unknown as { id: string; date: string }[];
+    expect(done.length, where).toBeGreaterThan(0);
+    for (const row of done) {
+      const worded = wordPrintedStory(core, printedAs(row.id, row.date));
+      expect(worded, `${row.id} in ${where}`).not.toBeNull();
+      expect(worded!.brief, row.id).toBe(true);
+      expect(worded!.paragraphs, row.id).toBeUndefined();
+      expect(worded!.headline, row.id).toBeTruthy();
+      expect(worded!.lede, row.id).toBeTruthy();
+      expect(`${worded!.headline} ${worded!.lede}`, row.id).not.toMatch(
+        DEVELOPER,
+      );
+      told.push(`${worded!.headline} / ${worded!.lede}`);
+    }
+    // A household's victimization the crime engine listed this year, each
+    // told as a line; "the fourth" is claimed only for the fourth record of
+    // its kind in that month's list.
+    const ORDINALS = ["first", "second", "third", "fourth", "fifth", "sixth"];
+    const months = (
+      api.moduleState(CRIME_MODULE_ID).table("months").rows() as unknown as {
+        placeId: string;
+        date: string;
+        victims: { type: string; eventId: string }[];
+      }[]
+    ).filter((month) => month.placeId === lawChain(api).townPlaceId);
+    let crimes = 0;
+    for (const month of months)
+      for (const victim of month.victims.slice(0, 6)) {
+        const worded = wordPrintedStory(
+          core,
+          printedAs(victim.eventId, month.date),
+        );
+        expect(worded, `${victim.eventId} in ${where}`).not.toBeNull();
+        expect(worded!.brief, victim.eventId).toBe(true);
+        expect(worded!.paragraphs, victim.eventId).toBeUndefined();
+        expect(worded!.lede, victim.eventId).not.toMatch(DEVELOPER);
+        const said = ORDINALS.findIndex((word) =>
+          new RegExp(`the ${word}\\b`).test(worded!.lede ?? ""),
+        );
+        if (said >= 0)
+          expect(
+            month.victims
+              .filter((v) => v.type === victim.type)
+              .findIndex((v) => v.eventId === victim.eventId),
+            `${victim.eventId} in ${where}`,
+          ).toBe(said);
+        crimes += 1;
+        told.push(`${worded!.headline} / ${worded!.lede}`);
+      }
+    console.log(
+      `printed-words briefs: ${crimes} crime lines and ${done.length} school lines; e.g. ${told.slice(0, 3).join(" || ")}`,
+    );
+    // A member agreeing to carry a bill a citizen asked for: told from the
+    // bill's own row; an ask turned down is never a story.
+    const bill = (
+      api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .rows() as unknown as BillRow[]
+    ).find((row) => row.sponsorId && row.number);
+    expect(bill, where).toBeDefined();
+    const asker = [...core.people.values()].find(
+      (person) => person.id !== bill!.sponsorId && person.alive,
+    )!;
+    const ask = {
+      askerId: asker.id,
+      memberId: bill!.sponsorId,
+      carried: "yes",
+      byExecutive: "no",
+      direction: "enact",
+      billId: bill!.id,
+      number: bill!.number,
+    };
+    const carried = wordPrintedStory(
+      core,
+      printedAs(`carry-asked:carry:test:${core.date}`, core.date, ask),
+    );
+    expect(carried, where).not.toBeNull();
+    console.log(
+      `printed-words carry: ${carried!.headline} / ${carried!.paragraphs?.join(" ") ?? carried!.lede}`,
+    );
+    expect(carried!.headline, where).toBeTruthy();
+    expect(carried!.lede, where).toContain(
+      `${asker.givenName} ${asker.familyName}`,
+    );
+    expect(
+      wordPrintedStory(
+        core,
+        printedAs(`carry-asked:carry:test:${core.date}`, core.date, {
+          ...ask,
+          carried: "no",
+        }),
+      ),
+      where,
+    ).toBeNull();
   }, 900_000);
 
   it("words Ohio's minimum wage change from the law in force before and after", () => {

@@ -288,7 +288,7 @@
       "source": "Heller 2014 (Science)",
       "from": "program.summer-jobs-slots",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the game records no summer-job slots by place and keeps no youth violent-arrest rate; the -43% is for participants, so it needs both before a place-level size makes sense."
+      "notes": "Unread: no cause is recorded and the size is per participant, not per place. J-PAL's summary of the trial (https://www.povertyactionlab.org/evaluation/summer-jobs-reduce-violence-among-disadvantaged-youth-united-states, read October 29, 2026): researchers \"randomly assigned 1,634 program applicants\", and per 100 youth offered a job the program led to \"four fewer\" violent-crime arrests, \"a 43 percent decrease\", \"through 16 months after random assignment\". No engine runs a summer jobs program (no budget line, law, policy question or employer posts youth summer slots), so program.summer-jobs-slots is never recorded and no one is a participant. Violent arrests are the public-safety engine's (arrest in src/core2/public-safety.ts), which shares each month's robbery and assault arrests across the age bands of counted groups and an unnamed batch for the named residents, with no offender behind them (stopgaps SG-CORE-crime-offenders and SG-LAW-justice-named-offender-acts), and no youth violent-arrest rate is kept by place. Once a program records its participants, that engine would carry the link by lowering a participant's share of the youth bands' violent arrests by the size, not by a place rate (stopgap SG-WEB-crime-justice-links-unread)."
     },
     {
       "key": "incarceration-to-crime",
@@ -411,7 +411,7 @@
       "from": "law.low-level-offense-reclassified",
       "evidence": "contested",
       "range": [0, 0.1463],
-      "notes": "Re-pointed from crime.larceny to crime.property, the measure the crime engine victimizes households by (src/core2/modules/crime.ts): larceny is the theft the NCVS counts as other theft, 79.3 of the 97.6 property victimizations per 1,000 households in 2024 (BJS Criminal Victimization, 2024, table 2; src/core2/data/crime/victimization.json), so the researched +9% in larceny moves the property total by 0.09 x 79.3 / 97.6 = 0.0731, and the range [0, 0.18] by the same share to [0, 0.1463]. The anchor above is the research as found, in larceny. crime.property also scales burglary (its webMeasures), which Prop 47 left unchanged, so once the cause runs burglary would rise by the same share: an overstatement the share cannot remove without a separate larceny measure. Still unsupported until a law is recorded: no shipped policy question reclassifies low-level offenses, so the cause law.low-level-offense-reclassified has no reader (stopgap SG-WEB-crime-justice-links-unread)."
+      "notes": "Re-pointed from crime.larceny to crime.property, the measure the crime engine victimizes households by (src/core2/modules/crime.ts): larceny is the theft the NCVS counts as other theft, 79.3 of the 97.6 property victimizations per 1,000 households in 2024 (BJS Criminal Victimization, 2024, table 2; src/core2/data/crime/victimization.json), so the researched +9% in larceny moves the property total by 0.09 x 79.3 / 97.6 = 0.0731, and the range [0, 0.18] by the same share to [0, 0.1463]. The anchor above is the research as found, in larceny. crime.property also scales burglary (its webMeasures), which Prop 47 left unchanged, so once the cause runs burglary would rise by the same share: an overstatement the share cannot remove without a separate larceny measure. Still unread until a law is recorded: no policy question reclassifies low-level offenses (none of the nine justice and public safety questions in data/research/laws/starting-law-2026/justice-public-safety.json does, and no bill-catalog or powers-catalog row names one), so law.low-level-offense-reclassified is never in force and the web never runs the link. The reader is ready: the crime engine's typeFactor (src/core2/modules/crime.ts) multiplies the other-property and burglary rates by webReach on crime.property, so a recorded reclassification law would reach households' victimization records the month its lag runs out (stopgap SG-WEB-crime-justice-links-unread)."
     },
     {
       "key": "child-access-law-to-youth-gun-deaths",
@@ -1232,23 +1232,25 @@
     },
     {
       "key": "parent-incarceration-to-household-income",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "household.income",
       "strength": "strong",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.22,
       "per": "parent incarcerated",
       "lagMonths": 0,
       "group": "children's households",
       "owner": "F",
-      "anchor": "Loses an earner",
-      "source": "Dobbie, Goldin and Yang 2018",
+      "anchor": "Loses an earner. \"Family income averaged over the years a father is incarcerated is 22 percent lower than family income was the year before a father is incarcerated. Even in the year after the father is released, family income remains 15 percent lower than it was the year before incarceration.\" The report gives no band, so the spread is the default for researched links, 25% either way.",
+      "source": "Western and Pettit for The Pew Charitable Trusts, Collateral Costs: Incarceration's Effect on Economic Mobility (2010), https://www.pewtrusts.org/~/media/legacy/uploadedfiles/pcs_assets/2010/collateralcosts1pdf.pdf, read October 29, 2026",
       "from": "justice.parent-incarcerated",
       "evidence": "researched",
-      "notes": "Waits until a played year shows it. The justice engine's sentence ends the prisoner's jobs (imprison, then api.endJob in src/core2/modules/justice.ts), so a parent's prison term would lower the household's pay in the jobs records, and a web outcome on top would take the same pay a second time. But the engine imprisons only those sentenced for bribery today, so no ordinary played year reaches a parent's prison term, and the link stays unwired with its stopgap until one does. The research gives no size the game can apply and the web keeps no household-income outcome, so the link stays unsized."
+      "range": [-0.275, -0.165],
+      "notes": "Carried by the justice engine, which reads the parent's own record: a prison term is the sentenced person's own custody row, so a place rate would take the same pay a second time. The size is the research's average family drop, a check on totals the game never multiplies by: the engine takes out exactly the pay of the jobs the term ended, so a household whose parent earned most of its income loses more than 22% and one with other earners less. The row's earlier source (Dobbie, Goldin and Yang 2018) measures a defendant's own pretrial detention, and Dobbie, Gronqvist, Niknami, Palme and Priks (NBER w24186, read October 29, 2026) report the children's crime, pregnancy and employment, not the household's income, so neither sizes this link. Only a named defendant's term ends a job: the justice engine's named cases come from the corruption engine's bribery records (stopgap SG-LAW-justice-named-offender-acts), and a counted case's custody is a head count by group with no record of which member serves, so no counted member's pay stops (stopgap SG-JUSTICE-counted-custody-pay). The household-income measure the web keeps (world-metrics medianHouseholdEarningsMinor) is the middle household's, which one household's loss rarely moves.",
+      "carriedBy": "the justice engine's prison term (convict, imprison and endCustodyJobs in src/core2/modules/justice.ts): a sentence with custody months lists every job the person holds (currentJobs), imprisonment schedules each job's end for the next morning and justiceWork ends it with api.endJob on the custody record, so the household's income in the jobs records (fullHouseholdIncomes in src/core2/counted-income-fifth.ts, the reading of a household's income that the crime engine's victimization exposure in src/core2/modules/crime.ts and the school engine's outcomes in src/core2/school-outcomes.ts take) loses that earner's pay for the term. The web does not run the link because its cause is the individual's own custody record, not a rate of the place"
     },
     {
       "key": "school-spending-to-attainment",
@@ -1751,7 +1753,7 @@
       "who": "The studied male cohorts with separately reported racial-group estimates; not every resident or every school graduate.",
       "lagWhy": "The current lag0 does not supply a criminal case. Education exposure, later opportunities and a legally dated custody event must precede a measured consequence.",
       "aboutZero": false,
-      "notes": "Unsupported until measured: the game reads graduation as a share but keeps no incarceration risk outcome by place."
+      "notes": "Unread: the research is a person's own chance of prison, and no engine decides a person's offense. Lochner and Moretti (NBER w8605, https://www.nber.org/papers/w8605, abstract read October 29, 2026): \"completing high school reduces the probability of incarceration by about .76 percentage points for whites and 3.4 percentage points for blacks\", and the self-report data show the estimates reflect \"changes in criminal behavior\". That is a drop in points for one man's own chance, by race, with no base chance in the abstract to turn it into a factor on a rate, and the game keeps no incarceration-risk outcome by place. A person's schooling is on the record (schoolingOn in src/core2/modules/jobs.ts reads a senior year decided in play, else the education record), but no engine reads it where an offense or arrest is decided: the crime engine's victimizations have no offender (stopgap SG-CORE-crime-offenders), and the public-safety engine's arrests (arrest in src/core2/public-safety.ts) are shared across age bands of counted groups and an unnamed batch for the named residents (stopgap SG-LAW-justice-named-offender-acts), so a diploma cannot lower anyone's share of them. An offending engine that decides a person's offense from their own records would carry the link through the offender's schooling, as the why rows say, never by rolling a graduate into or out of prison (stopgap SG-WEB-crime-justice-links-unread)."
     },
     {
       "key": "graduation-to-turnout",
@@ -3193,7 +3195,7 @@
       "evidence": "to-confirm",
       "from": "law:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
       "to": "justice.incarcerated-per-100k",
-      "notes": "Unsupported until a bill sets the terms: the only panel study calls its counts proxies, and the effect depends on which offenses and sentences a bill covers."
+      "notes": "Unread: no size and no engine reads the law. The state panel study (Stemen, Rengifo and Wilson 2005, Of Fragmentation and Ferment: The Impact of State Sentencing Policies on Incarceration Rates, 1975-2002, NCJ 213003, abstract at https://www.ojp.gov/ncjrs/virtual-library/abstracts/fragmentation-and-ferment-impact-state-sentencing-policies, read October 29, 2026) finds \"States with a higher number of mandatory sentencing laws had higher incarceration rates\" and \"no link\" for laws raising sentences for second- and third-time offenders; it counts laws, gives no size for one law in the abstract, and calls its counts proxies, while the game's question is one law whose effect depends on which offenses and floors a bill covers. The question has no starting row in any place (data/research/laws/starting-law-2026/justice-public-safety.json), and no engine in the new core reads it (outcome-web-justice-carried.test.ts holds that). The engine that would carry it is the court's decision of each counted case (resolveDue in src/core2/public-safety.ts), whose prison term and prison share a mandatory floor would lengthen for the offenses the bill names, and a named defendant's custody months (convict in src/core2/modules/justice.ts) (stopgap SG-WEB-crime-justice-links-unread)."
     },
     {
       "key": "concealed-carry-permit-to-firearm-homicide",
@@ -3442,6 +3444,26 @@
       "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "to": "health.youth-cannabis-use",
       "range": [-0.13, 0.1]
+    },
+    {
+      "key": "age-verification-to-youth-depressive-episode",
+      "status": "built",
+      "unsupportedReason": null,
+      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "to": "health.youth-major-depressive-episode",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.011,
+      "per": "law in force",
+      "lagMonths": 3,
+      "group": "teens",
+      "owner": "F",
+      "evidence": "provisional",
+      "anchor": "ESTIMATED from the nearest research, with a spread across zero (owner, Oct 29: the two laws with no study are estimated from the nearest research with a spread). No study sizes what a state social media age check does to a measure the web keeps: the state laws are mostly enjoined or lately in force (data/research/laws/starting-law-2026/technology-privacy.json) and the searches of Oct 25 and Oct 29, 2026 found no evaluation of teen use or mood under them. The size folds two measured steps into one, for the ages the law covers (13 to 17: socialMediaAgeFrom up to votingAge, the law's reach row). STEP 1, how many teens keep an account. Australia's under-16 minimum age is the nearest law measured (eSafety's two-year study, 803 children aged 10 to 15 at three months): \"the share of children with at least one account on an age-restricted social media platform decreased from 52.4% before the restrictions were introduced to 42.1% three months later\", 10.3 points, and the \"proportion of children using social media, including those accessing platforms without holding an account, fell from 85.9% to 81.5%\", 4.4 points. A US age check lets a consenting parent keep the account, and in Australia, of the children who still had accounts, \"50.2% said they had not been asked by platforms to confirm their age\", so the central change is the midpoint of the two, (10.3 + 4.4) / 2 = 7.35 points of teens, with the account drop, 10.3 points, as the high end and no change as the low. STEP 2, what an account does to a teen's mood. Braghieri, Levy and Makarin (American Economic Review 2022) find that the Facebook roll-out at a college, where \"85% had a Facebook profile\", raised their index of poor mental health \"by 0.085 standard deviation units\", so 0.085 / 0.85 = 0.10 SD for each student with a profile; this is in line with Allcott et al. (AER 2020), where deactivation raised the \"overall index of subjective well-being\" \"by 0.09 standard deviations\". The harmful end is their depression-diagnosis item, 0.02 SD with a standard error of 0.02 (Table A.4), whose lower 95% bound is -0.019 SD, or -0.022 per profile. The upper end is the meta-analysis of ten randomized trials of cutting social media use (N = 1,491, mean age 24.2): \"g = 0.25, 95% CI [0.10, 0.41]\". Orben and Przybylski (Nature Human Behavior 2019, three adolescent datasets, n = 355,358) find the link \"negative but small, explaining at most 0.4% of the variation in well-being\", which is why the central value takes the paper's lower 0.10 and not the trials' 0.25. All of this is college-age or adult evidence; none is a trial of under-18s. TO THE MEASURE: teens in a major depressive episode in the past year are 16.74% nationally (NSDUH 2023-2024, Table 38, ages 12 to 17). Treating the symptom score as normal with the cut-off at that share (the paper's own note 29 argument), a shift of d SD moves the share by (1 - Phi(0.9645 - d)) / 0.1674 - 1. Central: 0.0735 x 0.10 = 0.00735 SD fewer, which is -1.10% of the share. High end (beneficial): 0.103 x 0.25 = 0.02575 SD, -3.81%. Harmful end: 0.103 x -0.0224 = 0.0023 SD more, +0.35%. The range crosses zero because the evidence does not show teens who lose an account are better off if they move elsewhere: eSafety found \"increased use of other digital services, including messaging platforms and online games\" and parents unaware of their child's social media use rose from 23.3% to 33.3%. The lag is the three months at which Australia's drop was measured; Braghieri's first-semester effects arise \"at least two months after the introduction\".",
+      "source": "Estimated from: eSafety Commissioner (Australia), evaluation of the social media minimum age, three-month findings, as reported by the CADE Project, 'eSafety finds early decline in under-16 social media account ownership after age restrictions', 3 Aug 2026 (https://cadeproject.org/updates/esafety-finds-early-decline-in-under-16-social-media-account-ownership-after-age-restrictions/), read Oct 29, 2026 (eSafety's own report pages returned 503 through the proxy); Braghieri, Levy and Makarin, Social Media and Mental Health, American Economic Review 2022 (https://aeaweb.org/content/file?id=17257 and the working paper https://epub.ub.uni-muenchen.de/91215/1/320.pdf, Table A.4 and note 29), read Oct 29, 2026; Allcott, Braghieri, Eichmeyer and Gentzkow, The Welfare Effects of Social Media, American Economic Review 110(3) 2020 (https://www.nber.org/papers/w25514.pdf), read Oct 29, 2026; Reducing Social Media Use Decreases Depression Symptoms: A Meta-Analysis of Randomized Controlled Trials, doi 10.3390/ejihpe15110222 (https://pmc.ncbi.nlm.nih.gov/articles/PMC12651081), read Oct 29, 2026; Orben and Przybylski, Nature Human Behavior 2019, doi 10.1038/s41562-018-0506-1 (abstract read through Europe PMC, PMID 30944443), read Oct 29, 2026; SAMHSA, National Surveys on Drug Use and Health 2023-2024, state small area estimates, Table 38 (https://www.samhsa.gov/data/sites/default/files/reports/rpt56957/2024-nsduh-sae-tables-percent-csvs/2024-nsduh-sae-tables-percent.pdf), read Oct 29, 2026 (data/research/outcome-web/place-outcome-bases-2024.json, health.youth-major-depressive-episode)",
+      "range": [-0.0381, 0.0035]
     },
     {
       "key": "loan-rate-cap-to-high-cost-borrowing",
@@ -3761,7 +3783,7 @@
       "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
       "to": "justice.federal-incarcerated-per-100k",
       "range": [-0.012, -0.004],
-      "notes": "Waiting on a federal-prisoner measure: a federal sentencing cut changes who is in federal prison, not state prisons, so this link points at justice.federal-incarcerated-per-100k (federal prisoners per 100,000 residents), which the game does not record yet. The recorded prison measure, justice.incarcerated-per-100k, is the BJS state imprisonment rate and leaves out federal prisoners, so moving it would be a fake effect. Federal counts are kept by the prison's location, not the prisoner's home state, so a state-level federal measure needs its own source before the link can act."
+      "notes": "Waiting on a federal-prisoner measure: a federal sentencing cut changes who is in federal prison, not state prisons, so this link points at justice.federal-incarcerated-per-100k (federal prisoners per 100,000 residents), which the game does not record yet. The recorded prison measure, justice.incarcerated-per-100k, is the BJS state imprisonment rate and leaves out federal prisoners, so moving it would be a fake effect. Federal counts are kept by the prison's location, not the prisoner's home state, so a state-level federal measure needs its own source before the link can act. The web keeps the measure in its monthly ledger, but no engine sentences or holds a federal prisoner: every counted case is filed in the state's courts by the public-safety engine (arrest and resolveDue in src/core2/public-safety.ts), and named cases are brought by state and local prosecutors' offices under the state's bribery range (convict in src/core2/modules/justice.ts), so nothing multiplies a federal term or count by the factor. A federal court engine sentencing federal defendants under the federal law in force would carry it (stopgap SG-WEB-crime-justice-links-unread)."
     },
     {
       "key": "power-plant-carbon-to-emissions",
@@ -5308,7 +5330,7 @@
       "evidence": "to-confirm",
       "anchor": "Same lottery: effects on arrests mostly statistically insignificant",
       "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
-      "notes": "The cited Chicago voucher lottery found mostly statistically insignificant arrest effects and supplies no transportable numeric effect for this outcome. The link therefore remains inactive instead of treating statistical insignificance as a measured zero."
+      "notes": "Unread: no size and no outcome. The Chicago voucher lottery (Jacob, Kapustin and Ludwig, NBER w20164, https://www.nber.org/papers/w20164, abstract read October 29, 2026) tracks \"schooling, arrests, and health\" for 14 years and reports \"Estimated effects are mostly statistically insignificant\", with no transportable number for arrests, so the link stays inactive rather than treating insignificance as a measured zero. The web keeps no crime.rate-index (the crime engine keeps a violent and a property index on its own month records, src/core2/modules/crime.ts), and the federal voucher question has no reader in the new core: no engine issues vouchers under it, so no family holds one. Were a size and the vouchers recorded, the public-safety engine's arrest share-out (arrest in src/core2/public-safety.ts) would read a voucher holder's own record, not a place rate, once arrests have offenders (stopgap SG-CORE-crime-offenders) (stopgap SG-WEB-crime-justice-links-unread)."
     },
     {
       "key": "top-income-tax-rate-to-poverty",
@@ -5955,6 +5977,8 @@
       "evidence": "researched",
       "anchor": "A state that gets a dollar more of military procurement than others gets about $1.50 more output. Earnings are read to move one for one with output, so each percent of the state's output that extra contracts add lifts earnings 1.5%. The extra contracts are what the federal national defense line holds above its base (the pace is whatever Congress's budget sets), reaching each state in proportion to the contracts it drew in 2024 (data/research/federal/defense-contracts-by-state-fy2024.json). The paper's summary gives no band, so the spread is the default for researched links, 25% either way. The effect is read the same year the money is spent, since the study measures it within the year.",
       "source": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026",
+      "range": [0.01125, 0.01875],
+      "rangeSource": "Nakamura and Steinsson 2014 give the open-economy relative multiplier of about 1.5 with no band in the summary read, so the range is the default spread for a researched link, 25% either way of the size, as the anchor states.",
       "notes": "Nakamura and Steinsson (NBER w17391) estimate a regional multiplier and report no split by income, age, sex or household kind. The cause is read from the federal budget row in force: its national defense line above the base as a share of the base, times the town's state's fiscal 2024 contracts per resident over its output per resident (defenseBoostPct in src/core2/gov-measures.ts, the defense-boost-pct reader in src/core2/modules/outcome-web.ts), measured from zero at the base line. A line that is unchanged moves nothing. The jobs engine's pay level (payLevel in src/core2/modules/jobs.ts) multiplies by this row's factor on labor.median-earnings when it prices an opening and when it raises a worker. Only the town's state is read: the web keeps one state key for every place it records."
     },
     {
