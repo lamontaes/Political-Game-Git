@@ -6,6 +6,27 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 18:55 UTC: v4 replaces v3; the owner looks at v4 only (owner, about 2:50 PM Eastern)
+
+- **Ruling:** "I can ignore V3 because V4 changes how, like, it's, we have to regenerate things because there's going to be some standardized angles for people to slot into instead of a bunch of different ones for every room." #6778 (v3) is closed unmerged; `people-pack-v3` is dropped as superseded; the v4 PR carries v3's code (the one loader, mannequin staging, face crops, the creator, the v1 and v2 deletions) to main with the v4 people, and waits for the owner's look. The v3 art asks (the heavy man's address figures, recut fronts) are moot: v4 regenerates the people at the standard angles. `play-faces-show-the-moment-a-menu-opens` now waits on `people-pack-v4`.
+
+## Oct 29, 18:50 UTC: where an office holder stands comes from the occasion, not the office (owner, about 2:45 PM Eastern)
+
+- **Ruling:** "the president shouldn't be hard coded to be sitting. That's just for certain occasions. But he could, of course, be in different parts of the room. But yes, sitting is the idea right now." No rule ties an office holder to one spot or posture. The scene's occasion, sent by the director with the cast, picks the kind of spot (the desk seat for the address; standing or elsewhere in the room for other occasions); until an occasion is sent, the default is the seated spot, kept in data. Words and the people session agree the occasion field before either builds it (CREW.md seam). Carried on `people-pack-v4`.
+- **Also recorded:** skills-only PRs merge at once, and the AGENTS.md skills list is one skill per line so two new skills never conflict (owner, 18:45 UTC: "they change like one or two files... how are they going to conflict with anything?").
+
+## Oct 29, 18:35 UTC: skill PRs merge without waiting on CI (owner, about 2:30 PM Eastern)
+
+- **Ruling:** "You shouldn't need to wait for checks to pass on new skills." A skills-only PR (skill files, their `.claude/skills` mirror, the AGENTS.md Skills list line, an `impact: none` declaration, dev-only scripts) is merged by the CTO as soon as it arrives: merge main in, run the skill test locally for the mirror and the list, merge. Carried in `AGENTS.md` (Skills) and the `cto` skill. First applied to #6785.
+
+## Oct 29, 18:25 UTC: helpers never copy the whole repository (owner, about 2:15 PM Eastern, in the laws session; relayed by the laws lead)
+
+- **Ruling:** "be sure the subagents, even if they clone the entire repository, they shouldn't. They should immediately delete what they don't need, or even more helpfully, only clone what they do need." And: "This needs to be a project rule... I'm talking about the thing with the sub-agents." A helper or sub-agent works in a sparse copy holding only the folders its task needs (by default everything except `art/`, `public/`, `desktop/` and the large docs folders), shares the main checkout's git objects, and links `node_modules` instead of installing it; a session that finds a full helper copy narrows it at once. Why: a full copy is about 3.3 GB (art alone 1.6 GB); six helper copies filled the laws session's roughly 40 GB allowance at 18:00 UTC and writes failed until the lead narrowed them to 1.2 GB each. Carried in `AGENTS.md` (Models, effort and helpers) and the laws lead's `helper-checkout` skill.
+
+## Oct 29, 18:20 UTC: every session makes and updates skills (owner, about 2:15 PM Eastern)
+
+- **Ruling:** "Make sure every session knows that it can proactively create skills and update the skills that they use if they find stuff, or they can ask if it's a, you know, that kind of thing. I want skills to be made." Every session adds a line to the skill that should have told it what it just learned (a trap, a fix that worked, a method used twice, a check that caught a defect) or creates a new skill when none covers it, in the same pass, mirrored to `.claude/skills/`, named in AGENTS.md's Skills list, with `test:skill-ops` passing and an `impact: none` declaration. It ships inside the work PR or as its own `skills:` PR the CTO merges. A skill line records a ruling, a standing rule or a working method and never makes policy; when unsure, the session asks the CTO. Carried in `AGENTS.md` (Skills) and the `skill-lessons` skill. Extends the Oct 27 rulings that skills learn from errors and from what works. The owner added: "it can be a project skill... deleting helper's entire cloned repositories and only keeping what's needed. So that way they have plenty of gigabytes to work with. I told it to make a skill for that. So it can be meta like that, or it can be... anything in game as well."
+
 ## Oct 29, 17:40 UTC: side stories on the paper (owner, directly to his words session, about 1:30 PM Eastern; that session asked the CTO who owns the two pieces outside its area)
 
 - **Ask:** short filler "side stories" on the newspaper, for realism: a fourth car stolen when crime is up, someone opening a business, a local child winning a spelling bee, three Division I recruits on the high school team. Briefs of a line or two, maybe a picture, not clickable.
