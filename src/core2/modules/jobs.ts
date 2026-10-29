@@ -58,7 +58,7 @@ import {
   residentsRuntime,
 } from "./residents";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
-import { graduationOf } from "../school-outcomes";
+import { collegeOf, graduationOf } from "../school-outcomes";
 import { SCHOOL_MODULE_ID } from "../school-measures";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
@@ -2585,9 +2585,12 @@ export function moveLabel(
 
 /**
  * The schooling a person held on `date`: a senior year decided in play by
- * then (a graduate holds a high school diploma, a senior who did not
- * graduate holds none), else their education record, or the profile it is
- * drawn from. Undefined for a person with no schooling record (a child).
+ * then (a graduate holds a high school diploma, or, once the school engine's
+ * college step has them enrolled and normal time has ended, a bachelor's if
+ * they completed one and some college if not; a senior who did not graduate
+ * holds none), else their education
+ * record, or the profile it is drawn from. Undefined for a person with no
+ * schooling record (a child).
  */
 export function schoolingOn(
   api: CoreAPI,
@@ -2600,8 +2603,17 @@ export function schoolingOn(
   const graduation = api.state.modules.has(SCHOOL_MODULE_ID)
     ? graduationOf(api, personId, person.birthDate)
     : undefined;
-  if (graduation && graduation.date <= date)
-    return graduation.passed ? "no-college" : "less-than-high-school";
+  if (graduation && graduation.date <= date) {
+    if (!graduation.passed) return "less-than-high-school";
+    // A graduate who enrolled holds the bachelor's they completed, or some
+    // college, once normal time has ended; until then, the diploma.
+    const college = collegeOf(api, personId, person.birthDate);
+    return college?.endsOn && college.endsOn <= date
+      ? college.completes
+        ? "college"
+        : "some-college"
+      : "no-college";
+  }
   return (
     (person.pastFacts?.find((row) => row.kind === PROFILE_FACT_KINDS.education)
       ?.facts?.level as string | undefined) ??

@@ -296,6 +296,189 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.66.0
+
+_Released October 29, 2026._
+
+### Fixed
+
+- **Politics Leaders reads in order.** Each leader on Politics now shows their
+  chamber and state in one line directly under their name, instead of a line
+  that floated between two rows.
+
+### Changed
+
+- **Graduating seniors now go on to college, and more state higher education
+  spending helps them finish** Each high school graduate in a town now enrolls
+  in college or does not, and an enrolled graduate completes a bachelor's degree
+  or does not, decided by their own record and household income against the
+  national college-going and six-year completion rates, which differ a little
+  from world to world. When the state spends more on higher education, enrolled
+  graduates in the town are a little more likely to finish, and a graduate who
+  finishes is hired and paid as a college graduate once their four years are up,
+  while one who enrolled and did not finish is hired as someone with some
+  college.
+
+- **A social media age check eases teenagers' stress a little** When a state or
+  city puts a social media age check in force, a little fewer of the town's 13-
+  to 17-year-olds are in a depressive episode a few months later, by an estimate
+  from the nearest research that could also turn out to be nothing, and each
+  teenager's resting stress eases by that much.
+
+- **New people, drawn only where a room has a place for them** Everyone in the
+  game is now one of the new painted people, each with their own face, hair and
+  body. Everyday clothes come in the colors each person can wear, and suits,
+  pantsuits and blazers are painted whole. People are drawn only in rooms
+  painted with a place for each of them (the living room at night, the Oval
+  Office, the White House colonnade and the train depot so far), seated or
+  standing in the room's own pose. Rooms without those places show the room
+  alone for now. Faces in the talk box, the person card, the People and
+  government lists, and on the title's Continue are the person's own painted
+  head. In the character creator you choose one of the six people, everyday
+  clothes or one of their suits, and the color of each piece of everyday
+  clothing.
+
+- **People in several looks, and a new Oval Office** People now come in several
+  looks each: suits with and without ties, shirtsleeves, blazers, a dress and
+  different hairstyles. The character creator chooses everyday clothes and work
+  clothes separately and shows both side by side; officials and people at their
+  own workplace wear their work clothes, everyone else their everyday clothes.
+  The Oval Office is a new wide room where the President sits at the Resolute
+  desk or stands behind it, staff stand around the room, and visitors sit on the
+  couches. The address is a new close shot with the President's forearms on the
+  desk. Everyone stands in the character creator and in their portrait. Phones,
+  papers and pens appear only where they belong (a rally, a hearing, a desk),
+  never at home. Picture frames in the Oval Office show plain glass for now.
+
+- **An interview you accept is one you sit for** When you say yes to a newspaper
+  or station that asks for an interview, you now sit down with the reporter, who
+  asks each question in turn. You pick how to answer each one (plainly, with
+  your record behind it, by turning it on a rival, or briefly), or say nothing,
+  and the story prints what you chose.
+
+- **More stories print a body, and the paper carries side briefs** Layoffs, the
+  town's month, board meetings, profiles, vacancies, new officeholders, party
+  leaders, sales of a business, closings, deaths, campaign gifts and the rules
+  that took effect now print more than a headline and one sentence: how many
+  people a business plans to keep, how many residents are out of work, who held
+  a seat before, how a vacant seat is filled, what a business does, and more,
+  each read from the town's own records. The stories from the year before the
+  game starts (elections, votes, budgets, closed businesses, a parent's death)
+  print the same way. A member who agrees to carry a bill a citizen asked for
+  makes a story. Births, homes finished, home sales, new businesses, school
+  graduation and test results, and crimes the town recorded print as short items
+  with a headline and one line. Dates in a story are now the day it happened,
+  not the day it ran.
+
+## PRE-ALPHA 0.65.0
+
+_Released October 29, 2026._
+
+### Improved
+
+- **A news story opens in place on the paper.** Clicking a story in News puts it
+  at the top of the same front page instead of turning to a page of its own, and
+  every story's full text is printed. Laws that took effect before the game
+  began now carry the law's amount or purpose.
+
+- **People you open tell more of their past.** A person's card now tells when
+  they set up home with their partner, when they moved to the county, and each
+  stage of school, and a family filled in when you open them has the couple
+  written from who lives together.
+
+- **Anyone you open has a history.** A person's card now tells their life for
+  everyone you open, not only family and people you know: where and when they
+  were born, the school they started at, the jobs they held, and the offices
+  they won or took.
+
+- **Call donors names who gave and how much.** After Call donors, Campaigns says
+  of the people you asked who gave and how much, or in a sentence why someone
+  did not, and the raised total moves by the sum. A grayed Call donors says why.
+
+- **Fundraising call lines read right for any number asked.** After Call donors,
+  the campaign sheet's total reads right for any number of people asked ("2 of 5
+  asked gave, $150 in all"; "Of 3 asked, nobody gave anything"), and someone
+  with almost nothing to give "had only pocket change to spare."
+
+- **Lines you liked come up more often** A line you graded good in a voice note
+  or in play now comes up more often itself, and a line you rejected less.
+  Before, your grade lifted the other lines of the same kind but not the line
+  you graded. "The party has a long memory." and the other threats you liked now
+  carry 13.6 percent of the weight among a scene's threats, up from 12.5.
+
+### Fixed
+
+- **No menu shows Continue or Back.** The calendar, People, Politics, the Guide,
+  a person's card, the paper and the ballot no longer page with Back and
+  Continue. A long screen scrolls inside its panel.
+
+- **News no longer shows tabs left over from another menu.** Opening a menu
+  right after another one no longer puts the first menu's tab bar over the
+  second.
+
+- **Call donors names each person asked and what they gave or why not** Call
+  donors now shows every person the candidate reached, with what each gave from
+  their own money or the reason they did not, and the campaign's raised total on
+  the Campaigns screen moves by exactly what was given. When nobody gives, the
+  screen says so in a sentence, and an act that is grayed out says why.
+
+- **A person's card has no empty heading.** The card no longer shows "Lives with
+  you" as a label with nothing beside it, and the People web's selection line no
+  longer shows a stray separator.
+
+- **People answer what you actually said** When you answer someone in town or at
+  home, what they say back now fits what you said. Ask a family member to sit
+  with you a minute and they say "Of course." Tell them you need some quiet and
+  they say "Okay. I'll leave you be." and let you go. Disagree with them and
+  they say "Suit yourself." instead of "That's what I thought too." Asked
+  whether you saw the President's speech, you answer first ("I saw it. What did
+  you make of it?") and never just ask back. Nobody asks you about a speech they
+  never saw. These answers come from the same scene engine and the same lines
+  your grades tune, so a grade on one reaches all of talk.
+
+- **People bring up the news by its headline** When someone at home or in town
+  brings up a story they read, they now say it as the paper or station had it
+  ("I saw it in the Courier: H.R. 1 dies in committee, 3 to 8.") instead of "I
+  saw the network ran a story on coverage and insurance."
+
+- **No line shows a blank in braces** A family member at home could say "Haven't
+  seen much of you since {last-together}." with the blank showing. Every blank
+  in a line is now filled from the records, and a line whose blank cannot be
+  filled is never said. The line itself now comes up only when you have been
+  apart a week or more, never "since yesterday".
+
+### Changed
+
+- **More natural resources spending gives residents a little more room to
+  exercise** When a state or city adds to its natural resources spending, a
+  little more of the town's residents live near land open for exercise, by an
+  estimate carried over from the parks research, and each rest they take
+  relieves a little more stress.
+
+- **Where cannabis sales are legal, slightly fewer teens use it** Each teenager
+  now has a monthly record of whether they used cannabis, starting from the
+  national share of 12- to 17-year-olds and shifted by how dependable they are.
+  Where the state allows legal sales, the share is a little lower, by the size
+  national surveys of teens measured. This runs in the background; nothing new
+  is asked of the player.
+
+- **More news stories print a full story** Stories about bills signed or vetoed,
+  floor and committee votes, veto overrides, bills introduced, hearings, the
+  state jobs report and the Federal Reserve's rate now print more than a
+  headline and one sentence: what the bill is about, who sponsors it, what
+  happens next, the national rate, and where the rate stood before. Headlines
+  are set in one style, large sums read "$228.7 million", and a law is named by
+  what it covers ("the maximum monthly food assistance benefit"), not by an
+  internal key.
+
+- **More kinds of public news reach News in words** Stories the press printed
+  about a ballot measure's result, a bill sent to the executive, a line-item
+  veto, an emergency declaration, a finished public works project, a succession,
+  an official's answer to a recall petition, a reported scandal, a budget's
+  public hearing, and the President's budget request, address to Congress and
+  trips now have a headline and a first sentence, said from what the record
+  holds.
+
 ## PRE-ALPHA 0.64.0
 
 _Released October 29, 2026._

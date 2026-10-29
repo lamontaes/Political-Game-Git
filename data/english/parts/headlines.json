@@ -5911,6 +5911,380 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.carry.name-agrees-to-carry-designation",
+      "move": "carry",
+      "kind": "written",
+      "text": "{name} agrees to carry {designation}",
+      "uses": [
+        {
+          "move": "carry",
+          "subject": "headline",
+          "role": "carry",
+          "choice": "headline",
+          "requiresFacts": ["name", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.carry.name-will-carry-designation",
+      "move": "carry",
+      "kind": "written",
+      "text": "{name} will carry {designation}",
+      "uses": [
+        {
+          "move": "carry",
+          "subject": "headline",
+          "role": "carry",
+          "choice": "headline",
+          "requiresFacts": ["name", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.carry.name-takes-up-designation",
+      "move": "carry",
+      "kind": "written",
+      "text": "{name} takes up {designation}",
+      "uses": [
+        {
+          "move": "carry",
+          "subject": "headline",
+          "role": "carry",
+          "choice": "headline",
+          "requiresFacts": ["name", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.burglary-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Burglary reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.home-broken-into-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Home broken into in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.property-crime-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Property crime in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["property"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.vandalism-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Vandalism in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.vandals-strike-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Vandals strike in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.robbery-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Robbery in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.assault-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Assault reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.graduation.seniors-graduate-in-place",
+      "move": "graduation",
+      "kind": "written",
+      "text": "Seniors graduate in {place}",
+      "uses": [
+        {
+          "move": "graduation",
+          "subject": "headline",
+          "role": "graduation",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.graduation.place-graduation-day",
+      "move": "graduation",
+      "kind": "written",
+      "text": "{place} graduation day",
+      "uses": [
+        {
+          "move": "graduation",
+          "subject": "headline",
+          "role": "graduation",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.school-tests.test-scores-in-place",
+      "move": "school-tests",
+      "kind": "written",
+      "text": "Test scores in {place}",
+      "uses": [
+        {
+          "move": "school-tests",
+          "subject": "headline",
+          "role": "school-tests",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.school-tests.how-place-students-scored",
+      "move": "school-tests",
+      "kind": "written",
+      "text": "How {place} students scored",
+      "uses": [
+        {
+          "move": "school-tests",
+          "subject": "headline",
+          "role": "school-tests",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.homes-built.number-new-apartments-finished-in-place",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "{number} new apartments finished in {place}",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "headline",
+          "role": "homes-built",
+          "choice": "headline",
+          "requiresFacts": ["apartments", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.birth.a-birth-in-place",
+      "move": "birth",
+      "kind": "written",
+      "text": "A birth in {place}",
+      "uses": [
+        {
+          "move": "birth",
+          "subject": "headline",
+          "role": "birth",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.home-sale.a-home-sells-in-place",
+      "move": "home-sale",
+      "kind": "written",
+      "text": "A home sells in {place}",
+      "uses": [
+        {
+          "move": "home-sale",
+          "subject": "headline",
+          "role": "home-sale",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

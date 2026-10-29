@@ -4,7 +4,7 @@ import { restingStress } from "./resting-stress";
 import type { CoreState, PersonInput, PersonState } from "./types";
 
 export function initialPersonState(
-  core: Pick<CoreState, "data" | "date">,
+  core: CoreState,
   row: PersonInput,
   copyTraits = true,
 ): PersonState {

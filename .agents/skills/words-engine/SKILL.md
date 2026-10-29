@@ -63,7 +63,8 @@ The owner does not grade batches. He plays or watches a scene or a scenario and 
 
 ## Working with helpers and other sessions
 
-- **A helper gets its own worktree** (`isolation: "worktree"`, under `.claude/worktrees/`, ignored by git) and its own branch. It edits banks only on that branch, and the session merges its work by piece key (banks are never hand-merged). Once the branch is pushed and merged, remove the worktree (`git worktree remove <path>`) so the container keeps its disk (owner, Oct 29).
+- **A helper gets its own sparse copy outside the main checkout** (skill `helper-checkout`) and its own branch, never the agent tool's worktree option: that makes a full 3 GB copy under `.claude/worktrees/`, and vitest in the main checkout then runs the copy's tests too (Oct 29). In a shallow cloud checkout, `git clone --shared` silently copies every pack; `git worktree add --no-checkout`, then sparse-checkout, then checkout, shares the objects. The helper edits banks only on its branch, and the session merges its work by piece key (banks are never hand-merged). Tell a helper to commit and push after each step that passes: a container restart stops it and keeps only what is on disk (Oct 29, the debate helper). Once the branch is pushed and its PR is open, remove the copy (`git worktree remove <path>`).
+- **Read the notification queue between units** (`ReadNotifications`). Messages from the CTO, the checkers, red-main and other sessions wait there and interrupt nothing; on Oct 29 the checker ruling sat unread for an hour while the session ran full gates the checkers were there to run.
 - **Seams are settled by message, then written down** (CREW.md):
   - the lane prints what the composer returns;
   - laws sends each record's kind and fields when its PR opens;
@@ -95,7 +96,10 @@ The owner does not grade batches. He plays or watches a scene or a scenario and 
 
 ## The checks a Words session runs
 
-In-session, on changed files only: typecheck, eslint, prettier, the bank's own test (`scripts/english-corpus/<bank>-bank.test.ts`), the director's tests for changed files (`src/director/*.test.ts`), `npm run spelling` (American English; `tests/guards/english/`), `npm run zero-dice`, `release:check --mode pr` with a declaration in `docs/release/changes/`. The played-world proof is a year in a drawn place with the record ids that fired each scene (`played-world-proof`; `scripts/dialogue-batch/scene-year.ts --seed <seed>` plays the year and lists them). One line at the top of the PR body with the result; the first lines of the PR body say what the owner can play now.
+Builders build; checkers check (owner, Oct 29; skill `checker`). A Words session and its helpers run only the tests they wrote or changed: the bank's own test, `tests/english-parts-banks.test.ts`, `tests/guards/english`, and the director's tests for changed files, each on a fresh draw and on any seed a report named. Never typecheck, the guards or the gate: open the PR ready, with a declaration in `docs/release/changes/`, and message the checker whose number is the PR number mod 5 (`docs/coordination/CREW.md`); from then the checker is the branch's one writer, so ask it before pushing there again.
+
+- **A director test needs the played world.** A world of the director alone records nothing after day one (scene-leads staged no scene in a year in Apollo Beach, Florida, Oct 29), and a bench world's director watches nobody until `director.watch(core, playerId)` or the player is selected.
+- **A seed red in a Words engine is often the test's pick, not the engine.** Check the engine against its ruling first: a talk with nothing on record says nothing (owner, Oct 24); a tie's turn is a moment only past the floor, by that person's own traits; a relative is a family tie, never a coworker's. Fix the test's pick only when the engine is right, keep every assertion, and say so in the PR body. When the engine is wrong (no funeral had anyone to answer), fix the engine. The played-world proof is a year in a drawn place with the record ids that fired each scene (`played-world-proof`; `scripts/dialogue-batch/scene-year.ts --seed <seed>` plays the year and lists them). One line at the top of the PR body with the result; the first lines of the PR body say what the owner can play now.
 
 ## Boundaries
 
