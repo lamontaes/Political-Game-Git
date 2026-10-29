@@ -342,7 +342,10 @@ export function confirmGivenVotes(api: CoreAPI, presidentId: string): void {
       seatKey: `cabinet:US:${row.postId}`,
       appointerSide: partySide(federalSeatOf(api, presidentId)?.term.party),
       candidates: nominee ? [nominee] : [],
-      confirmingBody: { name: CABINET.confirmation.body, sides: senateSides() },
+      confirmingBody: {
+        name: CABINET.confirmation.body,
+        sides: senateSides(api.state.seed),
+      },
       tolerance: campaignParameter("confirmationTolerance"),
     });
     const confirmed = vote.confirmation?.confirmed ?? false;
