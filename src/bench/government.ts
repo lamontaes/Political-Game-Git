@@ -21,7 +21,8 @@ import {
   fileCandidacy,
   filingOfficeFor,
   incumbentOf,
-  openContests,
+  playerContests,
+  playerMayFileFor,
   standing,
   type ContestRow,
   type FilingRow,
@@ -298,7 +299,8 @@ export function governmentView(core: CoreState, personId: string) {
     keyPeople: core.people.has(personId)
       ? politicsKeyPeople(core, personId, place)
       : [],
-    contests: openContests(api).map((contest) => ({
+    // The player files only for the six offices (owner, Oct 29); the rest run in the world.
+    contests: playerContests(api).map((contest) => ({
       contest,
       filingOffice: filingOfficeFor(api, contest.id),
       checks: core.people.has(personId)
@@ -564,6 +566,10 @@ export function fileForOffice(
   contestId: string,
   choices: { platform?: readonly string[]; party?: string | null } = {},
 ) {
+  if (!playerMayFileFor(coreAPI(core), contestId))
+    throw new Error(
+      "The player files only for council, state legislature, mayor, governor, Congress and president.",
+    );
   return fileCandidacy(coreAPI(core), {
     personId,
     contestId,
