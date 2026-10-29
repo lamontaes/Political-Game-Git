@@ -6,11 +6,11 @@
  * nothing (the engine never votes for the player). That night the returns
  * come in place by place from the count's own records, smallest place first,
  * as a small place's tally is done first, until the race is called. The
- * narrator's words come from the election-day bank (english-election-day);
+ * narrator's words are the director's (`src/director/election-day.ts`);
  * the screen shows the count's numbers and names as record data.
  */
 import type { PollingVisit } from "../director/polling-place";
-import { electionDayLine, type DayFact } from "../english/english-election-day";
+import { electionDayLine, type DayFact } from "../director/election-day";
 import {
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
