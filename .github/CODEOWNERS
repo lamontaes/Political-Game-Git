@@ -208,6 +208,8 @@
 /src/core2/housing-*.ts @lamontaes
 /src/core2/hud-rents.ts @lamontaes
 /src/core2/health-hazard.ts @lamontaes
+/src/core2/health-own.ts @lamontaes
+/src/core2/health-displacement.ts @lamontaes
 /src/core2/health-mortality-table.ts @lamontaes
 /src/core2/counted-*.ts @lamontaes
 /src/core2/opening-kin.ts @lamontaes

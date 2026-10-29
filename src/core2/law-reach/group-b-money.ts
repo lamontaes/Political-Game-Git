@@ -10,6 +10,7 @@ import {
   appliedOn,
   appliedTo,
   lawApplied,
+  lawReachRuns,
   type AppliedTarget,
 } from "./applied";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -798,6 +799,73 @@ export function payCoverage(
     citation: `Medicaid expansion (${input.key}): the state and, at the federal match, the federal government pay a covered adult's medical spending`,
   });
   return { named, counted };
+}
+
+/** One stretch of a named person's coverage being paid by a government (its obligation records). */
+export interface CoverageSpell {
+  /** The first day a payment for the stretch could fall due. */
+  readonly from: string;
+  /** The day the payment ended, or null while it is still paid. */
+  readonly to: string | null;
+  /** The accounts obligations that paid it (the state's share and the federal share, one record each). */
+  readonly obligationIds: readonly string[];
+}
+
+/**
+ * Each named person's Medicaid coverage as the payment keeps it: the
+ * obligations `payCoverage` opened for them, open and ended, joined into
+ * stretches (the state's and the federal share cover the same days, and a
+ * change of the match ends one pair and opens the next). Null where no
+ * payment engine runs (no law reach or no budgets), so a caller can tell an
+ * uncovered person from a world that does not model coverage. Read-only.
+ */
+export function medicaidCoverageSpells(
+  api: CoreAPI,
+  key: string,
+): ReadonlyMap<string, readonly CoverageSpell[]> | null {
+  const core = api.state as CoreState;
+  if (!core.modules.has(BUDGETS_MODULE_ID) || !lawReachRuns(core)) return null;
+  const out = new Map<string, CoverageSpell[]>();
+  if (!core.modules.has(REACH_B_MODULE_ID)) return out;
+  const accounts = api.accounts();
+  const found = new Map<
+    string,
+    { from: string; to: string | null; id: string }[]
+  >();
+  for (const row of rowsOf<BenefitRow>(api, "taken")) {
+    // An ended payment is re-keyed `ended|<policy>` (reconcileObligations).
+    if (row.key !== `coverage|${key}` && row.key !== `ended|${key}`) continue;
+    // A counted group's fund account is no named person.
+    if (row.recipientId.startsWith(FUND)) continue;
+    const obligation = accounts.obligation(row.obligationId);
+    if (!obligation) continue;
+    const to = obligation.endedAt ?? null;
+    if (to !== null && to <= obligation.firstDueAt) continue;
+    const list = found.get(row.recipientId) ?? [];
+    list.push({ from: obligation.firstDueAt, to, id: row.obligationId });
+    found.set(row.recipientId, list);
+  }
+  for (const [personId, list] of found) {
+    list.sort(
+      (a, b) => a.from.localeCompare(b.from) || a.id.localeCompare(b.id),
+    );
+    const spells: { from: string; to: string | null; ids: string[] }[] = [];
+    for (const stretch of list) {
+      const last = spells.at(-1);
+      // Overlapping or touching stretches are one: the same person, covered.
+      if (last && (last.to === null || stretch.from <= last.to)) {
+        last.ids.push(stretch.id);
+        if (last.to !== null && (stretch.to === null || stretch.to > last.to))
+          last.to = stretch.to;
+      } else
+        spells.push({ from: stretch.from, to: stretch.to, ids: [stretch.id] });
+    }
+    out.set(
+      personId,
+      spells.map((s) => ({ from: s.from, to: s.to, obligationIds: s.ids })),
+    );
+  }
+  return out;
 }
 
 /**

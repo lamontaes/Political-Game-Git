@@ -443,7 +443,9 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     const median = card.checks.find((row) => row.key === "median-words")!.value;
     const short = card.checks.find((row) => row.key === "short-turns")!.value;
     const lengths: number[] = [];
-    for (const otherId of others.slice(0, 20)) {
+    // The people the first test talked to have little left to ask; the
+    // strangers met for the later tests still have their questions.
+    for (const otherId of talkers.slice(0, 20)) {
       const talk = openConversation(core, player.id, otherId);
       for (let turn = 0; turn < 4 && talk.choices.length; turn += 1)
         say(core, talk, talk.choices[(turn * 3) % talk.choices.length]!.key);
