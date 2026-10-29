@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/housing-moved-read-s6
-pr: #5098
+status: open
+claimed-by:
+pr:
 blocked-on:
 source: "split from world-new-homes-moves-not-reached"
-claimed-at: 2026-10-19T18:39:32.706Z
+claimed-at:
 ---
 
 **What.** Households now move into new rentals in a played year (the housing module's `moves` table fills and a `housing.moved` event is emitted for each full person), but nothing reads that event: the director has rules for evictions, status changes and purchases but none for a move, and the journal has no row for it. Add the director rule and the journal row for `housing.moved`, with the words from the English engine's banks, so a watched person's move into a new home becomes a scene and a journal line. In a place with rent stabilization, a lease renewal in a new building carries the capped rent and its law id.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T18:39:32.706Z
 **Files.** src/director/data/director.json, src/director/data/journal-rows.json, src/core2/housing-occupancy.ts, src/core2/housing-pipeline.test.ts
 
 **Notes.** The director and journal data and the words belong to the Words and director line; take the producer from there. Split from world-new-homes-moves-not-reached.
+
+Oct 29 (CTO, second account): PR #5098 closed as stale under the owner's standing approval; back to open. Branch `claude/housing-moved-read-s6` is kept; claiming this item takes it over.

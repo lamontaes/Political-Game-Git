@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/traits-civic
 pr: #5657
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T16:12:50.417Z
 **Files.** src/core2/heard-claims.ts, src/core2/modules/parties.ts, src/core2/modules/interest-groups.ts, data/content/trait-decision-gaps.json
 
 **Notes.** Filed Oct 24 by the traits lead from the civic family's twin audit (Ora, Indiana, place key 1856700, seed 66c0262471b0): net odds ratios between the thirds were 2,918 (believe-claim), 182 (parties.attend) and 309 (member-join). The traits-wire-civic PR keeps them at the general weight with gap rows.
+
+Oct 29 (CTO): set done; PR #5657 merged (the done flip failed while branch protection refused the flip job's push).

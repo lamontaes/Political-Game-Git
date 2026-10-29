@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/compassionate-volta-hsx73w
 pr: #5820
 blocked-on: its children, the core-speed-* items (alloc, journal, date parse, gc churn, pair key); this umbrella is done when they bring the year under 120 s
@@ -102,3 +102,5 @@ Oct 25 (speed lead), where it stands: `npm run speed:year -- --seed m7b --exclus
 Merger 0 measurement 2026-10-25: on clean main 8023dfaa6868107a4cdcb3bd0bddede3a9676367, the ordinary two-level Reedsburg WI (5566800) world, seed d09ead0deb1ecb46d11b427bf4654321c0024a56374db3d72a766fc9560218f6, advances January 20, 2025 to January 20, 2026 in 179.250 seconds (build 28.576 seconds), one process at a time. PR #5964 on the same machine takes 178.774 seconds (build 28.966), ratio 0.99735; these matched runs used Node's default young-generation setting rather than the canonical --max-semi-space-size=64, so they establish a relative comparison, not whether canonical play exceeds its two-minute budget. No extra focus people or bills were injected.
 
 Merger 0, 2026-10-25: Long Hill, Connecticut (0943580), seed m7b, same-process alternating full years on exact main 212b57e436 and PR #6072 checked f8b7d1ff41: main 127.011 s / PR 123.642 s, then same-root rerun after a private string-size collector error main 136.104 s / PR 123.858 s with complete world and director-ledger fingerprints equal. These matched runs used Node's default young-generation setting rather than the canonical --max-semi-space-size=64. They establish relative timing and do not establish whether canonical play exceeds 120 seconds; this umbrella retains its own canonical acceptance. Separate main/main A/A pair 136.928 s / 136.447 s, deep fingerprints equal.
+
+Oct 29 (CTO): set done; PR #5820 merged (the done flip failed while branch protection refused the flip job's push).
