@@ -12,19 +12,14 @@
  * bank has no sentence for is left out.
  */
 import bankJson from "../../../data/english/parts/journal.json" with { type: "json" };
-import { heldByGrades } from "../english-grades";
+import { admittedParts, directorSlots, type BankPart } from "../bank-parts";
 import rowsJson from "../../director/data/journal-rows.json" with { type: "json" };
 import type { JournalRows, JournalWords } from "../journal-words";
 
 interface JournalUse {
   journal?: { kindPrefix: string; field: string }[];
 }
-interface MinedPart {
-  key: string;
-  text: string;
-  uses: JournalUse[];
-  shippable: boolean;
-}
+type MinedPart = BankPart<JournalUse>;
 export const JOURNAL_BANK = bankJson as unknown as { parts: MinedPart[] };
 export const JOURNAL_ROWS = rowsJson as unknown as JournalRows;
 
@@ -32,10 +27,8 @@ const BACKDROP = "backdrop:";
 
 /** `{relation}` and `{other}` are the director's `{{other}}`; other slots keep their names. */
 export function journalSlots(text: string): string {
-  return text.replace(
-    /\{(\w+)\}/g,
-    (_all, slot: string) =>
-      `{{${slot === "relation" ? "other" : slot.replace(/_/g, "-")}}}`,
+  return directorSlots(text, (slot) =>
+    slot === "relation" ? "{{other}}" : undefined,
   );
 }
 
@@ -88,8 +81,11 @@ export function journalDataFromBank(
 ): JournalWords {
   const collect = (shipped: boolean) => {
     const found = new Map<string, { key: string; text: string }[]>();
-    for (const part of bank.parts) {
-      if (part.shippable !== shipped || heldByGrades(part.key)) continue;
+    for (const part of admittedParts(
+      bank.parts,
+      undefined,
+      shipped ? "shipped" : "held",
+    )) {
       for (const use of part.uses)
         for (const target of use.journal ?? []) {
           const id = `${target.kindPrefix}|${target.field}`;

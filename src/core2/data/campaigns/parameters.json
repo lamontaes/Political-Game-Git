@@ -907,6 +907,24 @@
       "source": "How many of the people closest to a candidate are asked for an endorsement in one turn, each asked once, the closest first: a local candidate collects a handful of public endorsements over a campaign (Ballotpedia local candidate pages list a few to a dozen).",
       "spread": [1, 8]
     },
+    "petitionSignOpenness": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "How low the bar to sign a candidate's nominating petition stands, before personality and beside the signer's warmth, agreement, party and tie to the candidate: a signature puts a neighbor on the ballot and is not a vote, so most voters a canvasser reaches sign unless they oppose the candidate. Checked against practitioners' door-to-door petitioning yields of about 10 to 18 signatures an hour (ballot-access and initiative canvassing guides) against the 12 to 20 doors an hour a canvasser reaches (doorsPerCanvasserHour), a signing share of most of those who answer; see the PR's calibration for the share it gives in played worlds.",
+      "spread": [0, 1]
+    },
+    "rivalPetitionNeedWeight": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How strongly the signatures a world candidate's petition still lacks, as a share of what the clerk will count, pull their campaign day to the doors before the filing deadline: a candidate short of signatures spends their hours petitioning (campaign field manuals put the petition drive first in a first campaign's calendar). Checked against the share of world filings the clerk puts on the ballot in played worlds (see the PR's calibration).",
+      "spread": [1, 6]
+    },
+    "petitionCircleAsksPerDay": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How many of the people closest to a candidate are asked to sign the petition on a campaign day, each asked once, the closest first: a first-time candidate's first signatures come from family, friends and neighbors, asked a few at a time over the first days (campaign field manuals' petition drives).",
+      "spread": [2, 15]
+    },
     "playerCanvassHours": {
       "value": 3,
       "tag": "ESTIMATED",

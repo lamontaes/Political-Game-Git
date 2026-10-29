@@ -127,11 +127,13 @@ try {
   // The filing counter: the first office in Travel that takes filings.
   const counter = async (who) => {
     await sheet("travel");
-    const go = page.locator("#sheet-body button", { hasText: /Go/ });
+    const go = page.locator("#sheet-body .entry", { hasText: /You file here/ });
     await go.first().waitFor();
     let opened = false;
     for (let i = 0; i < (await go.count()) && !opened; i++) {
       await go.nth(i).click();
+      const placeGo = page.locator('[data-testid="place-go"]');
+      if (await placeGo.isVisible().catch(() => false)) await placeGo.click();
       opened = await page
         .locator("#talk:not([hidden])")
         .waitFor({ timeout: 5000 })
@@ -141,8 +143,8 @@ try {
     assert.ok(opened, "no place in Travel takes filings");
     await read(`Talk box (${who})`, "#talk");
     await page.locator("#talk-choices button").first().click();
-    await page.locator("#filing-overlay:not([hidden])").waitFor();
-    await read(`Filing panel (${who})`, "#filing-overlay");
+    await page.waitForTimeout(600);
+    await read(`Talk box, race picked (${who})`, "#talk");
   };
   await counter("seventeen");
   await page.locator("#talk-leave").click();

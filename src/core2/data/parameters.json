@@ -65,6 +65,17 @@
       "citation": "Between 6:00 AM and 8:00 AM, the span of typical workday wake times in American Time Use Survey diaries."
     }
   },
+  "filingVisitHours": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "The hours a filing at the clerk's counter takes the player: taking out the petition, the clerk's questions on the office's rules and the wait at the counter, an afternoon (the CTO's note of Oct 28 on the owner's petition ruling: filing spends the afternoon). No time-use survey reports it; checked against a weekday afternoon's span.",
+    "spread": {
+      "low": 2,
+      "high": 4,
+      "unit": "hours",
+      "citation": "An afternoon at a government office, from one to five o'clock at most."
+    }
+  },
   "daysPerWeek": {
     "value": 7,
     "tag": "SOURCED",
@@ -4833,15 +4844,15 @@
     }
   },
   "responseRetrainAgeWidthYears": {
-    "value": 18,
+    "value": 60,
     "tag": "ESTIMATED",
-    "citation": "Width in years of the smooth fall in capacity to retrain or start over around responseRetrainAgeCenter. Jacobson, LaLonde and Sullivan 2005 report two age groups (under 35, 35 and over), not a curve, so they fix only the ratio between workers near 28 and near 45 (about 0.65 to 0.73); at a center of 40 a width of 18 years gives 0.65. Set on Oct 25 (M0-M2 lead): a steeper fall (center 50, width 10) left the workers over 45 with almost no pull, and Manson, Iowa (1948990) read 1 of 25 displaced workers setting out to prove themselves, under the 6% floor, while raising the ambition fit to make up for it pushed North Canton, Ohio over the 25% ceiling. A gentler fall keeps a pull in the town's 40- and 50-year-olds.",
-    "estimatedFrom": "The same two age groups, read at typical ages 28 and 45; the width is free within the ratio the paper gives, and was set with the center and the fit so that the generated towns listed under responseAmbitionFit read inside 6-25%.",
+    "citation": "Width in years of the smooth fall in capacity to retrain or start over around responseRetrainAgeCenter. Jacobson, LaLonde and Sullivan 2005 report two age groups: of displaced workers, 16.8% of men under 35 against 10.9% at 35 and over, and 23.5% of women under 35 against 17.2%, completed community-college credit, so the older group retrains at about 0.65 to 0.73 of the younger group's rate. That ratio is of outcomes, not of capacity: the response competes with carrying on in a near tie, so a fall in capacity becomes a much steeper fall in who chooses it. Set to 60 on Oct 28 (red-main owner) from played years: at 18, with layoffs read by tenure since Oct 27 (recent hires go first, so most displaced workers are young), under-35s chose it 47%, 45% and 57% and those 35 and over 9%, 4% and 2% in Austin, Minnesota (2702908), Washington, District of Columbia (1150000) and Murdo, South Dakota (4644260), and M1-11 read over its ceiling; at 60, with the fit unchanged, under-35s read 23.7% pooled (75 of 316) and those 35 and over 7.3% (14 of 191), the towns 19.4%, 15.1% and 14.7%. The older group still reads under the paper's 11-17%: the rest of the gap is in what else the choice reads (the money need presses younger workers harder), not this curve.",
+    "estimatedFrom": "The paper's two age groups as outcome shares, read in played years of buildBenchWorld with every module (the M1-11 check), since the curve's effect on the outcome runs through the choice between responses.",
     "spread": {
-      "low": 14,
-      "high": 26,
+      "low": 40,
+      "high": 80,
       "unit": "years",
-      "citation": "From a steeper to a gentler fall. At a center of 40, a width of 14 gives a 28-to-45 ratio of 0.59 and 26 gives 0.74; the paper's ratio is 0.65 to 0.73."
+      "citation": "Measured outcome ratios, 35 and over to under 35, in the three towns above: 0.11 at a width of 18 and 0.31 at 60. A width under 40 steepens the cliff the ratio fell from; past 80 the curve is nearly flat and the fit alone sets the share."
     }
   },
   "responseCarryOnBaseline": {
@@ -4951,7 +4962,7 @@
   "responseAmbitionFit": {
     "value": 3.4,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Recalibrated Oct 24 (M0-M2 lead): after the Oct 13 traits change that gave every trait a low side (#4060) the same fit of 1.9 gave 26 to 32% in drawn towns; 1.5 gives 12 to 17% in Riverdale, Georgia, Warren, Illinois, Excelsior, Minnesota and Flora, Illinois. Recalibrated Oct 25 (M0-M2 lead) with the retraining age fade (responseRetrainAgeCenter): North Canton, Ohio read 35.1% at 1.5 because 77 of its 103 job losses came from one wholesale employer and its full workers leaned toward ambition; with the age fade, 1.75 read 19.1% there and 7.8% in Steamboat Springs, Colorado. Recalibrated again Oct 25 (M0-M2 lead) after Manson, Iowa (1948990, seed b63a9c1eccbba0f45589110cb2c6924003d0e8b668b9298a1bde2302f0d6df98) read 1 of 25 at 1.85: the retraining age fade was changed to a center of 40 and a width of 18 (a gentler fall, the 28-to-45 ratio at the paper's low end) and the fit raised to 3.4, because the fit now multiplies a capacity of 0.66 at age 28 (an effective 2.2 for a young adult). Read by the unchanged M1-11 check at 3.4: Manson, Iowa 2 of 25 (8.0%), North Canton, Ohio 28 of 118 (23.7%), Steamboat Springs, Colorado 75 of 555 (13.5%; 9.9% on main at 1.5 with no fade), and three towns drawn from a root written down first (wt72-accept-2026-10-25-a): Washington, District of Columbia 10 of 68 (14.7%), Franklin, North Carolina 17 of 72 (23.6%) and Magnolia, New Jersey 5 of 40 (12.5%). drives-economy.test.ts (Christmas, Florida, where every employer closes and the workers average 51) reads 15 of 215 (7.0%). The response competes with carry-on, whose baseline does not scale with the loss, and most workers' losses press about equally hard, so a town's share moves quickly with this value; it was set from the pooled share over six towns (13.5%) and every town was then checked. Full people who answer a layoff choose it two to four times as often as counted people in the same town (North Canton at fit 2.45: 8 of 15 against 16 of 103; Steamboat Springs 18 of 66 against 48 of 489), which is why a town's share also follows its mix of the two.",
+    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Recalibrated Oct 24 (M0-M2 lead): after the Oct 13 traits change that gave every trait a low side (#4060) the same fit of 1.9 gave 26 to 32% in drawn towns; 1.5 gives 12 to 17% in Riverdale, Georgia, Warren, Illinois, Excelsior, Minnesota and Flora, Illinois. Recalibrated Oct 25 (M0-M2 lead) with the retraining age fade (responseRetrainAgeCenter): North Canton, Ohio read 35.1% at 1.5 because 77 of its 103 job losses came from one wholesale employer and its full workers leaned toward ambition; with the age fade, 1.75 read 19.1% there and 7.8% in Steamboat Springs, Colorado. Recalibrated again Oct 25 (M0-M2 lead) after Manson, Iowa (1948990, seed b63a9c1eccbba0f45589110cb2c6924003d0e8b668b9298a1bde2302f0d6df98) read 1 of 25 at 1.85: the retraining age fade was changed to a center of 40 and a width of 18 (a gentler fall, the 28-to-45 ratio at the paper's low end) and the fit raised to 3.4, because the fit now multiplies a capacity of 0.66 at age 28 (an effective 2.2 for a young adult). Read by the unchanged M1-11 check at 3.4: Manson, Iowa 2 of 25 (8.0%), North Canton, Ohio 28 of 118 (23.7%), Steamboat Springs, Colorado 75 of 555 (13.5%; 9.9% on main at 1.5 with no fade), and three towns drawn from a root written down first (wt72-accept-2026-10-25-a): Washington, District of Columbia 10 of 68 (14.7%), Franklin, North Carolina 17 of 72 (23.6%) and Magnolia, New Jersey 5 of 40 (12.5%). drives-economy.test.ts (Christmas, Florida, where every employer closes and the workers average 51) reads 15 of 215 (7.0%). The response competes with carry-on, whose baseline does not scale with the loss, and most workers' losses press about equally hard, so a town's share moves quickly with this value; it was set from the pooled share over six towns (13.5%) and every town was then checked. Full people who answer a layoff choose it two to four times as often as counted people in the same town (North Canton at fit 2.45: 8 of 15 against 16 of 103; Steamboat Springs 18 of 66 against 48 of 489), which is why a town's share also follows its mix of the two. Kept at 3.4 on Oct 28 (red-main owner) when the retraining fade's width went from 18 to 60 years: with layoffs read by tenure the displaced skew young, and at 18 the young read about half and the town shares 30-41% (M1-11 red in seven drawn towns); at 60 Austin, Minnesota read 19.4%, Washington, District of Columbia 15.1% and Murdo, South Dakota 14.7% (see responseRetrainAgeWidthYears).",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "measured",
@@ -5433,6 +5444,18 @@
       "high": 8.5,
       "unit": "hours a day",
       "citation": "From a 7-hour to an 8.5-hour school day; checked against the town generator's recorded teacher roles."
+    }
+  },
+  "unauthorizedShareOfNoncitizens": {
+    "value": 0.45,
+    "tag": "ESTIMATED",
+    "citation": "Pew Research Center, 'What we know about unauthorized immigrants living in the U.S.' (July 22, 2024; https://www.pewresearch.org/short-reads/2024/07/22/what-we-know-about-unauthorized-immigrants-living-in-the-us/), from the 2022 American Community Survey: 'The unauthorized immigrant population in the United States grew to 11.0 million in 2022', which is '23% of the foreign-born population', and 'in 2022, 49% of all immigrants in the country were naturalized U.S. citizens'. Noncitizens are then 51% of about 47.8 million immigrants, about 24.4 million, of whom 11.0 million are unauthorized: 0.45. Read by the jobs engine (src/core2/jobs-web.ts) through isUnauthorized in src/core2/citizenship.ts.",
+    "estimatedFrom": "11.0 million unauthorized over (11.0 / 0.23) x 0.51 noncitizen immigrants, national, 2022.",
+    "spread": {
+      "low": 0.35,
+      "high": 0.6,
+      "unit": "share of noncitizens without work authorization",
+      "citation": "States differ: Pew's same report puts 42% of unauthorized immigrants in California and Texas, where the share of noncitizens is higher than in states whose noncitizens are mostly lawful permanent residents; Pew's August 2025 revision of the 2022 total moves the national share by a few points."
     }
   },
   "citizenShareStatePriorAdults": {
@@ -6011,6 +6034,15 @@
     "value": 1,
     "tag": "TUNABLE",
     "citation": "The trait weight of the recalls.sign decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightCampaignsSignPetition": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the campaigns.sign-petition decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
       "status": "unmeasured",
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
@@ -7670,5 +7702,65 @@
       "unit": "share of the room to the nearer bound",
       "citation": "ACS 2020-2024 B05001 place margins (approximate; a researcher should confirm the figures)"
     }
+  },
+  "speechCraftHalfAddresses": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "How many recorded addresses a speaker has given when their craft is half of what it can become (craft = addresses / (addresses + this)). No source measures the learning curve of public speaking in addresses given; set so a speaker who gives an address about once a month is at half craft after a year.",
+    "spread": {
+      "low": 4,
+      "high": 40,
+      "unit": "addresses",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceQuotationDifficulty": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the quotation device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceContrastDifficulty": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the contrast device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceThreePartListDifficulty": {
+    "value": 0.45,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the threepartlist device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.35,
+      "high": 0.55,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceCallbackDifficulty": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the callback device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.5,
+      "high": 0.7,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "employmentCellPriorCount": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "The Jeffreys prior for a binomial share, Beta(1/2, 1/2): a share read from x of n people is estimated as (x + 1/2) / (n + 1), which stays strictly between none and all for any sample. Brown, Cai and DasGupta (2001), Interval Estimation for a Binomial Proportion, Statistical Science 16(2): 101-133, recommend the Jeffreys interval for small samples; its center is this estimate. Read by publishedResidentEmploymentRate for the ACS county age cells (B23001 counts of a few dozen in small counties)."
   }
 }

@@ -14,7 +14,6 @@ import {
 import { contestPositions } from "../core2/contest-positions";
 import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import type { OfficeInput } from "../core2/offices-local";
 import {
   openFilingVisit,
   pickContest,
@@ -185,7 +184,7 @@ export function openBenchFilingVisit(
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const contests = open.map((row) => {
     const office = offices.get(row.officeId) as unknown as
-      OfficeInput | undefined;
+      { termYears?: number; seats?: number } | undefined;
     return {
       id: row.id,
       title: row.district ? `${row.title} (${row.district})` : row.title,

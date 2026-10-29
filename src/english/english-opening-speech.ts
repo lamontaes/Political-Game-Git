@@ -14,19 +14,16 @@
  * into a move for `composeAddress`. It holds no sentence and no order.
  */
 import bankJson from "../../data/english/parts/opening-speech.json" with { type: "json" };
-import { heldByGrades } from "./english-grades";
+import { admittedParts, type BankPart } from "./bank-parts";
 import type {
   AddressMove,
   ComposedLineBank,
   LinePartVariant,
   SpeechAct,
 } from "./english-composition";
+import type { SpeechDevice } from "./speech-registers";
 
-interface OpeningPart {
-  key: string;
-  text: string;
-  uses: { subject: string; role: string; requiresFacts?: string[] }[];
-  shippable: boolean;
+interface OpeningPart extends BankPart {
   /** The speaker's manner this wording is for. */
   voice: SpeechVoice;
   /** How the sentence lands (glad, braced, tender, calm), for the speaker's trait pulls. */
@@ -35,6 +32,8 @@ interface OpeningPart {
   topic?: string;
   /** The Speaker's gender the salutation is for (`chair-male`, `chair-female`). */
   stages?: string[];
+  /** The crafted device the sentence makes, earned by the speaker's addresses. */
+  device?: SpeechDevice;
 }
 export const OPENING_SPEECH_BANK = bankJson as unknown as {
   parts: OpeningPart[];
@@ -80,29 +79,27 @@ function variantsFor(
   role: string,
   topic?: string,
 ): LinePartVariant[] {
-  return OPENING_SPEECH_BANK.parts
-    .filter(
-      (part) =>
-        part.shippable &&
-        part.voice === voice &&
-        !heldByGrades(part.key) &&
-        (!topic || part.topic === topic) &&
-        part.uses.some((use) => use.subject === kind && use.role === role),
-    )
-    .map((part) => {
-      const requires =
-        part.uses.find((use) => use.subject === kind && use.role === role)
-          ?.requiresFacts ?? [];
-      return {
-        key: part.key,
-        kind: "template" as const,
-        text: engineText(part.text),
-        pieceKey: part.key,
-        ...(part.bearing ? { bearing: part.bearing } : {}),
-        ...(part.stages ? { stages: part.stages } : {}),
-        ...(requires.length ? { requiresFacts: requires } : {}),
-      };
-    });
+  return admittedParts(
+    OPENING_SPEECH_BANK.parts,
+    (part) =>
+      part.voice === voice &&
+      (!topic || part.topic === topic) &&
+      part.uses.some((use) => use.subject === kind && use.role === role),
+  ).map((part) => {
+    const requires =
+      part.uses.find((use) => use.subject === kind && use.role === role)
+        ?.requiresFacts ?? [];
+    return {
+      key: part.key,
+      kind: "template" as const,
+      text: engineText(part.text),
+      pieceKey: part.key,
+      ...(part.bearing ? { bearing: part.bearing } : {}),
+      ...(part.stages ? { stages: part.stages } : {}),
+      ...(part.device ? { device: part.device } : {}),
+      ...(requires.length ? { requiresFacts: requires } : {}),
+    };
+  });
 }
 
 /**

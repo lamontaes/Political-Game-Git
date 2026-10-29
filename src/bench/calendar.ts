@@ -2,7 +2,11 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { familyFactsOf } from "../core2/modules/people";
 import { wordArchiveStory, wordPrintedStory } from "./archive-words";
 import { coreAPI } from "../core2/state";
-import type { ContestRow, FilingRow } from "../core2/modules/elections";
+import {
+  standing,
+  type ContestRow,
+  type FilingRow,
+} from "../core2/modules/elections";
 import { screenLine } from "../english/screen-words";
 import type { CoreState, LogRecord } from "../core2/types";
 import { storiesHeard } from "../core2/modules/news";
@@ -48,7 +52,7 @@ export function calendarItems(
     const elections = api.moduleState(ELECTIONS);
     const filed = new Set(
       (elections.table("filings").rows() as unknown as FilingRow[])
-        .filter((f) => f.personId === personId && f.status === "on-ballot")
+        .filter((f) => f.personId === personId && standing(f))
         .map((f) => f.contestId),
     );
     const groups = new Map<
