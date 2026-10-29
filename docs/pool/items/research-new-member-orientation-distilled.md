@@ -17,7 +17,7 @@ source: owner, Sept 22 (docs/research/OPEN-QUESTIONS.md 32-33) and Oct 29 govern
 
 **Rules.** Research before building: every program is cited from a page actually read, with its date and the body that runs it, and nothing is invented to fill a state. One rule, all 56 places: the samples cover local programs from every state plus D.C. and the territories where a program exists, and state and federal programs, named in data, never in logic. This is a game, not a spreadsheet: the distillation names which parts would be a played stop or scene and which would only be summarized, for the owner to choose.
 
-**Done when.** A report in `docs/research/` gives, per level (town or city, county, state legislature, governor, Congress), the real orientation's topics, schedule, length and who runs it, with at least five cited local samples from different states and every state legislature that publishes one, ends with a one-page summary the owner can pick from, passes `npm run report:check`, and the CTO brings it to the owner in a sitting with the choices recorded in `OWNER-DECISIONS.md`.
+**Done when.** A report in `docs/research/` gives, per level (town or city, county, state legislature, governor, Congress), the real orientation's topics, schedule, length and who runs it, with at least five cited local samples from different states and every state legislature that publishes one, ends with a one-page summary the owner can pick from, passes `npm run report:check` as its test, and the CTO brings it to the owner in a sitting with the choices recorded in `OWNER-DECISIONS.md`.
 
 **Files.** docs/research/, docs/research/OPEN-QUESTIONS.md
 
