@@ -296,6 +296,80 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.66.0
+
+_Released October 29, 2026._
+
+### Fixed
+
+- **Politics Leaders reads in order.** Each leader on Politics now shows their
+  chamber and state in one line directly under their name, instead of a line
+  that floated between two rows.
+
+### Changed
+
+- **Graduating seniors now go on to college, and more state higher education
+  spending helps them finish** Each high school graduate in a town now enrolls
+  in college or does not, and an enrolled graduate completes a bachelor's degree
+  or does not, decided by their own record and household income against the
+  national college-going and six-year completion rates, which differ a little
+  from world to world. When the state spends more on higher education, enrolled
+  graduates in the town are a little more likely to finish, and a graduate who
+  finishes is hired and paid as a college graduate once their four years are up,
+  while one who enrolled and did not finish is hired as someone with some
+  college.
+
+- **A social media age check eases teenagers' stress a little** When a state or
+  city puts a social media age check in force, a little fewer of the town's 13-
+  to 17-year-olds are in a depressive episode a few months later, by an estimate
+  from the nearest research that could also turn out to be nothing, and each
+  teenager's resting stress eases by that much.
+
+- **New people, drawn only where a room has a place for them** Everyone in the
+  game is now one of the new painted people, each with their own face, hair and
+  body. Everyday clothes come in the colors each person can wear, and suits,
+  pantsuits and blazers are painted whole. People are drawn only in rooms
+  painted with a place for each of them (the living room at night, the Oval
+  Office, the White House colonnade and the train depot so far), seated or
+  standing in the room's own pose. Rooms without those places show the room
+  alone for now. Faces in the talk box, the person card, the People and
+  government lists, and on the title's Continue are the person's own painted
+  head. In the character creator you choose one of the six people, everyday
+  clothes or one of their suits, and the color of each piece of everyday
+  clothing.
+
+- **People in several looks, and a new Oval Office** People now come in several
+  looks each: suits with and without ties, shirtsleeves, blazers, a dress and
+  different hairstyles. The character creator chooses everyday clothes and work
+  clothes separately and shows both side by side; officials and people at their
+  own workplace wear their work clothes, everyone else their everyday clothes.
+  The Oval Office is a new wide room where the President sits at the Resolute
+  desk or stands behind it, staff stand around the room, and visitors sit on the
+  couches. The address is a new close shot with the President's forearms on the
+  desk. Everyone stands in the character creator and in their portrait. Phones,
+  papers and pens appear only where they belong (a rally, a hearing, a desk),
+  never at home. Picture frames in the Oval Office show plain glass for now.
+
+- **An interview you accept is one you sit for** When you say yes to a newspaper
+  or station that asks for an interview, you now sit down with the reporter, who
+  asks each question in turn. You pick how to answer each one (plainly, with
+  your record behind it, by turning it on a rival, or briefly), or say nothing,
+  and the story prints what you chose.
+
+- **More stories print a body, and the paper carries side briefs** Layoffs, the
+  town's month, board meetings, profiles, vacancies, new officeholders, party
+  leaders, sales of a business, closings, deaths, campaign gifts and the rules
+  that took effect now print more than a headline and one sentence: how many
+  people a business plans to keep, how many residents are out of work, who held
+  a seat before, how a vacant seat is filled, what a business does, and more,
+  each read from the town's own records. The stories from the year before the
+  game starts (elections, votes, budgets, closed businesses, a parent's death)
+  print the same way. A member who agrees to carry a bill a citizen asked for
+  makes a story. Births, homes finished, home sales, new businesses, school
+  graduation and test results, and crimes the town recorded print as short items
+  with a headline and one line. Dates in a story are now the day it happened,
+  not the day it ran.
+
 ## PRE-ALPHA 0.65.0
 
 _Released October 29, 2026._

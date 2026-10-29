@@ -26,7 +26,12 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld } from "./world";
 import { stagePeople } from "./scene";
-import { figureForSpot, fitOn, packPersonOf } from "./whole-figures";
+import {
+  figureForSpot,
+  fitOn,
+  packPersonOf,
+  portraitPose,
+} from "./whole-figures";
 
 const ROOT = new URL("../../", import.meta.url);
 const tracked = execFileSync("git", ["ls-files"], {
@@ -208,6 +213,36 @@ describe("the people pack", () => {
       .filter((row) => row.handsRestOnDesk && row.hands === undefined)
       .map((row) => row.id);
     expect(missing).toEqual([]);
+  });
+
+  it("draws a figure painted at a missing desk only where a desk stands", () => {
+    // Owner, Oct 29: "she has a pen in her hand and she's writing on her green pants".
+    const core = {
+      date: "2026-01-01",
+      people: new Map(),
+      jobs: new Map(),
+    } as unknown as CoreState;
+    const desked = packFigures().filter((row) => row.needsDesk);
+    expect(desked.length).toBeGreaterThan(0);
+    for (const plate of plates())
+      for (const spot of plate.spots)
+        for (let n = 0; n < 12; n++) {
+          const someone = {
+            id: `writer-${n}`,
+            birthDate: "1975-01-01",
+            official: n % 2 === 0,
+            seed: `desk:${n}`,
+          };
+          const desk = { ...spot, deskEdge: undefined };
+          const figure = figureForSpot(
+            core,
+            someone,
+            "oval-office-standard",
+            desk,
+          );
+          expect(figure?.needsDesk, `${spot.id} ${figure?.id}`).toBeFalsy();
+        }
+    for (const row of desked) expect(portraitPose(row), row.id).toBe(false);
   });
 
   it("draws farther spots first: the desk before anyone standing in front of it", () => {
