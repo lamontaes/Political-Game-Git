@@ -23,6 +23,8 @@ Added on the second pass:
 | play-stop-27-title-motion-and-rotation-restored | `title-1500ms.png` and `title-12000ms.png`: the painting has moved between frames (mean gray difference 4.8 between 1.5 s and 6 s, 8.3 between 6 s and 12 s, 38.9 at 22 s where the scene changes). |
 | play-stop-45-talk-history-set-apart             | `talk-history-set-apart.png` (Las Tusas, New Mexico, seed `f6155a0a-9d7e-4943-ba8c-e4fddab81239`): earlier lines are small, italic and labeled by speaker above a rule; the line now said is large. |
 
+| play-stop-19-turning-eighteen-and-journal-silent-b (turning 18 half) | Hopkinton, Rhode Island, seed `5b569043-6c86-4391-8559-d22fc5771bc0`, player born March 10, 2007: `journal-turned-eighteen.png` reads "When I was 17 years old, I moved to Hopkinton, Rhode Island. I turned eighteen." in the memoir's tense; `calendar-own-birthday.png` marks Your birthday on March 10 and under Coming up. The filing half is not checked. |
+
 ## Still broken
 
 | Item                                         | What I saw                                                                                                                                                                                                 |
@@ -39,4 +41,4 @@ Added on the second pass:
 
 ## Not checked
 
-32 (no same-named town in the list drawn), 35, 37 and 38 (figures; People v3 is rewriting them), 19-b, and the laws items 86 and 90.
+32 (no same-named town in the list drawn), 35, 37 and 38 (figures; People v3 is rewriting them), the filing line of 19-b, and the laws items 86 and 90.
