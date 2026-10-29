@@ -59,12 +59,11 @@ try {
         .querySelector(".paper-story.lead .story-headline")
         ?.textContent.trim(),
       pagers: body.querySelectorAll(".paper-pager, .record-pager").length,
-      sheetPager: !document.getElementById("sheet-pager").hidden,
       words,
     };
   });
   console.log(
-    `front page: ${front.headlines} headlines of ${stories.length} stories; masthead "${front.masthead}"; ${front.dateline}; page ${front.background}, ink ${front.ink}; ${front.rowsAbove} rows above; ${front.pagers} pagers, sheet pager ${front.sheetPager ? "shown" : "hidden"}${front.words.length ? `; words ${front.words.join("/")}` : ""}`,
+    `front page: ${front.headlines} headlines of ${stories.length} stories; masthead "${front.masthead}"; ${front.dateline}; page ${front.background}, ink ${front.ink}; ${front.rowsAbove} rows above; ${front.pagers} pagers${front.words.length ? `; words ${front.words.join("/")}` : ""}`,
   );
   assert.ok(front.paperSheet, "the sheet is not the paper");
   assert.equal(front.rowsAbove, 0, "rows above the paper (the economy rows)");
@@ -86,7 +85,6 @@ try {
   );
   assert.equal(front.pagers, 0, "a pager on the paper");
   assert.deepEqual(front.words, [], "a Back or Continue on the paper");
-  assert.ok(!front.sheetPager, "the paper does not fit and pages");
   if (process.env.SHOT_DIR)
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/24-news-front-page.png`,

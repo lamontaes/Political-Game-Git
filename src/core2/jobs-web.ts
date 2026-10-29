@@ -4,7 +4,9 @@
  * married women, people near retirement), the log of the web's factor on
  * the pull to work for one of them, and the low-wage share of a staff.
  * The jobs engine keeps deciding from its own records; this only reads the
- * web's factor for the people the records say belong to each group.
+ * web's factor for the people the records say belong to each group, and the
+ * justice record of the one researched cause that is a person's own: having
+ * been held in custody while waiting for a hearing.
  */
 import {
   isNoncitizen as isNoncitizenOf,
@@ -13,6 +15,9 @@ import {
 import { ageOn, MemberState, type CountedStore } from "./counted-groups";
 import { citizenShareOf } from "./modules/voting";
 import { lawChain } from "./modules/laws";
+import { firstHeldPretrial } from "./modules/justice";
+import { carriedLink } from "./modules/outcome-web";
+import { completedMonthsBetween, makeIsoDate } from "./kernel/dates";
 import type { HouseholdKind } from "./counted-groups";
 import { parameter } from "./parameters";
 import { webFactorFor, type Subject } from "./outcome-web-reach";
@@ -254,7 +259,7 @@ const SHIFTS = new WeakMap<
  * work by the researched size. Zero where the web moves nothing. Cached per
  * place and band for the day.
  */
-export function participationShift(
+function bandShift(
   api: CoreAPI,
   placeId: string,
   facts: LaborFacts,
@@ -303,6 +308,56 @@ export function participationShift(
   return shift;
 }
 
+/** The link that lowers the pull to formal work of someone held while waiting for a hearing. */
+export const DETENTION_LINK = "pretrial-detention-to-employment";
+
+/**
+ * The log of the researched change in a person's pull to formal work from
+ * having been held in custody while waiting for their hearing (Dobbie, Goldin
+ * and Yang 2018: detained defendants' formal employment runs about 20% under
+ * that of those released). The cause is the person's own justice record, so
+ * no place rate carries it (the row names this function in `carriedBy`): it
+ * reads the pretrial decision `held`, and applies once the row's lag has run
+ * from the day they were first held. Zero for anyone else, and for a counted
+ * member: the justice engine keeps counted defendants as cases by group, with
+ * no record of which member was held.
+ */
+// stopgapId: SG-LABOR-pretrial-employment
+export function detentionShift(
+  api: CoreAPI,
+  personId: string | undefined,
+): number {
+  if (!personId) return 0;
+  const held = firstHeldPretrial(api, personId);
+  if (held === undefined) return 0;
+  const link = carriedLink(DETENTION_LINK);
+  const lived = completedMonthsBetween(
+    makeIsoDate(held),
+    makeIsoDate(api.state.date),
+  );
+  if (lived < link.lagMonths) return 0;
+  stopgap("SG-LABOR-pretrial-employment");
+  // The same choice-score term as the participation outcomes, unfitted to the researched size.
+  stopgap("SG-LABOR-participation-scale");
+  return Math.log(Math.max(1e-6, 1 + link.size!));
+}
+
+/**
+ * The web's pull on a person's choice to be at work, by their groups, and
+ * their own justice record's: the log of the factor that goes into the
+ * choice score of looking for work, staying in a job or leaving it.
+ */
+export function participationShift(
+  api: CoreAPI,
+  placeId: string,
+  facts: LaborFacts,
+  p: (key: string) => number,
+): number {
+  // The band's shift is shared by the people alike in it (cached); a person's
+  // own record is not.
+  return bandShift(api, placeId, facts, p) + detentionShift(api, facts.id);
+}
+
 /** Whether a person's groups put them in the group a participation outcome keeps. */
 export function inGroup(
   measure: string,
@@ -338,6 +393,4 @@ export function lowWageStaffFactor(
 export function markUnwiredLaborLinks(): void {
   stopgap("SG-LABOR-person-exposure");
   stopgap("SG-LABOR-unsized-links");
-  stopgap("SG-LABOR-pretrial-employment");
-  stopgap("SG-LABOR-defense-cause");
 }

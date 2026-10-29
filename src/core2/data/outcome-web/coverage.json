@@ -118,12 +118,14 @@
     "cannabis-sales-to-overdose-deaths",
     "privacy-law-to-earnings",
     "highway-money-for-transit-to-service",
+    "defense-contracts-to-earnings",
     "transit-service-to-ridership",
     "mileage-fee-to-vehicle-miles",
     "fix-it-first-to-poor-roads",
     "highways-spending-to-poor-roads",
     "poor-roads-to-prices",
     "parks-spending-to-exercise-access",
+    "natural-resources-spending-to-exercise-access",
     "health-hospitals-spending-to-infant-mortality",
     "higher-education-spending-to-college-completion"
   ],
@@ -146,7 +148,8 @@
       "carriedBy": "the court's decision of each counted case (resolveDue in src/core2/public-safety.ts, run each month by runSafetyMonth), which convicts the case's defendants at the offense's base share times one plus this row's size for the share held until the case is decided, against the share money bail would have held; the sentence row (src/core2/modules/justice.ts decideCountedCase) keeps the base share, the held and money-bail shares and the size as its reasons. A named bribery defendant's verdict (hearing and convict in src/core2/modules/justice.ts) does not read it: the verdict is a margin of evidence against the defense, with no rate this proportion can scale (stopgap SG-WEB-crime-justice-links-unread)"
     },
     "pretrial-detention-to-employment": {
-      "waitingOn": ["labor.formal-employment"]
+      "waitingOn": [],
+      "carriedBy": "the jobs engine's pull to work (detentionShift in src/core2/jobs-web.ts, added to participationShift, which src/core2/modules/jobs.ts reads when a jobless adult chooses whether to look for work and when a worker chooses to stay, look around or leave), which reads the justice engine's own pretrial record of the person (firstHeldPretrial in src/core2/modules/justice.ts: the decision held that decidePretrial in src/core2/justice-pretrial.ts wrote) and, once this row's lag has run from the day they were first held, adds the log of one plus this row's size (carriedLink) to their choice score. The web does not run the link because its cause is a record of the individual defendant, not a rate of the place (stopgap SG-LABOR-pretrial-employment)"
     },
     "release-lower-level-to-larceny": {
       "waitingOn": ["law.low-level-offense-reclassified"]
@@ -528,9 +531,6 @@
       "waitingOn": [],
       "carriedBy": "the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts), which reads this law in force and cuts each town farm's groundwater input by this row's size (1 + size of what the farm would pump), so the farm's outside sales fall by the irrigation-output elasticity and each month's loss is recorded as the law applied (groundwater-output-limited). It applies from the law's effective date rather than after this row's one-year lag (stopgap SG-GOV-REACH-B-business-cost)"
     },
-    "defense-contracts-to-earnings": {
-      "waitingOn": ["federal.defense-boost-pct"]
-    },
     "farm-payments-cut-to-land-values": {
       "waitingOn": ["federal.farm-payments-cut-pct-of-land-value"]
     },
@@ -694,10 +694,6 @@
       "owner": "OPUS-PEOPLE",
       "links": 1
     },
-    "federal.defense-boost-pct": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
     "federal.deficit-change-pct-of-gdp": {
       "owner": "OPUS-GOV",
       "links": 1
@@ -795,10 +791,6 @@
       "links": 1
     },
     "labor.earnings-at-30": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "labor.formal-employment": {
       "owner": "OPUS-WORLD",
       "links": 1
     },
