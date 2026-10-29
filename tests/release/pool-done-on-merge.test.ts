@@ -34,6 +34,11 @@ describe("the pool flips to done when a pull request merges", () => {
       "group: pool-done-on-merge-${{ github.event.pull_request.number }}",
     );
     expect(workflow).toContain("cancel-in-progress: false");
+    // Branch protection refuses the workflow token's push to main (GH006), so
+    // the checkout that the flip pushes through carries the owner's token.
+    expect(workflow).toContain(
+      "token: ${{ secrets.RELEASE_PUSH_TOKEN || github.token }}",
+    );
   });
 
   it("reads the id from the first line of the body, in either form", () => {
