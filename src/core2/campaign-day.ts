@@ -435,7 +435,11 @@ export function campaignDayChoices(
 
   const { pool, askable } = peopleToAsk(api, campaign, world);
   const gifts = pool.length - askable.length;
-  const hostId = candidateAlive ? donorMeetingHost(api, campaign) : null;
+  // A world candidate's day (`rivalDay`) never takes the donor meeting, so
+  // their turn reads no host: the choice stands unavailable for them.
+  // stopgapId: SG-GOV-rival-donor-meeting
+  const hostId =
+    candidateAlive && !world ? donorMeetingHost(api, campaign) : null;
 
   return [
     {

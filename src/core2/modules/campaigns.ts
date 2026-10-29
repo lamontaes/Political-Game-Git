@@ -28,6 +28,7 @@ import { closenessBetween } from "../closeness";
 import { ENCOUNTERS } from "../encounters";
 import {
   decisionLean,
+  decisionTraitWeight,
   leanedScore,
   leanedYes,
   termOfLean,
@@ -2736,15 +2737,50 @@ function canJoinDonorMeeting(
   );
 }
 
+/** The trait decision a donor meeting's host settles: giving a campaign their time. */
+const HOST_DECISION = {
+  id: "campaigns.volunteer",
+  yes: "volunteer",
+  no: "decline",
+} as const;
+
+/**
+ * A possible host's reasons to lend their home for an evening, read without
+ * keeping anything: their reasons to give the candidate an evening (warmth,
+ * agreement with the platform, party, how they stand with the candidate,
+ * against the hours their work takes, as a guest's are) plus their trait lean
+ * toward giving a campaign their time times the decision's calibrated weight
+ * (`decisionLean` times `decisionTraitWeight`, the trait-decisions module's
+ * pure read). The same sum `leanedYes` settles when the host is asked in
+ * `holdDonorMeeting`; reading it here saves no `person.weighed` record, so the
+ * day's choices name a host without recording a decision nobody was asked.
+ */
+function hostScore(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+): number {
+  return (
+    eveningReason(api, campaign, person, 0) +
+    decisionLean(
+      api.state,
+      person,
+      HOST_DECISION.id,
+      HOST_DECISION.yes,
+      HOST_DECISION.no,
+    ) *
+      decisionTraitWeight(api.state, HOST_DECISION.id)
+  );
+}
+
 /**
  * Who would host a donor meeting (a house party for the candidate): of the
  * candidate's own circle in town (family, the people they know, anyone they
  * keep a relationship with) who have not hosted for this campaign yet, the
- * warmest backer: their reasons to give the candidate an evening (warmth,
- * agreement with the platform, party, how they stand with the candidate,
- * against the hours their work takes, as a guest's are) and every trait's
- * lean toward giving a campaign their time. Lending one's home is their own
- * yes: null when nobody's reasons are above zero. Ties go to the lower id.
+ * warmest backer by `hostScore`. A read: nobody is asked here and nothing is
+ * kept; the host's own yes is weighed and recorded once, when the meeting is
+ * held (`holdDonorMeeting`). Null when nobody's reasons are above zero. Ties
+ * go to the lower id.
  */
 export function donorMeetingHost(
   api: CoreAPI,
@@ -2753,21 +2789,15 @@ export function donorMeetingHost(
   const candidate = api.state.people.get(campaign.candidateId);
   if (!candidate?.alive) return null;
   const hosted = new Set(campaign.donorMeetingHostIds ?? []);
+  const zero = api.parameter("zero");
   let best: { id: string; score: number } | null = null;
   for (const id of circleOf(api, candidate)) {
     if (hosted.has(id)) continue;
     const person = api.state.people.get(id);
     if (!canJoinDonorMeeting(api, campaign, person)) continue;
-    const score = leanedScore(
-      api.state,
-      person,
-      "campaigns.volunteer",
-      "volunteer",
-      "decline",
-      eveningReason(api, campaign, person, 0),
-    );
+    const score = hostScore(api, campaign, person);
     if (
-      score > 0 &&
+      score > zero &&
       (!best || score > best.score || (score === best.score && id < best.id))
     )
       best = { id, score };
@@ -2879,6 +2909,21 @@ export function holdDonorMeeting(
   const candidate = api.state.people.get(campaign.candidateId);
   const host = api.state.people.get(hostId);
   if (!candidate?.alive || !canJoinDonorMeeting(api, campaign, host))
+    return null;
+  // The host is asked here, once: lending their home is their own yes, the
+  // one decision on record (a `person.weighed` row where they are in focus),
+  // on the same sum `donorMeetingHost` read without keeping it.
+  if (
+    (campaign.donorMeetingHostIds ?? []).includes(hostId) ||
+    !leanedYes(
+      api.state,
+      host,
+      HOST_DECISION.id,
+      HOST_DECISION.yes,
+      HOST_DECISION.no,
+      eveningReason(api, campaign, host, 0),
+    )
+  )
     return null;
   const date = api.state.date;
   const invitedIds = donorMeetingInvitees(api, campaign, hostId);
@@ -3863,9 +3908,10 @@ export function rivalDay(
     campaignParameter("rivalInterviewIncumbentWeight") * holdsSeat;
   const bestHourly = Math.max(calls ? callScore : 0, doors ? doorScore : 0);
   // A world candidate's day never weighs the donor meeting the player's
-  // offers; their money comes from call time and the turn's asks.
+  // offers (their day's choices read no host, `campaignDayChoices` with
+  // `world`); their money comes from call time and the turn's asks.
   // stopgapId: SG-GOV-rival-donor-meeting
-  if (offered("donor-meeting")) api.stopgap("SG-GOV-rival-donor-meeting");
+  api.stopgap("SG-GOV-rival-donor-meeting");
   const canEvent = offered("event") && eventScore > bestHourly;
   const canInterview = offered("interview") && interviewScore > bestHourly;
   const act: RivalDay["act"] =

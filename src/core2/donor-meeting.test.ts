@@ -126,9 +126,18 @@ describe("a donor meeting", () => {
       const id = filing.id;
       for (let shift = 0; shift < SHIFTS; shift += 1)
         takeCampaignDayChoice(api, id, "canvass");
+      // Reading the day's choices (the Campaigns screen reads them on every
+      // load) asks nobody: two reads keep no new record, not even a weighed
+      // decision for a possible host in the player's circle.
+      const logBefore = new Set(core.durableLog.keys());
+      campaignDayChoices(api, id);
       const offered = campaignDayChoices(api, id).find(
         (c) => c.kind === "donor-meeting",
       );
+      expect(
+        [...core.durableLog.keys()].filter((key) => !logBefore.has(key)),
+        `records kept by reading the day's choices: ${where}`,
+      ).toEqual([]);
       if (offered?.kind !== "donor-meeting")
         throw new Error(`no donor-meeting choice: ${where}`);
       if (!offered.available) {
@@ -161,10 +170,26 @@ describe("a donor meeting", () => {
         ).filter((r) => r.kind === "campaigns:donation").length;
       const donationsBefore = donations();
 
+      const keptBefore = new Set(core.durableLog.keys());
       const day = takeCampaignDayChoice(api, id, "donor-meeting");
       const meeting = day.donorMeeting;
       expect(meeting, where).not.toBeNull();
       expect(meeting!.hostId, where).toBe(hostId);
+      // The host's own yes is the one decision on record for lending their
+      // home, kept where the host is someone the player deals with.
+      if (core.focusPersonIds.has(hostId))
+        expect(
+          [...core.durableLog.values()]
+            .filter(
+              (r) =>
+                !keptBefore.has(r.id) &&
+                r.kind === "person.weighed" &&
+                r.actorId === hostId &&
+                r.reasonKey === "campaigns.volunteer",
+            )
+            .map((r) => r.actionId),
+          `host ${hostId} weighed once: ${where}`,
+        ).toEqual(["campaigns.volunteer:yes"]);
       // The room: the host and the guests who came, each one invited and
       // each asked once, the host first.
       for (const guest of meeting!.guestIds)
