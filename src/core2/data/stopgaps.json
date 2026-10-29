@@ -5584,14 +5584,14 @@
   },
   {
     "id": "SG-LABOR-no-legal-status",
-    "kind": "faked-mechanic",
+    "kind": "assumed-data",
     "file": "src/core2/jobs-web.ts",
-    "line": 1,
-    "whatItFakes": "Undocumented employment (enforcement-to-undocumented-employment) and U.S.-born employment (enforcement-to-us-born-employment) under local immigration enforcement: the web keeps them as place numbers, but no person carries a work authorization. People carry a seeded citizenship (citizenship.ts) at both tiers, and a noncitizen may be a lawful permanent resident, so no record marks the likely undocumented workers the study measures; nativity is drawn only for officials, so U.S.-born workers are not marked apart from naturalized citizens. No hire, layoff or quit can read the links.",
-    "why": "People are generated without a birthplace or work authorization; inventing one per person would be a guess that decides who loses work.",
+    "line": 226,
+    "whatItFakes": "Local immigration enforcement (enforcement-to-undocumented-employment, enforcement-to-us-born-employment) reaches workers through the jobs engine's pull to work, by a work authorization seeded on who each noncitizen is (isUnauthorized in src/core2/citizenship.ts), at one national share of noncitizens who are unauthorized (parameter unauthorizedShareOfNoncitizens, Pew 2024) rather than each state's. Citizens stand for the U.S.-born the research measures, since the core records no birthplace, so naturalized citizens take the U.S.-born effect. Only the pull to work reads it; no employer checks authorization at hire.",
+    "why": "Pew publishes the unauthorized population by state but no table here holds each state's noncitizens to divide it by, and people are generated without a birthplace.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A nativity and work-authorization record on people (full and counted), read by the jobs engine's hiring and layoff decisions.",
+    "replacement": "A per-state unauthorized share of noncitizens (Pew state estimates over ACS noncitizens, table B05001) in place data, and a seeded nativity on people (full and counted) so naturalized citizens are told from the U.S.-born.",
     "status": "open"
   },
   {
