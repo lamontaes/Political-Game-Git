@@ -180,15 +180,33 @@ describe("medical bills and medical debt in a played world", () => {
               twoLevel: true,
               placeKey: drawn.key,
             }).core;
-          const expanded = build();
-          const twin = build();
-          const enacted = enact(coreAPI(expanded));
-          const repealed = repeal(coreAPI(twin));
+          // One world at a time, keeping only what the checks read, so the
+          // two worlds are never held at once.
           posted.clear();
-          playing = "expanded";
-          const withLaw = play(expanded);
-          playing = "twin";
-          const without = play(twin);
+          const run = (world: "expanded" | "twin") => {
+            const core = build();
+            const api = coreAPI(core);
+            const change =
+              world === "expanded" ? enact(api) : repeal(api).join(", ");
+            playing = world;
+            const rows = play(core);
+            const counted = billsOf(core)
+              .filter((row) => row.counted && row.webLinks.includes(TWIN_LINK))
+              .slice(0, 5);
+            const debts = new Map(
+              [...core.households.keys()].map((id) => [
+                id,
+                medicalDebtOf(api, id),
+              ]),
+            );
+            return { rows, change, counted, debts };
+          };
+          const withExpansion = run("expanded");
+          const inTwin = run("twin");
+          const enacted = withExpansion.change;
+          const repealed = inTwin.change;
+          const withLaw = withExpansion.rows;
+          const without = inTwin.rows;
 
           // (a) Bills follow health and coverage, by record.
           const all = [...withLaw, ...without];
@@ -277,22 +295,20 @@ describe("medical bills and medical debt in a played world", () => {
             expect(medicaid.c.billMinor).toBeLessThan(medicaid.u.billMinor);
 
           // (b) A named low-income household's medical debt, both worlds.
-          const api = coreAPI(expanded);
-          const twinApi = coreAPI(twin);
           const lastOf = (rows: readonly MedicalBillRow[], id: string) =>
             rows.filter((row) => row.householdId === id).at(-1);
           const households = [
             ...new Set(without.map((row) => row.householdId)),
-          ].filter((id) => expanded.households.has(id));
+          ].filter((id) => withExpansion.debts.has(id));
           const compared = households
             .map((id) => {
-              const inTwin = medicalDebtOf(twinApi, id);
-              const withIt = medicalDebtOf(api, id);
+              const twinDebt = inTwin.debts.get(id);
+              const withIt = withExpansion.debts.get(id);
               return {
                 id,
-                twin: inTwin?.balanceMinor ?? 0,
+                twin: twinDebt?.balanceMinor ?? 0,
                 expanded: withIt?.balanceMinor ?? 0,
-                twinDebt: inTwin,
+                twinDebt,
                 expandedDebt: withIt,
                 twinRow: lastOf(without, id),
                 expandedRow: lastOf(withLaw, id),
@@ -322,9 +338,7 @@ describe("medical bills and medical debt in a played world", () => {
           // A counted household has no Medicaid record of its own: where the
           // web moves the place row (the repeal, after the link's lag, or an
           // enactment), its share sent to collections moves off the base.
-          const counted = [...billsOf(expanded), ...billsOf(twin)].filter(
-            (row) => row.counted && row.webLinks.includes(TWIN_LINK),
-          );
+          const counted = [...withExpansion.counted, ...inTwin.counted];
           for (const row of counted.slice(0, 5))
             expect(row.collectionsShare, row.id).not.toBe(BASE_SHARE);
           const covered = named.expandedRow!.members.filter(
