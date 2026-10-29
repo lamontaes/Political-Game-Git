@@ -11,7 +11,7 @@ import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate, spokenDate } from "../core2/kernel/dates";
 import { partyName } from "../core2/appointments";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
-import { lawChain, lawInForce } from "../core2/modules/laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -458,6 +458,42 @@ const lawTookEffect: Builder = (read, f) => {
   );
 };
 
+/**
+ * A law that took effect in the year before day one, told as the press tells a law
+ * that takes effect in play: from the law's own row (its level, its amount, the bill
+ * that enacted it) and the law in force the day before. Null when the row is gone.
+ */
+export function archivedLawFacts(
+  core: CoreState,
+  story: PrintedStory,
+): PrintedFacts | null {
+  const lawId = String(story.facts.lawId ?? "");
+  const row = coreAPI(core)
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(lawId) as unknown as
+    | {
+        series: string;
+        level: string;
+        jurisdiction: string;
+        value?: number;
+        unit?: string;
+        terms?: { enactedBy?: string };
+      }
+    | undefined;
+  if (!row) return null;
+  const read = new Reader(core, story, lawId, "law-took-effect", []);
+  return lawTookEffect(read, {
+    lawId,
+    series: row.series,
+    level: row.level,
+    jurisdiction: row.jurisdiction,
+    value: String(row.value ?? ""),
+    unit: row.unit ?? "",
+    ...(row.terms?.enactedBy ? { enactedBy: String(row.terms.enactedBy) } : {}),
+  });
+}
+
 /** A floor vote on a bill: the count and whether it carried. */
 const rollCall: Builder = (read, f) => {
   const yes = num(f.yes);
@@ -586,6 +622,20 @@ const hearing: Builder = (read, f) => {
       number: read.fact(count(pro + con)),
       for: read.fact(count(pro)),
       against: read.fact(count(con)),
+    },
+    ["designation"],
+  );
+};
+
+/** A government's public hearing on its budget bill, and how many spoke. */
+const budgetHearing: Builder = (read, f) => {
+  const speakers = num(f.speakers) ?? 0;
+  return story(
+    "hearing",
+    {
+      ...read.billFacts(f.billId, f.number),
+      budget: read.yes(),
+      ...(speakers ? { number: read.fact(count(speakers)) } : {}),
     },
     ["designation"],
   );
@@ -968,6 +1018,13 @@ const exposed: Builder = (read, f) => {
   );
 };
 
+/**
+ * A recorded bribe that someone who learned of it took to the press (the
+ * corruption engine reports only bribes): told as the exposure it is.
+ */
+const scandalReported: Builder = (read, f) =>
+  exposed(read, { ...f, crime: "bribe-taken" });
+
 /** An appointment to a public post. */
 const appointed: Builder = (read, f) => {
   const id = read.first();
@@ -1218,6 +1275,195 @@ const petitionChecked: Builder = (read, f) => {
   );
 };
 
+/** A budget line's name as a sentence says it ("public welfare"). */
+const lineWords = (line: string) => {
+  const name = lineName(line);
+  return name ? name.charAt(0).toLowerCase() + name.slice(1) : undefined;
+};
+
+/** The President's budget request: the line it changes most, by its sign. */
+const budgetRequest: Builder = (read, f) => {
+  const id = read.first();
+  const [line, delta] =
+    Object.entries(f)
+      .map(([key, value]) => [key, num(value)] as const)
+      .filter(([key, value]) => lineWords(key) && value)
+      .sort((a, b) => Math.abs(b[1]!) - Math.abs(a[1]!))[0] ?? [];
+  return story(
+    "budget-request",
+    {
+      ...read.who(id, "name", false),
+      ...(line && delta
+        ? {
+            purpose: read.fact(lineWords(line)!),
+            [delta < 0 ? "cut" : "added"]: read.yes(),
+          }
+        : {}),
+    },
+    ["name"],
+    id,
+  );
+};
+
+/** The President's address to Congress: the stand it takes most firmly. */
+const jointAddress: Builder = (read, f) => {
+  const id = read.first();
+  const [question, position] =
+    Object.entries(f)
+      .map(([key, value]) => [key, num(value)] as const)
+      .filter(([key, value]) => POLICIES[key] && value)
+      .sort((a, b) => Math.abs(b[1]!) - Math.abs(a[1]!))[0] ?? [];
+  return story(
+    "joint-address",
+    {
+      ...read.who(id, "name", false),
+      ...(question && position
+        ? {
+            purpose: read.fact(
+              position > 0
+                ? POLICIES[question]!.purpose
+                : POLICIES[question]!.repealPurpose,
+            ),
+          }
+        : {}),
+    },
+    ["name"],
+    id,
+  );
+};
+
+/** An official's trip to a town, and whether they met people there. */
+const officialTrip: Builder = (read, f) => {
+  const id = f.travelerId;
+  const state = read.place(f.state);
+  const town = f.town?.split(",")[0];
+  return story(
+    "trip",
+    {
+      ...read.who(id, "name", false),
+      ...(town ? { place: read.fact(state ? `${town}, ${state}` : town) } : {}),
+      ...(read.people.length > 1 ? { met: read.yes() } : {}),
+    },
+    ["name", "place"],
+    id,
+  );
+};
+
+/** A public works project finished: what it was for, who built it, what it cost. */
+const ribbonCut: Builder = (read, f) => {
+  const purpose = lineWords(f.line ?? "");
+  const builder = read.organization(f.contractorId);
+  const paid = num(f.paidMinor);
+  return story(
+    "ribbon-cut",
+    {
+      ...(purpose ? { purpose: read.fact(purpose, f.projectId ?? "") } : {}),
+      ...(builder ? { subject: read.fact(builder, f.contractorId ?? "") } : {}),
+      ...(paid ? { money: read.fact(dollars(paid)) } : {}),
+    },
+    ["purpose"],
+  );
+};
+
+/** A governor's emergency declaration: the hazard, and the money moved. */
+const emergency: Builder = (read, f) => {
+  const id = read.first();
+  const title = f.title ?? "";
+  // A federal disaster title is kept in capitals ("SEVERE STORMS").
+  const incident = title === title.toUpperCase() ? title.toLowerCase() : title;
+  const moved = num(f.deltaMinor);
+  return story(
+    "emergency",
+    {
+      ...read.who(id, "name", false),
+      ...(incident
+        ? { incident: read.fact(incident, f.hazardRecordId ?? "") }
+        : {}),
+      ...(moved ? { money: read.fact(dollars(Math.abs(moved))) } : {}),
+    },
+    ["name"],
+    id,
+  );
+};
+
+/** Who took an office by the line of succession, and whether as acting. */
+const succession: Builder = (read, f) => {
+  const id = read.first();
+  return story(
+    "succession",
+    {
+      ...read.who(id, "name", false),
+      ...(f.title ? { office: read.fact(f.title, f.seatId ?? "") } : {}),
+      ...(f.acting === "true" ? { acting: read.yes() } : {}),
+    },
+    ["name", "office"],
+    id,
+  );
+};
+
+/** An official's answer to the people behind a recall petition. */
+const recallReply: Builder = (read, f) =>
+  story(
+    "recall-reply",
+    {
+      ...read.who(f.memberId, "name", false),
+      ...(f.answer === "answered" || f.answer === "dismissed"
+        ? { [f.answer]: read.yes() }
+        : {}),
+    },
+    ["name"],
+    f.memberId,
+  );
+
+/** A ballot measure's count: approved or turned down, and the yes share. */
+const measureResult: Builder = (read, f) => {
+  const purpose = POLICIES[f.question ?? ""]?.purpose;
+  const share = num(f.yesShare);
+  const approved = f.approved === "true";
+  return story(
+    "measure-result",
+    {
+      ...(purpose ? { purpose: read.fact(purpose, f.measureId ?? "") } : {}),
+      ...(share !== undefined
+        ? { percent: read.fact(percent(share * 100)) }
+        : {}),
+      ...(approved
+        ? { approved: read.yes(), passed: read.yes() }
+        : { rejected: read.yes(), failed: read.yes() }),
+    },
+    ["purpose"],
+  );
+};
+
+/** A bill sent to the executive's desk, and the day a decision is due. */
+const presented: Builder = (read, f) =>
+  story(
+    "presented",
+    {
+      ...read.billFacts(f.billId, f.number),
+      ...read.who(f.executiveId, "name", false),
+      ...(f.signBy ? { date: read.fact(spokenDate(f.signBy)) } : {}),
+    },
+    ["designation", "name"],
+    f.executiveId,
+  );
+
+/** An executive's line-item veto: how many items struck from which bill. */
+const itemVeto: Builder = (read, f) => {
+  const id = read.first();
+  const items = (f.items ?? "").split(",").filter(Boolean).length;
+  return story(
+    "item-veto",
+    {
+      ...read.who(id, "name", false),
+      ...read.billFacts(f.billId),
+      ...(items ? { number: read.fact(count(items)) } : {}),
+    },
+    ["name", "designation"],
+    id,
+  );
+};
+
 /** A cause group's ad on a question: the group by its name, else by who formed it. */
 const causeAd: Builder = (read, f) => {
   const name = read.organization(f.organizationId);
@@ -1336,6 +1582,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "justice.held-before-trial": court,
   "executive-action": signed,
   "public-comment": hearing,
+  "budget-hearing": budgetHearing,
   "office.introduced": introduced,
   "budget-line-changed": budgetLine,
   "budget-adopted": budgetAdopted,
@@ -1358,9 +1605,20 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "took-office": tookOffice,
   "seat-vacated": vacancy,
   "press.exposed": exposed,
+  "scandal.reported": scandalReported,
   "bill-failed": billFailed,
   "public-staffing-changed": staffing,
   "petition-checked": petitionChecked,
+  "budget-request": budgetRequest,
+  "joint-address": jointAddress,
+  "official-trip": officialTrip,
+  "ribbon-cut": ribbonCut,
+  "emergency-declared": emergency,
+  succession,
+  "recall-answer": recallReply,
+  "ballot-measure-result": measureResult,
+  "bill-presented": presented,
+  "item-veto": itemVeto,
   "campaign-gift": campaignGift,
   "official-appointed": appointed,
   appointed,

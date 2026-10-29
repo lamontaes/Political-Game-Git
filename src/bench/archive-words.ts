@@ -4,7 +4,7 @@ import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
 import { lineName } from "./budget";
-import { printedFacts } from "./printed-words";
+import { archivedLawFacts, printedFacts } from "./printed-words";
 import type { ownRace } from "./results";
 import { policyNames } from "./words";
 
@@ -60,6 +60,24 @@ export function wordArchiveStory(
     };
   } else if (recordKind === "law-enacted" || recordKind === "law-took-effect") {
     // A law is named by its series on the bill catalog; one with no name stays a record.
+    // A law that took effect is told as the press tells one in play: the amount it
+    // moved from and to, the bill that made it, when the law's own row says so.
+    if (recordKind === "law-took-effect") {
+      const told = archivedLawFacts(core, story);
+      // A law with only its name to tell (no bill, no amount moved) keeps the
+      // catalog's own words below.
+      const text =
+        told && told.kind !== "law-rule"
+          ? worded(
+              core,
+              story.id,
+              told.kind,
+              told.speaker || story.id,
+              told.facts,
+            )
+          : null;
+      if (text) return text;
+    }
     NAMES ??= policyNames();
     const measure = NAMES[String(story.facts.series ?? "")];
     if (!measure) return null;

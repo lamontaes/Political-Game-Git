@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/federal-day-president-held
 pr: #6709
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at: 2026-10-28T21:46:13.631Z
 **Files.** src/core2/office-day-federal.test.ts, src/core2/office-day-federal.ts, src/core2/office-day-federal-president.ts, src/core2/modules/executive.ts
 
 **Notes.** Found by the wire-office session while testing row 45; checked at b23a0c889a^1 and b23a0c889a (both 4 failed, 7 passed).
+
+Oct 29 (CTO): set done; PR #6709 merged (the done flip failed while branch protection refused the flip job's push).

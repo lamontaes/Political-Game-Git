@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/apply-stopgaps-d2
 pr: #5465
 blocked-on:
@@ -21,3 +21,5 @@ lead: researcher
 **Files.** src/core2/housing-foreclosure.ts, src/core2/housing-foreclosure-days.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** A bounded slice of research-stopgaps-oct19-apply, which stays open for the other rows (merger send-back of Oct 20 and Oct 27).
+
+Oct 29 (CTO): set done; PR #5465 merged (the done flip failed while branch protection refused the flip job's push).

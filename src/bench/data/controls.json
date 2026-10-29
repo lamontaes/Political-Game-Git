@@ -117,8 +117,6 @@
     "place": "Home",
     "school": "School",
     "history": "History",
-    "back": "Back",
-    "continue": "Continue",
     "knows": "Knows",
     "noColleagues": "Knows no one in office yet",
     "tieWords": {
@@ -150,7 +148,6 @@
     "version": "Version",
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
-    "continue": "Continue",
     "devMode": "Dev mode",
     "quitToTitle": "Quit to title"
   },
@@ -297,8 +294,6 @@
     "today": "Today",
     "upcoming": "Coming up",
     "advance": "Live until this day",
-    "back": "Back",
-    "next": "Continue",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
   "party": {
@@ -355,8 +350,6 @@
     "web": "Web",
     "card": "View person",
     "talk": "Talk",
-    "back": "Back",
-    "next": "Continue",
     "joined": "Closer this year",
     "left": "Drifted away",
     "noChange": "Your five closest are the same as a year ago",
@@ -434,8 +427,6 @@
     "inForce": "In force",
     "coming": "Coming",
     "changed": "What changed",
-    "back": "Back",
-    "next": "Continue",
     "revenue": "Revenue",
     "spending": "Spending",
     "balance": "Balance",

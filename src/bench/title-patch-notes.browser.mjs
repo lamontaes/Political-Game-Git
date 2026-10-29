@@ -27,22 +27,16 @@ try {
       (h) => h.textContent,
     ),
     text: document.getElementById("sheet-body").innerText,
-    pager: [
-      ...document.querySelectorAll("#sheet-body .record-pager button"),
-    ].map((b) => `${b.textContent}${b.disabled ? " (off)" : ""}`),
-    scrolls:
-      document.getElementById("sheet-body").scrollHeight >
-      document.getElementById("sheet-body").clientHeight + 2,
+    strays: [...document.querySelectorAll("#sheet button")].filter((b) =>
+      /^\s*(continue|back)\s*$/i.test(b.textContent ?? ""),
+    ).length,
   }));
-  console.log(
-    `${shown.title}: ${shown.sections.join(" | ")}; pager ${shown.pager.join(", ")}`,
-  );
+  console.log(`${shown.title}: ${shown.sections.join(" | ")}`);
   assert.equal(shown.title, "Patch notes");
-  assert.equal(shown.sections.length, 1, "one release a page");
+  assert.ok(shown.sections.length >= 1, "the releases are listed");
   assert.match(shown.sections[0], /\d+\.\d+\.\d+/, "the release is named");
   assert.doesNotMatch(shown.text, /UNRELEASED|CANDIDATE|\*\*|^- /m);
-  assert.ok(shown.pager.length === 2, "Back and Next page the releases");
-  assert.ok(!shown.scrolls, "the notes scroll inside the menu");
+  assert.equal(shown.strays, 0, "Back or Continue on the patch notes");
   if (process.env.SHOT_DIR)
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/01-title-patch-notes.png`,

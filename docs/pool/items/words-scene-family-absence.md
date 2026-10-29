@@ -5,15 +5,15 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
-claimed-by: play-first/words-scene-family-absence
+status: open
+claimed-by:
 pr:
 blocked-on:
 after:
 source: added by the acting CTO, Oct 25 (owner ruling)
 lead: words
 milestone: play-first
-claimed-at: 2026-10-26T02:28:40.241Z
+claimed-at:
 ---
 
 **What.** The owner ruled Oct 25 that a family member's absence is told to the player as a scene when a record explains it: moved away, in the hospital, jailed, died. Today a household member who leaves simply stops appearing, and the player learns nothing. The scene reads the record that took them (a move event, a hospital admission, a justice case's custody, a death record) and stages one moment in the house or by message from a kin member who says what happened, with the player's reply from controls and the result in the journal. Where no record explains the absence, nothing is said; the engine never invents a reason, and an absence with no record is a defect to file, not a line to fill.
@@ -31,3 +31,5 @@ claimed-at: 2026-10-26T02:28:40.241Z
 **Files.** src/director/situations/, src/director/scene.ts, src/director/scene-talk.ts, src/core2/modules/households.ts (read only), data/english/parts/, src/bench/play.mjs
 
 **Notes.** Owner, Oct 25; build all three scenes without asking (OWNER-DECISIONS, Oct 25). Pairs with the Oct 24 read that people in the house need a reason to be there.
+
+Oct 29 (CTO, second account): PR #6130 closed as stale under the owner's standing approval; back to open. Branch `play-first/words-scene-family-absence` is kept; claiming this item takes it over.

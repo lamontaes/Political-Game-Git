@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/backdrop-light-region
 pr: #6578
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T06:38:58.770Z
 **Files.** art/backdrops, src/bench/scene.ts, src/bench/data/scene-places.json
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6578 merged (the done flip failed while branch protection refused the flip job's push).

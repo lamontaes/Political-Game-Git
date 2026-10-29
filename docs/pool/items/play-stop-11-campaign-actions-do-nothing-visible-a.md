@@ -7,12 +7,12 @@ priority: 1
 size: M
 status: claimed
 claimed-by: play-first/play-stop-11-campaign-actions-do-nothing-visible-a
-pr: #6114
+pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-27T01:39:26.263Z
+claimed-at: 2026-10-29T18:11:55.830Z
 ---
 
 **What.** On the v0.22.10 release Call donors added the words "Call donors" and the total stayed $0.00 for 21 months. Hold an event stayed grayed with no reason. The owner ruled Oct 16 that an ask reads whether the person has the money and likes the candidate. This part makes Call donors reach named people, raise what they choose to give, and say why when nobody gives.
@@ -34,3 +34,7 @@ Sent back 2026-10-26 from PR #6114 (branch play-first/play-stop-11-campaign-acti
 Sent back 2026-10-27 from PR #6114 (branch play-first/play-stop-11-campaign-actions-do-nothing-visible-a): donor-calls.test.ts fails about half of fresh draws (no gift in the drawn places); finish on that branch, merge main into it first.
 
 Fixer 6 (Oct 27): superseded by PR #6411 (the donor-calls test draws places until one gives; main merged).
+
+Oct 29 (CTO, second account): PR #6114 closed as stale under the owner's standing approval; back to open. Branch `play-first/play-stop-11-campaign-actions-do-nothing-visible-a` is kept; claiming this item takes it over.
+
+Oct 29 (CTO): #6411 (call donors names who gave and how much) closed because no session carries it; its branch `fixer6/play-stop-11-donor-calls` is kept and claiming this item takes it over. It conflicts with main in four src/bench files, so merge main in first.

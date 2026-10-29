@@ -19,6 +19,7 @@
  */
 import tableFile from "../../data/english/calibration.json" with { type: "json" };
 import reachFile from "../../data/english/grade-reach.json" with { type: "json" };
+import { PART_GRADES, type PartGradeLedger } from "./english-grades";
 import { reachFactor, type ReachTable } from "./grade-reach";
 
 export interface RunningGrade {
@@ -53,11 +54,18 @@ export interface CalibrationTable {
   readonly registerClasses?: Readonly<Record<string, string>>;
   /** How far the owner's grades reach: the pieces sharing a graded piece's pattern, voice and register. Absent: no reach. */
   readonly reach?: ReachTable;
+  /**
+   * The owner's grades by part (`english-grades.ts`): a part he liked counts
+   * as the top of the scale in its own running grade, one he rejected as the
+   * bottom. Absent: only the numeric grades in `pieces` count.
+   */
+  readonly ledger?: PartGradeLedger;
 }
 
 export const CALIBRATION = {
   ...(tableFile as unknown as CalibrationTable),
   reach: reachFile as unknown as ReachTable,
+  ledger: PART_GRADES,
 } as CalibrationTable;
 
 /** The middle of the 1 to 5 grade scale; a piece graded 3 is neither favored nor held down. */
@@ -94,13 +102,42 @@ export function gradeReach(
   });
 }
 
+/**
+ * A piece's own running grade: the numeric grades of the grading bench
+ * (`pieces`), and the owner's grades from his voice notes and the in-play
+ * grade control (`ledger`), where a line he liked counts as the top of the
+ * 1 to 5 scale and one he rejected as the bottom (owner, Oct 29: "I've given
+ * feedback on some good ones ... it's calibrate the entire engine"). Before,
+ * a liked line lifted the rest of its group but not itself.
+ */
+function ownGrade(
+  ids: readonly string[],
+  table: CalibrationTable,
+): RunningGrade | undefined {
+  const numeric = ids
+    .map((id) => table.pieces[id])
+    .find((row): row is RunningGrade => row !== undefined);
+  const said = ids
+    .map((id) => table.ledger?.parts[id])
+    .find((row) => row !== undefined);
+  const liked = said?.good ?? 0;
+  const rejected = (said?.bad ?? 0) + (said?.fix ?? 0);
+  if (!liked && !rejected) return numeric;
+  const top = MIDDLE_GRADE + (MIDDLE_GRADE - 1);
+  const bottom = MIDDLE_GRADE - (MIDDLE_GRADE - 1);
+  const count = (numeric?.count ?? 0) + liked + rejected;
+  const sum =
+    (numeric ? numeric.mean * numeric.count : 0) +
+    liked * top +
+    rejected * bottom;
+  return { mean: sum / count, count };
+}
+
 function ownGradeFactor(
   ids: readonly string[],
   table: CalibrationTable,
 ): number {
-  const found = ids
-    .map((id) => table.pieces[id])
-    .find((row): row is RunningGrade => row !== undefined);
+  const found = ownGrade(ids, table);
   if (!found) return 1;
   const floor = parameter(table, "pieceFloor");
   const ceiling = parameter(table, "pieceCeiling");

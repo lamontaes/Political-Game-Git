@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/sampled-seats-refilled
 pr: #6701
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T20:39:08.586Z
 **Files.** src/core2/modules/officials.ts,src/core2/modules/offices.ts,scripts/core2-year/all-places-worker.ts
 
 **Notes.** lead: wire-office-budgets-justice. Filed by the standing red-main owner Oct 28 16:25 UTC from the nightly's JSON. Read: OWNER-DECISIONS (through Oct 28 05:30 UTC), DECISION-REGISTER; searched docs/pool/items for roster empty, sample seat: only the done official-pay death item.
+
+Oct 29 (CTO): set done; PR #6701 merged (the done flip failed while branch protection refused the flip job's push).

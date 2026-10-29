@@ -65,7 +65,11 @@ import {
   type ProsecutorOffice,
 } from "../justice-law";
 import { holdInCustody, releaseFromCustody } from "../justice-custody";
-import { decidePretrial, endPretrial } from "../justice-pretrial";
+import {
+  decidePretrial,
+  endPretrial,
+  type PretrialRow,
+} from "../justice-pretrial";
 
 export const JUSTICE_MODULE_ID = "core2-justice-v1";
 const FINE_KIND = "justice-fine";
@@ -1521,6 +1525,25 @@ export function inCustody(api: CoreAPI, personId: PersonId): boolean {
       personId,
     ]) as unknown as CustodyRow[]
   ).some((row) => row.status === "serving");
+}
+
+/**
+ * The day the person was first held in custody for want of bail while they
+ * waited for their hearing (the pretrial decision `held`), or undefined when
+ * they never were. What the jobs engine reads for the pull to formal work.
+ */
+export function firstHeldPretrial(
+  api: CoreAPI,
+  personId: PersonId,
+): string | undefined {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return undefined;
+  let first: string | undefined;
+  for (const row of table(api, "pretrial").query("byPerson", [
+    personId,
+  ]) as unknown as PretrialRow[])
+    if (row.decision === "held" && (first === undefined || row.from < first))
+      first = row.from;
+  return first;
 }
 
 /** The person's convictions on record by a date: what views, the press and candidacy read. */
