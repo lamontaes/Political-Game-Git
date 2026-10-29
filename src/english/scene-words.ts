@@ -13,7 +13,7 @@ import {
   type GroundedEnglishKnowledge,
   type GroundedEnglishPacket,
 } from "./grounded-english";
-import { SCENE_BANK, sceneWordsFromBank } from "./mined/scene-bank";
+import { sceneWordsFromBank } from "./mined/scene-bank";
 
 const zero = P.zero;
 const one = P.one;
@@ -37,13 +37,6 @@ export interface SceneWords {
 }
 /** The default words are the mined bank's. */
 export const SCENE_WORDS: SceneWords = sceneWordsFromBank();
-/** Every piece of the bank, shipped or held, as the grading view reads them. */
-export function everySceneWord(): SceneWords {
-  return sceneWordsFromBank({
-    ...SCENE_BANK,
-    parts: SCENE_BANK.parts.map((part) => ({ ...part, shippable: true })),
-  });
-}
 
 export interface Fact {
   text: string;

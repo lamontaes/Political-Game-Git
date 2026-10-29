@@ -32,6 +32,7 @@ A sent-back PR is usually one small fix away from merging. Finish it on its own 
 
 1. Claim the item with its branch: `npm run pool -- claim <id> --branch <X>`.
 2. Check out `X` and run `git merge origin/main` (plain merge). Resolve docs-only conflicts as the merger skill says. A code conflict is part of your fix.
+   An English bank conflict (`data/english/parts/scene-talk.json`, and `data/english/grade-reach.json`, which is generated) is yours to redo, not the merger's: take main's file, re-add your scene's pieces and slots by piece key (never merge by hand), rebuild `grade-reach.json` with `scripts/dialogue-batch/apply-grades.ts`, and run `tests/english-parts-banks.test.ts` before the push. Oct 28: #6685 and #6689 sat sent back on this, as did #6329 on Oct 27, after the `words-engine` line said to land on fresh main.
 3. Read the merger's whole comment and the diff. Fix exactly what was raised, inside the PR's own scope:
    - never loosen, skip or early-return a test;
    - never raise a timeout without a measured reason;

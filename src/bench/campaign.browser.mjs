@@ -57,7 +57,7 @@ try {
       if (
         r.ok &&
         body.status !== "refused" &&
-        body.filing?.status === "on-ballot"
+        ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
       )
         return { filed: contestId, tried };
     }

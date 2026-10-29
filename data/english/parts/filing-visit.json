@@ -90,7 +90,6 @@
         "nasa": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "INTERNAL REVENUE SERVICE DATA THEFT AFFECTING TAXPAYER INFORMATION",
         "date": "2015-06-02",
@@ -125,7 +124,6 @@
         "nasa2": 2,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks to Members of the Press With President Volodymyr Zelenskyy of Ukraine in Kyiv, Ukraine",
         "date": "2023-02-20",
@@ -161,7 +159,6 @@
         "nasa2": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Event in Greenwich, Connecticut",
         "date": "2024-06-03",
@@ -191,7 +188,6 @@
       "bySource": {
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Address to the Nation on the Conclusion of the Senate Impeachment Trial",
         "date": "2020-02-06",
@@ -224,7 +220,6 @@
         "hearings": 1,
         "ntia": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Miami, Florida",
         "date": "2025-04-03",
@@ -254,7 +249,6 @@
       "bySource": {
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "2020 GENERAL ELECTION PREPARATIONS",
         "date": "2020-07-22",
@@ -284,7 +278,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Gabriel Boric Font of Chile and an Exchange With Reporters",
         "date": "2023-11-02",
@@ -314,7 +307,6 @@
       "bySource": {
         "hearings": 2
       },
-      "shippable": true,
       "source": {
         "document": "HEARING ON THE JANUARY 6TH INVESTIGATION",
         "date": "2022-06-21",
@@ -344,7 +336,6 @@
       "bySource": {
         "Florida Department of State, Division of Elections (dos.fl.gov)": 1
       },
-      "shippable": true,
       "source": {
         "document": "Candidate and Campaign Treasurer Handbook",
         "date": "2026-10-02",
@@ -377,7 +368,6 @@
       "bySource": {
         "Florida Department of State, Division of Elections (dos.fl.gov)": 1
       },
-      "shippable": true,
       "source": {
         "document": "voterregvotingguide 2026 election cycle eng updated 20260720",
         "date": "2026-07-21",
@@ -415,7 +405,6 @@
         "nasa2": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre, National Economic Council Director Lael Brainard, and NSC Coordinator for Strategic Communications John Kirby",
         "date": "2023-10-26",
@@ -448,7 +437,6 @@
         "hearings": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Announcing an Executive Order on Preventing Online Censorship and an Exchange With Reporters",
         "date": "2020-05-28",
@@ -478,7 +466,6 @@
       "bySource": {
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "NPS History Collection oral history: arnberger rob oct 28 2016",
         "date": "2016-10-28",
@@ -508,7 +495,6 @@
       "bySource": {
         "dcpd": 6
       },
-      "shippable": true,
       "source": {
         "document": "dcpd of 2025-06-27",
         "date": "2025-06-27",
@@ -556,7 +542,6 @@
         "nih": 2,
         "nps": 44
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Las Vegas, Nevada",
         "date": "2026-08-05",
@@ -596,7 +581,6 @@
         "nps.gov": 5,
         "nps.gov (PDF)": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -631,7 +615,6 @@
         "hearings": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Hanukkah Reception",
         "date": "2025-12-16",
@@ -670,7 +653,6 @@
         "nasa2": 3,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
         "date": "2026-08-19",
@@ -707,7 +689,6 @@
         "nasa2": 1,
         "nps": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
         "date": "2026-09-04",
@@ -737,7 +718,6 @@
       "bySource": {
         "usa.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "How to register to vote",
         "date": "2026-10-06",
@@ -782,7 +762,6 @@
         "nih": 1,
         "nps": 16
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
         "date": "2026-09-09",
@@ -839,7 +818,6 @@
         "nps": 285,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -897,7 +875,6 @@
         "nps.gov (PDF)": 2,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -939,7 +916,6 @@
         "nih": 1,
         "nps": 19
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -987,7 +963,6 @@
         "nih": 12,
         "nps": 99
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -1047,7 +1022,6 @@
         "va": 17,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -1095,7 +1069,6 @@
         "nps": 22,
         "nps.gov (PDF)": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
         "date": "2026-08-19",
@@ -1136,7 +1109,6 @@
         "nih": 1,
         "nps": 8
       },
-      "shippable": true,
       "source": {
         "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -1179,7 +1151,6 @@
         "nasa2": 6,
         "nps": 8
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Greeting With United States Servicemembers at Joint Base Andrews, Maryland",
         "date": "2026-06-19",
@@ -1209,7 +1180,6 @@
       "bySource": {
         "chrg": 1
       },
-      "shippable": true,
       "source": {
         "document": "Examining Irregularities In The 2020 Election",
         "date": "2020-12-16",
@@ -1239,7 +1209,6 @@
       "bySource": {
         "chrg": 1
       },
-      "shippable": true,
       "source": {
         "document": "The History And Structure Of The Multiemployer Pension System",
         "date": "2018-04-17",

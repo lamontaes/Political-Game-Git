@@ -22,8 +22,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.born.year",
@@ -32,8 +31,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.school.started",
@@ -42,8 +40,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.moved.in",
@@ -52,8 +49,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.moved.away",
@@ -62,8 +58,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.partner.met",
@@ -72,8 +67,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.partner.met-you",
@@ -82,8 +76,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.child.born",
@@ -92,8 +85,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.child.you",
@@ -102,8 +94,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.work.started",
@@ -112,8 +103,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.loss.parent",
@@ -122,8 +112,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.office.elected",
@@ -132,8 +121,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.tie.closer",
@@ -142,8 +130,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     },
     {
       "key": "person-history.tie.apart",
@@ -152,8 +139,7 @@
       "origin": "authored",
       "author": "the screens designer",
       "date": "2026-10-28",
-      "kind": "written",
-      "shippable": true
+      "kind": "written"
     }
   ]
 }

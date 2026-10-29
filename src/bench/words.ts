@@ -1,4 +1,5 @@
 // The words the bench shows for records, all from the English engine's data.
+import { admittedParts } from "../english/bank-parts";
 import { JOURNAL_WORDS } from "../english/journal-words";
 import { properName } from "../director/words";
 import type { CoreState } from "../core2/types";
@@ -48,22 +49,24 @@ interface ChoicePart {
   move: string;
   text: string;
   transcriptsUsing: number;
-  shippable: boolean;
 }
 const SLOT = /\{([a-z_]+)\}/g;
 const HAS_SLOT = /\{[a-z_]+\}/;
 
 /**
  * A choice's name from OPUS-WORDS' mined bank ("Take a break.", "Call
- * Sarah Sykes."): the most-used shippable wording for the act whose slots
- * the target's record can fill. Null where the bank has no wording yet.
+ * Sarah Sykes."): the most-used wording the owner's grades leave in for the
+ * act whose slots the target's record can fill. Null where the bank has no
+ * wording yet.
  */
 export function choiceName(
   actionId: string,
   targetName: string | undefined,
 ): { text: string; key: string } | null {
-  const parts = (choiceBank.parts as ChoicePart[])
-    .filter((part) => part.move === actionId && part.shippable)
+  const parts = admittedParts(
+    choiceBank.parts as ChoicePart[],
+    (part) => part.move === actionId,
+  )
     .filter((part) => !HAS_SLOT.test(part.text) || targetName)
     .sort(
       (a, b) =>

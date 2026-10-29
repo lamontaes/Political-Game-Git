@@ -25,7 +25,6 @@ import {
   SITUATION_LIBRARY,
   type SituationLibrary,
 } from "./scheduling";
-import { everySceneWord } from "../english/scene-words";
 import { composeScene } from "./scene";
 import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
 import type { DirectorData } from "./types";
@@ -712,6 +711,22 @@ describe("story director on the new core", () => {
       ).toEqual(["news-arrives"]);
   });
 
+  it("casts each person present once, with the role's reason on record", () => {
+    const { director } = run("place:director-fixture", true);
+    const bindings = [...director.ledger.people.values()].flatMap((book) =>
+      book.schedule.flatMap((entry) => entry.bindings),
+    );
+    expect(bindings.length).toBeGreaterThan(0);
+    for (const binding of bindings) {
+      // Every person the scene places has a recorded reason, and only they.
+      expect(Object.keys(binding.presentReasons).sort()).toEqual(
+        [...binding.presentIds].sort(),
+      );
+      for (const reason of Object.values(binding.presentReasons))
+        expect(reason).toMatch(/^[a-z-]+$/);
+    }
+  });
+
   it("caps one type's scenes in a season: past the cap its causes go to the journal", () => {
     const { core, director } = run("place:director-fixture", true);
     const book = director.ledger.people.get("person:worker")!;
@@ -785,9 +800,8 @@ describe("story director on the new core", () => {
     expect(
       staged.roles.find((row) => row.role === "bearer")!.personIds,
     ).toEqual(["person:worker"]);
-    // Every bank line, as the grading view reads them, so the narrator speaks.
-    const words = everySceneWord();
-    const scene = composeScene(core, director, personId, sitting, words);
+    // The narrator speaks from the bank's own lines.
+    const scene = composeScene(core, director, personId, sitting);
     expect(scene?.narration.length).toBeGreaterThan(0);
     const cited = (scene?.narration ?? []).flatMap(
       (line) => line.sourceRecordIds,
