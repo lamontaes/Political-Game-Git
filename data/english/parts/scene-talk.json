@@ -1332,10 +1332,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.it-s-the-evening-before-the-vote-on-bill-you-catch-first-before-they-head-home",
+      "key": "scene-talk.narrate-narrate.it-s-the-evening-before-the-vote-on-bill-you-catch-first-on-the-way-out",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "It's the evening before the vote on {bill}. You catch {first} before they head home.",
+      "text": "It's the evening before the vote on {bill}. You catch {first} on the way out.",
       "uses": [
         {
           "subject": "scene",
