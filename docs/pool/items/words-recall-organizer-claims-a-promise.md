@@ -6,11 +6,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/recall-answer-names-the-vote
+pr: #6751
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T06:21:53.888Z
 ---
 
 **What.** In the recall scene, after the official asks 'What does it say I did?', the organizer's only answer line is 'That you voted for {bill} after telling us you wouldn't.' (scene-talk.follow-answer.that-you-voted-for-bill-after-telling-us-you-wouldn-t). In the bench, Glen Gardner, New Jersey (Advanced, seed b23911b2fe0df22194203278814dcf1a3b191f9760f8a779db2b0727d592900a, place 3426550), council member Julia O'Donnell sponsored Ordinance 2025-1 herself and no record holds any promise to vote against it, yet Jeffrey Moran says she broke one on February 20, 2025. The petition's record names the bill and the member's vote, so the answer can only say what they did.

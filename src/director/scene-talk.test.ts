@@ -129,6 +129,12 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       if (result.kind !== "composed") continue;
       const { talk } = result;
       expect(talk.narration.length).toBeGreaterThan(0);
+      // The facts hold no same-day: a scene that plays after its record's day
+      // still narrates, and names no day.
+      for (const line of talk.narration)
+        expect(line.text, type.key).not.toMatch(
+          /\b(?:today|tonight|yesterday|this (?:morning|afternoon|evening))\b/i,
+        );
       expect(talk.rounds.length).toBeGreaterThan(0);
       expect(talk.rounds[0]!.replies.length).toBeGreaterThanOrEqual(3);
       expect(talk.rounds[0]!.replies.filter((r) => r.chosen)).toHaveLength(1);

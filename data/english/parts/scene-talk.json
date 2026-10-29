@@ -58,7 +58,20 @@
     "owed": "What a household owes in back rent, to the dollar, from the notice record.",
     "general": "The general election's date, as people say it, from the contest record.",
     "primary": "The primary's date, as people say it, from the contest record.",
-    "term": "An office's term in years, from the office record."
+    "term": "An office's term in years, from the office record.",
+    "all": "How many places report in all, from the count.",
+    "ayes": "The votes for, from the roll or the bill's count.",
+    "cast": "Ballots cast, from the count.",
+    "companion": "A household member going along, by name.",
+    "count": "A count from the record.",
+    "in": "How many places have reported, from the count.",
+    "leader": "The candidate ahead, by name, from the count.",
+    "margin": "The lead in votes, from the count.",
+    "nays": "The votes against, from the roll or the bill's count.",
+    "number": "A count from the record.",
+    "reached": "How many people talked with the candidate, from the canvass record.",
+    "required": "What a filing rule requires (an age, a residence), from the eligibility rule.",
+    "trail": "The runner-up's votes there, from the count."
   },
   "maxWords": 70,
   "parts": [
@@ -120,7 +133,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "morning",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -168,7 +182,7 @@
           "step": "narrate",
           "move": "ballot",
           "role": "narrator",
-          "requiresFacts": ["candidate", "opponent"]
+          "requiresFacts": ["candidate", "opponent", "same-day"]
         }
       ],
       "origin": "authored",
@@ -453,7 +467,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-ask",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -523,7 +538,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "stayed-home",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -995,7 +1011,7 @@
           "step": "narrate",
           "move": "returns-nation",
           "role": "narrator",
-          "requiresFacts": ["several"]
+          "requiresFacts": ["same-day", "several"]
         }
       ],
       "origin": "authored",
@@ -1019,7 +1035,7 @@
           "step": "narrate",
           "move": "returns-nation",
           "role": "narrator",
-          "requiresFacts": ["one"]
+          "requiresFacts": ["one", "same-day"]
         }
       ],
       "origin": "authored",
@@ -1042,7 +1058,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-away",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -1088,7 +1105,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-away",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -1111,7 +1129,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-none",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -17722,10 +17741,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.the-council-s-been-asleep-for-ten-years-somebody-had-to",
+      "key": "scene-talk.reply-tell.somebody-has-to-run-for-office-why-not-me",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "The council's been asleep for ten years. Somebody had to.",
+      "text": "Somebody has to run for {office}. Why not me?",
       "uses": [
         {
           "subject": "scene",
@@ -17733,7 +17752,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "family-filing",
-          "key": "news-received"
+          "key": "news-received",
+          "requiresFacts": ["office"]
         }
       ],
       "bearing": "proud",
@@ -23756,31 +23776,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.that-s-it-one-vote-and-enough-of-us-remember-it",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "That's it. One vote, and enough of us remember it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "recall-confront",
-          "key": "threat",
-          "after": "ask"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.don-t-walk-past-tell-me-why-you-voted-for-it",
       "move": "follow-press",
       "kind": "spoken",
@@ -24213,6 +24208,14 @@
           "role": "asked",
           "purpose": "hearing-testify",
           "key": "routine"
+        },
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "accept-terms",
+          "role": "asked"
         }
       ],
       "bearing": "calm",
@@ -41229,7 +41232,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "first-day-ropes",
-          "key": "arrival"
+          "key": "arrival",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "curious",
@@ -60173,7 +60177,7 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["introduced"]
+          "requiresFacts": ["introduced", "same-day"]
         }
       ],
       "bearing": "guarded",
@@ -63799,7 +63803,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "desk-bill",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "calm",
@@ -73453,7 +73458,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "join-cause",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "curious",
@@ -82284,7 +82290,7 @@
           "role": "narrator",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate"]
+          "requiresFacts": ["debate", "same-day"]
         }
       ],
       "bearing": "braced",
@@ -88284,7 +88290,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "diploma-home",
-          "key": "diploma"
+          "key": "diploma",
+          "requiresFacts": ["day-after"]
         }
       ],
       "bearing": "glad",
@@ -95820,6 +95827,15 @@
           "step": "close",
           "move": "accept",
           "role": "asker"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -102648,7 +102664,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "housemate-arrives",
-          "key": "arrival"
+          "key": "arrival",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "curious",
@@ -102697,7 +102714,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["kin"]
+          "requiresFacts": ["kin", "same-day"]
         }
       ],
       "bearing": "tender",
@@ -102722,7 +102739,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["kin"]
+          "requiresFacts": ["kin", "same-day"]
         }
       ],
       "bearing": "glad",
@@ -102772,7 +102789,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["stranger"],
+          "requiresFacts": ["same-day", "stranger"],
           "excludesFacts": ["kin"]
         }
       ],
@@ -102798,7 +102815,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["stranger"],
+          "requiresFacts": ["same-day", "stranger"],
           "excludesFacts": ["kin"]
         }
       ],
@@ -112770,6 +112787,14 @@
           "purpose": "hallway-word",
           "key": "lobbyist-word",
           "outcome": "refused"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
         }
       ],
       "bearing": "tender",
@@ -118968,30 +118993,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.understood-take-care",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Understood. Take care.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "accept",
-        "key": "door"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.okay-thanks-anyway",
       "move": "follow-accept",
       "kind": "spoken",
@@ -119352,31 +119353,6 @@
       "date": "2026-10-29",
       "tag": {
         "move": "answer",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.good-luck-with-it-2",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Good luck with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "accept",
         "key": "door"
       }
     },
@@ -120070,67 +120046,6 @@
       }
     },
     {
-      "key": "scene-talk.state-accept-terms.thank-you",
-      "move": "state-accept-terms",
-      "kind": "spoken",
-      "text": "Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "accept-terms",
-          "role": "asked"
-        }
-      ],
-      "transcriptsUsing": 6578,
-      "bySource": {
-        "Air Force Historical Research Agency, USAF Oral History Program": 1,
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 3,
-        "Federal Election Commission (fec.gov)": 11,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 2,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 27,
-        "National Archives History Office oral history project": 30,
-        "National Archives History Office oral history project (nprc-oral-histories)": 7,
-        "National Archives History Office oral history project (nyc-oral-histories)": 4,
-        "National Archives History Office oral history project (ross-oral-histories)": 1,
-        "National Archives History Office oral history project (veterans-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 34,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 61,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 20,
-        "U.S. Senate Historical Office oral history": 26,
-        "briefing": 768,
-        "crec": 92,
-        "dcpd": 3420,
-        "doi": 1,
-        "hearings": 1592,
-        "house": 70,
-        "hud": 1,
-        "nasa": 101,
-        "nasa2": 102,
-        "nih": 14,
-        "nps": 159,
-        "nps.gov": 5,
-        "nps.gov (PDF)": 3,
-        "va": 17,
-        "wpa": 2
-      },
-      "source": {
-        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
-        "date": "2026-09-30",
-        "granule": "CHRG-119shrg60282",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "agree",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.state-accept-terms.thanks",
       "move": "state-accept-terms",
       "kind": "spoken",
@@ -120370,6 +120285,158 @@
       "tag": {
         "move": "answer",
         "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.it-came-down-to-a-drawing-and-your-name-came-out-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "It came down to a drawing, and your name came out. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["tied-lot"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.we-tied-and-the-vote-to-settle-it-went-your-way-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "We tied, and the vote to settle it went your way. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["tied-vote"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.we-tied-and-the-drawing-settled-it-that-s-the-law-here-and-it-won-t-change",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "We tied, and the drawing settled it. That's the law here, and it won't change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "ask",
+          "requiresFacts": ["tied-lot"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.we-tied-and-the-vote-to-settle-it-is-done-i-don-t-expect-that-to-change",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "We tied, and the vote to settle it is done. I don't expect that to change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "ask",
+          "requiresFacts": ["tied-vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.as-far-as-i-know-every-ballot-is-counted-i-don-t-expect-it-to-move",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "As far as I know, every ballot is counted. I don't expect it to move.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-s-it-one-vote-and-enough-of-us-remember-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That's it. One vote, and enough of us remember it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "recall-confront",
+          "key": "threat",
+          "after": "ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
       }
     },
     {
