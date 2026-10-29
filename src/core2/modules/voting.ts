@@ -26,6 +26,7 @@ import electorsData from "../data/elections/electoral-votes.json" with { type: "
 import { contingentElection } from "../contingent-election";
 import { lawChain } from "./laws";
 import { placeStateKeys } from "../places";
+import territoryPlaces from "../data/places/territory-places.json" with { type: "json" };
 import {
   NATIONAL_ENGAGEMENT,
   countPlaces,
@@ -86,6 +87,9 @@ import {
   ELECTIONS_MODULE_ID,
   ballot,
   registerWardResidency,
+  keepPetitionCheck,
+  openPetition,
+  petitionOf,
   type ContestRow,
   type FilingRow,
 } from "./elections";
@@ -360,6 +364,13 @@ export const VOTING_MODULE: CoreModule = {
     },
   },
   onCalendarWork: votingCalendarWork,
+  // A filing's petition opens the day it is filed, and the clerk's check of
+  // it goes on the calendar (`openFilingPetition`).
+  eventKinds: ["candidate-filed"],
+  onEvent: (api, event) => {
+    const filingId = event.facts?.filingId;
+    if (typeof filingId === "string") openFilingPetition(api, filingId);
+  },
 };
 
 function table(api: CoreAPI, name: string) {
@@ -437,6 +448,140 @@ function scheduleContest(api: CoreAPI, contest: ContestRow): void {
   });
 }
 
+/**
+ * Open a petitioning filing's petition: the signatures its side's law asks,
+ * the count this world's clerk checks (`petitionNeededHere`) and its
+ * deadline, with the clerk's check on the calendar the morning after it.
+ */
+function openFilingPetition(api: CoreAPI, filingId: string): void {
+  const filing = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  if (filing?.status !== "petitioning") return;
+  const held = petitionOf(api, filingId);
+  if (held && !held.check && held.opened === filing.filedOn) return;
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(filing.contestId) as unknown as ContestRow;
+  const rule = filingRulesFor(
+    api,
+    contest,
+    filing.party ? "party" : "independent",
+  ).petition;
+  const petition = openPetition(api, filing, {
+    rule,
+    needed: petitionNeededHere(api, contest, rule.count),
+  });
+  // Where the law asks no signatures, the clerk takes the filing at the
+  // counter: nothing to circulate.
+  if (petition.needed === 0) {
+    keepPetitionCheck(api, filing.id, { valid: 0, struckIds: [] });
+    return;
+  }
+  const key = `petition-check:${filing.id}:${petition.opened}`;
+  const calendar = api.moduleCalendar(VOTING_MODULE_ID);
+  if (calendar.get(key)) return;
+  calendar.schedule({
+    key,
+    date: dayAfter(petition.due),
+    kind: "petition-check",
+    source: {
+      tag: rule.basis === "read" ? "SOURCED" : "ESTIMATED",
+      citation: rule.source,
+      asOf: api.state.date,
+      ...(rule.basis === "read"
+        ? {}
+        : { estimatedFrom: "SG-GOV-petition-count-estimated" }),
+    },
+    sourceRecordIds: [petition.id],
+  });
+}
+
+/**
+ * The signatures a petition needs in this world: the law's count where the
+ * town is the district. Where the district reaches past the town, the
+ * world holds no one outside it to sign, so the clerk counts the town's
+ * share of the law's count by eligible voters, at least one; where the
+ * district's voters are not on record (an island area's), by the town's
+ * share of its people (`districtPeopleShare`).
+ */
+function petitionNeededHere(
+  api: CoreAPI,
+  contest: ContestRow,
+  count: number,
+): number {
+  if (count <= 0) return 0;
+  const { places } = basePlaces(api, contest);
+  const total = places.reduce((n, p) => n + p.eligible, 0);
+  const share =
+    places.length && total > 0
+      ? Math.min(
+          1,
+          electorateRoll(api).reduce((n, v) => n + v.count, 0) / total,
+        )
+      : contest.level === "state" || contest.level === "federal"
+        ? districtPeopleShare(api, contest)
+        : 1;
+  if (share >= 1) return count;
+  // stopgapId: SG-GOV-petition-town-share
+  api.stopgap("SG-GOV-petition-town-share");
+  return Math.max(1, Math.ceil(count * share));
+}
+
+const islandPeople = new Map<string, number>();
+for (const row of territoryPlaces.rows as readonly (readonly unknown[])[])
+  islandPeople.set(
+    String(row[2]),
+    (islandPeople.get(String(row[2])) ?? 0) + Number(row[5]),
+  );
+
+/**
+ * The town's share of a state or federal district's people where its
+ * voters are not on record: the town's people over the island area's
+ * villages' people (their 2020 counts), shared among the office's
+ * districts; the whole count where neither is recorded.
+ */
+function districtPeopleShare(api: CoreAPI, contest: ContestRow): number {
+  const people = islandPeople.get(town(api).stateKey.slice(3)) ?? 0;
+  const districts =
+    contest.family === "stateLegislative"
+      ? new Set(
+          (
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("seats")
+              .query("byOffice", [contest.officeId]) as unknown as {
+              district?: string | null;
+            }[]
+          ).map((s) => s.district ?? ""),
+        ).size || 1
+      : 1;
+  const own = Number(api.state.placeMetadata.referencePopulation);
+  return people > 0 && own > 0 ? Math.min(1, (own * districts) / people) : 1;
+}
+
+/**
+ * The clerk's check of a petition, the morning after its deadline: each
+ * signature stands where its signer is on the count's roll that day (alive,
+ * living in the town, of voting age, not barred), and is struck otherwise.
+ * Enough standing puts the filing on the ballot; too few leave it short.
+ */
+function checkPetition(api: CoreAPI, petitionId: string): void {
+  const filingId = petitionId.slice("petition:".length);
+  const petition = petitionOf(api, filingId);
+  if (!petition || petition.check) return;
+  const roll = new Set(electorateRoll(api).map((v) => v.id));
+  const struckIds = petition.signers
+    .filter((s) => !roll.has(s.personId))
+    .map((s) => s.personId);
+  keepPetitionCheck(api, filingId, {
+    valid: petition.signers.length - struckIds.length,
+    struckIds,
+  });
+}
+
 /** Once a seat's contest is decided, its next cycle's contest opens. */
 export function openNextCycle(api: CoreAPI, seatId: string): void {
   const next = openNextContest(api, seatId);
@@ -449,6 +594,8 @@ function votingCalendarWork(
 ): void {
   if (work.kind === "filing-closes")
     fileStandingCandidates(api, work.sourceRecordIds[0]!);
+  if (work.kind === "petition-check")
+    checkPetition(api, work.sourceRecordIds[0]!);
   if (work.kind === "primary") holdPrimary(api, work.sourceRecordIds[0]!);
   if (work.kind === "election-day") holdElection(api, work.sourceRecordIds[0]!);
   if (work.kind === "take-office") takeOffice(api, work.sourceRecordIds[0]!);
@@ -1293,9 +1440,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
   for (const party of [-1, 1].map((side) => partyOnSide(api, side)))
     if (
       !ballot(api, contestId).some(
-        (f) =>
-          f.status === "on-ballot" &&
-          partySide(f.party ?? null) === partySide(party),
+        (f) => partySide(f.party ?? null) === partySide(party),
       )
     ) {
       const nominee =

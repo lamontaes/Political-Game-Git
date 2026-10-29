@@ -17,7 +17,6 @@
     "water-violations-to-infant-health",
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
-    "snap-to-food-insecurity",
     "minimum-wage-to-low-wage-jobs",
     "school-spending-to-attainment",
     "enforcement-to-hispanic-enrollment",
@@ -232,6 +231,10 @@
       "waitingOn": ["program.child-benefit-dollars", "household.child-poverty"],
       "needsSize": true
     },
+    "snap-to-food-insecurity": {
+      "waitingOn": [],
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment and stops a head a law takes off it (the work requirement for assistance after the head's months, by the law row in force), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a household that loses its benefit buys less of its plan and what it cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
+    },
     "minimum-wage-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/modules/jobs.ts wageFloor raises pay; src/core2/world-poverty.ts counts it"
@@ -279,12 +282,12 @@
       "needsSize": true
     },
     "police-killing-to-graduation": {
-      "waitingOn": ["police.killing-nearby", "school.graduation"],
+      "waitingOn": ["police.killing-nearby"],
       "needsSize": true
     },
     "school-move-to-scores": {
-      "waitingOn": ["housing.mid-year-school-move", "school.test-scores"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the school engine's math test (decideSchoolOutcome in src/core2/school-outcomes.ts), which reads the counted-moves record of each household that moved into the town after the school year began (countedMoves in src/core2/modules/counted-moves.ts, direction in) and lowers each such eighth grader's own expected share of clearing the proficiency line by this row's size (carriedLink), so the fifth's expected passes fall by the size times the switchers' weight; the group row records the switchers and the result row of a full student records the move it stands on. The web does not run the link because its cause is a record of the individual student, not a rate of the place (stopgap SG-SCHOOL-switch-window)"
     },
     "lead-to-reading": {
       "waitingOn": ["health.blood-lead", "school.far-below-proficient"]
@@ -300,7 +303,7 @@
       "waitingOn": ["school.test-scores"]
     },
     "daca-to-graduation": {
-      "waitingOn": ["immigration.deferred-action", "school.graduation"],
+      "waitingOn": ["immigration.deferred-action"],
       "needsSize": true
     },
     "graduation-to-earnings": {
@@ -602,14 +605,6 @@
       "owner": "OPUS-WORLD",
       "links": 5
     },
-    "school.graduation": {
-      "owner": "OPUS-GOV",
-      "links": 4
-    },
-    "school.test-scores": {
-      "owner": "OPUS-GOV",
-      "links": 4
-    },
     "crime.rate-index": {
       "owner": "OPUS-CORE",
       "links": 3
@@ -620,6 +615,10 @@
     },
     "health.coverage": {
       "owner": "OPUS-PEOPLE",
+      "links": 3
+    },
+    "school.test-scores": {
+      "owner": "OPUS-GOV",
       "links": 3
     },
     "business.incentive-deal": {
@@ -651,6 +650,10 @@
       "links": 2
     },
     "program.child-benefit-dollars": {
+      "owner": "OPUS-GOV",
+      "links": 2
+    },
+    "school.graduation": {
       "owner": "OPUS-GOV",
       "links": 2
     },
@@ -787,10 +790,6 @@
       "links": 1
     },
     "housing.home-prices": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "housing.mid-year-school-move": {
       "owner": "OPUS-WORLD",
       "links": 1
     },
