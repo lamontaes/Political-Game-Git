@@ -1,6 +1,26 @@
 {
   "entries": [
     {
+      "version": "0.64.0",
+      "releasedOn": "2026-10-29",
+      "revision": "b5c5361c3c967ad92439013cd311fe13b649eb74",
+      "changeIds": [
+        "office-the-budget-season",
+        "officials-president-load",
+        "words-concession-call-in-a-tie",
+        "words-concession-test-unopposed",
+        "words-family-filing-names-the-office",
+        "words-job-offer-says-job-and-pay",
+        "words-printed-interview-bribe-vacancy-unworded",
+        "words-recall-answer-names-the-vote",
+        "words-recall-count-journal",
+        "words-recall-count-names-the-answer",
+        "words-scene-bank-slots-and-duplicates",
+        "words-today-only-on-the-day",
+        "words-vote-sought-narration"
+      ]
+    },
+    {
       "version": "0.63.0",
       "releasedOn": "2026-10-29",
       "revision": "e6b47c8453a98d2429676dc11cc57a4794b69152",

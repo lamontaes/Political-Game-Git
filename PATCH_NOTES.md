@@ -296,6 +296,85 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.64.0
+
+_Released October 29, 2026._
+
+### Added
+
+- **Councils hold a public hearing on the budget before they vote it** A council
+  or county board now holds a public hearing on the budget about a month before
+  the fiscal year starts, after the mayor's or executive's proposal is in. The
+  vote on the first day of the year is on the same bill that was heard.
+
+### Fixed
+
+- **After a tied race, the runner-up's call says how the tie was settled** When
+  a race ties and the state's law settles it by a drawing or by a board's or
+  legislature's vote, the runner-up who calls the winner now says so ("It came
+  down to a drawing, and your name came out. Congratulations."), and the winner
+  can answer that the drawing or the vote settled it. Before, the call had no
+  line for a tie.
+
+- **The recall organizer says only what the petition holds: your vote** At the
+  recall petition table, when you ask what the petition says you did, the
+  organizer now names your vote ("That you voted for Ordinance 2025-10. That's
+  all it needs to say.") instead of claiming you broke a promise no record
+  holds. Lines about a broken promise, a mailer or office hours no longer play
+  unless a record of them exists.
+
+- **A scene says "today" only when it plays on the day it happened** A scene's
+  opening narration says "today", "tonight" or "this morning" only when the
+  scene plays on the day of the record behind it, and "yesterday" only the day
+  after. A scene that comes up later opens with a line that names no day, so it
+  can never say "today" about something that happened on Monday when the clock
+  reads Wednesday.
+
+### Changed
+
+- **Your answer at home after filing names the office you filed for** After you
+  file, when someone at home asks about the race, one of your answers used to be
+  "The council's been asleep for ten years. Somebody had to." whatever office
+  you filed for. It now names the office from your filing: "Somebody has to run
+  for County assessor. Why not me?"
+
+- **Every job offer says the job and what it pays** When someone calls to offer
+  you a job, the offer now always says the position and the hourly pay from the
+  employer's record, for example "The opening at Cunningham's Kitchen is yours
+  if you want it: a server, $18.84 an hour." Before, three of the five ways an
+  offer could be said left out the pay, and two left out the job.
+
+- **Every story the press prints has words, and interviews name what they were
+  about** Some stories in News had no words at all: a reporter's story that an
+  official took a bribe, a seat in another state left empty, and interviews
+  about a budget line. They now read, for example, "Records show Jonathan
+  Moseley took a bribe while in office." and "A U.S. Senator from Minnesota has
+  died in office, and the seat is empty." Interviews now say what was asked
+  about in plain words: "We asked Shane Randall about a higher minimum age to
+  buy a handgun." instead of "about raise handgun purchase age".
+
+- **Your journal tells the count of a petition to recall you** When a petition
+  to recall you is counted, your journal now says how it went: "519 people
+  signed to recall me. It went to a vote." Where you heard the petitioners out
+  and fewer signed for it, it says so: "Hearing the petitioners out cost them 79
+  signatures, not the vote." Before, the count never reached the official it was
+  about unless they happened to know the organizer.
+
+- **The news of a recall petition's count says how many signed** The news of a
+  recall petition's count used to say only that it had enough signatures for a
+  vote, or that it fell short. It now says how many signed and how many were
+  needed: "It had 519 signatures, and 230 were needed." Where the official heard
+  the petitioners out and fewer signed for it, the story says so: "After Yasmin
+  Cook heard the petitioners out, the count came in 79 lower."
+
+- **Asking a colleague for their vote opens from your side** When you ask a
+  colleague for their vote the evening before the roll, the scene used to open
+  as if they had come to you ("Pat Rivera catches you outside the chamber"). It
+  now opens from your side: "It's the evening before the vote on Ordinance
+  2025-4. You catch Deborah on the way out." An ask the evening before the roll
+  that falls in the chamber is now a scene too; before, only one at the office
+  or by phone was, and one in the chamber went to the journal unseen.
+
 ## PRE-ALPHA 0.63.0
 
 _Released October 29, 2026._
