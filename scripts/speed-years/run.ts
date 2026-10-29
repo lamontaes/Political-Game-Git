@@ -8,7 +8,9 @@
  *     [--same-records] [--proof-out <proof.json>]
  *
  * The place is drawn from all 56 by the seed unless `--place` names a key.
- * Prints the build seconds and each year's seconds, and exits 1 when a year
+ * Prints the build seconds and each year's seconds, the heap and process
+ * memory after a collection, and how many records the world keeps (a long run,
+ * `--years 100`, shows whether a save grows), and exits 1 when a year
  * runs over `--max-seconds` (the game's own limit is 120 seconds a year).
  * `--out` writes a receipt (`compare.ts`'s `SpeedReceipt`); `--baseline` reads
  * another and exits 1 when a year is more than 20% slower (`compareYears`),
@@ -64,28 +66,11 @@ console.log(
 const git = (...gitArgs: string[]) =>
   execFileSync("git", gitArgs, { encoding: "utf8" }).trim();
 const proofOut = option("proof-out", "");
+const out = option("out", "");
+const mib = (bytes: number) => Math.round(bytes / 1048576);
 let over = false;
 const rows: YearTiming[] = [];
-for (let year = 1; year <= years; year += 1) {
-  const began = performance.now();
-  const target = addDays(makeIsoDate(world.core.date), 365);
-  advanceCore(world.core, target);
-  const took = seconds(began);
-  // Dev mode's records proof, taken after the clock stops (`dev-proof.ts`).
-  const proof = recordProof(world.core, { rows: year === years && !!proofOut });
-  if (proof.rows) writeFileSync(proofOut, JSON.stringify(proof));
-  rows.push({
-    year,
-    seconds: took,
-    fingerprint: proof.digest,
-    tables: proof.tables,
-    date: world.core.date,
-  });
-  console.log(`year ${year}: ${took} s, through ${world.core.date}`);
-  if (took > maxSeconds) over = true;
-}
-if (over) console.error(`over ${maxSeconds} seconds`);
-const receipt: SpeedReceipt = {
+const receipt = (): SpeedReceipt => ({
   seed,
   place: placeKey,
   stepDays: 365,
@@ -102,15 +87,50 @@ const receipt: SpeedReceipt = {
   host: hostname(),
   exclusive: args.includes("--exclusive"),
   rows,
-};
-const out = option("out", "");
-if (out) writeFileSync(out, `${JSON.stringify(receipt, null, 2)}\n`);
+});
+for (let year = 1; year <= years; year += 1) {
+  const began = performance.now();
+  const target = addDays(makeIsoDate(world.core.date), 365);
+  advanceCore(world.core, target);
+  const took = seconds(began);
+  // Dev mode's records proof, taken after the clock stops (`dev-proof.ts`).
+  const proof = recordProof(world.core, { rows: year === years && !!proofOut });
+  if (proof.rows) writeFileSync(proofOut, JSON.stringify(proof));
+  // What the save keeps, after a collection (`--expose-gc`), so a long run shows whether it grows.
+  (globalThis as { gc?: () => void }).gc?.();
+  const kept = Object.entries(proof.tables).sort(
+    (a, b) => b[1].rows - a[1].rows,
+  );
+  rows.push({
+    year,
+    seconds: took,
+    fingerprint: proof.digest,
+    tables: proof.tables,
+    date: world.core.date,
+    heapMiB: mib(process.memoryUsage().heapUsed),
+    rssMiB: mib(process.memoryUsage().rss),
+    records: kept.reduce((sum, [, table]) => sum + table.rows, 0),
+  });
+  const row = rows.at(-1)!;
+  console.log(
+    `year ${year}: ${took} s, through ${world.core.date}; heap ${row.heapMiB} MB, ` +
+      `process ${row.rssMiB} MB; ${row.records} records, the most in ` +
+      kept
+        .slice(0, 3)
+        .map(([name, table]) => `${name} ${table.rows}`)
+        .join(", "),
+  );
+  if (took > maxSeconds) over = true;
+  // Each year's receipt is saved as it ends, so a long run keeps its marks if stopped.
+  if (out) writeFileSync(out, `${JSON.stringify(receipt(), null, 2)}\n`);
+}
+if (over) console.error(`over ${maxSeconds} seconds`);
 const baseline = option("baseline", "");
 let problems: string[] = [];
 if (baseline) {
   problems = compareYears(
     JSON.parse(readFileSync(baseline, "utf8")) as SpeedReceipt,
-    receipt,
+    receipt(),
     args.includes("--same-records"),
   );
   for (const problem of problems) console.error(problem);
