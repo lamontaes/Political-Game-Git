@@ -226,14 +226,27 @@ check(
 // (one rule, not a second copy): the responsible fact, else the person its
 // record names as deciding the harm (who decided a layoff), else the topic or
 // the institution the record names.
-const responsible = (id: string) =>
+// The rule names the decider only while they are a living full person, so it
+// is read as it stood the day the drive formed: a decider whose household was
+// filled in from the counts after that day was counted then, and the rule
+// named the employer (Dededo, Guam, seed 6a86a6dc…ffa2: the layoff's decider
+// was filled in later in the year, and the year-end reading named them).
+const filledAt = residentsRuntime(coreAPI(core))?.filledAt;
+const responsible = (id: string, formedAt: string) => {
   // The trace keeps the event without its id, people and place; the engine's
   // rule reads only the id, the facts, the topic and the kind.
-  responsibleId(
-    DEFAULT_DRIVES_DATA,
-    { ...events.get(id)!, id } as unknown as CoreEventInput,
-    core.people,
-  );
+  const event = { ...events.get(id)!, id } as unknown as CoreEventInput;
+  const decider = event.facts?.[DEFAULT_DRIVES_DATA.factKeys.decidedBy];
+  const household = decider
+    ? core.people.get(decider as never)?.householdId
+    : undefined;
+  const later = household ? filledAt?.get(household) : undefined;
+  const people =
+    later && later > formedAt
+      ? new Map([...core.people].filter(([key]) => key !== decider))
+      : core.people;
+  return responsibleId(DEFAULT_DRIVES_DATA, event, people);
+};
 const isRecord = (id: string) =>
   core.people.has(id as never) || core.organizations.has(id);
 const aimed = drivesReport(core).drives.filter(
@@ -242,7 +255,7 @@ const aimed = drivesReport(core).drives.filter(
 let misaimed = 0;
 const misaimedSample: string[] = [];
 for (const drive of aimed) {
-  const party = responsible(drive.sourceEventId);
+  const party = responsible(drive.sourceEventId, drive.formedAt);
   if (drive.targetId === party && isRecord(drive.targetId!)) continue;
   misaimed += 1;
   if (misaimedSample.length < 3)
