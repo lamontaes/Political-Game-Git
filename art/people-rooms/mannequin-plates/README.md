@@ -3,6 +3,7 @@
 Owner, Oct 28: "do not put people in until there are mannequins in there for every position."
 
 Per scene: `<scene>-mannequins.png` (the room repainted with green mannequins in the exact poses used; data only, never drawn) and `<scene>.mannequins.json`:
+
 - `spots[]`: `pose`, `seat`, `facing` (the pack's terms), `head` {top, x, width}, `box`, and `feet` (standing or seated on a couch or chair) or `hands` + `deskEdge` (seated behind a desk: only what is above the desk edge is drawn, plus the hands resting on it).
 - `front` (only when furniture really stands in front): a mask PNG over the spot's `box`; after drawing the person, draw the room back through it. Oct 29: the earlier front masks were all room seen through the gap between a mannequin's legs or between an arm and its body, not furniture, and are removed; a front piece now counts only if it hides the body across at least 35% of the mannequin's width, and every cut hugs the mannequin's own black outline. None of the current scenes has one (the address and briefing desks use `deskEdge`).
 
