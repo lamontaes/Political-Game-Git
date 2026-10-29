@@ -106,7 +106,11 @@ def desk(canvas, d, head_top_y, hands_y, center_x, desk_edge_y, on_desk=None, fr
 def place(canvas, spot, f, d, fronts):
     if 'deskEdge' in spot and f.get('deskTop'):
         # drawn behind a table: its back edge goes on the room desk's back edge, arms and hands as drawn
-        s = (spot['deskEdge'] - spot['head']['top']) / max(f['deskTop'] - d['head_top'], 1)
+        want = spot['deskEdge'] - spot['head']['top']
+        if spot.get('deskWidth'):   # size from the painted desk (Firefly may paint the mannequin small)
+            want = min(max(0.30 * spot['deskWidth'], 0.8 * want), 1.4 * want)
+        s = want / max(f['deskTop'] - d['head_top'], 1)
+        spot = dict(spot, head=dict(spot['head'], top=int(round(spot['deskEdge'] - want))))
         im = d['img'].convert('RGBa').resize((max(1, int(d['img'].width * s)), max(1, int(d['img'].height * s))), Image.LANCZOS).convert('RGBA')
         ox = int(round(spot['head']['x'] - f['head']['x'] * s)); oy = int(round(spot['head']['top'] - d['head_top'] * s))
         layer = Image.new('RGBA', canvas.size, (0, 0, 0, 0))

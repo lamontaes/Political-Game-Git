@@ -32,7 +32,9 @@
     407
    ],
    "hands": 406,
-   "deskEdge": 403
+   "deskEdge": 403,
+   "deskWidth": 268,
+   "onDesk": "oval-wide.ondesk-0.png"
   },
   {
    "id": "oval-wide-1",

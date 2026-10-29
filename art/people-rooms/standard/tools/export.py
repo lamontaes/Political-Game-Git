@@ -31,6 +31,30 @@ def desk_back_edge(empty, spot, hands):
     return int(lo + int(np.argmax(prof)))
 
 
+def desk_width(empty, spot):
+    """Length of the desk's front edge in pixels: the dark drawn line of the desk top's front edge (the strongest
+    level edge just below the back edge), followed left and right from the spot's center. A seated adult's head
+    sits about 0.3 of a big desk's length above its top."""
+    g = np.asarray(empty.convert('L')).astype(float)
+    gy = np.abs(ndi.sobel(ndi.gaussian_filter(g, 0.8), 0))
+    cx = int(spot['head']['x']); half = max(10, (spot['box'][2] - spot['box'][0]) // 2)
+    lo = spot['deskEdge'] + 4
+    hi = spot['deskEdge'] + int(0.4 * (spot['hands'] - spot['head']['top'])) + 8
+    prof = gy[lo:hi, cx - half:cx + half].mean(1)
+    y = lo + int(np.argmax(prof))
+    dark = (g[y - 2:y + 3] < 75).any(0)
+    dark = ndi.binary_closing(dark, iterations=3)
+    if not dark[cx]:
+        return 0
+    l = cx
+    while l > 0 and dark[l - 1]:
+        l -= 1
+    r = cx
+    while r < len(dark) - 1 and dark[r + 1]:
+        r += 1
+    return int(r - l + 1)
+
+
 def export(shot, template, frames=()):
     plate = Image.open(os.path.join(HERE, 'plates', shot + '.plate.png')).convert('RGB')
     empty = Image.open(os.path.join(HERE, 'plates', shot + '.empty.png')).convert('RGB')
@@ -67,6 +91,7 @@ def export(shot, template, frames=()):
             # the body stops at the desk's back edge (the strongest level edge in the empty room between the
             # chest and the hands); only the hands and cuffs come forward onto the desk top
             spot.update(hands=mb, deskEdge=desk_back_edge(empty, spot, mb))
+            spot['deskWidth'] = desk_width(empty, spot)
             # what of the body lies on the desk (forearms and hands): the mannequin's shape below the desk edge
             bx0, by0, bx1, by1 = spot['box']
             on = with_outline(M, plate).copy(); on[:spot['deskEdge']] = False

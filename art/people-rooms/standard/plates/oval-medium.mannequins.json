@@ -32,7 +32,9 @@
     512
    ],
    "hands": 511,
-   "deskEdge": 491
+   "deskEdge": 491,
+   "deskWidth": 530,
+   "onDesk": "oval-medium.ondesk-0.png"
   }
  ],
  "pictures": [

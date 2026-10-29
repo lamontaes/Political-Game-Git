@@ -1605,6 +1605,586 @@
     "y": 505
    },
    "stature": 497
+  },
+  {
+   "id": "man-medium/shirtsleeves/talk/tq-left",
+   "person": "man-medium",
+   "kind": "look",
+   "pose": "talk",
+   "angle": "tq-left",
+   "facing": -45,
+   "seat": "none",
+   "dress": "business",
+   "outfit": "shirtsleeves",
+   "outfitLabel": "white shirt, sleeves rolled, loosened burgundy tie, navy trousers",
+   "hair": "his own",
+   "file": "people/man-medium/shirtsleeves/talk/tq-left.png",
+   "sheet": "v4-mm-talk-shirtsleeves.png",
+   "size": [
+    187,
+    705
+   ],
+   "head": {
+    "top": 4,
+    "x": 88.5,
+    "width": 83
+   },
+   "feet": {
+    "x": 78.5,
+    "y": 703
+   },
+   "stature": 699
+  },
+  {
+   "id": "man-medium/shirtsleeves/talk/front",
+   "person": "man-medium",
+   "kind": "look",
+   "pose": "talk",
+   "angle": "front",
+   "facing": 0,
+   "seat": "none",
+   "dress": "business",
+   "outfit": "shirtsleeves",
+   "outfitLabel": "white shirt, sleeves rolled, loosened burgundy tie, navy trousers",
+   "hair": "his own",
+   "file": "people/man-medium/shirtsleeves/talk/front.png",
+   "sheet": "v4-mm-talk-shirtsleeves.png",
+   "size": [
+    221,
+    705
+   ],
+   "head": {
+    "top": 6,
+    "x": 110.0,
+    "width": 78
+   },
+   "feet": {
+    "x": 108.5,
+    "y": 703
+   },
+   "stature": 697
+  },
+  {
+   "id": "man-medium/shirtsleeves/talk/tq-right",
+   "person": "man-medium",
+   "kind": "look",
+   "pose": "talk",
+   "angle": "tq-right",
+   "facing": 45,
+   "seat": "none",
+   "dress": "business",
+   "outfit": "shirtsleeves",
+   "outfitLabel": "white shirt, sleeves rolled, loosened burgundy tie, navy trousers",
+   "hair": "his own",
+   "file": "people/man-medium/shirtsleeves/talk/tq-right.png",
+   "sheet": "v4-mm-talk-shirtsleeves.png",
+   "size": [
+    281,
+    691
+   ],
+   "head": {
+    "top": 5,
+    "x": 177.0,
+    "width": 80
+   },
+   "feet": {
+    "x": 185.5,
+    "y": 689
+   },
+   "stature": 684
+  },
+  {
+   "id": "man-medium/shirtsleeves/talk/btq-left",
+   "person": "man-medium",
+   "kind": "look",
+   "pose": "talk",
+   "angle": "btq-left",
+   "facing": -135,
+   "seat": "none",
+   "dress": "business",
+   "outfit": "shirtsleeves",
+   "outfitLabel": "white shirt, sleeves rolled, loosened burgundy tie, navy trousers",
+   "hair": "his own",
+   "file": "people/man-medium/shirtsleeves/talk/btq-left.png",
+   "sheet": "v4-mm-talk-shirtsleeves.png",
+   "size": [
+    270,
+    685
+   ],
+   "head": {
+    "top": 6,
+    "x": 177.0,
+    "width": 82
+   },
+   "feet": {
+    "x": 167.0,
+    "y": 683
+   },
+   "stature": 677
+  },
+  {
+   "id": "man-medium/shirtsleeves/talk/btq-right",
+   "person": "man-medium",
+   "kind": "look",
+   "pose": "talk",
+   "angle": "btq-right",
+   "facing": 135,
+   "seat": "none",
+   "dress": "business",
+   "outfit": "shirtsleeves",
+   "outfitLabel": "white shirt, sleeves rolled, loosened burgundy tie, navy trousers",
+   "hair": "his own",
+   "file": "people/man-medium/shirtsleeves/talk/btq-right.png",
+   "sheet": "v4-mm-talk-shirtsleeves.png",
+   "size": [
+    265,
+    682
+   ],
+   "head": {
+    "top": 7,
+    "x": 101.0,
+    "width": 76
+   },
+   "feet": {
+    "x": 156.0,
+    "y": 680
+   },
+   "stature": 673
+  },
+  {
+   "id": "man-heavy/suitnavy/stand/tq-left",
+   "person": "man-heavy",
+   "kind": "look",
+   "pose": "stand",
+   "angle": "tq-left",
+   "facing": -45,
+   "seat": "none",
+   "dress": "formal",
+   "outfit": "suitnavy",
+   "outfitLabel": "navy suit, white shirt, gold tie",
+   "hair": "his own",
+   "file": "people/man-heavy/suitnavy/stand/tq-left.png",
+   "sheet": "v4-mh-stand-suitnavy.png",
+   "size": [
+    218,
+    706
+   ],
+   "head": {
+    "top": 4,
+    "x": 110.0,
+    "width": 82
+   },
+   "feet": {
+    "x": 105.5,
+    "y": 704
+   },
+   "stature": 700
+  },
+  {
+   "id": "man-heavy/suitnavy/stand/front",
+   "person": "man-heavy",
+   "kind": "look",
+   "pose": "stand",
+   "angle": "front",
+   "facing": 0,
+   "seat": "none",
+   "dress": "formal",
+   "outfit": "suitnavy",
+   "outfitLabel": "navy suit, white shirt, gold tie",
+   "hair": "his own",
+   "file": "people/man-heavy/suitnavy/stand/front.png",
+   "sheet": "v4-mh-stand-suitnavy.png",
+   "size": [
+    240,
+    706
+   ],
+   "head": {
+    "top": 6,
+    "x": 119.5,
+    "width": 79
+   },
+   "feet": {
+    "x": 119.5,
+    "y": 704
+   },
+   "stature": 698
+  },
+  {
+   "id": "man-heavy/suitnavy/stand/tq-right",
+   "person": "man-heavy",
+   "kind": "look",
+   "pose": "stand",
+   "angle": "tq-right",
+   "facing": 45,
+   "seat": "none",
+   "dress": "formal",
+   "outfit": "suitnavy",
+   "outfitLabel": "navy suit, white shirt, gold tie",
+   "hair": "his own",
+   "file": "people/man-heavy/suitnavy/stand/tq-right.png",
+   "sheet": "v4-mh-stand-suitnavy.png",
+   "size": [
+    218,
+    706
+   ],
+   "head": {
+    "top": 4,
+    "x": 107.5,
+    "width": 83
+   },
+   "feet": {
+    "x": 111.5,
+    "y": 704
+   },
+   "stature": 700
+  },
+  {
+   "id": "man-heavy/suitnavy/stand/btq-left",
+   "person": "man-heavy",
+   "kind": "look",
+   "pose": "stand",
+   "angle": "btq-left",
+   "facing": -135,
+   "seat": "none",
+   "dress": "formal",
+   "outfit": "suitnavy",
+   "outfitLabel": "navy suit, white shirt, gold tie",
+   "hair": "his own",
+   "file": "people/man-heavy/suitnavy/stand/btq-left.png",
+   "sheet": "v4-mh-stand-suitnavy.png",
+   "size": [
+    233,
+    704
+   ],
+   "head": {
+    "top": 3,
+    "x": 124.5,
+    "width": 85
+   },
+   "feet": {
+    "x": 113.0,
+    "y": 702
+   },
+   "stature": 699
+  },
+  {
+   "id": "man-heavy/suitnavy/stand/btq-right",
+   "person": "man-heavy",
+   "kind": "look",
+   "pose": "stand",
+   "angle": "btq-right",
+   "facing": 135,
+   "seat": "none",
+   "dress": "formal",
+   "outfit": "suitnavy",
+   "outfitLabel": "navy suit, white shirt, gold tie",
+   "hair": "his own",
+   "file": "people/man-heavy/suitnavy/stand/btq-right.png",
+   "sheet": "v4-mh-stand-suitnavy.png",
+   "size": [
+    237,
+    705
+   ],
+   "head": {
+    "top": 7,
+    "x": 118.0,
+    "width": 74
+   },
+   "feet": {
+    "x": 119.4,
+    "y": 703
+   },
+   "stature": 696
+  },
+  {
+   "id": "woman-medium/dressburgundy/couch/tq-left",
+   "person": "woman-medium",
+   "kind": "look",
+   "pose": "couch",
+   "angle": "tq-left",
+   "facing": -45,
+   "seat": "couch",
+   "dress": "business",
+   "outfit": "dressburgundy",
+   "outfitLabel": "burgundy dress",
+   "hair": "loose, shoulder length",
+   "file": "people/woman-medium/dressburgundy/couch/tq-left.png",
+   "sheet": "v4-wm-couch-dressburgundy.png",
+   "size": [
+    264,
+    525
+   ],
+   "head": {
+    "top": 6,
+    "x": 199.0,
+    "width": 78
+   },
+   "feet": {
+    "x": 95.5,
+    "y": 523
+   },
+   "stature": 517
+  },
+  {
+   "id": "woman-medium/dressburgundy/couch/front",
+   "person": "woman-medium",
+   "kind": "look",
+   "pose": "couch",
+   "angle": "front",
+   "facing": 0,
+   "seat": "couch",
+   "dress": "business",
+   "outfit": "dressburgundy",
+   "outfitLabel": "burgundy dress",
+   "hair": "loose, shoulder length",
+   "file": "people/woman-medium/dressburgundy/couch/front.png",
+   "sheet": "v4-wm-couch-dressburgundy.png",
+   "size": [
+    192,
+    703
+   ],
+   "head": {
+    "top": 6,
+    "x": 94.5,
+    "width": 93
+   },
+   "feet": {
+    "x": 96.6,
+    "y": 701
+   },
+   "stature": 695
+  },
+  {
+   "id": "woman-medium/dressburgundy/couch/tq-right",
+   "person": "woman-medium",
+   "kind": "look",
+   "pose": "couch",
+   "angle": "tq-right",
+   "facing": 45,
+   "seat": "couch",
+   "dress": "business",
+   "outfit": "dressburgundy",
+   "outfitLabel": "burgundy dress",
+   "hair": "loose, shoulder length",
+   "file": "people/woman-medium/dressburgundy/couch/tq-right.png",
+   "sheet": "v4-wm-couch-dressburgundy.png",
+   "size": [
+    263,
+    525
+   ],
+   "head": {
+    "top": 5,
+    "x": 63.0,
+    "width": 78
+   },
+   "feet": {
+    "x": 167.0,
+    "y": 523
+   },
+   "stature": 518
+  },
+  {
+   "id": "woman-medium/dressburgundy/couch/btq-left",
+   "person": "woman-medium",
+   "kind": "look",
+   "pose": "couch",
+   "angle": "btq-left",
+   "facing": -135,
+   "seat": "couch",
+   "dress": "business",
+   "outfit": "dressburgundy",
+   "outfitLabel": "burgundy dress",
+   "hair": "loose, shoulder length",
+   "file": "people/woman-medium/dressburgundy/couch/btq-left.png",
+   "sheet": "v4-wm-couch-dressburgundy.png",
+   "size": [
+    266,
+    506
+   ],
+   "head": {
+    "top": 7,
+    "x": 203.0,
+    "width": 72
+   },
+   "feet": {
+    "x": 78.2,
+    "y": 504
+   },
+   "stature": 497
+  },
+  {
+   "id": "woman-medium/dressburgundy/couch/btq-right",
+   "person": "woman-medium",
+   "kind": "look",
+   "pose": "couch",
+   "angle": "btq-right",
+   "facing": 135,
+   "seat": "couch",
+   "dress": "business",
+   "outfit": "dressburgundy",
+   "outfitLabel": "burgundy dress",
+   "hair": "loose, shoulder length",
+   "file": "people/woman-medium/dressburgundy/couch/btq-right.png",
+   "sheet": "v4-wm-couch-dressburgundy.png",
+   "size": [
+    266,
+    506
+   ],
+   "head": {
+    "top": 7,
+    "x": 62.0,
+    "width": 72
+   },
+   "feet": {
+    "x": 187.0,
+    "y": 504
+   },
+   "stature": 497
+  },
+  {
+   "id": "woman-medium/pantsuitnavy/stand/tq-left",
+   "person": "woman-medium",
+   "kind": "look",
+   "pose": "stand",
+   "angle": "tq-left",
+   "facing": -45,
+   "seat": "none",
+   "dress": "formal",
+   "outfit": "pantsuitnavy",
+   "outfitLabel": "navy pantsuit, white blouse",
+   "hair": "low ponytail",
+   "file": "people/woman-medium/pantsuitnavy/stand/tq-left.png",
+   "sheet": "v4-wm-stand-pantsuitnavy.png",
+   "size": [
+    209,
+    707
+   ],
+   "head": {
+    "top": 5,
+    "x": 103.0,
+    "width": 88
+   },
+   "feet": {
+    "x": 97.0,
+    "y": 705
+   },
+   "stature": 700
+  },
+  {
+   "id": "woman-medium/pantsuitnavy/stand/front",
+   "person": "woman-medium",
+   "kind": "look",
+   "pose": "stand",
+   "angle": "front",
+   "facing": 0,
+   "seat": "none",
+   "dress": "formal",
+   "outfit": "pantsuitnavy",
+   "outfitLabel": "navy pantsuit, white blouse",
+   "hair": "low ponytail",
+   "file": "people/woman-medium/pantsuitnavy/stand/front.png",
+   "sheet": "v4-wm-stand-pantsuitnavy.png",
+   "size": [
+    232,
+    708
+   ],
+   "head": {
+    "top": 7,
+    "x": 115.0,
+    "width": 80
+   },
+   "feet": {
+    "x": 116.1,
+    "y": 706
+   },
+   "stature": 699
+  },
+  {
+   "id": "woman-medium/pantsuitnavy/stand/tq-right",
+   "person": "woman-medium",
+   "kind": "look",
+   "pose": "stand",
+   "angle": "tq-right",
+   "facing": 45,
+   "seat": "none",
+   "dress": "formal",
+   "outfit": "pantsuitnavy",
+   "outfitLabel": "navy pantsuit, white blouse",
+   "hair": "low ponytail",
+   "file": "people/woman-medium/pantsuitnavy/stand/tq-right.png",
+   "sheet": "v4-wm-stand-pantsuitnavy.png",
+   "size": [
+    210,
+    707
+   ],
+   "head": {
+    "top": 4,
+    "x": 105.5,
+    "width": 87
+   },
+   "feet": {
+    "x": 111.0,
+    "y": 705
+   },
+   "stature": 701
+  },
+  {
+   "id": "woman-medium/pantsuitnavy/stand/btq-left",
+   "person": "woman-medium",
+   "kind": "look",
+   "pose": "stand",
+   "angle": "btq-left",
+   "facing": -135,
+   "seat": "none",
+   "dress": "formal",
+   "outfit": "pantsuitnavy",
+   "outfitLabel": "navy pantsuit, white blouse",
+   "hair": "low ponytail",
+   "file": "people/woman-medium/pantsuitnavy/stand/btq-left.png",
+   "sheet": "v4-wm-stand-pantsuitnavy.png",
+   "size": [
+    228,
+    705
+   ],
+   "head": {
+    "top": 4,
+    "x": 129.0,
+    "width": 84
+   },
+   "feet": {
+    "x": 114.5,
+    "y": 703
+   },
+   "stature": 699
+  },
+  {
+   "id": "woman-medium/pantsuitnavy/stand/btq-right",
+   "person": "woman-medium",
+   "kind": "look",
+   "pose": "stand",
+   "angle": "btq-right",
+   "facing": 135,
+   "seat": "none",
+   "dress": "formal",
+   "outfit": "pantsuitnavy",
+   "outfitLabel": "navy pantsuit, white blouse",
+   "hair": "low ponytail",
+   "file": "people/woman-medium/pantsuitnavy/stand/btq-right.png",
+   "sheet": "v4-wm-stand-pantsuitnavy.png",
+   "size": [
+    228,
+    705
+   ],
+   "head": {
+    "top": 3,
+    "x": 98.0,
+    "width": 84
+   },
+   "feet": {
+    "x": 112.5,
+    "y": 703
+   },
+   "stature": 700
   }
  ]
 }
