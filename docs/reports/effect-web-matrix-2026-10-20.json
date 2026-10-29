@@ -3,19 +3,19 @@
   "summary": {
     "links": 244,
     "lawLinks": 134,
-    "webCoverageWired": 122,
+    "webCoverageWired": 124,
     "allEightPoints": 0,
-    "reachesOrCarried": 156,
-    "namedInAStopgap": 97,
+    "reachesOrCarried": 158,
+    "namedInAStopgap": 95,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 156,
+    "reachesTheWorld": 158,
     "aboutZero": 19,
     "withAnyModerator": 23,
     "byPoint": {
       "cause": {
-        "pass": 176,
+        "pass": 179,
         "partial": 13,
-        "fail": 55,
+        "fail": 52,
         "n/a": 0
       },
       "size": {
@@ -25,9 +25,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 156,
+        "pass": 158,
         "partial": 0,
-        "fail": 69,
+        "fail": 67,
         "n/a": 19
       },
       "varied": {
@@ -38,9 +38,9 @@
       },
       "knockOn": {
         "pass": 21,
-        "partial": 36,
+        "partial": 35,
         "fail": 0,
-        "n/a": 187
+        "n/a": 188
       },
       "timing": {
         "pass": 5,
@@ -893,7 +893,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:927"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "pass",
@@ -1366,14 +1366,13 @@
       "key": "disaster-to-public-transfers",
       "from": "disaster.severe",
       "to": "gov.nondisaster-transfers",
-      "causeKind": "missing",
+      "causeKind": "engine",
       "lawLink": false,
       "webCoverage": "waiting",
       "points": {
         "cause": {
-          "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:773",
-          "why": "no measure: nothing in the core records disaster.severe"
+          "status": "pass",
+          "evidence": "the disaster-severity reader (ENGINE_READERS, src/core2/modules/outcome-web.ts), lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
@@ -1382,7 +1381,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep gov.nondisaster-transfers and no engine produces it; nothing in the core records its cause, disaster.severe"
+          "why": "no measure: the web does not keep gov.nondisaster-transfers and no engine produces it; no engine produces gov.nondisaster-transfers"
         },
         "varied": {
           "status": "fail",
@@ -1408,30 +1407,28 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
+      "wiredPoints": 4,
       "stopgap": "SG-WEB-unread-gov-nondisaster-transfers"
     },
     {
       "key": "disaster-to-out-migration",
       "from": "disaster.severe",
       "to": "population.out-migration",
-      "causeKind": "missing",
+      "causeKind": "engine",
       "lawLink": false,
-      "webCoverage": "waiting",
+      "webCoverage": "wired",
       "points": {
         "cause": {
-          "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:794",
-          "why": "no measure: nothing in the core records disaster.severe"
+          "status": "pass",
+          "evidence": "the disaster-severity reader (ENGINE_READERS, src/core2/modules/outcome-web.ts), lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
           "evidence": "data/research/outcome-web/links.json:794 size 0.05, range [0.025, 0.1], Boustan, Kahn, Rhode and Yanguas 2020 (JUE); IRS Statistics of Income state migration 2022-23"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "outcome read by src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:927",
-          "why": "the web does not run it: it waits on disaster.severe; nothing in the core records its cause, disaster.severe"
+          "status": "pass",
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -1457,30 +1454,28 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-population-out-migration"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "disaster-to-home-values",
       "from": "disaster.severe",
-      "to": "housing.home-prices",
-      "causeKind": "missing",
+      "to": "housing.home-value",
+      "causeKind": "engine",
       "lawLink": false,
-      "webCoverage": "waiting",
+      "webCoverage": "wired",
       "points": {
         "cause": {
-          "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:815",
-          "why": "no measure: nothing in the core records disaster.severe"
+          "status": "pass",
+          "evidence": "the disaster-severity reader (ENGINE_READERS, src/core2/modules/outcome-web.ts), lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
           "evidence": "data/research/outcome-web/links.json:815 size -0.052, range [-0.053, -0.038], Boustan, Kahn, Rhode and Yanguas 2020 (JUE)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "world-metrics months.medianHomeValueMinor",
-          "why": "engine doesn't read the factor: an engine records housing.home-prices, but nothing multiplies its rates by the link's effect; nothing in the core records its cause, disaster.severe"
+          "status": "pass",
+          "evidence": "src/core2/housing-sale.ts:20"
         },
         "varied": {
           "status": "fail",
@@ -1488,9 +1483,8 @@
           "why": "no moderator: every place and person moves by the same proportion"
         },
         "knockOn": {
-          "status": "partial",
-          "evidence": "feeds home-prices-to-owner-births, home-prices-to-renter-births through the web ledger",
-          "why": "chain broken: the next link reads the web's own number, not a record the owning engine wrote"
+          "status": "n/a",
+          "evidence": "no link starts from housing.home-value"
         },
         "timing": {
           "status": "partial",
@@ -1500,15 +1494,15 @@
         "knowing": {
           "status": "fail",
           "evidence": "-",
-          "why": "nobody notices: no view, news or electorate input reads housing.home-prices"
+          "why": "nobody notices: no view, news or electorate input reads housing.home-value"
         },
         "oneRule": {
           "status": "pass",
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-housing-home-prices"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "coverage-to-catastrophic-bills",
@@ -3436,7 +3430,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:932"
+          "evidence": "src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:930"
         },
         "varied": {
           "status": "pass",
@@ -3523,7 +3517,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3571,7 +3565,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -5792,7 +5786,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79"
+          "evidence": "src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78"
         },
         "varied": {
           "status": "fail",
@@ -9720,7 +9714,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:927"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9767,7 +9761,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:927"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9814,7 +9808,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:927"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9861,7 +9855,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:927"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9908,7 +9902,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:927"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -12057,9 +12051,8 @@
     },
     {
       "measure": "disaster.severe",
-      "status": "missing",
-      "evidence": "-",
-      "why": "no measure: no engine records it and the web does not keep it",
+      "status": "engine-record",
+      "evidence": "the disaster-severity reader (ENGINE_READERS, src/core2/modules/outcome-web.ts)",
       "countedTwice": false,
       "asCause": [
         "disaster-to-public-transfers",
@@ -12691,7 +12684,7 @@
     {
       "measure": "housing.eviction",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79",
+      "evidence": "src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78",
       "countedTwice": false,
       "asCause": ["eviction-to-homelessness", "eviction-to-hospital-visits"],
       "asOutcome": [
@@ -12708,6 +12701,14 @@
         "home-prices-to-owner-births",
         "home-prices-to-renter-births"
       ],
+      "asOutcome": []
+    },
+    {
+      "measure": "housing.home-value",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/housing-sale.ts:20",
+      "countedTwice": false,
+      "asCause": [],
       "asOutcome": ["disaster-to-home-values"]
     },
     {
@@ -12778,7 +12779,7 @@
     {
       "measure": "housing.renter-moves",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:932",
+      "evidence": "src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:930",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["rent-control-to-tenant-stays"]
@@ -13163,7 +13164,7 @@
     {
       "measure": "population.out-migration",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:927",
+      "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [

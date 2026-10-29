@@ -58,20 +58,8 @@
     {
       "link": "disaster-to-public-transfers",
       "outcome": "gov.nondisaster-transfers",
-      "reason": "no measure: the web does not keep gov.nondisaster-transfers and no engine produces it; nothing in the core records its cause, disaster.severe",
+      "reason": "no measure: the web does not keep gov.nondisaster-transfers and no engine produces it; no engine produces gov.nondisaster-transfers",
       "stopgapId": "SG-WEB-unread-gov-nondisaster-transfers"
-    },
-    {
-      "link": "disaster-to-out-migration",
-      "outcome": "population.out-migration",
-      "reason": "the web does not run it: it waits on disaster.severe; nothing in the core records its cause, disaster.severe",
-      "stopgapId": "SG-WEB-unread-population-out-migration"
-    },
-    {
-      "link": "disaster-to-home-values",
-      "outcome": "housing.home-prices",
-      "reason": "engine doesn't read the factor: an engine records housing.home-prices, but nothing multiplies its rates by the link's effect; nothing in the core records its cause, disaster.severe",
-      "stopgapId": "SG-WEB-unread-housing-home-prices"
     },
     {
       "link": "coverage-to-catastrophic-bills",
