@@ -7506,5 +7506,29 @@
     "addedAt": "2026-10-28",
     "replacement": "Each such seat's last contested result (2022 or 2023 returns for the chambers that vote in other years, the district's presidential vote where none), read the same way.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-petition-count-estimated",
+    "kind": "estimated-data",
+    "file": "src/core2/modules/elections.ts",
+    "line": 413,
+    "whatItFakes": "Where a place's filing row in data/research/elections/filing-requirements.json gives its signature rule as a formula (for example a share of the votes cast for the office at its last election: 27 municipal, 21 county, 14 state legislative, 13 statewide and 13 U.S. House party rows) or gives nothing, the filing's petition asks the median of the read counts for its office family and side (an independents' row that is not its own reads the party row): for a party filing 28 municipal, 50 county, 113 state legislative, 2,000 statewide and 500 U.S. House; for an independent 30, 25, 125, 3,501 and 1,000.",
+    "why": "The formulas are kept as free text; no structured threshold (share, base, minimum and maximum) is read for them yet.",
+    "addedBy": "claude/elections-petition-filing",
+    "addedAt": "2026-10-28",
+    "replacement": "A structured threshold for each formula row, its base read from the world's own results through the recall engine's signatureBase (src/core2/modules/recalls.ts), the median kept only where a row gives nothing.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-petition-town-share",
+    "kind": "partial-model",
+    "file": "src/core2/modules/voting.ts",
+    "line": 527,
+    "whatItFakes": "Where a contest's district reaches past the town (a county seat drawn as a state's places, a legislative, U.S. House or statewide race), the clerk counts the town's share of the law's signatures, by the town's eligible voters over the district's, at least one: the signatures a candidate would gather in the places the world holds only as counts are neither gathered nor checked.",
+    "why": "The world holds people one by one only in the town (two-level population); a canvass, an event and a circle reach only the town.",
+    "addedBy": "claude/elections-petition-filing",
+    "addedAt": "2026-10-28",
+    "replacement": "Signatures gathered in the district's other places at a coarse step, from the campaign's effort there, checked against the law's whole count.",
+    "status": "open"
   }
 ]
