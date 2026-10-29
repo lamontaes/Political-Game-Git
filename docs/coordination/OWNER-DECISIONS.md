@@ -6,6 +6,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 16:45 UTC: the CTO coordinates by message; idle sessions archived (owner, about 12:40 PM Eastern)
+
+- **Messages to and from the CTO (owner: "you're also your CTO and coordinator. So I know there's a rule where you can't message each other, but that was just for the other account because it kept asking me permission to message every time. I'm not getting that with you. So you can message all the sessions, et cetera, and they can message you with questions for me and all that. And I'll just come back to this one").** On the second account the CTO messages any session, and every session messages the CTO with questions for the owner, blockers and decisions; the CTO answers or relays, and the owner comes back to the CTO's session. Sessions do not message one another. The files stay the record: the channel, MERGE-FIRST, PROGRESS, PR bodies and comments, and pool Notes. Supersedes the Oct 28 05:00 UTC ban, which was about the first account's permission prompts. Carried in `AGENTS.md` ("How we talk"), `.agents/rules/how-we-talk.md` and the cto, lead-session, merger, play-first and words-engine skills.
+- **Idle sessions archived (owner: "go ahead and archive all like non-use sessions... if they're not from today, you can archive them").** 19 sessions on the second account were archived on Oct 29, 16:40 UTC. They included the Oct 19 to 28 pool, lead, helper, fixer and researcher sessions, the Oct 24 playtest session, and the stopped "Words engine narrative/English merge sequence". Kept: the CTO, the six crew sessions started today, and the owner's "Political Game words orders".
+
 ## Oct 29, 16:30 UTC: the second account's first sitting with the new CTO (owner, about 12:10 PM Eastern, after playing v0.64.0)
 
 - **The CTO on the second account** is the session "CTO handoff documentation"; it started from `CTO-HANDOFF-2026-10-29.md`.

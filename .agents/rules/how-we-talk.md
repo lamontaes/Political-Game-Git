@@ -1,10 +1,10 @@
-> **Owner, Oct 28:** sessions never message each other. Session-to-session messages are refused or lost and the work they carry is dropped. Every need, report, hand-off and answer goes through GitHub (the channel, MERGE-FIRST, PROGRESS, PR bodies and comments, pool Notes) or the owner's Drive.
+> **Owner, Oct 29 (second account):** "you're also your CTO and coordinator. So I know there's a rule where you can't message each other, but that was just for the other account because it kept asking me permission to message every time... you can message all the sessions, et cetera, and they can message you with questions for me." Sessions message the CTO and the CTO messages them; sessions never message one another. The files below stay the record: a message carries a question or a nudge, never a decision or a status that is not also written down. Supersedes the Oct 28 ban, which was about the first account.
 
 # How we talk
 
-Current as of 2026-10-24 (owner, Oct 24: "Sessions never message each other"; the acting CTO's lane PR #5963)
+Current as of 2026-10-29 (owner, Oct 29: sessions message the CTO and the CTO messages them; earlier: owner, Oct 24, the acting CTO's lane PR #5963)
 
-Sessions cannot message each other, and nobody tries. Three files on `main` carry everything; a chat message, a PR comment to another session, or a routine "nudge" is not communication. If it is not in one of these files, it was not said.
+A session sends the CTO its questions for the owner, its blockers and anything that needs a decision, and the CTO answers or relays. Sessions do not message one another. Three files on `main` stay the record: a status, a need, a ruling or a hand-off that is not in one of these files (or a PR body, a PR comment or a pool Notes line) was not said, whatever a message carried.
 
 ## The three files
 
