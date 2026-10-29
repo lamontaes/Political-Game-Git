@@ -4,8 +4,8 @@
  * gets here to its own variants; which parts those are, and how a bank's
  * `{slot}` becomes the renderer's `{{slot}}`, is decided once, here.
  *
- * A part play may say is released (`shippable`) and not held back by the
- * owner's grades (`heldByGrades`). A grading page may say the held ones.
+ * One gate decides what play may say: the owner's grades (`heldByGrades`). A
+ * part plays unless the grades hold it; the part carries no flag of its own.
  */
 import { heldByGrades } from "./english-grades";
 
@@ -21,49 +21,19 @@ export interface BankPart<Use = PartUse> {
   key: string;
   text: string;
   uses: Use[];
-  shippable: boolean;
 }
 
-/** Which of a bank's parts to take: the released ones, the unreleased ones, or both. */
-export type Admission = "shipped" | "held" | "all";
+/** Whether play may say this one part: the owner's grades do not hold it. */
+export function playable(part: { key: string }): boolean {
+  return !heldByGrades(part.key);
+}
 
-/**
- * The parts of a bank, in its order, that the owner's grades leave in and
- * `fits` accepts: the released ones by default, `held` for the ones not yet
- * released (grading only), `all` for both.
- */
-export function admittedParts<P extends { key: string; shippable?: boolean }>(
+/** The parts of a bank, in its order, that the owner's grades leave in and `fits` accepts. */
+export function admittedParts<P extends { key: string }>(
   parts: readonly P[],
   fits: (part: P) => boolean = () => true,
-  which: Admission = "shipped",
 ): P[] {
-  return parts.filter(
-    (part) =>
-      (which === "all" || !!part.shippable === (which === "shipped")) &&
-      !heldByGrades(part.key) &&
-      fits(part),
-  );
-}
-
-/**
- * The parts a slot may say. Play says only shipped parts. A grading page
- * (`heldFirst`) says the held ones wherever one fits, so the owner reads each
- * in a real scene; a slot no held part fits keeps its shipped parts.
- */
-export function partsToSay<P extends { key: string; shippable?: boolean }>(
-  parts: readonly P[],
-  fits: (part: P) => boolean,
-  heldFirst = false,
-): P[] {
-  const shipped = admittedParts(parts, fits);
-  if (!heldFirst) return shipped;
-  const held = admittedParts(parts, fits, "held");
-  return held.length ? held : shipped;
-}
-
-/** Whether play may say this one part: released and not held back by the grades. */
-export function playable(part: { key: string; shippable?: boolean }): boolean {
-  return !!part.shippable && !heldByGrades(part.key);
+  return parts.filter((part) => playable(part) && fits(part));
 }
 
 /**

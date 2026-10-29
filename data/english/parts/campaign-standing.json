@@ -29,7 +29,6 @@
           "choice": "reached"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -51,7 +50,6 @@
           "choice": "reached"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -73,7 +71,6 @@
           "choice": "reached-none"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -95,7 +92,6 @@
           "choice": "reached-none"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -117,7 +113,6 @@
           "choice": "opponent-one"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -139,7 +134,6 @@
           "choice": "opponent-one"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -161,7 +155,6 @@
           "choice": "opponents"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -183,7 +176,6 @@
           "choice": "opponents-none"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -205,7 +197,6 @@
           "choice": "opponents-none"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -227,7 +218,6 @@
           "choice": "opponent-reached"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -249,7 +239,6 @@
           "choice": "poll-cost"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -271,7 +260,6 @@
           "choice": "poll-cost"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -293,7 +281,6 @@
           "choice": "poll-result"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "play-first lane",
       "date": "2026-10-25",
@@ -315,7 +302,6 @@
           "choice": "reached"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -337,7 +323,6 @@
           "choice": "reached-one"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -359,7 +344,6 @@
           "choice": "reached-one"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -381,7 +365,6 @@
           "choice": "moved-warmer"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -403,7 +386,6 @@
           "choice": "moved-warmer"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -425,7 +407,6 @@
           "choice": "moved-cooler"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -447,7 +428,6 @@
           "choice": "moved-cooler"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -469,7 +449,6 @@
           "choice": "moved-both"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -491,7 +470,6 @@
           "choice": "moved-both"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -513,7 +491,6 @@
           "choice": "moved-none"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -535,7 +512,6 @@
           "choice": "moved-none"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -557,7 +533,6 @@
           "choice": "opponent-reached"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -579,7 +554,6 @@
           "choice": "opponent-reached-one"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -601,7 +575,6 @@
           "choice": "opponent-reached-one"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -623,7 +596,6 @@
           "choice": "poll-result"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -645,7 +617,6 @@
           "choice": "poll-result-one"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",
@@ -667,7 +638,6 @@
           "choice": "poll-result-one"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-scenes lead helper",
       "date": "2026-10-26",

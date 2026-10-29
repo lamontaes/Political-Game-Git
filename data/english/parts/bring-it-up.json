@@ -85,7 +85,6 @@
         "hearings": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "COVID CHILD CARE CHALLENGES: SUPPORTING FAMILIES AND CAREGIVERS",
         "date": "2022-03-02",
@@ -115,7 +114,6 @@
       "bySource": {
         "hearings": 3
       },
-      "shippable": true,
       "source": {
         "document": "DRILLING DOWN: OVERSIGHT OF THE CHALLENGES AND OPPORTUNITIES FACING U.S. ENERGY PRODUCTION",
         "date": "2024-04-23",
@@ -148,7 +146,6 @@
         "crec": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "TURBULENCE AHEAD: CONSEQUENCES OF DELAYING A LONG-TERM FAA BILL",
         "date": "2023-11-30",
@@ -183,7 +180,6 @@
         "nasa": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Rose Garden Club Dinner With Farmers",
         "date": "2026-06-25",
@@ -215,7 +211,6 @@
         "nasa2": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Joseph H. Rothenberg oral history (hubble-space-telescope collection)",
         "date": "2016-09-27",
@@ -247,7 +242,6 @@
         "nasa": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "THE ECONOMIC OUTLOOK",
         "date": "2016-11-17",
@@ -278,7 +272,6 @@
         "briefing": 2,
         "dcpd": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Following a Cabinet Meeting and an Exchange With Reporters",
         "date": "2025-07-08",
@@ -308,7 +301,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Telerally for Wisconsin Republican Congressional Candidate Michael Alfonso",
         "date": "2026-07-29",
@@ -350,7 +342,6 @@
         "nps": 2,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Trump Accounts Children's Savings Program and an Exchange With Reporters",
         "date": "2026-07-06",
@@ -381,7 +372,6 @@
         "crec": 1,
         "dcpd": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Reported Death of Russian Opposition Leader Alexei Navalny and an Exchange With Reporters",
         "date": "2024-02-16",
@@ -412,7 +402,6 @@
         "briefing": 2,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Proclamation Commemorating the 90th Anniversary of the Social Security Act and an Exchange With Reporters",
         "date": "2025-08-14",
@@ -456,7 +445,6 @@
         "nps": 13,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
         "date": "2026-07-23",
@@ -488,7 +476,6 @@
         "house": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Commemorating the 25th Anniversary of the Belfast/Good Friday Agreement at Ulster University in Belfast, Northern Ireland, United Kingdom",
         "date": "2023-04-12",
@@ -521,7 +508,6 @@
         "dcpd": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Release of Serkan Golge From Prison in Turkey and an Exchange With Reporters Prior to Departure for Colorado Springs, Colorado",
         "date": "2019-05-30",
@@ -568,7 +554,6 @@
         "nps": 24,
         "wpa": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Swearing-in Ceremony for Markwayne Mullin as Secretary of Homeland Security and an Exchange With Reporters",
         "date": "2026-03-24",
@@ -598,7 +583,6 @@
       "bySource": {
         "dcpd": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Memorandum on Lowering the Cost of Living by Promoting the Freedom To Fix and an Exchange With Reporters",
         "date": "2026-06-29",
@@ -637,7 +621,6 @@
         "nps": 3,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to West Palm Beach, Florida",
         "date": "2026-01-31",
@@ -672,7 +655,6 @@
         "nasa": 2,
         "nasa2": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Cabinet Meeting and an Exchange With Reporters",
         "date": "2026-03-26",
@@ -719,7 +701,6 @@
         "nps": 17,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -776,7 +757,6 @@
         "nps.gov": 2,
         "wpa": 22
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -820,7 +800,6 @@
         "nps.gov": 1,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Efforts To Reduce Prescription Drug Prices and an Exchange With Reporters",
         "date": "2026-08-31",
@@ -872,7 +851,6 @@
         "nps": 97,
         "nps.gov": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -922,7 +900,6 @@
         "nps": 49,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Construction of the South Lawn Helipad and an Exchange With Reporters",
         "date": "2026-08-19",
@@ -959,7 +936,6 @@
         "nasa2": 1,
         "nps": 8
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Las Vegas, Nevada",
         "date": "2026-08-05",
@@ -995,7 +971,6 @@
         "nasa2": 5,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Roundtable Discussion on Saving College Sports and an Exchange With Reporters",
         "date": "2026-03-06",
@@ -1031,7 +1006,6 @@
         "nasa": 1,
         "nps": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Trump Accounts Children's Savings Program and an Exchange With Reporters",
         "date": "2026-07-06",
@@ -1079,7 +1053,6 @@
         "nps": 21,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
         "date": "2026-07-23",
@@ -1113,7 +1086,6 @@
         "nasa2": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks to Farmers",
         "date": "2026-03-27",
@@ -1143,7 +1115,6 @@
         "dcpd": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Announcing the 2026 Federation Internationale de Football Association (FIFA) World Cup Draw Location and an Exchange With Reporters",
         "date": "2025-08-22",
@@ -1175,7 +1146,6 @@
         "dcpd": 14,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to Departure From Los Angeles, California",
         "date": "2026-08-04",
@@ -1207,7 +1177,6 @@
         "hearings": 2,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Ballroom Dinner",
         "date": "2025-10-15",
@@ -1239,7 +1208,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken"
     },
     {
@@ -1261,7 +1229,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken"
     },
     {
@@ -1283,7 +1250,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken"
     },
     {
@@ -1305,7 +1271,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken"
     }
   ]

@@ -153,9 +153,10 @@ describe(`drives answer WORLD's job losses and evictions (seed ${seed})`, () => 
 });
 
 // A layoff's record names who decided it (the owner or manager); when that is
-// a living full person, the grudge is held against them, so a confrontation
-// can sour a tie between two people. A decider the town has no full person
-// for leaves the grudge on the employer the layoff names.
+// a living full person or one still in the wider population (met when the
+// holder has it out with them), the grudge is held against them, so a
+// confrontation can sour a tie between two people. A decider the world has no
+// person for leaves the grudge on the employer the layoff names.
 describe(`a layoff holds its decider responsible (seed ${seed})`, () => {
   const job = [...core.jobs.values()]
     .filter((row) => !row.endsAt && core.people.get(row.personId)?.alive)
@@ -190,5 +191,14 @@ describe(`a layoff holds its decider responsible (seed ${seed})`, () => {
         core.people,
       ),
     ).toBe(job.organizationId);
+    // A decider still in the wider population is the one held responsible.
+    expect(
+      responsibleId(
+        DEFAULT_DRIVES_DATA,
+        layoff("person:not-in-town"),
+        core.people,
+        (id) => id === "person:not-in-town",
+      ),
+    ).toBe("person:not-in-town");
   });
 });

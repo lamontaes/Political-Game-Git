@@ -46,7 +46,7 @@ The CTO merges only its own docs, skill and pool PRs; mergers merge everything e
 
 - **The play-first lane** (`docs/play-first/`, skill `play-first`): the only writer in `src/bench`; may edit `src/director`, `src/english` and `data/english` for lane items with the Words session's review (`Review: words`); many agents in turn, SMART and time-boxed; the lane's law is `LAW.md`, which the CTO writes only after `OWNER-DECISIONS.md` has the ruling.
 - **Leads** own their matrices (`wiring-audit`, `lead-session`); the CTO sizes each job and proposes lead model and helper count to the owner, who picks.
-- **Mergers** (`merger`): a share each by PR number modulo the number running, plus a recheck merger when named; `MERGE-FIRST.md` first; head-pinned; screenshots required for play items; held-to-shippable English is never a send-back. Their comments start with their prefix so audits can tell them apart.
+- **Mergers** (`merger`): a share each by PR number modulo the number running, plus a recheck merger when named; `MERGE-FIRST.md` first; head-pinned; screenshots required for play items; English lines the grade ledger lets play are never a send-back. Their comments start with their prefix so audits can tell them apart.
 - **Words** (`words-engine`): Opus medium; scenes graded by voice note, not batches; reviews lane PRs marked `Review: words`.
 - **Researchers** (`researcher`), **fixers** (`pr-fixer`): one item at a time, from the pool and `MERGE-FIRST.md`.
 - **Orders** live in files: a pool item, a skill, `docs/play-first/ORDER.md` or `docs/work-orders/<name>-<date>.md`. A chat message is not an order.

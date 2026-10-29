@@ -11,6 +11,7 @@ import { LEGISLATURE_MODULE_ID, members } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
+  standing,
   openContests,
   type FilingRow,
 } from "../core2/modules/elections";
@@ -26,6 +27,7 @@ import type { Director } from "./ledger";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
 import { SITUATION_LIBRARY } from "./scheduling";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
 
 // Scenes from circumstance (owner, Oct 27, 01:30 Eastern: "if the
 // circumstances are right in the simulation, they should be callable"). A
@@ -250,7 +252,7 @@ function playYear(
         .query("byPerson", [personId]) as unknown as FilingRow[]
     ).find(
       (row) =>
-        row.status === "on-ballot" &&
+        standing(row) &&
         ((
           api
             .moduleState(ELECTIONS_MODULE_ID)
@@ -407,15 +409,25 @@ function fileNewAdult(
         a.electionDate.localeCompare(b.electionDate) ||
         a.id.localeCompare(b.id),
     )
-    .find(
-      (contest) =>
+    .find((contest) =>
+      ["petitioning", "on-ballot"].includes(
         (
           fileForOffice(core, playerId!, contest.id) as {
             filing?: { status?: string };
           }
-        ).filing?.status === "on-ballot",
+        ).filing?.status ?? "",
+      ),
     );
-  return filed ? (playerId as PersonId) : null;
+  if (!filed) return null;
+  // Filing is a petition: the new candidate canvasses for signatures until
+  // the clerk's check, and stands only where it puts them on the ballot.
+  const filingId = `filing:${filed.id}:${playerId}`;
+  gatherSignatures(core, filingId);
+  const kept = coreAPI(core)
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  return kept?.status === "on-ballot" ? (playerId as PersonId) : null;
 }
 
 it(`a record anywhere in the world calls a scene where the player is (seed ${seed})`, () => {

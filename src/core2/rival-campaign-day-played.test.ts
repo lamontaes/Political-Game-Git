@@ -18,6 +18,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
   ELECTIONS_MODULE_ID,
+  standing,
   type ContestRow,
   type FilingRow,
 } from "./modules/elections";
@@ -59,8 +60,7 @@ function attemptPlace(attempt: number): { proven: string } | { tried: string } {
           .table("filings")
           .rows() as unknown as FilingRow[]
       ).filter((f) => {
-        if (f.status !== "on-ballot" || f.personId === core.playerId)
-          return false;
+        if (!standing(f) || f.personId === core.playerId) return false;
         const offered = campaignDayChoices(api, f.id, true);
         return (
           core.people.get(f.personId)?.alive === true &&
