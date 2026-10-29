@@ -1371,6 +1371,22 @@ export function standingOn(
 }
 
 /**
+ * The vote on a question that a person's record holds last: its id and the
+ * way it went (the position, above zero for the measure), or null for none.
+ * What a sitting's further fact stands on and its lie contradicts.
+ */
+export function lastVoteOn(
+  api: CoreAPI,
+  personId: string,
+  question: string,
+): { readonly id: string; readonly position: number } | null {
+  const vote = votesOf(api, personId)
+    .filter((entry) => entry.stance.question === question)
+    .at(-1);
+  return vote ? { id: vote.id, position: vote.stance.position } : null;
+}
+
+/**
  * How much the town cares about a question, 0 to 1: the summed strength of
  * the stances its people hold on it (PEOPLE's views engine) over the town's
  * adults, read once a day.
@@ -2028,11 +2044,11 @@ function publish(
       ...(row.contestId ? { contestId: row.contestId } : {}),
       answered: String(statements.length),
       declined: String(answers.length - statements.length),
-      // Whether the candidate sat for it: the sitting is the interview's
-      // scene, so the director stages no second one after it.
-      sat: api.state.durableLog.has(`${INTERVIEW_ACCEPTED_EVENT}:${row.id}`)
-        ? "yes"
-        : "no",
+      // That the candidate sat for it: the sitting is the interview's scene,
+      // so the director stages no second one after it.
+      ...(api.state.durableLog.has(`${INTERVIEW_ACCEPTED_EVENT}:${row.id}`)
+        ? { sat: "yes" }
+        : {}),
       ...(storyId ? { storyId } : {}),
     },
   });

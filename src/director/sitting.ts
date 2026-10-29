@@ -22,16 +22,15 @@
  * left unanswered, and only then does the filed platform stand in.
  */
 import { P } from "../core2/parameters";
-import { decisionLean } from "../core2/trait-decisions";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { ballot } from "../core2/modules/elections";
 import {
+  lastVoteOn,
   platformAnswers,
   type InterviewAnswer,
   type InterviewMove,
 } from "../core2/modules/press";
-import { votesOf } from "../core2/modules/record";
 import {
   wordConversationMove,
   type Fact,
@@ -157,6 +156,8 @@ export interface Sitting {
   /** What the player said, by question. */
   readonly said: Map<string, InterviewAnswer>;
   now?: Asking;
+  /** How far the player's replies reach (above zero: carries a talk on). */
+  readonly reach: number;
   /** The player said nothing to at least one question. */
   passed: boolean;
   /** The published record's id, once the sitting is over. */
@@ -252,10 +253,12 @@ function askingFor(
   const filed = row.filingId ?? row.id;
   // The vote of theirs on this question that a further fact stands on, or a
   // lie would contradict.
-  const vote = votesOf(coreAPI(core as CoreState), row.candidateId)
-    .filter((entry) => entry.stance.question === question)
-    .at(-one);
-  const voted = vote ? Math.sign(vote.stance.position) : zero;
+  const vote = lastVoteOn(
+    coreAPI(core as CoreState),
+    row.candidateId,
+    question,
+  );
+  const voted = vote ? Math.sign(vote.position) : zero;
   // A rival on the same ballot whose filed stand differs from theirs: the
   // one furthest from it, the foil an asker reaches for.
   const rivals = row.contestId
@@ -308,13 +311,13 @@ function askingFor(
     const further: InterviewMove = "further";
     answers.set(further, {
       question,
-      position: stand ?? vote.stance.position,
+      position: stand ?? vote.position,
       move: further,
       recordId: vote.id,
     });
     answers.set(RULES.lie, {
       question,
-      position: -vote.stance.position,
+      position: -vote.position,
       move: RULES.lie,
       recordId: vote.id,
     });
@@ -380,6 +383,7 @@ export function openSitting(
   conversation: Conversation,
   data: ConversationData,
   row: SittingRow,
+  reach: number,
 ): Conversation {
   const subjects = settingsOf(row.kind).subjects;
   conversation.sitting = {
@@ -387,6 +391,7 @@ export function openSitting(
     asking: row.questions.filter((question) => questionAbout(question)),
     at: zero,
     said: new Map(),
+    reach,
     passed: false,
   };
   const open = word(core, data, {
@@ -480,17 +485,8 @@ function put(
     }
     // Ranked by the player's traits: someone who carries a talk on sees the
     // answers that say more first, someone who keeps it short the brief ones.
-    const player = core.people.get(playerId);
-    const reach = player
-      ? decisionLean(
-          core,
-          player,
-          "conversation.reply-reach",
-          "carry-on",
-          "keep-short",
-        )
-      : zero;
-    const order = reach >= zero ? RULES.order.carryOn : RULES.order.keepShort;
+    const order =
+      sitting.reach >= zero ? RULES.order.carryOn : RULES.order.keepShort;
     conversation.choices = offered.sort(
       (a, b) =>
         order.indexOf(a.move as InterviewMove) -

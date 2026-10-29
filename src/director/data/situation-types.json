@@ -2690,7 +2690,7 @@
             "causeFacts": [
               {
                 "key": "sat",
-                "equals": ["no"]
+                "absent": true
               }
             ]
           }

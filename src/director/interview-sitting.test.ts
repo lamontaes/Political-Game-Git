@@ -273,12 +273,27 @@ function play(draw: number): Evidence | string {
   );
   expect(dig?.reporterId, where).toBe(waiting.reporterId);
 
+  // The sitting was the interview's scene: the director stages no second
+  // interview for the record that printed it.
+  const after = director.ledger.people
+    .get(me)!
+    .schedule.filter((entry) =>
+      entry.momentId.includes(`interview-published:${waiting.id}`),
+    )
+    .flatMap((entry) => entry.bindings.map((row) => row.typeKey));
+  expect(after, `${where}: no second interview scene`).not.toContain(
+    "press-interview",
+  );
+
   return {
     where,
-    lines: conversation.lines.map((line) => {
-      const who = core.people.get(line.speakerId)!;
-      return `${who.givenName}: ${line.text}`;
-    }),
+    lines: [
+      ...scene!.narration.map((line) => `(narrator) ${line.text}`),
+      ...conversation.lines.map((line) => {
+        const who = core.people.get(line.speakerId)!;
+        return `${who.givenName}: ${line.text}`;
+      }),
+    ],
     chosen,
     published,
     records: [

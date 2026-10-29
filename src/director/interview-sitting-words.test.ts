@@ -153,4 +153,53 @@ describe("the interview sitting's words", () => {
         ),
       ).toBeTruthy();
   });
+
+  it("puts the same question differently to someone the reporter knows and to a stranger", () => {
+    // Over forty moments of the same question, each tie has lines the other
+    // never says (a witness over the whole bank, not one draw).
+    const said = (tie: string) =>
+      new Set(
+        Array.from(
+          { length: 40 },
+          (_, at) =>
+            say(
+              "interview-question",
+              "ask",
+              {
+                about: fact("a higher minimum wage"),
+                to: fact("raise the minimum wage"),
+                [tie]: fact("yes"),
+              },
+              `${tie}:${at}`,
+              { stage: "next" },
+            )!.text,
+        ),
+      );
+    const friend = said("acquainted");
+    const stranger = said("stranger");
+    expect([...friend].filter((text) => !stranger.has(text))).not.toEqual([]);
+    expect([...stranger].filter((text) => !friend.has(text))).not.toEqual([]);
+  });
+
+  it("answers the same question in four different voices, by what the record allows", () => {
+    // A candidate with a vote and a rival is offered four answers that are
+    // four different sentences, whichever way their stand points.
+    for (const stand of [1, -1]) {
+      const facts: Record<string, Fact> = {
+        about: fact("a higher minimum wage"),
+        to: fact("raise the minimum wage"),
+        rival: fact("Sam Rivera"),
+        ...Object.fromEntries(
+          flagsOf(stand, stand, -stand).map((key) => [key, fact("yes")]),
+        ),
+      };
+      const texts = rules.moves.map(
+        (move) =>
+          say("interview-question", "answers", facts, "four", {
+            keys: [move],
+          })!.text,
+      );
+      expect(new Set(texts).size).toBe(texts.length);
+    }
+  });
 });

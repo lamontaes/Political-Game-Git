@@ -1953,7 +1953,14 @@ export function openConversation(
   if (occasion) conversation.occasion = occasion;
   // The talk an accepted interview stages is the sitting for it, not small talk.
   const sitting = sittingFor(core, playerId, otherId, occasion);
-  if (sitting) return openSitting(core, conversation, data, sitting);
+  if (sitting)
+    return openSitting(
+      core,
+      conversation,
+      data,
+      sitting,
+      replyReach(core, playerId),
+    );
   // A greeting first; a "How are you?" would need its own answer, so only a
   // greeting that asks nothing opens. The player's name only if they know it.
   const player = core.people.get(playerId)!;
@@ -2499,6 +2506,26 @@ function offerChoices(
 }
 
 /**
+ * How far the player's replies reach: above zero for someone who carries a
+ * talk on, below it for someone who keeps it short. The trait engine decides
+ * it (`conversation.reply-reach`); the calibration table reaches each reply's
+ * wording through its voice (`words`), so the same traits are not counted
+ * twice. The sitting orders its answers by it too.
+ */
+function replyReach(core: Readonly<CoreState>, playerId: PersonId): number {
+  const player = core.people.get(playerId);
+  return player
+    ? decisionLean(
+        core,
+        player,
+        "conversation.reply-reach",
+        "carry-on",
+        "keep-short",
+      )
+    : zero;
+}
+
+/**
  * The four replies a turn offers, ranked by the player's traits: someone who carries talk on sees
  * the replies that raise or ask first, someone who keeps it short sees plain
  * answers and acknowledgments first. Each is a different move: a second
@@ -2510,19 +2537,7 @@ function rankChoices(
   playerId: PersonId,
   pool: readonly ConversationChoice[],
 ): ConversationChoice[] {
-  const player = core.people.get(playerId);
-  // How far the replies reach is the trait engine's decision; the
-  // calibration table reaches each reply's wording through its voice
-  // (`words`), so the same traits are not counted twice here.
-  const reach = player
-    ? decisionLean(
-        core,
-        player,
-        "conversation.reply-reach",
-        "carry-on",
-        "keep-short",
-      )
-    : zero;
+  const reach = replyReach(core, playerId);
   const carries = (row: ConversationChoice) =>
     !!row.raises || !!row.tail || asksQuestion(row);
   const brief = (row: ConversationChoice) => row.move.startsWith("ack:");
