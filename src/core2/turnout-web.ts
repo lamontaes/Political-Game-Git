@@ -4,6 +4,10 @@
  * The engine keeps deciding turnout from the voter's duty, stakes, habit and
  * cost; the web adds the links the engine does not already read.
  *
+ * A local race adds its own links: a day whose ballot carries a municipal or
+ * county race (or a recall of a town seat) also moves a voter's propensity by
+ * the web's local-turnout links, such as a local newspaper closing.
+ *
  * The election laws that change a voter's cost of turning out or who may
  * vote (automatic and same-day registration, all-mail voting, restoring the
  * vote) act on turnout through the law reach (`electionLawTurnoutCost`,
@@ -41,14 +45,16 @@ export function ageOnElection(birthDate: string, date: string): number {
 
 /**
  * The web's factor on one voter's propensity: the place's turnout links,
- * and for ages 18 to 24 the youth-turnout links too. Cached by place and age
- * for the day.
+ * for ages 18 to 24 the youth-turnout links too, and on a day whose ballot
+ * carries a local race (`local`) the local-turnout links. Cached by place,
+ * age and ballot for the day.
  */
 export function turnoutWeb(
   api: CoreAPI,
   placeId: string,
   age: number,
   incomeFifth?: number,
+  local = false,
 ): TurnoutWeb {
   const core = api.state as CoreState;
   let c = cache.get(core);
@@ -56,7 +62,7 @@ export function turnoutWeb(
     c = { date: core.date, hits: new Map() };
     cache.set(core, c);
   }
-  const key = `${placeId}|${age}|${incomeFifth ?? ""}`;
+  const key = `${placeId}|${age}|${incomeFifth ?? ""}|${local}`;
   const hit = c.hits.get(key);
   if (hit) return hit;
   const subject: Subject = {
@@ -71,6 +77,11 @@ export function turnoutWeb(
     parts.push(...youth.parts);
     recordId = recordId ?? youth.recordId;
   }
+  if (local) {
+    const here = webReach(api, placeId, "voting.local-turnout", subject);
+    parts.push(...here.parts);
+    recordId = recordId ?? here.recordId;
+  }
   const result: TurnoutWeb = parts.length
     ? {
         factor: Math.max(0, product(parts)),
@@ -83,5 +94,4 @@ export function turnoutWeb(
 }
 
 // stopgapId: SG-WEB-voting-graduation-cause (the graduation link's cause is the web's own ledger number)
-// stopgapId: SG-WEB-voting-newspaper-closure (no outlet closes, so there is no cause to read)
-// stopgapId: SG-WEB-voting-relief-approval (no relief dollars are recorded)
+// stopgapId: SG-WEB-voting-relief-approval (the relief dollars are recorded, but no engine credits the president's party for them)
