@@ -29,6 +29,11 @@ export const ALLOWED_PHRASES: readonly {
     reason: "a real party name, if one is ever quoted",
   },
   {
+    pattern: /\bArmour, South Dakota\b/g,
+    reason:
+      "a real town (Armour, South Dakota), named in a pool item's calibration evidence",
+  },
+  {
     pattern: /\butilises measures derived by standardising\b/g,
     reason:
       "Vella, Richiardi and van de Ven's method note on their personality measures, quoted verbatim in the benefit take-up research",

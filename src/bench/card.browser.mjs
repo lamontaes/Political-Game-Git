@@ -103,10 +103,11 @@ try {
       console.log(`${at}:`, JSON.stringify(read));
       assert.equal(
         read.rings,
-        8,
-        `${at}: the eight rail icons are not all there`,
+        9,
+        `${at}: the nine rail icons are not all there`,
       );
-      // The rail (MOCKS:24): one column of round icons, News among them, no Options.
+      // The rail (MOCKS:24): one column of round icons, News among them, the
+      // Guide its own entry (owner, Oct 28, point 23), no Options.
       assert.deepEqual(
         read.rail.map((ring) => ring.tab),
         [
@@ -118,6 +119,7 @@ try {
           "news",
           "people",
           "travel",
+          "guide",
         ],
         `${at}: the rail's icons and their order`,
       );
@@ -150,7 +152,7 @@ try {
       path: `docs/reports/card-2026-10-25/card-${size.width}x${size.height}.png`,
     });
     // With the door-knocking status line on the card, an ordinary pointer
-    // click opens each of the eight icons' screens; the keyboard opens Calendar.
+    // click opens each of the nine icons' screens; the keyboard opens Calendar.
     await page.evaluate((text) => {
       document.getElementById("card-why").textContent = text;
     }, "Knock on doors · 36 doors · 5 reached");
@@ -178,7 +180,7 @@ try {
   });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the round rail icons, a column of eight with Who you are and News, its text inside it, the date and time and no picture; each icon opens by pointer, Calendar by keyboard",
+    "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the round rail icons, a column of nine with Who you are, News and the Guide, its text inside it, the date and time and no picture; each icon opens by pointer, Calendar by keyboard",
   );
 } finally {
   await browser.close();

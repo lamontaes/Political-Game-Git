@@ -7424,6 +7424,42 @@
     "status": "open"
   },
   {
+    "id": "SG-SCREENS-filing-platform-from-views",
+    "kind": "missing-mechanic",
+    "file": "src/bench/play.mjs",
+    "line": 0,
+    "whatItFakes": "A filing made at the counter carries no platform: the rules panel's stance form is gone (owner, Oct 28, point 31) and the filing's platform is empty until the elections engine reads the filer's own views.",
+    "why": "fileCandidacy takes the platform as handed in; nothing derives it from the person's own policy views (the records the party fit reads), so without the form there is nothing to hand in.",
+    "addedBy": "screens session (sitting Oct 28, point 31)",
+    "addedAt": "2026-10-28",
+    "replacement": "fileCandidacy derives the platform from the filer's own view records on each of the contest's positions when none is handed in; the Campaigns row then reads those stances.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCREENS-counter-six-replies",
+    "kind": "missing-mechanic",
+    "file": "src/bench/play.mjs",
+    "line": 0,
+    "whatItFakes": "The filing counter offers at most six replies; an office that takes more races than that shows the first six at the counter, and the rest are reached from the office's own view in Travel and from Campaigns.",
+    "why": "The talk box holds a few replies, never a long list (owner, Oct 26), and the Open races menu that held the rest was a dev panel (owner, Oct 28, point 29).",
+    "addedBy": "screens session (sitting Oct 28, point 29)",
+    "addedAt": "2026-10-28",
+    "replacement": "The clerk asks which race in the conversation (the words session's clerk lines, point 32) and the counter opens on the race chosen in Travel or Campaigns, so no list is needed at the counter.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCREENS-office-hover-prose",
+    "kind": "missing-data",
+    "file": "src/bench/play.mjs",
+    "line": 0,
+    "whatItFakes": "Hovering a race at the counter shows a card on the office with what the records know (its district, the election day, who holds the seat); it does not yet say what the office does in words.",
+    "why": "No record or bank holds a line per office kind on its duties; words typed into the screen would be hand-written player text.",
+    "addedBy": "screens session (sitting Oct 28, point 30)",
+    "addedAt": "2026-10-28",
+    "replacement": "An office-duties bank from the words session (one piece per office kind, graded like every bank) that the hover card reads first, the record's facts after it.",
+    "status": "open"
+  },
+  {
     "id": "SG-TRAITS-file-claim-circumstances-tie",
     "kind": "partial-model",
     "file": "src/core2/jobs-benefits.ts",
@@ -7433,6 +7469,30 @@
     "addedBy": "traits-lead",
     "addedAt": "2026-10-28",
     "replacement": "The filing reads the household's cash runway and the place's seekers per opening at researched sizes, then traitWeightJobsBenefitsFileClaim is fitted to Vella, Richiardi and van de Ven 2025.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-unheld-filler-party",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/officials.ts",
+    "line": 177,
+    "whatItFakes": "Whoever fills a seat the offices engine keeps no term for (a sample member of another state's legislature, another state's governor) sits in the party of the one they replace: an appointee or a special election's winner is assumed to keep the seat's party, and a governor's successor (a lieutenant governor elected on their own ticket in some states) is assumed to share the governor's.",
+    "why": "The officials engine seats these holders without the offices engine's terms, so no record names the appointee, the special election's candidates or the successor's own party.",
+    "addedBy": "gov-sampled-legislator-seats-never-refilled (Claude, wire-office)",
+    "addedAt": "2026-10-28",
+    "replacement": "The successor's own party from the state's statewide-office roster for a governor, and the appointing authority's choice or the special election's result (the voting engine's world races) for a legislative seat.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-roster-no-2024-vote",
+    "kind": "estimated-data",
+    "file": "src/core2/electorate-places.ts",
+    "line": 538,
+    "whatItFakes": "A legislative seat whose district has no contested 2024 result on record keeps its real 2026 holder's party in every world: the uncontested seats (safe for their party) and the whole chambers that did not vote in 2024 (Alabama, Louisiana, Maryland, Mississippi, New Jersey and Virginia elect in other years; Nebraska's is nonpartisan; Washington's and the District's results are not in the file). Only seats a world's swing carries across even change hands.",
+    "why": "The world's swing moves a seat only through its own 2024 vote, and these seats have none on record (MEDSL 2024 state legislative returns, doi:10.7910/DVN/DODOBJ).",
+    "addedBy": "wire-office-budgets-justice (Claude, wire-office)",
+    "addedAt": "2026-10-28",
+    "replacement": "Each such seat's last contested result (2022 or 2023 returns for the chambers that vote in other years, the district's presidential vote where none), read the same way.",
     "status": "open"
   }
 ]

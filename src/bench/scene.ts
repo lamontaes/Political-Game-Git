@@ -334,10 +334,29 @@ export function backdropFor(
 ) {
   return backdropFile(place, minuteOfDay, [
     ...(personId && homeRooms(core, personId).has(place)
-      ? roomCondition(core, personId)
+      ? homeCondition(core, personId)
       : []),
     ...regionVariants(core),
   ]);
+}
+
+/**
+ * The one condition every room of a home is shown in: the most wanted of the
+ * household's conditions that each of its rooms is painted in, so the living
+ * room and the kitchen of one dwelling match (owner, Oct 28 sitting: a
+ * run-down living room beside a clean kitchen). With none painted for every
+ * room, every room is shown as painted.
+ */
+function homeCondition(core: CoreState, personId: string): string[] {
+  const rooms = [...homeRooms(core, personId)];
+  const shared = roomCondition(core, personId).find((condition) =>
+    rooms.every((room) =>
+      manifest.backdrops.some(
+        (row) => row.place === room && row.variant === condition,
+      ),
+    ),
+  );
+  return shared ? [shared] : [];
 }
 
 /** Which room of the home a person is in at this minute of the day. */

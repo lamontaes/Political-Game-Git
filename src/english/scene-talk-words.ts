@@ -21,7 +21,7 @@ import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "jso
 import { renderLine, type Fact } from "./bank-line";
 
 export type { Fact };
-import { heldByGrades } from "./english-grades";
+import { admittedParts } from "./bank-parts";
 
 const zero = P.zero;
 const one = P.one;
@@ -65,9 +65,7 @@ interface BankPart {
 
 const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
 /** What play may say: a part held until the owner grades it, or one he failed, is not. */
-const SHIPPED = PARTS.filter(
-  (part) => part.shippable === true && !heldByGrades(part.key),
-);
+const SHIPPED = admittedParts(PARTS);
 const SHIPPED_KEYS = new Set(SHIPPED.map((part) => part.key));
 /** Whether play may say this piece: released and not failed by the owner's grades. */
 export function shipped(partKey: string): boolean {
