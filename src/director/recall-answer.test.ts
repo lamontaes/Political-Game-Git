@@ -21,6 +21,7 @@ import { draftBill, holdVote } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { recallsOf } from "../core2/modules/recalls";
 import { coreAPI } from "../core2/state";
+import { wordPrintedStory } from "../bench/archive-words";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 import { composeJournal } from "./journal";
@@ -205,6 +206,32 @@ it(`an official's answer at the petition table is read by the drive's count (see
     expect(counted.status, `${where}: ${recall.id}`).toBe(
       counted.signatures >= counted.required ? "on-ballot" : "failed",
     );
+    // The news of the count says how many signed against how many the law
+    // required, and, where the answer moved it, by how much, citing the
+    // count's record and the member's reply.
+    const outcomeId = `recall-outcome:${recall.id}:${counted.status}`;
+    const outcome = core.durableLog.get(outcomeId as never);
+    expect(outcome, `${where}: ${outcomeId}`).toBeTruthy();
+    const worded = wordPrintedStory(core, {
+      id: `printed:test:${outcomeId}`,
+      kind: "press.printed",
+      date: outcome!.date,
+      topic: "recall",
+      facts: { ...(outcome!.facts ?? {}), sourceRecordId: outcomeId },
+    });
+    const news = (worded?.paragraphs ?? [worded?.lede ?? ""]).join(" ");
+    expect(worded?.sourceRecordIds, where).toContain(outcomeId);
+    // The count's own sentence, after the lede ("It had 519 signatures, and
+    // 230 were needed.").
+    expect(
+      worded?.paragraphs?.slice(1).some((text) => / needed\./.test(text)),
+      `${where}: ${news}`,
+    ).toBe(true);
+    if (counted.count!.before > counted.signatures) {
+      expect(news, `${where}: ${news}`).toMatch(/heard the petitioners out/);
+      expect(worded?.sourceRecordIds, where).toContain(replyId);
+    }
+    process.stdout.write(`RECALL NEWS ${where}: ${outcomeId}: ${news}\n`);
     return;
   }
   throw new Error(`no petition to answer: ${tried.join("; ")}`);
