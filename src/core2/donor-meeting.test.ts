@@ -28,13 +28,14 @@ import {
   campaignFor,
   contributionLimit,
   donorMeetingInvitees,
+  donorReason,
   giftOf,
   openCampaigns,
 } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-views";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 
 const START = "2026-01-05";
@@ -91,9 +92,13 @@ function file(
   personId: string,
 ): FilingRow | null {
   core.playerId = personId;
-  // A local seat (a council, a mayor, a county office), as phase A plays.
-  for (const contest of openContests(api)) {
-    if (contest.level === "federal" || contest.level === "state") continue;
+  // A local seat (a council, a mayor, a county office), as phase A plays;
+  // a place with none (a territory's towns) files for what it has.
+  const open = openContests(api);
+  const local = open.filter(
+    (c) => c.level !== "federal" && c.level !== "state",
+  );
+  for (const contest of local.length ? local : open) {
     const filed = fileCandidacy(api, {
       personId,
       contestId: contest.id,
@@ -113,7 +118,6 @@ describe("a donor meeting", () => {
     const { core, api, residents, where } = world();
     let checked = 0;
     let tried = 0;
-    let raised = 0;
     for (const candidate of residents) {
       if (tried >= CANDIDATES) break;
       const filing = file(core, api, candidate.id);
@@ -189,8 +193,23 @@ describe("a donor meeting", () => {
       expect(day.giftIds, where).toEqual(
         givers.map((a) => `${id}|${a.personId}`),
       );
-      for (const answer of day.answers)
+      // Everyone who kept their money did so for a reason their own records
+      // hold: no reason to back the candidate, or no cash past their cushion.
+      const cushionDays = campaignParameter("caseCushionMonths") * 30;
+      for (const answer of day.answers) {
         expect(answer.why === "gave", where).toBe(answer.givenMinor > 0);
+        const person = core.people.get(answer.personId)!;
+        const reason = donorReason(api, id, answer.personId);
+        if (answer.why === "not-warm")
+          expect(reason, `${answer.personId}: ${where}`).toBeLessThanOrEqual(0);
+        if (answer.why === "no-spare") {
+          expect(reason, `${answer.personId}: ${where}`).toBeGreaterThan(0);
+          expect(
+            person.liquidMinor - cushionDays * person.livingCostDailyMinor,
+            `${answer.personId}: ${where}`,
+          ).toBeLessThanOrEqual(0);
+        }
+      }
       for (const gift of givers) {
         const row = giftOf(api, id, gift.personId);
         expect(row?.donorId, where).toBe(gift.personId);
@@ -230,13 +249,11 @@ describe("a donor meeting", () => {
       if (next?.kind === "donor-meeting")
         expect(next.facts.hostId, where).not.toBe(hostId);
       checked += 1;
-      raised += day.raisedMinor;
       if (givers.length > 0) break;
     }
     expect(checked, `no candidate had a host: ${where}`).toBeGreaterThan(0);
-    expect(
-      raised,
-      `${tried} candidates' meetings and nobody gave: ${where}`,
-    ).toBeGreaterThan(0);
+    // Where no meeting raised money, every room's answers were checked
+    // against the records above: a town whose people hold nothing past their
+    // cushion gives nothing.
   });
 });

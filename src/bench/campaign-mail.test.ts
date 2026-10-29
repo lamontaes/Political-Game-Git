@@ -80,8 +80,12 @@ function world() {
   let filing: FilingRow | null = null;
   for (const candidate of residents.slice(0, 5)) {
     core.playerId = candidate.id;
-    for (const contest of openContests(api)) {
-      if (contest.level === "federal" || contest.level === "state") continue;
+    // A local seat, or what a place with none (a territory's towns) has.
+    const open = openContests(api);
+    const local = open.filter(
+      (c) => c.level !== "federal" && c.level !== "state",
+    );
+    for (const contest of local.length ? local : open) {
       const filed = fileCandidacy(api, {
         personId: candidate.id,
         contestId: contest.id,
