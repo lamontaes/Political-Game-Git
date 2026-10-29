@@ -1,0 +1,47 @@
+{
+ "scene": "home",
+ "size": [
+  1672,
+  941
+ ],
+ "backdrop": "",
+ "spots": [
+  {
+   "id": "home-0",
+   "pose": "talk",
+   "seat": "chair",
+   "facing": 45,
+   "head": {
+    "top": 328,
+    "x": 454.4,
+    "width": 53
+   },
+   "box": [
+    368,
+    328,
+    591,
+    715
+   ],
+   "feet": 714,
+   "front": "home.front-0.png"
+  },
+  {
+   "id": "home-1",
+   "pose": "talk",
+   "seat": "chair",
+   "facing": 45,
+   "head": {
+    "top": 337,
+    "x": 655.8,
+    "width": 44
+   },
+   "box": [
+    607,
+    337,
+    759,
+    659
+   ],
+   "feet": 658
+  }
+ ]
+}

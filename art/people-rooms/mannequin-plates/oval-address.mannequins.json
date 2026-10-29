@@ -1,0 +1,30 @@
+{
+ "scene": "oval-address",
+ "size": [
+  1376,
+  768
+ ],
+ "backdrop": "",
+ "spots": [
+  {
+   "id": "oval-address-0",
+   "pose": "address",
+   "seat": "desk-chair",
+   "facing": 0,
+   "head": {
+    "top": 236,
+    "x": 689.1,
+    "width": 46
+   },
+   "box": [
+    582,
+    236,
+    799,
+    493
+   ],
+   "hands": 492,
+   "deskEdge": 470,
+   "front": "oval-address.front-0.png"
+  }
+ ]
+}
