@@ -478,7 +478,10 @@ describe("having been held for want of bail reaches a defendant's pull to work",
             return;
           }
           passed.push(
-            `${where}: ${defendants.length} defendants charged, none reviewed in both worlds after the lag`,
+            // Where the state's sentences are long, every poor defendant the
+            // court convicts is serving a term at the review, and the jobs
+            // engine weighs no one in custody.
+            `${where}: ${defendants.length} defendants charged, none free to be reviewed in both worlds after the lag`,
           );
         }
         throw new Error(
