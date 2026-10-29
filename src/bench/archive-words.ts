@@ -38,7 +38,6 @@ let NAMES: Record<string, string> | undefined;
 export function wordArchiveStory(
   core: CoreState,
   story: StoredStory,
-  options: { heldFirst?: boolean } = {},
 ): WordedStory | null {
   if (story.kind !== "press.archived") return null;
   const recordKind = story.facts.recordKind;
@@ -102,7 +101,7 @@ export function wordArchiveStory(
       date: fact(spokenDate(story.date)),
     };
   } else return null;
-  return worded(core, story.id, kind, speaker, facts, options);
+  return worded(core, story.id, kind, speaker, facts);
 }
 
 /** The paper each kind of outlet prints in: a paper's columns, or a station's page. */
@@ -164,7 +163,6 @@ function worded(
   kind: StoryKind,
   speaker: string,
   facts: Record<string, StoryFact>,
-  options: { heldFirst?: boolean } = {},
 ): WordedStory | null {
   const packet: GroundedEnglishPacket = {
     surface: "dialogue",
@@ -181,7 +179,7 @@ function worded(
       sourceRecordIds: row.sourceRecordIds,
     })),
   };
-  const composed = composeNewsStory(packet, kind, options);
+  const composed = composeNewsStory(packet, kind);
   if (!composed.headline && !composed.lede) return null;
   // A headline or sentence opens with a capital, whatever fact starts it.
   const opened = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
