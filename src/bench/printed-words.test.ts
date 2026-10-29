@@ -154,10 +154,26 @@ describe("printed stories in News", () => {
     const told: string[] = [];
     // The school year's graduation and spring tests, from the school
     // engine's own outcome rows: a headline and one line.
-    const done = api
+    // A year is told from the measure rows the engine kept (as the press
+    // reads them): a town that tested no students keeps no test measure and
+    // has no tests story (West Louisville, Kentucky, seed chk2-a: four
+    // students, none in a tested grade).
+    const town = lawChain(api).townPlaceId;
+    const measures = api
       .moduleState(SCHOOL_MODULE_ID)
-      .table("done")
-      .rows() as unknown as { id: string; date: string }[];
+      .table("measures")
+      .query("byPlace", [town]) as unknown as {
+      measure: string;
+      startYear: number;
+      date: string;
+    }[];
+    const done = measures.flatMap((row) =>
+      row.measure === "school.graduation-pct"
+        ? [{ id: `graduation:${row.startYear}`, date: row.date }]
+        : row.measure === "school.math-proficient-pct"
+          ? [{ id: `tests:${row.startYear}`, date: row.date }]
+          : [],
+    );
     expect(done.length, where).toBeGreaterThan(0);
     for (const row of done) {
       const worded = wordPrintedStory(core, printedAs(row.id, row.date));
