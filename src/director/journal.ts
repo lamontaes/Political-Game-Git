@@ -645,6 +645,7 @@ function officeActMoments(
   core: Readonly<CoreState>,
   personId: PersonId,
   words: JournalWords | undefined,
+  told: ReadonlySet<string>,
 ): JournalMoment[] {
   if (!core.modules.has(OFFICE_DAY_MODULE_ID)) return [];
   const api = coreAPI(core as CoreState);
@@ -670,6 +671,9 @@ function officeActMoments(
           ? []
           : [moment("act:interview")];
       if (act.kind !== "vote" || !["yes", "no"].includes(act.detail)) return [];
+      // The legislature's own record of the vote is told already: one line
+      // a vote (the journal printed every vote twice, Oct 29).
+      if (told.has(act.recordId)) return [];
       const bill = bills.get(act.recordId) as unknown as BillRow | undefined;
       if (!bill) return [];
       return [
@@ -1002,7 +1006,18 @@ export function composeJournal(
   };
   const moments: JournalMoment[] = [
     ...book.moments,
-    ...officeActMoments(core, personId, words),
+    ...officeActMoments(
+      core,
+      personId,
+      words,
+      new Set(
+        book.moments
+          .filter((moment) => moment.causeKind === "event:office.voted")
+          .map((moment) =>
+            String(core.durableLog.get(moment.causeId)?.facts?.billId ?? ""),
+          ),
+      ),
+    ),
     ...sceneEndingMoments(core, book, personId),
     ...householdMoments(core, person),
     ...pastWorkMoments(core, person),

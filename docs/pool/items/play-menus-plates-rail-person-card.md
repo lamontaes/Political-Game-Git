@@ -6,12 +6,13 @@ lead: cto
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: cto/menus-person-card
 pr:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("redesign all the menu screens... So they're not blocks of text anymore with random buttons")
+claimed-at: 2026-10-29T22:58:56.998Z
 ---
 
 **What.** The owner, Oct 29, with a screenshot of a person card's History: "One thing I really don't like is text when it's just laid out like this... I don't like that at all. And another thing I don't like is just the black or gray just background, like stuff sitting on it... buttons sitting there but without a railing to sit on or something, and something to delineate that that's the one that's selected." He chose framed plates, a vertical timeline and a tab rail. This item builds the three shared parts, puts every record section on a plate and every tab bar on the rail, and redraws the person card to the Oct 14 mock with its history as a timeline.
