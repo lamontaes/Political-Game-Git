@@ -78,6 +78,12 @@
       "source": "How far one conversation at the door moves a voter toward what they make of the candidate. Checked against field experiments: face-to-face contact is the strongest campaign contact (Green and Gerber 2019).",
       "spread": [0.3, 0.7]
     },
+    "playerDoorFillIns": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How many counted residents who open the player's own door in an evening of canvassing are filled in as full people: the ones a porch scene could cast (owner, Oct 27: door knocking is \"a short scene at 1 or 2 doors\"; two-level population, owner Oct 11: full people exist only where they matter, and a door touches the counted group). Every other opener stays counted, reached and answering by the same rule from their record.",
+      "spread": [1, 2]
+    },
     "doorPledgeWeight": {
       "value": 2,
       "tag": "TUNABLE",
