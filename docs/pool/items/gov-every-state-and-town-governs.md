@@ -6,11 +6,12 @@ lead: laws
 kind: bug
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-every-state-and-town-governs
 pr:
 blocked-on:
 source: owner, Oct 29 voice note on the governing brief
+claimed-at: 2026-10-29T21:28:24.226Z
 ---
 
 **What.** The owner ruled Sept 26 that all 50 legislatures are seated from day one (DECISION-REGISTER 276-284), and on Oct 29 he said: "Other states and towns never sit. No, all 50 states need to. Oh my God. Why? How?" Today `world-legislating.ts` opens only the town's own state and Congress (openWorldLegislating, lines 182-192), so 48 legislatures, D.C.'s council, the territories' legislatures and every other town's council never sit and never pass a law. Other places run at a coarser level (AGENTS.md, Oct 10), so they sit on their real calendars and pass laws through the same draftBill and holdVote with members as officials, without full people beneath them.

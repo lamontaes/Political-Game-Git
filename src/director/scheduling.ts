@@ -439,6 +439,24 @@ function fillRole(
       return moment.counterpartIds.slice(zero, one);
     case "household":
       return household();
+    case "bereaved": {
+      // Those who lost the same person: the living family the deceased's
+      // record names (a parent's widow, their children, their siblings), the
+      // subject's own household first, then the closest, never the subject.
+      // A funeral at a venue has no one "present" by setting.
+      const gone = core.people.get(moment.counterpartIds[zero] ?? "");
+      if (!gone) return [];
+      const home = new Set(household());
+      const kin = closest(
+        [...gone.familyIds].filter(
+          (id) => id !== moment.personId && alive(core, id) && !taken.has(id),
+        ),
+      );
+      return [
+        ...kin.filter((id) => home.has(id)),
+        ...kin.filter((id) => !home.has(id)),
+      ];
+    }
     case "household-stake":
       // The household members the filing puts something of theirs at risk
       // for, strongest first; none, and the scene is not staged.

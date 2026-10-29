@@ -6,6 +6,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 21:50 UTC: the governing lead starts, and the laws lead takes the world's governing (owner, about 5:50 PM Eastern)
+
+- **Ruling:** "Yes. Well, yes, go ahead with both of those," to the CTO's split: a new Opus governing lead owns the player's path (phases A to F of the governing brief, starting with A, winning a real campaign), using ultracode to play the path in many drawn places and to fix breaks in parallel; and the laws lead, after its last two laws, takes the world's governing (`gov-every-state-and-town-governs`, then `gov-congress-passes-policy-laws`). The effects-web plan still waits for the owner's read. Work order: `docs/work-orders/governing-2026-10-29.md`.
+- **On "two at once":** ultracode has no two-workflow limit; a session's size guideline (under about ten agents per workflow by default) is the owner's to change in /config, "Dynamic workflow size". The laws lead chose two at a time because a session's agents share one machine and its played-world tests ran out of memory three times on Oct 29. More in parallel means more sessions, each its own machine.
+
 ## Oct 29, 21:40 UTC: the owner's notes on the governing brief (owner, about 5:40 PM Eastern, voice note)
 
 The owner read the CTO's governing brief and answered in one voice note. Each point and where it went:

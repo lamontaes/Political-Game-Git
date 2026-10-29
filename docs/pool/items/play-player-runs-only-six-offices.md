@@ -6,12 +6,13 @@ lead: play-first
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-player-runs-only-six-offices
 pr:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 voice note on the governing brief
+claimed-at: 2026-10-29T21:16:49.698Z
 ---
 
 **What.** The owner, Oct 29: "why are you able to run for trustee and county clerk and shit? No, the player only runs for city council, state legislator, mayor, governor, Congress, and president. That's it. The other stuff can be simulated or whatever, but no, not the player." Today the filing screen and the headless path-check let the player file for county commission, trustee and clerk seats. Those offices keep running in the world with simulated candidates; only the player's filing choices narrow to the six.

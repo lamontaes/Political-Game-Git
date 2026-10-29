@@ -3369,6 +3369,46 @@
       }
     },
     {
+      "key": "scene-words.lead-funeral-other.other-sits-beside-you-to-say-goodbye",
+      "move": "lead-funeral-other",
+      "kind": "spoken",
+      "text": "{other} sits beside you to say goodbye.",
+      "uses": [
+        {
+          "move": "lead-funeral-other",
+          "subject": "lead",
+          "role": "funeral",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-funeral-other.other-stands-with-you-to-say-goodbye",
+      "move": "lead-funeral-other",
+      "kind": "spoken",
+      "text": "{other} stands with you to say goodbye.",
+      "uses": [
+        {
+          "move": "lead-funeral-other",
+          "subject": "lead",
+          "role": "funeral",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
       "key": "scene-words.lead-interview-sitting-other.other-is-ready-to-start-the-interview",
       "move": "lead-interview-sitting-other",
       "kind": "spoken",
