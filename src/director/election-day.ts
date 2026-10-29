@@ -6,11 +6,14 @@
  * the contest's record facts in their slots; a piece whose facts the moment
  * lacks is left out, and a moment no piece fits says nothing.
  */
+import { P } from "../core2/parameters";
 import { wordSceneMove, type Fact } from "../english/scene-talk-words";
 
 export type DayFact = Fact;
 
 const NARRATOR = "narrator:election-day";
+const zero = P.zero;
+const one = P.one;
 
 /**
  * One narrator's line for a moment of election day or night (`move`), from
@@ -54,7 +57,7 @@ export function electionDayLine(
   });
   if (!worded || !("text" in worded)) return null;
   return {
-    text: worded.text.charAt(0).toUpperCase() + worded.text.slice(1),
+    text: worded.text.charAt(zero).toUpperCase() + worded.text.slice(one),
     sourceRecordIds: [
       ...new Set([
         ...moment.recordIds,
