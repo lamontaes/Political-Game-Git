@@ -17,7 +17,6 @@
     "water-violations-to-infant-health",
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
-    "snap-to-food-insecurity",
     "minimum-wage-to-low-wage-jobs",
     "school-spending-to-attainment",
     "enforcement-to-hispanic-enrollment",
@@ -231,6 +230,10 @@
     "child-benefit-to-child-poverty": {
       "waitingOn": ["program.child-benefit-dollars", "household.child-poverty"],
       "needsSize": true
+    },
+    "snap-to-food-insecurity": {
+      "waitingOn": [],
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment and stops a head a law takes off it (the work requirement for assistance after the head's months, by the law row in force), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a household that loses its benefit buys less of its plan and what it cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     "minimum-wage-to-poverty": {
       "waitingOn": [],
