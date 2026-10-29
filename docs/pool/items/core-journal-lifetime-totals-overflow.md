@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/journal-lifetime-totals
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T23:44:38.469Z
 ---
 
 **What.** One save of the played world (npm run speed:year -- --seed long-1 --years 100, Ringgold, Louisiana, key 2264905, main 923bfbf3) stops in year 7 with 'Invalid nonnegative integer journal amount: journal debits' from plusTotals in src/core2/journal-state.ts, called from postCashJournal through the budgets treasury's payOut. The world-wide lifetime totals (runtime.totals) add every posting since the world opened; the federal treasury alone pays out about 573 billion dollars a month, so the sum passes 2^53 minor units (about 90 trillion dollars) in year 6 or 7. Only tests read the world total. The federal treasury's own lifetime totals (totalsByOwner, read by the books screen in src/bench/budget.ts and dev mode's ledger in src/bench/dev-why.ts) and the outside market's flow totals (externalFlowsByOwner) pass the same limit in about year 13. The owner, Oct 29: 'I want simulations to be able to go hundreds of years.'
