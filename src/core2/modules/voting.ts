@@ -1509,6 +1509,8 @@ export function holdPrimary(
   const method = parties[0]?.nominationMethod ?? "party-primary";
   const access = parties[0]?.voterAccess ?? "";
   const date = api.state.date;
+  // One trip to the polls covers the whole ballot: a local race on it counts.
+  const localDay = localOnBallot(api, date);
   const { townPlaceId } = town(api);
   const adultAge = api.parameter("votingAge");
   const lean0 = townLean(api);
@@ -1569,7 +1571,7 @@ export function holdPrimary(
         interest: interestOf(appeal),
         extraCost,
         contacts: contactsOf(api, voter.id, candidates),
-        local: isLocalFamily(contest.family),
+        local: localDay,
       });
       if (!t.votes) continue;
       const choice = field.some((f) => f.personId === voter.id)
@@ -1616,7 +1618,7 @@ export function holdPrimary(
         extraCost,
         contacts: reached,
         recordedWeeklyMinutes: voter.weeklyMinutes,
-        local: isLocalFamily(contest.family),
+        local: localDay,
       });
       const choice = countedChoice(appeal);
       // A record stands for `weight` real voters like it (one model, two tiers).
@@ -1800,6 +1802,32 @@ function recordChosenVote(api: CoreAPI, voterId: string): void {
 }
 
 /** The contests on the ballot on a date, with their fields, read once a day. */
+/**
+ * Whether the day's ballot carries a local race with candidates, a primary
+ * or a general: a voter decides once a day whether to go, and one trip to the
+ * polls covers the whole ballot, so a local race anywhere on it lets the web's
+ * local-turnout links move them. Read once a day.
+ */
+function localOnBallot(api: CoreAPI, date: string): boolean {
+  const key = `${api.state.date}|${date}`;
+  const hit = localBallotByDay.get(api.state);
+  if (hit?.key === key) return hit.local;
+  const local = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[]
+  ).some(
+    (c) =>
+      (c.electionDate === date || c.primaryDate === date) &&
+      isLocalFamily(c.family) &&
+      ballot(api, c.id).length > 0,
+  );
+  localBallotByDay.set(api.state, { key, local });
+  return local;
+}
+const localBallotByDay = new WeakMap<object, { key: string; local: boolean }>();
+
 function contestsOn(
   api: CoreAPI,
   date: string,
@@ -1959,7 +1987,7 @@ function atThePolls(
       : townContacts(api, date, candidates),
     ...(recordedWeeklyMinutes === undefined ? {} : { recordedWeeklyMinutes }),
     // One trip to the polls covers the whole ballot: a local race on it counts.
-    local: races.some((race) => isLocalFamily(race.contest.family)),
+    local: localOnBallot(api, date),
   });
 }
 
