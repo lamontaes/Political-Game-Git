@@ -196,10 +196,16 @@ let playing = "";
 function play(
   core: CoreState,
   where: string,
-): { rows: MedicalBillRow[]; onsets: Map<string, string>; checked: number } {
+): {
+  rows: MedicalBillRow[];
+  outside: MedicalBillRow | null;
+  onsets: Map<string, string>;
+  checked: number;
+} {
   const api = coreAPI(core);
   const town = lawChain(api).townPlaceId;
   const rows: MedicalBillRow[] = [];
+  let outside: MedicalBillRow | null = null;
   const onsets = new Map<string, string>();
   let checked = 0;
   for (let month = 0; month < MONTHS; month += 1) {
@@ -208,11 +214,17 @@ function play(
     advanceCore(core, makeIsoDate(`${next.slice(0, 7)}-02`));
     const billed = `${core.date.slice(0, 7)}-01`;
     const thisMonth = billsOf(core).filter((row) => row.date === billed);
-    rows.push(...thisMonth);
+    // The town's rows are kept (two worlds' every household-month do not
+    // fit the heap), and one row elsewhere that reads the place row.
+    rows.push(...thisMonth.filter((row) => row.placeId === town));
+    outside ??=
+      thisMonth.find(
+        (row) => row.placeId !== town && row.webLinks.includes(TWIN_LINK),
+      ) ?? null;
     for (const c of healthReport(core).cases)
       if (c.onsetEventId) onsets.set(`${billed}|${c.personId}`, c.onsetEventId);
     const sellers = townSellers(api, town);
-    const outside = outsideAccountOf(api);
+    const outsideAccount = outsideAccountOf(api);
     for (const row of thisMonth) {
       if (row.counted || row.placeId !== town || row.paidMinor <= 0) continue;
       const at = `${where}: ${row.id} on ${row.date}`;
@@ -222,7 +234,7 @@ function play(
       expect(
         sellers.size
           ? sellers.has(row.sellerId ?? "")
-          : row.sellerId === outside,
+          : row.sellerId === outsideAccount,
         `${at}: seller ${row.sellerId} (the town's: ${[...sellers].join(", ") || "none"})`,
       ).toBe(true);
       const sellerAccount = api.accounts().main(row.sellerId!);
@@ -253,7 +265,7 @@ function play(
       checked += 1;
     }
   }
-  return { rows, onsets, checked };
+  return { rows, outside, onsets, checked };
 }
 
 /** The sorted plans of a row's members, for comparing like households. */
@@ -563,9 +575,7 @@ describe("medical bills and medical debt in a played world", () => {
             spellOn(withExpansion.spells.get(personId), date)!.recordIds.join(
               " ",
             );
-          const outside = all.find(
-            (row) => row.placeId !== town && row.webLinks.includes(TWIN_LINK),
-          );
+          const outside = withExpansion.outside ?? inTwin.outside;
           process.stdout.write(
             [
               `MEDICAL-DEBT (MEDICAL_DEBT_SEED=${SEED}) ${where()}; expansion ${withExpansion.change} in one world, repealed in the twin (${inTwin.change || "not held"}); played ${withExpansion.start} to ${withExpansion.end}; the twin held it on no day of the window.`,
