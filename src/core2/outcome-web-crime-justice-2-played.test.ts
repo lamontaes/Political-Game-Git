@@ -9,11 +9,17 @@
  *   56 on a seed nobody chose (CRIME_JUSTICE_2_SEED names one), the bench
  *   world with every module installed, built twice from the same seed (one
  *   after the other, so only one is in memory). A working parent of a child
- *   is charged in one world and not the other; the court convicts and
- *   imprisons them, their job ends on the custody record, and their
- *   household's yearly income (fullHouseholdIncomes, the reading the crime
- *   and school engines take of a household's income) falls by their pay
- *   against the twin's.
+ *   (by the parent-child family record), one in each household, is charged
+ *   in one world and not the other; the court convicts and imprisons them,
+ *   their job ends on the custody record, and their household's yearly
+ *   income (fullHouseholdIncomes, the reading the crime and school engines
+ *   take of a household's income) falls by their pay against the twin's,
+ *   every other income record of the household being the same in both.
+ * - The case names no bribe, so the court's months are the least of the
+ *   state's bribery range (convict). About half the places' statutes start
+ *   that range at 0 months, probation only (for example Fla. Stat.
+ *   775.082(3)(d), ORS 161.605(2)); such a place cannot show a prison term
+ *   and is passed over with its statute, after its build and before its run.
  * - The other six links stay unread, each on SG-WEB-crime-justice-links-unread
  *   with the reason its row gives: no recorded cause, no size the game can
  *   apply, or no engine that decides the outcome.
@@ -28,7 +34,7 @@ import { fullHouseholdIncomes } from "./counted-income-fifth";
 import stopgaps from "./data/stopgaps.json" with { type: "json" };
 import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
-import { dispositionDays } from "./justice-law";
+import { briberyRange, dispositionDays } from "./justice-law";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
@@ -56,10 +62,21 @@ const UNREAD = [
   "housing-vouchers-to-crime",
 ] as const;
 const FAMILY_STOPGAP = "SG-WEB-crime-justice-links-unread";
-const TRIES = 6;
-/** Working parents charged in the one world, so at least one is imprisoned. */
+/**
+ * Places drawn before giving up. 30 of the 56 places' bribery statutes start
+ * at 0 months, so a draw reaches a prison minimum at 26 in 56, and 24 draws
+ * all miss at about 3 in 10 million. A probation-only place costs only its
+ * build.
+ */
+const TRIES = 24;
+/**
+ * Working parents charged in the one world, each from a different household,
+ * so at least one is imprisoned and no charged parent's household also loses
+ * another charged member's pay.
+ */
 const CHARGED = 6;
 const DAYS_PER_YEAR = 365;
+const MONTHS_PER_YEAR = 12;
 
 const linkOf = (key: string) => WEB_LINKS.find((row) => row.key === key)!;
 const openStopgap = (id: string) =>
@@ -89,16 +106,23 @@ const yearly = (core: CoreState, personId: string) =>
     0,
   );
 /**
- * What the rest of a household brings in a year: its other members' pay and
- * the income awards recorded to it, as fullHouseholdIncomes counts them.
+ * A household's income records, each with what it brings in a year, by the
+ * rule fullHouseholdIncomes counts them: every live job of a person who lives
+ * in the household, and every income award recorded to it.
  */
-const others = (core: CoreState, home: string, personId: string) =>
-  (core.households.get(home)?.memberIds ?? [])
-    .filter((id) => id !== personId)
-    .reduce((n, id) => n + yearly(core, id), 0) +
-  [...core.finance.contracts.values()]
-    .filter((c) => c.recipientIncome?.householdId === home && !c.endedAt)
-    .reduce((n, c) => n + (c.amountMinor * 12) / c.periodMonths, 0);
+const incomeRecords = (core: CoreState, home: string) => {
+  const records = new Map<string, number>();
+  for (const job of core.jobs.values())
+    if (
+      job.endsAt === undefined &&
+      core.people.get(job.personId)?.householdId === home
+    )
+      records.set(job.id, job.wageDailyMinor * DAYS_PER_YEAR);
+  for (const c of core.finance.contracts.values())
+    if (c.recipientIncome?.householdId === home && !c.endedAt)
+      records.set(c.id, (c.amountMinor * MONTHS_PER_YEAR) / c.periodMonths);
+  return records;
+};
 
 /** A parent the court imprisoned in the charged world, as that world left them. */
 interface Term {
@@ -108,15 +132,16 @@ interface Term {
   readonly caseId: string;
   readonly sentence: SentenceRow;
   readonly custody: CustodyRow;
-  /** The household's yearly income, and what the rest of it brings, with the term. */
+  /** The household's yearly income, and each of its income records, with the term. */
   readonly income: number;
-  readonly others: number;
+  readonly records: ReadonlyMap<string, number>;
 }
 
 /**
- * The charged world: named working parents of a child in the town are charged
- * on the first day, and the world runs past their hearing and the morning
- * their jobs end. Returns who the court imprisoned, or why none was.
+ * The charged world: named working parents of a child in the town, one in
+ * each household, are charged on the first day, and the world runs past their
+ * hearing and the morning their jobs end. Returns who the court imprisoned,
+ * or why none was.
  */
 function chargedWorld(
   drawn: ReturnType<typeof drawPlace>,
@@ -124,8 +149,21 @@ function chargedWorld(
   const core = build(drawn);
   const api = coreAPI(core);
   const chain = lawChain(api);
+  // The case names no bribe, so the court sets the least term of the state's
+  // bribery range (convict); where that is 0 months, it sentences probation.
+  const range = briberyRange(api, chain.stateKey);
+  if (range.minMonths <= 0)
+    return `the case names no bribe, so the court sets the least term of ${chain.stateKey}'s bribery range, ${range.minMonths} of ${range.maxMonths} months (${range.source.citation}): probation, no prison term`;
   const adult = api.parameter("votingAge");
-  const parents = [...core.people.values()]
+  // Each person's children, by the parent-child family records.
+  const children = new Map<string, string[]>();
+  for (const link of core.familyLinks.values())
+    if (link.kind === "parent-child")
+      children.set(link.personIds[0], [
+        ...(children.get(link.personIds[0]) ?? []),
+        link.personIds[1],
+      ]);
+  const working = [...core.people.values()]
     .filter((p) => {
       if (
         !p.alive ||
@@ -136,16 +174,25 @@ function chargedWorld(
         !liveJobs(core, p.id).length
       )
         return false;
-      return (core.households.get(p.householdId)?.memberIds ?? []).some(
-        (id) => {
-          const member = core.people.get(id);
-          return (
-            member?.alive && ageOnDate(member.birthDate, core.date) < adult
-          );
-        },
-      );
+      // A child of theirs, under age, who lives with them.
+      return (children.get(p.id) ?? []).some((id) => {
+        const child = core.people.get(id);
+        return (
+          child?.alive &&
+          child.householdId === p.householdId &&
+          ageOnDate(child.birthDate, core.date) < adult
+        );
+      });
     })
     .sort((a, b) => a.id.localeCompare(b.id));
+  // One parent a household, so the rest of each charged parent's household
+  // is the same in both worlds.
+  const homes = new Set<string>();
+  const parents = working.filter((p) => {
+    if (homes.has(p.householdId)) return false;
+    homes.add(p.householdId);
+    return true;
+  });
   if (!parents.length) return "no named working parent in the town";
   // The prosecutor's case, opened in this world only: the justice engine
   // charges, holds or bails, hears and sentences it itself.
@@ -190,12 +237,14 @@ function chargedWorld(
       CustodyRow | undefined;
     if (!sentence || !custody || custody.status !== "serving") {
       skipped.push(
-        `${c.defendantId} not serving a term (${sentence ? `${sentence.custodyMonths} custody months` : (table("cases").get(c.id) as unknown as CaseRow | undefined)?.status})`,
+        `${c.defendantId} not serving a term (${sentence ? `${sentence.id}: ${sentence.custodyMonths} custody months and ${sentence.probationMonths} on probation, the court's ${sentence.reasons.courtMonths} months against the range's least ${sentence.reasons.rangeMinMonths}` : `${c.id} ${(table("cases").get(c.id) as unknown as CaseRow | undefined)?.status}`})`,
       );
       continue;
     }
     if (!sentence.jobsEnded.length) {
-      skipped.push(`${c.defendantId} held no job when sentenced`);
+      skipped.push(
+        `${c.defendantId} held no job when sentenced (${sentence.id})`,
+      );
       continue;
     }
     // Every job the term ended has ended, and the parent holds none.
@@ -214,7 +263,7 @@ function chargedWorld(
       sentence,
       custody,
       income: incomes.get(person.householdId) ?? 0,
-      others: others(core, person.householdId, c.defendantId),
+      records: incomeRecords(core, person.householdId),
     });
   }
   return { through, terms, skipped };
@@ -294,26 +343,43 @@ describe("a parent's prison term reaches their household's income", () => {
           const incomes = fullHouseholdIncomes(twin);
           for (const term of seen.terms) {
             // The twin's parent still holds every job the term ended.
-            if (
-              term.sentence.jobsEnded.some(
-                (id) => twin.jobs.get(id)?.endsAt !== undefined,
+            const alsoEnded = term.sentence.jobsEnded.filter(
+              (id) => twin.jobs.get(id)?.endsAt !== undefined,
+            );
+            if (alsoEnded.length) {
+              passed.push(
+                `${where}: ${term.personId}'s ${alsoEnded.join(", ")} also ended in the twin`,
+              );
+              continue;
+            }
+            // Every other income record of the household is the same in both
+            // worlds, so the gap between them is the parent's pay alone.
+            const twinRecords = incomeRecords(twin, term.home);
+            const differ = [
+              ...new Set([...twinRecords.keys(), ...term.records.keys()]),
+            ]
+              .filter(
+                (id) =>
+                  !term.sentence.jobsEnded.includes(id) &&
+                  twinRecords.get(id) !== term.records.get(id),
               )
-            ) {
+              .sort()
+              .map(
+                (id) =>
+                  `${id} (${twinRecords.get(id) ?? "none"} a year in the twin, ${term.records.get(id) ?? "none"} with the term)`,
+              );
+            if (differ.length) {
               passed.push(
-                `${where}: ${term.personId}'s job also ended in the twin`,
+                `${where}: the rest of ${term.home}'s income differs between the worlds: ${differ.join(", ")}`,
               );
               continue;
             }
-            const pay = yearly(twin, term.personId);
+            const pay = term.sentence.jobsEnded.reduce(
+              (n, id) => n + (twinRecords.get(id) ?? 0),
+              0,
+            );
             expect(pay, term.personId).toBeGreaterThan(0);
-            // The rest of the household brings the same in both worlds, so
-            // the gap between them is the parent's pay alone.
-            if (others(twin, term.home, term.personId) !== term.others) {
-              passed.push(
-                `${where}: the rest of ${term.home}'s income differs between the worlds`,
-              );
-              continue;
-            }
+            expect(yearly(twin, term.personId), term.personId).toBe(pay);
             const without = incomes.get(term.home) ?? 0;
             expect(without - term.income, `${where}: ${term.home}`).toBeCloseTo(
               pay,
@@ -321,7 +387,7 @@ describe("a parent's prison term reaches their household's income", () => {
             );
             const link = linkOf(LINK);
             process.stdout.write(
-              `PARENT-INCARCERATION (CRIME_JUSTICE_2_SEED=${seed}) ${where}: ${term.name} (${term.personId}), a parent in ${term.home}, was charged in one world (${term.caseId}), sentenced to ${term.sentence.custodyMonths} months (${term.sentence.id}) and imprisoned on ${term.custody.from} (${term.custody.id}); the justice engine ended ${term.sentence.jobsEnded.join(", ")}, which the twin's parent still holds; on ${seen.through} the household's yearly income ran ${without} in the twin and ${term.income} with the term (minor units), down ${pay}, the parent's own pay (${((100 * pay) / without).toFixed(1)}%; the research's average family drop is ${(-link.size! * 100).toFixed(0)}%). Passed over: ${passed.join("; ") || "none"}\n`,
+              `PARENT-INCARCERATION (CRIME_JUSTICE_2_SEED=${seed}) ${where}: ${term.name} (${term.personId}), a parent in ${term.home}, was charged in one world (${term.caseId}), sentenced to ${term.sentence.custodyMonths} months (${term.sentence.id}) and imprisoned on ${term.custody.from} (${term.custody.id}); the justice engine ended ${term.sentence.jobsEnded.join(", ")}, which the twin's parent still holds; on ${seen.through} the household's yearly income ran ${without} in the twin and ${term.income} with the term (minor units), down ${pay}, the parent's own pay (${((100 * pay) / without).toFixed(1)}%; the research's average family drop is ${(-link.size! * 100).toFixed(0)}%), its other ${twinRecords.size - term.sentence.jobsEnded.length} income records the same in both worlds. Passed over: ${passed.join("; ") || "none"}\n`,
             );
             return;
           }
