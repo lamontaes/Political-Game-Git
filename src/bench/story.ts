@@ -182,16 +182,18 @@ export function storyScene(
     place: pictured,
     backdrop: backdropFor(core, pictured, minuteOfDay, personId),
     people: stagePeople(core, pictured, cast).people,
-    narration: [
-      ...scene.narration,
-      ...(purpose?.kind === "composed"
+    // One narrator: a scene with a purpose opens on its own narration, the
+    // same voice that speaks between its lines; the situation's paragraph is
+    // for a moment with no exchange (the plan of Oct 28, section 1: "Two
+    // narrators per scene ... One narrator, the director's").
+    narration:
+      purpose?.kind === "composed" && purpose.scene.talk.narration.length
         ? purpose.scene.talk.narration.map((line) => ({
             text: line.text,
             parts: line.parts,
             held: !line.parts.every(shipped),
           }))
-        : []),
-    ],
+        : scene.narration,
     talkToId: scene.talkToId,
     // A speech heard plays in its speaker's own words, from its record.
     ...(scene.speech ? { speech: scene.speech } : {}),
