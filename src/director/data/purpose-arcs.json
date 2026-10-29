@@ -12,6 +12,20 @@
   "purposes": {
     "ask-vote": {
       "state": "request",
+      "asks": {
+        "note": "Where the player does the asking: the one asked answers yes if they already lean for it, not yet if a favor would carry them, no otherwise; a plea or a trade carries them where the favor would at the roll, pressing only where they lean for it, letting it go wins nothing.",
+        "yes": "agree",
+        "carried": "stall",
+        "no": "refuse",
+        "relent": ["relent", "agree"],
+        "thanks": "thank",
+        "again": [
+          { "move": "plea", "carries": "favor" },
+          { "move": "bargain", "carries": "favor" },
+          { "move": "press", "carries": "lean" },
+          { "move": "accept", "carries": "none" }
+        ]
+      },
       "replies": ["agree", "refuse", "bargain", "stall", "lie"],
       "again": {
         "ask": ["answer", "refuse", "leave"]
@@ -3458,6 +3472,18 @@
     },
     "ask-support": {
       "state": "request",
+      "asks": {
+        "note": "A door on the player's own canvass: the resident answers from where the knock left them; pressing wins them only where they lean for it already.",
+        "yes": "agree",
+        "carried": "deflect",
+        "no": "decline",
+        "relent": ["agree"],
+        "thanks": "thank",
+        "again": [
+          { "move": "press", "carries": "lean" },
+          { "move": "accept", "carries": "none" }
+        ]
+      },
       "replies": ["ask", "agree", "decline", "deflect"],
       "follow": {
         "ask": ["answer"],
