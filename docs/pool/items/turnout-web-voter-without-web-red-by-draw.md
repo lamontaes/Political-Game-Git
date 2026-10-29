@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/turnout-web.ts; src/core2/turnout-web.test.ts; src/core2/modules/voting.ts
 
 **Notes.** TODO
+
+Oct 29 14:30 UTC (laws session): a second case on main, WEB_TURNOUT_SEED=88ebfe6449fd8869, As Rabagau, Northern Mariana Islands: person:press:outlet:newspaper:0:jurisdiction_3584967e5578b072:owner:0 carries no web factor. The voter is a press outlet owner, a person the press module seats; check whether such people keep a place or birth date the turnout reader needs (decideTurnout reads who.placeId and who.birthDate before it asks the web).
