@@ -97,6 +97,7 @@ it("a filed candidate's months are never silent, and each season scene writes ba
       continue;
     }
     const stops: { date: string; typeKey: string; causeId: string }[] = [];
+    const fired = new Set<string>();
     const seen = new Set<string>();
     const composed: string[] = [];
     let answered = 0;
@@ -154,7 +155,12 @@ it("a filed candidate's months are never silent, and each season scene writes ba
         if (seen.has(entry.momentId)) continue;
         seen.add(entry.momentId);
         const moment = book.momentsById.get(entry.momentId);
-        if (!moment || !entry.interrupt || moment.date < filedOn) continue;
+        if (!moment || moment.date < filedOn) continue;
+        // Every season scene the director staged fired, whether it stopped
+        // the day or was told as a journal line (owner, Oct 27: not every
+        // volunteer stops the player).
+        for (const binding of entry.bindings) fired.add(binding.typeKey);
+        if (!entry.interrupt) continue;
         for (const binding of entry.bindings) {
           stops.push({
             date: moment.date,
@@ -249,7 +255,10 @@ it("a filed candidate's months are never silent, and each season scene writes ba
     ).toBe(true);
     // The middle of a quiet race is not yet filled: the longest stretch is
     // printed, and the parent item carries the 28-day rule there.
-    const season = [...kinds].filter((kind) => SEASON_TYPES.has(kind));
+    // The season's kinds that fired (Northford, Connecticut, seed
+    // debate-report-1:0: fourteen offers of help from acquaintances were
+    // journal lines, none a stop, and the stops alone held two kinds).
+    const season = [...fired].filter((kind) => SEASON_TYPES.has(kind));
     expect(
       season.length,
       `${where}: season kinds ${season.join(", ")}`,
