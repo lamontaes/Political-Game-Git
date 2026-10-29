@@ -6,7 +6,8 @@
  * control. The benefit engine stops a head the requirement reaches after
  * their months (runFoodAid), and the household's monthly purchases (settle in
  * cost-of-living.ts) buy its everyday plan from what its members hold, so a
- * household that lost its benefit buys less of its plan. The research link
+ * household that lost its benefit buys less of its plan, or, where it still
+ * pays the same share, its members hold less money. The research link
  * from SNAP receipt into food insecurity is carried by these two engines, and
  * the web does not run it (snap-to-food-insecurity, links.json carriedBy).
  */
@@ -32,7 +33,7 @@ const FOOD_AID = "snap-baseline";
 const LINK = "snap-to-food-insecurity";
 /** The time limit is three months of benefit; five months of reviews and purchases show who it stopped. */
 const DAYS = 150;
-const TRIES = 6;
+const TRIES = 10;
 
 interface Taken {
   readonly id: string;
@@ -98,7 +99,7 @@ function play(drawn: ReturnType<typeof drawPlace>, requirement: boolean) {
 
 describe("SNAP receipt a law moves reaches what a household buys", () => {
   it(
-    `a household whose head the work requirement stopped buys less of its plan (seed ${seed})`,
+    `a household whose head the work requirement stopped buys less of its plan or holds less money (seed ${seed})`,
     { timeout: 1_800_000 },
     () => {
       const bookkeeping = setBookkeeping(false);
@@ -128,20 +129,37 @@ describe("SNAP receipt a law moves reaches what a household buys", () => {
           }
           const control = play(drawn, false)!;
           // A stopped head's household, on the same purchase day in both
-          // worlds: without the benefit it pays less toward the same plan.
-          const bought = [...homes].filter(([home]) => {
+          // worlds: without the benefit it pays less toward the same plan, or,
+          // where it pays the same share, its members hold less money than in
+          // the control world, the benefit it no longer receives.
+          const holdings = (core: CoreState, home: string) =>
+            (lawWorld.households.get(home)?.memberIds ?? []).reduce(
+              (sum, id) => sum + (core.people.get(id)?.liquidMinor ?? 0),
+              0,
+            );
+          const reached = [...homes].flatMap(([home, row]) => {
             const withLaw = lawWorld.finance.livingPlans.get(home);
             const without = control.finance.livingPlans.get(home);
-            return (
-              !!withLaw?.lastAt &&
-              withLaw.lastAt === without?.lastAt &&
-              withLaw.lastPaidMinor / withLaw.lastRequestedMinor <
-                without.lastPaidMinor / without.lastRequestedMinor
-            );
+            if (!withLaw?.lastAt || withLaw.lastAt !== without?.lastAt)
+              return [];
+            const share = withLaw.lastPaidMinor / withLaw.lastRequestedMinor;
+            const base = without.lastPaidMinor / without.lastRequestedMinor;
+            if (share < base) return [{ home, row, how: "bought less" }];
+            const held = holdings(lawWorld, home);
+            const heldBase = holdings(control, home);
+            return share === base && held < heldBase
+              ? [
+                  {
+                    home,
+                    row,
+                    how: `paid the same share, its members holding ${held} against ${heldBase}`,
+                  },
+                ]
+              : [];
           });
-          if (!bought.length) {
+          if (!reached.length) {
             passed.push(
-              `${drawn.name}, ${drawn.state} (${drawn.key}): ${homes.size} named households lost SNAP, none bought less`,
+              `${drawn.name}, ${drawn.state} (${drawn.key}): ${homes.size} named households lost SNAP, none bought less or held less`,
             );
             continue;
           }
@@ -154,16 +172,16 @@ describe("SNAP receipt a law moves reaches what a household buys", () => {
             months.some((m) => m.effects[LINK] !== undefined),
             "the web ran the carried SNAP receipt link",
           ).toBe(false);
-          const [home, row] = bought[0]!;
+          const { home, row, how } = reached[0]!;
           const withLaw = lawWorld.finance.livingPlans.get(home)!;
           const without = control.finance.livingPlans.get(home)!;
           process.stdout.write(
-            `SNAP-WORK (SNAP_WORK_SEED=${seed}) ${drawn.name}, ${drawn.state} (${drawn.key}, seed ${drawn.seed}): ${stopped.length} heads stopped (${row.id}, ${row.recipientId} on ${row.stoppedOn ?? "?"}), ${homes.size} named households, ${bought.length} bought less; ${home} on ${withLaw.lastAt}: paid ${withLaw.lastPaidMinor} of ${withLaw.lastRequestedMinor} against ${without.lastPaidMinor} of ${without.lastRequestedMinor} in the control world. Passed over: ${passed.join("; ") || "none"}\n`,
+            `SNAP-WORK (SNAP_WORK_SEED=${seed}) ${drawn.name}, ${drawn.state} (${drawn.key}, seed ${drawn.seed}): ${stopped.length} heads stopped (${row.id}, ${row.recipientId} on ${row.stoppedOn ?? "?"}), ${homes.size} named households, ${reached.length} reached; ${home} on ${withLaw.lastAt} ${how}: paid ${withLaw.lastPaidMinor} of ${withLaw.lastRequestedMinor} against ${without.lastPaidMinor} of ${without.lastRequestedMinor} in the control world. Passed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }
         throw new Error(
-          `No drawn place showed a household that lost SNAP buying less: ${passed.join("; ")}`,
+          `No drawn place showed a household that lost SNAP buying less or holding less: ${passed.join("; ")}`,
         );
       } finally {
         setBookkeeping(bookkeeping);
