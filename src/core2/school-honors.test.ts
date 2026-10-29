@@ -21,6 +21,7 @@ import { lawChain } from "./modules/laws";
 import { PRESS_MODULE_ID } from "./modules/press";
 import {
   clearHonor,
+  crownWinners,
   HONORS,
   honorRate,
   honorScore,
@@ -51,15 +52,21 @@ const student = (id: string, standing: number, weight = 1): Student => ({
 });
 
 describe("the honors data rows", () => {
-  it("tags every rate, day and grade list and names its source", () => {
+  it("tags every rate or winner count, day and grade list and names its source", () => {
     expect(HONORS.map((honor) => honor.key)).toEqual([
       "spelling-bee-regional",
+      "spelling-bee-local",
       "division-one-signing",
     ]);
+    for (const honor of HONORS) {
+      // Each honor rests on a national rate or on a count of winners per place.
+      const basis = honor.rate ?? honor.winners;
+      expect(basis, honor.key).toBeDefined();
+      expect(["SOURCED", "ESTIMATED"]).toContain(basis!.tag);
+      expect(basis!.source).toMatch(/https:\/\//);
+      expect(basis!.derivation.length).toBeGreaterThan(40);
+    }
     for (const honor of honorsData.honors) {
-      expect(["SOURCED", "ESTIMATED"]).toContain(honor.rate.tag);
-      expect(honor.rate.source).toMatch(/https:\/\//);
-      expect(honor.rate.derivation.length).toBeGreaterThan(40);
       expect(["SOURCED", "ESTIMATED"]).toContain(honor.gradesTag);
       expect(honor.gradesSource.length).toBeGreaterThan(40);
       expect(["SOURCED", "ESTIMATED"]).toContain(honor.day.tag);
@@ -70,18 +77,30 @@ describe("the honors data rows", () => {
   it("keeps each rate inside its stated spread, and every stopgap it names registered", () => {
     const known = new Set(STOPGAPS.map((row) => row.id));
     for (const honor of honorsData.honors) {
-      const rate = honor.rate.winnersPerYear / honor.rate.studentsNationally;
-      expect(rate).toBeGreaterThanOrEqual(honor.rate.spread.low);
-      expect(rate).toBeLessThanOrEqual(honor.rate.spread.high);
+      if ("rate" in honor) {
+        const rate = honor.rate.winnersPerYear / honor.rate.studentsNationally;
+        expect(rate).toBeGreaterThanOrEqual(honor.rate.spread.low);
+        expect(rate).toBeLessThanOrEqual(honor.rate.spread.high);
+      }
       for (const id of honor.stopgaps) expect(known.has(id)).toBe(true);
       // An honor ranked by traits says where the traits come from.
       if (honor.traits.length) expect(honor.stopgaps.length).toBeGreaterThan(0);
     }
     expect(known.has(honorsData.stopgaps.noHistory)).toBe(true);
     // The Division I rate rests on the NCAA table's own arithmetic.
-    expect(Math.round(154_946 / 4)).toBe(
-      honorsData.honors[1]!.rate.winnersPerYear,
-    );
+    const signing = HONORS.find((h) => h.key === "division-one-signing")!;
+    expect(Math.round(154_946 / 4)).toBe(signing.rate!.winnersPerYear);
+  });
+
+  it("gives the local bee one winner a place and no rate, in the regional bee's grades", () => {
+    const local = HONORS.find((h) => h.key === "spelling-bee-local")!;
+    const regional = HONORS.find((h) => h.key === "spelling-bee-regional")!;
+    expect(local.winners!.perPlace).toBe(1);
+    expect(local.rate).toBeUndefined();
+    expect(local.tier).toBe("local");
+    expect(regional.tier).toBe("regional");
+    expect(local.grades).toEqual(regional.grades);
+    expect(() => honorRate(local)).toThrow();
   });
 });
 
@@ -91,6 +110,11 @@ describe("the honors calendar", () => {
     const signing = HONORS.find((h) => h.key === "division-one-signing")!;
     expect(isHonorDay("2026-03-01", spelling.day)).toBe(true);
     expect(isHonorDay("2026-03-02", spelling.day)).toBe(false);
+    // The place's own bee comes before the regional: February 7.
+    const local = HONORS.find((h) => h.key === "spelling-bee-local")!;
+    expect(isHonorDay("2026-02-07", local.day)).toBe(true);
+    expect(isHonorDay("2026-02-08", local.day)).toBe(false);
+    expect(local.day.month < spelling.day.month).toBe(true);
     // The signing days ESPN reported: December 3, 2025 and December 4, 2024.
     for (const day of ["2025-12-03", "2024-12-04", "2026-12-02"])
       expect(isHonorDay(day, signing.day)).toBe(true);
@@ -111,6 +135,9 @@ describe("the honors calendar", () => {
     ]);
     expect(honorsOn("2025-03-01").map((h) => h.key)).toEqual([
       "spelling-bee-regional",
+    ]);
+    expect(honorsOn("2025-02-07").map((h) => h.key)).toEqual([
+      "spelling-bee-local",
     ]);
     expect(honorsOn("2025-06-17")).toEqual([]);
     // Every day of a year but the honors' own days answers none.
@@ -196,6 +223,26 @@ describe("clearing an honor down the ranked students", () => {
     expect(years.length).toBeGreaterThanOrEqual(3);
   });
 
+  it("crowns the local bee's one winner: the highest-ranked student, counted once however many a household stands for", () => {
+    const entrants = [
+      student("c", 0.2),
+      student("a", 0.9, 3),
+      student("b", 0.5),
+    ];
+    const result = crownWinners(entrants, (s) => s.standing, 1);
+    expect(result.crowned.map((s) => s.id)).toEqual(["a"]);
+    expect(result.ranked.map((s) => s.id)).toEqual(["a", "b", "c"]);
+    // The winner is one student though their household stands for three.
+    expect(result.crowned).toHaveLength(1);
+    expect(result.total).toBe(5);
+    // A tie goes to the lower id, and a place with no entrants crowns no one.
+    const tied = [student("z", 0.4), student("m", 0.4)];
+    expect(
+      crownWinners(tied, (s) => s.standing, 1).crowned.map((s) => s.id),
+    ).toEqual(["m"]);
+    expect(crownWinners([], (s) => s.standing, 1).crowned).toEqual([]);
+  });
+
   it("ranks a signing by the athletic traits as well as the standing, and a spelling bee by standing alone", () => {
     const signing = HONORS.find((h) => h.key === "division-one-signing")!;
     const spelling = HONORS.find((h) => h.key === "spelling-bee-regional")!;
@@ -227,6 +274,53 @@ describe(`a played world's honors in ${place.name}, ${place.state} (seed ${seed}
     const carry = api.moduleState(SCHOOL_MODULE_ID).table("carry");
     const honors = api.moduleState(SCHOOL_MODULE_ID).table("honors");
     const rows = () => honors.rows() as unknown as SchoolHonorRow[];
+
+    // The place's own bee, February 7: one winner for the town, the
+    // highest-ranked of its students of grades 5 to 8.
+    const local = HONORS.find((h) => h.key === "spelling-bee-local")!;
+    advanceCore(core, makeIsoDate("2025-02-08"));
+    const startYear = schoolStartYear("2025-02-07", "09-01");
+    const middleStudents = local.grades.flatMap(
+      (grade) =>
+        studentsByPlace(api, grade, startYear, () => undefined).get(town) ?? [],
+    );
+    const localRow = rows().find(
+      (r) => r.honor === local.key && r.placeId === town,
+    );
+    if (!middleStudents.length) {
+      expect(localRow).toBeUndefined();
+    } else {
+      expect(localRow, "the town's bee crowned a winner").toBeDefined();
+      expect(localRow!.id).toBe(`${local.key}:${town}:2025-02-07`);
+      expect(localRow!.tier).toBe("local");
+      expect(localRow!.count).toBe(1);
+      expect(localRow!.expected).toBe(1);
+      expect(localRow!.rate).toBeUndefined();
+      expect(localRow!.owedBefore).toBeUndefined();
+      // Named only when a full student won; a counted winner is only counted.
+      expect(localRow!.personIds.length).toBeLessThanOrEqual(1);
+      const fullMiddle = new Set(
+        middleStudents.filter((s) => s.full).map((s) => s.id),
+      );
+      for (const id of localRow!.personIds)
+        expect(fullMiddle.has(id)).toBe(true);
+      const localEvent = core.durableLog.get(localRow!.eventId as never);
+      expect(localEvent!.kind).toBe(SCHOOL_HONOR_EVENT);
+      expect(localEvent!.facts).toMatchObject({
+        honor: local.key,
+        tier: "local",
+        count: "1",
+        record: localRow!.id,
+      });
+      const localWire = api
+        .moduleState(PRESS_MODULE_ID)
+        .table("wire")
+        .get(localRow!.eventId) as unknown as { level: string } | undefined;
+      expect(localWire, "wireItem accepts the local bee").toBeDefined();
+      expect(localWire!.level).toBe("town");
+      // The bee keeps no carry: it needs no rate.
+      expect(carry.get(`honor:${local.key}:${town}`)).toBeUndefined();
+    }
 
     // The regional bee, March 1: the town's expected count is its students
     // of grades 5 to 8 times the sourced rate, carried (the sliding scale).

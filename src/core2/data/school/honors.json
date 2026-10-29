@@ -41,6 +41,29 @@
       "stopgaps": []
     },
     {
+      "key": "spelling-bee-local",
+      "tier": "local",
+      "about": "The winner of a place's own spelling bee (a school, district or county bee that sends its champion on to the regional): one winner each year for every place with students in grades 5 to 8.",
+      "grades": [5, 6, 7, 8],
+      "gradesTag": "ESTIMATED",
+      "gradesSource": "Augusta Press (fetched Oct 29, 2026): Aiken County's Scripps Spelling Bee is 'for students from fifth grade to eighth grade' (https://theaugustapress.com/students-to-compete-in-aiken-county-spelling-bee-feb-7/); Shaw Local (fetched Oct 29, 2026) reports a regional bee 'held for students in grades four through eight' (https://www.shawlocal.com/sauk-valley/morning-update/2025/02/19/lena-winslow-student-wins-43rd-annual-carroll-jo-daviess-stephenson-counties-regional-spelling-bee). The same grades 5 to 8 as the regional tier.",
+      "day": {
+        "month": "02",
+        "date": "07",
+        "tag": "ESTIMATED",
+        "source": "WPTV and LEX18, Scripps stations (fetched Oct 29, 2026): 'School bees were held throughout the fall of 2022 and early this year, with regional bees running Feb. 1 through March 31' and 'Educators and schools have until Jan. 31 to sign up their elementary and middle school students' (https://www.wptv.com/news/education/scripps-spelling-bee/schools-can-sign-up-students-for-scripps-national-spelling-bee-through-jan-31, https://www.lex18.com/news/local-schools-can-sign-up-students-for-the-scripps-national-spelling-bee-through-jan-31). Augusta Press (fetched Oct 29, 2026): the Aiken County champion was crowned at '7 p.m. Monday Feb. 7' (2022). Shaw Local (fetched Oct 29, 2026): a regional bee of the 'top spellers who had placed first and second in their respective local school district bees' 'took place Feb. 11' (2025). A place's own bee is the last before the regional season, so it is decided on February 7.",
+        "spread": "January 31 (school enrollment closes) to February 28 (before the March regional bees); the fall school bees come earlier and the district and county bees through February."
+      },
+      "winners": {
+        "perPlace": 1,
+        "tag": "ESTIMATED",
+        "source": "A bee always crowns one winner: Augusta Press (fetched Oct 29, 2026) calls the Aiken County bee's winner 'Aiken County's Scripps Spelling Bee Champion' (https://theaugustapress.com/students-to-compete-in-aiken-county-spelling-bee-feb-7/), and Shaw Local (fetched Oct 29, 2026) says its regional bee's competitors had 'placed first and second in their respective local school district bees' (https://www.shawlocal.com/sauk-valley/morning-update/2025/02/19/lena-winslow-student-wins-43rd-annual-carroll-jo-daviess-stephenson-counties-regional-spelling-bee). spellingbee.com (fetched Oct 29, 2026, https://spellingbee.com/): 'More than 10 million students will start a spelling bee journey this fall' and 'In February and March, school champions from across the country will compete' in regional events.",
+        "derivation": "One winner a year in each place with students in grades 5 to 8. The count needs no rate, since a bee crowns its winner whatever the number of entrants; every place's district is taken to hold a bee (SG-SCHOOL-honors-every-district-holds-a-bee). A counted student who wins is one winner, not their household's weight."
+      },
+      "traits": [],
+      "stopgaps": ["SG-SCHOOL-honors-every-district-holds-a-bee"]
+    },
+    {
       "key": "division-one-signing",
       "tier": "division-one",
       "about": "A senior who signs to play a sport at an NCAA Division I school on the national signing day.",

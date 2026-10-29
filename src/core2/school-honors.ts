@@ -12,6 +12,10 @@
  * large one every year. There is no roll: the rank is the student's own
  * standing (attendance and study traits) plus the honor's own traits.
  *
+ * A bee (the local spelling bee) needs no rate: it crowns one winner in
+ * every place with students of its grades, the highest-ranked, and a counted
+ * winner is one winner, never named.
+ *
  * An honor is kept as a row in the school module's `honors` table and
  * recorded as a public `school.honor` event (the press wire takes every
  * public record), naming the full students among those honored; counted
@@ -22,7 +26,7 @@ import schoolDays from "./data/school-days.json" with { type: "json" };
 import outcomes from "./data/school/outcomes.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
 import { countedHouseholdsByPlace } from "./modules/residents";
-import { schoolName, schoolOfPlace } from "./past-school";
+import { schoolName, schoolOfPlace } from "./past-module";
 import { SCHOOL_MODULE_ID } from "./school-measures";
 import {
   clearsInOrder,
@@ -42,21 +46,36 @@ interface HonorDay {
   readonly nth?: number;
 }
 
-interface HonorRate {
-  readonly winnersPerYear: number;
-  readonly studentsNationally: number;
+/** What the numbers of an honor rest on: its tag, where they come from and how they were reached. */
+interface HonorBasis {
   readonly tag: "SOURCED" | "ESTIMATED";
   readonly source: string;
   readonly derivation: string;
 }
 
-/** One honor, as the data file holds it. */
+/** A national rate: the winners a year over the students nationally in the honor's grades. */
+interface HonorRate extends HonorBasis {
+  readonly winnersPerYear: number;
+  readonly studentsNationally: number;
+}
+
+/** A fixed number of winners in every place with students of the honor's grades (a bee always crowns its winner). */
+interface HonorWinners extends HonorBasis {
+  readonly perPlace: number;
+}
+
+/**
+ * One honor, as the data file holds it: either a national `rate` (the places'
+ * expected counts carry across years) or `winners` per place (a count that
+ * needs no rate).
+ */
 export interface HonorDefinition {
   readonly key: string;
   readonly tier: string;
   readonly grades: readonly number[];
   readonly day: HonorDay;
-  readonly rate: HonorRate;
+  readonly rate?: HonorRate;
+  readonly winners?: HonorWinners;
   /** The traits (besides the school standing) that rank students for it. */
   readonly traits: readonly string[];
   readonly stopgaps: readonly string[];
@@ -73,18 +92,19 @@ export interface SchoolHonorRow {
   readonly schoolId: string;
   readonly date: string;
   readonly startYear: number;
-  /** Real students honored: the full students plus the counted students' household weights. */
+  /** Real students honored: the full students plus the counted students' household weights (a bee's winner is one). */
   readonly count: number;
   /** The full students among them; counted students are only counted. */
   readonly personIds: readonly string[];
   /** Real students of the honor's grades in the place that day. */
   readonly students: number;
-  readonly rate: number;
-  /** The place's expected count today: students times the rate. */
+  /** A rate honor's national rate. */
+  readonly rate?: number;
+  /** The place's expected count today: students times the rate, or the winners a place always crowns. */
   readonly expected: number;
-  /** What the place was owed (the remainder carried in, plus today's expected) and what it still is after. */
-  readonly owedBefore: number;
-  readonly owedAfter: number;
+  /** A rate honor: what the place was owed (the remainder carried in, plus today's expected) and what it still is after. */
+  readonly owedBefore?: number;
+  readonly owedAfter?: number;
   readonly eventId: string;
 }
 
@@ -92,7 +112,16 @@ const stateOf = (api: CoreAPI) => api.moduleState(SCHOOL_MODULE_ID);
 
 /** The honor's national rate: winners a year over students nationally, per student of its grades. */
 export function honorRate(honor: HonorDefinition): number {
+  if (!honor.rate)
+    throw new Error(`${honor.key} crowns winners per place and has no rate`);
   return honor.rate.winnersPerYear / honor.rate.studentsNationally;
+}
+
+/** What an honor's numbers rest on, for the record's source. */
+function basisOf(honor: HonorDefinition): HonorBasis {
+  const basis = honor.rate ?? honor.winners;
+  if (!basis) throw new Error(`${honor.key} has neither a rate nor winners`);
+  return basis;
 }
 
 /** Whether `date` is the day the honor is decided (the month is checked first, so most days are one comparison). */
@@ -108,6 +137,38 @@ export function isHonorDay(date: string, day: HonorDay): boolean {
 /** The honors decided on this date, if any. */
 export function honorsOn(date: string): readonly HonorDefinition[] {
   return HONORS.filter((honor) => isHonorDay(date, honor.day));
+}
+
+/** The students ranked by score, highest first; a tie goes to the lower id, so the same world always ranks the same. */
+function rankStudents(
+  students: readonly Student[],
+  score: (student: Student) => number,
+): Student[] {
+  return [...students].sort(
+    (a, b) => score(b) - score(a) || (a.id < b.id ? -1 : 1),
+  );
+}
+
+/**
+ * A bee's winners in one place: the highest-ranked students, `winners` of
+ * them, whatever the place's students number. A counted student who wins is
+ * one winner, not their household's weight. Pure.
+ */
+export function crownWinners(
+  students: readonly Student[],
+  score: (student: Student) => number,
+  winners: number,
+): {
+  readonly ranked: readonly Student[];
+  readonly crowned: readonly Student[];
+  readonly total: number;
+} {
+  const ranked = rankStudents(students, score);
+  return {
+    ranked,
+    crowned: ranked.slice(0, winners),
+    total: ranked.reduce((n, s) => n + s.weight, 0),
+  };
 }
 
 /**
@@ -128,9 +189,7 @@ export function clearHonor(
   readonly owedBefore: number;
   readonly owedAfter: number;
 } {
-  const ranked = [...students].sort(
-    (a, b) => score(b) - score(a) || (a.id < b.id ? -1 : 1),
-  );
+  const ranked = rankStudents(students, score);
   const total = ranked.reduce((n, s) => n + s.weight, 0);
   const expected = total * rate;
   const owedBefore = carried + expected;
@@ -215,9 +274,10 @@ export function decideSchoolHonors(
     if (done.get(doneKey)) continue;
     done.put({ id: doneKey, date } as never);
     // stopgapId: SG-SCHOOL-honors-no-history (every place opens owing no honors; the school years before the start give none)
-    api.stopgap(data.stopgaps.noHistory);
+    if (honor.rate) api.stopgap(data.stopgaps.noHistory);
     // stopgapId: SG-SCHOOL-honors-athletic-ability (no record gives a student's athletic ability; the honor's traits stand in to rank the seniors)
     // stopgapId: SG-SCHOOL-honors-one-signing-day (every Division I signing of the class is decided on one day, not across the signing periods)
+    // stopgapId: SG-SCHOOL-honors-every-district-holds-a-bee (every place's district holds a bee and crowns a winner each year)
     for (const id of honor.stopgaps) api.stopgap(id);
     const byPlace = new Map<string, Student[]>();
     for (const grade of honor.grades)
@@ -240,28 +300,49 @@ export function decideSchoolHonors(
         honor,
         traitWeight,
       );
-    const rate = honorRate(honor);
+    const basis = basisOf(honor);
     for (const [placeId, students] of byPlace) {
-      const carryId = `honor:${honor.key}:${placeId}`;
-      const carried =
-        (carry.get(carryId) as unknown as { owed: number } | undefined)?.owed ??
-        0;
-      const result = clearHonor(students, score, rate, carried);
-      carry.put({
-        id: carryId,
-        owed: result.owedAfter,
-        date,
-        startYear,
-        students: result.total,
-        expected: result.expected,
-      } as never);
-      if (!result.cleared.length) continue;
+      let cleared: readonly Student[];
+      let count: number;
+      let total: number;
+      let expected: number;
+      let owing: { owedBefore: number; owedAfter: number } | undefined;
+      if (honor.winners) {
+        // A bee always crowns its winner: the place's highest-ranked student.
+        const result = crownWinners(students, score, honor.winners.perPlace);
+        cleared = result.crowned;
+        count = cleared.length;
+        total = result.total;
+        expected = honor.winners.perPlace;
+      } else {
+        const carryId = `honor:${honor.key}:${placeId}`;
+        const carried =
+          (carry.get(carryId) as unknown as { owed: number } | undefined)
+            ?.owed ?? 0;
+        const result = clearHonor(students, score, honorRate(honor), carried);
+        carry.put({
+          id: carryId,
+          owed: result.owedAfter,
+          date,
+          startYear,
+          students: result.total,
+          expected: result.expected,
+        } as never);
+        cleared = result.cleared;
+        count = cleared.reduce((n, s) => n + s.weight, 0);
+        total = result.total;
+        expected = result.expected;
+        owing = {
+          owedBefore: result.owedBefore,
+          owedAfter: result.owedAfter,
+        };
+      }
+      if (!cleared.length) continue;
       const id = `${honor.key}:${placeId}:${date}`;
       const eventId = `${SCHOOL_HONOR_EVENT}:${id}`;
       const schoolId = schoolOfPlace(core, placeId);
       const name = schoolName(core, schoolId);
-      const count = result.cleared.reduce((n, s) => n + s.weight, 0);
-      const personIds = result.cleared.filter((s) => s.full).map((s) => s.id);
+      const personIds = cleared.filter((s) => s.full).map((s) => s.id);
       const row: SchoolHonorRow = {
         id,
         honor: honor.key,
@@ -272,11 +353,10 @@ export function decideSchoolHonors(
         startYear,
         count,
         personIds,
-        students: result.total,
-        rate,
-        expected: result.expected,
-        owedBefore: result.owedBefore,
-        owedAfter: result.owedAfter,
+        students: total,
+        ...(honor.rate ? { rate: honorRate(honor) } : {}),
+        expected,
+        ...owing,
         eventId,
       };
       honors.put(row as never);
@@ -288,10 +368,10 @@ export function decideSchoolHonors(
         personIds: personIds as PersonId[],
         placeId,
         source: {
-          tag: honor.rate.tag,
+          tag: basis.tag,
           asOf: date,
-          citation: honor.rate.source,
-          estimatedFrom: honor.rate.derivation,
+          citation: basis.source,
+          estimatedFrom: basis.derivation,
         },
         publicRecord: true,
         facts: {
