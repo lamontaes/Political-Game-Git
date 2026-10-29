@@ -88,7 +88,7 @@ export function deathWebFactor(
 
 /** The health links no engine reads yet, each named by its registered stopgap. */
 const WAITING_STOPGAPS = [
-  "SG-EW-HEALTH-medical-debt-reader",
+  "SG-EW-HEALTH-marriage-equality-cause",
   "SG-EW-HEALTH-death-cause",
   "SG-EW-HEALTH-condition-record",
   "SG-EW-HEALTH-unsized-links",

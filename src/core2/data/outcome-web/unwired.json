@@ -70,7 +70,7 @@
     {
       "link": "coverage-to-medical-debt",
       "outcome": "finance.medical-debt-in-collections",
-      "reason": "engine doesn't read the factor: finance.medical-debt-in-collections moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, health.coverage-pct",
+      "reason": "the web does not run it: it waits on health.coverage-pct; nothing in the core records its cause, health.coverage-pct",
       "stopgapId": "SG-WEB-unread-finance-medical-debt-in-collections"
     },
     {
@@ -221,7 +221,7 @@
       "link": "marriage-equality-to-coverage",
       "outcome": "health.uninsured-pct",
       "reason": "the web does not run it: it waits on law.marriage-equality; nothing in the core records its cause, law.marriage-equality",
-      "stopgapId": "SG-EW-HEALTH-medical-debt-reader"
+      "stopgapId": "SG-EW-HEALTH-marriage-equality-cause"
     },
     {
       "link": "abortion-denied-to-financial-distress",
@@ -258,12 +258,6 @@
       "outcome": "disaster.damage",
       "reason": "no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-disaster-damage"
-    },
-    {
-      "link": "medicaid-expansion-to-medical-debt",
-      "outcome": "finance.medical-debt-in-collections",
-      "reason": "engine doesn't read the factor: finance.medical-debt-in-collections moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-EW-HEALTH-medical-debt-reader"
     },
     {
       "link": "mandatory-minimums-to-incarceration",

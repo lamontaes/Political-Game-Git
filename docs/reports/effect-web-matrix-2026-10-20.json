@@ -5,10 +5,10 @@
     "lawLinks": 134,
     "webCoverageWired": 124,
     "allEightPoints": 0,
-    "reachesOrCarried": 161,
-    "namedInAStopgap": 96,
+    "reachesOrCarried": 162,
+    "namedInAStopgap": 95,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 161,
+    "reachesTheWorld": 162,
     "aboutZero": 19,
     "withAnyModerator": 23,
     "byPoint": {
@@ -25,9 +25,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 161,
+        "pass": 162,
         "partial": 0,
-        "fail": 64,
+        "fail": 63,
         "n/a": 19
       },
       "varied": {
@@ -1572,8 +1572,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: finance.medical-debt-in-collections moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, health.coverage-pct"
+          "evidence": "outcome read by src/core2/medical-bills.ts:399, src/core2/medical-bills.ts:727",
+          "why": "the web does not run it: it waits on health.coverage-pct; nothing in the core records its cause, health.coverage-pct"
         },
         "varied": {
           "status": "fail",
@@ -1767,7 +1767,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/coverage.ts:222"
+          "evidence": "src/core2/modules/coverage.ts:227"
         },
         "varied": {
           "status": "partial",
@@ -4339,7 +4339,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/modules/coverage.ts:222",
+          "evidence": "outcome read by src/core2/modules/coverage.ts:227",
           "why": "the web does not run it: it waits on law.marriage-equality; nothing in the core records its cause, law.marriage-equality"
         },
         "varied": {
@@ -4367,7 +4367,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-EW-HEALTH-medical-debt-reader"
+      "stopgap": "SG-EW-HEALTH-marriage-equality-cause"
     },
     {
       "key": "abortion-ban-to-births",
@@ -5162,7 +5162,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/coverage.ts:222"
+          "evidence": "src/core2/modules/coverage.ts:227"
         },
         "varied": {
           "status": "fail",
@@ -5254,9 +5254,8 @@
           "evidence": "data/research/outcome-web/links.json:2992 size -0.34, range [-0.42, -0.25], Kluender, Mahoney, Wong and Yin 2021 (JAMA); Hu, Kaestner, Mazumder, Miller and Wong 2018 (JPubE); Brevoort, Grodzicki and Hackmann 2020 (JPubE)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: finance.medical-debt-in-collections moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/medical-bills.ts:399, src/core2/medical-bills.ts:727"
         },
         "varied": {
           "status": "fail",
@@ -5282,8 +5281,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-EW-HEALTH-medical-debt-reader"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "snap-work-requirement-to-participation",
@@ -6350,7 +6349,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/coverage.ts:222"
+          "evidence": "src/core2/modules/coverage.ts:227"
         },
         "varied": {
           "status": "pass",
@@ -7334,7 +7333,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger health.uninsured-pct, which src/core2/modules/coverage.ts:222 reads into its own records"
+          "evidence": "web ledger health.uninsured-pct, which src/core2/modules/coverage.ts:227 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -12283,9 +12282,8 @@
     },
     {
       "measure": "finance.medical-debt-in-collections",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/medical-bills.ts:399, src/core2/medical-bills.ts:727",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12561,7 +12559,7 @@
     {
       "measure": "health.uninsured-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/coverage.ts:222",
+      "evidence": "src/core2/modules/coverage.ts:227",
       "countedTwice": false,
       "asCause": ["uninsured-to-graduation"],
       "asOutcome": [

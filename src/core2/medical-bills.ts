@@ -340,6 +340,9 @@ function billMembers(
   households: readonly Household[],
 ): Map<string, BilledMember[]> {
   const core = api.state as CoreState;
+  // stopgapId: SG-HEALTH-medical-bill-shape — no age profile or use gap by
+  // coverage; a counted member's care need is one while ill, else none.
+  api.stopgap("SG-HEALTH-medical-bill-shape");
   const ratio = q("medicalSeriousIllnessCostRatio");
   const one = api.parameter("one");
   const care = (need: number) => one + (ratio - one) * need;
@@ -661,6 +664,9 @@ export function billMedicalCare(
     const pastWait = due.reduce((n, row) => n + row.minor, 0);
     const { share, reach, except } = collectionsShare(api, h);
     const toCollections = Math.round(pastWait * share);
+    // stopgapId: SG-HEALTH-medical-debt-collections — the debt is never paid
+    // down or sold, and the provider's write-off keeps no record.
+    if (pastWait > 0) api.stopgap("SG-HEALTH-medical-debt-collections");
     const head = [...h.members].sort((a, b) =>
       a.personId.localeCompare(b.personId),
     )[0]!;
