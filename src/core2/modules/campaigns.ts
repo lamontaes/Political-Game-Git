@@ -64,6 +64,7 @@ import { medianTransactionBalance } from "../starting-cash";
 import {
   campaignParameter,
   districtLean,
+  groupAgreement,
   personLean,
   type Stance,
 } from "../campaign-views";
@@ -75,7 +76,12 @@ import {
   partyTie,
   type TieRow,
 } from "./parties";
-import { agreementWith, viewOn, VIEWS_SPEAKER_KEY } from "./views";
+import {
+  agreementWith,
+  countedStanceProfile,
+  viewOn,
+  VIEWS_SPEAKER_KEY,
+} from "./views";
 import {
   LEGISLATURE_MODULE_ID,
   provisionStance,
@@ -220,6 +226,29 @@ export interface CauseRow {
   readonly weight: number;
 }
 
+/**
+ * What a resident said at the door when a campaign asked for their vote
+ * (owner, Oct 29: a "yes" at the door is near-binding). Written at the knock
+ * from the same rule the door's own answer comes from, for every candidate's
+ * door and both tiers: a full person's warmth after the visit, or for a
+ * counted resident what that visit makes of their record. The ballot reads
+ * it (`voting.ts`), and the door scene tells it.
+ */
+export interface PledgeRow {
+  readonly id: string;
+  readonly voterId: string;
+  readonly candidateId: string;
+  readonly contestId: string;
+  /** The day they said it. */
+  readonly date: string;
+  /** Who knocked: the candidate or one of their volunteers. */
+  readonly canvasserId: string;
+  /** The visit's recorded cause (a full person's), or null for a counted resident. */
+  readonly causeId: string | null;
+  /** How warm the answer was, 0 to 1: the yes's own firmness, kept for the scene. */
+  readonly firmness: number;
+}
+
 export interface PromiseRow {
   readonly id: string;
   readonly candidateId: string;
@@ -303,6 +332,13 @@ export const CAMPAIGNS_MODULE: CoreModule = {
         },
       },
       promises: { indexes: { byCandidate: { fields: ["candidateId"] } } },
+      /** Each resident's "yes" at a campaign's door, one row a voter and candidate in a contest. */
+      pledges: {
+        indexes: {
+          byVoter: { fields: ["voterId"] },
+          byCandidate: { fields: ["candidateId"] },
+        },
+      },
       polls: { indexes: { byContest: { fields: ["contestId"] } } },
       money: {},
       gifts: {
@@ -526,6 +562,59 @@ export function impressionOf(
   );
 }
 
+/** The "yes" this voter gave a candidate's door in this contest, if they gave one. */
+export function pledgeOf(
+  api: CoreAPI,
+  voterId: string,
+  candidateId: string,
+  contestId: string,
+): PledgeRow | null {
+  if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return null;
+  return (
+    (table(api, "pledges").get(
+      `${voterId}|${contestId}|${candidateId}`,
+    ) as unknown as PledgeRow | undefined) ?? null
+  );
+}
+
+/** Every "yes" this voter gave at a door, in any contest. */
+export function pledgesOf(api: CoreAPI, voterId: string): readonly PledgeRow[] {
+  if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return [];
+  return table(api, "pledges").query("byVoter", [
+    voterId,
+  ]) as unknown as PledgeRow[];
+}
+
+/**
+ * The answer to a campaign's ask for a vote at the door: a warm answer is a
+ * "yes" and is kept; a cool one at a later knock takes back an earlier yes.
+ */
+function answerAtDoor(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  voterId: string,
+  canvasserId: string,
+  warmth: number,
+  causeId: string | null,
+): void {
+  const id = `${voterId}|${campaign.contestId}|${campaign.candidateId}`;
+  const pledges = table(api, "pledges");
+  if (warmth <= 0) {
+    if (pledges.get(id)) pledges.remove(id);
+    return;
+  }
+  pledges.put({
+    id,
+    voterId,
+    candidateId: campaign.candidateId,
+    contestId: campaign.contestId,
+    date: api.state.date,
+    canvasserId,
+    causeId,
+    firmness: Math.min(1, warmth),
+  } as unknown as ModuleRow);
+}
+
 /**
  * One person reached by one act. They learn the candidate's name (and the
  * platform where the act carries it); their warmth moves toward what they make
@@ -659,7 +748,10 @@ export function touchImpression(
 }
 
 /** How a face-to-face meeting goes: both people's sociability, by the weight the parameters give it. */
-function rapport(a: Readonly<PersonState>, b: Readonly<PersonState>): number {
+function rapport(
+  a: Readonly<Pick<PersonState, "traits">>,
+  b: Readonly<Pick<PersonState, "traits">>,
+): number {
   const social =
     ((a.traits["people-mind-v1:sociability"] ?? 0) +
       (b.traits["people-mind-v1:sociability"] ?? 0)) /
@@ -780,6 +872,9 @@ function adultsAt(
   readonly traits: Readonly<Record<string, number>>;
   readonly birthDate: string;
   readonly slots: readonly Parameters<typeof atWork>[0][];
+  /** A counted resident's household and place, which their stance profile is read from. */
+  readonly householdId?: string;
+  readonly placeId?: string;
 }[] {
   const adultAge = api.parameter("votingAge");
   const core = api.state as CoreState;
@@ -812,6 +907,8 @@ function adultsAt(
       traits: store.packedTraits(m),
       birthDate: store.born[m]!,
       slots: h.workCommitments.filter((c) => c.personId === store.ids[m]),
+      householdId: h.id,
+      placeId: store.text(store.placeIx[m]!)!,
     }));
 }
 
@@ -937,6 +1034,34 @@ function* walkDoors(
  * the canvasser, and tell their household. Returns everyone met at a door, in
  * order, so the screen can stop on a porch.
  */
+/**
+ * The warmth a first door visit leaves a counted resident with: `reach`'s
+ * own rule from an empty impression, read from their record (their lean
+ * and stance profile against the platform, and the visit's rapport).
+ */
+function countedDoorWarmth(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  canvasser: Readonly<PersonState>,
+  opener: ReturnType<typeof adultsAt>[number],
+): number {
+  const lean = personLean(api.state.people, opener, townRow(api).lean);
+  const profile =
+    opener.householdId && opener.placeId
+      ? countedStanceProfile(api, {
+          id: opener.id,
+          householdId: opener.householdId,
+          birthDate: opener.birthDate,
+          placeId: opener.placeId,
+        })
+      : null;
+  const target = clamp(
+    groupAgreement(lean, campaign.platform, profile) +
+      rapport(canvasser, opener),
+  );
+  return clamp(campaignParameter("doorContactWeight") * target);
+}
+
 export function knockDoors(
   api: CoreAPI,
   input: {
@@ -1002,6 +1127,18 @@ export function knockDoors(
       if (input.fillCounted === false) {
         counted += 1;
         if (petition) askToSign(api, input.filingId, opener, "door");
+        // Asked for their vote, a counted resident answers by the rule a
+        // first visit applies to a full person: what they make of the
+        // platform from their own record, and how the visit went.
+        else
+          answerAtDoor(
+            api,
+            campaign,
+            openerId,
+            input.canvasserId,
+            countedDoorWarmth(api, campaign, canvasser, opener),
+            null,
+          );
         continue;
       }
       fillInPerson(core, openerId);
@@ -1025,7 +1162,18 @@ export function knockDoors(
       api.relationship(input.canvasserId, answers.id, "contact", 0.1);
     met.push(cause);
     retell(api, campaign, answers, cause);
+    // A door that carries a petition asks for a signature; any other asks
+    // for the vote, and the answer is how warm the visit left them.
     if (petition) askToSign(api, input.filingId, answers, "door");
+    else
+      answerAtDoor(
+        api,
+        campaign,
+        answers.id,
+        input.canvasserId,
+        cause.warmthAfter,
+        cause.id,
+      );
   }
   // One row a household: the day its door was first knocked, the last, how
   // many times, and what its knocks owe toward the next opening.

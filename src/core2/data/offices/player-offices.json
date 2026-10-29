@@ -1,0 +1,13 @@
+{
+  "about": "The offices a player may file for (owner, Oct 29, on the governing brief: \"the player only runs for city council, state legislator, mayor, governor, Congress, and president. That's it. The other stuff can be simulated or whatever, but no, not the player.\"). One row per office kind prefix; the filing screen and the clerk's visit read it, so no list of office names sits in the bench. Every other office (county seats, trustee, clerk, the statewide offices below governor, the township board) keeps running in the world with simulated candidates through the same filing engine.",
+  "playerOffices": [
+    { "kindPrefix": "council", "words": "city council" },
+    { "kindPrefix": "legislature", "words": "state legislator" },
+    { "kindPrefix": "mayor", "words": "mayor" },
+    { "kindPrefix": "governor", "words": "governor" },
+    { "kindPrefix": "us-house", "words": "Congress (House)" },
+    { "kindPrefix": "us-senate", "words": "Congress (Senate)" },
+    { "kindPrefix": "president", "words": "president" }
+  ],
+  "source": "Owner, Oct 29, 21:40 UTC, voice note on the governing brief (docs/coordination/OWNER-DECISIONS.md)."
+}

@@ -6,11 +6,12 @@ lead: laws
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-congress-passes-policy-laws
 pr:
 blocked-on:
 source: owner, Oct 29 voice note on the governing brief
+claimed-at: 2026-10-29T21:28:28.662Z
 ---
 
 **What.** In three played years Congress passed no policy bill in any world; it adopted only its budget (SG-GOV-federal-proposal-coverage; governing brief, Oct 29). The owner, Oct 29: "No, laws need to work federally." The president's desk signs or vetoes like any executive's. Federal laws must pass through the same legislature engine on Congress's real session calendar, with members deciding from their own reasons, and reach the town through the law store like state and local laws do.
@@ -22,3 +23,5 @@ source: owner, Oct 29 voice note on the governing brief
 **Files.** src/core2/modules/world-legislating.ts, src/core2/modules/legislature.ts, src/core2/data/legislature/congress-sessions.json
 
 **Notes.** Filed by the CTO, Oct 29, from the owner's voice note on the governing brief (OWNER-DECISIONS, Oct 29 21:40 UTC). Read: OWNER-DECISIONS, DECISION-REGISTER, the governing brief's four research notes; searched the pool for twins.
+
+Oct 29 (laws lead): mapped read-only; the plan is docs/reports/world-governing-plan-2026-10-29.md (units C1, C2, C3; about 8-13 builder hours). No admitted federal question yet has a reader in the town and a real path through 60 Senate votes; the C2 research (Oct 29) finds one. gov-federal-questions-admitted has the same test file, stopgap and done-when and should fold into this item.
