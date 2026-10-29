@@ -26,8 +26,8 @@ import type { ScheduleEntry } from "./scheduling";
 // notice by the landlord's own weighing.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 4;
-const DAYS = 180;
-const LEAD_DAYS = 60;
+const DAYS = 120;
+const LEAD_DAYS = 270;
 const WATCH = 6;
 const LABEL = "circumstance:notice-home";
 
@@ -50,24 +50,34 @@ it(`a notice to pay or leave is talked over at home, from the record (seed ${see
         twoLevel: true,
         placeKey: place.key,
       });
-      // Two months in, the households the counts hold behind on rent are
-      // the ones the landlord weighs. The player meets one (it is filled in,
-      // its arrears now its lease's), and the director keeps its members'
-      // ledgers from then on.
-      advanceCore(core, addDays(makeIsoDate(core.date), LEAD_DAYS));
+      // Once the counts hold households behind on rent (the ones the
+      // landlord weighs each month), the player meets one: it is filled in,
+      // its group's arrears now its lease's, and the director keeps its
+      // members' ledgers from then on.
       const api = coreAPI(core);
       const town = (core.placeMetadata as { housingTown?: string } | undefined)
         ?.housingTown;
       const store = residentsRuntime(core)?.store;
-      const behind = town && store ? countedLate(api, town, () => false) : [];
-      const counted = new Map(
-        [...(store?.liveHouseholds() ?? [])].map((row) => [row.id, row]),
-      );
+      const counted = () =>
+        new Map(
+          [...(store?.liveHouseholds() ?? [])].map((row) => [row.id, row]),
+        );
+      const sized = (row: { householdId: string }) => {
+        const household = counted().get(row.householdId);
+        return household ? store!.peopleOf(household).length : 0;
+      };
+      let behind: ReturnType<typeof countedLate> = [];
+      for (let day = 0; day < LEAD_DAYS && town && store; day += 1) {
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        behind = countedLate(api, town, () => false).filter(
+          (row) => sized(row) >= 2,
+        );
+        if (behind.length) break;
+      }
       const watched: PersonId[] = [];
       for (const row of behind) {
-        const household = counted.get(row.householdId);
+        const household = counted().get(row.householdId);
         const people = household ? store!.peopleOf(household) : [];
-        if (people.length < 2) continue;
         fillInPerson(core, people[0]!.id as PersonId);
         for (const member of core.households.get(row.householdId)?.memberIds ??
           [])
