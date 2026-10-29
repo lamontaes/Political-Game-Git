@@ -5,9 +5,9 @@ area: art
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/people-pack-v3
-pr:
+pr: #6778
 blocked-on:
 source: owner, Oct 29 (CTO brief)
 claimed-at: 2026-10-29T16:18:04.410Z
