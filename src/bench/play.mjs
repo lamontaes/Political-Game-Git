@@ -55,6 +55,7 @@ import {
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { meetingItem } from "./ui/meeting-item.mjs";
 import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
 import {
   newspaperScreen,
@@ -560,9 +561,8 @@ function officeStop(value) {
     : undefined;
 }
 const voteWords = () => controls.meeting ?? {};
-/** One agenda item or desk bill: number, sponsor, terms, who spoke and how each member voted. */
-function billBlock(item, buttons, onPaper) {
-  const words = voteWords();
+/** One agenda item or desk bill as the meeting panel draws it (ui/meeting-item.mjs). */
+function billBlock(item, members, rows, onPaper) {
   const paperButton = () => {
     const open = makeButton({
       className: "action",
@@ -571,31 +571,16 @@ function billBlock(item, buttons, onPaper) {
     open.addEventListener("click", () => onPaper(item.billId));
     return open;
   };
-  return makeCard(
-    "race",
-    {},
-    heading(
-      [item.title, item.number, item.sponsor].filter(Boolean).join(" · "),
-    ),
-    item.remarks.length
-      ? line(
-          item.remarks
-            .map(
-              (r) =>
-                `${r.name} · ${r.position > 0 ? (words.for ?? "") : (words.against ?? "")}`,
-            )
-            .join(" · "),
-        )
-      : "",
-    item.votes.length
-      ? line(
-          item.votes.map((v) => `${v.name} ${words[v.vote] ?? ""}`).join(" · "),
-        )
-      : "",
-    onPaper || buttons.length
-      ? buttonRow(...(onPaper ? [paperButton()] : []), ...buttons)
-      : "",
-  );
+  return meetingItem({
+    item,
+    members,
+    words: voteWords(),
+    floor: controls.floor ?? {},
+    rows: [
+      [...(onPaper ? [paperButton()] : []), ...(rows[0] ?? [])],
+      ...rows.slice(1),
+    ],
+  });
 }
 function inMeeting() {
   return new Promise((resolve) => {
@@ -605,45 +590,43 @@ function inMeeting() {
       $("backdrop").src = scene.backdrop.url;
       drawPeople(scene.people);
       $("card-place").textContent = scene.title;
+      $("meeting-title").textContent = scene.title;
       $("meeting-items").replaceChildren(
-        ...scene.items.map((item) =>
-          billBlock(
+        ...scene.items.map((item) => {
+          const speak = ["for", "against"].map((position) => {
+            const b = makeButton({
+              className: "action small",
+              textContent:
+                words[position === "for" ? "speakFor" : "speakAgainst"] ??
+                position,
+            });
+            b.addEventListener("click", async () =>
+              draw(
+                await post(
+                  `/api/meeting/speak?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, position })}`,
+                ),
+              ),
+            );
+            return b;
+          });
+          const vote = ["yes", "no", "abstain", "own"].map((how) => {
+            const b = makeButton({
+              className: "action",
+              textContent: words[how] ?? how,
+            });
+            b.addEventListener("click", async () =>
+              draw(
+                await post(
+                  `/api/meeting/item?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, vote: how })}`,
+                ),
+              ),
+            );
+            return b;
+          });
+          return billBlock(
             item,
-            item.takenUp
-              ? []
-              : [
-                  ...["for", "against"].map((position) => {
-                    const b = makeButton({
-                      className: "action",
-                      textContent:
-                        words[
-                          position === "for" ? "speakFor" : "speakAgainst"
-                        ] ?? position,
-                    });
-                    b.addEventListener("click", async () =>
-                      draw(
-                        await post(
-                          `/api/meeting/speak?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, position })}`,
-                        ),
-                      ),
-                    );
-                    return b;
-                  }),
-                  ...["yes", "no", "abstain", "own"].map((vote) => {
-                    const b = makeButton({
-                      className: "action",
-                      textContent: words[vote] ?? vote,
-                    });
-                    b.addEventListener("click", async () =>
-                      draw(
-                        await post(
-                          `/api/meeting/item?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, vote })}`,
-                        ),
-                      ),
-                    );
-                    return b;
-                  }),
-                ],
+            scene.members ?? [],
+            item.takenUp ? [] : [speak, vote],
             (billId) =>
               openBillPaper(
                 billId,
@@ -651,8 +634,8 @@ function inMeeting() {
                 () => api("/api/meeting").then(draw),
                 controls.bill?.backMeeting,
               ),
-          ),
-        ),
+          );
+        }),
       );
       $("meeting-adjourn").onclick = async () => {
         await post(
@@ -681,20 +664,23 @@ function atDesk() {
         ...bills.map((item) =>
           billBlock(
             item,
-            ["sign", "veto", "own"].map((how) => {
-              const b = makeButton({
-                className: "action",
-                textContent: words[how] ?? how,
-              });
-              b.addEventListener("click", async () =>
-                draw(
-                  await post(
-                    `/api/desk?${new URLSearchParams({ billId: item.billId, how })}`,
+            [],
+            [
+              ["sign", "veto", "own"].map((how) => {
+                const b = makeButton({
+                  className: "action",
+                  textContent: words[how] ?? how,
+                });
+                b.addEventListener("click", async () =>
+                  draw(
+                    await post(
+                      `/api/desk?${new URLSearchParams({ billId: item.billId, how })}`,
+                    ),
                   ),
-                ),
-              );
-              return b;
-            }),
+                );
+                return b;
+              }),
+            ],
             (billId) =>
               openBillPaper(
                 billId,
