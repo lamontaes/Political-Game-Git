@@ -52,6 +52,8 @@ export interface PackFigure {
   readonly size: readonly [number, number];
   readonly head: HeadBox;
   readonly feet: { readonly x: number; readonly y: number };
+  /** Seated at a desk: the row its hands rest on, in its own pixels, where the manifest gives it. */
+  readonly hands?: number;
   readonly stature: number;
   readonly parts?: Readonly<
     Record<string, { readonly file: string; readonly tone: string | null }>

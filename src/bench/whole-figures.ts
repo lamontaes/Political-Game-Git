@@ -268,8 +268,15 @@ export function fitOn(
   spot: PlateSpot,
 ): FigureBox {
   const [width, height] = plate.size;
-  const bottom = spot.feet ?? spot.hands ?? spot.box[3];
-  const scale = (bottom - spot.head.top) / (figure.feet.y - figure.head.top);
+  // Behind a desk: head top to resting hands where the manifest gives the
+  // figure's hands row, else the mannequin's head width; cut off at the hands.
+  const desk = spot.hands !== undefined && spot.feet === undefined;
+  const scale = !desk
+    ? ((spot.feet ?? spot.box[3]) - spot.head.top) /
+      (figure.feet.y - figure.head.top)
+    : figure.hands !== undefined
+      ? (spot.hands! - spot.head.top) / (figure.hands - figure.head.top)
+      : spot.head.width / figure.head.width;
   const left = spot.head.x - figure.head.x * scale;
   const top = spot.head.top - figure.head.top * scale;
   const across = (px: number) => (px / width) * 100;
@@ -281,7 +288,10 @@ export function fitOn(
     leftPercent: across(left),
     topPercent: down(top),
     widthPercent: across(figure.size[0] * scale),
-    heightPercent: down(figure.size[1] * scale),
+    // The box ends at the hands behind a desk; the picture past it is not drawn.
+    heightPercent: desk
+      ? down(spot.hands! - top)
+      : down(figure.size[1] * scale),
     occluder: spot.front
       ? {
           url: frontUrl(spot.front),

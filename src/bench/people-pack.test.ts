@@ -103,14 +103,36 @@ describe("the people pack", () => {
         expect(figure, `${plate.scene} ${spot.id} ${spot.pose}`).toBeTruthy();
         const box = fitOn(figure!, plate, spot);
         const [width, height] = plate.size;
-        const scale = ((box.heightPercent / 100) * height) / figure!.size[1];
+        const scale = ((box.widthPercent / 100) * width) / figure!.size[0];
         const headX = (box.leftPercent / 100) * width + figure!.head.x * scale;
         const headTop =
           (box.topPercent / 100) * height + figure!.head.top * scale;
-        const bottom = (box.topPercent / 100) * height + figure!.feet.y * scale;
+        const bottom = ((box.topPercent + box.heightPercent) / 100) * height;
         expect(headX).toBeCloseTo(spot.head.x, 3);
         expect(headTop).toBeCloseTo(spot.head.top, 3);
-        expect(bottom).toBeCloseTo(spot.feet ?? spot.hands!, 3);
+        if (spot.feet !== undefined) {
+          // Standing or seated: the feet on the mannequin's feet.
+          expect(
+            (box.topPercent / 100) * height + figure!.feet.y * scale,
+          ).toBeCloseTo(spot.feet, 3);
+        } else {
+          // Behind a desk: head top to hands where the figure's hands row is
+          // in the manifest, else the mannequin's head width; cut off at the hands.
+          expect(bottom).toBeCloseTo(spot.hands!, 3);
+          if (figure!.hands === undefined)
+            expect(figure!.head.width * scale).toBeCloseTo(spot.head.width, 3);
+          const withHands = fitOn(
+            { ...figure!, hands: figure!.feet.y / 2 },
+            plate,
+            spot,
+          );
+          const handScale =
+            ((withHands.widthPercent / 100) * width) / figure!.size[0];
+          expect(
+            (withHands.topPercent / 100) * height +
+              (figure!.feet.y / 2) * handScale,
+          ).toBeCloseTo(spot.hands!, 3);
+        }
       }
   });
 

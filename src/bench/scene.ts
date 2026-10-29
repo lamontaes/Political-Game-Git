@@ -736,6 +736,12 @@ export function stagePeople(
     return { people, unplaced };
   }
   const free = [...plate.spots];
+  // The seats kept for an office whose holder is here: nobody else takes them.
+  const held = new Set(
+    ids.flatMap(({ id }) =>
+      officeKinds(core, id).flatMap((kind) => SEAT_ROLES[kind] ?? []),
+    ),
+  );
   const placed: {
     id: string;
     name: string;
@@ -759,13 +765,17 @@ export function stagePeople(
       (kind) => SEAT_ROLES[kind] ?? [],
     );
     // A seat kept for their office first, the speaker's desk or lectern for
-    // the speaker, then any free mannequin; a kept seat stays free for its
-    // holder.
+    // the speaker, then any free mannequin; a kept seat whose holder is here
+    // stays free for them, and one whose holder is away is anyone's last.
+    const own = (spot: PlateSpot) => !!spot.role && kept.includes(spot.role);
+    const open = (spot: PlateSpot) => !spot.role || !held.has(spot.role);
     const order = [
-      ...free.filter((spot) => spot.role && kept.includes(spot.role)),
-      ...(id === speaker ? free.filter((spot) => SPEAKING.has(spot.pose)) : []),
+      ...free.filter(own),
+      ...(id === speaker
+        ? free.filter((spot) => SPEAKING.has(spot.pose) && open(spot))
+        : []),
       ...free.filter((spot) => !spot.role),
-      ...free.filter((spot) => spot.role && !kept.includes(spot.role)),
+      ...free.filter((spot) => spot.role && !own(spot) && open(spot)),
     ];
     const found = order
       .map((spot) => ({ spot, figure: figureForSpot(core, who, place, spot) }))
