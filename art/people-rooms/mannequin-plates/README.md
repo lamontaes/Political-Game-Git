@@ -8,6 +8,6 @@ Per scene: `<scene>-mannequins.png` (the room repainted with green mannequins in
 
 Fitting a person: pick a pack figure with the same `pose` (then `facing`, then `seat`); scale so head top → feet (or head top → hands row) matches; center the head on `head.x`.
 
-Scenes so far (backdrop → plate): `house-suburban-living__night` → home; `white-house-colonnade__morning` (art/backdrops-variants on this branch) → colonnade; `train-depot-platform__midday` (backdrops-variants) → depot; `oval-office-resolute__midday` → oval-briefing; `oval-address-close__night.png` (here; new backdrop) → oval-address. The CTO adds plates golden path first; a room with no plate shows no people.
+Scenes so far (backdrop → plate; each plate names its backdrop in its `backdrop` field): `house-suburban-living__night.jpg` → home; `white-house-colonnade__morning.jpg` → colonnade; `train-depot-platform__midday.jpg` → depot; `oval-office-standard__midday.jpg` → oval-office (the standard wide shot); `oval-address-standard__night.jpg` → oval-address-standard. The standard Oval plates replaced oval-briefing and oval-address, and their old backdrops (`oval-office-resolute`, `oval-address-close`) are retired. The CTO adds plates golden path first; a room with no plate shows no people.
 
 Props (owner, Oct 29): nobody holds anything unless the scene calls for it (phones at a rally, papers at a hearing or the address desk, pen and paper at a desk); never books or clipboards at home. Pack figures that hold something carry a `prop` tag.
