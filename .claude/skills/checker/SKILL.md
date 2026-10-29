@@ -34,7 +34,8 @@ From the moment a PR is open and ready, the builder has moved to its next unit a
    - `npm run release:check -- --mode pr`, `npm run zero-dice`, `npm run pool -- --check` (only the PR's own items count), `npm run old-imports` when `src/core2` changed
    - the PR's new or changed test files (`npm run agent:test-cadence` lists them), each new or changed test on **three fresh drawn places** with the seeds named; the PR's browser check when it changed a screen
    - `npm run test:skill-ops` when instruction files changed
-3. A failure that also fails on clean `origin/main` does not block: name it and the red-main fixer's item in your comment.
+3. Read the PR's CI checks on GitHub (validate, golden-path, M0 guards, Release) as one more input; they run on GitHub's machines by themselves, so never wait on them before you finish your own run, and never re-run them to kick them. A red CI job your gate did not cover is a failure like any other.
+4. A failure that also fails on clean `origin/main` does not block: name it and the red-main fixer's item in your comment.
 
 ## Fix or send back
 

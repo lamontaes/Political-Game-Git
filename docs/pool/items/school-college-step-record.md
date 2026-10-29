@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/laws-college-step
-pr:
+pr: #6808
 lead: laws
 blocked-on:
 source: added with npm run pool -- add

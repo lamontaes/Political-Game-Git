@@ -3649,6 +3649,8 @@ async function openSheet(tab) {
     group === "politics"
       ? await api(`/api/government?id=${encodeURIComponent(me.id)}`)
       : { seats: [], filings: [], ofVotingAge: false };
+  // A slower request for an earlier sheet must not put its tabs over the one opened since.
+  if (openTab !== tab) return;
   const holdsOffice = politics.seats.some((s) => s.holder?.personId === me.id);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);

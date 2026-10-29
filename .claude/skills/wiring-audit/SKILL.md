@@ -54,6 +54,15 @@ One family per helper (Sonnet, at most two per lead), each with its own paths, b
 
 Write one test per item that fails when nothing moved. When several PRs share a file such as `outcome-web-model.ts`, land them one at a time. A truly unbuildable point gets a specific stopgap row, never silence.
 
+**Laws and the outcome web: what broke on Oct 29 and how it was fixed (laws lead).**
+
+- **A twin test compares the two worlds' factors; it never asserts the twin reads zero.** The web measures a law from the place's real starting law. Where a place began with the law, the twin that removes it is the world whose months move. In Lamoille, Nevada, cannabis sales began legal, so the banned world read +0.04 and the legal one 0. A twin's own budget can also sit off its Census base: in Tamuning, Guam, the twin's natural resources months read -1.7e-5. Assert that each subject's share ratio equals the factor ratio, and that the factor moves the way the link's sign says.
+- **A test that draws a place passes over a place that cannot show the read, with its reason, and takes the next draw.** It never asserts a precondition of the draw. Examples: a town with no local race in the window (civic, #6763); every stopped head having taken work past the requirement's hours (SNAP, Washington, D.C.).
+- **A body in play can pass the same law the test sets.** In Richmond, Maine, the state passed LD 7 to take effect on the very day the test's repeal did. A test that repeals a law repeals every level whose law is in force on the repeal day, and takes effect the day after when they coincide (#6799).
+- **Regenerate in order, never by hand:** `scripts/outcome-web/write-coverage.ts`, then `effect-matrix.ts`, then `write-unwired.ts`, then `effect-matrix.ts` again. Then `scripts/law-wiring/matrix.ts` over only the run files holding a `results` array (the `year-before-*` files do not, and crash it), and prettier on every generated file. A family's run file replaces older ones for the same place, so run `check.ts` with `--days 365` when the law has a lagged link (the overdose link needs a year). Otherwise its evidence drops out of the matrix.
+- **A merge conflict in the generated reports** is resolved by taking main's copy and regenerating; the source files (`outcome-web.json`, the stopgap register) keep both sides' rows. Since Oct 29 a checker session does this on an open PR; the builder asks it before pushing.
+- **Speed and space:** helpers work in `helper-checkout` copies and, under the Oct 29 "builders build" ruling, run only the tests they wrote. A played twin test builds two worlds, so at most one runs at a time on a crowded container; three runs were killed for memory on Oct 29.
+
 ## 5. Finish
 
 Rerun the checker on main after the families merge. Put a before and after played year in two drawn places (seed named) at the top of the report: items that reached people, moved money and moved measures, plus the year's run time. Then the final matrix summary: total, wired, partial, stopgapped. Never say "wired" without the row.
