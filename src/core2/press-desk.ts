@@ -14,6 +14,7 @@
  * reporter who wrote it.
  */
 import { OUTCOME_MONTH_KIND } from "./outcome-news";
+import briefs from "./data/press/briefs.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { questionAxis } from "./campaign-views";
 import { closenessBetween } from "./closeness";
@@ -30,6 +31,11 @@ import {
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./modules/views";
+
+/** The record kinds a local outlet prints in its briefs column. */
+const BRIEF_KINDS: ReadonlySet<string> = new Set(briefs.kinds);
+/** The briefs about the whole town, which name no one: they involve every follower. */
+const TOWN_WIDE_BRIEFS: ReadonlySet<string> = new Set(briefs.townWide);
 
 export interface DeskOutlet {
   readonly id: string;
@@ -629,6 +635,10 @@ export function runDesk(
       item.subjectIds.some((id) => servesLocally(api, id))
     )
       return followers.length + ctx.countedFollowers(outlet);
+    // The month's police log and the school year's results are the whole
+    // town's, as a law in force is: every follower, named or counted.
+    if (TOWN_WIDE_BRIEFS.has(item.kind))
+      return followers.length + ctx.countedFollowers(outlet);
     // A budget the executive signs or vetoes binds the whole town as much as
     // a law in force: every follower, named or counted, is involved.
     if (item.kind === "executive-action" && isBudgetBill(api, item))
@@ -679,8 +689,11 @@ export function runDesk(
   const out: PrintedStory[] = [];
   for (const reporterId of outlet.reporterIds) {
     if (!api.state.people.get(reporterId)?.alive) continue;
+    // Briefs are the column's, never a reporter's story.
     const scored = base
-      .filter((row) => !taken.has(row.item.id))
+      .filter(
+        (row) => !taken.has(row.item.id) && !BRIEF_KINDS.has(row.item.kind),
+      )
       .map((row) => {
         const drive = driveTerm(api, reporterId, row.item);
         return {
@@ -717,6 +730,46 @@ export function runDesk(
           score: row.score,
           rank: rank + 1,
           weighed: scored.length,
+        }),
+      );
+    }
+  }
+  // The briefs column (owner, Oct 29: side stories, "a line or two"): a
+  // local outlet prints the short items from the town's own records that its
+  // reporters left (data/press/briefs.json), the most read first, up to its
+  // space; a week whose records hold none prints none.
+  const filer = outlet.reporterIds.find(
+    (id) => api.state.people.get(id)?.alive,
+  );
+  if (outlet.tier !== "national" && filer) {
+    const column = base
+      .filter(
+        (row) => !taken.has(row.item.id) && BRIEF_KINDS.has(row.item.kind),
+      )
+      .map((row) => ({
+        ...row,
+        score:
+          row.proximity *
+          (1 +
+            p("storyReaderCareWeight") * row.readerCare +
+            p("storyPeopleWeight") * row.people +
+            p("storyRenownWeight") * row.renown),
+      }))
+      .sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));
+    const space = Math.min(p("briefsPerOutletWeek"), column.length);
+    for (let rank = 0; rank < space; rank += 1) {
+      const row = column[rank]!;
+      taken.add(row.item.id);
+      out.push(
+        printItem(api, ctx, outlet, filer, row.item, {
+          proximity: row.proximity,
+          readerCare: row.readerCare,
+          people: row.people,
+          renown: row.renown,
+          drive: 0,
+          score: row.score,
+          rank: rank + 1,
+          weighed: column.length,
         }),
       );
     }

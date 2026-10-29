@@ -107,6 +107,9 @@ import {
 import { countedJobHeads, countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
+import { CRIME_EVENT, CRIME_MODULE_ID } from "./crime";
+import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
+import { SCHOOL_MEASURE } from "../school-outcomes";
 import {
   archiveItem,
   closeness,
@@ -388,8 +391,12 @@ export const PRESS_MODULE: CoreModule = {
       tipOff(api, event);
       return;
     }
-    // Every public record in the town's coverage goes on the wire.
-    if (!event.publicRecord) return;
+    // Every public record in the town's coverage goes on the wire, and the
+    // police log's entries in the town (owner, Oct 29: side stories), which
+    // the paper prints as briefs though the crime record itself is kept.
+    const policeLog =
+      event.kind === CRIME_EVENT && event.placeId === lawChain(api).townPlaceId;
+    if (!event.publicRecord && !policeLog) return;
     const chain = lawChain(api);
     const item = wireItem(api, event, {
       placeId: chain.townPlaceId,
@@ -2890,6 +2897,92 @@ function rivalsOf(api: CoreAPI, personId: string): readonly string[] {
 }
 
 /** Fresh items on the wire, oldest first. */
+/**
+ * The school year's results reach the desk the week the school engine keeps
+ * them (owner, Oct 29: side stories): how many of the town's seniors
+ * graduated, and the spring tests' proficiency, one item each, worded from
+ * the measure rows themselves (`graduation:<year>`, `tests:<year>`).
+ */
+function schoolResults(api: CoreAPI): void {
+  if (!api.state.modules.has(SCHOOL_MODULE_ID)) return;
+  const town = lawChain(api).townPlaceId;
+  const since = addDays(
+    makeIsoDate(api.state.date),
+    -api.parameter("daysPerWeek"),
+  );
+  for (const row of api
+    .moduleState(SCHOOL_MODULE_ID)
+    .table("measures")
+    .query("byPlace", [town]) as unknown as readonly SchoolMeasureRow[]) {
+    if (row.date < since || row.date > api.state.date) continue;
+    // The tests are told once, by their math row (reading is said with it).
+    const kind =
+      row.measure === SCHOOL_MEASURE.graduation
+        ? "graduation"
+        : row.measure === SCHOOL_MEASURE.math
+          ? "tests"
+          : null;
+    if (!kind) continue;
+    const id = `${kind}:${row.startYear}`;
+    if (table(api, "wire").get(id)) continue;
+    const item: WireItem = {
+      id,
+      kind: `school.${kind}`,
+      date: row.date,
+      level: "town",
+      topic: `school:${town}`,
+      desiredChange: `school.${kind}`,
+      ending: false,
+      subjectIds: [],
+      facts: { measureId: row.id },
+    };
+    table(api, "wire").put(item as unknown as ModuleRow);
+  }
+}
+
+/**
+ * The police log of the month that just closed reaches the desk in the next
+ * month's first week (owner, Oct 29: side stories, "fourth car stolen"): the
+ * crimes the town's residents reported to police, worded from the crime
+ * engine's own month record (`police-log:<month>`). A month with none
+ * reported puts nothing on the wire.
+ */
+function policeLog(api: CoreAPI): void {
+  if (!api.state.modules.has(CRIME_MODULE_ID)) return;
+  if (Number(api.state.date.slice(8, 10)) > api.parameter("daysPerWeek"))
+    return;
+  const town = lawChain(api).townPlaceId;
+  const month = addDays(
+    makeIsoDate(`${api.state.date.slice(0, 8)}01`),
+    -1,
+  ).slice(0, 7);
+  const id = `police-log:${month}`;
+  if (table(api, "wire").get(id)) return;
+  const row = api
+    .moduleState(CRIME_MODULE_ID)
+    .table("months")
+    .get(`${town}:${month}`) as unknown as
+    | { readonly types?: Record<string, { readonly reported?: number }> }
+    | undefined;
+  const reported = Object.values(row?.types ?? {}).reduce(
+    (sum, type) => sum + (type.reported ?? 0),
+    0,
+  );
+  if (!(reported > 0)) return;
+  const item: WireItem = {
+    id,
+    kind: "crime.month",
+    date: api.state.date,
+    level: "town",
+    topic: `crime:${town}`,
+    desiredChange: "crime.month",
+    ending: false,
+    subjectIds: [],
+    facts: { monthId: `${town}:${month}` },
+  };
+  table(api, "wire").put(item as unknown as ModuleRow);
+}
+
 function freshWire(api: CoreAPI): WireItem[] {
   const out: WireItem[] = [];
   const days = pressParameter("storyFreshDays");
@@ -3100,6 +3193,8 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   conflictBeat(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
+  schoolResults(api);
+  policeLog(api);
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);
   // A national outlet covers the nation and the town's own state; a town's

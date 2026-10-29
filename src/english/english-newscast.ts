@@ -265,6 +265,10 @@ export const STORY_KINDS = {
   },
   // Side items the town's records already hold: a line, never opened.
   crime: { headline: ["crime"], lede: ["crime"], brief: true },
+  // The month's police log: the crimes residents reported, as a count.
+  "police-log": { headline: ["police-log"], lede: ["police-log"], brief: true },
+  // A school honor: a spelling bee won, seniors signing to play Division I.
+  honor: { headline: ["honor"], lede: ["honor"], brief: true },
   graduation: { headline: ["graduation"], lede: ["graduation"], brief: true },
   "school-tests": {
     headline: ["school-tests"],

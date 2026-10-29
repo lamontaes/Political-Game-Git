@@ -31,6 +31,7 @@
     "for": "How many spoke for, from the hearing record.",
     "from": "The amount before, from the law record.",
     "law": "The law, as its record names it.",
+    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
     "month": "A month, from the record.",
     "nation": "The national rate, from the jobs record.",
     "other": "The other parent, by name, from the birth record.",
@@ -8939,6 +8940,248 @@
       "date": "2026-10-29",
       "tag": {
         "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.residents-of-place-reported-number-crimes-to-police-in-month-most-of-them-crimes",
+      "move": "police-log",
+      "kind": "spoken",
+      "text": "Residents of {place} reported {number} crimes to police in {month}, most of them {crimes}.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.police-in-place-took-number-reports-in-month-most-of-them-crimes",
+      "move": "police-log",
+      "kind": "spoken",
+      "text": "Police in {place} took {number} reports in {month}, most of them {crimes}.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.residents-of-place-reported-number-crimes-to-police-in-month",
+      "move": "police-log",
+      "kind": "spoken",
+      "text": "Residents of {place} reported {number} {crimes} to police in {month}.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log",
+          "choice": "lede",
+          "requiresFacts": ["several", "one-kind"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.one-crime-was-reported-to-police-in-place-in-month",
+      "move": "police-log",
+      "kind": "spoken",
+      "text": "One crime was reported to police in {place} in {month}.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.honor.name-won-this-year-s-place-spelling-bee",
+      "move": "honor",
+      "kind": "spoken",
+      "text": "{name} won this year's {place} spelling bee.",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "news",
+          "role": "honor",
+          "choice": "lede",
+          "requiresFacts": ["bee-local", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.honor.a-place-student-won-this-year-s-town-spelling-bee",
+      "move": "honor",
+      "kind": "spoken",
+      "text": "A {place} student won this year's town spelling bee.",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "news",
+          "role": "honor",
+          "choice": "lede",
+          "requiresFacts": ["bee-local"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.honor.name-won-the-regional-spelling-bee-and-goes-on-to-the-national-bee",
+      "move": "honor",
+      "kind": "spoken",
+      "text": "{name} won the regional spelling bee and goes on to the national bee.",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "news",
+          "role": "honor",
+          "choice": "lede",
+          "requiresFacts": ["bee-regional", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.honor.a-place-student-won-the-regional-spelling-bee-and-goes-on-to-the-national-bee",
+      "move": "honor",
+      "kind": "spoken",
+      "text": "A {place} student won the regional spelling bee and goes on to the national bee.",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "news",
+          "role": "honor",
+          "choice": "lede",
+          "requiresFacts": ["bee-regional"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.honor.number-seniors-from-place-signed-to-play-sports-at-division-i-schools",
+      "move": "honor",
+      "kind": "spoken",
+      "text": "{number} seniors from {place} signed to play sports at Division I schools.",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "news",
+          "role": "honor",
+          "choice": "lede",
+          "requiresFacts": ["signing", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.honor.name-signed-to-play-sports-at-a-division-i-school",
+      "move": "honor",
+      "kind": "spoken",
+      "text": "{name} signed to play sports at a Division I school.",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "news",
+          "role": "honor",
+          "choice": "lede",
+          "requiresFacts": ["signing", "one", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.honor.a-senior-from-place-signed-to-play-sports-at-a-division-i-school",
+      "move": "honor",
+      "kind": "spoken",
+      "text": "A senior from {place} signed to play sports at a Division I school.",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "news",
+          "role": "honor",
+          "choice": "lede",
+          "requiresFacts": ["signing", "one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
         "key": "news-received"
       }
     }
