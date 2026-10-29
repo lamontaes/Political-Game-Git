@@ -128,6 +128,8 @@ describe("a person's history on their card", () => {
         ...(person!.pastFacts ?? []).map((fact) => fact.id),
         ...preStartHistory(core, { personId: person!.id }).map((row) => row.id),
         ...core.relationships.keys(),
+        // The person's own record, which an official's birth and service stand on.
+        person!.id,
         ...schoolsOf(core, person!.id).map((row) => row.recordId),
         // An official's lines also stand on their term records.
         ...(
