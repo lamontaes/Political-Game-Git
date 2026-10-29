@@ -1,6 +1,6 @@
 /* global process, URL, console, document */
 // Click anyone and their card tells their life (play-person-history-for-everyone-you-open):
-// the first two people of the Politics government list, who have no tie to the player, each
+// the first and fourth members on Politics → Government, who have no tie to the player, each
 // show a History of dated lines from their records (an official reached at a seat has fewer than a neighbor: the engine writes few terms). BENCH_SEED replays a world; SHOTS_DIR saves shots.
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
@@ -42,9 +42,9 @@ try {
       .locator('#rings [data-tab="politics"]')
       .first()
       .evaluate((e) => e.click());
-    await page.locator("#sheet-body .person-row").first().waitFor();
+    await page.locator("#sheet-body .member-card").first().waitFor();
     await page
-      .locator("#sheet-body .person-row:visible")
+      .locator("#sheet-body .member-card:visible")
       .nth(n * 3)
       .click();
     await page.locator("#person:not([hidden])").waitFor();
