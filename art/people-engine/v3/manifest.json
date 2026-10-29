@@ -1785,7 +1785,8 @@
     "y": 710
    },
    "stature": 674,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "woman-medium/kit/s01",
@@ -2272,7 +2273,8 @@
     "y": 575
    },
    "stature": 570,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "woman-medium/look/pantsuitnavy/s01",
@@ -2534,7 +2536,8 @@
     "y": 510
    },
    "stature": 506,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "woman-medium/look/pantsuitblack/s01",
@@ -2926,7 +2929,8 @@
     "x": 107.7,
     "y": 629
    },
-   "stature": 623
+   "stature": 623,
+   "needsDesk": true
   },
   {
    "id": "woman-medium/look/address/a01",
@@ -2952,7 +2956,8 @@
     "x": 149.5,
     "y": 629
    },
-   "stature": 622
+   "stature": 622,
+   "needsDesk": true
   },
   {
    "id": "woman-medium/look/address/a02",
@@ -2978,7 +2983,8 @@
     "x": 114.0,
     "y": 629
    },
-   "stature": 622
+   "stature": 622,
+   "needsDesk": true
   },
   {
    "id": "woman-medium/look/address/a03",
@@ -3005,7 +3011,8 @@
     "y": 629
    },
    "stature": 623,
-   "prop": "paper"
+   "prop": "paper",
+   "needsDesk": true
   },
   {
    "id": "woman-medium/look/address/a04",
@@ -3031,7 +3038,8 @@
     "x": 107.7,
     "y": 629
    },
-   "stature": 623
+   "stature": 623,
+   "needsDesk": true
   },
   {
    "id": "woman-slim/kit/r00",
@@ -3569,7 +3577,8 @@
     "y": 564
    },
    "stature": 558,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "woman-slim/look/pantsuitnavy/s01",
@@ -3831,7 +3840,8 @@
     "y": 478
    },
    "stature": 473,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "woman-slim/look/pantsuitblack/s01",
@@ -4093,7 +4103,8 @@
     "y": 590
    },
    "stature": 586,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "woman-slim/look/blazercamel/s01",
@@ -4354,7 +4365,8 @@
     "x": 105.5,
     "y": 574
    },
-   "stature": 571
+   "stature": 571,
+   "needsDesk": true
   },
   {
    "id": "woman-slim/look/address/a01",
@@ -4380,7 +4392,8 @@
     "x": 104.5,
     "y": 574
    },
-   "stature": 571
+   "stature": 571,
+   "needsDesk": true
   },
   {
    "id": "woman-slim/look/address/a02",
@@ -4406,7 +4419,8 @@
     "x": 115.5,
     "y": 574
    },
-   "stature": 570
+   "stature": 570,
+   "needsDesk": true
   },
   {
    "id": "woman-slim/look/address/a03",
@@ -4433,7 +4447,8 @@
     "y": 574
    },
    "stature": 570,
-   "prop": "paper"
+   "prop": "paper",
+   "needsDesk": true
   },
   {
    "id": "woman-slim/look/address/a04",
@@ -4459,7 +4474,8 @@
     "x": 103.5,
     "y": 574
    },
-   "stature": 570
+   "stature": 570,
+   "needsDesk": true
   },
   {
    "id": "woman-heavy/kit/r00",
@@ -5073,7 +5089,8 @@
     "y": 667
    },
    "stature": 631,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "woman-heavy/kit/s01",
@@ -5560,7 +5577,8 @@
     "y": 533
    },
    "stature": 527,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "woman-heavy/look/pantsuitnavy/s01",
@@ -5822,7 +5840,8 @@
     "y": 483
    },
    "stature": 478,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "woman-heavy/look/pantsuitblack/s01",
@@ -6058,7 +6077,8 @@
     "y": 384
    },
    "stature": 379,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "woman-heavy/look/blazercamel/s01",
@@ -6319,7 +6339,8 @@
     "x": 118.2,
     "y": 637
    },
-   "stature": 631
+   "stature": 631,
+   "needsDesk": true
   },
   {
    "id": "woman-heavy/look/address/a01",
@@ -6345,7 +6366,8 @@
     "x": 118.5,
     "y": 637
    },
-   "stature": 631
+   "stature": 631,
+   "needsDesk": true
   },
   {
    "id": "woman-heavy/look/address/a02",
@@ -6371,7 +6393,8 @@
     "x": 119.2,
     "y": 637
    },
-   "stature": 630
+   "stature": 630,
+   "needsDesk": true
   },
   {
    "id": "woman-heavy/look/address/a03",
@@ -6398,7 +6421,8 @@
     "y": 637
    },
    "stature": 631,
-   "prop": "paper"
+   "prop": "paper",
+   "needsDesk": true
   },
   {
    "id": "woman-heavy/look/address/a04",
@@ -6424,7 +6448,8 @@
     "x": 116.2,
     "y": 637
    },
-   "stature": 631
+   "stature": 631,
+   "needsDesk": true
   },
   {
    "id": "man-medium/kit/r00",
@@ -7093,7 +7118,8 @@
     "y": 522
    },
    "stature": 517,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "man-medium/look/suitcharcoal/s01",
@@ -7355,7 +7381,8 @@
     "y": 520
    },
    "stature": 515,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "man-medium/look/blazer/s01",
@@ -7616,7 +7643,8 @@
     "x": 120.0,
     "y": 576
    },
-   "stature": 570
+   "stature": 570,
+   "needsDesk": true
   },
   {
    "id": "man-medium/look/address/a01",
@@ -7642,7 +7670,8 @@
     "x": 119.0,
     "y": 576
    },
-   "stature": 570
+   "stature": 570,
+   "needsDesk": true
   },
   {
    "id": "man-medium/look/address/a02",
@@ -7668,7 +7697,8 @@
     "x": 128.5,
     "y": 579
    },
-   "stature": 571
+   "stature": 571,
+   "needsDesk": true
   },
   {
    "id": "man-medium/look/address/a03",
@@ -7695,7 +7725,8 @@
     "y": 573
    },
    "stature": 567,
-   "prop": "paper"
+   "prop": "paper",
+   "needsDesk": true
   },
   {
    "id": "man-medium/look/address/a04",
@@ -7721,7 +7752,8 @@
     "x": 118.0,
     "y": 576
    },
-   "stature": 570
+   "stature": 570,
+   "needsDesk": true
   },
   {
    "id": "man-slim/kit/r00",
@@ -8284,7 +8316,8 @@
     "y": 698
    },
    "stature": 655,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "man-slim/kit/s01",
@@ -8771,7 +8804,8 @@
     "y": 529
    },
    "stature": 519,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "man-slim/look/suitnavy/s01",
@@ -9033,7 +9067,8 @@
     "y": 567
    },
    "stature": 557,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "man-slim/look/suitcharcoal/s01",
@@ -9295,7 +9330,8 @@
     "y": 553
    },
    "stature": 544,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "man-slim/look/blazer/s01",
@@ -9556,7 +9592,8 @@
     "x": 117.0,
     "y": 593
    },
-   "stature": 586
+   "stature": 586,
+   "needsDesk": true
   },
   {
    "id": "man-slim/look/address/a01",
@@ -9582,7 +9619,8 @@
     "x": 119.0,
     "y": 593
    },
-   "stature": 586
+   "stature": 586,
+   "needsDesk": true
   },
   {
    "id": "man-slim/look/address/a02",
@@ -9608,7 +9646,8 @@
     "x": 124.6,
     "y": 592
    },
-   "stature": 585
+   "stature": 585,
+   "needsDesk": true
   },
   {
    "id": "man-slim/look/address/a03",
@@ -9635,7 +9674,8 @@
     "y": 591
    },
    "stature": 585,
-   "prop": "paper"
+   "prop": "paper",
+   "needsDesk": true
   },
   {
    "id": "man-slim/look/address/a04",
@@ -9661,7 +9701,8 @@
     "x": 116.0,
     "y": 592
    },
-   "stature": 586
+   "stature": 586,
+   "needsDesk": true
   },
   {
    "id": "man-heavy/kit/r00",
@@ -10224,7 +10265,8 @@
     "y": 709
    },
    "stature": 669,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "man-heavy/kit/s01",
@@ -10711,7 +10753,8 @@
     "y": 497
    },
    "stature": 490,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "man-heavy/look/suitnavy/s01",
@@ -10973,7 +11016,8 @@
     "y": 510
    },
    "stature": 502,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "man-heavy/look/suitcharcoal/s01",
@@ -11235,7 +11279,8 @@
     "y": 490
    },
    "stature": 483,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   },
   {
    "id": "man-heavy/look/blazer/s01",
@@ -11496,7 +11541,8 @@
     "x": 94.5,
     "y": 377
    },
-   "stature": 373
+   "stature": 373,
+   "needsDesk": true
   },
   {
    "id": "man-heavy/look/address/a01",
@@ -11522,7 +11568,8 @@
     "x": 128.7,
     "y": 377
    },
-   "stature": 373
+   "stature": 373,
+   "needsDesk": true
   },
   {
    "id": "man-heavy/look/address/a02",
@@ -11548,7 +11595,8 @@
     "x": 97.5,
     "y": 377
    },
-   "stature": 372
+   "stature": 372,
+   "needsDesk": true
   },
   {
    "id": "man-heavy/look/address/a03",
@@ -11575,7 +11623,8 @@
     "y": 377
    },
    "stature": 372,
-   "prop": "paper"
+   "prop": "paper",
+   "needsDesk": true
   },
   {
    "id": "man-heavy/look/address/a04",
@@ -11601,7 +11650,8 @@
     "x": 93.0,
     "y": 377
    },
-   "stature": 372
+   "stature": 372,
+   "needsDesk": true
   },
   {
    "id": "man-heavy/look/address/a05",
@@ -11628,7 +11678,8 @@
     "y": 377
    },
    "stature": 371,
-   "prop": "pen-paper"
+   "prop": "pen-paper",
+   "needsDesk": true
   }
  ],
  "skipped": [
