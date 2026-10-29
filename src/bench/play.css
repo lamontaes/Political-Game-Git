@@ -1041,18 +1041,44 @@ input[type="range"]::-moz-range-thumb {
 #cr-character .group.missing input {
   border-color: var(--red);
 }
-/* The states and towns: a box of rows that pages with Back and Continue under
-   it; nothing in a menu scrolls (kit13 APPROVED), so no native scroller. */
+/* The states and towns: a box of rows that scrolls inside itself, under the
+   game's own thin scroller (owner, Oct 28: no native scroller; Oct 29: no Back or
+   Continue on any menu). */
 .choice-list {
-  position: relative; /* the pager measures the rows from the box's top */
   max-height: 400px;
-  overflow: hidden;
+  overflow-y: auto;
   margin-top: 6px;
 }
-/* While rows are paged out, the box keeps its full height: a box sized to
-   the rows it shows would shrink the page each time it turned. */
-.choice-list:has(.paged-out) {
-  height: 400px;
+/* Every menu body that holds more than it shows scrolls inside its panel with the
+   game's own scroller: a thin gold bar, never the system's. */
+.choice-list,
+#sheet-body,
+#person-facts,
+#news-reader-body,
+#ballot-races,
+.calendar-list,
+.pick-list {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.55) transparent;
+}
+.choice-list::-webkit-scrollbar,
+#sheet-body::-webkit-scrollbar,
+#person-facts::-webkit-scrollbar,
+#news-reader-body::-webkit-scrollbar,
+#ballot-races::-webkit-scrollbar,
+.calendar-list::-webkit-scrollbar,
+.pick-list::-webkit-scrollbar {
+  width: 6px;
+}
+.choice-list::-webkit-scrollbar-thumb,
+#sheet-body::-webkit-scrollbar-thumb,
+#person-facts::-webkit-scrollbar-thumb,
+#news-reader-body::-webkit-scrollbar-thumb,
+#ballot-races::-webkit-scrollbar-thumb,
+.calendar-list::-webkit-scrollbar-thumb,
+.pick-list::-webkit-scrollbar-thumb {
+  background: rgba(214, 189, 132, 0.55);
+  border-radius: 3px;
 }
 #front input[type="search"] {
   width: 100%;
@@ -1221,8 +1247,8 @@ body.dev .dev-ring {
   clip-path: inset(50%);
   white-space: nowrap;
 }
-/* An open screen is read-only and owns the bottom left: the card, which
-   would sit over its pager, steps away until the screen closes. */
+/* An open screen is read-only and owns the bottom left: the card steps away
+   until the screen closes. */
 #game.sheet-open #card {
   display: none;
 }
@@ -1411,12 +1437,6 @@ body.dev .dev-ring {
 #sheet.fits #sheet-body {
   flex: 0 1 auto;
 }
-/* A fitted sheet that pages keeps the window's height while rows are out of
-   the page: sized to the rows it shows, it would shrink the page each turn. */
-#game.in-play #sheet.fits:has(.paged-out) {
-  bottom: 26px;
-  max-height: none;
-}
 #game:not(.in-play) #sheet {
   left: 50%;
   transform: translateX(-50%);
@@ -1473,29 +1493,15 @@ body.dev .dev-ring {
   flex: 1;
   min-height: 0;
   position: relative;
-  /* Nothing inside a menu scrolls: a long screen pages (Back / Continue). */
-  overflow: hidden;
+  /* A long screen scrolls inside its panel (no Back or Continue on a menu). */
+  overflow-y: auto;
   max-width: 760px;
 }
-/* A page of a plain list: the rows of the other pages are out of the box. */
-.paged-out {
-  display: none !important;
-}
-#sheet-pager {
-  flex: none;
-  margin-top: 12px;
-}
-#sheet-pager:not([hidden]) {
-  display: flex;
-}
-/* A long screen reads in two columns. Columns fill to the box's height and flow
-   sideways, so the pager turns them; balanced columns of no set height let a
-   page run past the box. */
+/* A long screen reads in two columns that balance to the content's height. */
 #sheet-body.cols {
   max-width: none;
   columns: 2 420px;
   column-gap: 48px;
-  column-fill: auto;
 }
 #sheet-body > * {
   break-inside: avoid;
@@ -1701,11 +1707,13 @@ body.dev .dev-ring {
 .calendar-list {
   flex: 1;
   min-height: 0;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 #sheet-body .calendar-entry {
+  flex: none;
   display: grid;
   grid-template-columns: 84px 18px minmax(0, 1fr);
   align-items: center;
@@ -1727,11 +1735,6 @@ body.dev .dev-ring {
   white-space: nowrap;
   font: 600 12px var(--ui);
   color: var(--gold);
-}
-.calendar-list .record-pages {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
 }
 .calendar-paging {
   display: flex;
@@ -1775,14 +1778,11 @@ body.dev .dev-ring {
 #person-facts {
   flex: 1;
   min-height: 0;
-  overflow: hidden;
+  overflow-y: auto;
   position: relative;
 }
 .dossier .acts {
   margin-top: 16px;
-}
-#person-pager:not([hidden]) {
-  display: flex;
 }
 #game.person-open #news-surface {
   visibility: hidden;
@@ -1876,7 +1876,7 @@ body.dev .dev-ring {
   flex: 1;
   min-height: 0;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
 }
 #news-reader .heading {
   margin: 0 0 12px;
@@ -2001,15 +2001,7 @@ body.dev .dev-ring {
   flex: 1;
   min-height: 0;
   position: relative;
-  overflow: hidden;
-}
-#ballot-pager,
-#news-reader-pager {
-  margin-top: 10px;
-}
-#ballot-pager:not([hidden]),
-#news-reader-pager:not([hidden]) {
-  display: flex;
+  overflow-y: auto;
 }
 #ballot .race + .race,
 #meeting .race + .race,
@@ -2070,9 +2062,6 @@ body.dev .dev-ring {
 .record-figure strong {
   font: 500 24px var(--ui);
 }
-.record-pages-one .record-section {
-  max-width: 640px;
-}
 /* Character screen: layout additions on the existing Kit 13 panel. */
 #sheet.character-sheet {
   display: grid;
@@ -2082,8 +2071,7 @@ body.dev .dev-ring {
 }
 .character-sheet .sheet-head,
 .character-sheet #sheet-tabs,
-.character-sheet #sheet-body,
-.character-sheet #sheet-pager {
+.character-sheet #sheet-body {
   grid-column: 2;
 }
 .character-sheet #sheet-body {
@@ -2208,8 +2196,7 @@ body.dev .dev-ring {
 }
 .people-toolbar,
 .people-filters,
-.people-selection,
-.people-pager {
+.people-selection {
   display: flex;
   gap: 16px;
   align-items: center;
@@ -2428,8 +2415,7 @@ body.dev .dev-ring {
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
   max-width: none;
 }
-.government-picker,
-.record-pager {
+.government-picker {
   display: flex;
   gap: 14px;
   margin: 12px 0 22px;
@@ -2718,11 +2704,13 @@ details.entry[open] {
 .calendar-list {
   flex: 1;
   min-height: 0;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 #sheet-body .calendar-entry {
+  flex: none;
   display: grid;
   grid-template-columns: 84px 18px minmax(0, 1fr);
   align-items: center;
@@ -2744,11 +2732,6 @@ details.entry[open] {
   white-space: nowrap;
   font: 600 12px var(--ui);
   color: var(--gold);
-}
-.calendar-list .record-pages {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
 }
 .calendar-paging {
   display: flex;
@@ -2792,14 +2775,11 @@ details.entry[open] {
 #person-facts {
   flex: 1;
   min-height: 0;
-  overflow: hidden;
+  overflow-y: auto;
   position: relative;
 }
 .dossier .acts {
   margin-top: 16px;
-}
-#person-pager:not([hidden]) {
-  display: flex;
 }
 #game.person-open #news-surface {
   visibility: hidden;
@@ -2893,7 +2873,7 @@ details.entry[open] {
   flex: 1;
   min-height: 0;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
 }
 #news-reader .heading {
   margin: 0 0 12px;
@@ -3018,15 +2998,7 @@ details.entry[open] {
   flex: 1;
   min-height: 0;
   position: relative;
-  overflow: hidden;
-}
-#ballot-pager,
-#news-reader-pager {
-  margin-top: 10px;
-}
-#ballot-pager:not([hidden]),
-#news-reader-pager:not([hidden]) {
-  display: flex;
+  overflow-y: auto;
 }
 #ballot .race + .race,
 #meeting .race + .race,
@@ -3087,9 +3059,6 @@ details.entry[open] {
 .record-figure strong {
   font: 500 24px var(--ui);
 }
-.record-pages-one .record-section {
-  max-width: 640px;
-}
 /* Character screen: layout additions on the existing Kit 13 panel. */
 #sheet.character-sheet {
   display: grid;
@@ -3099,8 +3068,7 @@ details.entry[open] {
 }
 .character-sheet .sheet-head,
 .character-sheet #sheet-tabs,
-.character-sheet #sheet-body,
-.character-sheet #sheet-pager {
+.character-sheet #sheet-body {
   grid-column: 2;
 }
 .character-sheet #sheet-body {
@@ -3225,8 +3193,7 @@ details.entry[open] {
 }
 .people-toolbar,
 .people-filters,
-.people-selection,
-.people-pager {
+.people-selection {
   display: flex;
   gap: 16px;
   align-items: center;
@@ -3445,8 +3412,7 @@ details.entry[open] {
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
   max-width: none;
 }
-.government-picker,
-.record-pager {
+.government-picker {
   display: flex;
   gap: 14px;
   margin: 12px 0 22px;

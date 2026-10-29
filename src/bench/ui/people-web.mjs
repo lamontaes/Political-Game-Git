@@ -24,7 +24,6 @@ export function peopleWeb({
 }) {
   let group = "all";
   let selected;
-  let page = 0;
   let listMode = false;
   const search = el("input", {
     type: "search",
@@ -35,7 +34,6 @@ export function peopleWeb({
   const filters = el("nav", { className: "people-filters" });
   const canvas = el("div", { className: "relationship-web" });
   const detail = el("div", { className: "people-selection" });
-  const pager = el("nav", { className: "people-pager" });
   const button = (text, fn) => {
     const b = makeButton({ textContent: text });
     b.addEventListener("click", fn);
@@ -70,8 +68,8 @@ export function peopleWeb({
     const found = people.filter((p) =>
       p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
     );
-    page = Math.min(page, Math.max(0, Math.ceil(found.length / 8) - 1));
-    const shown = found.slice(page * 8, page * 8 + 8);
+    // The web draws the eight closest; the list view holds everyone and scrolls.
+    const shown = listMode ? found : found.slice(0, 8);
     canvas.replaceChildren();
     canvas.classList.toggle("people-list", listMode);
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -200,17 +198,6 @@ export function peopleWeb({
       if (inRoom.has(person.personId))
         detail.append(button(labels.talk, () => onTalk(person)));
     }
-    const back = button(labels.back, () => {
-      page--;
-      draw();
-    });
-    back.disabled = page === 0;
-    const next = button(labels.next, () => {
-      page++;
-      draw();
-    });
-    next.disabled = (page + 1) * 8 >= found.length;
-    pager.replaceChildren(...(found.length > 8 ? [back, next] : []));
     chooseTab(filters, "group", group);
   };
   for (const key of ["all", "family", "friends", "work", "politics"]) {
@@ -232,7 +219,6 @@ export function peopleWeb({
     draw();
   });
   search.addEventListener("input", () => {
-    page = 0;
     draw();
   });
   const key = el(
@@ -249,6 +235,5 @@ export function peopleWeb({
     canvas,
     detail,
     key,
-    pager,
   ];
 }
