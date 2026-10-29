@@ -4985,6 +4985,159 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.hiring.subject-is-hiring-number-workers",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} is hiring {number} workers.",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "news",
+          "role": "hiring",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.hiring.subject-posted-number-new-jobs",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} posted {number} new jobs.",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "news",
+          "role": "hiring",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.hiring.subject-is-hiring",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} is hiring.",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "news",
+          "role": "hiring",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.petition-check.name-has-enough-valid-signatures-to-run-for-office",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name} has enough valid signatures to run for {office}.",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "news",
+          "role": "petition-check",
+          "choice": "lede",
+          "requiresFacts": ["on-ballot"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.petition-check.name-is-on-the-ballot-for-office-with-signatures-valid-signatures-of-required-needed",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name} is on the ballot for {office}, with {signatures} valid signatures of {required} needed.",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "news",
+          "role": "petition-check",
+          "choice": "lede",
+          "requiresFacts": ["on-ballot", "signatures", "required"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.petition-check.name-s-petition-for-office-came-up-short-with-signatures-valid-signatures-of-required-needed",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name}'s petition for {office} came up short, with {signatures} valid signatures of {required} needed.",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "news",
+          "role": "petition-check",
+          "choice": "lede",
+          "requiresFacts": ["short", "signatures", "required"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.petition-check.name-s-petition-for-office-did-not-have-enough-valid-signatures",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name}'s petition for {office} did not have enough valid signatures.",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "news",
+          "role": "petition-check",
+          "choice": "lede",
+          "requiresFacts": ["short"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

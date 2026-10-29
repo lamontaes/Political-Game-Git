@@ -5326,6 +5326,93 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.hiring.subject-to-hire-number",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} to hire {number}",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "headline",
+          "role": "hiring",
+          "choice": "headline",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.hiring.subject-is-hiring",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} is hiring",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "headline",
+          "role": "hiring",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.petition-check.name-qualifies-for-the-office-ballot",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name} qualifies for the {office} ballot",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "headline",
+          "role": "petition-check",
+          "choice": "headline",
+          "requiresFacts": ["on-ballot"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.petition-check.name-falls-short-of-the-ballot-for-office",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name} falls short of the ballot for {office}",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "headline",
+          "role": "petition-check",
+          "choice": "headline",
+          "requiresFacts": ["short"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

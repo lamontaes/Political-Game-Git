@@ -1148,6 +1148,52 @@ const business =
     );
   };
 
+/**
+ * A public employer's staffing that a law's budget changed (a school system
+ * posting teaching jobs, or laying staff off): told as a layoff where it
+ * laid people off, else as hiring.
+ */
+const staffing: Builder = (read, f) => {
+  const name = read.organization(f.organizationId);
+  const laidOff = num(f.laidOff) ?? 0;
+  const posted = num(f.posted) ?? 0;
+  const jobs = laidOff > 0 ? laidOff : posted;
+  if (!(jobs > 0)) return null;
+  return story(
+    laidOff > 0 ? "staff-cut" : "hiring",
+    {
+      ...(name ? { subject: read.fact(name, f.organizationId ?? "") } : {}),
+      number: read.fact(count(jobs), f.lawId ?? ""),
+    },
+    ["subject"],
+  );
+};
+
+/** The clerk's check of a candidate's petition: on the ballot, or short of it. */
+const petitionChecked: Builder = (read, f) => {
+  const id = read.first();
+  const valid = num(f.valid);
+  const needed = num(f.needed);
+  return story(
+    "petition-check",
+    {
+      ...read.who(id, "name", false),
+      ...(f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {}),
+      ...(f.status === "on-ballot" || f.status === "short"
+        ? { [f.status]: read.yes() }
+        : {}),
+      ...(valid !== undefined && needed !== undefined
+        ? {
+            signatures: read.fact(count(valid), f.petitionId ?? ""),
+            required: read.fact(count(needed), f.petitionId ?? ""),
+          }
+        : {}),
+    },
+    ["name", "office"],
+    id,
+  );
+};
+
 /** A cause group's ad on a question: the group by its name, else by who formed it. */
 const causeAd: Builder = (read, f) => {
   const name = read.organization(f.organizationId);
@@ -1288,6 +1334,11 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "took-office": tookOffice,
   "seat-vacated": vacancy,
   "press.exposed": exposed,
+  // A bill that failed is its vote: in committee or on the floor.
+  "bill-failed": (read, f) =>
+    f.stage === "committee" ? committee(read, f) : rollCall(read, f),
+  "public-staffing-changed": staffing,
+  "petition-checked": petitionChecked,
   "campaign-gift": campaignGift,
   "official-appointed": appointed,
   appointed,
