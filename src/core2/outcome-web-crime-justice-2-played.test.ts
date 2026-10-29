@@ -88,11 +88,17 @@ const yearly = (core: CoreState, personId: string) =>
     (n, job) => n + job.wageDailyMinor * DAYS_PER_YEAR,
     0,
   );
-/** What the rest of a household's members earn in a year. */
+/**
+ * What the rest of a household brings in a year: its other members' pay and
+ * the income awards recorded to it, as fullHouseholdIncomes counts them.
+ */
 const others = (core: CoreState, home: string, personId: string) =>
   (core.households.get(home)?.memberIds ?? [])
     .filter((id) => id !== personId)
-    .reduce((n, id) => n + yearly(core, id), 0);
+    .reduce((n, id) => n + yearly(core, id), 0) +
+  [...core.finance.contracts.values()]
+    .filter((c) => c.recipientIncome?.householdId === home && !c.endedAt)
+    .reduce((n, c) => n + (c.amountMinor * 12) / c.periodMonths, 0);
 
 /** A parent the court imprisoned in the charged world, as that world left them. */
 interface Term {
@@ -102,7 +108,7 @@ interface Term {
   readonly caseId: string;
   readonly sentence: SentenceRow;
   readonly custody: CustodyRow;
-  /** The household's yearly income, and the rest of its members' pay, with the term. */
+  /** The household's yearly income, and what the rest of it brings, with the term. */
   readonly income: number;
   readonly others: number;
 }
@@ -213,18 +219,26 @@ function chargedWorld(
 
 describe("the crime and justice links left unread", () => {
   it("each waits on the family's stopgap with its own reason", () => {
-    const rows = unwired.links as { link: string; stopgapId: string }[];
+    const rows = unwired.links as {
+      link: string;
+      reason: string;
+      stopgapId: string;
+    }[];
     const stopgap = openStopgap(FAMILY_STOPGAP);
     expect(stopgap, FAMILY_STOPGAP).toBeDefined();
     for (const key of UNREAD) {
       const link = linkOf(key);
       const coverage = linkCoverage(link);
-      // The web does not run it and no engine carries it.
-      expect(coverage.wired, key).toBe(false);
+      // No engine carries it. The web runs only the federal cut, into its
+      // own ledger, which no engine reads.
       expect("carriedBy" in coverage, key).toBe(false);
-      expect(rows.find((row) => row.link === key)?.stopgapId, key).toBe(
-        FAMILY_STOPGAP,
+      expect(coverage.wired, key).toBe(
+        key === "mandatory-minimum-cut-to-federal-prisoners",
       );
+      const listed = rows.find((row) => row.link === key);
+      expect(listed?.stopgapId, key).toBe(FAMILY_STOPGAP);
+      if (coverage.wired)
+        expect(listed!.reason, key).toMatch(/^engine doesn't read the factor/);
       // The stopgap names the link and why it waits.
       expect(stopgap!.whatItFakes, key).toContain(key);
     }
@@ -289,16 +303,19 @@ describe("a parent's prison term reaches their household's income", () => {
             }
             const pay = yearly(twin, term.personId);
             expect(pay, term.personId).toBeGreaterThan(0);
-            // The rest of the household earns the same in both worlds, so the
-            // gap between them is the parent's pay alone.
+            // The rest of the household brings the same in both worlds, so
+            // the gap between them is the parent's pay alone.
             if (others(twin, term.home, term.personId) !== term.others) {
               passed.push(
-                `${where}: ${term.home}'s other members' pay differs between the worlds`,
+                `${where}: the rest of ${term.home}'s income differs between the worlds`,
               );
               continue;
             }
             const without = incomes.get(term.home) ?? 0;
-            expect(without - term.income, `${where}: ${term.home}`).toBe(pay);
+            expect(without - term.income, `${where}: ${term.home}`).toBeCloseTo(
+              pay,
+              6,
+            );
             const link = linkOf(LINK);
             process.stdout.write(
               `PARENT-INCARCERATION (CRIME_JUSTICE_2_SEED=${seed}) ${where}: ${term.name} (${term.personId}), a parent in ${term.home}, was charged in one world (${term.caseId}), sentenced to ${term.sentence.custodyMonths} months (${term.sentence.id}) and imprisoned on ${term.custody.from} (${term.custody.id}); the justice engine ended ${term.sentence.jobsEnded.join(", ")}, which the twin's parent still holds; on ${seen.through} the household's yearly income ran ${without} in the twin and ${term.income} with the term (minor units), down ${pay}, the parent's own pay (${((100 * pay) / without).toFixed(1)}%; the research's average family drop is ${(-link.size! * 100).toFixed(0)}%). Passed over: ${passed.join("; ") || "none"}\n`,
