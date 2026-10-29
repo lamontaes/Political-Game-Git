@@ -5,13 +5,14 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/printed-unworded
 pr:
 blocked-on:
 lead: words
 milestone: play-first
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T07:22:40.001Z
 ---
 
 **What.** The printed-stories test (src/bench/printed-words.test.ts) fails on clean main in Yankton, South Dakota (4673060, GOLDEN_PATH_SEED=66eeed9d341c41e1cbe155e8a2d9d587bc9a6eb4): nine stories the press printed in the year have no headline and no first sentence. They are three candidate interviews (interview:outlet:magazine:0:national:filing:..., interview:outlet:newspaper:0:..., interview:outlet:cable:1:national:...), one bribe exposure (press.exposed:bribe:2025-07-01:...) and five stories of the same vacated U.S. Senate seat (seat-vacated:seat:US-MN:us-senate:0:2025-07-14). printedFacts in src/bench/printed-words.ts has no builder that words these, or its builder needs a fact these records lack.
