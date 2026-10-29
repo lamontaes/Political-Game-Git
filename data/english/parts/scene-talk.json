@@ -120,7 +120,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "morning",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -168,7 +169,7 @@
           "step": "narrate",
           "move": "ballot",
           "role": "narrator",
-          "requiresFacts": ["candidate", "opponent"]
+          "requiresFacts": ["candidate", "opponent", "same-day"]
         }
       ],
       "origin": "authored",
@@ -453,7 +454,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-ask",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -523,7 +525,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "stayed-home",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -995,7 +998,7 @@
           "step": "narrate",
           "move": "returns-nation",
           "role": "narrator",
-          "requiresFacts": ["several"]
+          "requiresFacts": ["same-day", "several"]
         }
       ],
       "origin": "authored",
@@ -1019,7 +1022,7 @@
           "step": "narrate",
           "move": "returns-nation",
           "role": "narrator",
-          "requiresFacts": ["one"]
+          "requiresFacts": ["one", "same-day"]
         }
       ],
       "origin": "authored",
@@ -1042,7 +1045,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-away",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -1088,7 +1092,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-away",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -1111,7 +1116,8 @@
           "key": "election-day",
           "step": "narrate",
           "move": "vote-none",
-          "role": "narrator"
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
         }
       ],
       "origin": "authored",
@@ -41229,7 +41235,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "first-day-ropes",
-          "key": "arrival"
+          "key": "arrival",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "curious",
@@ -60170,7 +60177,7 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["introduced"]
+          "requiresFacts": ["introduced", "same-day"]
         }
       ],
       "bearing": "guarded",
@@ -63796,7 +63803,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "desk-bill",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "calm",
@@ -73450,7 +73458,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "join-cause",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "curious",
@@ -82281,7 +82290,7 @@
           "role": "narrator",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate"]
+          "requiresFacts": ["debate", "same-day"]
         }
       ],
       "bearing": "braced",
@@ -88281,7 +88290,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "diploma-home",
-          "key": "diploma"
+          "key": "diploma",
+          "requiresFacts": ["day-after"]
         }
       ],
       "bearing": "glad",
@@ -102645,7 +102655,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "housemate-arrives",
-          "key": "arrival"
+          "key": "arrival",
+          "requiresFacts": ["same-day"]
         }
       ],
       "bearing": "curious",
@@ -102694,7 +102705,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["kin"]
+          "requiresFacts": ["kin", "same-day"]
         }
       ],
       "bearing": "tender",
@@ -102719,7 +102730,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["kin"]
+          "requiresFacts": ["kin", "same-day"]
         }
       ],
       "bearing": "glad",
@@ -102769,7 +102780,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["stranger"],
+          "requiresFacts": ["same-day", "stranger"],
           "excludesFacts": ["kin"]
         }
       ],
@@ -102795,7 +102806,7 @@
           "role": "narrator",
           "purpose": "housemate-arrives",
           "key": "arrival",
-          "requiresFacts": ["stranger"],
+          "requiresFacts": ["same-day", "stranger"],
           "excludesFacts": ["kin"]
         }
       ],
