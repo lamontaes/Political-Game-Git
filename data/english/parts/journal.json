@@ -7966,10 +7966,10 @@
       }
     },
     {
-      "key": "journal.money-line-law-effect-learned.i-found-out-the-rules-on-topic-changed-what-i-pay",
+      "key": "journal.money-line-law-effect-learned.the-rules-on-topic-changed-what-i-pay",
       "move": "money-line-law-effect-learned",
       "kind": "spoken",
-      "text": "I found out the rules on {topic} changed what I pay.",
+      "text": "The rules on {topic} changed what I pay.",
       "uses": [
         {
           "move": "money-line-law-effect-learned",
@@ -7993,10 +7993,10 @@
       }
     },
     {
-      "key": "journal.money-line-law-effect-learned.i-learned-the-law-on-topic-is-behind-what-i-pay-now",
+      "key": "journal.money-line-law-effect-learned.i-learned-the-law-on-topic-changed-my-costs",
       "move": "money-line-law-effect-learned",
       "kind": "spoken",
-      "text": "I learned the law on {topic} is behind what I pay now.",
+      "text": "I learned the law on {topic} changed my costs.",
       "uses": [
         {
           "move": "money-line-law-effect-learned",
@@ -8020,10 +8020,10 @@
       }
     },
     {
-      "key": "journal.money-line-law-effect-learned.now-i-know-the-rules-on-topic-are-why-my-costs-changed",
+      "key": "journal.money-line-law-effect-learned.that-law-on-topic-is-behind-what-i-pay-now",
       "move": "money-line-law-effect-learned",
       "kind": "spoken",
-      "text": "Now I know the rules on {topic} are why my costs changed.",
+      "text": "That law on {topic} is behind what I pay now.",
       "uses": [
         {
           "move": "money-line-law-effect-learned",
