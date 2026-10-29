@@ -6,11 +6,12 @@ lead: governing
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/campaign-like-real-races
 pr:
 blocked-on:
 source: owner, Oct 29 voice note on the governing brief
+claimed-at: 2026-10-29T21:27:33.811Z
 ---
 
 **What.** No life started from New Game has ever won a race (governing brief, Oct 29). The owner, Oct 29: "look at real races... she was working with the Democratic Socialists of America. And, you know, then her campaign gained steam, and then it caused [the incumbent] to try to go back to New York to campaign... some people... just do donor meetings... you need to be able to... host a forum... meet your possible constituents... debate" and "it's not just door knocking, it's raising money and stuff like that that needs to be decided for A." A door yes is near-binding (Oct 29). This is phase A of the governing plan: the campaign actions a real underdog uses, each moving real voters through the campaigns engine, and an incumbent who reacts when a challenger gains.
