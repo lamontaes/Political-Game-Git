@@ -16,6 +16,7 @@ import { campaignParameter } from "./campaign-views";
 import {
   CAMPAIGNS_MODULE_ID,
   unitPrice,
+  askCircleToSign,
   askForDonation,
   campaignFor,
   doorsKnockedOf,
@@ -28,6 +29,7 @@ import {
 } from "./modules/campaigns";
 import {
   ELECTIONS_MODULE_ID,
+  standing,
   type ContestRow,
   type FilingRow,
 } from "./modules/elections";
@@ -184,7 +186,7 @@ function contextOf(api: CoreAPI, filingId: string, world = false) {
     filing.contestId,
   ) as unknown as ContestRow;
   const open =
-    filing.status === "on-ballot" &&
+    standing(filing) &&
     (world
       ? !!api.state.people.get(filing.personId)?.alive &&
         filing.personId !== (api.state as CoreState).playerId
@@ -309,7 +311,7 @@ export function contestStanding(
       .moduleState(ELECTIONS_MODULE_ID)
       .table("filings")
       .query("byContest", [contestId]) as unknown as FilingRow[]
-  ).filter((row) => row.status !== "withdrawn");
+  ).filter(standing);
   return filings.map((filing) => {
     const rows = api
       .moduleState(CAMPAIGNS_MODULE_ID)
@@ -485,6 +487,9 @@ export function takeCampaignDayChoice(
   );
   if (!offered?.available)
     throw new Error(`Campaign day choice not available: ${choice}`);
+  // While the petition circulates, the candidate's day starts with asking
+  // the people closest to them to sign.
+  askCircleToSign(api, filingId);
   const campaign = campaignFor(api, filingId);
   const player = campaign.candidateId;
   const hours = options.hours ?? offered.hours;
