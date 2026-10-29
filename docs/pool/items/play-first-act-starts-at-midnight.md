@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** In a new life that has not pressed Day yet, the card shows the opening evening (8:30 PM), but the player's clock already stands at the next midnight, so the first act's hours run from 12:00 AM. Filing at the clerk's counter (three hours, filingVisitHours) moves the card from 8:30 PM to 3:00 AM the next day; a first canvass does the same. Seen in Millry, Alabama (seed probe-1) and Berryville, Virginia, Oct 29, on the petition branch's filing.browser.mjs. Cause: BenchPlayer.spend in src/bench/player.ts starts from the day after the world's date at minute 0 when no packet is held, while the title answer shows the opening's minute. integration-day-lands-on-morning-and-places-keep-hours (#6397) fixed Day and Week, not an act taken before them.
