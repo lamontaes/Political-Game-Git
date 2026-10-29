@@ -1,7 +1,7 @@
 ---
 id: realistic-row-45-dc-delegate-seat
 title: "The two-seeds-differ guard fails whenever it draws Washington, D.C.: the delegate seat 98 maps to no roster holder"
-area: tests
+area: core
 kind: bug
 priority: 1
 size: S
@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: the check must pass by the same rule for D.C. and the territories' delegate seats as for a state's districts, so the seat-to-roster mapping covers a delegate seat. Realistic not real: the fix keeps the check that every member of Congress carries the world roster's party, it does not exempt a place.
 
-**Done when.** npm run zero-real-data passes with the D.C. draw (seed 5fe2f06aee1fd05c) and with a drawn territory with a delegate, and passes ten runs in a row on random draws; the PR names the places and seeds it ran.
+**Done when.** The test src/core2/realistic-not-real.test.ts, run through npm run zero-real-data, passes for the drawn place Washington, D.C. (seed 5fe2f06aee1fd05c) and for a drawn place that is a territory with a delegate, and passes ten runs in a row on random draws; the PR names each drawn place and seed it ran.
 
 **Files.** src/core2/realistic-not-real.test.ts
 
