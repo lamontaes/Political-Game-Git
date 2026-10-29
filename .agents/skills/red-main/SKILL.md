@@ -19,7 +19,7 @@ Read the newest run of Release, Deterministic validation, M0 guards and Every pl
 
 ## 2. Name the red by test, place and seed
 
-A red is not named until you have the failing test, the drawn place, the seed and the exact assertion. A failure that flips by seed is a defect (one rule, all 56 places): find the seed-dependent branch, not a lucky seed. Pass the seed with `GOLDEN_PATH_SEED=<seed>` (and `GOLDEN_PATH_PLACE_KEY` where the test reads it). Golden-path specs run through `src/bench/m0-check.ts` or `npx vitest run <files>`; the command is in `docs/roadmap/features.json`.
+A red is not named until you have the failing test, the drawn place, the seed and the exact assertion. A failure that flips by seed is a defect (one rule, all 56 places): find the seed-dependent branch, not a lucky seed. Pass the seed with `GOLDEN_PATH_SEED=<seed>` (and `GOLDEN_PATH_PLACE_KEY` where the test reads it). A test's printed seed may be the place seed, not the run seed (mark-gap prints `place.seed`): reproduce from it directly (`buildBenchWorld(<place seed>, ...)` or `/api/build?seed=<place seed>`), because passing it as `GOLDEN_PATH_SEED` draws another place and passes (Oct 29, Port Vincent, Louisiana). Golden-path specs run through `src/bench/m0-check.ts` or `npx vitest run <files>`; the command is in `docs/roadmap/features.json`.
 
 ## 3. Find the owner, then message before touching
 
