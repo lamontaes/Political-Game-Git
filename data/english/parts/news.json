@@ -5138,6 +5138,50 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.committee.designation-failed-in-committee-count",
+      "move": "committee",
+      "kind": "written",
+      "text": "{designation} failed in committee, {count}.",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "news",
+          "role": "committee",
+          "choice": "lede",
+          "requiresFacts": ["failed", "count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee.a-committee-voted-count-against-designation",
+      "move": "committee",
+      "kind": "written",
+      "text": "A committee voted {count} against {designation}.",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "news",
+          "role": "committee",
+          "choice": "lede",
+          "requiresFacts": ["failed", "count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

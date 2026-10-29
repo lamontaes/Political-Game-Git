@@ -494,6 +494,27 @@ const committee: Builder = (read, f) => {
   );
 };
 
+/**
+ * A bill that failed, as its vote: on the floor it is the roll call; in
+ * committee the record names no committee, so it is told by the tally alone.
+ */
+const billFailed: Builder = (read, f) => {
+  if (f.stage !== "committee") return rollCall(read, f);
+  const yes = num(f.yes);
+  const no = num(f.no);
+  return story(
+    "committee",
+    {
+      ...read.billFacts(f.billId, f.number),
+      ...(yes !== undefined && no !== undefined
+        ? { count: read.fact(`${yes} to ${no}`) }
+        : {}),
+      failed: read.yes(),
+    },
+    ["designation"],
+  );
+};
+
 /** A member's amendment to a bill. */
 const amendment: Builder = (read, f) =>
   story(
@@ -1334,9 +1355,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "took-office": tookOffice,
   "seat-vacated": vacancy,
   "press.exposed": exposed,
-  // A bill that failed is its vote: in committee or on the floor.
-  "bill-failed": (read, f) =>
-    f.stage === "committee" ? committee(read, f) : rollCall(read, f),
+  "bill-failed": billFailed,
   "public-staffing-changed": staffing,
   "petition-checked": petitionChecked,
   "campaign-gift": campaignGift,

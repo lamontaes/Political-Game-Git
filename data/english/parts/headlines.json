@@ -5413,6 +5413,50 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.committee.designation-fails-in-committee",
+      "move": "committee",
+      "kind": "written",
+      "text": "{designation} fails in committee",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "headline",
+          "role": "committee",
+          "choice": "headline",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.committee.designation-dies-in-committee-count",
+      "move": "committee",
+      "kind": "written",
+      "text": "{designation} dies in committee, {count}",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "headline",
+          "role": "committee",
+          "choice": "headline",
+          "requiresFacts": ["failed", "count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }
