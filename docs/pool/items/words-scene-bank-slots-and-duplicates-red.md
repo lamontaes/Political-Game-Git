@@ -6,9 +6,9 @@ kind: bug
 priority: 1
 size: S
 lead: words
-status: claimed
+status: in-pr
 claimed-by: words/scene-bank-slots-and-duplicates
-pr:
+pr: #6747
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-29T05:47:31.206Z
