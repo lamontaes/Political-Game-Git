@@ -5,12 +5,13 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/printed-kinds
 pr:
 blocked-on:
 lead: words
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T08:08:14.074Z
 ---
 
 **What.** printedFacts in src/bench/printed-words.ts words a printed story only through a builder for its source record's kind. A scan of every record the core emits with a news flag, against the builders (Oct 29), found twelve kinds with none: scandal.reported, ballot-measure-result, bill-presented, emergency-declared, item-veto, ribbon-cut, succession, recall-answer, heard, and the President's budget-request, joint-address and official-trip. A story of any of them reaches News with no headline and no first sentence, and src/bench/printed-words.test.ts fails in any drawn place whose year prints one (as it did in Yankton, Frederiksted and Fort Johnson North for the kinds words-printed-interview-bribe-vacancy-unworded fixed).
