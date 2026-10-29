@@ -3,23 +3,20 @@
 // campaign's records and each fact citing the record it came from.
 import standing from "../../data/english/parts/campaign-standing.json" with { type: "json" };
 import { renderLine, type Fact, type Variant } from "../english/bank-line";
-import { heldByGrades } from "../english/english-grades";
+import { admittedParts } from "../english/bank-parts";
 
 interface StandingPart {
   key: string;
   move: string;
   text: string;
-  shippable: boolean;
 }
 
 const PARTS = standing.parts as StandingPart[];
 const VERSION = `campaign-standing:${PARTS.length}`;
 
-/** The bank's shippable, ungraded-down parts for a move, as engine variants. */
+/** The bank's parts for a move that the owner's grades leave in, as engine variants. */
 const variantsOf = (move: string): Variant[] =>
-  PARTS.filter(
-    (part) => part.move === move && part.shippable && !heldByGrades(part.key),
-  ).map((part) => ({
+  admittedParts(PARTS, (part) => part.move === move).map((part) => ({
     key: part.key,
     pieceKey: part.key,
     text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
