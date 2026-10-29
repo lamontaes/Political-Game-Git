@@ -5,6 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: L
+lead: m0-m2
 status: open
 claimed-by:
 pr:
