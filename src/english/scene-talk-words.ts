@@ -21,7 +21,7 @@ import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "jso
 import { renderLine, type Fact } from "./bank-line";
 
 export type { Fact };
-import { admittedParts } from "./bank-parts";
+import { admittedParts, directorSlots } from "./bank-parts";
 
 const zero = P.zero;
 const one = P.one;
@@ -244,8 +244,7 @@ export function wordSceneMove(input: {
     version: "scene-talk-v1",
     variants: parts.map((part) => ({
       key: part.key,
-      // The bank writes a slot as {name}; the renderer reads {{name}}.
-      text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
+      text: directorSlots(part.text),
       ...(part.bearing ? { bearing: part.bearing } : {}),
       pieceKey: part.key,
     })),

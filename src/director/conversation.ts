@@ -35,7 +35,12 @@ import {
   preStartHistory,
   schoolsAttended,
 } from "../core2/past";
-import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
@@ -685,7 +690,13 @@ function quietDay(
     },
   };
   const seen = lastContact(core, speaker.id, listener.id);
-  if (seen && seen.date < core.date)
+  // Not seeing much of someone takes some days apart: never "since
+  // yesterday".
+  if (
+    seen &&
+    daysBetween(makeIsoDate(seen.date), makeIsoDate(core.date)) >=
+      DEFAULT_DIRECTOR_DATA.parameters.directorTalkSeenLittleDays!.value
+  )
     // Kebab case, as the English engine's slots are ({last-together}).
     facts["last-together"] = {
       text: spokenWhen(seen.date, core.date),
