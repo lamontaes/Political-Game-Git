@@ -6,11 +6,12 @@ kind: bug
 priority: 2
 size: S
 lead: words
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/scene-bank-played-world
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T04:40:48.738Z
 ---
 
 **What.** src/english/mined/scene-bank.test.ts fails on main (886c21ab72 and back past 9bfa706c9c) in Worthington, Kentucky, seed words-scenes: 'narrates staged scenes from mined sentences, each traced to records' counts 0 lines. Its world is buildPopulation with 600 people and no modules but the director; by February 15, 2021 the director holds 26 scheduled moments for 12 watched people and none binds anyone, so composeScene never runs. CI runs only changed test files, so the red went unseen.
