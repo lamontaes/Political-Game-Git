@@ -174,7 +174,9 @@
   "filing": {
     "file": "File for this office",
     "status": {
+      "petitioning": "Your petition is out for signatures",
       "on-ballot": "You are on the ballot",
+      "short": "Your petition came up short",
       "withdrawn": "Withdrawn",
       "refused": "Not accepted"
     },
