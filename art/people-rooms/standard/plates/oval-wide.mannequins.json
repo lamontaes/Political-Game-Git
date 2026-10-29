@@ -1,0 +1,133 @@
+{
+ "shot": "oval-wide",
+ "size": [
+  1376,
+  768
+ ],
+ "backdrop": "oval-wide.empty.png",
+ "plate": "oval-wide.plate.png",
+ "camera": {
+  "horizon": 307
+ },
+ "spots": [
+  {
+   "id": "oval-wide-0",
+   "pose": "sitdesk",
+   "angle": "front",
+   "facing": 0,
+   "seat": "desk-chair",
+   "packPoses": [
+    "address",
+    "write"
+   ],
+   "head": {
+    "top": 346,
+    "x": 686.6,
+    "width": 14
+   },
+   "box": [
+    669,
+    346,
+    706,
+    407
+   ],
+   "hands": 406,
+   "deskEdge": 403
+  },
+  {
+   "id": "oval-wide-1",
+   "pose": "stand",
+   "angle": "btq-right",
+   "facing": 135,
+   "seat": "none",
+   "packPoses": [
+    "pockets",
+    "hip",
+    "speak"
+   ],
+   "head": {
+    "top": 252,
+    "x": 429.4,
+    "width": 15
+   },
+   "box": [
+    406,
+    252,
+    504,
+    590
+   ],
+   "feet": 589
+  },
+  {
+   "id": "oval-wide-2",
+   "pose": "fold",
+   "angle": "btq-left",
+   "facing": -135,
+   "seat": "none",
+   "packPoses": [
+    "fold"
+   ],
+   "head": {
+    "top": 252,
+    "x": 935.7,
+    "width": 33
+   },
+   "box": [
+    872,
+    252,
+    960,
+    590
+   ],
+   "feet": 589
+  },
+  {
+   "id": "oval-wide-3",
+   "pose": "couch",
+   "angle": "tq-right",
+   "facing": 45,
+   "seat": "couch",
+   "packPoses": [
+    "watch",
+    "talk",
+    "listen"
+   ],
+   "head": {
+    "top": 403,
+    "x": 126.2,
+    "width": 34
+   },
+   "box": [
+    90,
+    403,
+    240,
+    700
+   ],
+   "feet": 699
+  },
+  {
+   "id": "oval-wide-4",
+   "pose": "couch",
+   "angle": "tq-left",
+   "facing": -45,
+   "seat": "couch",
+   "packPoses": [
+    "watch",
+    "talk",
+    "listen"
+   ],
+   "head": {
+    "top": 403,
+    "x": 1248.7,
+    "width": 36
+   },
+   "box": [
+    1135,
+    403,
+    1286,
+    700
+   ],
+   "feet": 699
+  }
+ ],
+ "pictures": []
+}

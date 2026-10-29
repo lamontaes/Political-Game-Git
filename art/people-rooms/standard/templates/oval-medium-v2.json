@@ -1,0 +1,21 @@
+{
+ "size": [
+  1376,
+  768
+ ],
+ "horizon": 307,
+ "spots": [
+  {
+   "i": 0,
+   "pose": "sitdesk",
+   "angle": "front",
+   "row": "medium-front",
+   "box": [
+    635,
+    431,
+    740,
+    829
+   ]
+  }
+ ]
+}

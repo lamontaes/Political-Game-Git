@@ -1,0 +1,4 @@
+{
+ "_note": "Per-sheet fixes read by standard/template.library(): swap = pairs of cells whose figures face the other way (checked by eye at 2x).",
+ "lectern": {"swap": [["tq-left", "tq-right"]]}
+}
