@@ -2,7 +2,7 @@
 id: gov-m3-spec-commands
 title: "The four governing golden-path specs (M3-01, M3-02, M3-04, M3-05) get a test command"
 area: roadmap
-kind: docs
+kind: cleanup
 priority: 2
 size: S
 status: claimed
