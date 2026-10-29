@@ -7,10 +7,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { countedLate } from "../core2/housing-homeless";
 import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
-import { residentsRuntime } from "../core2/modules/residents";
-import { coreAPI, fillInPerson } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -22,13 +19,10 @@ import type { ScheduleEntry } from "./scheduling";
 // person lives with brings it to them at home: what is owed and the day it is
 // due, from the record. The person's answer is written back, and a promise to
 // pay is kept on its record and told in their journal. Places are drawn in
-// turn until a household of two or more that the player has met is served
-// notice by the landlord's own weighing.
+// turn until the landlord's own weighing serves a household of two or more.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 4;
-const DAYS = 120;
-const LEAD_DAYS = 270;
-const WATCH = 6;
+const DAYS = 330;
 const LABEL = "circumstance:notice-home";
 
 /** Every path of a tree: the replies chosen, the node it reaches. */
@@ -50,45 +44,35 @@ it(`a notice to pay or leave is talked over at home, from the record (seed ${see
         twoLevel: true,
         placeKey: place.key,
       });
-      // Once the counts hold households behind on rent (the ones the
-      // landlord weighs each month), the player meets one: it is filled in,
-      // its group's arrears now its lease's, and the director keeps its
-      // members' ledgers from then on.
-      const api = coreAPI(core);
-      const town = (core.placeMetadata as { housingTown?: string } | undefined)
-        ?.housingTown;
-      const store = residentsRuntime(core)?.store;
-      const counted = () =>
-        new Map(
-          [...(store?.liveHouseholds() ?? [])].map((row) => [row.id, row]),
-        );
-      const sized = (row: { householdId: string }) => {
-        const household = counted().get(row.householdId);
-        return household ? store!.peopleOf(household).length : 0;
-      };
-      let behind: ReturnType<typeof countedLate> = [];
-      for (let day = 0; day < LEAD_DAYS && town && store; day += 1) {
-        advanceCore(core, addDays(makeIsoDate(core.date), 1));
-        behind = countedLate(api, town, () => false).filter(
-          (row) => sized(row) >= 2,
-        );
-        if (behind.length) break;
-      }
-      const watched: PersonId[] = [];
-      for (const row of behind) {
-        const household = counted().get(row.householdId);
-        const people = household ? store!.peopleOf(household) : [];
-        fillInPerson(core, people[0]!.id as PersonId);
-        for (const member of core.households.get(row.householdId)?.memberIds ??
-          [])
-          if (core.people.get(member)?.alive) {
-            director.watch(core, member);
-            watched.push(member);
-          }
-        if (watched.length >= WATCH) break;
+      // Every full household of two or more that rents from the town's
+      // landlord: whichever the landlord serves, the director keeps its
+      // members' ledgers (and the core keeps their records, as for the
+      // player's circle).
+      const renters = new Set(
+        [...core.finance.contracts.values()]
+          .filter(
+            (row) =>
+              row.accruesArrears &&
+              !row.endedAt &&
+              String(row.payeeId).startsWith("organization:landlord:"),
+          )
+          .map((row) => row.householdId),
+      );
+      const watched = [...core.people.values()]
+        .filter(
+          (row) =>
+            row.alive &&
+            row.tier !== "husk" &&
+            renters.has(row.householdId) &&
+            (core.households.get(row.householdId)?.memberIds.length ?? 0) > 1,
+        )
+        .map((row) => row.id as PersonId);
+      for (const id of watched) {
+        core.focusPersonIds.add(id);
+        director.watch(core, id);
       }
       if (!watched.length) {
-        tried.push(`${where}: no household of two behind on rent`);
+        tried.push(`${where}: no household of two renting`);
         continue;
       }
       let found: { personId: PersonId; entry: ScheduleEntry } | undefined;
