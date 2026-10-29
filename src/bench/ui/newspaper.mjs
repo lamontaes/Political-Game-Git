@@ -1,3 +1,4 @@
+/* global document */
 // The newspaper: the menu type of News. The sheet is the paper itself (owner, Oct 28,
 // point 25: "the page, the type, the columns, every story on it"): a front page per
 // outlet (its masthead, the dateline, the lead story with its text and photo, the next
@@ -141,14 +142,18 @@ export function newspaperScreen({
     // record rows with kinds and series names are not printed.
     // The lead is the story with the most to print (the paper's written
     // story before a one-line notice); the rest keep their order, newest first.
-    const lead = outlet.stories.includes(opened)
+    // Side stories (the words engine's `brief`): a line or two, set in a side column,
+    // never opened as a story.
+    const side = outlet.stories.filter((story) => story.brief);
+    const front = outlet.stories.filter((story) => !story.brief);
+    const lead = front.includes(opened)
       ? opened
-      : outlet.stories.reduce(
+      : front.reduce(
           (best, story) =>
             best && told(best).length >= told(story).length ? best : story,
           undefined,
         );
-    const rest = outlet.stories.filter((story) => story !== lead);
+    const rest = front.filter((story) => story !== lead);
     const withText = rest.filter((story) => told(story).length);
     const briefs = rest.filter((story) => !told(story).length);
     const storyBlock = (story, className) => {
@@ -204,6 +209,27 @@ export function newspaperScreen({
                 "div",
                 { className: "paper-column" },
                 ...withText.map((story) => storyBlock(story, "second")),
+              ),
+            ]
+          : []),
+        ...(side.length
+          ? [
+              el(
+                "aside",
+                { className: "paper-side" },
+                ...side.map((story) =>
+                  el(
+                    "article",
+                    { className: "paper-story side" },
+                    el("h4", {
+                      className: "side-headline",
+                      textContent: headlineOf(story),
+                    }),
+                    ...told(story).map((line) =>
+                      el("p", { className: "story-text", textContent: line }),
+                    ),
+                  ),
+                ),
               ),
             ]
           : []),
