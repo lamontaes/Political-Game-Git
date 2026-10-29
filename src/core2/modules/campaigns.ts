@@ -1306,6 +1306,7 @@ export function askToVolunteer(
  * docs/research/words-scenes-2026-10-26.md section 1): the reasons they would
  * volunteer, with closeness and family counted again, past the manager's own
  * bar. A partner or a best friend clears it where an acquaintance does not.
+ * stopgapId: SG-CAMPAIGN-manager-changes-nothing-yet
  */
 export function managerReason(
   api: CoreAPI,

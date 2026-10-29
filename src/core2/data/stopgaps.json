@@ -7612,5 +7612,17 @@
     "addedAt": "2026-10-29",
     "replacement": "Carry the partnership in the counted household record when the opening generates it, with the day it began, so fill-in reads it instead of inferring it.",
     "status": "open"
+  },
+  {
+    "id": "SG-CAMPAIGN-manager-changes-nothing-yet",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 1310,
+    "whatItFakes": "Someone close who runs a campaign is on its staff, cast as its team in scenes and the one who comes to canvass on election morning, but the campaign runs the same with or without them: the calls, the money and the volunteers' hours do not change.",
+    "why": "The owner asked for the manager as someone you know (Oct 27); what a local campaign's manager changes has not been researched, and no number may be typed for it.",
+    "addedBy": "words-director-one-path",
+    "addedAt": "2026-10-29",
+    "replacement": "Research what a local campaign's manager changes (follow-up calls, the volunteers' hours organized, the calendar kept) and have the campaign engine read staffIds where it decides those.",
+    "status": "open"
   }
 ]
