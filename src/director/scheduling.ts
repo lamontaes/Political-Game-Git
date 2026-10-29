@@ -906,8 +906,7 @@ export function scheduleMoment(
   const stopsDay =
     moment.selfNamed === true &&
     bindings.some(
-      (row) =>
-        library.types.find((type) => type.key === row.typeKey)?.stopsDay,
+      (row) => library.types.find((type) => type.key === row.typeKey)?.stopsDay,
     );
   const interrupt =
     bindings.length > zero &&
