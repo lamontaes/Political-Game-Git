@@ -906,6 +906,41 @@ export function townOutlet(api: CoreAPI): OutletRow | null {
   );
 }
 
+/**
+ * How many of a place's own local newspapers have closed: the outlets of kind
+ * newspaper recorded for it whose business book in the finance ledger carries
+ * a closing date (the owner's choice to close it, or a forced closure), and
+ * the outlet that closed first as the record the count stands on. Zero while
+ * they all publish. Null where the press keeps no local outlet for the place
+ * (no press installed, or a place whose outlets the world does not model), so
+ * a place with no record is not read as one with no closures. The outcome web
+ * reads this as `press.local-newspaper`.
+ */
+export function closedNewspapers(
+  api: CoreAPI,
+  placeId: string,
+): { count: number; recordId: string | null } | null {
+  const local = outletsHere(api).filter(
+    (o) => o.tier !== "national" && o.placeId === placeId,
+  );
+  if (!local.length) return null;
+  const closed = local
+    .filter(
+      (o) =>
+        o.kind === "newspaper" &&
+        api.state.finance.businesses.get(o.organizationId)?.closedAt,
+    )
+    .sort(
+      (a, b) =>
+        api.state.finance.businesses
+          .get(a.organizationId)!
+          .closedAt!.localeCompare(
+            api.state.finance.businesses.get(b.organizationId)!.closedAt!,
+          ) || a.id.localeCompare(b.id),
+    );
+  return { count: closed.length, recordId: closed[0]?.id ?? null };
+}
+
 function scheduleWeek(api: CoreAPI, from: string): void {
   const date = addDays(makeIsoDate(from), 7);
   api.moduleCalendar(PRESS_MODULE_ID).schedule({

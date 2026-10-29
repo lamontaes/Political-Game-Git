@@ -315,6 +315,17 @@
         "citation": "U.S. Census Bureau, Voting and Registration in the Election of November 2024 (P20-590, https://www2.census.gov/library/publications/2026/demo/p20-590.pdf), table 2: 23,540 thousand voted of 46,380 thousand citizens ages 18 to 29.",
         "estimatedFrom": "Computed from the table's counts for ages 18 to 29, because its age rows begin at 18 to 29; the link is researched for ages 18 to 24. Every place starts from the national figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
       }
+    },
+    "voting.local-turnout": {
+      "scale": "share",
+      "unit": "percent of registered voters who voted in the most recent mayoral election",
+      "national": 37.1,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-01",
+        "citation": "Zoltan Hajnal and Avi Green, Big Cities - Tiny Votes? America's Urban Voter Turnout (Yankelovich Center for Social Science Research, December 2024, https://yankelovichcenter.ucsd.edu/_files/reports/Big-Cities-Tiny-Votes.pdf): \"Across the 50 cities, mayoral turnout averages only 37.1 percent\" of registered voters in each city's most recent mayoral election.",
+        "estimatedFrom": "The average of the 50 largest cities' most recent mayoral elections, as a share of registered voters; towns and counties differ, and off-cycle elections average 26.2 percent in the same report. Every place starts from this figure; no place-level series is recorded, so each starts at the national level and the web moves it from there."
+      }
     }
   },
   "engineMeasures": {
@@ -449,6 +460,13 @@
       "owner": "OPUS-GOV",
       "record": "the town's share of the higher education line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
       "reader": "budget-line-added:higherEducation",
+      "field": "",
+      "unitScale": 1
+    },
+    "press.local-newspaper": {
+      "owner": "OPUS-PEOPLE",
+      "record": "the press module's outlets table: how many of the town's own local newspapers have closed (their business books in the finance ledger carry a closing date), counted; zero while they all publish",
+      "reader": "newspapers-closed",
       "field": "",
       "unitScale": 1
     }

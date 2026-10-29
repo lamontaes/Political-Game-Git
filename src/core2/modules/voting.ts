@@ -86,6 +86,7 @@ import {
   specialContestFor,
   ELECTIONS_MODULE_ID,
   ballot,
+  isLocalFamily,
   registerWardResidency,
   keepPetitionCheck,
   openPetition,
@@ -1290,6 +1291,8 @@ function decideTurnout(
     readonly extraCost: number;
     readonly contacts: number;
     readonly recordedWeeklyMinutes?: number;
+    /** Whether the day's ballot carries a local race (the web's local-turnout links move it). */
+    readonly local?: boolean;
   },
 ): TurnoutDecision {
   const map = decisions.get(api.state) ?? new Map<string, TurnoutDecision>();
@@ -1326,7 +1329,13 @@ function decideTurnout(
   };
   const web =
     who.placeId && who.birthDate
-      ? turnoutWeb(api, who.placeId, ageOnElection(who.birthDate, input.date))
+      ? turnoutWeb(
+          api,
+          who.placeId,
+          ageOnElection(who.birthDate, input.date),
+          undefined,
+          input.local ?? false,
+        )
       : null;
   const propensity = Math.min(1, propensityOf(parts) * (web ? web.factor : 1));
   // The audit's probe (off in play) sees the propensity with and without the trait term.
@@ -1560,6 +1569,7 @@ export function holdPrimary(
         interest: interestOf(appeal),
         extraCost,
         contacts: contactsOf(api, voter.id, candidates),
+        local: isLocalFamily(contest.family),
       });
       if (!t.votes) continue;
       const choice = field.some((f) => f.personId === voter.id)
@@ -1606,6 +1616,7 @@ export function holdPrimary(
         extraCost,
         contacts: reached,
         recordedWeeklyMinutes: voter.weeklyMinutes,
+        local: isLocalFamily(contest.family),
       });
       const choice = countedChoice(appeal);
       // A record stands for `weight` real voters like it (one model, two tiers).
@@ -1753,6 +1764,8 @@ export function turnoutOn(
   api: CoreAPI,
   voter: Readonly<Pick<PersonState, "id" | "traits">>,
   appeal: Readonly<Record<string, { readonly total: number }>>,
+  /** Whether the question is a local one (a recall of a town seat), which the web's local-turnout links move. */
+  local = false,
 ): TurnoutDecision {
   const date = api.state.date;
   return decideTurnout(api, voter, {
@@ -1760,6 +1773,7 @@ export function turnoutOn(
     interest: interestOf(appeal),
     extraCost: cycleTurnout(date).cost,
     contacts: 0,
+    local,
   });
 }
 
@@ -1944,6 +1958,8 @@ function atThePolls(
       ? contactsOf(api, voter.id, candidates)
       : townContacts(api, date, candidates),
     ...(recordedWeeklyMinutes === undefined ? {} : { recordedWeeklyMinutes }),
+    // One trip to the polls covers the whole ballot: a local race on it counts.
+    local: races.some((race) => isLocalFamily(race.contest.family)),
   });
 }
 

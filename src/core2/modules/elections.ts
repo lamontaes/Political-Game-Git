@@ -48,6 +48,11 @@ import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
 export { officeFamily, type OfficeFamily };
+
+/** Whether a race is the town's own or its county's: the local races that local-turnout readings and the web's local-turnout links cover. */
+export function isLocalFamily(family: OfficeFamily): boolean {
+  return family === "municipalOffice" || family === "countyOffice";
+}
 /** This world's swing from 2024, for the engines outside elections that read a place's lean. */
 export {
   publishedSenateSeats,

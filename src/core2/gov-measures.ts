@@ -32,6 +32,7 @@ import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
+  isLocalFamily,
   type ContestRow,
 } from "./modules/elections";
 import { VOTING_MODULE_ID, resultOf, type ResultRow } from "./modules/voting";
@@ -190,11 +191,7 @@ export function govMeasure(api: CoreAPI, measure: string): number | null {
         : null;
     }
     case "voting.local-turnout": {
-      const race = decided(api).find(
-        (r) =>
-          r.contest.family === "municipalOffice" ||
-          r.contest.family === "countyOffice",
-      );
+      const race = decided(api).find((r) => isLocalFamily(r.contest.family));
       if (!race) return null;
       const eligible = race.result.namedEligible + race.result.countedEligible;
       return eligible > 0
