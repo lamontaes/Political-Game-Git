@@ -1721,7 +1721,11 @@ async function showPerson(person) {
         c.shared?.length && {
           title: labels.together,
           items: c.shared.map((s) => {
-            const line = row(labels.sharedWords?.[s.kind], s.name ?? "");
+            // A tie with no name to give (living in the same home) is a plain line,
+            // never a label with nothing beside it.
+            const line = s.name
+              ? row(labels.sharedWords?.[s.kind], s.name)
+              : prose(labels.sharedWords?.[s.kind] ?? "");
             line.dataset.record = s.recordId;
             return { node: line };
           }),
