@@ -6,7 +6,6 @@
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { listRow } from "./list-row.mjs";
-import { menuPages } from "./pager.mjs";
 import { dateWords, monthWords } from "../../english/plain-words.mjs";
 
 // The icon each kind of dated thing shows on its day.
@@ -89,8 +88,7 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
     return row;
   };
   // Coming up lists the player's own dates first, then everything else by
-  // date; a chosen day lists that day. The list fills the side and pages.
-  const PAGE = 10;
+  // date; a chosen day lists that day. The list fills the side and scrolls.
   const ahead = items
     .filter((i) => i.date >= date)
     .toSorted(
@@ -117,10 +115,7 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
     const list = el(
       "div",
       { className: "calendar-list" },
-      menuPages(
-        rows.map((item) => entryRow(item, !day || item.date !== selected)),
-        PAGE,
-      ),
+      ...rows.map((item) => entryRow(item, !day || item.date !== selected)),
     );
     side.replaceChildren(
       head,

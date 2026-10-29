@@ -20,7 +20,7 @@ The CTO keeps the work moving and the owner informed. Whoever the owner appoints
 
 ## The pass
 
-Run it when the role starts, every two hours while it runs, when the owner asks "where are we", and after every usage reset. Sessions never message each other (`how-we-talk`); the pass is reading three files and writing two.
+Run it when the role starts, every two hours while it runs, when the owner asks "where are we", and after every usage reset. Sessions message the CTO, the CTO messages them, and sessions whose work meets message each other (owner, Oct 29; `how-we-talk`, `docs/coordination/CREW.md`); the files stay the record, so the pass is still reading three files and writing two, plus keeping CREW.md current whenever a session starts or stops.
 
 ```
 - [ ] `docs/play-first/PROGRESS.md` first: newest handoff lines, `needs-from:` lines to turn into pool items with `lead:` set, items stuck past 3 hours
@@ -40,7 +40,7 @@ Run it when the role starts, every two hours while it runs, when the owner asks 
 - [ ] Act, then write the CTO block on the channel (commit to main: `leads: cto status <time>`), then report
 ```
 
-The CTO merges only its own docs, skill and pool PRs; mergers merge everything else, and the CTO audits them. Shared files (`OWNER-DECISIONS.md`, the channel, `MERGE-FIRST.md`, pool status) go to main directly; everything else goes on a branch.
+The CTO merges only its own docs, skill and pool PRs, and every session's `skills:` PR; mergers merge everything else, and the CTO audits them. A skills-only PR (skill files, their mirror, the AGENTS.md list line, an `impact: none` declaration, dev-only scripts) merges at once without waiting on CI (owner, Oct 29: "You shouldn't need to wait for checks to pass on new skills"): merge main into it, run `npx vitest run scripts/skill-ops/skill-ops.test.ts` for the mirror and the list, and merge. Shared files (`OWNER-DECISIONS.md`, the channel, `MERGE-FIRST.md`, pool status) go to main directly; everything else goes on a branch.
 
 ## Who does what
 
@@ -73,11 +73,25 @@ Follow `civic-reports`:
 
 Write one section at the top of `OWNER-DECISIONS.md` headed "Acting CTO, <date>": the rulings recorded, PRs merged and sent back, items added, sessions running, and anything half done. Write a last CTO block on the channel. Then stop.
 
+**Handing the role to another account (owner, Oct 29):** write `docs/coordination/CTO-HANDOFF-<date>.md` (the newest is the one to read) with: every line and its last block, branch and item; open PRs by owner; items claimed or in-pr with their branches; the scheduled tasks on the old account (disabled, since they cannot fire into another account); the environment and secrets the new account needs (the `OCD` cloud environment or one like it, `RELEASE_PUSH_TOKEN` as a repository secret, branch protection requiring `validate` and `golden-path`); and the first three things to start. Stop every cloud session on the old account with a stop order that makes each push its branches, set its item back to open with a Notes line, and post a final block; archive them after the blocks land. Disable the old account's scheduled tasks. The new CTO starts from the handoff file, the channel and `OWNER-DECISIONS.md`, never from a chat summary.
+
+## What the role learned, Oct 27 to 29
+
+- **A red on main has one owner every hour** (owner, Oct 28): the merger whose merge turned it red for the first hour, then a standing red-main session with its own channel section. Read every workflow on main, not only Release.
+- **Restart a line the hour its box ends.** A session that sets its item back to open is not a decision to stop the line; the next CTO pass starts a fresh session on the same item unless the owner said stop. Three lines sat idle for five hours on Oct 28 because the CTO waited for the owner's word.
+- **Family batches** (owner, Oct 28): matrix lines (laws, links, traits, statistics, producers, screen points) ship one PR per family with one drawn-place proof, two Sonnet helpers per lead each on a family in its own worktree. One PR per unit stays for a finished scene, screen or law that stands alone.
+- **Sessions stall on permission prompts and nobody sees it.** A cloud session that calls a scheduling tool (`send_later`, `CronCreate`), edits anything under `.git/`, or reaches outside its container waits for the owner's tap for hours. Every brief says never to; the pass checks `list_sessions` for `REQUIRES_ACTION` and clears it with `interrupt_session` plus a message.
+- **A usage reset does not resume sessions.** After a limit, every session reads `FAILED` or idle; the pass sends each one "continue where you left off" by message. Scheduled tasks never deliver into a session limited to trusted devices.
+- **The CI queue is a throttle at thirty merges an hour.** Main's full validation runs hourly, not per push (#6692); cancel queued runs on superseded commits; dispatch the package workflow by hand when the clock skips, and a run's publish step can sit queued for hours behind PR runs.
+- **A tooling PR that unblocks everything (the pool flip, the CI queue) with every check green but main's own red is merged by the CTO under the owner's standing approval** when it has waited more than four hours on a merger; say so in the next report. Nobody merges their own feature PR.
+- **The owner's voice notes are saved word for word** under `docs/coordination/voice-notes/` before anyone acts on them; a plan or a brief about words and scenes reads them, not a summary.
+- **Dispatch the Mac build by hand at the end of a sitting** so what he saw fixed is in the next build he opens.
+
 ## The prompt
 
 > Read AGENTS.md and .agents/skills/cto/SKILL.md in lamontaes/Political-Game-Git. You are the acting CTO until the owner says otherwise.
 > Run the pass in that skill: docs/play-first/PROGRESS.md, then the channel docs/coordination/LEADS-2026-10-24.md, then rewrite docs/coordination/MERGE-FIRST.md, then merges, mergers, leads and the pool.
-> Sessions never message each other; the three files on main are how we talk (.agents/rules/how-we-talk.md). Write your CTO block on the channel at the end of every pass.
+> Sessions message the CTO, the CTO messages them, and sessions whose work meets message each other (owner, Oct 29; docs/coordination/CREW.md); the three files on main stay the record (.agents/rules/how-we-talk.md). Write your CTO block on the channel at the end of every pass.
 > Record every owner ruling in OWNER-DECISIONS.md the same hour; rule what a standing rule answers; simulate it, don't ask.
 > Report to the owner the way civic-reports says, the play-first lane first.
 > In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.

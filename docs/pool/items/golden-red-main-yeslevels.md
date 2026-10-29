@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: golden/red-main-yeslevels
 pr: #6507
 blocked-on:
@@ -30,3 +30,5 @@ claimed-at: 2026-10-28T03:15:18.117Z
 **Files.** src/core2/law-reach/group-a-bargaining.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): done; PR #6507 closed unmerged because main already imports yesLevels from the laws module in the bargaining reader (src/core2/law-reach/group-a-bargaining.ts line 38).

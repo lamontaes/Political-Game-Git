@@ -8,12 +8,6 @@
       "stopgapId": "SG-WEB-crime-justice-links-unread"
     },
     {
-      "link": "pretrial-detention-to-employment",
-      "outcome": "labor.formal-employment",
-      "reason": "no measure: the web does not keep labor.formal-employment and no engine produces it; nothing in the core records its cause, justice.pretrial-detained",
-      "stopgapId": "SG-LABOR-pretrial-employment"
-    },
-    {
       "link": "release-lower-level-to-larceny",
       "outcome": "crime.property",
       "reason": "the web does not run it: it waits on law.low-level-offense-reclassified; nothing in the core records its cause, law.low-level-offense-reclassified",
@@ -348,12 +342,6 @@
       "outcome": "school.reading-proficient-pct",
       "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-school-reading-proficient-pct"
-    },
-    {
-      "link": "defense-contracts-to-earnings",
-      "outcome": "labor.median-earnings",
-      "reason": "the web does not run it: it waits on federal.defense-boost-pct",
-      "stopgapId": "SG-LABOR-defense-cause"
     },
     {
       "link": "farm-payments-cut-to-land-values",

@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** TODO
 
 Oct 29 00:40 UTC (laws session): evidence. Red again on clean main (dfcfc8691d) with PUBLIC_FINANCE_SEED=90a0a7a5c5c3738a: Gallipolis Ferry, West Virginia (5429716, US-WV), place seed 3809cf3e584e286967cdccca1a1117165adf9be619e6881895a94a97ff630dbf, "a stopped head the law still reaches: expected 0 to be greater than 0". It turned the unit run of PR 6708 red.
+
+Oct 29 18:45 UTC (laws lead): evidence. Red again on clean main with the SNAP case of outcome-web-public-finance.test.ts and seed 38f268298f94fbde (Washington, D.C.): "a stopped head the law still reaches", expected 0 to be greater than 0. Found by the crime and justice helper, which ran main's version of the file on the same seed.

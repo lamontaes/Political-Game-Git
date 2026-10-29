@@ -300,6 +300,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WORDS-param-directorTalkSeenLittleDays",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How many days since two people last spent time together before one may say they have not seen much of the other.",
+    "why": "A reading of the line in play (Amanave, American Samoa, Oct 29, 2026: \"since yesterday\"), not a measured quantity; a week is a guess checked against played household talks.",
+    "addedBy": "OPUS-WORDS",
+    "addedAt": "2026-10-29",
+    "replacement": "A tested calibration against played household talks, or an owner answer.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORDS-param-directorTalkAddressImpact",
     "kind": "uncalibrated-tunable",
     "file": "src/director/data/director.json",

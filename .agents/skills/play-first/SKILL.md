@@ -26,7 +26,7 @@ The owner, on the installed Mac build, from **New game → Start a life** in a d
 
 ## Start
 
-1. Read `AGENTS.md`, then `docs/play-first/README.md`, `LAW.md`, `ORDER.md` and `PROGRESS.md`, then the CTO section of the channel `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`: sessions never message each other; three files on main carry everything).
+1. Read `AGENTS.md`, then `docs/play-first/README.md`, `LAW.md`, `ORDER.md` and `PROGRESS.md`, then the CTO section of the channel `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`: message the CTO with questions for the owner, and the session whose work meets yours in `docs/coordination/CREW.md` before building in its area, owner Oct 29; three files on main stay the record).
 2. Take the first line of `ORDER.md` that `PROGRESS.md` does not show as done or as pushed in the last 3 hours, and whose item's `after:` items are done. Never work a blocked parent; work its `-a` or `-b`.
 3. Claim it: `node --import tsx scripts/pool/index.ts claim <id> --branch play-first/<id>`. Taking over an older handoff: claim with that branch, check it out, `git merge origin/main`.
 4. Read the item file: What, Rules (the `LAW.md` sections it serves), Done when, Time box, You will see, Screenshot, Files, Notes.

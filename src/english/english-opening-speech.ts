@@ -14,7 +14,7 @@
  * into a move for `composeAddress`. It holds no sentence and no order.
  */
 import bankJson from "../../data/english/parts/opening-speech.json" with { type: "json" };
-import { admittedParts, type BankPart } from "./bank-parts";
+import { admittedParts, directorSlots, type BankPart } from "./bank-parts";
 import type {
   AddressMove,
   ComposedLineBank,
@@ -67,11 +67,6 @@ const ACTS: Readonly<Record<string, SpeechAct>> = {
   close: "farewell",
 };
 
-/** `{unemployment-rate}` becomes the renderer's `{{unemployment-rate}}`. */
-function engineText(text: string): string {
-  return text.replace(/\{([\w-]+)\}/g, (_all, slot: string) => `{{${slot}}}`);
-}
-
 /** The pieces of one role, in one voice, for one kind of address. */
 function variantsFor(
   kind: OpeningSpeechKind,
@@ -92,7 +87,7 @@ function variantsFor(
     return {
       key: part.key,
       kind: "template" as const,
-      text: engineText(part.text),
+      text: directorSlots(part.text),
       pieceKey: part.key,
       ...(part.bearing ? { bearing: part.bearing } : {}),
       ...(part.stages ? { stages: part.stages } : {}),

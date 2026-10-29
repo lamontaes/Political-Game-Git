@@ -435,6 +435,13 @@
       "field": "",
       "unitScale": 1
     },
+    "federal.defense-boost-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the federal budget row's national defense line in force (the budgets module), above its base as a share of the base, times the state's fiscal 2024 defense contracts per resident over its output per resident (data/research/federal/defense-contracts-by-state-fy2024.json), as a percent of what the state produces",
+      "reader": "defense-boost-pct",
+      "field": "",
+      "unitScale": 1
+    },
     "program.snap-maximum-change-pct": {
       "owner": "OPUS-GOV",
       "record": "the SNAP one-person maximum allotment in force (the federal snap-maximum law row), against the one in force at the opening, as a percent",
@@ -467,6 +474,13 @@
       "owner": "OPUS-PEOPLE",
       "record": "the press module's outlets table: how many of the town's own local newspapers have closed (their business books in the finance ledger carry a closing date), counted; zero while they all publish",
       "reader": "newspapers-closed",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.naturalResources-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the natural resources line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:naturalResources",
       "field": "",
       "unitScale": 1
     }
