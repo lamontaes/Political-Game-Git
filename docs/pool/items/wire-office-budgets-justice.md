@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 1
 size: L
-status: in-pr
+status: done
 claimed-by: claude/wire-office-2
 pr: #6691
 blocked-on:
