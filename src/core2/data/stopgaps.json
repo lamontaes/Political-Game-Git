@@ -7690,5 +7690,29 @@
     "addedAt": "2026-10-29",
     "replacement": "Carry the partnership in the counted household record when the opening generates it, with the day it began, so fill-in reads it instead of inferring it.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-threat-from-circle",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 3299,
+    "whatItFakes": "A world candidate with no poll of their own reads where their race stands, once word of a rival's message has reached them (a rivalWord row), as the share of the people they know in town who have heard of that rival against the share who have heard of them: their circle's actual recognition of both, not what those people said to the candidate.",
+    "why": "The campaigns engine keeps who told a candidate of a rival's message, but no record of what the people a candidate talks to say about the race; the circle's recognition is the nearest existing record of what reaches a candidate through them.",
+    "addedBy": "governing/incumbent-response (Claude)",
+    "addedAt": "2026-10-29",
+    "replacement": "A record of what the people a candidate talks to tell them about the race (who they have heard of, who they lean to), read by raceReading in place of the circle's recognition.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-stepped-up-unread",
+    "kind": "missing-reader",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 3547,
+    "whatItFakes": "A world candidate who campaigns harder because they know a rival stands ahead (an incumbent coming home to campaign) is kept as a steppedUp row and a campaign-stepped-up event, and the extra doors and hours reach voters, but no scene, journal line or news story tells it yet.",
+    "why": "The words session writes the director's scenes from records the engines keep; the record lands first so the scene can name it by id.",
+    "addedBy": "governing/incumbent-response (Claude)",
+    "addedAt": "2026-10-29",
+    "replacement": "The director's scene or news line of a candidate stepping up their campaign, read from the campaign-stepped-up event and its steppedUp row by id (words session).",
+    "status": "open"
   }
 ]

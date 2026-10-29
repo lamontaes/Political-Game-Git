@@ -156,6 +156,12 @@
       "source": "How far a candidate's own inclination to campaign slides their door hours around the base, as a share of it: at 0.5 the least campaign-minded walks half the base hours and the most walks one and a half times. Below 1 so that no one's hours reach zero.",
       "spread": [0.25, 0.75]
     },
+    "rivalThreatWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much harder a world candidate campaigns the further a rival stands ahead of them in what they know of the race (the rival's share minus their own, in their own latest poll, else among the people they know in town once word of the rival reached them): added to the pull of the doors and of an evening event, and to the share of the day's base hours they put in, so at the value 1 a candidate who knows they trail by a fifth of those asked puts in a fifth of their base hours more; and how far it pulls one who lives outside the town home to its doors. The direction is sourced, the size is not: 'incumbents who are vulnerable spend more than incumbents whose seats are safe' (Bardwell 2005, 'Reevaluating Spending in Gubernatorial Races', Political Research Quarterly 58(1): 97-105, after Green and Krasno 1990). To be checked against the share of incumbents in played worlds who step up when a challenger gains (the campaigns engine's steppedUp rows); src/core2/campaign-incumbent-response.test.ts shows the direction.",
+      "spread": [0.5, 2]
+    },
     "minimumVolunteerAge": {
       "value": 16,
       "tag": "ESTIMATED",
