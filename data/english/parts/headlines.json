@@ -5911,6 +5911,48 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.unfilled.no-one-runs-for-office",
+      "move": "unfilled",
+      "kind": "written",
+      "text": "No one runs for {office}",
+      "uses": [
+        {
+          "move": "unfilled",
+          "subject": "headline",
+          "role": "unfilled",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.unfilled.office-race-draws-no-candidates",
+      "move": "unfilled",
+      "kind": "written",
+      "text": "{office} race draws no candidates",
+      "uses": [
+        {
+          "move": "unfilled",
+          "subject": "headline",
+          "role": "unfilled",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

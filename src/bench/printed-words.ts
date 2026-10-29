@@ -933,6 +933,14 @@ const electionResult: Builder = (read, f) => {
   } catch {
     totals = {};
   }
+  // Nobody filed: the count names no winner and no votes.
+  if (!f.winnerId && !Object.keys(totals).length)
+    return story(
+      "unfilled",
+      f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {},
+      ["office"],
+      f.contestId,
+    );
   const rival = Object.entries(totals)
     .filter(([id]) => id !== f.winnerId && read.name(id))
     .sort((a, b) => b[1] - a[1])[0]?.[0];
