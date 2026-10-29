@@ -5,7 +5,7 @@ area: art
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: dropped
 claimed-by: claude/people-pack-v3
 pr: #6778
 blocked-on:
@@ -36,3 +36,5 @@ claimed-at: 2026-10-29T16:18:04.410Z
 **Notes.** The CTO keeps adding mannequin plates (golden path first) and the six second faces as rows; nothing in code should change for either.
 
 - 2026-10-29 (claude/people-pack-v3, last sha 11d05efe1a): in PR #6778, ready, waiting on the owner's visual check; not merged. Art owed as data: man-heavy address and desk figures; furniture-only front masks for the seven dropped spots; everyday figures for every pose.
+
+Oct 29 (CTO): dropped, superseded by `people-pack-v4` (owner: "I can ignore V3 because V4 changes how... there's going to be some standardized angles for people to slot into"). #6778 closed unmerged; its loader, staging, face crops, creator, measure-hands script and the v1/v2 deletions carry into the v4 PR on the same branch line.
