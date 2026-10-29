@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 83 of 89 (2 partly, 4 on a stopgap). Research links reaching people or carried by an engine: 161 of 244 (19 the research finds about zero, 64 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
+Laws wired: 84 of 89 (2 partly, 3 on a stopgap). Research links reaching people or carried by an engine: 162 of 245 (19 the research finds about zero, 64 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
@@ -87,7 +87,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | ban discrimination in housing and work       | rights             | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | dedicated parks funding                      | rights             | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | restrict abortion                            | rights             | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
-| age verification for social media            | technology         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
+| age verification for social media            | technology         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | restrict government facial recognition       | technology         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | consumer data privacy law                    | technology         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | limit groundwater withdrawal                 | agriculture        | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
@@ -199,10 +199,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - reach: term limits bind legislators at the filing check, and every officeholder and candidate is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach; the full people it reached are named in the evidence
 - money: term limits bar a legislator who has served the limit from filing again; the statute charges, pays and taxes no one, so no money flows because of it
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-
-**age verification for social media** (`us-policy-positions:technology-privacy.age-verification-for-social-media`)
-
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure youth social media use and mental health (SG-LAW-outcome-link-unresearched)
 
 **consumer data privacy law** (`us-policy-positions:technology-privacy.consumer-data-privacy-law`)
 
