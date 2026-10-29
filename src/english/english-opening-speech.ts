@@ -21,6 +21,7 @@ import type {
   LinePartVariant,
   SpeechAct,
 } from "./english-composition";
+import type { SpeechDevice } from "./speech-registers";
 
 interface OpeningPart extends BankPart {
   /** The speaker's manner this wording is for. */
@@ -31,6 +32,8 @@ interface OpeningPart extends BankPart {
   topic?: string;
   /** The Speaker's gender the salutation is for (`chair-male`, `chair-female`). */
   stages?: string[];
+  /** The crafted device the sentence makes, earned by the speaker's addresses. */
+  device?: SpeechDevice;
 }
 export const OPENING_SPEECH_BANK = bankJson as unknown as {
   parts: OpeningPart[];
@@ -93,6 +96,7 @@ function variantsFor(
       pieceKey: part.key,
       ...(part.bearing ? { bearing: part.bearing } : {}),
       ...(part.stages ? { stages: part.stages } : {}),
+      ...(part.device ? { device: part.device } : {}),
       ...(requires.length ? { requiresFacts: requires } : {}),
     };
   });
