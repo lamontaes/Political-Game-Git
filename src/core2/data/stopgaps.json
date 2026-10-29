@@ -1262,7 +1262,7 @@
     "id": "SG-GOV-group-endorsement-stance",
     "kind": "estimated-rule",
     "file": "src/core2/modules/campaigns.ts",
-    "line": 3087,
+    "line": 3235,
     "whatItFakes": "What an organization stands for when it weighs a candidate for endorsement is read from the little its engine keeps: a cause group's topic, for it unless its founder's drive wants a repeal (a desired change like building a park or cutting a hazard counts as for); an employers' group formed over a wage bill states nothing, so it endorses no one; a party chapter holds its lean along the 54 platform questions only, so a budget-line plank weighs nothing with it. Only a group's full members hear its endorsement and are asked to volunteer; counted residents who hold the same cause are not reached.",
     "why": "No group engine yet writes a group platform (a candidate questionnaire, a slate of positions) or keeps the question an employers' wage group argued, and groups enlist only full people.",
     "addedBy": "governing/campaign-group-endorsements",
