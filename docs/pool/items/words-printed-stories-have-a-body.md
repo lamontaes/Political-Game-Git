@@ -6,9 +6,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: words/printed-bodies-2
-pr:
+pr: #6800
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-29T19:21:37.381Z

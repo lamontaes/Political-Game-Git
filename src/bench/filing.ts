@@ -185,13 +185,14 @@ export function openBenchFilingVisit(
       reason: "clerk",
     });
   }
+  const backdrop = backdropFor(core, place, minuteOfDay);
   return {
     visit,
     filedWith,
     place,
     intro: clerkRow ? counterNarration(core, visit, clerkRow) : [],
-    backdrop: backdropFor(core, place, minuteOfDay),
-    people: stagePeople(core, place, cast).people,
+    backdrop,
+    people: stagePeople(core, backdrop.file, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
     seats,
   };
