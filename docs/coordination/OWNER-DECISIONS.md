@@ -6,6 +6,24 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 16:30 UTC: the second account's first sitting with the new CTO (owner, about 12:10 PM Eastern, after playing v0.64.0)
+
+- **The CTO on the second account** is the session "CTO handoff documentation"; it started from `CTO-HANDOFF-2026-10-29.md`.
+- **Early access is not the CTO's subject (owner: "stop asking about early access. It literally doesn't matter for you").** The CTO never raises early access, its date or readiness for it in a report or a question. Nothing is planned against the roadmap's Oct 30 line.
+- **The crew, smaller for now (owner: "I approve the smaller crew for now").** Supersedes the Oct 26 counts (five or six mergers, one or two fixers) while it holds:
+  - **Words, scenes and the director:** the owner's own session "Political Game words orders" (owner: "That's what the one I want to take the scene/director/words"). It owns `words-director-one-path`, `src/director`, `src/english` and `data/english`; no other session claims words or director items. Lane PRs may still touch those files with `Review: words`.
+  - **People:** one Opus session on `people-pack-v3`, from the brief the owner's art session wrote (owner, via that session: "i want the v2 figures removed completely and these put in the game... make it to where these can be updated very easily"). Its PR merges only after the owner looks (Oct 28 visual-check rule).
+  - **Two Sonnet mergers** (even and odd PR numbers), **one Sonnet fixer** on red main (`release-main-red-standing`), **the laws lead** (Opus, two Sonnet helpers) on the five background records, **one Sonnet lane session** on the four points below, and the CTO.
+- **Stale pull requests are closed (owner: "You can close pull requests that aren't relevant anymore").** Standing approval: the CTO closes any open PR that main already carries or a merged change superseded, that the Oct 27 look-first audit marked close, or that is a draft with no push in five days. Each closed PR's item goes back to open with a Notes line naming the branch, so nothing built is lost.
+- **Paperwork current (owner: "I would like you to update all the GitHub and paperwork stuff").** The merge order, the lane order, the pool's stale claims and in-pr items, and the channel are brought current by the CTO.
+- **Steam is the owner's, not the CTO's (owner, about 12:40 PM Eastern: "stop worrying about Steam. That's nothing for you to do. Just remove everything about it... I'll tell you when Steam is ready... you have nothing to do with it").** No session plans, prepares, asks about or reports on Steam, the store page or its assets until the owner says Steam is ready. `release-m7-06-steam` stays as it was (blocked, priority 3).
+- **Playtests are the owner's (owner: "I'll do the playtest, but I did enough now").** No cloud playtest unless he asks.
+- **From his play of v0.64.0:**
+  - Continue and Back: "I said continue and back, needs to be removed from every single menu" (third time; Oct 28 sitting point 22). Item `play-menus-no-continue-back`.
+  - News: "when you click continue and back, it's like headlines and then a little bit of story. Nothing is actually on the paper." Item `play-news-paper-prints-the-stories` (the screen side); the words side stays on `words-printed-stories-have-a-body`.
+  - Faces: "It shouldn't take 5 seconds after you open a menu for it to load. It should be there instantly." Item `play-faces-show-the-moment-a-menu-opens`, after `people-pack-v3`.
+  - Profiles: "nobody has any record. I still don't see anybody's history being simulated when you open their profiles." Item `play-person-history-for-everyone-you-open`; `screens-person-history` merged Oct 28 shows history only to family and ties, from facts drawn at the start.
+
 ## Oct 29, 02:35 UTC: the opening, the President's speech, the people poses and location variance (owner, 10:30 PM Eastern, four inline answers)
 
 - **The opening is the montage with the key people inside it.** The address plays like a broadcast; the cutaways alternate the President working (the colonnade, the Oval Office window, writing at the Resolute desk) with America (people along a route, people pausing where they are). When the speech's subject turns to them, the Vice President, Congress and the player's governor with a few state legislators appear, each named by office as the camera passes. It ends at home with the partner's "Did you see the President's speech?". This joins the Oct 14 sequence (OD:301) and the Oct 28 montage (WANTED cto-28, cto-29); neither is dropped.
