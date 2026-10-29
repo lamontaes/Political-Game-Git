@@ -213,10 +213,49 @@ export function pickContest(
 
 /**
  * What the clerk says about the race, in order: the office, the dates, the
- * term, the work. The petition's signature count waits on its record.
- * stopgapId: SG-WORDS-clerk-petition-awaits-record
+ * term, the work.
  */
 const RACE_MOVES = ["tell-running", "tell-dates", "tell-term", "tell-duty"];
+
+/** A clerk's line of the filing-clerk scene, worded in the clerk's voice. */
+function clerkLine(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  move: string,
+  facts: Readonly<Record<string, Fact>>,
+  momentKey: string,
+  said: Set<string> = new Set(),
+  step: "state" | "narrate" = "state",
+): { text: string; sourceRecordIds: readonly string[] } | null {
+  const speakerId = visit.clerkId ?? visit.playerId;
+  const worded = wordSceneMove({
+    move: {
+      step,
+      move,
+      role: step === "narrate" ? "narrator" : "asker",
+      purpose: "filing-clerk",
+      key: "routine",
+    },
+    facts,
+    seed: core.seed,
+    speakerId,
+    traits:
+      step === "narrate" ? {} : (core.people.get(speakerId)?.traits ?? {}),
+    momentKey,
+    said,
+  });
+  if (!worded || !("text" in worded)) return null;
+  said.add(worded.pieceKey);
+  return {
+    text: worded.text,
+    sourceRecordIds: [
+      ...new Set([
+        ...Object.values(facts).flatMap((fact) => fact.sourceRecordIds),
+        ...worded.slotRecordIds,
+      ]),
+    ],
+  };
+}
 
 function raceTold(
   core: Readonly<CoreState>,
@@ -235,25 +274,103 @@ function raceTold(
   if (contest.kind) facts[`office-${contest.kind}`] = fact("yes");
   const said = new Set<string>();
   return RACE_MOVES.flatMap((move) => {
-    const worded = wordSceneMove({
-      move: {
-        step: "state",
-        move,
-        role: "asker",
-        purpose: "filing-clerk",
-        key: "routine",
-      },
+    const line = clerkLine(
+      core,
+      visit,
+      move,
       facts,
-      seed: core.seed,
-      speakerId: visit.clerkId ?? visit.playerId,
-      traits: core.people.get(visit.clerkId ?? visit.playerId)?.traits ?? {},
-      momentKey: `${visit.playerId}:${core.date}:${contest.id}:${move}`,
+      `${visit.playerId}:${core.date}:${contest.id}:${move}`,
       said,
-    });
-    if (!worded || !("text" in worded)) return [];
-    said.add(worded.pieceKey);
-    return [
-      { text: worded.text, sourceRecordIds: [...ids, ...worded.slotRecordIds] },
-    ];
+    );
+    return line ? [line] : [];
   });
+}
+
+/** The petition the elections engine opened with a filing: its signatures and the day they are due. */
+export interface FilingPetition {
+  id: string;
+  needed: number;
+  due: string;
+}
+
+/**
+ * Once the filing is taken, the clerk says what comes next from the
+ * petition record the elections engine opened with it: the signatures the
+ * place's law asks and the day they are due, or that this office takes no
+ * petition (owner, Oct 28: filing is a petition, signatures, the clerk's
+ * check, then the ballot).
+ */
+export function filedAtCounter(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  petition: FilingPetition | null,
+): FilingVisit {
+  if (!petition) return visit;
+  const fact = (text: string) => ({ text, sourceRecordIds: [petition.id] });
+  const facts: Record<string, Fact> =
+    petition.needed > 1
+      ? {
+          signatures: fact(petition.needed.toLocaleString("en-US")),
+          due: fact(spokenDate(petition.due, core.date)),
+        }
+      : petition.needed === 1
+        ? {
+            "one-signature": fact("yes"),
+            due: fact(spokenDate(petition.due, core.date)),
+          }
+        : { "no-petition": fact("yes") };
+  const line = clerkLine(
+    core,
+    visit,
+    petition.needed > 0 ? "tell-signatures" : "tell-no-petition",
+    facts,
+    `${visit.playerId}:${petition.id}:filed`,
+  );
+  if (line) visit.lines.push({ speaker: "clerk", ...line });
+  return visit;
+}
+
+/**
+ * The narrator's setup at the counter, from the filing-clerk scene's own
+ * narration (the director fires the same scene when a filing is made): who
+ * is behind the counter and what the player came for. The seat is named
+ * only when the counter takes one race, so the line never says a seat the
+ * player did not pick.
+ */
+export function counterNarration(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  clerk: { title: string; recordId: string },
+): { text: string; sourceRecordIds: readonly string[] }[] {
+  const person = visit.clerkId ? core.people.get(visit.clerkId) : undefined;
+  if (!person) return [];
+  const facts: Record<string, Fact> = {
+    name: {
+      text: `${person.givenName} ${person.familyName}`,
+      sourceRecordIds: [person.id],
+    },
+    // A title the record capitalizes only at its start ("County clerk") is said
+    // in running text as a common noun; one with proper names stays as written.
+    post: {
+      text: /^\S+( [a-z]+)*$/.test(clerk.title)
+        ? `${clerk.title.charAt(0).toLowerCase()}${clerk.title.slice(1)}`
+        : clerk.title,
+      sourceRecordIds: [clerk.recordId],
+    },
+  };
+  if (visit.contests.length === 1)
+    facts.office = {
+      text: visit.contests[0]!.title,
+      sourceRecordIds: [visit.contests[0]!.id],
+    };
+  const line = clerkLine(
+    core,
+    visit,
+    "narrate",
+    facts,
+    `counter:${visit.playerId}:${person.id}:${clerk.recordId}`,
+    new Set(),
+    "narrate",
+  );
+  return line ? [line] : [];
 }

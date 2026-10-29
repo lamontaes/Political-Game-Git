@@ -3,6 +3,8 @@
   "register": "scene-talk",
   "description": "Scenes with a purpose (owner, Oct 15, evening): the narrator's setup, the asker's opening and statement of purpose, the player's four replies with their stakes, the asker's answer and the close. Authored to calibrated patterns from ordinary American political and family talk (the text rule, Oct 15); no one's text is copied. Each piece serves every scene with its step and move: each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`. A piece's bearing is the manner of its wording; the speaker's traits pull toward the bearings they favor. The director's exchange engine (src/director/scene-talk.ts) arranges the pieces by src/director/data/purpose-arcs.json.",
   "slots": {
+    "signatures": "The signatures a filing's petition needs, as a number, from the petition record.",
+    "due": "The last day a petition's signatures may be handed in, as people say it, from the petition record.",
     "name": "The other person, by name, from the scene's cast record.",
     "bill": "A bill, by its title, from the legislature record.",
     "section": "A section of the bill, by number, from the bill's provisions.",
@@ -116993,6 +116995,181 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-signatures.now-the-petition-you-need-signatures-signatures-from-voters-here-back-on-my-desk-by-due",
+      "move": "state-tell-signatures",
+      "kind": "spoken",
+      "text": "Now the petition. You need {signatures} signatures from voters here, back on my desk by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-signatures",
+          "role": "asker",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-signatures.you-ll-need-signatures-signatures-by-due-get-a-few-extra-i-strike-the-ones-that-don-t-count",
+      "move": "state-tell-signatures",
+      "kind": "spoken",
+      "text": "You'll need {signatures} signatures by {due}. Get a few extra; I strike the ones that don't count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-signatures",
+          "role": "asker",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-signatures.next-you-collect-signatures-signatures-bring-them-back-by-due-and-i-ll-check-them",
+      "move": "state-tell-signatures",
+      "kind": "spoken",
+      "text": "Next you collect {signatures} signatures. Bring them back by {due} and I'll check them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-signatures",
+          "role": "asker",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-signatures.it-takes-signatures-signatures-to-get-on-the-ballot-i-need-them-by-due",
+      "move": "state-tell-signatures",
+      "kind": "spoken",
+      "text": "It takes {signatures} signatures to get on the ballot. I need them by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-signatures",
+          "role": "asker",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-signatures.you-need-one-signature-from-a-voter-here-back-on-my-desk-by-due",
+      "move": "state-tell-signatures",
+      "kind": "spoken",
+      "text": "You need one signature from a voter here, back on my desk by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-signatures",
+          "role": "asker",
+          "requiresFacts": ["one-signature"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-no-petition.this-office-doesn-t-take-a-petition-once-i-check-the-forms-you-re-on-the-ballot",
+      "move": "state-tell-no-petition",
+      "kind": "spoken",
+      "text": "This office doesn't take a petition. Once I check the forms, you're on the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-no-petition",
+          "role": "asker",
+          "requiresFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-no-petition.no-signatures-for-this-one-the-forms-are-all-i-need",
+      "move": "state-tell-no-petition",
+      "kind": "spoken",
+      "text": "No signatures for this one. The forms are all I need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-no-petition",
+          "role": "asker",
+          "requiresFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
       "tag": {
         "move": "tell",
         "key": "routine"

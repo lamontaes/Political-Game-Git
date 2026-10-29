@@ -414,11 +414,11 @@
     "file": "src/director/filing-visit.ts",
     "line": 1,
     "whatItFakes": "The clerk tells a candidate the office, the primary and general dates, the term and what the office does, but not how many petition signatures the filing needs: the clerk says nothing about signatures.",
-    "why": "Owner, Oct 28 (sitting, 32, and the 2:10 PM ruling): filing is petition, signatures, the clerk's check, then the ballot. The petition record (signatures required and held, the deadline check, read from each place's rules) is the elections session's to build on its item; the words read that record once it exists.",
+    "why": "Owner, Oct 28 (sitting, 32, and the 2:10 PM ruling): filing is petition, signatures, the clerk's check, then the ballot. The petition record (signatures required and held, the deadline check, read from each place's rules) is the elections session's to build on its item; the words read that record once it exists. Resolved (Oct 29, 2026): once a filing is taken, the clerk says the signatures the petition record needs and the day they are due, or that the office takes no petition (filedAtCounter in src/director/filing-visit.ts, read from the elections engine's petitionOf). The signature scenes as the candidate campaigns are the next part of the plan's step 3, not a fact the clerk fakes.",
     "addedBy": "Words and director session",
     "addedAt": "2026-10-28",
     "replacement": "The clerk's tell-signatures line reads the elections engine's petition record (signatures required, by place) and the signature scenes read its count as the candidate campaigns.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORDS-favor-promise-keeps-unread",

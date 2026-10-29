@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
-import { openFilingVisit, pickContest, type FilingCheck } from "./filing-visit";
+import {
+  filedAtCounter,
+  openFilingVisit,
+  pickContest,
+  type FilingCheck,
+} from "./filing-visit";
 
 // Golden path step 3: the clerk at the filing office speaks from GOV's
 // records (contest, deadline, each eligibility rule).
@@ -108,5 +113,33 @@ describe("the filing visit", () => {
     expect(clerk.some((text) => /closed/.test(text))).toBe(false);
     expect(visit.choices.map((row) => row.action.kind)).toEqual(["done"]);
     expect(visit.choices.map((row) => row.control)).toEqual(["acknowledge"]);
+  });
+
+  it("says, once the filing is taken, the signatures its petition needs and the day they are due", () => {
+    // Owner, Oct 28: filing is a petition, signatures, the clerk's check,
+    // then the ballot. The clerk reads the petition record the elections
+    // engine opened with the filing.
+    const petition = (needed: number) => ({
+      id: "petition:filing:fixture",
+      needed,
+      due: "2021-03-05",
+    });
+    const told = (needed: number) => {
+      const visit = openFilingVisit(core, player.id, [contest]);
+      filedAtCounter(core, visit, petition(needed));
+      return visit.lines.at(-1)!;
+    };
+    const many = told(1250);
+    expect(many.text).toContain("1,250 signatures");
+    expect(many.text).toContain("March 5");
+    expect(many.sourceRecordIds).toContain("petition:filing:fixture");
+    expect(told(1).text).toMatch(/one signature/);
+    expect(told(0).text).toMatch(/petition|signatures/);
+    expect(told(0).text).not.toMatch(/March 5/);
+    // No petition on record: the clerk says nothing more.
+    const visit = openFilingVisit(core, player.id, [contest]);
+    const before = visit.lines.length;
+    filedAtCounter(core, visit, null);
+    expect(visit.lines.length).toBe(before);
   });
 });

@@ -4,6 +4,7 @@ import {
   checkEligibility,
   filingOfficeFor,
   openContests,
+  petitionOf,
   type RequirementCheck,
 } from "../core2/modules/elections";
 import {
@@ -15,6 +16,8 @@ import { contestPositions } from "../core2/contest-positions";
 import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
+  counterNarration,
+  filedAtCounter,
   openFilingVisit,
   pickContest,
   type FilingVisit,
@@ -23,8 +26,7 @@ import { backdropFor, stagePeople, type StageReason } from "./scene";
 import { fileForOffice } from "./government";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
-import type { CoreState, PersonId } from "../core2/types";
-import { wordSceneMove, type Fact } from "../english/scene-talk-words";
+import type { CoreState } from "../core2/types";
 
 /** The picture for the office that takes a contest's filings. */
 export function officePlace(filedWith: string): string {
@@ -101,67 +103,6 @@ function overlayFor(
     parties: parties.map((row) => row.name),
     party: parties.find((row) => row.id === tie?.partyId)?.name ?? null,
   };
-}
-
-/**
- * The narrator's setup at a counter, from the filing-clerk scene's own
- * narration bank (the director fires the same scene when a filing is made).
- * The seat is named only when the counter takes one race, so the line never
- * says a seat the player did not pick.
- */
-function counterIntro(
-  core: CoreState,
-  playerId: string,
-  clerkId: string,
-  title: string,
-  recordId: string,
-  contests: readonly { id: string; title: string }[],
-): BenchFilingVisit["intro"] {
-  const clerk = core.people.get(clerkId as PersonId)!;
-  const facts: Record<string, Fact> = {
-    name: {
-      text: `${clerk.givenName} ${clerk.familyName}`,
-      sourceRecordIds: [clerkId],
-    },
-    // A title the record capitalizes only at its start ("County clerk") is said
-    // in running text as a common noun; one with proper names stays as written.
-    post: {
-      text: /^\S+( [a-z]+)*$/.test(title)
-        ? `${title.charAt(0).toLowerCase()}${title.slice(1)}`
-        : title,
-      sourceRecordIds: [recordId],
-    },
-  };
-  if (contests.length === 1)
-    facts.office = {
-      text: contests[0]!.title,
-      sourceRecordIds: [contests[0]!.id],
-    };
-  const worded = wordSceneMove({
-    move: {
-      step: "narrate",
-      move: "narrate",
-      role: "narrator",
-      purpose: "filing-clerk",
-      key: "routine",
-    },
-    facts,
-    seed: core.seed,
-    speakerId: clerkId,
-    traits: {},
-    momentKey: `counter:${playerId}:${clerkId}:${recordId}`,
-    said: new Set(),
-  });
-  return worded && "text" in worded
-    ? [
-        {
-          text: worded.text,
-          sourceRecordIds: Object.values(facts).flatMap(
-            (fact) => fact.sourceRecordIds,
-          ),
-        },
-      ]
-    : [];
 }
 
 /** The player walks into the office that takes filings for these contests. */
@@ -248,16 +189,7 @@ export function openBenchFilingVisit(
     visit,
     filedWith,
     place,
-    intro: clerkRow
-      ? counterIntro(
-          core,
-          playerId,
-          clerkRow.personId,
-          clerkRow.title,
-          clerkRow.recordId,
-          contests,
-        )
-      : [],
+    intro: clerkRow ? counterNarration(core, visit, clerkRow) : [],
     backdrop: backdropFor(core, place, minuteOfDay),
     people: stagePeople(core, place, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
@@ -303,7 +235,15 @@ export function chooseAtCounter(
       text: choice.text,
       sourceRecordIds: choice.sourceRecordIds,
     });
-    return { ...state, visit: { ...state.visit, choices: [] }, result };
+    // The clerk says what comes next from the petition opened with the filing.
+    const petition =
+      result.status === "refused" ? null : petitionOf(api, result.filing.id);
+    const visit = filedAtCounter(
+      core,
+      { ...state.visit, choices: [] },
+      petition,
+    );
+    return { ...state, visit, result };
   }
   return { ...state, visit: { ...state.visit, choices: [] } };
 }
