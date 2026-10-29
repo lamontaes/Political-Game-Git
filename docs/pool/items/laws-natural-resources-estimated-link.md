@@ -5,12 +5,13 @@ area: laws
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-natural-resources-link
 pr:
 lead: laws
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T14:54:30.268Z
 ---
 
 **What.** Owner ruling Oct 29 13:30 UTC (OWNER-DECISIONS.md): build the missing record as a background simulation from research, never a step the player takes, inside the engine that owns it (no system beside it). The law matrix grades the natural resources budget line stopgapped: no researched link starts from it (SG-LAW-outcome-link-unresearched; the research item research-outcome-link-natural-resources-line was dropped). Add one link from budget.naturalResources-added-pct (read like budget.parks-added-pct in gov-measures.ts) into parks.access-to-exercise, which the people engine's daily life already reads (PARK_ACCESS in modules/life.ts), sized from the nearest research (state park and conservation spending against park visits or access, fetched and quoted), tagged ESTIMATED with its spread and the reason it is the nearest.
