@@ -1,5 +1,5 @@
-import { GARMENTS } from "./figure-colors";
-import { drawnFigure } from "./figure-hair";
+import { figureAtPath, figurePng } from "./people-pack";
+import { frontPng } from "./mannequin-plates";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
@@ -329,30 +329,32 @@ export async function benchRequest(
         }
         return;
       }
-      if (
-        request.method === "GET" &&
-        /^\/art\/people-engine\/v2\/figures\/[\w.-]+\.png$/.test(url.pathname)
-      ) {
-        // Standing people: the v2 figures, served as they are. The folder is
-        // written out so the desktop build copies it (it reads the fixed part
-        // of this path, desktop/scripts/build-play-api.mjs).
-        const file = url.pathname.split("/").at(-1)!;
-        const content = drawnFigure(
-          file.replace(/\.png$/, ""),
-          Object.fromEntries(
-            ["skin", "hair", "hairColor", "face", ...GARMENTS].flatMap(
-              (key) => {
-                const value = url.searchParams.get(key);
-                return value ? [[key, value]] : [];
-              },
-            ),
-          ),
-        );
+      if (request.method === "GET" && url.pathname.startsWith("/art/people/")) {
+        // A person: the pack's figure (people-pack.ts), a kit in the colors
+        // the query names, a look as painted.
+        const figure = figureAtPath(url.pathname);
+        if (!figure) throw new Error("Unknown figure.");
         response.writeHead(200, {
           "Content-Type": "image/png",
           "Cache-Control": "public, max-age=3600",
         });
-        response.end(content);
+        response.end(
+          figurePng(figure, Object.fromEntries(url.searchParams.entries())),
+        );
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname.startsWith("/art/people-rooms/fronts/")
+      ) {
+        // The furniture a plate paints in front of a mannequin, as a mask.
+        response.writeHead(200, {
+          "Content-Type": "image/png",
+          "Cache-Control": "max-age=3600",
+        });
+        response.end(
+          frontPng(url.pathname.slice("/art/people-rooms/fronts/".length)),
+        );
         return;
       }
       if (

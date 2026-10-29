@@ -1,12 +1,15 @@
 {
-  "about": "Standing people drawn from the Codex people-engine v2 set (art/people-engine/v2): which of its outfits a person wears where, by role, and how tall each age band stands. An official at a government place wears an official's outfit, someone at their own workplace wears work clothes, anyone else their age band's everyday clothes. The set paints adults only, in the outfits base (tee and shorts), shirt, vest and blazer standing. Heights are presentation sizes, TUNABLE by eye.",
-  "officialOutfits": ["blazer", "vest"],
-  "workOutfits": ["shirt", "vest", "blazer"],
-  "casualByAge": {
-    "teen": ["base", "shirt"],
-    "adult": ["base", "shirt"],
-    "older": ["shirt", "vest"]
+  "about": "How people are dressed and seated in rooms (src/bench/whole-figures.ts), read against the people pack's manifest (src/bench/people-pack.ts). `dressOrder`: the pack's dress values a person wears, most fitting first: an official at a government place, someone at their own workplace, anyone else. `packSex`: the pack's word for a recorded gender; a gender not listed may be any of the pack's people. `olderHair`: the palette color someone 65 or older wears where their palette has it.",
+  "dressOrder": {
+    "official": ["formal", "business", "casual"],
+    "work": ["business", "formal", "casual"],
+    "everyday": ["casual", "business", "formal"]
   },
+  "packSex": {
+    "female": "woman",
+    "male": "man"
+  },
+  "olderHair": "gray",
   "governmentPlaces": [
     "council-chamber",
     "public-meeting-room",
@@ -24,42 +27,27 @@
     "county-clerk",
     "dmv-office",
     "regional-office",
-    "oval-office-resolute"
+    "oval-office-resolute",
+    "oval-address-close",
+    "white-house-colonnade"
   ],
-  "heightMeters": {
-    "child": 1.25,
-    "teen": 1.66,
-    "adult": 1.72,
-    "older": 1.68
-  },
-  "roomFronts": {
-    "about": "Rooms with a front people face (a rostrum, a dais, a bench, a board): the front's x, in percent of the picture. Everyone in the room turns toward it, seen from behind where their spot faces away. Read from each painting.",
-    "council-chamber": 50,
-    "county-commission": 50,
-    "public-meeting-room": 50,
-    "school-board-room": 50,
-    "township-board": 50,
-    "committee-hearing-room": 50,
-    "state-legislative-chamber-bicameral": 50,
-    "state-legislative-chamber-unicameral": 50,
-    "us-house-floor": 50,
-    "us-senate-floor": 50,
-    "county-courtroom": 50,
-    "appellate-courtroom": 50,
-    "supreme-courtroom": 50,
-    "federal-district-courtroom": 50,
-    "university-lecture-hall": 50,
-    "elementary-classroom": 50,
-    "classroom": 50
-  },
   "seatRoles": {
-    "about": "A seat a room keeps for an office, by the office kind on its records: the role a mannequin plate tags on the spot (art/people-rooms/spots). The holder takes it when present; anyone else may sit there when it is free.",
+    "about": "A seat a room keeps for an office, by the office kind on its records: the role a mannequin plate's spot carries. The holder takes it when present; anyone else may sit there when it is free.",
     "president": ["president"],
     "governor": ["governor"]
   },
-  "poseReach": {
-    "about": "How near (percent of the picture, across and down) a pose's painted head must be to a spot's head for a person on that spot to take the pose (art/people-rooms/poses: each pose is cut from its room's painting at its own place). TUNABLE by eye, 2 to 6: the art session's pose plates and room plates put the same furniture's person within about 3.5 across and 3 down.",
-    "across": 4,
-    "down": 4
+  "creator": {
+    "about": "The creator's worded labels for the pack's values (src/bench/appearance.ts). A value not listed is shown in sentence case: a build as itself, an outfit by its manifest outfitLabel, a part as '<Part> color'.",
+    "sex": {
+      "woman": "Woman",
+      "man": "Man"
+    },
+    "everyday": "Everyday clothes",
+    "parts": {
+      "top": "Top color",
+      "trousers": "Pants color",
+      "shoes": "Shoes color",
+      "hair": "Hair color"
+    }
   }
 }

@@ -13,7 +13,7 @@ import { pronounWords } from "../english/pronoun-words";
 import { circleChanges } from "./circle";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
-import { faceOf, scenePlace, stagePeople } from "./scene";
+import { faceOf, scenePlace } from "./scene";
 import {
   BALANCED_TRAIT,
   PEOPLE_TRAITS,
@@ -466,6 +466,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           .filter((row) => row.date <= core.date)
           .at(-1) ?? null)
       : null;
+  const face = faceOf(core, otherId, scenePlace(core, viewerId).place);
   return {
     personId: otherId,
     name: `${other.givenName} ${other.familyName}`,
@@ -546,16 +547,9 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     publicKnowledge: core.modules.has(PAST_MODULE_ID)
       ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
       : null,
-    // Their headshot for the talk box: the same face the People map draws.
-    face: faceOf(core, otherId, scenePlace(core, viewerId).place),
-    // A large standing figure: the person on the lead spot of the room you're in.
-    figureUrl:
-      stagePeople(core, scenePlace(core, viewerId).place, [
-        {
-          id: otherId,
-          name: `${other.givenName} ${other.familyName}`,
-          reason: "subject",
-        },
-      ]).people[0]?.figureUrl ?? null,
+    // Their headshot for the talk box (the same face the People map draws),
+    // and the card's standing figure: the same picture, whole.
+    face,
+    figureUrl: face?.url ?? null,
   };
 }

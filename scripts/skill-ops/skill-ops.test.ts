@@ -43,7 +43,8 @@ const contracts: readonly SkillContract[] = [
       "docs/systems/art-assets.md",
       "docs/systems/scene-authoring-pipeline.md",
       "docs/systems/scene-and-person-presentation.md",
-      "art/people-engine/v2/README.md",
+      "art/people-engine/v3/README.md",
+      "art/people-rooms/mannequin-plates/README.md",
     ],
   },
 ];

@@ -342,12 +342,13 @@ function speechScene(
   const ids = [personId, ...new Set(causes.map((row) => row.voterId))].filter(
     (id) => core.people.get(id)?.alive,
   );
+  const backdrop = backdropFor(core, place, 18 * 60);
   return {
     place,
-    backdrop: backdropFor(core, place, 18 * 60),
+    backdrop,
     ...stagePeople(
       core,
-      place,
+      backdrop.file,
       ids.map((id) => {
         const row = core.people.get(id)!;
         return {
@@ -415,12 +416,13 @@ function outingScene(
         ? scenePlaces.speechPlaces[0]!
         : scenePlaces.phoneBankPlace;
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
+  const backdrop = backdropFor(core, place, 16 * 60);
   return {
     place,
-    backdrop: backdropFor(core, place, 16 * 60),
+    backdrop,
     ...stagePeople(
       core,
-      place,
+      backdrop.file,
       ids.map((id) => {
         const row = core.people.get(id)!;
         return {

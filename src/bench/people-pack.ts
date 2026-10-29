@@ -83,9 +83,14 @@ const PEOPLE = new Map(MANIFEST.people.map((row) => [row.id, row]));
 export const packFigure = (id: string) => BY_ID.get(id);
 export const packPerson = (id: string) => PEOPLE.get(id);
 
-/** The parts a kit figure is recolored by: the person's palettes, in drawing order. */
+/** The parts a kit figure is recolored by: the person's palettes, in their order. */
 export function colorParts(person: PackPerson): readonly string[] {
-  return MANIFEST.stack.filter((part) => person.palettes[part]);
+  // A part with no colors in its palette is drawn as painted.
+  return Object.keys(person.palettes).filter(
+    (part) =>
+      MANIFEST.stack.includes(part) &&
+      Object.keys(person.palettes[part]!).length > 0,
+  );
 }
 
 /** Where the screen fetches a figure in a person's colors. */
@@ -132,6 +137,13 @@ export function figurePng(
   figure: PackFigure,
   colors: Readonly<Record<string, string>> = {},
 ): Buffer {
+  // Only a palette color of one of the person's parts is painted (and kept).
+  const palettes = PEOPLE.get(figure.person)?.palettes ?? {};
+  colors = Object.fromEntries(
+    Object.entries(colors)
+      .filter(([part, name]) => palettes[part]?.[name] && figure.kind === "kit")
+      .sort(([a], [b]) => (a < b ? -1 : 1)),
+  );
   const key = `${figure.id}?${JSON.stringify(colors)}`;
   const kept = drawn.get(key);
   if (kept) return kept;
@@ -146,7 +158,9 @@ export function figurePng(
       const part = figure.parts[name];
       if (!part) continue;
       const art = image(part.file);
-      const swatch = colors[name] ? person.palettes[name]?.[colors[name]] : undefined;
+      const swatch = colors[name]
+        ? person.palettes[name]?.[colors[name]]
+        : undefined;
       const tone = swatch && toneFile(part);
       const painted = tone
         ? recolor(art, image(tone), swatch, person.tones[name]!.Lmed)
@@ -196,7 +210,8 @@ function fromLab(L: number, a: number, b: number): [number, number, number] {
   const fy = (L + 16) / 116,
     fx = fy + a / 500,
     fz = fy - b / 200;
-  const inv = (t: number) => (t ** 3 > 0.008856 ? t ** 3 : (t - 16 / 116) / 7.787);
+  const inv = (t: number) =>
+    t ** 3 > 0.008856 ? t ** 3 : (t - 16 / 116) / 7.787;
   const [X, Y, Z] = [inv(fx) * 0.95047, inv(fy), inv(fz) * 1.08883];
   const gamma = (v: number) => {
     const c = Math.min(Math.max(v, 0), 1);

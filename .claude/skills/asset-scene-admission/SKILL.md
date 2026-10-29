@@ -17,7 +17,7 @@ Read the relevant contracts before acting:
 
 - `docs/systems/art-assets.md` for candidate versus runtime release;
 - `docs/systems/scene-authoring-pipeline.md` and `docs/systems/scene-and-person-presentation.md` for scenes;
-- `art/people-engine/v2/README.md` for the current people figures (whole figures plus separate hair pieces);
+- `art/people-engine/v3/README.md` for the current people pack (whole painted people, read only through `src/bench/people-pack.ts`), and `art/people-rooms/mannequin-plates/README.md` for where people may stand;
 - `play-first` ("The browser check") for the check in play.
 
 Reuse `scripts/art-asset-factory/`. Don't add a parallel validator or a scene-specific screen path.
