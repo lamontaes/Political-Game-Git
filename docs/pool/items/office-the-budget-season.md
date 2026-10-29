@@ -40,3 +40,5 @@ Sent back 2026-10-25 from PR #5533 (branch claude/political-game-pool-yucp92-tt)
 Sent back 2026-10-26 from PR #5533 (branch claude/political-game-pool-yucp92-tt): integration conflict and positive cash receipt repaired, but the owner-route Done-when still does not prove a council amendment: the test permits unchanged passage and own drawn Samson year proposed/passed +1000000 unchanged; add a positive council-changed proposal through the office route with amendment reasons and the existing treasury-to-person chain; finish on that branch, merge main into it first.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (roll-up; children carry the rest).
+
+Oct 29 (CTO): in a five-month played term as mayor (Luray, South Carolina, seed a9d024f2-85a3-4b66-9cb1-edf55d9fb607) the player never saw the budget; his character sent it alone. The owner: "Your character sends the budget without you" (objecting). The executive's budget is a desk stop by default (Oct 29 ruling: what stops you in office).
