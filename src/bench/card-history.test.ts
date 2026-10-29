@@ -47,6 +47,7 @@ describe("a person's history on their card", () => {
       ),
       ...schoolsOf(core, parentId!).map((row) => row.recordId),
       ...core.relationships.keys(),
+      parentId!,
     ]);
     expect(card.history.length, where).toBeGreaterThan(0);
     // Oldest first, each line on a record of theirs or of the tie.
