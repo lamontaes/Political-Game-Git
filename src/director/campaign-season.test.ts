@@ -21,7 +21,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { campaignFor } from "../core2/modules/campaigns";
-import { openContests } from "../core2/modules/elections";
+import { openContests, playerMayFileFor } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -68,7 +68,12 @@ it("a filed candidate's months are never silent, and each season scene writes ba
       if (core.people.get(id)?.alive) director.watch(core, id as PersonId);
     const api = coreAPI(core);
     const filed = [...openContests(api)]
-      .filter((c) => c.electionDate >= addDays(makeIsoDate(core.date), 60))
+      // The six offices the player may run for (owner, Oct 29).
+      .filter(
+        (c) =>
+          c.electionDate >= addDays(makeIsoDate(core.date), 60) &&
+          playerMayFileFor(api, c.id),
+      )
       .sort(
         (a, b) =>
           a.electionDate.localeCompare(b.electionDate) ||
