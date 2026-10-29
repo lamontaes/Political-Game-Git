@@ -6709,6 +6709,18 @@
       "citation": "Bogg and Roberts 2004: other behavioral domains -.12 to -.25, drug use -.28."
     }
   },
+  "healthYouthCannabisPastMonthShare": {
+    "value": 0.0601,
+    "tag": "ESTIMATED",
+    "citation": "SAMHSA, 2023-2024 National Surveys on Drug Use and Health, State Estimates, Table 3 (Marijuana Use in the Past Month), Total U.S., 12-17: 6.01 percent (95% CI 5.59-6.47), https://www.samhsa.gov/data/sites/default/files/reports/rpt56957/2024-nsduh-sae-tables-percent-csvs/2024-nsduh-sae-tables-percent.pdf, read October 29, 2026. The 2023 Annual National Report agrees: \"adolescents aged 12 to 17 (6.0 percent or 1.6 million people)\" used marijuana in the past month (https://www.samhsa.gov/data/sites/default/files/reports/rpt47095/National%20Report/National%20Report/2023-nsduh-annual-national.htm).",
+    "estimatedFrom": "The national share of 12- to 17-year-olds who used marijuana in the past month stands in for each place's own share, which the same table gives by state; the state's law on sales moves it through the outcome web's link (cannabis-sales-to-youth-use), not through this number.",
+    "spread": {
+      "low": 0.0365,
+      "high": 0.0987,
+      "unit": "share of people aged 12 to 17",
+      "citation": "SAMHSA NSDUH 2023-2024 Table 3, 12-17 past-month use by state: lowest Hawaii 3.65 percent, highest Maine 9.87 percent."
+    }
+  },
   "healthTobaccoLogOddsPerLevel": {
     "value": -0.528,
     "tag": "ESTIMATED",

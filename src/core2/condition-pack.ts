@@ -130,7 +130,7 @@ const SHIFT_STEPS = 60;
  * place's count at the published prevalence). A prevalence of zero or one
  * stays as it is.
  */
-function personalityShares(
+export function personalityShares(
   shares: readonly number[],
   logOdds: readonly number[],
   expected: number,

@@ -37,7 +37,7 @@ This section overrides anything heavier elsewhere in this file, in a skill or in
 
 - **The owner picks the model per job** (Oct 20; crew reshaped Oct 26). Opus for the one lead, the Words line, the CTO and the owner's local session; Sonnet for mergers, fixers, building and pool work; Codex at medium by default, high only when the job says why. Effort is proportional to the task, and so is the helper count.
 - **Mind the weekly usage.** Above about 75%, go lean: fewer helpers, no new sessions without the owner's word. Near or right after a reset, lean toward effectiveness.
-- **Helpers never copy the whole repository (owner, Oct 29: "they shouldn't. They should immediately delete what they don't need, or even more helpfully, only clone what they do need"; "This needs to be a project rule").** A full copy is about 3.3 GB, and six filled a cloud session's disk on Oct 29. A helper or sub-agent works in a sparse copy holding only the folders its task needs (by default everything except `art/`, `public/`, `desktop/` and the large docs folders), shares the main checkout's git objects instead of downloading them again, and links `node_modules` instead of installing it. A session that finds a full helper copy narrows it at once. Skill `helper-checkout`.
+- **Helpers never copy the whole repository (owner, Oct 29: "they shouldn't. They should immediately delete what they don't need, or even more helpfully, only clone what they do need"; "This needs to be a project rule").** A full copy is about 3.3 GB, and six filled a cloud session's disk on Oct 29. A helper or sub-agent works in a sparse copy without the repository's image files (every folder stays, so typecheck, tests and guards run; images are two thirds of a copy), shares the main checkout's git objects instead of downloading them again, and links `node_modules` instead of installing it. A session that finds a full helper copy narrows it at once. Skill `helper-checkout`.
 - **Helpers.** A helper needs an independently useful bounded output and explicit path and tool ownership; no recursive delegation or duplicate full-repo review. Each works in its own files or worktree, gets a clear objective, its check and an output format, and is read-only unless its brief says otherwise; the lead reviews every diff before it becomes a PR. Preserve configured concurrency limits (Codex: two). Model effort is proportional to the actual task.
 
 ## How every session works
@@ -97,6 +97,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `civic-prose`: writing bank pieces in the owner's style
 - `civic-reports`: reports and PR bodies for the owner
 - `cto`: the CTO role
+- `helper-checkout`: helpers work in sparse copies of the repository
 - `lead-session`: running a lead line
 - `look-first`: the search before building, fixing, filing or asking
 - `merge-audit`: auditing merged PRs
@@ -105,6 +106,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `played-world-proof`: proving a feature in a played year
 - `player-screen-text`: checking every string a player sees
 - `pr-fixer`: finishing sent-back PRs
+- `red-main`: taking a red on main from report to fix
 - `researcher`: turning a stopgap into a sourced number
 - `room-spots`: rooms and where people stand or sit in them
 - `scene-producers`: a scene's cause wired to an engine's record
