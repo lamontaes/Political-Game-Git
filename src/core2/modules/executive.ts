@@ -636,6 +636,7 @@ function appointStateCabinet(
   api: CoreAPI,
   worldSeed: string,
   round = "",
+  onlyPosts?: ReadonlySet<string>,
 ): void {
   const chain = lawChain(api);
   const state = chain.stateKey;
@@ -663,6 +664,7 @@ function appointStateCabinet(
   const date = api.state.date;
   for (const spec of posts) {
     if (!/governor/.test(spec.appointedBy)) continue;
+    if (onlyPosts && !onlyPosts.has(spec.key)) continue;
     const pool = [0, 1, 2].map((n) => {
       const identity = drawOfficialIdentity({
         worldSeed,
@@ -676,6 +678,9 @@ function appointStateCabinet(
     const appointment = nominateAndConfirm({
       seatKey: `cabinet:${state}:${spec.key}`,
       appointerSide: side,
+      // The governor's own traits weigh loyalty against merit, as they do for
+      // a post they fill by name (appointStatePost) and a town head's appointer.
+      weighing: appointerWeighing(api.state as CoreState, memberKey(governor)),
       candidates: pool.map(({ n }) => ({
         id: `official:cabinet:${state}:${spec.key}:${round}${n}`,
         // Candidates for a governor's cabinet come from the governor's side;
@@ -1227,6 +1232,25 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     (!before || holderOf(before) !== holderOf(governor))
   )
     appointStateCabinet(api, worldSeed, `${governor.id}:`);
+  else if (worldSeed && memberKey(governor) !== playerId) {
+    // A cabinet member who died or left the state leaves their post empty: the
+    // governor fills it through the same appointment as the rest of the cabinet.
+    const vacant = new Set(
+      cabinet
+        .filter((row) => {
+          const holder = api.state.people.get(row.holderId);
+          return !(holder?.alive && holder.placeId === state);
+        })
+        .map((row) => row.post),
+    );
+    if (vacant.size)
+      appointStateCabinet(
+        api,
+        worldSeed,
+        `${governor.id}:${api.state.date}:`,
+        vacant,
+      );
+  }
   // The election agency's head is replaced when they die.
   if (worldSeed) seatElectionChief(api, worldSeed);
   const executiveId = memberKey(governor);
