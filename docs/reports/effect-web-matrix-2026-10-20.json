@@ -5,10 +5,10 @@
     "lawLinks": 134,
     "webCoverageWired": 124,
     "allEightPoints": 0,
-    "reachesOrCarried": 161,
-    "namedInAStopgap": 96,
+    "reachesOrCarried": 163,
+    "namedInAStopgap": 94,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 161,
+    "reachesTheWorld": 163,
     "aboutZero": 19,
     "withAnyModerator": 23,
     "byPoint": {
@@ -25,9 +25,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 161,
+        "pass": 163,
         "partial": 0,
-        "fail": 64,
+        "fail": 62,
         "n/a": 19
       },
       "varied": {
@@ -5970,9 +5970,8 @@
           "evidence": "data/research/outcome-web/links.json:3438 size -0.32, range [-0.61, -0.2], McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/modules/credit.ts:185"
         },
         "varied": {
           "status": "fail",
@@ -5998,8 +5997,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-finance-high-cost-loans"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "paid-leave-to-mothers-work",
@@ -6821,9 +6820,8 @@
           "evidence": "data/research/outcome-web/links.json:3901 size -0.32, range [-0.61, -0.2], McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/modules/credit.ts:185"
         },
         "varied": {
           "status": "partial",
@@ -6849,8 +6847,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-finance-high-cost-loans"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "student-debt-relief-to-finances",
@@ -12271,9 +12269,8 @@
     },
     {
       "measure": "finance.high-cost-loans",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/modules/credit.ts:185",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
