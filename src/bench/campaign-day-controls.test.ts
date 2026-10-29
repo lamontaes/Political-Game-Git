@@ -67,7 +67,10 @@ function fileLocal(
       contestId: contest.id,
       platform: [`${PLATFORM_QUESTIONS[0]}=1`],
     });
-    if (filed.status !== "refused" && ["petitioning", "on-ballot"].includes(filed.filing.status ?? ""))
+    if (
+      filed.status !== "refused" &&
+      ["petitioning", "on-ballot"].includes(filed.filing.status ?? "")
+    )
       return filed.filing;
   }
   return null;
