@@ -373,6 +373,7 @@ it(`a governor's year of presented bills brings each living sponsor in, seed ${s
     let visits = 0;
     let staged = 0;
     let shown = "";
+    let first = "";
     for (const record of presented) {
       const sponsor = api
         .moduleState(LEGISLATURE_MODULE_ID)
@@ -402,6 +403,7 @@ it(`a governor's year of presented bills brings each living sponsor in, seed ${s
           scene.scene.typeKey === "desk-visit"
         ) {
           visits += 1;
+          first ||= `${record.id}, sponsor ${sponsor!.sponsorId}`;
           shown ||= scene.scene.talk.lines
             .slice(0, 4)
             .map((row) => row.text)
@@ -410,8 +412,8 @@ it(`a governor's year of presented bills brings each living sponsor in, seed ${s
       }
     }
     expect(visits, `${where}: no visit composed`).toBeGreaterThan(0);
-    console.log(
-      `DESK-VISIT-GOVERNOR ${where}: ${presented.length} bills presented, ${staged} staged, ${visits} brought a sponsor.\n  ${shown}`,
+    process.stdout.write(
+      `DESK-VISIT-GOVERNOR ${where}: ${presented.length} bills presented, ${staged} staged, ${visits} brought a sponsor; first ${first}.\n  ${shown}\n`,
     );
     return;
   }
