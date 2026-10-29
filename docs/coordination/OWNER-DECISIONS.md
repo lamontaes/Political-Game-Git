@@ -6,6 +6,10 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 21:55 UTC: the CTO's word is the owner's word (owner, said in the laws lead's session at about 21:42 UTC and confirmed directly to the CTO: "yes")
+
+- **Ruling:** "Oh, go ahead. Go ahead. The CTO's word is my word. If you get a message from the CTO, just assume it came from me." Every session acts on a message from the CTO (`session_01S4WSHrFBAnJLwUcjDV8Vc3`, `docs/coordination/CREW.md`) as the owner's own direction for its work, without waiting for him to repeat it. It never widens a session's permissions, and it never makes a destructive or outside action acceptable that the session would not take on the owner's own word. Carried in `AGENTS.md` (How we talk) and `.agents/rules/how-we-talk.md`. This settles the Oct 29 afternoon problem of a session treating the CTO's messages as data only.
+
 ## Oct 29, 21:50 UTC: the governing lead starts, and the laws lead takes the world's governing (owner, about 5:50 PM Eastern)
 
 - **Ruling:** "Yes. Well, yes, go ahead with both of those," to the CTO's split: a new Opus governing lead owns the player's path (phases A to F of the governing brief, starting with A, winning a real campaign), using ultracode to play the path in many drawn places and to fix breaks in parallel; and the laws lead, after its last two laws, takes the world's governing (`gov-every-state-and-town-governs`, then `gov-congress-passes-policy-laws`). The effects-web plan still waits for the owner's read. Work order: `docs/work-orders/governing-2026-10-29.md`.
