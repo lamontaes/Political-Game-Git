@@ -123,10 +123,16 @@ it("a filed candidate's months are never silent, and each season scene writes ba
         };
       }
       if (typeKey === "debate-invite") {
+        // A yes puts the sitting on the record; the debate is held when the
+        // player has sat for it, or on the eve of the election
+        // (debate-sitting.test.ts).
         const row = table("core2-meetings-v1", "debates", said.debateId!);
+        const sitting = core.durableLog.get(
+          `debate-accepted:${said.debateId}` as never,
+        );
         return {
-          ok: row?.status === "held",
-          what: `${said.debateId} ${String(row?.status)}`,
+          ok: row?.status === "invited" && sitting?.kind === "debate-accepted",
+          what: `${said.debateId} ${String(row?.status)}, sitting ${sitting ? "on the record" : "missing"}`,
         };
       }
       if (typeKey === "volunteer-offer") {

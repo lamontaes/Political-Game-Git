@@ -22677,6 +22677,911 @@
       "tag": {
         "move": "farewell"
       }
+    },
+    {
+      "key": "conversation.debate-open-open.welcome-to-the-debate-lets-begin",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "Welcome to the debate. Let's begin.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.debate-open-open.welcome-to-the-outlet-debate-lets-begin",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "Welcome to the {outlet} debate. Let's begin.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.debate-open-open.same-questions-for-every-candidate-keep-it-short",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "Same questions for every candidate. Keep it short.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.debate-open-open.good-to-see-you-again-lets-begin",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "Good to see you again. Let's begin.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.debate-open-open.thanks-for-coming-you-know-how-this-works",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "Thanks for coming. You know how this works.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.debate-open-open.im-your-moderator-thanks-for-coming",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "I'm your moderator. Thanks for coming.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["stranger"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.first-question-where-do-you-stand-on-about",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "First question: where do you stand on {about}?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.we-begin-with-about-whats-your-position",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "We begin with {about}. What's your position?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.lets-open-with-about-where-do-you-stand",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Let's open with {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.next-about-where-do-you-stand",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Next, {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.moving-on-to-about-whats-your-position",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Moving on to {about}. What's your position?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.now-about-where-are-you-on-that",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Now {about}. Where are you on that?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.last-question-where-do-you-stand-on-about",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Last question: where do you stand on {about}?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["last"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.our-final-question-is-about-your-position",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Our final question is {about}. Your position?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["last"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.one-more-about-where-do-you-stand",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "One more: {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["last"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.we-have-one-question-where-do-you-stand-on-about",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "We have one question: where do you stand on {about}?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["only"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.just-one-question-about-where-do-you-stand",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Just one question: {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["only"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.would-you-vote-to-to",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Would you vote to {to}?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.youve-voted-on-about-do-you-stand-by-that-vote",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "You've voted on {about}. Do you stand by that vote?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.you-voted-on-about-do-you-stand-by-it",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "You voted on {about}. Do you stand by it?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.you-voted-on-about-where-do-you-stand-now",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "You voted on {about}. Where do you stand now?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.rival-is-for-about-where-do-you-stand",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "{rival} is for {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.rival-is-against-about-where-do-you-stand",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "{rival} is against {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.rival-is-for-about-youre-against-it-why",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "{rival} is for {about}. You're against it. Why?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-for", "stance-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.rival-is-against-about-youre-for-it-why",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "{rival} is against {about}. You're for it. Why?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-against", "stance-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-take-plain-reply-take.thank-you-thats-clear",
+      "move": "debate-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "Thank you. That's clear.",
+      "uses": [
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-plain-reply-take.thanks-the-audience-has-your-answer",
+      "move": "debate-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "Thanks. The audience has your answer.",
+      "uses": [
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-further-reply-take.thank-you-your-vote-is-on-the-record",
+      "move": "debate-take-further-reply-take",
+      "kind": "spoken",
+      "text": "Thank you. Your vote is on the record.",
+      "uses": [
+        {
+          "move": "debate-take-further-reply-take",
+          "subject": "debate-take-further",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-further-reply-take.noted-that-vote-is-on-the-record",
+      "move": "debate-take-further-reply-take",
+      "kind": "spoken",
+      "text": "Noted. That vote is on the record.",
+      "uses": [
+        {
+          "move": "debate-take-further-reply-take",
+          "subject": "debate-take-further",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-turn-reply-take.rival-will-have-a-chance-to-answer-that",
+      "move": "debate-take-turn-reply-take",
+      "kind": "spoken",
+      "text": "{rival} will have a chance to answer that.",
+      "uses": [
+        {
+          "move": "debate-take-turn-reply-take",
+          "subject": "debate-take-turn",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-turn-reply-take.well-hear-from-rival-on-that",
+      "move": "debate-take-turn-reply-take",
+      "kind": "spoken",
+      "text": "We'll hear from {rival} on that.",
+      "uses": [
+        {
+          "move": "debate-take-turn-reply-take",
+          "subject": "debate-take-turn",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-brief-reply-take.short-and-clear-thank-you",
+      "move": "debate-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "Short and clear. Thank you.",
+      "uses": [
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-brief-reply-take.a-brief-answer-thank-you",
+      "move": "debate-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "A brief answer. Thank you.",
+      "uses": [
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-lie-reply-take.thank-you-well-move-on",
+      "move": "debate-take-lie-reply-take",
+      "kind": "spoken",
+      "text": "Thank you. We'll move on.",
+      "uses": [
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-lie-reply-take.understood-thats-your-answer",
+      "move": "debate-take-lie-reply-take",
+      "kind": "spoken",
+      "text": "Understood. That's your answer.",
+      "uses": [
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-declined-reply-take.youd-rather-not-say-all-right",
+      "move": "debate-take-declined-reply-take",
+      "kind": "spoken",
+      "text": "You'd rather not say? All right.",
+      "uses": [
+        {
+          "move": "debate-take-declined-reply-take",
+          "subject": "debate-take-declined",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-declined-reply-take.no-answer-on-that-one-well-move-on",
+      "move": "debate-take-declined-reply-take",
+      "kind": "spoken",
+      "text": "No answer on that one. We'll move on.",
+      "uses": [
+        {
+          "move": "debate-take-declined-reply-take",
+          "subject": "debate-take-declined",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-close-leave-done.thats-all-the-questions-thank-you",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "That's all the questions. Thank you.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.debate-close-leave-done.that-ends-the-debate-thank-you-for-coming",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "That ends the debate. Thank you for coming.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.debate-close-leave-done.were-out-of-questions-thanks-for-taking-part",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "We're out of questions. Thanks for taking part.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.debate-close-leave-done.thats-the-debate-thanks-for-your-time",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "That's the debate. Thanks for your time.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.debate-close-leave-done.thats-the-debate-you-passed-on-some-questions",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "That's the debate. You passed on some questions.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "farewell"
+      }
     }
   ]
 }

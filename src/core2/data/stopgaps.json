@@ -7612,5 +7612,16 @@
     "addedAt": "2026-10-29",
     "replacement": "Carry the partnership in the counted household record when the opening generates it, with the day it began, so fill-in reads it instead of inferring it.",
     "status": "open"
+  },
+  {
+    "id": "SG-MEETINGS-debate-no-moderator",
+    "kind": "missing-record",
+    "file": "src/core2/modules/meetings.ts",
+    "whatItFakes": "A debate whose host outlet has no living reporter, head or owner free to moderate it (every one of them is in the race or gone) has nobody to ask the questions, so the player's yes to its invitation puts no sitting on the record. The debate waits for the eve of the election and is then held with the player's filed platform as their answers, as a yes did before the sitting existed.",
+    "why": "The moderator is someone the outlet's record already names (its reporters, head and owner); a debate with none of them free is not given an invented moderator (owner, Oct 29: never invent a person).",
+    "addedBy": "Words, scenes and the director (debate sitting)",
+    "addedAt": "2026-10-29",
+    "replacement": "An outlet's masthead refilled by the jobs engine (refreshPressStaff), or a neutral host the town's league or chamber of commerce names in its records, so every debate has a moderator who asks.",
+    "status": "open"
   }
 ]

@@ -123,6 +123,7 @@
       "cause:event:interview-invited",
       "cause:event:interview-accepted",
       "cause:event:debate-invited",
+      "cause:event:debate-accepted",
       "cause:event:rival-word",
       "cause:event:rival-filed",
       "cause:event:party-asked",
@@ -4992,8 +4993,59 @@
       }
     },
     {
+      "key": "debate-sitting",
+      "note": "The candidate said yes to a debate's invitation: the meetings engine's debate-accepted record names the candidate, the moderator who will ask and the outlet that hosts it. The sitting is played in the conversation engine, never answered for them: the moderator puts each of the debate's own questions as a line, the candidate picks how to answer each (plainly, with a further fact from their record, by turning it back on a rival, briefly, or the lie where their record allows one) or says nothing, and when the sitting ends the meetings engine holds the debate with exactly those moves while the other candidates answer from their own positions. A question the moderator cannot put in words is answered from the candidate's filed platform. A debate no one sits for is held on the eve of the election. Its stage is a public place until the lane maps the debate stage picture to this type.",
+      "roles": [
+        {
+          "key": "host",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["greet", "ask", "press", "close"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["answer", "deflect", "tell", "lie"],
+          "wants": ["play-safe"],
+          "bearing": "braced"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:debate-accepted",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "invitedId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "meetings",
+          "causeRecord": "debate-accepted",
+          "bind": {
+            "host": "counterpart",
+            "you": "subject"
+          },
+          "opener": "host",
+          "opening": "greet"
+        }
+      ],
+      "tag": {
+        "key": "routine",
+        "endpoint": "political",
+        "registers": ["conversation", "scene-words", "journal"]
+      }
+    },
+    {
       "key": "debate-invite",
-      "note": "The race's debate on the town's widest-reaching outlet waits on the candidate: the meetings engine's debate-invited record names the candidate and the host outlet's reporter closest to them. The host calls. A yes takes the stage with the candidate's filed platform as their answers; a no lets the debate go on without them; anything else leaves it waiting.",
+      "note": "The race's debate on the town's widest-reaching outlet waits on the candidate: the meetings engine's debate-invited record names the candidate and the host outlet's reporter closest to them. The host calls. A yes puts the sitting on the record (debate-accepted) for the debate-sitting scene; a no lets the debate go on without them; anything else leaves it waiting until the eve of the election, when it is held without a sitting.",
       "roles": [
         {
           "key": "host",
