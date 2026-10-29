@@ -44,7 +44,6 @@ const SPOKEN = new Set([
   "choice-names",
   "conversation",
   "filing-visit",
-  "interview",
   "journal",
   "newscast",
   "opening-speech",
