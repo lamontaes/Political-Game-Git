@@ -35,6 +35,7 @@ import {
   spokenDesignation,
 } from "../english/bill-names";
 import type { StoryKind } from "../english/english-newscast";
+import { storyTopicName } from "../english/policy-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
 
@@ -71,13 +72,22 @@ const MONTHS = [
   "November",
   "December",
 ];
-const dollars = (minor: number, cents = false) =>
-  new Intl.NumberFormat("en-US", {
+const dollars = (minor: number, cents = false) => {
+  // A paper rounds a large sum: "$228.7 million", never "$228,722,690".
+  const whole = Math.abs(minor / 100);
+  for (const [size, word] of [
+    [1e9, "billion"],
+    [1e6, "million"],
+  ] as const)
+    if (whole >= size)
+      return `${minor < 0 ? "-" : ""}$${Math.round((whole / size) * 10) / 10} ${word}`;
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: cents ? 2 : 0,
     maximumFractionDigits: cents ? 2 : 0,
   }).format(minor / 100);
+};
 /** A rate as a paper prints it, to a tenth: "4.1%". */
 const percent = (value: number) => `${Math.round(value * 10) / 10}%`;
 const SMALL = [
@@ -96,6 +106,13 @@ const SMALL = [
 const count = (value: number) =>
   SMALL[Math.round(value)] ??
   new Intl.NumberFormat("en-US").format(Math.round(value));
+/**
+ * What a law's series is about, as a paper says it: the English engine's
+ * subject for the series ("maximum monthly food assistance benefit"),
+ * without its article, else the key read as words.
+ */
+const measureName = (series: string) =>
+  storyTopicName(series)?.replace(/^the /i, "") ?? spaced(series);
 /** A record key read as words: "finance-director" and "financeDirector" are "finance director". */
 const spaced = (key: string) =>
   key
@@ -391,7 +408,7 @@ function rule(
 ): PrintedFacts | null {
   return story(
     "law-rule",
-    { ...base, measure: read.fact(spaced(f.series ?? ""), f.lawId ?? "") },
+    { ...base, measure: read.fact(measureName(f.series ?? ""), f.lawId ?? "") },
     ["measure"],
   );
 }
@@ -433,7 +450,7 @@ const lawTookEffect: Builder = (read, f) => {
       "law-amount",
       {
         ...base,
-        measure: read.fact(spaced(series), f.lawId ?? ""),
+        measure: read.fact(measureName(series), f.lawId ?? ""),
         to: read.fact(to, f.lawId ?? ""),
         ...(from !== to
           ? { from: read.fact(from, f.lawId ?? ""), changed: read.yes() }
@@ -754,6 +771,9 @@ const rateDecision: Builder = (read) => {
     "rate",
     {
       percent: read.fact(percent(meeting.toRatePct), meetingId),
+      ...(move !== 0
+        ? { from: read.fact(percent(meeting.fromRatePct), meetingId) }
+        : {}),
       [move > 0 ? "up" : move < 0 ? "down" : "held"]: read.yes(),
       date: read.date(),
     },
