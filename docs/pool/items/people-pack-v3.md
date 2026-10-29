@@ -34,3 +34,5 @@ claimed-at: 2026-10-29T16:18:04.410Z
 **Files.** `src/bench/whole-figures.ts`, `scene.ts` (`stagePeople`, `looksOf`, `faceOf`), `figure-hair.ts`, `figure-colors.ts`, `appearance.ts`, `handler.ts`, `card.ts`, `government.ts`, `play.mjs`, `ui/headshot.mjs`, `scripts/people/room-spots.ts`, `desktop/scripts/build-play-api.mjs`.
 
 **Notes.** The CTO keeps adding mannequin plates (golden path first) and the six second faces as rows; nothing in code should change for either.
+
+- 2026-10-29 (claude/people-pack-v3, last sha 11d05efe1a): in PR #6778, ready, waiting on the owner's visual check; not merged. Art owed as data: man-heavy address and desk figures; furniture-only front masks for the seven dropped spots; everyday figures for every pose.
