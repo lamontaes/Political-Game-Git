@@ -172,3 +172,32 @@ describe("English part banks", () => {
     });
   }
 });
+
+// The household's filing talk (family-filing) is said to a candidate for any
+// office: a piece names a body (council, board, legislature) only where it
+// needs the fact that the race is for one, and claims no span of years.
+describe("the household's filing talk", () => {
+  const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;
+  const pieces = sceneTalk.parts.filter((part) =>
+    (part as Part & { uses?: { purpose?: string }[] }).uses?.some(
+      (use) => use.purpose === "family-filing",
+    ),
+  );
+  it("names no body by a fixed word and claims no span of years", () => {
+    expect(pieces.length).toBeGreaterThan(0);
+    for (const part of pieces) {
+      const needs = (
+        part as Part & { uses?: { requiresFacts?: string[] }[] }
+      ).uses?.flatMap((use) => use.requiresFacts ?? []);
+      for (const body of ["council", "board", "legislature", "commission"])
+        if (new RegExp(`\\b${body}\\b`, "i").test(part.text))
+          expect(
+            needs?.some((fact) => fact.includes(body)),
+            part.key,
+          ).toBe(true);
+      expect(part.text, part.key).not.toMatch(
+        /\b(?:\d+|two|three|five|ten|twenty) years\b/i,
+      );
+    }
+  });
+});
