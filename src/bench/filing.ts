@@ -4,6 +4,7 @@ import {
   checkEligibility,
   filingOfficeFor,
   openContests,
+  playerContests,
   petitionOf,
   type RequirementCheck,
 } from "../core2/modules/elections";
@@ -113,7 +114,7 @@ export function openBenchFilingVisit(
   minuteOfDay: number,
 ): BenchFilingVisit {
   const api = coreAPI(core);
-  const open = openContests(api).filter(
+  const open = playerContests(api).filter(
     (row) => filingOfficeFor(api, row.id).filedWith === filedWith,
   );
   // A contest's title is its office, with its district where it has one. Races of the
