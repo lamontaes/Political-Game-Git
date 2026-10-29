@@ -100,6 +100,13 @@ import {
 } from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { answerInTalk } from "./scene-talk";
+import {
+  declineInSitting,
+  openSitting,
+  saySitting,
+  sittingFor,
+  type Sitting,
+} from "./sitting";
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName, spoken, spokenWhen } from "./words";
@@ -259,6 +266,12 @@ export interface Conversation {
   director?: Director;
   /** The moment the talk is the occasion of (a scene's), from the player's ledger. */
   occasion?: Moment;
+  /**
+   * An interview the player said yes to, sat for in this talk: the reporter
+   * puts each of its questions and the player's answers publish it
+   * (`./sitting`).
+   */
+  sitting?: Sitting;
 }
 
 /**
@@ -1938,6 +1951,9 @@ export function openConversation(
         ?.momentsById.get(options.occasionId)
     : undefined;
   if (occasion) conversation.occasion = occasion;
+  // The talk an accepted interview stages is the sitting for it, not small talk.
+  const sitting = sittingFor(core, playerId, otherId, occasion);
+  if (sitting) return openSitting(core, conversation, data, sitting);
   // A greeting first; a "How are you?" would need its own answer, so only a
   // greeting that asks nothing opens. The player's name only if they know it.
   const player = core.people.get(playerId)!;
@@ -2551,6 +2567,8 @@ export function sayNothing(
   conversation: Conversation,
   data: ConversationData = CONVERSATION_DATA,
 ): Conversation {
+  // In a sitting, silence declines the question put.
+  if (conversation.sitting) return declineInSitting(core, conversation, data);
   carryOn(core, conversation, data);
   return conversation;
 }
@@ -2760,6 +2778,8 @@ export function say(
   choiceKey: string,
   data: ConversationData = CONVERSATION_DATA,
 ): Conversation {
+  if (conversation.sitting)
+    return saySitting(core, conversation, data, choiceKey);
   const choice =
     conversation.choices.find((row) => row.key === choiceKey) ??
     conversation.lies.find((row) => row.key === choiceKey);

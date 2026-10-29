@@ -84,6 +84,6 @@
     ],
     "constituents-and-cases": ["office-hours"],
     "donors-and-corruption": ["donor-ask"],
-    "the-press": ["press-interview", "scandal"]
+    "the-press": ["interview-sitting", "press-interview", "scandal"]
   }
 }

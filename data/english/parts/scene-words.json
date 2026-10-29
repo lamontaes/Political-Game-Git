@@ -3387,6 +3387,86 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-interview-sitting-other.other-is-ready-to-start-the-interview",
+      "move": "lead-interview-sitting-other",
+      "kind": "spoken",
+      "text": "{other} is ready to start the interview.",
+      "uses": [
+        {
+          "move": "lead-interview-sitting-other",
+          "subject": "lead",
+          "role": "interview-sitting",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-interview-sitting-other.other-has-the-questions-for-your-interview",
+      "move": "lead-interview-sitting-other",
+      "kind": "spoken",
+      "text": "{other} has the questions for your interview.",
+      "uses": [
+        {
+          "move": "lead-interview-sitting-other",
+          "subject": "lead",
+          "role": "interview-sitting",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-interview-sitting-alone.the-reporter-is-ready-to-start-the-interview",
+      "move": "lead-interview-sitting-alone",
+      "kind": "spoken",
+      "text": "The reporter is ready to start the interview.",
+      "uses": [
+        {
+          "move": "lead-interview-sitting-alone",
+          "subject": "lead",
+          "role": "interview-sitting",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-interview-sitting-alone.the-reporter-has-the-questions-for-your-interview",
+      "move": "lead-interview-sitting-alone",
+      "kind": "spoken",
+      "text": "The reporter has the questions for your interview.",
+      "uses": [
+        {
+          "move": "lead-interview-sitting-alone",
+          "subject": "lead",
+          "role": "interview-sitting",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }
