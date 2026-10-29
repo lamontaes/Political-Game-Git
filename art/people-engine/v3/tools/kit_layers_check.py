@@ -54,6 +54,28 @@ def check(pack, fig):
                 longest = max(longest, int((ends - starts).max()))
         if width and longest > 0.3 * width:
             flags.append(f'waist-gap:{longest}px')
+    if 'hair' in P:
+        hl_img = rgba(os.path.join(pack, P['hair']['file'])); ha = hl_img[..., 3] > 200
+        if ha.sum() > 300:
+            hlab = to_lab(hl_img[..., :3]); href = np.median(hlab[ha], 0)
+            near = ndi.binary_dilation(ha, iterations=6)
+            for pn, tag in (('top', 'hair-in-top'), ('body', 'hair-in-body')):
+                if pn not in L: continue
+                p = L[pn]; pl = to_lab(p[..., :3])
+                hit = (p[..., 3] > 200) & near & ~ha & (np.sqrt(((pl - href) ** 2).sum(-1)) < 12)
+                # the drawn outline is dark like dark hair: only count pieces thicker than a line
+                hit = ndi.binary_opening(hit, iterations=1)
+                if pn == 'body':
+                    hit &= ~skin_b
+                if hit.sum() > 150:
+                    flags.append(f'{tag}:{int(hit.sum())}')
+            if 'top' in L:
+                ta_ = L['top'][..., 3] > 200
+                if ta_.sum() > 300:
+                    tref = np.median(to_lab(L['top'][..., :3])[ta_], 0)
+                    hit = ha & (np.sqrt(((hlab - tref) ** 2).sum(-1)) < 12) & (np.sqrt(((hlab - href) ** 2).sum(-1)) > 18)
+                    if ndi.binary_opening(hit, iterations=1).sum() > 150:
+                        flags.append(f'top-in-hair:{int(hit.sum())}')
     if 'top' in L and 'shoes' in L:
         if ((L['top'][..., 3] > 0) & (L['shoes'][..., 3] > 0)).sum() > 100:
             flags.append('top-holds-shoes')
@@ -65,8 +87,8 @@ def loud(pack, fig):
     for pn in ('body', 'shoes', 'trousers', 'top', 'hair'):
         if pn not in fig['parts']: continue
         a = rgba(os.path.join(pack, fig['parts'][pn]['file'])).copy()
-        if pn in ('trousers', 'top'):
-            target = (60, 150, 70) if pn == 'trousers' else (190, 60, 170)
+        if pn in ('trousers', 'top', 'hair'):
+            target = {'trousers': (60, 150, 70), 'top': (190, 60, 170), 'hair': (240, 130, 20)}[pn]
             al = a[..., 3] > 0; g = a[..., :3].astype(float).mean(-1, keepdims=True) / 128.0
             a[..., :3] = np.where(al[..., None], np.clip(np.array(target) * g, 0, 255), a[..., :3]).astype(np.uint8)
         layers.append(Image.fromarray(a))
