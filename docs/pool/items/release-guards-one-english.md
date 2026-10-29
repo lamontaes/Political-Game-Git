@@ -5,7 +5,7 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/guards-one-english
 pr: #6498
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T02:52:45.460Z
 **Files.** tests/guards/english/, scripts/prose-eval/british-idiom.mjs, scripts/english-check/wording.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6498 merged (the done flip failed while branch protection refused the flip job's push).

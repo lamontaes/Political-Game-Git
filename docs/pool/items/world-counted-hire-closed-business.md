@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/counted-hire-closed
 pr: #6486
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at: 2026-10-28T02:21:25.840Z
 **Notes.** Found Oct 26 by the speed lead measuring the third-year band. Main alone runs Johnstown's three years (132.6, 358.1 and 596.3 s): the open speed changes give the town a different history, one that reaches this. #5972, #5979, #6010 and #6043 also change jobs.ts, away from hireCounted.
 Oct 28 (claude pool worker, from the CTO relay of the integrator's 23:26 block): src/director/circumstance.test.ts "A person can only hold their own recorded job" (seed e71e37c9815bc121d63d4af4a1443fb10972c9e3, staff.ts hireStaff to fillInPerson) is the same message from the same seam in src/core2/state.ts (updatePerson's check that a job is the person's, open, and at a business that has not closed), reached by a staff hire's fill-in instead of the press refresh. I replayed `GOLDEN_PATH_SEED=e71e37c9815bc121d63d4af4a1443fb10972c9e3 npx vitest run src/director/circumstance.test.ts` on main at 2026-10-28 02:30 UTC: 3 of 3 pass, so it no longer reproduces there (it may have moved with a merge since the integrator's block, or depends on the place the seed draws on a head I did not have). Not filed as its own item (a twin of this one); the fix this item names, refusing a closed business in `hireCounted` and handing no job at a closed business back on fill-in, covers both.
 Oct 28 (claude pool worker): the Oct 26 08:33 claim (branch claude/counted-hire-closed-business) has no pushed branch and no PR after more than 24 hours, so it is released and taken here.
+
+Oct 29 (CTO): set done; PR #6486 merged (the done flip failed while branch protection refused the flip job's push).

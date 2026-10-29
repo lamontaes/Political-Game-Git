@@ -1,7 +1,10 @@
 /**
  * The home talks' rewritten lines (words-home-talks-rewritten) play from the
- * packets the director builds today: a housemate's goodbye on the home stage,
- * a plain acknowledgment, and a news answer that says what the speaker thinks.
+ * packets the director builds today: a housemate's goodbye on the home stage
+ * and a news answer that says what the speaker thinks. How the other person
+ * takes in the player's answer is the scene engine's answer from the scene
+ * bank (words-everyday-talk-one-engine), so the old acknowledgments are read
+ * there, not as the conversation bank's.
  * One played world (buildBenchWorld, every module) in a place drawn from all
  * 56, seed from GOLDEN_PATH_SEED (random when unset), printed with the place.
  * Talks run between full people, housemates and others, as the bench's Talk
@@ -61,8 +64,14 @@ describe("home talks", () => {
         pairs.push([adults[i]!.id as PersonId, adults[i + 1]!.id as PersonId]);
     expect(pairs.length, where).toBeGreaterThan(0);
     const heard = new Map<string, string>();
+    /** The other person's answers to the player that the scene bank worded. */
+    const takes = new Set<string>();
     const read = (talk: Conversation) => {
-      for (const line of talk.lines) heard.set(line.text, line.kind);
+      for (const line of talk.lines) {
+        heard.set(line.text, line.kind);
+        if (line.kind === "ack" && line.wording?.bank === "scene-talk")
+          takes.add(line.text);
+      }
       for (const choice of talk.choices) heard.set(choice.text, "choice");
     };
     for (const [playerId, otherId] of pairs.slice(0, 400)) {
@@ -91,7 +100,12 @@ describe("home talks", () => {
           .replace(/\{\w+\}/g, "[^{}]+")}$`,
       );
     const lines = [...heard.keys()];
+    // The other person takes the player's answer in with the scene engine's
+    // answer for the move it made.
+    console.log(`home-talks takes: ${[...takes].join(" / ") || "none"}`);
+    expect(takes.size, where).toBeGreaterThan(0);
     for (const [move, texts] of NEW) {
+      if (move === "ack-reply-right") continue;
       const played = [...texts].filter((text) =>
         lines.some((line) => pattern(text).test(line)),
       );
