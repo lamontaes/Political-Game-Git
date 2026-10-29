@@ -3,8 +3,7 @@ import { spokenDate } from "../core2/kernel/dates";
 import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
-import { lineName } from "./budget";
-import { printedFacts } from "./printed-words";
+import { archivedFacts, printedFacts } from "./printed-words";
 import type { ownRace } from "./results";
 import { policyNames } from "./words";
 
@@ -21,18 +20,20 @@ export interface WordedStory {
   readonly lede?: string;
   /** The lede and the sentences after it, when the record gives more to say. */
   readonly paragraphs?: readonly string[];
+  /** A side item: a headline and one line, never paragraphs; the screen does not open it. */
+  readonly brief?: true;
   readonly sourceRecordIds: readonly string[];
 }
 
 /**
  * The words for a story the press archived from the year before day one.
  * The press engine keeps the record (kind, winner, votes); the English engine
- * words it here from those facts. Only a story the mined banks can say gets
- * words (an election's outcome, a law enacted or taking effect); the rest stay
- * records until the banks grow.
+ * words it here from those facts: an election, a vote, a budget, a business
+ * that closed or a parent who died, from the record itself (printed-words), and
+ * a law enacted or taking effect by its name. Only a story the banks can say
+ * gets words; the rest stay records until the banks grow.
  */
 
-const MINOR_PER_DOLLAR = 100;
 let NAMES: Record<string, string> | undefined;
 
 export function wordArchiveStory(
@@ -46,62 +47,24 @@ export function wordArchiveStory(
     text,
     sourceRecordIds: [...ids, ...more] as EntityId[],
   });
-  let kind: StoryKind;
-  let speaker = story.id;
-  let facts: Record<string, ReturnType<typeof fact>>;
-  if (recordKind === "election-result") {
-    const winner = core.people.get(String(story.facts.winnerId ?? ""));
-    if (!winner) return null;
-    kind = "election";
-    speaker = winner.id;
-    facts = {
-      name: fact(`${winner.givenName} ${winner.familyName}`, [winner.id]),
-      won: fact("yes", [winner.id]),
-    };
-  } else if (recordKind === "law-enacted" || recordKind === "law-took-effect") {
+  if (recordKind === "law-enacted" || recordKind === "law-took-effect") {
     // A law is named by its series on the bill catalog; one with no name stays a record.
     NAMES ??= policyNames();
     const measure = NAMES[String(story.facts.series ?? "")];
     if (!measure) return null;
-    kind = "vote-or-law";
-    facts = {
+    return worded(core, story.id, "vote-or-law", story.id, {
       measure: fact(measure, [String(story.facts.lawId ?? "")]),
       date: fact(spokenDate(story.date)),
       [recordKind === "law-enacted" ? "enacted" : "effective"]: fact("yes"),
-    };
-  } else if (recordKind === "budget-adopted") {
-    // The money is the largest spending line, named by the line's own table.
-    const line = String(story.facts.largestLine ?? "");
-    const name = lineName(line);
-    const minor = Number(story.facts.largestLineMinor);
-    if (!name || !Number.isFinite(minor)) return null;
-    kind = "vote-or-law";
-    facts = {
-      money: fact(
-        new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-          maximumFractionDigits: 0,
-        }).format(minor / MINOR_PER_DOLLAR),
-        [String(story.facts.governmentId ?? "")],
-      ),
-      purpose: fact(/^[A-Z][a-z]/.test(name) ? name.toLowerCase() : name),
-    };
-  } else if (recordKind === "parent-died") {
-    // Reported once, to the survivor: the parent is named from the fact's own names.
-    const survivor = String(story.facts.survivorId ?? "");
-    const name = [story.facts.givenName, story.facts.familyName]
-      .filter(Boolean)
-      .join(" ");
-    if (!name) return null;
-    kind = "death";
-    speaker = survivor || story.id;
-    facts = {
-      name: fact(name, survivor ? [survivor] : []),
-      date: fact(spokenDate(story.date)),
-    };
-  } else return null;
-  return worded(core, story.id, kind, speaker, facts);
+    });
+  }
+  // An election, a budget, a vote, a closing business and a parent who died
+  // are told from their records as the paper tells them in play: a headline,
+  // a first sentence and what else the record holds.
+  const told = archivedFacts(core, story);
+  return told
+    ? worded(core, story.id, told.kind, told.speaker || story.id, told.facts)
+    : null;
 }
 
 /** The paper each kind of outlet prints in: a paper's columns, or a station's page. */
@@ -191,6 +154,7 @@ function worded(
     ...(composed.paragraphs && composed.paragraphs.length > 1
       ? { paragraphs: composed.paragraphs.map(opened) }
       : {}),
+    ...(composed.brief ? { brief: true as const } : {}),
     sourceRecordIds: composed.sourceRecordIds,
   };
 }

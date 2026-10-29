@@ -38,6 +38,58 @@ describe(`archive news words (${world.place.key}, seed ${seed})`, () => {
   }, 120_000);
 });
 
+describe(`archive story bodies (${world.place.key}, seed ${seed})`, () => {
+  it("words an election, a vote, a budget, a closing business and a parent's death with a body from their records", () => {
+    const stories = coreAPI(world.core)
+      .moduleState(NEWS_MODULE_ID)
+      .table("stories")
+      .rows() as unknown as {
+      id: string;
+      kind: string;
+      date: string;
+      facts: Record<string, string>;
+    }[];
+    const kinds = [
+      "election-result",
+      "legislative-vote",
+      "budget-adopted",
+      "business.closed",
+      "parent-died",
+    ];
+    const told = new Map<string, { stories: number; bodies: number }>();
+    for (const story of stories) {
+      const kind = story.facts.recordKind!;
+      if (!kinds.includes(kind)) continue;
+      const row = told.get(kind) ?? { stories: 0, bodies: 0 };
+      told.set(kind, row);
+      row.stories += 1;
+      const words = wordArchiveStory(world.core, story);
+      // A vote on a question the catalog does not name stays a record.
+      if (!words) {
+        expect(kind, story.id).toBe("legislative-vote");
+        continue;
+      }
+      expect(words.headline ?? words.lede, story.id).toBeTruthy();
+      expect(words.sourceRecordIds, story.id).toContain(story.id);
+      if (words.paragraphs) {
+        row.bodies += 1;
+        expect(words.paragraphs[0], story.id).toBe(words.lede);
+        expect(new Set(words.paragraphs).size, story.id).toBe(
+          words.paragraphs.length,
+        );
+        for (const text of words.paragraphs)
+          expect(text, story.id).not.toMatch(/[{}_]|\b[a-z]+:[a-z]/);
+      }
+    }
+    process.stdout.write(
+      `ARCHIVED BODIES ${world.place.key}, seed ${seed}: ${[...told].map(([kind, row]) => `${kind} ${row.bodies} of ${row.stories}`).join("; ")}\n`,
+    );
+    // Every record kind this world archived has a story with a body.
+    for (const [kind, row] of told)
+      expect(row.bodies, `${kind} in ${world.place.key}`).toBeGreaterThan(0);
+  }, 120_000);
+});
+
 describe(`archive law news words (${world.place.key}, seed ${seed})`, () => {
   it("words an archived law that took effect, naming the law and the date", () => {
     const stories = coreAPI(world.core)
@@ -147,8 +199,18 @@ describe("archive budget news words", () => {
       )) {
         const words = wordArchiveStory(core, story);
         expect(words, `${where}: ${story.id}`).not.toBeNull();
-        expect(words!.lede, `${where}: ${story.id}`).toMatch(
-          /^The budget includes \$[\d,]+ for .+\.$/,
+        // Told as a story: a headline and a first sentence, and a body that
+        // gives the year's planned spending against its revenue, read from
+        // the budget's own row (a sum a paper rounds: "$35.2 million").
+        const told = [
+          words!.headline,
+          ...(words!.paragraphs ?? [words!.lede]),
+        ].join(" ");
+        expect(told, `${where}: ${story.id}`).toMatch(
+          /\$[\d.,]+(?: (?:million|billion))?/,
+        );
+        expect(words!.paragraphs?.join(" "), `${where}: ${story.id}`).toMatch(
+          /spend.+revenue|spending.+revenue/,
         );
         checked += 1;
       }
