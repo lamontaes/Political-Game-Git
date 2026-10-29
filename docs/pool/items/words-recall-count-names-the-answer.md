@@ -7,9 +7,9 @@ area: play
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/recall-count-names-the-answer
-pr:
+pr: #6755
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-29T06:34:45.108Z
