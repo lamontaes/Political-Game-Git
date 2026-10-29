@@ -34,6 +34,7 @@ The tools and the worked Oval Office are on the art branch under `art/people-roo
 - **Height from the floor row:** standing height grows with the distance of the feet below the horizon; measure the factor from the room's own painted mannequins (the Oval wide: about 1.2 times feet-minus-horizon standing, 0.76 seated).
 - **Depth order:** draw people from the farthest to the nearest (smallest feet row first) so nearer people overlap farther ones. Two people on one couch read naturally; three is a squeeze.
 - **Furniture in front:** a `front` mask is furniture that crosses the body (at least 35% of its width: a desk edge, a couch arm, a table) and hugs the mannequin's own black outline. Room seen through the gap between legs or between an arm and the body is never in front.
+- **Figures that need a desk:** a figure drawn writing, or resting its hands on a desk that is not in the drawing, carries `needsDesk` and goes only on a desk spot, cut at the hands. On a chair it writes on its own lap (Oct 29, owner: "she has a pen in her hand and she's writing on her green pants").
 - **Desks:** draw desk sitters behind a flat gray table and key it out (`v4.py desk`), so forearms and hands lie on the desk as drawn. Cutting a figure drawn without a desk at the desk edge either clips the arms or lets the wood show through (Oct 29, owner: "the hands and the arms aren't lined up. And the wood is still going through").
 
 ## Check before showing (`preview.py`)
