@@ -5,14 +5,14 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-11-campaign-actions-do-nothing-visible-a
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-29T18:11:55.830Z
 ---
 
 **What.** On the v0.22.10 release Call donors added the words "Call donors" and the total stayed $0.00 for 21 months. Hold an event stayed grayed with no reason. The owner ruled Oct 16 that an ask reads whether the person has the money and likes the candidate. This part makes Call donors reach named people, raise what they choose to give, and say why when nobody gives.
