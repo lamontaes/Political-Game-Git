@@ -5,11 +5,12 @@ area: art
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-pack-v4
 pr:
 blocked-on: people-pack-v3 (#6778) merged first; this builds on its loader
 source: owner, Oct 29 (CTO brief)
+claimed-at: 2026-10-29T18:26:18.818Z
 ---
 
 **What.** Owner, Oct 29: "ship the next model of people so those can start getting plugged into the game." Pack v4 is every v3 row and file plus 65 people drawn on the standard library poses at five angles (front, three-quarter left and right, back three-quarter left and right; never mirrored), in several looks each (suits, ties, shirtsleeves, a dress, hairstyles). Same manifest shape as v3. The `people-pack` skill (in #6778) says a new version replaces the old folder in the same PR.
