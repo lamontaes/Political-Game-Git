@@ -458,6 +458,13 @@
       "reader": "budget-line-added:higherEducation",
       "field": "",
       "unitScale": 1
+    },
+    "budget.naturalResources-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the natural resources line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:naturalResources",
+      "field": "",
+      "unitScale": 1
     }
   },
   "measureOwners": {
