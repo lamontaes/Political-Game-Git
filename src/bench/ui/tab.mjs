@@ -1,3 +1,4 @@
+import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 
 /**
@@ -29,4 +30,13 @@ export function chooseTab(bar, attr, key) {
     tab.classList.toggle("on", on);
     tab.setAttribute("aria-pressed", String(on));
   }
+}
+
+/** A bar of tabs (`tabs`: { key, label, onSelect }), `active` chosen, keyed by `attr`. */
+export function tabBar({ tabs, active, attr = "tab", className = "" }) {
+  return el(
+    "nav",
+    { className },
+    ...tabs.map((tab) => makeTab({ ...tab, attr, active: tab.key === active })),
+  );
 }

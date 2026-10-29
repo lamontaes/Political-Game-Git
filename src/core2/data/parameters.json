@@ -14,6 +14,11 @@
     "tag": "SOURCED",
     "citation": "ECMAScript Number arithmetic; mathematical identities and unit conversions, not behavior coefficients."
   },
+  "half": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Number arithmetic; mathematical identities and unit conversions, not behavior coefficients."
+  },
   "negativeOne": {
     "value": -1,
     "tag": "SOURCED",
@@ -48,6 +53,28 @@
     "value": 24,
     "tag": "SOURCED",
     "citation": "Civil calendar: one day contains 24 nominal hours; date arithmetic uses UTC date-only days."
+  },
+  "playerDayStartMinute": {
+    "value": 420,
+    "tag": "TUNABLE",
+    "citation": "The minute of the day (7:00 AM) on which the controlled person's day starts when the player presses Day, Week or a calendar jump: the clock lands on the morning, never on midnight. A starting point inside the range of American adults' average waking time on a workday; the core records no wake time of its own yet, so this stands in for it until a person's own wake time is read.",
+    "spread": {
+      "low": 360,
+      "high": 480,
+      "unit": "minutes after midnight",
+      "citation": "Between 6:00 AM and 8:00 AM, the span of typical workday wake times in American Time Use Survey diaries."
+    }
+  },
+  "filingVisitHours": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "The hours a filing at the clerk's counter takes the player: taking out the petition, the clerk's questions on the office's rules and the wait at the counter, an afternoon (the CTO's note of Oct 28 on the owner's petition ruling: filing spends the afternoon). No time-use survey reports it; checked against a weekday afternoon's span.",
+    "spread": {
+      "low": 2,
+      "high": 4,
+      "unit": "hours",
+      "citation": "An afternoon at a government office, from one to five o'clock at most."
+    }
   },
   "daysPerWeek": {
     "value": 7,
@@ -162,7 +189,7 @@
   "traitScale": {
     "value": 3,
     "tag": "SOURCED",
-    "citation": "Existing recorded trait strength scale, src/simulation/traits/act-pulls.ts; adapter checks the source scale before conversion."
+    "citation": "Existing recorded trait strength scale, the old engine's act-pulls.ts; adapter checks the source scale before conversion."
   },
   "workHours": {
     "value": 8.1,
@@ -1968,6 +1995,17 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     },
     "estimatedFrom": "US import varieties by source country, used for rival local sellers of one kind; close local substitutes are likely more elastic than the median."
+  },
+  "salesTaxPassThrough": {
+    "value": 1,
+    "tag": "SOURCED",
+    "citation": "Poterba, 'Retail Price Reactions to Changes in State and Local Sales Taxes', National Tax Journal 49(2), 1996, pp. 165-176, abstract: 'retail prices rise by approximately the amount of the sales tax', and the paper finds it 'never possible to reject the null hypothesis that prices rise point-for-point with changes in the retail sales tax'; Besley and Rosen, National Tax Journal 52(2), 1999 (NBER Working Paper 6667): 'For some commodities, the after-tax price increases by exactly the amount of the tax.' Read by the business price review (src/core2/finance-state.ts): a change in what a seller keeps of each dollar of its tax-inclusive sales moves its tax-inclusive price by this many times that change, so at one the price before tax holds still (the outcome web's sales-tax-to-prices row).",
+    "spread": {
+      "low": 0.6,
+      "high": 1.44,
+      "unit": "change in the tax-inclusive price per unit change in the tax",
+      "citation": "From Poterba's 1925-39 estimate (0.62) and Gracner et al. (2022), about 60% pass-through of taxes on energy-dense food in Mexico 2012-2016, to Zhao, Barrett, Zheng and Kaiser, 'The Incidence of Grocery Taxes in U.S. Food and Factor Markets' (Cornell University, August 2025 revision; https://barrett.dyson.cornell.edu/files/papers/Incidence_of_Grocery_Taxes_AJAE_Revision_R2.pdf): 'a grocery tax that generates $1 in grocery tax revenue leads to a $1.44 rise in tax-inclusive consumer food prices.'"
+    }
   },
   "businessRepaymentShare": {
     "value": 0.5,
@@ -4806,15 +4844,15 @@
     }
   },
   "responseRetrainAgeWidthYears": {
-    "value": 18,
+    "value": 60,
     "tag": "ESTIMATED",
-    "citation": "Width in years of the smooth fall in capacity to retrain or start over around responseRetrainAgeCenter. Jacobson, LaLonde and Sullivan 2005 report two age groups (under 35, 35 and over), not a curve, so they fix only the ratio between workers near 28 and near 45 (about 0.65 to 0.73); at a center of 40 a width of 18 years gives 0.65. Set on Oct 25 (M0-M2 lead): a steeper fall (center 50, width 10) left the workers over 45 with almost no pull, and Manson, Iowa (1948990) read 1 of 25 displaced workers setting out to prove themselves, under the 6% floor, while raising the ambition fit to make up for it pushed North Canton, Ohio over the 25% ceiling. A gentler fall keeps a pull in the town's 40- and 50-year-olds.",
-    "estimatedFrom": "The same two age groups, read at typical ages 28 and 45; the width is free within the ratio the paper gives, and was set with the center and the fit so that the generated towns listed under responseAmbitionFit read inside 6-25%.",
+    "citation": "Width in years of the smooth fall in capacity to retrain or start over around responseRetrainAgeCenter. Jacobson, LaLonde and Sullivan 2005 report two age groups: of displaced workers, 16.8% of men under 35 against 10.9% at 35 and over, and 23.5% of women under 35 against 17.2%, completed community-college credit, so the older group retrains at about 0.65 to 0.73 of the younger group's rate. That ratio is of outcomes, not of capacity: the response competes with carrying on in a near tie, so a fall in capacity becomes a much steeper fall in who chooses it. Set to 60 on Oct 28 (red-main owner) from played years: at 18, with layoffs read by tenure since Oct 27 (recent hires go first, so most displaced workers are young), under-35s chose it 47%, 45% and 57% and those 35 and over 9%, 4% and 2% in Austin, Minnesota (2702908), Washington, District of Columbia (1150000) and Murdo, South Dakota (4644260), and M1-11 read over its ceiling; at 60, with the fit unchanged, under-35s read 23.7% pooled (75 of 316) and those 35 and over 7.3% (14 of 191), the towns 19.4%, 15.1% and 14.7%. The older group still reads under the paper's 11-17%: the rest of the gap is in what else the choice reads (the money need presses younger workers harder), not this curve.",
+    "estimatedFrom": "The paper's two age groups as outcome shares, read in played years of buildBenchWorld with every module (the M1-11 check), since the curve's effect on the outcome runs through the choice between responses.",
     "spread": {
-      "low": 14,
-      "high": 26,
+      "low": 40,
+      "high": 80,
       "unit": "years",
-      "citation": "From a steeper to a gentler fall. At a center of 40, a width of 14 gives a 28-to-45 ratio of 0.59 and 26 gives 0.74; the paper's ratio is 0.65 to 0.73."
+      "citation": "Measured outcome ratios, 35 and over to under 35, in the three towns above: 0.11 at a width of 18 and 0.31 at 60. A width under 40 steepens the cliff the ratio fell from; past 80 the curve is nearly flat and the fit alone sets the share."
     }
   },
   "responseCarryOnBaseline": {
@@ -4924,7 +4962,7 @@
   "responseAmbitionFit": {
     "value": 3.4,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Recalibrated Oct 24 (M0-M2 lead): after the Oct 13 traits change that gave every trait a low side (#4060) the same fit of 1.9 gave 26 to 32% in drawn towns; 1.5 gives 12 to 17% in Riverdale, Georgia, Warren, Illinois, Excelsior, Minnesota and Flora, Illinois. Recalibrated Oct 25 (M0-M2 lead) with the retraining age fade (responseRetrainAgeCenter): North Canton, Ohio read 35.1% at 1.5 because 77 of its 103 job losses came from one wholesale employer and its full workers leaned toward ambition; with the age fade, 1.75 read 19.1% there and 7.8% in Steamboat Springs, Colorado. Recalibrated again Oct 25 (M0-M2 lead) after Manson, Iowa (1948990, seed b63a9c1eccbba0f45589110cb2c6924003d0e8b668b9298a1bde2302f0d6df98) read 1 of 25 at 1.85: the retraining age fade was changed to a center of 40 and a width of 18 (a gentler fall, the 28-to-45 ratio at the paper's low end) and the fit raised to 3.4, because the fit now multiplies a capacity of 0.66 at age 28 (an effective 2.2 for a young adult). Read by the unchanged M1-11 check at 3.4: Manson, Iowa 2 of 25 (8.0%), North Canton, Ohio 28 of 118 (23.7%), Steamboat Springs, Colorado 75 of 555 (13.5%; 9.9% on main at 1.5 with no fade), and three towns drawn from a root written down first (wt72-accept-2026-10-25-a): Washington, District of Columbia 10 of 68 (14.7%), Franklin, North Carolina 17 of 72 (23.6%) and Magnolia, New Jersey 5 of 40 (12.5%). drives-economy.test.ts (Christmas, Florida, where every employer closes and the workers average 51) reads 15 of 215 (7.0%). The response competes with carry-on, whose baseline does not scale with the loss, and most workers' losses press about equally hard, so a town's share moves quickly with this value; it was set from the pooled share over six towns (13.5%) and every town was then checked. Full people who answer a layoff choose it two to four times as often as counted people in the same town (North Canton at fit 2.45: 8 of 15 against 16 of 103; Steamboat Springs 18 of 66 against 48 of 489), which is why a town's share also follows its mix of the two.",
+    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Recalibrated Oct 24 (M0-M2 lead): after the Oct 13 traits change that gave every trait a low side (#4060) the same fit of 1.9 gave 26 to 32% in drawn towns; 1.5 gives 12 to 17% in Riverdale, Georgia, Warren, Illinois, Excelsior, Minnesota and Flora, Illinois. Recalibrated Oct 25 (M0-M2 lead) with the retraining age fade (responseRetrainAgeCenter): North Canton, Ohio read 35.1% at 1.5 because 77 of its 103 job losses came from one wholesale employer and its full workers leaned toward ambition; with the age fade, 1.75 read 19.1% there and 7.8% in Steamboat Springs, Colorado. Recalibrated again Oct 25 (M0-M2 lead) after Manson, Iowa (1948990, seed b63a9c1eccbba0f45589110cb2c6924003d0e8b668b9298a1bde2302f0d6df98) read 1 of 25 at 1.85: the retraining age fade was changed to a center of 40 and a width of 18 (a gentler fall, the 28-to-45 ratio at the paper's low end) and the fit raised to 3.4, because the fit now multiplies a capacity of 0.66 at age 28 (an effective 2.2 for a young adult). Read by the unchanged M1-11 check at 3.4: Manson, Iowa 2 of 25 (8.0%), North Canton, Ohio 28 of 118 (23.7%), Steamboat Springs, Colorado 75 of 555 (13.5%; 9.9% on main at 1.5 with no fade), and three towns drawn from a root written down first (wt72-accept-2026-10-25-a): Washington, District of Columbia 10 of 68 (14.7%), Franklin, North Carolina 17 of 72 (23.6%) and Magnolia, New Jersey 5 of 40 (12.5%). drives-economy.test.ts (Christmas, Florida, where every employer closes and the workers average 51) reads 15 of 215 (7.0%). The response competes with carry-on, whose baseline does not scale with the loss, and most workers' losses press about equally hard, so a town's share moves quickly with this value; it was set from the pooled share over six towns (13.5%) and every town was then checked. Full people who answer a layoff choose it two to four times as often as counted people in the same town (North Canton at fit 2.45: 8 of 15 against 16 of 103; Steamboat Springs 18 of 66 against 48 of 489), which is why a town's share also follows its mix of the two. Kept at 3.4 on Oct 28 (red-main owner) when the retraining fade's width went from 18 to 60 years: with layoffs read by tenure the displaced skew young, and at 18 the young read about half and the town shares 30-41% (M1-11 red in seven drawn towns); at 60 Austin, Minnesota read 19.4%, Washington, District of Columbia 15.1% and Murdo, South Dakota 14.7% (see responseRetrainAgeWidthYears).",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "measured",
@@ -5036,12 +5074,6 @@
       "citation": "One to three years."
     }
   },
-  "schoolCohortPopulationShare": {
-    "value": 0.0129,
-    "tag": "ESTIMATED",
-    "citation": "Share of a place's residents in one year of age at school ages: the 2020 Census counted 42.6 million people aged 5 to 14 of 331.4 million, about 1.29% per single year (U.S. Census Bureau, 2020 Census Demographic and Housing Characteristics, Table P12). Sizes a place's catchment of schools when its own schools are not recorded.",
-    "estimatedFrom": "2020 Census DHC P12, national; spread 0.011 to 0.015 across places (older and younger places)"
-  },
   "livingCostWriteOffBills": {
     "value": 4,
     "tag": "ESTIMATED",
@@ -5104,7 +5136,7 @@
   "openingPartTimeShiftMinutes": {
     "value": 330,
     "tag": "ESTIMATED",
-    "citation": "The town schedule generator's part-time shift (src/simulation/living-world/work-schedules.ts), consistent with CPS part-time averages of about 22–23 hours over four days.",
+    "citation": "The town schedule generator's part-time shift (the old engine's work-schedules.ts), consistent with CPS part-time averages of about 22–23 hours over four days.",
     "estimatedFrom": "Shifts longer than six hours are cut to five and a half hours for part-time staff, as the generator does.",
     "spread": {
       "low": 240,
@@ -5199,17 +5231,6 @@
     "value": 20250120,
     "tag": "SOURCED",
     "citation": "Inauguration Day, 20th Amendment §1; owner ruling Oct 14, 2026: every game starts on January 20, 2025, in every place. Written as year, month and day (YYYYMMDD); read it with gameStartDate() in src/core2/game-start.ts."
-  },
-  "preStartFromYear": {
-    "value": 2000,
-    "tag": "TUNABLE",
-    "citation": "Owner ruling (relayed by the CTO on PR #3999, October 12, 2026): a new game's history runs at coarse steps from 2000 to the start date (M1-14).",
-    "spread": {
-      "low": 1990,
-      "high": 2020,
-      "unit": "calendar year",
-      "citation": "How far back coarse history can reach before its run time outweighs what the player sees; checked against the speed rule."
-    }
   },
   "preStartStepMonths": {
     "value": 3,
@@ -5412,7 +5433,7 @@
   "openingTeacherAnnualWageUsd": {
     "value": 63970,
     "tag": "SOURCED",
-    "citation": "BLS Occupational Employment and Wage Statistics, May 2025, national median annual wage for the game's teacher occupation (profession:teacher), as the town pay table records it (src/simulation/living-world/town-pay.ts, nationalMedianAnnualWage). Used only where a town has no recorded teacher job to copy."
+    "citation": "BLS Occupational Employment and Wage Statistics, May 2025, national median annual wage for the game's teacher occupation (profession:teacher), as the town pay table records it (the old engine's town-pay.ts, nationalMedianAnnualWage). Used only where a town has no recorded teacher job to copy."
   },
   "openingTeacherHoursDaily": {
     "value": 7.5,
@@ -5423,6 +5444,18 @@
       "high": 8.5,
       "unit": "hours a day",
       "citation": "From a 7-hour to an 8.5-hour school day; checked against the town generator's recorded teacher roles."
+    }
+  },
+  "unauthorizedShareOfNoncitizens": {
+    "value": 0.45,
+    "tag": "ESTIMATED",
+    "citation": "Pew Research Center, 'What we know about unauthorized immigrants living in the U.S.' (July 22, 2024; https://www.pewresearch.org/short-reads/2024/07/22/what-we-know-about-unauthorized-immigrants-living-in-the-us/), from the 2022 American Community Survey: 'The unauthorized immigrant population in the United States grew to 11.0 million in 2022', which is '23% of the foreign-born population', and 'in 2022, 49% of all immigrants in the country were naturalized U.S. citizens'. Noncitizens are then 51% of about 47.8 million immigrants, about 24.4 million, of whom 11.0 million are unauthorized: 0.45. Read by the jobs engine (src/core2/jobs-web.ts) through isUnauthorized in src/core2/citizenship.ts.",
+    "estimatedFrom": "11.0 million unauthorized over (11.0 / 0.23) x 0.51 noncitizen immigrants, national, 2022.",
+    "spread": {
+      "low": 0.35,
+      "high": 0.6,
+      "unit": "share of noncitizens without work authorization",
+      "citation": "States differ: Pew's same report puts 42% of unauthorized immigrants in California and Texas, where the share of noncitizens is higher than in states whose noncitizens are mostly lawful permanent residents; Pew's August 2025 revision of the 2022 total moves the national share by a few points."
     }
   },
   "citizenShareStatePriorAdults": {
@@ -5821,24 +5854,6 @@
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
-  "traitWeightJobsCountedRetire": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-retire decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
-  },
-  "traitWeightJobsCountedLook": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-look decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
-  },
   "traitWeightJobsCountedApply": {
     "value": 1,
     "tag": "TUNABLE",
@@ -6024,6 +6039,15 @@
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
+  "traitWeightCampaignsSignPetition": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the campaigns.sign-petition decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
   "traitWeightRecallsVote": {
     "value": 1,
     "tag": "TUNABLE",
@@ -6131,14 +6155,14 @@
     }
   },
   "traitWeightStaffHire": {
-    "value": 0.65,
+    "value": 0.2,
     "tag": "ESTIMATED",
-    "citation": "Kardaslar, Kritikos and Menkhoff 2026, Personality Traits of Entrepreneurs and the Size of Their Firms, DIW Discussion Paper 2173, Table 6: openness changes the odds of running a business alone rather than with at least one employee by a factor of 0.776 per standard deviation (SOEP 2019, 2,473 entrepreneurs; row staff.hire in data/research/trait-effect-sizes.json, a proxy: a first employee, not an official's staff; extraversion 1.162 and conscientiousness 1.138 point toward hiring). Carried to the thirds (2.18 standard deviations apart), a log odds gap of 0.55 (odds ratio 1.74). An official's case varies only with the office's budget, so the thirds' odds in play are set by temperament alone at any weight; the weight is the study's log odds gap over the gap in lean between the thirds of officials weighing it: 0.876 in Jerry City, Ohio (72 calls) and 0.826 in New Britain, Connecticut (25 calls), giving 0.63 and 0.67.",
+    "citation": "Kardaslar, Kritikos and Menkhoff 2026, Personality Traits of Entrepreneurs and the Size of Their Firms, DIW Discussion Paper 2173, Table 6: openness changes the odds of running a business alone rather than with at least one employee by a factor of 0.776 per standard deviation (SOEP 2019, 2,473 entrepreneurs; row staff.hire in data/research/trait-effect-sizes.json, a proxy: a first employee, not an official's staff). Carried to the thirds, an odds ratio of 1.74. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.2, where office budgets differ, Blakely, Georgia (1308536, a458468e363e) reaches 2.17 over 35 officials; where every office can afford an aide, as in Stockbridge, Georgia (1373704, bde29897f271), temperament turns none (1.00), the gap row's subject (gov-official-staff-allowance-by-office).",
     "spread": {
-      "low": 0.28,
-      "high": 1.02,
+      "low": 0.15,
+      "high": 0.3,
       "unit": "weight",
-      "citation": "Weight scales with the log odds: the study's interval for openness, 0.673 to 0.895 per standard deviation, gives 0.28 to 1.02."
+      "citation": "The crossed fit's neighbors in Blakely: 0.15 gives 1.71 and 0.3 gives 4.11."
     }
   },
   "traitWeightInterestGroupsMemberJoin": {
@@ -6241,41 +6265,45 @@
     }
   },
   "traitWeightConstituentCasesBringCase": {
-    "value": 0.51,
+    "value": 0.045,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having contacted a House member or senator in the past two years by 0.92 across the trait's full 0-to-1 range (2006 CES, N about 1,065; row constituent-cases.bring-case in data/research/trait-effect-sizes.json, a proxy: any contact, not only a casework request). Carried to the thirds with the trait's own standard deviation (0.26 of its range), a log odds gap of 0.52 (odds ratio 1.68); Gerber et al. 2011's contact with a local official gives 0.40. Bringing a problem is decided by its severity against caseEffort, and most residents out of work sit at the same severity, so the thirds' odds in play depend on where the line falls in that pile, not on the weight. The weight is therefore the study's log odds gap over the gap in lean between the thirds of residents weighing a case: 1.087 in Jerry City, Ohio (place key 3939074, 217 calls) and 0.957 in New Britain, Connecticut (0950370, 528 calls), giving 0.48 and 0.54.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having contacted a House member or senator by 0.92 across the trait's range (row constituent-cases.bring-case in data/research/trait-effect-sizes.json, a proxy: any contact), a log odds gap of 0.52 between thirds (odds ratio 1.68). A resident's case carries the problem's severity and their interest in politics against the effort. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.045, one played year each, every module: Blakely, Georgia (place key 1308536, seed a458468e363e) 1.62 over 366 residents; Stockbridge, Georgia (1373704, bde29897f271) 2.87 over 845.",
     "spread": {
-      "low": 0.22,
-      "high": 0.8,
+      "low": 0.03,
+      "high": 0.06,
       "unit": "weight",
-      "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 0.39 to 1.45 (0.92 gives 0.51)."
+      "citation": "The crossed fit's neighbors in the same years: 0.03 gives 1.36 to 2.16 and 0.06 about 1.9 to 3.6."
     }
   },
   "traitWeightConstituentCasesHandleCase": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the constituent-cases.handle-case decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.02,
+    "tag": "ESTIMATED",
+    "citation": "Barrick and Mount 1991, The Big Five personality dimensions and job performance, Personnel Psychology 44(1): conscientiousness correlates about 0.22 with job performance, an odds ratio of 2.44 between thirds (row constituent-cases.handle-case in data/research/trait-effect-sizes.json, a proxy: an official's diligence with a case as job performance). The official weighs the case's own circumstances (severity, closeness to the resident, the office's open load); nearly every case is helped, so a small weight already turns the few that sit near the line. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.02, one played year each, every module: Blakely, Georgia (1308536, a458468e363e) 3.02 over 10 officials; Stockbridge, Georgia (1373704, bde29897f271) 2.51 over 8.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.01,
+      "high": 0.025,
+      "unit": "weight",
+      "citation": "The crossed fit's neighbors: 0.01 gives about 1 to 1.9 and 0.025 about 5, where the cases near the line all turn."
     }
   },
   "traitWeightStaffFollowThrough": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the staff.follow-through decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "Barrick and Mount 1991 (as for constituent-cases.handle-case): conscientiousness and job performance, an odds ratio of 2.44 between thirds (row staff.follow-through in data/research/trait-effect-sizes.json). A staffer weighs their work quality against the follow-through bar and the office's open load. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.2, one played year each, every module: Blakely, Georgia (1308536, a458468e363e) 1.38 over 10 staffers; Stockbridge, Georgia (1373704, bde29897f271) 2.95 over 10.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.15,
+      "high": 0.25,
+      "unit": "weight",
+      "citation": "The crossed fit's neighbors: 0.15 gives 1.07 to 2.76 and 0.25 gives 1.92 to 3.42."
     }
   },
   "traitWeightJobsBenefitsFileClaim": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs-benefits.file-claim decision. An eligible worker files for unemployment when the base reason plus their lean toward filing is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "citation": "The trait weight of the jobs-benefits.file-claim decision, at the general traitWeight (1). Vella, Richiardi and van de Ven 2025 give an odds ratio of 1.32 between the thirds (row jobs-benefits.file-claim in data/research/trait-effect-sizes.json), but no weight reaches it: within a town the benefit replaces the same share of pay for nearly every worker, so temperament and the layoff's stress (itself read through temperament) are the only reasons that vary, and the thirds' odds run 6 to 20 at any weight from 0.1 to 1.2 once take-up is near 0.73 (SG-TRAITS-file-claim-circumstances-tie).",
     "spread": {
       "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "reason": "No weight fits the study until the filing reads circumstances that vary between workers; until then, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightNewsPassOn": {
@@ -6739,6 +6767,18 @@
       "citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
     }
   },
+  "budgetHearingLeadDays": {
+    "value": 30,
+    "tag": "ESTIMATED",
+    "citation": "How long before the fiscal year the body holds its public hearing on the executive's budget: the Government Finance Officers Association's budget-process practice and the truth-in-budgeting hearing laws many states set put the hearing two to six weeks before adoption, after the proposal is in the body's hands.",
+    "estimatedFrom": "Common statutory and charter hearing lead times; no count of every place's charter exists.",
+    "spread": {
+      "low": 14,
+      "high": 45,
+      "unit": "days",
+      "citation": "Two to six weeks before adoption (GFOA budget-process practice)."
+    }
+  },
   "coarsePlaceOldestWorkingAge": {
     "value": 80,
     "tag": "TUNABLE",
@@ -6783,5 +6823,956 @@
       "unit": "ratio to the attendance weight",
       "citation": "From secondary conscientiousness over attendance and class grades (.21/.44 = 0.48) or GPA (.21/.41 = 0.51), to primary over class grades (.28/.44 = 0.64)."
     }
+  },
+  "budgetWorldLineSpreadShare": {
+    "value": 0.06,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's budget line sits from the published one, as a share of it: about a year's change in a state or local government's line (Census Annual Survey of State and Local Government Finances, fiscal 2021 to 2022, functions moved 2% to 10%) and the federal receipts and outlays' year-to-year change (Monthly Treasury Statement, fiscal 2024 to 2025).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published line is the center; a world's offset for each government and line is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.12,
+      "unit": "share of the published line",
+      "citation": "data/research/money/public-budget-bases.json; data/research/money/federal-budget-fy2025.json."
+    }
+  },
+  "budgetWorldDebtSpreadShare": {
+    "value": 0.04,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's opening federal debt held by the public sits from the published balance, as a share of it: about half a year's growth (Treasury, Debt to the Penny: held by the public rose about 7% from fiscal 2024's end to fiscal 2025's).",
+    "estimatedFrom": "Owner, Oct 27: realistic, not real. The published balance is the center; the offset is drawn once from the world's seed at Start (budgetWorldFactor).",
+    "spread": {
+      "low": 0.02,
+      "high": 0.07,
+      "unit": "share of the published balance",
+      "citation": "data/research/money/federal-budget-fy2025.json debtHeldByPublic."
+    }
+  },
+  "budgetWorldShareSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far each share of a published public-money mix (who holds the federal debt, who a spending line pays, which services a government charges for) sits from the published share, relative to it, before the mix is summed back to its total: about a year's change (Treasury Bulletin ownership table: the foreign share moved from about 33% to 30% of debt held by the public in two years; Census charges by function move a few percent a year).",
+    "estimatedFrom": "Owner, Oct 27: realistic, not real. Each share is moved once by the world's factor (budgetWorldShares) and the mix renormalized.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the published share",
+      "citation": "src/core2/data/budgets/federal-debt.json; src/core2/data/budgets/spending-payees.json; data/research/money/service-charges-2022.json."
+    }
+  },
+  "budgetWorldStakeSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's federal spending per resident in a state on one budget line sits from the published ratio to the national average: about a year's change in USAspending's state totals by agency (grants and contracts swing 5% to 20% a year).",
+    "estimatedFrom": "Owner, Oct 27: realistic, not real. Each state's stake in each line is moved once by the world's factor (budgetWorldFactor).",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the published ratio",
+      "citation": "data/research/federal/federal-spending-by-state-fy2024.json."
+    }
+  },
+  "pastWorkLayoffsPerQuarter": {
+    "value": 0.035,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Bureau of Labor Statistics, Job Openings and Labor Turnover Survey (JOLTS), total nonfarm, annual averages 2001-2019, layoffs and discharges rate (series JTS000000000000000LDR): about 1.2% of employment a month.",
+    "estimatedFrom": "The monthly rate times three, as one quarter's pull toward being let go in a quarter when unemployment holds steady, before age and the employer's lean (jobs.value-worker).",
+    "spread": {
+      "low": 0.03,
+      "high": 0.045,
+      "unit": "layoffs per worker per quarter",
+      "citation": "JOLTS layoffs and discharges, annual averages 1.0% (2019) to 1.5% (2001), monthly."
+    }
+  },
+  "pastWorkLayoffRisePerPoint": {
+    "value": 0.28,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Bureau of Labor Statistics, Job Openings and Labor Turnover Survey (JOLTS), total nonfarm, annual averages 2001-2019 and CPS unemployment (LNS14000000): layoffs rose from about 1.2% to 1.6% a month while unemployment rose 1.2 points in the fourth quarter of 2008, and to about 7.5% while it rose 11 points from January to April 2020.",
+    "estimatedFrom": "Both episodes give about 0.28 more of the steady quarter's layoffs per point the unemployment rate rose in the quarter.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "share of steady layoffs per point of unemployment rise in a quarter",
+      "citation": "JOLTS and CPS, 2008-2009 and 2020."
+    }
+  },
+  "pastWorkQuitsPerQuarter": {
+    "value": 0.06,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Bureau of Labor Statistics, Job Openings and Labor Turnover Survey (JOLTS), total nonfarm, annual averages 2001-2019, quits rate (series JTS000000000000000QUR): about 2.0% of employment a month.",
+    "estimatedFrom": "The monthly rate times three, as one quarter's pull toward leaving for other work at the window's mean unemployment, before age and the worker's lean (jobs.review-worker).",
+    "spread": {
+      "low": 0.04,
+      "high": 0.087,
+      "unit": "quits per worker per quarter",
+      "citation": "JOLTS quits, annual averages 1.3% (2009) to 2.9% (2022), monthly."
+    }
+  },
+  "pastWorkQuitUnemploymentElasticity": {
+    "value": 0.57,
+    "tag": "ESTIMATED",
+    "citation": "JOLTS quits rate and CPS unemployment: quits about 1.35% a month at 9.5% unemployment (2009-2010) and 2.3% at 3.7% (2019).",
+    "estimatedFrom": "ln(2.3/1.35)/ln(9.5/3.7): how quits fall as unemployment rises against its mean.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.8,
+      "unit": "elasticity",
+      "citation": "JOLTS and CPS, 2001-2019."
+    }
+  },
+  "pastWorkFindsPerQuarter": {
+    "value": 0.75,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Bureau of Labor Statistics, CPS, average and median weeks unemployed (LNS13008275, LNS13008276), 2001-2019: median about 10 weeks, mean about 25.",
+    "estimatedFrom": "One whole find in about 1.33 quarters (17 weeks) at the window's mean unemployment, between the median and the mean, before the person's lean toward applying (jobs.apply).",
+    "spread": {
+      "low": 0.5,
+      "high": 1.3,
+      "unit": "finds per quarter out of work",
+      "citation": "CPS duration of unemployment, 2001-2019."
+    }
+  },
+  "pastWorkFindUnemploymentElasticity": {
+    "value": 0.9,
+    "tag": "ESTIMATED",
+    "citation": "CPS mean weeks unemployed about 17 at 3.7% unemployment (2019) and about 40 at 9% (2011).",
+    "estimatedFrom": "ln(40/17)/ln(9/3.7) is about 0.96, held a little lower because the 2011 duration also reflects the length of the recession: how finding work slows as unemployment rises against its mean.",
+    "spread": {
+      "low": 0.4,
+      "high": 1.0,
+      "unit": "elasticity",
+      "citation": "CPS duration of unemployment, 2001-2019."
+    }
+  },
+  "pastWorkTraitSpread": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How far a person's scaled trait lean in the jobs engine's decision (about -1 to 1 times the decision's own weight) moves their quarterly pull: the pull times e to the lean.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "multiplier per unit of weighted lean",
+      "citation": "Checked against BLS Employee Tenure (January 2024): workers of one age differ in tenure by several times."
+    }
+  },
+  "pastWorkAgeReferenceYears": {
+    "value": 40,
+    "tag": "TUNABLE",
+    "citation": "The age at which a worker's pull toward leaving or being let go is the steady rate; younger workers move more and older ones less.",
+    "spread": {
+      "low": 35,
+      "high": 45,
+      "unit": "years of age",
+      "citation": "BLS Employee Tenure in 2024 (USDL-24-1859): median tenure 4.7 years at 35-44."
+    }
+  },
+  "pastWorkAgeElasticity": {
+    "value": 1.2,
+    "tag": "TUNABLE",
+    "citation": "How fast the pull toward leaving falls with age: the pull times (age / reference age) to the minus this.",
+    "spread": {
+      "low": 0.8,
+      "high": 1.8,
+      "unit": "elasticity",
+      "citation": "BLS Employee Tenure in 2024: median tenure 2.7 years at 25-34, 6.9 at 45-54, 9.8 at 55-64."
+    }
+  },
+  "pastWorkYoungestAge": {
+    "value": 16,
+    "tag": "SOURCED",
+    "citation": "29 U.S.C. 212 and 29 CFR 570.2: 16 is the youngest age for most nonfarm work without hour limits; the age pull is not raised further below it."
+  },
+  "pastWorkHiresPerQuarter": {
+    "value": 0.11,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Bureau of Labor Statistics, Job Openings and Labor Turnover Survey (JOLTS), total nonfarm, annual averages 2001-2019, hires rate (series JTS000000000000000HIR): about 3.6% of employment a month.",
+    "estimatedFrom": "The monthly rate times three: an employer's openings a quarter, per worker it has on day one.",
+    "spread": {
+      "low": 0.09,
+      "high": 0.13,
+      "unit": "hires per worker per quarter",
+      "citation": "JOLTS hires, annual averages 3.1% (2009) to 3.9% (2019), monthly."
+    }
+  },
+  "pastWorkCollegeYears": {
+    "value": 4,
+    "tag": "SOURCED",
+    "citation": "U.S. Department of Education: a bachelor's degree is a four-year program of full-time study (IPEDS definitions)."
+  },
+  "pastWorkSomeCollegeYears": {
+    "value": 2,
+    "tag": "SOURCED",
+    "citation": "U.S. Department of Education: an associate degree is a two-year program of full-time study (IPEDS definitions)."
+  },
+  "pastWorkWeeksPerYear": {
+    "value": 52,
+    "tag": "SOURCED",
+    "citation": "Weeks per year, for an annual wage's hourly rate."
+  },
+  "pastWorkFullTimeWeeklyHours": {
+    "value": 40,
+    "tag": "SOURCED",
+    "citation": "29 U.S.C. 207(a): the 40-hour workweek, for an annual wage's hourly rate."
+  },
+  "pastWorkDaysPerQuarter": {
+    "value": 91.310625,
+    "tag": "SOURCED",
+    "citation": "A mean Gregorian year of 365.2425 days over four quarters."
+  },
+  "pastWorkQuitPayElasticity": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "Manning, A. (2003), Monopsony in Motion, Princeton University Press, ch. 4: the elasticity of a worker's separation rate with respect to their wage is about -1 in U.S. and U.K. data (estimates from -0.5 to -2).",
+    "estimatedFrom": "A worker's quarterly pull toward leaving times their employer's going rate against the town's, to the minus this.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "elasticity",
+      "citation": "Manning (2003); Webber, D. A. (2015), \"Firm market power and the earnings distribution\": firm-level separation elasticities about -1."
+    }
+  },
+  "worldDrawOffsetFloorShare": {
+    "value": 0.34,
+    "tag": "TUNABLE",
+    "citation": "The smallest share of a spread a world's starting offset takes, so no world opens on the published figure: the one floor for every starting draw (the national and state economy, the budget lines, the housing medians, pay, rents and the rest).",
+    "spread": {
+      "low": 0.25,
+      "high": 0.5,
+      "unit": "share of the spread",
+      "citation": "Checked against one-decimal rounding and the 0.25-point policy step (macroPolicyStepPct): a third of the unemployment spread keeps a world's rate 0.27 points or more from the published one, and a third of the policy spread keeps it a step away."
+    }
+  },
+  "jobsWorldAgeRateSpreadShare": {
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's unemployment rate for an age band sits from the published CPS annual average, relative to the rate (the nearer bound): band rates move about a tenth from one year to the next outside a recession (BLS CPS Table A-10, unemployment rate by age, annual averages).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "share of the published rate",
+      "citation": "BLS CPS Table A-10 and Table 3 annual averages; year-to-year change of each age band rate."
+    }
+  },
+  "jobsWorldSeasonalSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's seasonal swing in an industry's staffing sits from the published 2010-2019 swing, as a share of the swing (BLS CES not seasonally adjusted over seasonally adjusted employment, by month).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of the published monthly deviation from 1",
+      "citation": "BLS CES seasonal factors by supersector; the swing for construction and retail differs by a fifth or more between 2000-2009 and 2010-2019."
+    }
+  },
+  "jobsWorldEmploymentRateSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's share of an age band that is employed in a county sits from the ACS 2020-2024 share, relative to its nearer bound: about the ACS five-year county margin of error on employment counts plus a year of change (B23001).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.1,
+      "unit": "share of the distance to the nearer bound",
+      "citation": "ACS B23001 county margins of error; BLS LAUS county employment-population change year to year."
+    }
+  },
+  "jobsWorldPaySpreadShare": {
+    "value": 0.06,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's pay for an occupation in an area sits from the BLS OEWS May 2025 wage there: about the OEWS relative standard error of an area median (2% to 8%) plus a year of wage growth (3% to 5%).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.12,
+      "unit": "share of the published wage",
+      "citation": "BLS OEWS May 2025 relative standard errors; BLS Employment Cost Index 12-month change."
+    }
+  },
+  "jobsWorldTenurePercentileSpreadPoints": {
+    "value": 5,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's pay percentile for a new hire and for a long-serving worker sit from the 25th and 75th that the game assumes: the OEWS tables publish quartile points, and an employer's pay scale runs a few percentile points either way.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 3,
+      "high": 10,
+      "unit": "percentile points",
+      "citation": "BLS OEWS percentile tables (10th, 25th, 50th, 75th, 90th); spacing of the published points."
+    }
+  },
+  "jobsWorldTenureYearsSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's years of tenure to the top of its pay range sit from the 20 years the game assumes, as a share of them (BLS Employee Tenure survey: median tenure by age band runs from 2.8 years for 25 to 34 to 9.9 years for 55 to 64).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.35,
+      "unit": "share of the tenure years",
+      "citation": "BLS Employee Tenure in 2024, Table 1."
+    }
+  },
+  "townPayStartPercentile": {
+    "value": 25,
+    "tag": "TUNABLE",
+    "citation": "GAME ASSUMPTION, labeled: where in its occupation's wage distribution a new hire starts, before the world's offset.",
+    "spread": {
+      "low": 10,
+      "high": 50,
+      "unit": "percentile",
+      "citation": "The BLS OEWS wage tables publish the 10th, 25th, 50th, 75th and 90th percentiles."
+    }
+  },
+  "townPayEndPercentile": {
+    "value": 75,
+    "tag": "TUNABLE",
+    "citation": "GAME ASSUMPTION, labeled: where a worker with the full tenure sits in the wage distribution, before the world's offset.",
+    "spread": {
+      "low": 50,
+      "high": 90,
+      "unit": "percentile",
+      "citation": "The BLS OEWS wage tables publish the 10th, 25th, 50th, 75th and 90th percentiles."
+    }
+  },
+  "townPayTenureYears": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "GAME ASSUMPTION, labeled: years at an employer from the starting to the ending pay percentile, before the world's offset.",
+    "spread": {
+      "low": 10,
+      "high": 30,
+      "unit": "years",
+      "citation": "BLS Employee Tenure: median tenure runs 9.9 years for 55 to 64 and the 90th percentile of tenure is well over 20."
+    }
+  },
+  "jobsWorldSectorMixSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's jobs in a sector or public group in a town sit from the Census County Business Patterns 2023 and BLS state ownership counts: sector employment in a county moves 2% to 10% a year and CBP withholds or rounds small cells.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.2,
+      "unit": "share of the published sector jobs",
+      "citation": "Census CBP year-to-year change by county sector; BLS state employment by ownership."
+    }
+  },
+  "jobsWorldPlaceEarningsSpreadShare": {
+    "value": 0.06,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's median earnings of a place's workers sit from the ACS 2024 median: the ACS place margin of error on median earnings (3% to 10% in small places) plus a year of wage growth.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.12,
+      "unit": "share of the published median earnings",
+      "citation": "ACS B20002 place margins of error; BLS Employment Cost Index 12-month change."
+    }
+  },
+  "worldCashSpreadShare": {
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's typical transaction-account balance sits from the Survey of Consumer Finances 2022 median at the same income, as a share of that median. The median held by families with accounts moved by roughly a quarter to a half of its level between survey years in the Federal Reserve's SCF Bulletins (2016, 2019, 2022).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.15,
+      "high": 0.45,
+      "unit": "share of the published balance",
+      "citation": "Federal Reserve SCF Bulletins 2016, 2019 and 2022, median transaction-account balance of families holding accounts, in constant dollars (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "officialSavingsSpreadSigma": {
+    "value": 2,
+    "tag": "ESTIMATED",
+    "citation": "How widely one seated official's savings sit around the median a family at their pay keeps (the log-normal standard deviation; the median itself is unchanged). Officials at one pay were all given the same balance, so a body of 190 legislators had no one with a thin cushion and the bribe engine's money pressure never moved between them. The Survey of Consumer Finances 2022 puts the median transaction-account balance of holders at $8,000 and the mean at $62,500 (Federal Reserve Bulletin, Changes in U.S. Family Finances from 2019 to 2022, table of holdings by asset type), which a log-normal reads as a standard deviation of 2.0 across all families. An official at one pay holds a narrower range than all families, but the mean is carried by a few large balances while the lower tail, which the bribe engine reads, is wide, so the all-family figure is used and its lower half is the spread.",
+    "estimatedFrom": "Federal Reserve SCF 2022 median $8,000 and mean $62,500 of transaction accounts (pdftotext of scf23.pdf): sigma = sqrt(2 ln(62500/8000)) = 2.03 for all families.",
+    "spread": {
+      "low": 1,
+      "high": 2,
+      "unit": "log-normal standard deviation",
+      "citation": "From half the all-family dispersion the SCF median and mean imply (2.03) up to that dispersion; the bribe take rate in a played year is measured at this value in the PR."
+    }
+  },
+  "worldLivingCostSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's price level for everyday household spending sits from the BLS Consumer Expenditure Survey 2024 mean for its size and region, as a share of that mean. Census-region means sit within about 10% of the national mean in the survey's regional tables.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.15,
+      "unit": "share of the published monthly cost",
+      "citation": "BLS Consumer Expenditure Survey 2024, mean annual expenditures by region of residence against the national mean (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldGoodsPriceSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's household spending on electricity, fuel, transit fares, broadband and beverage-container volume sits from the BLS Consumer Expenditure Survey 2024 and NTD 2023 averages, as a share of each average. Fuel and electricity spending moved by about this much in a year across 2021-2024 (BLS CE). Taxes and fees set by law are not drawn.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.18,
+      "unit": "share of the published amount",
+      "citation": "BLS CE 2021 to 2024 year-to-year change in household fuel and electricity spending (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldGoodsTakeUpSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's broadband subscription share sits from ACS 2024 table B28002, moved relative to the nearer bound (0 or 1). The share moved by about 1 to 4 points a year across ACS vintages.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.1,
+      "unit": "share of the distance to the nearer bound",
+      "citation": "Census ACS 1-year B28002 broadband subscription share, 2019 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldBenefitSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's average Social Security benefit among participants sits from the published participant average, as a share of it. The average retired-worker benefit rose by 2% to 9% a year across 2019-2025 cost-of-living adjustments (SSA Monthly Statistical Snapshot). The benefit formula and cost-of-living adjustment are law and are unchanged.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.12,
+      "unit": "share of the published monthly benefit",
+      "citation": "SSA Monthly Statistical Snapshot and annual COLA announcements 2019 to 2025 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldDepositsSpreadShare": {
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's county bank deposits sit from the FDIC Summary of Deposits figure, as a share of it. U.S. domestic deposits changed by about -3% to +15% in a year across 2019-2024 (FDIC Quarterly Banking Profile).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the published deposits",
+      "citation": "FDIC Quarterly Banking Profile, year-over-year change in domestic deposits, 2019 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldPrivateShareSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's private-school share of students sits from the NCES fall-2021 share for its state, moved relative to the nearer bound (0 or 1). State private enrollment shares moved by about a fifth of their level between survey years (NCES Digest of Education Statistics).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of the distance to the nearer bound",
+      "citation": "NCES Digest of Education Statistics, private school enrollment shares by state, fall 2011 against fall 2021 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldTuitionSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's average private-school tuition sits from the NCES Digest Table 205.50 average, as a share of it. Average private tuition differs by about 10% between school levels and years (NCES).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the published tuition",
+      "citation": "NCES Digest of Education Statistics Table 205.50, average tuition across years and school levels (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldBaseRateMortalitySpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's death rates sit from the SSA 2023 period life table, as a share: about the year-to-year change in U.S. age-adjusted death rates outside the pandemic years (CDC NCHS Data Brief 521, 2010-2019 changes of 0.5% to 3%) plus the gap between period and cohort tables.",
+    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.02,
+      "high": 0.08,
+      "unit": "share of the published rate",
+      "citation": "SSA 2023 period life table; CDC NCHS age-adjusted death rates."
+    }
+  },
+  "worldBaseRateNatalitySpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's age-specific birth rates sit from the CDC natality tables, as a share: about two years of change in U.S. age-specific fertility (NVSS Births: Final Data 2023 and 2024, rates moved 1% to 4% a year).",
+    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.02,
+      "high": 0.1,
+      "unit": "share of the published rate",
+      "citation": "data/research/renewal/natality-2023.json and natality-2024.json."
+    }
+  },
+  "worldBaseRateMoversSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's leaving rates sit from the ACS 2024 mover rates, as a share: about the ACS one-year margin on state out-mover rates plus a year's change (ACS B07001, state margins 3% to 10%).",
+    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the published rate",
+      "citation": "data/research/migration/mover-rates-acs-2024.json."
+    }
+  },
+  "worldBaseRateConditionsSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's chronic-condition prevalence sits from the published pack, as a share: about the survey margin on adult chronic-condition prevalence (CDC BRFSS and NHIS state estimates differ from the national figure by 5% to 15%).",
+    "estimatedFrom": "The published prevalence table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the published prevalence",
+      "citation": "CDC BRFSS state-level prevalence ranges; the condition pack's own sources."
+    }
+  },
+  "worldBaseRateTimeUseSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's daily hours of unmodeled activities sit from the ATUS diary figures, as a share: about the ATUS year-to-year change in hours of personal care, household work and meals (BLS American Time Use Survey 2022 to 2024, 1% to 5%).",
+    "estimatedFrom": "The published hours are the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.02,
+      "high": 0.08,
+      "unit": "share of the published hours",
+      "citation": "src/core2/data/time-use-reference.json (BLS ATUS)."
+    }
+  },
+  "worldPopulationSpreadShare": {
+    "value": 0.03,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's town population sits from the Census Bureau's published reference figure, as a share of it. A place's count moves by a few percent between the estimate and the next census or survey (Census Vintage 2025 estimates against the 2020 Census and ACS 2020-2024 five-year counts).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.06,
+      "unit": "share of the published population",
+      "citation": "Census Vintage estimates against the decennial census, median absolute difference for incorporated places (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "businessWorldExitRateSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's yearly share of businesses that close sits from the published state rate, as a share of that rate (Census Business Dynamics Statistics 2023, establishment exit by state: the states' rates run from 7.8% under to 12.9% over the national 8.7% at the 10th and 90th percentiles; src/core2/data/business/bds-rates.json).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.063,
+      "high": 0.13,
+      "unit": "share of the exit rate",
+      "citation": "Median and 90th-percentile absolute distance of the 51 state exit rates from the national rate in src/core2/data/business/bds-rates.json (Census BDS 2023)."
+    }
+  },
+  "businessWorldOutsideOwnedSpreadShare": {
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's share of jobs in firms based outside the town sits from the published state share, as a share of the distance to the nearer bound (Census 2022 Economic Census EC2200SIZESUMU; states by SUSB 2022 firms of 500 or more employees; src/core2/data/business/ownership.json). The states run 5.5% either side of the national 61.7% at the median, about 3.4 points.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.09,
+      "high": 0.2,
+      "unit": "share of the distance to the nearer of 0 and 1",
+      "citation": "Median absolute distance of the 56 state shares from the national share (0.034) over the distance from the national share to one (0.383), with an allowance for the wider tails (src/core2/data/business/ownership.json)."
+    }
+  },
+  "businessWorldUnionRateSpreadShare": {
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's union membership rate sits from the published state rate, as a share of that rate (BLS, Union Members 2025, Table 5: the Current Population Survey's state estimates carry sampling error of a point or two on rates that run from 2.3% to 24.8%; src/core2/data/business/union-membership.json). A right-to-work law is law and moves it by its own table; only the starting rate is a statistic.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.08,
+      "high": 0.25,
+      "unit": "share of the membership rate",
+      "citation": "One to two points of survey error on a 6% to 15% state rate, an estimate of the Current Population Survey's state sampling error, not read from the table."
+    }
+  },
+  "businessWorldBooksSpreadShare": {
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's industry margin, pay share of sales and sales-sensitive cost share sit from the IRS aggregate for the industry, as a share of the ratio (IRS Statistics of Income, corporation returns tax year 2022, Table 5.1). The compiled table holds one tax year, so the spread is an estimate of the swing between years in an industry's aggregate, not a measured one.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "share of the ratio",
+      "citation": "Estimate: the year-to-year swing of industry aggregate margins and pay shares runs from a few percent of the ratio in steady industries to a quarter in volatile ones; not measured here."
+    }
+  },
+  "pressWorldOutletSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's count of newspapers, television stations and news radio stations in a state sits from the published figure, as a share of the count (Medill, The State of Local News 2024: about 5,600 newspapers; FCC Public Notice DA 26-49: 1,777 full-power TV stations). The per-state counts here are estimated allocations of those totals (data/research/press/local-news-2026.json), so the allocation's own error dominates.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.35,
+      "unit": "share of the outlet count",
+      "citation": "From a year's loss of papers (a few percent of the total, Medill 2024) up to the error of splitting a national total across states by estimate (data/research/press/local-news-2026.json meta note)."
+    }
+  },
+  "campaignWorldUnitPriceSpreadShare": {
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's price for a printed mailer or an evening's hall sits from the published middle price, as a share of that price (data/research/campaign-reality/campaign-unit-prices.json: halls rent for $150 to $500 an evening, postcards print at $0.10 to $0.30 a piece). Postage and filing fees are set by the Postal Service and by law and are never drawn.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.15,
+      "high": 0.55,
+      "unit": "share of the unit price",
+      "citation": "Half the published price range over its midpoint: $150 to $500 is 0.58 of $300; $0.10 to $0.30 is 0.5 of $0.20 (campaign-unit-prices.json derivations)."
+    }
+  },
+  "businessWorldCountSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's count of a kind of business in a town sits from the published expectation (County Business Patterns 2023 establishments per resident times the town's population): the county's count of a kind moves 2% to 10% a year, and a town's share of it is an estimate by population.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.2,
+      "unit": "share of the published count",
+      "citation": "Census County Business Patterns, year-over-year change in establishments by county and NAICS sector, 2019 to 2023."
+    }
+  },
+  "townJobsOldestHireAge": {
+    "value": 66,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's town-employment-v1 opening fill (src/core2/opening-town-jobs.ts), where it was a GAME ASSUMPTION; the opening fills a job for every resident from 18 through this age.",
+    "spread": {
+      "low": 64,
+      "high": 70,
+      "unit": "years",
+      "citation": "Checked against BLS CPS labor force participation by age: participation falls steeply after 64; the opening's employment rate by age (opening-employment.ts) is the check."
+    }
+  },
+  "townJobsFullTimeMaximumWeeklyHours": {
+    "value": 45,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's town-employment-v1 opening fill (src/core2/opening-town-jobs.ts), where it was a GAME ASSUMPTION; the upper end of a full-time role's expected weekly hours; the lower end is fullTimeWeeklyHours.",
+    "spread": {
+      "low": 40,
+      "high": 50,
+      "unit": "hours a week",
+      "citation": "Checked against BLS CPS Table 19: people usually working full time averaged about 42 to 43 hours a week at work."
+    }
+  },
+  "townJobsPartTimeMinimumWeeklyHours": {
+    "value": 16,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's town-employment-v1 opening fill (src/core2/opening-town-jobs.ts), where it was a GAME ASSUMPTION; the lower end of a part-time role's expected weekly hours.",
+    "spread": {
+      "low": 10,
+      "high": 20,
+      "unit": "hours a week",
+      "citation": "Checked against BLS CPS Table 19: people usually working part time averaged about 22 to 23 hours a week at work."
+    }
+  },
+  "townJobsPartTimeMaximumWeeklyHours": {
+    "value": 29,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's town-employment-v1 opening fill (src/core2/opening-town-jobs.ts), where it was a GAME ASSUMPTION; the upper end of a part-time role's expected weekly hours, below the full-time line.",
+    "spread": {
+      "low": 25,
+      "high": 34,
+      "unit": "hours a week",
+      "citation": "Checked against the BLS CPS part-time definition: under 35 hours a week."
+    }
+  },
+  "townJobsYoungChildAge": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's town-employment-v1 opening fill (src/core2/opening-town-jobs.ts), where it was a GAME ASSUMPTION; a partnered parent of a child under this age works part-time at the opening.",
+    "spread": {
+      "low": 5,
+      "high": 7,
+      "unit": "years",
+      "citation": "Checked against the age children start first grade, when a parent's daytime care need falls."
+    }
+  },
+  "julianYearDays": {
+    "value": 365.25,
+    "tag": "SOURCED",
+    "citation": "The Julian year, 365.25 days (IAU), the year length the old town-employment fill backdated an opening hire's tenure by; kept so the same hire starts on the same day."
+  },
+  "upbringingSiblingHalfSaturation": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; siblings at which a child's sibling lean reaches half its weight.",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "siblings",
+      "citation": "Checked by whether opening sociability spreads across the five levels, not measured."
+    }
+  },
+  "upbringingSociabilitySiblingWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight of siblings on a child's sociability lean.",
+    "spread": {
+      "low": 1,
+      "high": 3,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening sociability spreads across the five levels, not measured."
+    }
+  },
+  "upbringingSociabilityOffset": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; subtracted from a child's sociability lean so an average household leans to the middle.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.9,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening sociability centers on the middle level, not measured."
+    }
+  },
+  "upbringingMoneyEase": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; how much a secure childhood raises, and a severely scarce one lowers, sociability.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.9,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening sociability spreads across the five levels, not measured."
+    }
+  },
+  "upbringingMoneyStrain": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; how much a severely scarce childhood raises, and a secure one lowers, conflict.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening conflict spreads across the five levels, not measured."
+    }
+  },
+  "upbringingConflictUnsupervisedWeight": {
+    "value": 1.2,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight of too few caregivers per child on a child's conflict lean.",
+    "spread": {
+      "low": 0.6,
+      "high": 1.8,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening conflict spreads across the five levels, not measured."
+    }
+  },
+  "upbringingConflictOffset": {
+    "value": 0.55,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; subtracted from a child's conflict lean so an average household leans to the middle.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.8,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening conflict centers on the middle level, not measured."
+    }
+  },
+  "upbringingRiskUnsupervisedWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight of too few caregivers per child on a child's risk lean.",
+    "spread": {
+      "low": 1.5,
+      "high": 4.5,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening risk spreads across the five levels, not measured."
+    }
+  },
+  "upbringingRiskOffset": {
+    "value": 1.4,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; subtracted from a child's risk lean so an average household leans to the middle.",
+    "spread": {
+      "low": 0.7,
+      "high": 2.1,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening risk centers on the middle level, not measured."
+    }
+  },
+  "upbringingCaregiverCenter": {
+    "value": 1.25,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; caregivers per child in the household that has just enough; fewer leans a child less reliable, more leans more.",
+    "spread": {
+      "low": 1,
+      "high": 1.5,
+      "unit": "caregivers per child",
+      "citation": "Checked by whether opening reliability spreads across the five levels, not measured."
+    }
+  },
+  "upbringingReliabilityCareWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight of caregivers per child on a child's reliability.",
+    "spread": {
+      "low": 0.75,
+      "high": 2.25,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening reliability spreads across the five levels, not measured."
+    }
+  },
+  "upbringingScarcityPracticalWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight a scarce childhood gives the practical facet; every other money row weighs one.",
+    "spread": {
+      "low": 1,
+      "high": 3,
+      "unit": "rows",
+      "citation": "Checked by whether practical leads the notable qualities of scarce childhoods, not measured."
+    }
+  },
+  "upbringingSmallChildAge": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; under this age a child's upbringing writes one notable quality, an older child two, an adult three.",
+    "spread": {
+      "low": 5,
+      "high": 7,
+      "unit": "years",
+      "citation": "Checked by whether young children's records stay sparse, not measured."
+    }
+  },
+  "upbringingPercentWeightScale": {
+    "value": 10,
+    "tag": "SOURCED",
+    "citation": "Unit conversion: a published percent to whole tenths, so a stable sample weighs each category by its share to one decimal."
+  },
+  "worldPolicySupportSpreadShare": {
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's national polled share for a policy question sits from the published one, relative to its nearer bound (none or all): about the spread between pollsters and months for the same question (Pew, Gallup, AP-NORC and YouGov readings of the same policy in 2024 to 2026 differ by 3 to 8 points; for a 60% question that is 0.08 to 0.2 of the 40% room).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published share is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.06,
+      "high": 0.2,
+      "unit": "share of the room to the nearer bound",
+      "citation": "Differences between pollsters for one question (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldPastVotesSpreadShare": {
+    "value": 0.04,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's count of votes cast in a race before the start sits from the recorded or estimated one, as a share of it: about the change in turnout between comparable elections (state presidential turnout moved by a few percent between 2020 and 2024; midterm turnout by more between 2018 and 2022; U.S. Elections Project).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The recorded total is the center; a world's offset per race is drawn once from its seed, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.08,
+      "unit": "share of the votes cast",
+      "citation": "U.S. Elections Project turnout by state, 2018 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldNationalSwingSpreadShare": {
+    "value": 0.025,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's national Republican two-party share of the 2024 vote sits from the real one: about the swing between recent presidential elections (the Democratic two-party share went from 51.1% in 2016 to 52.3% in 2020, about 1 point, and to 49.3% in 2024, about 3 points the other way; MIT Election Data and Science Lab presidential returns).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.04,
+      "unit": "two-party share",
+      "citation": "National two-party swings between the 2016, 2020 and 2024 presidential elections, 1.2 and 3.0 points (MIT Election Data and Science Lab, U.S. President 1976-2020 and 2024 returns)"
+    }
+  },
+  "worldStateSwingSpreadShare": {
+    "value": 0.02,
+    "tag": "ESTIMATED",
+    "citation": "How far a state's 2024 two-party share moves from the national swing in a world: about the spread of states' swings around the national one between presidential elections (most states within 2 points of the national swing, 2020 to 2024).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.03,
+      "unit": "two-party share",
+      "citation": "State swings against the national swing, 2016 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldTurnoutSpreadShare": {
+    "value": 0.04,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's 2024 votes cast in a state sit from the real count, as a share of it: about the change in a state's presidential turnout between elections (2020 to 2024 within about 5% in most states; U.S. Elections Project).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.08,
+      "unit": "share of the votes cast",
+      "citation": "U.S. Elections Project state turnout, 2016 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldCitizenShareSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's citizen share of a town's adults sits from the survey's, relative to its nearer bound: about the ACS five-year margin of error for a place's noncitizen count.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.1,
+      "unit": "share of the room to the nearer bound",
+      "citation": "ACS 2020-2024 B05001 place margins (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "speechCraftHalfAddresses": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "How many recorded addresses a speaker has given when their craft is half of what it can become (craft = addresses / (addresses + this)). No source measures the learning curve of public speaking in addresses given; set so a speaker who gives an address about once a month is at half craft after a year.",
+    "spread": {
+      "low": 4,
+      "high": 40,
+      "unit": "addresses",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceQuotationDifficulty": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the quotation device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceContrastDifficulty": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the contrast device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceThreePartListDifficulty": {
+    "value": 0.45,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the threepartlist device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.35,
+      "high": 0.55,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "speechDeviceCallbackDifficulty": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Where on the craft scale (0 to 1) a speaker first has the callback device in hand: a speaker whose craft is at or above it may use the device where the setting admits it. Ordered from easiest (quoting) to hardest (calling back to an earlier address); the order, not the numbers, is the design.",
+    "spread": {
+      "low": 0.5,
+      "high": 0.7,
+      "unit": "craft (0 to 1)",
+      "citation": "Chosen range; no study sets how many addresses it takes a speaker to master a device. Checked by a new speaker's first addresses being plain and a speaker of many addresses using the devices, not measured."
+    }
+  },
+  "employmentCellPriorCount": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "The Jeffreys prior for a binomial share, Beta(1/2, 1/2): a share read from x of n people is estimated as (x + 1/2) / (n + 1), which stays strictly between none and all for any sample. Brown, Cai and DasGupta (2001), Interval Estimation for a Binomial Proportion, Statistical Science 16(2): 101-133, recommend the Jeffreys interval for small samples; its center is this estimate. Read by publishedResidentEmploymentRate for the ACS county age cells (B23001 counts of a few dozen in small counties)."
   }
 }

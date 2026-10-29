@@ -67,8 +67,11 @@ import {
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
 import { incomeBandOf } from "../counted-income-fifth";
+import { parameter } from "../parameters";
 
 export { incomeBandOf };
+/** The world's private-school tuition, for the law that subsidizes it (the people family's entry). */
+export { worldPrivateTuitionAnnualUsd } from "../opening-private-tuition";
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
@@ -77,7 +80,7 @@ import {
   addCountedJob,
   countedJobHeads,
   countedJobsOf,
-  weightedPayrollMinor,
+  staffedScale,
 } from "../residents-economy";
 import {
   chargeGroups,
@@ -340,13 +343,14 @@ export function groupKeyOf(
 ): GroupKey {
   const store = rt.store;
   const members = store.countedMembers(h);
+  const adultAge = parameter("votingAge");
   let adults = 0,
     children = 0,
     head = -1,
     headAge = -1;
   for (const m of members) {
     const age = ageOn(store.born[m]!, date);
-    if (age >= 18) adults++;
+    if (age >= adultAge) adults++;
     else children++;
     if (age > headAge) [head, headAge] = [m, age];
   }
@@ -633,19 +637,8 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     input: {
       version: input.version,
       accounts: input.accounts,
-      ...(input.cohortSizes ? { cohortSizes: input.cohortSizes } : {}),
       ...(input.calendars ? { calendars: input.calendars } : {}),
       ...(input.weights ? { weights: input.weights } : {}),
-      // Counted people carry no past: fill-in builds each one's from the seed.
-      ...(input.pastBuild
-        ? {
-            pastBuild: {
-              seed: input.pastBuild.seed,
-              startedAt: input.pastBuild.startedAt,
-              deepPastAt: {},
-            },
-          }
-        : {}),
       source: input.source,
     },
     flows: new Map(),
@@ -1319,15 +1312,12 @@ function overCapacity(
     rt.sellerMonth.set(flow.payeeId, row);
   }
   // A seller staffed by counted workers serves as many as they stand for.
-  const staffed =
-    book.annualPayrollMinor > 0
-      ? weightedPayrollMinor(
-          api.state as CoreState,
-          flow.payeeId,
-          book.annualPayrollMinor,
-          DAYS_PER_YEAR,
-        ) / book.annualPayrollMinor
-      : 1;
+  const staffed = staffedScale(
+    api.state as CoreState,
+    flow.payeeId,
+    book.annualPayrollMinor,
+    DAYS_PER_YEAR,
+  );
   const capacity =
     (book.annualDemandMinor * staffed) /
     api.parameter("sellerCapacityUtilization") /
@@ -1511,19 +1501,6 @@ export function countedStaffOf(
     if (job.organizationId === organizationId && countedJob(core, jobId))
       jobs += 1;
   return jobs;
-}
-
-/**
- * The records' count of people in a school class or workgroup, as the full
- * build saw it, so people filled in later join the same-sized peer group.
- * Pass as buildDeepPast's peerCohortSize option.
- */
-export function peerCohortSize(
-  core: CoreState,
-  circle: string,
-  contextKey: string,
-): number | undefined {
-  return runtimes.get(core)?.input.cohortSizes?.[`${circle}|${contextKey}`];
 }
 
 /** The record of someone still in the wider population, built from their group's columns. */
@@ -2097,6 +2074,7 @@ function jobHolderNear(
   h: CountedHousehold,
 ): PersonId | undefined {
   const store = rt.store;
+  const adultAge = parameter("votingAge");
   const working = new Set<string>();
   for (const job of rt.jobs.values())
     if (job.endsAt === undefined) working.add(job.personId);
@@ -2105,7 +2083,7 @@ function jobHolderNear(
     for (const other of pool) {
       if (other === h || other.gone) continue;
       for (const m of store.countedMembers(other)) {
-        if (ageOn(store.born[m]!, core.date) < 18) continue;
+        if (ageOn(store.born[m]!, core.date) < adultAge) continue;
         const id = store.ids[m]!;
         if (!working.has(id)) return id;
         fallback ??= id;
@@ -2178,6 +2156,7 @@ export function residentCounts(core: CoreState): ResidentCounts[] {
   const rt = runtimes.get(core);
   if (!rt) return [];
   const at = makeIsoDate(core.date);
+  const adultAge = parameter("votingAge");
   const byPlace = new Map<PlaceId, ResidentCounts>();
   for (const row of rt.input.accounts)
     byPlace.set(row.placeId, {
@@ -2203,7 +2182,7 @@ export function residentCounts(core: CoreState): ResidentCounts[] {
     for (const m of store.countedMembers(h)) {
       const age = ageOn(store.born[m]!, at);
       counts.people += weight;
-      if (age >= 18) counts.adults += weight;
+      if (age >= adultAge) counts.adults += weight;
       const band = ageBandOf(age);
       counts.byAgeBand[band] = (counts.byAgeBand[band] ?? 0) + weight;
     }
@@ -3251,9 +3230,11 @@ function startCommuterJob(
   const person = core.people.get(personId);
   if (!person || person.jobId) return false;
   const cadence = flow.cadence.every;
-  const hoursDaily = countedParameter("countedCommuterWorkdayHours");
   const weekHours =
-    hoursDaily * countedParameter("countedCommuterWorkdaysPerWeek");
+    countedParameter("countedCommuterWorkdayHours") *
+    countedParameter("countedCommuterWorkdaysPerWeek");
+  // A job's daily hours are its week spread over every day, as its daily wage is.
+  const hoursDaily = weekHours / api.parameter("daysPerWeek");
   const weeklyMinor = (amount * api.parameter("daysPerWeek")) / cadence;
   const hourlyMinor = Math.max(1, Math.round(weeklyMinor / weekHours));
   const startsAt = addDays(makeIsoDate(core.date), 1);

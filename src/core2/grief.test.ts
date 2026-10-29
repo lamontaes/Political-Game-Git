@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { enrichCivicInputs } from "./civic-inputs";
 import { currentCloseness } from "./closeness";
-import { buildDeepPast } from "./deep-past";
 import { GRIEF, griefHalfLifeDays, griefToday } from "./grief";
 import { advanceCore, availableActs, chooseAct, createLifeCore } from "./life";
 import { parameter } from "./parameters";
@@ -13,13 +12,11 @@ import { coreAPI } from "./state";
 describe("grief and the resilience line", () => {
   const core = createLifeCore(
     enrichCivicInputs(
-      buildDeepPast(
-        buildPopulation({
-          seed: "p15-grief",
-          startedAt: "2021-01-01",
-          minimumPeople: 300,
-        }),
-      ),
+      buildPopulation({
+        seed: "p15-grief",
+        startedAt: "2021-01-01",
+        minimumPeople: 300,
+      }),
     ),
   );
   const api = coreAPI(core);

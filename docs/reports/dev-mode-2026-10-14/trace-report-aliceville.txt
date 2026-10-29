@@ -1,7 +1,0 @@
-trace report · seed audit-1791951990654 · place 0101228 · date 2025-02-20
-bill:office:gus2025:100015:board:2025-02-04:person_d0f57e03c770381a:0 [core2-legislature-v1.bills bills]
-  <- vote:bill:office:gus2025:100015:board:2025-02-04:person_d0f57e03c770381a:0:person_57097429286f5f71 [core2-legislature-v1.votes votes] via core2-legislature-v1.chamberVote
-    <- vote:bill:office:gus2025:100015:board:2025-02-04:person_d0f57e03c770381a:0:person_57097429286f5f71#position [reason] via core2-legislature-v1.memberPosition
-       value {"memberId":"person_57097429286f5f71","views":0.013321742103389664,"constituents":0.10249138799999999,"sponsor":0,"deal":0,"lobby":0.23663793103448275,"trait":0.19400352733686052,"total":0.5464545884747329}
-      <- person_57097429286f5f71:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work [views.stances stances] via views.stances
-        <- person_57097429286f5f71 [core.people person] via views.stances.personId

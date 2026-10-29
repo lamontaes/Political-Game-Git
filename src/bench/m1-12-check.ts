@@ -11,6 +11,7 @@
 // Usage: node --max-old-space-size=8192 --import tsx src/bench/m1-12-check.ts
 import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
+import { preStartHistory } from "../core2/past";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
@@ -46,7 +47,8 @@ for (const row of serving) {
   if (row.termId && !seats.get(row.seatId)) miss("no seat record", row.id);
   const card = personCard(w.core, row.id);
   if (!card.traits.length) miss("no personality", row.id);
-  if (!card.past.length) miss("no history", row.id);
+  if (!preStartHistory(w.core, { personId: row.id }).length)
+    miss("no history", row.id);
   if (!card.ties.length) miss("no relationships", row.id);
   if (!row.wing || !Number.isFinite(row.ideal)) miss("no lean or wing", row.id);
   if (!PLATFORM_QUESTIONS.some((q) => officialStance(api, row.id, q) !== null))
@@ -94,7 +96,7 @@ const sample = [...states]
       wing: row.wing,
       causes: row.signature.length,
       traits: card.traits.map((t) => `${t.label}: ${t.word}`),
-      past: card.past.length,
+      past: preStartHistory(w.core, { personId: row.id }).length,
       ties: card.ties.length,
     };
   });

@@ -53,6 +53,7 @@ describe("printed stories in News", () => {
     ).filter((story) => story.kind === "press.printed");
     expect(printed.length, where).toBeGreaterThan(0);
     const unworded: string[] = [];
+    const withBody: string[] = [];
     for (const story of printed) {
       const worded = wordPrintedStory(core, story);
       if (!worded) {
@@ -67,7 +68,26 @@ describe("printed stories in News", () => {
       for (const text of [worded.headline, worded.lede])
         if (text)
           expect(text, `${story.id} in ${where}`).not.toMatch(DEVELOPER);
+      // A story with a body prints the lede first, then sentences that each
+      // say something new.
+      if (worded.paragraphs) {
+        withBody.push(worded.paragraphs.join(" "));
+        expect(worded.paragraphs[0], `${story.id} in ${where}`).toBe(
+          worded.lede,
+        );
+        expect(new Set(worded.paragraphs).size).toBe(worded.paragraphs.length);
+        for (const text of worded.paragraphs)
+          expect(text, `${story.id} in ${where}`).not.toMatch(DEVELOPER);
+      }
     }
+    // News prints stories, not only briefs: some of the year's stories carry a body.
+    console.log(
+      `printed-words bodies: ${withBody.length} of ${printed.length}; e.g. ${withBody.slice(0, 3).join(" || ")}`,
+    );
+    expect(
+      withBody.length,
+      `${where}: no printed story has a body`,
+    ).toBeGreaterThan(0);
     // Which records went unworded, so a new kind of story is named at once.
     if (unworded.length)
       console.log(

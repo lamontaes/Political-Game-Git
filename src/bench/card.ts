@@ -1,17 +1,19 @@
+import { servingTermsOf } from "../core2/modules/offices";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
-import { drivesReport } from "../core2/modules/drives";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
+import { familyFactsOf } from "../core2/modules/people";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import { screenLine } from "../english/screen-words";
+import { pronounWords } from "../english/pronoun-words";
 import { circleChanges } from "./circle";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
-import { scenePlace, stagePeople } from "./scene";
+import { faceOf, scenePlace, stagePeople } from "./scene";
 import {
   BALANCED_TRAIT,
   PEOPLE_TRAITS,
@@ -19,7 +21,7 @@ import {
   PEOPLE_MIND_VERSION,
 } from "../core2/people-trait-definitions";
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
-import { preStartHistory } from "../core2/pre-start";
+import { preStartHistory, sharedHistory } from "../core2/past";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
@@ -34,13 +36,24 @@ export function personCard(core: CoreState, personId: string) {
     const row = core.people.get(id);
     return row ? `${row.givenName} ${row.familyName}` : id;
   };
-  const relationOf = new Map<string, string>();
-  for (const fact of person.pastFacts ?? [])
-    if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
-      relationOf.set(fact.facts.otherPersonId, fact.kind.slice(7));
+  const relatives = familyFactsOf(person);
+  const relationOf = (id: string) => relatives.get(id as PersonId)?.relation;
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const employer = job ? core.organizations.get(job.organizationId) : undefined;
   const household = core.households.get(person.householdId);
+  // Faces for the People map: each the figure a room here would draw.
+  const place = scenePlace(core, personId).place;
+  // The People screen's groups a tie falls in: family by kind, by a relation
+  // word or by sharing the home; coworkers at work; friends; politics.
+  const homeIds = new Set(household?.memberIds ?? []);
+  const groupsOf = (otherId: string, kind: string, relation: unknown) => [
+    ...(kind === "family" || relation || homeIds.has(otherId)
+      ? ["family"]
+      : []),
+    ...(kind === "coworker" ? ["work"] : []),
+    ...(kind === "friend" ? ["friends"] : []),
+    ...(kind === "politics" ? ["politics"] : []),
+  ];
   const ties = [...(core.relationshipsByPerson.get(personId) ?? [])]
     .map((id) => core.relationships.get(id))
     .filter((row) => row !== undefined)
@@ -50,10 +63,16 @@ export function personCard(core: CoreState, personId: string) {
         personId: otherId,
         name: name(otherId),
         kind: row.kind,
-        relation: relationWord(core, otherId, relationOf.get(otherId)),
+        relation: relationWord(core, otherId, relationOf(otherId)),
+        groups: groupsOf(
+          otherId,
+          row.kind,
+          relationWord(core, otherId, relationOf(otherId)),
+        ),
         level: currentCloseness(core, row),
         lastContactDate: row.lastContactDate,
         recordId: row.id,
+        face: faceOf(core, otherId, place),
         // Why the tie last changed, from its own record.
         latestChange: row.latestChange && {
           date: row.latestChange.date,
@@ -65,36 +84,11 @@ export function personCard(core: CoreState, personId: string) {
     })
     .sort((a, b) => b.level - a.level)
     .slice(0, CLOSEST);
-  const drives = drivesReport(core)
-    .drives.filter((row) => row.personId === personId)
-    .map((row) => ({
-      id: row.id,
-      kind: row.kind,
-      topic: row.topic,
-      desiredChange: row.desiredChange,
-      target: row.targetId ? name(row.targetId) : null,
-      formedAt: row.formedAt,
-      anchorStrength: row.anchorStrength,
-      actCount: row.actCount,
-      sourceEventId: row.sourceEventId,
-    }));
-  // How they came to hold a seat before the start, from the government's
-  // history before day one, each with the term record it stands on.
-  const seats = preStartHistory(core, {
-    kind: "office.seat-reached",
-    personId,
-  }).map((row) => ({
-    recordId: row.id,
-    termId: String(row.facts.termId),
-    officeId: String(row.facts.officeId),
-    reached: String(row.facts.reached),
-    since: row.date,
-  }));
   return {
     id: person.id,
     name: name(person.id),
+    face: faceOf(core, person.id, place),
     birthDate: person.birthDate,
-    seats,
     age: ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)),
     alive: person.alive,
     home: household && {
@@ -104,8 +98,10 @@ export function personCard(core: CoreState, personId: string) {
         .map((id) => ({
           personId: id,
           name: name(id),
-          relation: relationWord(core, id, relationOf.get(id)),
+          relation: relationWord(core, id, relationOf(id)),
+          groups: ["family"],
           alive: core.people.get(id)?.alive ?? true,
+          face: faceOf(core, id, place),
         })),
     },
     job: job && {
@@ -147,16 +143,16 @@ export function personCard(core: CoreState, personId: string) {
         },
       ];
     }),
+    // What they're like, in plain sentences from their strongest leanings
+    // (owner, Oct 27), never the traits' names.
+    sketch: personSketch(person.traits),
     // Where they place themselves politically, as the views engine's label.
     view: core.modules.has(VIEWS_MODULE_ID)
       ? (viewOf(coreAPI(core), personId)?.label ?? null)
       : null,
-    affect: person.affect,
-    needs: person.needs,
     ties,
     // Who joined or left their five closest this year, from the tie records.
     circle: circleChanges(core, personId),
-    drives,
     schools: schoolsOf(core, personId),
     // What the law in force puts on this person's record (step 9).
     lawEffects: reachOn(coreAPI(core), personId).map((row) => ({
@@ -168,15 +164,6 @@ export function personCard(core: CoreState, personId: string) {
       since: row.since,
       endedOn: row.endedOn,
     })),
-    // The life so far: each dated fact from the person's records.
-    past: [...(person.pastFacts ?? [])]
-      .sort((a, b) => a.date.localeCompare(b.date))
-      .map((fact) => ({
-        id: fact.id,
-        date: fact.date,
-        kind: fact.kind,
-        summary: fact.summary,
-      })),
   };
 }
 
@@ -187,21 +174,117 @@ export function personCard(core: CoreState, personId: string) {
  */
 const OFFICES = "core2-offices-v1";
 
+/** An office's title, from the offices engine's table. */
+function officeTitle(core: CoreState, officeId: string): string | null {
+  const office = coreAPI(core)
+    .moduleState(OFFICES)
+    .table("offices")
+    .get(officeId) as { title?: string } | undefined;
+  return office?.title ?? null;
+}
+
 /** The offices a person serves in now, by title. */
 function servingOffices(core: CoreState, personId: string): string[] {
-  if (!core.modules.has(OFFICES)) return [];
-  const offices = coreAPI(core).moduleState(OFFICES);
-  return (
-    offices.table("terms").query("byPerson", [personId]) as unknown as {
-      status: string;
-      officeId: string;
-    }[]
-  )
-    .filter((term) => term.status === "serving")
-    .flatMap((term) => {
-      const office = offices.table("offices").get(term.officeId) as
-        { title?: string } | undefined;
-      return office?.title ? [office.title] : [];
+  return servingTermsOf(coreAPI(core), personId).flatMap((term) => {
+    const title = officeTitle(core, term.officeId);
+    return title ? [title] : [];
+  });
+}
+
+const monthWords = (date: string) =>
+  new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+/**
+ * A person's history as their card tells it, oldest first: one worded line
+ * per dated record of their life (birth, school, a move, meeting a partner,
+ * a child, a job, a parent's death, an election won) and the tie to the
+ * viewer growing closer or apart. Each line names the record it stands on; a
+ * record whose words the bank cannot fill is left out.
+ */
+function personHistory(
+  core: CoreState,
+  viewerId: string,
+  other: NonNullable<ReturnType<CoreState["people"]["get"]>>,
+  tie:
+    | {
+        id: string;
+        latestChange?: {
+          date: string;
+          before: { level: number };
+          after: { level: number };
+        };
+      }
+    | undefined,
+) {
+  const personName = (id: unknown) => {
+    const row = typeof id === "string" ? core.people.get(id) : undefined;
+    return row ? `${row.givenName} ${row.familyName}` : "";
+  };
+  const facts = other.pastFacts ?? [];
+  const lines: {
+    date: string;
+    key: string;
+    slots: Record<string, string>;
+    recordId: string;
+  }[] = [];
+  for (const fact of facts) {
+    const year = fact.date.slice(0, 4);
+    const f = fact.facts ?? {};
+    const add = (key: string, slots: Record<string, string>) =>
+      lines.push({
+        date: fact.date,
+        key,
+        slots: { year, ...slots },
+        recordId: fact.id,
+      });
+    if (fact.kind === "life:moved-into-county") add("moved.in", {});
+    else if (fact.kind === "life:moved-away") add("moved.away", {});
+    else if (fact.kind === "family:child")
+      add(f.otherPersonId === viewerId ? "child.you" : "child.born", {
+        name: personName(f.otherPersonId),
+      });
+    else if (fact.kind === "work:tenure-summary")
+      add("work.started", {
+        title: String(f.title ?? ""),
+        employer:
+          core.organizations.get(String(f.organizationId ?? ""))?.name ?? "",
+      });
+    else if (fact.kind === "family:parent-died" && f.relation)
+      add("loss.parent", {
+        relation:
+          String(f.relation).charAt(0).toUpperCase() +
+          String(f.relation).slice(1),
+        name: [f.givenName, f.familyName].filter(Boolean).join(" "),
+      });
+    else if (fact.kind === "campaign:elected" && f.office)
+      add("office.elected", { office: String(f.office).replace(/-/g, " ") });
+  }
+  const change = tie?.latestChange;
+  if (change && change.after.level !== change.before.level)
+    lines.push({
+      date: change.date,
+      key:
+        change.after.level > change.before.level ? "tie.closer" : "tie.apart",
+      slots: { month: monthWords(change.date) },
+      recordId: tie.id,
+    });
+  // One school is said once, from the year they started there.
+  const said = new Set<string>();
+  return lines
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .flatMap((line) => {
+      const text = screenLine(
+        "person-history",
+        `person-history.${line.key}`,
+        line.slots,
+      );
+      if (!text || said.has(text.replace(/ in \d{4}\.$/, ""))) return [];
+      said.add(text.replace(/ in \d{4}\.$/, ""));
+      return [{ date: line.date, text, recordId: line.recordId }];
     });
 }
 
@@ -235,29 +318,137 @@ function colleaguesOf(core: CoreState, personId: string) {
     .slice(0, CLOSEST);
 }
 
-/** "Quinn Supply Company" said as people say it: "Quinn Supply". */
-function shortEmployer(name: string): string {
-  return name.replace(
-    /,?\s+(Company|Co\.|Inc\.?|LLC|Corporation|Corp\.?)$/i,
-    "",
-  );
+// Engineering bands for the sketch: a lean under the first is not said; one
+// past the second takes the strong line. Display wording only, never a choice.
+const SKETCH_SAID = 0.15;
+const SKETCH_STRONG = 0.5;
+const SKETCH_SENTENCES = 3;
+
+/**
+ * Up to three sentences of what a person is like, strongest leaning first:
+ * to the player in the second person, or of someone else in the third, with
+ * the pronouns their record carries.
+ */
+function personSketch(
+  traits: Readonly<Record<string, number>>,
+  pronouns?: string,
+): string {
+  const third = pronouns === undefined ? null : pronounWords(pronouns);
+  const voice = pronouns === undefined ? "" : third ? "-third" : "-they";
+  const facts = third ?? {};
+  const said = PEOPLE_TRAITS.flatMap((trait) => {
+    const value = traits[`${PEOPLE_MIND_VERSION}:${trait}`];
+    if (value === undefined || Math.abs(value) < SKETCH_SAID) return [];
+    const shape = TRAIT_SHAPES[trait];
+    const pole = value < 0 ? shape.low.key : shape.high.key;
+    const strength = Math.abs(value) >= SKETCH_STRONG ? "strong" : "mild";
+    const line = screenLine(
+      "person-sketch",
+      `person-sketch.${pole}.${strength}${voice}`,
+      facts,
+    );
+    return line ? [{ line, weight: Math.abs(value) }] : [];
+  })
+    .sort((a, b) => b.weight - a.weight)
+    .slice(0, SKETCH_SENTENCES)
+    .map((row) => row.line);
+  return said.length
+    ? said.join(" ")
+    : (screenLine("person-sketch", `person-sketch.balanced.1${voice}`, facts) ??
+        "");
+}
+
+interface TermLike {
+  readonly id: string;
+  readonly officeId: string;
+  readonly personId?: string | null;
+  readonly identity?: { givenName: string; familyName: string };
+  readonly startDate: string;
+  readonly party: string | null;
+}
+
+/**
+ * The card of a named official the player has not met and who lives
+ * elsewhere (a state legislator, a member of Congress, the President): what
+ * the public record says, from their term and office. `official:<term>` is
+ * memberKey's form for them; a term holder's person id is accepted too.
+ * Every person on a screen opens a card (owner, Oct 28, point 13).
+ */
+function officialCard(core: CoreState, viewerId: string, id: string) {
+  const api = coreAPI(core);
+  const terms = api.moduleState(OFFICES).table("terms");
+  const termId = id.startsWith("official:") ? id.slice("official:".length) : id;
+  const term = (terms.get(termId) ??
+    (terms.rows() as unknown as TermLike[]).find(
+      (row) => row.personId === id,
+    )) as TermLike | undefined;
+  if (!term?.identity) return null;
+  const office = api
+    .moduleState(OFFICES)
+    .table("offices")
+    .get(term.officeId) as
+    { title?: string; governmentName?: string } | undefined;
+  let publicKnowledge: ReturnType<typeof publicKnowledgeOf> | null = null;
+  try {
+    publicKnowledge = core.modules.has(PAST_MODULE_ID)
+      ? publicKnowledgeOf(api, viewerId, id)
+      : null;
+  } catch {
+    publicKnowledge = null;
+  }
+  return {
+    personId: id,
+    name: `${term.identity.givenName} ${term.identity.familyName}`,
+    relation: null,
+    relationRecordId: null,
+    age: null,
+    alive: true,
+    placeName: office?.governmentName ?? null,
+    school: null,
+    sketch: null,
+    work: office?.title
+      ? { title: office.title, employer: office.governmentName ?? null }
+      : null,
+    tie: null,
+    known: false,
+    shared: [],
+    seats: [
+      {
+        recordId: term.id,
+        termId: term.id,
+        office: office?.title ?? null,
+        year: Number(term.startDate.slice(0, 4)),
+      },
+    ],
+    history: [],
+    colleagues: [],
+    publicKnowledge: publicKnowledge ?? {
+      party: term.party,
+      serviceStart: term.startDate,
+      votesOnRecord: null,
+      lawsSponsored: null,
+      lawsSigned: null,
+      positions: [],
+    },
+    face: faceOf(core, term.id, scenePlace(core, viewerId).place),
+  };
 }
 
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const viewer = core.people.get(viewerId);
   const other = core.people.get(otherId);
+  if (viewer && !other) {
+    const official = officialCard(core, viewerId, otherId);
+    if (official) return official;
+  }
   if (!viewer || !other) throw new Error("No such person.");
-  const kin = (viewer.pastFacts ?? []).find(
-    (fact) =>
-      fact.kind.startsWith("family:") && fact.facts?.otherPersonId === otherId,
-  );
+  const kin = familyFactsOf(viewer).get(otherId as PersonId);
   const family = viewer.familyIds.has(otherId) || Boolean(kin);
-  const housemate = viewer.householdId === other.householdId;
+  // What the two share, from the one reader the director's scenes use.
+  const shared = sharedHistory(core, viewerId, otherId);
+  const housemate = shared.some((row) => row.kind === "household");
+  const coworker = shared.some((row) => row.kind === "coworker");
   const job = other.jobId ? core.jobs.get(other.jobId) : undefined;
-  const viewerJob = viewer.jobId ? core.jobs.get(viewer.jobId) : undefined;
-  const coworker = Boolean(
-    job && viewerJob && job.organizationId === viewerJob.organizationId,
-  );
   const tie = [...(core.relationshipsByPerson.get(viewerId) ?? [])]
     .map((id) => core.relationships.get(id))
     .find(
@@ -266,48 +457,21 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         ((row.actorId === viewerId && row.otherId === otherId) ||
           (row.otherId === viewerId && row.actorId === otherId)),
     );
-  const relation = relationWord(
-    core,
-    otherId,
-    kin?.kind.slice("family:".length),
-  );
-  const employer = job
-    ? core.organizations.get(job.organizationId)?.name
-    : undefined;
+  const relation = relationWord(core, otherId, kin?.relation);
   const school =
     (family || housemate) &&
     ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date)) <
-      coreAPI(core).parameter("benchmarkAdultMinimumAge")
+      coreAPI(core).parameter("votingAge")
       ? (schoolsOf(core, otherId)
           .filter((row) => row.date <= core.date)
           .at(-1) ?? null)
       : null;
-  const shownWork = (family || housemate || coworker) && job && employer;
   return {
     personId: otherId,
     name: `${other.givenName} ${other.familyName}`,
     relation,
-    // Who this is to the viewer, said as a person would ("Your partner. Works
-    // at Quinn Supply."), from the kin, job and school records (owner, Oct 27).
-    who: [
-      relation
-        ? screenLine("talk-who", "talk-who.relation.1", { relation })
-        : null,
-      shownWork
-        ? relation
-          ? screenLine("talk-who", "talk-who.work.known", {
-              employer: shortEmployer(employer),
-            })
-          : screenLine("talk-who", "talk-who.work.title", {
-              title: job.title,
-              employer: shortEmployer(employer),
-            })
-        : school
-          ? screenLine("talk-who", "talk-who.school.1", { school: school.name })
-          : null,
-    ]
-      .filter(Boolean)
-      .join(" "),
+    // The family fact the relation is read from, the one scenes cite.
+    relationRecordId: kin?.factId ?? null,
     // Family and housemates know each other's ages; others are known by sight.
     age:
       family || housemate
@@ -322,6 +486,12 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         : null,
     // The school a child or teen is at now, from the school their past records.
     school,
+    // What they are like, said of them, to someone who knows them: family,
+    // a housemate or anyone the player has a tie with.
+    sketch:
+      family || housemate || tie
+        ? personSketch(other.traits, other.looks?.pronouns ?? "they-them")
+        : null,
     work:
       (family || housemate || coworker) && job
         ? {
@@ -331,12 +501,44 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         : null,
     tie: tie
       ? {
+          recordId: tie.id,
           kind: tie.kind,
           level: currentCloseness(core, tie),
           lastContactDate: tie.lastContactDate,
         }
       : null,
     known: viewer.knownIds.has(otherId) || family,
+    // What the two did or share besides family, each by the record that says
+    // so: the same rows the director's scenes and talks read.
+    shared: shared
+      .filter((row) => row.kind !== "family")
+      .map((row) => ({
+        // Work that ended is said apart from work shared now.
+        kind: row.kind === "coworker" && row.endedOn ? "worked" : row.kind,
+        recordId: row.recordId,
+        // The employer or the school, by name.
+        name:
+          row.kind === "coworker" || row.kind === "schoolmate"
+            ? (core.organizations.get(row.recordId)?.name ?? null)
+            : null,
+      })),
+    // The seats they reached before the start, from the government's history
+    // before day one, each with the term record it stands on.
+    seats: preStartHistory(core, {
+      kind: "office.seat-reached",
+      personId: otherId,
+    }).map((row) => ({
+      recordId: row.id,
+      termId: String(row.facts.termId),
+      office: officeTitle(core, String(row.facts.officeId)),
+      year: Number(row.date.slice(0, 4)),
+    })),
+    // Their history from their own records, oldest first, to family, a
+    // housemate or anyone with a tie to them.
+    history:
+      family || housemate || tie
+        ? personHistory(core, viewerId, other, tie)
+        : [],
     // An officeholder's colleagues in office, by their tie records.
     colleagues: colleaguesOf(core, otherId),
     // What the public knows of a figure the viewer may never have met (the
@@ -344,6 +546,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     publicKnowledge: core.modules.has(PAST_MODULE_ID)
       ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
       : null,
+    // Their headshot for the talk box: the same face the People map draws.
+    face: faceOf(core, otherId, scenePlace(core, viewerId).place),
     // A large standing figure: the person on the lead spot of the room you're in.
     figureUrl:
       stagePeople(core, scenePlace(core, viewerId).place, [

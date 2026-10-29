@@ -1,3 +1,4 @@
+import { townLean } from "./campaigns";
 import { lawApplied } from "../law-reach/applied";
 import type { OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
@@ -31,7 +32,7 @@ import {
 import { policyAuthority, recordHomeRule } from "../policy-authority";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
-import overrideReplyMoves from "../data/legislature/override-replies.json" with { type: "json" };
+import replyMoves from "../data/legislature/vote-replies.json" with { type: "json" };
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -60,7 +61,7 @@ import {
 } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
 import { viewOn } from "./views";
 import { ownStance } from "../officials-roster";
@@ -77,6 +78,7 @@ import {
   enactBudget,
   governments,
   registerBudgetVote,
+  registerBudgetHearing,
   type BudgetRow,
   type GovernmentRow,
 } from "./budgets";
@@ -115,7 +117,8 @@ import {
   designation,
   type BillFormKind,
 } from "../legislature-bill-form";
-import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
+import bodyRows from "../data/offices/bodies.json" with { type: "json" };
+import { worldRoster } from "./elections";
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
 
@@ -279,7 +282,12 @@ export interface MemberPosition {
   readonly consistency: number;
   /** What a bribe they took on this bill pulls them toward (the payer's side). */
   readonly bribe: number;
-  /** What replies after a veto override left with the sponsor: favors for, strains against. */
+  /**
+   * What replies in scenes about their vote left: after a veto override, with
+   * the sponsor (on the sponsor's bills); the evening before this vote, with
+   * the member who asked (on this bill). Favors count toward the side asked
+   * for, strains against it.
+   */
   readonly reply?: number;
   /** The scene replies that `reply` reads, by record id. */
   readonly replyIds?: readonly string[];
@@ -299,39 +307,121 @@ export const LEGISLATURE_MODULE: CoreModule = {
       choices: {},
       itemVetoes: {},
       projectRequests: {},
+      budgetHearings: {},
       carryAsks: {},
-      /** A reply said in a scene a veto override caused, between the bill's sponsor and a member who voted no or stayed out. */
-      overrideReplies: {
-        indexes: { byPair: { fields: ["memberId", "sponsorId"] } },
+      /**
+       * A reply said in a scene about a member's vote: one a veto override
+       * caused, between the bill's sponsor and a member who voted no or
+       * stayed out (read on the sponsor's bills), or one the evening-before
+       * ask caused, between the member asked and the member who asked (read
+       * on that bill).
+       */
+      replies: {
+        indexes: {
+          byPair: { fields: ["memberId", "sponsorId"] },
+          byBill: { fields: ["memberId", "billId"] },
+        },
       },
+      /** The evening before a floor vote, the sponsor's ask of a member the bill needs, by the record that names it. */
+      voteAsks: {},
     },
   },
   onCalendarWork: legislatureCalendar,
+  onDay: (api) => askBeforeTheRoll(api),
   eventKinds: ["scene.reply"],
-  onEvent: (api, event) => keepOverrideReply(api, event),
+  onEvent: (api, event) => keepReply(api, event),
 };
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(LEGISLATURE_MODULE_ID).table(name);
 }
 
+/** A reply said in a scene about a member's vote, as `keepReply` keeps it. */
+interface ReplyRow {
+  readonly id: string;
+  /** "sponsor": read on every bill of the sponsor's; "bill": read on that bill alone. */
+  readonly scope: "sponsor" | "bill";
+  readonly memberId: string;
+  /** Who asked: the sponsor after an override, the member who asked before a floor vote. */
+  readonly askerId: string;
+  readonly sponsorId: string;
+  readonly billId: string;
+  readonly move: string;
+  /** 1 a favor, -1 a strain. */
+  readonly sign: number;
+  /** The vote asked for: 1 yes, -1 no. */
+  readonly side: number;
+  readonly date: string;
+}
+
+/** The evening before a floor vote, a member's ask of another the bill needs (`askBeforeTheRoll`). */
+interface VoteAsk {
+  readonly id: string;
+  readonly billId: string;
+  readonly askedId: string;
+  readonly askerId: string;
+  /** The vote asked for: 1 yes, -1 no. */
+  readonly side: number;
+  readonly floorDate: string;
+}
+
 /**
- * A reply said in a scene a veto-override record caused, between the bill's
- * sponsor and a member with an override vote on it, leaves a favor or a
- * strain by its move (`data/legislature/override-replies.json`; any other
- * move leaves nothing). The member's next position on the sponsor's bills
- * reads it (`overrideReplyPull`).
+ * A reply said in a scene about a member's vote leaves a favor or a strain by
+ * its move (`data/legislature/vote-replies.json`; any other move leaves
+ * nothing). One the evening-before ask caused (`askBeforeTheRoll`) is the
+ * asked member's answer to the member who asked, read at their position on
+ * that bill while it waits for its vote; one a veto override caused, between
+ * the bill's sponsor and a member with an override vote on it, is read at the
+ * member's next position on the sponsor's bills (`replyPull`).
  */
-function keepOverrideReply(api: CoreAPI, event: CoreEventInput): void {
+function keepReply(api: CoreAPI, event: CoreEventInput): void {
   const causeId = String(event.facts?.causeId ?? "");
-  if (!causeId.startsWith("veto-override:")) return;
   const move = String(event.facts?.move ?? "");
-  const sign = overrideReplyMoves.favor.includes(move)
+  const sign = replyMoves.favor.includes(move)
     ? 1
-    : overrideReplyMoves.strain.includes(move)
+    : replyMoves.strain.includes(move)
       ? -1
       : 0;
   if (!sign) return;
+  const ask = table(api, "voteAsks").get(causeId) as unknown as
+    VoteAsk | undefined;
+  if (ask) {
+    const bill = table(api, "bills").get(ask.billId) as unknown as
+      BillRow | undefined;
+    // Said to the member asked, by the one who asked, before the roll.
+    if (
+      bill?.status !== "drafted" ||
+      event.personIds[0] !== ask.askedId ||
+      !event.personIds.includes(ask.askerId)
+    )
+      return;
+    table(api, "replies").put({
+      id: event.id,
+      scope: "bill",
+      memberId: ask.askedId,
+      askerId: ask.askerId,
+      sponsorId: bill.sponsorId,
+      billId: bill.id,
+      move,
+      sign,
+      side: ask.side,
+      date: event.date,
+    } satisfies ReplyRow as unknown as ModuleRow);
+    // The player is never voted for: their own word is their vote. Agreeing
+    // is choosing the side asked for, until they choose otherwise; a refusal
+    // leaves the vote theirs to cast.
+    const player =
+      snapshotExplicitControlV1(api.state).personId ??
+      (api.state as CoreState).playerId;
+    if (
+      sign > 0 &&
+      ask.askedId === player &&
+      !table(api, "choices").get(`${bill.id}|${ask.askedId}`)
+    )
+      castMemberVote(api, bill.id, ask.askedId, ask.side > 0 ? "yes" : "no");
+    return;
+  }
+  if (!causeId.startsWith("veto-override:")) return;
   const billId = causeId.slice("veto-override:".length);
   const bill = table(api, "bills").get(billId) as unknown as
     BillRow | undefined;
@@ -343,38 +433,172 @@ function keepOverrideReply(api: CoreAPI, event: CoreEventInput): void {
       table(api, "votes").get(`vote:${billId}:${id}:override`),
   );
   if (!memberId) return;
-  table(api, "overrideReplies").put({
+  table(api, "replies").put({
     id: event.id,
+    scope: "sponsor",
     memberId,
+    askerId: bill.sponsorId,
     sponsorId: bill.sponsorId,
     billId,
     move,
     sign,
+    side: 1,
     date: event.date,
-  } as unknown as ModuleRow);
+  } satisfies ReplyRow as unknown as ModuleRow);
 }
 
 /**
- * What the replies after a veto override left between a member and a sponsor
- * add to the member's position on the sponsor's bills: each favor a favor
- * deal's worth, each strain the same weight against, citing the reply ids.
+ * What scene replies add to a member's position on a bill: those after a
+ * veto override between them and the bill's sponsor, and those the evening
+ * before this bill's vote. Each favor counts a favor deal's worth with the
+ * one who asked toward the side asked for, each strain the same weight
+ * against it, citing the reply ids.
  */
-function overrideReplyPull(
+function replyPull(
   api: CoreAPI,
   memberId: string,
-  sponsorId: string,
+  bill: BillRow,
 ): { readonly pull: number; readonly ids: readonly string[] } {
-  const rows = table(api, "overrideReplies").query("byPair", [
-    memberId,
-    sponsorId,
-  ]) as unknown as { id: string; sign: number }[];
+  if (memberId === bill.sponsorId) return { pull: 0, ids: [] };
+  const replies = table(api, "replies");
+  const rows = [
+    ...(
+      replies.query("byPair", [
+        memberId,
+        bill.sponsorId,
+      ]) as unknown as ReplyRow[]
+    ).filter((row) => row.scope === "sponsor"),
+    ...(
+      replies.query("byBill", [memberId, bill.id]) as unknown as ReplyRow[]
+    ).filter((row) => row.scope === "bill"),
+  ];
   if (!rows.length) return { pull: 0, ids: [] };
-  const favor = dealValue(api, "favor", memberId, sponsorId);
   const strain = campaignParameter("dealWeight");
   return {
-    pull: rows.reduce((sum, row) => sum + (row.sign > 0 ? favor : -strain), 0),
+    pull: rows.reduce(
+      (sum, row) =>
+        sum +
+        row.side *
+          (row.sign > 0
+            ? dealValue(api, "favor", memberId, row.askerId)
+            : -strain),
+      0,
+    ),
     ids: rows.map((row) => row.id),
   };
+}
+
+/**
+ * The evening before a floor vote in a chamber where the player sits, the
+ * sponsor counts the chamber the way the whip count does (`whipCount`: a
+ * chosen vote as chosen, the player undecided until they choose) and, where
+ * the bill would fail, asks the members it needs for their vote: those
+ * against it or undecided whom a favor from the sponsor would carry over,
+ * nearest the line first, until the count would pass. Each ask is a record
+ * naming the bill, the member asked and the sponsor, which the scene of the
+ * ask is staged from and the member's answer cites (`keepReply`). A bill the
+ * asks could not carry, or one already passing, is asked about by no one.
+ */
+function askBeforeTheRoll(api: CoreAPI): void {
+  const player =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
+  if (!player || !api.state.people.get(player)?.alive) return;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const seated = new Set(
+    (offices.table("terms").query("byPerson", [player]) as unknown as TermRow[])
+      .filter((term) => term.status === "serving")
+      .map((term) => term.officeId),
+  );
+  if (!seated.size) return;
+  const floorDate = addDays(makeIsoDate(api.state.date), 1);
+  for (const bill of floorAgendaOn(api, floorDate)) {
+    const sponsor = api.state.people.get(bill.sponsorId);
+    // A bill its committee held never reaches the floor, so no one asks.
+    if (
+      !sponsor?.alive ||
+      committeeRecords(api, bill.id).some((c) => !c.reported)
+    )
+      continue;
+    for (const chamber of chambersOf(api, bill)) {
+      const seats = members(api, chamber);
+      if (!seats.some((term) => memberKey(term) === player)) continue;
+      let margin = 0;
+      const soft: { id: string; lean: number }[] = [];
+      for (const term of seats) {
+        const key = memberKey(term);
+        const chosen = (
+          table(api, "choices").get(`${bill.id}|${key}`) as unknown as
+            { vote: "yes" | "no" | "abstain" } | undefined
+        )?.vote;
+        const lean = chosen
+          ? chosen === "yes"
+            ? 1
+            : chosen === "no"
+              ? -1
+              : 0
+          : key === player
+            ? 0
+            : positionOn(api, bill, key).total;
+        margin += Math.sign(lean);
+        // Only a full person who has not chosen is asked, and only where a
+        // favor from the sponsor would carry them over.
+        if (
+          !chosen &&
+          lean <= 0 &&
+          key !== bill.sponsorId &&
+          api.state.people.get(key)?.alive &&
+          (key === player ||
+            lean + dealValue(api, "favor", key, bill.sponsorId) > 0)
+        )
+          soft.push({ id: key, lean });
+      }
+      if (margin > 0) continue;
+      soft.sort((a, b) => b.lean - a.lean || a.id.localeCompare(b.id));
+      const asked: string[] = [];
+      for (const member of soft) {
+        if (margin > 0) break;
+        // An undecided member's yes adds one; a no turned yes, two.
+        margin += member.lean < 0 ? 2 : 1;
+        asked.push(member.id);
+      }
+      if (margin <= 0) continue;
+      for (const askedId of asked) {
+        const id = `vote-ahead:${bill.id}:${chamber}:${askedId}`;
+        if (table(api, "voteAsks").get(id)) continue;
+        table(api, "voteAsks").put({
+          id,
+          billId: bill.id,
+          askedId,
+          askerId: bill.sponsorId,
+          side: 1,
+          floorDate,
+        } satisfies VoteAsk as unknown as ModuleRow);
+        api.emit({
+          id,
+          date: api.state.date,
+          kind: "vote-ahead",
+          personIds: [askedId, bill.sponsorId],
+          placeId: api.state.people.get(askedId)!.placeId,
+          source: {
+            tag: "SOURCED",
+            citation: `The sponsor's count the evening before the vote on ${bill.number}`,
+            asOf: api.state.date,
+          },
+          facts: {
+            billId: bill.id,
+            number: bill.number,
+            chamber,
+            floorDate,
+            askedId,
+            askerId: bill.sponsorId,
+            side: "yes",
+            asked: asked.join(","),
+          },
+        });
+      }
+    }
+  }
 }
 
 type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
@@ -474,6 +698,7 @@ export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
   registerBudgetVote(councilBudget);
+  registerBudgetHearing(holdCouncilBudgetHearing);
   // Every body's members are people with reasons of their own (OPUS-OFFICIALS).
   if (core.modules.has(OFFICES_MODULE_ID)) openOfficials(core);
 }
@@ -487,20 +712,61 @@ export function openLegislature(core: CoreState): void {
  * that fails is carried forward as last year's (a charter's carry-forward, a
  * state's continuing appropriation, Congress's continuing resolution).
  */
-function councilBudget(
+/** The people who spoke on a bill at its public comment or hearing (the meetings engine's remarks, read by id). */
+function remarkSpeakers(api: CoreAPI, billId: string): string[] {
+  if (!api.state.modules.has("core2-meetings-v1")) return [];
+  const rows = api
+    .moduleState("core2-meetings-v1")
+    .table("remarks")
+    .query("byBill", [billId]) as unknown as { personId: string }[];
+  return [...new Set(rows.map((r) => r.personId))].sort();
+}
+
+/** The public hearing a body held on a government's budget before voting it. */
+export interface BudgetHearingRow {
+  readonly id: string;
+  readonly governmentId: string;
+  readonly fiscalYear: number;
+  readonly heldOn: string;
+  /** The budget bill the hearing was held on; the vote is on this same bill. */
+  readonly billId: string;
+  /** Who sent the proposal, when an executive did; absent where the departments' requests stand. */
+  readonly proposedBy?: string;
+  /** The people who spoke at it, by id. */
+  readonly speakerIds: readonly string[];
+}
+
+/** The hearing held on a government's budget for a fiscal year, if one was. */
+export function budgetHearingOf(
+  api: CoreAPI,
+  governmentId: string,
+  fiscalYear: number,
+): BudgetHearingRow | undefined {
+  if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
+  return table(api, "budgetHearings").get(
+    `hearing:${governmentId}:${fiscalYear}`,
+  ) as unknown as BudgetHearingRow | undefined;
+}
+
+/**
+ * The budget a body will vote, as bill sections: the executive's proposed
+ * changes, else the departments' requests at the funding already enacted. A
+ * proposal that changes nothing is the requests: a bill needs at least one
+ * section to be named (batch 11).
+ */
+function budgetBillSections(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-): BudgetRow | null {
-  const chambers = budgetChambers(api, gov);
-  if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
-    return null;
+  chambers: NonNullable<ReturnType<typeof budgetChambers>>,
+): {
+  priorities: { setBy: string; changes: Record<string, number> } | null;
+  provisions: Provision[];
+  sponsor: string;
+} {
   const priorities =
     budgetPriorities(api, gov.id) ?? executivePriorities(api, gov, fy);
   const carried = budgetCarry(api, gov, fy);
-  // The executive's proposed changes, else the departments' requests at the
-  // funding already enacted. A proposal that changes nothing is the
-  // requests: a bill needs at least one section to be named (batch 11).
   const proposed: Provision[] = Object.entries(priorities?.changes ?? {}).map(
     ([line, delta]) => ({
       kind: "budget-line",
@@ -522,15 +788,106 @@ function councilBudget(
           of: amount,
         }),
       );
-  // No section to vote on: the budget carries by rule, no bill is filed.
-  if (!provisions.length) return null;
-  const sponsor =
-    priorities?.setBy ?? memberKey(members(api, chambers.chambers[0]!)[0]!);
+  return {
+    priorities,
+    provisions,
+    sponsor:
+      priorities?.setBy ?? memberKey(members(api, chambers.chambers[0]!)[0]!),
+  };
+}
+
+/**
+ * The body's public hearing on the budget it will vote, on its day before the
+ * fiscal year starts: the budget bill is drafted from the executive's
+ * proposal, the room speaks on it (the same public comment and group
+ * organizing any bill gets before its vote), and the record keeps who spoke.
+ * The vote on the year's first day is on this same bill and reads the room.
+ */
+function holdCouncilBudgetHearing(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): void {
+  const chambers = budgetChambers(api, gov);
+  if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
+    return;
+  if (budgetHearingOf(api, gov.id, fy)) return;
+  const { priorities, provisions, sponsor } = budgetBillSections(
+    api,
+    gov,
+    fy,
+    chambers,
+  );
+  if (!provisions.length) return;
   const bill = draftBill(api, {
     bodyOfficeId: chambers.introducedIn,
     sponsorId: sponsor,
     provisions,
   });
+  runBeforeVote(api, bill.id, "hearing");
+  const speakers = remarkSpeakers(api, bill.id);
+  const row: BudgetHearingRow = {
+    id: `hearing:${gov.id}:${fy}`,
+    governmentId: gov.id,
+    fiscalYear: fy,
+    heldOn: api.state.date,
+    billId: bill.id,
+    ...(priorities ? { proposedBy: priorities.setBy } : {}),
+    speakerIds: speakers,
+  };
+  table(api, "budgetHearings").put(row as unknown as ModuleRow);
+  api.emit({
+    id: `budget-hearing:${bill.id}`,
+    date: api.state.date,
+    kind: "budget-hearing",
+    personIds: speakers.filter((id) => api.state.people.has(id)),
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Public hearing on ${bill.number}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      billId: bill.id,
+      number: bill.number,
+      governmentId: gov.id,
+      subjects: "budget",
+      speakers: String(speakers.length),
+    },
+  });
+}
+
+function councilBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): BudgetRow | null {
+  const chambers = budgetChambers(api, gov);
+  if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
+    return null;
+  // The bill the hearing was held on is the bill voted; with no hearing held
+  // (a year inside its hearing lead when the world opened) it is drafted now.
+  const heard = budgetHearingOf(api, gov.id, fy);
+  const heardBill = heard
+    ? (table(api, "bills").get(heard.billId) as unknown as BillRow | undefined)
+    : undefined;
+  const sections = heardBill
+    ? null
+    : budgetBillSections(api, gov, fy, chambers);
+  const provisions: Provision[] = heardBill
+    ? [...heardBill.provisions]
+    : sections!.provisions;
+  // No section to vote on: the budget carries by rule, no bill is filed.
+  if (!provisions.length) return null;
+  const bill =
+    heardBill ??
+    draftBill(api, {
+      bodyOfficeId: chambers.introducedIn,
+      sponsorId: sections!.sponsor,
+      provisions,
+    });
   // Each member's duty to adopt a budget sits beside their views on its
   // changes; every chamber must pass it (the U.S. Senate by cloture first).
   const roll = (kept: readonly Provision[]) => {
@@ -752,12 +1109,7 @@ function executivePriorities(
   gov: GovernmentRow,
   fy: number,
 ): { setBy: string; changes: Record<string, number> } | null {
-  const kind = {
-    federal: "president",
-    state: "governor",
-    county: "county-executive",
-    city: "mayor",
-  }[gov.level];
+  const kind = BODIES.vetoHolder[gov.level];
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const office = (
     offices.table("offices").rows() as unknown as {
@@ -765,9 +1117,7 @@ function executivePriorities(
       kind: string;
       level: string;
     }[]
-  ).find(
-    (o) => o.kind === kind && (gov.level !== "state" || o.level === "state"),
-  );
+  ).find((o) => o.kind === kind && o.level === gov.level);
   if (!office) return null;
   const holder = (
     offices.table("seats").query("byOffice", [office.id]) as unknown as {
@@ -834,40 +1184,55 @@ function budgetChambers(
     level: string;
     jurisdiction: string;
   }[];
-  if (gov.level === "federal")
+  // The government's lawmaking bodies are the body rows of its level: a
+  // legislature's chambers (the one a bill starts in first), or the one
+  // body of a county or town (its township's board where the town's own
+  // government is its township).
+  const bodies = offices
+    .map((o) => ({ office: o, row: bodyRow(o.kind) }))
+    .filter(
+      ({ office, row }) =>
+        row?.level === gov.level &&
+        (row.chamberId !== undefined ||
+          row.legislature === undefined ||
+          office.jurisdiction === gov.id),
+    );
+  const legislature = bodies.filter(({ row }) => row!.legislature);
+  if (legislature.length) {
+    const row = legislature[0]!.row!;
+    // A federal chamber is the nation's, whether or not the state seats
+    // members in it (a territory has no senators but Congress still votes);
+    // a state's chambers are its own office rows.
+    const chambers = row.chamberId
+      ? BODIES.bodies
+          .filter((r) => r.legislature === row.legislature)
+          .map((r) => r.chamberId!)
+      : legislature.map(({ office }) => office.id).sort();
+    const first = row.chamberId
+      ? BODIES.bodies.find(
+          (r) => r.legislature === row.legislature && r.introducedFirst,
+        )?.chamberId
+      : undefined;
+    const introducedIn = first ?? chambers[0]!;
     return {
-      chambers: [FEDERAL_HOUSE, FEDERAL_SENATE],
-      introducedIn: FEDERAL_HOUSE,
-      body: "Congress",
+      chambers: [introducedIn, ...chambers.filter((c) => c !== introducedIn)],
+      introducedIn,
+      body: row.words,
     };
-  if (gov.level === "state") {
-    const state = offices
-      .filter(
-        (o) => o.kind.startsWith("legislature-") && o.jurisdiction === gov.id,
-      )
-      .map((o) => o.id)
-      .sort();
-    return state.length
-      ? { chambers: state, introducedIn: state[0]!, body: "the legislature" }
-      : null;
   }
-  // A county's board, a city's council, or a township's board where the
-  // town's own government is its township.
-  const body =
-    gov.level === "county"
-      ? offices.find((o) => o.kind === "county-board" && o.level === "county")
-      : (offices.find((o) => o.kind === "council" && o.level === "city") ??
-        offices.find((o) => o.kind === "township-board"));
+  // A county's own body, else the town's: its council before its township's board.
+  const body = BODIES.bodies
+    .flatMap((row) => bodies.filter((b) => b.row === row))
+    .find(
+      ({ office }) =>
+        office.level === gov.level ||
+        (gov.level === "city" && office.level === "township"),
+    )?.office;
   if (body)
     return {
       chambers: [body.id],
       introducedIn: body.id,
-      body:
-        body.kind === "county-board"
-          ? "the county board"
-          : body.kind === "township-board"
-            ? "the township board"
-            : "the council",
+      body: bodyRow(body.kind)!.words,
     };
   // A city with no council of its own that is the whole state (it holds nearly all the state's residents) is governed by the state's legislature, which votes its
   // budget; a smaller place with no council has none to vote it.
@@ -965,11 +1330,9 @@ export function currentAmount(
 
 /** The level a bill legislates at. */
 function billLevel(api: CoreAPI, bill: BillRow): LawLevel {
-  const chambers = chambersOf(api, bill);
-  if (chambers.includes(FEDERAL_HOUSE)) return "federal";
-  return chambers.length > 1 || bill.bodyOfficeId.includes(":legislature-")
-    ? "state"
-    : "city";
+  // A county body's law reads at the town's level.
+  const level = bodyLevel(api, bill.bodyOfficeId);
+  return level === "county" ? "city" : level;
 }
 
 /**
@@ -1015,9 +1378,9 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
     (provision.series === "income-tax" || provision.series === "sales-tax")
   ) {
     // The state's grant of local income-tax authority is the row in force
-    // today (a later row withdraws what an earlier one granted); a local sales
-    // tax needs only that the state records one. No bill offers the grant yet
-    // (stopgapId: SG-LAW-local-income-tax-authority-change).
+    // today (a later row withdraws what an earlier one granted, by a state
+    // bill from the catalog's law:local-income-tax-authority); a local sales
+    // tax needs only that the state records one.
     const rows =
       provision.series === "income-tax"
         ? lawInForce(api, "local-income-tax-authority")
@@ -1268,8 +1631,8 @@ export function shapedRate(
 /**
  * One section of a bill as the record holds it, for the paper to word: what
  * it changes (the series, question or budget line), the law in force before
- * (its value, shape and the statute it cites), what the section makes it, and
- * the terms the player may edit (the number, the date, the shape).
+ * (its value, shape and the measure that enacted it), what the section makes
+ * it, and the terms the player may edit (the number, the date, the shape).
  */
 export interface BillSection {
   readonly index: number;
@@ -1280,7 +1643,18 @@ export interface BillSection {
     readonly unit: string | null;
     readonly shape: "flat" | "graduated" | null;
     readonly lawId: string | null;
+    /**
+     * What the section cites as the law it amends, for the English engine:
+     * the designation of the bill, passed in play, that enacted it, with
+     * that bill's form; or, for a law in force when the game began, the
+     * statute its research recorded (`terms.cite`), since laws in force stay
+     * the real starting law (owner, Oct 27). Null where neither is on record:
+     * a starting row's research source (a web page, a survey, a note on how
+     * it was estimated) only calibrated the row and is never said in play.
+     */
     readonly statute: string | null;
+    /** The enacting bill's form; null for a recorded statute. */
+    readonly statuteForm: BillFormKind | null;
   };
   readonly after: {
     readonly value: number;
@@ -1314,6 +1688,19 @@ export function billSections(
           ? "flat"
           : null
       : null;
+    // The bill that enacted the law in force, when one on record did: an
+    // order or a ballot measure has no designation a section cites. A
+    // starting law cites the statute its research recorded, if any.
+    const enactedByBill = row?.terms?.enactedByBill;
+    const enacting =
+      typeof enactedByBill === "string"
+        ? (table(api, "bills").get(enactedByBill) as unknown as
+            BillRow | undefined)
+        : undefined;
+    const recorded =
+      typeof row?.terms?.cite === "string" && row.terms.cite
+        ? row.terms.cite
+        : null;
     const before: BillSection["before"] =
       p.kind === "budget-line"
         ? {
@@ -1322,17 +1709,15 @@ export function billSections(
             shape: null,
             lawId: null,
             statute: null,
+            statuteForm: null,
           }
         : {
             value: row?.value ?? null,
             unit: row?.unit ?? null,
             shape: shapeBefore,
             lawId: row?.id ?? null,
-            statute: row
-              ? Array.isArray(row.source)
-                ? row.source.join("; ")
-                : String(row.source)
-              : null,
+            statute: enacting?.number || recorded,
+            statuteForm: enacting?.number ? enacting.form.kind : null,
           };
     return {
       index,
@@ -1406,17 +1791,13 @@ export function billJurisdiction(api: CoreAPI, bill: BillRow): string {
 
 /**
  * Which government a body belongs to, for a story that is not about one bill
- * (a chamber organizing itself): Congress's chambers are federal, a state's
- * legislature state, a county board county, and anything else the town's.
+ * (a chamber organizing itself): its body row's level.
  */
 export function bodyReach(
   api: CoreAPI,
   officeId: string,
 ): "federal" | "state" | "county" | "city" {
-  const kind = bodyOf(api, officeId)?.kind ?? "";
-  if (kind.startsWith("us-house") || kind === "us-senate") return "federal";
-  if (kind.startsWith("legislature-")) return "state";
-  return kind === "county-board" ? "county" : "city";
+  return bodyLevel(api, officeId);
 }
 
 /**
@@ -1785,19 +2166,12 @@ function payProjectGrant(
  * state allows it) and what it costs; blocked while any section is beyond
  * the body's power.
  */
-/** The level of government a lawmaking body belongs to. */
+/** The level of government a lawmaking body belongs to: its body row's (a town's own body where it has none). */
 function bodyLevel(
   api: CoreAPI,
   bodyOfficeId: string,
 ): "federal" | "state" | "county" | "city" {
-  const body = bodyOf(api, bodyOfficeId);
-  return body?.kind === "us-house" || body?.kind === "us-senate"
-    ? "federal"
-    : body?.kind.startsWith("legislature-")
-      ? "state"
-      : body?.kind === "county-board"
-        ? "county"
-        : "city";
+  return bodyRow(bodyOf(api, bodyOfficeId)?.kind ?? "")?.level ?? "city";
 }
 
 function checkedText(
@@ -1943,6 +2317,46 @@ const NON_VOTING = new Set(
 export const FEDERAL_HOUSE = "federal:us-house";
 export const FEDERAL_SENATE = "federal:us-senate";
 
+interface BodyRow {
+  readonly kindPrefix: string;
+  readonly level: "federal" | "state" | "county" | "city";
+  /** Whose law the body's bills make: the nation's, the state's, the county's, its township's or the place's. */
+  readonly law: "nation" | "state" | "county" | "township" | "place";
+  /** The legislature whose chambers this body is one of; absent for a one-chamber body. */
+  readonly legislature?: string;
+  /** The nation's own id for a federal chamber. */
+  readonly chamberId?: string;
+  /** The nation's jurisdiction key, for a federal chamber. */
+  readonly jurisdiction?: string;
+  /** The chamber a bill or budget starts in. */
+  readonly introducedFirst?: boolean;
+  /** A member's term where the chamber fixes it (Congress). */
+  readonly termYears?: number;
+  /** The tie-breaking rule the chamber reads from the states' tie rules. */
+  readonly tieBreaker?: string;
+  /** The words for the body in a budget record. */
+  readonly words: string;
+}
+const BODIES = bodyRows as unknown as {
+  bodies: readonly BodyRow[];
+  vetoHolder: Readonly<Record<"federal" | "state" | "county" | "city", string>>;
+};
+
+/** A lawmaking body's row (src/core2/data/offices/bodies.json), by its office kind. */
+export function bodyRow(kind: string): BodyRow | undefined {
+  return BODIES.bodies.find((row) => kind.startsWith(row.kindPrefix));
+}
+
+/** A federal chamber's row, by the nation's id for it. */
+function chamberRow(chamberId: string): BodyRow | undefined {
+  return BODIES.bodies.find((row) => row.chamberId === chamberId);
+}
+
+/** Whether a body is one of a legislature's chambers (Congress or a state's), not a town's or county's one body. */
+function isLegislature(api: CoreAPI, officeId: string): boolean {
+  return bodyRow(bodyOf(api, officeId)?.kind ?? "")?.legislature !== undefined;
+}
+
 /**
  * A bill's body: its office row, or for Congress, the one national chamber
  * (the House or the Senate, the same in every world), not any state's seat.
@@ -1959,30 +2373,32 @@ export function bodyOf(
       readonly bodyName?: string;
     }
   | undefined {
-  if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE) {
-    const kind = officeId === FEDERAL_HOUSE ? "us-house" : "us-senate";
-    const row = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("offices")
-        .rows() as unknown as OfficeInput[]
-    ).find((office) =>
-      kind === "us-house" ? office.kind.startsWith(kind) : office.kind === kind,
+  const chamber = chamberRow(officeId);
+  if (chamber) {
+    const offices = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .rows() as unknown as OfficeInput[];
+    const row = offices.find((office) =>
+      office.kind.startsWith(chamber.kindPrefix),
     );
     // The body is the chamber, whatever kind its first office row is: in the
     // District of Columbia and the territories that row is the delegate's.
     // A world whose state has no senators (a territory) still has a Senate
-    // that sits, so its body takes the House's row for its name and source.
+    // that sits, so its body takes the other chamber's row for its name and
+    // source.
     const named =
       row ??
-      (
-        api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("offices")
-          .rows() as unknown as OfficeInput[]
-      ).find((office) => office.kind.startsWith("us-house"));
+      offices.find(
+        (office) => bodyRow(office.kind)?.legislature === chamber.legislature,
+      );
     return named
-      ? { ...named, id: officeId, kind, jurisdiction: "US" }
+      ? {
+          ...named,
+          id: officeId,
+          kind: chamber.kindPrefix,
+          jurisdiction: chamber.jurisdiction!,
+        }
       : undefined;
   }
   return api
@@ -2005,38 +2421,36 @@ export function bodyOf(
  * seated at the opening, or, once a race elsewhere changes the seat's party,
  * the winner, seated as a person the first time the seat is read.
  */
-/** The party a seat's coarse race elected, once its winner is seated (world-races). */
+/** The party a seat's coarse race elected, once its winner is seated (the voting engine's world races, read by module id). */
 function worldSeatParty(
   api: CoreAPI,
   seatId: string,
 ): { party: string; since: string } | null {
-  if (!api.state.modules.has("core2-world-races-v1")) return null;
+  if (!api.state.modules.has("core2-voting-v1")) return null;
   const row = api
-    .moduleState("core2-world-races-v1")
+    .moduleState("core2-voting-v1")
     .table("seats")
     .get(seatId) as unknown as { party: string; since: string } | undefined;
   return row && row.since <= api.state.date ? row : null;
 }
 
 function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
-  const congress = (
-    partyCounts as unknown as {
-      congress: Record<string, Record<string, string[]>>;
-    }
-  ).congress;
+  // Who holds each seat of Congress in this world (realistic, not real).
+  const congress = worldRoster(api.state.seed).congress;
   const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const row = chamberRow(chamber)!;
   const out: TermRow[] = [];
   for (const [state, seats] of Object.entries(congress))
     for (const [seat, parties] of Object.entries(seats)) {
+      // The roster keys a state's senators under "senate" and its
+      // representatives under the district number.
       const senate = seat === "senate";
       if (senate !== (chamber === FEDERAL_SENATE)) continue;
       // Delegates and the Resident Commissioner don't vote on final passage
       // (House Rule III); a place with no senators has no senate rows.
       if (!senate && NON_VOTING.has(state)) continue;
       parties.forEach((rosterParty, index) => {
-        const seatId = senate
-          ? `seat:${state}:us-senate:${index}`
-          : `seat:${state}:us-house:${seat.padStart(2, "0")}`;
+        const seatId = `seat:${state}:${row.kindPrefix}:${senate ? index : seat.padStart(2, "0")}`;
         // The offices engine files a state's single House seat as "at-large".
         const real = [seatId, atLarge(seatId)]
           .map(
@@ -2079,8 +2493,12 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
           return;
         }
         // The opening's holder serves until a race hands the seat to the
-        // other party; the winner is then a new person.
+        // other party; the winner is then a new person. A seat its special
+        // election has yet to fill (the offices engine's vacancy) sits
+        // empty, unless a race since has filled it.
         const holder = currentOfficial(api, seatId);
+        const waiting = holder ? undefined : awaitingVacancy(api, seatId);
+        if (waiting && !(won && won.since >= waiting.since)) return;
         const official =
           holder && partyName(holder.party) === party
             ? holder
@@ -2088,12 +2506,12 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
                 key: `${seatId}:${won?.since ?? api.state.date}`,
                 seatId,
                 term: null,
-                body: senate ? "US:us-senate" : "US:us-house",
-                officeKind: senate ? "us-senate" : "us-house",
+                body: `${row.jurisdiction}:${row.kindPrefix}`,
+                officeKind: row.kindPrefix,
                 stateKey: state,
                 district: senate ? null : seat,
                 party,
-                termYears: senate ? 6 : 2,
+                termYears: row.termYears!,
               });
         const changed = official !== holder;
         const person = api.state.people.get(official.id)!;
@@ -2146,17 +2564,6 @@ export function leanOf(
   return 0;
 }
 
-function townLean(api: CoreAPI): number {
-  return (
-    (
-      api
-        .moduleState("core2-campaigns-v1")
-        .table("town")
-        .get("town") as unknown as { lean: number } | undefined
-    )?.lean ?? 0
-  );
-}
-
 /**
  * A full person's traits' lean between two options of a registered decision,
  * at the shared weight; a named official not filled in yet adds nothing.
@@ -2189,7 +2596,7 @@ export function memberPosition(
 
 const tieRules = (
   ties as unknown as {
-    states: Record<string, { stateSenateTieBreaker?: { who: string } }>;
+    states: Record<string, Record<string, { who: string } | undefined>>;
   }
 ).states;
 
@@ -2215,11 +2622,9 @@ function tieBreaker(api: CoreAPI, chamber: string): string | null {
   }
   const office = offices.table("offices").get(chamber) as unknown as
     { kind: string; jurisdiction: string } | undefined;
-  if (office?.kind !== "legislature-upper") return null;
-  if (
-    tieRules[office.jurisdiction]?.stateSenateTieBreaker?.who !==
-    "lieutenant governor"
-  )
+  const rule = office ? bodyRow(office.kind)?.tieBreaker : undefined;
+  if (!office || !rule) return null;
+  if (tieRules[office.jurisdiction]?.[rule]?.who !== "lieutenant governor")
     return null;
   const lg = (
     offices
@@ -2370,11 +2775,9 @@ function positionOn(
   const consistency = recordConsistency(api, memberId, bill);
   // A bribe they took on this bill, as far as it moves them.
   const bribe = bribePull(api, memberId, bill.id);
-  // What a scene after a veto override left between them and the sponsor.
-  const replies =
-    memberId === bill.sponsorId
-      ? { pull: 0, ids: [] }
-      : overrideReplyPull(api, memberId, bill.sponsorId);
+  // What scenes about their vote left: after a veto override with the
+  // sponsor, and the evening before this vote with the member who asked.
+  const replies = replyPull(api, memberId, bill);
   // Everything that decides the vote but personality: where they stand, home,
   // the sponsor, deals, lobbying, party, their record and any bribe.
   const bare =
@@ -2809,6 +3212,19 @@ function dealValue(
   return weight * (1 + Math.max(0, tie));
 }
 
+/**
+ * What a yes given as a favor to `askerId` is worth on `memberId`'s position:
+ * the weight a scene reply's favor carries at the roll (`replyPull`), so an
+ * answer in a scene can be weighed by what the roll call will read.
+ */
+export function favorWorth(
+  api: CoreAPI,
+  memberId: string,
+  askerId: string,
+): number {
+  return dealValue(api, "favor", memberId, askerId);
+}
+
 /** What a sponsor owes the members who took their deals (favors, backing their items). */
 export function obligationsOf(
   api: CoreAPI,
@@ -2830,36 +3246,38 @@ export function obligationsOf(
   ).filter((o) => o.owedBy === personId);
 }
 
-/** The bill's chambers, in order: the town's body, or the state's chambers starting where it was introduced. */
+/** The bill's chambers, in order: the town's body, or its legislature's chambers starting where it was introduced. */
 export function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
   const office = bodyOf(api, bill.bodyOfficeId);
-  if (office?.kind.startsWith("us-house") || office?.kind === "us-senate")
-    return office.kind === "us-senate"
-      ? [FEDERAL_SENATE, FEDERAL_HOUSE]
-      : [FEDERAL_HOUSE, FEDERAL_SENATE];
-  if (!office?.kind.startsWith("legislature-")) return [bill.bodyOfficeId];
-  const others = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .query("byJurisdiction", [office.jurisdiction]) as unknown as {
-      id: string;
-      kind: string;
-    }[]
-  )
-    .filter(
-      (o) => o.kind.startsWith("legislature-") && o.id !== bill.bodyOfficeId,
-    )
-    .map((o) => o.id)
-    .sort();
-  return [bill.bodyOfficeId, ...others];
+  const row = bodyRow(office?.kind ?? "");
+  if (!office || !row?.legislature) return [bill.bodyOfficeId];
+  // A federal chamber is the nation's (one id); a state's chambers are its
+  // own office rows.
+  const others = row.chamberId
+    ? BODIES.bodies
+        .filter((r) => r.legislature === row.legislature && r !== row)
+        .map((r) => r.chamberId!)
+    : (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .query("byJurisdiction", [office.jurisdiction]) as unknown as {
+          id: string;
+          kind: string;
+        }[]
+      )
+        .filter(
+          (o) =>
+            bodyRow(o.kind)?.legislature === row.legislature &&
+            o.id !== bill.bodyOfficeId,
+        )
+        .map((o) => o.id)
+        .sort();
+  return [row.chamberId ?? bill.bodyOfficeId, ...others];
 }
 
 function isState(api: CoreAPI, bill: BillRow): boolean {
-  return (
-    chambersOf(api, bill).length > 1 ||
-    bill.bodyOfficeId.includes(":legislature-")
-  );
+  return isLegislature(api, bill.bodyOfficeId);
 }
 
 /**
@@ -2936,9 +3354,7 @@ export function missesSitting(
   // A legislature's or Congress's session days are the member's working
   // days, planned around (states protect a legislator's job during session);
   // a town body's evening meeting comes out of the member's own free hours.
-  const legislative = /^federal:|:(legislature-|us-house|us-senate)/.test(
-    officeId,
-  );
+  const legislative = isLegislature(api, officeId);
   const available = legislative
     ? api.parameter("hoursPerDay")
     : discretionaryHours(api, memberId);
@@ -3662,12 +4078,14 @@ export function movesPill(
  * Run the pre-vote hooks the records fire for a body on a sitting day. The
  * committee's day runs the ones the data puts at the committee stage
  * (`committee-day.json`) and marks them on the bill; the floor day runs every
- * hook that has not run.
+ * hook that has not run. A budget's public hearing is the bill's one pass
+ * before its vote: it runs every hook that has not run and marks each, so no
+ * later pass runs one again.
  */
 function runBeforeVote(
   api: CoreAPI,
   billId: string,
-  stage: "committee" | "floor",
+  stage: "committee" | "floor" | "hearing",
 ): void {
   for (const hook of beforeVoteHooks) {
     if (stage === "committee" && !committeeStageHooks.has(hook.name)) continue;
@@ -3675,12 +4093,60 @@ function runBeforeVote(
       BillRow | undefined;
     if (!bill || bill.hooksRun?.includes(hook.name)) continue;
     hook.run(api, billId);
-    if (stage !== "committee") continue;
+    if (stage === "floor") continue;
     const after = table(api, "bills").get(billId) as unknown as BillRow;
     table(api, "bills").put({
       ...after,
       hooksRun: [...(after.hooksRun ?? []), hook.name],
     } as unknown as ModuleRow);
+  }
+}
+
+/**
+ * The floor day of a bill whose committee traded for votes: each member who
+ * traded their vote there for their own section, and sits on this floor, is
+ * a record for them and the sponsor, who comes to make sure of the vote.
+ */
+function recordPromises(api: CoreAPI, bill: BillRow, chamber: string): void {
+  const seats = members(api, chamber);
+  for (const deal of bill.deals) {
+    if (
+      deal.kind !== "trade-amendment" ||
+      deal.status !== "accepted" ||
+      deal.stage !== "committee" ||
+      deal.chamber !== chamber ||
+      !api.state.people.has(deal.memberId)
+    )
+      continue;
+    const seat = seats.find((term) => memberKey(term) === deal.memberId);
+    if (!seat) continue;
+    api.emit({
+      id: `vote-promise:${bill.id}:${chamber}:${deal.memberId}`,
+      date: api.state.date,
+      kind: "vote-promise",
+      personIds: [deal.memberId, bill.sponsorId].filter(
+        (id, index, ids) =>
+          api.state.people.has(id) && ids.indexOf(id) === index,
+      ),
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `${bill.number}: the committee trade of ${deal.date}, on the floor`,
+        asOf: api.state.date,
+      },
+      // The committee's trade is public record; this is that trade, due.
+      publicRecord: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        level: billReach(api, bill).level,
+        chamber,
+        memberId: deal.memberId,
+        sponsorId: bill.sponsorId,
+        officeId: seat.officeId,
+        traded: deal.date,
+      },
+    });
   }
 }
 
@@ -3764,6 +4230,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       bill = { ...bill, committeeId: committee.id };
       table(api, "bills").put(bill as unknown as ModuleRow);
     }
+    recordPromises(api, bill, chamber);
     bill = floorAmendments(api, bill, chamber);
     const counted = chamberVote(api, bill, chamber);
     // A tie: the presiding officer who may break one does (the Vice President
@@ -3829,7 +4296,7 @@ export function executiveOf(
 } {
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const body = bodyOf(api, bodyOfficeId)!;
-  const federal = body.kind.startsWith("us-house") || body.kind === "us-senate";
+  const federal = bodyLevel(api, bodyOfficeId) === "federal";
   const office = (
     offices
       .table("offices")
@@ -4525,7 +4992,9 @@ function townshipOfBody(api: CoreAPI, bill: BillRow): string | null {
     .table("offices")
     .get(bill.bodyOfficeId) as unknown as
     { kind: string; jurisdiction: string } | undefined;
-  return office?.kind === "township-board" ? office.jurisdiction : null;
+  return office && bodyRow(office.kind)?.law === "township"
+    ? office.jurisdiction
+    : null;
 }
 
 function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
@@ -4534,7 +5003,7 @@ function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
     .table("offices")
     .get(bill.bodyOfficeId) as unknown as
     { kind: string; jurisdiction: string } | undefined;
-  if (office?.kind !== "county-board") return null;
+  if (!office || bodyRow(office.kind)?.law !== "county") return null;
   const chain = lawChain(api);
   const unit = governmentUnitsForPlace(
     chain.levels[chain.levels.length - 1]!.jurisdiction.slice("place:".length),
@@ -4920,15 +5389,28 @@ export function registerWeeklyFloorReader(
   weeklyFloorReader = reader;
 }
 
+let meetingAgendaReader:
+  ((api: CoreAPI, date: string) => readonly string[]) | null = null;
+/** The office day says which bills a town body's meeting on a date has on its agenda. */
+export function registerMeetingAgendaReader(
+  reader: (api: CoreAPI, date: string) => readonly string[],
+): void {
+  meetingAgendaReader = reader;
+}
+
 /**
  * The floor's agenda for a date: the drafted bills whose vote is scheduled
- * for it, and those a legislature's weekly floor takes up that day, in id
- * order. A member reads what the floor takes up ahead of the vote here, not
- * from the calendar's keys.
+ * for it, those a legislature's weekly floor takes up that day, and those on
+ * the agenda of a town body's meeting that day, in id order. A member reads
+ * what the floor takes up ahead of the vote here, not from the calendar's
+ * keys.
  */
 export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
   const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
-  const weekly = new Set(weeklyFloorReader?.(api, date) ?? []);
+  const weekly = new Set([
+    ...(weeklyFloorReader?.(api, date) ?? []),
+    ...(meetingAgendaReader?.(api, date) ?? []),
+  ]);
   return (table(api, "bills").rows() as unknown as BillRow[])
     .filter(
       (b) =>

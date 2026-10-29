@@ -7,15 +7,15 @@ import {
   createCharacterComponentLibrary,
   validateCharacterComponentCandidates,
   validateCharacterComponentLibrary,
-} from "../../src/presentation/character-components";
+} from "../../src/appearance/character-components";
 import {
   validateGarmentFitBank,
   type GarmentFitBankData,
-} from "../../src/presentation/garment-fit";
+} from "../../src/appearance/garment-fit";
 import {
   evaluateMasterDimensions,
   masterRequirementFor,
-} from "../../src/presentation/component-masters";
+} from "../../src/appearance/component-masters";
 import {
   validateCargoDisposition,
   type CargoDispositionLedger,
@@ -24,7 +24,7 @@ import {
   createPoseFamilyRegistry,
   validatePoseFamilyRegistry,
   type PoseFamilyRegistryData,
-} from "../../src/presentation/pose-families";
+} from "../../src/appearance/pose-families";
 import { hashArtFile, isArtContentHash } from "./content-hash";
 import type {
   AssetManifest,

@@ -45,6 +45,9 @@ it(`the meeting's bill item carries the bill's real name, in ${place.name}, seed
       });
       const shown = billItem(core, bill);
       const context = `${policy.id} ${operation}`;
+      // The meeting shows the bill by its name; its sections are on the
+      // paper, never a raw policy key and amount (golden-meeting-item-line).
+      expect("provisions" in shown, context).toBe(false);
       // A real name, not the catalog's description of the policy.
       expect(shown.title, context).not.toBeNull();
       expect(shown.title!.toLowerCase(), context).not.toBe(

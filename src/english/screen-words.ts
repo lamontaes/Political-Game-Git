@@ -1,24 +1,27 @@
 /**
- * Short worded lines for the play screens (a calendar entry, a person's sketch, who
- * someone is to you), from the English engine's screen banks. A part that is not
- * shippable, that the owner's grades hold back, or whose slots the record cannot fill
- * gives null, and the screen shows nothing for it.
+ * Short worded lines for the play screens (a calendar entry, a person's sketch
+ * and history), from the English engine's screen banks. A part the owner's
+ * grades hold back, or whose slots the record cannot fill, gives null, and
+ * the screen shows nothing for it.
  */
 import calendarJson from "../../data/english/parts/calendar.json" with { type: "json" };
-import talkWhoJson from "../../data/english/parts/talk-who.json" with { type: "json" };
-import { heldByGrades } from "./english-grades";
+import personSketchJson from "../../data/english/parts/person-sketch.json" with { type: "json" };
+import personHistoryJson from "../../data/english/parts/person-history.json" with { type: "json" };
+import { playable } from "./bank-parts";
 
 interface ScreenPart {
   key: string;
   text: string;
-  shippable: boolean;
 }
 const BANKS: Readonly<Record<string, ReadonlyMap<string, ScreenPart>>> = {
   calendar: new Map(
     (calendarJson.parts as ScreenPart[]).map((part) => [part.key, part]),
   ),
-  "talk-who": new Map(
-    (talkWhoJson.parts as ScreenPart[]).map((part) => [part.key, part]),
+  "person-sketch": new Map(
+    (personSketchJson.parts as ScreenPart[]).map((part) => [part.key, part]),
+  ),
+  "person-history": new Map(
+    (personHistoryJson.parts as ScreenPart[]).map((part) => [part.key, part]),
   ),
 };
 
@@ -29,7 +32,7 @@ export function screenLine(
   facts: Readonly<Record<string, string | number>>,
 ): string | null {
   const part = BANKS[bank]?.get(key);
-  if (!part?.shippable || heldByGrades(key)) return null;
+  if (!part || !playable(part)) return null;
   let missing = false;
   const text = part.text.replace(/\{(\w+)\}/g, (_all, slot: string) => {
     const value = facts[slot];

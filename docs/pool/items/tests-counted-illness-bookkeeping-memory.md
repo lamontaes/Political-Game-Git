@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/counted-illness.test.ts, src/core2/bookkeeping.ts, src/core2/state.ts, src/core2/births-counted.ts
 
 **Notes.** TODO
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `tests-counted-births-weight-bookkeeping-memory`; close into it and carry any line it lacks there. (same OOM cause, same PR)

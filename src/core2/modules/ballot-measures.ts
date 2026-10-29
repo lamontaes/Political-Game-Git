@@ -14,8 +14,8 @@
  * otherwise), and an approved measure becomes the state's law on its
  * effective date, reaching named residents through the law-effects module.
  */
+import { townLean } from "./campaigns";
 import measuresData from "../data/elections/ballot-measures.json" with { type: "json" };
-import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import {
   decisionLean,
@@ -26,6 +26,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { personLean, personStance, publicOffset } from "../campaign-views";
+import { stateRightShare, stateTwoPartyVotes } from "../electorate-places";
 import { viewOn } from "./views";
 import { enactLaw, lawChain } from "./laws";
 import { turnoutOn, VOTING_MODULE_ID } from "./voting";
@@ -136,29 +137,6 @@ const ageOn = (p: Readonly<PersonState>, date: string) =>
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
 
-const stateRows = new Map(
-  (
-    calibration as unknown as {
-      presidentialByState: {
-        stateUsps: string;
-        totalVotes: number;
-        democraticTwoPartyShare: number | null;
-      }[];
-    }
-  ).presidentialByState.map((s) => [s.stateUsps, s]),
-);
-
-function townLean(api: CoreAPI): number {
-  return (
-    (
-      api
-        .moduleState("core2-campaigns-v1")
-        .table("town")
-        .get("town") as unknown as { lean: number } | undefined
-    )?.lean ?? 0
-  );
-}
-
 /** Who turned out for a race today. */
 function votedToday(api: CoreAPI): ReadonlySet<string> {
   if (!api.state.modules.has(VOTING_MODULE_ID)) return new Set();
@@ -182,12 +160,15 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   ) as unknown as MeasureRow | undefined;
   if (!measure || measure.status !== "on-ballot") return;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   const direction = measure.yesMeans === "enact" ? 1 : -1;
   const { townPlaceId } = lawChain(api);
   const named = { yes: 0, no: 0, blank: 0 };
   let voted = 0;
   const adults = [...api.state.people.values()]
-    .filter((p) => p.alive && p.placeId === townPlaceId && ageOn(p, date) >= 18)
+    .filter(
+      (p) => p.alive && p.placeId === townPlaceId && ageOn(p, date) >= adultAge,
+    )
     .sort((a, b) => a.id.localeCompare(b.id));
   const turnedOut = votedToday(api);
   const lean0 = townLean(api);
@@ -205,7 +186,7 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       decisionTraitWeight(api.state, "ballot-measures.vote") * traitLean;
     const view =
       (viewOn(api, voter.id, measure.question, lean) +
-        publicOffset(measure.question)) *
+        publicOffset(measure.question, api.state.seed)) *
       direction;
     const support = view + trait;
     // The audit's probe (off in play) sees whether they back it with and without the trait term.
@@ -252,12 +233,13 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   // its 2024 vote, each band voting its own view of the question.
   // stopgapId: SG-GOV-measure-groups-stand-in
   api.stopgap("SG-GOV-measure-groups-stand-in");
-  const row = stateRows.get(measure.stateKey.slice(3));
+  // This world's 2024 in the state: its votes cast and its two-party lean.
+  const usps = measure.stateKey.slice(3);
+  const cast = stateTwoPartyVotes(usps, api.state.seed);
   const groups = { yes: 0, no: 0 };
-  const unnamed = Math.max(0, (row?.totalVotes ?? voted) - voted);
-  const rightShare = row?.democraticTwoPartyShare
-    ? 1 - row.democraticTwoPartyShare
-    : (1 + townLean(api)) / 2;
+  const unnamed = Math.max(0, (cast || voted) - voted);
+  const rightShare =
+    stateRightShare(usps, api.state.seed) ?? (1 + townLean(api)) / 2;
   // Leans spread evenly from 2·right − 2 to 2·right (as named people's do);
   // the share voting yes is the part of that range whose view favors it.
   const low = 2 * rightShare - 2;
@@ -266,7 +248,7 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     low,
     low + 2,
     slope,
-    publicOffset(measure.question) * direction,
+    publicOffset(measure.question, api.state.seed) * direction,
   );
   groups.yes = Math.round(unnamed * yesFraction);
   groups.no = unnamed - groups.yes;

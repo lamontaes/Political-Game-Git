@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at:
 **Files.** scripts/dialogue-batch/grading-bench.ts, docs/grading/words-batch-12.md (new), scripts/dialogue-batch/grading-batch.ts
 
 **Notes.** Part of words-grading-bench. The owner grades thirty different moments from this page. Claim released Oct 23: branch gone.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (superseded; batch grading is over).

@@ -16,6 +16,7 @@ import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
   ELECTIONS_MODULE_ID,
+  standing,
   fileCandidacy,
   openContests,
   openElections,
@@ -67,7 +68,9 @@ function fileAndQualify(
   });
   if (result.status === "refused") return null;
   const filing = result.filing;
-  return filing.status === "on-ballot" ? filing : null;
+  return ["petitioning", "on-ballot"].includes(filing.status ?? "")
+    ? filing
+    : null;
 }
 
 describe("campaign interviews", () => {
@@ -302,7 +305,9 @@ describe("a reporter who runs", () => {
           ).not.toContain("press-employment");
           continue;
         }
-        expect(result.filing.status, where).toBe("on-ballot");
+        expect(result.filing.status, where).toMatch(
+          /^(petitioning|on-ballot)$/,
+        );
         // Their own paper asked for an interview with them: another of its
         // reporters goes, or none; never the candidate themselves.
         const interview = requestInterview(api, {
@@ -360,7 +365,7 @@ describe("interviews with state and federal candidates", () => {
           .table("filings")
           .rows() as unknown as FilingRow[]
       )
-        .filter((f) => f.status === "on-ballot" && !core.people.has(f.personId))
+        .filter((f) => standing(f) && !core.people.has(f.personId))
         .sort((a, b) => a.id.localeCompare(b.id))[0];
       if (!outsider) continue;
       // The candidate asks each outlet in turn; a television station may pass

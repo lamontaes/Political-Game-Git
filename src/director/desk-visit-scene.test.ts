@@ -126,10 +126,9 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     const first = present(0);
     expect(first.entry, `${where}: no moment for the presentment`).toBeTruthy();
     const types = first.entry!.bindings.map((row) => row.typeKey);
+    // One desk scene for one bill: the sponsor's visit, not the aide's too.
     expect(types, where).toContain("desk-visit");
-    expect(types.indexOf("desk-visit"), where).toBeLessThan(
-      types.indexOf("desk-bill"),
-    );
+    expect(types, where).not.toContain("desk-bill");
     const visit = first.entry!.bindings.find(
       (b) => b.typeKey === "desk-visit",
     )!;
@@ -149,8 +148,10 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     const said = (key: string) => scene.facts.find((row) => row.key === key);
     expect(said("for"), where).toBeTruthy();
     expect(said("against"), where).toBeFalsy();
-    expect(said("roll")?.text, where).toMatch(/^\d+ to \d+$/);
-    expect(said("roll")?.recordIds, where).toContain(first.bill.id);
+    // The roll's two counts; the bank's lines join them ("5 to 2").
+    expect(said("ayes")?.text, where).toMatch(/^\d+$/);
+    expect(said("nays")?.text, where).toMatch(/^\d+$/);
+    expect(said("ayes")?.recordIds, where).toContain(first.bill.id);
     expect(said("deadline")?.recordIds, where).toContain(scene.cause.id);
 
     // Plain words on every path, and four replies that are four stances.
@@ -373,14 +374,18 @@ it(`a governor's year of presented bills brings each living sponsor in, seed ${s
     let visits = 0;
     let staged = 0;
     let shown = "";
+    let first = "";
     for (const record of presented) {
       const sponsor = api
         .moduleState(LEGISLATURE_MODULE_ID)
         .table("bills")
         .get(String(record.facts?.billId)) as unknown as
         { sponsorId: string } | undefined;
-      const entry = book.schedule.find((row) =>
-        row.momentId.includes(record.id),
+      // A presentment the director paced down to a journal line is kept, not
+      // staged: it has no scene and casts no one.
+      const entry = book.schedule.find(
+        (row) =>
+          row.momentId.includes(record.id) && row.outcome !== "journal-line",
       );
       const cast = entry?.bindings.find((b) => b.typeKey === "desk-visit");
       const comes =
@@ -399,6 +404,7 @@ it(`a governor's year of presented bills brings each living sponsor in, seed ${s
           scene.scene.typeKey === "desk-visit"
         ) {
           visits += 1;
+          first ||= `${record.id}, sponsor ${sponsor!.sponsorId}`;
           shown ||= scene.scene.talk.lines
             .slice(0, 4)
             .map((row) => row.text)
@@ -407,8 +413,8 @@ it(`a governor's year of presented bills brings each living sponsor in, seed ${s
       }
     }
     expect(visits, `${where}: no visit composed`).toBeGreaterThan(0);
-    console.log(
-      `DESK-VISIT-GOVERNOR ${where}: ${presented.length} bills presented, ${staged} staged, ${visits} brought a sponsor.\n  ${shown}`,
+    process.stdout.write(
+      `DESK-VISIT-GOVERNOR ${where}: ${presented.length} bills presented, ${staged} staged, ${visits} brought a sponsor; first ${first}.\n  ${shown}\n`,
     );
     return;
   }

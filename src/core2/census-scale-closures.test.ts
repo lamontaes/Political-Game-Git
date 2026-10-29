@@ -9,7 +9,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
 import { corePlaceByKey } from "./place-lookup";
 import { SAMPLE, compareClosures } from "./census-scale-closures-support";
 
@@ -30,7 +30,9 @@ function drawLargeTown() {
       "world-census-scale-closures",
     );
     const geoid = corePlaceByKey(draw.key)?.sourceGeoid;
-    const reference = geoid ? placeReferencePopulation(geoid)?.value : null;
+    const reference = geoid
+      ? publishedPlaceReferencePopulation(geoid)?.value
+      : null;
     if (reference && reference > SAMPLE && reference <= LARGEST)
       return { draw, reference };
     tried.push(

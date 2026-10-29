@@ -745,14 +745,6 @@ export interface CoreInput {
   visiblePlaceIds?: readonly PlaceId[];
   calendarDates: readonly IsoDate[];
   gaps: readonly string[];
-  priorFactsSource?: readonly {
-    personId: PersonId;
-    field: string;
-    status: "filled" | "preserved" | "unresolved";
-    factIds: readonly string[];
-    source?: Source;
-    reason: string;
-  }[];
   familyLinks?: readonly {
     id: string;
     kind: "parent-child" | "partner";
@@ -773,6 +765,8 @@ export interface HuskInput {
   looks: Readonly<Record<string, string>>;
   said: readonly string[];
   birthDate?: IsoDate;
+  /** Set for a person who died before day one: a named record, never filled in. */
+  diedOn?: IsoDate;
   familyIds?: readonly PersonId[];
   source: Source;
 }

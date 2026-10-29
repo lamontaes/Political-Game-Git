@@ -1,19 +1,15 @@
 /* global process, console, document, URL, URLSearchParams */
 // The filing counter in a real browser, on the bench (npm run bench): a new
 // life in a place drawn from all 56, Travel to the first office that takes
-// filings, name each office there. The choices must read differently, the
-// overlay's rules must read as words from the controls data (never a rule's
-// id), the overlay must fit the window and nothing may cover it.
+// filings, its view, then the counter. No Open races panel and no rules panel
+// beside the counter (owner, Oct 28 sitting, points 29 and 31: dev menus);
+// each race the clerk offers reads differently and explains its office on
+// hover (point 30); a grown resident who joined a party files and the filing
+// keeps that party, with no form; filing takes the afternoon off the clock.
+//   node src/bench/filing.browser.mjs            SEED=<seed> replays a world
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { checkRuleLabels } from "./filing-rule-labels.mjs";
-// The first race at the counter: a row of the race menu when there are more than
-// four, else the first reply in the talk.
-async function pickFirstRace(page) {
-  const menu = page.locator("#race-menu .choice").first();
-  if (await menu.isVisible()) await menu.click();
-  else await page.locator("#talk-choices button").first().click();
-}
+import parameters from "../core2/data/parameters.json" with { type: "json" };
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -22,6 +18,21 @@ page.setDefaultTimeout(60000);
 const errors = [];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 page.on("pageerror", (e) => errors.push(e.message));
+// The player's clock, in minutes: the moment the last packet reached, or,
+// for a life that has lived no moment yet, the end of the world's day, where
+// the player's next hours start.
+async function clock() {
+  const { life } = await (await page.request.get(`${base}/api/title`)).json();
+  const day = Date.parse(`${life.date}T00:00:00Z`) / 60000;
+  const at = life.packet?.at ?? {
+    date: new Date((day + 24 * 60) * 60000).toISOString().slice(0, 10),
+    minuteOfDay: 0,
+  };
+  return {
+    ...at,
+    minutes: Date.parse(`${at.date}T00:00:00Z`) / 60000 + at.minuteOfDay,
+  };
+}
 async function openNavigationTab(tab) {
   // The rail over the card is the one menu, open screen or not.
   const button = page.locator(`#rings [data-tab="${tab}"]`);
@@ -32,6 +43,25 @@ async function openNavigationTab(tab) {
   );
   await page.keyboard.press("Enter");
   await page.locator("#sheet:not([hidden])").waitFor();
+}
+// Travel to the first office that takes filings: its card opens its view,
+// and Go opens the counter.
+async function toCounter() {
+  await openNavigationTab("travel");
+  const office = page
+    .locator("#sheet-body .entry", { hasText: /You file here/ })
+    .first();
+  await office.waitFor();
+  const name = await office.locator("h3").innerText();
+  await office.click();
+  await page.locator("#sheet-body.place-view").waitFor();
+  await page.locator('[data-testid="place-go"]').click();
+  await page.locator("#talk:not([hidden])").waitFor();
+  // The narrator sets the counter up first, alone; Continue, then the clerk.
+  const next = page.locator("#talk-next");
+  if (await next.isVisible().catch(() => false)) await next.click();
+  await page.locator("#talk-choices button").first().waitFor();
+  return name;
 }
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
@@ -54,32 +84,22 @@ try {
   const asked = new URL((await made).url()).searchParams;
   const world = { seed: asked.get("seed"), date: asked.get("date") };
   console.log("Seed:", world.seed);
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
   console.log("Place:", await page.locator("#card-place").innerText());
-  // Travel to the first place where filings are taken.
-  await openNavigationTab("travel");
-  const go = page.locator("#sheet-body button", { hasText: /Go/ });
-  await go.first().waitFor();
-  const controlsResponse = await page.request.get(`${base}/api/controls`);
-  assert.ok(controlsResponse.ok(), "the controls data did not load");
-  const controls = await controlsResponse.json();
-  let opened = false;
-  for (let i = 0; i < (await go.count()) && !opened; i++) {
-    const label = await go.nth(i).getAttribute("aria-label");
-    await go.nth(i).click();
-    opened = await page
-      .locator("#talk:not([hidden])")
-      .waitFor({ timeout: 5000 })
-      .then(() => true)
-      .catch(() => false);
-    if (opened) console.log("Office:", label);
-  }
-  assert.ok(opened, "no place in Travel takes filings");
+  console.log("Office:", await toCounter());
+  // No panel beside the counter: the Open races menu and the rules panel are gone.
+  const panels = await page.evaluate(() => ({
+    raceMenu: Boolean(document.getElementById("race-menu")),
+    overlay: Boolean(document.getElementById("filing-overlay")),
+    partyForm: Boolean(document.getElementById("filing-party")),
+  }));
+  assert.deepEqual(
+    panels,
+    { raceMenu: false, overlay: false, partyForm: false },
+    "a dev panel still stands beside the counter",
+  );
   const choices = await page.locator("#talk-choices button").allInnerTexts();
   console.log("Choices:", choices.join(" | "));
   assert.equal(
@@ -87,54 +107,47 @@ try {
     choices.length,
     "two choices read the same",
   );
-  await pickFirstRace(page);
-  await page.locator("#filing-overlay:not([hidden])").waitFor();
-  // The rules read as words, never as a rule's id.
-  const labels = await page
-    .locator("#filing-checks .row > :first-child")
-    .allInnerTexts();
-  console.log("Rules:", labels.join(" | "));
-  checkRuleLabels(labels, controls);
-  // The overlay fits the window, and the news card is not over it.
-  const box = await page.locator("#filing-overlay").boundingBox();
+  // The office explained on hover: the card names the office and what the
+  // records know of it, with nothing to mark learned.
+  const pick = page
+    .locator("#talk-choices button", { has: page.locator(".reply-facts") })
+    .first();
+  assert.ok(await pick.count(), "no race to pick at the counter");
+  const picked = (
+    await pick.evaluate((b) => b.childNodes[0]?.textContent ?? "")
+  ).trim();
+  await pick.hover();
+  await page.locator("#tip:not([hidden])").waitFor();
+  const tip = await page.evaluate(() => ({
+    term: document.getElementById("tip-term").textContent.trim(),
+    short: document.getElementById("tip-short").textContent.trim(),
+    learned: document.getElementById("tip-learned").hidden,
+  }));
+  console.log(`Hover "${picked}": ${tip.term} — ${tip.short}`);
   assert.ok(
-    box.y >= 0 && box.y + box.height <= 900,
-    "the overlay runs off the screen",
+    tip.term && picked.includes(tip.term),
+    "the card names another office",
   );
-  assert.ok(
-    !(await page.locator("#news-surface").isVisible()),
-    "the news card is showing over the counter",
+  assert.ok(tip.short.length > 8, "the card says nothing of the office");
+  assert.ok(tip.learned, "an office card offers Mark as learned");
+  assert.doesNotMatch(
+    tip.short,
+    /\b\d{4}-\d{2}-\d{2}\b/,
+    "a date reads as a code",
   );
-  // The party picker and every stand can be reached: scrolled into view,
-  // nothing else on top of them.
-  const covered = await page.evaluate(() =>
-    [
-      ...document.querySelectorAll("#filing-platform select"),
-      document.getElementById("filing-party"),
-    ]
-      .filter(Boolean)
-      .filter((control) => {
-        control.scrollIntoView({ block: "nearest" });
-        const r = control.getBoundingClientRect();
-        const top = document.elementFromPoint(
-          r.left + r.width / 2,
-          r.top + r.height / 2,
-        );
-        return !(top === control || control.contains(top));
-      })
-      .map((control) => control.name || control.id),
-  );
-  assert.deepEqual(covered, [], "a stand or the party picker is covered");
   await page.screenshot({
-    path: "docs/reports/filing-overlay-2026-10-24/overlay.png",
+    path: "docs/play-first/shots/sitting-oct28/30-office-hover.png",
+  });
+  await page.mouse.move(10, 10);
+  await pick.click();
+  await page.waitForTimeout(600);
+  await page.screenshot({
+    path: "docs/play-first/shots/sitting-oct28/29-counter-no-panels.png",
   });
   await page.locator("#talk-leave").click();
-  await page
-    .locator("#filing-overlay")
-    .waitFor({ state: "hidden", timeout: 10000 })
-    .catch(() => assert.fail("the overlay stays after leaving"));
-  // A grown resident of the same world joins a party, picks two stands with
-  // the mouse and files: the filing keeps exactly that party and those stands.
+  await page.locator("#talk").waitFor({ state: "hidden", timeout: 10000 });
+  // A grown resident of the same world joins a party and files: the filing
+  // keeps that party with no form at the counter.
   const person = JSON.stringify({
     givenName: "Pat",
     familyName: "Candidate",
@@ -153,11 +166,10 @@ try {
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
-  // Join a party on Politics, as a player does; the form then starts on it.
-  await openNavigationTab("politics");
-  // Three honest cases: parties on offer (join the first), already a member
-  // (use that party; the screen shows membership, not Join), or no party in
+  // Join a party on Politics, as a player does. Three honest cases: parties
+  // on offer (join the first), already a member (that party), or no party in
   // this place (run as an independent).
+  await openNavigationTab("politics");
   const join = page.locator("#sheet-body button", { hasText: /^Join / });
   const member = page.locator("#sheet-body [data-party-id]");
   const shown = await join
@@ -182,68 +194,67 @@ try {
   } else {
     console.log("No party on offer in this place: filing as independent");
   }
-  await openNavigationTab("travel");
-  const goAgain = page.locator("#sheet-body button", { hasText: /Go/ });
-  await goAgain.first().waitFor();
-  let atCounter = false;
-  for (let i = 0; i < (await goAgain.count()) && !atCounter; i++) {
-    await goAgain.nth(i).click();
-    atCounter = await page
-      .locator("#talk:not([hidden])")
-      .waitFor({ timeout: 5000 })
-      .then(() => true)
-      .catch(() => false);
-  }
-  assert.ok(atCounter, "no place in Travel takes filings");
-  await pickFirstRace(page);
-  await page.locator("#filing-overlay:not([hidden])").waitFor();
-  // The party the form starts on: the one the resident belongs to, or none
-  // (an independent); filing under a party they never joined is refused.
-  const party = await page.locator("#filing-party").inputValue();
-  assert.equal(party, joined, "the form does not start on the party joined");
-  if (!joined)
-    assert.equal(party, "", "an independent's form starts on a party");
-  const stands = page.locator("#filing-platform select");
-  await stands.first().waitFor();
-  const picked = [];
-  for (const [i, value] of [
-    [0, "1"],
-    [1, "-1"],
-  ]) {
-    if (i >= (await stands.count())) break;
-    const stand = stands.nth(i);
-    await stand.scrollIntoViewIfNeeded();
-    await stand.selectOption(value);
-    picked.push(`${await stand.getAttribute("name")}=${value}`);
-  }
-  assert.ok(picked.length > 0, "no stand could be picked on the form");
+  await page.locator("#sheet-close").click();
+  await toCounter();
+  await page
+    .locator("#talk-choices button", { has: page.locator(".reply-facts") })
+    .first()
+    .click();
+  const file = page.locator("#talk-choices button", {
+    hasText: /file for this office/i,
+  });
+  await file.first().waitFor();
   const filed = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/filing/choose",
   );
-  await page.locator("#talk-choices button").first().click();
+  const before = await clock();
+  await file.first().click();
   const result = (await (await filed).json()).result;
+  // Filing takes the afternoon: the hours come off the player's clock (a
+  // stop that needs the player may end the afternoon sooner).
+  const after = await clock();
+  const spent = after.minutes - before.minutes;
+  console.log(
+    `Clock: ${before.date} minute ${before.minuteOfDay} -> ${after.date} minute ${after.minuteOfDay} (${spent} minutes)`,
+  );
+  assert.ok(
+    spent > 0 && spent <= parameters.filingVisitHours.value * 60,
+    `filing moved the clock ${spent} minutes`,
+  );
   console.log(
     "Filed:",
     JSON.stringify({
       party: result?.filing?.party,
       platform: result?.filing?.platform,
-      picked: { party, stands: picked },
+      joined,
     }),
   );
-  assert.equal(
-    result?.filing?.status,
-    "on-ballot",
+  assert.ok(
+    ["petitioning", "on-ballot"].includes(result?.filing?.status),
     `the filing was refused: ${JSON.stringify(result?.unmet ?? result)}`,
   );
-  assert.equal(result.filing.party ?? "", party, "the filed party differs");
-  assert.deepEqual(
-    [...result.filing.platform].sort(),
-    [...picked].sort(),
-    "the filed platform differs from the stands picked",
+  // The party on the filing is the resident's tie on record (joined now, or
+  // held before), never a form's.
+  const me = (await (await page.request.get(`${base}/api/title`)).json()).life
+    .personId;
+  const onRecord = (
+    await (
+      await page.request.get(
+        `${base}/api/government?id=${encodeURIComponent(me)}`,
+      )
+    ).json()
+  ).party?.member?.name;
+  console.log("Party on record:", onRecord ?? "none");
+  assert.equal(
+    result.filing.party ?? "",
+    onRecord ?? "",
+    "the filing does not carry the party on the resident's record",
   );
+  if (joined)
+    assert.equal(onRecord, joined, "the join did not reach the record");
   assert.deepEqual(errors, []);
   console.log(
-    "PASS the filing counter's choices, rules, fit and news card; the filing keeps the party and stands picked",
+    "PASS the counter with no panels: races read apart and explain their office on hover; the filing keeps the party joined",
   );
 } finally {
   await browser.close();

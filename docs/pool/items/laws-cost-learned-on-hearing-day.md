@@ -6,7 +6,7 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-cost-learned-on-hearing
 pr: #6371
 blocked-on:

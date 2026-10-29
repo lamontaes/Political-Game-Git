@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/helper-d-desk-visit
 pr: #6250
 blocked-on:

@@ -33,7 +33,6 @@ import type {
 import rowsJson from "./data/circumstances.json" with { type: "json" };
 import { civicFill } from "./civic-roles";
 import { classmatesOf } from "./school";
-import { SITUATION_LIBRARY, type SituationLibrary } from "./scheduling";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
@@ -299,6 +298,12 @@ function playerHolds(
       return !!body && standing.officeIds.has(body);
     }
     default:
+      if (rule.startsWith("listed:"))
+        // The record's fact lists the player (the members an override's
+        // sponsor could still move).
+        return (record.facts[rule.slice("listed:".length)] ?? "")
+          .split(",")
+          .includes(playerId);
       throw new Error(`Unknown circumstance player rule: ${rule}`);
   }
 }
@@ -524,71 +529,4 @@ export function spacingAllows(
   date: IsoDate,
 ): boolean {
   return !last || addDays(makeIsoDate(last), everyDays) <= date;
-}
-
-/** A cause's match label as the record kind it reads ("cause:event:legislative-vote" is legislative-vote). */
-function recordKindOfLabel(label: string): string {
-  // A tie's turn (it grew, it soured) is read from the relationship record.
-  if (label.startsWith("tie:")) return "relationship";
-  const event = label.indexOf("event:");
-  if (event >= zero) return label.slice(event + "event:".length);
-  return label.slice(label.indexOf(":") + one);
-}
-
-/** One row of the scene web: a way a scene is called, and what it writes back. */
-export interface SceneWebRow {
-  id: string;
-  typeKey: string;
-  triggerRecordKinds: readonly string[];
-  placeKinds: readonly string[];
-  castRule: string;
-  outcomeRecord: string;
-}
-
-/**
- * The scene web's rows (with the words lead's `words-scene-web-from-lives`
- * script): every live cause of every situation type, a circumstance or a
- * record of the player's own, with its trigger record kinds, place kinds,
- * cast rule and the record its scene writes back (a reply's record for a
- * scene with a purpose, the talk's for one without).
- */
-export function sceneWebRows(
-  library: CircumstanceLibrary = CIRCUMSTANCES,
-  situations: SituationLibrary = SITUATION_LIBRARY,
-): SceneWebRow[] {
-  const byLabel = new Map(
-    library.rows.map((row) => [circumstanceLabel(row.id), row]),
-  );
-  const rows: SceneWebRow[] = [];
-  for (const type of situations.types)
-    type.causes.forEach((cause, index) => {
-      const match = cause.match;
-      if (!match) return;
-      const label = match.label ?? match.labelPrefix ?? match.causeKind ?? "";
-      const circumstance = byLabel.get(label);
-      const kinds = circumstance
-        ? circumstance.recordKinds
-        : cause.causeRecord
-          ? cause.causeRecord.split(",")
-          : match.echo
-            ? [`echo:${match.echo}`]
-            : [recordKindOfLabel(label)];
-      rows.push({
-        id: circumstance ? circumstance.id : `${type.key}:${index}`,
-        typeKey: type.key,
-        triggerRecordKinds: kinds,
-        placeKinds: cause.setting ?? type.setting,
-        castRule: circumstance
-          ? circumstance.cast
-          : Object.entries(cause.bind ?? {})
-              .map(([role, fill]) => `${role}: ${fill}`)
-              .join("; "),
-        outcomeRecord: circumstance
-          ? circumstance.outcome
-          : (type as { purpose?: string }).purpose
-            ? "scene.reply"
-            : "conversation.told",
-      });
-    });
-  return rows;
 }

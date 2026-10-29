@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #6190
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 
 **Notes.** Found by the laws lead, Oct 25, while tracing why a 10% state wage raise lifted some Prescott paychecks six to fourteen times over. A commuter's job at an outside employer in the same town opened at $5.91 an hour too (`person_02518494bd09c0bd`, the "works outside the town" employer), which the wage engine also raised.
 Oct 27 (claude/officer-floor): the exemption half is already on main (070eb9c348, src/core2/wage-floor.ts minimumWageExempt reading src/core2/data/laws/minimum-wage-exempt.json; src/core2/wage-floor-exempt.test.ts raises the floor in a drawn world and checks exempt officers' pay is unchanged). A fresh Prescott, Michigan world (2666300) still opens six town officers (job:public:town:city-administrator, finance-director, public-works, planning, city-attorney, city-clerk, 8.5 hours a day) at $1.07 to $4.50 an hour, under the $10.33 floor, and one commuter job (job:commuter:person_183249e7bf6cd583:2025-01-21, 8 hours, $1.29) at the outside-market employer. What stays open is the other clause: part-time hours or a stipend from a sourced figure for a small town's officers, so the hourly pay is right, not only the total. That needs a source for officer hours or stipends by town size; released unbuilt for the researcher and whoever takes the data.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `gov-officer-stipend-part-time-hours`; close into it and carry any line it lacks there. (exemption built)

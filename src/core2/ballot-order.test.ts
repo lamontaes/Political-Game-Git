@@ -182,7 +182,9 @@ describe(`ballot order by the law of the place (${where})`, () => {
             }),
           )
           .filter(
-            (r) => r.status !== "refused" && r.filing.status === "on-ballot",
+            (r) =>
+              r.status !== "refused" &&
+              ["petitioning", "on-ballot"].includes(r.filing.status ?? ""),
           );
         if (filed.length < 2) continue;
         const field = ballot(api, contest.id).filter(

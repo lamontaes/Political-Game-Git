@@ -7,7 +7,7 @@ import { readPng } from "./pg-modular-intake";
 import {
   computeCharacterGenerationSignature,
   type CharacterComponentDefinition,
-} from "../../src/presentation/character-components";
+} from "../../src/appearance/character-components";
 
 export const KIT_REGISTRY =
   "art/manifest/character_candidate_kit41_registry.json";

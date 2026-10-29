@@ -9,6 +9,8 @@ description: >
 
 # The researcher
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Every research item is SMART: the one number, the check that it calibrates, a time box. Before marking anything an owner decision, read `OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/` and search `docs/`; most numbers were ruled or sourced already.
 
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: "simulate it, don't ask")

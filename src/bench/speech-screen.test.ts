@@ -80,7 +80,10 @@ const run = (drawSeed: string): string | null => {
         contestId: contest.id,
         platform: [],
       });
-      if (result.status !== "refused" && result.filing.status === "on-ballot") {
+      if (
+        result.status !== "refused" &&
+        ["petitioning", "on-ballot"].includes(result.filing.status ?? "")
+      ) {
         filed = result.filing;
         break;
       }

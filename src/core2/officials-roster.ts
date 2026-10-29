@@ -281,8 +281,12 @@ export function drawOfficial(input: {
  * same reading voters deciding a measure use, `publicSupport`), so a policy
  * most people favor draws members of both parties.
  */
-export function supportAt(lean: number, question: string): number {
-  return personStance(lean, question) + publicOffset(question);
+export function supportAt(
+  lean: number,
+  question: string,
+  seed: string,
+): number {
+  return personStance(lean, question) + publicOffset(question, seed);
 }
 
 const adopted = (

@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/director-circumstance-test-player-dies
-pr:
+pr: #6402
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T20:38:14.299Z

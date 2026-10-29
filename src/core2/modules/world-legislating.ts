@@ -27,6 +27,7 @@
  * each member's. The session's filings, hearings and votes are counted
  * together on its floor day.
  */
+import { townLean } from "./campaigns";
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
@@ -44,7 +45,11 @@ import type {
   Source,
 } from "../types";
 import { nextMeeting } from "../office-day-calendar";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  makeIsoDate,
+  daysBetweenText as daysBetween,
+} from "../kernel/dates";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import {
@@ -412,17 +417,6 @@ export function filingReason(
           bare,
         )
     : bare;
-}
-
-function townLean(api: CoreAPI): number {
-  return (
-    (
-      api
-        .moduleState("core2-campaigns-v1")
-        .table("town")
-        .get("town") as unknown as { lean: number } | undefined
-    )?.lean ?? 0
-  );
 }
 
 /** A change a member files, with who backs it and where the floor leader puts it. */
@@ -874,9 +868,6 @@ const plusDays = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + Math.round(days) * DAY)
     .toISOString()
     .slice(0, 10);
-const daysBetween = (from: string, to: string) =>
-  (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / DAY;
-
 /** A change filed for the session, the day it is introduced, and its bill once it is. */
 interface Filing {
   readonly question: string;

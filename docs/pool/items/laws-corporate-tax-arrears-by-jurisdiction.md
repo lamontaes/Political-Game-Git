@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
 pr: #5649
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/employer-taxes.ts, src/core2/law-wiring-taxes.test.ts, src/core2/employer-taxes.test.ts
 
 **Notes.** Sent back 2026-10-23 from PR #5649 (branch claude/law-wiring-taxes): employer-taxes.ts combines jurisdiction debts and reweights them by current tax, so zero-profit repayment loses the owner; finish on that branch, merge main into it first.
+
+Oct 28, 23:05 UTC (wire-office): fixed on main; ready for the CTO to set done. src/core2/modules/employer-taxes.ts keeps each treasury's own arrears (arrearsAfterByGovernment) and splits a payment in proportion to what each is owed. The test "keeps a corporation's unpaid profit tax owed to each treasury, through a zero-profit quarter and a repealed state rate" (src/core2/law-wiring-taxes.test.ts, line 977) puts federal and state arrears of 2,000,000 and 1,000,000 against a zero-profit quarter, checks they are paid two to one with each treasury keeping its own rest, and keeps the owner through the state rate's repeal. It passes on main at b246800409.

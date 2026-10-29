@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/director-producer-canvass-visit
-pr:
+pr: #6406
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T19:46:51.349Z

@@ -94,7 +94,7 @@ try {
     masthead: await page.locator(".paper-masthead h2").innerText(),
     headlines: await page.locator(".story-headline").allInnerTexts(),
     ledes: await page.locator(".story-lede").allInnerTexts(),
-    records: await page.locator(".paper-records h4").allInnerTexts(),
+    text: await page.locator(".story-text").allInnerTexts(),
   });
   const front = await read();
   console.log(JSON.stringify(front, null, 1));
@@ -106,9 +106,20 @@ try {
     console.log(JSON.stringify(second, null, 1));
     if (shots) await page.screenshot({ path: `${shots}/news-outlet-2.png` });
   }
-  for (const text of [...front.headlines, ...front.ledes, ...front.records])
+  for (const text of [...front.headlines, ...front.ledes, ...front.text])
     assert.doesNotMatch(text, /Press\.|press\.printed|[{}_]|\b[a-z]+:[a-z]/);
   assert.ok(front.headlines.length > 0, "News lists no story");
+  // A front page: the lead story is printed with its text, and no record row
+  // with a kind, series or jurisdiction label is on it (owner, Oct 27).
+  assert.ok(
+    (await page.locator(".paper-story.lead .story-lede").count()) > 0,
+    "the lead story has no text",
+  );
+  assert.equal(await page.locator(".paper-records").count(), 0);
+  assert.doesNotMatch(
+    await page.locator(".paper").innerText(),
+    /\bSeries\b|\bJurisdiction\b|Public record/,
+  );
   assert.deepEqual(errors, []);
   console.log("PASS");
 } finally {

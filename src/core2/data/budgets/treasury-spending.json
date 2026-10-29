@@ -27,6 +27,11 @@
       "source": "How hard a change to someone's benefit lands on their mood and stress, per share of the benefit it moved (a 29% cut lands as a mood impulse of -0.29 and a stress impulse of 0.29). Checked against the life-event impulses the drives engine reads (lifeEventMoodScale, lifeEventStressScale).",
       "spread": [0.5, 2]
     },
+    "basisPointsPerUnit": {
+      "value": 10000,
+      "tag": "SOURCED",
+      "source": "A basis point is one hundredth of a percentage point, so an interest rate of 1 is 10,000 basis points (the unit the outcome web's gov.borrowing-cost keeps, data/research/outcome-web/place-outcome-bases-2024.json)."
+    },
     "staffBudgetRoomWeight": {
       "value": 0.25,
       "tag": "TUNABLE",
@@ -35,7 +40,7 @@
     }
   },
   "postLines": {
-    "about": "The budget line a public post's pay draws on, by the post's id prefix (longest prefix wins). Staff serve the official's office; town department heads serve their department; an elected official's salary is general administration (the nearest Census function is 25, central staff services).",
+    "about": "The budget line a public post's pay draws on, by the post's id prefix (longest prefix wins); a job whose id names no post (an opening employer's staff) draws on its employer's line, by the employer's class (byEmployerClass), else general administration. Staff serve the official's office; town department heads serve their department; an elected official's salary is general administration (the nearest Census function is 25, central staff services).",
     "tag": "SOURCED",
     "source": "Census Bureau, Government Finance and Employment Classification Manual (2006, updated 2022): functions 23 (financial administration), 25 (central staff), 62 (police), 24 (fire), 61 (parks), 44 (highways), 50 (housing and community development).",
     "lines": {
@@ -48,6 +53,12 @@
       "town:public-works": "highways",
       "town:planning": "housing",
       "job:public-schools:": "schools"
+    },
+    "byEmployerClass": {
+      "service:police": "police",
+      "service:fire": "fire",
+      "service:school": "schools",
+      "service:public-school": "schools"
     },
     "federal": "otherPrograms"
   },

@@ -5,13 +5,13 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
 after: world-player-jobless-no-offers
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** A hire's fit for an opening counts experience in the occupation the same way whatever the job asks (`fit` in `src/core2/modules/jobs.ts`, about line 1660), so a first job in an entry-level role goes to whoever has the most years in the trade, and a young person with none is last in line. Make the fit read what the occupation asks (the table from `jobs-entry-requirement-by-occupation`): experience counts only up to the years the occupation asks, a shortfall below what it asks lowers the fit on a sliding scale, and where it asks for none the fit rests on reliability and a referral. Counted seekers use the same rule through `countedExperience`, times their count.
@@ -27,3 +27,5 @@ claimed-at:
 Oct 25 audit: unblocked; the spec was written Oct 20, so the empty-shell block no longer holds.
 
 Sent back 2026-10-26 from PR #5089 (branch claude/item-entry-experience): the proposal already exists on main and this PR only adds a historical note, but line1 routes completion to the unimplemented game feature whose one-year hiring/record proof is absent; keep that feature open and bind the administrative scope to its own completion evidence; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `jobs-entry-requirement-by-occupation`; close into it and carry any line it lacks there. (pick the BLS-sourced design)

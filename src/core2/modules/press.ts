@@ -48,6 +48,7 @@ import {
 import {
   ballot,
   ELECTIONS_MODULE_ID,
+  standing,
   type ContestRow,
   type FilingRow,
 } from "./elections";
@@ -118,6 +119,7 @@ import {
   type PrintedStory,
 } from "../press-desk";
 import type { Story } from "./news";
+import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
 /** The change a speech against an outlet asks of its hearers. */
@@ -248,7 +250,7 @@ export function pressParameter(key: string): number {
   return row.value;
 }
 
-interface PlaceNews {
+export interface PlaceNews {
   readonly newspapers: number;
   readonly tvStations: number;
   readonly radioStations: number;
@@ -272,6 +274,54 @@ const HABIT: Record<LocalKind, HabitKey> = {
   television: "localTv",
   radio: "localRadio",
 };
+
+/**
+ * The local outlets of each kind a state's published counts give a town, not
+ * yet rounded (Medill 2024, FCC 2025; the state split is estimated):
+ * calibration for the world's draw and its checks, never read by play.
+ */
+export function publishedOutletLevels(
+  counts: PlaceNews | undefined,
+  countyShare: number,
+): Record<LocalKind, number> {
+  return counts
+    ? {
+        newspaper: counts.newspapers * countyShare,
+        television: counts.tvStations / Math.max(1, counts.tvMarkets),
+        radio:
+          counts.radioStations * pressParameter("newsRadioShare") * countyShare,
+      }
+    : { newspaper: 0, television: 0, radio: 0 };
+}
+
+/**
+ * How many outlets of each kind this world's town has: the published level
+ * moved by the world's own draw, rounded, and never below one where the
+ * published count is at least one (owner, Oct 27: realistic, not real).
+ */
+export function worldOutletCounts(
+  seed: string,
+  counts: PlaceNews | undefined,
+  countyShare: number,
+): Record<LocalKind, number> {
+  const published = publishedOutletLevels(counts, countyShare);
+  const draw = (kind: LocalKind) => {
+    const level = Math.round(
+      worldLevel(
+        published[kind],
+        seed,
+        `press-world:${kind}`,
+        "pressWorldOutletSpreadShare",
+      ),
+    );
+    return Math.round(published[kind]) >= 1 ? Math.max(1, level) : level;
+  };
+  return {
+    newspaper: draw("newspaper"),
+    television: draw("television"),
+    radio: draw("radio"),
+  };
+}
 
 export const PRESS_MODULE: CoreModule = {
   id: PRESS_MODULE_ID,
@@ -508,17 +558,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
     (county ? BASES.countyPopulation2024[county] : undefined) ?? townPeople;
   const share = Math.min(1, countyPeople / Math.max(1, statePeople));
   const cap = pressParameter("maxOutletsPerKind");
-  const wanted: Record<LocalKind, number> = counts
-    ? {
-        newspaper: Math.round(counts.newspapers * share),
-        television: Math.round(
-          counts.tvStations / Math.max(1, counts.tvMarkets),
-        ),
-        radio: Math.round(
-          counts.radioStations * pressParameter("newsRadioShare") * share,
-        ),
-      }
-    : { newspaper: 0, television: 0, radio: 0 };
+  const wanted = worldOutletCounts(core.seed, counts, share);
   const source = {
     tag: "ESTIMATED" as const,
     citation:
@@ -829,12 +869,13 @@ function enrollPressEmployers(api: CoreAPI): void {
 function countedAudience(api: CoreAPI, outlet: OutletRow): number {
   const town = outlet.placeId;
   const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
+  const adultAge = api.parameter("votingAge");
   let total = 0;
   for (const row of countsThisMonth(api)) {
     if (row.placeId !== town) continue;
     for (const [bandKey, people] of Object.entries(row.byAgeBand ?? {})) {
       const low = Number(bandKey.split("-")[0]);
-      if (!Number.isFinite(low) || low < 18) continue;
+      if (!Number.isFinite(low) || low < adultAge) continue;
       total +=
         people *
         (NEWS.habits.byAge[bandOf(low)]?.[HABIT[outlet.kind as LocalKind]] ??
@@ -928,12 +969,13 @@ function habitOf(api: CoreAPI, p: PersonState) {
 function audienceOfKind(api: CoreAPI, kind: OutletKind): readonly string[] {
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   const bands = new Map<Band, PersonState[]>();
   for (const id of api.state.peopleByPlace.get(town) ?? []) {
     const p = api.state.people.get(id);
     if (!p?.alive) continue;
     const age = ageOn(p, date);
-    if (age < 18) continue;
+    if (age < adultAge) continue;
     const band = bandOf(age);
     const list = bands.get(band) ?? [];
     list.push(p);
@@ -1050,10 +1092,11 @@ function townAdultsByBand(api: CoreAPI): ReadonlyMap<Band, number> {
     return held.adults;
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   const adults = new Map<Band, number>();
   for (const voter of countedResidentsOf(api.state as CoreState, town)) {
     const age = ageOn(voter, date);
-    if (age < 18) continue;
+    if (age < adultAge) continue;
     const band = bandOf(age);
     adults.set(band, (adults.get(band) ?? 0) + voter.weight);
   }
@@ -1405,9 +1448,7 @@ export function interviewQuestions(
         add(v.stance.question, pressParameter("partyBreakNewsWeight"));
   const own = platformOf(api, speaker);
   const rivals = filing
-    ? ballot(api, filing.contestId).filter(
-        (f) => f.id !== filing.id && f.status === "on-ballot",
-      )
+    ? ballot(api, filing.contestId).filter((f) => f.id !== filing.id)
     : [];
   const questions = [
     ...new Set([
@@ -1469,7 +1510,10 @@ export function interviewQuestions(
     add(
       q,
       pressParameter("divisiveNewsWeight") *
-        Math.max(0, Math.abs(questionAxis(q)) - Math.abs(publicOffset(q))),
+        Math.max(
+          0,
+          Math.abs(questionAxis(q)) - Math.abs(publicOffset(q, api.state.seed)),
+        ),
     );
   }
   // Asked before, on the record: less to learn from asking again.
@@ -1672,7 +1716,7 @@ function arrangeWith(
   if (filing) {
     if (
       contestOf(api, filing.contestId).electionDate < api.state.date ||
-      filing.status !== "on-ballot"
+      !standing(filing)
     )
       return declined("race-over");
     if (already(api, outletId, filing.id))
@@ -2176,16 +2220,17 @@ export function townStand(api: CoreAPI, question: string): number {
   if (hit !== undefined) return hit;
   const town = lawChain(api).townPlaceId;
   const views = core.modules.has(VIEWS_MODULE_ID);
+  const adultAge = api.parameter("votingAge");
   let sum = 0;
   let adults = 0;
   for (const id of core.peopleByPlace.get(town) ?? []) {
     const p = core.people.get(id);
-    if (!p?.alive || ageOn(p, core.date) < 18) continue;
+    if (!p?.alive || ageOn(p, core.date) < adultAge) continue;
     sum += leanOf(api, id) / 2;
     adults += 1;
   }
   for (const voter of countedResidents(core)) {
-    if (voter.placeId !== town || ageOn(voter, core.date) < 18) continue;
+    if (voter.placeId !== town || ageOn(voter, core.date) < adultAge) continue;
     sum += ((views ? countedLean(api, voter) : 0) / 2) * voter.weight;
     adults += voter.weight;
   }
@@ -2813,12 +2858,11 @@ function rivalsOf(api: CoreAPI, personId: string): readonly string[] {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
     .query("byPerson", [personId]) as unknown as FilingRow[]) {
-    if (filing.status !== "on-ballot") continue;
+    if (!standing(filing)) continue;
     const contest = contestOf(api, filing.contestId);
     if (!contest || contest.electionDate < api.state.date) continue;
     for (const rival of ballot(api, contest.id))
-      if (rival.personId !== personId && rival.status === "on-ballot")
-        out.add(rival.personId);
+      if (rival.personId !== personId) out.add(rival.personId);
   }
   return [...out].sort();
 }
@@ -3072,7 +3116,6 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (!contests.length) return;
   const filings = contests
     .flatMap((c) => ballot(api, c.id))
-    .filter((f) => f.status === "on-ballot")
     .map((f) => ({ f, worth: newsworthiness(api, f) }));
   // The player's invitations this week, put to them as one.
   const invitedThisWeek = new Map<string, InterviewRow[]>();

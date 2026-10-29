@@ -31,7 +31,7 @@ try {
     page.locator(`[data-testid=engine-appearance-${row}] [data-swatch=${id}]`);
   if (await swatch("skin", "ebony").count()) {
     await swatch("skin", "ebony").click();
-    await swatch("clothes-color", "red").click();
+    await swatch("shirt-color", "red").click();
   }
   await page.waitForTimeout(500);
   const made = await page.evaluate(() =>

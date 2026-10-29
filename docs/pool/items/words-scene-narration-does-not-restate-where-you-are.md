@@ -5,14 +5,14 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: words/today-only-on-the-day
+pr: #6750
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-29T06:14:48.570Z
 ---
 
 **What.** The filing-reaction scene opened with "It is a Monday in January. You're at home. You filed today to run for Council member. Kendall Roberts has been waiting for you at home." The clock read Wednesday, January 22 at 12:00 AM, so the weekday and "today" were wrong, and "You're at home" restates what the picture shows. The owner: "I assume this is a scene. It is a Monday in January. You're at home. ... It shouldn't say you're at home. You're obviously [there]." This item changes the narration so no lead sentence states only the player's own location or the time of year, a relative-day word ("today") appears only when true to the clock, and the lead opens with what happened and who is waiting.

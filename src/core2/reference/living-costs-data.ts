@@ -4,6 +4,8 @@ import {
   type CensusRegion,
 } from "./census-regions";
 import { LIVING_COSTS_CATEGORY_DATA } from "./living-costs-category-data";
+import { worldLevel } from "../world-draw";
+import { parameter } from "../parameters";
 
 /** Representative retained 2024 CES categories, not observed personal bills.
  * Actual housing, vehicle purchases and tuition are settled by their own writers.
@@ -43,8 +45,8 @@ export function estimateLivingCostsCategoryAnnual(
     : null;
 }
 
-/** Includes children; Table 1400's five-or-more column is not extrapolated. */
-export function estimatedMonthlyHouseholdLivingCosts(
+/** The published calibration (BLS CES 2024). Includes children; Table 1400's five-or-more column is not extrapolated. */
+export function publishedMonthlyHouseholdLivingCosts(
   region: LivingCostsRegion,
   householdSize: number,
 ) {
@@ -79,6 +81,34 @@ export function estimatedMonthlyHouseholdLivingCosts(
       "Published standard errors describe uncertainty of source category means, not the spread of individual household spending.",
   };
 }
+/**
+ * What this world pays for everyday living: the published basket scaled by one
+ * price level drawn per world from its seed (realistic, not real; owner,
+ * Oct 27). Every opening reads this, never the published basket.
+ */
+export function worldMonthlyHouseholdLivingCosts(
+  seed: string,
+  region: LivingCostsRegion,
+  householdSize: number,
+) {
+  const published = publishedMonthlyHouseholdLivingCosts(region, householdSize);
+  // This world's price level on the published basket.
+  const level = worldLevel(
+    parameter("one"),
+    seed,
+    "world-living-cost-level",
+    "worldLivingCostSpreadShare",
+  );
+  return {
+    ...published,
+    monthlyMinor: Math.round(published.monthlyMinor * level),
+    categories: published.categories.map((row) => ({
+      ...row,
+      annualMeanUsd: row.annualMeanUsd * level,
+    })),
+  };
+}
+
 export const REPRESENTATIVE_LIVING_COSTS = {
   source: LIVING_COSTS_SOURCE,
   sourceYear: 2024,

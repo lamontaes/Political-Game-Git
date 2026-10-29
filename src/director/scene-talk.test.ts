@@ -2,7 +2,6 @@ import RULES_BOUND from "./data/scene-talk-rules.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { enrichCivicInputs } from "../core2/civic-inputs";
-import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
@@ -10,6 +9,7 @@ import { createDirector } from "./ledger";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
 import situationFile from "./data/situation-types.json" with { type: "json" };
+import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
 import { traitLean } from "../core2/choice";
 import { decisionKinds } from "../core2/trait-decisions";
@@ -19,16 +19,14 @@ import { decisionKinds } from "../core2/trait-decisions";
 // only from data/english/parts/scene-talk.json.
 const seed = process.env.GOLDEN_PATH_SEED ?? "scene-talk-test";
 const base = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 300,
-    }),
-  ),
+  buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 300,
+  }),
 );
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
@@ -56,6 +54,7 @@ const flags = [
   "in-office",
   "bill-lost",
   "for",
+  "winner-is-other",
 ];
 const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
@@ -69,6 +68,7 @@ const facts: Record<string, Fact> = {
   outlet: fact("the Courier"),
   story: fact("the groundwater vote"),
   opponent: fact("Dana Lee"),
+  winner: fact("Dana Lee"),
   party: fact("Democratic"),
   ...Object.fromEntries(flags.map((name) => [name, fact("yes")])),
   deceased: fact("Sam Ortiz"),
@@ -79,8 +79,9 @@ const facts: Record<string, Fact> = {
   crowd: fact("forty people"),
   petition: fact("the recall petition"),
   minutes: fact("three minutes"),
-  tally: fact("4 to 3"),
-  roll: fact("5 to 2"),
+  ayes: fact("5"),
+  nays: fact("2"),
+  roll: fact("yes"),
   deadline: fact("January 30"),
   years: fact("six"),
   home: fact("apartment"),
@@ -93,6 +94,8 @@ const facts: Record<string, Fact> = {
   where: fact("county clerk's office"),
   executive: fact("governor"),
   employer: fact("the hardware store"),
+  position: fact("a cashier"),
+  pay: fact("$15.00"),
   when: fact("this morning"),
   "stake-money": fact("money"),
   cushion: fact("two months"),
@@ -127,6 +130,12 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       if (result.kind !== "composed") continue;
       const { talk } = result;
       expect(talk.narration.length).toBeGreaterThan(0);
+      // The facts hold no same-day: a scene that plays after its record's day
+      // still narrates, and names no day.
+      for (const line of talk.narration)
+        expect(line.text, type.key).not.toMatch(
+          /\b(?:today|tonight|yesterday|this (?:morning|afternoon|evening))\b/i,
+        );
       expect(talk.rounds.length).toBeGreaterThan(0);
       expect(talk.rounds[0]!.replies.length).toBeGreaterThanOrEqual(3);
       expect(talk.rounds[0]!.replies.filter((r) => r.chosen)).toHaveLength(1);
@@ -157,6 +166,48 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
           where,
         ).toBe(true);
     }
+  });
+
+  // The player asks a colleague for their vote the evening before the roll
+  // (vote-sought): the narrator sets it from the player's side, never as the
+  // colleague coming to the player's door, and a player asking several
+  // colleagues meets more than one setup.
+  it("sets the player's ask for a vote from the player's side, in more than one way", () => {
+    const type = types.find((row) => row.key === "vote-sought")!;
+    const own = new Set(
+      (
+        sceneBank as unknown as {
+          parts: { key: string; uses?: { step?: string; key?: string }[] }[];
+        }
+      ).parts
+        .filter((part) =>
+          part.uses?.some(
+            (use) => use.step === "narrate" && use.key === "vote-sought",
+          ),
+        )
+        .map((part) => part.key),
+    );
+    expect(own.size).toBeGreaterThanOrEqual(3);
+    const setups = new Set<string>();
+    for (const colleague of adults.slice(1, 13)) {
+      const result = composeSceneTalk(
+        core,
+        director,
+        { askerId: colleague.id, askedId },
+        type,
+        facts,
+        { standing: { lean: -0.2, favor: 0.3 } },
+        HELD,
+      );
+      expect(result.kind, colleague.id).toBe("composed");
+      if (result.kind !== "composed") continue;
+      const setup = result.talk.narration[0]!;
+      expect(setup.role).toBe("narrator");
+      expect([...own], setup.text).toContain(setup.parts[0]);
+      expect(setup.text).not.toMatch(/[{}]/);
+      setups.add(setup.parts[0]!);
+    }
+    expect(setups.size).toBeGreaterThan(1);
   });
 
   it("is deterministic and a personality changes the path or the words", () => {

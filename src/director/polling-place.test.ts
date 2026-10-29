@@ -12,19 +12,25 @@ import {
   holdElection,
   pollingPlaceOf,
 } from "../core2/modules/voting";
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
+import { parameter } from "../core2/parameters";
 import { SITUATION_LIBRARY } from "./scheduling";
 import {
   leavePollingPlace,
   markBallot,
-  pollingVisitDue,
+  stagePollingVisits,
+  stagedPollingVisit,
 } from "./polling-place";
 
 // Election day is a scene (owner, Oct 14, 2026), in the world the player
 // gets: `buildBenchWorld`, two-level, a place drawn from all 56
-// (GOLDEN_PATH_SEED pins one). The visit lists the contests the town votes
-// in that day as the elections engine holds them; the scene filter turns it
-// off; and what the voter marks is what the voting engine counts.
+// (GOLDEN_PATH_SEED pins one). The world runs to the eve of its first
+// election, and the eve's close stages the polls for the watched voter (the
+// director's producer, engine map line 25). The visit lists the contests the
+// town votes in that day as the elections engine holds them; the scene
+// filter keeps it from being staged; and what the voter marks is what the
+// voting engine counts.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "polling-place");
 console.log(`polling place: seed ${seed}, ${place.name} (${place.key})`);
@@ -45,7 +51,8 @@ describe("election day at the polls", () => {
   const date = makeIsoDate(contests[0]!.electionDate);
   const player = core.people.get(world.playerId!)!;
   const adult = (id: string) =>
-    ageOnDate(makeIsoDate(core.people.get(id)!.birthDate), date) >= 18;
+    ageOnDate(makeIsoDate(core.people.get(id)!.birthDate), date) >=
+    parameter("votingAge");
   // The player, or a household member old enough to vote that day. The count
   // below runs today (outside its calendar day), so the voter is one who may
   // vote today as well.
@@ -55,12 +62,21 @@ describe("election day at the polls", () => {
   ].find(
     (id) =>
       adult(id) &&
-      ageOnDate(makeIsoDate(core.people.get(id)!.birthDate), core.date) >= 18,
+      ageOnDate(makeIsoDate(core.people.get(id)!.birthDate), core.date) >=
+        parameter("votingAge"),
   )!;
+
+  // The voter is watched, and the world lives to the eve's close.
+  director.watch(core, voterId);
+  const young = core.households
+    .get(player.householdId)!
+    .memberIds.find((id) => !adult(id));
+  if (young) director.watch(core, young);
+  advanceCore(core, addDays(date, -1));
 
   it("lists the contests the town votes in that day, with the household voters", () => {
     expect(voterId, "no one in the household may vote").toBeTruthy();
-    const visit = pollingVisitDue(core, director.ledger, voterId, date)!;
+    const visit = stagedPollingVisit(core, director.ledger, voterId, date)!;
     expect(visit).toBeTruthy();
     expect(visit.contests.map((row) => row.id)).toEqual(
       contests
@@ -72,18 +88,10 @@ describe("election day at the polls", () => {
     expect(visit.withIds).not.toContain(voterId);
     // No polls the day before, and none for someone too young to vote.
     expect(
-      pollingVisitDue(
-        core,
-        director.ledger,
-        voterId,
-        makeIsoDate(contests[0]!.filingDeadline),
-      ),
+      stagedPollingVisit(core, director.ledger, voterId, addDays(date, -1)),
     ).toBeNull();
-    const young = core.households
-      .get(player.householdId)!
-      .memberIds.find((id) => !adult(id));
     if (young)
-      expect(pollingVisitDue(core, director.ledger, young, date)).toBeNull();
+      expect(stagedPollingVisit(core, director.ledger, young, date)).toBeNull();
     // The situation type the visit plays is in the director's library.
     expect(
       SITUATION_LIBRARY.types.some((row) => row.key === visit.situationKey),
@@ -91,7 +99,7 @@ describe("election day at the polls", () => {
   });
 
   it("stands the precinct's poll workers in the scene, from the elections engine's polling-place record", () => {
-    const visit = pollingVisitDue(core, director.ledger, voterId, date)!;
+    const visit = stagedPollingVisit(core, director.ledger, voterId, date)!;
     const row = pollingPlaceOf(api, voterId, date)!;
     expect(visit.pollingPlaceId).toBe(row.id);
     // Each worker is a living adult resident the engine ranked for this precinct.
@@ -105,20 +113,27 @@ describe("election day at the polls", () => {
   });
 
   it("doesn't stop a voter who left the polling place out of their scenes", () => {
+    // The eve's producer again, with the polling place out of the voter's
+    // scenes: nothing is staged; with it back in, the visit is.
+    const key = `${voterId}:${date}`;
+    const kept = director.ledger.pollingVisits.get(key)!;
+    director.ledger.pollingVisits.delete(key);
     director.setSceneFilter(
       voterId,
       SITUATION_LIBRARY.types
         .map((row) => row.key)
-        .filter((key) => key !== "polling-place"),
+        .filter((row) => row !== "polling-place"),
       core.date,
     );
-    expect(pollingVisitDue(core, director.ledger, voterId, date)).toBeNull();
+    stagePollingVisits(core, director.ledger);
+    expect(stagedPollingVisit(core, director.ledger, voterId, date)).toBeNull();
     director.setSceneFilter(voterId, null, core.date);
-    expect(pollingVisitDue(core, director.ledger, voterId, date)).toBeTruthy();
+    stagePollingVisits(core, director.ledger);
+    expect(director.ledger.pollingVisits.get(key)).toEqual(kept);
   });
 
   it("counts what the voter marked", () => {
-    let visit = pollingVisitDue(core, director.ledger, voterId, date)!;
+    let visit = stagedPollingVisit(core, director.ledger, voterId, date)!;
     const [first, ...rest] = visit.contests;
     // The first race left blank by hand; the voter then leaves.
     const record = markBallot(core, director.ledger, visit, first!.id, null);
@@ -127,7 +142,7 @@ describe("election day at the polls", () => {
     if (rest.length) {
       expect(leavePollingPlace(director.ledger, visit).status).toBe("left");
     }
-    expect(pollingVisitDue(core, director.ledger, voterId, date)).toBeNull();
+    expect(stagedPollingVisit(core, director.ledger, voterId, date)).toBeNull();
     // The count reads the mark: the voter voted, and left the race blank,
     // whatever their own reasons would have said.
     holdElection(api, first!.id);

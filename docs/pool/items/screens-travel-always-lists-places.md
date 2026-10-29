@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: screens/travel-always-lists-places
 pr: #6385
 blocked-on:

@@ -12,6 +12,7 @@ import {
 } from "./reference/town-rent.generated";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
+import { housingWorldOffset } from "./housing-prices";
 
 // ─── HUD rents ──────────────────────────────────────────────────────────
 
@@ -93,10 +94,47 @@ function loadRows() {
 }
 
 /**
+ * The row as this world has it (owner, Oct 27: realistic, not real): the
+ * published rents and income limits each moved once by the world's own offset
+ * for the HUD area, so rents in the world are near HUD's but never HUD's.
+ * Play reads this; the `published` readers are calibration.
+ */
+function inWorld(row: HudRentRow, seed: string): HudRentRow {
+  const share =
+    1 +
+    housingWorldOffset(
+      seed,
+      `hud:${row.area}`,
+      "housingWorldHudRentSpreadShare",
+    );
+  const moved = (value: number) => Math.round(value * share);
+  return {
+    ...row,
+    rents: row.rents.map(moved) as unknown as HudRentRow["rents"],
+    veryLow4: row.veryLow4 === null ? null : moved(row.veryLow4),
+    low4: row.low4 === null ? null : moved(row.low4),
+  };
+}
+
+/** A state's HUD rents in this world. */
+export function hudStateRentRow(stateKey: string, seed: string): HudRentRow {
+  return inWorld(publishedHudStateRentRow(stateKey), seed);
+}
+
+/** The HUD row for a place in this world; null where HUD has none. */
+export function hudRentRowFor(
+  jurisdictionId: EntityId,
+  seed: string,
+): HudRentRow | null {
+  const row = publishedHudRentRowFor(jurisdictionId);
+  return row ? inWorld(row, seed) : null;
+}
+
+/**
  * A state's population-weighted HUD rents, marked estimated; a territory HUD
  * has no row for takes the average of the states' rows.
  */
-export function hudStateRentRow(stateKey: string): HudRentRow {
+export function publishedHudStateRentRow(stateKey: string): HudRentRow {
   loadRows();
   const own = stateRows!.get(stateKey.replace(/^US-/, ""));
   if (own) return own;
@@ -125,7 +163,9 @@ const TOWN_SUFFIX = / (town|city|village|plantation|borough|gore|grant)$/i;
  * by population. A playable place without a Census county link uses its
  * population-weighted same-state or territory HUD baseline, marked estimated.
  */
-export function hudRentRowFor(jurisdictionId: EntityId): HudRentRow | null {
+export function publishedHudRentRowFor(
+  jurisdictionId: EntityId,
+): HudRentRow | null {
   const place = corePlaceByJurisdictionId(jurisdictionId);
   const geoid =
     place?.sourceGeoid && /^\d{7}$/.test(place.sourceGeoid)

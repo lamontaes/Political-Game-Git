@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/data/news/outcome-news.json
 
 **Notes.** Filed by the laws lead, Oct 25, from the low-level offenses helper's report.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the graded-hold clause; keep the news topic.

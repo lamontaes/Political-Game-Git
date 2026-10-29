@@ -1,0 +1,39 @@
+{
+ "scene": "door-knocking-rural",
+ "plate": "sg-p06r",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "resident in the doorway",
+   "box": [
+    880,
+    300,
+    940,
+    400
+   ],
+   "pose": "stand",
+   "facing": 0,
+   "coveredBy": "door-frame",
+   "role": "resident"
+  },
+  {
+   "name": "visitor on the step",
+   "box": [
+    940,
+    340,
+    1010,
+    460
+   ],
+   "pose": "stand",
+   "facing": -45,
+   "role": "visitor"
+  }
+ ]
+}

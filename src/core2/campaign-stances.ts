@@ -19,6 +19,7 @@
  * are positions in [-1, 1]; a candidate has no answer only when they have
  * neither a view nor a party.
  */
+import { townLean } from "./modules/campaigns";
 import { votesOf } from "./modules/record";
 import { partyName, partySide } from "./appointments";
 import { leanedScore } from "./trait-decisions";
@@ -51,16 +52,6 @@ function stateLean(api: CoreAPI): number {
   return total
     ? parties.reduce((s, p) => s + p.share * p.side, 0) / total
     : townLean(api);
-}
-
-function townLean(api: CoreAPI): number {
-  if (!api.state.modules.has("core2-campaigns-v1")) return 0;
-  return (
-    (
-      api.moduleState("core2-campaigns-v1").table("town").get("town") as
-        { lean?: number } | undefined
-    )?.lean ?? 0
-  );
 }
 
 export interface PartyLean {

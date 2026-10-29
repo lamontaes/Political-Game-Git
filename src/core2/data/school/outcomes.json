@@ -40,8 +40,12 @@
       "source": "NCES Condition of Education, Public High School Graduation Rates: 'economically disadvantaged students (81 percent)' against 'the U.S. average adjusted cohort graduation rate (ACGR) for public high school students was 87 percent' (2021-22). The not-disadvantaged rate is the figure that, with about half of students disadvantaged, gives 87 on average."
     }
   },
+  "links": {
+    "schoolMove": "school-move-to-scores"
+  },
   "stopgaps": {
     "collegeCompletion": "SG-SCHOOL-college-completion",
-    "equalizedFunding": "SG-SCHOOL-equalized-funding-budget"
+    "equalizedFunding": "SG-SCHOOL-equalized-funding-budget",
+    "switchWindow": "SG-SCHOOL-switch-window"
   }
 }

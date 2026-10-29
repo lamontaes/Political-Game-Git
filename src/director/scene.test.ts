@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { enrichCivicInputs } from "../core2/civic-inputs";
-import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
@@ -15,16 +14,14 @@ import { composeScene } from "./scene";
 // narrated in second person, and opens a conversation with someone present.
 const seed = process.env.GOLDEN_PATH_SEED ?? "scenes-a";
 const base = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 600,
-    }),
-  ),
+  buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 600,
+  }),
 );
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));

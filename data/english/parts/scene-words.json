@@ -101,140 +101,6 @@
   },
   "parts": [
     {
-      "key": "scene-words.setting-workplace-work.youre-at-employer",
-      "move": "setting-workplace-work",
-      "kind": "spoken",
-      "text": "You're at {employer}.",
-      "uses": [
-        {
-          "move": "setting-workplace-work",
-          "subject": "setting",
-          "role": "workplace",
-          "choice": "work"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 2,
-        "hearings": 1,
-        "house": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
-        "date": "2025-05-01",
-        "granule": "DCPD-202500550",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500550/html/DCPD-202500550.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-workplace-work.you-are-at-employer",
-      "move": "setting-workplace-work",
-      "kind": "spoken",
-      "text": "You are at {employer}.",
-      "uses": [
-        {
-          "move": "setting-workplace-work",
-          "subject": "setting",
-          "role": "workplace",
-          "choice": "work"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "dcpd": 2,
-        "hearings": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Commencement Address at the United States Coast Guard Academy in New London, Connecticut",
-        "date": "2026-05-20",
-        "granule": "DCPD-202600354",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600354/html/DCPD-202600354.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-school-school.you-are-at-school",
-      "move": "setting-school-school",
-      "kind": "spoken",
-      "text": "You are at {school}.",
-      "uses": [
-        {
-          "move": "setting-school-school",
-          "subject": "setting",
-          "role": "school",
-          "choice": "school"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "COMMERCE, JUSTICE, SCIENCE, AND RELATED AGENCIES APPROPRIATIONS FOR 2020",
-        "date": "2019-02-26",
-        "granule": "CHRG-116hhrg36826",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36826/html/CHRG-116hhrg36826.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-public-out.youre-in-place",
-      "move": "setting-public-out",
-      "kind": "spoken",
-      "text": "You're in {place}.",
-      "uses": [
-        {
-          "move": "setting-public-out",
-          "subject": "setting",
-          "role": "public",
-          "choice": "out"
-        },
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 1,
-        "dcpd": 3,
-        "hearings": 2,
-        "nasa2": 1,
-        "nps": 1,
-        "nps.gov (PDF)": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "EXAMINING THE POLICIES AND PRIORITIES OF THE U.S. DEPARTMENT OF EDUCATION",
-        "date": "2021-06-24",
-        "granule": "CHRG-117hhrg44859",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg44859/html/CHRG-117hhrg44859.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.setting-phone-phone.the-phone-rings",
       "move": "setting-phone-phone",
       "kind": "spoken",
@@ -253,7 +119,6 @@
         "nasa2": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "NPS History Collection oral history: francis phil oct 23 2015",
         "date": "2015-10-23",
@@ -286,7 +151,6 @@
         "nasa2": 2,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Congressional Record, Senate section, 2024-02-27",
         "date": "2024-02-27",
@@ -317,7 +181,6 @@
         "dcpd": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Legislation To Promote United States Semiconductor Production, Technological Innovation, and Advanced Manufacturing",
         "date": "2022-08-09",
@@ -327,76 +190,6 @@
       },
       "tag": {
         "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.setting-public-out.you-are-in-place",
-      "move": "setting-public-out",
-      "kind": "spoken",
-      "text": "You are in {place}.",
-      "uses": [
-        {
-          "move": "setting-public-out",
-          "subject": "setting",
-          "role": "public",
-          "choice": "out"
-        },
-        {
-          "move": "setting-venue-venue",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "venue"
-        },
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "chrg": 4
-      },
-      "shippable": true,
-      "source": {
-        "document": "Nomination Of Hon. Sean Duffy, Nominee To Be Secretary, U.S. Department Of Transportation",
-        "date": "2025-01-15",
-        "granule": "CHRG-119shrg61928",
-        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61928",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-public-out.youre-outside",
-      "move": "setting-public-out",
-      "kind": "spoken",
-      "text": "You're outside.",
-      "uses": [
-        {
-          "move": "setting-public-out",
-          "subject": "setting",
-          "role": "public",
-          "choice": "out"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "nasa": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history interview with Mark S. Geyer",
-        "date": "2020-12-03",
-        "granule": "geyerms-12-3-20",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-12-3-20.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
       }
     },
     {
@@ -418,7 +211,6 @@
         "chrg": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2020",
         "date": "2019-02-06",
@@ -428,90 +220,6 @@
       },
       "tag": {
         "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.setting-other-home.you-re-at-host-home",
-      "move": "setting-other-home",
-      "text": "You're at {host} home.",
-      "uses": [
-        {
-          "move": "setting-other-home",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-other-home.you-are-at-host-house",
-      "move": "setting-other-home",
-      "text": "You are at {host} house.",
-      "uses": [
-        {
-          "move": "setting-other-home",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-venue-out.you-re-out-in-place",
-      "move": "setting-venue-out",
-      "text": "You're out in {place}.",
-      "uses": [
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-venue-out.you-are-out-in-place",
-      "move": "setting-venue-out",
-      "text": "You are out in {place}.",
-      "uses": [
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
       }
     },
     {
@@ -529,7 +237,6 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -550,7 +257,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -571,7 +277,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -592,7 +297,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -613,7 +317,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -641,7 +344,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -669,7 +371,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -690,7 +391,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -711,7 +411,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -732,7 +431,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -760,7 +458,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -781,7 +478,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -802,7 +498,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -830,7 +525,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -851,7 +545,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -879,7 +572,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -900,7 +592,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -921,7 +612,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -942,7 +632,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -963,7 +652,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -984,7 +672,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1003,7 +690,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1024,7 +710,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1045,7 +730,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1066,7 +750,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1087,49 +770,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-argument-alone.there-is-a-disagreement-in-the-room",
-      "move": "lead-argument-alone",
-      "kind": "spoken",
-      "text": "There is a disagreement in the room.",
-      "uses": [
-        {
-          "move": "lead-argument-alone",
-          "subject": "lead",
-          "role": "argument",
-          "choice": "alone"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-celebration-other.other-is-part-of-what-is-being-marked-today",
-      "move": "lead-celebration-other",
-      "kind": "spoken",
-      "text": "{other} is part of what is being marked today.",
-      "uses": [
-        {
-          "move": "lead-celebration-other",
-          "subject": "lead",
-          "role": "celebration",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1150,28 +790,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-funeral-other.other-is-among-the-people-who-have-come-to-say-g",
-      "move": "lead-funeral-other",
-      "kind": "spoken",
-      "text": "{other} is among the people who have come to say goodbye.",
-      "uses": [
-        {
-          "move": "lead-funeral-other",
-          "subject": "lead",
-          "role": "funeral",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1192,7 +810,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1213,7 +830,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1234,28 +850,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-first-day-other.its-your-first-day-and-other-is-there-when-you-a",
-      "move": "lead-first-day-other",
-      "kind": "spoken",
-      "text": "It's your first day, and {other} is there when you arrive.",
-      "uses": [
-        {
-          "move": "lead-first-day-other",
-          "subject": "lead",
-          "role": "first-day",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1276,28 +870,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-last-day-other.its-your-last-day-and-other-is-there-for-it",
-      "move": "lead-last-day-other",
-      "kind": "spoken",
-      "text": "It's your last day, and {other} is there for it.",
-      "uses": [
-        {
-          "move": "lead-last-day-other",
-          "subject": "lead",
-          "role": "last-day",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1318,7 +890,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1339,7 +910,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1360,7 +930,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1381,7 +950,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1402,28 +970,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-arrival-other.a-child-has-been-born-and-other-is-there",
-      "move": "lead-arrival-other",
-      "kind": "spoken",
-      "text": "A child has been born, and {other} is there.",
-      "uses": [
-        {
-          "move": "lead-arrival-other",
-          "subject": "lead",
-          "role": "arrival",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1444,28 +990,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-layoff-other.your-job-has-ended-and-other-is-there",
-      "move": "lead-layoff-other",
-      "kind": "spoken",
-      "text": "Your job has ended, and {other} is there.",
-      "uses": [
-        {
-          "move": "lead-layoff-other",
-          "subject": "lead",
-          "role": "layoff",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1486,7 +1010,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1495,10 +1018,10 @@
       }
     },
     {
-      "key": "scene-words.lead-eviction-notice-any.a-notice-has-come-that-you-must-leave-your-home",
+      "key": "scene-words.lead-eviction-notice-any.a-notice-has-come-you-have-to-leave-your-home",
       "move": "lead-eviction-notice-any",
       "kind": "spoken",
-      "text": "A notice has come that you must leave your home.",
+      "text": "A notice has come: you have to leave your home.",
       "uses": [
         {
           "move": "lead-eviction-notice-any",
@@ -1507,31 +1030,9 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-eviction-notice-other.a-notice-says-you-must-leave-and-other-is-there",
-      "move": "lead-eviction-notice-other",
-      "kind": "spoken",
-      "text": "A notice says you must leave, and {other} is there.",
-      "uses": [
-        {
-          "move": "lead-eviction-notice-other",
-          "subject": "lead",
-          "role": "eviction-notice",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "tag": {
         "move": "narrate"
       }
@@ -1549,7 +1050,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1570,7 +1070,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1591,7 +1090,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1612,7 +1110,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1633,7 +1130,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1654,7 +1150,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1675,7 +1170,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1696,7 +1190,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1717,7 +1210,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1738,7 +1230,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1759,7 +1250,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1780,7 +1270,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1801,7 +1290,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1822,7 +1310,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1843,7 +1330,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1864,7 +1350,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1885,51 +1370,8 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-other-home-visit.you-re-at-host-house",
-      "move": "setting-other-home-visit",
-      "kind": "spoken",
-      "text": "You're at {host} house.",
-      "uses": [
-        {
-          "move": "setting-other-home-visit",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-other-home-visit.you-re-over-at-host-place",
-      "move": "setting-other-home-visit",
-      "kind": "spoken",
-      "text": "You're over at {host} place.",
-      "uses": [
-        {
-          "move": "setting-other-home-visit",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
       "date": "2026-10-15",
       "tag": {
         "move": "narrate"
@@ -1948,28 +1390,6 @@
           "choice": "letter"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-school-school.you-re-at-school",
-      "move": "setting-school-school",
-      "kind": "spoken",
-      "text": "You're at {school}.",
-      "uses": [
-        {
-          "move": "setting-school-school",
-          "subject": "setting",
-          "role": "school",
-          "choice": "school"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -1991,7 +1411,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2013,7 +1432,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2035,7 +1453,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2057,7 +1474,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2079,7 +1495,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2101,7 +1516,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2123,7 +1537,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2145,7 +1558,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2167,7 +1579,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2189,7 +1600,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2211,29 +1621,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.cause-feeling:event:housing.eviction-self.you-have-to-move-out-of-your-home-in-place",
-      "move": "cause-feeling:event:housing.eviction-self",
-      "kind": "spoken",
-      "text": "You have to move out of your home in {place}.",
-      "uses": [
-        {
-          "move": "cause-feeling:event:housing.eviction-self",
-          "subject": "cause",
-          "role": "feeling:event:housing.eviction",
-          "choice": "self",
-          "stages": ["self"]
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2255,7 +1642,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2277,7 +1663,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2299,7 +1684,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2321,7 +1705,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2343,7 +1726,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2365,7 +1747,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2387,7 +1768,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2409,7 +1789,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2430,7 +1809,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2451,7 +1829,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2472,7 +1849,6 @@
           "choice": "deliver-news"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2493,7 +1869,6 @@
           "choice": "farewell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2514,7 +1889,6 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2535,7 +1909,6 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2556,7 +1929,6 @@
           "choice": "thank"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2577,7 +1949,6 @@
           "choice": "request"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2598,7 +1969,6 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2619,7 +1989,6 @@
           "choice": "announce-result"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2642,7 +2011,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2663,7 +2031,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2684,7 +2051,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2705,7 +2071,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2724,7 +2089,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
@@ -2745,7 +2109,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
@@ -2766,7 +2129,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
@@ -2787,7 +2149,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
@@ -2808,7 +2169,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
@@ -2829,7 +2189,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
@@ -2850,7 +2209,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
@@ -2871,7 +2229,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
@@ -2892,7 +2249,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
@@ -2913,7 +2269,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
@@ -2934,7 +2289,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
@@ -2955,7 +2309,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
@@ -2976,7 +2329,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
@@ -2997,7 +2349,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
@@ -3018,7 +2369,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item words-scene-party-asks-you-to-run)",
       "date": "2026-10-26",
@@ -3039,7 +2389,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item words-scene-party-asks-you-to-run)",
       "date": "2026-10-26",
@@ -3060,7 +2409,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3081,7 +2429,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3102,7 +2449,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3124,7 +2470,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3146,7 +2491,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3168,7 +2512,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3190,7 +2533,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3212,7 +2554,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3234,7 +2575,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3256,7 +2596,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3278,7 +2617,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3300,7 +2638,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3322,7 +2659,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3344,7 +2680,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3366,7 +2701,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3388,7 +2722,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3410,7 +2743,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3432,7 +2764,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3454,7 +2785,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3476,7 +2806,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3498,7 +2827,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3520,7 +2848,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3542,7 +2869,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3564,7 +2890,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3586,7 +2911,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3608,7 +2932,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3630,7 +2953,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3652,7 +2974,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3674,7 +2995,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3696,7 +3016,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3718,7 +3037,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3740,7 +3058,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3762,7 +3079,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3783,7 +3099,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
       "date": "2026-10-26",
@@ -3804,7 +3119,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
       "date": "2026-10-26",
@@ -3822,10 +3136,10 @@
           "move": "lead-news-arrives-other",
           "subject": "lead",
           "role": "news-arrives",
-          "choice": "other"
+          "choice": "other",
+          "settings": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-home-and-family)",
       "date": "2026-10-27",
@@ -3843,10 +3157,10 @@
           "move": "lead-news-arrives-other",
           "subject": "lead",
           "role": "news-arrives",
-          "choice": "other"
+          "choice": "other",
+          "settings": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-home-and-family)",
       "date": "2026-10-27",
@@ -3867,7 +3181,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3888,7 +3201,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3909,7 +3221,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
       "date": "2026-10-27",
@@ -3930,7 +3241,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
       "date": "2026-10-27",
@@ -3951,7 +3261,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
       "date": "2026-10-27",
@@ -3972,7 +3281,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
       "date": "2026-10-27",
@@ -3993,7 +3301,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
       "date": "2026-10-27",
@@ -4014,7 +3321,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
       "date": "2026-10-27",
@@ -4035,7 +3341,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
       "date": "2026-10-27",
@@ -4056,7 +3361,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
       "date": "2026-10-27",
@@ -4077,7 +3381,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
       "date": "2026-10-27",

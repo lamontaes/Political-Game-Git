@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -32,3 +32,5 @@ milestone: play-first
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): Before filing Campaigns is an empty panel; after filing it shows "1 hours", "+13 · −0" and a stray "0" among buttons of different sizes. Owner: "this campaign screens again. It's just jumbled mess. I've given UI, I've given a billion UI samples."
 
 CTO, Oct 27 12:00 UTC: the `after:` line is cleared so the lane can build it for the owner's build; the earlier part landed or is in PR, and a merged play item waits only on the owner's installed-build check.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `screens-campaign-board`; close into it and carry any line it lacks there.

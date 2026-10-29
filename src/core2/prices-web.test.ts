@@ -14,7 +14,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import type { CoreState } from "./types";
 import { enactLaw, lawChain } from "./modules/laws";
-import { monthlyChange } from "./modules/place-prices";
+import { monthlyChange, worldGoods } from "./modules/place-prices";
 import { coreAPI } from "./state";
 
 const held = vi.hoisted(() => ({ factors: {} as Record<string, number> }));
@@ -210,8 +210,10 @@ describe(`prices and place services take the web's factor (${place.name}, seed $
       value: 2,
       replacesFuelTax: true,
     } as const;
-    const flat = monthlyChange(rule, 1, 2, {});
-    const more = monthlyChange(rule, 1, 2, { miles: 1.1 });
+    const flat = monthlyChange(rule, 1, 2, worldGoods(seed).goods, {});
+    const more = monthlyChange(rule, 1, 2, worldGoods(seed).goods, {
+      miles: 1.1,
+    });
     expect(more.payMinor).toBeCloseTo(flat.payMinor * 1.1, 6);
     expect(more.refundMinor).toBeCloseTo(flat.refundMinor * 1.1, 6);
     // In a played stretch the same households are billed in proportion.
@@ -224,13 +226,17 @@ describe(`prices and place services take the web's factor (${place.name}, seed $
 
   it("a fare-free price takes the extra trips for free and refunds only the old trips", () => {
     const rule = { good: "transit-fare", kind: "price", value: 0 } as const;
-    const whole = monthlyChange(rule, 1, 2, {});
-    const more = monthlyChange(rule, 1, 2, { trips: 1.4 });
+    const whole = monthlyChange(rule, 1, 2, worldGoods(seed).goods, {});
+    const more = monthlyChange(rule, 1, 2, worldGoods(seed).goods, {
+      trips: 1.4,
+    });
     expect(more.refundMinor).toBe(whole.refundMinor);
     expect(more.payMinor).toBe(0);
     const offer = { good: "broadband", kind: "offer", value: 1000 } as const;
-    const flat = monthlyChange(offer, 1, 2, {});
-    const wider = monthlyChange(offer, 1, 2, { subscribe: 1.05 });
+    const flat = monthlyChange(offer, 1, 2, worldGoods(seed).goods, {});
+    const wider = monthlyChange(offer, 1, 2, worldGoods(seed).goods, {
+      subscribe: 1.05,
+    });
     expect(wider.payMinor).toBeGreaterThan(flat.payMinor);
     expect(wider.refundMinor).toBe(flat.refundMinor);
   });

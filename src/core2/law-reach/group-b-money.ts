@@ -10,6 +10,7 @@ import {
   appliedOn,
   appliedTo,
   lawApplied,
+  lawReachRuns,
   type AppliedTarget,
 } from "./applied";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -24,13 +25,12 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
+import { enactLaw, lawChain, lawInForce } from "../modules/laws";
 import {
-  enactLaw,
-  lawChain,
-  lawInForce,
-  LAWS_MODULE_ID,
-} from "../modules/laws";
-import { countedJob, residentsRuntime } from "../modules/residents";
+  countedJob,
+  residentsRuntime,
+  worldPrivateTuitionAnnualUsd,
+} from "../modules/residents";
 import type { LawRowInput } from "../laws-starting";
 import {
   graduatedSchedule,
@@ -79,24 +79,6 @@ export function recordApplied(
     engine: APPLIED_ENGINE,
     amountMinor: paidToday ? 0 : (input.amountMinor ?? 0),
   });
-}
-
-/** The row that makes a policy question law for the town at some level (the latest row there says yes). */
-export function questionRow(
-  api: CoreAPI,
-  key: string,
-): LawRowInput | undefined {
-  const date = api.state.date;
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  for (const { jurisdiction } of lawChain(api).levels) {
-    const latest = (
-      laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    if (latest?.value === 1) return latest;
-  }
-  return undefined;
 }
 
 /** The government at a law's or budget's level, if the town has one there. */
@@ -819,6 +801,73 @@ export function payCoverage(
   return { named, counted };
 }
 
+/** One stretch of a named person's coverage being paid by a government (its obligation records). */
+export interface CoverageSpell {
+  /** The first day a payment for the stretch could fall due. */
+  readonly from: string;
+  /** The day the payment ended, or null while it is still paid. */
+  readonly to: string | null;
+  /** The accounts obligations that paid it (the state's share and the federal share, one record each). */
+  readonly obligationIds: readonly string[];
+}
+
+/**
+ * Each named person's Medicaid coverage as the payment keeps it: the
+ * obligations `payCoverage` opened for them, open and ended, joined into
+ * stretches (the state's and the federal share cover the same days, and a
+ * change of the match ends one pair and opens the next). Null where no
+ * payment engine runs (no law reach or no budgets), so a caller can tell an
+ * uncovered person from a world that does not model coverage. Read-only.
+ */
+export function medicaidCoverageSpells(
+  api: CoreAPI,
+  key: string,
+): ReadonlyMap<string, readonly CoverageSpell[]> | null {
+  const core = api.state as CoreState;
+  if (!core.modules.has(BUDGETS_MODULE_ID) || !lawReachRuns(core)) return null;
+  const out = new Map<string, CoverageSpell[]>();
+  if (!core.modules.has(REACH_B_MODULE_ID)) return out;
+  const accounts = api.accounts();
+  const found = new Map<
+    string,
+    { from: string; to: string | null; id: string }[]
+  >();
+  for (const row of rowsOf<BenefitRow>(api, "taken")) {
+    // An ended payment is re-keyed `ended|<policy>` (reconcileObligations).
+    if (row.key !== `coverage|${key}` && row.key !== `ended|${key}`) continue;
+    // A counted group's fund account is no named person.
+    if (row.recipientId.startsWith(FUND)) continue;
+    const obligation = accounts.obligation(row.obligationId);
+    if (!obligation) continue;
+    const to = obligation.endedAt ?? null;
+    if (to !== null && to <= obligation.firstDueAt) continue;
+    const list = found.get(row.recipientId) ?? [];
+    list.push({ from: obligation.firstDueAt, to, id: row.obligationId });
+    found.set(row.recipientId, list);
+  }
+  for (const [personId, list] of found) {
+    list.sort(
+      (a, b) => a.from.localeCompare(b.from) || a.id.localeCompare(b.id),
+    );
+    const spells: { from: string; to: string | null; ids: string[] }[] = [];
+    for (const stretch of list) {
+      const last = spells.at(-1);
+      // Overlapping or touching stretches are one: the same person, covered.
+      if (last && (last.to === null || stretch.from <= last.to)) {
+        last.ids.push(stretch.id);
+        if (last.to !== null && (stretch.to === null || stretch.to > last.to))
+          last.to = stretch.to;
+      } else
+        spells.push({ from: stretch.from, to: stretch.to, ids: [stretch.id] });
+    }
+    out.set(
+      personId,
+      spells.map((s) => ({ from: s.from, to: s.to, obligationIds: s.ids })),
+    );
+  }
+  return out;
+}
+
 /**
  * Universal preschool as a payment: the state treasury pays a child's
  * household the state's spending per enrolled child (NIEER), a month at a
@@ -859,7 +908,7 @@ export function payPreschool(
     );
     const heads = new Map<string, ResidentFacts>();
     for (const r of input.residents) {
-      if (!r.named || r.age < reachParameter("adultAge")) continue;
+      if (!r.named || r.age < reachParameter("votingAge")) continue;
       const prior = heads.get(r.householdId);
       if (
         !prior ||
@@ -927,7 +976,7 @@ export function voucherShare(api: CoreAPI): number {
   return Math.min(
     1,
     reachParameter("voucherAmountDollars") /
-      api.parameter("openingPrivateTuitionAnnualUsd"),
+      worldPrivateTuitionAnnualUsd(api.state.seed),
   );
 }
 
@@ -1223,6 +1272,9 @@ interface ReserveRow {
   readonly governmentId: string;
   readonly accountId: string;
   readonly targetMinor: number;
+  /** The day of the last set-aside, and how many were made that day. */
+  readonly setAsideOn?: string;
+  readonly setAsidesThatDay?: number;
 }
 
 /**
@@ -1285,10 +1337,17 @@ export function holdReserve(
       input.modeledShare,
   );
   const need = Math.max(0, target - held);
+  // The law can be read twice in a day (the day it takes effect is often the
+  // first of the fiscal year, when the treasury's close reads it again); a
+  // set-aside the treasury could pay only in part tops up at the second
+  // read, under its own transfer id.
+  const prior = getRow<ReserveRow>(api, "taken", id);
+  const sameDay = prior?.setAsideOn === api.state.date;
+  const count = sameDay ? (prior?.setAsidesThatDay ?? 1) : 0;
   const receipt =
     need > 0
       ? accounts.transfer({
-          id: `reach-b:reserve:${input.key}:${gov.id}:${api.state.date}`,
+          id: `reach-b:reserve:${input.key}:${gov.id}:${api.state.date}${count ? `:${count + 1}` : ""}`,
           from: main,
           to: accountId,
           amountMinor: need,
@@ -1303,6 +1362,11 @@ export function holdReserve(
     governmentId: gov.id,
     accountId,
     targetMinor: target,
+    ...(receipt
+      ? { setAsideOn: api.state.date, setAsidesThatDay: count + 1 }
+      : sameDay
+        ? { setAsideOn: prior!.setAsideOn, setAsidesThatDay: count }
+        : {}),
   } satisfies ReserveRow);
   // The treasury was held to the reserve: the balance set aside is the money.
   if (input.lawId)

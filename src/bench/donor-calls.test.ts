@@ -12,6 +12,7 @@ import { gameStartDate } from "../core2/game-start";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
+import { lawChain } from "../core2/modules/laws";
 import { townSeats } from "../core2/modules/offices";
 import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { campaignFor, giftOf } from "../core2/modules/campaigns";
@@ -42,7 +43,13 @@ it("Call donors names each person reached with their gift or why not, and the ra
     placesTried.push(`${place.name}, ${place.state}`);
     const year = Number(core.date.slice(0, 4));
     const adults = [...core.people.values()]
-      .filter((p) => p.alive && year - Number(p.birthDate.slice(0, 4)) >= 35)
+      .filter(
+        (p) =>
+          p.alive &&
+          // Residents of the town file there (the clerk's residency check).
+          p.placeId === lawChain(api).townPlaceId &&
+          year - Number(p.birthDate.slice(0, 4)) >= 35,
+      )
       .sort(
         (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
       );
@@ -60,7 +67,11 @@ it("Call donors names each person reached with their gift or why not, and the ra
           contestId: contest.id,
           platform: [`${PLATFORM_QUESTIONS[0]}=1`],
         });
-        if (filed.status !== "refused" && filed.filing.status === "on-ballot") {
+        // Filing is a petition now: a filing that is petitioning or on the ballot runs a campaign.
+        if (
+          filed.status !== "refused" &&
+          ["petitioning", "on-ballot"].includes(filed.filing.status)
+        ) {
           filing = filed.filing;
           break;
         }

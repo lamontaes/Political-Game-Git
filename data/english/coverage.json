@@ -74,7 +74,7 @@
       "unknown": 59
     },
     "unknown": {
-      "unknown": 49,
+      "unknown": 88,
       "journal": 25,
       "legislation": 8,
       "notices": 2,
@@ -127,6 +127,11 @@
     "batch-22": {
       "unknown": {
         "unknown": 5
+      }
+    },
+    "voice-notes-oct15-28": {
+      "unknown": {
+        "unknown": 39
       }
     }
   }

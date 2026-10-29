@@ -52,6 +52,10 @@
       "value": 0,
       "note": "Not a starting level. The one link that reads this measure is a threshold: it acts only on how far the ratio sits above its own threshold (0.59), so no change from a start is taken and zero only lets the link be read."
     },
+    "federal.defense-boost-pct": {
+      "value": 0,
+      "note": "Zero by definition: the measure is the extra defense contracts a state draws over what the federal national defense line paid at its base (the Treasury's fiscal 2025 outlays), and the earnings the research measured go with the contracts the state already drew, so only a line above or below its base moves earnings."
+    },
     "budget.parks-added-pct": {
       "value": 0,
       "note": "Zero by definition: the measure is the town's parks spending above its Census base, and the base outcome the research measured (access to exercise opportunities) goes with that base spending, so only spending above or below it moves access."
@@ -75,6 +79,10 @@
     "budget.higherEducation-added-pct": {
       "value": 0,
       "note": "Defined from the Census base: the higher education line above its base is 0 where it has not been changed, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
+    },
+    "budget.naturalResources-added-pct": {
+      "value": 0,
+      "note": "Defined from the Census base: the natural resources line above its base is 0 where it has not been changed, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
     },
     "program.snap-maximum-change-pct": {
       "value": 0,
@@ -359,12 +367,13 @@
       "from": "justice.pretrial-detained",
       "evidence": "researched",
       "range": [0.24, 0.35],
-      "notes": "Not hooked by design: the justice code already decides each defendant's detention and case from the law in force, so a place-rate reader here would count detention's effect twice."
+      "notes": "Not read as a place rate, by design: the justice code already decides each defendant's detention and case from the law in force, so a place-rate reader here would count detention's effect twice. The court reads this row's size itself, at the moment it decides a case (see carriedBy). The size is the proportional rise for a held defendant over a released one, so a case holding share h of its defendants is convicted at released x (1 + size x h); the offense's base conviction share was measured with the detention money bail brings, so it stands where the case holds that many and falls only as far as the law held fewer (convicted = count x base x (1 + size x held) / (1 + size x held on money)).",
+      "carriedBy": "the court's decision of each counted case (resolveDue in src/core2/public-safety.ts, run each month by runSafetyMonth), which convicts the case's defendants at the offense's base share times one plus this row's size for the share held until the case is decided, against the share money bail would have held; the sentence row (src/core2/modules/justice.ts decideCountedCase) keeps the base share, the held and money-bail shares and the size as its reasons. A named bribery defendant's verdict (hearing and convict in src/core2/modules/justice.ts) does not read it: the verdict is a margin of evidence against the defense, with no rate this proportion can scale (stopgap SG-WEB-crime-justice-links-unread)"
     },
     {
       "key": "pretrial-detention-to-employment",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "labor.formal-employment",
       "strength": "strong",
       "shape": {
@@ -380,18 +389,19 @@
       "from": "justice.pretrial-detained",
       "evidence": "researched",
       "range": [-0.25, -0.15],
-      "notes": "Not hooked by design: the justice code already decides each defendant's detention from the law in force, so a place-rate reader here would count it twice; formal employment is not a kept place outcome either."
+      "notes": "Carried by the jobs engine, which reads a defendant's own detention: the justice engine already decides each defendant's detention from the law in force and the defendant's cash, so a place-rate reader would count it twice, and formal employment is not a kept place outcome. Every job the jobs engine keeps is on an employer's payroll, so the engine's pull to work stands for formal employment. The research measures the gap three to four years on and says nothing of how long it lasts, so the game keeps it from the lag on (stopgap SG-LABOR-pretrial-employment).",
+      "carriedBy": "the jobs engine's pull to work (detentionShift in src/core2/jobs-web.ts, added to participationShift, which src/core2/modules/jobs.ts reads when a jobless adult chooses whether to look for work and when a worker chooses to stay, look around or leave), which reads the justice engine's own pretrial record of the person (firstHeldPretrial in src/core2/modules/justice.ts: the decision held that decidePretrial in src/core2/justice-pretrial.ts wrote) and, once this row's lag has run from the day they were first held, adds the log of one plus this row's size (carriedLink) to their choice score. The web does not run the link because its cause is a record of the individual defendant, not a rate of the place (stopgap SG-LABOR-pretrial-employment)"
     },
     {
       "key": "release-lower-level-to-larceny",
       "status": "cause-not-recorded",
       "unsupportedReason": "cause-not-recorded",
-      "to": "crime.larceny",
+      "to": "crime.property",
       "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": 0.09,
+      "size": 0.0731,
       "per": "law in force",
       "lagMonths": 3,
       "group": "place",
@@ -400,8 +410,8 @@
       "source": "Lofstrom and Raphael 2018 (PPIC, The Impact of Proposition 47 on Crime and Recidivism); Bartos and Kubrin 2018 (Criminology and Public Policy)",
       "from": "law.low-level-offense-reclassified",
       "evidence": "contested",
-      "range": [0, 0.18],
-      "notes": "Unsupported until a law is recorded: no shipped policy question reclassifies low-level offenses, so the cause law.low-level-offense-reclassified has no reader, and larceny is not a kept place outcome."
+      "range": [0, 0.1463],
+      "notes": "Re-pointed from crime.larceny to crime.property, the measure the crime engine victimizes households by (src/core2/modules/crime.ts): larceny is the theft the NCVS counts as other theft, 79.3 of the 97.6 property victimizations per 1,000 households in 2024 (BJS Criminal Victimization, 2024, table 2; src/core2/data/crime/victimization.json), so the researched +9% in larceny moves the property total by 0.09 x 79.3 / 97.6 = 0.0731, and the range [0, 0.18] by the same share to [0, 0.1463]. The anchor above is the research as found, in larceny. crime.property also scales burglary (its webMeasures), which Prop 47 left unchanged, so once the cause runs burglary would rise by the same share: an overstatement the share cannot remove without a separate larceny measure. Still unsupported until a law is recorded: no shipped policy question reclassifies low-level offenses, so the cause law.low-level-offense-reclassified has no reader (stopgap SG-WEB-crime-justice-links-unread)."
     },
     {
       "key": "child-access-law-to-youth-gun-deaths",
@@ -725,7 +735,7 @@
       "source": "Currie, Hanushek, Kahn, Neidell and Rivkin 2009 (REStat)",
       "from": "env.carbon-monoxide",
       "evidence": "researched",
-      "notes": "Left unwired: no carbon monoxide reading is recorded (no code in src/core2 holds one). The study finds absences rise on days near the federal limit, a threshold on daily readings and not a slope on a place rate, and a student's absence in the core is their own day-by-day choice (src/core2/modules/school.ts), which a place rate does not set."
+      "notes": "Left unwired: no carbon monoxide reading is recorded (no code in src/core2 holds one). The study finds absences rise on days near the federal limit, a threshold on daily readings and not a slope on a place rate, and a student's absence in the core is their own day-by-day choice (src/core2/modules/school.ts), which a place rate does not set. The engine that would read it is schoolDay in that file, as a term in the attend-or-stay-home choice on a day with a recorded reading, once a reading and a size exist."
     },
     {
       "key": "emission-rules-to-particulates",
@@ -770,8 +780,8 @@
     },
     {
       "key": "disaster-to-public-transfers",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "gov.nondisaster-transfers",
       "strength": "strong",
       "shape": {
@@ -787,12 +797,12 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.015, 0.027],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and non-disaster transfers are not a kept place outcome. Transfers are not kept by kind (stopgap SG-EFFECT-WEB-prices-nondisaster-transfers)."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and non-disaster transfers are not a kept place outcome. Transfers are not kept by kind (stopgap SG-EFFECT-WEB-prices-nondisaster-transfers). Oct 28 update: the cause is now readable (disaster.severe, from the disasters engine's news events; see disaster-to-out-migration), so only the outcome waits. Looked for an engine that records transfers by kind and found payment engines but no place total: src/core2/jobs-benefits.ts pays each unemployment claim by the law's share of the claimant's lost pay, src/core2/housing-assistance.ts pays rent assistance (reasonKey housing.assistance), and FEMA aid is paid under its own reason keys, but no engine sums medical, income-support and unemployment-insurance payments for a place. Multiplying one claim's benefit by this link's size would misread the research, which measures total transfers per resident (more claimants and more medical spending, not larger benefits per claim). The engine that would read this factor is a place-level public transfers ledger that sums those payments by kind; none exists, so the link stays unread (SG-EFFECT-WEB-prices-nondisaster-transfers)."
     },
     {
       "key": "disaster-to-out-migration",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "population.out-migration",
       "strength": "moderate",
       "shape": {
@@ -808,13 +818,13 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.025, 0.1],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Boustan, Kahn, Rhode and Yanguas report no split of the out-migration effect by income, age, tenure or household kind (its heterogeneity section splits by disaster type, severity and period). Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study)."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Boustan, Kahn, Rhode and Yanguas report no split of the out-migration effect by income, age, tenure or household kind (its heterogeneity section splits by disaster type, severity and period). Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study). Oct 28 update, built: the cause is now read from the disasters engine's own records (src/core2/modules/disasters.ts severeDisasterReading), not from every declaration. Roth Tran and Wilson 2023 (FRBSF Working Paper 2020-34, p. 19-20) size the average FEMA Major Disaster declaration at no out-migration effect: \"the response of population to a disaster is small and generally statistically insignificant up to at least eight years out\", with \"modest longer-run declines in both in-migration and out-migration that roughly cancel each other out\". Only the most damaging disasters move people: \"a disaster with damages p.c. equal to the 99th percentile causes population to decline by roughly 1.5% after eight years\" (p. 25-26), the same size as this row's 1.5 points. So the cause is a severity from 0 to 1 on FEMA's inspected damaged homes per resident, 0 at the 90th percentile of the game's own FEMA town rows and 1 at the 95th (src/core2/data/disasters/severity.json), held for the ten years after the incident begins, and the researched size applies at severity 1. The size and range are unchanged. Assumed and registered as SG-WEB-disaster-severity-damage-proxy: FEMA's damaged-home figures stand for the study's deaths, and the ramp ends stand for its severe class."
     },
     {
       "key": "disaster-to-home-values",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
-      "to": "housing.home-prices",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "housing.home-value",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -829,7 +839,7 @@
       "from": "disaster.severe",
       "evidence": "researched",
       "range": [-0.053, -0.038],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and home prices are not a kept place outcome."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and home prices are not a kept place outcome. Oct 28 update, built: the cause is read from the disasters engine's own records (severity, not every declaration; see disaster-to-out-migration), and the outcome is now the kept index housing.home-value (before, `to` was housing.home-prices, which is the housing engine's own median home value that the births links read as a cause; one name could not be both the engine's reading and the web's factor on it). The housing engine values each owned home, and prices each purchase and sale, at the web's factor (src/core2/modules/housing.ts ownedHomes, sellHome), so the engine's median home value, the births links' cause, already includes it. The only source found that sizes the effect of FEMA Major Disaster declarations on prices is Roth Tran and Wilson 2023 (FRBSF Working Paper 2020-34), and it finds no fall for the average declaration: \"We find that the HPI is essentially flat in the near-term before increasing a good amount over the longer term. As of eight years after a disaster, the local HPI is estimated to be about 1.4% higher than it would have been otherwise.\" (p. 19) and, for the most damaging, \"the medium-run (1-3 years out) response to very severe disasters is strongly positive while the longer-run response is strongly negative\" (p. 25, with no number in the text). Calling every declaration severe would put -5.2% where the average declaration shows no fall, so the size is left as researched for a severe disaster and applies only at severity 1 (0 to 1 on FEMA's inspected damaged homes per resident, src/core2/data/disasters/severity.json). Not re-sized: that paper's severe-disaster price effect is shown only in a figure, with no figure the text quotes. Assumed and registered as SG-WEB-disaster-severity-damage-proxy."
     },
     {
       "key": "coverage-to-catastrophic-bills",
@@ -932,6 +942,7 @@
       "from": "health.coverage-pct",
       "evidence": "provisional",
       "range": [-0.4, -0.1],
+      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through ownCoverageFactor in src/core2/health-own.ts), which reads the Medicaid coverage the law reach pays them (medicaidCoverageSpells in src/core2/law-reach/group-b-money.ts, one obligation record per payment) and multiplies their death hazard at 55 to 64 by this row's size per covered year, twelve months after the coverage, against the coverage they held at their first look; the place-level medicaid-expansion-to-mortality row is left out of their web factor (deathWebFactor in src/core2/health-web.ts). Counted people keep the place-level row (stopgap SG-HEALTH-own-records-counted)",
       "notes": "Person-level: it acts through each person's covered years, so it waits on the person pipeline, not on a place rate. Miller, Johnson and Wherry report effects by 3-year age bin (Appendix Figure A5) and by sex (Appendix Table A10) but the text gives only direction (largest reductions at ages 59-64, larger for males, similar for under-138-percent-of-poverty and less-than-high-school), and the figure and table values are in the online appendix, so no weights are set."
     },
     {
@@ -1009,14 +1020,14 @@
     {
       "key": "job-loss-to-death-risk",
       "status": "person-level",
-      "unsupportedReason": "size-not-set",
+      "unsupportedReason": null,
       "to": "health.death-risk",
       "strength": "strong",
       "shape": {
         "kind": "acute-decay",
         "halfLifeDays": 1095
       },
-      "size": null,
+      "size": 0.847,
       "per": "displacement",
       "lagMonths": 0,
       "group": "displaced long-tenure workers",
@@ -1025,7 +1036,9 @@
       "source": "Sullivan and von Wachter 2009 (QJE)",
       "from": "person.displaced-from-long-job",
       "evidence": "researched",
-      "notes": "Person-level: it acts on a worker displaced from a long job, decaying after the loss, so it waits on the person pipeline, not on a place rate."
+      "range": [0.5, 1],
+      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through displacementFactor in src/core2/health-own.ts), which reads the jobs engine's closure or layoff record on the person (displacementsNow in src/core2/job-displacement.ts: the changes table in src/core2/modules/jobs.ts, with the tenure of the job that ended) and multiplies their death hazard by one plus the paper's excess for the years since, scaled by tenure up to six years (src/core2/data/health/displacement.json). Counted people are not read (stopgap SG-HEALTH-own-records-counted)",
+      "notes": "Person-level: it acts on a worker displaced from a long job, decaying after the loss. The size is the first year's excess, the paper's long-run coefficient 0.131 plus its added coefficient for 1 year after 0.716 (Table 4 column 1, workers with at least 6 years of tenure at firms that lost 30% or more of their jobs); the paper's abstract reads the first years as 50-100% and twenty years on as 10-15%. The jobs engine keeps no firm peak to test the paper's 30% loss of jobs, but it lets the long-tenured go only after everyone it values less, so a layoff of a worker with years on the job is a deep cut. One half-life cannot carry a decline to a long-run floor, so the engine reads the paper's own table by years since (src/core2/data/health/displacement.json), linear between its points. The sample is men and the table is not split by sex here, so the excess is applied to women too (ESTIMATED); the paper finds little effect for workers displaced near retirement age, which the pooled table does not carry."
     },
     {
       "key": "recession-to-total-mortality",
@@ -1049,13 +1062,13 @@
     {
       "key": "long-hours-to-heart-and-stroke",
       "status": "person-level",
-      "unsupportedReason": "size-not-set",
+      "unsupportedReason": null,
       "to": "health.stroke-and-heart-deaths",
       "strength": "moderate",
       "shape": {
         "kind": "exposure-years"
       },
-      "size": null,
+      "size": 0.17,
       "per": "years at 55+ hours",
       "lagMonths": 0,
       "group": "workers",
@@ -1064,7 +1077,9 @@
       "source": "WHO and ILO 2021",
       "from": "labor.share-working-55-plus-hours",
       "evidence": "researched",
-      "notes": "Person-level: it acts through each worker's years of 55-plus-hour weeks, so it waits on the person pipeline, not on a place rate."
+      "range": [0.05, 0.31],
+      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through longHoursFactor in src/core2/health-own.ts), which reads the weekly hours recorded on the job they hold (hoursDaily times daysPerWeek on the job in the core's jobs) and multiplies their death hazard by one plus the heart disease and stroke shares of deaths at their age times each cause's relative risk less one at those hours (src/core2/data/health/long-hours.json), for as long as they hold it. Counted people are not read (stopgap SG-HEALTH-own-records-counted)",
+      "notes": "Person-level: it acts through each worker's years at long weekly hours, which the hazard accumulates while they hold such a job. The size is the relative risk of ischemic heart disease mortality at 55 or more hours a week against 35 to 40, 1.17 (1.05 to 1.31); the relative risk for stroke, 1.35 (1.13 to 1.61), is stroke morbidity (Pega et al. 2021, Table 1) and is read in src/core2/data/health/long-hours.json with the hours ramp the paper's lower categories give, and the shares of deaths from heart disease and stroke by age (NCHS NVSR 74(10) Table 1, 2023). The comparison is a worker at 35 to 40 hours, and the life table's own average holds the few at long hours, so the table is not rescaled."
     },
     {
       "key": "eitc-to-low-birthweight",
@@ -1146,7 +1161,8 @@
       "from": "program.snap-receipt:moved-by-causes",
       "evidence": "researched",
       "range": [-0.026, -0.015],
-      "notes": "Not carried: the SNAP benefit pays households, but no field counts its recipients into program.snap-receipt and no engine keeps food insecurity, so both stay ledger numbers and this link has no moved part to read (stopgaps SG-WEB-snap-receipt-ledger and SG-WEB-food-insecurity-ledger). A food-insecurity record should read each household's SNAP benefit and food prices."
+      "notes": "Not carried: the SNAP benefit pays households, but no field counts its recipients into program.snap-receipt and no engine keeps food insecurity, so both stay ledger numbers and this link has no moved part to read (stopgaps SG-WEB-snap-receipt-ledger and SG-WEB-food-insecurity-ledger). A food-insecurity record should read each household's SNAP benefit and food prices.",
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment and stops a head a law takes off it (the work requirement for assistance after the head's months, by the law row in force), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a household that loses its benefit buys less of its plan and what it cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     {
       "key": "minimum-wage-to-poverty",
@@ -1397,7 +1413,7 @@
       "who": "Kindergarten-through-third-grade pupils assigned to the relevant small/regular classrooms; schoolmates outside exposure are not treated.",
       "lagWhy": "The link has lag0, but the anchor describes four years of exposure. Assessments must follow the actual exposure; the cited contrast/CI is required before switch-on.",
       "aboutZero": false,
-      "notes": "Left unwired: the core records no class size. Every student of a place attends its one school district (schoolFor in src/core2/modules/school.ts), a district's teachers are jobs and counted staff, and the opening uses openingPupilTeacherRatio only to generate them, so no K-3 roster or pupil-teacher ratio exists to read. The study's +0.22 SD is for K-3 pupils in a small class against a regular one, after four years in it, while the school engine decides grade 8; once a roster is recorded, size the link by converting the standard deviations to the shift in the share above the proficiency line under a normal distribution at the place's base."
+      "notes": "Left unwired: the core records no class size. Every student of a place attends its one school district (schoolFor in src/core2/modules/school.ts), a district's teachers are jobs and counted staff, and the opening uses openingPupilTeacherRatio only to generate them, so no K-3 roster or pupil-teacher ratio exists to read. The study's +0.22 SD is for K-3 pupils in a small class against a regular one, after four years in it, while the school engine decides grade 8; once a roster is recorded, size the link by converting the standard deviations to the shift in the share above the proficiency line under a normal distribution at the place's base. Not re-pointed from school.test-scores: the study's test is a combined reading and math score and the school engine decides the two separately (decideSchoolOutcome in src/core2/school-outcomes.ts), so the row would be split by subject when the roster exists; and the size stays unset because +0.22 SD is after four years in grades K to 3, and what is left of it by grade 8 is not in the row."
     },
     {
       "key": "prek-to-graduation",
@@ -1502,13 +1518,13 @@
       "source": "Sharkey 2010 (PNAS)",
       "from": "crime.homicide-on-block",
       "evidence": "researched",
-      "notes": "Left unwired: it needs each student's own exposure, and no homicide has a location below the place. The crime engine's victimizations leave homicide out (stopgap SG-CORE-crime-firearm-homicide) and a death by homicide carries no block group; the effect (about -0.5 SD for the week after a homicide on a child's block) is for a child tested right after it."
+      "notes": "Left unwired: it needs each student's own exposure, and no homicide has a location below the place. The crime engine's victimizations leave homicide out (stopgap SG-CORE-crime-firearm-homicide) and a death by homicide carries no block group; the effect (about -0.5 SD for the week after a homicide on a child's block) is for a child tested right after it. The engine that would read it is the grade 8 tests of decideSchoolOutcome (src/core2/school-outcomes.ts) on the testing day, from a homicide record that carries a block group and a date; the test subject is not named in the row, so it is not re-pointed from school.test-scores."
     },
     {
       "key": "police-killing-to-graduation",
       "status": "size-not-set",
       "unsupportedReason": "size-not-set",
-      "to": "school.graduation",
+      "to": "school.graduation-pct",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -1522,27 +1538,30 @@
       "source": "Ang 2021 (QJE)",
       "from": "police.killing-nearby",
       "evidence": "researched",
-      "notes": "Left unwired: the core records no police killing (no code in src/core2 holds one), and the 3.5% is for ninth graders who live near a killing, so it needs each student's distance to one; a place-wide rate would put the effect on students who were not exposed."
+      "notes": "Left unwired: the core records no police killing (no code in src/core2 holds one), and the 3.5% is for ninth graders who live near a killing, so it needs each student's distance to one; a place-wide rate would put the effect on students who were not exposed. Re-pointed from school.graduation: high school graduation is the measure the school engine decides for every senior (decideSchoolOutcome in src/core2/school-outcomes.ts, school.graduation-pct), so that engine would read the link, on the senior's own rate, once a killing near the student's home is recorded. The size stays unset: the row's anchor says 3.5% less likely without saying whether that is a share of the rate or points of it, and a converted size would be a guess."
     },
     {
       "key": "school-move-to-scores",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
-      "to": "school.test-scores",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "school.math-proficient-pct",
       "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "move",
+      "size": -0.0336,
+      "per": "a school switch: the student's household moved into the town after the school year began",
       "lagMonths": 0,
-      "group": "movers and their classmates",
+      "group": "movers",
       "owner": "M",
       "anchor": "About -0.03 SD in math per switch",
-      "source": "Hanushek, Kain and Rivkin 2004",
+      "source": "Hanushek, Kain and Rivkin 2004 (Journal of Public Economics 88: 1721-1746), Table 2 panel A",
       "from": "housing.mid-year-school-move",
       "evidence": "researched",
-      "notes": "Left unwired: no mid-year school move is recorded. Every student of a place attends its one school district (schoolFor in src/core2/modules/school.ts), and the moves module records only departures from the town (src/core2/modules/moves.ts), so there is no switch to count; the effect (about -0.03 SD in math per switch, for the mover and for classmates) needs each student's own switch."
+      "range": [-0.0336, -0.0099],
+      "rangeSource": "Hanushek, Kain and Rivkin 2004, Table 2 panel A: the value-added estimate of the average cost of a move is 0.027 standard deviations in math (column 2, t 10.35), the central size; their preferred specification with student fixed effects separates the move's disruption from any change in school quality and puts it at roughly 0.01 (column 3: 0.014 less 0.006, the text says roughly 0.01), the low end. Both converted as the notes say.",
+      "carriedBy": "the school engine's math test (decideSchoolOutcome in src/core2/school-outcomes.ts), which reads the counted-moves record of each household that moved into the town after the school year began (countedMoves in src/core2/modules/counted-moves.ts, direction in) and lowers each such eighth grader's own expected share of clearing the proficiency line by this row's size (carriedLink), so the fifth's expected passes fall by the size times the switchers' weight; the group row records the switchers and the result row of a full student records the move it stands on. The web does not run the link because its cause is a record of the individual student, not a rate of the place (stopgap SG-SCHOOL-switch-window)",
+      "notes": "Carried by the school engine, which reads a student's own switch: the research outcome (math achievement, in standard deviations) is the engine's grade 8 proficiency share, so the effect is converted with the normal-density rule, change in the share = density at the base share's z-score times the change in standard deviations, at the median of the 51 places in data/research/outcome-web/place-outcome-bases-2024.json for school.math-proficient-pct (26.2 percent; ESTIMATED, the source's own figures, not a national count): density 0.3256, so -0.027 SD is -0.88 points of the share, a relative change of -0.0336 on the base; the low end -0.008 SD is -0.0099. Quoted: \"On average, movers have math scores that are lower than those of non-movers by 0.17 standard deviations ... Simply controlling for their lower achievement before the move with the value-added specification in column 2 dramatically lowers the estimate of average moving costs to 0.027 standard deviations\". The paper also reports that a move inside the school year adds no significant cost beyond a move at the year's start (Table 2 panel B, 0.005, t 0.75) and that families that moved across regions pay about none (0.0106 less 0.010); this row sizes every move into the town after the first day of school at the average. The paper's turnover cost to classmates who did not move (0.013 SD for a one standard deviation rise in the share of new students) is not applied (stopgap SG-SCHOOL-switch-window). The status field's old reading (no switch is recorded) was wrong: the counted-moves module records every household that moves into the town with its date, and counted newcomers arrive in the schools' counts."
     },
     {
       "key": "lead-to-reading",
@@ -1563,7 +1582,7 @@
       "from": "health.blood-lead",
       "evidence": "provisional",
       "range": [0.065, 0.26],
-      "notes": "Left unwired: the core records no blood lead (no code in src/core2 holds it), and the study's cause is the mean blood lead of children before school, which CDC does not publish by state (research question state-average-child-blood-lead-level). The outcome, the share far below proficient, is not what the school engine decides, so a recorded lead level would also need the 3.1-point rise on a 12% base converted to the proficiency share."
+      "notes": "Left unwired: the core records no blood lead (no code in src/core2 holds it), and the study's cause is the mean blood lead of children before school, which CDC does not publish by state (research question state-average-child-blood-lead-level). The outcome, the share far below proficient, is not what the school engine decides, so a recorded lead level would also need the 3.1-point rise on a 12% base converted to the proficiency share. It is not re-pointed to school.reading-proficient-pct: a child pushed into the lowest category was usually below the proficiency line already, and the study reports no change in the share at or above it, so the normal-density conversion of the rule used for school-move-to-scores has nothing to convert. The engine that would read it is the reading test of decideSchoolOutcome (src/core2/school-outcomes.ts), from a child's blood lead record."
     },
     {
       "key": "heat-to-learning",
@@ -1588,7 +1607,7 @@
       "from": "env.school-year-temperature",
       "evidence": "researched",
       "range": [-0.0125, -0.0075],
-      "notes": "Left unwired: the core records no school-year temperature and no share of schools with air conditioning (no weather or temperature in src/core2). Learning is not what the school engine decides either: it decides proficiency and graduation."
+      "notes": "Left unwired: the core records no school-year temperature and no share of schools with air conditioning (no weather or temperature in src/core2). Learning is not what the school engine decides either: it decides proficiency and graduation. No engine would read it as it stands: a year's learning is not a share, and the study's 1% of a year's learning has no conversion to the proficiency share in the row, so it is not re-pointed."
     },
     {
       "key": "home-internet-to-scores",
@@ -1628,13 +1647,13 @@
       "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
       "evidence": "researched",
       "range": [-0.1, -0.073],
-      "notes": "Runs on the web's ledger: school.hispanic-enrollment is a kept outcome, so the link moves that number from the 287(g) partnership law in force. No engine decides enrollment by ethnicity (the core records no ethnicity on a student; stopgap SG-SCHOOL-hispanic-enrollment), so no student or school record moves with it. The status above is the old engine's classifier, which does not produce this outcome."
+      "notes": "Runs on the web's ledger: school.hispanic-enrollment is a kept outcome, so the link moves that number from the 287(g) partnership law in force. No engine decides enrollment by ethnicity (the core records no ethnicity on a student; stopgap SG-SCHOOL-hispanic-enrollment), so no student or school record moves with it. The status above is the old engine's classifier, which does not produce this outcome. The engine that would read it is the school engine's enrollment (schoolFor in src/core2/modules/school.ts sends every school-age person to the town's one district today, so only attendance is decided), once a student carries an ethnicity; stopgap SG-SCHOOL-hispanic-enrollment names it."
     },
     {
       "key": "daca-to-graduation",
       "status": "size-not-set",
       "unsupportedReason": "size-not-set",
-      "to": "school.graduation",
+      "to": "school.graduation-pct",
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -1648,7 +1667,7 @@
       "source": "Kuka, Shenhav and Shih 2020",
       "from": "immigration.deferred-action",
       "evidence": "researched",
-      "notes": "Left unwired: deferred action is not recorded and is not a policy question the game asks, and no student's immigration status is recorded, so the eligible share of a place's students is unknown; the +15% is for eligible youth only."
+      "notes": "Left unwired: deferred action is not recorded and is not a policy question the game asks, and no student's immigration status is recorded, so the eligible share of a place's students is unknown; the +15% is for eligible youth only. Re-pointed from school.graduation: high school graduation is the measure the school engine decides for every senior (decideSchoolOutcome in src/core2/school-outcomes.ts, school.graduation-pct), so that engine would read the link, on the senior's own rate, once a student's status is recorded. The size stays unset: the +15% is for the eligible only and the eligible share of a place is unknown, so a place-wide conversion would be a guess."
     },
     {
       "key": "graduation-to-earnings",
@@ -1793,6 +1812,7 @@
       "source": "Asquith, Mast and Reed 2023 (REStat)",
       "from": "housing.new-large-buildings",
       "evidence": "researched",
+      "carriedBy": "the housing engine's lease renewal (renewRentalLeases in src/core2/housing-occupancy.ts), which moves each renewing lease by the place's change in rental vacancy raised to the rental elasticity, so the units a new building adds lower the rents tenants renew at; the research measures one building within about 250 meters, a scale the game does not keep, so the engine's own vacancy response stands for it",
       "notes": "Unsupported until a unit adapter exists: the study measures one large building's effect within about 250 meters, but the game reads new buildings per resident across a whole place. The housing engine already produces this: new buildings raise the rental vacancy rate and each lease renews by the vacancy change raised to the rental elasticity (src/core2/housing-occupancy.ts renewRentalLeases), so a web factor would count it twice."
     },
     {
@@ -1937,6 +1957,7 @@
           "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
         ]
       },
+      "carriedBy": "the housing engine's removal (placeRemovedHousehold in src/core2/housing-homeless.ts, called from src/core2/modules/housing.ts on each eviction judgment), which puts every evicted household with a relative who has room, in a shelter bed in the place, or on the street, named and counted households alike; the research measures one tenant's shelter use after an order, so the engine's own placement stands for it",
       "notes": "Unsupported until a unit and exposure adapter exists: the study measures one tenant's shelter use after an eviction order, and the game keeps no eviction rate by place; see researchSizing. The housing engine already produces this from its own records: every eviction judgment removes a household and placeRemovedHousehold puts it with kin, in a shelter bed or on the street (src/core2/housing-homeless.ts), so a web factor on entry would count it twice. The engine's judgments are the web's housing.eviction-orders measure."
     },
     {
@@ -2119,7 +2140,7 @@
       "source": "Tyndall 2017",
       "from": "transit.service-access",
       "evidence": "researched",
-      "notes": "Unsupported until a unit adapter exists: the study measures one lost subway line, while the game reads transit service per resident, and no study converts one to the other."
+      "notes": "Unsupported until two things exist. A size: the study measures one lost subway line, while the game reads transit service per resident, and no study converts one to the other. A record of who loses the service: the cause is the web's own ledger of service per resident (moved only by highway-money-for-transit-to-service), and no engine keeps lines, stops or the residents each one serves. The unemployment rate is the jobs engine's own count of its employed and unemployed (world-metrics months.unemploymentRate), so a sized link would be read in the jobs engine's pull to work (participationShift in src/core2/jobs-web.ts, read by reviewJobless and workerOffers in src/core2/modules/jobs.ts), not multiplied on the rate."
     },
     {
       "key": "broadband-to-employment",
@@ -2139,7 +2160,7 @@
       "source": "Atasoy 2013 (ILR Review)",
       "from": "broadband.home-access",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the +1.8 points is for a county gaining broadband at all, not a slope on the game's share of homes with broadband, and the employment rate is not a kept place outcome."
+      "notes": "Unsupported until a size exists: the +1.8 points is for a county gaining broadband at all, not a slope on the game's share of homes with a subscription, and no source here converts one to the other. The cause is available (the web keeps the share of homes with broadband, moved by public-broadband-to-home-access) and the employment rate is the jobs engine's own count of its employed and unemployed, not a kept place outcome, so a sized link would be read in the jobs engine's pull to work (participationShift in src/core2/jobs-web.ts, as broadband-to-married-women-work is), not multiplied on the rate."
     },
     {
       "key": "broadband-to-married-women-work",
@@ -2275,7 +2296,7 @@
       "source": "Slattery and Zidar 2020 (JEP)",
       "from": "business.incentive-deal",
       "evidence": "researched",
-      "notes": "Unsupported until a deal record is readable: the 1,500 jobs belong to one deal's industry, and the game has no per-place reader for incentive deals."
+      "notes": "Unsupported until a deal is recorded: no engine writes an incentive deal (the bill catalog's development incentives category is marked unsupported in src/core2/data/legislature/bill-catalog.json, and no budget line, law or business record names one), so the cause business.incentive-deal is never produced. The 1,500 jobs also belong to one deal's industry and the game has no industry-level jobs record to put them in. A deal that existed would be read by the jobs engine's employer review (reviewEmployers in src/core2/modules/jobs.ts), which sets each employer's staffing target, not by a place rate."
     },
     {
       "key": "incentive-deal-to-broad-growth",
@@ -2638,7 +2659,7 @@
       "evidence": "about-zero",
       "range": [-0.066, 0.062],
       "rangeSource": "Cantoni and Pons 2021 (QJE; NBER w25522), Table I Panel B column 4 (most demanding specification): \"1(Strict ID Law) -.001 (.014)\", outcome mean .428; 95% interval -0.001 +/- 1.96 x 0.014 = [-0.028, 0.026] points, divided by the mean .428 = [-0.066, 0.062] proportional. The abstract states the interval as \"[-3.0; 2.8pp]\".",
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. Cantoni and Pons find no significant effect for any group, so it is unvaried."
+      "notes": "The voting engine reads it with the other turnout links (turnout-web.ts); at about zero it moves no one. Cantoni and Pons find no significant effect for any group, so it is unvaried."
     },
     {
       "key": "same-day-registration-to-youth-turnout",
@@ -2659,7 +2680,8 @@
       "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
       "evidence": "researched",
       "range": [0.08, 0.18],
-      "notes": "Unsupported until a producer computes youth turnout: the cause is now a state's law on same-day voter registration, a question the game asks, but youth turnout is not a kept place outcome. Grumbach and Hill (Journal of Politics 2022) find the effect on 18 to 24 year olds (3.1 to 7.3 points) and little by age elsewhere; the outcome here is already youth turnout, so the age restriction is carried by the measure and no further moderator is set. The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The size is already for ages 18 to 24, the group the voting engine reads the youth factor for."
+      "carriedBy": "the law reach's same-day registration relief (electionLawTurnoutCost in src/core2/law-reach/group-a-voting.ts), which the voting engine takes off each voter's turnout cost, fully at 18 and less with each year of age (sameDayRegistrationRelief, sameDayRegistrationAgeSpanYears), so the voter's own turnout decision carries the law; the reach's relief is the law's one size, checked against this row",
+      "notes": "Unsupported until a producer computes youth turnout: the cause is now a state's law on same-day voter registration, a question the game asks, but youth turnout is not a kept place outcome. Grumbach and Hill (Journal of Politics 2022) find the effect on 18 to 24 year olds (3.1 to 7.3 points) and little by age elsewhere; the outcome here is already youth turnout, so the age restriction is carried by the measure and no further moderator is set. The size is already for ages 18 to 24, the group the voting engine reads the youth factor for."
     },
     {
       "key": "all-mail-voting-to-turnout",
@@ -2680,7 +2702,8 @@
       "from": "law:us-policy-positions:government-operations.all-mail-voting",
       "evidence": "researched",
       "range": [0.005, 0.065],
-      "notes": "Thompson, Wu, Yoder and Hall (PNAS 2020) estimate county turnout and partisan composition from county data and report no split of the turnout effect by income, age, sex or household kind. The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
+      "carriedBy": "the law reach's all-mail relief (electionLawTurnoutCost in src/core2/law-reach/group-a-voting.ts), which the voting engine takes off the work-time part of each voter's turnout cost (mailVotingWorkRelief), so the voter's own turnout decision carries the law; the reach's relief is the law's one size, checked against this row",
+      "notes": "Thompson, Wu, Yoder and Hall (PNAS 2020) estimate county turnout and partisan composition from county data and report no split of the turnout effect by income, age, sex or household kind. The research gives no split by age or income beyond the size, so the link is unvaried."
     },
     {
       "key": "all-mail-voting-to-party-share",
@@ -3230,7 +3253,8 @@
       "evidence": "provisional",
       "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
       "to": "voting.turnout-pct",
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
+      "carriedBy": "the law reach's automatic registration relief (electionLawTurnoutCost in src/core2/law-reach/group-a-voting.ts), which the voting engine takes off each voter's turnout cost (automaticRegistrationRelief), so the voter's own turnout decision carries the law; the reach's relief is the law's one size, checked against this row",
+      "notes": "The research gives no split by age or income beyond the size, so the link is unvaried."
     },
     {
       "key": "restore-voting-to-turnout",
@@ -3294,7 +3318,8 @@
       "to": "voting.turnout-pct",
       "range": [0, 0],
       "rangeSource": "The size is computed per place from the law and turnout data in this row's anchor (turnout of restored people 0.14, range 0.12 to 0.22); the national link size is 0 and the place sizes carry the spread. Range [0, 0] records the national zero.",
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
+      "carriedBy": "the law reach's eligibility (barredFromVoting and felonyDisenfranchisedShare in src/core2/law-reach/group-a-voting.ts), which takes the people a restoration law returns off the barred list, so they join the eligible voters and each decides turnout from their own record; the eligible turnout rate moves with them. The barred share is the state's (stopgap SG-GOV-REACH-A-convictions)",
+      "notes": "The research gives no split by age or income beyond the size, so the link is unvaried."
     },
     {
       "key": "housing-by-right-to-new-buildings",
@@ -3945,7 +3970,7 @@
       "evidence": "to-confirm",
       "from": "law:us-federal-positions:immigration.admit-more-immigrants",
       "to": "labor.workforce",
-      "notes": "Unsupported until a bill sets the terms: the workforce effect scales with how many people a bill admits, so there is no general size."
+      "notes": "Unsupported until a bill sets the terms and an engine admits people: the workforce effect scales with how many people a bill admits, so there is no general size, and the evidence is still to confirm. No engine reads the law either (the federal immigration-admission dial in the powers catalog has no handler in src/core2, the question has no starting row, and the population and regional models have no inflow from abroad), so nobody arrives because of it. The workforce is a head count that grows only as people join the counts and the jobs engine's records; an admission engine that added them would carry the link, not a place rate."
     },
     {
       "key": "universal-prek-to-math-proficiency",
@@ -4824,7 +4849,7 @@
       "source": "Nalder 2007, State Politics and Policy Quarterly 7(2)",
       "range": [0, 0],
       "rangeSource": "Nalder 2007 (State Politics and Policy Quarterly 7(2)): no rise in legislative-race turnout; the paper was not retrievable here, so no interval was read. Range [0, 0] records the null.",
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The effect is about zero, so it is unvaried."
+      "notes": "The voting engine reads it with the other turnout links (turnout-web.ts); at about zero it moves no one. The effect is about zero, so it is unvaried."
     },
     {
       "key": "library-funding-to-math",
@@ -5122,7 +5147,7 @@
       "from": "law:sales-tax",
       "range": [0, 0],
       "rangeSource": "Poterba 1996 abstract: \"retail prices rise by approximately the amount of the sales tax\" (eight cities, 1947-77); Table 3 total responses of tax-inclusive clothing and personal-care prices to a one-point rate change are 1.33, 0.84 and 1.17, and the paper says it is \"never possible to reject the null hypothesis that prices rise point-for-point with changes in the retail sales tax\". Point-for-point pass-through to the price with tax means no change in the price before tax, so the pre-tax level is zero. The Depression-era estimate (0.62, 1925-39) and Besley and Rosen's overshifting for some goods are the spread on either side, and neither is a pre-tax move the web can attach to one direction. Besley and Rosen 1999 abstract: \"For some commodities, the after-tax price increases by exactly the amount of the tax.\"",
-      "notes": "Read by nothing, on purpose: the purchase-tax engine charges the tax at each sale (src/core2/modules/purchase-tax.ts collect), so a link that also raised the pre-tax price level would charge households twice. household.prices is the pre-tax level businesses set (finance-state.ts reads its factor at their price review)."
+      "notes": "Not run by the web, on purpose: the purchase-tax engine takes the tax inside each sale (src/core2/modules/purchase-tax.ts collect), and the business price review passes a change in the tax into the seller's tax-inclusive price point for point (salesTaxPassThrough at one, src/core2/finance-state.ts), so the price before tax holds still, as this row's research finds. household.prices is the pre-tax level businesses set (finance-state.ts reads its factor at their price review), so a web link that also raised it would charge the tax twice."
     },
     {
       "strength": "about-zero",
@@ -5350,7 +5375,8 @@
       "anchor": "Removing the grocery tax cuts food insecurity 3.2% among households under $30,000, where most food-insecure households are, so about 2% statewide; only states that taxed groceries in 2024 change",
       "source": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
       "range": [-0.035, -0.005],
-      "notes": "Not carried: food insecurity is a ledger number (stopgap SG-WEB-food-insecurity-ledger). The purchase-tax engine already lowers the price of groceries where the exemption holds; a food-insecurity record should read that price against the household's income."
+      "notes": "The exemption reaches food through two engines instead of the web's ledger: the sales tax engine spares the grocery share of every retail seller's sales (syncSalesTax in src/core2/modules/budgets.ts), and the seller's next price review passes the change in what it keeps of each dollar into its tax-inclusive price (salesTaxPassThrough, src/core2/finance-state.ts).",
+      "carriedBy": "the sales tax engine, which spares the grocery share of each retail seller's sales where the exemption holds (syncSalesTax in src/core2/modules/budgets.ts), the business price review, which passes the tax change into the seller's tax-inclusive price (salesTaxPassThrough in src/core2/finance-state.ts), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan at those prices from what its members hold, so the exemption buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     {
       "key": "harm-reduction-to-overdose-deaths",
@@ -5887,7 +5913,7 @@
       "anchor": "Across 269 counties in six Mid-Atlantic states over 50 years, a state or local program that buys farmland development rights cut the county's rate of farmland loss by 40% to 55%. The size is the middle of that range, 47%, and the spread is the paper's own. The lag is one Census of Agriculture period, the step at which the loss was measured, since a program needs years of purchases before its easements hold back development.",
       "source": "Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)",
       "range": [-0.55, -0.4],
-      "engineGap": "the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts) reads this law and cuts the town's single-family starts by its own land elasticity, not this row's size and five-year lag, and no engine keeps the acres converted"
+      "carriedBy": "the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts), which reads this law in force and takes this row's size out of the share of new building that goes on farmland (the American Farmland Trust's 62%), so the land open to build on falls by that much and the town's single-family starts fall through the land-starts elasticity; each builder whose start the law restricted is recorded as the law applied (land-restricted). It applies from the law's effective date rather than after this row's five-year lag, and no record keeps the acres converted (stopgap SG-GOV-REACH-B-land-use)"
     },
     {
       "key": "groundwater-limits-to-irrigation-pumping",
@@ -5909,7 +5935,7 @@
       "anchor": "Kansas's first Local Enhanced Management Area (Sheridan 6, 2013 to 2017), where irrigators pumped under capped five-year allocations (55 inches of water over five years), cut pumping 31% against a modeled business-as-usual over its first five years (95% interval 21% to 40%). A state law that meters and limits large withdrawals is read as putting such a cap on irrigation pumping; where the cap binds less than it did there, the cut is smaller, so the evidence is provisional. The spread is the paper's interval. The lag is one year, the next irrigation season.",
       "source": "Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)",
       "range": [-0.4, -0.21],
-      "engineGap": "the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts) reads this law and cuts each farm's water by its own estimated share the day the law takes effect, not this row's size and one-year lag, and no engine keeps the groundwater pumped"
+      "carriedBy": "the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts), which reads this law in force and cuts each town farm's groundwater input by this row's size (1 + size of what the farm would pump), so the farm's outside sales fall by the irrigation-output elasticity and each month's loss is recorded as the law applied (groundwater-output-limited). It applies from the law's effective date rather than after this row's one-year lag (stopgap SG-GOV-REACH-B-business-cost)"
     },
     {
       "key": "defense-contracts-to-earnings",
@@ -5927,9 +5953,9 @@
       "group": "workers in the states that get the contracts",
       "owner": "F",
       "evidence": "researched",
-      "anchor": "A state that gets a dollar more of military procurement than others gets about $1.50 more output. Earnings are read to move one for one with output, so each percent of the state's output that extra contracts add lifts earnings 1.5%. The extra contracts follow a build-up at the pace defense contracts rose in the years they beat inflation, in each state in proportion to the contracts it drew in 2024 (data/research/federal/defense-contracts-by-state-fy2024.json). The paper's summary gives no band, so the spread is the default for researched links, 25% either way. The effect is read the same year the money is spent, since the study measures it within the year and the build-up already phases in over the years of the law.",
+      "anchor": "A state that gets a dollar more of military procurement than others gets about $1.50 more output. Earnings are read to move one for one with output, so each percent of the state's output that extra contracts add lifts earnings 1.5%. The extra contracts are what the federal national defense line holds above its base (the pace is whatever Congress's budget sets), reaching each state in proportion to the contracts it drew in 2024 (data/research/federal/defense-contracts-by-state-fy2024.json). The paper's summary gives no band, so the spread is the default for researched links, 25% either way. The effect is read the same year the money is spent, since the study measures it within the year.",
       "source": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026",
-      "notes": "Nakamura and Steinsson (NBER w17391) estimate a regional multiplier and report no split by income, age, sex or household kind."
+      "notes": "Nakamura and Steinsson (NBER w17391) estimate a regional multiplier and report no split by income, age, sex or household kind. The cause is read from the federal budget row in force: its national defense line above the base as a share of the base, times the town's state's fiscal 2024 contracts per resident over its output per resident (defenseBoostPct in src/core2/gov-measures.ts, the defense-boost-pct reader in src/core2/modules/outcome-web.ts), measured from zero at the base line. A line that is unchanged moves nothing. The jobs engine's pay level (payLevel in src/core2/modules/jobs.ts) multiplies by this row's factor on labor.median-earnings when it prices an opening and when it raises a worker. Only the town's state is read: the web keeps one state key for every place it records."
     },
     {
       "key": "farm-payments-cut-to-land-values",
@@ -6133,6 +6159,26 @@
       "anchor": "Across the 50 states and D.C., each doubling of state and local parks spending per resident goes with 0.9 points more of residents near a park or recreation facility, with a 95% range of -1.6 to +3.3 points, once the rural share is held fixed: about zero, a cross-section fit and not a causal estimate (Research 1, from County Health Rankings 2025 and Census 2022 finances). A one percent rise in spending is 0.0144 of a doubling, 0.0129 points, 0.0157% of the median 82.25%, so the size is 0.000157 for each percent, and the range -0.000279 to +0.000575. A dedication adds about $9.26 a resident to a place that spends about $136, 6.8%, so access moves about 0.1% either way. The lag is the year a parks agency needs to spend new money on sites and hours, judged, not measured.",
       "source": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)",
       "range": [-0.000279, 0.000575]
+    },
+    {
+      "key": "natural-resources-spending-to-exercise-access",
+      "status": "built",
+      "unsupportedReason": null,
+      "from": "budget.naturalResources-added-pct",
+      "to": "parks.access-to-exercise",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.0000699,
+      "per": "percent of what the place spends on natural resources",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "M",
+      "evidence": "provisional",
+      "anchor": "ESTIMATED from the nearest research (owner, Oct 29: the two laws with no study are estimated from the nearest research with a spread). No study sizes what a natural resources line does to a measure the web keeps (the searches of Oct 25 are in the row's old note: state park funding follows attendance rather than driving it, Smith, Wilkins and Leung 2019; conservation and farmland studies answer other policies). The nearest measured relation between public land spending and residents' access is the parks line's own (parks-spending-to-exercise-access): 0.000157 of the median access for each percent of about $136 a resident, so 0.0001154 for each dollar a resident. A one percent rise in natural resources spending is $1.21 a resident (Census 2022: $121.15 a resident, state and local). Natural resources money buys state forests, wildlife areas, water and soil work, of which only part is land open to residents for exercise; that share is judged at one half, with a spread from none to all. So the size is 0.0001154 x 1.2115 x 0.5 = 0.0000699, and the range runs from the parks range's low end to its high end at the whole share: -0.000249 to +0.000512. The lag is the parks line's year.",
+      "source": "Estimated from parks-spending-to-exercise-access (Research 1, County Health Rankings & Roadmaps 2025 and the Census Bureau's 2022 Census of Governments: Finance) and the Census Bureau's State and Local Government Finances by Level of Government and by State: 2022, Table 1 (natural resources, $121.15 a resident; data/research/money/state-local-finances-2022.json)",
+      "range": [-0.000249, 0.000512]
     },
     {
       "key": "income-tax-rate-to-poverty",
@@ -6444,7 +6490,8 @@
       "who": "Households with incomes under 130 percent of the poverty line, the likely SNAP-eligible, 12.5 percent of all households.",
       "lagWhy": "The 2011 report compares late 2008 with late 2009, eight months after the April 2009 rise; the benefit is spent in the month it is paid, so the link takes effect at once.",
       "aboutZero": false,
-      "notes": "Linear in the rise since the opening. The same benefit also moves program.snap-receipt:moved-by-causes only through the work requirement, so this link and snap-to-food-insecurity do not count one cause twice. The engine that pays it is the budgets engine's monthly close (src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household the maximum in force less its expected food spending."
+      "notes": "Linear in the rise since the opening. The same benefit also moves program.snap-receipt:moved-by-causes only through the work requirement, so this link and snap-to-food-insecurity do not count one cause twice. The engine that pays it is the budgets engine's monthly close (src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household the maximum in force less its expected food spending.",
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment at the maximum in force, and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a larger maximum buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     {
       "key": "health-hospitals-spending-to-infant-mortality",
@@ -6492,8 +6539,8 @@
     },
     {
       "key": "higher-education-spending-to-college-completion",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "moderate",
       "shape": {
         "kind": "diminishing",
@@ -6534,7 +6581,7 @@
       "who": "Students at the state's public colleges, wherever they now live; the place share is their share among its adults.",
       "lagWhy": "The paper's awards build over years t to t + 3 (the phase-in); the first year's 2 percent starts at once.",
       "aboutZero": false,
-      "notes": "Estimated conversion from a flow (degrees awarded) to a stock (adults holding one): the web holds the first year's addition while the cause lasts and does not stack years, so a decade of higher spending is understated. tuition-freeze-to-college-completion is the same paper's price result, about zero. The shape is diminishing with a scale of 100 percent: the studies measure changes of about ten percent, and a line more than doubled (a small town's line given a large grant) adds less for each further percent than the measured size says, so the factor can never run below zero. The scale is judged."
+      "notes": "Estimated conversion from a flow (degrees awarded) to a stock (adults holding one): the web holds the first year's addition while the cause lasts and does not stack years, so a decade of higher spending is understated. tuition-freeze-to-college-completion is the same paper's price result, about zero. The shape is diminishing with a scale of 100 percent: the studies measure changes of about ten percent, and a line more than doubled (a small town's line given a large grant) adds less for each further percent than the measured size says, so the factor can never run below zero. The scale is judged. The cause is recorded (the state's higher education line, budget-line-added:higherEducation in src/core2/modules/outcome-web.ts) and the web runs the link, but no engine decides a graduate's completion: decideSchoolOutcome (src/core2/school-outcomes.ts) decides a senior's graduation and the jobs engine's schoolingOn (src/core2/modules/jobs.ts) holds every graduate at no college, so the link reads on the web's ledger only. The engine that would read it is a college step of the school engine, on the graduate's own rate (stopgap SG-SCHOOL-college-completion)."
     },
     {
       "key": "welfare-spending-to-poverty",

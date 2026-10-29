@@ -30,7 +30,6 @@ export function planCadence(changedFiles, options = {}) {
   const release = has(/^docs\/release\//);
   const pool = has(/^docs\/pool\//);
   const core = has(/^src\/(core2|rules|director|english)\//);
-  const oldCore = has(/^src\/(simulation|presentation)\//);
   const screens = has(/^src\/bench\/(play\.(mjs|css|html)|.*\.browser\.mjs)$/);
   const skillOps = has(
     /^scripts\/skill-ops\/|^\.agents\/|^\.claude\/|^AGENTS\.md$|^CLAUDE\.md$|^\.cursor\/|^\.codex\//,
@@ -68,16 +67,24 @@ export function planCadence(changedFiles, options = {}) {
     });
   }
 
-  if (core || oldCore) {
+  if (core) {
     stages.push({
       label: "Zero-dice guard",
       command: "npm run zero-dice",
       receiptStage: "zero-dice",
       kind: "focus",
     });
+    // Owner, Oct 27: no statistic but law opens on its published value.
+    stages.push({
+      label: "Zero-real-data guard",
+      command: "npm run zero-real-data",
+      receiptStage: "zero-real-data",
+      kind: "focus",
+    });
   }
 
-  if (has(/^src\/core2\//)) {
+  // Any file can add an importer of the deleted old folders; the check refuses one.
+  if (has(/\.(ts|tsx|mts|mjs|js)$/)) {
     stages.push({
       label: "Old-engine imports",
       command: "npm run old-imports",

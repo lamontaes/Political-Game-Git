@@ -4,6 +4,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { parameter as p } from "./parameters";
 import { generatedOpening } from "./tooling/generated-world";
+import { worldPrivateTuitionAnnualUsd } from "./opening-private-tuition";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-private-tuition");
@@ -29,7 +30,7 @@ describe(`private tuition in ${place.name}, ${place.state} (seed ${seed})`, () =
     const homes = new Map(input.households.map((row) => [row.id, row]));
     const people = new Map(input.people.map((row) => [row.id, row]));
     const perChild =
-      (p("openingPrivateTuitionAnnualUsd") * p("minorPerDollar")) /
+      (worldPrivateTuitionAnnualUsd(input.seed) * p("minorPerDollar")) /
       p("monthsPerYear");
     const cashPerHome = (id: string) =>
       homes

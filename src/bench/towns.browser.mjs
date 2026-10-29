@@ -60,13 +60,25 @@ try {
       const stateFont = await page
         .locator(`[data-testid="state-${state.key}"]`)
         .evaluate(fontOf);
+      // The states page; the search brings this one onto the first page.
+      await page.locator("#cr-state-search").fill(state.name);
       await page.locator(`[data-testid="state-${state.key}"]`).click();
       await page.locator("#cr-towns button").first().waitFor();
       await page.waitForTimeout(1500);
+      // Every row's words, the ones below the fold included.
       const texts = await page
         .locator("#cr-towns button")
-        .evaluateAll((all) => all.map((b) => b.innerText.replace(/\s+/g, " ")));
-      await page.locator("#cr-towns button").last().scrollIntoViewIfNeeded();
+        .evaluateAll((all) =>
+          all.map((b) =>
+            [...b.querySelectorAll("span, small")]
+              .map((part) => part.textContent.trim())
+              .join(" "),
+          ),
+        );
+      // To the end of the list, by scrolling its box.
+      await page
+        .locator("#cr-towns")
+        .evaluate((box) => box.scrollTo(0, box.scrollHeight));
       await page.screenshot({
         path: `${out}/${state.key}-end-of-list.png`,
       });

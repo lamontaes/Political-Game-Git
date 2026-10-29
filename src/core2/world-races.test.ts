@@ -25,9 +25,17 @@ import {
 import {
   electoralCollege,
   openWorldRaces,
+  placesOf,
   presidentialOf,
+  raceResult,
+  raceShare,
+  raceVotes,
   racesOf,
-} from "./modules/world-races";
+  countRecord,
+  republicanShareOf,
+  returnsOf,
+  VOTING_MODULE_ID,
+} from "./modules/voting";
 import { contingentElection } from "./contingent-election";
 import { partySide } from "./appointments";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
@@ -97,21 +105,27 @@ describe("M2-10 state and federal races in the world", () => {
       expect(r.date).toBe("2026-11-03");
       // Counted in its places: the share is the places' votes, and every
       // race keeps each party's reasons.
-      expect(r.reasons?.length).toBe(2);
+      // The count is the one writer's result record, with its places and
+      // the night's returns.
+      const result = raceResult(api, r)!;
+      expect(result, r.seatId).not.toBeNull();
+      expect(result.electorateReasons?.length).toBe(2);
+      const votes = raceVotes(api, r);
       // A territory's delegate seat is decided at its 2024 delegate lean,
       // its size not yet read (SG-GOV-delegate-race-size).
-      if (!r.votes!.republican && !r.votes!.democratic) {
+      if (!votes.republican && !votes.democratic) {
         expect(sideOf(r.winnerParty), r.seatId).not.toBe(0);
         continue;
       }
-      expect(r.places, r.seatId).toBeGreaterThan(0);
-      expect(r.republicanShare).toBeCloseTo(
-        r.votes!.republican / (r.votes!.republican + r.votes!.democratic),
+      expect(placesOf(api, r.id).length, r.seatId).toBeGreaterThan(0);
+      expect(returnsOf(api, r.id)?.reports.length, r.seatId).toBeGreaterThan(0);
+      const share = raceShare(api, r);
+      expect(share).toBeCloseTo(
+        votes.republican / (votes.republican + votes.democratic),
         9,
       );
-      expect(r.reasons?.length).toBe(2);
-      if (r.republicanShare !== 0.5)
-        expect(sideOf(r.winnerParty)).toBe(r.republicanShare > 0.5 ? 1 : -1);
+      if (share !== 0.5)
+        expect(sideOf(r.winnerParty)).toBe(share > 0.5 ? 1 : -1);
     }
     // Congress is seated January 3.
     advanceCore(core, "2027-01-02");
@@ -152,7 +166,7 @@ describe("M2-10 state and federal races in the world", () => {
         flips: flips
           .map(
             (r) =>
-              `${r.seatId}:${r.incumbentParty}->${r.winnerParty}:${r.republicanShare.toFixed(3)}`,
+              `${r.seatId}:${r.incumbentParty}->${r.winnerParty}:${raceShare(api, r).toFixed(3)}`,
           )
           .slice(0, 25),
       }),
@@ -219,8 +233,15 @@ describe("M2-10 state and federal races in the world", () => {
         winner: pres!.winnerParty,
         ownState: own ?? null,
         close: pres!.states
-          .filter((s) => Math.abs(s.republicanShare - 0.5) < 0.03)
-          .map((s) => `${s.stateKey}:${s.republicanShare.toFixed(3)}`),
+          .map((s) => ({
+            key: s.stateKey,
+            share:
+              (s.resultId &&
+                republicanShareOf(countRecord(api, s.resultId)!)) ??
+              s.lean,
+          }))
+          .filter((s) => Math.abs(s.share - 0.5) < 0.03)
+          .map((s) => `${s.key}:${s.share.toFixed(3)}`),
       }),
     );
   }, 120_000);
@@ -265,7 +286,7 @@ describe("M2-10 state and federal races in the world", () => {
     const row = presidentialOf(api, 2028)!;
     expect(["decided", "deadlocked"], where).toContain(row.contingent!.status);
     const record = api
-      .moduleState("core2-world-races-v1")
+      .moduleState(VOTING_MODULE_ID)
       .table("contingent")
       .get(row.contingent!.recordId) as unknown as ReturnType<
       typeof contingentElection

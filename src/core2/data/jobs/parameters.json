@@ -143,15 +143,26 @@
     }
   },
   "benefitsFileBase": {
-    "value": 0.6,
-    "tag": "TUNABLE",
+    "value": 0.02,
+    "tag": "ESTIMATED",
     "spread": {
-      "low": 0.3,
-      "high": 0.9,
-      "unit": "scaled trait lean (about -1 to 1)",
-      "citation": "Unemployment insurance recipiency among eligible unemployed workers is well below 100%, about 0.7 to 0.8 take-up among eligibles (Auray, Fuller & Lkhagvasuren 2019). A worker files when this base plus their traits' scaled lean toward filing over skipping is above zero."
+      "low": -0.1,
+      "high": 0.14,
+      "unit": "score",
+      "citation": "The fit's neighbors: -0.1 gives take-up 0.61 to 0.75 and 0.14 gives 0.58 to 0.85 in the three towns below."
     },
-    "citation": "How readily an eligible worker files for unemployment insurance before their traits tilt it (OPUS-TRAITS, Oct 12, 2026)."
+    "citation": "How readily an eligible worker files for unemployment insurance before the benefit's share of the lost pay, the layoff's stress and their traits are weighed (jobs-benefits.ts filingDecision). Take-up among eligible unemployed workers: 0.734 mean, SD 0.201, over 714 state-years 2002-15 (Auray & Fuller, Quantitative Economics 2020, Table 1); 77% over 1989-2012 (Auray, Fuller & Lkhagvasuren 2018); a literature range of 0.55 to 0.83 (Anderson & Meyer, NBER WP 4787). Fitted with benefitsFileReplacementWeight over every business worker (full and counted) of three drawn towns with at least 100, each laid off in thought from their own job: Wayland, Michigan (2684880, seed 0c4eea785dc2), Piltzville, Montana (3057475, seed b3ab1b16e0f7) and Washington, District of Columbia (1150000, seed ed36e0484fc6), label trait-wiring, built January 20, 2025: take-up 0.73 in Wayland and 0.76 in Washington. Piltzville reads 0.46 because Montana's law row gives a benefit of 0.26 of the lost pay (pool item laws-unemployment-share-basis-mt-co)."
+  },
+  "benefitsFileReplacementWeight": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "spread": {
+      "low": 0.4,
+      "high": 0.6,
+      "unit": "score per log of the benefit's share of the lost pay",
+      "citation": "The fit's neighbors with the base refitted: 0.4 gives elasticities of 0.30 to 0.46 and 0.6 about 0.45 to 0.60 in the three towns of benefitsFileBase."
+    },
+    "citation": "How much the share of the lost weekly pay the benefit replaces pulls an eligible worker toward filing, as the log of the share (jobs-benefits.ts filingDecision). A 10% higher weekly benefit raises take-up 4.7%: elasticity 0.467, 95% CI 0.382 to 0.553 (McQuillan & Moore, Washington ESD working paper, Nov 2025, https://esd.wa.gov/media/pdf/4240/endogenoustake-upuibenefts-working-paper-nov2025pdf); Anderson & Meyer (NBER WP 4787) report 0.46 to 0.78. At 0.5, raising every benefit by 10% raises take-up by an elasticity of 0.45 (Wayland), 0.42 (Piltzville) and 0.52 (Washington) over every business worker (full and counted) of three drawn towns with at least 100, each laid off in thought from their own job: Wayland, Michigan (2684880, seed 0c4eea785dc2), Piltzville, Montana (3057475, seed b3ab1b16e0f7) and Washington, District of Columbia (1150000, seed ed36e0484fc6), label trait-wiring, built January 20, 2025. The share is the state's weekly share of pay up to its weekly maximum, so a high earner capped at the maximum files less."
   },
   "jobsDaysPerYear": {
     "value": 365,

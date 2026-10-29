@@ -86,6 +86,8 @@ export const KEEP = action("speech-keep", false);
 
 const table = (api: CoreAPI) =>
   api.moduleState(SPEECH_MODULE_ID).table("retellings");
+const addresses = (api: CoreAPI) =>
+  api.moduleState(SPEECH_MODULE_ID).table("addresses");
 /**
  * The retelling case being weighed: how far the speech moved the listener,
  * how closely they follow politics, and how closely the one at home most
@@ -95,6 +97,20 @@ const weighing = new WeakMap<
   object,
   { moved: number; engagement: number; home: number }
 >();
+
+/**
+ * The speeches the person has given, by the record each one leaves (the
+ * English engine earns a speaker their crafted devices from them).
+ */
+export function addressesGivenBy(
+  api: CoreAPI,
+  personId: PersonId,
+): readonly string[] {
+  if (!api.state.modules.has(SPEECH_MODULE_ID)) return [];
+  return addresses(api)
+    .query("bySpeaker", [personId])
+    .map((row) => (row as { id: string }).id);
+}
 
 function movedBy(
   api: CoreAPI,
@@ -137,6 +153,12 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
     facts,
     source,
   });
+  addresses(api).put({
+    id: speech.id,
+    speakerId: speech.speakerId,
+    date: api.state.date,
+    topic: speech.topic,
+  } as unknown as { id: string });
   const out: Retelling[] = [];
   const audience = new Set(speech.audienceIds);
   for (const listenerId of speech.audienceIds) {
@@ -235,7 +257,10 @@ export const speechModule: CoreModule = {
   id: SPEECH_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { retellings: { indexes: { bySpeech: { fields: ["speechId"] } } } },
+    tables: {
+      retellings: { indexes: { bySpeech: { fields: ["speechId"] } } },
+      addresses: { indexes: { bySpeaker: { fields: ["speakerId"] } } },
+    },
   },
   reasonProviders: {
     "speech-reception": (api, actor, _offer, binding) => {

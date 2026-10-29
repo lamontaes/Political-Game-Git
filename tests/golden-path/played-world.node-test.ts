@@ -55,7 +55,7 @@ import {
   officialCandidateId,
   resultOf,
 } from "../../src/core2/modules/voting";
-import { WORLD_RACES_MODULE_ID } from "../../src/core2/modules/world-races";
+import { worldRacesOpen } from "../../src/core2/modules/voting";
 import { WORLD_LEGISLATING_MODULE_ID } from "../../src/core2/modules/world-legislating";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
 import { expectedRenterHouseholds } from "../../src/core2/modules/housing";
@@ -430,10 +430,11 @@ function playWorld(seed: string) {
         )
       : pass(`all ${engines.length} engines ran and changed their records`);
   const missing = [
-    WORLD_RACES_MODULE_ID,
-    WORLD_LEGISLATING_MODULE_ID,
-    OUTCOME_WEB_MODULE_ID,
-  ].filter((id) => !core.modules.has(id));
+    ...(worldRacesOpen(coreAPI(core)) ? [] : ["the world's races"]),
+    ...[WORLD_LEGISLATING_MODULE_ID, OUTCOME_WEB_MODULE_ID].filter(
+      (id) => !core.modules.has(id),
+    ),
+  ];
   verdicts["national races, lawmaking and outcomes are installed"] =
     missing.length
       ? fail(

@@ -1,0 +1,49 @@
+{
+ "scene": "lincoln-memorial",
+ "plate": "sg-lincoln",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 180,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "pool edge left",
+   "box": [
+    0,
+    400,
+    140,
+    540
+   ],
+   "pose": "sit",
+   "seat": "bench",
+   "facing": 90
+  },
+  {
+   "name": "pool edge right",
+   "box": [
+    1240,
+    400,
+    1376,
+    540
+   ],
+   "pose": "sit",
+   "seat": "bench",
+   "facing": -90
+  },
+  {
+   "name": "visitors",
+   "box": [
+    0,
+    0,
+    1376,
+    768
+   ],
+   "facing": 180,
+   "pose": "stand"
+  }
+ ]
+}

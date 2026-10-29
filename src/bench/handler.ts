@@ -1,9 +1,10 @@
-import { jobsView, answerJobOffer } from "./jobs";
-import { recolorFigure } from "./figure-colors";
+import { GARMENTS } from "./figure-colors";
+import { drawnFigure } from "./figure-hair";
+import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
+import { parameter } from "../core2/parameters";
 import { SITUATION_LIBRARY } from "../director/scheduling";
-import { bringItUp } from "../director/bring-it-up";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
@@ -34,7 +35,7 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { wordOwnResult } from "./archive-words";
-import { seatAct, seatView } from "./legislature";
+import { billPaper, seatAct, seatView } from "./legislature";
 import {
   deskDecide,
   deskView,
@@ -42,17 +43,13 @@ import {
   meetingItem,
   meetingSpeak,
   meetingSceneView,
-  officeStops,
   colleagueDeal,
-  interviewOutlet,
   nameHeadPick,
   budgetLinePick,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
-import { familyView } from "./family";
-import { governmentMap } from "./map";
 import {
   chooseAtCounter,
   officePlace,
@@ -60,6 +57,7 @@ import {
   type BenchFilingVisit,
 } from "./filing";
 import { backdropFile, backdropPath, benchScene } from "./scene";
+import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
@@ -70,6 +68,7 @@ import {
   chosenBirthDate,
   creatorStates,
   creatorTowns,
+  creatorRandomPlace,
   drawBirthday,
   drawName,
   readChosenPerson,
@@ -77,7 +76,9 @@ import {
 import {
   appearanceRows,
   drawnAppearance,
+  lookForGender,
   moveAppearance,
+  portraitFace,
   portraitPng,
   readRecipe,
   setColor,
@@ -104,6 +105,8 @@ import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
+import { patchNoteReleases } from "./patch-notes";
+import { governmentMap } from "./map";
 import { budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
@@ -132,22 +135,10 @@ let buildProgress: { stage: string; done: number; total: number } = {
 // The opening, prepared during loading.
 
 let opening: ReturnType<typeof openingFrames> | null | undefined;
-// What the other person brought up when the conversation opened (OPUS-PEOPLE's
-// "bring it up"): their lines come first in the conversation.
-let broughtUp: { text: string; sourceRecordIds: readonly string[] }[] = [];
 const talkView = (value: Conversation | undefined) =>
   value && {
     otherId: value.otherId,
-    // The greeting comes before whatever they bring up.
-    lines: [
-      ...value.lines.filter((line) => line.kind === "greet"),
-      ...broughtUp.map((line) => ({
-        ...line,
-        speakerId: value.otherId,
-        act: "tell",
-      })),
-      ...value.lines.filter((line) => line.kind !== "greet"),
-    ].map((line) => ({
+    lines: value.lines.map((line) => ({
       ...line,
       speaker: (() => {
         const person = requireCore().people.get(line.speakerId);
@@ -315,12 +306,23 @@ export async function benchRequest(
               )
             : null;
           buildProgress = { stage: "done", done: 0, total: 0 };
+          // A scene the director already staged for today (the address the
+          // household watches that evening) plays first.
+          const staged = world.director.ledger.people
+            .get(entrant.personId)
+            ?.schedule.find(
+              (row) =>
+                row.date === world.core.date &&
+                row.outcome.startsWith("scene") &&
+                row.bindings.length > 0,
+            );
           send(200, {
             personId: entrant.personId,
             placeName: world.place.displayName,
             date: core.date,
             packet: player.packet,
             names: {},
+            ...(staged ? { sceneMomentId: staged.momentId } : {}),
           });
         } finally {
           building = false;
@@ -334,15 +336,17 @@ export async function benchRequest(
         // Standing people: the v2 figures, served as they are. The folder is
         // written out so the desktop build copies it (it reads the fixed part
         // of this path, desktop/scripts/build-play-api.mjs).
-        const content = recolorFigure(
-          await readFile(
-            new URL(
-              `../../art/people-engine/v2/figures/${url.pathname.split("/").at(-1)}`,
-              import.meta.url,
+        const file = url.pathname.split("/").at(-1)!;
+        const content = drawnFigure(
+          file.replace(/\.png$/, ""),
+          Object.fromEntries(
+            ["skin", "hair", "hairColor", "face", ...GARMENTS].flatMap(
+              (key) => {
+                const value = url.searchParams.get(key);
+                return value ? [[key, value]] : [];
+              },
             ),
           ),
-          url.searchParams.get("skin") ?? undefined,
-          url.searchParams.get("clothes") ?? undefined,
         );
         response.writeHead(200, {
           "Content-Type": "image/png",
@@ -353,10 +357,44 @@ export async function benchRequest(
       }
       if (
         request.method === "GET" &&
+        url.pathname.startsWith("/art/backdrops/occluders/")
+      ) {
+        // What stands in front of a spot: a mask the screen lays the picture through.
+        const content = await readFile(
+          occluderPath(url.pathname.slice("/art/backdrops/occluders/".length)),
+        );
+        response.writeHead(200, {
+          "Content-Type": "image/png",
+          "Cache-Control": "max-age=3600",
+        });
+        response.end(content);
+        return;
+      }
+      if (
+        request.method === "GET" &&
         url.pathname.startsWith("/art/backdrops/")
       ) {
         const content = await readFile(
           backdropPath(url.pathname.slice("/art/backdrops/".length)),
+        );
+        response.writeHead(200, {
+          "Content-Type": "image/jpeg",
+          "Cache-Control": "max-age=3600",
+        });
+        response.end(content);
+        return;
+      }
+      const newspaper = /^\/art\/newspaper\/([a-z0-9-]+\.jpg)$/.exec(
+        url.pathname,
+      );
+      if (request.method === "GET" && newspaper) {
+        // The newspaper art: engraved mastheads and front-page photos, cut
+        // from the originals in art/newspaper-mockups (lineage in its README).
+        const content = await readFile(
+          new URL(
+            newspaper[1]!,
+            new URL("../../art/newspaper-mockups/derived/", import.meta.url),
+          ),
         );
         response.writeHead(200, {
           "Content-Type": "image/jpeg",
@@ -401,9 +439,6 @@ export async function benchRequest(
           otherId,
           director ? { director, ...(occasionId ? { occasionId } : {}) } : {},
         );
-        // They mention the newest change they know of, and who they blame.
-        broughtUp =
-          bringItUp(requireCore(), otherId, player.personId)?.lines ?? [];
         send(200, talkView(conversation));
         return;
       }
@@ -456,6 +491,11 @@ export async function benchRequest(
             requireCore(),
             director,
             url.searchParams.get("id") ?? "",
+            // The player's own journal reads to their clock, which stands at
+            // the start of a day the core has yet to run (a birthday morning).
+            player?.packet && player.personId === url.searchParams.get("id")
+              ? { through: player.packet.at.date }
+              : {},
           ),
         );
         return;
@@ -480,6 +520,7 @@ export async function benchRequest(
         else if (route === "states") send(200, creatorStates());
         else if (route === "towns")
           send(200, creatorTowns(q.get("state") ?? "", q.get("q") ?? ""));
+        else if (route === "place") send(200, creatorRandomPlace(seed, draw));
         else if (route === "appearance") {
           const recipe = q.get("recipe")
             ? request.method === "POST"
@@ -497,7 +538,8 @@ export async function benchRequest(
                   )
               : readRecipe(q.get("recipe")!)
             : drawnAppearance(gender, seed, draw);
-          send(200, { recipe, rows: appearanceRows(recipe, gender) });
+          const fitted = lookForGender(recipe, gender);
+          send(200, { recipe: fitted, rows: appearanceRows(fitted, gender) });
         } else send(404, { error: "Unknown bench route." });
         return;
       }
@@ -538,6 +580,13 @@ export async function benchRequest(
                   makeIsoDate(core!.date),
                 ),
                 portrait: Boolean(core!.people.get(personId)?.looks?.recipe),
+                // The face the creator saved, for Continue's headshot.
+                face: core!.people.get(personId)?.looks?.recipe
+                  ? portraitFace(
+                      readRecipe(core!.people.get(personId)!.looks!.recipe!),
+                      `/api/portrait?id=${encodeURIComponent(personId)}`,
+                    )
+                  : null,
                 placeName,
                 date: core!.date,
                 minuteOfDay:
@@ -562,11 +611,22 @@ export async function benchRequest(
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/map") {
+        // The state's map with the player's districts and who holds each,
+        // for Parties (owner, Oct 28, point 20: "bring it back").
         send(200, governmentMap(requireCore()));
         return;
       }
-      if (request.method === "GET" && url.pathname === "/api/family") {
-        send(200, familyView(requireCore(), url.searchParams.get("id") ?? ""));
+      if (request.method === "GET" && url.pathname === "/api/patch-notes") {
+        // The title's Patch notes: the release machinery's own file, one
+        // released section at a time (owner, Oct 28: "get them in").
+        send(200, {
+          releases: patchNoteReleases(
+            await readFile(
+              new URL("../../PATCH_NOTES.md", import.meta.url),
+              "utf8",
+            ),
+          ),
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/bank") {
@@ -714,6 +774,14 @@ export async function benchRequest(
         send(200, seatView(requireCore(), url.searchParams.get("id") ?? ""));
         return;
       }
+      // A bill as one paper document, read from its own records.
+      if (request.method === "GET" && url.pathname === "/api/bill") {
+        send(
+          200,
+          billPaper(requireCore(), url.searchParams.get("billId") ?? ""),
+        );
+        return;
+      }
       // The officeholder's day (OFFICE-LOCAL): the meeting scene, the desk and the stops.
       if (request.method === "GET" && url.pathname === "/api/meeting") {
         send(
@@ -787,32 +855,6 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/office") {
         send(200, officeView(requireCore(), url.searchParams.get("id") ?? ""));
-        return;
-      }
-      if (request.method === "POST" && url.pathname === "/api/office/stops") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        officeStops(
-          requireCore(),
-          player.personId,
-          url.searchParams.get("kind") ?? "",
-          url.searchParams.get("on") === "true",
-        );
-        send(200, officeView(requireCore(), player.personId));
-        return;
-      }
-      if (
-        request.method === "POST" &&
-        url.pathname === "/api/office/interview-outlet"
-      ) {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          interviewOutlet(
-            requireCore(),
-            player.personId,
-            url.searchParams.get("outletId") ?? "",
-          ),
-        );
         return;
       }
       if (
@@ -907,10 +949,7 @@ export async function benchRequest(
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/economy") {
-        send(
-          200,
-          economyView(requireCore(), placeId, url.searchParams.get("id") ?? ""),
-        );
+        send(200, economyView(requireCore(), placeId));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/world-panels") {
@@ -934,6 +973,23 @@ export async function benchRequest(
         );
         return;
       }
+      if (request.method === "POST" && url.pathname === "/api/grade") {
+        const grade = url.searchParams.get("grade");
+        if (grade !== "good" && grade !== "bad")
+          throw new Error("A grade is good or bad.");
+        send(200, {
+          i: writeLineGrade({
+            parts: (url.searchParams.get("parts") ?? "")
+              .split(",")
+              .filter(Boolean),
+            grade,
+            note: url.searchParams.get("note") ?? undefined,
+            text: url.searchParams.get("text") ?? undefined,
+            momentId: url.searchParams.get("momentId") ?? undefined,
+          }),
+        });
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/story/reply") {
         if (!player?.personId || !director)
           throw new Error("Choose a resident first.");
@@ -948,7 +1004,12 @@ export async function benchRequest(
               .split(".")
               .filter(Boolean)
               .map(Number),
-            { held: url.searchParams.get("held") === "1" },
+            {
+              held: url.searchParams.get("held") === "1",
+              ...(url.searchParams.get("typeKey")
+                ? { typeKey: url.searchParams.get("typeKey")! }
+                : {}),
+            },
           ),
         );
         return;
@@ -1013,14 +1074,19 @@ export async function benchRequest(
       }
       if (request.method === "POST" && url.pathname === "/api/campaign/day") {
         if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          campaignDay(requireCore(), player.personId, {
-            filingId: url.searchParams.get("filingId") ?? "",
-            kind: url.searchParams.get("kind") ?? "",
-            outletId: url.searchParams.get("outletId") ?? undefined,
-          }),
-        );
+        const day = campaignDay(requireCore(), player.personId, {
+          filingId: url.searchParams.get("filingId") ?? "",
+          kind: url.searchParams.get("kind") ?? "",
+          outletId: url.searchParams.get("outletId") ?? undefined,
+        });
+        // The outing's hours come off the same clock the packet reports.
+        const spent = player.spend(day.hours);
+        send(200, {
+          ...day,
+          ...(spent
+            ? { packet: spent.packet, names: namesFor(spent.packet) }
+            : {}),
+        });
         return;
       }
       if (
@@ -1056,6 +1122,7 @@ export async function benchRequest(
       }
       if (request.method === "POST" && url.pathname === "/api/filing/choose") {
         if (!filingVisit) throw new Error("No filing visit is open.");
+        const before = filingVisit.result;
         filingVisit = chooseAtCounter(
           requireCore(),
           filingVisit,
@@ -1065,7 +1132,22 @@ export async function benchRequest(
             party: url.searchParams.get("party") || null,
           },
         );
-        send(200, filingVisit);
+        // Filing takes the afternoon at the counter: taking out the
+        // petition, the clerk's questions, the wait. The hours come off the
+        // same clock the packet reports.
+        const filed = filingVisit.result as { status?: string } | undefined;
+        const spent =
+          filed && filed !== before && filed.status !== "refused"
+            ? player?.spend(
+                parameter("filingVisitHours", requireCore().data.parameters),
+              )
+            : undefined;
+        send(200, {
+          ...filingVisit,
+          ...(spent
+            ? { packet: spent.packet, names: namesFor(spent.packet) }
+            : {}),
+        });
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/filing/leave") {
@@ -1152,24 +1234,6 @@ export async function benchRequest(
         );
         return;
       }
-      if (request.method === "GET" && url.pathname === "/api/jobs") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(200, jobsView(requireCore(), player.personId));
-        return;
-      }
-      if (request.method === "POST" && url.pathname === "/api/jobs/answer") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          answerJobOffer(
-            requireCore(),
-            player.personId,
-            url.searchParams.get("offerId") ?? "",
-            url.searchParams.get("answer") ?? "",
-          ),
-        );
-        return;
-      }
       if (request.method === "GET" && url.pathname === "/api/card") {
         send(200, personCard(requireCore(), url.searchParams.get("id") ?? ""));
         return;
@@ -1251,13 +1315,18 @@ export async function benchRequest(
         send(
           200,
           date && player?.personId
-            ? electionDay(
-                requireCore(),
-                player.personId,
-                visit ?? null,
-                canvassedOn.has(`${player.personId}|${date}`),
-                date,
-              )
+            ? {
+                ...electionDay(
+                  requireCore(),
+                  player.personId,
+                  visit ?? null,
+                  canvassedOn.has(`${player.personId}|${date}`),
+                  date,
+                ),
+                // The card shows election morning, not the midnight the
+                // clock stopped at to ask.
+                at: { date, minuteOfDay: player.dayStartMinute() },
+              }
             : null,
         );
         return;

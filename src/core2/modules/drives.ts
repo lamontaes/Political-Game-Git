@@ -18,7 +18,7 @@ import {
 } from "./residents";
 import { countedPersonOf } from "../counted-actor";
 import { initialPersonState } from "../person-state";
-import { resolveOperation } from "../state";
+import { fillInPerson, resolveOperation } from "../state";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
 import type {
@@ -426,19 +426,27 @@ type RequirementTest = (
   event: CoreEventInput,
 ) => boolean;
 
+/** Whether a person is still in the wider population (counted, not yet filled in). */
+const countedIn = (api: CoreAPI) => (personId: string) =>
+  !api.state.people.has(personId) &&
+  countedPersonOf(api.state as CoreState, personId) !== undefined;
+
 /** Who an event holds responsible for a harm: a person or institution its record names. */
 export function responsibleId(
   data: DrivesData,
   event: CoreEventInput,
   people: ReadonlyMap<string, Readonly<PersonState>>,
+  counted?: (personId: string) => boolean,
 ) {
   const named = event.facts?.[`event:${event.id}:${data.factKeys.responsible}`];
   if (named) return named;
   // The person the record names as deciding the harm (the owner or manager
-  // who decided a layoff), when they are a living full person: a grudge can
-  // then be held against someone, not only the institution.
+  // who decided a layoff), when they are a living full person or one still in
+  // the wider population (filled in when the holder has it out with them): a
+  // grudge can then be held against someone, not only the institution.
   const decider = event.facts?.[data.factKeys.decidedBy];
-  if (decider && people.get(decider)?.alive) return decider;
+  if (decider && (people.get(decider)?.alive || counted?.(decider)))
+    return decider;
   // Some engines name the responsible party as the event's topic (the
   // employer behind a layoff, the landlord behind an eviction).
   if (data.responsibleInTopic?.includes(event.kind) && event.topic)
@@ -456,11 +464,14 @@ const requirementOperations: Readonly<Record<string, RequirementTest>> = {
   "event-topic": (_api, _data, _actor, event) =>
     !!event.topic && !!event.desiredChange,
   "event-responsible": (api, data, actor, event) => {
-    const id = responsibleId(data, event, api.state.people);
+    const counted = countedIn(api);
+    const id = responsibleId(data, event, api.state.people, counted);
     return (
       !!id &&
       id !== actor.id &&
-      (api.state.people.has(id) || api.state.organizations.has(id))
+      (api.state.people.has(id) ||
+        api.state.organizations.has(id) ||
+        counted(id))
     );
   },
   "has-living-family": (api, _data, actor) =>
@@ -541,9 +552,19 @@ function driveIdentity(
   kind: DriveKindRow,
   actor: Readonly<PersonState>,
   event: CoreEventInput,
-  people: ReadonlyMap<string, Readonly<PersonState>>,
+  api: CoreAPI,
 ) {
-  const responsible = responsibleId(data, event, people);
+  const responsible = responsibleId(
+    data,
+    event,
+    api.state.people,
+    countedIn(api),
+  );
+  // A drive held against someone still in the wider population (an owner
+  // nobody has met who decided the layoff) names them: they are filled in from
+  // the records, as anyone named is, so every engine reads the same person.
+  if (!kind.shareable && responsible && countedIn(api)(responsible))
+    fillInPerson(api.state as CoreState, responsible);
   const topic =
     kind.shareable && event.topic
       ? event.topic
@@ -924,13 +945,7 @@ export function respond(
       const urgency = considered.find(
         (entry) => entry.responseId === row.id,
       )!.urgency;
-      const identity = driveIdentity(
-        data,
-        kind,
-        actor,
-        event,
-        api.state.people,
-      );
+      const identity = driveIdentity(data, kind, actor, event, api);
       trace.driveId = identity.id;
       const holders = counted ? runtime.countedByPerson : runtime.byPerson;
       let mine = holders.get(actor.id);
@@ -1420,7 +1435,7 @@ function raiseFromCounted(
         !person?.alive ||
         daysBetweenText(person.birthDate, c.date) /
           api.parameter("daysPerMeanYear") <
-          api.parameter("benchmarkAdultMinimumAge")
+          api.parameter("votingAge")
       )
         continue;
       adults += api.parameter("one");

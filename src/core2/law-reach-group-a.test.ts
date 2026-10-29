@@ -435,7 +435,7 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
   });
 
   it("election laws change named voters' turnout costs, and repeals put them back", () => {
-    const adult = reachParameter("adultAge");
+    const adult = reachParameter("votingAge");
     const workers = townPeople(api)
       .filter((p) => p.jobId)
       .map((p) => ({

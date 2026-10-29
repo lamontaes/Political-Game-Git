@@ -28,3 +28,5 @@ source: laws-and-effects lead, Oct 27 (from laws-in-force-every-question, PR #62
 **Files.** src/bench/play.mjs, src/bench/card.ts, src/bench/government.ts
 
 **Notes.** Filed by the laws-and-effects lead, Oct 27, while building `laws-in-force-every-question`, which leaves the unreachable panel alone because deleting it would leave the law on your own record on no screen.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: surface under Politics as sentences or delete the orphan (replace, never layer).

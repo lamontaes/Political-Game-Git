@@ -1,4 +1,4 @@
-import { backdropFile, stagePeople } from "./scene";
+import { backdropFor, stagePeople } from "./scene";
 import type { CoreState } from "../core2/types";
 import type { PollingVisit } from "../director/polling-place";
 
@@ -29,7 +29,7 @@ export function pollingScene(core: CoreState, visit: PollingVisit) {
     situationKey: visit.situationKey,
     electionDate: visit.record.electionDate,
     place: visit.place,
-    backdrop: backdropFile(visit.place, POLLING_MINUTE),
+    backdrop: backdropFor(core, visit.place, POLLING_MINUTE),
     people: stagePeople(core, visit.place, cast).people,
     contests: visit.contests.map((contest) => ({
       ...contest,

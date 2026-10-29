@@ -32,3 +32,5 @@ Sent back 2026-10-21 from PR #5513 (branch claude/political-game-pool-yucp92-oo)
 Oct 22 (claude): the opening archive built in PR 5513 is tracked as gov-past-closures-opening-archive; this item (the played-year acceptance) stays open.
 
 Sent back 2026-10-23 from PR #5072 (branch claude/past-business-closures): current main conflicts in src/core2/past-business.ts and src/core2/past.test.ts; reconcile both changes and supply the Done-when evidence table; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: do not generate more proxy past; fold into the simulated-history session (OD:14).

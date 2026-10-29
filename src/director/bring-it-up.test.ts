@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { enrichCivicInputs } from "../core2/civic-inputs";
-import { buildDeepPast } from "../core2/deep-past";
 import { createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { applyCoreEvent, coreAPI } from "../core2/state";
@@ -16,16 +15,14 @@ import {
 // follows what that person heard, and some are wrong.
 const seed = process.env.GOLDEN_PATH_SEED ?? "bring-it-up";
 const input = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 400,
-    }),
-  ),
+  buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 400,
+  }),
 );
 const core = createLifeCore(input);
 const api = coreAPI(core);

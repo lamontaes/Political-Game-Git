@@ -1,0 +1,73 @@
+{
+ "scene": "coffee-shop",
+ "plate": "sg-p05",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "table by the board",
+   "box": [
+    150,
+    330,
+    380,
+    560
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": 45,
+   "coveredBy": "table"
+  },
+  {
+   "name": "small table",
+   "box": [
+    440,
+    320,
+    600,
+    480
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": -45,
+   "coveredBy": "table"
+  },
+  {
+   "name": "stool at the counter",
+   "box": [
+    690,
+    290,
+    830,
+    440
+   ],
+   "pose": "sit",
+   "seat": "stool",
+   "facing": 45
+  },
+  {
+   "name": "in line",
+   "box": [
+    950,
+    250,
+    1130,
+    820
+   ],
+   "pose": "stand",
+   "facing": -45
+  },
+  {
+   "name": "stray pieces",
+   "box": [
+    0,
+    0,
+    1672,
+    941
+   ],
+   "drop": true
+  }
+ ]
+}

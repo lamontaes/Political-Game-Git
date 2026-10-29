@@ -2,9 +2,6 @@
   "version": 1,
   "note": "Why a personality decision did not run, or ran without personality turning it, in the trait-wiring audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
   "formulaSiteAliases": {
-    "src/core2/modules/jobs.ts:2262": "jobs.counted-retire",
-    "src/core2/modules/jobs.ts:2517": "jobs.counted-look",
-    "src/core2/modules/jobs.ts:2587": "jobs.counted-look",
     "src/core2/modules/business.ts:1542": "business.counted-found"
   },
   "openingRecordKinds": {
@@ -17,14 +14,14 @@
       "fix": "Calibrate the offer's honest pull to the asks play makes, so some offers are made (pool item people-corruption-honest-pull-calibrated)."
     },
     "corruption.take": {
-      "class": "circumstances saturate the choice",
-      "why": "Runs after an offer says yes (src/core2/modules/corruption.ts, considerBribe): once in Jerry City, Ohio's played year (taken) and 1,156 times in New Britain, Connecticut's, where the third leaning most toward taking took 0.5 percent and the least none. Too few takes in either year show the study's odds (Pletzer et al. 2019, honesty-humility rho -0.48).",
-      "fix": "Calibrate the offer side so offers vary by person (pool item people-corruption-honest-pull-calibrated)."
+      "class": "rare by calibration",
+      "why": "Runs after an offer says yes (src/core2/modules/corruption.ts, considerBribe). Seated officials all kept the same savings at one pay, so a body of 190 had one money pressure and the top temperament sum stayed under the honest pull of 4.65; their savings now spread around the SCF median (src/core2/official-living.ts, officialSavingsSpreadSigma) and takes happen: 1 of 290 weighed in seed 092b17e0e593 (place 2474560) and 2 of 452 in place 3664842 (seed c06bbc30f70f).",
+      "fix": "Measure the take share over many drawn places (SG-P15-bribe-falling-out-rare)."
     },
     "corruption.tell": {
       "class": "trigger needs a record nobody writes",
-      "why": "Weighed only for a taken bribe: when a party's closeness to the other falls (src/core2/modules/corruption.ts:363, from onRelationshipChange) and when a told listener weighs going to the press (:437). Both need a crime row with taken true, and none was written.",
-      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
+      "why": "Weighed only for a taken bribe whose payer's tie to the official falls (src/core2/modules/corruption.ts, onRelationshipChange). A taken bribe now builds a tie (the money passed is time together) and a contract award or bill vote that does not deliver the favor breaks it (settleBribe), but in the audited years every bought firm won, so no tie soured.",
+      "fix": "Registered as SG-P15-bribe-falling-out-rare."
     },
     "justice.report": {
       "class": "trigger needs a record nobody writes",
@@ -43,23 +40,23 @@
     },
     "press.tip": {
       "class": "trigger needs a record nobody writes",
-      "why": "Needs a crime.told event for a taken bribe (src/core2/modules/press.ts:275, :2081); the tip is weighed at :2144. leakToReporter (:2245) is the player's own leak.",
-      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
+      "why": "Needs a crime.told event for a taken bribe (src/core2/modules/press.ts, tipOff); no one was told in the audited years, see corruption.tell.",
+      "fix": "Registered as SG-P15-bribe-falling-out-rare."
     },
     "recalls.organize": {
-      "class": "needs a petition's cause",
-      "why": "A petition starts from a county or city ordinance where the state allows recall without grounds (src/core2/modules/recalls.ts, weighOrdinance), or, where it requires grounds, from a charge or a press exposure of a serving local official that the town heard of (noteMisconduct, weighMisconduct). Neither South Windham, Connecticut nor Langley, Washington held either in its year; with a fixture charge in Sylvan Grove, Kansas, the printed story reached 71 of 76 named residents and a petition started two weeks later (src/core2/recall-for-cause.test.ts).",
-      "fix": "Charges come from the bribe chain once offers are made (pool item people-corruption-honest-pull-calibrated)."
+      "class": "depends on the place",
+      "why": "A petition starts from a county or city ordinance where the state allows recall without grounds (src/core2/modules/recalls.ts, weighOrdinance) or from a charge or press exposure of a serving local official. It depends on the drawn place: it ran in place 2277910 (seed 81b865cc92f1), 924 organize, 2,923 sign and 2,849 vote calls after a county ordinance took effect, 12 petitions; places whose state requires grounds start none without a charge.",
+      "fix": "Audit a place whose state allows recall without grounds (the lead draws the seed)."
     },
     "recalls.sign": {
       "class": "needs a petition's cause",
       "why": "Follows an organizer (src/core2/modules/recalls.ts, startRecall); see recalls.organize.",
-      "fix": "Same as recalls.organize (pool item people-corruption-honest-pull-calibrated)."
+      "fix": "Same as recalls.organize."
     },
     "recalls.vote": {
       "class": "needs a petition's cause",
       "why": "Needs a petition that reached the ballot (src/core2/modules/recalls.ts, recallWork); see recalls.organize.",
-      "fix": "Same as recalls.organize (pool item people-corruption-honest-pull-calibrated)."
+      "fix": "Same as recalls.organize."
     },
     "ballot-measures.vote": {
       "class": "no study number",
@@ -80,11 +77,6 @@
       "class": "runs only in an election window",
       "why": "Runs once a campaign has set aside enough for a poll (src/core2/modules/campaigns.ts, pollFund against pollMinimumInterviews). With TRAIT_AUDIT_ELECTION=1 it ran 12,215 times (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-06-25); no local campaign in four default-year places raised enough.",
       "fix": "Weight calibrated from the adults of a drawn town (campaigns.traits.test.ts); audit the place's own election window (TRAIT_AUDIT_ELECTION=1)."
-    },
-    "constituent-cases.handle-case": {
-      "class": "circumstances do not vary",
-      "why": "The official's own call now comes first, and their staffer carries it out (src/core2/modules/constituent-cases.ts, officeHandles). It ran 17 times in Jerry City, Ohio's played year and 438 times in New Britain, Connecticut's, and every official helped: the case is the same constant every time (constituentHelpBase), so a weight only sets a trait bar and cannot reach the study's odds (Barrick and Mount 1991, conscientiousness r .22, 2.44 between the thirds). The general weight of 1 stands.",
-      "fix": "Give the case its own circumstances (the problem's severity, the office's open cases), then calibrate (traits-integrity-cases-vary)."
     },
     "conversation.reply-reach": {
       "class": "no trigger (player only)",
@@ -159,7 +151,7 @@
     "appointments.weigh": {
       "class": "runs at the opening; in the played year only on a vacancy",
       "why": "The appointer's loyalty against merit (src/core2/appointments.ts:46) is weighed whenever a town's mayor or council fills a department post (src/core2/modules/executive.ts:276) and when a governor the player plays nominates a cabinet member (:815); the world's governors fill their cabinets without it (appointStateCabinet). The audit now counts the opening apart from the year (its `opening`): in Canton City (Hensel), North Dakota (place key 3812060, seed d6aed6c1ceaf, January 20, 2025) the mayor weighed all 8 department posts; retained opening records include appointed:appointment:town:city-administrator:2025-01-20, appointed:appointment:town:police-chief:2025-01-20 and appointed:appointment:town:fire-chief:2025-01-20 on the integrated main result. The played year still lacks a call: afterward only a department head who dies or moves away fills a post (executive.ts:1165-1172), and none did in the original played-year audit.",
-      "fix": "The opening's calls are counted (callsAtOpening in the matrix); a played-year call needs a drawn year in which a department head dies or moves away, as traits-accept-appointment-vacancy-proof finds for a local seat."
+      "fix": "Done Oct 28: the state cabinet is filled through the governor's weighing (appointStateCabinet) and a cabinet post whose holder died or left is refilled at the next review (executive.ts deskReview; test cabinet-vacancy.traits.test.ts). The opening's calls are counted (callsAtOpening in the matrix); a played-year call needs a drawn year in which a department head or cabinet member dies or leaves, or a governor takes office (SG-TRAITS-people-fire-producers)."
     },
     "housing.settle-arrears": {
       "class": "counted households have no arrears of their own",
@@ -174,7 +166,7 @@
     "relationships.fall-out": {
       "class": "trigger needs a record nobody writes",
       "why": "Runs when a relationship change carries negative hours (src/core2/state.ts:1068, src/core2/closeness.ts:259). Two engines write them: a grudge drive's confrontation (src/core2/modules/drives.ts:1809), offered only against a living person (:1583) while the drive's target is the employer, landlord or closed business it blames (src/core2/data/drives.json:685-694), so no confrontation was offered; and a taken bribe the official voted against (src/core2/modules/corruption.ts:545), which needs a taken bribe.",
-      "fix": "Let a grudge drive name the person behind the organization (the manager who fired, the landlord who evicted) so a confrontation can be offered; the bribe route follows corruption.offer (pool item people-grudge-confront-person)."
+      "fix": "Done Oct 28: a counted decider (a business owner nobody has met) is held responsible and met when the holder confronts them (drives.ts responsibleId, confront; test grudge-counted-decider.traits.test.ts). What remains: in the five drawn places measured, the laid-off full workers' grudges aimed at outside-market employers, which name no person (SG-TRAITS-people-fire-producers); the bribe route follows corruption.offer."
     },
     "contracts.award": {
       "class": "not a two-way choice",
@@ -197,9 +189,9 @@
       "fix": "Calibrate when a study gives the odds of an owner joining a trade association by trait (traits-wire-civic)."
     },
     "jobs-benefits.file-claim": {
-      "class": "circumstances saturate the choice",
-      "why": "Vella, Richiardi and van de Ven 2025 give neuroticism 0.6 percentage points per standard deviation on taking up benefits (odds ratio 1.32 between the thirds). Pooled over seven played years (59 claims weighed, src/core2/jobs-benefits.ts), every eligible worker files with temperament off, against real take-up of 70 to 80%, and no weight up to 0.5 turns any of them; at the general weight of 1, 7% decline.",
-      "fix": "Bring the filing base down to the researched take-up (research-unemployment-claim-take-up), then fit the weight."
+      "class": "circumstances tie",
+      "why": "Filing weighs the base, the benefit's share of the lost pay (a log term at McQuillan and Moore's take-up elasticity) and the layoff's stress beside temperament (src/core2/jobs-benefits.ts filingDecision). Over every business worker of three drawn towns, take-up is 0.73 (Wayland, Michigan) and 0.76 (Washington, District of Columbia), against the studies' 0.734 mean, but the share is the same for nearly every worker in a town, so temperament sorts who skips: the thirds' odds ratio runs 6 to 20 against Vella, Richiardi and van de Ven's 1.32 at any trait weight. Played years: 45 of 67 filed in Wayland, Michigan (2684880, seed 0c4eea785dc2; temperament turned 17) and 2 of 5 in Hillsboro, Virginia (5137288, seed 7100e8c6f85d).",
+      "fix": "Weigh the household's cash runway and how soon the worker expects to be hired (the place's seekers per opening) once a study gives their sizes on take-up, then fit the weight (SG-TRAITS-file-claim-circumstances-tie)."
     },
     "parties.join": {
       "class": "circumstances saturate the choice",
@@ -234,16 +226,6 @@
     "jobs.accept-offer": {
       "class": "no study number",
       "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read and Kanfer et al. 2001 (Journal of Applied Psychology 86(5)) give only the range of correlations across all antecedents of job search behavior (-.15 to .46) in the abstract read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
-      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
-    },
-    "jobs.counted-retire": {
-      "class": "no study number",
-      "why": "No retirement-timing study with a number by trait was found, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
-      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
-    },
-    "jobs.counted-look": {
-      "class": "no study number",
-      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (emotional stability best predicts intentions to quit), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
       "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
     },
     "jobs.counted-apply": {

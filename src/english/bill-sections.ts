@@ -12,7 +12,9 @@
  * for a local measure. A law amount reads its new value in its unit, and a
  * raise from a lower one reads differently from a cut.
  */
+import { spokenDate } from "../core2/kernel/dates";
 import { properName } from "../director/words";
+import { spokenDesignation } from "./bill-names";
 import sectionsJson from "../../data/english/bill-sections.json" with { type: "json" };
 
 interface PolicyWords {
@@ -21,12 +23,15 @@ interface PolicyWords {
   enact: string;
 }
 interface AmountWords {
-  raiseTo: string;
-  lowerTo: string;
   subject: string;
   purpose: string;
-  raise: string;
-  lower: string;
+  raiseTo?: string;
+  lowerTo?: string;
+  raise?: string;
+  lower?: string;
+  /** A switch (1 grants, 0 withdraws), worded by what each does, never "raised to 1". */
+  grant?: string;
+  withdraw?: string;
 }
 interface FormWords {
   title: string;
@@ -71,12 +76,14 @@ export interface BillWordsInput {
   } | null;
   /**
    * Each section's law before the bill (`billSections` `before`): to tell a
-   * raise from a cut, to say what it was, and to cite the statute it amends.
+   * raise from a cut, to say what it was, and to cite the bill that enacted
+   * it, said in that bill's own form, or a starting law's recorded statute.
    */
   readonly before?: readonly ({
     readonly value: number | null;
     readonly unit?: string | null;
     readonly statute?: string | null;
+    readonly statuteForm?: string | null;
   } | null)[];
 }
 
@@ -101,15 +108,8 @@ const fill = (template: string, slots: Record<string, string | number>) =>
 const upperFirst = (text: string) =>
   text.charAt(0).toUpperCase() + text.slice(1);
 
-const longDate = (iso: string) =>
-  new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-
-const dollars = (minor: number) =>
+/** An amount of money as it is said: "$250", "$12.50". */
+export const dollars = (minor: number) =>
   `$${(minor / 100).toLocaleString("en-US", {
     minimumFractionDigits: Number.isInteger(minor / 100) ? 0 : 2,
   })}`;
@@ -160,6 +160,14 @@ function wordsOf(
   if (p.kind === "law-amount" && p.series) {
     const row = BILL_SECTIONS.amounts[p.series];
     if (!row) return null;
+    if (row.grant && row.withdraw)
+      return {
+        key: p.series,
+        subject: row.subject,
+        purpose: row.purpose,
+        clause: p.value > 0 ? row.grant : row.withdraw,
+        repeal: false,
+      };
     const was = input.before?.[index] ?? null;
     const old = was?.value ?? null;
     const lower = p.operation
@@ -170,22 +178,29 @@ function wordsOf(
       value: valueWords(p.value, p.unit),
       before: old != null ? valueWords(old, was?.unit ?? p.unit) : "",
     };
-    const clause = fill(
+    const words =
       old != null
         ? lower
           ? row.lower
           : row.raise
         : lower
           ? row.lowerTo
-          : row.raiseTo,
-      slots,
-    );
+          : row.raiseTo;
+    if (!words) return null;
+    const clause = fill(words, slots);
     return {
       key: p.series,
       subject: row.subject,
       purpose: row.purpose,
       clause: was?.statute
-        ? fill(BILL_SECTIONS.cited, { clause, statute: was.statute })
+        ? fill(BILL_SECTIONS.cited, {
+            clause,
+            // A bill passed in play is said in its form ("Ordinance
+            // 2025-3"); a starting law's recorded statute, as recorded.
+            statute: was.statuteForm
+              ? spokenDesignation(was.statute, was.statuteForm)
+              : was.statute,
+          })
         : clause,
       repeal: false,
     };
@@ -242,7 +257,7 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
   const effective = eff
     ? fill(form.effective[date ? "date" : eff.kind], {
         days: eff.days ?? "",
-        date: date ? longDate(date) : "",
+        date: date ? spokenDate(date) : "",
       })
     : null;
   return {

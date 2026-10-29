@@ -273,7 +273,7 @@
       }
     ],
     "levels": {
-      "citation": "The owner-accepted seeded spread SEED_SPREAD = [-2, -1, -1, 0, 0, 0, 0, 1, 1, 2] in src/simulation/people-trait-pack.ts: 10%, 20%, 40%, 20%, 10% of people at -2..2. Cut points are the standard normal quantiles at 10%, 30%, 70% and 90%.",
+      "citation": "The owner-accepted seeded spread SEED_SPREAD = [-2, -1, -1, 0, 0, 0, 0, 1, 1, 2] in the old engine's people-trait-pack.ts: 10%, 20%, 40%, 20%, 10% of people at -2..2. Cut points are the standard normal quantiles at 10%, 30%, 70% and 90%.",
       "values": [-2, -1, 0, 1, 2],
       "cutPoints": [-1.2815516, -0.5244005, 0.5244005, 1.2815516],
       "bisectBound": 8,
@@ -289,12 +289,5 @@
     "When parents' marriage ended, the mother keeps the family home and any minor children and the father lives apart; custody is not decided from each family's circumstances.",
     "A marriage is dated from the first child's birth, and none ends after 20 years."
   ],
-  "moves": {
-    "movedInKind": "life:moved-into-county",
-    "movedAwayKind": "life:moved-away",
-    "movedInSummary": "Moved to the county where they live now.",
-    "movedAwaySummary": "Moved away from the county where they grew up.",
-    "source": "The date is the age at which the person's own move line is crossed by their state's ACS 2024 rate of moving to another county or state by age (B07401, data/research/migration/mover-rates-acs-2024.json), the same rule that decides whether they moved; the destination county is not recorded."
-  },
   "householdBasis": "Built on the town's generated households; each household's own source names the Census household tables it follows."
 }

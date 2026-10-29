@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #6023
 blocked-on:
@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** data/research/regional/population_change.py,data/research/regional/series/stats.json,src/bench/m1-13-check.ts
 
 **Notes.** TODO
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (merged #6023).
+
+Oct 29 (CTO): set done; PR #6023 merged (the done flip failed while branch protection refused the flip job's push).

@@ -9,6 +9,8 @@ description: >
 
 # Civic reports
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: "play first"; every status report leads with how far he can play)
 
 The owner reads reports between other things, often on a phone, and acts on

@@ -1,4 +1,5 @@
 import type { GenderIdentityKey } from "../core2/gov-rules/types";
+import { parameter } from "../core2/parameters";
 
 /**
  * Where a line is spoken, and what that setting allows.
@@ -349,6 +350,38 @@ function words(key: string, label: string, value: number) {
     unit: "words" as const,
     basis: "measured" as RegisterCheck["basis"],
   };
+}
+
+const DEVICE_DIFFICULTY: Readonly<Record<SpeechDevice, string | null>> = {
+  quotation: "speechDeviceQuotationDifficulty",
+  contrast: "speechDeviceContrastDifficulty",
+  "three-part-list": "speechDeviceThreePartListDifficulty",
+  callback: "speechDeviceCallbackDifficulty",
+  // A disclosure is earned by the speaker's own life, not by practice.
+  disclosure: null,
+};
+
+/**
+ * How practiced a speaker is, from 0 toward 1, from the addresses recorded as
+ * given by them (never a stored skill number): it rises with every address and
+ * flattens, so no single address flips anything.
+ */
+export function speechCraft(addressesGiven: number): number {
+  const given = Math.max(0, addressesGiven);
+  return given / (given + parameter("speechCraftHalfAddresses"));
+}
+
+/**
+ * Whether a speaker has earned a device: their craft, from the addresses they
+ * have given, has reached the device's place on the scale. A register must
+ * also admit it (`registerAllows`).
+ */
+export function deviceEarned(
+  device: SpeechDevice,
+  addressesGiven: number,
+): boolean {
+  const key = DEVICE_DIFFICULTY[device];
+  return key === null || speechCraft(addressesGiven) >= parameter(key);
 }
 
 export function registerAllows(

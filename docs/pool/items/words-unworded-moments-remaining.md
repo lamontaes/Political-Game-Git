@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:04:58.951Z
 **Files.** data/english/parts/filing-visit.json, data/english/parts/scene-words.json, data/english/parts/bring-it-up.json, src/director/filing-visit.ts, src/director/bring-it-up.ts
 
 **Notes.** Split from words-unworded-moments, which fixed the misfit school answer. The original item asked for the clerk to say the fee and signature count and the player to say "I paid the fee"; those are dropped under the Oct 13 ruling recorded in the elections engine (modules/elections.ts header). Released from idle draft #5180 by the CTO, Oct 26.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the batch-grading clause; re-check which four moments still lack pieces.

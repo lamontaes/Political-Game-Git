@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/political-game-pool-yucp92-ab
-pr: #5580
+status: open
+claimed-by:
+pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T06:35:18.953Z
+claimed-at:
 ---
 
 **What.** GOLDEN_PATH_SEED=5e6f7a8b npx vitest run src/core2/player-money-year.test.ts throws Error: Actual customer public owner coverage record is missing while the world opens (the place is drawn from the seed). Found Oct 20 on main while checking world-town-public-works-staff-never-paid. A customer whose payee is a public owner has no coverage record in that place; find the producer that should write it and why this place skips it.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T06:35:18.953Z
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5562 (branch claude/political-game-pool-3xfqef-21): main already has the identical owner-coverage guard from #5548, making this second guard unreachable; keep the regression, remove the duplicate and declare test-only impact, or prove a distinct fix; finish on that branch, merge main into it first.
+
+Oct 29 (CTO, second account): PR #5580 closed as stale under the owner's standing approval; back to open. Branch `claude/political-game-pool-yucp92-ab` is kept; claiming this item takes it over.

@@ -40,11 +40,18 @@ import { townFacts } from "./law-reach/group-b-people";
 import { outsideAccountOf, treasuryMonthsOf } from "./budgets-treasury";
 import {
   bodyOf,
+  castMemberVote,
+  chambersOf,
   draftBill,
+  executiveDecision,
+  holdVote,
   LEGISLATURE_MODULE_ID,
+  memberKey,
+  members,
 } from "./modules/legislature";
+import { provisionFor } from "./bill-catalog";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
-import { townSeats } from "./modules/offices";
+import { OFFICES_MODULE_ID, townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -628,20 +635,73 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         expect(authority[0]!.lawId, where).toBe(bill.authority[0]!.source);
         expect(authority[0]!.target, where).toBe("organization");
         expect(LEGISLATURE_MODULE_ID).toBe(authority[0]!.engine);
-        // A state row that changes the grant replaces the one in force, so the
-        // same body's next draft is allowed or barred by the new row. No bill
-        // offers the grant until the Words line words it
-        // (SG-LAW-local-income-tax-authority-change), so the test enacts the row.
+        // The state legislature changes the grant by bill, from the catalog's
+        // law:local-income-tax-authority (raised to 1 it grants, lowered to 0
+        // it withdraws), effective tomorrow. Every member votes for it and the
+        // governor signs (the members' and the executive's own recorded
+        // choices, which the vote reads), since this checks what the passed
+        // law does, not whether this legislature would pass it; a chair who
+        // buries one sponsor's bill unheard leaves the next sponsor's.
         const granted = authority[0]!.what === "local-tax-allowed";
-        const flipped = enactLaw(api, {
-          jurisdiction: lawChain(api).stateKey,
-          level: "state",
-          series: "local-income-tax-authority",
-          value: granted ? 0 : 1,
-          effectiveDate: addDays(makeIsoDate(core.date), 1),
-          measureId: "test:local-income-tax-authority",
-          citation: "Test: the state changes its grant",
-        });
+        const chamber = (
+          api
+            .moduleState(OFFICES_MODULE_ID)
+            .table("offices")
+            .rows() as unknown as {
+            id: string;
+            kind: string;
+            jurisdiction: string;
+          }[]
+        ).find(
+          (o) =>
+            o.jurisdiction === lawChain(api).stateKey &&
+            /^legislature-(lower|unicameral)$/.test(o.kind),
+        );
+        expect(chamber, `${where}: the state's chamber`).toBeDefined();
+        const sponsors = members(api, chamber!.id).map(memberKey);
+        let passed: ReturnType<typeof holdVote> | undefined;
+        for (const sponsorId of sponsors.slice(0, 10)) {
+          const grantBill = draftBill(api, {
+            bodyOfficeId: chamber!.id,
+            sponsorId,
+            provisions: [
+              provisionFor({
+                policyId: "law:local-income-tax-authority",
+                operation: granted ? "lower" : "raise",
+                amount: granted ? 0 : 1,
+                effectiveDate: addDays(makeIsoDate(core.date), 1),
+              }),
+            ],
+          });
+          for (const office of chambersOf(api, grantBill))
+            for (const member of members(api, office))
+              castMemberVote(api, grantBill.id, memberKey(member), "yes");
+          executiveDecision(api, grantBill.id, true);
+          const after = holdVote(api, grantBill.id);
+          if (["enacted", "signed"].includes(after.status)) {
+            passed = after;
+            break;
+          }
+        }
+        expect(
+          passed,
+          `${where}: a state bill changing the grant passed`,
+        ).toBeDefined();
+        const flipped = (
+          api
+            .moduleState(LAWS_MODULE_ID)
+            .table("laws")
+            .rows() as unknown as LawRowInput[]
+        ).find(
+          (row) =>
+            row.series === "local-income-tax-authority" &&
+            row.terms?.enactedByBill === passed!.id,
+        )!;
+        expect(
+          flipped,
+          `${where}: the law ${passed!.number} enacted`,
+        ).toBeDefined();
+        expect(flipped.value, where).toBe(granted ? 0 : 1);
         run(core, 2);
         const redraft = draftBill(api, {
           bodyOfficeId: office.id,

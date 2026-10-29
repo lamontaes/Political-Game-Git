@@ -42,7 +42,10 @@
       "kind": "news",
       "stage": "not-heard"
     },
-    "quiet": { "kind": "quiet", "stage": "default" },
+    "quiet": {
+      "kind": "quiet",
+      "stage": "default"
+    },
     "job-lost": {
       "kind": "job-lost-reply",
       "stage": "default"
@@ -106,6 +109,10 @@
     "victimization": {
       "kind": "victimization-reply",
       "stage": "default"
+    },
+    "job-new-detail": {
+      "kind": "job-new-detail-reply",
+      "stage": "default"
     }
   },
   "follows": {
@@ -158,7 +165,61 @@
     "address": {
       "agree": "address-view",
       "doubt": "address-view",
-      "hope": "address-view"
+      "hope": "address-view",
+      "plain": "address-view",
+      "missed": "address-view"
+    },
+    "job-new-reply": {
+      "ask": "job-new-detail",
+      "brief": "job-new-detail"
+    }
+  },
+  "replyMoves": {
+    "about": "What move each answer the player gives makes, by the line's kind, then the choice: the scene engine's `talk` purpose (purpose-arcs.json) answers it by that move (owner, Oct 29: one engine for every line). A choice not listed is a plain answer. A choice that only takes their line in (`notes`: \"Oh, okay.\") gets no answer back; the talk carries on. A choice that asks a question is offered only where the other person can answer it: it raises a subject they have, asks them to tell more (`tells`), or makes a move the talk answers (a request, a plea to be left alone, a reaction).",
+    "default": "answer",
+    "answerable": ["request", "decline", "react"],
+    "notes": ["ack", "ack-none"],
+    "quiet": {
+      "tired": "tell",
+      "fine": "answer",
+      "talk": "request",
+      "alone": "decline",
+      "miss": "tell"
+    },
+    "address-view": {
+      "agree": "agree",
+      "disagree": "disagree",
+      "wait": "stall",
+      "local": "ask"
+    },
+    "news": {
+      "react": "react",
+      "yes": "answer",
+      "no": "answer",
+      "opinion": "answer"
+    },
+    "family": {
+      "ill": "tell",
+      "gone": "tell",
+      "well": "answer",
+      "thanks": "thank"
+    },
+    "charge": {
+      "confess": "confess",
+      "deflect": "deflect",
+      "refuse": "refuse",
+      "tell": "tell"
+    },
+    "conviction": {
+      "refuse": "refuse",
+      "tell": "tell",
+      "apologize": "apologize",
+      "confess": "confess"
+    },
+    "acquittal": {
+      "tell": "answer",
+      "refuse": "refuse",
+      "deflect": "deflect"
     }
   },
   "familyTalk": {

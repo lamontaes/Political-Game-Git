@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { computeCharacterGenerationSignature } from "../../src/presentation/character-components";
+import { computeCharacterGenerationSignature } from "../../src/appearance/character-components";
 import {
   DEV_G2_CATALOG_GENERATION,
   DEV_G2_FIXTURE_DIRECTORY,

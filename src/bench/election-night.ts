@@ -6,11 +6,11 @@
  * nothing (the engine never votes for the player). That night the returns
  * come in place by place from the count's own records, smallest place first,
  * as a small place's tally is done first, until the race is called. The
- * narrator's words come from the election-day bank (english-election-day);
+ * narrator's words are the director's (`src/director/election-day.ts`);
  * the screen shows the count's numbers and names as record data.
  */
 import type { PollingVisit } from "../director/polling-place";
-import { electionDayLine, type DayFact } from "../english/english-election-day";
+import { electionDayLine, type DayFact } from "../director/election-day";
 import {
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
@@ -22,7 +22,11 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { lawChain } from "../core2/modules/laws";
-import { candidateIdentity, placesOf, resultOf } from "../core2/modules/voting";
+import {
+  candidateIdentity,
+  resultOf,
+  returnsOf,
+} from "../core2/modules/voting";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import type { EntityId } from "../core2/kernel/brands";
@@ -261,21 +265,16 @@ export function electionNight(core: CoreState, personId: string) {
     { office, ...(place ? { place: fact(place) } : {}) },
     moment("open"),
   );
-  // The places report smallest first: a small place's tally is done first.
-  const places = [...placesOf(api, race.contestId)]
-    .filter((row) => row.cast > 0)
-    .sort((a, b) => a.cast - b.cast || a.placeId.localeCompare(b.placeId));
-  const running = new Map(race.candidates.map((row) => [row.id, 0]));
-  const board = () =>
+  // The places report in the order the count kept: smallest first.
+  const places = returnsOf(api, race.contestId)?.reports ?? [];
+  const board = (running: Readonly<Record<string, number>>) =>
     race.candidates.map((row) => ({
       name: row.name,
-      votes: running.get(row.id) ?? 0,
+      votes: running[row.id] ?? 0,
     }));
-  steps.push({ lines: open ? [open] : [], totals: board() });
+  steps.push({ lines: open ? [open] : [], totals: board({}) });
   if (!race.unopposed)
     places.forEach((row, index) => {
-      for (const [id, votes] of Object.entries(row.votes))
-        if (running.has(id)) running.set(id, running.get(id)! + votes);
       const here = Object.entries(row.votes)
         .filter(([id]) => names.has(id))
         .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
@@ -298,21 +297,17 @@ export function electionNight(core: CoreState, personId: string) {
         moment(`place:${row.placeId}`),
       );
       if (step) lines.push(step);
-      const order = [...running].sort(
-        (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
-      );
-      const margin = (order[0]?.[1] ?? 0) - (order[1]?.[1] ?? 0);
       if (index < places.length - 1) {
         const lead = electionDayLine(
           "returns-lead",
           {
             in: fact(count(index + 1)),
             all: fact(count(places.length)),
-            ...(margin > 0
+            ...(row.leaderId && names.has(row.leaderId)
               ? {
                   ahead: fact("yes"),
-                  leader: fact(names.get(order[0]![0])!, order[0]![0]),
-                  margin: fact(count(margin)),
+                  leader: fact(names.get(row.leaderId)!, row.leaderId),
+                  margin: fact(count(row.margin)),
                 }
               : { even: fact("yes") }),
           },
@@ -320,7 +315,7 @@ export function electionNight(core: CoreState, personId: string) {
         );
         if (lead) lines.push(lead);
       }
-      steps.push({ lines, totals: board() });
+      steps.push({ lines, totals: board(row.running) });
     });
   // The call: the count's own totals, every ballot in the race.
   const winnerName = result.winnerId ? nameOf(api, result.winnerId) : null;

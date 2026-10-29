@@ -366,5 +366,77 @@
       "unit": "homes",
       "citation": "ACS 5-year tenure margins of error for places under 500 homes run roughly 5 to 15 points."
     }
+  },
+  "housingWorldRentValueSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's county median rent and owner home value sit from the published ACS 2020-2024 medians: about the ACS five-year county margin of error plus a year of change (county median gross rent and home value margins run 2% to 10%; FHFA state prices moved 3% to 8% a year in 2022-2024).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published ACS figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the published median",
+      "citation": "ACS B25064 and B25077 county margins of error; FHFA all-transactions index."
+    }
+  },
+  "housingWorldOwnerShareSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's town owner-occupied share moves from the published ACS share, relative to its nearer bound: about the ACS five-year place margin of error on tenure (2 to 8 points in small places).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published ACS figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the distance to the nearer bound",
+      "citation": "ACS B25003 place margins of error."
+    }
+  },
+  "housingWorldPriceTrendSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's house price growth runs from the published FHFA series, as a share of the published growth (the world's price ratio is the published ratio raised to one plus the offset): FHFA state all-transactions growth over a few years differs from its neighbors' by a tenth or more.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the published growth",
+      "citation": "FHFA all-transactions house price index, state series 1985-2025: five-year growth differs across neighboring states by 5% to 20% of the growth."
+    }
+  },
+  "housingWorldHudRentSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's HUD fair market rent and income limit in an area sit from the published FY2025 value: HUD sets FMRs at the 40th percentile of recent movers and revises them by 2% to 8% a year; the ACS margin of error on the underlying gross rent runs 2% to 10%.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.1,
+      "unit": "share of the published rent or limit",
+      "citation": "HUD FMR documentation, FY2023 to FY2025 year-over-year change by area."
+    }
+  },
+  "housingWorldShelterBedsSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's year-round shelter beds per 10,000 people sit from the HUD Housing Inventory Count 2025 rate for the state: state bed counts changed by 3% to 15% between the 2024 and 2025 counts.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the published rate",
+      "citation": "HUD Housing Inventory Count, year-round beds by state, 2024 versus 2025."
+    }
+  },
+  "housingWorldPermitSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's building permits per thousand people sit from the published state rate: state permit counts move 5% to 20% from one year to the next outside a downturn (Census Building Permits Survey annual state totals).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the published rate",
+      "citation": "Census Building Permits Survey, annual state totals by structure type, year-over-year change."
+    }
   }
 }

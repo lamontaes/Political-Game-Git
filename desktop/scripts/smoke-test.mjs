@@ -195,9 +195,11 @@ async function launch() {
     "title: no seed or place controls on the title",
     !titleScreen.seedShown && !titleScreen.placeShown,
   );
+  // Patch notes open the release notes (owner, Oct 28: "get them in"); Saved
+  // games wait for the save format.
   check(
-    "title: Saved games and Patch notes are there, disabled",
-    titleScreen.patchNotes === true && titleScreen.saves === true,
+    "title: Patch notes is there and opens; Saved games is there, disabled",
+    titleScreen.patchNotes === false && titleScreen.saves === true,
   );
   check("title: no figure stands on the title", titleScreen.figures === 0);
   check(

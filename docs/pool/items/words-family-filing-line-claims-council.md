@@ -5,14 +5,14 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: words/family-filing-names-the-office
+pr: #6748
 blocked-on:
 source: "found by the words-and-scenes lead, Oct 27, in the campaign-season bench run"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-29T05:54:25.200Z
 ---
 
 **What.** On filing day the household's scene (`family-filing`) has the player answer with "The council's been asleep for ten years. Somebody had to." In North Lynbrook, New York (run seed `season-a` of `src/director/campaign-season.test.ts` and `src/bench/campaign-season.browser.mjs`), the player is running for the town board, not a council. No record says the body was "asleep" or gives "ten years". The line names a body by a fixed word and claims a span no record holds. It is an Oct 15 authored piece in `data/english/parts/scene-talk.json`.

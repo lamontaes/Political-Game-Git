@@ -13,6 +13,9 @@ import territoryPlaces from "../data/places/territory-places.json" with { type: 
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import placePopulationTable from "../../../data/tables/place-population.json" with { type: "json" };
 
+import { parameter as p } from "../parameters";
+import { worldLevel, worldOffsetShare } from "../world-draw";
+
 let table: ReadonlyMap<string, number> | null = null;
 
 function load(): ReadonlyMap<string, number> {
@@ -26,8 +29,8 @@ function load(): ReadonlyMap<string, number> {
   return table;
 }
 
-/** The town's reference population, or null where the game does not hold it. */
-export function placePopulation(placeGeoid: string): number | null {
+/** The town's published reference population (calibration), or null where the game does not hold it. */
+export function publishedPlacePopulation(placeGeoid: string): number | null {
   return load().get(placeGeoid) ?? null;
 }
 
@@ -56,11 +59,11 @@ const ISLAND_AREA_POPULATION = new Map(
   ).map((row) => [row[4], row[5]] as const),
 );
 
-/** The 2025 estimate where one exists, else the ACS count, else an island-area village's 2020 count, else null. */
-export function placeReferencePopulation(
+/** The published count (calibration): the 2025 estimate where one exists, else the ACS count, else an island-area village's 2020 count, else null. */
+export function publishedPlaceReferencePopulation(
   placeGeoid: string,
 ): { readonly value: number; readonly source: PlacePopulationSource } | null {
-  const estimate = placePopulation(placeGeoid);
+  const estimate = publishedPlacePopulation(placeGeoid);
   if (estimate !== null)
     return { value: estimate, source: "census-estimate-2025" };
   const acs = ACS_PLACE_POPULATION[placeGeoid];
@@ -69,4 +72,54 @@ export function placeReferencePopulation(
   return island === undefined
     ? null
     : { value: island, source: "census-2020-island-areas" };
+}
+
+/** This world's count for a place whose published count is `published`: drawn around it once per world and place from the seed, whole and never below 1 (a place the Census holds as empty stays 0). */
+function worldPopulationOf(
+  placeGeoid: string,
+  seed: string,
+  published: number,
+): number {
+  if (!(published > p("zero"))) return published;
+  const key = `world-place-population:${placeGeoid}`;
+  const spread = "worldPopulationSpreadShare";
+  const drawn = Math.max(
+    p("one"),
+    Math.round(worldLevel(published, seed, key, spread)),
+  );
+  // A small count can round back onto itself; step it one person the way
+  // the world's offset points.
+  if (drawn !== published || published < p("two")) return drawn;
+  return worldOffsetShare(seed, key, spread) < p("zero")
+    ? drawn - p("one")
+    : drawn + p("one");
+}
+
+/**
+ * The town's population in this world (realistic, not real; owner, Oct 27):
+ * the published reference population is the center of a per-world spread, and
+ * every engine that reads a town's size reads this, never the published count.
+ */
+export function placeReferencePopulation(
+  placeGeoid: string,
+  seed: string,
+): { readonly value: number; readonly source: PlacePopulationSource } | null {
+  const published = publishedPlaceReferencePopulation(placeGeoid);
+  return published
+    ? {
+        value: worldPopulationOf(placeGeoid, seed, published.value),
+        source: published.source,
+      }
+    : null;
+}
+
+/** This world's count from the Census estimate alone, or null where there is none. */
+export function placePopulation(
+  placeGeoid: string,
+  seed: string,
+): number | null {
+  const published = publishedPlacePopulation(placeGeoid);
+  return published === null
+    ? null
+    : worldPopulationOf(placeGeoid, seed, published);
 }

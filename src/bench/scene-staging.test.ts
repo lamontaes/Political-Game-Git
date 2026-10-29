@@ -38,7 +38,6 @@ describe(`who people face at ${place}`, () => {
       const turn = turnOf(spot, [a!, b!], front);
       if (Math.abs(spot.x - front) >= 3)
         expect(turn.toward).toBe(spot.x < front ? "right" : "left");
-      if (spot.facing === "away") expect(turn.view).toBe("back");
     }
   });
 

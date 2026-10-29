@@ -11,7 +11,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
 import { corePlaceByKey } from "./place-lookup";
 import { compareClosures } from "./census-scale-closures-support";
 
@@ -29,7 +29,9 @@ function drawLargeCity() {
       "world-census-scale-closures-large-cities",
     );
     const geoid = corePlaceByKey(draw.key)?.sourceGeoid;
-    const reference = geoid ? placeReferencePopulation(geoid)?.value : null;
+    const reference = geoid
+      ? publishedPlaceReferencePopulation(geoid)?.value
+      : null;
     if (reference && reference > LARGE && draw.key !== WASHINGTON.key)
       return { draw, reference };
     tried.push(
@@ -42,7 +44,7 @@ function drawLargeCity() {
 }
 
 it("Washington, D.C. at its Census size closes no more closure rows than at the sample size", () => {
-  const reference = placeReferencePopulation(WASHINGTON.key)?.value;
+  const reference = publishedPlaceReferencePopulation(WASHINGTON.key)?.value;
   expect(reference).toBeGreaterThan(LARGE);
   compareClosures(
     `Washington, D.C. (${WASHINGTON.key}), census ${reference}, seed ${WASHINGTON.seed}`,

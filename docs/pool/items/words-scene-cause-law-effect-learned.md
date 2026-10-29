@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/data/scene-rows.json, data/english/parts/scene-words.json, src/director/scene.ts, src/core2/laws-end-to-end.test.ts
 
 **Notes.** Found by the laws lead on Oct 24 (branch claude/laws-end-to-end-proof).
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the graded hold; ship the piece.

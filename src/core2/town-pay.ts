@@ -17,6 +17,8 @@ import {
 } from "./reference/town-pay.generated";
 
 import type { EntityId } from "./kernel/brands";
+import { parameter as p } from "./parameters";
+import { worldLevel, worldOffsetShare } from "./world-draw";
 
 export const HOURS_PER_YEAR = 2_080;
 
@@ -96,17 +98,47 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
 
 /**
  * GAME ASSUMPTION, labeled: where a worker sits in their occupation's wage
- * distribution. Preserve the existing tenure calibration: a new hire starts
- * at the 25th percentile and moves toward the 75th over 20 years at the
- * employer. The retired person draw does not change pay. Recorded credentials
- * select actual paid peers for an observed hourly mean, never a fixed degree premium.
+ * distribution. A new hire starts at the starting percentile and moves toward
+ * the ending one over the tenure years at the employer. With a world's seed
+ * (play), the two percentiles and the years are this world's own, drawn around
+ * the assumed ones (owner, Oct 27: realistic, not real); without it, the
+ * assumed rule (calibration). Recorded credentials select actual paid peers
+ * for an observed hourly mean, never a fixed degree premium.
  */
-export function townPayPercentile(
-  tenureYears: number,
-  _legacyDraw?: number,
+export function townPayPercentile(tenureYears: number, seed?: string): number {
+  const at = (key: string, row: string) =>
+    seed === undefined
+      ? p(row)
+      : p(row) +
+        worldOffsetShare(
+          seed,
+          `pay-tenure:${key}`,
+          "jobsWorldTenurePercentileSpreadPoints",
+        );
+  const start = at("start", "townPayStartPercentile");
+  const end = at("end", "townPayEndPercentile");
+  const years =
+    seed === undefined
+      ? p("townPayTenureYears")
+      : worldLevel(
+          p("townPayTenureYears"),
+          seed,
+          "pay-tenure:years",
+          "jobsWorldTenureYearsSpreadShare",
+        );
+  return start + (end - start) * Math.min(1, Math.max(0, tenureYears) / years);
+}
+
+/** A published wage in an area, as this world pays it when a seed is given. */
+function worldWage(
+  annual: number,
+  seed: string | undefined,
+  soc: string,
+  area: string,
 ): number {
-  void _legacyDraw;
-  return 25 + 50 * Math.min(1, Math.max(0, tenureYears) / 20);
+  return seed === undefined
+    ? annual
+    : worldLevel(annual, seed, `pay:${soc}:${area}`, "jobsWorldPaySpreadShare");
 }
 
 /** The annual wage at `percentile` in the cells, or null when BLS withheld it. */
@@ -132,6 +164,7 @@ function interpolate(cells: Cells, percentile: number): number | null {
 export function stateMedianAnnualWage(
   occupation: string,
   jurisdictionId: EntityId | null,
+  seed?: string,
 ): number | null {
   const soc = TOWN_JOB_SOC[occupation];
   const byArea = soc ? wageTable().get(soc) : undefined;
@@ -139,7 +172,8 @@ export function stateMedianAnnualWage(
   for (const area of townPayAreas(jurisdictionId)) {
     if (area !== "US" && !area.startsWith("S")) continue;
     const median = byArea.get(area)?.[PERCENTILE_POINTS.indexOf(50)];
-    if (median !== null && median !== undefined) return median;
+    if (median !== null && median !== undefined)
+      return worldWage(median, seed, soc!, area);
   }
   return null;
 }
@@ -149,12 +183,17 @@ export function stateMedianAnnualWage(
  * null where BLS publishes none: the average an estimate starts from where a
  * place has no published wage.
  */
-export function nationalMedianAnnualWage(occupation: string): number | null {
+export function nationalMedianAnnualWage(
+  occupation: string,
+  seed?: string,
+): number | null {
   const soc = TOWN_JOB_SOC[occupation];
   const median = soc
     ? wageTable().get(soc)?.get("US")?.[PERCENTILE_POINTS.indexOf(50)]
     : undefined;
-  return median ?? null;
+  return median === null || median === undefined
+    ? null
+    : worldWage(median, seed, soc!, "US");
 }
 
 export interface TownJobRate {
@@ -175,6 +214,7 @@ export function townJobRate(
   jurisdictionId: EntityId | null,
   percentile: number,
   minimum: number | null = startingMinimumHourly(jurisdictionId),
+  seed?: string,
 ): TownJobRate | null {
   const soc = occupation ? TOWN_JOB_SOC[occupation] : undefined;
   const byArea = soc ? wageTable().get(soc) : undefined;
@@ -184,7 +224,7 @@ export function townJobRate(
     const cells = byArea.get(area);
     const annual = cells ? interpolate(cells, percentile) : null;
     if (annual === null) continue;
-    const hourly = annual / HOURS_PER_YEAR;
+    const hourly = worldWage(annual, seed, soc, area) / HOURS_PER_YEAR;
     return {
       soc,
       area,

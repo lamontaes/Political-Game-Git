@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/integration-volunteers
-pr:
+pr: #6403
 blocked-on:
 source: "Integrator (Opus), Oct 27, from the owner's v0.56.2 sitting (Salida, Colorado, as Carlos Washington)"
 lead: director

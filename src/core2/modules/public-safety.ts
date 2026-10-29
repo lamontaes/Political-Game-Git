@@ -1,6 +1,7 @@
 /**
- * Public safety, once a month on the sixth: crime becomes arrests, arrests
- * become cases under the law in force, and the laws on guns, oversight and
+ * Public safety, once a month on the sixth: the crimes the crime engine
+ * recorded become arrests, and arrests become cases the justice engine files
+ * and decides under the law in force, and the laws on guns, oversight and
  * immigration partnership reach the town's households (see
  * `public-safety.ts`).
  */
@@ -17,13 +18,6 @@ export const PUBLIC_SAFETY_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      cases: {
-        indexes: {
-          byStatus: { fields: ["status"] },
-          byPerson: { fields: ["personId"] },
-        },
-      },
-      terms: { indexes: { byStatus: { fields: ["status"] } } },
       carry: {},
       storage: {},
       permits: {},

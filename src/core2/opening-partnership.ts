@@ -85,7 +85,7 @@ function childrenEverBorn(age: number): number {
  */
 function minorChildAtHome(sex: Sex, age: number): number {
   const shifted = motherAge(sex, age);
-  const adult = p("benchmarkAdultMinimumAge");
+  const adult = p("votingAge");
   const births = childrenEverBorn(shifted) - childrenEverBorn(shifted - adult);
   return p("one") - Math.exp(-Math.max(births, p("zero")));
 }
@@ -452,11 +452,7 @@ function childAgeWeights(
 ): number[] {
   const gap = parentChildGap();
   const weights: number[] = [];
-  for (
-    let age = p("zero");
-    age < p("benchmarkAdultMinimumAge");
-    age += p("one")
-  )
+  for (let age = p("zero"); age < p("votingAge"); age += p("one"))
     weights.push(
       parents.every((parent) => parent.age - age >= gap)
         ? birthsTo(reference.sex, reference.age - age)
@@ -604,7 +600,7 @@ export function partnerAgedHousehold<
     return gender === "female" || gender === "male" ? gender : undefined;
   };
   const keyOf = (n: number) => input.people[n]!.stableKey;
-  const minimum = p("benchmarkAdultMinimumAge");
+  const minimum = p("votingAge");
   const maximumExclusive = data.oldestAge + p("one");
   const members = input.skeleton.members;
   const ages = members.map((member) => member.age);

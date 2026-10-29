@@ -4,7 +4,7 @@
  * bail is in force, each month's batch case takes the bail of every counted
  * group's share that can post from the group's fund into the prosecuting
  * county's court escrow, and the escrow hands it back to the funds in the
- * month the case closes. A place is drawn from all 56 for one played year of
+ * month the justice engine decides the case. A place is drawn from all 56 for one played year of
  * the bench world; a place with cash bail ended is passed over and named. Set
  * COUNTED_BAIL_SEED to reproduce a run.
  */
@@ -17,8 +17,7 @@ import { gameStartDate } from "./game-start";
 import { setJournalTrace } from "./journal-state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { escrowOf } from "./modules/justice";
-import { PUBLIC_SAFETY_MODULE_ID, type CaseRow } from "./public-safety";
+import { countedCases, escrowOf, type CountedCaseRow } from "./modules/justice";
 import { coreAPI } from "./state";
 
 const ATTEMPTS = 4;
@@ -55,10 +54,11 @@ it("a counted group's posted bail leaves its fund for the court escrow and comes
       });
       const api = coreAPI(core);
       advanceCore(core, addDays(makeIsoDate(core.date), 365));
-      const cases = api
-        .moduleState(PUBLIC_SAFETY_MODULE_ID)
-        .table("cases")
-        .rows() as unknown as CaseRow[];
+      // The counted cases the justice engine filed from public safety's arrests.
+      const cases = [
+        ...countedCases(api, "charged"),
+        ...countedCases(api, "decided"),
+      ];
       const adult = cases.filter((c) => c.court === "adult");
       if (adult.length && adult.every((c) => c.bailLawId)) {
         passed.push(`${where}: cash bail ended by ${adult[0]!.bailLawId}`);
@@ -69,7 +69,7 @@ it("a counted group's posted bail leaves its fund for the court escrow and comes
         posted.length,
         `${where}: no adult batch case posted bail of ${adult.length}`,
       ).toBeGreaterThan(0);
-      const closed = posted.filter((c) => c.status === "closed");
+      const closed = posted.filter((c) => c.status === "decided");
       expect(
         closed.length,
         `${where}: a case with bail closed`,
@@ -109,7 +109,7 @@ it("a counted group's posted bail leaves its fund for the court escrow and comes
         );
       }
       // The case that held the most, and the year's total held.
-      const sum = (c: CaseRow) =>
+      const sum = (c: CountedCaseRow) =>
         Object.values(c.bailHeld!).reduce((n, m) => n + m, 0);
       const first = [...closed].sort((x, y) => sum(y) - sum(x))[0]!;
       const total = posted.reduce((n, c) => n + sum(c), 0);

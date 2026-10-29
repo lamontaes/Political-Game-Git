@@ -29,3 +29,5 @@ claimed-at: 2026-10-16T02:49:58.475Z
 Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.
 
 Oct 20: Switched from blocked to the automatic after: gate on laws-property-tax-cap-statutes, laws-groundwater-farm-use, so it opens by itself the moment those items are done.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up of laws-property-tax-cap-statutes + laws-groundwater-farm-use; the children carry the work.

@@ -13,19 +13,23 @@
  * places; its 78 municipios are not government units in the game yet, so the
  * separate municipio file is not compiled here.
  *
- * The output is committed so the browser build never runs Node source code.
+ * The output is the JSON table the core reads
+ * (`src/core2/gov-rules/place-population.ts`), committed so the browser build
+ * never runs Node source code. `--check` reads without writing and fails when
+ * the committed table is stale.
  */
 
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { format } from "prettier";
 
 const ROOT = resolve(import.meta.dirname, "../..");
 const HANDOFF = "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230";
 const CSV = `${HANDOFF}/DATA-Census-Vintage-2025-places-50-states-DC.csv`;
 const SHA256 =
   "3d2f988fe4ed2343dd3cf828dd1c70a24cd5dd26a46feb5837e3c48c5da2e591";
-const OUTPUT = "src/simulation/nationwide-world/place-population.generated.ts";
+const OUTPUT = "data/tables/place-population.json";
 const EXPECTED_ROWS = 19_483;
 const EXCLUDED = new Set(["1571550"]);
 
@@ -51,7 +55,7 @@ function parseLine(line: string): string[] {
   return cells;
 }
 
-export function renderPlacePopulationModule(bytes: Buffer): string {
+export function placePopulationTable(bytes: Buffer) {
   const digest = createHash("sha256").update(bytes).digest("hex");
   if (digest !== SHA256) {
     throw new Error(`${CSV} has SHA-256 ${digest}, expected ${SHA256}.`);
@@ -88,37 +92,34 @@ export function renderPlacePopulationModule(bytes: Buffer): string {
     throw new Error(`Expected ${EXPECTED_ROWS} rows, read ${seen.size}.`);
   }
   rows.sort();
-  return `/**
- * GENERATED — do not edit by hand.
- *
- * Written by \`scripts/world/compile-place-population.ts\` from
- * \`${CSV}\`.
- * Regenerate with \`npm run compile:place-population\`.
- */
-
-export const PLACE_POPULATION_META = {
-  source:
-    "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025.csv",
-  vintage: 2025,
-  estimateDate: "2025-07-01",
-  inputSha256:
-    "${SHA256}",
-  places: ${rows.length},
-  reportedZero: ${zeros},
-  excluded: ["1571550 Urban Honolulu CDP (not a governed place)"],
-} as const;
-
-/** "GEOID:population" pairs joined by ";", parsed once on first use. */
-export const PLACE_POPULATION_ROWS: string =
-  "${rows.join(";")}";
-`;
+  return {
+    PLACE_POPULATION_META: {
+      source:
+        "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025.csv",
+      vintage: 2025,
+      estimateDate: "2025-07-01",
+      inputSha256: SHA256,
+      places: rows.length,
+      reportedZero: zeros,
+      excluded: ["1571550 Urban Honolulu CDP (not a governed place)"],
+    },
+    /** "GEOID:population" pairs joined by ";", parsed once on first use. */
+    PLACE_POPULATION_ROWS: rows.join(";"),
+  };
 }
 
 if (
   process.argv[1] &&
   import.meta.url.endsWith(process.argv[1].split("/").pop()!)
 ) {
-  const text = renderPlacePopulationModule(readFileSync(resolve(ROOT, CSV)));
-  writeFileSync(resolve(ROOT, OUTPUT), text);
-  console.log(`Wrote ${OUTPUT}.`);
+  const table = placePopulationTable(readFileSync(resolve(ROOT, CSV)));
+  const text = await format(JSON.stringify(table), { parser: "json" });
+  if (process.argv.includes("--check")) {
+    if (readFileSync(resolve(ROOT, OUTPUT), "utf8") !== text)
+      throw new Error(`${OUTPUT} is stale; rerun compile-place-population.`);
+    console.log(`${OUTPUT} is current.`);
+  } else {
+    writeFileSync(resolve(ROOT, OUTPUT), text);
+    console.log(`Wrote ${OUTPUT}.`);
+  }
 }

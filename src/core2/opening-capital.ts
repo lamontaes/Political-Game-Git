@@ -322,6 +322,7 @@ export function createOpeningEmployerCapital(
   const booksOptions: BusinessBooksOptions = {
     ...options.books,
     parameters: registry,
+    seed: input.seed,
   };
   const unique = <T extends { id: string }>(
     rows: readonly T[],

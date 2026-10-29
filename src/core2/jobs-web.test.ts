@@ -16,6 +16,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
+  authorizationMeasure,
   countedFacts,
   fullFacts,
   inGroup,
@@ -23,6 +24,8 @@ import {
   MOTHERS,
   OLDER_WORK,
   participationShift,
+  UNDOCUMENTED,
+  US_BORN,
 } from "./jobs-web";
 import { JOBS_MODULE_ID, laborGroupShares } from "./modules/jobs";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
@@ -129,14 +132,23 @@ describe(`the labor engine and the outcome web (${place.name}, seed ${seed})`, (
     const shares = laborGroupShares(api, town);
     for (const key of [MOTHERS, MARRIED_WOMEN, OLDER_WORK])
       expect(shares[key as keyof typeof shares].of, key).toBeGreaterThan(0);
-    // Full people: the shift differs by group.
+    // Full people: the shift differs by group. A town where local
+    // immigration enforcement is in force also moves each person by their
+    // work authorization (citizens by the U.S.-born link), a group too.
+    const enforced =
+      webReach(api, town, UNDOCUMENTED).factor !== 1 ||
+      webReach(api, town, US_BORN).factor !== 1;
     const shifts = new Map<string, number>();
     for (const person of core.people.values()) {
       if (!person.alive || person.placeId !== town) continue;
       const facts = fullFacts(api, person.id, p)!;
       const shift = participationShift(api, town, facts, p);
+      const authorization = enforced
+        ? authorizationMeasure(api, person.id, p)
+        : "";
       const key = [MOTHERS, MARRIED_WOMEN, OLDER_WORK]
         .filter((m) => inGroup(m, facts, p))
+        .concat(authorization ? [authorization] : [])
         .join("+");
       // Someone in none of the groups is untouched; a shift belongs to a group.
       if (key === "") expect(shift).toBe(0);

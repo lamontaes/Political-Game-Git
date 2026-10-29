@@ -67,7 +67,11 @@ try {
           { method: "POST" },
         );
         const body = await r.json().catch(() => ({}));
-        if (r.ok && body.filing?.status === "on-ballot") return contest;
+        if (
+          r.ok &&
+          ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
+        )
+          return contest;
       }
       return null;
     });
@@ -86,23 +90,6 @@ try {
   const settle = async (packet) => {
     let at = packet;
     for (let i = 0; i < 50 && at?.kind === "stop"; i += 1) {
-      // A job offer whose deadline holds the clock is turned down, as a
-      // player may; resuming alone would not release it.
-      for (const row of at.stop?.modules ?? []) {
-        if (row.moduleId !== "jobs") continue;
-        const view = await (
-          await page.request.get(
-            `${base}/api/jobs?${new URLSearchParams({ id: personId })}`,
-          )
-        ).json();
-        const offer = (view.offers ?? []).find((o) =>
-          row.recordId.startsWith(`${o.id}:`),
-        );
-        if (offer)
-          await page.request.post(
-            `${base}/api/jobs/answer?${new URLSearchParams({ offerId: offer.id, answer: "decline" })}`,
-          );
-      }
       const r = await page.request.post(
         `${base}/api/resume?${new URLSearchParams({ pauseId: at.pauseId })}`,
         { timeout: 600000 },
@@ -169,6 +156,10 @@ try {
   await morning.waitFor();
   await page.evaluate(() => document.fonts.ready);
   console.log("MORNING:", await page.locator("#election-day").innerText());
+  // The card shows election morning, never the midnight the clock asked at.
+  const clock = await page.locator("#card").innerText();
+  console.log("CARD:", clock.replace(/\s+/g, " "));
+  assert.doesNotMatch(clock, /12:00\s*AM/);
   await shot("eday-1-morning");
   await page
     .getByRole("button", { name: "Go canvassing", exact: true })
@@ -193,7 +184,7 @@ try {
     await shot("eday-3-ballot");
   }
   // Mark each race for its first candidate, as a voter might; a race below
-  // the panel's fold is marked the same way.
+  // the panel's fold is marked the same way (the ballot scrolls).
   for (let i = 0; i < 40 && !away; i += 1) {
     if (!(await page.locator("#ballot:not([hidden])").isVisible())) break;
     const marked = await page.evaluate(() => {
@@ -204,13 +195,7 @@ try {
         open.click();
         return true;
       }
-      // The page's races are marked: the ballot's next page.
-      const next = [...document.querySelectorAll("#ballot-pager button")].find(
-        (b) => !b.hidden && !b.disabled && b.offsetParent,
-      );
-      if (!next) return false;
-      next.click();
-      return true;
+      return false;
     });
     if (!marked) break;
     await page.waitForTimeout(800);

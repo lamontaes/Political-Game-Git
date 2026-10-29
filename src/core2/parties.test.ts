@@ -77,7 +77,7 @@ describe("M2-08 parties", () => {
     const parties = partiesHere(api);
     const stateKey = corePlaceByKey(place)!.stateJurisdictionKey!;
     expect(parties.map((p) => p.name).sort()).toEqual(
-      stateParties(stateKey)
+      stateParties(stateKey, seed)
         .map((p) => p.name)
         .sort(),
     );
@@ -154,7 +154,8 @@ describe("M2-08 parties", () => {
         });
         if (r.status === "refused") break;
         const f = r.filing;
-        if (f.status === "on-ballot") filed.push(f);
+        if (["petitioning", "on-ballot"].includes(f.status ?? ""))
+          filed.push(f);
       }
       if (filed.length === 2) {
         primaryContest = contest.id;

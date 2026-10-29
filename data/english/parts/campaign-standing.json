@@ -1,0 +1,905 @@
+{
+  "schema": "english-parts/1",
+  "register": "campaign-standing",
+  "description": "How the Campaigns screen says where a race stands: voters reached, how many warmed or cooled, who the opponents are, the last poll and what a poll costs. Every part is a whole sentence; the facts are slots from the campaign's cause, filing and poll records and the Poll action's price.",
+  "slots": {
+    "reached": "Voters reached, from the campaign's cause records (each voter once).",
+    "warmer": "Voters whose warmth toward the candidate rose, from the same records.",
+    "cooler": "Voters whose warmth fell, from the same records.",
+    "opponents": "The other candidates on the contest's filing records.",
+    "name": "One candidate on the contest's filing records.",
+    "sample": "The poll's sample size, from the Poll action.",
+    "cost": "Dollars the poll costs: sample times the campaign engine's price per interview.",
+    "date": "The date the poll was taken.",
+    "contacted": "Voters who answered the poll.",
+    "tally": "Each answer with its count, from the poll record.",
+    "amount": "Dollars given, from the gift row and journal entry.",
+    "gave": "How many people gave on this call.",
+    "asked": "How many people were asked on this call."
+  },
+  "maxWords": 20,
+  "parts": [
+    {
+      "key": "campaign-standing.reached.you-have-reached-reached-voters-so-far",
+      "move": "reached",
+      "kind": "written",
+      "text": "You have reached {reached} voters so far.",
+      "uses": [
+        {
+          "move": "reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached"
+      }
+    },
+    {
+      "key": "campaign-standing.reached.so-far-reached-voters-have-heard-from-you",
+      "move": "reached",
+      "kind": "written",
+      "text": "So far {reached} voters have heard from you.",
+      "uses": [
+        {
+          "move": "reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached"
+      }
+    },
+    {
+      "key": "campaign-standing.reached-none.no-voters-have-heard-from-you-yet",
+      "move": "reached-none",
+      "kind": "written",
+      "text": "No voters have heard from you yet.",
+      "uses": [
+        {
+          "move": "reached-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-none"
+      }
+    },
+    {
+      "key": "campaign-standing.reached-none.nobody-has-heard-from-you-yet",
+      "move": "reached-none",
+      "kind": "written",
+      "text": "Nobody has heard from you yet.",
+      "uses": [
+        {
+          "move": "reached-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-none"
+      }
+    },
+    {
+      "key": "campaign-standing.opponent-one.you-are-running-against-opponents",
+      "move": "opponent-one",
+      "kind": "written",
+      "text": "You are running against {opponents}.",
+      "uses": [
+        {
+          "move": "opponent-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-one"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-one"
+      }
+    },
+    {
+      "key": "campaign-standing.opponent-one.your-opponent-is-opponents",
+      "move": "opponent-one",
+      "kind": "written",
+      "text": "Your opponent is {opponents}.",
+      "uses": [
+        {
+          "move": "opponent-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-one"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-one"
+      }
+    },
+    {
+      "key": "campaign-standing.opponents.your-opponents-are-opponents",
+      "move": "opponents",
+      "kind": "written",
+      "text": "Your opponents are {opponents}.",
+      "uses": [
+        {
+          "move": "opponents",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents"
+      }
+    },
+    {
+      "key": "campaign-standing.opponents-none.no-one-else-has-filed-for-this-seat-yet",
+      "move": "opponents-none",
+      "kind": "written",
+      "text": "No one else has filed for this seat yet.",
+      "uses": [
+        {
+          "move": "opponents-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none"
+      }
+    },
+    {
+      "key": "campaign-standing.opponents-none.nobody-else-is-on-the-ballot-for-this-seat-yet",
+      "move": "opponents-none",
+      "kind": "written",
+      "text": "Nobody else is on the ballot for this seat yet.",
+      "uses": [
+        {
+          "move": "opponents-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none"
+      }
+    },
+    {
+      "key": "campaign-standing.opponent-reached.name-has-reached-reached-voters",
+      "move": "opponent-reached",
+      "kind": "written",
+      "text": "{name} has reached {reached} voters.",
+      "uses": [
+        {
+          "move": "opponent-reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-reached"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-reached"
+      }
+    },
+    {
+      "key": "campaign-standing.poll-cost.a-poll-of-sample-voters-would-cost-cost",
+      "move": "poll-cost",
+      "kind": "written",
+      "text": "A poll of {sample} voters would cost {cost}.",
+      "uses": [
+        {
+          "move": "poll-cost",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-cost"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-cost"
+      }
+    },
+    {
+      "key": "campaign-standing.poll-cost.asking-sample-voters-in-a-poll-would-cost-cost",
+      "move": "poll-cost",
+      "kind": "written",
+      "text": "Asking {sample} voters in a poll would cost {cost}.",
+      "uses": [
+        {
+          "move": "poll-cost",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-cost"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-cost"
+      }
+    },
+    {
+      "key": "campaign-standing.poll-result.the-last-poll-on-date-asked-contacted-voters-tally",
+      "move": "poll-result",
+      "kind": "written",
+      "text": "The last poll, on {date}, asked {contacted} voters. {tally}.",
+      "uses": [
+        {
+          "move": "poll-result",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-result"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-result"
+      }
+    },
+    {
+      "key": "campaign-standing.reached.right-now-reached-voters-have-heard-from-you",
+      "move": "reached",
+      "kind": "written",
+      "text": "Right now {reached} voters have heard from you.",
+      "uses": [
+        {
+          "move": "reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached"
+      }
+    },
+    {
+      "key": "campaign-standing.reached-one.you-have-reached-one-voter-so-far",
+      "move": "reached-one",
+      "kind": "written",
+      "text": "You have reached one voter so far.",
+      "uses": [
+        {
+          "move": "reached-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-one"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-one"
+      }
+    },
+    {
+      "key": "campaign-standing.reached-one.so-far-one-voter-has-heard-from-you",
+      "move": "reached-one",
+      "kind": "written",
+      "text": "So far one voter has heard from you.",
+      "uses": [
+        {
+          "move": "reached-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-one"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-one"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-warmer.of-the-voters-you-reached-warmer-warmed-to-you",
+      "move": "moved-warmer",
+      "kind": "written",
+      "text": "Of the voters you reached, {warmer} warmed to you.",
+      "uses": [
+        {
+          "move": "moved-warmer",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-warmer"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-warmer"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-warmer.among-those-you-reached-warmer-came-away-warmer-toward-you",
+      "move": "moved-warmer",
+      "kind": "written",
+      "text": "Among those you reached, {warmer} came away warmer toward you.",
+      "uses": [
+        {
+          "move": "moved-warmer",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-warmer"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-warmer"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-cooler.of-the-voters-you-reached-cooler-cooled-toward-you",
+      "move": "moved-cooler",
+      "kind": "written",
+      "text": "Of the voters you reached, {cooler} cooled toward you.",
+      "uses": [
+        {
+          "move": "moved-cooler",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-cooler"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-cooler"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-cooler.among-those-you-reached-cooler-came-away-cooler-toward-you",
+      "move": "moved-cooler",
+      "kind": "written",
+      "text": "Among those you reached, {cooler} came away cooler toward you.",
+      "uses": [
+        {
+          "move": "moved-cooler",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-cooler"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-cooler"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-both.of-the-voters-you-reached-warmer-warmed-to-you-and-cooler-co",
+      "move": "moved-both",
+      "kind": "written",
+      "text": "Of the voters you reached, {warmer} warmed to you and {cooler} cooled.",
+      "uses": [
+        {
+          "move": "moved-both",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-both"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-both"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-both.among-those-you-reached-warmer-came-away-warmer-and-cooler-c",
+      "move": "moved-both",
+      "kind": "written",
+      "text": "Among those you reached, {warmer} came away warmer and {cooler} came away cooler.",
+      "uses": [
+        {
+          "move": "moved-both",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-both"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-both"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-none.nobody-you-reached-has-changed-their-mind-yet",
+      "move": "moved-none",
+      "kind": "written",
+      "text": "Nobody you reached has changed their mind yet.",
+      "uses": [
+        {
+          "move": "moved-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-none"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-none.no-one-you-reached-has-changed-their-mind-yet",
+      "move": "moved-none",
+      "kind": "written",
+      "text": "No one you reached has changed their mind yet.",
+      "uses": [
+        {
+          "move": "moved-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-none"
+      }
+    },
+    {
+      "key": "campaign-standing.opponent-reached.so-far-reached-voters-have-heard-from-name",
+      "move": "opponent-reached",
+      "kind": "written",
+      "text": "So far {reached} voters have heard from {name}.",
+      "uses": [
+        {
+          "move": "opponent-reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-reached"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-reached"
+      }
+    },
+    {
+      "key": "campaign-standing.opponent-reached-one.name-has-reached-one-voter",
+      "move": "opponent-reached-one",
+      "kind": "written",
+      "text": "{name} has reached one voter.",
+      "uses": [
+        {
+          "move": "opponent-reached-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-reached-one"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-reached-one"
+      }
+    },
+    {
+      "key": "campaign-standing.opponent-reached-one.so-far-one-voter-has-heard-from-name",
+      "move": "opponent-reached-one",
+      "kind": "written",
+      "text": "So far one voter has heard from {name}.",
+      "uses": [
+        {
+          "move": "opponent-reached-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-reached-one"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-reached-one"
+      }
+    },
+    {
+      "key": "campaign-standing.poll-result.on-date-the-last-poll-asked-contacted-voters-tally",
+      "move": "poll-result",
+      "kind": "written",
+      "text": "On {date}, the last poll asked {contacted} voters. {tally}.",
+      "uses": [
+        {
+          "move": "poll-result",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-result"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-result"
+      }
+    },
+    {
+      "key": "campaign-standing.poll-result-one.the-last-poll-on-date-asked-one-voter-tally",
+      "move": "poll-result-one",
+      "kind": "written",
+      "text": "The last poll, on {date}, asked one voter. {tally}.",
+      "uses": [
+        {
+          "move": "poll-result-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-result-one"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-result-one"
+      }
+    },
+    {
+      "key": "campaign-standing.poll-result-one.on-date-the-last-poll-asked-one-voter-tally",
+      "move": "poll-result-one",
+      "kind": "written",
+      "text": "On {date}, the last poll asked one voter. {tally}.",
+      "uses": [
+        {
+          "move": "poll-result-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-result-one"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-scenes lead helper",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-result-one"
+      }
+    },
+    {
+      "key": "campaign-standing.gave.name-gave-amount",
+      "move": "gave",
+      "kind": "written",
+      "text": "{name} gave {amount}.",
+      "uses": [
+        {
+          "move": "gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "gave"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "gave"
+      }
+    },
+    {
+      "key": "campaign-standing.gave.name-put-in-amount-for-your-campaign",
+      "move": "gave",
+      "kind": "written",
+      "text": "{name} put in {amount} for your campaign.",
+      "uses": [
+        {
+          "move": "gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "gave"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "gave"
+      }
+    },
+    {
+      "key": "campaign-standing.not-warm.name-has-no-reason-yet-to-give-to-your-campaign",
+      "move": "not-warm",
+      "kind": "written",
+      "text": "{name} has no reason yet to give to your campaign.",
+      "uses": [
+        {
+          "move": "not-warm",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "not-warm"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "not-warm"
+      }
+    },
+    {
+      "key": "campaign-standing.not-warm.name-would-rather-keep-the-money-for-now",
+      "move": "not-warm",
+      "kind": "written",
+      "text": "{name} would rather keep the money for now.",
+      "uses": [
+        {
+          "move": "not-warm",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "not-warm"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "not-warm"
+      }
+    },
+    {
+      "key": "campaign-standing.no-spare.name-has-nothing-to-spare-after-the-month-s-bills",
+      "move": "no-spare",
+      "kind": "written",
+      "text": "{name} has nothing to spare after the month's bills.",
+      "uses": [
+        {
+          "move": "no-spare",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "no-spare"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "no-spare"
+      }
+    },
+    {
+      "key": "campaign-standing.no-spare.name-cannot-spare-anything-right-now",
+      "move": "no-spare",
+      "kind": "written",
+      "text": "{name} cannot spare anything right now.",
+      "uses": [
+        {
+          "move": "no-spare",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "no-spare"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "no-spare"
+      }
+    },
+    {
+      "key": "campaign-standing.at-limit.name-has-already-given-the-most-the-law-allows",
+      "move": "at-limit",
+      "kind": "written",
+      "text": "{name} has already given the most the law allows.",
+      "uses": [
+        {
+          "move": "at-limit",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "at-limit"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "at-limit"
+      }
+    },
+    {
+      "key": "campaign-standing.small.name-could-spare-less-than-a-dollar",
+      "move": "small",
+      "kind": "written",
+      "text": "{name} could spare less than a dollar.",
+      "uses": [
+        {
+          "move": "small",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "small"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "small"
+      }
+    },
+    {
+      "key": "campaign-standing.total.you-asked-asked-and-gave-gave-amount-in-all",
+      "move": "total",
+      "kind": "written",
+      "text": "You asked {asked}, and {gave} gave, {amount} in all.",
+      "uses": [
+        {
+          "move": "total",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "total"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "total"
+      }
+    },
+    {
+      "key": "campaign-standing.total.of-the-asked-you-asked-gave-gave-amount-in-all",
+      "move": "total",
+      "kind": "written",
+      "text": "Of the {asked} you asked, {gave} gave: {amount} in all.",
+      "uses": [
+        {
+          "move": "total",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "total"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "total"
+      }
+    },
+    {
+      "key": "campaign-standing.none-gave.you-asked-asked-and-none-gave-anything",
+      "move": "none-gave",
+      "kind": "written",
+      "text": "You asked {asked}, and none gave anything.",
+      "uses": [
+        {
+          "move": "none-gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "none-gave"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "none-gave"
+      }
+    },
+    {
+      "key": "campaign-standing.none-gave.nobody-gave-anything-of-the-asked-you-asked",
+      "move": "none-gave",
+      "kind": "written",
+      "text": "Nobody gave anything, of the {asked} you asked.",
+      "uses": [
+        {
+          "move": "none-gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "none-gave"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "none-gave"
+      }
+    }
+  ]
+}

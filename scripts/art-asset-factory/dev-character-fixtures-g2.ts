@@ -5,7 +5,7 @@ import * as PImage from "pureimage";
 import type {
   CharacterComplexion,
   CharacterComponentDefinition,
-} from "../../src/presentation/character-components";
+} from "../../src/appearance/character-components";
 import { hashArtFile } from "./content-hash";
 
 /**

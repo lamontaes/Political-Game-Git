@@ -35,7 +35,9 @@
     "to": "The amount now in force, from the law record.",
     "issue": "A policy question, by its name.",
     "incident": "The kind of disaster, from the declaration record.",
-    "area": "The region a rate is measured for (a metro area, or the state), by name."
+    "area": "The region a rate is measured for (a metro area, or the state), by name.",
+    "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record.",
+    "candidate": "A candidate, by name, from the campaign's record."
   },
   "maxWords": 14,
   "mining": {
@@ -139,7 +141,6 @@
       "bySource": {
         "ncua": 9
       },
-      "shippable": true,
       "source": {
         "document": "African Diaspora Federal Credit Union Closes",
         "date": "2026-08-06",
@@ -170,7 +171,6 @@
         "crec": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "CULTURAL BARRIERS IMPACTING WOMEN VETERANS' ACCESS TO HEALTHCARE",
         "date": "2019-05-02",
@@ -201,7 +201,6 @@
         "blm": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Washington: Towell Falls Road to remain closed",
         "date": "2017-05-26",
@@ -231,7 +230,6 @@
       "bySource": {
         "epa": 8
       },
-      "shippable": true,
       "source": {
         "document": "EPA Selects Nevadaworks to Receive $349,984 for Environmental Career Training",
         "date": "2026-02-09",
@@ -261,7 +259,6 @@
         "dcpd": 3,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Address Before a Joint Session of the Congress",
         "date": "2025-03-04",
@@ -294,7 +291,6 @@
         "ntia": 1,
         "usgs": 1
       },
-      "shippable": true,
       "source": {
         "document": "Biden-Harris Administration Awards $72 Million to Expand Internet Access and Digital Literacy for Native Hawaiians",
         "date": "2024-11-12",
@@ -325,7 +321,6 @@
         "hud": 3,
         "ntia": 3
       },
-      "shippable": true,
       "source": {
         "document": "Biden-Harris Administration Awards $19 Million For Wireless Innovation",
         "date": "2025-01-17",
@@ -356,7 +351,6 @@
         "epa": 9,
         "hud": 2
       },
-      "shippable": true,
       "source": {
         "document": "EPA Announces $9.5 Million for Maine to Address PFAS in Drinking Water",
         "date": "2026-05-19",
@@ -387,7 +381,6 @@
         "epa": 9,
         "hud": 3
       },
-      "shippable": true,
       "source": {
         "document": "Interior Department Announces $733 Million to Support Communities",
         "date": "2026-06-23",
@@ -420,7 +413,6 @@
         "hearings": 3,
         "usgs": 3
       },
-      "shippable": true,
       "source": {
         "document": "USGS invests $3.8 million in Bipartisan Infrastructure Law funding to map critical minerals across the Ozark Plateau",
         "date": "2025-01-16",
@@ -449,7 +441,6 @@
       "bySource": {
         "epa": 4
       },
-      "shippable": true,
       "source": {
         "document": "EPA awards $886,000 grant to District of Columbia for canopies to reduce harmful runoff from municipal trucks",
         "date": "2021-11-30",
@@ -479,7 +470,6 @@
         "crec": 73,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Congressional Record, Senate section, 2025-12-18",
         "date": "2025-12-18",
@@ -509,7 +499,6 @@
       "bySource": {
         "doj": 5
       },
-      "shippable": true,
       "source": {
         "document": "Akron Drug Dealer Sentenced to 35 Years in Prison",
         "date": "2025-09-29",
@@ -538,7 +527,6 @@
       "bySource": {
         "doj": 2
       },
-      "shippable": true,
       "source": {
         "document": "Bitcoin Trader Sentenced to 41 Months",
         "date": "2018-08-01",
@@ -567,7 +555,6 @@
       "bySource": {
         "doj": 125
       },
-      "shippable": true,
       "source": {
         "document": "Richland County Man Pleads Guilty to Drug and Gun Offenses",
         "date": "2026-08-12",
@@ -602,7 +589,6 @@
       "bySource": {
         "doj": 64
       },
-      "shippable": true,
       "source": {
         "document": "Shiprock Man Charged with Assault and Assaulting Federal Officers",
         "date": "2026-08-12",
@@ -631,7 +617,6 @@
       "bySource": {
         "doj": 28
       },
-      "shippable": true,
       "source": {
         "document": "Parsons man indicted for trying to create child pornography",
         "date": "2026-08-12",
@@ -666,7 +651,6 @@
       "bySource": {
         "doj": 14
       },
-      "shippable": true,
       "source": {
         "document": "Detroit Man Convicted of Leadership Role in Drug Trafficking Operation",
         "date": "2025-09-29",
@@ -695,7 +679,6 @@
       "bySource": {
         "doj": 6
       },
-      "shippable": true,
       "source": {
         "document": "Leake County Man Found Guilty of Attempted Coercion of Minor",
         "date": "2026-08-12",
@@ -746,7 +729,6 @@
         "ntia": 15,
         "usa.gov": 2
       },
-      "shippable": true,
       "source": {
         "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC’s Framework for Reviewing Bank Merger Transactions",
         "date": "2026-09-17",
@@ -797,7 +779,6 @@
         "weather.gov": 2,
         "wpa": 22
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Roundtable Discussion on Saving College Sports and an Exchange With Reporters",
         "date": "2026-03-06",
@@ -834,7 +815,6 @@
         "nasa2": 1,
         "usfa.fema.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "UNDERSTANDING JUDEA AND SAMARIA: HISTORICAL, STRATEGIC, AND POLITICAL DYNAMICS IN US--ISRAEL RELATIONS",
         "date": "2025-12-10",
@@ -883,7 +863,6 @@
         "ntia": 15,
         "usa.gov": 2
       },
-      "shippable": true,
       "source": {
         "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC’s Framework for Reviewing Bank Merger Transactions",
         "date": "2026-09-17",
@@ -920,7 +899,6 @@
         "house": 1,
         "va": 1
       },
-      "shippable": true,
       "source": {
         "document": "TO REVIEW H.R. 471, THE FIX OUR FORESTS ACT, AND OPTIONS TO REDUCE CATASTROPHIC WILDFIRE",
         "date": "2025-03-06",
@@ -953,7 +931,6 @@
         "epa": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "PRESIDENT TRUMP'S REDESIGNATION OF NIGERIA AS A \"COUNTRY OF PARTICULAR CONCERN--CPC\": A SERIOUS, WELL-FOUNDED WAKE-UP CALL",
         "date": "2025-11-20",
@@ -983,7 +960,6 @@
         "dol-osha": 9,
         "epa": 9
       },
-      "shippable": true,
       "source": {
         "document": "EPA fines Southern California grocery chain for distributing unregistered disinfectants",
         "date": "2025-02-11",
@@ -1017,7 +993,6 @@
         "dol-osha": 1,
         "eeoc": 144
       },
-      "shippable": true,
       "source": {
         "document": "EEOC Sues Willow Park Healthcare for Disability Discrimination, Harassment, and Retaliation",
         "date": "2026-09-30",
@@ -1047,7 +1022,6 @@
         "doj": 3,
         "eeoc": 97
       },
-      "shippable": true,
       "source": {
         "document": "Walmart to Pay $175,000 to Settle Three EEOC Disability Discrimination Suits",
         "date": "2024-10-02",
@@ -1076,7 +1050,6 @@
       "bySource": {
         "eeoc": 6
       },
-      "shippable": true,
       "source": {
         "document": "eeoc of 2021-11-23",
         "date": "2021-11-23",
@@ -1105,7 +1078,6 @@
       "bySource": {
         "dol-osha": 3
       },
-      "shippable": true,
       "source": {
         "document": "Department of Labor finds Alabama sausage manufacturer continues exposing workers to safety hazards, proposes $103K in penalties",
         "date": "2024-12-10",
@@ -1140,7 +1112,6 @@
         "nps.gov": 1,
         "va": 1
       },
-      "shippable": true,
       "source": {
         "document": "EPA Regional Administrator Celebrates Young Environmental Stewards on Earth Day in Middletown, NY",
         "date": "2025-04-23",
@@ -1176,7 +1147,6 @@
         "nps.gov": 1,
         "va": 1
       },
-      "shippable": true,
       "source": {
         "document": "EPA Regional Administrator Celebrates Young Environmental Stewards on Earth Day in Middletown, NY",
         "date": "2025-04-23",
@@ -1226,7 +1196,6 @@
         "va": 2,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -1263,7 +1232,6 @@
         "hud": 3,
         "va": 1
       },
-      "shippable": true,
       "source": {
         "document": "EPA Finalizes Groundwater Cleanup Plan for Chemsol, Inc. Superfund Site in Piscataway, New Jersey",
         "date": "2026-09-30",
@@ -1297,7 +1265,6 @@
         "ncua": 2,
         "ntia": 9
       },
-      "shippable": true,
       "source": {
         "document": "NTIA Seeks Comments on Supporting U.S. Data Center Growth",
         "date": "2024-09-04",
@@ -1331,7 +1298,6 @@
         "hud": 2,
         "usgs": 1
       },
-      "shippable": true,
       "source": {
         "document": "AMERICAN INNOVATION AND THE FUTURE OF DIGITAL ASSETS",
         "date": "2025-04-09",
@@ -1383,7 +1349,6 @@
         "va": 5,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "VA awards $112M in suicide prevention grants",
         "date": "2026-09-29",
@@ -1431,7 +1396,6 @@
         "usgs": 10,
         "va": 22
       },
-      "shippable": true,
       "source": {
         "document": "FDIC Announces Conclusion of Independent Monitorship",
         "date": "2026-09-30",
@@ -1480,7 +1444,6 @@
         "usgs": 1,
         "va": 5
       },
-      "shippable": true,
       "source": {
         "document": "EPA Administrator Zeldin Launches G20 Initiative to Advance Water Security",
         "date": "2026-09-15",
@@ -1550,7 +1513,6 @@
         "va": 11,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "FDIC Issues List of Banks Examined for CRA Compliance",
         "date": "2026-10-05",
@@ -1588,7 +1550,6 @@
         "nasa2": 1,
         "ncua": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
         "date": "2026-07-08",
@@ -1626,7 +1587,6 @@
         "nih": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks to Federal Law Enforcement Officers and National Guard Personnel",
         "date": "2025-08-21",
@@ -1658,7 +1618,6 @@
         "dcpd": 2,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Working Lunch With President Volodymyr Zelenskky of Ukraine and an Exchange With Reporters",
         "date": "2025-10-17",
@@ -1688,7 +1647,6 @@
         "news-epa": 1,
         "news-faa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Iowa American Lung Association Awarded $422,155 for Diesel Emissions Reduction Project",
         "date": "2021-11-02",
@@ -1718,7 +1676,6 @@
         "eac": 1,
         "news-nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Events",
         "date": "2021-10-13",
@@ -1749,7 +1706,6 @@
       "bySource": {
         "news-nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Northern Section of Coastal Trail Reopens",
         "date": "2018-07-26",
@@ -1780,7 +1736,6 @@
       "bySource": {
         "news-nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Big Creek Trail reopens to the public",
         "date": "2022-07-05",
@@ -1814,7 +1769,6 @@
         "news-nasa": 1,
         "news-treasury": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to the Kennedy Center Honors Ceremony",
         "date": "2025-12-07",
@@ -1840,7 +1794,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1862,7 +1815,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1884,7 +1836,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1907,7 +1858,6 @@
           "requiresFacts": ["effective"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1930,7 +1880,6 @@
           "requiresFacts": ["down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1953,7 +1902,6 @@
           "requiresFacts": ["down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1976,7 +1924,6 @@
           "requiresFacts": ["up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -1999,7 +1946,6 @@
           "requiresFacts": ["up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2022,7 +1968,6 @@
           "requiresFacts": ["changed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2045,7 +1990,6 @@
           "requiresFacts": ["changed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2068,7 +2012,6 @@
           "requiresFacts": ["same"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2091,7 +2034,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2114,7 +2056,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2137,7 +2078,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2160,7 +2100,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2183,7 +2122,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2206,7 +2144,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2229,7 +2166,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2252,7 +2188,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2275,7 +2210,6 @@
           "requiresFacts": ["held"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2298,7 +2232,6 @@
           "requiresFacts": ["held"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2321,7 +2254,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2344,7 +2276,6 @@
           "requiresFacts": ["passed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2367,7 +2298,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2390,7 +2320,6 @@
           "requiresFacts": ["failed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2413,7 +2342,6 @@
           "requiresFacts": ["signed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2436,7 +2364,6 @@
           "requiresFacts": ["signed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2459,7 +2386,6 @@
           "requiresFacts": ["vetoed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2482,7 +2408,6 @@
           "requiresFacts": ["vetoed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2505,7 +2430,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2527,7 +2451,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2549,7 +2472,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2571,7 +2493,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2593,7 +2514,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2616,7 +2536,6 @@
           "requiresFacts": ["cut"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2639,7 +2558,6 @@
           "requiresFacts": ["added"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2662,7 +2580,6 @@
           "requiresFacts": ["cut"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2685,7 +2602,6 @@
           "requiresFacts": ["added"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2707,7 +2623,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2729,7 +2644,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2751,7 +2665,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2773,10 +2686,51 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.jobs-report.unemployment-outside-states-largest-cities",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "Unemployment outside {outside} largest cities at {percent}%",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "headline",
+          "role": "jobs-report",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (Words: the area a jobs rate covers, said as a reader would)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.jobs-report.jobless-rate-outside-states-cities",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "Jobless rate outside {outside} cities is {percent}%",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "headline",
+          "role": "jobs-report",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (Words: the area a jobs rate covers, said as a reader would)",
+      "date": "2026-10-28",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -2796,7 +2750,6 @@
           "requiresFacts": ["unemployment", "up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2819,7 +2772,6 @@
           "requiresFacts": ["unemployment", "down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2842,7 +2794,6 @@
           "requiresFacts": ["burglary", "up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2865,7 +2816,6 @@
           "requiresFacts": ["burglary", "down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2888,7 +2838,6 @@
           "requiresFacts": ["robbery", "up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2911,7 +2860,6 @@
           "requiresFacts": ["robbery", "down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2934,7 +2882,6 @@
           "requiresFacts": ["assault", "up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2957,7 +2904,6 @@
           "requiresFacts": ["assault", "down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -2980,7 +2926,6 @@
           "requiresFacts": ["vandalism", "up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3003,7 +2948,6 @@
           "requiresFacts": ["vandalism", "down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3026,7 +2970,6 @@
           "requiresFacts": ["up"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3049,7 +2992,6 @@
           "requiresFacts": ["down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3072,7 +3014,6 @@
           "requiresFacts": ["held"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3094,7 +3035,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3117,7 +3057,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3139,7 +3078,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3162,7 +3100,6 @@
           "requiresFacts": ["number", "several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3184,7 +3121,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3206,7 +3142,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3228,7 +3163,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3250,7 +3184,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3272,7 +3205,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3294,7 +3226,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3316,7 +3247,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3338,7 +3268,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3360,7 +3289,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3383,7 +3311,6 @@
           "requiresFacts": ["won"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3406,7 +3333,6 @@
           "requiresFacts": ["won"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3428,7 +3354,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3450,7 +3375,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3472,7 +3396,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3495,7 +3418,6 @@
           "requiresFacts": ["died"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3518,7 +3440,6 @@
           "requiresFacts": ["left"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3540,7 +3461,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3568,7 +3488,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3590,7 +3509,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3613,7 +3531,6 @@
           "requiresFacts": ["presides"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3636,7 +3553,6 @@
           "requiresFacts": ["presides"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3658,7 +3574,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3680,7 +3595,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3703,7 +3617,6 @@
           "requiresFacts": ["kept"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3726,7 +3639,6 @@
           "requiresFacts": ["removed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3748,7 +3660,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3770,7 +3681,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3792,7 +3702,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3815,7 +3724,6 @@
           "requiresFacts": ["released"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3838,7 +3746,6 @@
           "requiresFacts": ["money"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3860,7 +3767,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3882,7 +3788,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3904,7 +3809,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3927,7 +3831,6 @@
           "requiresFacts": ["floor-session", "missed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3950,7 +3853,6 @@
           "requiresFacts": ["floor-session", "attended"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3973,7 +3875,6 @@
           "requiresFacts": ["committee", "missed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -3996,7 +3897,6 @@
           "requiresFacts": ["state-of-the-state"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4019,7 +3919,6 @@
           "requiresFacts": ["executive-order", "issued"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4042,7 +3941,6 @@
           "requiresFacts": ["executive-order", "revoked"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4065,7 +3963,6 @@
           "requiresFacts": ["budget-proposal"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4088,7 +3985,6 @@
           "requiresFacts": ["clemency", "granted"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4111,7 +4007,6 @@
           "requiresFacts": ["clemency", "denied"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4134,7 +4029,6 @@
           "requiresFacts": ["legislative-leaders", "attended"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4157,7 +4051,6 @@
           "requiresFacts": ["caucus", "attended"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4180,7 +4073,6 @@
           "requiresFacts": ["caucus", "missed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4203,7 +4095,6 @@
           "requiresFacts": ["committee", "attended"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4226,7 +4117,6 @@
           "requiresFacts": ["interim-committee", "attended"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4249,7 +4139,6 @@
           "requiresFacts": ["interim-committee", "missed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4272,7 +4161,6 @@
           "requiresFacts": ["legislative-leaders", "missed"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4295,7 +4183,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4317,7 +4204,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4339,7 +4225,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4361,7 +4246,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4383,7 +4267,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4405,7 +4288,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4427,7 +4309,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4449,7 +4330,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4471,7 +4351,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4493,7 +4372,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4515,7 +4393,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4537,7 +4414,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4559,7 +4435,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4581,7 +4456,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4603,7 +4477,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4626,7 +4499,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4649,7 +4521,6 @@
           "requiresFacts": ["one"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4672,7 +4543,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4695,7 +4565,6 @@
           "requiresFacts": ["several"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4717,7 +4586,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4739,7 +4607,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4761,7 +4628,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4783,7 +4649,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4805,7 +4670,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4828,7 +4692,6 @@
           "requiresFacts": ["inaugural"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4851,7 +4714,6 @@
           "requiresFacts": ["joint-session"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4874,7 +4736,6 @@
           "requiresFacts": ["inaugural"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
@@ -4897,7 +4758,6 @@
           "requiresFacts": ["inaugural"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
@@ -4920,7 +4780,6 @@
           "requiresFacts": ["joint-session"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
@@ -4942,7 +4801,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4964,7 +4822,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -4987,7 +4844,6 @@
           "requiresFacts": ["on-ballot"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5010,7 +4866,6 @@
           "requiresFacts": ["short"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5032,7 +4887,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5054,7 +4908,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5076,7 +4929,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5098,7 +4950,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5120,7 +4971,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5143,7 +4993,6 @@
           "requiresFacts": ["federal"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5166,7 +5015,6 @@
           "requiresFacts": ["held"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5189,7 +5037,6 @@
           "requiresFacts": ["yes"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5212,7 +5059,6 @@
           "requiresFacts": ["no"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5234,7 +5080,6 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
@@ -5256,10 +5101,702 @@
           "choice": "headline"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.campaign-gift.name-gives-money-to-candidate",
+      "move": "campaign-gift",
+      "kind": "written",
+      "text": "{name} gives {money} to {candidate}",
+      "uses": [
+        {
+          "move": "campaign-gift",
+          "subject": "headline",
+          "role": "campaign-gift",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.campaign-gift.candidate-reports-a-gift-from-name",
+      "move": "campaign-gift",
+      "kind": "written",
+      "text": "{candidate} reports a gift from {name}",
+      "uses": [
+        {
+          "move": "campaign-gift",
+          "subject": "headline",
+          "role": "campaign-gift",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.vacancy.place-post-dies-in-office",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "{place} {post} dies in office",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "headline",
+          "role": "vacancy",
+          "choice": "headline",
+          "requiresFacts": ["died", "post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.vacancy.place-post-leaves-office",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "{place} {post} leaves office",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "headline",
+          "role": "vacancy",
+          "choice": "headline",
+          "requiresFacts": ["left", "post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.vacancy.place-post-seat-is-open",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "{place} {post} seat is open",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "headline",
+          "role": "vacancy",
+          "choice": "headline",
+          "requiresFacts": ["post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-took-a-bribe-records-show",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} took a bribe, records show",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["bribe"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.records-tie-name-to-a-bribe",
+      "move": "exposed",
+      "kind": "written",
+      "text": "Records tie {name} to a bribe",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["bribe"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-voted-on-a-contract-for-a-firm-with-personal-ties",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} voted on a contract for a firm with personal ties",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["conflict"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.took-office.new-place-post-takes-office",
+      "move": "took-office",
+      "kind": "written",
+      "text": "New {place} {post} takes office",
+      "uses": [
+        {
+          "move": "took-office",
+          "subject": "headline",
+          "role": "took-office",
+          "choice": "headline",
+          "requiresFacts": ["post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.took-office.place-swears-in-a-new-post",
+      "move": "took-office",
+      "kind": "written",
+      "text": "{place} swears in a new {post}",
+      "uses": [
+        {
+          "move": "took-office",
+          "subject": "headline",
+          "role": "took-office",
+          "choice": "headline",
+          "requiresFacts": ["post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.hiring.subject-to-hire-number",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} to hire {number}",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "headline",
+          "role": "hiring",
+          "choice": "headline",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.hiring.subject-is-hiring",
+      "move": "hiring",
+      "kind": "written",
+      "text": "{subject} is hiring",
+      "uses": [
+        {
+          "move": "hiring",
+          "subject": "headline",
+          "role": "hiring",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.petition-check.name-qualifies-for-the-office-ballot",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name} qualifies for the {office} ballot",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "headline",
+          "role": "petition-check",
+          "choice": "headline",
+          "requiresFacts": ["on-ballot"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.petition-check.name-falls-short-of-the-ballot-for-office",
+      "move": "petition-check",
+      "kind": "written",
+      "text": "{name} falls short of the ballot for {office}",
+      "uses": [
+        {
+          "move": "petition-check",
+          "subject": "headline",
+          "role": "petition-check",
+          "choice": "headline",
+          "requiresFacts": ["short"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.committee.designation-fails-in-committee",
+      "move": "committee",
+      "kind": "written",
+      "text": "{designation} fails in committee",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "headline",
+          "role": "committee",
+          "choice": "headline",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.committee.designation-dies-in-committee-count",
+      "move": "committee",
+      "kind": "written",
+      "text": "{designation} dies in committee, {count}",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "headline",
+          "role": "committee",
+          "choice": "headline",
+          "requiresFacts": ["failed", "count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.budget-request.name-sends-congress-a-budget",
+      "move": "budget-request",
+      "kind": "written",
+      "text": "{name} sends Congress a budget",
+      "uses": [
+        {
+          "move": "budget-request",
+          "subject": "headline",
+          "role": "budget-request",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.budget-request.name-s-budget-would-cut-purpose",
+      "move": "budget-request",
+      "kind": "written",
+      "text": "{name}'s budget would cut {purpose}",
+      "uses": [
+        {
+          "move": "budget-request",
+          "subject": "headline",
+          "role": "budget-request",
+          "choice": "headline",
+          "requiresFacts": ["cut", "purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.joint-address.name-addresses-congress",
+      "move": "joint-address",
+      "kind": "written",
+      "text": "{name} addresses Congress",
+      "uses": [
+        {
+          "move": "joint-address",
+          "subject": "headline",
+          "role": "joint-address",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.trip.name-visits-place",
+      "move": "trip",
+      "kind": "written",
+      "text": "{name} visits {place}",
+      "uses": [
+        {
+          "move": "trip",
+          "subject": "headline",
+          "role": "trip",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.ribbon-cut.ribbon-cut-on-a-new-purpose-project",
+      "move": "ribbon-cut",
+      "kind": "written",
+      "text": "Ribbon cut on a new {purpose} project",
+      "uses": [
+        {
+          "move": "ribbon-cut",
+          "subject": "headline",
+          "role": "ribbon-cut",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.emergency.name-declares-an-emergency",
+      "move": "emergency",
+      "kind": "written",
+      "text": "{name} declares an emergency",
+      "uses": [
+        {
+          "move": "emergency",
+          "subject": "headline",
+          "role": "emergency",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.emergency.emergency-declared-over-the-incident",
+      "move": "emergency",
+      "kind": "written",
+      "text": "Emergency declared over the {incident}",
+      "uses": [
+        {
+          "move": "emergency",
+          "subject": "headline",
+          "role": "emergency",
+          "choice": "headline",
+          "requiresFacts": ["incident"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.succession.name-becomes-office",
+      "move": "succession",
+      "kind": "written",
+      "text": "{name} becomes {office}",
+      "uses": [
+        {
+          "move": "succession",
+          "subject": "headline",
+          "role": "succession",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.succession.name-is-acting-office",
+      "move": "succession",
+      "kind": "written",
+      "text": "{name} is acting {office}",
+      "uses": [
+        {
+          "move": "succession",
+          "subject": "headline",
+          "role": "succession",
+          "choice": "headline",
+          "requiresFacts": ["acting"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.recall-reply.name-hears-out-the-recall-petitioners",
+      "move": "recall-reply",
+      "kind": "written",
+      "text": "{name} hears out the recall petitioners",
+      "uses": [
+        {
+          "move": "recall-reply",
+          "subject": "headline",
+          "role": "recall-reply",
+          "choice": "headline",
+          "requiresFacts": ["answered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.recall-reply.name-turns-away-the-recall-petitioners",
+      "move": "recall-reply",
+      "kind": "written",
+      "text": "{name} turns away the recall petitioners",
+      "uses": [
+        {
+          "move": "recall-reply",
+          "subject": "headline",
+          "role": "recall-reply",
+          "choice": "headline",
+          "requiresFacts": ["dismissed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.measure-result.voters-approve-purpose",
+      "move": "measure-result",
+      "kind": "written",
+      "text": "Voters approve {purpose}",
+      "uses": [
+        {
+          "move": "measure-result",
+          "subject": "headline",
+          "role": "measure-result",
+          "choice": "headline",
+          "requiresFacts": ["approved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.measure-result.voters-turn-down-purpose",
+      "move": "measure-result",
+      "kind": "written",
+      "text": "Voters turn down {purpose}",
+      "uses": [
+        {
+          "move": "measure-result",
+          "subject": "headline",
+          "role": "measure-result",
+          "choice": "headline",
+          "requiresFacts": ["rejected"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.presented.designation-goes-to-name",
+      "move": "presented",
+      "kind": "written",
+      "text": "{designation} goes to {name}",
+      "uses": [
+        {
+          "move": "presented",
+          "subject": "headline",
+          "role": "presented",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.item-veto.name-strikes-items-from-designation",
+      "move": "item-veto",
+      "kind": "written",
+      "text": "{name} strikes items from {designation}",
+      "uses": [
+        {
+          "move": "item-veto",
+          "subject": "headline",
+          "role": "item-veto",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.hearing.public-hearing-held-on-the-budget",
+      "move": "hearing",
+      "kind": "written",
+      "text": "Public hearing held on the budget",
+      "uses": [
+        {
+          "move": "hearing",
+          "subject": "headline",
+          "role": "hearing",
+          "choice": "headline",
+          "requiresFacts": ["budget"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
       "tag": {
         "move": "headline",
         "key": "news-received"

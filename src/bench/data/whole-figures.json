@@ -23,7 +23,8 @@
     "clerk-counter",
     "county-clerk",
     "dmv-office",
-    "regional-office"
+    "regional-office",
+    "oval-office-resolute"
   ],
   "heightMeters": {
     "child": 1.25,
@@ -50,5 +51,15 @@
     "university-lecture-hall": 50,
     "elementary-classroom": 50,
     "classroom": 50
+  },
+  "seatRoles": {
+    "about": "A seat a room keeps for an office, by the office kind on its records: the role a mannequin plate tags on the spot (art/people-rooms/spots). The holder takes it when present; anyone else may sit there when it is free.",
+    "president": ["president"],
+    "governor": ["governor"]
+  },
+  "poseReach": {
+    "about": "How near (percent of the picture, across and down) a pose's painted head must be to a spot's head for a person on that spot to take the pose (art/people-rooms/poses: each pose is cut from its room's painting at its own place). TUNABLE by eye, 2 to 6: the art session's pose plates and room plates put the same furniture's person within about 3.5 across and 3 down.",
+    "across": 4,
+    "down": 4
   }
 }

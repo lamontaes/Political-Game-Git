@@ -21,3 +21,5 @@ source: split from gov-standins-other (Oct 19, 2026); rows SG-GOV-budget-adopted
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/legislature.ts
 
 **Notes.** Split out of gov-standins-other by the session that claimed it (claude/standins-other-credit-business).
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (budget bill vote, #5376); the two other rows (outside-revenue-monthly, service-charges) belong to gov-outside-revenue-retire-plug.

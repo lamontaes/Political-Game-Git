@@ -140,15 +140,15 @@ Measured from the code in pull request 3928 (`src/director/scheduling.ts:369`). 
 
 ## Ported and dropped
 
-| Old piece                                        | Kept                                                                                              | Dropped                                                                    |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| Moments (`src/simulation/story/moments.ts`)      | Trait tilt, stakes as a share of household pay, a first contact after years adding old importance | The 17-kind table as a gate; the history cursor; the scan of all pay flows |
-| Threads (`src/simulation/story/threads.ts`)      | Ties, the fading discount, turns, importance                                                      | Scheduled fade checks; fading is read when needed                          |
-| Situations (`data/content/situation-types.json`) | 31 types as data, with their roles and moves                                                      | Election night as its own type                                             |
-| Scheduling (draft pull request 3914)             | Pace ranking over the trailing year, coverage reasons                                             | The old world's binding and history store                                  |
-| Callbacks (`src/simulation/life-callbacks.ts`)   | The three questions: can it come back, is someone left to carry it, would anyone notice           | The fixed delays of 96, 187, 251 and 314 days, and the stored sentences    |
-| Lies (`src/simulation/claim-contradictions.ts`)  | Check a lie when evidence could first exist                                                       | The old scheduled check                                                    |
-| Door-knocking (pull request 3903)                | The canvass as the reason to be at a door                                                         | Its separate story flow                                                    |
+| Old piece                                                 | Kept                                                                                              | Dropped                                                                    |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Moments (`src/simulation/story/moments.ts`)               | Trait tilt, stakes as a share of household pay, a first contact after years adding old importance | The 17-kind table as a gate; the history cursor; the scan of all pay flows |
+| Threads (`src/simulation/story/threads.ts`)               | Ties, the fading discount, turns, importance                                                      | Scheduled fade checks; fading is read when needed                          |
+| Situations (now `src/director/data/situation-types.json`) | 31 types as data, with their roles and moves                                                      | Election night as its own type                                             |
+| Scheduling (draft pull request 3914)                      | Pace ranking over the trailing year, coverage reasons                                             | The old world's binding and history store                                  |
+| Callbacks (`src/simulation/life-callbacks.ts`)            | The three questions: can it come back, is someone left to carry it, would anyone notice           | The fixed delays of 96, 187, 251 and 314 days, and the stored sentences    |
+| Lies (`src/simulation/claim-contradictions.ts`)           | Check a lie when evidence could first exist                                                       | The old scheduled check                                                    |
+| Door-knocking (pull request 3903)                         | The canvass as the reason to be at a door                                                         | Its separate story flow                                                    |
 
 ## What the built director recorded
 

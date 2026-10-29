@@ -257,11 +257,11 @@
     "file": "src/director/opening-story.ts",
     "line": 1,
     "whatItFakes": "The register card the evening news composes under: the press briefing's card stands in for a newscast.",
-    "why": "The engine has no register card for a newscast yet (docs/coordination/words.md); the opening's evening news composes now.",
+    "why": "Resolved Oct 28 by deletion: the opening's own newscast writer (newsStory, townStory) is gone (trim-main-every-duplicate-deleted, row W2 of docs/reports/duplicates-on-main-2026-10-28.md); the night's news is to come from the press path's stories. It stood in because the engine had no register card for a newscast (docs/coordination/words.md).",
     "addedBy": "director/opening-story",
     "addedAt": "2026-10-14",
     "replacement": "A newscast register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-poll-workers",
@@ -297,6 +297,18 @@
     "addedBy": "OPUS-WORDS",
     "addedAt": "2026-10-14",
     "replacement": "A tested calibration against played talks, or an owner answer.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-param-directorTalkSeenLittleDays",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How many days since two people last spent time together before one may say they have not seen much of the other.",
+    "why": "A reading of the line in play (Amanave, American Samoa, Oct 29, 2026: \"since yesterday\"), not a measured quantity; a week is a guess checked against played household talks.",
+    "addedBy": "OPUS-WORDS",
+    "addedAt": "2026-10-29",
+    "replacement": "A tested calibration against played household talks, or an owner answer.",
     "status": "open"
   },
   {
@@ -406,6 +418,42 @@
     "addedBy": "Scene builder A",
     "addedAt": "2026-10-27",
     "replacement": "A household limit the campaigns engine reads when the candidate gives their own money, with the reply naming it (pool item campaigns-household-limit-read).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-clerk-petition-awaits-record",
+    "kind": "missing-data",
+    "file": "src/director/filing-visit.ts",
+    "line": 1,
+    "whatItFakes": "The clerk tells a candidate the office, the primary and general dates, the term and what the office does, but not how many petition signatures the filing needs: the clerk says nothing about signatures.",
+    "why": "Owner, Oct 28 (sitting, 32, and the 2:10 PM ruling): filing is petition, signatures, the clerk's check, then the ballot. The petition record (signatures required and held, the deadline check, read from each place's rules) is the elections session's to build on its item; the words read that record once it exists. Resolved (Oct 29, 2026): once a filing is taken, the clerk says the signatures the petition record needs and the day they are due, or that the office takes no petition (filedAtCounter in src/director/filing-visit.ts, read from the elections engine's petitionOf). The signature scenes as the candidate campaigns are the next part of the plan's step 3, not a fact the clerk fakes.",
+    "addedBy": "Words and director session",
+    "addedAt": "2026-10-28",
+    "replacement": "The clerk's tell-signatures line reads the elections engine's petition record (signatures required, by place) and the signature scenes read its count as the candidate campaigns.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-WORDS-favor-promise-keeps-unread",
+    "kind": "missing-hook",
+    "file": "src/director/purpose-scene.ts",
+    "line": 1,
+    "whatItFakes": "A scene that ends with a favor owed or a promise made writes it on the scene's own record (facts ending and keeps), but no engine reads keeps yet: the favor is not called in and the promise is not held against the player.",
+    "why": "The favor belongs to the legislature's obligations (obligationsOf) and the relationship record, the promise to the campaigns engine's promises; both engines are other leads'. Endings that strain a tie or lose trust are written to closeness now.",
+    "addedBy": "Words and director session",
+    "addedAt": "2026-10-28",
+    "replacement": "The legislature's keepReply and the campaigns engine read keeps (favor-owed, promise) from scene.reply and record the obligation and the promise; the journal says it from that record.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-recall-promise-record",
+    "kind": "missing-data",
+    "file": "src/director/purpose-scene.ts",
+    "line": 1,
+    "whatItFakes": "At the recall table, the organizer's line that the member voted for the bill 'after telling us you wouldn't', and the member's two answers to it, need a promised-against fact; no engine records a promise to vote against a bill, so they never play and the organizer names only the vote.",
+    "why": "Ask why: a broken promise is said only where a record holds the promise (a pledge, a platform stance against the bill's question, a reply in an earlier scene). The legislature records only a promise to vote for a bill (vote-promise, a committee trade).",
+    "addedBy": "Words and director session",
+    "addedAt": "2026-10-29",
+    "replacement": "purpose-scene sets promised-against for a recall petition when the member's filed platform takes the stand against the bill's question, or a scene reply recorded a promise against it, citing that record.",
     "status": "open"
   }
 ]

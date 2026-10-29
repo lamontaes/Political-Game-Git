@@ -62,15 +62,45 @@ describe("a section reads the record's numbers", () => {
       {
         value: 950,
         unit: "minor/hour",
-        statute: "law:US-XX:state:minimum-wage:general:2025-01-01",
+        statute: "2025-3",
+        statuteForm: "ordinance",
       },
     ],
   });
-  it("edge fixture: says the old value, the new value and the statute it amends", () => {
+  it("edge fixture: says the old value, the new value and the bill that enacted it", () => {
     const made = composeBill(input(1100))!;
     expect(made.sections[0]).toBe(
-      "Section 1. Be it ordained by the Town, That the minimum wage shall be raised from $9.50 an hour to $11 an hour, amending law:US-XX:state:minimum-wage:general:2025-01-01.",
+      "Section 1. Be it ordained by the Town, That the minimum wage shall be raised from $9.50 an hour to $11 an hour, amending Ordinance 2025-3.",
     );
+  });
+  it("edge fixture: a state act the town amends is cited in its own form, a starting law by its recorded statute or not at all", () => {
+    const state = input(1100);
+    expect(
+      composeBill({
+        ...state,
+        before: [{ ...state.before[0]!, statute: "HB 9", statuteForm: "act" }],
+      })!.sections[0],
+    ).toMatch(/to \$11 an hour, amending HB 9\.$/);
+    expect(
+      composeBill({
+        ...state,
+        before: [{ value: 950, unit: "minor/hour", statute: null }],
+      })!.sections[0],
+    ).toMatch(/to \$11 an hour\.$/);
+    // A starting law's recorded statute is cited as recorded.
+    expect(
+      composeBill({
+        ...state,
+        before: [
+          {
+            value: 950,
+            unit: "minor/hour",
+            statute: "§ 25-7-41",
+            statuteForm: null,
+          },
+        ],
+      })!.sections[0],
+    ).toMatch(/to \$11 an hour, amending § 25-7-41\.$/);
   });
   it("edge fixture: editing the number changes the section, and a cut reads as a cut", () => {
     expect(composeBill(input(1100))!.sections[0]).not.toBe(
@@ -91,10 +121,15 @@ describe("every law amount a body can draft has words", () => {
   const draftable = Object.keys(
     (seriesPowers as { series: Record<string, unknown> }).series,
   ).filter((series) => series !== "unemployment-insurance");
+  // A switch (a state's grant of a power) is granted or withdrawn, not raised.
+  const switches = draftable.filter(
+    (series) => BILL_SECTIONS.amounts[series]?.grant,
+  );
+  const amounts = draftable.filter((series) => !switches.includes(series));
 
   it("names the subject, composes a raise and a cut, and names the story topic of each", () => {
-    expect(draftable.length).toBeGreaterThan(10);
-    for (const series of draftable) {
+    expect(amounts.length).toBeGreaterThan(10);
+    for (const series of amounts) {
       expect(
         BILL_SECTIONS.amounts[series],
         `${series} needs a row`,
@@ -127,6 +162,39 @@ describe("every law amount a body can draft has words", () => {
         expect(made, `${series} ${word}`).toBeTruthy();
         expect(made.sections[0], `${series} ${word}`).toContain(word);
         expect(made.sections[0], series).not.toMatch(/[{}]|undefined|NaN/);
+      }
+    }
+  });
+
+  it("grants and withdraws a switch in words, never as a number", () => {
+    expect(switches).toContain("local-income-tax-authority");
+    for (const series of switches) {
+      expect(storyTopicName(series), `${series}: story topic`).toBe(
+        BILL_SECTIONS.amounts[series]!.subject,
+      );
+      for (const [value, words] of [
+        [1, BILL_SECTIONS.amounts[series]!.grant!],
+        [0, BILL_SECTIONS.amounts[series]!.withdraw!],
+      ] as const) {
+        const made = composeBill({
+          id: `b:${series}:${value}`,
+          number: "2026-1",
+          form: {
+            kind: "act",
+            enactingClause: "Be it enacted by the Legislature",
+          },
+          provisions: [{ kind: "law-amount", series, value, unit: "flag" }],
+          before: [{ value: 1 - value, unit: "flag", statute: null }],
+        })!;
+        expect(made, `${series} ${value}`).toBeTruthy();
+        expect(made.sections[0], `${series} ${value}`).toContain(words);
+        expect(
+          made.sections[0]!.replace(/^Section \d+\.\s*/, ""),
+          series,
+        ).not.toMatch(/[{}]|undefined|NaN|raised|lowered|\b[01]\b/);
+        console.log(
+          `${series} = ${value}: ${made.title} | ${made.sections[0]}`,
+        );
       }
     }
   });

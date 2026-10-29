@@ -5,14 +5,14 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/ask-before-the-roll
+pr: #6443
 blocked-on:
 source: 'owner, Oct 14 ("convince one member to vote no on the amendment"); words-and-scenes lead, Oct 27, scene web legislating pass (packet the-vote-that-switched)'
 lead: laws-effects
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T20:49:10.112Z
 ---
 
 **What.** The owner's model of a consequential scene is convincing one member to switch on the floor. Today the floor-vote scene's cause, `legislative-vote`, is written after the count, so the scene arrives with the result already fixed. `vote-asked` fires only on a trade amendment the subject moved. A colleague's, leader's or executive's plain ask before the roll has no cause. A member's answer in either scene writes nothing that `memberPosition` (`src/core2/modules/legislature.ts`) reads. The packet `docs/design/scenes/from-life/the-vote-that-switched.md` draws on a council in Laramie, Wyoming and a state senate vote in New Jersey, calibration only. It shows the ask, the answers (switch, hold, bargain, ask for time) and what each cost after.

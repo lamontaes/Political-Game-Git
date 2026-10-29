@@ -302,7 +302,7 @@ defense, license (noun and verb), gray. Measure the world for a player in miles,
 feet, inches, pounds and ounces; internal art calibration may keep metric, but
 spells it meter and centimeter. Write dates month first: September 22, 2026,
 or 9/22/2026 — never `22 September` or `22/09/2026`. ISO dates (2026-09-22) stay
-as they are in records and file names. `tests/american-english-sweep.test.ts`
+as they are in records and file names. `tests/guards/english/`
 enforces this over every tracked file; to name a British form on purpose (a
 quotation, an old save a migration must read), put it in a code span or mark
 the line `british-spelling-ok:` with the reason.

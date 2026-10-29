@@ -24,7 +24,7 @@ import {
   housingStatusOf,
   reviewHomeless,
   shelterBeds,
-  shelterRateFor,
+  publishedShelterRateFor,
   type HousingStatusRow,
 } from "./housing-homeless";
 import type { CoreInput, PersonInput, Source } from "./types";
@@ -399,13 +399,13 @@ describe("shelter beds per 10,000 by place", () => {
       .map((k) => (shelterData.bedsPer10k as Record<string, number>)[k]!)
       .sort((a, b) => a - b);
     for (const usps of ["AS", "MP"]) {
-      expect(shelterRateFor(usps), usps).toBe(islands[1]);
-      expect(shelterRateFor(usps), usps).toBeLessThan(
+      expect(publishedShelterRateFor(usps), usps).toBe(islands[1]);
+      expect(publishedShelterRateFor(usps), usps).toBeLessThan(
         shelterData.nationalBedsPer10k,
       );
     }
-    expect(shelterRateFor("GU")).toBe(6.18);
-    expect(shelterRateFor("NY")).toBe(shelterData.bedsPer10k.NY);
+    expect(publishedShelterRateFor("GU")).toBe(6.18);
+    expect(publishedShelterRateFor("NY")).toBe(shelterData.bedsPer10k.NY);
   });
 });
 

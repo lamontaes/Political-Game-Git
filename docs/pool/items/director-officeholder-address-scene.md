@@ -22,3 +22,5 @@ source: split from words-director-watches-officeholders by pool feeder Oct 20
 **Files.** src/director/officeholder-records.ts, src/director/data/situation-types.json, src/director/scheduling.ts, src/director/civic-roles.ts, src/core2/modules/speech.ts, src/core2/modules/office-day.ts
 
 **Notes.** Oct 20 (pool feeder): spec written; civic-roles.ts already reads a speech's listeners (`retellingsOf`), and situation-types.json has no address type yet. Part 1 of 3 for words-director-watches-officeholders.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the graded-hold and ship lines with the scene; express as circumstance rows.

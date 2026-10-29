@@ -5,6 +5,8 @@ description: Checks every string a player of Our Civic Duty can see for develope
 
 # Player screen text
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 `docs/play-first/LAW.md` (lines 91 and 94): nothing ships in developer speak; player screens get no developer text. On Oct 26 the owner still met every item below in one sitting. No automated check enforces this yet: the planned screen-text test does not exist, and `tests/e2e/runtime-text-audit.spec.ts`, which `src/english/runtime-text-origin.ts` names as its audit, is not on main. So every builder and merger checks by hand.
 
 ## Never on a player screen

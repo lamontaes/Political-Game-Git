@@ -3,9 +3,11 @@
  * force on a place applies to every paid sale by a seller there, full
  * households' and the counted residents' alike: the seller collects it inside
  * the price and remits it to the treasury the same day, one balanced transfer
- * each. Household budgets don't grow with the tax, so a higher rate leaves
- * sellers less, as a fixed budget buys less. A grocery exemption is a list of
- * seller classifications (NAICS prefixes, e.g. "445") the tax skips.
+ * each. A change in the tax a seller collects reaches its price at its next
+ * review, at the researched pass-through (`sellerTaxShare`, read by the
+ * business price review in finance-state.ts), so buyers pay more when a rate
+ * rises and less when an exemption spares them. A grocery exemption is a list
+ * of seller classifications (NAICS prefixes, e.g. "445") the tax skips.
  */
 import { transfer } from "../accounts";
 import type {
@@ -57,6 +59,8 @@ export interface PurchaseTaxState extends PurchaseTaxInput {
   from: IsoDate;
   endedAt?: IsoDate;
   collectedMinor: number;
+  /** The rate and exemptions this tax had when the world opened (none for a tax first set later): what opening prices include. */
+  opening: Pick<PurchaseTaxInput, "ratePercent" | "exemptions">;
 }
 
 const runtimes = new WeakMap<CoreState, Map<string, PurchaseTaxState>>();
@@ -107,11 +111,55 @@ export function setPurchaseTax(core: CoreState, input: PurchaseTaxInput): void {
   if (!core.cashJournal.accounts.has(input.payeeAccountId))
     throw new Error(`Unknown treasury account: ${input.payeeAccountId}`);
   const prior = taxes(core).get(input.id);
+  const from = input.from ?? core.date;
   taxes(core).set(input.id, {
     ...input,
-    from: input.from ?? core.date,
+    from,
     collectedMinor: prior?.collectedMinor ?? 0,
+    opening:
+      prior?.opening ??
+      (from <= core.startedAt
+        ? {
+            ratePercent: input.ratePercent,
+            ...(input.exemptions ? { exemptions: input.exemptions } : {}),
+          }
+        : { ratePercent: 0 }),
   });
+}
+
+/**
+ * The share of a seller's tax-inclusive sales the sales tax takes, summed over
+ * the general taxes on its place (a tax limited to some purchase kinds is left
+ * out: which kinds a seller sells is not recorded), net of the exempt share of
+ * its classification. `opening` reads the taxes as the world opened, the level
+ * a seller's opening price already includes.
+ */
+export function sellerTaxShare(
+  core: CoreState,
+  organizationId: string,
+  at: "now" | "opening",
+): number {
+  const seller = core.organizations.get(organizationId);
+  if (!seller) return 0;
+  const classification = seller.classification ?? "";
+  let share = 0;
+  for (const tax of taxes(core).values()) {
+    if (tax.placeId !== seller.placeId || tax.kinds) continue;
+    const terms =
+      at === "opening"
+        ? tax.opening
+        : tax.from > core.date ||
+            (tax.endedAt !== undefined && tax.endedAt <= core.date)
+          ? undefined
+          : tax;
+    if (!terms) continue;
+    const exempt =
+      terms.exemptions?.find((row) =>
+        classification.startsWith(row.classificationPrefix),
+      )?.share ?? 0;
+    share += (1 - exempt) * (terms.ratePercent / (100 + terms.ratePercent));
+  }
+  return share;
 }
 
 export function endPurchaseTax(core: CoreState, id: string): void {

@@ -77,7 +77,6 @@
         "dcpd": 75,
         "news-treasury": 1
       },
-      "shippable": true,
       "source": {
         "document": "Telephone Remarks at a Freedom 250 Event in India",
         "date": "2026-05-24",
@@ -106,7 +105,6 @@
       "bySource": {
         "dcpd": 41
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Democratic National Committee Holiday Reception",
         "date": "2024-12-15",
@@ -142,7 +140,6 @@
         "news-epa": 1,
         "news-treasury": 9
       },
-      "shippable": true,
       "source": {
         "document": "Secretary Bessent Delivers Remarks Before the Ministerial on the Resurgence of Political Terrorism",
         "date": "2026-07-16",
@@ -176,7 +173,6 @@
         "news-energy": 3,
         "news-treasury": 4
       },
-      "shippable": true,
       "source": {
         "document": "Legislative Presentation Of Disabled Amer-",
         "date": "2026-02-24",
@@ -205,7 +201,6 @@
       "bySource": {
         "chrg": 3
       },
-      "shippable": true,
       "source": {
         "document": "Principles For Outbreak Investigation: Covid-19 And Future Infectious Diseases",
         "date": "2021-07-14",
@@ -238,7 +233,6 @@
         "nasa": 3,
         "senate": 2
       },
-      "shippable": true,
       "source": {
         "document": "Metals, Minerals, And Mining: How The Ccp Fuels Conflict And Exploitation In Africa",
         "date": "2025-03-25",
@@ -268,7 +262,6 @@
         "chrg": 4,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Oversight Hearing On The Fish And Wildlife Service Gone Wild: Examining Operation Long Tail Liberation",
         "date": "2024-09-10",
@@ -301,7 +294,6 @@
         "news-treasury": 1,
         "senate": 2
       },
-      "shippable": true,
       "source": {
         "document": "Breaking China'S Choke Hold On Critical Mineral Supply Chains",
         "date": "2025-07-15",
@@ -332,7 +324,6 @@
         "dcpd": 3,
         "news-faa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Opportunities To Improve Project Reviews For A Cleaner And Stronger Economy",
         "date": "2023-04-10",
@@ -363,7 +354,6 @@
         "dcpd": 13,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Black History Month Reception",
         "date": "2025-02-20",
@@ -393,7 +383,6 @@
         "chrg": 13,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Looking Ahead Series: Oversight Of The United States Capitol Police",
         "date": "2023-04-18",
@@ -430,7 +419,6 @@
         "news-treasury": 4,
         "senate": 8
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Efforts To Reduce Prescription Drug Prices and an Exchange With Reporters",
         "date": "2026-08-31",
@@ -460,7 +448,6 @@
         "dcpd": 1,
         "eac": 3
       },
-      "shippable": true,
       "source": {
         "document": "Administration of Donald J. Trump, 2017 Remarks at a Listening Session With Parents and Teachers February 14, 2017 The President. I'm very proud of you . Secretary of Education Elisabeth P. DeVos. Tha",
         "date": "2017-02-14",
@@ -491,7 +478,6 @@
         "eac": 1,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Drug-Free Communities Support Program and an Exchange With Reporters",
         "date": "2018-08-29",
@@ -522,7 +508,6 @@
         "dcpd": 16,
         "nasa": 8
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During Tour of the Graceland Estate and an Exchange With Reporters in Memphis, Tennessee",
         "date": "2026-03-23",
@@ -555,7 +540,6 @@
         "news-treasury": 2,
         "senate": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Marietta, Georgia",
         "date": "2026-07-22",
@@ -593,7 +577,6 @@
         "senate": 8,
         "sotu-gutenberg": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Memorandum on Lowering the Cost of Living by Promoting the Freedom To Fix and an Exchange With Reporters",
         "date": "2026-06-29",
@@ -624,7 +607,6 @@
         "dcpd": 5,
         "nasa": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Terrorist Attack in New Orleans, Louisiana, and the Vehicular Explosion in Las Vegas, Nevada, From Camp David, Maryland",
         "date": "2025-01-01",
@@ -654,7 +636,6 @@
         "chrg": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "The Law Enforcement Experience On January 6Th",
         "date": "2021-07-27",
@@ -684,7 +665,6 @@
         "dcpd": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Terrorist Attack in New Orleans, Louisiana, and the Vehicular Explosion in Las Vegas, Nevada, From Camp David, Maryland",
         "date": "2025-01-01",
@@ -714,7 +694,6 @@
         "chrg": 4,
         "sotu-gutenberg": 1
       },
-      "shippable": true,
       "source": {
         "document": "China'S War On Religion: The Threat To Religious Freedom And Why It Matters To The United States",
         "date": "2025-07-02",
@@ -745,7 +724,6 @@
         "dcpd": 4,
         "nasa": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Meeting With Executives of Oil and Gas Companies and an Exchange With Reporters",
         "date": "2026-01-09",
@@ -779,7 +757,6 @@
         "news-energy": 1,
         "sotu-gutenberg": 1
       },
-      "shippable": true,
       "source": {
         "document": "NNSA Administrator Hruby's remarks at the Tennessee Valley Corridor National Summit",
         "date": "2022-07-06",
@@ -815,7 +792,6 @@
         "news-treasury": 5,
         "senate": 5
       },
-      "shippable": true,
       "source": {
         "document": "Nomination To The National Aeronautics And Space Administration And The National Institute Of Standards And Technology",
         "date": "2026-03-05",
@@ -844,7 +820,6 @@
       "bySource": {
         "dcpd": 9
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and a Question-and-Answer Session at the Future Investment Initiative Institute Priority Summit in Miami Beach, Florida",
         "date": "2025-02-19",
@@ -874,7 +849,6 @@
         "dcpd": 15,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "dcpd of 2024-07-10",
         "date": "2024-07-10",
@@ -904,7 +878,6 @@
         "chrg": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the National Rifle Association Institute for Legislative Action Leadership Forum in Indianapolis, Indiana",
         "date": "2019-04-26",
@@ -938,7 +911,6 @@
         "news-nps": 1,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Cabinet Meeting and an Exchange With Reporters",
         "date": "2025-08-26",
@@ -970,7 +942,6 @@
         "nasa": 2,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Examining The Policies And Priorities Of The U.S. Department Of Education",
         "date": "2021-06-24",
@@ -1001,7 +972,6 @@
         "dcpd": 2,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Administration of Donald J. Trump, 2018 Remarks on Illegal Immigration and Border Security and an Exchange With Reporters November 1, 2018 The President. Well, thank you very much, everyone. Appreciat",
         "date": "2018-11-01",
@@ -1032,7 +1002,6 @@
         "dcpd": 2,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "The President's News Conference in Ankara, Turkey",
         "date": "2026-07-08",
@@ -1062,7 +1031,6 @@
         "chrg": 1,
         "dcpd": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
         "date": "2026-08-02",
@@ -1094,7 +1062,6 @@
         "house": 1,
         "nasa": 11
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Reception in Philadelphia, Pennsylvania",
         "date": "2023-12-11",
@@ -1134,7 +1101,6 @@
         "senate": 6,
         "sotu-gutenberg": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -1169,7 +1135,6 @@
         "nasa": 25,
         "news-epa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Rose Garden Club Dinner",
         "date": "2026-09-02",
@@ -1201,7 +1166,6 @@
         "eac": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "From Infancy To Aging: The Effects Of Caregiving. Across The Lifespan",
         "date": "2024-08-07",
@@ -1232,7 +1196,6 @@
         "dcpd": 3,
         "eac": 1
       },
-      "shippable": true,
       "source": {
         "document": "Ai At A Crossroads: A Nationwide Strategy Or Californication?",
         "date": "2025-09-18",
@@ -1262,7 +1225,6 @@
         "chrg": 2,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Lobito Corridor Trans-Africa Summit in Benguela, Angola",
         "date": "2024-12-04",
@@ -1292,7 +1254,6 @@
         "chrg": 6,
         "dcpd": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Briefing on Hurricane Milton Preparedness Efforts",
         "date": "2024-10-09",
@@ -1324,7 +1285,6 @@
         "eac": 1,
         "nasa": 10
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the National Economy in Rocky Mount, North Carolina",
         "date": "2025-12-19",
@@ -1356,7 +1316,6 @@
         "eac": 1,
         "nasa": 9
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the National Economy in Rocky Mount, North Carolina",
         "date": "2025-12-19",
@@ -1386,7 +1345,6 @@
         "chrg": 1,
         "dcpd": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Announcing the TrumpRX Prescription Drug Website and an Exchange With Reporters",
         "date": "2026-02-05",
@@ -1415,7 +1373,6 @@
       "bySource": {
         "dcpd": 4
       },
-      "shippable": true,
       "source": {
         "document": "Administration of Barack Obama, 2015 Remarks on the ConnectED Initiative and a Question-and-Answer Session at Anacostia Neighborhood Library April 30, 2015 Salisbury, MD, student Osman Yaya. Good morn",
         "date": "2015-04-30",
@@ -1444,7 +1401,6 @@
       "bySource": {
         "dcpd": 3
       },
-      "shippable": true,
       "source": {
         "document": "dcpd of 2026-03-17",
         "date": "2026-03-17",
@@ -1474,7 +1430,6 @@
         "dcpd": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and a Question-and-Answer Session at a CNN Presidential Town Hall in Cincinnati, Ohio",
         "date": "2021-07-21",
@@ -1503,7 +1458,6 @@
       "bySource": {
         "chrg": 2
       },
-      "shippable": true,
       "source": {
         "document": "Department Of The Interior, Environment, And Related Agencies Appropriations For 2016",
         "date": "2015-02-11",
@@ -1534,7 +1488,6 @@
         "senate": 1,
         "sotu-gutenberg": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to West Palm Beach, Florida",
         "date": "2025-04-13",
@@ -1564,7 +1517,6 @@
         "dcpd": 11,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "The President's News Conference With Acting Attorney General Todd Blanche and Federal Bureau of Investigation Director Kashyap P. \"Kash\" Patel",
         "date": "2026-04-25",
@@ -1594,7 +1546,6 @@
         "chrg": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Administration of Donald J. Trump, 2019 Remarks in an Exchange With Reporters at a Social Dinner With Chairman of the State Affairs Commission Kim Jong Un of North Korea in Hanoi, Vietnam February 27,",
         "date": "2019-02-27",
@@ -1624,7 +1575,6 @@
         "chrg": 2,
         "dcpd": 13
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the National Economy in Las Vegas, Nevada",
         "date": "2025-01-25",
@@ -1655,7 +1605,6 @@
         "dcpd": 4,
         "news-faa": 12
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on COVID–19 Prevention and Treatment Efforts and an Exchange With Reporters",
         "date": "2022-10-25",
@@ -1687,7 +1636,6 @@
         "fec": 1,
         "nasa": 11
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Following a Family Photograph With Group of Seven (G–7) Nations Leaders in Kananaskis, Canada",
         "date": "2025-06-16",
@@ -1716,7 +1664,6 @@
       "bySource": {
         "dcpd": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Voting Rights in Philadelphia, Pennsylvania",
         "date": "2021-07-13",
@@ -1751,7 +1698,6 @@
         "nasa": 12,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing the Executive Order on Accelerating Medical Treatments for Serious Mental Illness and an Exchange With Reporters",
         "date": "2026-04-18",
@@ -1782,7 +1728,6 @@
         "dcpd": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Video Conference and Question-and-Answer Session With United States Servicemembers and an Exchange With Reporters in Palm Beach, Florida",
         "date": "2025-11-27",
@@ -1813,7 +1758,6 @@
         "dcpd": 20,
         "nasa": 7
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Marietta, Georgia",
         "date": "2026-07-22",
@@ -1846,7 +1790,6 @@
         "nasa": 1,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at an Executive Order Signing Ceremony and an Exchange With Reporters",
         "date": "2025-02-14",
@@ -1880,7 +1823,6 @@
         "nasa": 31,
         "senate": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing the Secure America Act and an Exchange With Reporters",
         "date": "2026-06-10",
@@ -1912,7 +1854,6 @@
         "dcpd": 2,
         "nasa": 3
       },
-      "shippable": true,
       "source": {
         "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2023",
         "date": "2022-03-31",
@@ -1943,7 +1884,6 @@
         "chrg": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Oversight And Examination Of Railroad Grade Crossing Elimination And Safety",
         "date": "2024-01-16",
@@ -1974,7 +1914,6 @@
         "chrg": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "The Clean Water Act At Fifty: Highlights And Lessons Learned From A Half Century Of Transformative Legislation",
         "date": "2022-09-20",
@@ -2004,7 +1943,6 @@
       "bySource": {
         "chrg": 3
       },
-      "shippable": true,
       "source": {
         "document": "Oversight And Examination Of Railroad Grade Crossing Elimination And Safety",
         "date": "2024-01-16",
@@ -2036,7 +1974,6 @@
         "chrg": 1,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "The President'S Fiscal Year 2024 Health And Human Services Budget",
         "date": "2023-02-25",
@@ -2068,7 +2005,6 @@
         "chrg": 2,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "The Southern Poverty Law Center: Manufacturing Hate",
         "date": "2026-05-20",
@@ -2100,7 +2036,6 @@
         "chrg": 1,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Federal Emergency Management Agency: Assessing Progress, Performance, And Preparedness",
         "date": "2016-04-12",
@@ -2132,7 +2067,6 @@
         "chrg": 1,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Building A Solid Foundation: Restoring Trust And Transparency In Public Housing Agencies",
         "date": "2026-02-10",
@@ -2164,7 +2098,6 @@
         "news-justice": 2,
         "news-nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Second Defendant Pleads Guilty In Newton Armed Robbery",
         "date": "2020-09-30",
@@ -2196,7 +2129,6 @@
         "chrg": 1,
         "news-nws": 2
       },
-      "shippable": true,
       "source": {
         "document": "Local Storm Report from the National Weather Service Charleston SC",
         "date": "2026-10-11",
@@ -2230,7 +2162,6 @@
         "news-fda": 1,
         "news-justice": 4
       },
-      "shippable": true,
       "source": {
         "document": "FDA Roundup: November 14, 2023",
         "date": "2023-11-14",
@@ -2260,7 +2191,6 @@
       "bySource": {
         "dcpd": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -2291,7 +2221,6 @@
         "dcpd": 3,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Relocation of U.S. Space Command Headquarters to Huntsville, Alabama, and an Exchange With Reporters",
         "date": "2025-09-02",
@@ -2323,7 +2252,6 @@
         "house": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Department Of Defense Fiscal Year 2021 Budget",
         "date": "2020-03-10",
@@ -2354,7 +2282,6 @@
         "news-nws": 1,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Public Information Statement from the National Weather Service Anchorage AK",
         "date": "2026-10-09",
@@ -2384,7 +2311,6 @@
         "chrg": 1,
         "news-treasury": 1
       },
-      "shippable": true,
       "source": {
         "document": "President'S Fiscal Year 2019 Budget",
         "date": "2018-02-14",
@@ -2415,7 +2341,6 @@
         "chrg": 1,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Senate Budget Committee Mid-Session Hearings Fiscal Year 2016",
         "date": "2015-05-19",
@@ -2446,7 +2371,6 @@
         "chrg": 1,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Agriculture And Tax Reform: Opportunities For Rural America",
         "date": "2015-01-01",
@@ -2471,7 +2395,6 @@
           "choice": "economy"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
       "date": "2026-10-25",
@@ -2494,7 +2417,6 @@
           "requiresFacts": ["unemployment-down"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
       "date": "2026-10-25",
@@ -2522,7 +2444,6 @@
         "chrg": 1,
         "dcpd": 9
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing an Executive Order on Workforce Development Strengthening Efforts in Ann Arbor, Michigan",
         "date": "2024-09-06",
@@ -2553,7 +2474,6 @@
       "bySource": {
         "dcpd": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With Business and Labor Leaders",
         "date": "2022-11-18",
@@ -2585,7 +2505,6 @@
         "chrg": 1,
         "dcpd": 4
       },
-      "shippable": true,
       "source": {
         "document": "dcpd of 2025-11-07",
         "date": "2025-11-07",
@@ -2617,7 +2536,6 @@
         "chrg": 1,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Rural Quality Of Life: Opportunities And Challenges For The Rural Care Economy",
         "date": "2022-03-22",
@@ -2648,7 +2566,6 @@
         "chrg": 3,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Nomination Of Hon. Sean Duffy, Nominee To Be Secretary, U.S. Department Of Transportation",
         "date": "2025-01-15",
@@ -2680,7 +2597,6 @@
         "nasa": 1,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters in Bemidji, Minnesota",
         "date": "2020-09-18",
@@ -2713,7 +2629,6 @@
         "nasa": 2,
         "senate": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to Departure for Palm Beach, Florida",
         "date": "2026-03-20",
@@ -2746,7 +2661,6 @@
         "nasa": 2,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the National Economy in Mount Pocono, Pennsylvania",
         "date": "2025-12-09",
@@ -2777,7 +2691,6 @@
         "dcpd": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters in Bemidji, Minnesota",
         "date": "2020-09-18",
@@ -2810,7 +2723,6 @@
         "house": 1,
         "news-nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Message on Celebrating the Life of Harriet Tubman",
         "date": "2026-03-10",
@@ -2844,7 +2756,6 @@
         "nasa": 12,
         "senate": 6
       },
-      "shippable": true,
       "source": {
         "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
         "date": "2025-05-01",
@@ -2875,7 +2786,6 @@
         "chrg": 4,
         "dcpd": 7
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
         "date": "2026-07-23",
@@ -2905,7 +2815,6 @@
       "bySource": {
         "news-nws": 5
       },
-      "shippable": true,
       "source": {
         "document": "Hazardous Weather Outlook from the National Weather Service Baltimore MD/Washington DC",
         "date": "2026-10-11",
@@ -2935,7 +2844,6 @@
       "bySource": {
         "news-nws": 2
       },
-      "shippable": true,
       "source": {
         "document": "Severe Weather Statement from the National Weather Service Tallahassee FL",
         "date": "2026-10-10",
@@ -2965,7 +2873,6 @@
       "bySource": {
         "news-nws": 6
       },
-      "shippable": true,
       "source": {
         "document": "Area Forecast Discussion from the National Weather Service Brownsville TX",
         "date": "2026-10-12",
@@ -2995,7 +2902,6 @@
       "bySource": {
         "news-nws": 83
       },
-      "shippable": true,
       "source": {
         "document": "Area Forecast Discussion from the National Weather Service Flagstaff AZ",
         "date": "2026-10-12",

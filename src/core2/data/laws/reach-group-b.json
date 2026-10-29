@@ -158,7 +158,7 @@
       "effect": "groceries-sales-tax-exempt",
       "kind": "price",
       "people": {
-        "ageFrom": "adultAge",
+        "ageFrom": "votingAge",
         "householdHead": true
       },
       "organizations": ["enterprise:retail"],
@@ -277,9 +277,6 @@
         "enterprise:mining",
         "enterprise:utility"
       ],
-      "terms": {
-        "withdrawalShare": "groundwaterWithdrawalShare"
-      },
       "enforcer": "state water agency",
       "source": "Kansas Local Enhanced Management Areas (K.S.A. 82a-1041); Nebraska natural resources district allocations",
       "stopgapId": "SG-GOV-REACH-B-business-cost"
@@ -302,7 +299,7 @@
       "effect": "income-tax-withheld",
       "kind": "price",
       "people": {
-        "ageFrom": "adultAge",
+        "ageFrom": "votingAge",
         "employed": true
       },
       "enforcer": "department of revenue",

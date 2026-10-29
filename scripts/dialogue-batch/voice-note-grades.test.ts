@@ -25,11 +25,11 @@ const ledger = JSON.parse(
   batches: string[];
   parts: Record<string, { good: number; bad: number }>;
 };
-const parts = new Map<string, { text: string; shippable?: boolean }>();
+const parts = new Map<string, { text: string }>();
 for (const name of readdirSync("data/english/parts"))
   for (const part of (
     JSON.parse(readFileSync(`data/english/parts/${name}`, "utf8")) as {
-      parts?: { key: string; text: string; shippable?: boolean }[];
+      parts?: { key: string; text: string }[];
     }
   ).parts ?? [])
     parts.set(part.key, part);
@@ -79,8 +79,6 @@ describe("the owner's voice-note grades, batches 11 to 19", () => {
         if (row.grade === "good") {
           expect(counts!.good, key).toBeGreaterThan(0);
           expect(heldByGrades(key), key).toBe(false);
-          const part = parts.get(key);
-          if (part) expect(part.shippable, `${key} is released`).toBe(true);
         } else {
           expect(counts!.bad, key).toBeGreaterThan(0);
           expect(heldByGrades(key), key).toBe(true);

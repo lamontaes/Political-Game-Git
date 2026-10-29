@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/residents.ts, src/core2/modules/residents.ts, src/core2/opening-employment.ts
 
 **Notes.** Pull request #5076 carries the build. Closes SG-CORE-unplaced-workers-income's replacement path (the row is already resolved as a labeled estimate in the Oct 19 residents slice). Released from idle draft #5076 by the CTO, Oct 26.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (the stopgap it replaces was closed as a labeled estimate on Oct 20; filled-in commuters already hold jobs).

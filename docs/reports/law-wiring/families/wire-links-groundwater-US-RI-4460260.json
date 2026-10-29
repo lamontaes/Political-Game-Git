@@ -1,0 +1,212 @@
+{
+  "seed": "de711859b6b88997",
+  "place": {
+    "seed": "90ca70536fef697e97436a41ca5423c5b527891e594666b4691d221e46597675",
+    "key": "4460260",
+    "name": "Quonochontaug, Rhode Island",
+    "state": "US-RI"
+  },
+  "window": 35,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "kind": "question",
+      "family": "agriculture",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:4460260:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f) effective 2025-01-21; then repealed at city effective 2025-02-26",
+      "lawIds": [
+        "law:place:4460260:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+        "law:place:4460260:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-02-26:law-wiring-70bb716f-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_a76a9e2525a93e12"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_a76a9e2525a93e12"
+        ]
+      },
+      "inPlay": [
+        {
+          "id": "law:US-RI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-07-01:S 3",
+          "level": "state",
+          "effectiveDate": "2025-07-01",
+          "value": 1
+        }
+      ],
+      "readers": {
+        "src/core2/modules/legislature.ts:2488": 700,
+        "src/core2/modules/legislature.ts:3666": 110,
+        "src/core2/modules/world-legislating.ts:225": 10,
+        "src/core2/modules/world-legislating.ts:295": 10,
+        "src/core2/life.ts:555": 5,
+        "src/core2/modules/outcome-web.ts:175": 4,
+        "src/core2/modules/world-legislating.ts:380": 2,
+        "src/core2/modules/business.ts:1179": 2,
+        "src/core2/modules/legislature.ts:4945": 2
+      },
+      "openingRow": "law:US-RI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1297",
+            "treatment": 525745953,
+            "control": 526968941,
+            "ids": [
+              "journal:2025-01-21:1570",
+              "journal:2025-01-21:1571",
+              "journal:2025-01-21:1572"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+            "gross": 100000,
+            "ids": ["journal:2025-02-08:8884", "journal:2025-02-08:8885"],
+            "control": 100000
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1297",
+              "way": "out",
+              "targets": 1,
+              "moved": 305747,
+              "earliest": "2025-02-04",
+              "sample": [
+                {
+                  "target": "organization_a76a9e2525a93e12",
+                  "row": "applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_a76a9e2525a93e12",
+                  "date": "2025-02-04",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1297",
+                  "way": "out",
+                  "treatment": 678944,
+                  "control": 984691,
+                  "journal": "journal:2025-02-04:8451"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/modules/residents.ts:1297|out",
+          "sample": [
+            {
+              "target": "organization_a76a9e2525a93e12",
+              "row": "applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_a76a9e2525a93e12",
+              "date": "2025-02-04",
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1297",
+              "way": "out",
+              "treatment": 678944,
+              "control": 984691,
+              "journal": "journal:2025-02-04:8451"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1297",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "organization_a76a9e2525a93e12",
+                "row": "applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_a76a9e2525a93e12",
+                "date": "2025-02-04",
+                "kind": "accounts.transfer @ src/core2/modules/residents.ts:1297",
+                "way": "out",
+                "treatment": 678944,
+                "control": 984691,
+                "journal": "journal:2025-02-04:8451"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "groundwater-limits-to-irrigation-pumping",
+            "status": "built",
+            "to": "water.irrigation-groundwater"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 35,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 72,
+        "sample": [
+          "person_06e86a9470e1f4f5:printed:outlet:newspaper:0:jurisdiction_60a77d4dc27dd2ef:law-took-effect:law:place:4460260:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+          "person_4934b533161150e6:printed:outlet:newspaper:0:jurisdiction_60a77d4dc27dd2ef:law-took-effect:law:place:4460260:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+          "person_7eec030771d292d7:printed:outlet:newspaper:0:jurisdiction_60a77d4dc27dd2ef:law-took-effect:law:place:4460260:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 10
+    }
+  ]
+}

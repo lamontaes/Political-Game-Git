@@ -443,5 +443,50 @@
       "PR"
     ],
     "default": ["county-courthouse-classical", "county-courthouse"]
+  },
+  "pictureFamilies": {
+    "about": "Pictures of one kind of place: a scene that names any of them is drawn from the whole family, chosen for the town (and for the business or situation) by its own key, so the same place looks the same every time and two towns differ (owner, Oct 27: 'why is this the only storefront scene used?'). Where the town's choice has no painting for the hour's light (night, morning), the next member in the town's order that has one is used. Families are picture choices checked by eye against the paintings, TUNABLE.",
+    "families": [
+      [
+        "main-street",
+        "downtown-sidewalk",
+        "sidewalk-main-street",
+        "sidewalk-downtown",
+        "courthouse-square"
+      ],
+      ["sidewalk-suburban", "bus-stop"],
+      [
+        "store",
+        "general-store",
+        "grocery-store",
+        "hardware-store-interior",
+        "gas-station-store"
+      ],
+      ["coffee-shop", "diner", "diner-counter"],
+      ["tavern", "steakhouse-private-room"],
+      ["park", "community-garden", "playground"],
+      [
+        "community-room",
+        "lodge-hall",
+        "church-supper-hall",
+        "union-hall-interior"
+      ],
+      ["strip-mall-parking-lot", "farmers-market"]
+    ]
+  },
+  "roomCondition": {
+    "about": "How kept a home's rooms look (src/bench/scene.ts roomCondition). A household in the town's top third of homes of its kind (by value or rent) with at most this many people keeps its rooms as painted; a renter in the cheapest third gets the rundown room; every other home is lived-in. TUNABLE (spread 1 to 3 people), read from the housing records until a dwelling carries its own condition. stopgapId: SG-PLAY-room-condition-rule",
+    "tidyAtMostMembers": 2
+  },
+  "regionalVariants": {
+    "about": "A place's regional rebuild (art/backdrops <place>__region-<name>.jpg: the same street, square or house in the region's own character, same camera, so spots carry over), chosen in the states listed (USPS codes). ESTIMATED from the Census Bureau's regions and divisions (https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf): New England is its division; the Mountain West is the Mountain division without Arizona and New Mexico, which are the Southwest; the Plains are the Great Plains states of the West North Central division (Iowa, Minnesota and Missouri left out) plus Oklahoma; the Deep South is the common five (Alabama, Georgia, Louisiana, Mississippi, South Carolina); the Pacific islands are the territories the art session painted for (Guam, American Samoa, Northern Mariana Islands).",
+    "region-new-england": ["CT", "ME", "MA", "NH", "RI", "VT"],
+    "region-mountain-west": ["CO", "ID", "MT", "NV", "UT", "WY"],
+    "region-southwest": ["AZ", "NM"],
+    "region-plains": ["KS", "NE", "ND", "SD", "OK"],
+    "region-deep-south": ["AL", "GA", "LA", "MS", "SC"],
+    "region-alaska": ["AK"],
+    "region-puerto-rico": ["PR"],
+    "region-pacific-islands": ["GU", "AS", "MP"]
   }
 }

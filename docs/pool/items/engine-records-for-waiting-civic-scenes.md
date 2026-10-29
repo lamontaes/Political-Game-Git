@@ -23,4 +23,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/public-safety.ts, src/core2/modules/legislature.ts, src/core2/modules/housing.ts, src/director/data/situation-types.json
 
-**Notes.** TODO
+**Notes.** Oct 27, 23:50 UTC, director lead: housing now records the notice itself. When a landlord serves notice, `src/core2/modules/housing.ts` puts a case in its `cases` table at stage `notice`, with `noticeAt`, `householdId` and `landlordId`. Only the removal emits `housing.eviction`. A one-year buildBenchWorld run (two-level, no player acting) wrote no case at all in McKee, Pennsylvania (seed dd2ab091a4575bf2188bee7f2baded1038a2772286f4a80f13e950f917ca3429) or in Elbridge, New York (seed c91b2035290cfbe8dafb43fe79c23e2d6212b89e8fe16f5499a29d4a6797dd63). So eviction-notice still has no record to fire from in play. The landlord is also an organization (`SG-WORLD-housing-landlord`), so the scene's landlord role has no person to cast until one is named for it. The director's match is a few lines once a notice case reaches a full household in a played year.

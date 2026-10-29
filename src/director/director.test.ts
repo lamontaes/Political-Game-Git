@@ -3,9 +3,9 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../core2/life";
-import { P } from "../core2/parameters";
+import { P, parameter } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { comparePlayerMomentsV1 } from "../core2/player-stops-v1";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
@@ -25,7 +25,6 @@ import {
   SITUATION_LIBRARY,
   type SituationLibrary,
 } from "./scheduling";
-import { everySceneWord } from "../english/scene-words";
 import { composeScene } from "./scene";
 import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
 import type { DirectorData } from "./types";
@@ -83,16 +82,19 @@ function town(placeId: string): CoreInput {
       {
         id: "fact:worker:high-school",
         date: "1984-08-27",
-        kind: "school:cohort-estimate",
-        summary: "High school cohort",
+        // The school engine's record of the year the worker started high
+        // school (written by its run before the start in a played world).
+        kind: "school.started",
+        summary: "High school",
         source,
       },
       {
-        id: "fact:worker:era",
-        date: "2008-12-01",
-        kind: "era:public-context",
-        summary: "Public economic context",
+        id: "fact:worker:partner",
+        date: "1994-01-01",
+        kind: "family:partner",
+        summary: "Partner",
         source,
+        facts: { otherPersonId: "person:spouse" },
       },
     ],
   });
@@ -101,6 +103,16 @@ function town(placeId: string): CoreInput {
     traits: { [risk]: 1 },
     familyIds: ["person:worker"],
     knownIds: ["person:worker"],
+    pastFacts: [
+      {
+        id: "fact:spouse:partner",
+        date: "1994-01-01",
+        kind: "family:partner",
+        summary: "Partner",
+        source,
+        facts: { otherPersonId: "person:worker" },
+      },
+    ],
   });
   const neighbor = person("person:neighbor", placeId);
   const classmate = person("person:classmate", placeId, {
@@ -292,9 +304,6 @@ describe("story director on the new core", () => {
         row.counterpartIds.includes("person:classmate"),
       ),
     ).toBe(false);
-    expect(
-      worker.backdrop.some((row) => row.sourceId === "fact:worker:era"),
-    ).toBe(true);
   });
 
   it("starts a housemate's thread at the opening, not at the younger one's birth", () => {
@@ -394,7 +403,8 @@ describe("story director on the new core", () => {
       director.ledger.people
         .get("person:worker")!
         .keptFacts.get("knew-each-other:person:spouse:person:worker"),
-    ).toMatchObject({ since: startedAt, sinceBasis: "opening" });
+      // The partnership's family fact dates when they knew each other.
+    ).toMatchObject({ since: "1994-01-01", sinceBasis: "recorded" });
     expect(thread.tie).toBeCloseTo(0.79 + 0.3, 6);
     const later = "2022-07-01";
     expect(
@@ -565,15 +575,11 @@ describe("story director on the new core", () => {
           expect(roles.has(role)).toBe(true);
       }
     }
-    const folded = (key: string, producer: string) =>
-      types
-        .find((row) => row.key === key)!
-        .causes.some((row) => row.awaitingProducer === producer);
     // A race's result reaches the player through a candidate they know; the
     // player's own win is the race-won scene, not a second celebration.
     expect(
       types
-        .find((row) => row.key === "news-arrives")!
+        .find((row) => row.key === "race-told")!
         .causes.some(
           (row) =>
             row.match?.label === "circumstance:race-result-known" &&
@@ -589,8 +595,21 @@ describe("story director on the new core", () => {
             row.causeRecord === "election-result",
         ),
     ).toBe(false);
-    expect(folded("first-meeting", "canvass-visit")).toBe(true);
-    expect(folded("visit", "canvass-visit")).toBe(true);
+    // A door the player's own canvass knocked, the first time or again: the
+    // player asks the resident for their vote (golden-door-ask), or, while
+    // the player's petition circulates, for their signature; and no general
+    // first meeting or visit plays it too.
+    const knocked = (key: string) =>
+      types
+        .find((row) => row.key === key)!
+        .causes.filter(
+          (row) =>
+            row.causeRecord === "campaign.door" && row.reason === "canvass",
+        ).length;
+    expect(knocked("door-ask")).toBe(2);
+    expect(knocked("door-signature")).toBe(1);
+    expect(knocked("first-meeting")).toBe(0);
+    expect(knocked("visit")).toBe(0);
   });
 
   it("lets a sole earner's job loss take over the screen as news for the household, and stop a skip", () => {
@@ -694,6 +713,64 @@ describe("story director on the new core", () => {
       ).toEqual(["news-arrives"]);
   });
 
+  it("casts each person present once, with the role's reason on record", () => {
+    const { director } = run("place:director-fixture", true);
+    const bindings = [...director.ledger.people.values()].flatMap((book) =>
+      book.schedule.flatMap((entry) => entry.bindings),
+    );
+    expect(bindings.length).toBeGreaterThan(0);
+    for (const binding of bindings) {
+      // Every person the scene places has a recorded reason, and only they.
+      expect(Object.keys(binding.presentReasons).sort()).toEqual(
+        [...binding.presentIds].sort(),
+      );
+      for (const reason of Object.values(binding.presentReasons))
+        expect(reason).toMatch(/^[a-z-]+$/);
+    }
+  });
+
+  it("caps one type's scenes in a season: past the cap its causes go to the journal", () => {
+    const { core, director } = run("place:director-fixture", true);
+    const book = director.ledger.people.get("person:worker")!;
+    const moment = book.moments.find((row) =>
+      row.id.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    const staged = book.schedule.find((row) => row.momentId === moment.id)!;
+    const options = { mode: "live", interruptImpact: 0.5 };
+    // A later cause of the same type, past the repeat window but within the
+    // season, so only the season's cap can hold it back.
+    const later = (n: number) => ({
+      ...moment,
+      id: `${moment.id}:season-${n}`,
+      causeId: `${moment.causeId}:season-${n}`,
+      date: addDays(
+        makeIsoDate(moment.date),
+        SITUATION_LIBRARY.scheduling.repeatDays + 1,
+      ),
+    });
+    const capped = {
+      ...SITUATION_LIBRARY,
+      scheduling: {
+        ...SITUATION_LIBRARY.scheduling,
+        seasonCap: { ...SITUATION_LIBRARY.scheduling.seasonCap, value: 1 },
+      },
+    };
+    // The season already holds one scene of the type: at a cap of one, the
+    // next cause of it stages nothing; at the shipped cap it still stages.
+    expect(staged.bindings.map((row) => row.typeKey)).toContain("news-arrives");
+    const blocked = scheduleMoment(core, book, later(1), options, capped);
+    expect(blocked.bindings.map((row) => row.typeKey)).not.toContain(
+      "news-arrives",
+    );
+    // The shipped cap lets the same cause through.
+    const through = scheduleMoment(core, book, later(2), options);
+    expect(through.bindings.map((row) => row.typeKey)).toContain(
+      "news-arrives",
+    );
+    expect(SITUATION_LIBRARY.scheduling.seasonCap.value).toBeGreaterThan(1);
+    expect(SITUATION_LIBRARY.scheduling.seasonCap.days).toBeGreaterThan(0);
+  });
+
   it("takes a second cause the same day into the sitting already staged, citing both records", () => {
     const { core, director } = run("place:director-fixture", true);
     const personId = "person:worker";
@@ -725,9 +802,8 @@ describe("story director on the new core", () => {
     expect(
       staged.roles.find((row) => row.role === "bearer")!.personIds,
     ).toEqual(["person:worker"]);
-    // Every bank line, as the grading view reads them, so the narrator speaks.
-    const words = everySceneWord();
-    const scene = composeScene(core, director, personId, sitting, words);
+    // The narrator speaks from the bank's own lines.
+    const scene = composeScene(core, director, personId, sitting);
     expect(scene?.narration.length).toBeGreaterThan(0);
     const cited = (scene?.narration ?? []).flatMap(
       (line) => line.sourceRecordIds,
@@ -960,7 +1036,7 @@ describe("story director on the new core", () => {
     expect(entry.bindings.map((row) => row.typeKey)).toContain("reunion");
   });
 
-  it("scores the recorded past: personal facts are moments, an era only where it hit", () => {
+  it("scores the recorded past: personal facts are moments", () => {
     const place = "place:director-fixture";
     const base = town(place);
     const withPast = (row: PersonInput): PersonInput =>
@@ -970,21 +1046,6 @@ describe("story director on the new core", () => {
             ...row,
             pastFacts: [
               ...(row.pastFacts ?? []),
-              {
-                id: "fact:worker:era-hit",
-                date: "2008-12-01",
-                kind: "era:public-context",
-                summary: "Public economic context",
-                source,
-                facts: { personalJobLoss: "recorded" },
-              },
-              {
-                id: "fact:worker:partner",
-                date: "1994-01-01",
-                kind: "family:partner",
-                summary: "Partner",
-                source,
-              },
               {
                 id: "fact:worker:opening-job",
                 date: startedAt,
@@ -1009,21 +1070,15 @@ describe("story director on the new core", () => {
         row.counterpartIds,
       ]),
     ).toEqual([
-      ["1984-08-27", "past:school:cohort-estimate", 0.26, []],
+      ["1984-08-27", "past:school.started", 0.26, []],
       ["1994-01-01", "past:family:partner", 0.5, ["person:spouse"]],
-      ["2008-12-01", "past:era:public-context:personalJobLoss", 0.47, []],
     ]);
     // The 1994 partnership record moves the pair's first-known date back.
     expect(
       worker.keptFacts.get("knew-each-other:person:spouse:person:worker"),
     ).toMatchObject({ since: "1994-01-01", sinceBasis: "recorded" });
-    // The unhit era is background only; the opening job describes the start.
-    expect(worker.backdrop.map((row) => row.sourceId)).toEqual([
-      "fact:worker:era",
-      "fact:worker:era-hit",
-    ]);
+    // The opening job describes the start.
     expect(worker.schedule.map((row) => row.outcome)).toEqual([
-      "journal-line",
       "journal-line",
       "journal-line",
     ]);
@@ -1154,11 +1209,12 @@ describe("story director on the new core", () => {
     const directorStops = worker.stops.filter((packet) =>
       packet.stop.modules.some((row) => row.moduleId === "p13-story-director"),
     );
-    // One stop, at the midnight after the closure, before 2021-01-11 runs.
+    // One stop, on the morning after the closure: the family scene is at
+    // home, which holds it from the person's day start, never at midnight.
     expect(directorStops).toHaveLength(1);
     expect(directorStops[0]!.at).toEqual({
       date: "2021-01-11",
-      minuteOfDay: P.zero,
+      minuteOfDay: parameter("playerDayStartMinute"),
     });
     expect(directorStops[0]!.stop.modules).toEqual([
       expect.objectContaining({
@@ -1287,9 +1343,17 @@ describe("story director on the new core", () => {
         row.kind === "stop" &&
         row.stop.modules.some((stop) => stop.moduleId === "p13-story-director"),
     );
-    // One stop, at the minute the closure was recorded, not the next midnight.
+    // One stop, at the minute the closure was recorded, not the next
+    // midnight; a minute before the household is up waits for its morning.
     expect(directorStops).toHaveLength(1);
-    expect(directorStops[0]!.at).toEqual(actEnd);
+    const heldAt = {
+      date: actEnd!.date,
+      minuteOfDay: Math.max(
+        actEnd!.minuteOfDay,
+        parameter("playerDayStartMinute"),
+      ),
+    };
+    expect(directorStops[0]!.at).toEqual(heldAt);
     const momentId = `person:worker:${day}:fixture-closed-midday:${day}`;
     expect(directorStops[0]!.stop.modules).toEqual([
       expect.objectContaining({ recordId: momentId, kind: "interrupt" }),
@@ -1309,7 +1373,7 @@ describe("story director on the new core", () => {
       worker.schedule.find((row) => row.momentId === momentId),
     ).toMatchObject({
       interrupt: true,
-      stop: { recordId: momentId, at: actEnd },
+      stop: { recordId: momentId, at: heldAt },
     });
   });
 

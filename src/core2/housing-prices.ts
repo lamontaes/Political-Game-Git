@@ -6,7 +6,30 @@
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import history from "./data/macro/history.json" with { type: "json" };
+import housingParameters from "./data/housing/parameters.json" with { type: "json" };
+import { parameter } from "./parameters";
+import { worldOffsetUnit } from "./world-draw";
 import { stopgap } from "./stopgaps";
+
+const HOUSING_ROWS = housingParameters as unknown as Record<
+  string,
+  { value: number }
+>;
+/**
+ * A signed offset between the floor share of the named housing spread row and
+ * the whole spread, fixed by the world's seed and the key: generation of the
+ * starting world, never an actor's outcome (owner, Oct 27: realistic, not
+ * real). The one world draw (world-draw.ts), times this table's spread row.
+ */
+export function housingWorldOffset(
+  seed: string,
+  key: string,
+  spread: string,
+): number {
+  return (
+    worldOffsetUnit(seed, `housing-world:${key}`) * HOUSING_ROWS[spread]!.value
+  );
+}
 
 const HPI = housingData.housePriceIndex.states as unknown as Record<
   string,
@@ -61,8 +84,33 @@ function indexAt(
   return rows[last]! * priceRatio(lastDate, date, level);
 }
 
-/** How much a home's price moved from one date to another in a state. */
+/**
+ * How much a home's price moved from one date to another in a state, in this
+ * world: the published move (FHFA, else consumer prices) with its growth scaled
+ * once by the world's own offset for the state, so a world's prices ran a
+ * little faster or slower than the published series (owner, Oct 27: realistic,
+ * not real). Play reads this.
+ */
 export function homePriceRatio(
+  usps: string,
+  from: string,
+  to: string,
+  seed: string,
+  level?: PriceLevel,
+): number {
+  return (
+    publishedHomePriceRatio(usps, from, to, level) **
+    (parameter("one") +
+      housingWorldOffset(
+        seed,
+        `price-trend:${usps}`,
+        "housingWorldPriceTrendSpreadShare",
+      ))
+  );
+}
+
+/** How much a home's price moved from one date to another in a state, as published (calibration). */
+export function publishedHomePriceRatio(
   usps: string,
   from: string,
   to: string,

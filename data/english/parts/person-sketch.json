@@ -1,0 +1,581 @@
+{
+  "schema": "english-parts/1",
+  "register": "person-sketch",
+  "description": "What a person is like, said plainly in a sentence per trait from their recorded temperament (owner, Oct 27: 'a plain version of what this person's like'), never the trait's name. The strongest traits are said; a strong lean takes the strong line, a slight one the mild line. The same sketch in the third person (keys ending -third, filled from the person's recorded pronouns, and -they) says what someone else is like on their card.",
+  "slots": {
+    "subject": "She or He, from the person's recorded pronouns, at the start of a sentence.",
+    "lower": "she or he, from the person's recorded pronouns, inside a sentence.",
+    "object": "her or him, from the person's recorded pronouns.",
+    "reflexive": "herself or himself, from the person's recorded pronouns."
+  },
+  "maxWords": 12,
+  "parts": [
+    {
+      "key": "person-sketch.deliberative.strong",
+      "move": "deliberative",
+      "text": "You think things through before you act.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.deliberative.mild",
+      "move": "deliberative",
+      "text": "You usually think before you act.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.impulsive.strong",
+      "move": "impulsive",
+      "text": "You act on impulse.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.impulsive.mild",
+      "move": "impulsive",
+      "text": "You can be quick to act.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.reserved.strong",
+      "move": "reserved",
+      "text": "You keep to yourself.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.reserved.mild",
+      "move": "reserved",
+      "text": "You're a little reserved.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.outgoing.strong",
+      "move": "outgoing",
+      "text": "You love being around people.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.outgoing.mild",
+      "move": "outgoing",
+      "text": "You're easy to talk to.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.conciliatory.strong",
+      "move": "conciliatory",
+      "text": "You'd rather find common ground than fight.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.conciliatory.mild",
+      "move": "conciliatory",
+      "text": "You try to smooth things over.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.confrontational.strong",
+      "move": "confrontational",
+      "text": "You don't back down from a fight.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.confrontational.mild",
+      "move": "confrontational",
+      "text": "You speak up when you disagree.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.lets-things-slip.strong",
+      "move": "lets-things-slip",
+      "text": "You let things slip.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.lets-things-slip.mild",
+      "move": "lets-things-slip",
+      "text": "You don't always follow through.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.dependable.strong",
+      "move": "dependable",
+      "text": "When you say you'll do something, you do it.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.dependable.mild",
+      "move": "dependable",
+      "text": "People can count on you.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.cautious.strong",
+      "move": "cautious",
+      "text": "You play it safe.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.cautious.mild",
+      "move": "cautious",
+      "text": "You're careful about taking chances.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.risk-taking.strong",
+      "move": "risk-taking",
+      "text": "You'll take a chance most people wouldn't.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.risk-taking.mild",
+      "move": "risk-taking",
+      "text": "You don't mind a gamble.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.balanced.1",
+      "move": "balanced",
+      "text": "You're even-tempered: hard to rattle and hard to rush.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.deliberative.strong-third",
+      "move": "deliberative",
+      "text": "{subject} thinks things through before acting.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.deliberative.strong-they",
+      "move": "deliberative",
+      "text": "They think things through before acting.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.deliberative.mild-third",
+      "move": "deliberative",
+      "text": "{subject} usually thinks before acting.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.deliberative.mild-they",
+      "move": "deliberative",
+      "text": "They usually think before acting.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.impulsive.strong-third",
+      "move": "impulsive",
+      "text": "{subject} acts on impulse.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.impulsive.strong-they",
+      "move": "impulsive",
+      "text": "They act on impulse.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.impulsive.mild-third",
+      "move": "impulsive",
+      "text": "{subject} can be quick to act.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.impulsive.mild-they",
+      "move": "impulsive",
+      "text": "They can be quick to act.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.reserved.strong-third",
+      "move": "reserved",
+      "text": "{subject} keeps to {reflexive}.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.reserved.strong-they",
+      "move": "reserved",
+      "text": "They keep to themselves.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.reserved.mild-third",
+      "move": "reserved",
+      "text": "{subject} is a little reserved.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.reserved.mild-they",
+      "move": "reserved",
+      "text": "They're a little reserved.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.outgoing.strong-third",
+      "move": "outgoing",
+      "text": "{subject} loves being around people.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.outgoing.strong-they",
+      "move": "outgoing",
+      "text": "They love being around people.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.outgoing.mild-third",
+      "move": "outgoing",
+      "text": "{subject} is easy to talk to.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.outgoing.mild-they",
+      "move": "outgoing",
+      "text": "They're easy to talk to.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.conciliatory.strong-third",
+      "move": "conciliatory",
+      "text": "{subject} would rather find common ground than fight.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.conciliatory.strong-they",
+      "move": "conciliatory",
+      "text": "They'd rather find common ground than fight.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.conciliatory.mild-third",
+      "move": "conciliatory",
+      "text": "{subject} tries to smooth things over.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.conciliatory.mild-they",
+      "move": "conciliatory",
+      "text": "They try to smooth things over.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.confrontational.strong-third",
+      "move": "confrontational",
+      "text": "{subject} doesn't back down from a fight.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.confrontational.strong-they",
+      "move": "confrontational",
+      "text": "They don't back down from a fight.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.confrontational.mild-third",
+      "move": "confrontational",
+      "text": "{subject} speaks up in a disagreement.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.confrontational.mild-they",
+      "move": "confrontational",
+      "text": "They speak up in a disagreement.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.lets-things-slip.strong-third",
+      "move": "lets-things-slip",
+      "text": "{subject} lets things slip.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.lets-things-slip.strong-they",
+      "move": "lets-things-slip",
+      "text": "They let things slip.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.lets-things-slip.mild-third",
+      "move": "lets-things-slip",
+      "text": "{subject} doesn't always follow through.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.lets-things-slip.mild-they",
+      "move": "lets-things-slip",
+      "text": "They don't always follow through.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.dependable.strong-third",
+      "move": "dependable",
+      "text": "When {lower} says {lower}'ll do something, {lower} does it.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.dependable.strong-they",
+      "move": "dependable",
+      "text": "When they say they'll do something, they do it.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.dependable.mild-third",
+      "move": "dependable",
+      "text": "People can count on {object}.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.dependable.mild-they",
+      "move": "dependable",
+      "text": "People can count on them.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.cautious.strong-third",
+      "move": "cautious",
+      "text": "{subject} plays it safe.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.cautious.strong-they",
+      "move": "cautious",
+      "text": "They play it safe.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.cautious.mild-third",
+      "move": "cautious",
+      "text": "{subject} is careful about taking chances.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.cautious.mild-they",
+      "move": "cautious",
+      "text": "They're careful about taking chances.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.risk-taking.strong-third",
+      "move": "risk-taking",
+      "text": "{subject}'ll take a chance most people wouldn't.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.risk-taking.strong-they",
+      "move": "risk-taking",
+      "text": "They'll take a chance most people wouldn't.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.risk-taking.mild-third",
+      "move": "risk-taking",
+      "text": "{subject} doesn't mind a gamble.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.risk-taking.mild-they",
+      "move": "risk-taking",
+      "text": "They don't mind a gamble.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.balanced.1-third",
+      "move": "balanced",
+      "text": "{subject}'s even-tempered: hard to rattle and hard to rush.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.balanced.1-they",
+      "move": "balanced",
+      "text": "They're even-tempered: hard to rattle and hard to rush.",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
+      "date": "2026-10-28",
+      "kind": "written"
+    }
+  ]
+}

@@ -164,7 +164,7 @@ export function generateBoard(
       // What a family at the seat's pay keeps in checking and savings (SCF),
       // as every other named official is given, not an empty wallet.
       liquidMinor: Math.round(
-        medianTransactionBalance(board.memberPay.annualDollars) *
+        medianTransactionBalance(board.memberPay.annualDollars, input.seed) *
           p("minorPerDollar"),
       ),
       livingCostDailyMinor: p("zero"),

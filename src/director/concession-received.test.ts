@@ -18,6 +18,7 @@ import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
+import { storyReply, storyScene } from "../bench/story";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
@@ -90,7 +91,8 @@ const run = (drawSeed: string): string | null => {
         contestId: race.id,
         platform: [],
       });
-      if (result.status === "on-ballot") filings.push(result.filing);
+      if (["petitioning", "on-ballot"].includes(result.status ?? ""))
+        filings.push(result.filing);
     }
     if (filings.length > 1) {
       contest = race;
@@ -108,6 +110,10 @@ const run = (drawSeed: string): string | null => {
       .table("filings")
       .rows() as unknown as FilingRow[]
   ).filter((f) => f.contestId === contest!.id && f.status === "on-ballot");
+  // A filer whose petition fell short is not on the ballot; with one name
+  // left the winner is unopposed and nobody calls (the race is passed over).
+  if (onBallot.length < 2)
+    return `${where}: ${contest.id} has ${onBallot.length} on the ballot`;
   for (const f of onBallot) director.watch(core, f.personId as PersonId);
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), 2));
   const result = resultOf(api, contest.id);
@@ -152,13 +158,34 @@ const run = (drawSeed: string): string | null => {
   expect(scene.cause.id, where).toBe(causeId);
   expect(scene.askerId, where).toBe(callerId);
   expect(scene.askedId, where).toBe(winner);
-  // The lead is the count's own difference, citing the record.
+  // The lead is the count's own difference, citing the record; the bank's
+  // lines say "votes", or "one vote" where the flag says it was one.
+  // A tie at the top (decided by lot) leaves nobody ahead, so no lead is
+  // said (Nashville, Ohio, run seed 62c54aceac792551: 1 to 1).
   const lead = scene.facts.find((row) => row.key === "lead");
-  expect(lead?.text, where).toMatch(/^[\d,]+ votes?$/);
-  expect(lead?.recordIds, where).toContain(causeId);
-  expect(Number.parseInt(lead!.text.replaceAll(",", ""), 10), where).toBe(
-    ranked[0]![1] - ranked[1]![1],
-  );
+  const margin = ranked[0]![1] - ranked[1]![1];
+  if (margin === 0) {
+    expect(lead, `${where}: a tie`).toBeUndefined();
+    // A tie with a winner was settled by a drawing or by a body's vote (a
+    // tie the law sends to a second election names no winner yet), and the
+    // tie record says which.
+    expect(
+      scene.facts.some(
+        (row) => row.key === "tied-lot" || row.key === "tied-vote",
+      ),
+      `${where}: how the tie was settled`,
+    ).toBe(true);
+  } else {
+    expect(lead?.text, where).toMatch(/^[\d,]+$/);
+    expect(
+      scene.facts.some((row) => row.key === "lead-one"),
+      where,
+    ).toBe(lead?.text === "1");
+    expect(lead?.recordIds, where).toContain(causeId);
+    expect(Number.parseInt(lead!.text.replaceAll(",", ""), 10), where).toBe(
+      margin,
+    );
+  }
   // Four replies that are four stances.
   const replies = scene.talk.tree.replies;
   expect(replies.length, where).toBe(4);
@@ -174,6 +201,34 @@ const run = (drawSeed: string): string | null => {
   // The winner is the player here: the core keeps the reasons of the player's
   // own circle, and a reply is a record of what they said to whom.
   core.playerId = winner;
+
+  // In ordinary play through the bench, the count's scenes come in turn: each
+  // ends with a reply, and the moment then plays the next one it staged, the
+  // victory night before the call, never the same scene twice.
+  const played: string[] = [];
+  for (;;) {
+    const shown = storyScene(core, director, winner, entry!.momentId, 20 * 60);
+    const typeKey = shown.talk?.typeKey;
+    if (!typeKey || played.includes(typeKey)) break;
+    played.push(typeKey);
+    const kept = storyReply(core, director, winner, entry!.momentId, [0], {
+      typeKey,
+    });
+    expect(core.durableLog.get(kept.recordId)?.facts?.causeId, where).toBe(
+      causeId,
+    );
+  }
+  process.stdout.write(
+    `IN TURN ${where}: ${played.join(" then ")}, from ${causeId}\n`,
+  );
+  expect(played, `${where}: the count's scenes in turn`).toContain(
+    "concession-received",
+  );
+  if (entry!.bindings.some((row) => row.typeKey === "race-won"))
+    expect(
+      played.indexOf("race-won"),
+      `${where}: ${played.join(", ")}`,
+    ).toBeLessThan(played.indexOf("concession-received"));
   const id = replyInScene(core, director, winner, entry!, [0], {
     typeKey: "concession-received",
   });
@@ -194,7 +249,10 @@ const run = (drawSeed: string): string | null => {
   ).toBe(false);
 
   // The bank has a line for every node: the engine lists what it lacks.
-  expect(scene.talk.gaps, `${where}: bank gaps`).toEqual([]);
+  expect(
+    scene.talk.gaps,
+    `${where}: bank gaps ${JSON.stringify(scene.talk.gaps)}`,
+  ).toEqual([]);
   // The exchange reaches more than one named ending.
   expect(
     Object.keys(scene.talk.endingCounts).length,

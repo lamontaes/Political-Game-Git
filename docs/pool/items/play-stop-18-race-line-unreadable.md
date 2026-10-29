@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #6104
 blocked-on:
@@ -35,3 +35,5 @@ Sent back 2026-10-25 ~22:35 UTC from PR #6104 (branch play-first/play-stop-18-ra
 
 Merger 0: Sent back 2026-10-26 from PR #6104 (branch play-first/play-stop-18-race-line-unreadable): Words-required singular/plural, non-numeral sentence openings, and warm/cool zero-case fixes are still absent at d0bef13179f759dee8acc38bff0b0779ce89b1a8 (campaign.ts 247–255 and campaign-standing.json 23, 67, 133); finish on that branch, merge main into it first.
 Sent back 2026-10-27 from PR #6104 (branch play-first/play-stop-18-race-line-unreadable): code conflict with main in src/bench/play.mjs (the Campaigns row list, main's acts block beside the standing lines); finish on that branch, merge main into it first.
+
+Fixer 6 (Oct 27): superseded by PR #6419 (standing sentences replace the per-act block; main merged).

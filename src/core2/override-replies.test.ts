@@ -27,6 +27,7 @@ import {
   holdVote,
   votesOn,
   type BillRow,
+  type CommitteeRecord,
 } from "./modules/legislature";
 import { coreAPI } from "./state";
 import type { CoreEventInput } from "./types";
@@ -150,10 +151,33 @@ it("a veto override's record names its chamber and movable members, and a reply 
       sponsorId: bill.sponsorId,
       provisions: bill.provisions,
     });
-    holdVote(api, again.id);
-    const vote = votesOn(api, again.id).find(
-      (v) => v.memberId === member && !(v as { override?: boolean }).override,
+    const refiled = holdVote(api, again.id);
+    // The refiled bill can end before a floor roll call: its committee's
+    // chair holds it unheard, or the committee votes it down. The member
+    // then has no vote to read the reply, so the hold is named by its record
+    // and the next place is tried; wherever the bill reaches the floor, the
+    // member's vote must cite the reply.
+    const floor = votesOn(api, again.id).filter(
+      (v) =>
+        !(v as { override?: boolean }).override &&
+        (v as { chamber?: string }).chamber === bill.bodyOfficeId,
     );
+    if (floor.length === 0) {
+      const committee = api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("committees")
+        .get(`committee:${again.id}:${bill.bodyOfficeId}`) as unknown as
+        CommitteeRecord | undefined;
+      expect(
+        committee && !committee.reported,
+        `${where}: ${again.id} ended ${refiled.status} with no floor vote and no committee that kept it`,
+      ).toBe(true);
+      tried.push(
+        `${where}: ${again.number} (${again.id}) ${committee!.heard ? "voted down" : "held unheard"} in ${committee!.id}`,
+      );
+      continue;
+    }
+    const vote = floor.find((v) => v.memberId === member);
     expect(vote, `${where}: ${member} on ${again.id}`).toBeDefined();
     expect(vote!.position.replyIds, `${where}: ${vote!.memberId}`).toContain(
       replyId,

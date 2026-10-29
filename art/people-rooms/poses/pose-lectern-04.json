@@ -1,0 +1,30 @@
+{
+  "id": "pose-lectern-04",
+  "file": "pose-lectern-04.png",
+  "garments": "pose-lectern-04-garments.png",
+  "sheet": "in-scene",
+  "scene": "council-chamber",
+  "plate": "lp-c1.png",
+  "pose": "lectern",
+  "angle": "back",
+  "facing": 180,
+  "gesture": "making a point, open hand toward the dais",
+  "interacts": "public lectern: one hand on the top",
+  "hairView": "back",
+  "sex": "f",
+  "build": "slim",
+  "ageBand": "adult",
+  "prop": "none",
+  "outfit": "suit",
+  "width": 208,
+  "height": 365,
+  "boxInScene": [705, 187, 913, 552],
+  "sceneSize": [1365, 768],
+  "head": {
+    "top": 4,
+    "x": 106.0,
+    "width": 59
+  },
+  "frontEdgeY": null,
+  "clothesLabelled": 0.76
+}

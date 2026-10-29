@@ -3,7 +3,6 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { answerJobOffer, jobsView } from "./jobs";
 import { BenchPlayer } from "./player";
 import { storyScene } from "./story";
 import { buildBenchWorld } from "./world";
@@ -52,15 +51,6 @@ it("every stop in a played year has something to show and answer", () => {
             `the stop on ${packet.at.date} (${row.recordId}) offers no one to answer: "${scene.narration.map((line) => line.text).join(" ")}" in ${where}`,
           ).toBe(true);
         }
-        if (row.reasonKey === "job-offered")
-          jobsView(core, personId).offers.forEach((offer, index) =>
-            answerJobOffer(
-              core,
-              personId,
-              offer.id,
-              index === 0 ? "accept" : "decline",
-            ),
-          );
       }
       player.resume({ kind: "stop", pauseId: packet.pauseId });
       continue;

@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr: #6108
+pr: #6398
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
@@ -32,3 +32,5 @@ claimed-at:
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-19-turning-eighteen-and-journal-silent (Oct 24, lane; the work order's calendar half). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
 
 Merger 0: Sent back 2026-10-26 from PR #6108 (branch play-first/play-stop-19-turning-eighteen-and-journal-silent-a): main merge conflicts in data/english/parts/journal.json, src/director/data/journal-rows.json, and src/director/journal.ts; aborted without hand-merging banks or code; finish on that branch, merge main into it first.
+
+Fixer 6 (Oct 27): superseded by PR #6398 (the January 21 first-day birthday stop fixed on #6108's head, main merged).

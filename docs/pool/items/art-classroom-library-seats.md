@@ -4,7 +4,7 @@ title: "ART-5 classroom and library chair seat positions (#3492)"
 area: art
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #5339
 blocked-on:
@@ -29,3 +29,5 @@ Looked at 2026-10-16 (claude session), not merged: session-56-art5-education (Oc
 PR #3492 closed unmerged (2026-10-16); reopened by the pool reconcile Oct 19.
 
 Sent back 2026-10-23 from PR #5339 (branch session-56-art5-education): The shipped measuredFrom values still include October 7 ART-5; remove the date/session notes, supply the Done-when table and visual seating evidence; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (superseded by people-plates, OD:49; the chair anchors it measures are replaced).

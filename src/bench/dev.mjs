@@ -1,14 +1,28 @@
-/* global document, fetch, location, Node */
+/* global document, fetch, location */
 // Dev mode's page: record data and control names only. Every write goes to
 // /api/dev/*, which calls the core; reading spends no game time.
-const $ = (id) => document.getElementById(id);
-const el = (tag, props = {}, ...children) => {
-  const node = Object.assign(document.createElement(tag), props);
-  for (const child of children)
-    node.append(child instanceof Node ? child : String(child ?? ""));
-  return node;
-};
+import {
+  actionButton,
+  billPanel,
+  experimentActions,
+  followBar as followBarView,
+  followedColumn,
+  idLink,
+  idList,
+  lawCell,
+  levelOptions,
+  payChart,
+  personIdLine,
+  recordTree,
+  reportText,
+  tableRows,
+  traceBox,
+  traceDetail,
+  whyView as whyPanel,
+} from "./ui/dev-view.mjs";
+import { moneyWords } from "../english/plain-words.mjs";
 
+const $ = (id) => document.getElementById(id);
 async function api(path, input) {
   const response = await fetch(
     path,
@@ -39,59 +53,12 @@ async function run(work) {
   }
 }
 
-const isId = (value) =>
-  typeof value === "string" &&
-  /^[a-z][\w-]*[:_][\w:|.-]+$/i.test(value) &&
-  value.length > 8;
-
 /** Any record as nested key/value rows; ids open in Trace. */
-function tree(value, key = "", depth = 0) {
-  if (value === null || typeof value !== "object") {
-    const shown = isId(value)
-      ? el("span", { className: "id", onclick: () => traceId(value) }, value)
-      : el("span", {}, String(value));
-    return el(
-      "div",
-      { className: "kv" },
-      el("span", {}, key ? `${key} ` : ""),
-      shown,
-    );
-  }
-  const entries = Array.isArray(value)
-    ? value.map((item, index) => [String(index), item])
-    : Object.entries(value);
-  const box = el(
-    "details",
-    { open: depth < 1 },
-    el("summary", {}, `${key} (${entries.length})`),
-  );
-  for (const [k, v] of entries.slice(0, 300)) box.append(tree(v, k, depth + 1));
-  return box;
-}
+const tree = (value, key = "", depth = 0) =>
+  recordTree(value, traceId, key, depth);
 
 function table(target, columns, rows, onPick, rowClass) {
-  const node = $(target);
-  node.replaceChildren(
-    el("tr", {}, ...columns.map((c) => el("th", {}, c.name))),
-    ...rows.map((row) => {
-      const tr = el(
-        "tr",
-        { className: `${onPick ? "item" : ""} ${rowClass?.(row) ?? ""}` },
-        ...columns.map((c) => {
-          const value = c.value(row);
-          return el("td", {}, value instanceof Node ? value : (value ?? ""));
-        }),
-      );
-      if (onPick)
-        tr.onclick = () => {
-          for (const other of node.querySelectorAll("tr.on"))
-            other.classList.remove("on");
-          tr.classList.add("on");
-          onPick(row);
-        };
-      return tr;
-    }),
-  );
+  $(target).replaceChildren(...tableRows(columns, rows, onPick, rowClass));
 }
 
 // Header: the world and its date --------------------------------------------
@@ -159,34 +126,19 @@ let lawPick;
 loaders.laws = async () => {
   laws = await api("/api/dev/laws");
   const level = $("law-level").value;
-  $("law-level").replaceChildren(
-    ...laws.levels.map((l) =>
-      el("option", { value: l.level }, `${l.level} · ${l.jurisdiction}`),
-    ),
-  );
+  $("law-level").replaceChildren(...levelOptions(laws.levels));
   if (level) $("law-level").value = level;
   drawLaws();
 };
 function drawLaws() {
   const filter = $("law-filter").value.toLowerCase();
-  const cell = (row) =>
-    row
-      ? el(
-          "span",
-          { className: row.devMode ? "dev" : "" },
-          `${row.value}${row.unit ? ` ${row.unit}` : ""}`,
-        )
-      : "";
   table(
     "law-table",
     [
       { name: "Series", value: (s) => s.series.split(":").pop() },
       ...laws.levels.map((l, i) => ({
         name: l.level,
-        value: (s) =>
-          s.levels[i].setAside
-            ? el("s", { title: s.levels[i].setAside }, cell(s.levels[i].row))
-            : cell(s.levels[i].row),
+        value: (s) => lawCell(s.levels[i]),
       })),
       { name: "In force", value: (s) => s.combined },
     ],
@@ -229,43 +181,20 @@ $("law-repeal").onclick = () => setLaw(true);
  * and spends no time. A resident in the player's circle is already kept.
  */
 function followBar(personId, onChange, first) {
-  const status = el("span", { className: "role" });
-  const tier = el("span", { className: "role" });
-  const button = el("button", { className: "action", type: "button" });
-  let view;
-  const draw = (next) => {
-    view = next;
-    status.textContent = view.status;
-    tier.textContent = view.tier ? `tier ${view.tier}` : "";
-    button.textContent =
-      view.status === "dev-mode" ? "Stop following" : "Follow";
-    button.disabled = view.status === "player-circle";
-  };
-  button.onclick = () =>
-    run(async () => {
-      draw(
-        await api(
+  return followBarView({
+    first,
+    load: () =>
+      api(`/api/dev/following?personId=${encodeURIComponent(personId)}`),
+    onToggle: (view, draw) =>
+      run(async () => {
+        const next = await api(
           `/api/dev/${view.status === "dev-mode" ? "unfollow" : "follow"}`,
           { personId },
-        ),
-      );
-      await onChange?.(view);
-    });
-  if (first) draw(first);
-  else {
-    draw({ status: "none" });
-    api(`/api/dev/following?personId=${encodeURIComponent(personId)}`)
-      .then(draw)
-      .catch(() => {});
-  }
-  return el(
-    "span",
-    { className: "row" },
-    el("span", { className: "label" }, "Following"),
-    status,
-    tier,
-    button,
-  );
+        );
+        draw(next);
+        await onChange?.(next);
+      }),
+  });
 }
 /** The followed residents' decisions, one column each, so two can be read side by side. */
 async function drawFollowed() {
@@ -273,21 +202,11 @@ async function drawFollowed() {
   $("followed-box").hidden = followed.length === 0;
   $("followed").replaceChildren(
     ...followed.map(({ view, decisions }) =>
-      el(
-        "div",
-        { className: "followed-one" },
-        el(
-          "div",
-          { className: "row" },
-          el("b", {}, view.name),
-          el(
-            "span",
-            { className: "id", onclick: () => traceId(view.personId) },
-            view.personId,
-          ),
-          followBar(view.personId, drawFollowed, view),
-        ),
-        el("div", { className: "scroll" }, whyView(decisions)),
+      followedColumn(
+        view,
+        traceId,
+        followBar(view.personId, drawFollowed, view),
+        whyView(decisions),
       ),
     ),
   );
@@ -342,154 +261,50 @@ async function drawOffers(personId) {
       }),
     (o) => (o.key === value.pending ? "on" : ""),
   );
-  $("choose-result").replaceChildren(
-    el(
-      "span",
-      { className: "id", onclick: () => personId && personView(personId) },
-      personId,
-    ),
-  );
+  $("choose-result").replaceChildren(personIdLine(personId, personView));
 }
 async function drawBodies() {
   const bills = await api("/api/dev/bodies");
   $("bodies").replaceChildren(
-    ...bills.map((bill) => {
-      const box = el(
-        "div",
-        { className: "panel", style: "padding:8px 12px;margin:8px 0" },
-        el(
-          "div",
-          { className: "row" },
-          el("b", {}, bill.number),
-          el("span", { className: "role" }, bill.status),
-          el(
-            "span",
-            { className: "role" },
-            bill.office?.name ?? bill.bodyOfficeId,
-          ),
-          el(
-            "span",
-            { className: "id", onclick: () => traceId(bill.id) },
-            bill.id,
-          ),
-        ),
-      );
-      const act = (name, path, input) =>
-        el(
-          "button",
-          {
-            className: "action",
-            type: "button",
-            onclick: () =>
-              run(async () => {
-                await api(path, input);
-                await drawBodies();
-              }),
-          },
-          name,
-        );
-      if (bill.open)
-        box.append(
-          el(
-            "div",
-            { className: "row" },
-            act("Hold vote", "/api/dev/hold-vote", { billId: bill.id }),
-            act("Sign", "/api/dev/sign", { billId: bill.id, sign: true }),
-            act("Veto", "/api/dev/sign", { billId: bill.id, sign: false }),
-          ),
-        );
-      for (const member of bill.members)
-        box.append(
-          el(
-            "div",
-            { className: "row" },
-            el("span", {}, `${member.givenName} ${member.familyName}`),
-            el("span", { className: "role" }, member.vote ?? ""),
-            ...(bill.open ? ["yes", "no", "abstain"] : []).map((vote) =>
-              act(vote, "/api/dev/vote", {
-                billId: bill.id,
-                memberId: member.key,
-                vote,
-              }),
-            ),
-          ),
-        );
-      return box;
+    ...bills.map((bill) => billPanel(bill, traceId, act)),
+  );
+}
+const act = (name, path, input) =>
+  actionButton(name, () =>
+    run(async () => {
+      await api(path, input);
+      await drawBodies();
     }),
   );
-}
 
 // 3. Trace -------------------------------------------------------------------
-/** One "why" panel: labeled rows (ids open in Trace) and, where an engine keeps no reason, the gap. */
-function whyView(panel) {
-  const box = el(
-    "details",
-    { className: "why", open: true },
-    el("summary", {}, panel.title),
-  );
-  for (const row of panel.rows) {
-    // A row that lists several lines (a decision's options) reads as a block.
-    const text = String(row.value);
-    const block = text.includes("\n") ? " block" : "";
-    box.append(
-      el(
-        "div",
-        { className: "kv" },
-        el("span", {}, `${row.label} `),
-        row.id
-          ? el(
-              "span",
-              { className: `id${block}`, onclick: () => traceId(row.id) },
-              text,
-            )
-          : el("span", { className: block.trim() }, text),
-      ),
-    );
-  }
-  if (panel.gap)
-    box.append(el("div", { className: "kv gap" }, `Gap: ${panel.gap}`));
-  return box;
-}
+const whyView = (panel) => whyPanel(panel, traceId);
 // The clicked chain, root first: what Report writes out.
 let chain = [];
 function traceChild(child, path, depth) {
-  const box = el("div", { className: `node ${child.kind}` });
-  const head = el(
-    "div",
-    { className: "head" },
-    el("span", { className: "kind" }, child.kind),
-    el("span", { className: "via" }, child.via ?? ""),
-  );
-  box.append(head);
   const here = [...path, { id: child.id, via: child.via, value: child.value }];
-  if (child.value !== undefined) box.append(tree(child.value, "", 1));
+  const { box, link } = traceBox(
+    child,
+    child.value !== undefined ? tree(child.value, "", 1) : undefined,
+  );
   // A reason has no record of its own; anything else opens on click.
-  if (child.kind === "reason") return box;
-  const link = el("span", { className: "id" }, child.id);
-  head.append(link);
+  if (!link) return box;
   let open;
   // Read the node and show it, replacing what shows now (a person's decisions change once followed).
   const render = async () => {
     const node = await api(
       `/api/dev/trace/node?id=${encodeURIComponent(child.id)}`,
     );
-    const next = el(
-      "div",
-      {},
-      el(
-        "div",
-        { className: "row" },
-        el("span", { className: "kind" }, node.kind),
-        el("span", { className: "via" }, node.engine),
-        ...(node.kind === "person" && node.engine === "core.people"
-          ? [followBar(child.id, render)]
-          : []),
-      ),
-      ...(node.why ?? []).map(whyView),
-      tree(node.record, "record", 2),
-      tree(node.resolver, "saved trace", 2),
-      ...node.children.map((c) => traceChild(c, here, depth + 1)),
-    );
+    const next = traceDetail(node, {
+      follow:
+        node.kind === "person" && node.engine === "core.people"
+          ? followBar(child.id, render)
+          : undefined,
+      whys: (node.why ?? []).map(whyView),
+      record: tree(node.record, "record", 2),
+      resolver: tree(node.resolver, "saved trace", 2),
+      children: node.children.map((c) => traceChild(c, here, depth + 1)),
+    });
     if (open) open.replaceWith(next);
     else box.append(next);
     open = next;
@@ -523,7 +338,7 @@ $("trace-report").onclick = () =>
     if (!chain.length) return;
     const report = await api("/api/dev/trace/report", { chain });
     $("trace-chain").textContent = report.file;
-    $("trace-result").prepend(el("pre", { className: "prose" }, report.text));
+    $("trace-result").prepend(reportText(report.text));
   });
 async function personView(id) {
   $("trace-id").value = id;
@@ -539,44 +354,10 @@ $("trace-go").onclick = () => traceId($("trace-id").value.trim());
 $("person-go").onclick = () => personView($("trace-id").value.trim());
 
 // 4. Watch -------------------------------------------------------------------
-function chart(rows, marks) {
-  if (rows.length < 2) return el("div");
-  const w = 600;
-  const h = 150;
-  const values = rows.flatMap((r) => [
-    r.pay.publicMedianHourlyMinor,
-    r.pay.privateMedianHourlyMinor,
-  ]);
-  const top = Math.max(...values) * 1.1 || 1;
-  const x = (i) => 30 + (i * (w - 40)) / (rows.length - 1);
-  const y = (v) => h - 15 - (v / top) * (h - 25);
-  const line = (key) =>
-    rows.map((r, i) => `${i ? "L" : "M"}${x(i)},${y(r.pay[key])}`).join("");
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("class", "chart");
-  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-  svg.innerHTML = [
-    ...rows
-      .map((r, i) => (r.marks.length ? i : -1))
-      .filter((i) => i >= 0)
-      .map(
-        (i) =>
-          `<line class="mark" x1="${x(i)}" x2="${x(i)}" y1="5" y2="${h - 15}"/>`,
-      ),
-    `<path class="public" d="${line("publicMedianHourlyMinor")}"/>`,
-    `<path class="private" d="${line("privateMedianHourlyMinor")}"/>`,
-    `<text x="2" y="12">${(top / 100).toFixed(2)}</text>`,
-    `<text x="30" y="${h - 2}">${rows[0].date}</text>`,
-    `<text x="${w - 70}" y="${h - 2}">${rows.at(-1).date}</text>`,
-  ].join("");
-  void marks;
-  return svg;
-}
-const dollars = (minor) => (minor / 100).toFixed(2);
 loaders.watch = async () => {
   const view = await api("/api/dev/watch");
   const firstMark = view.marks[0]?.date ?? "9999";
-  $("chart").replaceChildren(chart(view.watched, view.marks));
+  $("chart").replaceChildren(payChart(view.watched));
   table(
     "watch-table",
     [
@@ -584,27 +365,16 @@ loaders.watch = async () => {
       { name: "Public jobs", value: (r) => r.pay.publicJobs },
       {
         name: "Public hourly",
-        value: (r) => dollars(r.pay.publicMedianHourlyMinor),
+        value: (r) => moneyWords(r.pay.publicMedianHourlyMinor),
       },
       { name: "Private jobs", value: (r) => r.pay.privateJobs },
       {
         name: "Private hourly",
-        value: (r) => dollars(r.pay.privateMedianHourlyMinor),
+        value: (r) => moneyWords(r.pay.privateMedianHourlyMinor),
       },
       {
         name: "Changes",
-        value: (r) =>
-          el(
-            "span",
-            {},
-            ...r.marks.map((id) =>
-              el(
-                "span",
-                { className: "id", onclick: () => traceId(id) },
-                `${id} `,
-              ),
-            ),
-          ),
+        value: (r) => idList(r.marks, traceId),
       },
     ],
     view.watched,
@@ -651,8 +421,7 @@ loaders.watch = async () => {
       { name: "Kind", value: (r) => r.kind },
       {
         name: "Record",
-        value: (r) =>
-          el("span", { className: "id", onclick: () => traceId(r.id) }, r.id),
+        value: (r) => idLink(r.id, traceId),
       },
       {
         name: "Facts",
@@ -694,18 +463,7 @@ loaders.path = async () => {
       {
         name: "Record",
         value: (r) =>
-          el(
-            "span",
-            {},
-            r.evidence?.moduleId ?? "",
-            ...evidenceIds(r.evidence).map((rid) =>
-              el(
-                "span",
-                { className: "id", onclick: () => traceId(rid) },
-                `${rid} `,
-              ),
-            ),
-          ),
+          idList(evidenceIds(r.evidence), traceId, r.evidence?.moduleId ?? ""),
       },
       { name: "Missing module", value: (r) => r.missingModule },
     ],
@@ -740,27 +498,9 @@ loaders.experiments = async () => {
       {
         name: "",
         value: (e) =>
-          el(
-            "span",
-            {},
-            el(
-              "button",
-              {
-                className: "action",
-                type: "button",
-                onclick: () => run(() => applyExperiment(e, 0)),
-              },
-              "Apply",
-            ),
-            el(
-              "button",
-              {
-                className: "action primary",
-                type: "button",
-                onclick: () => run(() => applyExperiment(e, e.runMonths)),
-              },
-              "Run",
-            ),
+          experimentActions(
+            () => run(() => applyExperiment(e, 0)),
+            () => run(() => applyExperiment(e, e.runMonths)),
           ),
       },
     ],

@@ -32,7 +32,7 @@ export function payRentAssistance(api: CoreAPI): void {
   const c = api.state as CoreState;
   const annual = lawParameters.parameters.housingAssistanceAnnualMinor.value;
   const months = api.parameter("macroMonthsPerYear");
-  const adult = lawParameters.parameters.adultAge.value;
+  const adult = api.parameter("votingAge");
   const today = makeIsoDate(c.date);
   const funded = new Set<string>();
   let renters: ReturnType<typeof tenants> | undefined;

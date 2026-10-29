@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/people-hero-margins
+pr: #6427
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T22:15:31.918Z
 ---
 
 **What.** In a played life (Abanda, Alabama, January 22 to 28, 2025) the bedroom draws the player at the far left edge with the head close to the top of the picture. Cause: the close-up bedroom-plain hero spot (x 18, y 72, horizon 26, 0.95 percent per meter in art/backdrops/staging.json) makes the adult 75 percent of the picture tall; play-stop-38 only keeps 2 percent head room and moves a figure in from the sides, which leaves it tight against the edge.

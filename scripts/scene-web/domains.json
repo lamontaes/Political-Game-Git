@@ -8,6 +8,7 @@
       "breakup",
       "care",
       "celebration",
+      "diploma-home",
       "confession",
       "departure",
       "eviction-notice",
@@ -27,6 +28,7 @@
       "letter",
       "new-baby",
       "news-arrives",
+      "notice-home",
       "proposal",
       "return",
       "verdict"
@@ -49,20 +51,27 @@
     ],
     "the-campaign": [
       "campaign-stop",
+      "door-ask",
       "filing",
       "party-ask",
       "party-recruit",
       "rally-opponent",
       "speech-afterward"
     ],
-    "election-day-and-night": ["polling-place", "race-lost", "race-won"],
+    "election-day-and-night": [
+      "polling-place",
+      "race-lost",
+      "race-told",
+      "race-won"
+    ],
     "legislating": [
       "bill-carry",
       "floor-vote",
       "public-hearing",
       "section-bargain",
       "vote-asked",
-      "vote-confirmed"
+      "vote-confirmed",
+      "vote-sought"
     ],
     "the-executive": [
       "address",

@@ -47,6 +47,11 @@ jobs:
       actions: read
       contents: write
     uses: ./.github/workflows/release-candidate.yml
+    # A called workflow sees no secrets unless its caller passes them; only
+    # this publishing caller passes the push token (the validate-only caller
+    # does not).
+    secrets:
+      RELEASE_PUSH_TOKEN: ${{ secrets.RELEASE_PUSH_TOKEN }}
     with:
       publish: true
       # Not the push workflow's group, and not this workflow's own: a merge

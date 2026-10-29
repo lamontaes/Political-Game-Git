@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by: claude/political-game-pool-76ksvw
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:25:36.732Z
 **Files.** src/core2/town-workplaces.ts, src/core2/work-schedules.ts, tsconfig.node.json
 
 **Notes.** Item 6 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built.

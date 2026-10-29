@@ -1,5 +1,5 @@
 /* global process, URL, console, document */
-// The ballot pager on election day (play-stop-21-ballot-stuck-on-first-page):
+// The ballot on election day (play-stop-21-ballot-stuck-on-first-page; no pager since Oct 29):
 // Continue turns the ballot's pages to the player's own race; marking it
 // records the vote. Honest UI drive on the bench: creator, party join,
 // filing, calendar skip to election day, page the ballot.
@@ -40,7 +40,7 @@ page.on("response", async (r) => {
         "CHOOSE RESULT:",
         JSON.stringify(j.result ?? null).slice(0, 300),
       );
-      if (j.result?.status === "on-ballot")
+      if (["petitioning", "on-ballot"].includes(j.result?.status ?? ""))
         filedContest = j.result.filing.contestId;
     } catch {
       // Non-JSON filing response; the UI state below is the evidence.
@@ -86,6 +86,11 @@ try {
     await page.locator("#cr-states .item").first().waitFor();
     const drawn = drawPlace(runSeed, `polling-${attempt}`);
     console.log("Drawn place:", drawn.key, drawn.name, drawn.state);
+    // The states page; the search brings the drawn one onto the first page.
+    const stateName = await page
+      .locator(`[data-testid="state-${drawn.state}"]`)
+      .evaluate((b) => b.textContent);
+    await page.locator("#cr-state-search").fill(stateName);
     await page.locator(`[data-testid="state-${drawn.state}"]`).click();
     await page.locator("#cr-towns .item").first().waitFor();
     const townName = drawn.name.split(",")[0];
@@ -104,13 +109,6 @@ try {
     // The world seed the creator obtained: with the drawn place this
     // reproduces the world (BENCH_SEED only reproduces the draws).
     console.log("World seed (creator):", seed, "run seed:", runSeed);
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 300000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
     await page.waitForFunction(() =>
       document.getElementById("card-name").textContent.trim(),
     );
@@ -243,29 +241,19 @@ try {
           await choices.nth(c).click();
           await page.waitForTimeout(2000);
           console.log(
-            "Overlay open:",
-            await page.locator("#filing-overlay:not([hidden])").count(),
             "choices:",
             await page
               .locator("#talk-choices button")
               .allInnerTexts()
               .catch(() => []),
           );
-          if (await page.locator("#filing-overlay:not([hidden])").count()) {
-            await page
-              .locator("#filing-party option")
-              .nth(1)
-              .waitFor({ timeout: 10000 })
-              .catch(() => {});
-            if ((await page.locator("#filing-party option").count()) > 1)
-              await page.locator("#filing-party").selectOption({ index: 1 });
-            const confirm = page.locator("#talk-choices button", {
-              hasText: /file for this office/i,
-            });
-            if (await confirm.count()) {
-              await confirm.first().click();
-              await page.waitForTimeout(2000);
-            }
+          // No form at the counter: the filing carries the party on record.
+          const confirm = page.locator("#talk-choices button", {
+            hasText: /file for this office/i,
+          });
+          if (await confirm.count()) {
+            await confirm.first().click();
+            await page.waitForTimeout(2000);
           }
           acted = true;
           break;
@@ -347,7 +335,7 @@ try {
     path: "docs/reports/ballot-pages-2026-10-24/calendar-nov.png",
   });
   // Run time forward with the skip control; answer stops until the ballot shows.
-  const skip = page.locator(".calendar-details .skip-forward");
+  const skip = page.locator(".calendar-side-head .skip-forward");
   console.log("Skip-forward present:", await skip.count());
   if (await skip.count()) {
     await skip.first().click();
@@ -491,7 +479,7 @@ try {
     }
     await day3.first().click();
     await page.waitForTimeout(1000);
-    const skip2 = page.locator(".calendar-details .skip-forward");
+    const skip2 = page.locator(".calendar-side-head .skip-forward");
     if (await skip2.count()) {
       await skip2.first().click();
       await page.waitForTimeout(4000);
@@ -601,67 +589,29 @@ try {
     await page.locator("#ballot:not([hidden])").count(),
     "no ballot on election day",
   );
-  const titles = () =>
-    page.locator("#ballot-races .race:not(.paged-out) h3").allInnerTexts();
+  const titles = () => page.locator("#ballot-races .race h3").allInnerTexts();
   const total = await page.locator("#ballot-races .race").count();
   console.log("Races on ballot:", total);
-  const page1 = await titles();
-  console.log("Page 1:", page1.join(" | "));
+  console.log("Races:", (await titles()).join(" | "));
   await page.screenshot({
     path: "docs/reports/ballot-pages-2026-10-24/before-ballot.png",
   });
-  // Continue must turn the ballot's pages.
-  const pagerNext = page.locator("#ballot-pager button").nth(1);
-  assert.ok(await pagerNext.count(), "no ballot pager Continue");
-  await pagerNext.evaluate((e) => e.click());
-  await page.waitForTimeout(1500);
-  const page2 = await titles();
-  console.log("Page 2:", page2.join(" | "));
-  assert.notDeepEqual(page2, page1, "Continue did not turn the ballot page");
-  console.log("PASS ballot: Continue turns the pages");
-  // Page on until the player's own race (candidate "Test Voter") shows.
-  // The pager hides (not disables) its ends, so stop at a hidden Continue.
-  let found = false;
-  // The turn check above left the ballot on page 2; the own race may be on
-  // page 1, so go back to the first page and scan forward from there.
-  for (let back = 0; back < 20; back += 1) {
-    const prev = page.locator("#ballot-pager button").nth(0);
-    if (!(await prev.count()) || !(await prev.isVisible().catch(() => false)))
-      break;
-    await prev.evaluate((e) => e.click());
-    await page.waitForTimeout(800);
-  }
-  for (let p = 0; p < 20; p += 1) {
-    console.log(`Ballot page ${p + 1}:`, (await titles()).join(" | "));
-    console.log(
-      `Ballot page ${p + 1} choices:`,
-      (
-        await page
-          .locator("#ballot-races .race:not(.paged-out) button")
-          .allInnerTexts()
-          .catch(() => [])
-      )
-        .join(" || ")
-        .slice(0, 600),
-    );
-    if (
-      await page
-        .locator("#ballot-races .race:not(.paged-out) button", {
-          hasText: "Test Voter",
-        })
-        .count()
-    ) {
-      found = true;
-      break;
-    }
-    const next = page.locator("#ballot-pager button").nth(1);
-    if (!(await next.count()) || !(await next.isVisible().catch(() => false)))
-      break;
-    await next.evaluate((e) => e.click());
-    await page.waitForTimeout(1500);
-  }
-  assert.ok(found, "own race (Test Voter) never paged into view");
-  console.log("PASS ballot: paged to own race");
+  // The ballot has no Back or Continue (owner, Oct 29): every race is on the one
+  // page, which scrolls inside the panel, and the player's own race is reachable.
+  assert.equal(
+    await page
+      .locator("#ballot button", { hasText: /^\s*(Continue|Back)\s*$/ })
+      .count(),
+    0,
+    "the ballot shows Continue or Back",
+  );
+  const own = page.locator("#ballot-races .race button", {
+    hasText: "Test Voter",
+  });
+  assert.ok(await own.count(), "own race (Test Voter) is not on the ballot");
+  await own.first().scrollIntoViewIfNeeded();
+  assert.ok(await own.first().isVisible(), "own race out of reach");
+  console.log("PASS ballot: scrolls to own race");
   await page.screenshot({
     path: "docs/reports/ballot-pages-2026-10-24/own-race.png",
   });
@@ -677,7 +627,7 @@ try {
     { timeout: 30000 },
   );
   await page
-    .locator("#ballot-races .race:not(.paged-out) button", {
+    .locator("#ballot-races .race button", {
       hasText: "Test Voter",
     })
     .first()

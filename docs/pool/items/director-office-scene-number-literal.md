@@ -5,12 +5,12 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/director-office-scene-number-literal
+status: open
+claimed-by:
 pr: #5384
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:35:41.540Z
+claimed-at:
 ---
 
 **What.** The director test that keeps every number out of the director's code fails on main: src/director/office-scene.ts holds a bare numeric literal 0, added by the commit that made the office scene's target a seated official. The test lists it as office-scene.ts:0. Replace the literal with the parameter the other director files use, so the director test is green again. Add no new number to code.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T01:35:41.540Z
 **Files.** src/director/office-scene.ts, src/director/director.test.ts
 
 **Notes.** TODO
+
+Merge-first: stale, back to the pool (Merger 4, Oct 28): PR #5384 closed; branch claude/director-literal, last push Oct 20, sent back. Claiming this item transfers that branch to you.

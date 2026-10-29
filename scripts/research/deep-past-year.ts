@@ -8,6 +8,8 @@
  * such.
  * Run: node --import tsx scripts/research/deep-past-year.ts [seed]
  */
+import { preStartHistory } from "../../src/core2/pre-start";
+import { SCHOOL_STARTED } from "../../src/core2/past";
 import { randomBytes } from "node:crypto";
 import { buildBenchWorld } from "../../src/bench/world";
 import { DevMode } from "../../src/bench/dev-mode";
@@ -53,8 +55,6 @@ const ids = (rows: readonly string[], n = 3) =>
   (rows.length > n ? `, and ${rows.length - n} more` : "");
 const people = () => [...core.people.values()] as PersonState[];
 const inTown = (person: PersonState) => person.placeId === world.placeId;
-const factsOf = (person: PersonState, kind: string) =>
-  (person.pastFacts ?? []).filter((fact) => fact.kind === kind);
 
 // Partners, by age gap (opposite-sex: man minus woman; same-sex: older minus younger).
 function couples() {
@@ -81,7 +81,10 @@ const openingCoupleIds = new Set(openingCouples.map((c) => c.id));
 const openingIds = new Set(core.people.keys());
 const huskAtOpening = people().filter((person) => person.tier === "husk");
 
-// Opening snapshot of the deep past, before the year runs.
+// Opening snapshot of the school years the run wrote, before the year runs.
+const schoolYears = (personId: string) =>
+  preStartHistory(core, { kind: SCHOOL_STARTED, personId: personId as never })
+    .length;
 type Cohort = {
   personId: string;
   stage: string;
@@ -94,21 +97,19 @@ function cohorts(filter: (person: PersonState) => boolean): Cohort[] {
   return people()
     .filter(filter)
     .flatMap((person) =>
-      factsOf(person, "school:cohort-estimate").map((fact) => {
-        const from = fact.source.estimatedFrom ?? "";
-        return {
-          personId: person.id,
-          stage: fact.facts?.stage ?? "",
-          year: Number(fact.facts?.cohortYear),
-          age: ageOnDate(person.birthDate, fact.date),
-          factId: fact.id,
-          proxy: from.includes("recorded residence")
-            ? "residence"
-            : from.includes("recorded birthplace")
-              ? "birthplace"
-              : "opening locality",
-        };
-      }),
+      preStartHistory(core, { kind: SCHOOL_STARTED, personId: person.id }).map(
+        (row) => {
+          const where = String(row.facts.residenceRecordId);
+          return {
+            personId: person.id,
+            stage: String(row.facts.stage),
+            year: Number(row.facts.schoolYear),
+            age: ageOnDate(person.birthDate, row.date),
+            factId: row.id,
+            proxy: where === person.id ? "opening locality" : "residence",
+          };
+        },
+      ),
     );
 }
 const openingCohorts = cohorts(() => true);
@@ -183,33 +184,11 @@ for (const [stage, key] of [
   const filled = people().filter(
     (person) =>
       !openingIds.has(person.id) &&
-      factsOf(person, "school:cohort-estimate").length,
+      preStartHistory(core, { kind: SCHOOL_STARTED, personId: person.id })
+        .length,
   );
   console.log(
-    `  Filled in during the year with a school past built by buildDeepPast: ${filled.length} people (${ids(filled.map((p) => p.id))}).`,
-  );
-}
-
-// 3. School peer groups.
-{
-  const size = row("openingPeerGroupSize");
-  const groups = new Map<string, { members: number; facts: string[] }>();
-  for (const person of people())
-    for (const fact of factsOf(
-      person,
-      "social:generated-school-acquaintance",
-    )) {
-      const id = fact.facts?.peerGroupId ?? "";
-      const group = groups.get(id) ?? {
-        members: Number(fact.facts?.peerGroupMembers),
-        facts: [],
-      };
-      group.facts.push(fact.id);
-      groups.set(id, group);
-    }
-  const sizes = [...groups.values()].map((g) => g.members);
-  console.log(
-    `\nopeningPeerGroupSize ${size.value} (band ${size.spread?.low} to ${size.spread?.high} students per class): ${groups.size} generated peer groups, sizes ${JSON.stringify(sizes.sort((a, b) => a - b))}; counted voters are each known by ${size.value - 1} school peers in candidacy.ts countedKnown. Groups: ${ids([...groups.keys()])}; facts ${ids([...groups.values()].flatMap((g) => g.facts))}.`,
+    `  Filled in during the year with school years from the school engine's run: ${filled.length} people (${ids(filled.map((p) => p.id))}).`,
   );
 }
 
@@ -289,7 +268,7 @@ for (const [stage, key] of [
   }
 }
 
-// 6. Where the deep past puts schooling, against where people were born.
+// 6. Where the school engine's run puts schooling, against where people were born.
 {
   const rows = openingCohorts.filter((c) => c.stage === "elementary");
   const local = rows.filter((c) => c.proxy === "opening locality");
@@ -304,7 +283,7 @@ for (const [stage, key] of [
       );
     }, 0) / Math.max(rows.length, 1);
   console.log(
-    `\nSchooling place (SG-P8-deep-past): ${pct(local.length / Math.max(rows.length, 1))} of ${rows.length} elementary cohort records place school in the opening locality with no recorded residence or birthplace; ACS 2019-2023 B05002 puts the share of residents born in their own state at ${pct(expected)} for these people's states (${townState} ${pct(bornInState.places[townState]?.bornWhereTheyLiveShare ?? 0)}). Records: ${ids(local.map((c) => c.factId))}.`,
+    `\nSchooling place (the school engine's run, history-past-moves): ${pct(local.length / Math.max(rows.length, 1))} of ${rows.length} elementary school records place school in the opening locality with no recorded move; ACS 2019-2023 B05002 puts the share of residents born in their own state at ${pct(expected)} for these people's states (${townState} ${pct(bornInState.places[townState]?.bornWhereTheyLiveShare ?? 0)}). Records: ${ids(local.map((c) => c.factId))}.`,
   );
 }
 
@@ -328,6 +307,6 @@ for (const [stage, key] of [
     .filter((p): p is PersonState => !!p);
   const promoted = now.filter((p) => p.tier !== "husk");
   console.log(
-    `\nRelatives outside the town: ${huskAtOpening.length} at the opening, ${now.filter((p) => factsOf(p, "school:cohort-estimate").length).length} with a school past; ${promoted.length} became simulated during the year (${ids(promoted.map((p) => p.id))}), ${promoted.filter((p) => factsOf(p, "school:cohort-estimate").length).length} of them with a school past. Mechanic gap, no band: ${ids(huskAtOpening.map((p) => p.id))}.`,
+    `\nRelatives outside the town: ${huskAtOpening.length} at the opening, ${now.filter((p) => schoolYears(p.id)).length} with a school past; ${promoted.length} became simulated during the year (${ids(promoted.map((p) => p.id))}), ${promoted.filter((p) => schoolYears(p.id)).length} of them with a school past. Mechanic gap, no band: ${ids(huskAtOpening.map((p) => p.id))}.`,
   );
 }

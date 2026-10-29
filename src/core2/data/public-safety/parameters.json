@@ -11,47 +11,6 @@
       "tag": "SOURCED",
       "citation": "A billing month of jail days."
     },
-    "reportedRobbery": {
-      "value": 0.734,
-      "tag": "SOURCED",
-      "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json. Robbery 73.4 percent reported."
-    },
-    "reportedAssault": {
-      "value": 0.475,
-      "tag": "ESTIMATED",
-      "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
-      "estimatedFrom": "Aggravated assault 4.7 per 1,000 at 69.1 percent reported and simple assault 14.4 per 1,000 at 40.4 percent, weighted by rate.",
-      "spread": {
-        "low": 0.4,
-        "high": 0.69,
-        "unit": "share of victimizations reported",
-        "citation": "The simple and aggravated assault reporting rates."
-      }
-    },
-    "reportedBurglary": {
-      "value": 0.5,
-      "tag": "ESTIMATED",
-      "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
-      "estimatedFrom": "Household burglary is reported about half the time in the NCVS series.",
-      "spread": {
-        "low": 0.4,
-        "high": 0.6,
-        "unit": "share of victimizations reported",
-        "citation": "NCVS household property reporting rates across years."
-      }
-    },
-    "reportedProperty": {
-      "value": 0.33,
-      "tag": "ESTIMATED",
-      "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
-      "estimatedFrom": "Total household property crime is reported about one time in three in the NCVS series.",
-      "spread": {
-        "low": 0.28,
-        "high": 0.38,
-        "unit": "share of victimizations reported",
-        "citation": "NCVS property reporting rates across years."
-      }
-    },
     "clearedAssault": {
       "value": 0.523,
       "tag": "SOURCED",
@@ -128,11 +87,6 @@
         "unit": "share of violent cases",
         "citation": "Loyola first-year report, Cook County against collar counties."
       }
-    },
-    "detentionConvictionRatio": {
-      "value": 1.31,
-      "tag": "SOURCED",
-      "citation": "Dobbie, Goldin and Yang 2018 (American Economic Review): detained defendants are about 31 percent more likely to be convicted than released ones (data/research/outcome-web/links.json, bail-to-conviction anchor)."
     },
     "convictedShare.assault": {
       "value": 0.45,
@@ -696,11 +650,6 @@
       "value": 10,
       "tag": "SOURCED",
       "citation": "Johns Hopkins Center for Gun Violence Solutions, ages 10 to 19."
-    },
-    "adultAge": {
-      "value": 18,
-      "tag": "SOURCED",
-      "citation": "Age of majority in nearly every state."
     },
     "permitAge": {
       "value": 21,

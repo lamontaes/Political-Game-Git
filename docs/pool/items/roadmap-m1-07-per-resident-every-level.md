@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/tooling/m1-07-check.ts, data/research/money/
 
 **Notes.** TODO
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: ranges check realistic-not-real (OD:12/OD:558); do not tighten to real per-resident values.

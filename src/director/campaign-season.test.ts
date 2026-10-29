@@ -25,6 +25,7 @@ import { openContests } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const SEASON_TYPES = new Set([
@@ -73,10 +74,11 @@ it("a filed candidate's months are never silent, and each season scene writes ba
           a.electionDate.localeCompare(b.electionDate) ||
           a.id.localeCompare(b.id),
       )
-      .find(
-        (c) =>
+      .find((c) =>
+        ["petitioning", "on-ballot"].includes(
           (fileForOffice(core, me, c.id) as { filing?: { status?: string } })
-            .filing?.status === "on-ballot",
+            .filing?.status ?? "",
+        ),
       );
     if (!filed) {
       tried.push(`${where}: no race two months out the player could enter`);
@@ -84,6 +86,16 @@ it("a filed candidate's months are never silent, and each season scene writes ba
     }
     const filedOn = core.date;
     const filingId = `filing:${filed.id}:${me}`;
+    // Filing is a petition: the player canvasses for signatures until the
+    // clerk's check puts them on the ballot.
+    const petition = gatherSignatures(core, filingId);
+    if (
+      petition &&
+      !(petition.check && petition.check.valid >= petition.needed)
+    ) {
+      tried.push(`${where}: the petition for ${filed.id} came up short`);
+      continue;
+    }
     const stops: { date: string; typeKey: string; causeId: string }[] = [];
     const seen = new Set<string>();
     const composed: string[] = [];

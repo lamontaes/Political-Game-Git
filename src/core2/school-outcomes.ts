@@ -8,6 +8,9 @@
  * count is filled from the top by each student's own standing (attendance
  * and study traits), a counted student standing for as many real students as
  * their household's weight, and the fraction left over carries to next year.
+ * A math student whose household moved into the town after the school year
+ * began switched schools, and the school-move link (carried here, not run by
+ * the web) lowers that student's own share by its researched size.
  * There is no roll. A full student keeps a result record; counted students
  * are kept as group counts, and their results are read the same way by every
  * engine that reads the place's measures (schoolMeasure).
@@ -22,7 +25,12 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
-import { placeOutcome } from "./modules/outcome-web";
+import {
+  COUNTED_MOVES_MODULE_ID,
+  countedMoves,
+  type MoveRecord,
+} from "./modules/counted-moves";
+import { carriedLink, placeOutcome } from "./modules/outcome-web";
 import { baseOf } from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
 import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";
@@ -44,6 +52,12 @@ export interface Student {
   readonly fifth: number;
   readonly standing: number;
   readonly full: boolean;
+  /**
+   * The counted-moves record of the move that put the student's household in
+   * this town after the school year began, if it did: the student switched
+   * schools this year (school-move-to-scores).
+   */
+  readonly movedIn?: string;
 }
 
 /** A student's result record: every result of a full student, and a counted senior's graduation. */
@@ -62,6 +76,9 @@ export interface SchoolResultRow {
   readonly measureId: string;
   /** A counted student's household weight: the students the record stands for. */
   readonly weight?: number;
+  /** A math record of a student who switched schools this year: the counted-moves record it stands on, and the link's size applied to the student's own rate. */
+  readonly movedIn?: string;
+  readonly switchSize?: number;
 }
 
 /** The counted (and full) students of one income fifth in one place, as counts. */
@@ -75,6 +92,9 @@ export interface SchoolGroupRow {
   readonly passed: number;
   readonly expected: number;
   readonly factor: number;
+  /** A math group: the students who switched schools this year (their households' weight) and the link's size applied to each one's rate. */
+  readonly switched?: number;
+  readonly switchSize?: number;
 }
 
 const table = (api: CoreAPI, name: string) =>
@@ -84,6 +104,28 @@ const table = (api: CoreAPI, name: string) =>
 export function schoolStartYear(date: string, firstDay: string): number {
   const year = Number(date.slice(0, 4));
   return date.slice(5) >= firstDay ? year : year - 1;
+}
+
+/**
+ * The households that moved into the town after the school year began (its
+ * first day, September 1, is not after it), by household id, with the
+ * counted-moves record of the move: every student of one switched schools
+ * this year. A household that moved twice stands on its latest move.
+ */
+export function movedInSince(
+  api: CoreAPI,
+  startYear: number,
+): ReadonlyMap<string, MoveRecord> {
+  const first = `${startYear}-09-01`;
+  const today = api.state.date;
+  const moved = new Map<string, MoveRecord>();
+  // A world opened without the counted-moves engine records no move, so no
+  // student switched schools in it.
+  if (!api.state.modules.has(COUNTED_MOVES_MODULE_ID)) return moved;
+  for (const row of countedMoves(api))
+    if (row.direction === "in" && row.date > first && row.date <= today)
+      moved.set(row.householdId, row);
+  return moved;
 }
 
 /** Students of one grade today, by place; full people with their attendance, counted people with their household's weight. */
@@ -120,12 +162,14 @@ export function studentsByPlace(
   const incomes = fullHouseholdIncomes(core);
   /** Full students' recorded attendance shares, by place. */
   const fullShares = new Map<string, number[]>();
+  const moved = movedInSince(api, startYear);
   const fullStudents: {
     placeId: string;
     id: string;
     fifth: number;
     trait: number;
     attended: number | undefined;
+    movedIn: string | undefined;
   }[] = [];
   for (const person of core.people.values()) {
     if (!person.alive || inactive.has(person.tier)) continue;
@@ -142,6 +186,7 @@ export function studentsByPlace(
       fifth: incomeBandOf(incomes.get(person.householdId) ?? 0),
       trait: traitMean(person.traits),
       attended,
+      movedIn: moved.get(person.householdId)?.id,
     });
   }
   // stopgapId: SG-SCHOOL-counted-attendance (a counted student, and a full
@@ -162,6 +207,7 @@ export function studentsByPlace(
       standing:
         wAttend * (s.attended ?? meanAttendance(s.placeId)) + wTrait * s.trait,
       full: true,
+      ...(s.movedIn ? { movedIn: s.movedIn } : {}),
     });
   const rt = residentsRuntime(core);
   if (rt)
@@ -176,6 +222,7 @@ export function studentsByPlace(
         const h = rt.store.households[at]!;
         const weight = rt.store.weightOf(h);
         const fifth = groupKeyOf(rt, h, date).incomeBand;
+        const movedIn = moved.get(record.household.id)?.id;
         for (const kid of kids)
           add(placeId, {
             id: kid.id,
@@ -185,6 +232,7 @@ export function studentsByPlace(
               wAttend * meanAttendance(placeId) +
               wTrait * traitMean(kid.traits),
             full: false,
+            ...(movedIn ? { movedIn } : {}),
           });
       }
     }
@@ -207,7 +255,7 @@ function baseFor(
   const record = placeOutcome(api, placeId, measure);
   return record?.base !== undefined
     ? { base: record.base, recordId: record.recordId }
-    : { base: baseOf(measure, "").value, recordId: null };
+    : { base: baseOf(measure, "", api.state.seed).value, recordId: null };
 }
 
 /**
@@ -226,8 +274,15 @@ export function decideSchoolOutcome(
   if (kind === "graduation") api.stopgap(data.stopgaps.collegeCompletion);
   // stopgapId: SG-SCHOOL-hispanic-enrollment (no enrollment by ethnicity; that measure stays the web's ledger)
   api.stopgap("SG-SCHOOL-hispanic-enrollment");
-  // stopgapId: SG-SCHOOL-links-not-running (eight links into school outcomes lack a recorded cause or a per-student exposure record)
+  // stopgapId: SG-SCHOOL-links-not-running (seven links into school outcomes lack a recorded cause or a per-student exposure record)
   api.stopgap("SG-SCHOOL-links-not-running");
+  // stopgapId: SG-SCHOOL-switch-window (a switch is a household that moved into the town after the school year began; the move's cost to classmates is not applied)
+  if (kind === "math") api.stopgap(data.stopgaps.switchWindow);
+  // A student who switched schools this year takes the school-move link's
+  // size on their own rate; the web does not run it (carriedBy), the
+  // student's own move record is its cause.
+  const switchSize =
+    kind === "math" ? carriedLink(data.links.schoolMove).size! : 0;
   const written: SchoolMeasureRow[] = [];
   const carry = table(api, "carry");
   for (const [placeId, students] of studentsByPlace(
@@ -266,7 +321,8 @@ export function decideSchoolOutcome(
         1,
         (base / 100) * (gradientOf(kind, fifth) / norm) * factor,
       );
-      const expected = share * weight;
+      const switched = list.reduce((n, s) => n + (s.movedIn ? s.weight : 0), 0);
+      const expected = share * (weight + switchSize * switched);
       const carryId = `${placeId}:${measure}:${fifth}`;
       let owed =
         ((carry.get(carryId) as unknown as { owed: number } | undefined)
@@ -300,6 +356,9 @@ export function decideSchoolOutcome(
             webRecordId: recordId,
             measureId,
             ...(s.full ? {} : { weight: s.weight }),
+            ...(s.movedIn && kind === "math"
+              ? { movedIn: s.movedIn, switchSize }
+              : {}),
           } satisfies SchoolResultRow as never);
       }
       carry.put({ id: carryId, owed } as never);
@@ -313,6 +372,7 @@ export function decideSchoolOutcome(
         passed,
         expected,
         factor,
+        ...(kind === "math" ? { switched, switchSize } : {}),
       } satisfies SchoolGroupRow as never);
       passedAll += passed;
       expectedAll += expected;

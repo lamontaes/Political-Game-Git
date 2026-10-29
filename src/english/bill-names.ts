@@ -201,3 +201,16 @@ export function spokenDesignation(
     ? `${form} ${designation}`
     : designation;
 }
+
+/**
+ * A bill by its number and its title together, so a line that says one ties
+ * to a scene that said the other: "HB 9, the Income Tax Act".
+ */
+export function billNumberAndTitle(
+  designation: string,
+  formKind: string,
+  title: string,
+  book: BillNameBook = billNames as BillNameBook,
+): string {
+  return `${spokenDesignation(designation, formKind, book)}, ${billTitleSaid(title, book)}`;
+}

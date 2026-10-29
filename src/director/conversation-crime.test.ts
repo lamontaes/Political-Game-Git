@@ -31,6 +31,15 @@ import {
 
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const VICTIMIZED = `feeling:event:${CRIME_EVENT}`;
+/**
+ * The kinds of crime a victim has a line to raise. The crime engine records
+ * vandalism too, but no bank piece tells it yet, so the scan skips it.
+ */
+const TOLD = new Set(
+  CONVERSATION_DATA.subjects.victimization?.raise?.flatMap(
+    (piece) => piece.stages ?? [],
+  ) ?? [],
+);
 const MONTH_DAYS = 30;
 const YEAR_DAYS = 365;
 /**
@@ -113,6 +122,7 @@ function scan(
       a.date.localeCompare(b.date),
     ))
       for (const victim of month.victims ?? []) {
+        if (!TOLD.has(victim.type)) continue;
         const members =
           core.households.get(victim.householdId)?.memberIds ?? [];
         if (members.filter((id) => core.people.get(id)?.alive).length < 2)

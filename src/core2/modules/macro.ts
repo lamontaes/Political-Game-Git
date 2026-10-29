@@ -318,10 +318,9 @@ function open(api: CoreAPI): MacroStateRow {
   const p = params(api),
     core = api.state;
   const months = store(api).table("months");
-  const rows = [...historyMonths(core.startedAt, p)];
+  const rows = [...historyMonths(core.startedAt, core.seed, p)];
   // A custom world (M6-04): the opening month starts from the player's figures; its output gap follows by Okun's law.
   const custom = core.placeMetadata?.[CUSTOM_ECONOMY_KEY];
-  const realUnemploymentPct = rows.at(-p("one"))!.unemploymentPct;
   if (custom) {
     const chosen = JSON.parse(custom) as {
       unemploymentPct?: number;
@@ -383,14 +382,7 @@ function open(api: CoreAPI): MacroStateRow {
   store(api)
     .table("state")
     .put(state as unknown as { id: string });
-  if (regionalRegistered(api))
-    openRegional(
-      api,
-      opening,
-      placeIds,
-      rows,
-      opening.unemploymentPct - realUnemploymentPct,
-    );
+  if (regionalRegistered(api)) openRegional(api, opening, placeIds, rows);
   if (monthKey(core.date) === shiftMonth(opening.month, p("one"), p))
     runMonth(api, state);
   else

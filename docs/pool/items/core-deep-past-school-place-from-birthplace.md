@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/deep-past.ts,src/core2/data/deep-past.json,data/research/core/acs-2023-b05002-born-in-state.json
 
 **Notes.** TODO
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: do not extend buildDeepPast; fold into the simulated-history session (OD:14).
+
+Superseded by #6640 (merged Oct 28, wire-opening-and-home line 7): `buildDeepPast` and `deep-past.json` are deleted; the school engine runs each child's school years a year at a step at the district of the place they lived that year (`src/core2/past-school.ts`, `school.started` records), so the school follows the birthplace and every move. Nothing left to build here.

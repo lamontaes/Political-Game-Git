@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { enrichCivicInputs } from "../civic-inputs";
-import { buildDeepPast } from "../deep-past";
 import { availableActs, createLifeCore } from "../life";
 import { buildPopulation } from "../population";
 import { coreAPI } from "../state";
@@ -10,13 +9,11 @@ import { coreAPI } from "../state";
 describe("looking up where to go", () => {
   const core = createLifeCore(
     enrichCivicInputs(
-      buildDeepPast(
-        buildPopulation({
-          seed: "p15-lookup",
-          startedAt: "2021-01-01",
-          minimumPeople: 300,
-        }),
-      ),
+      buildPopulation({
+        seed: "p15-lookup",
+        startedAt: "2021-01-01",
+        minimumPeople: 300,
+      }),
     ),
   );
   const lookups = (id: string) =>

@@ -14,7 +14,6 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { buildDeepPast } from "./deep-past";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { createLifeCore } from "./life";
 import { shadesAnswer } from "./modules/press";
@@ -41,14 +40,12 @@ it("about a quarter of adults would shade an answer about a vote the town oppose
   for (let draw = 0; draw < 8; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "shade-calibration");
     names.push(`${place.name} (${place.key}), world seed ${place.seed}`);
-    const input = buildDeepPast(
-      buildPopulation({
-        seed: place.seed,
-        placeKey: place.key,
-        startedAt: "2021-01-01",
-        minimumPeople: 800,
-      }),
-    );
+    const input = buildPopulation({
+      seed: place.seed,
+      placeKey: place.key,
+      startedAt: "2021-01-01",
+      minimumPeople: 800,
+    });
     const core = createLifeCore(input, { modules: [] });
     const api = coreAPI(core);
     const adults = [...core.people.values()].filter(

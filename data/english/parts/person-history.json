@@ -1,0 +1,145 @@
+{
+  "schema": "english-parts/1",
+  "register": "person-history",
+  "description": "A person's history on their card, one dated line per record the player would know of: born, school, a move, meeting a partner, a child born, a job started, a parent's death, an election won, and the player's own tie growing closer or apart (owner, Oct 28: View person shows the person's history). Said of them without pronouns, so one line fits everyone; the card's name says who.",
+  "slots": {
+    "place": "A place's name from the place records.",
+    "year": "The record's year.",
+    "month": "The record's month and year, as people say it: January 2025.",
+    "school": "The school's name as its record writes it.",
+    "name": "A person's full name from their record.",
+    "title": "The job's title from the job record.",
+    "employer": "The employer's name from the organization record.",
+    "relation": "Mother or Father, from the record, at the start of a sentence.",
+    "office": "The office won, in lower case: president, mayor."
+  },
+  "maxWords": 12,
+  "parts": [
+    {
+      "key": "person-history.born.place",
+      "move": "born",
+      "text": "Born in {place} in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.born.year",
+      "move": "born",
+      "text": "Born in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.school.started",
+      "move": "school",
+      "text": "Started at {school} in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.moved.in",
+      "move": "moved",
+      "text": "Moved to the county in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.moved.away",
+      "move": "moved",
+      "text": "Moved away in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.partner.met",
+      "move": "partner",
+      "text": "Met {name} in {place} in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.partner.met-you",
+      "move": "partner",
+      "text": "Met you in {place} in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.child.born",
+      "move": "child",
+      "text": "{name} was born in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.child.you",
+      "move": "child",
+      "text": "You were born in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.work.started",
+      "move": "work",
+      "text": "Started as {title} at {employer} in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.loss.parent",
+      "move": "loss",
+      "text": "{relation}, {name}, died in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.office.elected",
+      "move": "office",
+      "text": "Elected {office} in {year}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.tie.closer",
+      "move": "tie",
+      "text": "Grew closer to you in {month}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.tie.apart",
+      "move": "tie",
+      "text": "Grew apart from you in {month}.",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-28",
+      "kind": "written"
+    }
+  ]
+}

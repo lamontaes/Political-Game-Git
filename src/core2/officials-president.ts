@@ -9,9 +9,11 @@
  */
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreStateName } from "./place-lookup";
-import { OFFICIALS_DATA, uniform } from "./officials-roster";
+import officialsData from "./data/officials/officials.json" with { type: "json" };
+import { uniform } from "./officials-roster";
 import { partySide } from "./appointments";
 import type { CoreState, PersonInput, Source } from "./types";
+import { worldSwing } from "./modules/elections";
 
 type PastFact = NonNullable<PersonInput["pastFacts"]>[number];
 
@@ -24,7 +26,9 @@ interface PresidentData {
     shares: Record<string, { value: number; title: string | null }>;
   };
 }
-const DATA = (OFFICIALS_DATA as unknown as { president: PresidentData })
+// Read from the officials file itself, not the roster's copy: the roster is
+// still loading when the elections module reaches this file through it.
+const DATA = (officialsData as unknown as { president: PresidentData })
   .president;
 
 const MAP = (
@@ -42,6 +46,14 @@ const MAP = (
   }))
   .sort((a, b) => a.usps.localeCompare(b.usps));
 
+/** This world's 2024 map: each state's Democratic two-party share, moved by the world's swing. */
+function worldMap(seed: string): readonly { usps: string; share: number }[] {
+  return MAP.map((row) => ({
+    usps: row.usps,
+    share: Math.max(0, Math.min(1, row.share - worldSwing(seed, row.usps))),
+  }));
+}
+
 const MAP_SOURCE =
   "Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024 (data/source/electoral-calibration-2024).";
 
@@ -54,15 +66,17 @@ export const PRESIDENT_FACT = {
 } as const;
 
 /** The states contested on the 2024 map: a two-party share near even. */
-export function contestedStates2024(): readonly {
+export function contestedStates2024(seed: string): readonly {
   usps: string;
   democraticTwoPartyShare: number;
 }[] {
   const margin = DATA.contestedMargin.value;
-  return MAP.filter((row) => Math.abs(row.share - 0.5) < margin).map((row) => ({
-    usps: row.usps,
-    democraticTwoPartyShare: row.share,
-  }));
+  return worldMap(seed)
+    .filter((row) => Math.abs(row.share - 0.5) < margin)
+    .map((row) => ({
+      usps: row.usps,
+      democraticTwoPartyShare: row.share,
+    }));
 }
 
 function dayBetween(from: string, to: string, u: number): string {
@@ -71,6 +85,27 @@ function dayBetween(from: string, to: string, u: number): string {
   return new Date(start + Math.floor(u * days) * 86_400_000)
     .toISOString()
     .slice(0, 10);
+}
+
+/**
+ * The state a national official calls home: one their party carried in 2024,
+ * drawn once from the world's seed. `who` is the office ("president" for the
+ * President), so every national official is filled in at home by one rule.
+ */
+export function nationalHomeState(
+  seed: string,
+  who: string,
+  party: string | null,
+): { usps: string; share: number } {
+  const side = partySide(party);
+  const map = worldMap(seed);
+  const carried = map.filter((row) =>
+    side > 0 ? row.share < 0.5 : side < 0 ? row.share > 0.5 : true,
+  );
+  return (
+    carried[Math.floor(uniform(`${seed}:${who}:home`) * carried.length)] ??
+    map[0]!
+  );
 }
 
 /**
@@ -85,7 +120,6 @@ export function presidentRecord(input: {
   date: string;
 }): PastFact[] {
   const at = (what: string) => `${input.seed}:president:${what}`;
-  const side = partySide(input.party);
   const source = (citation: string): Source => ({
     tag: "ESTIMATED",
     citation,
@@ -93,11 +127,7 @@ export function presidentRecord(input: {
     estimatedFrom: "src/core2/data/officials/officials.json#president",
   });
   // A home state the President's party carried in 2024.
-  const carried = MAP.filter((row) =>
-    side > 0 ? row.share < 0.5 : side < 0 ? row.share > 0.5 : true,
-  );
-  const home =
-    carried[Math.floor(uniform(at("home")) * carried.length)] ?? MAP[0]!;
+  const home = nationalHomeState(input.seed, "president", input.party);
   const homeKey = `US-${home.usps}`;
   const facts: PastFact[] = [
     {
@@ -146,7 +176,7 @@ export function presidentRecord(input: {
     facts: { office: "president", year: DATA.electionDay.value.slice(0, 4) },
   });
   // Every contested state, and the home state.
-  const contested = contestedStates2024();
+  const contested = contestedStates2024(input.seed);
   const visited = new Map(
     contested.map((row) => [`US-${row.usps}`, row.democraticTwoPartyShare]),
   );

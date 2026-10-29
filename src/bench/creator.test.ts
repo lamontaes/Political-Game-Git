@@ -1,11 +1,11 @@
 import { randomBytes } from "node:crypto";
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   ageAtStart,
   applyChosenPerson,
   birthYears,
   chosenBirthDate,
+  creatorRandomPlace,
   creatorStates,
   creatorTowns,
   drawBirthday,
@@ -15,17 +15,18 @@ import {
 import {
   appearanceRows,
   drawnAppearance,
+  lookForGender,
   moveAppearance,
   portraitPng,
   readRecipe,
 } from "./appearance";
-import { recolorFigure } from "./figure-colors";
+import { drawnFigure } from "./figure-hair";
 import { lookFigures } from "./whole-figures";
 import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { DEFAULT_DEEP_PAST_DATA } from "../core2/deep-past";
+import { schoolsAttended } from "../core2/past";
 import { gameStartDate } from "../core2/game-start";
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { OPENING_KIN } from "../core2/opening-kin";
@@ -77,7 +78,23 @@ describe("the New game creator", () => {
     const recipe = drawnAppearance("female", "seed", 0);
     expect(recipe.sex).toBe("female");
     const labels = appearanceRows(recipe, "female").map((row) => row.label);
-    expect(labels).toEqual(["Build", "Clothes", "Skin", "Clothes color"]);
+    expect(labels.slice(0, 6)).toEqual([
+      "Build",
+      "Clothes",
+      "Skin",
+      "Face",
+      "Hair",
+      "Hair color",
+    ]);
+    // A color for each piece the outfit has: a jacket only with a vest or blazer.
+    expect(labels.slice(6)).toEqual([
+      ...(recipe.outfit === "vest" || recipe.outfit === "blazer"
+        ? ["Jacket color"]
+        : []),
+      "Shirt color",
+      "Pants color",
+      "Shoes color",
+    ]);
     expect(appearanceRows(recipe, "nonbinary")[0]!.label).toBe("Body");
     const next = moveAppearance(recipe, "female", "outfit", 1);
     expect(next.outfit).not.toBe(recipe.outfit);
@@ -85,8 +102,8 @@ describe("the New game creator", () => {
     expect(() =>
       readRecipe(JSON.stringify({ ...next, outfit: "hair" })),
     ).toThrow();
-    // The portrait is the standing v2 figure in the look's own colors, through
-    // the same recolor the rooms draw it with.
+    // The portrait is the standing v2 figure in the look's own colors and
+    // hair, through the same drawing the rooms use.
     const png = portraitPng(next);
     expect(png.subarray(1, 4).toString()).toBe("PNG");
     const file = lookFigures().find(
@@ -97,12 +114,12 @@ describe("the New game creator", () => {
     )!.file;
     expect(
       png.equals(
-        recolorFigure(
-          readFileSync(
-            new URL(`../../art/people-engine/v2/${file}`, import.meta.url),
-          ),
-          next.skin,
-          next.clothes,
+        drawnFigure(
+          file
+            .split("/")
+            .pop()!
+            .replace(/\.png$/, ""),
+          next,
         ),
       ),
     ).toBe(true);
@@ -117,9 +134,6 @@ describe("the life drawn for the age the creator chose", () => {
   const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
   const place = drawPlace(seed, "creator-chosen-age");
   const minParentAge = OPENING_KIN.fertilityByAge.rows[0]!.minAge;
-  const abbreviations = Object.keys(
-    DEFAULT_DEEP_PAST_DATA.schools.directoryAbbreviations,
-  );
 
   it.each([18, 35, 70])(
     `gives a player of %i parents, schools, work and money that fit, in ${place.name}, seed ${place.seed}`,
@@ -201,66 +215,114 @@ describe("the life drawn for the age the creator chose", () => {
         `${where}: leads no party at the opening`,
       ).toHaveLength(0);
 
-      // Who you are: the schools the record holds, each in its full name,
-      // and the record of the high school the player went through.
+      // Who you are: the schools the school engine's run recorded for the
+      // years before the start, each named from its own record, and the
+      // record of the high school the player went through.
       const card = personCard(core, id);
       expect(card.age, where).toBe(age);
       expect(card.birthDate, where).toBe(chosenBirthDate(chosen));
-      const schools = (player.pastFacts ?? []).filter(
-        (fact) => fact.facts?.schoolName && fact.facts.stage,
-      );
-      const high = schools.find((fact) => fact.facts?.stage === "high");
+      const schools = schoolsAttended(core, id);
+      const high = schools.find((row) => row.stage === "high");
       expect(high, `${where}: a high school record`).toBeDefined();
-      for (const fact of schools)
+      for (const row of schools)
         expect(
-          ageOnDate(player.birthDate, makeIsoDate(fact.date)),
-          `${where}: ${fact.id}`,
+          ageOnDate(player.birthDate, makeIsoDate(row.date)),
+          `${where}: ${row.recordId}`,
         ).toBeGreaterThanOrEqual(4);
       expect(new Set(card.schools.map((row) => row.name)), where).toEqual(
-        new Set(schools.map((fact) => properName(fact.facts!.schoolName!))),
+        new Set(
+          schools.flatMap((row) => (row.name ? [properName(row.name)] : [])),
+        ),
       );
-      for (const row of card.schools)
-        expect(
-          abbreviations,
-          `${where}: ${row.recordId} ${row.name}`,
-        ).not.toContain(row.name.split(" ").at(-1)!.toUpperCase());
 
-      // Work: a job, or the record of who in the household earns instead.
-      const livelihood = (player.pastFacts ?? []).find(
-        (fact) => fact.kind === "household:livelihood",
+      // Work: a job, or someone in the household who earns instead.
+      const earners = household.memberIds.filter(
+        (member) => personOrFillIn(core, member)?.jobId,
       );
-      expect(livelihood?.facts?.householdId, where).toBe(player.householdId);
-      const earners = (livelihood?.facts?.earnerIds ?? "")
-        .split(" ")
-        .filter(Boolean);
-      for (const earner of earners) {
-        expect(household.memberIds, `${where}: earner ${earner}`).toContain(
-          earner,
-        );
-        expect(personOrFillIn(core, earner)!.jobId, earner).toBeDefined();
-      }
       if (!card.job)
         expect(
           earners.includes(id),
-          `${where}: ${id} holds no job but the record lists them as an earner`,
+          `${where}: ${id} holds no job but is counted as an earner`,
         ).toBe(false);
-      // Money: cash on hand, or the livelihood record of the household's
-      // jobs, savings and living costs that says where it stands.
+      // Money: cash on hand, or someone in the household with a job.
       expect(
-        card.liquidMinor > 0 || livelihood !== undefined,
+        card.liquidMinor > 0 || earners.length > 0,
         `${where}: money ${card.liquidMinor}`,
       ).toBe(true);
       console.info(
         `${where}: born ${player.birthDate} (drawn ${drawnBorn}); parents ${
           parents.map((parent) => `${parent} ${born(parent)}`).join(", ") ||
           "none recorded"
-        } (in the home: ${householdParents.join(", ") || "none"}); high school ${high?.id}; schools ${card.schools
+        } (in the home: ${householdParents.join(", ") || "none"}); high school ${high?.recordId}; schools ${card.schools
           .map((row) => `${row.name} (${row.recordId})`)
           .join(
             "; ",
-          )}; work ${card.job ? `${card.job.title} (${card.job.jobId})` : `none, ${livelihood?.id}, earners ${earners.join(" ") || "none"}`}; money ${card.liquidMinor}`,
+          )}; work ${card.job ? `${card.job.title} (${card.job.jobId})` : `none, earners ${earners.join(" ") || "none"}`}; money ${card.liquidMinor}`,
       );
     },
     600_000,
   );
+});
+
+// Owner's playtest, Oct 27: a male character could step to a female body. A
+// look the page sends back (after Undo or Reset) is redrawn on the chosen
+// gender's body, by the creator route and by New game.
+describe("a look always has the chosen gender's body", () => {
+  it("redraws a woman's look on a man's body, keeping what that body has", () => {
+    const hers = drawnAppearance("female", "seed", 3);
+    const his = lookForGender(hers, "male");
+    expect(his.sex).toBe("male");
+    expect(his.build).toBe(hers.build);
+    expect(his.skin).toBe(hers.skin);
+    expect(lookForGender(hers, "female")).toBe(hers);
+    expect(lookForGender(hers, "nonbinary")).toBe(hers);
+    const chosen = readChosenPerson(
+      JSON.stringify({
+        givenName: "Sam",
+        familyName: "Lee",
+        gender: "male",
+        birthYear: 1990,
+        birthMonth: 5,
+        birthDay: 4,
+        recipe: hers,
+      }),
+    );
+    expect(chosen.recipe!.sex).toBe("male");
+  });
+});
+
+it("names every hair style and face capitalized, like the other rows", () => {
+  for (const sex of ["female", "male"]) {
+    let look = drawnAppearance(sex, "capitals", 2);
+    for (let n = 0; n < 14; n++) {
+      look = moveAppearance(look, sex, "hair", 1);
+      const rows = appearanceRows(look, sex);
+      for (const row of rows.filter((r) => r.id === "hair" || r.id === "face"))
+        expect(row.value[0], `${row.id} ${row.value}`).toBe(
+          row.value[0]!.toUpperCase(),
+        );
+    }
+  }
+});
+
+describe("Random place in the creator", () => {
+  it("draws a state and one of its towns from all 56, the same for the same seed and press", () => {
+    const first = creatorRandomPlace("seed-a", 1);
+    expect(first.state.key).toMatch(/^us-/i);
+    expect(first.state.name.length).toBeGreaterThan(1);
+    expect(first.town.name.length).toBeGreaterThan(0);
+    expect(first.town.population).toBeGreaterThan(0);
+    // The town is one the state's own list offers, by key.
+    expect(
+      creatorTowns(first.state.key, "").some((t) => t.key === first.town.key),
+    ).toBe(true);
+    expect(creatorRandomPlace("seed-a", 1)).toEqual(first);
+    // Another press or another seed can land elsewhere; across a few draws it does.
+    const keys = new Set(
+      [1, 2, 3, 4, 5, 6].map(
+        (draw) => creatorRandomPlace("seed-a", draw).town.key,
+      ),
+    );
+    expect(keys.size).toBeGreaterThan(1);
+  });
 });

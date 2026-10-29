@@ -34,12 +34,8 @@ import {
   runAd,
 } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
-import {
-  ballotOf,
-  fileStandingCandidates,
-  holdElection,
-  openVoting,
-} from "./modules/voting";
+import { fileRunners, weighContest } from "./modules/candidacy";
+import { ballotOf, holdElection, openVoting } from "./modules/voting";
 import { openRecord, promisesOf, recordVote, votesOf } from "./modules/record";
 import { openPress } from "./modules/press";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
@@ -128,7 +124,10 @@ describe("M4-06 the record follows you", () => {
       // An incumbent who decides not to run leaves no record on the ballot
       // to weigh: draw again.
       if (contest) {
-        fileStandingCandidates(api, contest.id);
+        // Who runs is candidacy's: the incumbent weighs standing again, and
+        // whoever runs files when the window opens.
+        weighContest(api, contest);
+        fileRunners(api, contest);
         if (!ballot(api, contest.id).length) contest = undefined;
       }
       place = key;

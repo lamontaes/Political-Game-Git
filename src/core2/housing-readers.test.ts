@@ -89,7 +89,8 @@ describe(`housing reads in ${place.name}, seed ${seed}`, () => {
     ]);
     expect(all.find((row) => row.householdId === "home:full")?.valueMinor).toBe(
       Math.round(
-        10000000 * homePriceRatio(place.state.slice(3), "2021-01-01", date),
+        10000000 *
+          homePriceRatio(place.state.slice(3), "2021-01-01", date, core.seed),
       ),
     );
     expect(ownedHomes(api, "place:elsewhere")[0]?.valueMinor).toBe(10000000);

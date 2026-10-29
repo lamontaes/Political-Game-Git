@@ -25,6 +25,13 @@
  *
  * Every step is an event the news and the director read: the hearing and the
  * verdict play as scenes when the person is the player or in their circle.
+ *
+ * Ordinary crime reaches this engine as counted cases (one model, two tiers;
+ * engine map E13): public safety brings each month's arrests by offense, court
+ * and age band, and this engine files them, decides them when their time to
+ * disposition comes and holds the convicted in jail, prison or a juvenile
+ * placement for their term. A counted case, its sentence and its custody are
+ * rows of the same tables as a named defendant's, marked `kind: "counted"`.
  */
 import { registerModule } from "../state";
 import { completedMonthsBetween, makeIsoDate } from "../kernel/dates";
@@ -43,7 +50,7 @@ import type {
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lawChain } from "./laws";
-import { OFFICES_MODULE_ID, vacateSeat } from "./offices";
+import { OFFICES_MODULE_ID, servingTermsOf, vacateSeat } from "./offices";
 import { closenessBetween } from "../closeness";
 import {
   briberyRange,
@@ -55,11 +62,14 @@ import {
   partyOf,
   prominenceOf,
   prosecutorFor,
-  servingTermsOf,
   type ProsecutorOffice,
 } from "../justice-law";
 import { holdInCustody, releaseFromCustody } from "../justice-custody";
-import { decidePretrial, endPretrial } from "../justice-pretrial";
+import {
+  decidePretrial,
+  endPretrial,
+  type PretrialRow,
+} from "../justice-pretrial";
 
 export const JUSTICE_MODULE_ID = "core2-justice-v1";
 const FINE_KIND = "justice-fine";
@@ -106,6 +116,8 @@ export interface InvestigationTarget {
 
 export interface CaseRow {
   readonly id: string;
+  /** A named defendant's case; a counted case is `CountedCaseRow`. */
+  readonly kind: "person";
   readonly investigationId: string;
   readonly prosecutorOfficeId: string;
   readonly defendantId: PersonId;
@@ -126,6 +138,8 @@ export interface CaseRow {
 
 export interface SentenceRow {
   readonly id: string;
+  /** A named defendant's sentence; a counted case's is `CountedSentenceRow`. */
+  readonly kind: "person";
   readonly caseId: string;
   readonly personId: PersonId;
   readonly date: string;
@@ -163,12 +177,93 @@ export interface ClemencyRow {
 
 export interface CustodyRow {
   readonly id: string;
+  /** A named person's custody; counted people's is `CountedCustodyRow`. */
+  readonly kind: "person";
   readonly personId: PersonId;
   readonly sentenceId: string;
   readonly from: string;
   readonly until: string;
   readonly status: "serving" | "released" | "died";
   readonly priorEligible: boolean | null;
+}
+
+/**
+ * A case against counted people: one month's arrests for one offense, court
+ * and age band, charged together (fractional, by counted group). Public
+ * safety brings the arrests (from the crime engine's reported crimes, or the
+ * police's own minor-offense arrests); this engine files and decides it.
+ */
+export interface CountedCaseRow {
+  readonly id: string;
+  readonly kind: "counted";
+  /** No one named and no prosecutor's own docket: empty, so neither index finds it. */
+  readonly defendantId: "";
+  readonly prosecutorOfficeId: "";
+  readonly month: string;
+  readonly offense: string;
+  /** The minor-offense category, for a police-started arrest. */
+  readonly category?: string;
+  readonly court: "adult" | "juvenile";
+  /** The age band of the defendants (public safety's age profile). */
+  readonly band: number;
+  /** Defendants charged, summed over their counted groups. */
+  readonly count: number;
+  /** Defendants by counted group id. */
+  readonly groups: Readonly<Record<string, number>>;
+  /** Of them, held in jail until the case is decided. */
+  readonly detained: number;
+  /**
+   * Of them, how many money bail would have held without a cash-bail law: the
+   * detention the offense's base conviction share was measured at, so the
+   * detention link moves a case only as far as the law moved who is held.
+   */
+  readonly heldOnMoney?: number;
+  readonly noncitizens: number;
+  /** The law ending cash bail, when in force at filing; empty otherwise. */
+  readonly bailLawId: string;
+  /** The web month and police staffing a minor-offense arrest was read from. */
+  readonly webRecordId?: string;
+  readonly officersPer1000?: number;
+  /** The crime engine's month record whose reported crimes the arrests followed. */
+  readonly crimeRecordId?: string;
+  /** Bail each counted group posted, held in the court's escrow until the case is decided. */
+  readonly bailHeld?: Readonly<Record<string, number>>;
+  readonly bailTreasuryId?: string;
+  /** The month the case comes up for disposition. */
+  readonly dueMonth: string;
+  readonly status: "charged" | "decided";
+  readonly sentenceId: string | null;
+}
+
+/** What the court decided for a counted case: how many were convicted and where they serve. */
+export interface CountedSentenceRow {
+  readonly id: string;
+  readonly kind: "counted";
+  readonly caseId: string;
+  readonly date: string;
+  /** Defendants convicted (adjudicated, in juvenile court). */
+  readonly convicted: number;
+  /** What the count stood on, when the court gave it: the base share and the detention link's part (pretrial-detention-to-conviction). */
+  readonly reasons?: Readonly<Record<string, number | string>>;
+  /** Of them, how many serve a term in each place. */
+  readonly custody: Readonly<Partial<Record<CountedFacility, number>>>;
+}
+
+export type CountedFacility = "jail" | "prison" | "juvenile";
+
+/** Counted people serving a term: in jail, prison or a juvenile placement, from the sentence to its end. */
+export interface CountedCustodyRow {
+  readonly id: string;
+  readonly kind: "counted";
+  /** No one named: empty, so a person's custody query never finds it. */
+  readonly personId: "";
+  readonly caseId: string;
+  readonly sentenceId: string;
+  readonly facility: CountedFacility;
+  readonly count: number;
+  readonly from: string;
+  readonly until: string;
+  readonly status: "serving" | "released";
 }
 
 const p = (api: CoreAPI, key: string) => justiceParameter(api, key);
@@ -181,14 +276,6 @@ const addDays = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + Math.round(days) * 86_400_000)
     .toISOString()
     .slice(0, 10);
-
-function closeness(api: CoreAPI, a: PersonId, b: PersonId): number {
-  for (const id of api.state.relationshipsByPerson.get(a) ?? []) {
-    const row = api.state.relationships.get(id)!;
-    if (row.actorId === b || row.otherId === b) return row.level;
-  }
-  return api.parameter("zero");
-}
 
 /** A person's calibrated trait term between two options of a justice decision, or none for someone not a person yet. */
 function lean(
@@ -280,7 +367,9 @@ export function reportReasons(
   const reasons = {
     duty: p(api, basis === "witness" ? "reportDutyPull" : "reportHearsayPull"),
     traits: lean(api, reporterId, "justice.report", "report", "keep-quiet"),
-    tie: -p(api, "reportTieWeight") * closeness(api, reporterId, accused),
+    tie:
+      -p(api, "reportTieWeight") *
+      closenessBetween(api.state, reporterId, accused),
   };
   const pull = Object.values(reasons).reduce((a, b) => a + b, zero(api));
   return { reasons, pull };
@@ -638,6 +727,7 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
     if (!charged) {
       table(api, "cases").put({
         id,
+        kind: "person",
         investigationId: inv.id,
         prosecutorOfficeId: inv.prosecutorOfficeId,
         defendantId: target.personId,
@@ -667,6 +757,7 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
     const trialDate = pleads ? null : heard;
     const row: CaseRow = {
       id,
+      kind: "person",
       investigationId: inv.id,
       prosecutorOfficeId: inv.prosecutorOfficeId,
       defendantId: target.personId,
@@ -885,6 +976,7 @@ function convict(api: CoreAPI, row: CaseRow, plea: boolean): void {
     : 0;
   const sentence: SentenceRow = {
     id: sentenceId,
+    kind: "person",
     caseId: row.id,
     personId: row.defendantId,
     date: api.state.date,
@@ -1150,6 +1242,7 @@ function imprison(
   const prior = holdInCustody(api, sentence.personId);
   const custody: CustodyRow = {
     id: `custody:${sentence.id}`,
+    kind: "person",
     personId: sentence.personId,
     sentenceId: sentence.id,
     from: api.state.date,
@@ -1222,9 +1315,17 @@ function endCustodyJobs(
 }
 
 function release(api: CoreAPI, custodyId: string): void {
-  const custody = table(api, "custody").get(custodyId) as unknown as
-    CustodyRow | undefined;
-  if (!custody || custody.status !== "serving") return;
+  const row = table(api, "custody").get(custodyId) as unknown as
+    CustodyRow | CountedCustodyRow | undefined;
+  if (!row || row.status !== "serving") return;
+  if (row.kind === "counted") {
+    table(api, "custody").put({
+      ...row,
+      status: "released",
+    } as unknown as ModuleRow);
+    return;
+  }
+  const custody = row as CustodyRow;
   const person = api.state.people.get(custody.personId);
   if (!person?.alive) {
     table(api, "custody").put({
@@ -1317,10 +1418,11 @@ export function prisonersServing(
   if (!api.state.modules.has(JUSTICE_MODULE_ID)) return [];
   const date = api.state.date;
   return (
-    table(api, "custody").query("byStatus", [
-      "serving",
-    ]) as unknown as CustodyRow[]
+    table(api, "custody").query("byStatus", ["serving"]) as unknown as (
+      CustodyRow | CountedCustodyRow
+    )[]
   )
+    .filter((row): row is CustodyRow => row.kind === "person")
     .filter((row) => row.from < date)
     .filter(
       (row) =>
@@ -1425,6 +1527,25 @@ export function inCustody(api: CoreAPI, personId: PersonId): boolean {
   ).some((row) => row.status === "serving");
 }
 
+/**
+ * The day the person was first held in custody for want of bail while they
+ * waited for their hearing (the pretrial decision `held`), or undefined when
+ * they never were. What the jobs engine reads for the pull to formal work.
+ */
+export function firstHeldPretrial(
+  api: CoreAPI,
+  personId: PersonId,
+): string | undefined {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return undefined;
+  let first: string | undefined;
+  for (const row of table(api, "pretrial").query("byPerson", [
+    personId,
+  ]) as unknown as PretrialRow[])
+    if (row.decision === "held" && (first === undefined || row.from < first))
+      first = row.from;
+  return first;
+}
+
 /** The person's convictions on record by a date: what views, the press and candidacy read. */
 export function convictionsOf(
   api: CoreAPI,
@@ -1512,6 +1633,121 @@ function justiceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   }
 }
 
+/** Files a month's counted cases, charged as brought. */
+export function fileCountedCases(
+  api: CoreAPI,
+  rows: readonly Omit<
+    CountedCaseRow,
+    "kind" | "defendantId" | "prosecutorOfficeId" | "status" | "sentenceId"
+  >[],
+): void {
+  for (const row of rows)
+    table(api, "cases").put({
+      ...row,
+      kind: "counted",
+      defendantId: "",
+      prosecutorOfficeId: "",
+      status: "charged",
+      sentenceId: null,
+    } satisfies CountedCaseRow as unknown as ModuleRow);
+}
+
+/** The counted cases in one state of the docket: charged and waiting, or decided. */
+export function countedCases(
+  api: CoreAPI,
+  status: CountedCaseRow["status"],
+): readonly CountedCaseRow[] {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return [];
+  return table(api, "cases").query("byKindStatus", [
+    "counted",
+    status,
+  ]) as unknown as CountedCaseRow[];
+}
+
+/** The counted people serving a term today. */
+export function countedCustodyServing(
+  api: CoreAPI,
+): readonly CountedCustodyRow[] {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return [];
+  return table(api, "custody").query("byKindStatus", [
+    "counted",
+    "serving",
+  ]) as unknown as CountedCustodyRow[];
+}
+
+/**
+ * The court decides a counted case: the convicted, and how many of them
+ * serve each term, from today for its days. Writes the sentence, a custody
+ * row per place with its release on the engine's calendar, and closes the
+ * case. Returns the sentence.
+ */
+export function decideCountedCase(
+  api: CoreAPI,
+  caseId: string,
+  outcome: {
+    readonly convicted: number;
+    readonly reasons?: Readonly<Record<string, number | string>>;
+    readonly terms: readonly {
+      readonly facility: CountedFacility;
+      readonly count: number;
+      readonly days: number;
+    }[];
+  },
+): CountedSentenceRow | null {
+  const c = table(api, "cases").get(caseId) as unknown as
+    CountedCaseRow | undefined;
+  if (!c || c.kind !== "counted" || c.status !== "charged") return null;
+  const date = api.state.date;
+  const sentenceId = `sentence:${c.id}`;
+  const custody: Partial<Record<CountedFacility, number>> = {};
+  for (const term of outcome.terms) {
+    if (term.count <= 0) continue;
+    custody[term.facility] = term.count;
+    const row: CountedCustodyRow = {
+      id: `custody:${c.id}:${term.facility}`,
+      kind: "counted",
+      personId: "",
+      caseId: c.id,
+      sentenceId,
+      facility: term.facility,
+      count: term.count,
+      from: date,
+      until: addDays(date, term.days),
+      status: "serving",
+    };
+    table(api, "custody").put(row as unknown as ModuleRow);
+    api.moduleCalendar(JUSTICE_MODULE_ID).schedule({
+      key: `release:${row.id}`,
+      date: row.until,
+      kind: "release",
+      source: {
+        tag: "ESTIMATED",
+        citation: "The end of the term the court set for counted defendants.",
+        asOf: date,
+        estimatedFrom:
+          "The jail, prison and juvenile placement terms in data/public-safety/parameters.json.",
+      },
+      sourceRecordIds: [row.id],
+    });
+  }
+  const sentence: CountedSentenceRow = {
+    id: sentenceId,
+    kind: "counted",
+    caseId: c.id,
+    date,
+    convicted: outcome.convicted,
+    ...(outcome.reasons ? { reasons: outcome.reasons } : {}),
+    custody,
+  };
+  table(api, "sentences").put(sentence as unknown as ModuleRow);
+  table(api, "cases").put({
+    ...c,
+    status: "decided",
+    sentenceId,
+  } satisfies CountedCaseRow as unknown as ModuleRow);
+  return sentence;
+}
+
 export const JUSTICE_MODULE: CoreModule = {
   id: JUSTICE_MODULE_ID,
   state: {
@@ -1529,6 +1765,7 @@ export const JUSTICE_MODULE: CoreModule = {
         indexes: {
           byDefendant: { fields: ["defendantId"] },
           byOffice: { fields: ["prosecutorOfficeId"] },
+          byKindStatus: { fields: ["kind", "status"] },
         },
       },
       sentences: {},
@@ -1536,6 +1773,7 @@ export const JUSTICE_MODULE: CoreModule = {
         indexes: {
           byPerson: { fields: ["personId"] },
           byStatus: { fields: ["status"] },
+          byKindStatus: { fields: ["kind", "status"] },
         },
       },
       fines: {},

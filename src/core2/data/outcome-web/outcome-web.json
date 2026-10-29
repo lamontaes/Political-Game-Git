@@ -7,6 +7,26 @@
     "daysPerYear": 365
   },
   "indexStart": 100,
+  "worldBases": {
+    "about": "Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. A kept outcome's published state level is the center; each world moves it once by its own offset, drawn from the world's seed at Start (seeded generation of the starting world, never an actor's outcome). A percent moves relative to its nearer bound, so it stays between 0 and 100.",
+    "spreadShare": {
+      "value": 0.08,
+      "tag": "ESTIMATED",
+      "citation": "How far a world's state level of an outcome sits from the published one, as a share of it: about the typical year-to-year change plus survey margin of state outcome measures (ACS one-year state margins of error run 1% to 5% of the estimate; state violent crime, overdose and homelessness rates move 5% to 15% a year, FBI UCR, CDC WONDER, HUD PIT).",
+      "spread": {
+        "low": 0.04,
+        "high": 0.15,
+        "unit": "share of the published level",
+        "citation": "data/research/outcome-web/place-outcome-bases-2024.json sources."
+      }
+    },
+    "lawMeasures": [
+      "roads.rural-interstate-speed-limit",
+      "tax.state-corporate-rate",
+      "tax.property-rate"
+    ],
+    "lawMeasuresWhy": "Rates set in law stay as the real starting law (owner, Oct 27). The property-tax rate is the ACS effective rate, held here until the CTO rules whether it is law (docs/reports/real-statistics-in-play-2026-10-27.md)."
+  },
   "lawsModule": {
     "moduleId": "core2-laws-v1",
     "table": "laws",
@@ -130,6 +150,16 @@
         "asOf": "2023-12-31",
         "citation": "U.S. Census Bureau, American Community Survey 2023 1-year estimates, table B25064, median gross rent (national $1,406 a month).",
         "estimatedFrom": "Each place starts at its own rents, which the housing engine records on its leases; the web holds only the proportional change its links put on them, so no national dollar level stands in for a place's rent."
+      }
+    },
+    "housing.home-value": {
+      "scale": "index",
+      "unit": "index, 100 at the place's own starting home values (the housing engine's owned homes); the links move it proportionally and the engine values each home, and prices each sale, by the change",
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2022-07-01",
+        "citation": "U.S. Census Bureau, American Community Survey 2020-2024 5-year estimates, table B25077, median value of owner-occupied housing units (the housing engine's opening values, dated mid-2022).",
+        "estimatedFrom": "Each place starts at its own home values, which the housing engine records on its dwellings; the web holds only the proportional change its links put on them, so no national dollar level stands in for a place's home value. The measure the births links read, housing.home-prices, is the engine's median home value itself and already includes this change."
       }
     },
     "justice.federal-incarcerated-per-100k": {
@@ -341,6 +371,13 @@
       "unitScale": 100,
       "ownsOutcome": true
     },
+    "disaster.severe": {
+      "owner": "OPUS-CORE",
+      "record": "the disasters engine's news events (hazard.disaster) for the town: the highest severity (0 to 1, the homes FEMA inspected as damaged per resident on the ramp in src/core2/data/disasters/severity.json) among disasters that began since the world opened, within the last ten years",
+      "reader": "disaster-severity",
+      "field": "",
+      "unitScale": 1
+    },
     "housing.property-tax-rate": {
       "owner": "OPUS-WORLD",
       "record": "the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value",
@@ -387,6 +424,13 @@
       "field": "",
       "unitScale": 1
     },
+    "federal.defense-boost-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the federal budget row's national defense line in force (the budgets module), above its base as a share of the base, times the state's fiscal 2024 defense contracts per resident over its output per resident (data/research/federal/defense-contracts-by-state-fy2024.json), as a percent of what the state produces",
+      "reader": "defense-boost-pct",
+      "field": "",
+      "unitScale": 1
+    },
     "program.snap-maximum-change-pct": {
       "owner": "OPUS-GOV",
       "record": "the SNAP one-person maximum allotment in force (the federal snap-maximum law row), against the one in force at the opening, as a percent",
@@ -412,6 +456,13 @@
       "owner": "OPUS-GOV",
       "record": "the town's share of the higher education line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
       "reader": "budget-line-added:higherEducation",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.naturalResources-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the natural resources line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:naturalResources",
       "field": "",
       "unitScale": 1
     }

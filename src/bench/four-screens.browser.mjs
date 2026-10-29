@@ -136,7 +136,11 @@ try {
         { method: "POST" },
       );
       const body = await r.json().catch(() => ({}));
-      if (r.ok && body.filing?.status === "on-ballot") return contest.id;
+      if (
+        r.ok &&
+        ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
+      )
+        return contest.id;
     }
     return null;
   });
@@ -182,16 +186,6 @@ try {
   await page.screenshot({ path: `${shots}/speech-begin.png` });
   for (let part = 0; part < 4; part += 1) {
     const said = await page.locator(".talk-sheet .talk-lines li").count();
-    // A long Campaigns screen pages: the replies may be on the next page, as for a player.
-    const next = page.locator("#sheet-pager button:visible").last();
-    if (
-      !(await page
-        .locator(".talk-sheet .replies .reply")
-        .first()
-        .isVisible()) &&
-      (await next.count())
-    )
-      await next.click();
     await page.locator(".talk-sheet .replies .reply").first().click();
     await page.waitForFunction(
       (n) => document.querySelectorAll(".talk-sheet .talk-lines li").length > n,
@@ -203,8 +197,7 @@ try {
     hasText: /^Give the speech$/,
   });
   await give.waitFor({ state: "attached" });
-  const onward = page.locator("#sheet-pager button:visible").last();
-  if (!(await give.isVisible()) && (await onward.count())) await onward.click();
+  await give.scrollIntoViewIfNeeded();
   await give.waitFor();
   await settle();
   await page.screenshot({ path: `${shots}/speech-built.png` });

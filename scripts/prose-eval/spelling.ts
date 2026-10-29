@@ -1,6 +1,6 @@
 /**
  * `npm run spelling` lists British spellings and day-first dates in the prose
- * of every tracked file, the same way `tests/american-english-sweep.test.ts`
+ * of every tracked file, the same way `tests/guards/english/`
  * reads them, and exits 1 if there are any. `npm run spelling -- --write`
  * repairs them in place: it only ever touches comments, strings with a space,
  * JSX text and Markdown outside code, so identifiers and saved tokens stay.

@@ -440,7 +440,13 @@ export function budgetProposalDue(
       ? `${year}-${gov.fiscalYearStart}`
       : `${year + 1}-${gov.fiscalYearStart}`;
   const days = daysBetweenText(api.state.date, starts);
-  if (days <= 0 || days > api.parameter("budgetProposalLeadDays")) return null;
+  // The season runs from the proposal's lead time to the body's hearing; a
+  // budget sent after the hearing would not have been heard.
+  if (
+    days <= api.parameter("budgetHearingLeadDays") ||
+    days > api.parameter("budgetProposalLeadDays")
+  )
+    return null;
   // Sent already this season (the lead time is the season's length).
   const last = host.lastGiven(api, personId, "propose-budget");
   if (
@@ -496,7 +502,7 @@ export function officeActHandlers(host: OfficeActHost) {
         let decision = chosen;
         let duty: number | null = null;
         if (!decision) {
-          const own = ownCaseDecision(api, actorId);
+          const own = ownCaseDecision(api, actorId, row);
           duty = own.duty;
           decision = own.decision;
         }

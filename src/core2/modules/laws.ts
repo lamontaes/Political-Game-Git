@@ -47,6 +47,20 @@ import {
   type LawInForceAnswer,
 } from "../laws-in-force";
 
+/**
+ * How a law's effect reaches a person through the outcome web: the web's factor
+ * for one subject in one place, read by an engine in another family at the
+ * moment it decides (this family's entry, tests/guards/families.json).
+ */
+export { webReach, webFactorFor } from "../outcome-web-reach";
+/** The research links the web runs, for an engine that reads a person-level link from its own records. */
+export { WEB_LINKS } from "../outcome-web-model";
+/** Each named person's Medicaid coverage as the law reach pays it, for the health engine. */
+export {
+  medicaidCoverageSpells,
+  type CoverageSpell,
+} from "../law-reach/group-b-money";
+
 export const LAWS_MODULE_ID = "core2-laws-v1";
 const CHAIN_ID = "chain";
 /** The count of laws enacted in play, across every series: their order. */
@@ -491,6 +505,36 @@ export function lawInForce(
       ? { localAverage: seriesRows(api, "local-sales-tax-average") }
       : {}),
   });
+}
+
+/**
+ * The levels of the town's chain whose law in force on a policy question says
+ * yes, each with its row, in chain order (federal first): the one reading the
+ * law-reach handlers, the budgets and the housing engine use. A higher level
+ * saying no doesn't undo a lower level's yes.
+ */
+export function yesLevels(
+  api: CoreAPI,
+  key: string,
+): readonly {
+  level: string;
+  jurisdiction: string;
+  lawId: string;
+  row: LawRowInput;
+}[] {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return [];
+  return lawInForce(api, key).levels.flatMap((l) =>
+    l.row?.value === 1 && !l.setAside
+      ? [
+          {
+            level: l.level,
+            jurisdiction: l.jurisdiction,
+            lawId: l.row.id,
+            row: l.row,
+          },
+        ]
+      : [],
+  );
 }
 
 /** Why a change to a policy question has nothing to change, and the law row that says so. */

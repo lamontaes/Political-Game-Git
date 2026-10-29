@@ -1,3 +1,5 @@
+import { preStartHistory, preStartWindow, runPreStart } from "./pre-start";
+import { SCHOOL_STARTED } from "./past-school";
 import { randomBytes } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -358,27 +360,41 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(personOrFillIn(core, "person:nobody")).toBeUndefined();
   }, 300_000);
 
-  it("keeps no past in the counts and builds the same one at every fill-in", () => {
+  it("keeps no past in the counts and runs the same one at every fill-in", () => {
     // One model, two tiers: a counted person is an identity in a group's
-    // columns; their past exists only once they are filled in, built from
-    // the world's seed, so the same person comes back with the same past.
-    const core = createLifeCore(two);
+    // columns; their years before the start are run only once they are
+    // filled in (the engines' passes, by the same rules as the opening's
+    // people), so the same person comes back with the same past.
+    const opened = () => {
+      const world = createLifeCore(two);
+      runPreStart(world, preStartWindow(world, "2000-01-01", "quarter"));
+      return world;
+    };
+    const core = opened();
     const records = [...residentsRuntime(core)!.households.values()];
     expect(
       records.every((row) =>
         row.people.every((person) => !person.pastFacts?.length),
       ),
     ).toBe(true);
-    const person = records.find((row) => row.people.length > 1)!.people[0]!;
+    // A child who was of school age inside the run.
+    const person = records
+      .flatMap((row) => row.people)
+      .find(
+        (row) => row.birthDate >= "1996-01-01" && row.birthDate <= "2015-01-01",
+      )!;
+    expect(person, "a counted child of school age in the run").toBeDefined();
+    expect(preStartHistory(core, { personId: person.id })).toEqual([]);
     fillInPerson(core, person.id);
-    const again = createLifeCore(two);
+    const again = opened();
     fillInPerson(again, person.id);
-    const past = (facts: readonly { id: string }[] | undefined) =>
-      JSON.stringify(facts ?? []);
-    expect(core.people.get(person.id)!.pastFacts?.length).toBeGreaterThan(0);
-    expect(past(core.people.get(person.id)!.pastFacts)).toBe(
-      past(again.people.get(person.id)!.pastFacts),
-    );
+    const past = (world: typeof core) =>
+      JSON.stringify(preStartHistory(world, { personId: person.id }));
+    expect(
+      preStartHistory(core, { kind: SCHOOL_STARTED, personId: person.id })
+        .length,
+    ).toBeGreaterThan(0);
+    expect(past(core)).toBe(past(again));
     const traits: Record<string, number> = {};
     for (const key in person.traits) traits[key] = person.traits[key]!;
     expect(core.people.get(person.id)!.traits).toEqual(traits);
@@ -548,7 +564,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       corePlaceByKey(two.placeMetadata!.placeKey!)?.stateJurisdictionKey?.slice(
         3,
       ) ?? "";
-    const share = citizenShareOf(two.placeMetadata!.placeKey!, usps);
+    const share = citizenShareOf(two.placeMetadata!.placeKey!, usps, two.seed);
     expect(share).toBeGreaterThan(0);
     expect(share).toBeLessThanOrEqual(1);
     const citizens = (

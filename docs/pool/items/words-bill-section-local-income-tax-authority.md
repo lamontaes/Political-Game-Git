@@ -6,12 +6,12 @@ lead: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: words/local-income-tax-authority
+pr: #6432
 blocked-on:
 source: laws lead, Oct 26
-claimed-at:
+claimed-at: 2026-10-27T22:43:18.223Z
 ---
 
 **What.** The legislature already reads a state's grant of local income tax authority (`local-income-tax-authority`, a state row valued 1 for granted and 0 for withdrawn) whenever a town's body drafts an income tax (`src/core2/modules/legislature.ts`). No bill can change the grant, because a series a body can draft needs its bill-section row in `data/english/bill-sections.json`, and `src/english/bill-sections.test.ts` checks every series in `series-powers.json` has one. The laws branch wrote that row itself in PR #5649; Merger 2 returned it on October 26, since bill words belong to the Words line. The row needs a subject ("the state's grant of local income tax authority" was the laws draft), a purpose, and words for a grant (1) and a withdrawal (0). It is a switch, not an amount: "raised to 1" reads wrong, so the words say what granting and withdrawing do.

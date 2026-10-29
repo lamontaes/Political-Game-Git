@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/people-hair
+pr: #6426
 blocked-on: art-hair-pieces-fit-the-figure-heads
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T22:07:49.962Z
 ---
 
 **What.** The creator's appearance step shows only Build and Clothes, and the figure is bald. The owner: "there's no hair for some reason. No clothes colors either, or the character creator is obviously off. No skin colors or anything like that." The v2 figure set has 108 hair pieces (art/people-engine/v2/hair, listed in index.json) but its README says "The heads are bald. The hair pieces still have to be fitted to each head," and the look record (LookRecipe in src/bench/appearance.ts) holds only sex, build and outfit. This item fits the hair pieces to the figures the creator and the opening use, adds a Hair row with arrows to the appearance step, saves the choice on the look record, and draws it in the preview and in the room. Randomize changes hair too.

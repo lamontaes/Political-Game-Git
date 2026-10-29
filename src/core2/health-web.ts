@@ -37,6 +37,12 @@ export function deathWebFactor(
   placeId: string,
   age: number,
   incomeFifth?: number,
+  /**
+   * The person's own records are read for the link that has a place-level
+   * twin at their age (health-own.ts), so the twin row is left out of the
+   * web's factor and the cause moves them once.
+   */
+  ownRecords = false,
 ): DeathWeb {
   const core = api.state as CoreState;
   let cache = CACHE.get(core);
@@ -45,7 +51,7 @@ export function deathWebFactor(
     CACHE.set(core, cache);
   }
   const whole = Math.max(0, Math.floor(age));
-  const key = `${placeId}|${whole}|${incomeFifth ?? "-"}`;
+  const key = `${placeId}|${whole}|${incomeFifth ?? "-"}|${ownRecords ? "own" : "place"}`;
   const found = cache.rows.get(key);
   if (found) return found;
   const subject: Subject = {
@@ -59,8 +65,17 @@ export function deathWebFactor(
       : whole >= mortality5564.fromAge && whole < mortality5564.belowAge
         ? "health.mortality-55-64"
         : undefined;
+  const twin = mortality5564.personLevel.placeTwin;
   const own = ownMeasure
-    ? webReach(api, placeId, ownMeasure, subject)
+    ? webReach(
+        api,
+        placeId,
+        ownMeasure,
+        subject,
+        ownRecords && ownMeasure === "health.mortality-55-64"
+          ? new Set([twin])
+          : undefined,
+      )
     : undefined;
   const causes = causeMix(api, placeId, whole, incomeFifth);
   const result: DeathWeb = {

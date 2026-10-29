@@ -16,7 +16,7 @@ Commands and lasting technical constraints. `AGENTS.md` holds the rules; consult
 - `node --import tsx tests/golden-path/runner.mjs`: the golden-path suite.
 - `npm run typecheck`, `npm run lint`, `npm run build`: whole-project checks. Run eslint and prettier on changed files for a PR.
 - `npm run test`: the full vitest run. `npm run validate`: the full suite. Neither is a PR gate; run the tests for changed files.
-- `npm run zero-dice`: the dice guard. `npm run old-imports`: what still keeps `src/simulation` alive.
+- `npm run zero-dice`: the dice guard. `npm run old-imports`: refuses any import of the deleted old core (`src/simulation`, gone Oct 28).
 - `npm run speed:year`: a timed town year (two-minute limit, no more than 20% slower than its base).
 - `npm run all-places`: the played world in all 56 places (cloud only).
 - `npm run pool` and `npm run pool -- --check | claim | status | add`: the pool (`docs/pool/README.md`).
@@ -29,7 +29,7 @@ Commands and lasting technical constraints. `AGENTS.md` holds the rules; consult
 
 ## Working rules
 
-- Keep `src/core2/` pure TypeScript, runnable without DOM or external APIs. The old core under `src/simulation/` gets no new work and goes once each piece is ported.
+- Keep `src/core2/` pure TypeScript, runnable without DOM or external APIs. The old core under `src/simulation/` is gone (Oct 28, #6659); nothing recreates it.
 - Keep jurisdiction rules and sourced facts in data; never name a state, city or GEOID in logic.
 - Preserve stable IDs, keyed generation, established facts and append-only history.
 - Update the affected docs and tests with a behavior change.

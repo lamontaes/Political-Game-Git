@@ -6,7 +6,7 @@ lead: cto
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/touches-line
 pr: #6359
 blocked-on:

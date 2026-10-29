@@ -5,14 +5,14 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/recall-reply-moves-drive
+pr: #6495
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web executive pass (packet the-recall-petition)"
 lead: laws-effects
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-28T00:35:07.371Z
 ---
 
 **What.** The recall scene stages the official at a petition table, but the reply (answer the charge, dismiss it, reach out, fight) is read by nothing. No stance moves the drive's signatures or the recall vote, and an official can't resign. The recalls engine (`src/core2/modules/recalls.ts`) also admits only city, county and township seats, so a school board member is never recalled, and a drive has one organizer and no volunteers. The packet `docs/design/scenes/from-life/the-recall-petition.md` (a school board recall, calibration only, from news summaries) shows the officials mostly answering in public, not at the tables.
@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/core2/modules/recalls.ts
 
 **Notes.** Related: `gov-recall-for-cause-start` (a for-cause recall from a reported scandal).
+
+Oct 29 (CTO): set done; PR #6495 merged (the done flip failed while branch protection refused the flip job's push).

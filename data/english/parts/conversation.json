@@ -22,7 +22,8 @@
     "headline": "A printed or broadcast story's headline, as the paper screen words it.",
     "outlet": "The outlet's name as recorded.",
     "weekday": "The day of the week, from the calendar.",
-    "last-together": "When two people last spent time together, as spoken."
+    "last-together": "When two people last spent time together, as spoken.",
+    "position": "The speaker's new job, with its article (\"a server\"), from the job record's title."
   },
   "maxWords": 10,
   "mining": {
@@ -138,7 +139,6 @@
         "nps.gov": 1,
         "nps.gov (PDF)": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
         "date": "2026-08-21",
@@ -180,7 +180,6 @@
         "nps.gov": 1,
         "nps.gov (PDF)": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Meeting With Travel Executives and an Exchange With Reporters",
         "date": "2026-09-02",
@@ -223,7 +222,6 @@
         "nps": 7,
         "nps.gov (PDF)": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to Departure From Dallas, Texas",
         "date": "2026-09-10",
@@ -257,7 +255,6 @@
         "dcpd": 2,
         "nps.gov (PDF)": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
         "date": "2025-06-16",
@@ -288,7 +285,6 @@
         "nasa": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Commercial Refrigeration Regulations and an Exchange With Reporters",
         "date": "2026-05-21",
@@ -332,7 +328,6 @@
         "va": 2,
         "wpa": 4
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -373,7 +368,6 @@
         "nps.gov": 1,
         "va": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Efforts To Reduce Prescription Drug Prices and an Exchange With Reporters",
         "date": "2026-08-31",
@@ -405,7 +399,6 @@
         "hearings": 5,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Address to the Nation on Election Reforms",
         "date": "2026-07-16",
@@ -439,7 +432,6 @@
         "house": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters at Joint Base Andrews, Maryland",
         "date": "2026-05-20",
@@ -478,7 +470,6 @@
         "nps": 2,
         "nps.gov (PDF)": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Telerally for Oklahoma Republican Gubernatorial Candidate Mike Mazzei",
         "date": "2026-08-24",
@@ -519,7 +510,6 @@
         "nasa2": 4,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Tunnel to Towers Foundation's Steel Across America Event",
         "date": "2026-09-08",
@@ -560,7 +550,6 @@
         "nps": 7,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Roundtable Discussion With the Memphis Safe Task Force in Memphis, Tennessee",
         "date": "2026-03-23",
@@ -598,7 +587,6 @@
         "nasa2": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "CONFIRMATION HEARING ON FEDERAL APPOINTMENTS",
         "date": "2025-06-04",
@@ -639,7 +627,6 @@
         "hearings": 80,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Anchorage, Alaska",
         "date": "2026-05-15",
@@ -679,7 +666,6 @@
         "hearings": 21,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
         "date": "2026-08-19",
@@ -712,7 +698,6 @@
         "dcpd": 11,
         "hearings": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Rose Garden Club Dinner",
         "date": "2026-05-11",
@@ -745,7 +730,6 @@
         "dcpd": 26,
         "hearings": 13
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Rose Garden Club Dinner With Farmers",
         "date": "2026-06-25",
@@ -777,7 +761,6 @@
         "dcpd": 2,
         "hearings": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the United States Strategic Critical Minerals Reserve and an Exchange With Reporters",
         "date": "2026-02-02",
@@ -819,7 +802,6 @@
         "nps": 7,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
         "date": "2026-08-19",
@@ -859,7 +841,6 @@
         "nps": 4,
         "va": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
         "date": "2026-07-23",
@@ -896,7 +877,6 @@
         "nasa": 1,
         "nasa2": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Marietta, Georgia",
         "date": "2026-07-22",
@@ -930,7 +910,6 @@
         "nasa": 3,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the National Economy in Suffern, New York",
         "date": "2026-05-22",
@@ -961,7 +940,6 @@
         "briefing": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Sarah Sanders and DOJ Acting Assistant Attorney General of the Criminal Division John Cronan",
         "date": "2018-02-06",
@@ -992,7 +970,6 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Conservative Political Action Conference in National Harbor, Maryland",
         "date": "2019-03-02",
@@ -1027,7 +1004,6 @@
         "nih": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Democratic National Committee Grassroots Rally for Senatorial Candidate Valdez V. \"Val\" Demings and Gubernatorial Candidate Charles J. Crist, Jr., in Miami Gardens, Florida",
         "date": "2022-11-01",
@@ -1058,7 +1034,6 @@
         "hearings": 1,
         "house": 2
       },
-      "shippable": true,
       "source": {
         "document": "PENDING LEGISLATION",
         "date": "2018-02-06",
@@ -1092,7 +1067,6 @@
         "hearings": 10,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "LISTEN HERE: WHY AMERICANS VALUE AM RADIO",
         "date": "2023-06-06",
@@ -1124,7 +1098,6 @@
         "briefing": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Sarah Sanders",
         "date": "2019-01-28",
@@ -1164,7 +1137,6 @@
         "nasa2": 1,
         "nps": 7
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Prior to Departure for Farmingdale, New York",
         "date": "2025-09-26",
@@ -1201,7 +1173,6 @@
         "house": 3,
         "nps": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Proclamation on National Physical Fitness and Sports Month and an Exchange With Reporters",
         "date": "2026-05-05",
@@ -1233,7 +1204,6 @@
         "briefing": 2,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Proclamation To Restore United States Commercial Fishing in the Pacific and an Exchange With Reporters",
         "date": "2026-06-11",
@@ -1266,7 +1236,6 @@
         "house": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Tennessee Valley Authority and Federal Contracting and Hiring Practices and an Exchange With Reporters",
         "date": "2020-08-03",
@@ -1296,7 +1265,6 @@
       "bySource": {
         "dcpd": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Greek Independence Day Reception",
         "date": "2025-03-24",
@@ -1335,7 +1303,6 @@
         "nih": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Efforts To Renovate Washington Dulles International Airport and an Exchange With Reporters",
         "date": "2026-07-29",
@@ -1375,7 +1342,6 @@
         "nasa2": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Meeting With Travel Executives and an Exchange With Reporters",
         "date": "2026-09-02",
@@ -1409,7 +1375,6 @@
         "nasa2": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "dcpd of 2025-10-07",
         "date": "2025-10-07",
@@ -1448,7 +1413,6 @@
         "National Archives History Office oral history project (veterans-oral-histories)": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Jefferson D. Howell oral history (nasa-senior-leadership collection)",
         "date": "2015-07-10",
@@ -1480,7 +1444,6 @@
         "nasa2": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Michael L. Coats oral history (nasa-senior-leadership collection)",
         "date": "2015-09-14",
@@ -1512,7 +1475,6 @@
         "briefing": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre and NSC Coordinator for Strategic Communications John Kirby",
         "date": "2024-01-16",
@@ -1582,7 +1544,6 @@
         "nps.gov (PDF)": 2,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -1705,7 +1666,6 @@
         "nps": 285,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -1739,7 +1699,6 @@
         "nps": 2,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Flint, Michigan",
         "date": "2016-05-04",
@@ -1775,7 +1734,6 @@
         "nasa": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing the Take It Down Act and an Exchange With Reporters",
         "date": "2025-05-19",
@@ -1843,7 +1801,6 @@
         "dcpd": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Recep Tayyip Erdoğan of Turkey and an Exchange With Reporters",
         "date": "2025-09-25",
@@ -1924,7 +1881,6 @@
         "nps": 3,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "The President's News Conference in Évian-les-Bains, France",
         "date": "2026-06-17",
@@ -1994,7 +1950,6 @@
         "nps": 2,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
         "date": "2026-09-04",
@@ -2025,7 +1980,6 @@
         "hearings": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "NATIONAL CYBERSECURITY STRATEGY: PROTECTION OF FEDERAL AND CRITICAL INFRASTRUCTURE SYSTEMS",
         "date": "2021-09-23",
@@ -2060,7 +2014,6 @@
         "nasa2": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Cabinet Meeting and an Exchange With Reporters at Camp David, Maryland",
         "date": "2026-07-31",
@@ -2105,7 +2058,6 @@
         "house": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "FORMULA SAFETY AND SUPPLY: PROTECTING THE HEALTH OF AMERICA'S BABIES",
         "date": "2022-05-25",
@@ -2154,7 +2106,6 @@
         "nasa2": 2,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Proclamations on Adjusting Imports of Aluminum and Steel Into the United States and an Exchange With Reporters",
         "date": "2018-03-08",
@@ -2202,7 +2153,6 @@
         "nasa2": 3,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Document Signing Ceremony and an Exchange With Reporters",
         "date": "2025-02-25",
@@ -2258,7 +2208,6 @@
         "nasa2": 1,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
         "date": "2026-09-04",
@@ -2303,7 +2252,6 @@
         "dcpd": 1,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Cabinet Meeting and an Exchange With Reporters",
         "date": "2025-12-02",
@@ -2340,7 +2288,6 @@
         "hearings": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "EXAMINING THE BIDEN ADMINISTRATION'S AFGHANISTAN POLICY SINCE THE U.S. WITHDRAWAL: PART II",
         "date": "2024-01-11",
@@ -2378,7 +2325,6 @@
         "house": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "U.S. House Oral History: Bentley, Helen Delich - U.S. Representative of Maryland - 1985–1995",
         "date": "2016-03-21",
@@ -2419,7 +2365,6 @@
         "nasa2": 5,
         "nps": 12
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and a Question-and-Answer Session at the Forum Club of the Palm Beaches Dinner in West Palm Beach, Florida",
         "date": "2026-05-01",
@@ -2455,7 +2400,6 @@
         "dcpd": 2,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Inaugural Meeting of the Board of Peace",
         "date": "2026-02-19",
@@ -2493,7 +2437,6 @@
         "nasa2": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "A REVIEW OF LICENSING AND CREDENTIALING STANDARDS FOR SERVICEMEMBERS AND VETERANS: DO BARRIERS STILL REMAIN?",
         "date": "2015-09-10",
@@ -2552,7 +2495,6 @@
         "usgs": 1,
         "va": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -2590,7 +2532,6 @@
         "hearings": 2,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
@@ -2629,7 +2570,6 @@
         "hearings": 1,
         "hud": 1
       },
-      "shippable": true,
       "source": {
         "document": "Former Buffalo Public School Receives Award for Excellence in Historic Preservation",
         "date": "2024-09-30",
@@ -2662,7 +2602,6 @@
         "hearings": 3,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Efforts To Reduce Prescription Drug Prices",
         "date": "2025-12-19",
@@ -2693,7 +2632,6 @@
         "briefing": 1,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre and NSC Coordinator for Strategic Communications John Kirby",
         "date": "2024-01-16",
@@ -2741,7 +2679,6 @@
         "house": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Reception in New York City",
         "date": "2023-06-29",
@@ -2812,7 +2749,6 @@
         "nps": 19,
         "nps.gov (PDF)": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -2863,7 +2799,6 @@
         "dcpd": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Proclamation on National Nurses Day, 2020, and an Exchange With Reporters",
         "date": "2020-05-06",
@@ -2894,7 +2829,6 @@
         "U.S. Senate Historical Office oral history": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Robert M. Lightfoot oral history (nasa-senior-leadership collection)",
         "date": "2018-07-26",
@@ -2931,7 +2865,6 @@
         "nasa2": 2,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Aboard Air Force One En Route to Anchorage, Alaska",
         "date": "2025-10-30",
@@ -2964,7 +2897,6 @@
         "nasa": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Presenting the Medal of Sacrifice and an Exchange With Reporters",
         "date": "2025-05-19",
@@ -3012,7 +2944,6 @@
         "nps": 13,
         "wpa": 5
       },
-      "shippable": true,
       "source": {
         "document": "NOMINATIONS OF EDWARD FORST, CHARLES ARRINGTON, JOHN CUONG TRUONG, ELANA S. SUTTENBERG, STEPHEN F. RICKARD, WILLIAM KIRK, HON. ANTHONY D'ESPOSITO, AND PLATTE MORING",
         "date": "2025-10-23",
@@ -3055,7 +2986,6 @@
         "nasa2": 1,
         "nps": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Greeting With Secretary General Mark Rutte of the North Atlantic Treaty Organization and an Exchange With Reporters in Ankara, Turkey",
         "date": "2026-07-08",
@@ -3091,7 +3021,6 @@
         "nasa2": 5,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the National Economy in Rocky Mount, North Carolina",
         "date": "2025-12-19",
@@ -3134,7 +3063,6 @@
         "nasa2": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "HEARING ON THE JANUARY 6TH INVESTIGATION",
         "date": "2022-06-21",
@@ -3168,7 +3096,6 @@
         "nasa2": 3,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Cecil G. Dome oral history (naca collection)",
         "date": "2015-02-19",
@@ -3199,7 +3126,6 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA JSC Oral History Project: David J. Homan (Engineer, Shuttle RMS, MPAD; Manager, Space Station Freedom Level II; Manager, Space Station Level III Functional Area for assembly; Critical Evaluation Task Force (following the Challenger accident); Manager, Manager, Virtual Reality Lab)",
         "date": "2023-06-14",
@@ -3235,7 +3161,6 @@
         "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1
       },
-      "shippable": true,
       "source": {
         "document": "Sara Lyons Davis oral history interview",
         "date": "2025-05-01",
@@ -3265,7 +3190,6 @@
         "dcpd": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Installation of New White House Flagpoles and an Exchange With Reporters",
         "date": "2025-06-18",
@@ -3348,7 +3272,6 @@
         "va": 4,
         "wpa": 6
       },
-      "shippable": true,
       "source": {
         "document": "Arizona Man Sentenced for Federal Assault and Firearms Offenses",
         "date": "2026-08-12",
@@ -3396,7 +3319,6 @@
         "nasa": 2,
         "nps": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders on Quantum Technologies and an Exchange With Reporters",
         "date": "2026-06-22",
@@ -3427,7 +3349,6 @@
         "dcpd": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Roundtable Discussion on Plasma Donation for Coronavirus Treatment and an Exchange With Reporters",
         "date": "2020-07-30",
@@ -3459,7 +3380,6 @@
         "briefing": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre and Commerce Secretary Gina Raimondo",
         "date": "2022-09-06",
@@ -3490,7 +3410,6 @@
         "hearings": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "TWITTER: TRANSPARENCY AND ACCOUNTABILITY",
         "date": "2018-09-05",
@@ -3526,7 +3445,6 @@
         "nasa2": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing an Executive Order on Unleashing Prosperity Through Deregulation and an Exchange With Reporters",
         "date": "2025-01-31",
@@ -3581,7 +3499,6 @@
         "nih": 1,
         "nps": 10
       },
-      "shippable": true,
       "source": {
         "document": "HEARING ON FISCAL YEAR 2026 DEPARTMENT OF HEALTH AND HUMAN SERVICES BUDGET",
         "date": "2025-05-14",
@@ -3634,7 +3551,6 @@
         "nps": 51,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Meeting With Travel Executives and an Exchange With Reporters",
         "date": "2026-09-02",
@@ -3710,7 +3626,6 @@
         "nps": 97,
         "nps.gov": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -3768,7 +3683,6 @@
         "nasa2": 10,
         "nps": 35
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -3843,7 +3757,6 @@
         "nih": 1,
         "nps": 87
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Rose Garden Club Dinner",
         "date": "2026-09-02",
@@ -3923,7 +3836,6 @@
         "nih": 12,
         "nps": 99
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -3982,7 +3894,6 @@
         "nih": 1,
         "nps": 50
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -4049,7 +3960,6 @@
         "nps": 10,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "NOMINATIONS OF HON. HAMPTON Y. DELLINGER AND HON. HENRY J. KERNER",
         "date": "2023-11-30",
@@ -4081,12 +3991,6 @@
           "role": "answer",
           "choice": "turn",
           "raises": "next-2"
-        },
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
         },
         {
           "move": "tenure-reply-answer-ack",
@@ -4124,7 +4028,6 @@
         "nps": 55,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -4177,7 +4080,6 @@
         "nps": 38,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -4216,7 +4118,6 @@
         "hearings": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "REUSABLE MEDICAL EQUIPMENT: CONTINUING TO EXAMINE VHA'S STERILE PROCESSING PROBLEMS",
         "date": "2018-09-05",
@@ -4256,7 +4157,6 @@
         "nasa2": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "EXAMINING THE MANAGEMENT OF RED SNAPPER FISHING IN THE GULF OF MEXICO",
         "date": "2017-05-02",
@@ -4297,7 +4197,6 @@
         "nasa2": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Health Care Costs and Affordability and an Exchange With Reporters",
         "date": "2026-04-23",
@@ -4334,7 +4233,6 @@
         "nps": 12,
         "wpa": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Following a Cabinet Meeting and an Exchange With Reporters",
         "date": "2025-03-24",
@@ -4370,7 +4268,6 @@
         "nps": 11,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on United States Naval Ship Development and an Exchange With Reporters in Palm Beach, Florida",
         "date": "2025-12-22",
@@ -4406,7 +4303,6 @@
         "nasa2": 2,
         "nps": 5
       },
-      "shippable": true,
       "source": {
         "document": "EXECUTIVE OVERREACH: EXAMINING THE SBA'S ELECTIONEERING EFFORTS WITH ASSOCIATE ADMINISTRATOR OF OFFICE OF FIELD OPERATIONS, JENNIFER KIM",
         "date": "2024-07-24",
@@ -4450,7 +4346,6 @@
         "nps": 10,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Affordability in Macungie, Pennsylvania",
         "date": "2026-06-23",
@@ -4517,7 +4412,6 @@
         "nps.gov (PDF)": 4,
         "va": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention Closing in Dallas, Texas",
         "date": "2026-09-10",
@@ -4550,7 +4444,6 @@
         "nasa": 2,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "OVERSIGHT OF THE DRUG ENFORCEMENT ADMINISTRATION",
         "date": "2023-07-27",
@@ -4584,7 +4477,6 @@
         "hearings": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "DEPARTMENT OF DEFENSE AUTHORIZATION FOR APPROPRIATIONS FOR FISCAL YEAR 2019 AND THE FUTURE YEARS DEFENSE PROGRAM",
         "date": "2018-02-15",
@@ -4619,7 +4511,6 @@
         "nps": 2,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention Closing in Dallas, Texas",
         "date": "2026-09-10",
@@ -4652,7 +4543,6 @@
         "hearings": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
         "date": "2026-09-09",
@@ -4693,7 +4583,6 @@
         "nps": 5,
         "nps.gov (PDF)": 1
       },
-      "shippable": true,
       "source": {
         "document": "THE GLOBAL FIGHT TO END MODERN SLAVERY",
         "date": "2018-11-28",
@@ -4725,7 +4614,6 @@
         "nps": 2,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Event for Senator Robert P. Casey, Jr., in Bryn Mawr, Pennsylvania",
         "date": "2024-10-08",
@@ -4756,7 +4644,6 @@
         "dcpd": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks to Supporters in Minneapolis, Minnesota",
         "date": "2020-08-17",
@@ -4789,7 +4676,6 @@
         "nps": 3,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Prior to Departure for Ypsilanti, Michigan",
         "date": "2020-05-21",
@@ -4829,7 +4715,6 @@
         "nps": 4,
         "wpa": 4
       },
-      "shippable": true,
       "source": {
         "document": "MENTAL HEALTH CARE FOR OLDER ADULTS: RAISING AWARENESS, ADDRESSING STIGMA, AND PROVIDING SUPPORT",
         "date": "2022-05-19",
@@ -4867,7 +4752,6 @@
         "nps": 13,
         "wpa": 4
       },
-      "shippable": true,
       "source": {
         "document": "EXAMINING THE GROWTH OF",
         "date": "2025-05-07",
@@ -4913,7 +4797,6 @@
         "nih": 2,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
         "date": "2026-09-04",
@@ -4944,7 +4827,6 @@
         "briefing": 1,
         "dcpd": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks to the United Nations General Assembly in New York City",
         "date": "2025-09-23",
@@ -4984,7 +4866,6 @@
         "nasa2": 7,
         "nps": 18
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
         "date": "2026-07-08",
@@ -5029,7 +4910,6 @@
         "nih": 1,
         "nps": 22
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the 25th Anniversary of the September 11, 2001, Terrorist Attacks in Arlington, Virginia",
         "date": "2026-09-11",
@@ -5078,7 +4958,6 @@
         "nps": 76,
         "wpa": 27
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Situation in Israel and Lebanon and an Exchange With Reporters",
         "date": "2026-04-23",
@@ -5119,7 +4998,6 @@
         "nps": 7,
         "wpa": 6
       },
-      "shippable": true,
       "source": {
         "document": "SEXUAL ASSAULT IN U.S. PRISONS TWO DECADES AFTER THE PRISON RAPE ELIMINATION ACT",
         "date": "2024-09-25",
@@ -5160,7 +5038,6 @@
         "nih": 1,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Roundtable Discussion on Tax Code Reform in Las Vegas, Nevada",
         "date": "2026-04-16",
@@ -5196,7 +5073,6 @@
         "hud": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Efforts To Replace Lead Service Lines in Milwaukee, Wisconsin",
         "date": "2024-10-08",
@@ -5235,7 +5111,6 @@
         "nps": 5,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Greeting With California State Parks Lifeguard Ryder Williams and an Exchange With Reporters",
         "date": "2026-08-17",
@@ -5276,7 +5151,6 @@
         "nps.gov": 1,
         "wpa": 3
       },
-      "shippable": true,
       "source": {
         "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
@@ -5308,7 +5182,6 @@
         "hearings": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "MARKUP OF VARIOUS MEASURES",
         "date": "2024-02-06",
@@ -5345,7 +5218,6 @@
         "nasa2": 2,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Swearing-in Ceremony for Kevin M. Warsh as Chairman of the Federal Reserve System Board of Governors",
         "date": "2026-05-22",
@@ -5387,7 +5259,6 @@
         "nih": 1,
         "nps": 11
       },
-      "shippable": true,
       "source": {
         "document": "HEARING ON FISCAL YEAR 2026 DEPARTMENT OF HEALTH AND HUMAN SERVICES BUDGET",
         "date": "2025-05-14",
@@ -5432,7 +5303,6 @@
         "nps": 42,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
         "date": "2026-08-02",
@@ -5463,7 +5333,6 @@
         "briefing": 2,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Proclamation on National Physical Fitness and Sports Month and an Exchange With Reporters",
         "date": "2026-05-05",
@@ -5503,7 +5372,6 @@
         "nih": 2,
         "nps": 16
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Law Enforcement in Garden City, New York",
         "date": "2026-08-14",
@@ -5608,7 +5476,6 @@
         "nps.gov": 2,
         "nps.gov (PDF)": 1
       },
-      "shippable": true,
       "source": {
         "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -5683,7 +5550,6 @@
         "nps": 177,
         "nps.gov": 2
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -5748,7 +5614,6 @@
         "nps.gov": 2,
         "wpa": 14
       },
-      "shippable": true,
       "source": {
         "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -5796,7 +5661,6 @@
         "nasa2": 1,
         "nps": 13
       },
-      "shippable": false,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -5841,7 +5705,6 @@
         "nps": 1,
         "va": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -5884,7 +5747,6 @@
         "nps": 1,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Las Vegas, Nevada",
         "date": "2026-08-05",
@@ -5929,7 +5791,6 @@
         "nps": 5,
         "wpa": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing the Executive Order on Accelerating Medical Treatments for Serious Mental Illness and an Exchange With Reporters",
         "date": "2026-04-18",
@@ -5974,7 +5835,6 @@
         "nps": 2,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
         "date": "2026-07-08",
@@ -6010,7 +5870,6 @@
         "dcpd": 5,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Lod, Israel",
         "date": "2025-10-12",
@@ -6048,7 +5907,6 @@
         "nasa2": 2,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With Chancellor Friedrich Merz of Germany and an Exchange With Reporters",
         "date": "2026-03-03",
@@ -6084,7 +5942,6 @@
         "nps": 3,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Working Lunch With President Volodymyr Zelenskky of Ukraine and an Exchange With Reporters",
         "date": "2025-10-17",
@@ -6121,7 +5978,6 @@
         "nasa2": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre and National Security Communications Adviser John Kirby",
         "date": "2024-09-09",
@@ -6159,7 +6015,6 @@
         "nasa": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks to the Department of War in Quantico, Virginia",
         "date": "2025-09-30",
@@ -6206,7 +6061,6 @@
         "nih": 6,
         "nps": 36
       },
-      "shippable": true,
       "source": {
         "document": "dcpd of 2026-06-17",
         "date": "2026-06-17",
@@ -6261,7 +6115,6 @@
         "nasa2": 24,
         "nps": 26
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
         "date": "2026-07-08",
@@ -6309,7 +6162,6 @@
         "nps.gov": 1,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Law Enforcement in Garden City, New York",
         "date": "2026-08-14",
@@ -6359,7 +6211,6 @@
         "nps": 27,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Roundtable Discussion on United States Mining at the Department of State",
         "date": "2026-08-07",
@@ -6394,7 +6245,6 @@
         "house": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "UNDERSTANDING JUDEA AND SAMARIA: HISTORICAL, STRATEGIC, AND POLITICAL DYNAMICS IN US--ISRAEL RELATIONS",
         "date": "2025-12-10",
@@ -6447,7 +6297,6 @@
         "nps": 142,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -6505,7 +6354,6 @@
         "nih": 3,
         "nps": 23
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -6547,7 +6395,6 @@
         "nps": 5,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Inaugural Meeting of the Board of Peace",
         "date": "2026-02-19",
@@ -6606,7 +6453,6 @@
         "nps": 57,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -6647,7 +6493,6 @@
         "nps": 6,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Proclamations Modifying National Monument Designations and an Exchange With Reporters",
         "date": "2026-07-13",
@@ -6695,7 +6540,6 @@
         "nps": 22,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "dcpd of 2026-06-17",
         "date": "2026-06-17",
@@ -6705,144 +6549,6 @@
       },
       "tag": {
         "move": "ask"
-      }
-    },
-    {
-      "key": "conversation.shared-school-answer-brief.yes",
-      "move": "shared-school-answer-brief",
-      "kind": "spoken",
-      "text": "Yes.",
-      "uses": [
-        {
-          "move": "shared-work-answer-brief",
-          "subject": "shared-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
-          "move": "heard-work-answer-yes",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "yes"
-        }
-      ],
-      "transcriptsUsing": 5769,
-      "bySource": {
-        "Air Force Historical Research Agency, USAF Oral History Program": 2,
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
-        "Federal Election Commission (fec.gov)": 5,
-        "Florida Department of State, Division of Elections (dos.fl.gov)": 4,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 7,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 63,
-        "National Archives History Office oral history project": 47,
-        "National Archives History Office oral history project (brooks-oral-histories)": 15,
-        "National Archives History Office oral history project (nprc-oral-histories)": 11,
-        "National Archives History Office oral history project (nyc-oral-histories)": 6,
-        "National Archives History Office oral history project (ross-oral-histories)": 9,
-        "National Archives History Office oral history project (veterans-oral-histories)": 5,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 5,
-        "Naval History and Heritage Command, Navy strategy oral histories": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 47,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 54,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 239,
-        "U.S. Senate Historical Office oral history": 187,
-        "briefing": 662,
-        "crec": 50,
-        "dcpd": 1751,
-        "dol-osha": 1,
-        "hearings": 1479,
-        "house": 98,
-        "hud": 1,
-        "nasa": 279,
-        "nasa2": 304,
-        "ncua": 8,
-        "nih": 31,
-        "nps": 375,
-        "nps.gov": 8,
-        "nps.gov (PDF)": 1,
-        "usa.gov": 1,
-        "wpa": 7
-      },
-      "shippable": true,
-      "source": {
-        "document": "Candidate and Campaign Treasurer Handbook",
-        "date": "2026-10-02",
-        "granule": "fl-dos-2026-candidate-campaign-treasurer-handbook",
-        "url": "https://dos.fl.gov/media/711203/2026-candidate-campaign-treasurer-handbook.pdf",
-        "license": "Florida government work: no copyright under Florida law (Microdecisions, Inc. v. Skinner, 889 So. 2d 871, Fla. 2d DCA 2004; Fla. Const. art. I, s. 24); public domain"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.shared-school-answer-brief.yeah",
-      "move": "shared-school-answer-brief",
-      "kind": "spoken",
-      "text": "Yeah.",
-      "uses": [
-        {
-          "move": "shared-work-answer-brief",
-          "subject": "shared-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
-          "move": "heard-work-answer-yes",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "yes"
-        },
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "transcriptsUsing": 1926,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 3,
-        "Federal Election Commission (fec.gov)": 1,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 5,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 34,
-        "National Archives History Office oral history project": 47,
-        "National Archives History Office oral history project (brooks-oral-histories)": 8,
-        "National Archives History Office oral history project (nprc-oral-histories)": 11,
-        "National Archives History Office oral history project (nyc-oral-histories)": 6,
-        "National Archives History Office oral history project (ross-oral-histories)": 1,
-        "National Archives History Office oral history project (veterans-oral-histories)": 2,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 48,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 31,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 27,
-        "U.S. Senate Historical Office oral history": 60,
-        "briefing": 762,
-        "crec": 7,
-        "dcpd": 114,
-        "doi": 1,
-        "hearings": 329,
-        "house": 17,
-        "nasa": 42,
-        "nasa2": 56,
-        "nih": 6,
-        "nps": 304,
-        "nps.gov": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
-        "date": "2026-09-30",
-        "granule": "CHRG-119shrg60282",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
       }
     },
     {
@@ -6874,7 +6580,6 @@
         "nps.gov": 1,
         "va": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -6916,7 +6621,6 @@
         "nasa2": 3,
         "nps": 17
       },
-      "shippable": false,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -6953,7 +6657,6 @@
         "nps": 1,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Memorandum on Increasing Access to High-Quality Science, Technology, Engineering, and Mathematics (STEM) Education",
         "date": "2017-09-25",
@@ -6982,7 +6685,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Meeting With Joshua Holt Following His Release From Detention in Venezuela and an Exchange With Reporters",
         "date": "2018-05-26",
@@ -7015,7 +6717,6 @@
         "nasa2": 3,
         "nps": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Prior to Departure for Kansas City, Missouri",
         "date": "2021-12-08",
@@ -7045,7 +6746,6 @@
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
         "dcpd": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 Major League Soccer Champion Inter Miami",
         "date": "2026-03-05",
@@ -7076,7 +6776,6 @@
         "dcpd": 17,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Roundtable Discussion on the Ratepayer Protection Pledge",
         "date": "2026-07-23",
@@ -7106,7 +6805,6 @@
         "dcpd": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Memorandum on Increasing Access to High-Quality Science, Technology, Engineering, and Mathematics (STEM) Education",
         "date": "2017-09-25",
@@ -7137,7 +6835,6 @@
         "nasa": 2,
         "nasa2": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Pastor Andrew C. Brunson Following His Release From Detention in Turkey and an Exchange With Reporters",
         "date": "2018-10-13",
@@ -7169,7 +6866,6 @@
         "crec": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Iván Duque Márquez of Colombia and an Exchange With Reporters in New York City",
         "date": "2018-09-25",
@@ -7201,7 +6897,6 @@
         "dcpd": 2,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Shield of the Americas Summit in Miami, Florida",
         "date": "2026-03-07",
@@ -7234,7 +6929,6 @@
         "nasa": 1,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Daily Press Briefing by Press Secretary Sean Spicer",
         "date": "2017-05-09",
@@ -7264,7 +6958,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing the Miracle on Ice Congressional Gold Medal Act and an Exchange With Reporters",
         "date": "2025-12-12",
@@ -7303,7 +6996,6 @@
         "crec": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Iván Duque Márquez of Colombia and an Exchange With Reporters in New York City",
         "date": "2018-09-25",
@@ -7334,7 +7026,6 @@
       "bySource": {
         "hearings": 2
       },
-      "shippable": true,
       "source": {
         "document": "MANDATES, MEDDLING, AND MISMANAGEMENT: THE IRA'S THREAT TO ENERGY AND MEDICINE",
         "date": "2025-05-20",
@@ -7367,7 +7058,6 @@
         "hearings": 2,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "THE EMPLOYEE RETENTION TAX CREDIT EXPERIENCE: CONFUSION, DELAYS, AND FRAUD",
         "date": "2023-07-27",
@@ -7426,7 +7116,6 @@
         "nps": 24,
         "wpa": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During an Event With Seniors in Middleton, Florida",
         "date": "2026-05-01",
@@ -7488,7 +7177,6 @@
         "nps": 14,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
         "date": "2026-07-08",
@@ -7544,7 +7232,6 @@
         "nps": 87,
         "nps.gov (PDF)": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -7576,7 +7263,6 @@
         "dcpd": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Conference",
         "date": "2020-02-27",
@@ -7629,7 +7315,6 @@
         "nih": 1,
         "nps": 30
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
         "date": "2026-08-19",
@@ -7675,7 +7360,6 @@
         "nih": 1,
         "nps": 8
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
         "date": "2026-08-19",
@@ -7709,7 +7393,6 @@
         "nps": 3,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Reception in Los Angeles, California",
         "date": "2023-12-08",
@@ -7745,7 +7428,6 @@
         "nps": 13,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
         "date": "2025-09-21",
@@ -7775,7 +7457,6 @@
         "dcpd": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Roundtable Discussion on Immigration in Bethpage, New York",
         "date": "2018-05-23",
@@ -7809,7 +7490,6 @@
         "house": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -7842,7 +7522,6 @@
         "hearings": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Black History Month Reception",
         "date": "2025-02-20",
@@ -7873,7 +7552,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Memorandum on Reciprocal Trade and Tariffs and an Exchange With Reporters",
         "date": "2025-02-13",
@@ -7909,7 +7587,6 @@
         "nasa2": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Virtual Meeting With Family and Independent Farmers and Ranchers on Efforts To Increase Competition and Reduce Prices in the Meat- Processing Industry and an Exchange With Reporters",
         "date": "2022-01-03",
@@ -7941,7 +7618,6 @@
         "dcpd": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Cabinet Meeting and an Exchange With Reporters",
         "date": "2025-08-26",
@@ -7972,7 +7648,6 @@
         "dcpd": 3,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Health Care Costs and Affordability and an Exchange With Reporters",
         "date": "2026-04-23",
@@ -8002,7 +7677,6 @@
         "dcpd": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Upon Arrival in Morristown, New Jersey",
         "date": "2020-08-14",
@@ -8049,7 +7723,6 @@
         "nih": 2,
         "nps": 36
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
         "date": "2026-07-23",
@@ -8101,7 +7774,6 @@
         "nps.gov": 1,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -8132,7 +7804,6 @@
         "briefing": 2,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Sarah Sanders and Acting Secretary of Health and Human Services Eric Hargan",
         "date": "2017-11-30",
@@ -8163,7 +7834,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Cabinet Meeting and an Exchange With Reporters",
         "date": "2025-12-02",
@@ -8199,7 +7869,6 @@
         "nasa": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "SACRED MISSION: HONORING AMERICA'S VETERANS AND THEIR FAMILIES AT VA CEMETERIES",
         "date": "2024-02-28",
@@ -8233,7 +7902,6 @@
         "nps": 3,
         "wpa": 5
       },
-      "shippable": true,
       "source": {
         "document": "EXAMINING THE BANKRUPTCY OF STEWARD HEALTH CARE: HOW MANAGEMENT DECISIONS HAVE IMPACTED PATIENT CARE",
         "date": "2024-09-12",
@@ -8268,7 +7936,6 @@
         "nps": 2,
         "wpa": 7
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Karol Nawrocki of Poland and an Exchange With Reporters",
         "date": "2025-09-03",
@@ -8299,7 +7966,6 @@
       "bySource": {
         "hearings": 2
       },
-      "shippable": true,
       "source": {
         "document": "H.R. 897, H.R. 3925, H.R. 5441, AND H.R. 6235",
         "date": "2024-01-18",
@@ -8334,7 +8000,6 @@
         "nps": 2,
         "wpa": 10
       },
-      "shippable": true,
       "source": {
         "document": "H.R. 897, H.R. 3925, H.R. 5441, AND H.R. 6235",
         "date": "2024-01-18",
@@ -8367,7 +8032,6 @@
         "dcpd": 3,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Cabinet Meeting and an Exchange With Reporters at Camp David, Maryland",
         "date": "2026-07-31",
@@ -8404,7 +8068,6 @@
         "nasa2": 2,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "COUNTING THE MONEY: PREVENTING FRAUD AND ABUSE IN VA'S BONUS PAYMENT PRACTICES FOR VA EMPLOYEES",
         "date": "2025-07-22",
@@ -8438,7 +8101,6 @@
         "nasa": 1,
         "nps": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders on Quantum Technologies and an Exchange With Reporters",
         "date": "2026-06-22",
@@ -8477,7 +8139,6 @@
         "nih": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Energy in Corpus Christi, Texas",
         "date": "2026-02-27",
@@ -8525,7 +8186,6 @@
         "nps": 54,
         "wpa": 10
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -8564,7 +8224,6 @@
         "nps": 2,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "NATIVE AMERICAN EDUCATION: EXAMINING FEDERAL PROGRAMS AT THE U.S. DEPARTMENT OF EDUCATION",
         "date": "2025-04-02",
@@ -8589,7 +8248,6 @@
           "choice": "at"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-school-answers-more)",
       "date": "2026-10-15",
@@ -8610,7 +8268,6 @@
           "choice": "at"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-school-answers-more)",
       "date": "2026-10-15",
@@ -8644,7 +8301,6 @@
         "nih": 1,
         "nps": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Construction of the South Lawn Helipad and an Exchange With Reporters",
         "date": "2026-08-19",
@@ -8682,7 +8338,6 @@
         "nih": 1,
         "nps": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Tunnel to Towers Foundation's Steel Across America Event",
         "date": "2026-09-08",
@@ -8712,7 +8367,6 @@
         "U.S. Senate Historical Office oral history": 1,
         "dcpd": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
         "date": "2025-06-16",
@@ -8751,7 +8405,6 @@
         "nasa2": 8,
         "nps": 16
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -8789,7 +8442,6 @@
         "nasa2": 8,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the National Economy in Rocky Mount, North Carolina",
         "date": "2025-12-19",
@@ -8821,7 +8473,6 @@
         "house": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Event in Philadelphia, Pennsylvania",
         "date": "2024-05-29",
@@ -8855,7 +8506,6 @@
         "nasa": 4,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to Departure for London, United Kingdom",
         "date": "2025-09-16",
@@ -8891,7 +8541,6 @@
         "nasa2": 2,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Greeting With California State Parks Lifeguard Ryder Williams and an Exchange With Reporters",
         "date": "2026-08-17",
@@ -8922,7 +8571,6 @@
         "dcpd": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters at Joint Base Andrews, Maryland",
         "date": "2020-02-18",
@@ -8953,7 +8601,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Upon Arrival at Joint Base Andrews, Maryland",
         "date": "2026-08-11",
@@ -8987,7 +8634,6 @@
         "nasa": 1,
         "nps": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Greeting With California State Parks Lifeguard Ryder Williams and an Exchange With Reporters",
         "date": "2026-08-17",
@@ -9020,7 +8666,6 @@
         "dcpd": 6,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Cabinet Meeting and an Exchange With Reporters",
         "date": "2025-12-02",
@@ -9060,7 +8705,6 @@
         "nasa2": 4,
         "nps": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Swearing-in Ceremony for Markwayne Mullin as Secretary of Homeland Security and an Exchange With Reporters",
         "date": "2026-03-24",
@@ -9094,7 +8738,6 @@
         "dcpd": 2,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Document Signing Ceremony and an Exchange With Reporters",
         "date": "2025-04-17",
@@ -9143,7 +8786,6 @@
         "nps": 45,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -9219,7 +8861,6 @@
         "nps": 23,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -9281,7 +8922,6 @@
         "usfa.fema.gov": 1,
         "wpa": 10
       },
-      "shippable": true,
       "source": {
         "document": "Candidate and Campaign Treasurer Handbook",
         "date": "2026-10-02",
@@ -9314,7 +8954,6 @@
         "crec": 1,
         "hearings": 6
       },
-      "shippable": true,
       "source": {
         "document": "KEEPING THE LIGHTS ON: EXAMINING THE STATE OF REGIONAL GRID RELIABILITY",
         "date": "2025-03-25",
@@ -9349,7 +8988,6 @@
         "nasa2": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing the Whole Milk for Healthy Kids Act of 2025 and an Exchange With Reporters",
         "date": "2026-01-14",
@@ -9394,7 +9032,6 @@
         "nasa2": 5,
         "nps": 18
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Environmental Protection Agency's Rescission of the \"Endangerment Finding\" With Respect to Greenhouse Gas Emissions and an Exchange With Reporters",
         "date": "2026-02-12",
@@ -9446,7 +9083,6 @@
         "nps.gov": 2,
         "wpa": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to Departure From Los Angeles, California",
         "date": "2026-08-04",
@@ -9482,7 +9118,6 @@
         "nasa": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Meeting With Travel Executives and an Exchange With Reporters",
         "date": "2026-09-02",
@@ -9522,7 +9157,6 @@
         "nasa2": 2,
         "nps": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -9542,12 +9176,6 @@
       "kind": "spoken",
       "text": "Oh, no.",
       "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
         {
           "move": "other-work-answer-ack-none",
           "subject": "other-work",
@@ -9609,7 +9237,6 @@
         "nps": 48,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Pennsylvania Defense and Innovation Summit in Carlisle, Pennsylvania",
         "date": "2026-07-15",
@@ -9649,7 +9276,6 @@
         "nps": 15,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "THE STATE OF VA SERVICES IN HAWAII",
         "date": "2022-10-05",
@@ -9668,12 +9294,6 @@
       "kind": "spoken",
       "text": "That's terrible.",
       "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
         {
           "move": "job-cause-reply-answer-comfort",
           "subject": "job-cause-reply",
@@ -9709,7 +9329,6 @@
         "nasa": 1,
         "nps": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Trump Accounts Children's Savings Program and an Exchange With Reporters",
         "date": "2026-07-06",
@@ -9729,12 +9348,6 @@
       "kind": "spoken",
       "text": "That's too bad.",
       "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
         {
           "move": "other-work-answer-ack-none",
           "subject": "other-work",
@@ -9766,7 +9379,6 @@
         "nasa2": 1,
         "nps": 8
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Las Vegas, Nevada",
         "date": "2026-08-05",
@@ -9780,53 +9392,11 @@
       }
     },
     {
-      "key": "conversation.news-answer-react.thats-a-shame",
-      "move": "news-answer-react",
-      "kind": "spoken",
-      "text": "That's a shame.",
-      "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        }
-      ],
-      "transcriptsUsing": 25,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 3,
-        "dcpd": 8,
-        "hearings": 3,
-        "nasa2": 5,
-        "nps": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks During a Roundtable Discussion on Saving College Sports and an Exchange With Reporters",
-        "date": "2026-03-06",
-        "granule": "DCPD-202600153",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600153/html/DCPD-202600153.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "conversation.news-answer-react.thats-good-news",
       "move": "news-answer-react",
       "kind": "spoken",
       "text": "That's good news.",
       "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
         {
           "move": "acquittal-reply-answer-congratulate",
           "subject": "acquittal-reply",
@@ -9844,46 +9414,11 @@
         "nasa": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "bearing": "glad"
-    },
-    {
-      "key": "conversation.news-answer-react.good-for-them",
-      "move": "news-answer-react",
-      "kind": "spoken",
-      "text": "Good for them.",
-      "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 1,
-        "dcpd": 2,
-        "hearings": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "KEEPING THE LIGHTS ON: EXAMINING THE STATE OF REGIONAL GRID RELIABILITY",
-        "date": "2025-03-25",
-        "granule": "CHRG-119hhrg60019",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60019/html/CHRG-119hhrg60019.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -9916,7 +9451,6 @@
         "nasa2": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -9977,7 +9511,6 @@
         "nps": 21,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
         "date": "2026-07-23",
@@ -10017,7 +9550,6 @@
         "nasa2": 4,
         "nps": 12
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During an Event With Seniors in Middleton, Florida",
         "date": "2026-05-01",
@@ -10057,7 +9589,6 @@
         "nasa2": 1,
         "nps": 8
       },
-      "shippable": true,
       "source": {
         "document": "The President's News Conference in Brussels, Belgium",
         "date": "2022-03-24",
@@ -10106,7 +9637,6 @@
         "nps.gov": 2,
         "nps.gov (PDF)": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Meeting With Travel Executives and an Exchange With Reporters",
         "date": "2026-09-02",
@@ -10145,7 +9675,6 @@
         "nasa": 2,
         "nasa2": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on United States Nuclear Innovation and an Exchange With Reporters",
         "date": "2026-07-24",
@@ -10179,7 +9708,6 @@
         "dcpd": 13,
         "hearings": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to West Palm Beach, Florida",
         "date": "2026-01-31",
@@ -10215,7 +9743,6 @@
         "hearings": 8,
         "nasa": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Meeting With Travel Executives and an Exchange With Reporters",
         "date": "2026-09-02",
@@ -10253,7 +9780,6 @@
         "nasa2": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Roundtable Discussion on Federal Relief for Farmers and an Exchange With Reporters",
         "date": "2025-12-08",
@@ -10290,7 +9816,6 @@
         "nasa": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters at Al Udeid Air Base in Al Rayyan, Qatar",
         "date": "2025-10-25",
@@ -10348,7 +9873,6 @@
         "nps.gov": 2,
         "wpa": 22
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -10380,7 +9904,6 @@
         "dcpd": 8,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Affordability in Macungie, Pennsylvania",
         "date": "2026-06-23",
@@ -10412,7 +9935,6 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "dcpd": 15
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing the Secure America Act and an Exchange With Reporters",
         "date": "2026-06-10",
@@ -10448,7 +9970,6 @@
         "nasa": 3,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Greeting With California State Parks Lifeguard Ryder Williams and an Exchange With Reporters",
         "date": "2026-08-17",
@@ -10484,7 +10005,6 @@
         "house": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Announcing the Freedom Haulers Initiative",
         "date": "2026-07-30",
@@ -10522,7 +10042,6 @@
         "nasa2": 2,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Proclamation To Restore United States Commercial Fishing in the Pacific and an Exchange With Reporters",
         "date": "2026-06-11",
@@ -10564,7 +10083,6 @@
         "nasa2": 6,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
         "date": "2026-08-21",
@@ -10603,7 +10121,6 @@
         "nasa": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 College Football National Champion Indiana University Hoosiers",
         "date": "2026-05-11",
@@ -10642,7 +10159,6 @@
         "nasa2": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention Closing in Dallas, Texas",
         "date": "2026-09-10",
@@ -10684,7 +10200,6 @@
         "nps": 5,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 College Football National Champion Indiana University Hoosiers",
         "date": "2026-05-11",
@@ -10733,7 +10248,6 @@
         "nih": 4,
         "nps": 63
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Ahmad Husayn al-Shara' of Syria and an Exchange With Reporters in Ankara, Turkey",
         "date": "2026-07-08",
@@ -10774,7 +10288,6 @@
         "nps": 2,
         "wpa": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Telerally for the Club for Growth Political Action Committee and Tennessee Republican Congressional Candidate Matt Van Epps",
         "date": "2025-10-06",
@@ -10822,7 +10335,6 @@
         "nps": 7,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Announcing the Freedom Haulers Initiative",
         "date": "2026-07-30",
@@ -10854,7 +10366,6 @@
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Standards Board Meeting — transcript (EAC0411-1219VerbatimStandardsBoard.pdf)",
         "date": "2019-04-11",
@@ -10892,7 +10403,6 @@
         "dcpd": 4,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Affordability in Macungie, Pennsylvania",
         "date": "2026-06-23",
@@ -10904,39 +10414,6 @@
         "move": "farewell"
       },
       "bearing": "guarded"
-    },
-    {
-      "key": "conversation.farewell-leave-bye.see-you-later",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "See you later.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye"
-        }
-      ],
-      "transcriptsUsing": 13,
-      "bySource": {
-        "briefing": 3,
-        "dcpd": 8,
-        "nasa": 1,
-        "nps.gov (PDF)": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks and an Exchange With Reporters Aboard Air Force One En Route to Eau Claire, Wisconsin",
-        "date": "2026-06-05",
-        "granule": "DCPD-202600383",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600383/html/DCPD-202600383.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "calm"
     },
     {
       "key": "conversation.farewell-leave-bye.see-you-soon",
@@ -10958,7 +10435,6 @@
         "dcpd": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Gaggle by Press Secretary Jen Psaki En Route Atlanta, Georgia",
         "date": "2022-01-11",
@@ -11005,7 +10481,6 @@
         "nasa2": 8,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Following a Family Photograph With Group of Seven (G–7) Nations Leaders in Kananaskis, Canada",
         "date": "2025-06-16",
@@ -11037,7 +10512,6 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "dcpd": 7
       },
-      "shippable": true,
       "source": {
         "document": "Commencement Address at the United States Coast Guard Academy in New London, Connecticut",
         "date": "2026-05-20",
@@ -11073,7 +10547,6 @@
         "hearings": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
         "date": "2025-05-05",
@@ -11108,7 +10581,6 @@
         "nih": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Jen Psaki, March 16, 2022",
         "date": "2022-03-16",
@@ -11140,7 +10612,6 @@
         "U.S. Senate Historical Office oral history": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to West Palm Beach, Florida",
         "date": "2025-04-13",
@@ -11173,7 +10644,6 @@
         "nih": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Situation in Israel and Iran and an Exchange With Reporters Aboard Air Force One En Route to Amsterdam, Netherlands",
         "date": "2025-06-24",
@@ -11185,38 +10655,6 @@
         "move": "farewell"
       },
       "bearing": "guarded"
-    },
-    {
-      "key": "conversation.farewell-leave-bye.ill-see-you-later",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "I'll see you later.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye"
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 7,
-        "nasa": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Rome, Italy",
-        "date": "2025-04-25",
-        "granule": "DCPD-202500526",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500526/html/DCPD-202500526.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "calm"
     },
     {
       "key": "conversation.farewell-leave-bye.ill-talk-to-you-later",
@@ -11236,7 +10674,6 @@
         "briefing": 1,
         "dcpd": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Border Security and an Exchange With Reporters",
         "date": "2024-06-04",
@@ -11248,38 +10685,6 @@
         "move": "farewell"
       },
       "bearing": "calm"
-    },
-    {
-      "key": "conversation.farewell-leave-bye.talk-to-you-soon",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Talk to you soon.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "briefing": 1,
-        "dcpd": 1
-      },
-      "shippable": false,
-      "source": {
-        "document": "Remarks to Servicemembers, First Responders, and Their Families on the Anniversary of the September 11, 2001, Terrorist Attacks at Joint Base Elmendorf- Richardson, Alaska",
-        "date": "2023-09-11",
-        "granule": "DCPD-202300777",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300777/html/DCPD-202300777.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-leave-bye.ive-got-to-go",
@@ -11305,7 +10710,6 @@
         "nasa2": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to Departure for Middleton, Florida",
         "date": "2026-05-01",
@@ -11337,7 +10741,6 @@
         "briefing": 8,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre and Homeland Security Adviser Dr. Elizabeth Sherwood-Randall",
         "date": "2024-09-30",
@@ -11369,7 +10772,6 @@
         "dcpd": 1,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Presenting Posthumously the Medal of Honor to Technical Sergeant John A. Chapman",
         "date": "2018-08-22",
@@ -11401,7 +10803,6 @@
         "briefing": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Sean Spicer",
         "date": "2017-03-07",
@@ -11432,7 +10833,6 @@
       "bySource": {
         "hearings": 2
       },
-      "shippable": true,
       "source": {
         "document": "INTERIOR, ENVIRONMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2022",
         "date": "2021-03-18",
@@ -11464,7 +10864,6 @@
         "dcpd": 10,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Telerally for Wisconsin Republican Congressional Candidate Michael Alfonso",
         "date": "2026-07-29",
@@ -11496,7 +10895,6 @@
         "dcpd": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Proclamation on National Angel Family Day",
         "date": "2026-02-23",
@@ -11528,7 +10926,6 @@
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "briefing": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre, Members of BTS, and National Economic Council Director Brian Deese, May 31, 2022",
         "date": "2022-05-31",
@@ -11560,7 +10957,6 @@
         "U.S. Senate Historical Office oral history": 1,
         "nps.gov (PDF)": 3
       },
-      "shippable": true,
       "source": {
         "document": "Junior Ranger Booklet for Ages 9 and Up",
         "date": "2023-09-26",
@@ -11592,7 +10988,6 @@
         "dcpd": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Lee Jae-myung of South Korea and an Exchange With Reporters",
         "date": "2025-08-25",
@@ -11629,7 +11024,6 @@
         "nasa2": 3,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Affordability in Macungie, Pennsylvania",
         "date": "2026-06-23",
@@ -11659,7 +11053,6 @@
         "dcpd": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Lighting the National Christmas Tree",
         "date": "2015-12-03",
@@ -11690,7 +11083,6 @@
         "briefing": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "DEPARTMENT OF DEFENSE AUTHORIZATION FOR APPROPRIATIONS FOR FISCAL YEAR 2017 AND THE FUTURE YEARS DEFENSE PROGRAM",
         "date": "2016-02-11",
@@ -11736,7 +11128,6 @@
         "nih": 1,
         "nps": 9
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to a Meeting With President Joseph Aoun of Lebanon and an Exchange With Reporters",
         "date": "2026-07-21",
@@ -11769,7 +11160,6 @@
         "nasa": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With Crown Prince Muhammad bin Salman bin Abd al-Aziz Al Saud of Saudi Arabia and an Exchange With Reporters",
         "date": "2025-11-18",
@@ -11800,7 +11190,6 @@
         "U.S. Senate Historical Office oral history": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Michael M. Watkins oral history (discovery-and-new-frontiers collection)",
         "date": "2022-01-18",
@@ -11848,7 +11237,6 @@
         "nps": 22,
         "nps.gov (PDF)": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
         "date": "2026-08-19",
@@ -11907,7 +11295,6 @@
         "va": 17,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -11957,7 +11344,6 @@
         "nps": 49,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Construction of the South Lawn Helipad and an Exchange With Reporters",
         "date": "2026-08-19",
@@ -11992,7 +11378,6 @@
         "house": 1,
         "nps": 9
       },
-      "shippable": true,
       "source": {
         "document": "CONFIRMATION HEARING ON FEDERAL APPOINTMENTS",
         "date": "2025-04-30",
@@ -12036,7 +11421,6 @@
         "nasa2": 6,
         "nps": 12
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
         "date": "2026-09-09",
@@ -12077,7 +11461,6 @@
         "nasa2": 1,
         "nps": 4
       },
-      "shippable": true,
       "source": {
         "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -12108,7 +11491,6 @@
         "dcpd": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Reception in Tempe, Arizona",
         "date": "2023-09-28",
@@ -12141,7 +11523,6 @@
         "briefing": 19,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre",
         "date": "2024-05-15",
@@ -12178,7 +11559,6 @@
         "nih": 1,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "HOUSING IN THE HEARTLAND: ADDRESSING OUR RURAL HOUSING NEEDS",
         "date": "2025-06-12",
@@ -12274,7 +11654,6 @@
         "nih": 3,
         "nps": 67
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Roundtable Discussion on the Ratepayer Protection Pledge",
         "date": "2026-07-23",
@@ -12320,7 +11699,6 @@
         "nih": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA JSC Oral History Project: Jean Wright (NASA KSC: Seamstress, Thermal Protection System Facility, Machine and hand stitching to build, create, and repair thermal protection flight hardware and parachutes for the Space Shuttle Program; Created test parachutes and aft-skirt blankets for the Orion spacecraft)",
         "date": "2024-05-14",
@@ -12358,7 +11736,6 @@
         "nasa2": 2,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Proclamations on Adjusting Imports of Aluminum and Steel Into the United States and an Exchange With Reporters",
         "date": "2018-03-08",
@@ -12393,7 +11770,6 @@
         "nasa2": 3,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Document Signing Ceremony and an Exchange With Reporters",
         "date": "2025-02-25",
@@ -12427,7 +11803,6 @@
         "nasa": 2,
         "nps": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders on Quantum Technologies and an Exchange With Reporters",
         "date": "2026-06-22",
@@ -12463,7 +11838,6 @@
         "nasa2": 1,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
         "date": "2026-09-04",
@@ -12503,7 +11877,6 @@
         "nasa2": 3,
         "nps": 37
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
         "date": "2026-07-23",
@@ -12536,7 +11909,6 @@
         "nasa2": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "A REVIEW OF LICENSING AND CREDENTIALING STANDARDS FOR SERVICEMEMBERS AND VETERANS: DO BARRIERS STILL REMAIN?",
         "date": "2015-09-10",
@@ -12567,7 +11939,6 @@
         "dcpd": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Roundtable Discussion on Plasma Donation for Coronavirus Treatment and an Exchange With Reporters",
         "date": "2020-07-30",
@@ -12628,7 +11999,6 @@
         "nps.gov": 2,
         "nps.gov (PDF)": 2
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -12681,7 +12051,6 @@
         "nih": 1,
         "nps": 52
       },
-      "shippable": true,
       "source": {
         "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
@@ -12723,7 +12092,6 @@
         "nps.gov": 1,
         "wpa": 3
       },
-      "shippable": true,
       "source": {
         "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
@@ -12761,7 +12129,6 @@
         "nps": 2,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing the Executive Order on Accelerating Medical Treatments for Serious Mental Illness and an Exchange With Reporters",
         "date": "2026-04-18",
@@ -12823,7 +12190,6 @@
         "sba": 1,
         "va": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Las Vegas, Nevada",
         "date": "2026-08-05",
@@ -12893,7 +12259,6 @@
         "va": 4,
         "wpa": 6
       },
-      "shippable": true,
       "source": {
         "document": "Arizona Man Sentenced for Federal Assault and Firearms Offenses",
         "date": "2026-08-12",
@@ -12930,7 +12295,6 @@
         "nasa2": 2,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Proclamations on Adjusting Imports of Aluminum and Steel Into the United States and an Exchange With Reporters",
         "date": "2018-03-08",
@@ -12966,7 +12330,6 @@
         "nasa2": 3,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Document Signing Ceremony and an Exchange With Reporters",
         "date": "2025-02-25",
@@ -13001,7 +12364,6 @@
         "nasa": 2,
         "nps": 5
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders on Quantum Technologies and an Exchange With Reporters",
         "date": "2026-06-22",
@@ -13038,7 +12400,6 @@
         "nasa2": 1,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
         "date": "2026-09-04",
@@ -13073,7 +12434,6 @@
         "nps": 2,
         "nps.gov (PDF)": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the American Business Forum in Miami, Florida",
         "date": "2025-11-05",
@@ -13106,7 +12466,6 @@
         "nih": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "ENERGY AND WATER DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2025",
         "date": "2024-03-20",
@@ -13137,7 +12496,6 @@
         "briefing": 2,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks by President Trump in Press Briefing | July 30, 2020",
         "date": "2020-07-30",
@@ -13175,7 +12533,6 @@
         "nih": 1,
         "nps": 10
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
         "date": "2026-07-08",
@@ -13210,7 +12567,6 @@
         "nasa": 2,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Marietta, Georgia",
         "date": "2026-07-22",
@@ -13269,7 +12625,6 @@
         "weather.gov": 1,
         "wpa": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention Closing in Dallas, Texas",
         "date": "2026-09-10",
@@ -13304,7 +12659,6 @@
         "nasa": 4,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Lod, Israel",
         "date": "2025-10-12",
@@ -13342,7 +12696,6 @@
         "nasa2": 1,
         "nps": 5
       },
-      "shippable": true,
       "source": {
         "document": "OVERSIGHT OF THE U.S. DEPARTMENT OF JUSTICE",
         "date": "2024-06-04",
@@ -13385,7 +12738,6 @@
         "nps": 53,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During Tour of the Graceland Estate and an Exchange With Reporters in Memphis, Tennessee",
         "date": "2026-03-23",
@@ -13427,7 +12779,6 @@
         "nih": 1,
         "nps": 19
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -13457,7 +12808,6 @@
       "bySource": {
         "chrg": 2
       },
-      "shippable": true,
       "source": {
         "document": "Advancing Innovation (Ai): Harnessing Artificial Intelligence To Defend And Secure The Homeland",
         "date": "2024-02-12",
@@ -13493,7 +12843,6 @@
         "nasa": 4,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Examining The January 6 Attack On The U.S. Capitol",
         "date": "2021-02-23",
@@ -13524,7 +12873,6 @@
         "chrg": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Oversight Of The Voting Rights Act: A Continuing Record Of Discrimination",
         "date": "2021-05-27",
@@ -13562,7 +12910,6 @@
         "chrg": 1,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Looking Ahead Series: Oversight Of The United States Capitol Police",
         "date": "2023-04-18",
@@ -13603,7 +12950,6 @@
         "nasa": 4,
         "senate": 1
       },
-      "shippable": true,
       "source": {
         "document": "Examining The January 6 Attack On The U.S. Capitol",
         "date": "2021-02-23",
@@ -13634,7 +12980,6 @@
         "dcpd": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Administration of Donald J. Trump, 2019 Remarks in a Meeting With World War II Veterans and an Exchange With Reporters April 11, 2019 The President. Well, thank you very much. This is a special moment",
         "date": "2019-04-11",
@@ -13664,7 +13009,6 @@
       "bySource": {
         "nasa": 3
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history interview with Jane D. Dreyfus",
         "date": "2019-11-12",
@@ -13695,7 +13039,6 @@
         "dcpd": 1,
         "eisenhower": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Efforts To Combat Inflation and an Exchange With Reporters",
         "date": "2023-01-12",
@@ -13726,7 +13069,6 @@
         "chrg": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Drug Pricing In America: A Prescription For Change, Part Ii",
         "date": "2015-01-01",
@@ -13758,7 +13100,6 @@
         "dcpd": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history interview with Parrish Hirasaki",
         "date": "2023-08-02",
@@ -13795,7 +13136,6 @@
       "bySource": {
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "NASA oral history interview with Linda R. Brown",
         "date": "2017-05-10",
@@ -13827,7 +13167,6 @@
         "chrg": 1,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "National Defense Authorization Act",
         "date": "2018-04-12",
@@ -13858,7 +13197,6 @@
         "hearings": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
         "date": "2023-07-28",
@@ -13888,7 +13226,6 @@
       "bySource": {
         "chrg": 2
       },
-      "shippable": true,
       "source": {
         "document": "THE FUTURE OF DIGITAL ASSET REGULATION",
         "date": "2022-06-23",
@@ -13919,7 +13256,6 @@
         "chrg": 1,
         "nasa-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "STATE, FOREIGN OPERATIONS, AND RELATED PROGRAMS APPROPRIATIONS FOR 2017",
         "date": "2016-02-03",
@@ -13949,7 +13285,6 @@
         "nasa-oral": 1,
         "senate-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA JOHNSON SPACE CENTER ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT KIRK GRIFFIN INTERVIEWED BY SANDRA JOHNSON HUNT, TEXAS – NOVEMBER 13, 20",
         "date": "2019-11-13",
@@ -13980,7 +13315,6 @@
         "nasa-oral": 4,
         "senate-oral": 5
       },
-      "shippable": true,
       "source": {
         "document": "The Honorable Sue W. Kelly U.S. Representative of New York (1995–2007)",
         "date": "2016-06-23",
@@ -14010,7 +13344,6 @@
       "bySource": {
         "chrg": 2
       },
-      "shippable": true,
       "source": {
         "document": "LEGISLATIVE HEARING ON H.R. 1607, TO CLARIFY JURISDICTION WITH RESPECT TO CERTAIN BUREAU OF RECLAMATION PUMPED STORAGE DEVELOPMENT, AND FOR OTHER PURPOSES; H.R. 3027, TO REAUTHORIZE FUNDING FOR THE RECLAMATION CLIMATE CHANGE AND WATER PROGRAM, \"RECLAMATION CLIMATE CHANGE AND WATER PROGRAM REAUTHORIZATION ACT OF 2023\"; AND H.R. 3675, TO AMEND THE WATER INFRASTRUCTURE IMPROVEMENTS FOR THE NATION ACT TO EXTEND CERTAIN CONTRACT PREPAYMENT AUTHORITY, \"WESTERN WATER ACCELERATED REVENUE REPAYMENT ACT\"",
         "date": "2023-06-14",
@@ -14041,7 +13374,6 @@
         "chrg": 1,
         "nasa-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "DIGITAL G.I. BILL UNDELIVERED: CONTRACTING CHALLENGES AND THE NEED FOR ACQUISITION REFORM",
         "date": "2026-02-04",
@@ -14072,7 +13404,6 @@
       "bySource": {
         "chrg": 2
       },
-      "shippable": true,
       "source": {
         "document": "DRILLING DOWN: OVERSIGHT OF THE CHALLENGES AND OPPORTUNITIES FACING U.S. ENERGY PRODUCTION",
         "date": "2024-04-23",
@@ -14104,7 +13435,6 @@
         "chrg": 1,
         "nasa-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "DISCOVERY AND NEW FRONTIERS ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT JOHN P. ANDREWS INTERVIEWED BY SANDRA JOHNSON BOULDER, COLORADO – SEPT",
         "date": "2023-09-29",
@@ -14142,7 +13472,6 @@
         "house-oral": 1,
         "nasa-oral": 2
       },
-      "shippable": true,
       "source": {
         "document": "HEARING ON THE WEAPONIZATION OF THE FEDERAL GOVERNMENT",
         "date": "2024-05-15",
@@ -14187,7 +13516,6 @@
         "nasa-oral": 5,
         "senate-oral": 2
       },
-      "shippable": true,
       "source": {
         "document": "OVERSIGHT OF THE FEDERAL COMMUNICATIONS COMMISSION",
         "date": "2020-06-24",
@@ -14233,7 +13561,6 @@
         "nasa-oral": 9,
         "senate-oral": 2
       },
-      "shippable": true,
       "source": {
         "document": "EXAMINING NIST'S PRIORITIES FOR 2025 AND BEYOND",
         "date": "2024-05-22",
@@ -14266,7 +13593,6 @@
         "nasa-oral": 33,
         "senate-oral": 5
       },
-      "shippable": true,
       "source": {
         "document": "NOMINATION OF SCOTT KUPOR AND ERIC M. UELAND",
         "date": "2025-04-03",
@@ -14297,7 +13623,6 @@
         "nasa-oral": 4,
         "senate-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA JOHNSON SPACE CENTER ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT JULIE A. KRAMER WHITE INTERVIEWED BY JENNIFER ROSS-NAZZAL HOUSTON, TEXAS",
         "date": "2016-08-09",
@@ -14329,7 +13654,6 @@
         "chrg": 13,
         "nasa-oral": 8
       },
-      "shippable": true,
       "source": {
         "document": "DEPARTMENT OF THE AIR FORCE FISCAL YEAR 2026 POSTURE",
         "date": "2025-06-05",
@@ -14361,7 +13685,6 @@
         "chrg": 5,
         "nasa-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "ADDRESSING AMERICA'S DATA PRIVACY SHORTFALLS: HOW A NATIONAL STANDARD FILLS GAPS TO PROTECT AMERICANS' PERSONAL INFORMATION",
         "date": "2023-04-27",
@@ -14395,7 +13718,6 @@
         "nasa-oral": 29,
         "senate-oral": 3
       },
-      "shippable": true,
       "source": {
         "document": "SHARIA-FREE AMERICA: WHY POLITICAL ISLAM & SHARIA LAW ARE INCOMPATIBLE WITH THE U.S. CONSTITUTION: PART II",
         "date": "2026-05-13",
@@ -14426,7 +13748,6 @@
       "bySource": {
         "nasa-oral": 2
       },
-      "shippable": true,
       "source": {
         "document": "JOHNSON SPACE CENTER ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT PEGGY WHITSON INTERVIEWED BY JENNIFER ROSS-NAZZAL HOUSTON, TX – 7 OCTOBER 201",
         "date": "2015-10-07",
@@ -14463,7 +13784,6 @@
       "bySource": {
         "nasa-oral": 3
       },
-      "shippable": true,
       "source": {
         "document": "HEADQUARTERS SCIENCE MISSION DIRECTORATE ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT DONALD JENNINGS INTERVIEWED BY SANDRA JOHNSON GREENBELT, ",
         "date": "2017-06-09",
@@ -14513,7 +13833,6 @@
         "house-oral": 1,
         "nasa-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "HUBBLE SPACE TELESCOPE OPERATIONAL ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT JOSEPH H. ROTHENBERG INTERVIEWED BY CHRISTOPHER GAINOR MOUNTAIN",
         "date": "2016-09-27",
@@ -14564,7 +13883,6 @@
         "nasa-oral": 10,
         "senate-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "SCREENTIME IN SCHOOLS . Tuesday, June 10, 2025",
         "date": "2025-06-10",
@@ -14600,7 +13918,6 @@
       "bySource": {
         "nasa-oral": 2
       },
-      "shippable": true,
       "source": {
         "document": "HUBBLE SPACE TELESCOPE OPERATIONAL ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT JOSEPH H. ROTHENBERG INTERVIEWED BY CHRISTOPHER GAINOR MOUNTAIN",
         "date": "2016-09-27",
@@ -14637,7 +13954,6 @@
       "bySource": {
         "nasa-oral": 4
       },
-      "shippable": true,
       "source": {
         "document": "DISCOVERY 30TH ANNIVERSARY ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT JESSICA LOUNSBURY INTERVIEWED BY SANDRA JOHNSON EDGEWATER, MARYLAND – S",
         "date": "2023-09-13",
@@ -14671,7 +13987,6 @@
         "nasa-oral": 4,
         "senate-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "SECURING THE SUPPLY CHAIN: THE DEFENSE PRODUCTION ACT IN FOCUS",
         "date": "2025-08-13",
@@ -14705,7 +14020,6 @@
         "nasa-oral": 70,
         "senate-oral": 14
       },
-      "shippable": true,
       "source": {
         "document": "HEARING WITH IRS WHISTLEBLOWERS ABOUT THE BIDEN CRIMINAL INVESTIGATION",
         "date": "2023-07-19",
@@ -14744,7 +14058,6 @@
         "house-oral": 1,
         "nasa-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "FINANCIAL SERVICES AND GENERAL GOVERNMENT APPROPRIATIONS FOR FISCAL YEAR 2023",
         "date": "2022-05-03",
@@ -14782,7 +14095,6 @@
         "chrg": 4,
         "nasa-oral": 9
       },
-      "shippable": true,
       "source": {
         "document": "CONFIRMATION HEARING ON THE NOMINATION OF KASHYAP PRAMOD PATEL TO BE DIRECTOR OF THE FEDERAL BUREAU OF INVESTIGATION",
         "date": "2025-01-30",
@@ -14814,7 +14126,6 @@
         "chrg": 8,
         "nasa-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "INVESTING IN AMERICA: HOW PRIVATE EQUITY EMPOWERS MAIN STREET",
         "date": "2025-06-05",
@@ -14848,7 +14159,6 @@
         "nasa-oral": 51,
         "senate-oral": 3
       },
-      "shippable": true,
       "source": {
         "document": "chrg",
         "date": "2024-09-16",
@@ -14880,7 +14190,6 @@
         "house-oral": 1,
         "nasa-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "NASA VIPER ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT DANIEL R. ANDREWS INTERVIEWED BY SANDRA JOHNSON SAN JOSE, CALIFORNIA – OCTOBER 4, 2022",
         "date": "2022-10-04",
@@ -14911,7 +14220,6 @@
       "bySource": {
         "house-oral": 2
       },
-      "shippable": true,
       "source": {
         "document": "The Honorable Shelley Berkley U.S. Representative of Nevada (1999–2013)",
         "date": "2019-07-22",
@@ -14942,7 +14250,6 @@
       "bySource": {
         "nasa-oral": 3
       },
-      "shippable": true,
       "source": {
         "document": "NASA ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT RICHARD H. KOOS INTERVIEWED BY JENNIFER ROSS-NAZZAL HOUSTON, TEXAS – AUGUST 22, 2023",
         "date": "2023-08-22",
@@ -14973,7 +14280,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Tribal Nations Summit",
         "date": "2024-12-09",
@@ -15003,7 +14309,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Arcosa Wind Towers, Inc., Manufacturing Facility in Belen, New Mexico",
         "date": "2023-08-09",
@@ -15034,7 +14339,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
         "date": "2026-09-04",
@@ -15066,7 +14370,6 @@
         "nasa-oral": 3,
         "senate-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Visit to National Mall Reflecting Pool and an Exchange With Reporters",
         "date": "2026-05-07",
@@ -15097,7 +14400,6 @@
         "chrg-people": 1,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing an Executive Order on Childhood Vaccine Schedule Recommendations and an Exchange With Reporters",
         "date": "2026-08-10",
@@ -15141,7 +14443,6 @@
         "chrg": 1,
         "dcpd": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
         "date": "2026-08-02",
@@ -15173,7 +14474,6 @@
         "dcpd": 1,
         "nasa-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Roundtable Discussion on Flooding Damage and Recovery Efforts With First Responders and Local Officials and an Exchange With Reporters in Kerrville, Texas",
         "date": "2025-07-11",
@@ -15205,7 +14505,6 @@
         "chrg-people": 1,
         "dcpd": 4
       },
-      "shippable": true,
       "source": {
         "document": "PERSPECTIVES ON THE FERTILIZER INDUSTRY: ENSURING A STABLE AND AFFORDABLE SUPPLY FOR AMERICAN PRODUCERS",
         "date": "2026-05-12",
@@ -15236,7 +14535,6 @@
         "dcpd": 7,
         "nasa-oral": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Efforts To Protect the United States Steel and Shipbuilding Industries in Pittsburgh, Pennsylvania",
         "date": "2024-04-17",
@@ -15268,7 +14566,6 @@
         "dcpd": 2,
         "nasa-oral": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Presenting the Public Safety Officer Medal of Valor",
         "date": "2022-05-16",
@@ -15307,7 +14604,6 @@
         "nasa-oral": 1,
         "senate-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a White House Coronavirus Task Force Press Briefing",
         "date": "2020-04-03",
@@ -15334,7 +14630,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15356,7 +14651,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15378,7 +14672,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15400,7 +14693,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15422,7 +14714,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15444,7 +14735,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15466,7 +14756,6 @@
           "choice": "confess"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15488,7 +14777,6 @@
           "choice": "confess"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15510,7 +14798,6 @@
           "choice": "confess"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15532,7 +14819,6 @@
           "choice": "deflect"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15554,7 +14840,6 @@
           "choice": "deflect"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15576,7 +14861,6 @@
           "choice": "deflect"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15598,7 +14882,6 @@
           "choice": "refuse"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15626,7 +14909,6 @@
           "choice": "refuse"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15648,7 +14930,6 @@
           "choice": "refuse"
         }
       ],
-      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15670,7 +14951,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15692,7 +14972,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15720,7 +14999,6 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15748,7 +15026,6 @@
           "choice": "promise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15770,7 +15047,6 @@
           "choice": "promise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15798,7 +15074,6 @@
           "choice": "promise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15820,7 +15095,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15854,7 +15128,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15876,7 +15149,6 @@
           "choice": "blame"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15898,7 +15170,6 @@
           "choice": "blame"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15920,7 +15191,6 @@
           "choice": "blame"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15942,7 +15212,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15970,7 +15239,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15992,7 +15260,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16020,7 +15287,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16048,7 +15314,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16070,7 +15335,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16092,7 +15356,6 @@
           "choice": "apologize"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16114,7 +15377,6 @@
           "choice": "apologize"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16136,7 +15398,6 @@
           "choice": "apologize"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16158,7 +15419,6 @@
           "choice": "confess"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16180,7 +15440,6 @@
           "choice": "confess"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16202,7 +15461,6 @@
           "choice": "refuse"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16224,7 +15482,6 @@
           "choice": "promise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16246,7 +15503,6 @@
           "choice": "blame"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16268,7 +15524,6 @@
           "choice": "blame"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16290,7 +15545,6 @@
           "choice": "blame"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16318,7 +15572,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16346,7 +15599,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16368,7 +15620,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16390,7 +15641,6 @@
           "choice": "refuse"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16412,7 +15662,6 @@
           "choice": "refuse"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16434,7 +15683,6 @@
           "choice": "deflect"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16456,7 +15704,6 @@
           "choice": "deflect"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16478,7 +15725,6 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16500,7 +15746,6 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16522,7 +15767,6 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16544,7 +15788,6 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16566,7 +15809,6 @@
           "choice": "blame"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16588,7 +15830,6 @@
           "choice": "blame"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16611,7 +15852,6 @@
           "raises": "their-family"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16633,7 +15873,6 @@
           "raises": "their-family"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16655,7 +15894,6 @@
           "raises": "their-family"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16677,7 +15915,6 @@
           "raises": "their-family"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16700,7 +15937,6 @@
           "raises": "their-family"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16723,7 +15959,6 @@
           "raises": "their-family"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16746,7 +15981,6 @@
           "raises": "their-family"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16768,7 +16002,6 @@
           "raises": "their-family"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16790,7 +16023,6 @@
           "choice": "thanks"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16812,7 +16044,6 @@
           "choice": "thanks"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16835,7 +16066,6 @@
           "stages": ["ill"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16858,7 +16088,6 @@
           "stages": ["ill"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16882,7 +16111,6 @@
           "stages": ["elsewhere"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16904,7 +16132,6 @@
           "stages": ["elsewhere"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16926,7 +16153,6 @@
           "stages": ["elsewhere"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16947,7 +16173,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16969,7 +16194,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16991,7 +16215,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17013,7 +16236,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17035,7 +16257,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17058,7 +16279,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17081,7 +16301,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17103,7 +16322,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17125,7 +16343,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17147,7 +16364,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17169,7 +16385,6 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17192,7 +16407,6 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17214,7 +16428,6 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17237,7 +16450,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17260,7 +16472,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17283,7 +16494,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17306,7 +16516,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17329,7 +16538,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17352,7 +16560,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17375,7 +16582,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17398,7 +16604,6 @@
           "choice": "condole"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17421,7 +16626,6 @@
           "choice": "condole"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17450,7 +16654,6 @@
           "choice": "help"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17473,7 +16676,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17496,7 +16698,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17519,7 +16720,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17542,7 +16742,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17565,7 +16764,6 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17588,7 +16786,6 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17611,7 +16808,6 @@
           "choice": "help"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17634,7 +16830,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17657,7 +16852,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17680,7 +16874,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17703,7 +16896,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17726,7 +16918,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17749,7 +16940,6 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17772,7 +16962,6 @@
           "choice": "promise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17801,7 +16990,6 @@
           "choice": "reassure"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17825,7 +17013,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17848,7 +17035,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17871,7 +17057,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17894,7 +17079,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17916,7 +17100,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17939,7 +17122,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17962,7 +17144,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17985,7 +17166,6 @@
           "choice": "thank"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18008,7 +17188,6 @@
           "choice": "thank"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18031,7 +17210,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18054,7 +17232,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18077,7 +17254,6 @@
           "choice": "open"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18099,7 +17275,6 @@
           "choice": "open"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18121,7 +17296,6 @@
           "choice": "open"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18143,7 +17317,6 @@
           "choice": "open"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18165,7 +17338,6 @@
           "choice": "open"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18187,7 +17359,6 @@
           "choice": "open"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18210,7 +17381,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18233,7 +17403,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18256,7 +17425,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18279,7 +17447,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18301,7 +17468,6 @@
           "choice": "bye"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18323,33 +17489,10 @@
           "choice": "bye"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
       "bearing": "calm",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.farewell-answer-bye.okay-talk-soon",
-      "move": "farewell-answer-bye",
-      "kind": "spoken",
-      "text": "Okay, talk soon.",
-      "uses": [
-        {
-          "move": "farewell-answer-bye",
-          "subject": "farewell",
-          "role": "answer",
-          "choice": "bye"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "glad",
       "tag": {
         "move": "farewell"
       }
@@ -18364,7 +17507,8 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         },
         {
           "move": "their-tenure-raise-ask",
@@ -18373,7 +17517,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18392,7 +17535,8 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         },
         {
           "move": "their-tenure-raise-ask",
@@ -18401,7 +17545,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18420,10 +17563,10 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18442,10 +17585,10 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18464,10 +17607,10 @@
           "move": "other-work-answer-ack",
           "subject": "other-work",
           "role": "answer",
-          "choice": "ack"
+          "choice": "ack",
+          "stages": ["working"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18486,10 +17629,10 @@
           "move": "other-work-answer-ack",
           "subject": "other-work",
           "role": "answer",
-          "choice": "ack"
+          "choice": "ack",
+          "stages": ["working"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18508,10 +17651,10 @@
           "move": "other-work-answer-brief",
           "subject": "other-work",
           "role": "answer",
-          "choice": "brief"
+          "choice": "brief",
+          "stages": ["working"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18530,10 +17673,10 @@
           "move": "other-work-answer-brief",
           "subject": "other-work",
           "role": "answer",
-          "choice": "brief"
+          "choice": "brief",
+          "stages": ["working"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18552,10 +17695,10 @@
           "move": "other-work-answer-brief",
           "subject": "other-work",
           "role": "answer",
-          "choice": "brief"
+          "choice": "brief",
+          "stages": ["working"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18577,7 +17720,6 @@
           "choice": "not"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18599,7 +17741,6 @@
           "choice": "not"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18621,7 +17762,6 @@
           "choice": "not"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18643,7 +17783,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18665,7 +17804,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18687,7 +17825,6 @@
           "choice": "turn"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18709,7 +17846,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18731,7 +17867,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18753,7 +17888,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18775,7 +17909,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18797,7 +17930,6 @@
           "choice": "plain"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18819,7 +17951,6 @@
           "choice": "plain"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18841,7 +17972,6 @@
           "choice": "years"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18863,7 +17993,6 @@
           "choice": "years"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18893,7 +18022,6 @@
           "requiresFacts": ["long-ago"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18923,7 +18051,6 @@
           "requiresFacts": ["long-ago"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18945,7 +18072,6 @@
           "choice": "turn"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18967,7 +18093,6 @@
           "choice": "turn"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18990,7 +18115,6 @@
           "stages": ["default"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19013,7 +18137,6 @@
           "stages": ["default"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19036,7 +18159,6 @@
           "stages": ["default"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19059,7 +18181,6 @@
           "stages": ["default"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19082,7 +18203,6 @@
           "stages": ["default"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19104,7 +18224,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19127,7 +18246,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19150,7 +18268,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19174,7 +18291,6 @@
           "stages": ["burglary"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19198,7 +18314,6 @@
           "stages": ["burglary"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19222,7 +18337,6 @@
           "stages": ["burglary"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19246,7 +18360,6 @@
           "stages": ["other-property"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19270,7 +18383,6 @@
           "stages": ["other-property"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19294,7 +18406,6 @@
           "stages": ["other-property"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19318,7 +18429,6 @@
           "stages": ["robbery"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19342,7 +18452,6 @@
           "stages": ["robbery"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19366,7 +18475,6 @@
           "stages": ["robbery"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19390,7 +18498,6 @@
           "stages": ["assault"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19414,7 +18521,6 @@
           "stages": ["assault"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19438,7 +18544,6 @@
           "stages": ["assault"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item director-talk-lived-crime)",
       "date": "2026-10-24",
@@ -19461,7 +18566,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19483,7 +18587,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19505,7 +18608,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19527,7 +18629,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19549,7 +18650,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19571,7 +18671,6 @@
           "choice": "ok"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19593,7 +18692,6 @@
           "choice": "ok"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19615,7 +18713,6 @@
           "choice": "help"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19638,7 +18735,6 @@
           "choice": "reassure"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19661,7 +18757,6 @@
           "choice": "seen"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19679,7 +18774,6 @@
           "choice": "seen"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19697,7 +18791,6 @@
           "choice": "seen"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19712,10 +18805,10 @@
           "move": "address-answer-agree",
           "subject": "address",
           "role": "answer",
-          "choice": "agree"
+          "choice": "agree",
+          "requiresFacts": ["seen"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19730,10 +18823,10 @@
           "move": "address-answer-agree",
           "subject": "address",
           "role": "answer",
-          "choice": "agree"
+          "choice": "agree",
+          "requiresFacts": ["seen"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19748,10 +18841,10 @@
           "move": "address-answer-doubt",
           "subject": "address",
           "role": "answer",
-          "choice": "doubt"
+          "choice": "doubt",
+          "requiresFacts": ["seen"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19766,10 +18859,10 @@
           "move": "address-answer-doubt",
           "subject": "address",
           "role": "answer",
-          "choice": "doubt"
+          "choice": "doubt",
+          "requiresFacts": ["seen"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19784,10 +18877,10 @@
           "move": "address-answer-hope",
           "subject": "address",
           "role": "answer",
-          "choice": "hope"
+          "choice": "hope",
+          "requiresFacts": ["seen"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19802,10 +18895,10 @@
           "move": "address-answer-hope",
           "subject": "address",
           "role": "answer",
-          "choice": "hope"
+          "choice": "hope",
+          "requiresFacts": ["seen"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19820,11 +18913,11 @@
           "move": "address-answer-think",
           "subject": "address",
           "role": "answer",
-          "choice": "think",
-          "raises": "address"
+          "choice": "turn",
+          "raises": "address",
+          "requiresFacts": ["seen"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19839,14 +18932,104 @@
           "move": "address-answer-think",
           "subject": "address",
           "role": "answer",
-          "choice": "think",
-          "raises": "address"
+          "choice": "turn",
+          "raises": "address",
+          "requiresFacts": ["seen"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-plain.i-did",
+      "move": "address-answer-plain",
+      "kind": "spoken",
+      "text": "I did.",
+      "uses": [
+        {
+          "move": "address-answer-plain",
+          "subject": "address",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-plain.i-saw-it",
+      "move": "address-answer-plain",
+      "kind": "spoken",
+      "text": "I saw it.",
+      "uses": [
+        {
+          "move": "address-answer-plain",
+          "subject": "address",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-plain.yes-i-caught-it",
+      "move": "address-answer-plain",
+      "kind": "spoken",
+      "text": "Yes, I caught it.",
+      "uses": [
+        {
+          "move": "address-answer-plain",
+          "subject": "address",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-missed.no-i-missed-it",
+      "move": "address-answer-missed",
+      "kind": "spoken",
+      "text": "No, I missed it.",
+      "uses": [
+        {
+          "move": "address-answer-missed",
+          "subject": "address",
+          "role": "answer",
+          "choice": "missed",
+          "requiresFacts": ["missed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-missed.i-didn-t-get-to-see-it",
+      "move": "address-answer-missed",
+      "kind": "spoken",
+      "text": "I didn't get to see it.",
+      "uses": [
+        {
+          "move": "address-answer-missed",
+          "subject": "address",
+          "role": "answer",
+          "choice": "missed",
+          "requiresFacts": ["missed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
     },
     {
       "key": "conversation.address-view-raise-for.i-thought-the-president-made-a-lot-of-sense",
@@ -19869,7 +19052,6 @@
           "stages": ["for"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19895,7 +19077,6 @@
           "stages": ["for"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19921,7 +19102,6 @@
           "stages": ["against"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19947,7 +19127,6 @@
           "stages": ["against"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19965,7 +19144,6 @@
           "choice": "agree"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -19983,7 +19161,6 @@
           "choice": "agree"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -20001,7 +19178,6 @@
           "choice": "disagree"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -20019,7 +19195,6 @@
           "choice": "disagree"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -20037,7 +19212,6 @@
           "choice": "wait"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -20055,7 +19229,6 @@
           "choice": "wait"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -20073,7 +19246,6 @@
           "choice": "local"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -20091,7 +19263,6 @@
           "choice": "local"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
@@ -20109,7 +19280,6 @@
           "choice": "opinion"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20132,7 +19302,6 @@
           "choice": "opinion"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20155,7 +19324,6 @@
           "choice": "opinion"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20178,7 +19346,6 @@
           "choice": "opinion"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20201,7 +19368,6 @@
           "choice": "opinion"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20224,7 +19390,6 @@
           "choice": "opinion"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20248,7 +19413,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20272,7 +19436,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20296,7 +19459,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20319,7 +19481,6 @@
           "choice": "right"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20342,7 +19503,6 @@
           "choice": "right"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20365,7 +19525,6 @@
           "choice": "right"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20389,7 +19548,6 @@
           "requiresFacts": ["headline", "paper"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20413,7 +19571,6 @@
           "requiresFacts": ["headline", "paper"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20437,7 +19594,6 @@
           "requiresFacts": ["headline", "paper"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20461,7 +19617,6 @@
           "requiresFacts": ["headline", "broadcast"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20485,7 +19640,6 @@
           "requiresFacts": ["headline", "broadcast"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20509,7 +19663,6 @@
           "requiresFacts": ["headline"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20533,7 +19686,6 @@
           "stages": ["home"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20542,30 +19694,6 @@
         "key": "household"
       },
       "bearing": "tender"
-    },
-    {
-      "key": "conversation.quiet-raise-day.it-s-been-a-quiet-weekday",
-      "move": "quiet-raise-day",
-      "kind": "spoken",
-      "text": "It's been a quiet {weekday}.",
-      "uses": [
-        {
-          "move": "quiet-raise-day",
-          "subject": "quiet",
-          "role": "raise",
-          "choice": "day",
-          "requiresFacts": ["weekday"]
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "household"
-      },
-      "bearing": "calm"
     },
     {
       "key": "conversation.quiet-raise-day.haven-t-seen-much-of-you-since-lasttogether",
@@ -20581,7 +19709,6 @@
           "requiresFacts": ["last-together"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20604,7 +19731,6 @@
           "choice": "day"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20628,7 +19754,6 @@
           "requiresFacts": ["dayDone"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20652,7 +19777,6 @@
           "requiresFacts": ["dayDone"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20676,7 +19800,6 @@
           "requiresFacts": ["dayDone"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20699,7 +19822,6 @@
           "choice": "tired"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20722,7 +19844,6 @@
           "choice": "tired"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20745,7 +19866,6 @@
           "choice": "fine"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20768,7 +19888,6 @@
           "choice": "fine"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20791,7 +19910,6 @@
           "choice": "talk"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20811,10 +19929,9 @@
           "move": "quiet-answer-talk",
           "subject": "quiet",
           "role": "answer",
-          "choice": "talk"
+          "choice": "miss"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20837,7 +19954,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20860,7 +19976,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-talks-rewritten)",
       "date": "2026-10-27",
@@ -20889,7 +20004,6 @@
         "hearings": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
         "date": "2023-07-28",
@@ -20923,7 +20037,6 @@
         "hearings": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
         "date": "2023-07-28",
@@ -20957,7 +20070,6 @@
         "hearings": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
         "date": "2023-07-28",
@@ -21035,7 +20147,6 @@
         "nps": 23,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -21124,7 +20235,6 @@
         "nps": 48,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Pennsylvania Defense and Innovation Summit in Carlisle, Pennsylvania",
         "date": "2026-07-15",
@@ -21152,7 +20262,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-news-talk)",
       "date": "2026-10-27",
@@ -21174,7 +20283,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-news-talk)",
       "date": "2026-10-27",
@@ -21197,7 +20305,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-news-talk)",
       "date": "2026-10-27",
@@ -21245,7 +20352,6 @@
         "nasa-oral": 10,
         "senate-oral": 1
       },
-      "shippable": true,
       "source": {
         "document": "SCREENTIME IN SCHOOLS . Tuesday, June 10, 2025",
         "date": "2025-06-10",
@@ -21273,7 +20379,6 @@
           "choice": "brief"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-news-talk)",
       "date": "2026-10-27",
@@ -21296,7 +20401,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-news-talk)",
       "date": "2026-10-27",
@@ -21319,7 +20423,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-news-talk)",
       "date": "2026-10-27",
@@ -21342,7 +20445,6 @@
           "choice": "ask"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-news-talk)",
       "date": "2026-10-27",
@@ -21365,7 +20467,6 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-news-talk)",
       "date": "2026-10-27",
@@ -21388,7 +20489,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-news-talk)",
       "date": "2026-10-27",
@@ -21411,7 +20511,6 @@
           "choice": "raise"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-home-news-talk)",
       "date": "2026-10-27",
@@ -21504,7 +20603,6 @@
         "nih": 3,
         "nps": 67
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Roundtable Discussion on the Ratepayer Protection Pledge",
         "date": "2026-07-23",
@@ -21583,7 +20681,6 @@
         "nps": 23,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
         "date": "2026-09-09",
@@ -21598,6 +20695,142 @@
       "bearing": "curious",
       "date": "2026-10-27",
       "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.job-new-detail-raise.i-ll-be-position",
+      "move": "job-new-detail-raise",
+      "kind": "spoken",
+      "text": "I'll be {position}.",
+      "uses": [
+        {
+          "move": "job-new-detail-raise",
+          "subject": "job-new-detail",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-raise.they-took-me-on-as-position",
+      "move": "job-new-detail-raise",
+      "kind": "spoken",
+      "text": "They took me on as {position}.",
+      "uses": [
+        {
+          "move": "job-new-detail-raise",
+          "subject": "job-new-detail",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-raise.employer-took-me-on-as-position",
+      "move": "job-new-detail-raise",
+      "kind": "spoken",
+      "text": "{employer} took me on as {position}.",
+      "uses": [
+        {
+          "move": "job-new-detail-raise",
+          "subject": "job-new-detail",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-congratulate.that-sounds-like-a-good-fit",
+      "move": "job-new-detail-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "That sounds like a good fit.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-congratulate",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-congratulate.you-ll-be-good-at-that",
+      "move": "job-new-detail-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "You'll be good at that.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-congratulate",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-hope.i-hope-they-treat-you-right",
+      "move": "job-new-detail-reply-answer-hope",
+      "kind": "spoken",
+      "text": "I hope they treat you right.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-hope",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-hope.i-hope-it-pays-what-it-should",
+      "move": "job-new-detail-reply-answer-hope",
+      "kind": "spoken",
+      "text": "I hope it pays what it should.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-hope",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start",
+      "move": "job-new-detail-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Well, it's a start.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-brief",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
     }
   ]
 }

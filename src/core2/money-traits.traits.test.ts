@@ -142,14 +142,9 @@ describe(`money-family trait decisions, ${label}`, () => {
   // odds between the thirds are e to the weight times the thirds' lean gap.
   // A decision with no study number (null) keeps the general weight, so its
   // odds are e to the thirds' lean gap itself.
+  // Counted workers look around, quit and retire through the full person's
+  // chooser (jobs.ts reviewCountedWorkers), so they have no summed pull here.
   const pulls: [string, Action, Action, number | null][] = [
-    ["jobs.counted-look", jobsData.actions.look, jobsData.actions.stay, null],
-    [
-      "jobs.counted-retire",
-      jobsData.actions.leave,
-      jobsData.actions.stay,
-      null,
-    ],
     [
       "business.counted-found",
       businessData.actions.found,

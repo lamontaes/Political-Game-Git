@@ -9,7 +9,13 @@ import {
   macroCoreData,
   withCentralBank,
 } from "./modules/macro";
-import { checkBands, historyMonths, stepMacroMonth } from "./macro-model";
+import {
+  checkBands,
+  historyMonths,
+  macroWorldOffsets,
+  publishedMonths,
+  stepMacroMonth,
+} from "./macro-model";
 import {
   experiencedInflationPct,
   votersOn,
@@ -70,8 +76,8 @@ function opening(startedAt = "2021-01-01"): CoreInput {
 }
 
 describe("national economy", () => {
-  it("opens on the real figures of the last month before the start", () => {
-    const rows = historyMonths("2021-01-01", p);
+  it("calibrates on the published figures of the last month before the start", () => {
+    const rows = publishedMonths("2021-01-01", p);
     expect(rows).toHaveLength(13);
     expect(rows.at(-1)).toMatchObject({
       month: "2020-12",
@@ -79,8 +85,16 @@ describe("national economy", () => {
     });
   });
   it("keeps a simulated year's own 12-month changes inside the 1990-2026 bands", () => {
-    for (const start of ["2021-01-01", "2026-10-01", "2008-10-01"]) {
-      const months = historyMonths(start, p);
+    // The engine's own steps from published openings, and from drawn worlds on the game's start date.
+    const openings = [
+      ...["2021-01-01", "2026-10-01", "2008-10-01"].map((start) =>
+        publishedMonths(start, p),
+      ),
+      ...["world-a", "world-b", "world-c", "world-d"].map((seed) =>
+        historyMonths("2025-01-20", seed, p),
+      ),
+    ];
+    for (const months of openings) {
       for (let i = 0; i < 24; i++)
         months.push(
           stepMacroMonth(months.at(-1)!, months.at(-1)!.policyRatePct, 0, 0, p),
@@ -91,7 +105,7 @@ describe("national economy", () => {
     }
   });
   it("omits unobserved local growth while observed growth changes national output", () => {
-    const previous = historyMonths("2026-10-01", p).at(-1)!;
+    const previous = historyMonths("2026-10-01", "seed-a", p).at(-1)!;
     const absent = stepMacroMonth(
       previous,
       previous.policyRatePct,
@@ -120,7 +134,7 @@ describe("national economy", () => {
     expect(growing.unemploymentPct).toBeLessThan(absent.unemploymentPct);
   });
   it("a higher rate lowers output and raises unemployment, with no draws", () => {
-    const start = historyMonths("2026-10-01", p).at(-1)!;
+    const start = historyMonths("2026-10-01", "seed-a", p).at(-1)!;
     const run = (rate: number) => {
       let row = start;
       for (let i = 0; i < 12; i++) row = stepMacroMonth(row, rate, 0, 0, p);
@@ -135,7 +149,7 @@ describe("national economy", () => {
       /multiplier|budgetimpulse/i.test(key),
     );
     expect(keys).toEqual([]);
-    const start = historyMonths("2026-10-01", p).at(-1)!;
+    const start = historyMonths("2026-10-01", "seed-a", p).at(-1)!;
     const row = stepMacroMonth(start, 4, 0, 0, p) as unknown as Record<
       string,
       unknown
@@ -176,7 +190,7 @@ describe("the 30-year mortgage rate since June 2019", () => {
   // every month from June 2019 to the last recorded one.
   const byMonth = new Map(
     ["2020-01-01", "2021-01-01", "2022-01-01", "2026-10-20"]
-      .flatMap((start) => historyMonths(start, p))
+      .flatMap((start) => publishedMonths(start, p))
       .filter((row) => row.month >= "2019-06")
       .map((row) => [row.month, row]),
   );
@@ -320,12 +334,76 @@ describe("the board", () => {
   });
 });
 
+describe("each world's own economy (owner, Oct 27: realistic, not real)", () => {
+  const FIGURES = [
+    "unemploymentPct",
+    "inflationPct",
+    "payrollJobsThousands",
+    "hourlyEarnings",
+    "realOutput",
+    "policyRatePct",
+    "treasury10Pct",
+    "mortgage30Pct",
+  ] as const;
+  it("opens two worlds on different months, neither the published one, each inside its spread", () => {
+    const start = "2025-01-20";
+    const published = publishedMonths(start, p);
+    const a = historyMonths(start, "world-a", p);
+    const b = historyMonths(start, "world-b", p);
+    expect(a.map((row) => row.month)).toEqual(
+      published.map((row) => row.month),
+    );
+    for (const [i, real] of published.entries())
+      for (const key of FIGURES) {
+        expect(a[i]![key], `${real.month} ${key}`).not.toBe(real[key]);
+        expect(a[i]![key], `${real.month} ${key}`).not.toBe(b[i]![key]);
+      }
+    const open = a.at(-1)!,
+      real = published.at(-1)!;
+    const o = macroWorldOffsets("world-a", p);
+    const floor = parameter("worldDrawOffsetFloorShare");
+    for (const [moved, spread] of [
+      [
+        open.unemploymentPct - real.unemploymentPct,
+        "macroWorldUnemploymentSpreadPoints",
+      ],
+      [
+        open.inflationPct - real.inflationPct,
+        "macroWorldInflationSpreadPoints",
+      ],
+      [
+        open.policyRatePct - real.policyRatePct,
+        "macroWorldPolicyRateSpreadPoints",
+      ],
+      [
+        open.mortgage30Pct - real.mortgage30Pct,
+        "macroWorldLongRateSpreadPoints",
+      ],
+    ] as const) {
+      expect(Math.abs(moved), spread).toBeGreaterThanOrEqual(
+        floor * p(spread) - 0.05,
+      );
+      expect(Math.abs(moved), spread).toBeLessThanOrEqual(p(spread) + 0.05);
+    }
+    // Said to one decimal, as the address says it, the opening rate is not the published one.
+    expect(open.unemploymentPct.toFixed(1)).not.toBe(
+      real.unemploymentPct.toFixed(1),
+    );
+    expect(Math.abs(o.unemploymentPoints)).toBeGreaterThan(0);
+  });
+  it("draws the same months again from the same seed", () => {
+    expect(historyMonths("2025-01-20", "world-a", p)).toEqual(
+      historyMonths("2025-01-20", "world-a", p),
+    );
+  });
+});
+
 describe("history before the start (M1-14, the economy's part)", () => {
-  it("opens a 2026 world with every real month since January 2021", async () => {
+  it("calibrates a 2026 world on every published month since January 2021", async () => {
     const history = (
       await import("./data/macro/history.json", { with: { type: "json" } })
     ).default;
-    const rows = historyMonths("2026-10-01", p);
+    const rows = publishedMonths("2026-10-01", p);
     expect(rows[0]!.month).toBe("2021-01");
     expect(rows.at(-1)!.month).toBe("2026-09");
     expect(rows).toHaveLength(69);

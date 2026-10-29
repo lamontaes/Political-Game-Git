@@ -28,9 +28,6 @@ try {
     await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
   console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );

@@ -20,10 +20,12 @@
  * shipped code reads it without importing scripts.
  */
 import bankJson from "../../../data/english/parts/conversation.json" with { type: "json" };
-import { heldByGrades } from "../english-grades";
+import { admittedParts, directorSlots, type BankPart } from "../bank-parts";
 import rulesJson from "../../director/data/conversation-rules.json" with { type: "json" };
 import type { ConversationData } from "../../director/conversation";
 import type { Move } from "../conversation-words";
+
+export { directorSlots };
 
 export interface MinedUse {
   subject: string;
@@ -33,13 +35,9 @@ export interface MinedUse {
   raises?: string;
   requiresFacts?: string[];
 }
-export interface MinedPart {
-  key: string;
+export interface MinedPart extends BankPart<MinedUse> {
   move: string;
-  text: string;
-  uses: MinedUse[];
   transcriptsUsing?: number;
-  shippable: boolean;
   /** A piece written to the calibrated patterns names its author and date, not a source (text rule, Oct 15). */
   origin?: "authored";
   author?: string;
@@ -79,14 +77,6 @@ const SLOT = /\{\w+\}/;
  */
 const TIME_OF_DAY = /\b(?:morning|afternoon|evening|night)\b/i;
 
-/** `{my_employer}` becomes the renderer's `{{my-employer}}`. */
-export function directorSlots(text: string): string {
-  return text.replace(
-    /\{(\w+)\}/g,
-    (_all, slot: string) => `{{${slot.replace(/_/g, "-")}}}`,
-  );
-}
-
 /** Who a sentence speaks of, when it opens with a pronoun ("She's fine."). */
 function pronounOf(text: string): Move["pronoun"] {
   const lead = /^(he|she|they)\b/i.exec(text)?.[1]?.toLowerCase();
@@ -115,13 +105,10 @@ function directorMove(key: string, part: MinedPart, use: MinedUse): Move {
  */
 export function conversationDataFromBank(
   bank: MinedBank = CONVERSATION_BANK,
-  /** Grading and tests only: also use parts held back until graded; play never sets it. */
-  includeHeld = false,
 ): ConversationData {
   const subjects: Record<string, SubjectWords> = {};
-  for (const part of bank.parts) {
-    // A part the owner graded down and never up is not said.
-    if ((!part.shippable && !includeHeld) || heldByGrades(part.key)) continue;
+  // A part the owner graded down and never up is not said.
+  for (const part of admittedParts(bank.parts)) {
     for (const use of part.uses) {
       const field = ROLE_FIELD[use.role];
       if (!field) continue;

@@ -28,20 +28,13 @@ try {
     const response = await life;
     assert.equal(response.status(), 200);
     console.log("Seed:", new URL(response.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
       document.getElementById("card-name").textContent.trim() &&
       document.getElementById("card-clock").textContent.trim(),
   );
-  const clock = await page.locator("#card-clock").innerText();
+  const clock = await page.locator("#card-clock").textContent();
   console.log(
     "Player:",
     await page.locator("#card-name").innerText(),
@@ -62,10 +55,14 @@ try {
     name,
   );
   await page.waitForTimeout(1500);
-  const role = (await page.locator("#talk-role").innerText()).trim();
-  console.log("Talk box:", name, "|", role);
-  assert.ok(!role.includes("·"), `a list, not a sentence: ${role}`);
-  if (role) assert.match(role, /\.$/, `not a sentence: ${role}`);
+  // Under the name, nothing: the talk box is the name, the line and the
+  // replies (owner, Oct 27, 6:20 PM).
+  assert.equal(await page.locator("#talk-role").count(), 0, "a subtitle");
+  // A conversation offers its replies, Say nothing and Leave, and no Continue.
+  assert.ok(await page.locator("#talk-choices .reply").count());
+  assert.ok(await page.locator("#talk-silent").isVisible());
+  assert.ok(await page.locator("#talk-leave").isVisible());
+  assert.equal(await page.locator("#talk-next").isVisible(), false);
   const known = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/known",
   );
@@ -111,6 +108,8 @@ try {
   assert.ok(read.home, "the card shows nothing about the person's life");
   for (const { value, label } of read.values)
     assert.ok(label, `a value with no label: ${value}`);
+  // "Last talked" is never shown (owner, Oct 27, 5 PM).
+  assert.doesNotMatch(text, /last talked/i, "a Last talked line");
   if (card.tie?.lastContactDate)
     assert.ok(!text.includes(card.tie.lastContactDate));
   await page.waitForFunction(
@@ -137,7 +136,7 @@ try {
       .evaluate((e) => document.activeElement === e),
     true,
   );
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
+  assert.equal(await page.locator("#card-clock").textContent(), clock);
   assert.equal(await page.locator("#sheet").isVisible(), false);
   await page.locator("#talk-leave").click();
   console.log(

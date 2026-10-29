@@ -271,6 +271,24 @@
       "everyParameter": "directorCircumstanceHallwayEveryDays"
     },
     {
+      "id": "away-evening",
+      "recordKinds": ["public-meeting"],
+      "recordFactEquals": {
+        "evening": ["true"]
+      },
+      "playerNamed": true,
+      "afterDays": 1,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "named-in-it",
+      "cast": "the morning after the player's body sat past the hour it meets at night, someone they live with, scored on tie and sociability",
+      "typeKey": "family-absence",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "held-known-visit",
       "recordKinds": ["justice.held-before-trial"],
       "place": "venue",
@@ -320,7 +338,7 @@
       "where": "known",
       "player": "anyone",
       "cast": "the day after the count, someone the player knows who ran in the race or is tied to a candidate in it (their family, household or the people they knew), telling who won; scored on tie and sociability",
-      "typeKey": "news-arrives",
+      "typeKey": "race-told",
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceRaceImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
@@ -357,7 +375,9 @@
     {
       "id": "graduation-home",
       "recordKinds": ["school.finished"],
-      "recordFactEquals": { "passed": ["true"] },
+      "recordFactEquals": {
+        "passed": ["true"]
+      },
       "playerNamed": true,
       "afterDays": 1,
       "place": "home",
@@ -365,10 +385,93 @@
       "where": "pool",
       "player": "named-in-it",
       "cast": "the day after the player graduated, someone they live with, scored on tie and sociability",
-      "typeKey": "celebration",
+      "typeKey": "diploma-home",
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceSchoolImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
+      "id": "door-first",
+      "recordKinds": ["campaign.door"],
+      "recordFactEquals": {
+        "first": ["true"],
+        "stake": ["true"],
+        "petition": ["false"]
+      },
+      "lived": true,
+      "place": "other-home",
+      "pool": ["named"],
+      "where": "pool",
+      "player": "anyone",
+      "cast": "a resident who opened their door to the player's own canvass for the first time, the one whose agreement with the player's platform, for or against, is the day's strongest",
+      "typeKey": "door-ask",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceDoorImpact",
+      "everyParameter": "directorCircumstanceDoorEveryDays"
+    },
+    {
+      "id": "door-again",
+      "recordKinds": ["campaign.door"],
+      "recordFactEquals": {
+        "first": ["false"],
+        "stake": ["true"],
+        "petition": ["false"]
+      },
+      "lived": true,
+      "place": "other-home",
+      "pool": ["named"],
+      "where": "pool",
+      "player": "anyone",
+      "cast": "a resident the player's canvass has knocked on before, who opens the door again, the one whose agreement with the player's platform, for or against, is the day's strongest",
+      "typeKey": "door-ask",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceDoorImpact",
+      "everyParameter": "directorCircumstanceDoorEveryDays"
+    },
+    {
+      "id": "door-petition",
+      "recordKinds": ["campaign.door"],
+      "recordFactEquals": { "stake": ["true"], "petition": ["true"] },
+      "lived": true,
+      "place": "other-home",
+      "pool": ["named"],
+      "where": "pool",
+      "player": "anyone",
+      "cast": "a resident who opened their door to the player's own canvass while the player's petition circulates, the one whose agreement with the player's platform, for or against, is the day's strongest; the campaign engine asked them to sign, and the record says whether they did",
+      "typeKey": "door-signature",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceDoorImpact",
+      "everyParameter": "directorCircumstanceDoorEveryDays"
+    },
+    {
+      "id": "override-whip",
+      "recordKinds": ["veto-override"],
+      "recordFactEquals": {
+        "passed": ["false"]
+      },
+      "place": "seat",
+      "pool": ["fact:sponsorId"],
+      "where": "pool",
+      "player": "listed:members",
+      "cast": "the sponsor of a bill whose veto override failed, asking a member who voted no or stayed out (the record lists the most movable first) for the next try",
+      "typeKey": "vote-confirmed",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
+      "id": "notice-home",
+      "recordKinds": ["housing.notice-served"],
+      "playerNamed": true,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "named-in-it",
+      "cast": "the day the landlord serves the player's household notice to pay or leave, someone they live with, scored on tie and sociability",
+      "typeKey": "notice-home",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceNewsImpact",
+      "everyParameter": "directorCircumstanceHomeEveryDays"
     }
   ]
 }

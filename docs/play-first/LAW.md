@@ -37,6 +37,8 @@ Sources are cited as `file:line` on main at the time above: `OD` is `docs/coordi
 
 ## 3. The opening and speeches
 
+- "The opening is the montage with the key people inside it: the President working and America, alternating, while the address plays like a broadcast; the Vice President, Congress and your governor with state legislators appear, named by office, when the speech turns to them; it ends at home with the partner's 'Did you see the President's speech?'" (owner, Oct 28, night; OD Oct 29 02:35)
+- "The President gives the inaugural on Inauguration Day, the State of the Union in its season, and otherwise a televised address from the Resolute desk." (owner, Oct 28, night; OD Oct 29 02:35)
 - "The opening's sequence: the president's address with the vice president and key people behind them, pointed out by name and office as the camera passes; then Congress; then your governor with a few important state legislators; then your family, if you have one (else skip); then into the game at home. Cutaways during the address follow the sentence's subject." (owner, Oct 14; OD:108)
 - "The opening's key people ... the president and vice president; the state's legislators; the most powerful person in each chamber ...; and the player's own representatives (their council member, state legislators, U.S. representative and senators). Nothing else is "key" at the opening." (owner, Oct 15; OD:290)
 - "Scenes are the narrative ... The President's address at the opening is the model: the director reads the records, picks from everything the simulation supports the scenes that apply to this person now, and fires one, told by the English engine." (owner, Oct 14, night; OD:233)

@@ -16,11 +16,11 @@
  * PEOPLE's views engine moving someone's views (until then views don't move).
  */
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
-import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import delegates from "../../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import nomination from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import parameters from "../data/campaigns/parameters.json" with { type: "json" };
 import { partySide } from "../appointments";
+import { worldRoster, worldSwing } from "../electorate-places";
 import { partyLean } from "../campaign-stances";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -128,6 +128,7 @@ function noPartyScore(
 /** The parties of one state, with their shares, from the 2024 ballot or the legislature. */
 export function stateParties(
   stateKey: string,
+  seed: string,
 ): readonly { name: string; share: number; source: string }[] {
   const usps = stateKey.slice(3);
   const president = (
@@ -144,6 +145,11 @@ export function stateParties(
       (a, b) => a + b,
       0,
     );
+    // This world's 2024: the two major parties' votes moved by its swing.
+    const twoParty =
+      (president.totalsByParty.democratic ?? 0) +
+      (president.totalsByParty.republican ?? 0);
+    const moved = worldSwing(seed, usps) * twoParty;
     return president.rawLabels
       .filter((label) => !NOT_PARTIES.test(label))
       .map((label) => {
@@ -153,21 +159,19 @@ export function stateParties(
           .replace(/^-|-$/g, "");
         return {
           name: label,
-          share: total ? (president.totalsByParty[key] ?? 0) / total : 0,
+          share: total
+            ? Math.max(
+                0,
+                (president.totalsByParty[key] ?? 0) + partySide(label) * moved,
+              ) / total
+            : 0,
           source:
             "Clerk of the House, Statistics of the Presidential and Congressional Election of November 5, 2024 (data/source/electoral-calibration-2024)",
         };
       });
   }
-  const chambers =
-    (
-      partyCounts as unknown as {
-        places: Record<
-          string,
-          Record<string, { parties: Record<string, number> }>
-        >;
-      }
-    ).places[stateKey] ?? {};
+  // Who holds the state's chambers in this world (realistic, not real).
+  const chambers = worldRoster(seed).places[stateKey] ?? {};
   const seats = new Map<string, number>();
   for (const chamber of Object.values(chambers))
     for (const [name, n] of Object.entries(chamber.parties))
@@ -220,7 +224,7 @@ export function openParties(core: CoreState): void {
   ).places[stateKey];
   const town = place!.context.jurisdiction.id;
   const parties: PartyRow[] = [];
-  for (const party of stateParties(stateKey)) {
+  for (const party of stateParties(stateKey, core.seed)) {
     const id = `party:${stateKey}:${party.name.toLowerCase().replace(/[^a-z]+/g, "-")}`;
     const organizationId = `organization:${id}`;
     if (!core.organizations.has(organizationId))
@@ -246,6 +250,7 @@ export function openParties(core: CoreState): void {
     });
   }
   // Every adult's tie, firmest leans first.
+  const adultAge = api.parameter("votingAge");
   const townLean =
     (
       api
@@ -258,7 +263,8 @@ export function openParties(core: CoreState): void {
       (p) =>
         p.alive &&
         p.placeId === town &&
-        Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 18,
+        Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >=
+          adultAge,
     )
     .map((p) => ({ p, lean: personLean(core.people, p, townLean) }))
     .sort(
@@ -721,9 +727,12 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         .table("town")
         .get("town") as unknown as { lean: number } | undefined
     )?.lean ?? 0;
+  const adultAge = api.parameter("votingAge");
   const adults = [...(core.peopleByPlace.get(town) ?? [])]
     .map((id) => core.people.get(id))
-    .filter((p): p is PersonState => !!p && p.alive && ageOn(p, date) >= 18)
+    .filter(
+      (p): p is PersonState => !!p && p.alive && ageOn(p, date) >= adultAge,
+    )
     .sort((a, b) => a.id.localeCompare(b.id))
     .map((p) => ({ p, lean: personLean(core.people, p, townLean) }));
   if (!adults.length) return;

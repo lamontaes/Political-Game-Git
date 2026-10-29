@@ -417,40 +417,6 @@
       ]
     },
     {
-      "id": "jobs.counted-retire",
-      "site": "src/core2/modules/jobs.ts",
-      "owner": "OPUS-WORLD",
-      "route": "formula",
-      "traitWeightParameter": "traitWeightJobsCountedRetire",
-      "options": [
-        {
-          "id": "jobs-stay",
-          "from": "src/core2/data/jobs/jobs.json#/actions/stay"
-        },
-        {
-          "id": "jobs-leave-work",
-          "from": "src/core2/data/jobs/jobs.json#/actions/leave"
-        }
-      ]
-    },
-    {
-      "id": "jobs.counted-look",
-      "site": "src/core2/modules/jobs.ts",
-      "owner": "OPUS-WORLD",
-      "route": "formula",
-      "traitWeightParameter": "traitWeightJobsCountedLook",
-      "options": [
-        {
-          "id": "jobs-stay",
-          "from": "src/core2/data/jobs/jobs.json#/actions/stay"
-        },
-        {
-          "id": "jobs-look",
-          "from": "src/core2/data/jobs/jobs.json#/actions/look"
-        }
-      ]
-    },
-    {
       "id": "jobs.counted-apply",
       "site": "src/core2/modules/jobs.ts",
       "owner": "OPUS-WORLD",
@@ -818,7 +784,7 @@
     },
     {
       "id": "voting.stand-again",
-      "site": "src/core2/stand-again.ts",
+      "site": "src/core2/modules/candidacy.ts",
       "owner": "OPUS-GOV",
       "route": "formula",
       "traitWeightParameter": "traitWeightVotingStandAgain",
@@ -881,6 +847,23 @@
         {
           "id": "sign",
           "actKinds": ["speak-out", "confront", "change"]
+        }
+      ]
+    },
+    {
+      "id": "campaigns.sign-petition",
+      "site": "src/core2/modules/campaigns.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightCampaignsSignPetition",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["refuse", "play-safe", "self-interest"]
+        },
+        {
+          "id": "sign",
+          "actKinds": ["help-others", "cooperate", "engage"]
         }
       ]
     },
@@ -1911,6 +1894,10 @@
     {
       "site": "src/director/speech-builder.ts",
       "why": "Reads the listed decision conversation.reply-reach to order a speech's choices longer or shorter by the speaker's own bent; it adds no decision of its own."
+    },
+    {
+      "site": "src/core2/past-work.ts",
+      "why": "The pre-start run of a person's working life (history from the birth year) reads the leans of the jobs engine's own decisions (jobs.value-worker and the worker's chooser kinds) at a coarse quarterly step; those decisions are the rows, and the run decides no choice of its own."
     }
   ]
 }

@@ -12,9 +12,12 @@ import { transferCash } from "./world-transfer";
 import type { ModuleRow } from "./module-data";
 import { formerHome } from "./housing-former-home";
 import type { MortgageRow } from "./housing-foreclosure";
+import { webFactorFor } from "./modules/laws";
 import type { CoreAPI, CoreState } from "./types";
 
 const HOUSING = "housing";
+/** The outcome web's factor on what homes are worth here (a severe disaster's lower prices): the housing engine values each home, and prices each purchase and sale, at it. */
+export const HOME_VALUE_MEASURE = "housing.home-value";
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(HOUSING).table(name);
 
@@ -93,7 +96,13 @@ export function sellHome(
   if (!api.state.modules.has(HOUSING)) return undefined;
   const c = api.state as CoreState;
   const dwelling = table(api, "dwellings").get(`dwelling:${householdId}`) as
-    { tenure?: string; kind?: string; valueMinor?: number } | undefined;
+    | {
+        tenure?: string;
+        kind?: string;
+        valueMinor?: number;
+        webFactor?: number;
+      }
+    | undefined;
   if (dwelling?.tenure !== "own") return undefined;
   const household = c.households.get(householdId);
   const placeId = counted?.placeId ?? household?.placeId;
@@ -104,7 +113,14 @@ export function sellHome(
   const mortgages = (
     table(api, "mortgages").rows() as unknown as MortgageRow[]
   ).filter((row) => row.householdId === householdId && row.balanceMinor > 0);
-  const price = Math.round((dwelling.valueMinor ?? 0) * times);
+  // The buyer pays the home's value moved by the outcome web's factor on home
+  // values since the home was valued (a severe disaster's lower prices).
+  const price = Math.round(
+    (dwelling.valueMinor ?? 0) *
+      times *
+      (webFactorFor(api, placeId, HOME_VALUE_MEASURE) /
+        (dwelling.webFactor ?? 1)),
+  );
   const owed = Math.round(
     mortgages.reduce((sum, row) => sum + row.balanceMinor, 0) * times,
   );

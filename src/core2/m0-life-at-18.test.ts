@@ -1,18 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import schools from "./data/opening-schools.json" with { type: "json" };
-import { buildDeepPast } from "./deep-past";
 import { OPENING_KIN } from "./opening-kin";
 import { buildPopulation } from "./population";
 
 // M0-06, step 1: a life at 18. In a random place, the 18-year-old's parents
-// and siblings follow the kin rules, schools are real schools from the place
-// data, and every fact shown has a record behind it.
-const schoolIds = new Set<string>();
-for (const rows of Object.values(
-  schools.byGeoid as unknown as Record<string, readonly (readonly unknown[])[]>,
-))
-  for (const row of rows) schoolIds.add(String(row[0]));
+// and siblings follow the kin rules, and every fact shown has a record behind
+// it. Their school years are the school engine's run before the start
+// (src/core2/past-school.test.ts).
 
 // The golden-path runner draws the place and seed from all 56.
 const drawn = process.env.GOLDEN_PATH_SEED;
@@ -20,15 +14,18 @@ const placeKey = drawn ? process.env.GOLDEN_PATH_PLACE_KEY : undefined;
 describe.each(drawn ? [drawn] : ["m0-06-a", "m0-06-b", "m0-06-c"])(
   "a life at 18 (seed %s)",
   (seed) => {
-    const input = buildDeepPast(
-      buildPopulation({
-        seed,
-        placeKey,
-        startedAt: "2021-01-01",
-        minimumPeople: 1000,
-      }),
-    );
-    const byId = new Map(input.people.map((person) => [person.id, person]));
+    const input = buildPopulation({
+      seed,
+      placeKey,
+      startedAt: "2021-01-01",
+      minimumPeople: 1000,
+    });
+    // A relative who died before day one is a named record (a husk with a date
+    // of death); the living are full people.
+    const byId = new Map<string, { id: string; birthDate?: string }>([
+      ...input.people.map((person) => [person.id, person] as const),
+      ...(input.husks ?? []).map((husk) => [husk.id, husk] as const),
+    ]);
     const age = (birthDate: string, on = input.startedAt) =>
       ageOnDate(makeIsoDate(birthDate), makeIsoDate(on));
     const player = input.people.find(
@@ -61,22 +58,6 @@ describe.each(drawn ? [drawn] : ["m0-06-a", "m0-06-b", "m0-06-c"])(
             parents.some((parent) => fact.facts?.otherPersonId === parent.id),
         );
         expect(shared).toBe(true);
-      }
-    });
-
-    it("schools them at real schools from the place data, or by real naming patterns", () => {
-      const attended = facts.filter(
-        (fact) => fact.kind === "school:cohort-estimate",
-      );
-      expect(attended.length).toBeGreaterThan(0);
-      for (const fact of attended) {
-        const id = fact.facts?.institutionSourceId;
-        if (fact.facts?.institutionSourceKey === "NCES-CCD")
-          expect(schoolIds.has(id!)).toBe(true);
-        else
-          expect(fact.facts?.schoolName).toMatch(
-            /School|Academy|High|Elementary|Middle/,
-          );
       }
     });
 

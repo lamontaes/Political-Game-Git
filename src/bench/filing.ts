@@ -4,6 +4,7 @@ import {
   checkEligibility,
   filingOfficeFor,
   openContests,
+  petitionOf,
   type RequirementCheck,
 } from "../core2/modules/elections";
 import {
@@ -13,30 +14,26 @@ import {
 } from "../core2/modules/parties";
 import { contestPositions } from "../core2/contest-positions";
 import { seatHolder } from "../core2/modules/voting";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
+  counterNarration,
+  filedAtCounter,
   openFilingVisit,
   pickContest,
   type FilingVisit,
 } from "../director/filing-visit";
-import { backdropFile, stagePeople, type StageReason } from "./scene";
+import { backdropFor, stagePeople, type StageReason } from "./scene";
 import { fileForOffice } from "./government";
-import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
+import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
-import type { CoreState, PersonId } from "../core2/types";
-import { wordSceneMove, type Fact } from "../english/scene-talk-words";
-
-const PICTURED = new Set(
-  manifest.backdrops
-    .filter((row) => row.variant === "midday")
-    .map((row) => row.place),
-);
+import type { CoreState } from "../core2/types";
 
 /** The picture for the office that takes a contest's filings. */
 export function officePlace(filedWith: string): string {
   const name = filedWith.toLowerCase();
   for (const row of scenePlaces.filingOffices)
     if (!row.match || new RegExp(row.match).test(name)) {
-      const place = row.places.find((p) => PICTURED.has(p));
+      const place = row.places.find((p) => hasBackdrop(p));
       if (place) return place;
     }
   return "clerk-counter";
@@ -46,7 +43,7 @@ export interface BenchFilingVisit {
   visit: FilingVisit;
   filedWith: string;
   place: string;
-  backdrop: ReturnType<typeof backdropFile>;
+  backdrop: ReturnType<typeof backdropFor>;
   people: ReturnType<typeof stagePeople>["people"];
   names: Record<string, string>;
   /**
@@ -108,67 +105,6 @@ function overlayFor(
   };
 }
 
-/**
- * The narrator's setup at a counter, from the filing-clerk scene's own
- * narration bank (the director fires the same scene when a filing is made).
- * The seat is named only when the counter takes one race, so the line never
- * says a seat the player did not pick.
- */
-function counterIntro(
-  core: CoreState,
-  playerId: string,
-  clerkId: string,
-  title: string,
-  recordId: string,
-  contests: readonly { id: string; title: string }[],
-): BenchFilingVisit["intro"] {
-  const clerk = core.people.get(clerkId as PersonId)!;
-  const facts: Record<string, Fact> = {
-    name: {
-      text: `${clerk.givenName} ${clerk.familyName}`,
-      sourceRecordIds: [clerkId],
-    },
-    // A title the record capitalizes only at its start ("County clerk") is said
-    // in running text as a common noun; one with proper names stays as written.
-    post: {
-      text: /^\S+( [a-z]+)*$/.test(title)
-        ? `${title.charAt(0).toLowerCase()}${title.slice(1)}`
-        : title,
-      sourceRecordIds: [recordId],
-    },
-  };
-  if (contests.length === 1)
-    facts.office = {
-      text: contests[0]!.title,
-      sourceRecordIds: [contests[0]!.id],
-    };
-  const worded = wordSceneMove({
-    move: {
-      step: "narrate",
-      move: "narrate",
-      role: "narrator",
-      purpose: "filing-clerk",
-      key: "routine",
-    },
-    facts,
-    seed: core.seed,
-    speakerId: clerkId,
-    traits: {},
-    momentKey: `counter:${playerId}:${clerkId}:${recordId}`,
-    said: new Set(),
-  });
-  return worded && "text" in worded
-    ? [
-        {
-          text: worded.text,
-          sourceRecordIds: Object.values(facts).flatMap(
-            (fact) => fact.sourceRecordIds,
-          ),
-        },
-      ]
-    : [];
-}
-
 /** The player walks into the office that takes filings for these contests. */
 export function openBenchFilingVisit(
   core: CoreState,
@@ -184,12 +120,21 @@ export function openBenchFilingVisit(
   // same office are told apart in the choice menu by their seat, election day and
   // holder (`seats` below), never by a code in the title.
   const titled = open.map((row) => `${row.title}|${row.district ?? ""}`);
+  // What the clerk tells a candidate about the race, from the contest and
+  // its office records: the dates, the term and the kind of office.
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const contests = open.map((row) => {
+    const office = offices.get(row.officeId) as unknown as
+      { termYears?: number; seats?: number } | undefined;
     return {
       id: row.id,
       title: row.district ? `${row.title} (${row.district})` : row.title,
       filingDeadline: row.filingDeadline,
-      sourceIds: row.sources,
+      electionDate: row.electionDate,
+      primaryDate: row.primaryDate,
+      termYears: office?.termYears ?? null,
+      kind: `${row.family}-${(office?.seats ?? 1) > 1 ? "body" : "single"}`,
+      sourceIds: [...row.sources, row.officeId],
     };
   });
   const seats = Object.fromEntries(
@@ -244,17 +189,8 @@ export function openBenchFilingVisit(
     visit,
     filedWith,
     place,
-    intro: clerkRow
-      ? counterIntro(
-          core,
-          playerId,
-          clerkRow.personId,
-          clerkRow.title,
-          clerkRow.recordId,
-          contests,
-        )
-      : [],
-    backdrop: backdropFile(place, minuteOfDay),
+    intro: clerkRow ? counterNarration(core, visit, clerkRow) : [],
+    backdrop: backdropFor(core, place, minuteOfDay),
     people: stagePeople(core, place, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
     seats,
@@ -299,7 +235,15 @@ export function chooseAtCounter(
       text: choice.text,
       sourceRecordIds: choice.sourceRecordIds,
     });
-    return { ...state, visit: { ...state.visit, choices: [] }, result };
+    // The clerk says what comes next from the petition opened with the filing.
+    const petition =
+      result.status === "refused" ? null : petitionOf(api, result.filing.id);
+    const visit = filedAtCounter(
+      core,
+      { ...state.visit, choices: [] },
+      petition,
+    );
+    return { ...state, visit, result };
   }
   return { ...state, visit: { ...state.visit, choices: [] } };
 }

@@ -7,8 +7,8 @@ import {
   evaluateMasterDimensions,
   masterRequirementFor,
   type MeasuredMaster,
-} from "../../src/presentation/component-masters";
-import type { CharacterComponentKind } from "../../src/presentation/character-components";
+} from "../../src/appearance/component-masters";
+import type { CharacterComponentKind } from "../../src/appearance/character-components";
 import { hashArtFile } from "./content-hash";
 
 /**

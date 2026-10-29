@@ -26,9 +26,6 @@ try {
   const r = await response;
   assert.equal(r.status(), 200);
   console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 120000 });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );

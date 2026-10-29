@@ -1,9 +1,11 @@
 import { randomBytes } from "node:crypto";
+import { writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { closenessBetween } from "../core2/closeness";
+import { familyFactsOf } from "../core2/modules/people";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
@@ -17,6 +19,7 @@ import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { stakeOf } from "./family-stake";
+import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
@@ -76,7 +79,7 @@ const play = (drawSeed: string): Found | string => {
         contestId: race.id,
         platform: [],
       });
-      if (result.status === "on-ballot")
+      if (["petitioning", "on-ballot"].includes(result.status ?? ""))
         filings.push({ filing: result.filing, entry: undefined });
     }
     if (filings.length) break;
@@ -105,6 +108,7 @@ it("stages the filing talk only for a relative with a stake, and records what th
   let sawScene = false;
   let sawEnlist = false;
   let sawPutOff = false;
+  let sawStrain = false;
   const notes: string[] = [];
   for (
     let attempt = 0;
@@ -176,6 +180,19 @@ it("stages the filing talk only for a relative with a stake, and records what th
       expect(moves, here).toEqual(
         expect.arrayContaining(["tell", "request", "comfort", "deflect"]),
       );
+      // The player's replies name a body only where it is the office they
+      // filed for, and claim no span of years the records do not hold.
+      const office = (
+        scene.facts.find((row) => row.key === "office")?.text ?? ""
+      ).toLowerCase();
+      for (const { line } of scene.talk.tree.replies) {
+        for (const body of ["council", "board", "legislature", "commission"])
+          if (new RegExp(`\\b${body}\\b`, "i").test(line.text))
+            expect(office, `${here}: "${line.text}"`).toContain(body);
+        expect(line.text, here).not.toMatch(
+          /\b(?:\d+|two|three|five|ten|twenty) years\b/i,
+        );
+      }
       notes.push(
         `${here}: ${core.people.get(scene.askerId)!.givenName} (${stakeFact!.key}): "${opener}" / ${scene.talk.tree.replies
           .map((row) => `${row.line.move}: "${row.line.text}"`)
@@ -215,6 +232,43 @@ it("stages the filing talk only for a relative with a stake, and records what th
             );
           }
         }
+        // An ending that strains the tie is written back: the scene's record
+        // keeps it, and closeness, the engine that owns the tie, drops.
+        if (!sawStrain) {
+          const ended = paths(scene.talk.tree).find((full) => {
+            let node: TreeNode | null = scene.talk.tree;
+            for (const i of full) node = node?.replies[i]?.next ?? null;
+            return node?.end?.ending?.keeps === "relationship-strained";
+          });
+          if (ended && ended.length > 1) {
+            const before = closenessBetween(core, scene.askedId, scene.askerId);
+            const id = replyInScene(core, director, filer, entry!, ended);
+            const facts = core.durableLog.get(id!)?.facts;
+            expect(facts?.keeps, here).toBe("relationship-strained");
+            expect(
+              closenessBetween(core, scene.askedId, scene.askerId),
+              `${here}: a strained ending left the tie as it was`,
+            ).toBeLessThan(before);
+            // The journal tells what the ending kept, from that record, of
+            // someone the player can name (a relative, or someone they know).
+            const told = composeJournal(core, director, filer)
+              .flatMap((chapter) => chapter.lines)
+              .find((line) => line.momentIds.includes(id!));
+            const me = core.people.get(filer)!;
+            if (
+              familyFactsOf(me).has(scene.askerId) ||
+              me.knownIds.has(scene.askerId)
+            )
+              expect(
+                told?.sourceRecordIds ?? [],
+                `${here}: no journal line`,
+              ).toContain(id);
+            sawStrain = true;
+            notes.push(
+              `${here}: ending ${String(facts?.ending)} kept (${id}); journal: "${told?.text}"`,
+            );
+          }
+        }
         if (root.line.move === "deflect" && !sawPutOff) {
           const before = closenessBetween(core, scene.askedId, scene.askerId);
           const id = replyInScene(core, director, filer, entry!, path);
@@ -231,9 +285,12 @@ it("stages the filing talk only for a relative with a stake, and records what th
     }
   }
   console.log(notes.join("\n"));
+  if (process.env.SCENE_LOG)
+    writeFileSync(process.env.SCENE_LOG, notes.join("\n"));
   expect(sawScene, `no drawn place staged a stake scene, seed ${seed}`).toBe(
     true,
   );
   expect(sawPutOff, `no put-off path was played, seed ${seed}`).toBe(true);
+  expect(sawStrain, `no strained ending was played, seed ${seed}`).toBe(true);
   expect(sawEnlist, `no relative said yes to helping, seed ${seed}`).toBe(true);
 }, 1_800_000);

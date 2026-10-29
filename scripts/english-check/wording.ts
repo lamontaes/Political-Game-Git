@@ -56,45 +56,8 @@ export const BANNED_PHRASES: readonly string[] = [
   "fiscal year",
   "GEOID",
   "FMR",
-  // British spellings and words: the game is written in American English.
-  // Words that are also real place names (Centre County, Rota, a High Street)
-  // are left out, and "rota" is matched only as "the rota" or "a rota".
-  // (Lamontae, September 29: "this is stuff that the English engine should
-  // catch automatically").
-  "the rota",
-  "a rota",
-  "whilst",
-  "amongst",
-  "fortnight",
-  "queue",
-  "queued",
-  "on holiday",
-  "colour",
-  "favour",
-  "favours",
-  "favourite",
-  "neighbour",
-  "neighbours",
-  "neighbourhood",
-  "programme",
-  "licence",
-  "cheque",
-  "organisation",
-  "organise",
-  "realise",
-  "recognise",
-  "apologise",
-  "behaviour",
-  "labour",
-  "honour",
-  "defence",
-  "offence",
-  "council tax",
-  "car park",
-  "petrol",
-  "postcode",
-  "mobile phone",
-  "timetable",
+  // British spellings and words are the American English guard's
+  // (tests/guards/english/), read from scripts/prose-eval; not listed here.
   // Stilted phrasing a person would not say: plain words instead.
   "make the journey",
   "carry out activity",

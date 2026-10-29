@@ -8,12 +8,11 @@ import { setBookkeeping } from "./bookkeeping";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
-import { enactLaw, lawChain } from "./modules/laws";
+import { enactLaw, lawChain, yesLevels } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import { rightToWorkRow } from "./law-reach/group-a-union";
 import { membershipPoints } from "./right-to-work-dues";
 import { reachParameter } from "./law-reach/group-a-records";
-import { inForceHere } from "./law-reach/host";
 
 const question = "us-policy-positions:labor-workforce.right-to-work";
 
@@ -86,7 +85,7 @@ it("lowers union dues as membership falls after the law, and raises them back on
         // brings the dues back up from where they stood when it took effect.
         // The row names the law that changed it: the played bill's.
         expect(playedRepeal.lawId, where).not.toMatch(/^law:.*test:rtw:/);
-        expect(inForceHere(api, question), where).toBe(false);
+        expect(yesLevels(api, question).length > 0, where).toBe(false);
         if (playedRepeal.baseline === 0)
           expect(playedRepeal.startPoints, where).toBeLessThan(0);
         const atPlayedRepeal = new Map(
@@ -143,7 +142,7 @@ it("lowers union dues as membership falls after the law, and raises them back on
       // days (Louisiana, seed a2cb700c4fb0: a bill effective 2026-08-01), and a
       // policy is law for the town while any level of its chain says yes, so
       // the row stands as the laws in force say.
-      const stands = inForceHere(api, question) ? 1 : 0;
+      const stands = yesLevels(api, question).length > 0 ? 1 : 0;
       expect(repealed.applied, where).toBe(stands);
       // A repeal that stands brings membership, and with it the dues, back up from where they stood.
       if (stands === 0 && repealed.baseline === 0)

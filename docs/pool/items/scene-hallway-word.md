@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: finisher
-pr:
+pr: #6367
 blocked-on:
 source: "finisher brief, Oct 27: every scene that can fire in a played year speaks with lines by speaker"
 lead: words

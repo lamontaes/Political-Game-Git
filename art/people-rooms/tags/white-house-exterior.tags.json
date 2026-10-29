@@ -1,0 +1,25 @@
+{
+ "scene": "white-house-exterior",
+ "plate": "sg-whext",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "visitors on the walk",
+   "box": [
+    0,
+    0,
+    1672,
+    941
+   ],
+   "pose": "stand",
+   "facing": 0
+  }
+ ]
+}

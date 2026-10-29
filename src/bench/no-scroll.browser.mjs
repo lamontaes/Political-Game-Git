@@ -1,7 +1,7 @@
-/* global process, URL, console, document, getComputedStyle */
-// Every sheet of a new game, at the start and after a day, fits its window:
-// its body and the page overflow by no more than 8 pixels (owner, M6-02: main
-// screens do not scroll).
+/* global process, URL, console, document */
+// Every sheet of a new game, at the start and after a day, fits its window: the
+// sheet's panel and the page overflow by no more than 8 pixels. A long body scrolls
+// inside the panel under the game's own scroller; it never pages (owner, Oct 29).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 const SLACK = 8;
@@ -30,13 +30,6 @@ try {
     const r = await response;
     assert.equal(r.status(), 200);
     console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
@@ -55,41 +48,30 @@ try {
     ...(await page
       .locator("#rings [data-tab]")
       .evaluateAll((nodes) => nodes.map((n) => n.dataset.tab))),
-    "who",
     "jobs",
   ];
   const scan = async (when) => {
     for (const tab of tabs) {
       if (tab === "jobs") {
-        await page.locator("#card-bust").evaluate((e) => e.click());
+        await page
+          .locator('#rings [data-tab="who"]')
+          .evaluate((e) => e.click());
         await page.locator('#sheet-tabs [data-tab="jobs"]').waitFor();
         await page.locator('#sheet-tabs [data-tab="jobs"]').click();
       } else
         await page
-          .locator(`#rings [data-tab="${tab}"], #card-bust[data-tab="${tab}"]`)
+          .locator(`#rings [data-tab="${tab}"]`)
           .first()
           .evaluate((e) => e.click());
       await page.waitForTimeout(1500);
-      // The sheet's own scroll box and the page: how far each holds more than it shows.
+      // The sheet panel and the page: how far each holds more than it shows.
       const over = await page.evaluate(() => {
         const sheet = document.getElementById("sheet");
         const body = document.scrollingElement;
-        // Every box in the sheet that scrolls, and how far its content passes it.
-        let worst = {
+        const worst = {
           px: sheet.scrollHeight - sheet.clientHeight,
           where: "#sheet",
         };
-        for (const node of sheet.querySelectorAll("*")) {
-          const y = getComputedStyle(node).overflowY;
-          if (y === "visible") continue;
-          if (node.checkVisibility?.() === false) continue;
-          const px = node.scrollHeight - node.clientHeight;
-          if (px > worst.px)
-            worst = {
-              px,
-              where: `${node.tagName.toLowerCase()}.${node.className}`,
-            };
-        }
         return {
           sheet: worst.px,
           where: worst.where,
@@ -103,32 +85,6 @@ try {
         bad.push(
           `${when} · ${tab}: ${over.where} over by ${over.sheet}px, page by ${over.page}px`,
         );
-      // Whatever the sheet holds is still reachable: the pager's pages together show every row.
-      if (await page.locator("#sheet-pager").isVisible()) {
-        const rowsOf = () =>
-          page.evaluate(() =>
-            [
-              ...document.querySelectorAll(
-                "#sheet-body > *:not(.flow), #sheet-body > .flow > *",
-              ),
-            ].map((row) => !row.classList.contains("paged-out")),
-          );
-        const first = await rowsOf();
-        const seen = first.map((shown) => shown);
-        let pages = 1;
-        const next = page.locator("#sheet-pager button").nth(1);
-        while ((await next.isVisible()) && pages < 60) {
-          await next.click();
-          (await rowsOf()).forEach((shown, i) => {
-            if (shown) seen[i] = true;
-          });
-          pages += 1;
-        }
-        console.log(`${when} · ${tab}: ${pages} pages`);
-        // A sideways (column) sheet shows all its rows on every page; a list shows each once.
-        if (seen.some((shown) => !shown))
-          bad.push(`${when} · ${tab}: some rows are on no page`);
-      }
       await page.keyboard.press("Escape");
     }
     // Escape opens Options over a screen; close whatever is open before going on.

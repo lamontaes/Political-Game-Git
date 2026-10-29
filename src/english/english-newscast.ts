@@ -17,7 +17,7 @@
 import newscastJson from "../../data/english/parts/newscast.json" with { type: "json" };
 import headlinesJson from "../../data/english/parts/headlines.json" with { type: "json" };
 import newsJson from "../../data/english/parts/news.json" with { type: "json" };
-import { heldByGrades } from "./english-grades";
+import { admittedParts, directorSlots, type BankPart } from "./bank-parts";
 import {
   composeGroundedLine,
   type ComposedLineBank,
@@ -26,13 +26,7 @@ import {
 } from "./english-composition";
 import type { EnglishSurface, GroundedEnglishPacket } from "./grounded-english";
 
-interface MinedPart {
-  key: string;
-  text: string;
-  uses: { subject: string; role: string; requiresFacts?: string[] }[];
-  shippable: boolean;
-}
-type Bank = { parts: MinedPart[] };
+type Bank = { parts: BankPart[] };
 export const NEWSCAST_BANK = newscastJson as unknown as Bank;
 export const HEADLINES_BANK = headlinesJson as unknown as Bank;
 export const NEWS_BANK = newsJson as unknown as Bank;
@@ -43,6 +37,7 @@ export const STORY_KINDS = {
     story: "election",
     headline: ["election"],
     lede: ["election-result"],
+    context: ["election-opponent"],
   },
   filing: {
     story: "filing",
@@ -78,11 +73,17 @@ export const STORY_KINDS = {
   // The stories the press prints during play, each worded by its own
   // headline and lede pieces; one with no newscast story of its own is told
   // in the paper only.
-  law: { story: "vote-or-law", headline: ["law"], lede: ["law"] },
+  law: {
+    story: "vote-or-law",
+    headline: ["law"],
+    lede: ["law"],
+    context: ["law-purpose", "law-bill"],
+  },
   "law-amount": {
     story: "vote-or-law",
     headline: ["law-amount"],
     lede: ["law-amount"],
+    context: ["law-amount-change", "law-amount-bill"],
   },
   "roll-call": {
     story: "vote-or-law",
@@ -114,13 +115,30 @@ export const STORY_KINDS = {
   primary: { headline: ["primary"], lede: ["primary"] },
   "took-office": { headline: ["took-office"], lede: ["took-office"] },
   vacancy: { headline: ["vacancy"], lede: ["vacancy"] },
+  exposed: { headline: ["exposed"], lede: ["exposed"] },
+  hiring: { headline: ["hiring"], lede: ["hiring"] },
+  "petition-check": { headline: ["petition-check"], lede: ["petition-check"] },
+  "budget-request": { headline: ["budget-request"], lede: ["budget-request"] },
+  "joint-address": { headline: ["joint-address"], lede: ["joint-address"] },
+  trip: { headline: ["trip"], lede: ["trip"] },
+  "ribbon-cut": { headline: ["ribbon-cut"], lede: ["ribbon-cut"] },
+  emergency: { headline: ["emergency"], lede: ["emergency"] },
+  succession: { headline: ["succession"], lede: ["succession"] },
+  "recall-reply": { headline: ["recall-reply"], lede: ["recall-reply"] },
+  "measure-result": { headline: ["measure-result"], lede: ["measure-result"] },
+  presented: { headline: ["presented"], lede: ["presented"] },
+  "item-veto": { headline: ["item-veto"], lede: ["item-veto"] },
   appointed: { headline: ["appointed"], lede: ["appointed"] },
   chamber: { headline: ["chamber"], lede: ["chamber"] },
   "recall-petition": {
     headline: ["recall-petition"],
     lede: ["recall-petition"],
   },
-  recall: { headline: ["recall"], lede: ["recall"] },
+  recall: {
+    headline: ["recall"],
+    lede: ["recall"],
+    context: ["recall-count", "recall-answer"],
+  },
   "party-chair": { headline: ["party-chair"], lede: ["party-chair"] },
   charged: { headline: ["charged"], lede: ["charged"] },
   bail: { headline: ["bail"], lede: ["bail"] },
@@ -130,6 +148,7 @@ export const STORY_KINDS = {
   "staff-cut": { headline: ["staff-cut"], lede: ["staff-cut"] },
   "owner-changed": { headline: ["owner-changed"], lede: ["owner-changed"] },
   ad: { headline: ["ad"], lede: ["ad"] },
+  "campaign-gift": { headline: ["campaign-gift"], lede: ["campaign-gift"] },
   eviction: { headline: ["eviction"], lede: ["eviction"] },
   "home-sale": { headline: ["home-sale"], lede: ["home-sale"] },
   "homes-built": { headline: ["homes-built"], lede: ["homes-built"] },
@@ -151,34 +170,16 @@ export const STORY_KINDS = {
 } as const;
 export type StoryKind = keyof typeof STORY_KINDS;
 
-/** `{pronoun_sub}` becomes the renderer's `{{pronoun-sub}}`. */
-function engineText(text: string): string {
-  return text.replace(
-    /\{(\w+)\}/g,
-    (_all, slot: string) => `{{${slot.replace(/_/g, "-")}}}`,
-  );
-}
-
 /** A mined sentence as the engine's template variant. */
 type MinedVariant = Extract<LinePartVariant, { kind: "template" }>;
 
-/**
- * A role's sentences. Play says only shipped parts. A grading page
- * (`heldFirst`) says the held ones wherever one fits, so the owner reads each
- * in a real story; a role no held part fits keeps its shipped parts.
- */
+/** A role's sentences. */
 function variants(
   bank: Bank,
   match: (use: { subject: string; role: string }) => boolean,
-  heldFirst = false,
 ): MinedVariant[] {
-  const fits = (part: Bank["parts"][number]) =>
-    !heldByGrades(part.key) && part.uses.some(match);
-  const shipped = bank.parts.filter((part) => part.shippable && fits(part));
-  const held = heldFirst
-    ? bank.parts.filter((part) => !part.shippable && fits(part))
-    : [];
-  return (held.length ? held : shipped).map((part) => {
+  const parts = admittedParts(bank.parts, (part) => part.uses.some(match));
+  return parts.map((part) => {
     // "Good morning" is said only in the morning, "Good evening" and
     // "tonight" only in the evening, from the broadcast's record.
     const requires = [
@@ -204,7 +205,7 @@ function variants(
     return {
       key: part.key,
       kind: "template" as const,
-      text: engineText(part.text),
+      text: directorSlots(part.text),
       ...(requires?.length ? { requiresFacts: requires } : {}),
     };
   });
@@ -263,9 +264,7 @@ export interface NewsStory {
 export function composeNewsStory(
   packet: GroundedEnglishPacket,
   kind: StoryKind,
-  options: { heldFirst?: boolean } = {},
 ): NewsStory {
-  const heldFirst = options.heldFirst ?? false;
   const roles = STORY_KINDS[kind];
   const ids = new Set<string>();
   const keep = (
@@ -281,10 +280,8 @@ export function composeNewsStory(
       `${kind}/headline`,
       "news",
       "tell",
-      variants(
-        HEADLINES_BANK,
-        (use) => (roles.headline as readonly string[]).includes(use.role),
-        heldFirst,
+      variants(HEADLINES_BANK, (use) =>
+        (roles.headline as readonly string[]).includes(use.role),
       ),
     ),
   );
@@ -294,28 +291,38 @@ export function composeNewsStory(
       `${kind}/lede`,
       "news",
       "tell",
-      variants(
-        NEWS_BANK,
-        (use) => (roles.lede as readonly string[]).includes(use.role),
-        heldFirst,
+      variants(NEWS_BANK, (use) =>
+        (roles.lede as readonly string[]).includes(use.role),
       ),
     ),
   );
   // A kind with context says one sentence per context role whose facts the
   // record carries, in order, after the lede.
-  const context = ("context" in roles ? roles.context : [])
-    .map((name) =>
-      keep(
-        line(
-          packet,
-          `${kind}/${name}`,
-          "news",
-          "tell",
-          variants(NEWS_BANK, (use) => use.role === name, heldFirst),
-        ),
-      ),
-    )
-    .filter((text): text is string => !!text);
+  const context: string[] = [];
+  for (const name of "context" in roles ? roles.context : []) {
+    const composed = line(
+      packet,
+      `${kind}/${name}`,
+      "news",
+      "tell",
+      variants(NEWS_BANK, (use) => use.role === name),
+    );
+    if (!composed) continue;
+    // A sentence that only repeats what the lede or an earlier sentence said
+    // (the bill's number, the opponent) is left out. A fact counts where it
+    // stands as a whole word, so a short count ("77") is a fact too.
+    const said = [lede ?? "", ...context].join(" ");
+    const names = (text: string, fact: string) =>
+      new RegExp(
+        `(?:^|\\W)${fact.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\W|$)`,
+      ).test(text);
+    const named = Object.values(packet.facts)
+      .map((fact) => fact?.text ?? "")
+      .filter((text) => text && names(composed.text, text));
+    if (named.length && named.every((text) => names(said, text))) continue;
+    const text = keep(composed);
+    if (text) context.push(text);
+  }
   // The anchor's and reporter's own names fill `{name}` only in their lines.
   const as = (who: "anchor" | "reporter"): GroundedEnglishPacket => {
     const own = packet.facts[who];
@@ -325,7 +332,6 @@ export function composeNewsStory(
     variants(
       NEWSCAST_BANK,
       (use) => use.subject === subject && use.role === name,
-      heldFirst,
     );
   const broadcast: NewsStory["broadcast"] = [];
   const say = (

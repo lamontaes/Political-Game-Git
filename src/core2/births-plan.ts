@@ -30,10 +30,11 @@ const HUD_DOLLAR = 100;
 
 /** The place's HUD record: area median income and fair market rents (fixed tables, read once). */
 const hudRows = new Map<string, ReturnType<typeof hudRentRowFor>>();
-function placeHousing(placeId: string) {
-  if (!hudRows.has(placeId))
-    hudRows.set(placeId, hudRentRowFor(placeId as EntityId));
-  return hudRows.get(placeId)!;
+function placeHousing(placeId: string, seed: string) {
+  const key = `${seed}|${placeId}`;
+  if (!hudRows.has(key))
+    hudRows.set(key, hudRentRowFor(placeId as EntityId, seed));
+  return hudRows.get(key)!;
 }
 
 /** The health module's live conditions index, looked up once per world. */
@@ -146,7 +147,7 @@ export function birthCircumstances(
     (sum, person) => sum + person.liquidMinor,
     p("zero"),
   );
-  const hud = placeHousing(mother.placeId);
+  const hud = placeHousing(mother.placeId, api.state.seed);
   // HUD's very-low limit is half the area median family income.
   const median =
     hud?.veryLow4 != null

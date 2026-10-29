@@ -19,12 +19,14 @@ import construction from "./data/housing/construction.json" with { type: "json" 
 import type { ModuleTable } from "./module-state";
 import { residentsRuntime } from "./modules/residents";
 import { webFactorFor } from "./outcome-web-reach";
+import { carriedLink } from "./modules/outcome-web";
 import { stableHash } from "./kernel/ids";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import { lawApplied } from "./law-reach/applied";
 import { townOutsideOf } from "./opening-outside-market";
 import type { CoreAPI, CoreState, Source } from "./types";
+import { housingWorldOffset } from "./housing-prices";
 
 /** The policy keys the builders' decision reads, and the law row each was governed by this month. */
 export const CONSTRUCTION_LAW_KEYS = {
@@ -97,7 +99,30 @@ export function openingZoning(): Zoning {
   };
 }
 
-function permitRates(usps: string): {
+/** The state's building permits per thousand people in this world: the published rates (Census Building Permits Survey) moved once by the world's own offset (owner, Oct 27: realistic, not real). */
+export function permitRates(
+  usps: string,
+  seed: string,
+): {
+  singlePerThousand: number;
+  multiPerThousand: number;
+} {
+  const published = publishedPermitRates(usps);
+  const share =
+    1 +
+    housingWorldOffset(
+      seed,
+      `permits:${usps}`,
+      "housingWorldPermitSpreadShare",
+    );
+  return {
+    singlePerThousand: published.singlePerThousand * share,
+    multiPerThousand: published.multiPerThousand * share,
+  };
+}
+
+/** The state's published permits per thousand people (calibration). */
+export function publishedPermitRates(usps: string): {
   singlePerThousand: number;
   multiPerThousand: number;
 } {
@@ -135,6 +160,9 @@ export function openStock(
     zoning: openingZoning(),
   } satisfies StockRow);
 }
+
+/** The outcome web's farmland link, which the builders' starts decision carries at its researched size. */
+const FARMLAND_LINK = "farmland-easements-to-farmland-lost";
 
 /** What the law in force allows here (OPUS-GOV's zoning, inclusionary, building-code and farmland handlers set it). */
 export function setZoning(
@@ -231,7 +259,7 @@ export function buildMonth(
   const z = row.zoning;
   const elasticity = p("housingSupplyElasticity"),
     landElasticity = p("housingLandStartsElasticity");
-  const rates = permitRates(input.usps);
+  const rates = permitRates(input.usps, c.seed);
   const perMonth = residentsOf(c, input.placeId) / 1000 / MONTHS;
   const priceLevel = input.priceLevel / row.openingPriceLevel;
   // Houses: today's value against today's cost, relative to the opening's.
@@ -239,8 +267,13 @@ export function buildMonth(
     priceLevel *
     (1 + (z.allElectric ? construction.single.allElectricCostChange : 0));
   const singleValue = input.homeValueMinor / openingHomeValueMinor;
+  // Protection holds back the researched share of farmland's loss (the
+  // outcome web's farmland-easements-to-farmland-lost row, Liu and Lynch
+  // 2011, which the builders carry) out of the share of new building that goes
+  // on farmland: that much less land is open to build on.
   const farmland = z.farmlandProtected
-    ? 1 - construction.farmland.developmentShare
+    ? 1 +
+      construction.farmland.developmentShare * carriedLink(FARMLAND_LINK).size!
     : 1;
   // Unsold new houses weigh on starts as they pass the usual months of supply.
   const usual =

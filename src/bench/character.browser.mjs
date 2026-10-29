@@ -26,13 +26,6 @@ try {
     const r = await response;
     assert.equal(r.status(), 200);
     console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
@@ -40,7 +33,7 @@ try {
       document.getElementById("card-clock").textContent.trim(),
   );
   const name = await page.locator("#card-name").innerText();
-  const clock = await page.locator("#card-clock").innerText();
+  const clock = await page.locator("#card-clock").textContent();
   console.log(
     "Player:",
     name,
@@ -51,11 +44,8 @@ try {
     .locator('[data-tab="who"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".character-heading").waitFor();
-  assert.equal(
-    await page.locator(".character-heading .name").innerText(),
-    name,
-  );
+  await page.locator(".screen-heading").waitFor();
+  assert.equal(await page.locator(".screen-heading .name").innerText(), name);
   assert.equal(await page.locator(".screen-backdrop").count(), 0);
   assert.equal(await page.locator(".screen-portrait").count(), 1);
   assert.ok(
@@ -68,7 +58,7 @@ try {
   await page.screenshot({
     path: process.argv[2] ?? "test-results/character.png",
   });
-  const first = page.locator(".character-person").first();
+  const first = page.locator(".record-person").first();
   if (await first.count()) {
     const familyName = await first.innerText();
     await first.click();
@@ -76,7 +66,7 @@ try {
     assert.equal(await page.locator("#person-name").innerText(), familyName);
     await page.locator("#person-close").click();
   }
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
+  assert.equal(await page.locator("#card-clock").textContent(), clock);
   console.log(
     "PASS record-driven portrait, name, household link, no fabricated backdrop or time spent",
   );
@@ -99,7 +89,7 @@ try {
     .locator('[data-tab="who"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".character-heading").waitFor();
+  await page.locator(".screen-heading").waitFor();
   assert.equal(await page.locator("#sheet-media img").count(), 0);
   await page.setViewportSize({ width: 1024, height: 768 });
   await page.waitForTimeout(100);

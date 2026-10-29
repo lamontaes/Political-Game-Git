@@ -7,11 +7,8 @@
  * read here: the English engine (`src/english/speech-stage-words.ts`) gives
  * the pieces for each stage, filled from the speaker's records, and a subject
  * with no record for its slots is never offered.
- *
- * Giving the speech (`giveBuiltSpeech`) hands each stand the speaker took to
- * the speech engine, so the audience's views move by the speaker's standing
- * with them: the chosen words are read by another engine, not only shown.
  */
+import { heldSinceRecord, schoolsAttended } from "../core2/past";
 import {
   speechPartsByReach,
   speechStagePieces,
@@ -21,7 +18,6 @@ import {
 } from "../english/speech-stage-words";
 import { decisionLean } from "../core2/trait-decisions";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import { deliverSpeech } from "../core2/modules/speech";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { viewOf, viewOn } from "../core2/modules/views";
 import { P } from "../core2/parameters";
@@ -66,8 +62,6 @@ export interface SpeechBuild {
   /** The four choices for the next stage; empty once the speech is whole. */
   choices: SpeechChoice[];
   done: boolean;
-  /** A grading page only: held parts are offered wherever one fits a stage. */
-  heldFirst?: boolean;
 }
 
 /** The facts a speaker's own records give a part. */
@@ -88,24 +82,22 @@ function factsOf(
   const org = job ? core.organizations.get(job.organizationId) : undefined;
   if (org)
     facts.employer = { text: properName(org.name), sourceRecordIds: [org.id] };
-  const tenure = (person.pastFacts ?? []).find(
-    (fact) => fact.kind === "work:tenure-summary" && fact.facts?.startedAt,
-  );
+  // How long they have held it, from the record of their working life.
+  const tenure = heldSinceRecord(core as CoreState, person.id, person.jobId);
   if (tenure) {
     const years = ageOnDate(
-      makeIsoDate(tenure.facts!.startedAt!),
+      makeIsoDate(String(tenure.facts.startedAt)),
       makeIsoDate(core.date),
     );
     if (years > P.zero)
       facts.years = { text: String(years), sourceRecordIds: [tenure.id] };
   }
-  const school = (person.pastFacts ?? []).find(
-    (fact) => fact.facts?.schoolName,
-  );
+  // The first school the person's records name, by its own record.
+  const school = schoolsAttended(core, person.id).find((row) => row.name);
   if (school)
     facts.school = {
-      text: properName(school.facts!.schoolName!),
-      sourceRecordIds: [school.id],
+      text: properName(school.name!),
+      sourceRecordIds: [school.recordId, school.schoolId],
     };
   const household = core.households.get(person.householdId);
   const children = (household?.memberIds ?? []).filter((id) => {
@@ -191,7 +183,7 @@ function standsOf(core: Readonly<CoreState>, speakerId: PersonId) {
 /** Core parts the speaker could give now, one per subject, each worded from their records. */
 function corePool(
   core: Readonly<CoreState>,
-  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "picked" | "heldFirst">,
+  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "picked">,
 ): SpeechChoice[] {
   const facts = factsOf(core, build.speakerId);
   const taken = new Set(build.picked.map((row) => row.subject));
@@ -209,7 +201,6 @@ function corePool(
       speakerId: build.speakerId,
       facts: { ...facts, ...extra },
       momentKey: `speech:${build.speakerId}:${build.startedOn}:${subject}`,
-      ...(build.heldFirst ? { heldFirst: true } : {}),
     });
     if (!line) return;
     pool.push({
@@ -282,19 +273,18 @@ function rank(
 
 function edgePool(
   core: Readonly<CoreState>,
-  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "heldFirst">,
+  build: Pick<SpeechBuild, "speakerId" | "startedOn">,
   role: "opener" | "closer",
 ): SpeechChoice[] {
   const facts = factsOf(core, build.speakerId);
   const pool: SpeechChoice[] = [];
-  for (const piece of speechStagePieces(role, build.heldFirst)) {
+  for (const piece of speechStagePieces(role)) {
     const line = wordSpeechPart({
       seed: core.seed,
       role,
       speakerId: build.speakerId,
       facts,
       momentKey: `speech:${build.speakerId}:${build.startedOn}:${role}`,
-      ...(build.heldFirst ? { heldFirst: true } : {}),
       pieceKey: piece,
     });
     if (line)
@@ -312,7 +302,7 @@ function edgePool(
 
 function offer(
   core: Readonly<CoreState>,
-  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "picked" | "heldFirst">,
+  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "picked">,
 ): SpeechChoice[] {
   const stage = SPEECH_STAGES[build.picked.length];
   if (!stage) return [];
@@ -325,7 +315,6 @@ function offer(
 export function beginSpeech(
   core: Readonly<CoreState>,
   speakerId: PersonId,
-  options: { heldFirst?: boolean } = {},
 ): SpeechBuild | null {
   const person = core.people.get(speakerId);
   if (!person?.alive) return null;
@@ -334,7 +323,6 @@ export function beginSpeech(
     placeId: person.placeId,
     startedOn: core.date,
     picked: [] as SpeechChoice[],
-    ...(options.heldFirst ? { heldFirst: true } : {}),
   };
   return { ...build, choices: offer(core, build), done: false };
 }
@@ -356,33 +344,4 @@ export function chooseSpeechPart(
 /** The speech as given so far, parts in order. */
 export function speechText(build: Pick<SpeechBuild, "picked">): string {
   return speechWords(build.picked);
-}
-
-/**
- * Give the finished speech to an audience. Each stand in it goes to the
- * speech engine as its own heard speech, so the audience's stance on that
- * question moves by the speaker's standing with each listener; a speech with
- * no stand moves no one.
- */
-export function giveBuiltSpeech(
-  core: CoreState,
-  build: SpeechBuild,
-  audienceIds: readonly PersonId[],
-): string[] {
-  const api = coreAPI(core);
-  const ids: string[] = [];
-  build.picked.forEach((part, at) => {
-    if (!part.stand) return;
-    const id = `speech:${build.speakerId}:${build.startedOn}:${at}`;
-    deliverSpeech(api, {
-      id,
-      speakerId: build.speakerId,
-      placeId: build.placeId,
-      topic: part.stand.question,
-      desiredChange: part.stand.desiredChange,
-      audienceIds,
-    });
-    ids.push(id);
-  });
-  return ids;
 }

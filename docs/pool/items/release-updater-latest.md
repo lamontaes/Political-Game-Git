@@ -4,7 +4,7 @@ title: "Check for updates in the installed Mac app finds the newest release"
 area: release
 kind: bug
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #5841
 blocked-on:
@@ -31,3 +31,5 @@ Oct 20 (pool feeder): spec written; the 'second release' blocker is gone (v0.19.
 Sent back 2026-10-23 from PR #5841 (branch claude/release-feed-check): The release-feed checker credits a missing-subdirectory installer URL using the root file's hash/size and incorrectly returns no problems; validate the actual published asset name/path and add a negative regression.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5841 (branch claude/release-feed-check): path fix and 20 desktop tests pass, but next-release workflow and installed-Mac offer/install/launch rows remain future evidence; use a bounded feed-guard item and keep operational acceptance open, or supply it; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `release-feed-guard`; close into it and carry any line it lacks there. (done); the leftover Mac install step is the owner's installed-build check

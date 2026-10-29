@@ -5,12 +5,13 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/old-engine-opening-port
+pr: #6637
 blocked-on:
 after: core-old-imports-population
 source: split from core-old-imports-opening-builders by pool feeder Oct 20
+claimed-at: 2026-10-28T14:54:30.088Z
 ---
 
 **What.** `src/core2/opening-people.ts` writes the opening's people (names, birth, home, household) but still imports six old modules: `citizenship-creation`, `history-index`, `life` (`startHouseholdMembership`), `life-queries` (`householdLocationAt`, `householdMembershipsAt`), `person-appearance` and `world` (`assertWorldIntegrity`), plus the old `Person`, `PersonFact`, `PersonIdentity` and `World` types. Write the household membership, citizenship start and appearance lineage fresh as core records, port only what the opening reads, and delete the old imports from this file in the same change. The opening must build the same people by record id afterward.

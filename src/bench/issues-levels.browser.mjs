@@ -40,13 +40,6 @@ try {
       await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 300000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
@@ -69,25 +62,20 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Issues", exact: true })
     .click();
-  await page.locator(".law-card").first().waitFor();
+  await page.locator("details.entry").first().waitFor();
   if (shots)
     await page.screenshot({
       path: `${shots}/${process.env.SHOT_NAME ?? "after"}-issues.png`,
     });
   // Every card on every page, by its heading.
   const cards = new Map();
-  // Every law in force here, amounts and policy questions: up to 30 pages of 4.
-  for (let p = 0; p < 30; p++) {
-    for (const card of await page.locator(".law-card summary").all()) {
-      const name = await card.locator("h3").innerText();
-      cards.set(
-        name.toLowerCase(),
-        await card.locator(".law-value").innerText(),
-      );
-    }
-    const next = page.locator(".issues-content .record-pager button").nth(1);
-    if (!(await next.count()) || (await next.isDisabled())) break;
-    await next.click();
+  // Every law in force here, amounts and policy questions, on the one scrolling screen.
+  for (const card of await page.locator("details.entry summary").all()) {
+    const name = await card.locator("h3").innerText();
+    cards.set(
+      name.toLowerCase(),
+      await card.locator(".entry-value").innerText(),
+    );
   }
   assert.ok(cards.size >= 3, "Issues shows no laws");
   const controls = await (

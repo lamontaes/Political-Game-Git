@@ -5,7 +5,11 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import type { ContestRow, FilingRow } from "../core2/modules/elections";
+import {
+  standing,
+  type ContestRow,
+  type FilingRow,
+} from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import { localRaces } from "./government";
 import { buildBenchWorld } from "./world";
@@ -63,7 +67,7 @@ it("after the filing deadline, every local seat on the next ballot lists its fil
         elections
           .table("filings")
           .query("byContest", [race.contestId]) as unknown as FilingRow[]
-      ).filter((row) => row.status === "on-ballot");
+      ).filter(standing);
       expect(
         race.filers.map((f) => f.filingId).sort(),
         `${where}: ${race.contestId}`,

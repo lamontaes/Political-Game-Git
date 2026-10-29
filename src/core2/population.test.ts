@@ -1,22 +1,31 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { characterHistoryContextPersonId } from "../simulation/character-history";
+import { characterHistoryContextPersonId } from "./opening-people";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import {
   corePlaceByKey,
   corePlaceStateIdentities,
   coreStateJurisdiction,
 } from "./place-lookup";
-import { WORKING_AGE_MIN } from "../simulation/living-world/town-employment";
-import { materializeTownHousehold } from "../simulation/living-world/town-residents";
-import { townHouseholdPeople, townHouseholdSkeleton } from "./town-households";
+import { WORKING_AGE_MIN } from "./opening-town-jobs";
+import {
+  TOWN_RESIDENTS_VERSION,
+  townHouseholdPeople,
+  townHouseholdSkeleton,
+} from "./town-households";
+import { derivePersonAppearance } from "./appearance";
+import { createStableId } from "./kernel/ids";
 import { PEOPLE_MIND_VERSION } from "./people-mind";
-import { PERSONALITY_TRAIT_REGISTRY } from "../simulation/personality-trait-registry";
-import { createWorld } from "../simulation/world";
+import { PERSONALITY_PACK } from "./personality-catalogue";
+import { seedableTraits } from "./opening-trait-table";
+import { createOpeningDraft } from "./opening-draft";
 import { parameter as p } from "./parameters";
 import { OPENING_KIN } from "./opening-kin";
 import { buildPopulation, POPULATION_VERSION } from "./population";
 import { realLocalities } from "./places";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import {
+  placeReferencePopulation,
+  publishedPlaceReferencePopulation,
+} from "./gov-rules/place-population";
 import { stableHash } from "./kernel/ids";
 import { recordedTraitSource } from "./trait-source";
 import type { CoreInput } from "./types";
@@ -104,10 +113,9 @@ describe("real-place one-time population import", () => {
   it("keeps canonical identity and kin IDs without treating roommates as family", () => {
     const place = corePlaceByKey(opening.placeMetadata!.placeKey!)!;
     const state = coreStateJurisdiction(place.stateJurisdictionKey!)!;
-    const context = createWorld({
+    const context = createOpeningDraft({
       seed: `${POPULATION_VERSION}:${seed}:${place.key}`,
       currentDate: makeIsoDate(startedAt),
-      people: [],
       jurisdictions: [place.context.jurisdiction, state],
     });
     const byId = new Map(opening.people.map((person) => [person.id, person]));
@@ -160,20 +168,49 @@ describe("real-place one-time population import", () => {
       const kind = grownChild ? "parent-and-grown-child" : skeleton.shape;
       if (checkedShapes.has(kind)) continue;
       checkedShapes.add(kind);
-      const canonical = materializeTownHousehold(
-        context,
-        place.context.jurisdiction.id,
-        index,
+      // The household's id and its family links are derived from the draft's
+      // id and the household's stable key, as the old engine derived them.
+      const stableKey = `${TOWN_RESIDENTS_VERSION}:${place.context.jurisdiction.id}:household:${index}`;
+      expect(createStableId("household", `${context.id}:${stableKey}`)).toBe(
+        household.id,
       );
-      expect(canonical.history.households[p("zero")]!.id).toBe(household.id);
       const links = (opening.familyLinks ?? []).filter(
         (link) =>
           household.memberIds.includes(link.personIds[p("zero")]!) &&
           household.memberIds.includes(link.personIds[p("one")]!),
       );
+      const members = household.memberIds.slice(0, inputs.length);
+      const adults = members.filter(
+        (id, member) => skeleton.members[member]?.role === "adult",
+      );
       const canonicalIds = [
-        ...canonical.history.kinshipRelationships.map((link) => link.id),
-        ...canonical.history.partnerships.map((link) => link.id),
+        ...members.flatMap((childId, child) =>
+          skeleton.members[child]!.role === "child"
+            ? adults
+                .map((parentId) => members.indexOf(parentId))
+                .filter(
+                  (parent) =>
+                    skeleton.members[parent]!.age -
+                      skeleton.members[child]!.age >=
+                    p("minimumParentAgeAtBirth"),
+                )
+                .map((parent) =>
+                  createStableId(
+                    "kinship",
+                    `${context.id}:${stableKey}:kinship:${child}:${parent}`,
+                  ),
+                )
+            : [],
+        ),
+        ...(skeleton.shape === "couple" ||
+        skeleton.shape === "couple-with-children"
+          ? [
+              createStableId(
+                "partnership",
+                `${context.id}:${stableKey}:partnership`,
+              ),
+            ]
+          : []),
       ];
       // Links P15 adds join a grown child to a parent at home.
       for (const link of links.filter(
@@ -188,10 +225,10 @@ describe("real-place one-time population import", () => {
       for (const id of canonicalIds)
         expect(links.map((link) => link.id)).toContain(id);
       if (grownChild) expect(links.length).toBeGreaterThan(canonicalIds.length);
-      for (const personId of household.memberIds.slice(0, inputs.length)) {
+      for (const personId of members) {
         const person = byId.get(personId)!;
         expect(person.looks?.appearanceSeed).toBe(
-          canonical.people[personId]!.appearance?.seed,
+          derivePersonAppearance(personId).seed,
         );
         if (skeleton.shape === "housemates" && !grownChild) {
           const housemates = household.memberIds.filter(
@@ -263,7 +300,8 @@ describe("real-place one-time population import", () => {
         true,
       );
       expect(Object.keys(person.traits).length).toBeLessThan(
-        PERSONALITY_TRAIT_REGISTRY.length,
+        seedableTraits().filter((trait) => trait.pack === PERSONALITY_PACK)
+          .length,
       );
       for (const [key, value] of Object.entries(person.traits)) {
         expect(Number.isFinite(value)).toBe(true);
@@ -399,7 +437,7 @@ describe("real-place one-time population import", () => {
     const small = realLocalities()
       .filter((place) => {
         const real = place.sourceGeoid
-          ? placeReferencePopulation(place.sourceGeoid)?.value
+          ? publishedPlaceReferencePopulation(place.sourceGeoid)?.value
           : undefined;
         return real !== undefined && real >= 300 && real < 3000;
       })
@@ -408,7 +446,11 @@ describe("real-place one-time population import", () => {
           stableHash(`${seed}:small:${b.key}`),
         ),
       )[0]!;
-    const real = placeReferencePopulation(small.sourceGeoid!)!.value;
+    // The world's own count of the town, drawn around the published one.
+    const real = placeReferencePopulation(
+      small.sourceGeoid!,
+      `${seed}:small`,
+    )!.value;
     const cohort = buildPopulation({
       seed: `${seed}:small`,
       startedAt,

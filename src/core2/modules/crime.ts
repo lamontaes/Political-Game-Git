@@ -1,8 +1,10 @@
 /**
  * Victimization records. Once a month, for each place the outcome web covers,
- * the crimes the web keeps (burglary, other property crime, robbery, assault)
- * happen to households, as records. How many comes from the national NCVS
- * rate of each kind times the web's factor for the place, summed over every
+ * the crimes the web keeps (burglary, other property crime, vandalism,
+ * robbery, assault) happen to households, as records. How many comes from the
+ * national NCVS rate of each kind (vandalism, which the NCVS does not
+ * publish, from the FBI's NIBRS estimates) times the web's factor for the
+ * place, summed over every
  * household by weight (a counted household stands for as many real ones as
  * its weight says, the same rule as a full one), with the fractional
  * remainder carried to the next month. Which household is victimized is not
@@ -25,6 +27,7 @@ import { registerModule } from "../state";
 import { residentsRuntime, incomeBandOf } from "./residents";
 import { fullHouseholdIncomes } from "../counted-income-fifth";
 import { webReach, type WebPart } from "../outcome-web-reach";
+import { baseOf, publishedBaseOf } from "../outcome-web-model";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -144,6 +147,7 @@ function fullUnits(
   wanted: ReadonlySet<string>,
 ): Map<string, Unit[]> {
   const c = core(api);
+  const adultAge = api.parameter("votingAge");
   const incomes = fullHouseholdIncomes(c);
   const dwellings = api.moduleState("housing");
   const hasHousing = c.modules.has("housing");
@@ -158,7 +162,7 @@ function fullUnits(
     if (!people.length) continue;
     const fifth = incomeBandOf(incomes.get(home.id) ?? 0);
     const ages = people.map((p) => ageOn(p.birthDate, c.date));
-    const children = ages.filter((a) => a < 18).length;
+    const children = ages.filter((a) => a < adultAge).length;
     const kind =
       children > 0
         ? "with-children"
@@ -251,13 +255,29 @@ function countedUnits(api: CoreAPI, placeId: string): Unit[] {
   return units;
 }
 
+/**
+ * A kind's yearly rate per 1,000 in this world: the published NCVS rate moved
+ * as the world's own level of its outcome moved from the published one
+ * (owner, Oct 27: realistic, not real), so the crime engine and the outcome
+ * web open on the same drawn level.
+ */
+function worldRatePer1000(api: CoreAPI, type: CrimeType): number {
+  const measure = TYPES[type].webMeasures[0]!;
+  const published = publishedBaseOf(measure, "").value;
+  return (
+    (TYPES[type].ratePer1000 * baseOf(measure, "", api.state.seed).value) /
+    published
+  );
+}
+
 const expectedFor = (
+  ratePer1000: number,
   type: CrimeType,
   unit: Unit,
   factor: number,
   monthsPerYear: number,
 ): number => {
-  const rate = TYPES[type].ratePer1000 / PER_THOUSAND / monthsPerYear;
+  const rate = ratePer1000 / PER_THOUSAND / monthsPerYear;
   return (
     rate *
     factor *
@@ -318,6 +338,7 @@ function runPlace(
   };
   for (const type of CRIME_TYPES) {
     const { factor, links, recordId } = typeFactor(api, placeId, type);
+    const ratePer1000 = worldRatePer1000(api, type);
     webRecordId = recordId ?? webRecordId;
     let expectedFull = 0,
       expectedCounted = 0;
@@ -326,7 +347,7 @@ function runPlace(
     // units owed the most are the ones victimized, one at a time.
     const owed = new Map<string, number>();
     for (const unit of everyone) {
-      const e = expectedFor(type, unit, factor, monthsPerYear);
+      const e = expectedFor(ratePer1000, type, unit, factor, monthsPerYear);
       if (unit.full) expectedFull += e;
       else expectedCounted += e;
       const key = `${type}:${unit.id}`;
@@ -470,8 +491,8 @@ function run(api: CoreAPI): void {
   api.stopgap("SG-CORE-crime-offenders");
   // stopgapId: SG-CORE-crime-arrests
   api.stopgap("SG-CORE-crime-arrests");
-  // stopgapId: SG-CORE-crime-vandalism
-  api.stopgap("SG-CORE-crime-vandalism");
+  // stopgapId: SG-WEB-crime-justice-links-unread
+  api.stopgap("SG-WEB-crime-justice-links-unread");
   // The places the web has a month for; the rest have no factor to read.
   const places = new Set<string>();
   const web = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");

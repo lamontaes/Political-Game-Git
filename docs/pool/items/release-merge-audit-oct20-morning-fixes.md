@@ -46,3 +46,5 @@ Sent back 2026-10-23 from PR #5703 (branch claude/fs11vb-f2): The broad completi
 Sent back 2026-10-23 from PR #5818 (branch claude/audit-fix4-browser): Browser row assertion can check zero rows and four duplicate outings satisfy its length-only test; require nonempty applicable rows and exactly one of each outing; finish on that branch, merge main into it first.
 
 Merger 2: 2026-10-26, #5818 is routed to bounded release-merge-audit-fix4-browser-assertions. All listed component PRs are verified merged into main, and the exact browser check now passes here in Lake Mary FL, seed3a462e9c-2839-462d-b37c-a514536db0b9, checked head50771132c2fccdeb30f722e6931744ec00809d77. The umbrella stays OPEN because its Done when requires the research-data guard to pass: own clean-main b3c06e202f guard run returns3/5 in14.64s, eleven unaccounted research files plus jobs/series count1vs0; existing release-red-research-reader-census-rerun tracks that acceptance gap. Do not mark this umbrella DONE for the bounded browser merge.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up; close it: the remaining gap has its own item.

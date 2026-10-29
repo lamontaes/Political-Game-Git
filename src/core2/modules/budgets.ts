@@ -24,12 +24,11 @@ import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
+import { addDays, makeIsoDate } from "../kernel/dates";
 import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
-import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
-import { makeIsoDate } from "../kernel/dates";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -41,7 +40,8 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { countyGovernmentUnit } from "../reference/government-units";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce, yesLevels } from "./laws";
+import { worldOffsetUnit } from "../world-draw";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
 import { registerPropertyTax } from "../housing-property-tax";
@@ -77,33 +77,6 @@ export const PAYROLL_TAX_SERIES: Readonly<Record<string, string | undefined>> =
   { "social-security": "social-security-tax", medicare: "medicare-tax" };
 const WITHHOLDING_KIND = "budgets:withholding";
 
-/** Spending functions a county carries; the rest of local spending is the city's or township's. */
-type TypeShares = {
-  county: number;
-  municipal: number;
-  township: number;
-};
-const LOCAL_SPLIT = localSplit as unknown as {
-  national: Record<string, TypeShares>;
-  states: Record<string, Record<string, TypeShares>>;
-};
-/** The county's share of a function's local spending against the city's. */
-function countyShare(stateKey: string, fn: string): number {
-  const row = LOCAL_SPLIT.states[stateKey]?.[fn] ?? LOCAL_SPLIT.national[fn];
-  const city = (row?.municipal ?? 0) + (row?.township ?? 0);
-  const total = (row?.county ?? 0) + city;
-  return total > 0 ? row!.county / total : COUNTY_FUNCTIONS.has(fn) ? 1 : 0;
-}
-
-/** Functions a county carries where the survey shows no local spending on them. */
-const COUNTY_FUNCTIONS = new Set([
-  "welfareAndMedicaid",
-  "healthAndHospitals",
-  "corrections",
-  "highways",
-  "naturalResources",
-]);
-
 export interface GovernmentRow {
   readonly id: string;
   readonly level: "federal" | "state" | "county" | "city";
@@ -111,8 +84,13 @@ export interface GovernmentRow {
   readonly organizationId: string;
   readonly fiscalYearStart: string;
   readonly residents: number;
-  /** A county-level government of a town with no city or township government of its own: it carries the whole local share of every function. */
-  readonly carriesWholeLocal?: boolean;
+  /**
+   * The government's base row (data/research/money/public-budget-bases.json
+   * `governments`, or the nation's statement): `county-whole` is a county-level
+   * government of a town with no city or township government of its own, which
+   * carries the whole local share of every function.
+   */
+  readonly base: BaseRowName;
 }
 
 export interface BudgetRow {
@@ -361,6 +339,7 @@ export const BUDGETS_MODULE: PreStartModule = {
   },
   onCalendarWork: (api, work) => {
     adoptBudget(api, work);
+    holdBudgetHearing(api, work);
     closeMonth(api, work);
     if (work.kind === "outside-revenue" || work.kind === "budget-adoption")
       syncServiceCharges(api);
@@ -410,7 +389,18 @@ interface PlaceBases {
   /** An island area's all-funds government spending in the opening year, in millions, where published. */
   territoryAllFundsSpendingFY2025Millions?: number | null;
   state?: { revenue: Record<string, number>; spending: Record<string, number> };
-  local?: { revenue: Record<string, number>; spending: Record<string, number> };
+  /** One base row per government the place opens, by row name (the exporter's `add_government_rows`). */
+  governments: Partial<Record<BaseRowName, BaseRow>>;
+}
+type BaseRowName = "federal" | "state" | "county" | "county-whole" | "city";
+interface BaseRow {
+  readonly revenue: Readonly<Record<string, number>>;
+  readonly spending: Readonly<Record<string, number>>;
+  /** A row that is an estimate carries the stopgap that replaces it. */
+  readonly stopgapId?: string;
+  /** The nation's statement is whole dollars, not dollars a resident. */
+  readonly totalDollars?: boolean;
+  readonly source?: string;
 }
 const bases = budgetBases as unknown as {
   calibration: { factor: number };
@@ -427,75 +417,6 @@ function residentsOfPlace(place: PlaceBases | undefined): number {
     0
   );
 }
-
-/**
- * An island area's state-level government carries no function breakdown in the
- * data, only its all-funds spending for the three that publish it. Its budget
- * takes the states' spending and revenue mix (residents-weighted) scaled to a
- * total a resident: the area's own where published, else the median of those
- * that are. Revenue equals spending, as a balanced general fund does.
- */
-const territoryBlock = (() => {
-  let cached:
-    | {
-        revenue: Record<string, number>;
-        spending: Record<string, number>;
-        perResident: number;
-      }
-    | undefined;
-  return (own: PlaceBases) => {
-    if (!cached) {
-      const states = Object.values(bases.places).filter(
-        (row) => row.state && row.population2024,
-      );
-      const weight = states.reduce((n, row) => n + row.population2024!, 0);
-      const mix = (side: "revenue" | "spending") => {
-        const sum: Record<string, number> = {};
-        for (const row of states)
-          for (const [k, v] of Object.entries(row.state![side]))
-            sum[k] = (sum[k] ?? 0) + (v * row.population2024!) / weight;
-        const total = Object.values(sum).reduce((a, b) => a + b, 0);
-        return Object.fromEntries(
-          Object.entries(sum).map(([k, v]) => [k, v / total]),
-        );
-      };
-      const published = Object.values(bases.places)
-        .filter(
-          (row) =>
-            !row.state &&
-            typeof row.territoryAllFundsSpendingFY2025Millions === "number",
-        )
-        .map(
-          (row) =>
-            (row.territoryAllFundsSpendingFY2025Millions! * 1_000_000) /
-            residentsOfPlace(row),
-        )
-        .sort((a, b) => a - b);
-      const median = published[Math.floor((published.length - 1) / 2)] ?? 0;
-      cached = {
-        revenue: mix("revenue"),
-        spending: mix("spending"),
-        perResident: median,
-      };
-    }
-    const perResident =
-      typeof own.territoryAllFundsSpendingFY2025Millions === "number"
-        ? (own.territoryAllFundsSpendingFY2025Millions * 1_000_000) /
-          residentsOfPlace(own)
-        : cached.perResident;
-    // The calibration carries fiscal 2022 dollars to the opening year; these
-    // totals are already in it.
-    const scale = perResident / bases.calibration.factor;
-    return {
-      revenue: Object.fromEntries(
-        Object.entries(cached.revenue).map(([k, v]) => [k, v * scale]),
-      ),
-      spending: Object.fromEntries(
-        Object.entries(cached.spending).map(([k, v]) => [k, v * scale]),
-      ),
-    };
-  };
-})();
 
 function government(
   api: CoreAPI,
@@ -539,67 +460,125 @@ function government(
 const minor = (dollarsPerResident: number, residents: number, factor: number) =>
   Math.round(dollarsPerResident * residents * factor * 100);
 
+/**
+ * This world's factor on a published figure (owner, Oct 27: realistic, not
+ * real): one plus the world's own offset for that figure, drawn once from the
+ * world's seed, its size between the floor share of the spread and the whole
+ * spread named by `spreadKey`. The same factor every year, so a base year and
+ * its successors agree. Budget lines, the federal debt and its holders, the
+ * payees of a line, the service charges' mix and the states' federal stakes
+ * all move by it.
+ */
+export function budgetWorldFactor(
+  api: CoreAPI,
+  key: string,
+  spreadKey = "budgetWorldLineSpreadShare",
+): number {
+  // The one world draw (world-draw.ts), times this table's spread row.
+  return (
+    api.parameter("one") +
+    worldOffsetUnit(api.state.seed, key) * api.parameter(spreadKey)
+  );
+}
+
+/** A published mix of shares, each moved by the world's factor and summed back to the published total. */
+export function budgetWorldShares(
+  api: CoreAPI,
+  key: string,
+  shares: Readonly<Record<string, number>>,
+): Record<string, number> {
+  const moved = Object.entries(shares).map(
+    ([k, v]) =>
+      [
+        k,
+        v *
+          budgetWorldFactor(api, `${key}:${k}`, "budgetWorldShareSpreadShare"),
+      ] as const,
+  );
+  const total = Object.values(shares).reduce((a, b) => a + b, 0);
+  const sum = moved.reduce((a, [, v]) => a + v, 0);
+  return Object.fromEntries(
+    moved.map(([k, v]) => [k, sum > 0 ? (v * total) / sum : v]),
+  );
+}
+
+/** This world's line: the published line moved by the world's factor for that government and line. */
+function worldLine(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  line: string,
+  minorUnits: number,
+): number {
+  return Math.round(
+    minorUnits * budgetWorldFactor(api, `budget-world:${gov.id}:${line}`),
+  );
+}
+
 function budgetFor(
+  api: CoreAPI,
   gov: GovernmentRow,
   stateKey: string,
   fiscalYear: number,
   date: string,
   adoptedBy: string,
 ): BudgetRow {
-  const place = bases.places[stateKey];
-  const factor = bases.calibration.factor;
-  const revenue: Record<string, number> = {};
-  const spending: Record<string, number> = {};
-  let source =
-    "data/research/money/public-budget-bases.json (Census state and local finances, fiscal 2022, calibrated to the opening year)";
-  if (gov.level === "federal") {
-    const f = federal as unknown as {
-      receipts: Record<string, number>;
-      outlays: Record<string, number>;
-    };
-    for (const [k, v] of Object.entries(f.receipts))
-      revenue[k] = Math.round(v * 100);
-    for (const [k, v] of Object.entries(f.outlays))
-      spending[k] = Math.round(v * 100);
-    source =
-      "U.S. Treasury, Monthly Treasury Statement, fiscal 2025 (data/research/money/federal-budget-fy2025.json)";
-  } else if (gov.level === "state" && place && !place.state) {
-    // An island area (stopgap SG-GOV-territory-budget-mix).
-    const block = territoryBlock(place);
-    for (const [k, v] of Object.entries(block.revenue))
-      revenue[k] = minor(v, gov.residents, factor);
-    for (const [k, v] of Object.entries(block.spending))
-      spending[k] = minor(v, gov.residents, factor);
-    source =
-      "data/research/money/public-budget-bases.json: the island area's all-funds spending where published, else the median of those that are, in the states' residents-weighted function mix (estimate)";
-  } else if (gov.level === "state" && place?.state) {
-    for (const [k, v] of Object.entries(place.state.revenue))
-      revenue[k] = minor(v, gov.residents, factor);
-    for (const [k, v] of Object.entries(place.state.spending))
-      spending[k] = minor(v, gov.residents, factor);
-  } else if (place?.local) {
-    // Each function's local spending divides between county and city by the
-    // state's real shares (Census 2022, by type of government); school and
-    // special districts' shares divide the same way, as the game has no
-    // separate districts.
-    const county = gov.level === "county";
-    for (const [k, v] of Object.entries(place.local.spending)) {
-      const share = countyShare(stateKey, k);
-      const mine = county ? (gov.carriesWholeLocal ? 1 : share) : 1 - share;
-      if (mine > 0) spending[k] = minor(v * mine, gov.residents, factor);
-    }
-    const share =
-      Object.values(spending).reduce((a, b) => a + b, 0) /
-      Math.max(
-        1,
-        Object.values(place.local.spending).reduce(
-          (a, b) => a + minor(b, gov.residents, factor),
-          0,
-        ),
-      );
-    for (const [k, v] of Object.entries(place.local.revenue))
-      revenue[k] = Math.round(minor(v, gov.residents, factor) * share);
-  }
+  const published = publishedBudgetFor(
+    gov,
+    stateKey,
+    fiscalYear,
+    date,
+    adoptedBy,
+  );
+  const moved = (lines: Record<string, number>) =>
+    Object.fromEntries(
+      Object.entries(lines).map(([line, v]) => [
+        line,
+        worldLine(api, gov, line, v),
+      ]),
+    );
+  return {
+    ...published,
+    revenueMinor: moved(published.revenueMinor),
+    spendingMinor: moved(published.spendingMinor),
+    source: `${published.source}; this world's lines, drawn around it (budgetWorldLineSpreadShare)`,
+  };
+}
+
+const BASES_SOURCE =
+  "data/research/money/public-budget-bases.json (Census state and local finances, fiscal 2022, calibrated to the opening year)";
+const FEDERAL_ROW: BaseRow = {
+  revenue: (federal as unknown as { receipts: Record<string, number> })
+    .receipts,
+  spending: (federal as unknown as { outlays: Record<string, number> }).outlays,
+  totalDollars: true,
+  source:
+    "U.S. Treasury, Monthly Treasury Statement, fiscal 2025 (data/research/money/federal-budget-fy2025.json)",
+};
+/** Every government's base row for a place, by row name: the nation's and the place's own. */
+function baseRowsOf(stateKey: string): Partial<Record<BaseRowName, BaseRow>> {
+  return { federal: FEDERAL_ROW, ...bases.places[stateKey]?.governments };
+}
+
+/** A government's year at the published bases (calibration; play reads `budgetFor`). */
+export function publishedBudgetFor(
+  gov: GovernmentRow,
+  stateKey: string,
+  fiscalYear: number,
+  date: string,
+  adoptedBy: string,
+): BudgetRow {
+  const row = baseRowsOf(stateKey)[gov.base];
+  // A row is dollars a resident in fiscal 2022 (the calibration carries it to
+  // the opening year), or the nation's statement in whole dollars.
+  const amount = (v: number) =>
+    row?.totalDollars
+      ? Math.round(v * 100)
+      : minor(v, gov.residents, bases.calibration.factor);
+  const lines = (side: Readonly<Record<string, number>> = {}) =>
+    Object.fromEntries(Object.entries(side).map(([k, v]) => [k, amount(v)]));
+  const revenue = lines(row?.revenue);
+  const spending = lines(row?.spending);
+  const source = row?.source ?? BASES_SOURCE;
   const startsOn = `${fiscalYear}-${gov.fiscalYearStart}`;
   return {
     id: `budget:${gov.id}:${fiscalYear}`,
@@ -662,6 +641,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
     government(api, {
       id: "US",
       level: "federal",
+      base: "federal",
       name: "United States",
       fiscalYearStart: "10-01",
       residents: 0,
@@ -669,6 +649,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
     government(api, {
       id: chain.stateKey,
       level: "state",
+      base: "state",
       name: place?.name ?? chain.stateKey,
       fiscalYearStart: stateStart,
       residents: residentsOfPlace(place),
@@ -698,7 +679,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
             bases.countyPopulation2024[county!] ?? townResidents,
           ),
           residents: bases.countyPopulation2024[county!] ?? townResidents,
-          ...(city ? {} : { carriesWholeLocal: true }),
+          base: city ? "county" : "county-whole",
         },
         countyUnit.id,
       ),
@@ -722,7 +703,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
             townResidents,
           ),
           residents: townResidents,
-          ...(city ? {} : { carriesWholeLocal: true }),
+          base: city ? "county" : "county-whole",
         },
         municipio.id,
       ),
@@ -734,6 +715,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
         {
           id: `place:${geoid}`,
           level: "city",
+          base: "city",
           name: city.name,
           fiscalYearStart: localFiscalYearStart(
             chain.stateKey,
@@ -760,11 +742,11 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
   const calendar = api.moduleCalendar(BUDGETS_MODULE_ID);
   for (const gov of govs) {
     const fy = fiscalYearOf(core.date, gov.fiscalYearStart);
-    // stopgapId: SG-GOV-territory-budget-mix
-    if (gov.level === "state" && place && !place.state)
-      api.stopgap("SG-GOV-territory-budget-mix");
+    const stopgapId = baseRowsOf(chain.stateKey)[gov.base]?.stopgapId;
+    if (stopgapId) api.stopgap(stopgapId);
     table(api, "budgets").put(
       budgetFor(
+        api,
         gov,
         chain.stateKey,
         fy,
@@ -786,6 +768,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       },
       sourceRecordIds: [gov.id],
     });
+    scheduleBudgetHearing(api, gov, fy + 1, core.date);
   }
   syncSalesTax(api);
   syncServiceCharges(api);
@@ -890,8 +873,22 @@ export function syncSalesTax(api: CoreAPI): void {
     ]);
   }
   const total = [...rates.values()].reduce((a, b) => a + b, 0);
-  const exemption = groceryExemption(api);
+  const exempting = yesLevels(api, GROCERY_EXEMPTION);
+  // A state's exemption spares groceries from every level's tax, as the
+  // state sets the base local sales taxes follow; a county's or city's spares
+  // only its own tax, which is all a local vote can change.
+  api.stopgap("SG-LAWS-grocery-exemption-local-base");
+  // stopgapId: SG-LAWS-grocery-exemption-local-base
+  const exemptionFor = (level: string): LawRowInput | null =>
+    (
+      exempting.find((l) => l.level === "state") ??
+      exempting.find(
+        (l) =>
+          l.level === level || (level === "city" && l.level === "township"),
+      )
+    )?.row ?? null;
   for (const gov of govs) {
+    const exemption = exemptionFor(gov.level);
     const id = `sales-tax:${gov.id}`;
     const rate = rates.get(gov.id) ?? 0;
     const account = accountFor(api, gov.id);
@@ -1070,23 +1067,6 @@ function remitPropertyTax(api: CoreAPI, source: Source): void {
 }
 
 /** The grocery exemption law row in force for the town (the latest yes at any level), or null. */
-function groceryExemption(api: CoreAPI): LawRowInput | null {
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  const date = api.state.date;
-  for (const { jurisdiction } of lawChain(api).levels) {
-    const latest = (
-      laws.query("bySeries", [
-        jurisdiction,
-        GROCERY_EXEMPTION,
-      ]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    if (latest?.value === 1) return latest;
-  }
-  return null;
-}
-
 /** The executive's budget priorities for the next fiscal year: changes to lines, by government. */
 export function setBudgetPriorities(
   api: CoreAPI,
@@ -1162,7 +1142,14 @@ export function baseBudget(
   gov: GovernmentRow,
   fy: number,
 ): BudgetRow {
-  return budgetFor(gov, lawChain(api).stateKey, fy, api.state.date, "base");
+  return budgetFor(
+    api,
+    gov,
+    lawChain(api).stateKey,
+    fy,
+    api.state.date,
+    "base",
+  );
 }
 
 function legislatedBudget(
@@ -1173,6 +1160,7 @@ function legislatedBudget(
   changes: Readonly<Record<string, number>>,
 ): BudgetRow {
   const base = budgetFor(
+    api,
     gov,
     lawChain(api).stateKey,
     fy,
@@ -1335,6 +1323,58 @@ export function registerBudgetVote(
   councilBudgetVote = vote;
 }
 
+let councilBudgetHearing:
+  ((api: CoreAPI, gov: GovernmentRow, fy: number) => void) | null = null;
+/** The legislature engine registers how a council holds its public hearing on the budget it will vote. */
+export function registerBudgetHearing(
+  hearing: (api: CoreAPI, gov: GovernmentRow, fy: number) => void,
+): void {
+  councilBudgetHearing = hearing;
+}
+
+/** The day a government's public hearing on its next budget falls: the hearing lead before the year starts. */
+function scheduleBudgetHearing(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  after: string,
+): void {
+  const date = addDays(
+    makeIsoDate(`${fy}-${gov.fiscalYearStart}`),
+    -api.parameter("budgetHearingLeadDays"),
+  );
+  // A year already inside its hearing lead at the opening has no hearing to hold.
+  if (date <= after) return;
+  api.moduleCalendar(BUDGETS_MODULE_ID).schedule({
+    key: `hearing:${gov.id}:${fy}`,
+    date,
+    kind: "budget-hearing",
+    source: {
+      tag: "ESTIMATED",
+      citation:
+        "The body's public hearing on the executive's budget, before its vote (budgetHearingLeadDays)",
+      asOf: api.state.date,
+      estimatedFrom: "budgetHearingLeadDays",
+    },
+    sourceRecordIds: [gov.id],
+  });
+}
+
+function holdBudgetHearing(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  if (work.kind !== "budget-hearing") return;
+  const gov = table(api, "governments").get(
+    work.sourceRecordIds[0]!,
+  ) as unknown as GovernmentRow;
+  councilBudgetHearing?.(
+    api,
+    gov,
+    fiscalYearOf(api.state.date, gov.fiscalYearStart) + 1,
+  );
+}
+
 function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "budget-adoption") return;
   const gov = table(api, "governments").get(
@@ -1419,6 +1459,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     source: work.source,
     sourceRecordIds: [gov.id],
   });
+  scheduleBudgetHearing(api, gov, fy + 1, api.state.date);
 }
 
 /** The government account a law row's jurisdiction pays into. */

@@ -1,7 +1,11 @@
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
+import { drawPlace } from "../../../scripts/core2-year/place";
+import { buildBenchWorld } from "../../bench/world";
+import { setBookkeeping } from "../../core2/bookkeeping";
+import { gameStartDate } from "../../core2/game-start";
+import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
 import { enrichCivicInputs } from "../../core2/civic-inputs";
-import { buildDeepPast } from "../../core2/deep-past";
 import { initialFocusPeople } from "../../core2/focus";
 import { advanceCore, createLifeCore } from "../../core2/life";
 import { buildPopulation } from "../../core2/population";
@@ -17,22 +21,21 @@ import {
 } from "./scene-bank";
 
 /**
- * The mined scene and bring-it-up banks through the director's own
- * `composeScene` and `bringItUp` in a generated place: every line is a mined
- * sentence filled from records, and each cites them.
+ * The scene and bring-it-up banks through the director's own `composeScene`
+ * and `bringItUp`: every line is a bank sentence filled from records, and
+ * each cites them. The narration is read in the played world (every module,
+ * a drawn place); the closure brought up is a fixture's edge case.
  */
 const seed = process.env.GOLDEN_PATH_SEED ?? "words-scenes";
 const base = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 600,
-    }),
-  ),
+  buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 600,
+  }),
 );
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
@@ -60,26 +63,66 @@ const mined = (bank: { parts: { text: string }[] }) =>
       ),
   );
 
+const WEEKS = 26;
+const DAYS_A_WEEK = 7;
+
 describe(`mined scenes and bring-it-up in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
-  it("narrates staged scenes from mined sentences, each traced to records", () => {
+  it("narrates staged scenes from bank sentences in a played world, each traced to records", () => {
+    setBookkeeping(false);
+    const run = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    const place = drawPlace(run, "scene-bank");
+    const where = `${place.name} (${place.key}), seed ${place.seed}, run seed ${run}`;
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    // The director watches the character the player plays and their
+    // household, as the bench does when a character is picked.
+    const playerId = world.core.playerId!;
+    const household = world.core.households.get(
+      world.core.people.get(playerId)!.householdId,
+    );
+    for (const id of new Set([playerId, ...(household?.memberIds ?? [])]))
+      if (world.core.people.get(id)?.alive)
+        world.director.watch(world.core, id);
     const words = sceneWordsFromBank();
     const patterns = mined(SCENE_BANK);
+    const read: string[] = [];
     let lines = 0;
-    for (const book of director.ledger.people.values())
-      for (const entry of book.schedule) {
-        if (!entry.bindings.length) continue;
-        const scene = composeScene(core, director, book.personId, entry, words);
-        for (const line of scene?.narration ?? []) {
-          expect(
-            patterns.some((pattern) => pattern.test(line.text)),
-            line.text,
-          ).toBe(true);
-          expect(line.sourceRecordIds.length, line.text).toBeGreaterThan(0);
-          lines += 1;
+    // The town's weeks go by until a staged scene narrates.
+    for (let week = 0; week < WEEKS && !lines; week += 1) {
+      advanceCore(
+        world.core,
+        addDays(makeIsoDate(world.core.date), DAYS_A_WEEK),
+      );
+      for (const book of world.director.ledger.people.values())
+        for (const entry of book.schedule) {
+          if (!entry.bindings.length) continue;
+          const scene = composeScene(
+            world.core,
+            world.director,
+            book.personId,
+            entry,
+            words,
+          );
+          for (const line of scene?.narration ?? []) {
+            expect(
+              patterns.some((pattern) => pattern.test(line.text)),
+              `${where}: ${line.text}`,
+            ).toBe(true);
+            expect(line.sourceRecordIds.length, line.text).toBeGreaterThan(0);
+            read.push(
+              `${entry.momentId}: ${line.text} [${line.sourceRecordIds.join(", ")}]`,
+            );
+            lines += 1;
+          }
         }
-      }
-    expect(lines).toBeGreaterThan(0);
-  }, 240_000);
+    }
+    expect(lines, `${where}: no staged scene narrated`).toBeGreaterThan(0);
+    process.stdout.write(
+      `SCENE BANK ${where}, ${world.core.date}\n${read.slice(0, 6).join("\n")}\n`,
+    );
+  }, 900_000);
 
   it("brings up a closure in mined sentences", () => {
     const worker = [...core.people.values()].find(

@@ -100,17 +100,18 @@ export interface OpeningKin {
   relations: KinRelationFact[];
   /** Biological parents the generator knows, for inherited temperament. */
   parentsOf: Map<PersonId, PersonId[]>;
-  /** P15 part 3: dated moves, at the age each person's own move line was crossed. */
-  moves: { personId: PersonId; date: IsoDate; kind: "in" | "away" }[];
   /**
    * Parents who died in the year before day one, from the same life-table
    * line that decides whether a parent is alive: the relative who survives
-   * them, and who they were. They are not in the world; the past keeps them.
+   * them, and who they were. They are in the world as dead people: a record
+   * with a date of death, in no household, place count or tier.
    */
   deaths: KinDeath[];
 }
 
 export interface KinDeath {
+  /** The dead parent's own person record, a dead person from day one. */
+  personId: PersonId;
   /** The resident whose parent died. */
   survivorId: PersonId;
   relation: "father" | "mother";
@@ -361,11 +362,10 @@ export function buildOpeningKin(
     parentChildLinks: [],
     relations: [],
     parentsOf: new Map(),
-    moves: [],
     deaths: [],
   };
   const startedAt = makeIsoDate(options.startedAt);
-  const adultAge = p("benchmarkAdultMinimumAge");
+  const adultAge = p("votingAge");
   const archiveDays = pastParameters.pastArchiveDays.value;
   const interval = p("kinInterbirthYears");
   const minParentAge = OPENING_KIN.fertilityByAge.rows[p("zero")]!.minAge;
@@ -406,47 +406,15 @@ export function buildOpeningKin(
     const children = household.members.filter((row) => row.role === "child");
 
     const countyId = household.countyId ?? options.countyId;
-    // Whether an adult has stayed where they grew up since turning adult, and
-    // if not, the age at which their own move line was crossed.
-    const movedAt = new Map<string, number>();
+    // Whether an adult has stayed where they grew up since turning adult (who
+    // lives near whom at the opening). When someone who left came to the
+    // county is run by the moves engine's rule before the start
+    // (src/core2/past-moves.ts, history-past-moves), not drawn here.
     const stayed = (key: string, age: number, fromAge = adultAge) => {
       const rates = options.departurePerYearByAge;
       const line = -Math.log(p("one") - rng.fork(`${key}:stayed`).next());
       if (moveHazard(rates, fromAge, age) < line) return true;
-      let total = p("zero");
-      for (
-        let year = Math.floor(fromAge);
-        year < Math.floor(age);
-        year += p("one")
-      ) {
-        const hazard = moveHazard(rates, year, year + p("one"));
-        if (total + hazard >= line) {
-          movedAt.set(key, year + (line - total) / hazard);
-          return false;
-        }
-        total += hazard;
-      }
-      movedAt.set(key, age);
       return false;
-    };
-    const recordMove = (
-      key: string,
-      person: { id: PersonId; birthDate: IsoDate },
-      kind: "in" | "away",
-    ) => {
-      const age = movedAt.get(key);
-      if (age === undefined) return;
-      // A move line crossed at the opening age is dated no later than the
-      // opening: whole mean years can run a day past the calendar.
-      const date = addDays(
-        makeIsoDate(person.birthDate),
-        Math.floor(age * p("daysPerMeanYear")),
-      ) as IsoDate;
-      out.moves.push({
-        personId: person.id,
-        date: date > startedAt ? startedAt : date,
-        kind,
-      });
     };
     const newHome = (key: string, local: boolean): Home => {
       const row = {
@@ -515,8 +483,6 @@ export function buildOpeningKin(
       let lineName: string | null =
         household.couple && index === p("one") ? null : adult.familyName;
       const parentsNear = stayed(`origin:${index}`, age);
-      // An adult who left where they grew up moved to the county they live in.
-      recordMove(`origin:${index}`, adult, "in");
       const parentsHome = newHome(`origin:${index}:parents`, parentsNear);
       // A marriage that ended leaves the father in a home of his own.
       const married = age + (order - p("one")) * interval;
@@ -558,6 +524,10 @@ export function buildOpeningKin(
               familyName: lineName,
             });
             out.deaths.push({
+              personId: createStableId(
+                "person",
+                `${options.worldId}:${stableKey}`,
+              ),
               survivorId: adult.id,
               relation: role,
               stableKey,
@@ -591,7 +561,6 @@ export function buildOpeningKin(
               )
             : parentsHome,
         );
-        recordMove(`origin:${index}:${role}`, parent, "away");
         lineName = parent.familyName;
         parents.push(parent);
         parentOf(parent, adult, R.parent);
@@ -632,7 +601,6 @@ export function buildOpeningKin(
                   : false,
               ),
         );
-        recordMove(`origin:${index}:sibling:${j}`, sibling, "away");
         relate(sibling, adult, R.sibling, R.sibling);
         for (const child of children)
           relate(sibling, child, R.auntUncle, R.nieceNephew);
@@ -699,7 +667,6 @@ export function buildOpeningKin(
             stayed(`${unit.key}:other-parent`, ageAt(birthDate)),
           ),
         );
-        recordMove(`${unit.key}:other-parent`, otherParent, "away");
         return otherParent;
       };
       for (const child of unit.here) {
@@ -745,7 +712,6 @@ export function buildOpeningKin(
                 stayed(`${unit.key}:child:${i}`, childAge),
               ),
         );
-        recordMove(`${unit.key}:child:${i}`, child, "away");
         for (const parent of unit.parents) parentOf(parent, child, R.parent);
         if (otherParent) parentOf(otherParent, child, R.otherParent);
         addParents(

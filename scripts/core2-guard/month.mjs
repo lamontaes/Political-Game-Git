@@ -57,7 +57,6 @@ async function preparePlayedWorld({ seed, placeKey, startDate }) {
       countyNames: input.placeMetadata?.countyNames,
       referencePopulation: input.placeMetadata?.referencePopulation,
     },
-    peers: undefined,
   };
 }
 export async function prepareWorld({ seed, placeKey, startDate }) {
@@ -85,22 +84,17 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
         countyNames: input.placeMetadata?.countyNames,
         referencePopulation: input.placeMetadata?.referencePopulation,
       },
-      peers: undefined,
     };
   }
   const [
     { buildPopulation },
-    { buildDeepPast },
     { enrichCivicInputs },
-    { buildOpeningPeerContacts },
     { initialFocusPeople },
     { parameter },
     { ageOnDate, makeIsoDate },
   ] = await Promise.all([
     moduleAt("src/core2/population.ts"),
-    moduleAt("src/core2/deep-past.ts"),
     moduleAt("src/core2/civic-inputs.ts"),
-    moduleAt("src/core2/opening-peer-network.ts"),
     moduleAt("src/core2/focus.ts"),
     moduleAt("src/core2/parameters.ts"),
     moduleAt("src/core2/kernel/dates.ts"),
@@ -122,22 +116,18 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
       scheduledWork: true,
     }),
   );
-  let input = timed("deepPast", () => buildDeepPast(population));
-  input = timed("civicInputs", () => enrichCivicInputs(input));
+  let input = timed("civicInputs", () => enrichCivicInputs(population));
   const candidates = input.people.filter(
     (person) =>
       person.countyId &&
       person.jobId &&
       ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(input.startedAt)) >=
-        parameter("benchmarkAdultMinimumAge"),
+        parameter("votingAge"),
   );
   if (!candidates.length)
     throw new Error("No eligible recorded adult worker in drawn place");
   const player = candidates.sort((a, b) => a.id.localeCompare(b.id))[0];
-  const peers = timed("openingPeers", () =>
-    buildOpeningPeerContacts(input, { personIds: [player.id] }),
-  );
-  input = { ...peers.input, playerId: player.id };
+  input = { ...input, playerId: player.id };
   input = {
     ...input,
     focusPersonIds: [...initialFocusPeople(input)].sort(),
@@ -153,7 +143,6 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
       countyNames: population.placeMetadata.countyNames,
       referencePopulation: population.placeMetadata.referencePopulation,
     },
-    peers,
   };
 }
 export async function runMonth({

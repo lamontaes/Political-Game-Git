@@ -20,7 +20,11 @@ import {
 } from "./justice-law";
 import { advanceCore } from "./life";
 import { considerBribe } from "./modules/corruption";
-import { JUSTICE_MODULE_ID, type CustodyRow } from "./modules/justice";
+import {
+  JUSTICE_MODULE_ID,
+  type CountedCustodyRow,
+  type CustodyRow,
+} from "./modules/justice";
 import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { placeStateKeys } from "./places";
@@ -108,10 +112,12 @@ it("keeps someone serving a prison term off the roll where the law bars them, an
     }
     const stateKey = lawChain(api).stateKey;
     const where = `${lawChain(api).placeName} [${stateKey}], seed ${seed}`;
-    const custody = api
-      .moduleState(JUSTICE_MODULE_ID)
-      .table("custody")
-      .rows() as unknown as CustodyRow[];
+    // Named people's custody; counted people's terms have no one to bar.
+    const custody = (
+      api.moduleState(JUSTICE_MODULE_ID).table("custody").rows() as unknown as (
+        CustodyRow | CountedCustodyRow
+      )[]
+    ).filter((row): row is CustodyRow => row.kind === "person");
     last = `${where}, ${custody.length} custody records`;
     if (!custody.length) continue;
     const mayVote = incarceratedMayVote(api, stateKey).may;

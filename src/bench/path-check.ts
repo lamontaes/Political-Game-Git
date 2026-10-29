@@ -36,7 +36,11 @@ import { reachedSteps } from "./reached";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import type { ContestRow } from "../core2/modules/elections";
+import {
+  petitionCirculating,
+  petitionOf,
+  type ContestRow,
+} from "../core2/modules/elections";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "path-check";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
@@ -131,16 +135,40 @@ function stand(): { held: boolean; takesOffice: string | null } {
   );
   if (!visit.result) return { held: false, takesOffice: null };
   stillMe();
-  // Step 4: campaign.
+  // Step 4: campaign. Filing is a petition: the player canvasses each week
+  // until it holds the signatures the clerk will count, or the deadline
+  // comes; the clerk checks it the morning after.
   const filing = governmentView(w.core, me).filings.find(
     (row) => row.contestId === enterable.contest.id,
   );
   if (filing) {
-    const day = campaignDay(w.core, me, {
-      filingId: filing.id,
-      kind: "canvass",
-    });
-    log.push(`doors knocked ${day.doorsKnocked}, reached ${day.reached}`);
+    const api = coreAPI(w.core);
+    let doors = 0;
+    let reached = 0;
+    for (let week = 0; week < 60; week++) {
+      const day = campaignDay(w.core, me, {
+        filingId: filing.id,
+        kind: "canvass",
+      });
+      doors += day.doorsKnocked;
+      reached += day.reached;
+      const petition = petitionOf(api, filing.id);
+      if (
+        !petition ||
+        !petitionCirculating(api, filing.id) ||
+        petition.signers.length >= petition.needed
+      )
+        break;
+      liveUntil(addDays(makeIsoDate(w.core.date), 1));
+    }
+    log.push(`doors knocked ${doors}, reached ${reached}`);
+    const petition = petitionOf(api, filing.id);
+    if (petition) {
+      liveUntil(addDays(makeIsoDate(petition.due), 1));
+      log.push(
+        `petition: ${petition.signers.length} of ${petition.needed} signatures by ${petition.due}; the clerk's check: ${governmentView(w.core, me).filings.find((row) => row.id === filing.id)?.status ?? "none"}`,
+      );
+    }
   }
   stillMe();
   // Step 5: live to the election day, then read election night.

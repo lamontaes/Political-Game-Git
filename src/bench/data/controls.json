@@ -28,12 +28,17 @@
     "people": "people",
     "about": "about",
     "countyLine": "in {county}",
-    "ageLine": "You will be {age} on {date}, the day your life begins."
+    "ageLine": "You will be {age} on {date}, the day your life begins.",
+    "summaryAge": "Age {age}",
+    "summaryBorn": "Born {date}",
+    "previous": "Previous {row}",
+    "next": "Next {row}",
+    "randomPlace": "Random place",
+    "missingGender": "Choose a gender to go on.",
+    "missingName": "Type a first and last name to go on."
   },
   "endedBy": {
     "moment": "Something needs you",
-    "job-offered": "A job offer",
-    "law": "A law took effect",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
   },
@@ -44,29 +49,19 @@
     "against": "Against",
     "pass": "Pass"
   },
-  "campaignActs": {
-    "title": "What the race turns on",
-    "reached": "reached",
-    "door": "Doors",
-    "volunteer-door": "Volunteers' doors",
-    "speech": "Speeches",
-    "interview": "Interviews",
-    "town-hall": "Town halls",
-    "debate": "Debates",
-    "retold": "Retold",
-    "ad": "Ads",
-    "attack-ad": "Attack ads",
-    "endorsement": "Endorsements",
-    "donation-ask": "Asking for money",
-    "constituent-case": "Cases for constituents",
-    "mail": "Mail",
-    "event": "Events"
+  "raceStanding": {
+    "title": "Where the race stands"
   },
   "speech": {
     "begin": "Give a speech",
     "give": "Give the speech",
     "venue": "Where",
     "retold": "retold"
+  },
+  "campaignVolunteers": {
+    "one": "1 volunteer",
+    "other": "{n} volunteers",
+    "asked": "Asked {asked}, {yes} said yes: {volunteers} now"
   },
   "campaignOutings": {
     "doors": "Knock on doors",
@@ -109,7 +104,6 @@
     "core": "Starting the world",
     "government": "Seating the government",
     "opening": "Preparing the opening",
-    "pictures": "Loading the pictures",
     "done": "Ready"
   },
   "opening": {
@@ -122,9 +116,7 @@
     "work": "Work",
     "place": "Home",
     "school": "School",
-    "lastTalked": "Last talked",
-    "back": "Back",
-    "continue": "Continue",
+    "history": "History",
     "knows": "Knows",
     "noColleagues": "Knows no one in office yet",
     "tieWords": {
@@ -133,15 +125,29 @@
       "group": "In a group with",
       "family": "Family"
     },
-    "rival": "Rival"
+    "rival": "Rival",
+    "publicRecord": {
+      "party": "Party",
+      "since": "In office since",
+      "votes": "Votes on record",
+      "sponsored": "Laws sponsored",
+      "signed": "Laws signed"
+    },
+    "together": "With you",
+    "sharedWords": {
+      "household": "Lives with you",
+      "coworker": "Works with you",
+      "worked": "Worked with you",
+      "schoolmate": "At school with you",
+      "campaign": "On a campaign with you"
+    },
+    "seats": "Seats held",
+    "since": "Since"
   },
   "options": {
     "version": "Version",
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
-    "continue": "Continue",
-    "skipOpening": "Skip opening",
-    "guide": "Guide",
     "devMode": "Dev mode",
     "quitToTitle": "Quit to title"
   },
@@ -164,11 +170,10 @@
   },
   "filing": {
     "file": "File for this office",
-    "chooseRace": "Choose a race",
-    "openRaces": "Open races",
-    "metOn": "From",
     "status": {
+      "petitioning": "Your petition is out for signatures",
       "on-ballot": "You are on the ballot",
+      "short": "Your petition came up short",
       "withdrawn": "Withdrawn",
       "refused": "Not accepted"
     },
@@ -183,7 +188,8 @@
     },
     "seat": "Seat",
     "heldBy": "Held by",
-    "openSeat": "No one holds it now"
+    "openSeat": "No one holds it now",
+    "election": "Election"
   },
   "authority": {
     "level-lacks-power": "Not a power of this body",
@@ -199,12 +205,12 @@
     "own": "Decide for me"
   },
   "budgetEditor": {
-    "title": "Budget lines to send",
-    "-20": "Cut 20%",
-    "-10": "Cut 10%",
     "0": "No change",
     "10": "Add 10%",
-    "20": "Add 20%"
+    "20": "Add 20%",
+    "title": "Budget lines to send",
+    "-20": "Cut 20%",
+    "-10": "Cut 10%"
   },
   "deals": {
     "title": "Deal to offer when you talk",
@@ -213,16 +219,10 @@
     "back-their-item": "Back their item"
   },
   "officeStops": {
-    "own-bill-vote": "Your bill's vote",
-    "every-meeting": "Every meeting",
-    "desk": "Your desk",
+    "aYear": "a year",
+    "nextMeeting": "next meeting",
     "ownChoice": "Decided for me",
-    "interviewOutlet": "Ask for an interview with",
     "nameHeadPick": "Name to the post"
-  },
-  "titleUnavailable": {
-    "saves": "Saved games come with the save format at early-access preparation.",
-    "patchNotes": "Patch notes have no page on the new core yet."
   },
   "floor": {
     "status": {
@@ -244,6 +244,22 @@
     "yes": "yes",
     "no": "no"
   },
+  "bill": {
+    "open": "Read the bill",
+    "back": "Back to your seat",
+    "sponsor": "Sponsor",
+    "sections": "Sections",
+    "estimate": "What it would do",
+    "amends": "Amends",
+    "from": "from",
+    "to": "to",
+    "line": "Budget line",
+    "workers": "workers reach higher pay",
+    "decided": "Decided",
+    "lawInForce": "the law in force",
+    "backMeeting": "Back to the meeting",
+    "backDesk": "Back to the desk"
+  },
   "advanced": {
     "none": "No one holds an office that matches"
   },
@@ -257,20 +273,17 @@
     "search": "Search destinations",
     "filing": "Filing office",
     "go": "Go",
-    "back": "Back",
-    "next": "Continue",
     "open": "Open now",
     "closed": "Closed now",
-    "andOthers": "and {n} more",
     "reasons": {
       "work": "You work here",
-      "family": "Your family works here",
-      "study": "Someone at home studies here",
-      "known": "works here",
       "action": "You can",
       "serve": "Where you serve",
-      "filing": "You file here for"
-    }
+      "filing": "You file here"
+    },
+    "whatYouDo": "What you do here",
+    "whoWorks": "Who works here",
+    "district": "District"
   },
   "time": {
     "week": "Week"
@@ -281,8 +294,6 @@
     "today": "Today",
     "upcoming": "Coming up",
     "advance": "Live until this day",
-    "back": "Back",
-    "next": "Continue",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
   "party": {
@@ -290,10 +301,22 @@
     "member": "Your party",
     "agreement": "Views fit",
     "fit": [
-      { "atLeast": 0.6, "label": "Close" },
-      { "atLeast": 0.2, "label": "Mostly" },
-      { "atLeast": -0.2, "label": "Mixed" },
-      { "atLeast": -1, "label": "Far apart" }
+      {
+        "atLeast": 0.6,
+        "label": "Close"
+      },
+      {
+        "atLeast": 0.2,
+        "label": "Mostly"
+      },
+      {
+        "atLeast": -0.2,
+        "label": "Mixed"
+      },
+      {
+        "atLeast": -1,
+        "label": "Far apart"
+      }
     ]
   },
   "leanWords": {
@@ -312,8 +335,7 @@
     "school": "School",
     "money": "Money",
     "family": "Family",
-    "views": "Politics",
-    "traits": "Traits"
+    "views": "Politics"
   },
   "people": {
     "all": "All",
@@ -328,8 +350,6 @@
     "web": "Web",
     "card": "View person",
     "talk": "Talk",
-    "back": "Back",
-    "next": "Continue",
     "joined": "Closer this year",
     "left": "Drifted away",
     "noChange": "Your five closest are the same as a year ago",
@@ -341,48 +361,19 @@
     }
   },
   "news": {
-    "title": "News",
-    "records": "Public record",
-    "economy": {
-      "nation": "Nation",
-      "region": "Region",
-      "jobsHere": "Jobs here",
-      "unemployment": "Unemployment",
-      "inflation": "Inflation",
-      "policyRate": "Policy rate",
-      "mortgage": "Mortgage",
-      "employed": "employed",
-      "looking": "looking",
-      "open": "open",
-      "series": {
-        "unemploymentPct": { "label": "Unemployment", "unit": "percent" },
-        "jobsThousands": { "label": "Jobs", "unit": "thousands" },
-        "hourlyEarnings": { "label": "Hourly pay", "unit": "dollars" },
-        "priceLevelPct": { "label": "Price level", "unit": "index" }
-      }
-    },
-    "back": "Back to front page",
-    "previous": "Back",
-    "next": "Continue"
+    "title": "News"
   },
   "jobs": {
     "work": "Work",
     "study": "Study",
-    "offers": "Job offers",
     "pay": "Pay",
     "hours": "Hours",
     "daily": "per day",
-    "hourly": "per hour",
-    "deadline": "Answer by",
-    "accept": "Take it",
-    "decline": "Turn it down",
-    "notNow": "Not now",
-    "noJob": "No current job",
-    "unavailable": "Offer no longer available",
-    "failed": "Could not send your answer. Try again."
+    "noJob": "No current job"
   },
   "politics": {
     "seats": "Seats",
+    "seat": "seat",
     "yourMembers": "Your members",
     "leaders": "Leaders",
     "notChosenHere": "Not chosen by this place's voters",
@@ -396,8 +387,46 @@
     "elected": "Elected",
     "takesOffice": "Takes office",
     "searchIssues": "Search issues",
-    "back": "Back",
-    "next": "Continue",
+    "issueGroups": {
+      "fiscal": "Taxes and money",
+      "labor-workforce": "Work and pay",
+      "labor-commerce": "Workplaces",
+      "health-human-services": "Health and welfare",
+      "justice-public-safety": "Rights and safety",
+      "education": "Schools",
+      "housing-land-use": "Housing and land",
+      "environment-energy": "Environment and energy",
+      "business-commerce": "Business",
+      "civil-family-community": "Family and community",
+      "government-operations": "Government",
+      "technology-privacy": "Technology and privacy",
+      "transportation-infrastructure": "Roads and transit",
+      "agriculture-natural-resources": "Farms and land"
+    },
+    "issueGroupOf": {
+      "minimum-wage": "labor-workforce",
+      "unemployment-weekly-maximum": "labor-workforce",
+      "unemployment-insurance": "labor-workforce",
+      "income-tax": "fiscal",
+      "sales-tax": "fiscal",
+      "property-tax": "fiscal",
+      "social-security-tax": "fiscal",
+      "medicare-tax": "fiscal",
+      "snap-maximum": "health-human-services",
+      "medicaid-match": "health-human-services"
+    },
+    "issueSetBy": {
+      "federal": "Federal law",
+      "state": "State law",
+      "county": "County law",
+      "city": "City law"
+    },
+    "since": "since",
+    "statute": "Statute",
+    "enactedBy": "Enacted by",
+    "inForce": "In force",
+    "coming": "Coming",
+    "changed": "What changed",
     "revenue": "Revenue",
     "spending": "Spending",
     "balance": "Balance",
@@ -415,8 +444,7 @@
     "seriesNames": {
       "income-tax": "Income tax rate",
       "sales-tax": "Sales tax rate"
-    },
-    "noneHere": "None here"
+    }
   },
   "results": {
     "you": "You",
@@ -441,38 +469,99 @@
   },
   "money": {
     "cash": "Cash available",
-    "history": "Balance history",
-    "spending": "Where the money went",
     "home": "Home",
     "householdHome": "Your household’s home",
     "tenure": "Tenure",
     "owned": "Owned",
     "rented": "Rented",
-    "value": "Value",
     "rent": "Rent",
     "monthly": "per month",
     "deductions": "Paycheck deductions",
-    "assets": "Assets",
-    "debts": "Debts",
     "lastMonth": "Last month",
-    "monthHousing": "Home costs",
-    "monthEveryday": "Everyday living",
-    "monthPaid": "Paid",
-    "monthUnpaid": "Left unpaid",
     "loanPayments": "Loan payments",
-    "loanDue": "due",
-    "loanPaid": "paid"
-  },
-  "staffingNews": {
-    "jobsLost": "Jobs lost",
-    "sales": "Sales",
-    "costs": "Costs"
+    "loanPaid": "paid",
+    "unpaid": "left unpaid",
+    "pastDue": "past due",
+    "cashByMonth": "Cash at each month’s review",
+    "assets": "What you own",
+    "assetKinds": {
+      "savings": "Savings",
+      "home": "Your home"
+    },
+    "debts": "What you owe",
+    "debtKinds": {
+      "personal": "Personal loan",
+      "startup": "Startup loan",
+      "mortgage": "Mortgage"
+    },
+    "reasons": {
+      "household.rent": "Rent",
+      "household.mortgage": "Mortgage payment",
+      "household.everyday-living": "Everyday living",
+      "household-purchase": "Purchases"
+    }
   },
   "localRaces": {
-    "title": "Local races on the ballot",
+    "title": "On the ballot",
     "unopposed": "Unopposed",
     "noFilers": "No one has filed",
+    "running": "{n} running",
     "filingCloses": "Filing closes",
+    "fileForIt": "File for it",
+    "youFiled": "You are running",
     "noBallot": "No local election is on the calendar"
+  },
+  "grade": {
+    "good": "Good",
+    "bad": "Bad",
+    "note": "One word",
+    "saved": "Graded"
+  },
+  "talkBox": {
+    "continue": "Continue",
+    "markGap": "Mark gap"
+  },
+  "guide": {
+    "search": "Search"
+  },
+  "campaignActs": {
+    "volunteer": "Volunteers",
+    "donation": "Donations",
+    "endorsement": "Endorsements",
+    "ad": "Ad",
+    "poll": "Poll"
+  },
+  "campaignResults": {
+    "doors": "{n} doors",
+    "reached": "{n} reached",
+    "raised": "{amount} raised",
+    "spent": "{amount} spent"
+  },
+  "handoff": {
+    "play": "Play"
+  },
+  "seat": {
+    "draft": "Draft"
+  },
+  "titles": {
+    "people": "People",
+    "who": "Who you are",
+    "money": "Money and property",
+    "jobs": "Jobs and study",
+    "journal": "Journal",
+    "politics": "Politics",
+    "government": "Government",
+    "office": "Your office",
+    "campaigns": "Campaigns",
+    "parties": "Parties",
+    "issues": "Issues",
+    "calendar": "Calendar",
+    "budgets": "Budgets",
+    "travel": "Travel",
+    "options": "Options",
+    "patchNotes": "Patch notes",
+    "guide": "Guide",
+    "handoff": "Carry on as",
+    "news": "News"
   }
 }

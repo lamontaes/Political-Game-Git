@@ -1,0 +1,49 @@
+{
+ "scene": "house-suburban-living",
+ "plate": "sg-living",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "recliner",
+   "box": [
+    100,
+    300,
+    300,
+    800
+   ],
+   "pose": "sit",
+   "seat": "armchair",
+   "facing": 45
+  },
+  {
+   "name": "couch",
+   "box": [
+    380,
+    300,
+    800,
+    720
+   ],
+   "pose": "sit",
+   "seat": "couch",
+   "facing": 45
+  },
+  {
+   "name": "standing",
+   "box": [
+    900,
+    180,
+    1700,
+    760
+   ],
+   "pose": "stand",
+   "facing": 0
+  }
+ ]
+}

@@ -504,10 +504,6 @@
       "mean": 4,
       "count": 1
     },
-    "scene-talk.open-greet.you-re-home": {
-      "mean": 4,
-      "count": 1
-    },
     "scene-talk.state-confront.we-hardly-see-you-since-you-took-office": {
       "mean": 5,
       "count": 1
@@ -665,28 +661,21 @@
   },
   "traitsSource": "ESTIMATED: the direction of each pull follows research on personality and word use (Mehl, Gosling and Pennebaker 2006, 'Personality in its natural habitat', JPSP 90(5); Yarkoni 2010, 'Personality in 100,000 words', J. Research in Personality 44(3)): extraverted and agreeable people talk more and warmer, neurotic people hedge, disagreeable people argue. Sizes are TUNABLE, spread -1 to 1 each; the owner's trait-fit grades move them. The people-mind traits every person carries (sociability, conflict, deliberation, risk, reliability) and the facets officials are drawn with (duty-bound, enterprising, practical) pull the same way: outgoing toward warm and longer, quarrelsome toward braced, deliberate toward calm, bold away from guarded.",
   "registerClasses": {
-    "address": "public",
     "opening-speech": "public",
-    "hearing": "public",
-    "meeting": "public",
-    "minutes": "public",
-    "winning-losing": "public",
     "speech-stages": "public",
-    "counter": "public",
     "conversation": "private",
     "scene-talk": "private",
-    "interview": "private",
-    "filing-visit": "private",
     "bring-it-up": "private",
     "newscast": "broadcast",
     "news": "broadcast",
     "headlines": "broadcast",
-    "newspaper-ledes": "broadcast",
-    "notice": "broadcast",
-    "legislation": "broadcast",
     "journal": "narration",
     "scene-words": "narration",
-    "election-day": "narration",
-    "choice-names": "narration"
+    "choice-names": "narration",
+    "calendar": "narration",
+    "talk-who": "narration",
+    "campaign-standing": "narration",
+    "person-sketch": "narration",
+    "person-history": "narration"
   }
 }

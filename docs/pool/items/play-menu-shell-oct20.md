@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: L
-status: in-pr
+status: done
 claimed-by: screens/one-left-menu
 pr: #6389
 blocked-on:

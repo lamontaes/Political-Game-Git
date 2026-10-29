@@ -55,8 +55,10 @@ import {
 import {
   ACS_VALUE_DATE,
   homePriceRatio,
+  housingWorldOffset,
   type PriceLevel,
 } from "../housing-prices";
+import { HOME_VALUE_MEASURE } from "../housing-sale";
 import {
   occupyCompletedRentals,
   houseUnassignedHouseholds,
@@ -67,7 +69,7 @@ import {
   renewRentalLeases,
 } from "../housing-occupancy";
 import { residentsRuntime } from "./residents";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce, webFactorFor } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
@@ -97,6 +99,8 @@ import type {
 } from "../types";
 
 export const HOUSING_MODULE_ID = "housing";
+/** The record a household is served notice by: pay what is owed or leave. */
+export const NOTICE_SERVED_EVENT = "housing.notice-served";
 export const HOUSING_PARAMETERS = housingParameters as unknown as Readonly<
   Record<string, Parameter>
 >;
@@ -246,12 +250,39 @@ function neighborRentValue(county: string): [number, number] | undefined {
     : undefined;
 }
 /**
+ * A county's median gross rent and owner home value in this world: the
+ * published ACS medians moved once by the world's own offsets, drawn from
+ * its seed (owner, Oct 27: realistic, not real; the medians calibrate).
+ */
+export function rentValueOf(
+  county: string,
+  seed: string,
+): [number | null, number | null] {
+  const [rent, value] = publishedRentValueOf(county);
+  const moved = (median: number | null, part: string) =>
+    median === null
+      ? null
+      : median *
+        (housingMacroParameter("one") +
+          housingWorldOffset(
+            seed,
+            `${county}:${part}`,
+            "housingWorldRentValueSpreadShare",
+          ));
+  return [moved(rent, "rent"), moved(value, "value")];
+}
+
+/**
  * A county's median rent and home value. Where the ACS withholds one (a county
  * with too few households), the neighboring counties' household-weighted
  * median stands in, then the state's, then the nation's; never zero, which
  * would leave every owner without a home.
+ *
+ * Calibration only: play reads `rentValueOf`, this world's medians.
  */
-export function rentValueOf(county: string): [number | null, number | null] {
+export function publishedRentValueOf(
+  county: string,
+): [number | null, number | null] {
   if (county.startsWith(`${NATION}:`)) {
     const island = islandAreaOf(county);
     return island
@@ -423,7 +454,33 @@ function householdIncome(
  * county's median gross rent, scaled by income.
  */
 /** The town's owned-home share [homes, owned]: its survey share shrunk toward its county's by sample size. */
-function tenureOfTown(town: {
+function tenureOfTown(
+  town: {
+    geoid: string;
+    county: string;
+  },
+  seed: string,
+): [number, number] | undefined {
+  const published = publishedTenureOfTown(town);
+  if (!published) return undefined;
+  // This world's owner share: the survey's moved once by the world's offset,
+  // relative to its nearer bound so it stays between none and all.
+  const [homes, owned] = published;
+  const share = owned / homes;
+  const offset = housingWorldOffset(
+    seed,
+    `${town.geoid}:owners`,
+    "housingWorldOwnerShareSpreadShare",
+  );
+  return [
+    homes,
+    homes *
+      (share + offset * Math.min(share, housingMacroParameter("one") - share)),
+  ];
+}
+
+/** The town's published owned-home share [homes, owned] (calibration). */
+function publishedTenureOfTown(town: {
   geoid: string;
   county: string;
 }): [number, number] | undefined {
@@ -457,16 +514,16 @@ export function expectedRenterHouseholds(
     households: full,
   } as unknown as CoreInput);
   if (!town) return 0;
-  const tenure = tenureOfTown(town);
-  if (!tenure || !rentValueOf(town.county)[0]) return 0;
+  const tenure = tenureOfTown(town, c.seed);
+  if (!tenure || !rentValueOf(town.county, c.seed)[0]) return 0;
   return homes.length - Math.round((homes.length * tenure[1]) / tenure[0]);
 }
 
 export function withHousing(input: CoreInput): CoreInput {
   const town = townOf(input);
   if (!town) return input;
-  const tenure = tenureOfTown(town);
-  const [medianRent] = rentValueOf(town.county);
+  const tenure = tenureOfTown(town, input.seed);
+  const [medianRent] = rentValueOf(town.county, input.seed);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
   const oldestOf = (births: readonly string[]) =>
@@ -551,7 +608,7 @@ export function withHousing(input: CoreInput): CoreInput {
   const bank = input.organizations.find(
     (row) => row.kind === "bank" && row.placeId === town.placeId,
   );
-  const medianValue = rentValueOf(town.county)[1] ?? 0;
+  const medianValue = rentValueOf(town.county, input.seed)[1] ?? 0;
   const outside = townOutsideOf(input.organizations, town.placeId);
   // Each household's home: owners with today's value, renters with their rent.
   const dwellings: [string, "own" | "rent", number][] = [];
@@ -573,7 +630,12 @@ export function withHousing(input: CoreInput): CoreInput {
       medianValue *
         100 *
         // ACS values are dated mid-2022; the state's house price index moves them to the start.
-        homePriceRatio(town.usps, valueDateOf(town.county), input.startedAt) *
+        homePriceRatio(
+          town.usps,
+          valueDateOf(town.county),
+          input.startedAt,
+          input.seed,
+        ) *
         (incomeScale(row.income) / ownerMedianScale),
     ),
   }));
@@ -586,6 +648,7 @@ export function withHousing(input: CoreInput): CoreInput {
           dueAt: makeIsoDate(dueAt),
           bankId: bank.id,
           usps: town.usps,
+          seed: input.seed,
           // Loans the bank's capital carries, of the residential-mortgage share of community bank loans.
           bankRoomMinor:
             bank.liquidMinor *
@@ -1131,7 +1194,7 @@ function buyHomes(api: CoreAPI): void {
         a!.birthDate.localeCompare(b!.birthDate) || a!.id.localeCompare(b!.id),
     )[0];
     if (!household || !head) continue;
-    const town = rentValueOf(c.placeMetadata?.housingCounty ?? "");
+    const town = rentValueOf(c.placeMetadata?.housingCounty ?? "", c.seed);
     const outside = townOutsideOf(c.organizations.values(), household.placeId);
     if (!town?.[1] || !outside) continue;
     const income = monthlyIncome(api, household.memberIds);
@@ -1141,13 +1204,17 @@ function buyHomes(api: CoreAPI): void {
       c.placeMetadata?.housingState ?? "",
       valueDateOf(c.placeMetadata?.housingCounty ?? ""),
       c.date,
+      c.seed,
       macroPrices(api),
     );
-    // The home the household's income would buy at the county's median, as rent scales with income.
+    // The home the household's income would buy at the county's median, as rent scales with income,
+    // at the outcome web's factor on home values here (a severe disaster's lower prices).
+    const webFactor = webFactorFor(api, household.placeId, HOME_VALUE_MEASURE);
     const value =
       town[1] *
       100 *
       prices *
+      webFactor *
       (lease.amountMinor / ((town[0] ?? 1) * 100 || 1));
     const down = value * housingData.mortgage.downPayment.firstTime;
     const payment = factor(value - down);
@@ -1259,6 +1326,8 @@ function buyHomes(api: CoreAPI): void {
         // A first home bought here is a house (the seller's unit kind isn't recorded yet).
         kind: "house",
         valueMinor: Math.round(down) - owed + lent,
+        // The web's factor on home values the price stands at, so a later change in it moves the home's value.
+        webFactor,
         loanHolderId:
           lent > 0
             ? ([...c.organizations.values()].find(
@@ -1397,6 +1466,32 @@ function review(api: CoreAPI): void {
         reasonKey: housingData.reasons.notice,
       });
     schedule(api, `cure:${caseId}`, cureBy, "housing-cure-deadline", caseId);
+    // The notice reaches the people it is served on: a record of their own
+    // that the story director reads (the household talks it over that day).
+    const household = c.households.get(householdId);
+    const servedOn = (household?.memberIds ?? []).filter(
+      (member) => c.people.get(member)?.alive,
+    );
+    if (servedOn.length)
+      api.emit({
+        id: `event:${NOTICE_SERVED_EVENT}:${caseId}`,
+        date: c.date,
+        kind: NOTICE_SERVED_EVENT,
+        personIds: servedOn,
+        placeId: household?.placeId ?? "",
+        topic: lease?.payeeId ?? late!.landlordId,
+        facts: {
+          caseId,
+          owedMinor: String(lease?.arrearsMinor ?? late!.owedMinor),
+          cureBy,
+        },
+        source: {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: String(law.statute ?? housingData.source.citation),
+          estimatedFrom: `A notice to pay or leave by ${cureBy}, after ${id}'s rent went unpaid.`,
+        },
+      });
   }
 }
 
@@ -1895,7 +1990,11 @@ function payCounsel(api: CoreAPI, caseId: string, caseSite: string) {
   api.stopgap("SG-GOV-REACH-A-eviction-cases");
   const provider = townOutsideOf(c.organizations.values(), placeId);
   if (!provider) return;
-  const paymentId = `counsel:${caseId}`;
+  // The payment names the statute row it pays under, as a paycheck's tax line
+  // names the law row it took.
+  const paymentId = statute?.governing
+    ? `counsel:${caseId}:${statute.governing.id}`
+    : `counsel:${caseId}`;
   const paid = transferCash(
     api,
     paymentId,
@@ -2336,15 +2435,18 @@ export function ownedHomes(
       c.placeMetadata?.housingState ?? "",
       opened,
       c.date,
+      c.seed,
       macroPrices(api),
     ));
   const out: { householdId: string; placeId: string; valueMinor: number }[] =
     [];
+  const webFactors = new Map<string, number>();
   for (const row of store(api).table("dwellings").rows() as unknown as {
     householdId: string;
     tenure: string;
     valueMinor?: number;
     basis: string;
+    webFactor?: number;
   }[]) {
     if (row.tenure !== "own" || !row.valueMinor) continue;
     const placeId =
@@ -2352,12 +2454,22 @@ export function ownedHomes(
       countedHousehold(c, row.householdId)?.placeId;
     if (!placeId || (atPlaceId !== undefined && placeId !== atPlaceId))
       continue;
+    // The web's factor on home values is one per place and month.
+    let web = webFactors.get(placeId);
+    if (web === undefined) {
+      web = webFactorFor(api, placeId, HOME_VALUE_MEASURE);
+      webFactors.set(placeId, web);
+    }
     // Opening values move with prices since the opening; a purchase is valued at its price.
+    // Either moves with the outcome web's factor on home values since the home was valued
+    // (a severe disaster's lower prices), so a steady factor is not counted twice.
     out.push({
       householdId: row.householdId,
       placeId,
       valueMinor: Math.round(
-        row.valueMinor * (row.basis === "opening" ? prices() : 1),
+        row.valueMinor *
+          (row.basis === "opening" ? prices() : 1) *
+          (web / (row.webFactor ?? 1)),
       ),
     });
   }

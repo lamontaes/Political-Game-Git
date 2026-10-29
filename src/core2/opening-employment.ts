@@ -9,11 +9,10 @@ import {
 } from "./kernel/dates";
 import { createStableId, stableHash } from "./kernel/ids";
 import { openingOrganizationProfiles } from "./opening-org-profiles";
-import {
-  activeWorkers,
-  laborStatus,
-  townResidents,
-} from "../simulation/living-world/town-employment";
+import { activeWorkers, townResidents } from "./opening-town-jobs";
+
+/** The opening's first employment pass, the town's own jobs; this file is the second. */
+export { openingTownJobs } from "./opening-town-jobs";
 import {
   TOWN_MEDIAN_TENURE_BY_AGE,
   TOWN_PART_TIME_DEFAULT,
@@ -32,16 +31,16 @@ import {
   weeklyHoursOf,
 } from "./town-pay";
 import { TOWN_PAY_META } from "./reference/town-pay.generated";
+import type { EntityId, IsoDate as WorldDate } from "./kernel/brands";
 import type {
-  EntityId,
-  IsoDate as WorldDate,
-  Organization,
-  World,
-  WorkRelationship,
-  WorkRoleRecord,
-} from "../simulation/types";
+  DraftOrganization as Organization,
+  DraftWorkRelationship as WorkRelationship,
+  DraftWorkRole as WorkRoleRecord,
+  OpeningDraft as World,
+} from "./opening-draft";
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
+import { worldRate } from "./world-draw";
 import type { JobInput, Source } from "./types";
 
 function estimatedSource(
@@ -194,8 +193,34 @@ const inAgeRow = (age: number, row: EmploymentAgeRow) =>
   age >= p(row.minimumAgeParameter) &&
   (!row.maximumAgeParameter || age < p(row.maximumAgeParameter));
 
-/** Estimate rows never create an individual labor status or a future hire decision. */
+/**
+ * The share of an age band employed in a county in this world: the published
+ * share (ACS county table, else the national CPS share) moved once by the
+ * world's own offset, relative to its nearer bound (owner, Oct 27: realistic,
+ * not real). Play reads this; `publishedResidentEmploymentRate` is calibration.
+ */
 export function residentEmploymentRate(
+  age: number,
+  countyGeoid: string | undefined,
+  seed: string,
+  data: ResidentEmploymentData = DEFAULT_RESIDENT_EMPLOYMENT,
+): { rate: number; basis: string; ageId: string; source: string } | undefined {
+  const published = publishedResidentEmploymentRate(age, countyGeoid, data);
+  return published
+    ? {
+        ...published,
+        rate: worldRate(
+          published.rate,
+          seed,
+          `employment-rate:${countyGeoid ?? "national"}:${published.ageId}`,
+          "jobsWorldEmploymentRateSpreadShare",
+        ),
+      }
+    : undefined;
+}
+
+/** Estimate rows never create an individual labor status or a future hire decision. */
+export function publishedResidentEmploymentRate(
   age: number,
   countyGeoid: string | undefined,
   data: ResidentEmploymentData = DEFAULT_RESIDENT_EMPLOYMENT,
@@ -217,7 +242,14 @@ export function residentEmploymentRate(
       employed <= civilian
     )
       return {
-        rate: employed / civilian,
+        // A county's age cell is a small sample (a few dozen people), so it
+        // is read as the Jeffreys estimate, half a person added to each side:
+        // twelve employed of twelve reads just under all, not all, and the
+        // world's draw can move it (raw, a full or empty cell sat on its
+        // bound in every world).
+        rate:
+          (employed + p("employmentCellPriorCount")) /
+          (civilian + p("two") * p("employmentCellPriorCount")),
         basis:
           cells.civilianPopulation !== undefined
             ? "county-ACS-civilian-age"
@@ -342,12 +374,10 @@ export function openingEmploymentFromRecordedRoles(
   const recordedPeople = new Set(
     world.history.workRelationships.map((row) => row.personId),
   );
+  // Every unrecorded working-age resident is a candidate: no enrollment or
+  // care record exists before the first day is played.
   const candidates = residents
-    .filter(
-      (resident) =>
-        !recordedPeople.has(resident.personId) &&
-        laborStatus(world, resident) === "employed",
-    )
+    .filter((resident) => !recordedPeople.has(resident.personId))
     .map((resident) => ({
       ...resident,
       order: stableHash(`${data.version}:${seed}:${resident.personId}`),
@@ -382,7 +412,7 @@ export function openingEmploymentFromRecordedRoles(
   const quotaByPerson = new Map<string, string>();
   for (const resident of residentRows) {
     const county = countyGeoidByPerson.get(resident.personId);
-    const rate = residentEmploymentRate(resident.age, county, rateData);
+    const rate = residentEmploymentRate(resident.age, county, seed, rateData);
     if (!rate) continue;
     const key = `${county ?? "missing-county"}:${rate.ageId}`;
     const row = ageTargets.get(key) ?? {
@@ -406,7 +436,7 @@ export function openingEmploymentFromRecordedRoles(
     employmentTarget += row.target;
   }
 
-  const weights = townWorkplaceWeights(town);
+  const weights = townWorkplaceWeights(town, seed);
   const sourceWeight = [...weights.values()].reduce(
     (sum, value) => sum + Math.max(p("zero"), value),
     p("zero"),
@@ -419,8 +449,7 @@ export function openingEmploymentFromRecordedRoles(
   const profiles = openingOrganizationProfiles(world);
   for (const organization of world.history.organizations) {
     const profile = profiles.get(organization.id);
-    if (!profile || profile.closed || profile.locationJurisdictionId !== town)
-      continue;
+    if (!profile || profile.locationJurisdictionId !== town) continue;
     const workplace = townWorkplaceFor(
       organization.stableKey,
       profile.classification,
@@ -506,10 +535,14 @@ export function openingEmploymentFromRecordedRoles(
       const localRate = townJobRate(
         definition.occupation,
         town,
-        townPayPercentile(p("zero")),
+        townPayPercentile(p("zero"), seed),
         minimumHourly,
+        seed,
       );
-      const nationalAnnual = nationalMedianAnnualWage(definition.occupation);
+      const nationalAnnual = nationalMedianAnnualWage(
+        definition.occupation,
+        seed,
+      );
       const reason = !hasEmployer
         ? "No recorded employer identity."
         : !expandable
@@ -613,15 +646,18 @@ export function openingEmploymentFromRecordedRoles(
     });
     const percentile = townPayPercentile(
       daysBetween(startedAt, world.currentDate) / p("daysPerMeanYear"),
+      seed,
     );
     const rate = townJobRate(
       selected.definition.occupation,
       town,
       percentile,
       minimumHourly,
+      seed,
     );
     const nationalAnnual = nationalMedianAnnualWage(
       selected.definition.occupation,
+      seed,
     );
     if (!rate && nationalAnnual === null)
       throw new Error(

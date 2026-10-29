@@ -4,6 +4,12 @@
   "infantBelowAge": 1,
   "mortality5564": {
     "fromAge": 55,
-    "belowAge": 65
+    "belowAge": 65,
+    "personLevel": {
+      "about": "Where a full person's own coverage is modeled (the law reach pays Medicaid coverage to named people), their hazard at these ages reads their own coverage record through the person-level link, and the place-level twin row is left out of their web factor so the expansion moves them once (src/core2/health-own.ts).",
+      "link": "coverage-to-mortality-55-64",
+      "placeTwin": "medicaid-expansion-to-mortality",
+      "policy": "us-policy-positions:health-human-services.expand-medicaid-eligibility"
+    }
   }
 }

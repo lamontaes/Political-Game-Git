@@ -1,8 +1,13 @@
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { familyFactsOf } from "../core2/modules/people";
 import { wordArchiveStory, wordPrintedStory } from "./archive-words";
 import { coreAPI } from "../core2/state";
-import { lawHere } from "../core2/modules/laws";
-import type { ContestRow } from "../core2/modules/elections";
+import {
+  standing,
+  type ContestRow,
+  type FilingRow,
+} from "../core2/modules/elections";
+import { screenLine } from "../english/screen-words";
 import type { CoreState, LogRecord } from "../core2/types";
 import { storiesHeard } from "../core2/modules/news";
 
@@ -12,12 +17,27 @@ const WINDOW_DAYS = 400;
 
 export interface CalendarItem {
   date: string;
+  /** What the day's icon draws: a birthday, a filing date or an election. */
   kind: string;
-  title: string;
-  recordId: string;
+  /** Who and what, in the English engine's words. */
+  line: string;
+  /** A date in a race the player has filed in: theirs, so it comes first. */
+  own: boolean;
+  recordIds: string[];
 }
 
-/** The dated records ahead of a person: elections, laws, family birthdays. */
+const ICON_KINDS = [
+  "filing-opens",
+  "filing-deadline",
+  "primary",
+  "election",
+] as const;
+
+/**
+ * The dated things ahead of a person that they act on or feel: the filing dates and
+ * elections of the races here, and their family's birthdays. Seats of one office that
+ * share a date are one line; a race the person has filed in is theirs.
+ */
 export function calendarItems(
   core: CoreState,
   personId: string,
@@ -28,55 +48,111 @@ export function calendarItems(
   const inWindow = (date: string | null | undefined): date is string =>
     !!date && date >= from && date <= through;
   const items: CalendarItem[] = [];
-  if (core.modules.has(ELECTIONS))
-    for (const contest of api
-      .moduleState(ELECTIONS)
+  if (core.modules.has(ELECTIONS)) {
+    const elections = api.moduleState(ELECTIONS);
+    const filed = new Set(
+      (elections.table("filings").rows() as unknown as FilingRow[])
+        .filter((f) => f.personId === personId && standing(f))
+        .map((f) => f.contestId),
+    );
+    const groups = new Map<
+      string,
+      {
+        date: string;
+        kind: string;
+        office: string;
+        ids: string[];
+        own: boolean;
+      }
+    >();
+    for (const contest of elections
       .table("contests")
       .rows() as unknown as ContestRow[])
-      for (const [kind, date] of [
-        ["filing-opens", contest.filingOpens],
-        ["filing-deadline", contest.filingDeadline],
-        ["primary", contest.primaryDate],
-        ["election", contest.electionDate],
-      ] as const)
-        if (inWindow(date))
-          items.push({
-            date,
-            kind,
-            title: contest.title,
-            recordId: contest.id,
-          });
-  if (core.modules.has("core2-laws-v1"))
-    for (const law of lawHere(api))
-      for (const row of law.pending)
-        if (inWindow(row.effectiveDate))
-          items.push({
-            date: row.effectiveDate,
-            kind: "law-takes-effect",
-            title: law.series,
-            recordId: row.id,
-          });
+      for (const kind of ICON_KINDS) {
+        const date = {
+          "filing-opens": contest.filingOpens,
+          "filing-deadline": contest.filingDeadline,
+          primary: contest.primaryDate,
+          election: contest.electionDate,
+        }[kind];
+        if (!inWindow(date)) continue;
+        const own = filed.has(contest.id);
+        // The player's own race stands alone; other seats of one office share a line.
+        const key = own
+          ? `${date}|${kind}|${contest.id}`
+          : `${date}|${kind}|${contest.title}`;
+        const group = groups.get(key) ?? {
+          date,
+          kind,
+          office: contest.title,
+          ids: [],
+          own,
+        };
+        group.ids.push(contest.id);
+        groups.set(key, group);
+      }
+    for (const group of groups.values()) {
+      const variant = group.own ? "own" : group.ids.length > 1 ? "seats" : "1";
+      const line = screenLine("calendar", `calendar.${group.kind}.${variant}`, {
+        office: group.office,
+        count: group.ids.length,
+      });
+      if (line)
+        items.push({
+          date: group.date,
+          kind: group.kind,
+          line,
+          own: group.own,
+          recordIds: group.ids,
+        });
+    }
+  }
   const person = core.people.get(personId);
-  for (const fact of person?.pastFacts ?? []) {
-    const otherId = fact.facts?.otherPersonId;
-    const other = otherId ? core.people.get(otherId) : undefined;
-    if (!fact.kind.startsWith("family:") || !other?.alive) continue;
+  // The person's own birthday, beside the family's, first among the day's lines.
+  const yourBirthday = screenLine("calendar", "calendar.your-birthday.1", {});
+  // Only the next one: two of your own birthdays would both sort first.
+  const nextBirthday = person
+    ? [Number(from.slice(0, 4)), Number(from.slice(0, 4)) + 1]
+        .map((year) => `${year}${person.birthDate.slice(4)}`)
+        .find(inWindow)
+    : undefined;
+  if (person && yourBirthday && nextBirthday)
+    items.push({
+      date: nextBirthday,
+      kind: "your-birthday",
+      line: yourBirthday,
+      own: true,
+      recordIds: [person.id],
+    });
+  const seen = new Set<string>();
+  for (const otherId of familyFactsOf(person).keys()) {
+    const other = core.people.get(otherId);
+    if (!other?.alive) continue;
+    if (seen.has(other.id)) continue;
+    seen.add(other.id);
     for (const year of [
       Number(from.slice(0, 4)),
       Number(from.slice(0, 4)) + 1,
     ]) {
       const date = `${year}${other.birthDate.slice(4)}`;
-      if (inWindow(date))
+      const line = screenLine("calendar", "calendar.birthday.1", {
+        name: `${other.givenName} ${other.familyName}`,
+      });
+      if (inWindow(date) && line)
         items.push({
           date,
           kind: "birthday",
-          title: `${other.givenName} ${other.familyName}`,
-          recordId: other.id,
+          line,
+          own: false,
+          recordIds: [other.id],
         });
     }
   }
   return items.sort(
-    (a, b) => a.date.localeCompare(b.date) || a.kind.localeCompare(b.kind),
+    (a, b) =>
+      a.date.localeCompare(b.date) ||
+      Number(b.own) - Number(a.own) ||
+      a.line.localeCompare(b.line),
   );
 }
 

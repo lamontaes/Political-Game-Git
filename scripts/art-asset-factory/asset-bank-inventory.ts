@@ -1,13 +1,13 @@
 import type {
   CharacterCatalogData,
   CharacterComponentManifestRecord,
-} from "../../src/presentation/character-components";
+} from "../../src/appearance/character-components";
 import {
   createPoseFamilyRegistry,
   indexPoseArt,
   reportPoseCoverage,
   type PoseFamilyRegistryData,
-} from "../../src/presentation/pose-families";
+} from "../../src/appearance/pose-families";
 import type { CargoDispositionLedger } from "./cargo-disposition";
 import type {
   AssetManifest,

@@ -1,7 +1,7 @@
 /**
  * A bill's sections as the record holds them (the owner's ruling, Oct 14,
  * 2026, afternoon): what each changes, the law in force before with the
- * statute it cites, what the section makes it, and the terms the player may
+ * bill that enacted it, what the section makes it, and the terms the player may
  * edit. A rate with a schedule keeps its shape unless the section changes it.
  */
 import { createHash } from "node:crypto";
@@ -145,7 +145,10 @@ describe("a bill's sections", () => {
     });
     const [section] = billSections(api, bill);
     expect(section!.before.value, where).not.toBeNull();
-    expect(section!.before.statute, where).toBeTruthy();
+    // A law in force at the opening is named by its record, never by the
+    // research source that calibrated it (owner, Oct 27).
+    expect(section!.before.lawId, where).toBeTruthy();
+    expect(section!.before.statute, where).toBeNull();
     expect(section!.before.shape, where).toBe("graduated");
     expect(section!.after.value).toBe(3);
     expect(section!.editable).toEqual(["value", "effectiveDate", "shape"]);

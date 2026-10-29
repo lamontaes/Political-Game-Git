@@ -1,0 +1,30 @@
+{
+  "id": "pose-desk-03",
+  "file": "pose-desk-03.png",
+  "garments": "pose-desk-03-garments.png",
+  "sheet": "in-scene",
+  "scene": "mayor-office",
+  "plate": "ds-m1.png",
+  "pose": "sit",
+  "angle": "front",
+  "facing": 0,
+  "gesture": "leaning in, listening to a visitor",
+  "interacts": "desk: forearms on the desktop",
+  "hairView": "front",
+  "sex": "f",
+  "build": "heavy",
+  "ageBand": "adult",
+  "prop": "none",
+  "outfit": "suit",
+  "width": 165,
+  "height": 172,
+  "boxInScene": [630, 235, 795, 407],
+  "sceneSize": [1366, 768],
+  "head": {
+    "top": 4,
+    "x": 92.5,
+    "width": 40
+  },
+  "frontEdgeY": null,
+  "clothesLabelled": 0.65
+}

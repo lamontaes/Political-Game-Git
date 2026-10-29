@@ -7,6 +7,7 @@
  * the town each day.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { worldBenefitMonthlyMinor } from "../opening-income";
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import { claimWaitCase, retirementClaimAgeMonths } from "../retirement-claim";
@@ -327,7 +328,9 @@ function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
       coveredMonths / p(keys.benefitReferenceCoveredMonths),
     ),
   );
-  const monthlyMinor = Math.floor(p(keys.benefitMonthlyMinor) * factor);
+  const monthlyMinor = Math.floor(
+    worldBenefitMonthlyMinor(p(keys.benefitMonthlyMinor), core.seed) * factor,
+  );
   // The federal Social Security outside flow pays (one per world).
   const payer = [...core.organizations.values()].find(
     (row) =>

@@ -2,8 +2,8 @@
 name: local-gate
 description: >
   Lists the bounded checks an Our Civic Duty PR runs on its changed files:
-  typecheck, eslint and prettier, release:check --mode pr, zero-dice, the
-  pool check and the changed tests, plus browser checks only for screens and
+  typecheck, eslint and prettier, release:check --mode pr, zero-dice,
+  zero-real-data, the pool check and the changed tests, plus browser checks only for screens and
   test:skill-ops for instruction files. Use before marking a PR ready and
   when merging; never the full suite.
 ---
@@ -14,7 +14,7 @@ Validation is bounded on purpose, and the full suite is never the gate.
 
 ## What to run
 
-Run typecheck, eslint and prettier on the files you changed. Then run `npm run release:check -- --mode pr`, `npm run zero-dice`, `npm run pool -- --check` and the unit tests for the files you touched (`npm run agent:test-cadence` lists them). Add the screen's `src/bench/*.browser.mjs` check only when you changed a screen, and `npm run test:skill-ops` when you changed `AGENTS.md`, `CLAUDE.md`, `.agents/`, `.claude/`, `.codex/` or `.cursor/`.
+Run `npm run guards` once: it runs every standing-rule guard, the same list the `guards` job in validate runs on every PR (`docs/design/guards.md` says what each holds and how to extend it). Run typecheck, eslint and prettier on the files you changed. Then run `npm run release:check -- --mode pr`, `npm run zero-dice`, `npm run zero-real-data` (owner, Oct 27: no statistic but law opens on its published value; it builds two played worlds of one drawn place), `npm run pool -- --check` and the unit tests for the files you touched (`npm run agent:test-cadence` lists them). Add the screen's `src/bench/*.browser.mjs` check only when you changed a screen, and `npm run test:skill-ops` when you changed `AGENTS.md`, `CLAUDE.md`, `.agents/`, `.claude/`, `.codex/` or `.cursor/`.
 
 A failure that also fails on a clean `main` doesn't block; note it, don't
 chase it. Never run the full suite as a gate: it's slow enough that people

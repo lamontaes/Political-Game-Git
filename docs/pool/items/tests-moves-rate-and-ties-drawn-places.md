@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/moves-draws
+pr: #6524
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:31:21.160Z
 ---
 
 **What.** The M1-09 moves command fails migration assertions on three independent draws of clean main. Princeton records 28 departures against its 27.544936 limit and New Munich records 38 against 32.610066. Dickey reverses the expected ties comparison: stronger-tied adults build mean pull 0.0199606638 against 0.0184054971 for weaker ties. These migration failures are unchanged by the birth-planning fix in PR #5919.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/moves.test.ts, src/core2/modules/moves.ts, src/core2/data/moves/parameters.json
 
 **Notes.** Found by Merger 3 during PR #5919 validation; identical migration assertions reproduce on clean main 05b6dfcb73b8f5aeb9becbfba754d83089f7ba87. Princeton, West Virginia (5465692), GOLDEN_PATH_SEED=b0dbed9e2c5c1351216d3643de9ceb7dfcbfbb7a9c52364bf4a4cb9163775353; Dickey, North Dakota (3819580), GOLDEN_PATH_SEED=c56e1f0f8e3f7b04de4e27688dc922c33eabfe9e266697996054b4f7ddb925ce; New Munich, Minnesota (2745772), GOLDEN_PATH_SEED=50700b6126b15d018802c0a53259b7aa5b158cdc2796a285f9d088562c399e73
+
+Oct 29 (CTO): set done; PR #6524 merged (the done flip failed while branch protection refused the flip job's push).

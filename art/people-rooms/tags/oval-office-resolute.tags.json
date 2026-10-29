@@ -1,0 +1,75 @@
+{
+ "scene": "oval-office-resolute",
+ "plate": "sg-oval2",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "formal"
+ },
+ "zones": [
+  {
+   "name": "resolute desk",
+   "box": [
+    760,
+    280,
+    920,
+    420
+   ],
+   "pose": "sit",
+   "seat": "desk-chair",
+   "facing": 0,
+   "coveredBy": "desk",
+   "hands": "on desk",
+   "role": "president"
+  },
+  {
+   "name": "left couch",
+   "box": [
+    40,
+    340,
+    450,
+    840
+   ],
+   "pose": "sit",
+   "seat": "couch",
+   "facing": 45
+  },
+  {
+   "name": "right couch",
+   "box": [
+    1230,
+    340,
+    1640,
+    840
+   ],
+   "pose": "sit",
+   "seat": "couch",
+   "facing": -45
+  },
+  {
+   "name": "standing left",
+   "box": [
+    480,
+    240,
+    680,
+    900
+   ],
+   "pose": "stand",
+   "facing": 0
+  },
+  {
+   "name": "standing right",
+   "box": [
+    1070,
+    240,
+    1270,
+    900
+   ],
+   "pose": "stand",
+   "facing": 0
+  }
+ ]
+}

@@ -79,13 +79,6 @@ GitHub summaries are short; artifacts contain compact receipts, not worlds.
 
 ## Deliberate-failure proofs
 
-`prove-golden.mjs CORE_REVISION /tmp/contact-proof.json` runs an explicitly
-provisional step-2 detector overlay. It uses existing contact and relationship
-boundary tests plus an opening in the drawn place. A temporary contact-producer
-break must turn the suite red; restoring it must pass. This does not register
-or accept the full 91-day and multi-year M0-07 test. The CTO registers that test
-when the people package supplies it.
-
 `prove-performance.mjs CORE_REVISION /tmp/speed-proof.json` measures the core,
 introduces real CPU work at its clock boundary, measures again, and requires
 red. It removes the temporary break, runs the ordinary clock again, and checks

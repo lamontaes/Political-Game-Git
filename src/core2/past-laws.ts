@@ -330,7 +330,6 @@ export function buildPriorTerms(
         passed: call.passes,
         lawIds: [],
       };
-      putPast(api, "bills", bill);
       bills.push(bill);
       votes += recordVotes(
         api,

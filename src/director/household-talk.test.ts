@@ -4,8 +4,9 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import type { PersonId } from "../core2/types";
-import { openConversation, say } from "./conversation";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import type { IsoDate, PersonId } from "../core2/types";
+import { openConversation, say, subjectsBetween } from "./conversation";
 import { OPENING_ADDRESS_EVENT } from "./opening-story";
 
 // Talk at home on the first evening (play-stop-01-talk-says-nothing-a).
@@ -81,6 +82,17 @@ it(`a household member opens from the day, and each reply moves the talk on (see
         `HOUSEHOLD TALK ${here}: "${opener!.text}" / you: "${pick.text}" / "${answer!.text}" / ${next.choices.map((row) => `"${row.text}"`).join(" ")}`,
       );
     });
+    // A month on, the address is no longer the day's news: nobody opens on
+    // it, however late they heard of it (golden-address-talk-fades).
+    const startedOn = core.date;
+    (core as { date: IsoDate }).date = addDays(makeIsoDate(core.date), 30);
+    for (const member of household)
+      expect(
+        subjectsBetween(core, member.id as PersonId, player.id, director).some(
+          (row) => row.kind === "address",
+        ),
+        `${where}: ${member.id} a month after ${startedOn}`,
+      ).toBe(false);
     return;
   }
   throw new Error(

@@ -7,11 +7,15 @@
  * contest's filings (`filingOfficeFor`), once, if they meet what that place's
  * rules require: age, residency and registration, read from
  * `data/research/elections/filing-requirements.json` (or the estimated terms
- * in `candidate-filing-terms.json` where a place isn't read yet). No one pays
- * a fee or gathers petition signatures to file (owner, Oct 13: the
- * simulation is the depth); a filing puts the candidate on the ballot. The
- * filing becomes a record; an unmet rule comes back as structured reasons the
- * English engine words.
+ * in `candidate-filing-terms.json` where a place isn't read yet). Filing is
+ * a petition, signatures, the clerk's check, then the ballot (owner, Oct 28,
+ * reversing the Oct 13 "no fee or petition" ruling): a filing opens a
+ * petition with the signatures the place's law asks (`petitionRule`), the
+ * candidate's campaign gathers them (`signPetition`, from the campaign
+ * engine's doors, events and circle), and the voting engine's clerk checks
+ * them the morning after the deadline (`keepPetitionCheck`). No fee is
+ * charged. The filing becomes a record; an unmet rule comes back as
+ * structured reasons the English engine words.
  */
 import { registerElectorate } from "../electorate";
 import {
@@ -44,6 +48,13 @@ import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
 export { officeFamily, type OfficeFamily };
+/** This world's swing from 2024, for the engines outside elections that read a place's lean. */
+export {
+  publishedSenateSeats,
+  worldRoster,
+  worldSeatParty,
+  worldSwing,
+} from "../electorate-places";
 
 export interface ContestRow extends ElectionDates {
   readonly id: string;
@@ -74,6 +85,58 @@ export interface FilingRequirements {
   )[];
   /** The side's own filing deadline where the law sets one apart (independents). */
   readonly deadline: string | null;
+  /** The signatures the side's petition must hold. */
+  readonly petition: PetitionRule;
+}
+
+/** The signatures a place's law asks of one side's petition for one family of offices. */
+export interface PetitionRule {
+  /** Signatures of the district's voters the petition must hold. */
+  readonly count: number;
+  /**
+   * "read" where the place's row gives the count, "none-in-law" where it
+   * says the law asks none (a fee or a declaration instead: no petition).
+   * Otherwise the count is the read counts' median for the family and side:
+   * the row gives a formula ("formula") or nothing ("unread").
+   */
+  readonly basis: "read" | "formula" | "none-in-law" | "unread";
+  /** The place's own words for the rule, where its row gives a formula. */
+  readonly formula: string | null;
+  readonly source: string;
+}
+
+/** A signature on a petition: who signed, the day, and how the campaign asked. */
+export interface PetitionSigner {
+  readonly personId: string;
+  readonly on: string;
+  readonly via: "door" | "event" | "circle";
+}
+
+/** One filing's petition: what the law asks, what this world's clerk counts, who signed, and the check. */
+export interface PetitionRow {
+  readonly id: string;
+  readonly filingId: string;
+  readonly contestId: string;
+  readonly personId: string;
+  /** The law's count for the whole district, and how it was read. */
+  readonly rule: PetitionRule;
+  /**
+   * The count the clerk checks in this world: the rule's count where the town
+   * is the district, the town's share of it where the district reaches past
+   * the town (SG-GOV-petition-town-share).
+   */
+  readonly needed: number;
+  /** The day it was taken out (the filing's day). */
+  readonly opened: string;
+  /** The last day to hand the petition in. */
+  readonly due: string;
+  readonly signers: readonly PetitionSigner[];
+  /** The clerk's check: the day, the signatures that stood and those struck. */
+  readonly check?: {
+    readonly on: string;
+    readonly valid: number;
+    readonly struckIds: readonly string[];
+  };
 }
 
 /** Party candidates and independents file on their own terms. */
@@ -106,7 +169,12 @@ export interface FilingRow {
   readonly platform: readonly string[];
   /** The party label on the ballot, where the candidate runs under one. */
   readonly party?: string | null;
-  readonly status: "on-ballot" | "withdrawn";
+  /**
+   * "petitioning" while the candidate gathers signatures, then "on-ballot"
+   * or "short" by the clerk's check; "withdrawn" for one who left the race
+   * or lost a primary.
+   */
+  readonly status: "petitioning" | "on-ballot" | "short" | "withdrawn";
   /** How a candidate the world put on the ballot came to stand (an incumbent again, a party's nominee). */
   readonly how?: string;
 }
@@ -129,6 +197,11 @@ export const ELECTIONS_MODULE: CoreModule = {
           byPerson: { fields: ["personId"] },
         },
       },
+      // One petition a filing: the signatures the law asks, who signed and
+      // the clerk's check (`openPetition`, `signPetition`).
+      petitions: {
+        indexes: { byContest: { fields: ["contestId"] } },
+      },
       town: {},
       // How the law settled an exact tie: a lot, or a deciding body's votes.
       ties: {},
@@ -149,6 +222,8 @@ function table(api: CoreAPI, name: string) {
 
 interface ReadSide {
   readonly deadline2026?: string | null;
+  readonly signatures?: number | null;
+  readonly signatureFormula?: string | null;
 }
 interface ReadRequirements {
   readonly applicable?: boolean;
@@ -236,6 +311,76 @@ export function filingRequirements(
     estimate: read ? (read.estimate ?? false) || fallbacks.length > 0 : true,
     fallbacks,
     deadline: side?.deadline2026 ?? null,
+    petition: petitionRule(
+      sideRow(read, sideName),
+      family,
+      sideName,
+      source || "data/research/elections/filing-requirements.json",
+    ),
+  };
+}
+
+/** A side's row as an object, the party side where the independents' is not one. */
+function sideRow(
+  read: ReadRequirements | undefined,
+  sideName: FilingSide,
+): ReadSide | undefined {
+  const own = sideName === "independent" ? read?.independent : read?.party;
+  if (own && typeof own === "object") return own;
+  return read?.party && typeof read.party === "object" ? read.party : undefined;
+}
+
+/** Each family and side's read signature counts, from every place's row. */
+const readCounts = new Map<string, readonly number[]>();
+function readCountsFor(family: OfficeFamily, sideName: FilingSide) {
+  const key = `${family}|${sideName}`;
+  const held = readCounts.get(key);
+  if (held) return held;
+  const places = (
+    filingRequirementResearch as unknown as {
+      places: Record<string, Record<string, ReadRequirements>>;
+    }
+  ).places;
+  const counts = Object.values(places)
+    .map((row) => sideRow(row?.[family], sideName)?.signatures)
+    .filter((n): n is number => typeof n === "number" && n > 0)
+    .sort((a, b) => a - b);
+  readCounts.set(key, counts);
+  return counts;
+}
+
+/**
+ * The signatures one side's petition must hold: the place's read count; none
+ * where its row says the law asks none (signatures "where the place requires
+ * them", owner, Oct 6, prior-rulings/elections.md R5, restored by the Oct 28
+ * ruling that filing is a petition); or where its row gives a formula or
+ * nothing, the read counts' median for the family and side ("estimate from
+ * similar places and mark it estimated", R5).
+ */
+function petitionRule(
+  side: ReadSide | undefined,
+  family: OfficeFamily,
+  sideName: FilingSide,
+  source: string,
+): PetitionRule {
+  const read = side?.signatures;
+  if (typeof read === "number" && read > 0)
+    return { count: read, basis: "read", formula: null, source };
+  const formula = side?.signatureFormula?.trim() || null;
+  if (read === 0 && !formula)
+    return { count: 0, basis: "none-in-law", formula: null, source };
+  const counts = readCountsFor(family, sideName);
+  const mid = Math.floor(counts.length / 2);
+  const median = counts.length
+    ? counts.length % 2
+      ? counts[mid]!
+      : Math.ceil((counts[mid - 1]! + counts[mid]!) / 2)
+    : 0;
+  return {
+    count: median,
+    basis: formula ? "formula" : "unread",
+    formula,
+    source: `${source} ; estimated: the median of the read ${family} ${sideName} signature counts`,
   };
 }
 
@@ -258,6 +403,15 @@ export function filingRulesFor(
   if (stateRules.fallbacks.length) {
     // stopgapId: SG-GOV-filing-fallbacks
     api.stopgap("SG-GOV-filing-fallbacks");
+  }
+  // Where the place's row gives a formula or no signature count, the
+  // petition asks the read counts' median (`petitionRule`).
+  if (
+    stateRules.petition.basis === "formula" ||
+    stateRules.petition.basis === "unread"
+  ) {
+    // stopgapId: SG-GOV-petition-count-estimated
+    api.stopgap("SG-GOV-petition-count-estimated");
   }
   // A Senate or presidential candidate meets the Constitution's age, which a
   // state's age for its own statewide offices cannot lower.
@@ -706,7 +860,11 @@ export function checkEligibility(
   return checks;
 }
 
-/** File once, at no charge: the candidate is on the ballot. */
+/**
+ * File once, at no charge: the candidate takes out a petition and stands in
+ * the race while it circulates; the clerk's check after the deadline puts
+ * them on the ballot or leaves them short.
+ */
 export function fileCandidacy(
   api: CoreAPI,
   input: {
@@ -746,11 +904,14 @@ export function fileCandidacy(
     filedWith: rules.filedWith,
     platform: [...input.platform],
     party: input.party ?? null,
-    status: "on-ballot",
+    status: "petitioning",
   };
   table(api, "filings").put(filing as unknown as ModuleRow);
   announce(api, filing, contest);
-  return { status: filing.status, filing };
+  // The clerk takes a filing whose law asks no signatures at the counter
+  // (the voting engine's check, on the announcement): read it back.
+  const kept = table(api, "filings").get(id) as unknown as FilingRow;
+  return { status: kept.status, filing: kept };
 }
 
 /** The state a place lies in, from the place records. */
@@ -808,7 +969,6 @@ export function announce(
   for (const other of ballot(api, contest.id))
     if (
       other.personId !== filing.personId &&
-      other.status === "on-ballot" &&
       api.state.people.get(other.personId)?.alive
     )
       api.emit({
@@ -839,9 +999,19 @@ export function announce(
 export const RIVAL_FILED_EVENT = "rival-filed";
 
 /**
- * Everyone on the ballot for a contest, filed so far. A candidate who has
- * since died is off it: the count, the polling place and the press read the
- * living candidates on the day they look.
+ * Whether a filing stands in its race: on the ballot, or circulating its
+ * petition until the clerk's check. A short or withdrawn filing does not.
+ */
+export function standing(filing: Readonly<Pick<FilingRow, "status">>): boolean {
+  return filing.status === "on-ballot" || filing.status === "petitioning";
+}
+
+/**
+ * Everyone standing in a contest, filed so far: on the ballot, or with a
+ * petition out until the clerk checks it the morning after the deadline, so
+ * after that only the names on the ballot. A candidate who has since died is
+ * off it: the count, the polling place and the press read the living
+ * candidates on the day they look.
  */
 export function ballot(api: CoreAPI, contestId: string): readonly FilingRow[] {
   return (
@@ -849,10 +1019,153 @@ export function ballot(api: CoreAPI, contestId: string): readonly FilingRow[] {
       contestId,
     ]) as unknown as FilingRow[]
   ).filter(
-    (f) =>
-      f.status === "on-ballot" &&
-      api.state.people.get(f.personId)?.alive !== false,
+    (f) => standing(f) && api.state.people.get(f.personId)?.alive !== false,
   );
+}
+
+/** The last day a filing's petition may be handed in: its side's own deadline, else the contest's. */
+export function petitionDue(api: CoreAPI, filing: FilingRow): string {
+  const contest = table(api, "contests").get(
+    filing.contestId,
+  ) as unknown as ContestRow;
+  const rules = filingRulesFor(
+    api,
+    contest,
+    filing.party ? "party" : "independent",
+  );
+  return rules.deadline ?? contest.filingDeadline;
+}
+
+/** A filing's petition, once opened. */
+export function petitionOf(api: CoreAPI, filingId: string): PetitionRow | null {
+  return (
+    (table(api, "petitions").get(`petition:${filingId}`) as unknown as
+      PetitionRow | undefined) ?? null
+  );
+}
+
+/** Open a petitioning filing's petition (the voting engine sizes what its clerk counts). */
+export function openPetition(
+  api: CoreAPI,
+  filing: FilingRow,
+  input: { readonly rule: PetitionRule; readonly needed: number },
+): PetitionRow {
+  const row: PetitionRow = {
+    id: `petition:${filing.id}`,
+    filingId: filing.id,
+    contestId: filing.contestId,
+    personId: filing.personId,
+    rule: input.rule,
+    needed: input.needed,
+    opened: filing.filedOn,
+    due: petitionDue(api, filing),
+    signers: [],
+  };
+  table(api, "petitions").put(row as unknown as ModuleRow);
+  return row;
+}
+
+/** Whether a filing's petition is out and has not been checked yet. */
+export function petitionCirculating(api: CoreAPI, filingId: string): boolean {
+  const petition = petitionOf(api, filingId);
+  const filing = table(api, "filings").get(filingId) as unknown as
+    FilingRow | undefined;
+  return Boolean(
+    petition &&
+    !petition.check &&
+    filing?.status === "petitioning" &&
+    api.state.date <= petition.due,
+  );
+}
+
+/**
+ * Add a signature to a circulating petition, once a person: the campaign
+ * engine asks, and the signer answers from their own reasons. Returns
+ * whether the name was added.
+ */
+export function signPetition(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+  via: PetitionSigner["via"],
+): boolean {
+  if (!petitionCirculating(api, filingId)) return false;
+  const petition = petitionOf(api, filingId)!;
+  if (personId === petition.personId) return false;
+  if (petition.signers.some((s) => s.personId === personId)) return false;
+  table(api, "petitions").put({
+    ...petition,
+    signers: [...petition.signers, { personId, on: api.state.date, via }],
+  } as unknown as ModuleRow);
+  return true;
+}
+
+/** Who has signed a filing's petition, by id. */
+export function petitionSignerIds(
+  api: CoreAPI,
+  filingId: string,
+): ReadonlySet<string> {
+  return new Set(
+    (petitionOf(api, filingId)?.signers ?? []).map((s) => s.personId),
+  );
+}
+
+/** The kind of the public record of a clerk's petition check. */
+export const PETITION_CHECKED_EVENT = "petition-checked";
+
+/**
+ * Keep the clerk's check of a petition: the filing goes on the ballot with
+ * enough signatures standing, or is left short. The check is a public
+ * record the candidate, the press and the town learn.
+ */
+export function keepPetitionCheck(
+  api: CoreAPI,
+  filingId: string,
+  check: { readonly valid: number; readonly struckIds: readonly string[] },
+): FilingRow["status"] {
+  const petition = petitionOf(api, filingId);
+  const filing = table(api, "filings").get(filingId) as unknown as
+    FilingRow | undefined;
+  if (!petition || !filing || filing.status !== "petitioning")
+    return filing?.status ?? "withdrawn";
+  const status = check.valid >= petition.needed ? "on-ballot" : "short";
+  table(api, "petitions").put({
+    ...petition,
+    check: { on: api.state.date, ...check },
+  } as unknown as ModuleRow);
+  table(api, "filings").put({ ...filing, status } as unknown as ModuleRow);
+  const contest = table(api, "contests").get(
+    filing.contestId,
+  ) as unknown as ContestRow;
+  api.emit({
+    id: `${PETITION_CHECKED_EVENT}:${filing.id}`,
+    date: api.state.date,
+    kind: PETITION_CHECKED_EVENT,
+    personIds: api.state.people.has(filing.personId) ? [filing.personId] : [],
+    placeId: town(api).townPlaceId,
+    source: {
+      tag: petition.rule.basis === "read" ? "SOURCED" : "ESTIMATED",
+      citation: petition.rule.source,
+      asOf: api.state.date,
+      ...(petition.rule.basis === "read"
+        ? {}
+        : { estimatedFrom: "SG-GOV-petition-count-estimated" }),
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      filingId: filing.id,
+      petitionId: petition.id,
+      contestId: contest.id,
+      office: contest.title,
+      status,
+      signatures: String(petition.signers.length),
+      valid: String(check.valid),
+      needed: String(petition.needed),
+      filedWith: filing.filedWith,
+    },
+  });
+  return status;
 }
 
 /** The term serving on a seat today, or null. */

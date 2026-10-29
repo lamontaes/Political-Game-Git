@@ -30,7 +30,7 @@ const politicsTabs = async () => {
     .locator('[data-tab="politics"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".government-content").waitFor();
+  await page.locator("#sheet-body .record-section.wide").waitFor();
   await page.waitForFunction(
     () => document.querySelectorAll("#sheet-tabs button").length > 0,
   );
@@ -53,9 +53,6 @@ try {
   const asked = new URL((await made).url()).searchParams;
   const world = { seed: asked.get("seed"), date: asked.get("date") };
   console.log("Seed:", world.seed);
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
@@ -94,11 +91,13 @@ try {
     .locator('[data-tab="travel"]')
     .first()
     .evaluate((e) => e.click());
-  const go = page.locator("#sheet-body button", { hasText: /Go/ });
+  const go = page.locator("#sheet-body .entry", { hasText: /You file here/ });
   await go.first().waitFor();
   let atCounter = false;
   for (let i = 0; i < (await go.count()) && !atCounter; i++) {
     await go.nth(i).click();
+    const placeGo = page.locator('[data-testid="place-go"]');
+    if (await placeGo.isVisible().catch(() => false)) await placeGo.click();
     atCounter = await page
       .locator("#talk:not([hidden])")
       .waitFor({ timeout: 5000 })
@@ -107,24 +106,25 @@ try {
   }
   assert.ok(atCounter, "no place in Travel takes filings");
   await page.locator("#talk-choices button").first().click();
-  await page.locator("#filing-overlay:not([hidden])").waitFor();
+  await page
+    .locator("#talk-choices button", { hasText: /file for this office/i })
+    .first()
+    .waitFor();
   const filed = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/filing/choose",
   );
-  await page.locator("#talk-choices button").first().click();
+  await page
+    .locator("#talk-choices button", { hasText: /file for this office/i })
+    .first()
+    .click();
   const result = (await (await filed).json()).result;
-  assert.equal(
-    result?.filing?.status,
-    "on-ballot",
+  assert.ok(
+    ["petitioning", "on-ballot"].includes(result?.filing?.status),
     `the filing was refused: ${JSON.stringify(result?.unmet ?? result)}`,
   );
   await page
     .locator("#talk-leave")
     .click()
-    .catch(() => {});
-  await page
-    .locator("#filing-overlay")
-    .waitFor({ state: "hidden", timeout: 10000 })
     .catch(() => {});
 
   // Filed: the tab is there, and every sum reads in a rounded unit.
@@ -135,7 +135,7 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: /^budgets$/i })
     .click();
-  await page.locator(".budget-summary strong").first().waitFor();
+  await page.locator(".record-stats strong").first().waitFor();
   // Budgets opens on the town's own books: its city government, or the county
   // that serves it where the place has no city, never the federal default.
   assert.ok(budget, "the budget view did not load");
@@ -147,18 +147,13 @@ try {
   const levels = budget.governments.map((g) => g.level).join(", ");
   assert.ok(local, `no local budget to open on: ${levels}`);
   assert.equal(
-    await page.locator(".budget-content").evaluate((e) => {
-      const select = e.parentElement.querySelector("select");
-      return select.value;
-    }),
+    await page.locator("#sheet-body select").evaluate((e) => e.value),
     local.id,
     `Budgets did not open on the local books (${local.level}) of ${levels}`,
   );
   console.log(`PASS Budgets opens on the ${local.level} books of ${levels}`);
   const sums = await page
-    .locator(
-      ".budget-summary strong, .budget-columns .record-chart-line strong",
-    )
+    .locator(".record-stats strong, .record-chart-line strong")
     .allInnerTexts();
   assert.ok(sums.length > 3, "the budget shows no sums");
   for (const sum of sums)

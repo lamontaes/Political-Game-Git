@@ -1,6 +1,0 @@
-Place: Manistee, Michigan Seed: adc42a48-c1e5-4aeb-a41d-edfb00d4121e
-Unemployment lines on the first night: [
-  'The national unemployment rate is 4.1 percent.',
-  'The unemployment rate in Michigan outside the Detroit area is 5.8 percent.'
-]
-PASS every unemployment rate names its place

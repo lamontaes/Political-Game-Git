@@ -203,6 +203,8 @@ function expectSlides(scores: readonly number[], weight: number): void {
 }
 
 describe("filing for unemployment", () => {
+  /** A benefit replacing the whole lost pay: its log share adds nothing, so these read the stress alone. */
+  const WHOLE_PAY = 1;
   /** The smallest stress on the grid at which a worker with this base files. */
   const firstFiling = (base: number) => {
     const core = world((p) => {
@@ -211,7 +213,7 @@ describe("filing for unemployment", () => {
     const api = coreAPI(core);
     return STRESSES.find((s) => {
       const person = stressed(core, s);
-      return filingDecision(api, person, person).files;
+      return filingDecision(api, person, person, WHOLE_PAY).files;
     });
   };
 
@@ -221,25 +223,34 @@ describe("filing for unemployment", () => {
     const weight = api.parameter("hardshipWeightJobsBenefitsFileClaim");
     const scores = STRESSES.map((s) => {
       const person = stressed(core, s);
-      const d = filingDecision(api, person, person);
+      const d = filingDecision(api, person, person, WHOLE_PAY);
       return d.baseline + d.hardship.term + d.lean;
     });
     expectSlides(scores, weight);
     // The reason is the stress times the study-sized weight, and nothing at rest.
     const person = stressed(core, 0.4);
-    const d = filingDecision(api, person, person);
+    const d = filingDecision(api, person, person, WHOLE_PAY);
     expect(d.hardship.stress).toBeCloseTo(0.4, 9);
     expect(d.hardship.term).toBeCloseTo(0.4 * weight, 9);
     const rest = stressed(core, 0);
-    expect(filingDecision(api, rest, rest).hardship.term).toBe(0);
+    expect(filingDecision(api, rest, rest, WHOLE_PAY).hardship.term).toBe(0);
   });
 
   it("turns a worker leaning toward skipping at a stress that grows with how far they lean", () => {
     const core = world();
     const api = coreAPI(core);
     const weight = api.parameter("hardshipWeightJobsBenefitsFileClaim");
-    const person = stressed(core, 0);
-    const lean = filingDecision(api, person, person).lean;
+    // Read at a base of zero, so the lean is the score itself and not rounded off a base.
+    const zeroBase = world((p) => {
+      p.benefitsFileBase!.value = 0;
+    });
+    const person = stressed(zeroBase, 0);
+    const lean = filingDecision(
+      coreAPI(zeroBase),
+      person,
+      person,
+      WHOLE_PAY,
+    ).lean;
     // A base that leaves the worker `against` short of filing at no stress.
     const against = [0.12, 0.33, 0.52, 0.71];
     const flips = against.map((d) => firstFiling(-lean - d));
@@ -253,6 +264,32 @@ describe("filing for unemployment", () => {
       expect(flips[i]!).toBeGreaterThan(flips[i - 1]!);
     // With nothing against, the first stress above rest tips it; at rest it does not.
     expect(firstFiling(-lean)).toBe(STRESSES[1]);
+  });
+
+  it("reads the benefit's share of the lost pay as a reason toward filing, the log of the share at its weight", () => {
+    const core = world();
+    const api = coreAPI(core);
+    const weight = api.parameter("benefitsFileReplacementWeight");
+    const person = stressed(core, 0);
+    const shares = [0.1, 0.25, 0.5, 0.75];
+    const reasons = shares.map(
+      (share) => filingDecision(api, person, person, share).replacement,
+    );
+    shares.forEach((share, i) =>
+      expect(reasons[i]).toBeCloseTo(weight * Math.log(share), 9),
+    );
+    for (let i = 1; i < reasons.length; i += 1)
+      expect(reasons[i]!).toBeGreaterThan(reasons[i - 1]!);
+    // A worker the half-pay benefit just carries over the line skips a benefit capped at a tenth.
+    const d = filingDecision(api, person, person, 0.5);
+    const atHalf = d.baseline + d.replacement + d.lean;
+    const core2 = world((p) => {
+      p.benefitsFileBase!.value -= atHalf - 0.01;
+    });
+    const api2 = coreAPI(core2);
+    const worker = stressed(core2, 0);
+    expect(filingDecision(api2, worker, worker, 0.5).files).toBe(true);
+    expect(filingDecision(api2, worker, worker, 0.1).files).toBe(false);
   });
 });
 

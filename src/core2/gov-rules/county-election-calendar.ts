@@ -5,7 +5,7 @@
  */
 import calendarProfiles from "../../../data/research/government/county-election-calendar-profiles.json" with { type: "json" };
 import stateSchedule from "../../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
-import { makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import type { GovernmentUnitIdentity } from "../reference/government-units";
 import type { IsoDate } from "./types";
 
@@ -61,12 +61,6 @@ interface StateRow {
   };
   readonly note?: string;
   readonly sourceUrls: readonly string[];
-}
-
-function addDays(date: IsoDate, days: number): IsoDate {
-  const moved = new Date(`${date}T00:00:00Z`);
-  moved.setUTCDate(moved.getUTCDate() + days);
-  return makeIsoDate(moved.toISOString().slice(0, 10));
 }
 
 /** The state's statutory rule, for a county with no county-specific profile. */

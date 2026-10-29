@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/journal-relative-acts
-pr: 6376
+pr: #6376
 blocked-on:
 source: added with npm run pool -- add
 lead: words

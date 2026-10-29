@@ -10,7 +10,6 @@ import { writeFileSync } from "node:fs";
 import { addDays, isoDateFromParts, makeIsoDate } from "../kernel/dates";
 import { enrichCivicInputs } from "../civic-inputs";
 import { DEFAULT_DATA } from "../data";
-import { buildDeepPast } from "../deep-past";
 import { advanceCore, createLifeCore } from "../life";
 import {
   createDrivesModule,
@@ -271,13 +270,11 @@ function main() {
   const through = addDays(startedAt, options.days);
   const buildStarted = performance.now();
   const input = enrichCivicInputs(
-    buildDeepPast(
-      buildPopulation({
-        seed: options.seed,
-        startedAt,
-        minimumPeople: options.people,
-      }),
-    ),
+    buildPopulation({
+      seed: options.seed,
+      startedAt,
+      minimumPeople: options.people,
+    }),
   );
   const buildSeconds =
     (performance.now() - buildStarted) / P.millisecondsPerSecond;

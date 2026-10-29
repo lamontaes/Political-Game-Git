@@ -5,14 +5,14 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/integration-ties-in-scenes
-pr:
+status: done
+claimed-by:
+pr: #6412
 blocked-on:
 source: "Integrator (Opus), Oct 27, from the owner's v0.56.2 sitting (Salida, Colorado, as Carlos Washington)"
 lead: director
 milestone: play-first
-claimed-at: 2026-10-27T19:39:30.000Z
+claimed-at:
 ---
 
 **What.** Brian Shah joined the campaign as a volunteer; two months later a cafe scene opened "You've been running into Brian Shah around town... Nice to see you. What do you do?" with four replies that were one answer reworded. The owner: "these scenes aren't making sense... These scenes have zero depth to them." Casting and line selection read the relationship record (its kind, how they met, what they did together): becoming-friends fires only for a person with no shared record, the conversation never asks a known volunteer or coworker what they do, and the four replies are four different moves, never one move reworded.
@@ -30,3 +30,4 @@ claimed-at: 2026-10-27T19:39:30.000Z
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/conversation.ts, src/director/ledger.ts
 
 **Notes.** Coordinate lines with the finisher (Opus, English engine and scenes) and the words lead through the Words and scenes channel section. Owner, Oct 27, 4 PM Eastern: "Systems are being made for individually instead of linking everything together... The UI needs to be linked to the systems as it works... Sessions should not be building their own shit." Read: OWNER-DECISIONS (Oct 27, afternoon), DECISION-REGISTER, prior-rulings/words.md, LAW; searched docs/ for the subject.
+Sent back 2026-10-28 from PR #6412 (branch claude/integration-ties-in-scenes): tie-history-scenes.test.ts hard-fails when a drawn place's volunteers are all kin (Newkirk NM seed c1ba9dc53f1eed201684:0); make it pass over such places; finish on that branch, merge main into it first.

@@ -29,7 +29,7 @@ import {
   housingStatusCounts,
   shelterBeds,
 } from "../../src/core2/housing-homeless";
-import { homePriceRatio } from "../../src/core2/housing-prices";
+import { publishedHomePriceRatio } from "../../src/core2/housing-prices";
 import { HOUSING_MODULE_ID, ownedHomes } from "../../src/core2/modules/housing";
 import housing from "../../src/core2/data/housing/housing.json" with { type: "json" };
 import evictionReads from "../../data/research/world/eviction-statute-reads-2026.json" with { type: "json" };
@@ -182,11 +182,11 @@ const days = (a?: string, b?: string) =>
     balanceMinor: number;
   }[];
   console.log(
-    `\nhome prices: ${fhfa ? "FHFA index for the place" : "no FHFA index; consumer prices stand in"}; 10-year ratio ${homePriceRatio(usps, "2016-07-01", startedAt).toFixed(3)}`,
+    `\nhome prices: ${fhfa ? "FHFA index for the place" : "no FHFA index; consumer prices stand in"}; 10-year ratio ${publishedHomePriceRatio(usps, "2016-07-01", startedAt).toFixed(3)}`,
   );
   for (const row of terms.slice(0, 2))
     console.log(
-      `  mortgage:${row.householdId}: bought ${row.boughtYear}, price then ${(homePriceRatio(usps, startedAt, `${row.boughtYear}-07-01`) * 100).toFixed(1)}% of today's value; original ${(row.originalMinor / 100).toFixed(0)} dollars, balance ${(row.balanceMinor / 100).toFixed(0)}`,
+      `  mortgage:${row.householdId}: bought ${row.boughtYear}, price then ${(publishedHomePriceRatio(usps, startedAt, `${row.boughtYear}-07-01`) * 100).toFixed(1)}% of today's value; original ${(row.originalMinor / 100).toFixed(0)} dollars, balance ${(row.balanceMinor / 100).toFixed(0)}`,
     );
   if (!terms.length) console.log("  no opening mortgage terms recorded");
 }

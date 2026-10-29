@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/residents.ts, src/core2/modules/jobs.ts, src/core2/population.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts. Released from idle draft #5076 by the CTO, Oct 26.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (row resolved).

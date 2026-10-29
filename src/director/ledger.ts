@@ -9,9 +9,18 @@
  * the person's own traits; there is no list of moment kinds. Nothing here
  * draws by chance.
  */
+import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
-import { closenessBetween } from "../core2/closeness";
+import { closenessBetween, familyFactsOf, formerKin } from "../core2/closeness";
+import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
+
+/** Where a contact was made, by the record that says so: never a stranger's scene. */
+const MADE_AT: readonly SharedHistoryKind[] = [
+  "campaign",
+  "coworker",
+  "schoolmate",
+];
 import { P, parameterValues } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import {
@@ -36,6 +45,8 @@ import {
   spacingAllows,
   type QueuedRecord,
 } from "./circumstance";
+import { stagePollingVisits } from "./polling-place";
+import { doorsKnocked } from "./doors";
 import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import type { ScheduleEntry } from "./scheduling";
@@ -254,59 +265,6 @@ export function createDirector(
     };
   }
 
-  /** The kin relation each family member holds to the person, from recorded family links. */
-  function kinRelations(
-    core: Readonly<CoreState>,
-    personId: PersonId,
-  ): Map<PersonId, string[]> {
-    const parents = new Map<PersonId, Set<PersonId>>();
-    const partners = new Map<PersonId, Set<PersonId>>();
-    const add = (
-      map: Map<PersonId, Set<PersonId>>,
-      a: PersonId,
-      b: PersonId,
-    ) => {
-      let set = map.get(a);
-      if (!set) map.set(a, (set = new Set()));
-      set.add(b);
-    };
-    for (const link of core.familyLinks.values()) {
-      const [a, b] = link.personIds;
-      const left = core.people.get(a);
-      const right = core.people.get(b);
-      if (!left || !right) continue;
-      if (link.kind === "partner") {
-        add(partners, a, b);
-        add(partners, b, a);
-      } else {
-        const [parent, child] =
-          left.birthDate <= right.birthDate ? [a, b] : [b, a];
-        add(parents, child, parent);
-      }
-    }
-    const children = new Map<PersonId, Set<PersonId>>();
-    for (const [child, set] of parents)
-      for (const parent of set) add(children, parent, child);
-    const out = new Map<PersonId, string[]>();
-    const mark = (id: PersonId, relation: string) => {
-      if (id === personId) return;
-      const list = out.get(id) ?? [];
-      if (!list.includes(relation)) list.push(relation);
-      out.set(id, list);
-    };
-    const myParents = parents.get(personId) ?? new Set<PersonId>();
-    for (const id of myParents) mark(id, "parent");
-    for (const id of children.get(personId) ?? []) mark(id, "child");
-    for (const id of partners.get(personId) ?? []) mark(id, "partner");
-    for (const parent of myParents) {
-      for (const id of children.get(parent) ?? []) mark(id, "sibling");
-      for (const id of parents.get(parent) ?? []) mark(id, "grandparent");
-    }
-    for (const child of children.get(personId) ?? [])
-      for (const id of children.get(child) ?? []) mark(id, "grandchild");
-    return out;
-  }
-
   function ensureThread(
     book: PersonLedger,
     otherId: PersonId,
@@ -398,7 +356,11 @@ export function createDirector(
     // be followed), read from the log's own index of them.
     for (const id of core.logByPerson.get(personId) ?? []) {
       const record = core.durableLog.get(id);
-      if (record?.date === core.date && record.personIds.includes(personId))
+      if (
+        record?.date === core.date &&
+        (record.personIds.includes(personId) ||
+          record.witnessIds?.includes(personId))
+      )
         pendingFor(personId).events.push({
           event: record,
           reach: "named",
@@ -409,7 +371,13 @@ export function createDirector(
     const home = new Set(
       core.households.get(actor.householdId)?.memberIds ?? [],
     );
-    const kin = kinRelations(core, personId);
+    // Each relative by the relation the person's own family facts record
+    // (the one reader, familyFactsOf); an ended tie is no longer kin.
+    const kin = new Map(
+      [...familyFactsOf(actor)]
+        .filter(([, fact]) => !formerKin(fact.relation))
+        .map(([id, fact]): [PersonId, string[]] => [id, [fact.relation]]),
+    );
     for (const id of new Set([...actor.familyIds, ...kin.keys(), ...home])) {
       if (id === personId) continue;
       const other = core.people.get(id);
@@ -457,42 +425,20 @@ export function createDirector(
       thread.closeness = row.level;
       thread.lastContact = row.lastContactDate;
     }
-    // The recorded past (owner answer 5): public eras are background for
-    // everyone who lived through them, and a personal moment only where the
-    // record says the era hit this person; personal facts are moments with an
+    // The recorded past (owner answer 5): personal facts are moments with an
     // impact estimated from the stress scale. Facts dated at or after the
     // opening describe the life as play starts and score nothing.
-    const past = [...(actor.pastFacts ?? [])]
+    // With the schools the engine ran for the years before the start.
+    const past = [
+      ...(actor.pastFacts ?? []),
+      ...preStartHistory(core as CoreState, {
+        kind: SCHOOL_STARTED,
+        personId,
+      }),
+    ]
       .filter((fact) => fact.date < core.startedAt)
       .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
     for (const fact of past) {
-      if (
-        data.backdropPastFactPrefixes.some((prefix) =>
-          fact.kind.startsWith(prefix),
-        )
-      ) {
-        book.backdrop.push({
-          id: `${personId}:past:${fact.id}`,
-          personId,
-          date: fact.date,
-          sourceId: fact.id,
-          kind: fact.kind,
-          reach: "past",
-        });
-        for (const hit of data.pastEraHits) {
-          const value = fact.facts?.[hit.factKey];
-          if (value === undefined || data.pastNotRecordedValues.includes(value))
-            continue;
-          storePastMoment(
-            book,
-            fact,
-            `${fact.kind}:${hit.factKey}`,
-            hit.parameter,
-            [],
-          );
-        }
-        continue;
-      }
       const row = data.pastFactMoments.find((entry) =>
         fact.kind.startsWith(entry.kindPrefix),
       );
@@ -518,6 +464,10 @@ export function createDirector(
       );
     }
     snapshots.set(personId, snapshot(core, actor));
+    // What already reached them today (the address they watched that
+    // evening) is measured now, so it is staged by the same path as every
+    // later moment.
+    if (pending.get(personId)?.events.length) measureDay(core, book, false);
   }
 
   /** A moment scored from the recorded past: journal material, never a scene. */
@@ -626,8 +576,8 @@ export function createDirector(
       daysBetween(makeIsoDate(last), makeIsoDate(date)),
     );
     const halfLife = thread.kin.length
-      ? param("directorKinHalfLifeDays")
-      : param("directorFriendHalfLifeDays");
+      ? P.closenessKinHalfLifeDays
+      : P.closenessOtherHalfLifeDays;
     return one - Math.pow(P.two, -days / halfLife);
   }
 
@@ -896,12 +846,31 @@ export function createDirector(
         (entry) => entry.eventKind === row.event.kind,
       );
       if (!rule) continue;
+      // The person a fact of the event names (the official a recall's count
+      // is about) is named by it as surely as its own people: the event is
+      // theirs, and its people are who it was with.
+      const named = rule.counterpartFact
+        ? row.event.facts?.[rule.counterpartFact]
+        : undefined;
+      const self = named === book.personId;
       let raw = zero;
       if (rule.impactParameter) {
-        // The event's own impact reaches the people it names fully, and
-        // those who learned of it through a tie by their relation.
+        // The event's own impact reaches the people it names and those who
+        // saw it fully, and those who learned of it through a tie by their
+        // relation.
         raw = param(rule.impactParameter);
-        if (!row.event.personIds.includes(book.personId)) {
+        // A share of it the event's own fact gives, on a sliding scale.
+        if (rule.scaleFact) {
+          const share = Number(row.event.facts?.[rule.scaleFact]);
+          raw *= Number.isFinite(share)
+            ? Math.max(zero, Math.min(one, share))
+            : zero;
+        }
+        if (
+          !self &&
+          !row.event.personIds.includes(book.personId) &&
+          !row.event.witnessIds?.includes(book.personId)
+        ) {
           const thread = row.event.personIds
             .map((id) => book.threads.get(id))
             .find(Boolean);
@@ -918,17 +887,18 @@ export function createDirector(
         raw = Math.abs(after - before) / before;
       }
       if (raw <= zero) continue;
-      const named = rule.counterpartFact
-        ? row.event.facts?.[rule.counterpartFact]
-        : undefined;
       const made = change(
         row.event.id,
         `event:${row.event.kind}`,
         rule.channel,
         raw,
-        named ? [named] : row.event.personIds,
+        self
+          ? row.event.personIds.filter((id) => id !== book.personId)
+          : named
+            ? [named]
+            : row.event.personIds,
       );
-      if (!named && row.event.personIds.includes(book.personId))
+      if (self || (!named && row.event.personIds.includes(book.personId)))
         made.selfNamed = true;
     }
 
@@ -957,7 +927,22 @@ export function createDirector(
       // A tie moves a little with each contact; it turns when the change since
       // its last turn adds up, as a friendship grows over many meetings.
       thread.tieDrift = (thread.tieDrift ?? zero) + delta;
-      change(causeId, `contact:${row.kind}`, "tie", Math.abs(thread.tieDrift), [
+      // A tie made working on one's campaign, at one's employer or at school is
+      // that history, not chance meetings around town: its label names it
+      // (shared-history.ts), so a known volunteer, coworker or schoolmate is
+      // never cast in a stranger's scene.
+      // The first in MADE_AT's order: a volunteer who is also a coworker
+      // was met on the campaign.
+      const kinds =
+        row.kind === "contact"
+          ? new Set(
+              sharedHistory(core, book.personId, otherId).map(
+                (entry) => entry.kind,
+              ),
+            )
+          : new Set<SharedHistoryKind>();
+      const made = MADE_AT.find((kind) => kinds.has(kind)) ?? row.kind;
+      change(causeId, `contact:${made}`, "tie", Math.abs(thread.tieDrift), [
         otherId,
       ]);
       if (
@@ -1410,6 +1395,7 @@ export function createDirector(
         ...newCoworkers(core, book.personId),
         ...newHousemates(core, book.personId),
         ...schoolFinished(core, book.personId),
+        ...doorsKnocked(core, book.personId),
       ];
       // A record read directly today (a school year's end) is held for the
       // rows that come days after it, as a logged event is when recorded.
@@ -1543,11 +1529,31 @@ export function createDirector(
   }
 
   /**
+   * The first moment at or after `at` that a scene's setting can hold it: a
+   * home from the person's day start to its evening, an office in its hours
+   * (settingHours). A moment measured at the day's closing midnight waits for
+   * the morning instead of playing in the dark.
+   */
+  function openedAt(
+    core: CoreState,
+    at: { date: IsoDate; minuteOfDay: number },
+    kind: string | undefined,
+  ): { date: IsoDate; minuteOfDay: number } {
+    const row = data.settingHours.rows[kind ?? "home"];
+    if (!row) return at;
+    const opens = row.opens ?? coreParam(core, "playerDayStartMinute");
+    if (at.minuteOfDay >= opens && at.minuteOfDay < row.closes) return at;
+    return at.minuteOfDay < opens
+      ? { date: at.date, minuteOfDay: opens }
+      : { date: addDays(makeIsoDate(at.date), one), minuteOfDay: opens };
+  }
+
+  /**
    * Tells the core's player clock that the controlled person's interrupting
    * moment stops it at the moment's own time: the clock's frontier when the
-   * moment is measured. A moment rated as its event is recorded mid-day stops
-   * the clock there; a moment measured as the day closes stops it at the
-   * closing midnight, which is when the rest of the world's day is recorded.
+   * moment is measured, or the next minute its setting is open. A moment rated
+   * as its event is recorded mid-day stops the clock there; a moment measured
+   * as the day closes stops it on the next morning its setting opens.
    * A one-shot stop: the client's acknowledgment consumes it. Moments of
    * anyone not controlled stop nothing.
    */
@@ -1559,10 +1565,14 @@ export function createDirector(
         !core.people.get(moment.personId)?.alive
       )
         continue;
-      const at = playerClockFrontierV1(core, moment.personId) ?? {
-        date: addDays(makeIsoDate(core.date), one),
-        minuteOfDay: zero,
-      };
+      const at = openedAt(
+        core,
+        playerClockFrontierV1(core, moment.personId) ?? {
+          date: addDays(makeIsoDate(core.date), one),
+          minuteOfDay: zero,
+        },
+        entry.bindings[zero]?.setting.kind,
+      );
       registerModuleStopV1(core, {
         moduleId: module.id,
         recordId: moment.id,
@@ -1620,7 +1630,21 @@ export function createDirector(
     learnedBy: readonly PersonId[],
   ): PersonId[] {
     const reached: PersonId[] = [];
-    const named = new Set([...event.personIds, ...(event.witnessIds ?? [])]);
+    // The person a fact of the event names (the official a recall's count
+    // is about, by the event's counterpart rule) is named by it too.
+    const counterpartFact = data.eventImpacts?.find(
+      (entry) => entry.eventKind === event.kind,
+    )?.counterpartFact;
+    const factNamed = counterpartFact
+      ? event.facts?.[counterpartFact]
+      : undefined;
+    const named = new Set([
+      ...event.personIds,
+      ...(event.witnessIds ?? []),
+      ...(typeof factNamed === "string" && factNamed
+        ? [factNamed as PersonId]
+        : []),
+    ]);
     const learned = new Set(learnedBy);
     const broad = data.broadEventFlags.some(
       (flag) => (event as unknown as Record<string, unknown>)[flag] === true,
@@ -1786,6 +1810,9 @@ export function createDirector(
         throw new Error("The story director was installed but not started.");
       for (const book of ledger.people.values()) measureDay(api.state, book);
       produceCircumstances(api.state);
+      // Election day (the polling-place type's producer): the eve's close
+      // stages the polls for each watched voter the count will count.
+      stagePollingVisits(api.state, ledger);
       registerInterrupts(api.state);
       // Once a month, each watched person forgets what no longer matters.
       if (api.state.date.endsWith("-01"))

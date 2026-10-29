@@ -4,7 +4,7 @@ title: "Outside-flow provenance gate fails on main"
 area: core
 kind: bug
 priority: 1
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Verified the failing check: closures.mjs check 6. `core-outside-flow-rows` classifies the five real exchanges; what is left is the registered plug, `gov-outside-revenue-real-payers`. Closes when that item merges.
 
 Oct 20 (pool feeder): spec written; this is the gate for the plug roll-up, so it waits on gov-outside-revenue-real-payers (itself waiting on gov-outside-revenue-retire-plug, still claimed) and closes by running the gate once it lands.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `gov-outside-revenue-retire-plug`; close into it and carry any line it lacks there. (fix lands there; item says 'not a code change of its own')

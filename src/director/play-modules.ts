@@ -4,7 +4,6 @@
  * story director is created separately because the screens read its ledger.
  */
 import { DEFAULT_DATA } from "../core2/data";
-import { candidacyModule } from "../core2/modules/candidacy";
 import { corruptionModule } from "../core2/modules/corruption";
 import {
   createDrivesModule,
@@ -38,7 +37,6 @@ export function peopleModules(): CoreModule[] {
     viewsModule,
     newsModule,
     speechModule,
-    candidacyModule,
     corruptionModule,
     RENEWAL_MODULE,
     movesModule,

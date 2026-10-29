@@ -5,11 +5,12 @@ area: art
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/people-hair
+pr: #6426
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T22:07:54.847Z
 ---
 
 **What.** The 108 hair pieces in art/people-engine/v2/hair are whole painted heads (head, neck, face and gray hair), drawn wider and rounder than the heads of the v2 figures, so no uniform scale and offset sets a piece on a figure (tried on the standing three-quarter figures: neck row, eye row and span, cheek width; the hair landed above, beside or not at all). Style n is the same cut in the front, three-quarter and back pieces (12 feminine, 15 masculine); three-quarter has two sheets per sex, one turned each way (v2-07 and v2-19 turn left; v2-17 and v2-30 turn right). The hair is the unsaturated gray non-skin component of a piece with the dark outline within 2 pixels of it, and a swatch recolor works on it like on clothes (src/bench/figure-colors.ts). This item stores a hand-set fit (scale, dx, dy) per style, sex and facing as data and draws the hair on the figure.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/figure-hair.ts (new), src/bench/data/hair-fits.json (new), src/bench/appearance.ts, src/bench/handler.ts, src/bench/scene.ts, src/bench/play.mjs, art/people-engine/v2/hair
 
 **Notes.** From play-stop-33, 2026-10-27 (lane agent 3). The first attempt (an automatic fit by neck, eye and cheek landmarks) is not kept; the hair-mask idea above is the part that worked. Hours: 4 per style group (feminine, masculine). Unblocks play-stop-33.
+
+Oct 29 (CTO): set done; PR #6426 merged (the done flip failed while branch protection refused the flip job's push).
