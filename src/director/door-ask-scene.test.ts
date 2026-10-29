@@ -9,7 +9,11 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { CAMPAIGNS_MODULE_ID, type CauseRow } from "../core2/modules/campaigns";
-import { fileCandidacy, openContests } from "../core2/modules/elections";
+import {
+  fileCandidacy,
+  openContests,
+  petitionSignerIds,
+} from "../core2/modules/elections";
 import { townSeats } from "../core2/modules/offices";
 import { P } from "../core2/parameters";
 import { corePlaceByKey } from "../core2/place-lookup";
@@ -23,14 +27,20 @@ import type { ScheduleEntry } from "./scheduling";
 // A door the player's own canvass knocks, where the resident's agreement is
 // the day's strongest, plays as the player's ask: the player asks for their
 // vote and the resident answers from where the knock left them (the campaign
-// engine's warmth after the knock), through the one scene builder. The
-// player's ask is written back as the resident's answer, with the ending the
-// purpose names.
+// engine's warmth after the knock), through the one scene builder. While the
+// player's petition circulates, the player asks for a signature instead, and
+// the resident answers from the petition record: signed or not. The player's
+// ask is written back as the resident's answer, with the ending the purpose
+// names.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const ATTEMPTS = 4;
 const WEEKS = 52;
 const DAYS = 10;
-const LABELS = ["circumstance:door-first", "circumstance:door-again"];
+const LABELS = [
+  "circumstance:door-first",
+  "circumstance:door-again",
+  "circumstance:door-petition",
+];
 
 /** Every end of a tree. */
 const ends = (node: TreeNode): TreeNode[] => [
@@ -58,7 +68,7 @@ function fileLocal(core: CoreState, personId: string) {
   return null;
 }
 
-it(`a door the player knocks plays as the player's ask, answered from the knock (seed ${seed})`, () => {
+it(`a door the player knocks plays as the player's ask, answered from the knock or the petition (seed ${seed})`, () => {
   setBookkeeping(false);
   const tried: string[] = [];
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
@@ -157,10 +167,19 @@ it(`a door the player knocks plays as the player's ask, answered from the knock 
     expect(scene.talk.state.speakerId, where).toBe(personId);
     const first = scene.talk.tree.lines[0]!;
     expect(first.speakerId, where).toBe(cause.voterId);
-    // From where the knock left them: for the player, a yes; otherwise no.
-    expect(first.move, `${where}: warmth ${cause.warmthAfter}`).toBe(
-      cause.warmthAfter > 0 ? "agree" : "decline",
+    // Asked to sign, from the petition record; asked for a vote, from where
+    // the knock left them. For the player, a yes; otherwise no.
+    const petition = moment.label === "circumstance:door-petition";
+    const signed = petitionSignerIds(coreAPI(core), filing.id).has(
+      cause.voterId,
     );
+    expect(result.scene.purpose, where).toBe(
+      petition ? "ask-signature" : "ask-support",
+    );
+    expect(
+      first.move,
+      `${where}: ${petition ? `signed ${signed}` : `warmth ${cause.warmthAfter}`}`,
+    ).toBe((petition ? signed : cause.warmthAfter > 0) ? "agree" : "decline");
     // Every end is one the purpose names, by the one ending decider.
     const named = ends(scene.talk.tree).map((node) => node.end?.ending?.id);
     expect(named.every(Boolean), `${where}: ${named.join(", ")}`).toBe(true);
@@ -179,7 +198,7 @@ it(`a door the player knocks plays as the player's ask, answered from the knock 
     );
     process.stdout.write(
       [
-        `DOOR ASK ${where}, run seed ${seed}: ${moment.label}, cause ${cause.id}, warmth after ${cause.warmthAfter.toFixed(2)}`,
+        `DOOR ASK ${where}, run seed ${seed}: ${moment.label}, cause ${cause.id}, filing ${filing.id}, ${petition ? `signed ${signed}` : `warmth after ${cause.warmthAfter.toFixed(2)}`}`,
         ...scene.talk.narration.map((line) => `Narrator: ${line.text}`),
         `${scene.talk.state.speaker}: ${scene.talk.state.text}`,
         `${first.speaker}: ${first.text}`,

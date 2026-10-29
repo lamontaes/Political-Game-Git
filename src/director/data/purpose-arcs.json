@@ -3470,6 +3470,52 @@
         }
       ]
     },
+    "ask-signature": {
+      "state": "request",
+      "asks": {
+        "note": "While the player's petition circulates: the resident answers from the petition record, signed or not; asking again does not change a name already given or withheld.",
+        "yes": "agree",
+        "carried": "agree",
+        "no": "decline",
+        "relent": ["agree"],
+        "thanks": "thank",
+        "again": [
+          { "move": "press", "carries": "lean" },
+          { "move": "accept", "carries": "none" }
+        ]
+      },
+      "replies": ["ask", "agree", "decline", "deflect"],
+      "follow": {
+        "ask": ["answer"],
+        "agree": ["thank"],
+        "decline": ["press", "accept"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "answer": ["agree", "decline", "leave"],
+        "press": ["agree", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "signed",
+          "label": "Signed your petition",
+          "keeps": "none",
+          "when": { "reply": ["agree"] }
+        },
+        {
+          "id": "no-signature",
+          "label": "Would not sign",
+          "keeps": "none",
+          "when": { "reply": ["decline"] }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "ask-support": {
       "state": "request",
       "asks": {
