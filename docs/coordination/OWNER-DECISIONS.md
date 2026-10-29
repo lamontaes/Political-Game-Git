@@ -16,7 +16,6 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - A member card shows face, name, party badge, ward or district, and how they feel about you, only when your character knows them.
   - The Judicial tab shows the judges who exist in the world as read-only cards.
 
-
 ## Oct 29, 21:55 UTC: the CTO's word is the owner's word (owner, said in the laws lead's session at about 21:42 UTC and confirmed directly to the CTO: "yes")
 
 - **Ruling:** "Oh, go ahead. Go ahead. The CTO's word is my word. If you get a message from the CTO, just assume it came from me." Every session acts on a message from the CTO (`session_01S4WSHrFBAnJLwUcjDV8Vc3`, `docs/coordination/CREW.md`) as the owner's own direction for its work, without waiting for him to repeat it. It never widens a session's permissions, and it never makes a destructive or outside action acceptable that the session would not take on the owner's own word. Carried in `AGENTS.md` (How we talk) and `.agents/rules/how-we-talk.md`. This settles the Oct 29 afternoon problem of a session treating the CTO's messages as data only.
