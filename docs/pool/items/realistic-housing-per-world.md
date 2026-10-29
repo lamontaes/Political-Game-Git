@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/realistic-housing-rows
 pr: #6597
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at: 2026-10-28T06:09:23.970Z
 **Files.** src/core2/housing-prices.ts, src/core2/modules/housing.ts, src/simulation/county-home-value.ts, src/core2/hud-rents.ts
 
 **Notes.** Filed by the realistic-not-real audit of Oct 27.
+
+Oct 29 (CTO): set done; PR #6597 merged (the done flip failed while branch protection refused the flip job's push).

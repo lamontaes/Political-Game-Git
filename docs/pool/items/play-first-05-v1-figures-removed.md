@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by:
 pr: #5898
 blocked-on:
@@ -33,3 +33,5 @@ milestone: play-first
 CTO, Oct 25 18:20 UTC: #5898 is merged (the v2 set stands in every room; src/bench/whole-figures.test.ts fails on any art/people-whole load). The owner's installed-build check of the four screens closes it; nothing for the lane to build unless that check stops.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (merged #5898; owner installed-build check per OD:105).
+
+Oct 29 (CTO): set done; PR #5898 merged (the done flip failed while branch protection refused the flip job's push).

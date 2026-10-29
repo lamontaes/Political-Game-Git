@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/realistic-regional-and-jobs
 pr: #6593
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at: 2026-10-28T05:27:53.451Z
 **Files.** src/core2/regional-model.ts, src/core2/opening-employment.ts, src/core2/town-pay.ts, src/core2/town-employment-mix.ts, src/core2/residents.ts
 
 **Notes.** Filed by the realistic-not-real audit of Oct 27.
+
+Oct 29 (CTO): set done; PR #6593 merged (the done flip failed while branch protection refused the flip job's push).
