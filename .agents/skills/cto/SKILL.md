@@ -40,7 +40,7 @@ Run it when the role starts, every two hours while it runs, when the owner asks 
 - [ ] Act, then write the CTO block on the channel (commit to main: `leads: cto status <time>`), then report
 ```
 
-The CTO merges only its own docs, skill and pool PRs; mergers merge everything else, and the CTO audits them. Shared files (`OWNER-DECISIONS.md`, the channel, `MERGE-FIRST.md`, pool status) go to main directly; everything else goes on a branch.
+The CTO merges only its own docs, skill and pool PRs, and every session's `skills:` PR; mergers merge everything else, and the CTO audits them. A skills-only PR (skill files, their mirror, the AGENTS.md list line, an `impact: none` declaration, dev-only scripts) merges at once without waiting on CI (owner, Oct 29: "You shouldn't need to wait for checks to pass on new skills"): merge main into it, run `npx vitest run scripts/skill-ops/skill-ops.test.ts` for the mirror and the list, and merge. Shared files (`OWNER-DECISIONS.md`, the channel, `MERGE-FIRST.md`, pool status) go to main directly; everything else goes on a branch.
 
 ## Who does what
 
