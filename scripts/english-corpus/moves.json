@@ -680,33 +680,6 @@
         "tag": "answer"
       }
     ],
-    "filing-visit": [
-      {
-        "move": "^clerk-close",
-        "tag": "close",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-greet",
-        "tag": "greet",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-(rule|terms)",
-        "tag": "tell",
-        "key": "routine"
-      },
-      {
-        "move": "^player-accept",
-        "tag": "agree",
-        "key": "routine"
-      },
-      {
-        "move": "^player-pick",
-        "tag": "request",
-        "key": "routine"
-      }
-    ],
     "headlines": [
       {
         "move": "^(life-death|organization-closed)$",

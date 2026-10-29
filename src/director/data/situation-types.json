@@ -3254,7 +3254,7 @@
       "tag": {
         "key": "routine",
         "endpoint": "political",
-        "registers": ["filing-visit", "journal"]
+        "registers": ["scene-talk", "journal"]
       },
       "purpose": "filing-clerk",
       "asker": "clerk",
