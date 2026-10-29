@@ -173,6 +173,32 @@ describe("English part banks", () => {
   }
 });
 
+// A relative day in narration is true only against the clock: "today",
+// "tonight" and "this morning" only on the record's own day (the director's
+// `same-day` fact), "yesterday" only the day after (`day-after`). A scene
+// that plays later falls to a piece that names no day.
+describe("relative days in scene narration", () => {
+  const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;
+  type Use = { step?: string; requiresFacts?: string[] };
+  it("says today, tonight or yesterday only with the fact that makes it true", () => {
+    const wrong: string[] = [];
+    for (const part of sceneTalk.parts as (Part & { uses: Use[] })[])
+      for (const use of part.uses.filter((row) => row.step === "narrate")) {
+        const needs = use.requiresFacts ?? [];
+        if (
+          /\b(?:today|tonight|this (?:morning|afternoon|evening))\b/i.test(
+            part.text,
+          ) &&
+          !needs.includes("same-day")
+        )
+          wrong.push(`${part.key}: needs same-day`);
+        if (/\byesterday\b/i.test(part.text) && !needs.includes("day-after"))
+          wrong.push(`${part.key}: needs day-after`);
+      }
+    expect(wrong).toEqual([]);
+  });
+});
+
 // The household's filing talk (family-filing) is said to a candidate for any
 // office: a piece names a body (council, board, legislature) only where it
 // needs the fact that the race is for one, and claims no span of years.
