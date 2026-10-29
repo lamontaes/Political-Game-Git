@@ -152,6 +152,16 @@
         "estimatedFrom": "Each place starts at its own rents, which the housing engine records on its leases; the web holds only the proportional change its links put on them, so no national dollar level stands in for a place's rent."
       }
     },
+    "housing.home-value": {
+      "scale": "index",
+      "unit": "index, 100 at the place's own starting home values (the housing engine's owned homes); the links move it proportionally and the engine values each home, and prices each sale, by the change",
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2022-07-01",
+        "citation": "U.S. Census Bureau, American Community Survey 2020-2024 5-year estimates, table B25077, median value of owner-occupied housing units (the housing engine's opening values, dated mid-2022).",
+        "estimatedFrom": "Each place starts at its own home values, which the housing engine records on its dwellings; the web holds only the proportional change its links put on them, so no national dollar level stands in for a place's home value. The measure the births links read, housing.home-prices, is the engine's median home value itself and already includes this change."
+      }
+    },
     "justice.federal-incarcerated-per-100k": {
       "scale": "rate",
       "unit": "federal prisoners per 100,000 U.S. residents",
@@ -360,6 +370,13 @@
       "field": "povertyShare",
       "unitScale": 100,
       "ownsOutcome": true
+    },
+    "disaster.severe": {
+      "owner": "OPUS-CORE",
+      "record": "the disasters engine's news events (hazard.disaster) for the town: the highest severity (0 to 1, the homes FEMA inspected as damaged per resident on the ramp in src/core2/data/disasters/severity.json) among disasters that began since the world opened, within the last ten years",
+      "reader": "disaster-severity",
+      "field": "",
+      "unitScale": 1
     },
     "housing.property-tax-rate": {
       "owner": "OPUS-WORLD",

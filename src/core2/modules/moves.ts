@@ -61,7 +61,6 @@ export const MOVED_AWAY_EVENT = "person.moved-away";
 const STOPGAP = "SG-P15-moves-weights";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const TAX_STOPGAP = "SG-WEB-moves-full-tax-pull";
-const DISASTER_STOPGAP = "SG-WEB-moves-disaster-severity";
 const INACTIVE_TIER = "husk";
 
 type Rates = Readonly<Record<string, number>>;
@@ -920,7 +919,6 @@ function webLeavingFor(
   if (held) return held;
   const subject: Subject = { age, tenure, householdKind };
   api.stopgap(TAX_STOPGAP);
-  api.stopgap(DISASTER_STOPGAP);
   const leaving = webReach(
     api,
     person.placeId,

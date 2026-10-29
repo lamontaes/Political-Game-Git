@@ -1,8 +1,10 @@
 /**
  * Victimization records. Once a month, for each place the outcome web covers,
- * the crimes the web keeps (burglary, other property crime, robbery, assault)
- * happen to households, as records. How many comes from the national NCVS
- * rate of each kind times the web's factor for the place, summed over every
+ * the crimes the web keeps (burglary, other property crime, vandalism,
+ * robbery, assault) happen to households, as records. How many comes from the
+ * national NCVS rate of each kind (vandalism, which the NCVS does not
+ * publish, from the FBI's NIBRS estimates) times the web's factor for the
+ * place, summed over every
  * household by weight (a counted household stands for as many real ones as
  * its weight says, the same rule as a full one), with the fractional
  * remainder carried to the next month. Which household is victimized is not
@@ -489,8 +491,8 @@ function run(api: CoreAPI): void {
   api.stopgap("SG-CORE-crime-offenders");
   // stopgapId: SG-CORE-crime-arrests
   api.stopgap("SG-CORE-crime-arrests");
-  // stopgapId: SG-CORE-crime-vandalism
-  api.stopgap("SG-CORE-crime-vandalism");
+  // stopgapId: SG-WEB-crime-justice-links-unread
+  api.stopgap("SG-WEB-crime-justice-links-unread");
   // The places the web has a month for; the rest have no factor to read.
   const places = new Set<string>();
   const web = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");

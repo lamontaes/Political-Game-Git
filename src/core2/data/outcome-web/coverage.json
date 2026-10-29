@@ -16,6 +16,8 @@
     "particles-to-infant-deaths",
     "water-violations-to-infant-health",
     "emission-rules-to-particulates",
+    "disaster-to-out-migration",
+    "disaster-to-home-values",
     "work-requirement-to-coverage",
     "minimum-wage-to-low-wage-jobs",
     "school-spending-to-attainment",
@@ -139,13 +141,14 @@
       "waitingOn": ["crime.reoffense"]
     },
     "pretrial-detention-to-conviction": {
-      "waitingOn": ["justice.conviction"]
+      "waitingOn": [],
+      "carriedBy": "the court's decision of each counted case (resolveDue in src/core2/public-safety.ts, run each month by runSafetyMonth), which convicts the case's defendants at the offense's base share times one plus this row's size for the share held until the case is decided, against the share money bail would have held; the sentence row (src/core2/modules/justice.ts decideCountedCase) keeps the base share, the held and money-bail shares and the size as its reasons. A named bribery defendant's verdict (hearing and convict in src/core2/modules/justice.ts) does not read it: the verdict is a margin of evidence against the defense, with no rate this proportion can scale (stopgap SG-WEB-crime-justice-links-unread)"
     },
     "pretrial-detention-to-employment": {
       "waitingOn": ["labor.formal-employment"]
     },
     "release-lower-level-to-larceny": {
-      "waitingOn": ["law.low-level-offense-reclassified", "crime.larceny"]
+      "waitingOn": ["law.low-level-offense-reclassified"]
     },
     "congestion-to-premature-births": {
       "waitingOn": [
@@ -174,13 +177,7 @@
       "needsSize": true
     },
     "disaster-to-public-transfers": {
-      "waitingOn": ["disaster.severe", "gov.nondisaster-transfers"]
-    },
-    "disaster-to-out-migration": {
-      "waitingOn": ["disaster.severe"]
-    },
-    "disaster-to-home-values": {
-      "waitingOn": ["disaster.severe", "housing.home-prices"]
+      "waitingOn": ["gov.nondisaster-transfers"]
     },
     "coverage-to-catastrophic-bills": {
       "waitingOn": ["health.coverage", "health.catastrophic-medical-bills"]
@@ -609,10 +606,6 @@
       "owner": "OPUS-CORE",
       "links": 3
     },
-    "disaster.severe": {
-      "owner": "OPUS-CORE",
-      "links": 3
-    },
     "health.coverage": {
       "owner": "OPUS-PEOPLE",
       "links": 3
@@ -666,10 +659,6 @@
       "links": 1
     },
     "crime.all": {
-      "owner": "OPUS-CORE",
-      "links": 1
-    },
-    "crime.larceny": {
       "owner": "OPUS-CORE",
       "links": 1
     },
@@ -789,15 +778,7 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "housing.home-prices": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "immigration.deferred-action": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "justice.conviction": {
       "owner": "OPUS-GOV",
       "links": 1
     },
