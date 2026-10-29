@@ -968,7 +968,11 @@ export async function benchRequest(
             director,
             player.personId,
             url.searchParams.get("momentId") ?? "",
-            player.packet?.at.minuteOfDay ?? 12 * 60,
+            // The opening day's scene is that evening at home (as /api/scene).
+            player.packet?.at.minuteOfDay ??
+              (director.ledger.opening?.date === requireCore().date
+                ? OPENING_EVENING_MINUTE
+                : 12 * 60),
             // ?held=1 on the play page: the grading view, held lines marked.
             { held: url.searchParams.get("held") === "1" },
           ),
