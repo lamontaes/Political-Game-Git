@@ -7185,6 +7185,18 @@
     "status": "open"
   },
   {
+    "id": "SG-TRAITS-people-fire-producers",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/drives.ts",
+    "line": 2030,
+    "whatItFakes": "Nothing is faked; this records that two personality decisions have a real producer that a drawn played year rarely reaches: relationships.fall-out (a grudge against the person who decided a layoff, counted deciders now met when confronted, drives.ts confront) and appointments.weigh (a governor refilling a cabinet post whose holder died or left, executive.ts deskReview). In every drawn place measured (Oct 28), the grudges of laid-off workers aimed at outside-market employers, which have no person behind them, and no department head or cabinet member died or left in the year.",
+    "why": "Both decisions run only where their cause happens (a local owner or manager lays off a full worker who then confronts them; a department head or cabinet member leaves), and neither happened in the audited years. A cause is not forced for the audit.",
+    "addedBy": "traits helper (people family)",
+    "addedAt": "2026-10-28",
+    "replacement": "Outside-market employers name a person (their local manager) once the jobs engine records one; until then the decisions are proven by the generated-world tests src/core2/grudge-counted-decider.traits.test.ts and src/core2/cabinet-vacancy.traits.test.ts, and counted in a played year when a drawn year contains the cause.",
+    "status": "open"
+  },
+  {
     "id": "SG-PLAY-opening-venue-has-no-inauguration-record",
     "kind": "missing-record",
     "file": "src/bench/data/opening-pictures.json",
@@ -7529,18 +7541,6 @@
     "addedBy": "claude/elections-petition-filing",
     "addedAt": "2026-10-28",
     "replacement": "Signatures gathered in the district's other places at a coarse step, from the campaign's effort there, checked against the law's whole count.",
-    "status": "open"
-  },
-  {
-    "id": "SG-TRAITS-people-fire-producers",
-    "kind": "estimated-behavior",
-    "file": "src/core2/modules/drives.ts",
-    "line": 2030,
-    "whatItFakes": "Nothing is faked; this records that two personality decisions have a real producer that a drawn played year rarely reaches: relationships.fall-out (a grudge against the person who decided a layoff, counted deciders now met when confronted, drives.ts confront) and appointments.weigh (a governor refilling a cabinet post whose holder died or left, executive.ts deskReview). In every drawn place measured (Oct 28), the grudges of laid-off workers aimed at outside-market employers, which have no person behind them, and no department head or cabinet member died or left in the year.",
-    "why": "Both decisions run only where their cause happens (a local owner or manager lays off a full worker who then confronts them; a department head or cabinet member leaves), and neither happened in the audited years. A cause is not forced for the audit.",
-    "addedBy": "traits helper (people family)",
-    "addedAt": "2026-10-28",
-    "replacement": "Outside-market employers name a person (their local manager) once the jobs engine records one; until then the decisions are proven by the generated-world tests src/core2/grudge-counted-decider.traits.test.ts and src/core2/cabinet-vacancy.traits.test.ts, and counted in a played year when a drawn year contains the cause.",
     "status": "open"
   }
 ]
