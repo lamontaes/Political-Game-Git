@@ -5,12 +5,13 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-social-media-age-check
 pr:
 lead: laws
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T16:54:38.396Z
 ---
 
 **What.** Owner ruling Oct 29 13:30 UTC (OWNER-DECISIONS.md): build the missing record as a background simulation from research, never a step the player takes, inside the engine that owns it (no system beside it). The law matrix grades age-verification-for-social-media stopgapped: no researched link starts from it (SG-LAW-outcome-link-unresearched). Add a link from the law to teens' social media use and from that use to their mental health, sized from the nearest research (studies of age-verification or parental-consent laws on teen use, and of social media exposure on youth depression, fetched and quoted), tagged ESTIMATED with spread. The reader must be an engine that keeps the record: find where a teen's mood or wellbeing is kept (the people engine's needs or mood, or the health engine's conditions) and read the factor where it is decided; if no engine keeps a teen's mood, build it in the engine that owns mood, not beside it.

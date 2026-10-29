@@ -6,13 +6,14 @@ lead: play-first
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-menus-no-continue-back
 pr:
 after:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 playtest of v0.64.0 (to the CTO)
+claimed-at: 2026-10-29T16:25:57.277Z
 ---
 
 **What.** The owner played v0.64.0 on Oct 29 and found Continue and Back still on the menus, News first among them: "the continue and back button, I said continue and back, needs to be removed from every single menu." He ruled it on Oct 28 (sitting point 22, "Remove every Continue and Back from every menu. They serve no purpose") and `play-screens-sitting-oct28` was set done, so the removal either missed sheets or a later merge brought them back. Every sheet, tab, story page and panel that a player opens from the rail must open and close without a Continue or Back control; a menu closes with its own close control or Esc, and a story opens in place on the paper, not as a page you step through.

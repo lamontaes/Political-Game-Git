@@ -5,13 +5,13 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/held-bill-names-sponsor
+status: open
+claimed-by:
 pr:
 blocked-on:
 lead: laws-effects
 source: added with npm run pool -- add
-claimed-at: 2026-10-28T02:57:53.360Z
+claimed-at:
 ---
 
 **What.** The committee record bill-held-in-committee (src/core2/modules/legislature.ts, committeeStage) lists the committee's members and chair but not the bill's sponsor, so the sponsor never meets the hold as a moment and no scene can be theirs. It also carries news false, so the paper never says a bill died without a hearing, and nothing reads the scene.reply that the sponsor-asks-chair scene writes, so a chair who says yes in the scene does not set a hearing. Add the sponsor to the record's personIds with a sponsorId fact, set news so the press engine can run a held-bill line, and have the chair's hold decision read a scene.reply of type bill-held-chair that agreed.
@@ -23,3 +23,5 @@ claimed-at: 2026-10-28T02:57:53.360Z
 **Files.** src/core2/modules/legislature.ts,src/core2/modules/press.ts,src/director/hold-scenes.test.ts
 
 **Notes.** lead: laws-effects. Time box 3 h, Sonnet. Found by scene builder C in docs/design/scenes/from-life/bill-held-in-committee.md. Producers already on PR scenes-c-bill-held.
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/held-bill-names-sponsor` is kept; claiming this item takes it over.

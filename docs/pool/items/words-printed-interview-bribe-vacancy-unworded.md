@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/printed-unworded
 pr: #6756
 blocked-on:
@@ -30,3 +30,5 @@ claimed-at: 2026-10-29T07:22:40.001Z
 **Files.** src/bench/printed-words.ts, data/english/parts/news.json, data/english/parts/headlines.json
 
 **Notes.** Found Oct 29 07:20 UTC by the Words and director session running the printed-stories test for the recall count PR; red on clean main at 548ec14267 with the same seed.
+
+Oct 29 (CTO): set done; PR #6756 merged (the done flip failed while branch protection refused the flip job's push).

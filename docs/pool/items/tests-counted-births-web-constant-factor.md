@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/births-web-lagged
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-26T08:58:00.641Z
+claimed-at:
 ---
 
 **What.** On exact main 212b57e4367ed3751945e3785ca9163b9225e31a, src/core2/births-counted-web.test.ts:68 fails with WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36. It draws Elyria, Nebraska, and records fifteen identical 1.030 birth factors, so its distinct-factor count is one where it expects more than one. PR #6072 at f8b7d1ff41951522df88bae7cc2adccdac5daa66 fails identically on the same root and place, making this a baseline failure independent of that renewal speed change.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-26T08:58:00.641Z
 **Files.** src/core2/births-counted-web.test.ts, src/core2/births-counted.ts, src/core2/modules/outcome-web.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/births-web-lagged` is kept; claiming this item takes it over.

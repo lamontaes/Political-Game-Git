@@ -6,7 +6,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/main-red-bargaining-yeslevels
 pr: #6511
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at: 2026-10-28T03:15:34.029Z
 **Files.** src/core2/law-reach/group-a-bargaining.ts, src/core2/law-reach-bargaining.test.ts
 
 **Notes.** Fixed on main by 271af7fa54 (03:18 UTC Oct 28), the same two imports moved to modules/laws, pushed while I was building #6511; #6511 is closed as superseded, since merging it beside that commit would import yesLevels twice. Nothing is left to build; the CTO sets it done.
+
+Oct 29 (CTO): done; PR #6511 closed unmerged because main already imports yesLevels from the laws module in the bargaining reader (src/core2/law-reach/group-a-bargaining.ts line 38).

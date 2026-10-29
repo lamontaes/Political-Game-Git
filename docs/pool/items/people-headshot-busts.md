@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/people-headshot-reader
 pr: #6583
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T06:47:36.252Z
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/card.ts, src/bench/handler.ts, src/bench/appearance.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6583 merged (the done flip failed while branch protection refused the flip job's push).

@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/dup-serving-offices
 pr: #6482
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T02:15:12.845Z
 **Files.** src/core2/modules/offices.ts, src/core2/justice-law.ts, src/core2/modules/justice.ts, src/bench/scene.ts, src/bench/card.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6482 merged (the done flip failed while branch protection refused the flip job's push).
