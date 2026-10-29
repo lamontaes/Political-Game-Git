@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: fixer/red-main-ambition-aim
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T02:24:02.833Z
 ---
 
 **What.** On main at d57af90e89 (Oct 28, 21:10 UTC), the M1-11 check (src/bench/m1-11-check.ts, 'Drives answer the economy') fails with GOLDEN_PATH_SEED=84cc9f787137bda7b952632609d7c03e728899b3693a08d03c8642082e251645 GOLDEN_PATH_PLACE_KEY=1150000 (Washington, District of Columbia): '1 drives aim at someone other than the party the event names (status-ambition:status-ambition:organization_9f3dcd933692fd43 of person_177597894a65492b aims at organization_9f3dcd933692fd43, the event names person_fa43b1c894f8283a)'. drives-layoff-drives-aim-at-decider (done) settled the layoff case; this is a status-ambition drive formed from an event that names a person while the drive targets an organization. Found by the laws session on PR 6676's golden-path-year job and reproduced on clean main.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/m1-11-check.ts,src/core2/modules/drives.ts
 
 **Notes.** TODO
+
+Red-main owner, Oct 28: also on main d9ae0ce8bb in Dededo, Guam (territory:GU:dededo, seed 6a86a6dce59e3f55fab7eeabe27d76b9a19ff18368eda204d32f48739a1dffa2): 5 drives aim at someone other than the party the event names, for example status-ambition:status-ambition:organization_c4b06f7b09a75282 of person_99f31857247f4651 aims at organization_c4b06f7b09a75282 while the event names person_7f36f71b2fc89906. With the retraining fade fix (fixer/red-main-m1-11-prove-oneself) the share clause passes there (20.9% of 441) and this clause still fails with 4.

@@ -3,8 +3,8 @@ import { drawnFigure } from "./figure-hair";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
+import { parameter } from "../core2/parameters";
 import { SITUATION_LIBRARY } from "../director/scheduling";
-import { bringItUp } from "../director/bring-it-up";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
@@ -135,22 +135,10 @@ let buildProgress: { stage: string; done: number; total: number } = {
 // The opening, prepared during loading.
 
 let opening: ReturnType<typeof openingFrames> | null | undefined;
-// What the other person brought up when the conversation opened (OPUS-PEOPLE's
-// "bring it up"): their lines come first in the conversation.
-let broughtUp: { text: string; sourceRecordIds: readonly string[] }[] = [];
 const talkView = (value: Conversation | undefined) =>
   value && {
     otherId: value.otherId,
-    // The greeting comes before whatever they bring up.
-    lines: [
-      ...value.lines.filter((line) => line.kind === "greet"),
-      ...broughtUp.map((line) => ({
-        ...line,
-        speakerId: value.otherId,
-        act: "tell",
-      })),
-      ...value.lines.filter((line) => line.kind !== "greet"),
-    ].map((line) => ({
+    lines: value.lines.map((line) => ({
       ...line,
       speaker: (() => {
         const person = requireCore().people.get(line.speakerId);
@@ -451,9 +439,6 @@ export async function benchRequest(
           otherId,
           director ? { director, ...(occasionId ? { occasionId } : {}) } : {},
         );
-        // They mention the newest change they know of, and who they blame.
-        broughtUp =
-          bringItUp(requireCore(), otherId, player.personId)?.lines ?? [];
         send(200, talkView(conversation));
         return;
       }
@@ -1137,6 +1122,7 @@ export async function benchRequest(
       }
       if (request.method === "POST" && url.pathname === "/api/filing/choose") {
         if (!filingVisit) throw new Error("No filing visit is open.");
+        const before = filingVisit.result;
         filingVisit = chooseAtCounter(
           requireCore(),
           filingVisit,
@@ -1146,7 +1132,22 @@ export async function benchRequest(
             party: url.searchParams.get("party") || null,
           },
         );
-        send(200, filingVisit);
+        // Filing takes the afternoon at the counter: taking out the
+        // petition, the clerk's questions, the wait. The hours come off the
+        // same clock the packet reports.
+        const filed = filingVisit.result as { status?: string } | undefined;
+        const spent =
+          filed && filed !== before && filed.status !== "refused"
+            ? player?.spend(
+                parameter("filingVisitHours", requireCore().data.parameters),
+              )
+            : undefined;
+        send(200, {
+          ...filingVisit,
+          ...(spent
+            ? { packet: spent.packet, names: namesFor(spent.packet) }
+            : {}),
+        });
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/filing/leave") {

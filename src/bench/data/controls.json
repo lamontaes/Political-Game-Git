@@ -173,11 +173,10 @@
   },
   "filing": {
     "file": "File for this office",
-    "chooseRace": "Choose a race",
-    "openRaces": "Open races",
-    "metOn": "From",
     "status": {
+      "petitioning": "Your petition is out for signatures",
       "on-ballot": "You are on the ballot",
+      "short": "Your petition came up short",
       "withdrawn": "Withdrawn",
       "refused": "Not accepted"
     },
@@ -193,9 +192,7 @@
     "seat": "Seat",
     "heldBy": "Held by",
     "openSeat": "No one holds it now",
-    "for": "For",
-    "against": "Against",
-    "noStance": "—"
+    "election": "Election"
   },
   "authority": {
     "level-lacks-power": "Not a power of this body",
@@ -279,20 +276,17 @@
     "search": "Search destinations",
     "filing": "Filing office",
     "go": "Go",
-    "back": "Back",
-    "next": "Continue",
     "open": "Open now",
     "closed": "Closed now",
-    "andOthers": "and {n} more",
     "reasons": {
       "work": "You work here",
-      "family": "Your family works here",
-      "study": "Someone at home studies here",
-      "known": "works here",
       "action": "You can",
       "serve": "Where you serve",
-      "filing": "You file here for"
-    }
+      "filing": "You file here"
+    },
+    "whatYouDo": "What you do here",
+    "whoWorks": "Who works here",
+    "district": "District"
   },
   "time": {
     "week": "Week"

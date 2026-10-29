@@ -56,6 +56,16 @@ function shownNode(node: TreeNode): ShownNode {
   };
 }
 
+/** How the stage shows a person the director cast, by the role's fill that cast them. */
+const STAGE_REASON: Readonly<Record<string, StageReason>> = {
+  subject: "you",
+  household: "household",
+  "household-stake": "household",
+  authority: "household",
+  coworkers: "coworker",
+  "former-coworkers": "coworker",
+};
+
 /** A big moment, staged: its setting's picture, the people there, the narration. */
 export function storyScene(
   core: CoreState,
@@ -119,30 +129,17 @@ export function storyScene(
     scene.setting.recordId ?? scene.setting.kind,
     minuteOfDay,
   );
-  // Who stands in the room needs a reason on record: the
-  // people the moment is about (who opened it, whom it names, who asks), and
-  // at home the household who live there. Anyone else the situation listed
-  // is not drawn.
-  const moment = book?.momentsById.get(momentId);
-  const about = new Set<string>([
-    ...(moment?.counterpartIds ?? []),
-    ...(scene.talkToId ? [scene.talkToId] : []),
-    ...(purpose?.kind === "composed" ? [purpose.scene.askerId] : []),
-  ]);
-  const household = new Set(
-    scene.setting.kind === "home"
-      ? (core.households.get(core.people.get(personId)!.householdId)
-          ?.memberIds ?? [])
-      : [],
-  );
-  const reasonOf = (id: string): StageReason | null =>
-    id === personId
-      ? "you"
-      : about.has(id)
-        ? "moment"
-        : household.has(id)
-          ? "household"
-          : null;
+  // Who stands in the room is the director's cast, each for the reason the
+  // director recorded (the role that cast them); this view decides no one
+  // (the plan of Oct 28, section 3: "One cast, decided once, in the director").
+  const reasonOf = (id: string): StageReason => {
+    if (id === personId) return "you";
+    const fill = scene.presentReasons[id as PersonId] ?? "";
+    // Whoever is at a place: the household at home, coworkers at work.
+    if (fill === "present")
+      return scene.setting.kind === "workplace" ? "coworker" : "household";
+    return STAGE_REASON[fill] ?? "moment";
+  };
   const cast = [
     personId,
     ...scene.presentIds.filter(
@@ -152,12 +149,13 @@ export function storyScene(
         // A speech heard is on the screen at home, not in the room.
         id !== scene.speech?.speakerId,
     ),
-  ].flatMap((id) => {
-    const reason = reasonOf(id);
+  ].map((id) => {
     const row = core.people.get(id)!;
-    return reason
-      ? [{ id, name: `${row.givenName} ${row.familyName}`, reason }]
-      : [];
+    return {
+      id,
+      name: `${row.givenName} ${row.familyName}`,
+      reason: reasonOf(id),
+    };
   });
   const speaker = scene.speech
     ? core.people.get(scene.speech.speakerId)

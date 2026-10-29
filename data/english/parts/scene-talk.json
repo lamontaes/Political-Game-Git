@@ -52,7 +52,8 @@
     "winner": "Whoever won the race a count settled, by name, from the election result record.",
     "employer": "The employer making a job offer, from the jobs engine's offer record.",
     "position": "The position offered, with its article (\"a server\"), from the offer record's title.",
-    "pay": "The pay offered by the hour (\"$18.50\"), from the offer record."
+    "pay": "The pay offered by the hour (\"$18.50\"), from the offer record.",
+    "owed": "What a household owes in back rent, to the dollar, from the notice record."
   },
   "maxWords": 70,
   "parts": [
@@ -53696,6 +53697,1050 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-spent-the-year-at-the-same-school-and-isn-t-ready-to-just-say-see-you-around",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} spent the year at the same school and isn't ready to just say see you around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.it-s-the-last-day-of-the-school-year-name-has-been-meaning-to-say-something",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "It's the last day of the school year. {name} has been meaning to say something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-went-to-school-with-you-all-year-and-wants-a-word-before-everyone-scatters",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} went to school with you all year, and wants a word before everyone scatters.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.last-day-can-you-believe-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Last day. Can you believe it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-didn-t-want-today-to-go-by-without-saying-something",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I didn't want today to go by without saying something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.well-that-s-the-year",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Well, that's the year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.got-a-second-it-s-kind-of-now-or-never",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Got a second? It's kind of now or never.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.so-that-s-it-i-guess",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "So that's it, I guess.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.so-what-happens-now-for-you-i-mean",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "So what happens now? For you, I mean.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.are-you-going-to-stay-around-here-after",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Are you going to stay around here, after?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.tell-me-you-ve-got-a-plan-because-i-don-t",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Tell me you've got a plan, because I don't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-s-the-first-thing-you-re-doing-now-that-it-s-over",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What's the first thing you're doing now that it's over?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.do-you-know-what-you-re-doing-next",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Do you know what you're doing next?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-going-to-work-i-want-my-own-money-for-a-while",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm going to work. I want my own money for a while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-staying-in-town-there-s-a-lot-i-want-to-do-right-here",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm staying in town. There's a lot I want to do right here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-about-you-you-go-first",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What about you? You go first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.whatever-happens-let-s-not-lose-touch",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Whatever happens, let's not lose touch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.give-me-your-number-i-mean-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Give me your number. I mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.honestly-i-m-not-thinking-about-it-today",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Honestly? I'm not thinking about it today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.here-really-what-would-you-even-do",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Here? Really? What would you even do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "tell"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.that-sounds-like-you-what-made-you-decide",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "That sounds like you. What made you decide?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-you-ll-be-good-at-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. You'll be good at it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-know-where-to-find-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll know where to find you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-don-t-know-yet-maybe-that-s-fine-for-now",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I don't know yet. Maybe that's fine for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.getting-a-job-and-a-place-of-my-own",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Getting a job and a place of my own.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.anything-but-another-year-of-this",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Anything but another year of this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-d-like-that",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'd like that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.deal-don-t-make-me-chase-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Deal. Don't make me chase you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "promise"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.come-on-not-even-a-guess",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Come on. Not even a guess?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-it-s-a-lot",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair. It's a lot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.something-worth-doing-i-ll-know-it-when-i-see-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Something worth doing. I'll know it when I see it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-tell-you-when-i-figure-it-out",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll tell you when I figure it out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.ask-me-in-a-month",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Ask me in a month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-good-luck-really",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. Good luck, really.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.that-s-more-of-a-plan-than-i-ve-got",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "That's more of a plan than I've got.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-we-ll-figure-it-out-at-the-same-time-call-me",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then we'll figure it out at the same time. Call me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-go-take-care-of-yourself",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should go. Take care of yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.fine-i-want-to-do-something-that-matters-here",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Fine. I want to do something that matters here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-today-see-you-around",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not today. See you around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.see-you-around-then",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "See you around, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-this-really",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for this. Really.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.you-d-better-mean-that",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You'd better mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-good-luck",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. Good luck.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "leave"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.then-you-re-running-whatever-i-say-so-let-s-talk-about-how",
       "move": "follow-thank",
       "kind": "spoken",
@@ -86157,6 +87202,995 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.you-finished-school-yesterday-name-wants-to-mark-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You finished school yesterday. {name} wants to mark it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-heard-about-the-diploma-and-won-t-let-it-pass-without-a-word",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has heard about the diploma and won't let it pass without a word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-proud-of-you-for-a-day-and-can-t-keep-quiet-about-it-any-longer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been proud of you for a day and can't keep quiet about it any longer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.there-s-the-graduate",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There's the graduate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.so-you-actually-did-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "So. You actually did it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-don-t-want-to-make-a-big-thing-of-it-but-i-m-going-to",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I don't want to make a big thing of it, but I'm going to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.got-a-minute-for-the-family",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Got a minute for the family?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "You finished. I'm proud of you, and I don't say that enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "congratulate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.whatever-comes-next-nobody-can-take-this-one-away-from-you",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "Whatever comes next, nobody can take this one away from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "congratulate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.the-diploma-s-done-now-the-rest-of-it-starts",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "The diploma's done. Now the rest of it starts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "congratulate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.good-now-don-t-waste-it",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "Good. Now don't waste it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "congratulate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.so-the-diploma-s-done-what-s-the-plan",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "So the diploma's done. What's the plan?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "congratulate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-it-means-a-lot-coming-from-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks. It means a lot coming from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-m-going-to-make-it-count-you-ll-see",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm going to make it count. You'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.told-you-i-d-get-through-it",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Told you I'd get through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "boast",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ve-been-thinking-about-what-i-want-to-do-here-in-town",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I've been thinking about what I want to do here, in town.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-want-to-work-first-and-figure-out-the-rest-after",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I want to work first and figure out the rest after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Then let's make sure the next thing goes as well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "thank"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "We're doing something for it. I'm not asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "thank"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-i-ve-heard-what-i-needed-to",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then I've heard what I needed to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.count-how-tell-me-one-thing",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Count how? Tell me one thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "promise"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.you-did-don-t-let-it-go-to-your-head",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "You did. Don't let it go to your head.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "boast"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.sure-you-did-barely",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Sure you did. Barely.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "boast"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.here-doing-what",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Here? Doing what?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "tell"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.whatever-it-is-i-ll-back-you",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Whatever it is, I'll back you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-that-s-good",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. That's good.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.nobody-does-it-alone-go-on",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Nobody does it alone. Go on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-really",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks. Really.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "promise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-going-to-go-lie-down-for-a-while",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm going to go lie down for a while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "promise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.find-a-job-save-something-then-see",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Find a job, save something, then see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-ll-tell-you-when-i-know-thanks-for-asking",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I'll tell you when I know. Thanks for asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-enjoy-it-for-one-day-first",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me enjoy it for one day first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.fine-fine-i-couldn-t-have-done-it-alone",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Fine, fine. I couldn't have done it alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "apologize",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.a-little-just-for-today",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "A little. Just for today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "boast",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.okay-thanks-for-putting-up-with-me",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Okay. Thanks for putting up with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.something-that-matters-around-here-i-ll-tell-you-when-i-know",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Something that matters around here. I'll tell you when I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.maybe-something-with-the-town-i-ve-been-paying-attention",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Maybe something with the town. I've been paying attention.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-figure-it-out-i-promise",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll figure it out. I promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-go-celebrate",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. Go celebrate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-proud-of-you-that-s-all",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm proud of you. That's all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-do-something-for-it-i-mean-that",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll do something for it. I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.the-race-for-office-went-the-other-way-name-waited-up-anyway",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -113424,6 +115458,1046 @@
       "tag": {
         "move": "refuse",
         "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-notice-from-the-landlord-was-taped-to-the-door-name-has-read-it-twic",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A notice from the landlord was taped to the door. {name} has read it twice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-holding-a-letter-from-the-landlord-and-hasn-t-put-it-down",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is holding a letter from the landlord and hasn't put it down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.sit-down-a-minute-we-need-to-look-at-this",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Sit down a minute. We need to look at this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.can-you-come-here-it-s-from-the-landlord",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can you come here? It's from the landlord.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.don-t-go-anywhere-you-need-to-see-this",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Don't go anywhere. You need to see this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.we-owe-owed-in-back-rent-if-it-isn-t-paid-by-deadline-they-can-put-us",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "We owe {owed} in back rent. If it isn't paid by {deadline}, they can put us out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed", "deadline"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.it-says-we-re-owed-behind-and-we-have-until-deadline-to-pay-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "It says we're {owed} behind, and we have until {deadline} to pay it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed", "deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.the-landlord-wants-the-back-rent-all-of-it-by-deadline",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The landlord wants the back rent, all of it, by {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.it-s-a-notice-pay-what-we-owe-or-we-have-to-leave",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "It's a notice. Pay what we owe or we have to leave.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-find-the-money-i-don-t-know-how-yet-but-i-will",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll find the money. I don't know how yet, but I will.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.we-ll-pay-it-i-ll-figure-out-where-it-comes-from",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "We'll pay it. I'll figure out where it comes from.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-did-we-get-that-far-behind",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How did we get that far behind?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-long-have-we-been-short",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long have we been short?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-can-give-you-what-i-ve-saved-it-s-not-much",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I can give you what I've saved. It's not much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "offer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-pick-up-more-hours-whatever-it-takes",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll pick up more hours. Whatever it takes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "offer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-s-not-panic-tonight-we-ll-look-at-it-in-the-morning",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let's not panic tonight. We'll look at it in the morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deflect",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.it-s-a-letter-they-always-send-a-letter-first",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It's a letter. They always send a letter first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deflect",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-didn-t-want-to-carry-this-alone",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I didn't want to carry this alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.okay-okay-then-we-start-tomorrow",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Okay. Okay. Then we start tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.from-where-tell-me-where-it-comes-from",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "From where? Tell me where it comes from.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "promise"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "press",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.how-we-ve-been-short-for-months",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "How? We've been short for months.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "promise"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "press",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-were-short-in-the-spring-and-it-never-caught-up",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We were short in the spring, and it never caught up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.a-couple-of-months-i-kept-thinking-the-next-one-would-fix-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A couple of months. I kept thinking the next one would fix it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "ask"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-take-it-i-hate-to-but-i-ll-take-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll take it. I hate to, but I'll take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "offer"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-helps-that-really-helps",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That helps. That really helps.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "offer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.no-that-s-yours-i-ll-find-another-way",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "No. That's yours. I'll find another way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "offer"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "refuse",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.keep-it-you-ll-need-it-more-than-i-do",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "Keep it. You'll need it more than I do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "offer"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "refuse",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.we-don-t-have-mornings-to-waste-this-has-a-date-on-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We don't have mornings to waste. This has a date on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "press",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.it-s-not-just-a-letter-read-the-bottom-of-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It's not just a letter. Read the bottom of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "press",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-first-thing-tomorrow-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. First thing tomorrow, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.all-right-i-ll-start-making-calls-first-thing",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "All right. I'll start making calls first thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.then-take-what-i-have-start-there",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Then take what I have. Start there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "offer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-think-about-this-right-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't think about this right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "leave",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-we-fix-it-now-i-ll-help",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then we fix it now. I'll help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ve-got-a-little-put-away-use-it",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I've got a little put away. Use it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "offer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.maybe-they-ll-wait-if-we-ask",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Maybe they'll wait if we ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deflect",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-let-me-help-some-other-way-i-mean-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then let me help some other way. I mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "refuse"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.okay-tell-me-if-you-change-your-mind",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Okay. Tell me if you change your mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "refuse"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "leave",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.we-ll-get-through-it-we-always-have",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "We'll get through it. We always have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-call-them-and-ask-for-more-time",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll call them and ask for more time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-i-ll-put-it-on-the-fridge-so-we-don-t-forget",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. I'll put it on the fridge so we don't forget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.if-we-lose-this-place-i-don-t-know-where-we-go",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If we lose this place, I don't know where we go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "warn",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-tonight-we-re-out-of-time",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it tonight. We're out of time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "press",
+        "key": "notice"
       }
     }
   ]

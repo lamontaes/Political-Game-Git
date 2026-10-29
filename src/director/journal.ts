@@ -18,6 +18,7 @@ import {
   billTitleOf,
   billTitleSaid,
 } from "../english/bill-names";
+import { topicInSentence } from "../english/policy-names";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import {
   addDays,
@@ -149,6 +150,23 @@ function lawName(
   const billId = law?.terms?.enactedByBill;
   const text = typeof billId === "string" ? billName(core, billId) : undefined;
   return text ? { text, recordIds: [lawId, billId as string] } : undefined;
+}
+
+/**
+ * A law no bill enacted (a starting law), by what it is about ("electricity
+ * and the grid"), from its own record: what the line says in place of a name.
+ */
+function lawTopic(
+  core: Readonly<CoreState>,
+  lawId: string | undefined,
+): { text: string; recordIds: string[] } | undefined {
+  if (!lawId || !core.modules.has(LAWS_MODULE_ID)) return undefined;
+  const law = coreAPI(core as CoreState)
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(lawId) as unknown as LawRowInput | undefined;
+  const text = law ? topicInSentence(law.series) : null;
+  return text ? { text, recordIds: [lawId] } : undefined;
 }
 
 /**
@@ -584,6 +602,41 @@ function comingOfAgeMoments(
 }
 
 /**
+ * What a scene the person answered kept, from the reply record it wrote: a
+ * promise made, a favor owed, a tie strained, a lie caught, a meeting set or
+ * words on the record, each told with the other person in it. An ending that
+ * keeps nothing is not told.
+ */
+function sceneEndingMoments(
+  core: Readonly<CoreState>,
+  book: { schedule: readonly { replies?: string[] }[] },
+  personId: PersonId,
+): JournalMoment[] {
+  return book.schedule.flatMap((entry) =>
+    (entry.replies ?? []).flatMap((id): JournalMoment[] => {
+      const reply = core.durableLog.get(id);
+      const keeps = reply?.facts?.keeps;
+      const otherId = reply?.personIds.find((row) => row !== personId);
+      if (!reply || typeof keeps !== "string" || keeps === "none" || !otherId)
+        return [];
+      return [
+        {
+          id,
+          date: reply.date as IsoDate,
+          causeId: id,
+          causeKind: `scene-ending:${keeps}`,
+          counterpartIds: [otherId as PersonId],
+          selfNamed: true,
+          hindsight: zero,
+          impact: zero,
+          echoes: [],
+        },
+      ];
+    }),
+  );
+}
+
+/**
  * What the person did in office, read from the acts the office-day engine
  * keeps (a vote, a town hall, an interview): each is a moment the journal
  * tells, citing the act's own record and, for a vote, the bill.
@@ -754,6 +807,16 @@ export function composeJournal(
         spec.format === "lawName"
           ? lawName(core, logged?.facts?.[spec.fact])
           : undefined;
+      // A law no bill enacted is told by what it is about.
+      if (spec.format === "lawName" && !law) {
+        const about = lawTopic(core, logged?.facts?.[spec.fact]);
+        if (!about) return null;
+        facts.topic = {
+          text: about.text,
+          sourceRecordIds: [moment.causeId, ...about.recordIds],
+        };
+        continue;
+      }
       // An organization the event is about is named from its own record.
       const value =
         spec.format === "organization"
@@ -900,6 +963,7 @@ export function composeJournal(
   const moments: JournalMoment[] = [
     ...book.moments,
     ...officeActMoments(core, personId, words),
+    ...sceneEndingMoments(core, book, personId),
     ...householdMoments(core, person),
     ...pastWorkMoments(core, person),
     ...comingOfAgeMoments(core, person),
