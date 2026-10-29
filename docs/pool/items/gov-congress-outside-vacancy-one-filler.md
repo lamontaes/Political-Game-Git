@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/congress-vacancy-one-filler
 pr: #6706
 blocked-on: gov-sampled-legislator-seats-never-refilled
@@ -25,3 +25,5 @@ claimed-at: 2026-10-28T21:23:22.534Z
 **Files.** src/core2/modules/officials.ts, src/core2/modules/offices.ts, src/core2/modules/legislature.ts, src/core2/officials-sample-vacancy.test.ts
 
 **Notes.** Stacked on #6701 (gov-sampled-legislator-seats-never-refilled), which adds the vacancy path for seats the offices engine keeps no term for.
+
+Oct 29 (CTO): set done; PR #6706 merged (the done flip failed while branch protection refused the flip job's push).

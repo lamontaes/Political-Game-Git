@@ -37,7 +37,13 @@ export const STORY_KINDS = {
     story: "election",
     headline: ["election"],
     lede: ["election-result"],
-    context: ["election-opponent"],
+    context: ["election-opponent", "election-share", "election-turnout"],
+  },
+  // A race nobody filed for: the result names no winner.
+  unfilled: {
+    story: "unfilled",
+    headline: ["unfilled"],
+    lede: ["unfilled"],
   },
   filing: {
     story: "filing",
@@ -48,28 +54,45 @@ export const STORY_KINDS = {
     story: "vote-or-law",
     headline: ["council", "law-took-effect"],
     lede: ["council-vote", "law-took-effect", "budget"],
+    context: ["vote-margin"],
   },
   closing: {
     story: "economy",
     only: /\{\{subject\}\}|plant|store/,
     headline: ["organization.closed"],
     lede: ["organization.closed"],
+    context: [
+      "closing-years",
+      "closing-workers",
+      "closing-why",
+      "closing-owner",
+      "business-kind",
+    ],
   },
+  // A brief is a side item: a headline and one line, never paragraphs, and
+  // the screen does not open it.
   opening: {
     story: "economy",
     only: /\{\{subject\}\} (?:is opening|opened|is hiring|plans|is expanding)/,
     headline: ["organization.opened"],
     lede: ["organization.opened"],
+    brief: true,
   },
   "jobs-report": {
     story: "economy",
     only: /unemploy|prices|rent|gas/i,
     headline: ["jobs-report"],
     lede: ["jobs-report"],
+    context: ["jobs-nation"],
   },
   grant: { story: "grant", headline: ["grant"], lede: ["budget"] },
   hazard: { story: "hazard", headline: ["disaster"], lede: ["disaster"] },
-  death: { story: "death", headline: ["life.death"], lede: ["life.death"] },
+  death: {
+    story: "death",
+    headline: ["life.death"],
+    lede: ["life.death"],
+    context: ["death-age", "death-place", "death-kin"],
+  },
   // The stories the press prints during play, each worded by its own
   // headline and lede pieces; one with no newscast story of its own is told
   // in the paper only.
@@ -83,43 +106,102 @@ export const STORY_KINDS = {
     story: "vote-or-law",
     headline: ["law-amount"],
     lede: ["law-amount"],
-    context: ["law-amount-change", "law-amount-bill"],
+    context: ["law-reach", "law-amount-bill"],
   },
   "roll-call": {
     story: "vote-or-law",
     headline: ["roll-call"],
     lede: ["roll-call"],
+    context: ["bill-purpose", "roll-call-next"],
   },
-  committee: { headline: ["committee"], lede: ["committee"] },
-  override: { headline: ["override"], lede: ["override"] },
-  signed: { story: "vote-or-law", headline: ["signed"], lede: ["signed"] },
-  hearing: { headline: ["hearing"], lede: ["hearing"] },
-  introduced: { headline: ["introduced"], lede: ["introduced"] },
+  committee: {
+    headline: ["committee"],
+    lede: ["committee"],
+    context: ["bill-purpose", "committee-next"],
+  },
+  override: {
+    headline: ["override"],
+    lede: ["override"],
+    context: ["bill-purpose", "override-next"],
+  },
+  signed: {
+    story: "vote-or-law",
+    headline: ["signed"],
+    lede: ["signed"],
+    context: ["bill-purpose", "signed-next"],
+  },
+  hearing: {
+    headline: ["hearing"],
+    lede: ["hearing"],
+    context: ["bill-purpose", "hearing-speakers"],
+  },
+  introduced: {
+    headline: ["introduced"],
+    lede: ["introduced"],
+    context: ["bill-purpose", "introduced-sponsor"],
+  },
   "budget-line": { headline: ["budget-line"], lede: ["budget-line"] },
   "budget-adopted": {
     story: "vote-or-law",
     headline: ["budget-adopted"],
     lede: ["budget-adopted"],
+    context: ["budget-spending", "budget-largest"],
   },
   conditions: {
     story: "economy",
     headline: ["conditions"],
     lede: ["conditions"],
+    context: ["conditions-jobless", "conditions-also"],
   },
-  rate: { story: "economy", headline: ["rate"], lede: ["rate"] },
+  rate: {
+    story: "economy",
+    headline: ["rate"],
+    lede: ["rate"],
+    context: ["rate-from"],
+  },
   "town-hall": { headline: ["town-hall"], lede: ["town-hall"] },
-  "body-meeting": { headline: ["body-meeting"], lede: ["body-meeting"] },
-  profile: { headline: ["profile"], lede: ["profile"] },
+  "body-meeting": {
+    headline: ["body-meeting"],
+    lede: ["body-meeting"],
+    context: ["meeting-members", "meeting-bill"],
+  },
+  profile: {
+    headline: ["profile"],
+    lede: ["profile"],
+    context: ["profile-office", "profile-party", "profile-since"],
+  },
   interview: { headline: ["interview"], lede: ["interview"] },
   debate: { headline: ["debate"], lede: ["debate"] },
   primary: { headline: ["primary"], lede: ["primary"] },
-  "took-office": { headline: ["took-office"], lede: ["took-office"] },
-  vacancy: { headline: ["vacancy"], lede: ["vacancy"] },
+  "took-office": {
+    headline: ["took-office"],
+    lede: ["took-office"],
+    context: ["took-office-before", "took-office-by", "took-office-cause"],
+  },
+  vacancy: {
+    headline: ["vacancy"],
+    lede: ["vacancy"],
+    context: ["vacancy-fill", "vacancy-election"],
+  },
   exposed: { headline: ["exposed"], lede: ["exposed"] },
   hiring: { headline: ["hiring"], lede: ["hiring"] },
   "petition-check": { headline: ["petition-check"], lede: ["petition-check"] },
+  "budget-request": { headline: ["budget-request"], lede: ["budget-request"] },
+  "joint-address": { headline: ["joint-address"], lede: ["joint-address"] },
+  trip: { headline: ["trip"], lede: ["trip"] },
+  "ribbon-cut": { headline: ["ribbon-cut"], lede: ["ribbon-cut"] },
+  emergency: { headline: ["emergency"], lede: ["emergency"] },
+  succession: { headline: ["succession"], lede: ["succession"] },
+  "recall-reply": { headline: ["recall-reply"], lede: ["recall-reply"] },
+  "measure-result": { headline: ["measure-result"], lede: ["measure-result"] },
+  presented: { headline: ["presented"], lede: ["presented"] },
+  "item-veto": { headline: ["item-veto"], lede: ["item-veto"] },
   appointed: { headline: ["appointed"], lede: ["appointed"] },
-  chamber: { headline: ["chamber"], lede: ["chamber"] },
+  chamber: {
+    headline: ["chamber"],
+    lede: ["chamber"],
+    context: ["chamber-majority", "chamber-minority"],
+  },
   "recall-petition": {
     headline: ["recall-petition"],
     lede: ["recall-petition"],
@@ -135,15 +217,35 @@ export const STORY_KINDS = {
   convicted: { headline: ["convicted"], lede: ["convicted"] },
   imprisoned: { headline: ["imprisoned"], lede: ["imprisoned"] },
   "office-act": { headline: ["office-act"], lede: ["office-act"] },
-  "staff-cut": { headline: ["staff-cut"], lede: ["staff-cut"] },
-  "owner-changed": { headline: ["owner-changed"], lede: ["owner-changed"] },
+  "staff-cut": {
+    headline: ["staff-cut"],
+    lede: ["staff-cut"],
+    context: ["staff-cut-remaining", "business-kind"],
+  },
+  "owner-changed": {
+    headline: ["owner-changed"],
+    lede: ["owner-changed"],
+    context: ["owner-new", "owner-before", "business-kind"],
+  },
   ad: { headline: ["ad"], lede: ["ad"] },
-  "campaign-gift": { headline: ["campaign-gift"], lede: ["campaign-gift"] },
+  "campaign-gift": {
+    headline: ["campaign-gift"],
+    lede: ["campaign-gift"],
+    context: [
+      "campaign-gift-office",
+      "campaign-gift-raised",
+      "campaign-gift-total",
+    ],
+  },
   eviction: { headline: ["eviction"], lede: ["eviction"] },
-  "home-sale": { headline: ["home-sale"], lede: ["home-sale"] },
-  "homes-built": { headline: ["homes-built"], lede: ["homes-built"] },
+  "home-sale": { headline: ["home-sale"], lede: ["home-sale"], brief: true },
+  "homes-built": {
+    headline: ["homes-built"],
+    lede: ["homes-built"],
+    brief: true,
+  },
   "homeless-count": { headline: ["homeless-count"], lede: ["homeless-count"] },
-  birth: { headline: ["birth"], lede: ["birth"] },
+  birth: { headline: ["birth"], lede: ["birth"], brief: true },
   // The President's address as a short news piece: after the lede, the
   // country's figures the address argued from and one sentence quoted from it.
   address: {
@@ -151,12 +253,30 @@ export const STORY_KINDS = {
     lede: ["address"],
     context: ["address-unemployment", "address-wages", "address-quote"],
   },
-  founded: { headline: ["founded"], lede: ["founded"] },
+  founded: { headline: ["founded"], lede: ["founded"], brief: true },
   amendment: { headline: ["amendment"], lede: ["amendment"] },
   estate: { headline: ["estate"], lede: ["estate"] },
-  "law-rule": { headline: ["law-rule"], lede: ["law-rule"] },
+  "law-rule": {
+    headline: ["law-rule"],
+    lede: ["law-rule"],
+    context: ["law-reach", "law-amount-bill"],
+  },
   "member-vote": { headline: ["member-vote"], lede: ["member-vote"] },
   "claim-check": { headline: ["claim-check"], lede: ["claim-check"] },
+  // A member agrees to carry a bill a citizen asked for.
+  carry: {
+    headline: ["carry"],
+    lede: ["carry"],
+    context: ["bill-purpose"],
+  },
+  // Side items the town's records already hold: a line, never opened.
+  crime: { headline: ["crime"], lede: ["crime"], brief: true },
+  graduation: { headline: ["graduation"], lede: ["graduation"], brief: true },
+  "school-tests": {
+    headline: ["school-tests"],
+    lede: ["school-tests"],
+    brief: true,
+  },
 } as const;
 export type StoryKind = keyof typeof STORY_KINDS;
 
@@ -240,6 +360,8 @@ export interface NewsStory {
   lede?: string;
   /** The story as the paper prints it, for a kind with context: the lede, then each context sentence. */
   paragraphs?: string[];
+  /** A side item: a headline and one line, never paragraphs; the screen does not open it. */
+  brief?: true;
   /** The broadcast, line by line, each with who says it. */
   broadcast: { speaker: "anchor" | "reporter"; text: string }[];
   sourceRecordIds: string[];
@@ -287,9 +409,10 @@ export function composeNewsStory(
     ),
   );
   // A kind with context says one sentence per context role whose facts the
-  // record carries, in order, after the lede.
+  // record carries, in order, after the lede. A brief says only its line.
+  const brief = "brief" in roles;
   const context: string[] = [];
-  for (const name of "context" in roles ? roles.context : []) {
+  for (const name of !brief && "context" in roles ? roles.context : []) {
     const composed = line(
       packet,
       `${kind}/${name}`,
@@ -300,16 +423,28 @@ export function composeNewsStory(
     if (!composed) continue;
     // A sentence that only repeats what the lede or an earlier sentence said
     // (the bill's number, the opponent) is left out. A fact counts where it
-    // stands as a whole word, so a short count ("77") is a fact too.
-    const said = [lede ?? "", ...context].join(" ");
-    const names = (text: string, fact: string) =>
-      new RegExp(
+    // stands as a whole word, so a short count ("77") is a fact too. A
+    // sentence's first letter is a capital whatever the fact is, so it is
+    // read both ways ("Three members" names "three"); no other letter is.
+    const sentences = [lede ?? "", ...context];
+    const both = (text: string) => [
+      text,
+      text.charAt(0).toLowerCase() + text.slice(1),
+    ];
+    const names = (texts: readonly string[], fact: string) => {
+      const pattern = new RegExp(
         `(?:^|\\W)${fact.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\W|$)`,
-      ).test(text);
+      );
+      return texts.some((text) => pattern.test(text));
+    };
     const named = Object.values(packet.facts)
       .map((fact) => fact?.text ?? "")
-      .filter((text) => text && names(composed.text, text));
-    if (named.length && named.every((text) => names(said, text))) continue;
+      .filter((text) => text && names(both(composed.text), text));
+    if (
+      named.length &&
+      named.every((text) => names(sentences.flatMap(both), text))
+    )
+      continue;
     const text = keep(composed);
     if (text) context.push(text);
   }
@@ -401,7 +536,10 @@ export function composeNewsStory(
   return {
     ...(headline ? { headline } : {}),
     ...(lede ? { lede } : {}),
-    ...("context" in roles && lede ? { paragraphs: [lede, ...context] } : {}),
+    ...(brief ? { brief: true as const } : {}),
+    ...(!brief && "context" in roles && lede
+      ? { paragraphs: [lede, ...context] }
+      : {}),
     broadcast,
     sourceRecordIds: [...ids],
   };

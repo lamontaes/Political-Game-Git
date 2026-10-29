@@ -4,7 +4,6 @@ import { gameStartDate } from "../core2/game-start";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { coreAPI } from "../core2/state";
 import { wordArchiveStory } from "./archive-words";
-import { policyNames } from "./words";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "./world";
 
@@ -38,6 +37,58 @@ describe(`archive news words (${world.place.key}, seed ${seed})`, () => {
   }, 120_000);
 });
 
+describe(`archive story bodies (${world.place.key}, seed ${seed})`, () => {
+  it("words an election, a vote, a budget, a closing business and a parent's death with a body from their records", () => {
+    const stories = coreAPI(world.core)
+      .moduleState(NEWS_MODULE_ID)
+      .table("stories")
+      .rows() as unknown as {
+      id: string;
+      kind: string;
+      date: string;
+      facts: Record<string, string>;
+    }[];
+    const kinds = [
+      "election-result",
+      "legislative-vote",
+      "budget-adopted",
+      "business.closed",
+      "parent-died",
+    ];
+    const told = new Map<string, { stories: number; bodies: number }>();
+    for (const story of stories) {
+      const kind = story.facts.recordKind!;
+      if (!kinds.includes(kind)) continue;
+      const row = told.get(kind) ?? { stories: 0, bodies: 0 };
+      told.set(kind, row);
+      row.stories += 1;
+      const words = wordArchiveStory(world.core, story);
+      // A vote on a question the catalog does not name stays a record.
+      if (!words) {
+        expect(kind, story.id).toBe("legislative-vote");
+        continue;
+      }
+      expect(words.headline ?? words.lede, story.id).toBeTruthy();
+      expect(words.sourceRecordIds, story.id).toContain(story.id);
+      if (words.paragraphs) {
+        row.bodies += 1;
+        expect(words.paragraphs[0], story.id).toBe(words.lede);
+        expect(new Set(words.paragraphs).size, story.id).toBe(
+          words.paragraphs.length,
+        );
+        for (const text of words.paragraphs)
+          expect(text, story.id).not.toMatch(/[{}_]|\b[a-z]+:[a-z]/);
+      }
+    }
+    process.stdout.write(
+      `ARCHIVED BODIES ${world.place.key}, seed ${seed}: ${[...told].map(([kind, row]) => `${kind} ${row.bodies} of ${row.stories}`).join("; ")}\n`,
+    );
+    // Every record kind this world archived has a story with a body.
+    for (const [kind, row] of told)
+      expect(row.bodies, `${kind} in ${world.place.key}`).toBeGreaterThan(0);
+  }, 120_000);
+});
+
 describe(`archive law news words (${world.place.key}, seed ${seed})`, () => {
   it("words an archived law that took effect, naming the law and the date", () => {
     const stories = coreAPI(world.core)
@@ -57,19 +108,17 @@ describe(`archive law news words (${world.place.key}, seed ${seed})`, () => {
       .map((story) => ({ story, words: wordArchiveStory(world.core, story) }))
       .filter((row) => row.words);
     expect(worded.length, "a law has a name on the catalog").toBeGreaterThan(0);
-    const names = policyNames();
     for (const { story, words } of worded) {
-      expect(words!.lede).toMatch(
-        /^.+ took effect on [A-Z][a-z]+ \d+, \d{4}\.$/,
-      );
-      expect(words!.sourceRecordIds).toContain(story.id);
-      // The law is named by its series on the catalog, on its own effective date.
-      const name = names[story.facts.series!]!;
-      expect(words!.lede, story.id).toBe(
-        `${name} took effect on ${new Date(`${story.date}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}.`,
-      );
+      // Told as the press tells a law in play, from the law's own row.
+      expect(words!.lede, story.id).toBeTruthy();
+      expect(words!.sourceRecordIds, story.id).toContain(story.id);
       expect(words!.sourceRecordIds, story.id).toContain(story.facts.lawId);
     }
+    // At least one archived law carries a body after its lede (the bill's purpose).
+    expect(
+      worded.some((row) => (row.words!.paragraphs?.length ?? 0) > 1),
+      "no archived law has a body",
+    ).toBe(true);
     process.stdout.write(
       `ARCHIVED LAWS ${world.place.key}, seed ${seed}: ${worded.length} of ${laws.length} worded, e.g. ${worded[0]!.story.id} (${worded[0]!.story.facts.lawId}): "${worded[0]!.words!.lede}"\n`,
     );
@@ -147,8 +196,18 @@ describe("archive budget news words", () => {
       )) {
         const words = wordArchiveStory(core, story);
         expect(words, `${where}: ${story.id}`).not.toBeNull();
-        expect(words!.lede, `${where}: ${story.id}`).toMatch(
-          /^The budget includes \$[\d,]+ for .+\.$/,
+        // Told as a story: a headline and a first sentence, and a body that
+        // gives the year's planned spending against its revenue, read from
+        // the budget's own row (a sum a paper rounds: "$35.2 million").
+        const told = [
+          words!.headline,
+          ...(words!.paragraphs ?? [words!.lede]),
+        ].join(" ");
+        expect(told, `${where}: ${story.id}`).toMatch(
+          /\$[\d.,]+(?: (?:million|billion))?/,
+        );
+        expect(words!.paragraphs?.join(" "), `${where}: ${story.id}`).toMatch(
+          /spend.+revenue|spending.+revenue/,
         );
         checked += 1;
       }

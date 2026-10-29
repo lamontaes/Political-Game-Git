@@ -6,7 +6,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/override-replies-refiled-floor
 pr: #6499
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at: 2026-10-28T02:44:59.471Z
 **Files.** src/core2/override-replies.test.ts
 
 **Notes.** Mine (laws-and-effects lead, #6365). Found Oct 27 23:30 while running the ask-before-the-roll branch's tests; fails identically on main.
+
+Oct 29 (CTO): set done; PR #6499 merged (the done flip failed while branch protection refused the flip job's push).

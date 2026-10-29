@@ -39,7 +39,6 @@
       <!-- Election day at the polls: the ballot, from the elections engine's records. -->
       <section id="ballot" class="panel" hidden>
         <div id="ballot-races"></div>
-        <div id="ballot-pager" class="acts" data-pager hidden></div>
         <div class="acts">
           <button id="ballot-leave" class="action" type="button"></button>
         </div>
@@ -61,7 +60,6 @@
           </header>
           <h2 id="news-reader-headline" class="heading"></h2>
           <div id="news-reader-body"></div>
-          <div id="news-reader-pager" class="acts" data-pager hidden></div>
         </div>
         <div>
           <div class="acts">
@@ -426,7 +424,6 @@
               class="choice-list"
               data-testid="state-choices"
             ></div>
-            <div id="cr-states-pager" class="acts" data-pager hidden></div>
           </div>
           <div id="cr-town-pick" hidden>
             <button
@@ -450,7 +447,6 @@
               class="choice-list"
               data-testid="place-choices"
             ></div>
-            <div id="cr-towns-pager" class="acts" data-pager hidden></div>
           </div>
           <div class="acts">
             <button id="cr-place-back" class="action small" type="button">
@@ -475,12 +471,20 @@
             <span id="cr-place-summary-name" class="summary-value"></span
             ><span class="summary-edit">Change</span>
           </button>
-          <img
-            id="cr-portrait"
-            class="portrait"
-            alt=""
-            data-testid="creator-engine-figure"
-          />
+          <div class="portraits">
+            <img
+              id="cr-portrait"
+              class="portrait"
+              alt=""
+              data-testid="creator-engine-figure"
+            />
+            <img
+              id="cr-portrait-work"
+              class="portrait"
+              alt=""
+              data-testid="creator-engine-figure-work"
+            />
+          </div>
           <h2 class="label">Character appearance</h2>
           <div id="cr-rows" data-testid="engine-appearance-controls"></div>
           <button id="cr-randomize" class="action small" type="button">
@@ -537,7 +541,6 @@
         <nav id="sheet-tabs" class="tabs"></nav>
         <div id="sheet-media" class="screen-media" hidden></div>
         <div id="sheet-body"></div>
-        <div id="sheet-pager" class="acts" data-pager hidden></div>
       </section>
 
       <section id="talk" class="panel chat" hidden>
@@ -592,7 +595,6 @@
           ></span>
           <p id="person-role" class="role"></p>
           <div id="person-facts"></div>
-          <div id="person-pager" class="acts" data-pager="person" hidden></div>
         </div>
       </section>
 

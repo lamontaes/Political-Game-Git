@@ -1,5 +1,5 @@
 /* global process, URL, console, document */
-// The ballot pager on election day (play-stop-21-ballot-stuck-on-first-page):
+// The ballot on election day (play-stop-21-ballot-stuck-on-first-page; no pager since Oct 29):
 // Continue turns the ballot's pages to the player's own race; marking it
 // records the vote. Honest UI drive on the bench: creator, party join,
 // filing, calendar skip to election day, page the ballot.
@@ -589,67 +589,29 @@ try {
     await page.locator("#ballot:not([hidden])").count(),
     "no ballot on election day",
   );
-  const titles = () =>
-    page.locator("#ballot-races .race:not(.paged-out) h3").allInnerTexts();
+  const titles = () => page.locator("#ballot-races .race h3").allInnerTexts();
   const total = await page.locator("#ballot-races .race").count();
   console.log("Races on ballot:", total);
-  const page1 = await titles();
-  console.log("Page 1:", page1.join(" | "));
+  console.log("Races:", (await titles()).join(" | "));
   await page.screenshot({
     path: "docs/reports/ballot-pages-2026-10-24/before-ballot.png",
   });
-  // Continue must turn the ballot's pages.
-  const pagerNext = page.locator("#ballot-pager button").nth(1);
-  assert.ok(await pagerNext.count(), "no ballot pager Continue");
-  await pagerNext.evaluate((e) => e.click());
-  await page.waitForTimeout(1500);
-  const page2 = await titles();
-  console.log("Page 2:", page2.join(" | "));
-  assert.notDeepEqual(page2, page1, "Continue did not turn the ballot page");
-  console.log("PASS ballot: Continue turns the pages");
-  // Page on until the player's own race (candidate "Test Voter") shows.
-  // The pager hides (not disables) its ends, so stop at a hidden Continue.
-  let found = false;
-  // The turn check above left the ballot on page 2; the own race may be on
-  // page 1, so go back to the first page and scan forward from there.
-  for (let back = 0; back < 20; back += 1) {
-    const prev = page.locator("#ballot-pager button").nth(0);
-    if (!(await prev.count()) || !(await prev.isVisible().catch(() => false)))
-      break;
-    await prev.evaluate((e) => e.click());
-    await page.waitForTimeout(800);
-  }
-  for (let p = 0; p < 20; p += 1) {
-    console.log(`Ballot page ${p + 1}:`, (await titles()).join(" | "));
-    console.log(
-      `Ballot page ${p + 1} choices:`,
-      (
-        await page
-          .locator("#ballot-races .race:not(.paged-out) button")
-          .allInnerTexts()
-          .catch(() => [])
-      )
-        .join(" || ")
-        .slice(0, 600),
-    );
-    if (
-      await page
-        .locator("#ballot-races .race:not(.paged-out) button", {
-          hasText: "Test Voter",
-        })
-        .count()
-    ) {
-      found = true;
-      break;
-    }
-    const next = page.locator("#ballot-pager button").nth(1);
-    if (!(await next.count()) || !(await next.isVisible().catch(() => false)))
-      break;
-    await next.evaluate((e) => e.click());
-    await page.waitForTimeout(1500);
-  }
-  assert.ok(found, "own race (Test Voter) never paged into view");
-  console.log("PASS ballot: paged to own race");
+  // The ballot has no Back or Continue (owner, Oct 29): every race is on the one
+  // page, which scrolls inside the panel, and the player's own race is reachable.
+  assert.equal(
+    await page
+      .locator("#ballot button", { hasText: /^\s*(Continue|Back)\s*$/ })
+      .count(),
+    0,
+    "the ballot shows Continue or Back",
+  );
+  const own = page.locator("#ballot-races .race button", {
+    hasText: "Test Voter",
+  });
+  assert.ok(await own.count(), "own race (Test Voter) is not on the ballot");
+  await own.first().scrollIntoViewIfNeeded();
+  assert.ok(await own.first().isVisible(), "own race out of reach");
+  console.log("PASS ballot: scrolls to own race");
   await page.screenshot({
     path: "docs/reports/ballot-pages-2026-10-24/own-race.png",
   });
@@ -665,7 +627,7 @@ try {
     { timeout: 30000 },
   );
   await page
-    .locator("#ballot-races .race:not(.paged-out) button", {
+    .locator("#ballot-races .race button", {
       hasText: "Test Voter",
     })
     .first()

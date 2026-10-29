@@ -702,6 +702,18 @@
         "ref": "WORDS-TALK-RECENT-DAYS"
       }
     },
+    "directorTalkSeenLittleDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "citation": "The fewest days since two people last spent time together for \"Haven't seen much of you since ...\" to fit: in play (Amanave, American Samoa, Oct 29, 2026) a household member said it of yesterday. A week is when Americans say they have not seen much of someone they live with or know; a reading of the line, not a measured quantity.",
+      "spread": "3 to 14 days, checked by reading the household talks of a played month (src/director/household-quiet.test.ts)",
+      "stopgapId": "SG-WORDS-param-directorTalkSeenLittleDays",
+      "checkRange": {
+        "min": 3,
+        "max": 14,
+        "ref": "WORDS-TALK-SEEN-LITTLE-DAYS"
+      }
+    },
     "directorTalkAddressImpact": {
       "value": 0.2,
       "tag": "TUNABLE",
@@ -1180,6 +1192,11 @@
     },
     {
       "eventKind": "interview-invited",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "interview-accepted",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
     },

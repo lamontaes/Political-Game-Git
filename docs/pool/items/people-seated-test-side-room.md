@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/people-seated-side-room
 pr: #6547
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T05:52:16.656Z
 **Files.** src/bench/seated.test.ts, src/bench/whole-figures.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6547 merged (the done flip failed while branch protection refused the flip job's push).

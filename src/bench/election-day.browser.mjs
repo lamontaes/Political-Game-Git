@@ -184,7 +184,7 @@ try {
     await shot("eday-3-ballot");
   }
   // Mark each race for its first candidate, as a voter might; a race below
-  // the panel's fold is marked the same way.
+  // the panel's fold is marked the same way (the ballot scrolls).
   for (let i = 0; i < 40 && !away; i += 1) {
     if (!(await page.locator("#ballot:not([hidden])").isVisible())) break;
     const marked = await page.evaluate(() => {
@@ -195,13 +195,7 @@ try {
         open.click();
         return true;
       }
-      // The page's races are marked: the ballot's next page.
-      const next = [...document.querySelectorAll("#ballot-pager button")].find(
-        (b) => !b.hidden && !b.disabled && b.offsetParent,
-      );
-      if (!next) return false;
-      next.click();
-      return true;
+      return false;
     });
     if (!marked) break;
     await page.waitForTimeout(800);

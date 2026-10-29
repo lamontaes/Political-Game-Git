@@ -6,9 +6,9 @@ lead: play-first
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-menus-no-continue-back
-pr:
+pr: #6768
 after:
 blocked-on:
 milestone: play-first

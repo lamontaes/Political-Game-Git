@@ -6,13 +6,14 @@ lead: play-first
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-news-paper-prints-the-stories
+pr: #6771
 after:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 playtest of v0.64.0 (to the CTO)
+claimed-at: 2026-10-29T16:46:02.358Z
 ---
 
 **What.** The owner saw the newspaper in v0.64.0 and said "it's there," but "when you click continue and back, it's like headlines and then a little bit of story. Nothing is actually on the paper." The paper shows headlines only; a story's text appears only after stepping through it, and it is short. He has asked for the whole News sheet to look like a real newspaper with every story on it (Oct 27; Oct 28 sitting points 25 and 26; the 12 newspaper mockups in art/newspaper-mockups). This item is the screen side: the front page lays out the day's stories in columns with their full text from the printed record, the lead story longest, and a click on a story opens it in place on the paper. The words side (the body sentences each story kind gets) belongs to the Words session on `words-printed-stories-have-a-body`; this item prints whatever body the record carries today and grows with it.

@@ -20,7 +20,7 @@ The CTO keeps the work moving and the owner informed. Whoever the owner appoints
 
 ## The pass
 
-Run it when the role starts, every two hours while it runs, when the owner asks "where are we", and after every usage reset. Sessions message the CTO and the CTO messages them, never session to session (owner, Oct 29; `how-we-talk`); the files stay the record, so the pass is still reading three files and writing two.
+Run it when the role starts, every two hours while it runs, when the owner asks "where are we", and after every usage reset. Sessions message the CTO, the CTO messages them, and sessions whose work meets message each other (owner, Oct 29; `how-we-talk`, `docs/coordination/CREW.md`); the files stay the record, so the pass is still reading three files and writing two, plus keeping CREW.md current whenever a session starts or stops.
 
 ```
 - [ ] `docs/play-first/PROGRESS.md` first: newest handoff lines, `needs-from:` lines to turn into pool items with `lead:` set, items stuck past 3 hours
@@ -40,7 +40,7 @@ Run it when the role starts, every two hours while it runs, when the owner asks 
 - [ ] Act, then write the CTO block on the channel (commit to main: `leads: cto status <time>`), then report
 ```
 
-The CTO merges only its own docs, skill and pool PRs; mergers merge everything else, and the CTO audits them. Shared files (`OWNER-DECISIONS.md`, the channel, `MERGE-FIRST.md`, pool status) go to main directly; everything else goes on a branch.
+The CTO merges only its own docs, skill and pool PRs, and every session's `skills:` PR; mergers merge everything else, and the CTO audits them. A skills-only PR (skill files, their mirror, the AGENTS.md list line, an `impact: none` declaration, dev-only scripts) merges at once without waiting on CI (owner, Oct 29: "You shouldn't need to wait for checks to pass on new skills"): merge main into it, run `npx vitest run scripts/skill-ops/skill-ops.test.ts` for the mirror and the list, and merge. Shared files (`OWNER-DECISIONS.md`, the channel, `MERGE-FIRST.md`, pool status) go to main directly; everything else goes on a branch.
 
 ## Who does what
 
@@ -91,7 +91,7 @@ Write one section at the top of `OWNER-DECISIONS.md` headed "Acting CTO, <date>"
 
 > Read AGENTS.md and .agents/skills/cto/SKILL.md in lamontaes/Political-Game-Git. You are the acting CTO until the owner says otherwise.
 > Run the pass in that skill: docs/play-first/PROGRESS.md, then the channel docs/coordination/LEADS-2026-10-24.md, then rewrite docs/coordination/MERGE-FIRST.md, then merges, mergers, leads and the pool.
-> Sessions message the CTO and the CTO messages them, never session to session (owner, Oct 29); the three files on main stay the record (.agents/rules/how-we-talk.md). Write your CTO block on the channel at the end of every pass.
+> Sessions message the CTO, the CTO messages them, and sessions whose work meets message each other (owner, Oct 29; docs/coordination/CREW.md); the three files on main stay the record (.agents/rules/how-we-talk.md). Write your CTO block on the channel at the end of every pass.
 > Record every owner ruling in OWNER-DECISIONS.md the same hour; rule what a standing rule answers; simulate it, don't ask.
 > Report to the owner the way civic-reports says, the play-first lane first.
 > In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.

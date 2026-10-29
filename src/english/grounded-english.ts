@@ -293,7 +293,9 @@ function evaluateVariant(
     reasons.push("filed or published copy must be verbatim");
   if (
     variant.kind === "template" &&
-    /\{\{|\}\}/.test(variant.text.replace(SLOT, ""))
+    // Any brace left outside a slot is a slot the line never fills
+    // ("{last-together}"); the player never reads one.
+    /[{}]/.test(variant.text.replace(SLOT, ""))
   )
     reasons.push("template has an invalid fact slot");
   const slots =

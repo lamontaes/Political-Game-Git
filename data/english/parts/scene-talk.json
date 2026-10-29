@@ -7867,6 +7867,22 @@
           "purpose": "ally-return",
           "key": "routine",
           "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "disagree"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "stall"
         }
       ],
       "bearing": "calm",
@@ -7940,6 +7956,14 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "outcome": "refused"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "disagree"
         }
       ],
       "bearing": "guarded",
@@ -12764,6 +12788,14 @@
           "purpose": "confirm-vote",
           "key": "vote-wanted",
           "after": "lie"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "acquittal:tell"
         }
       ],
       "bearing": "glad",
@@ -13117,6 +13149,14 @@
           "role": "asker",
           "purpose": "family-absence",
           "key": "threat",
+          "after": "confess"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "talk",
           "after": "confess"
         }
       ],
@@ -22659,474 +22699,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-on-your-front-step-with-a-folded-paper-and-doesn-t-come-in",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is on your front step with a folded paper and doesn't come in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "eviction-terms",
-          "key": "loss"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.got-a-minute-it-s-about-the-rent",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Got a minute? It's about the rent.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "eviction-terms",
-          "key": "loss"
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-deliver-news.this-is-a-notice-you-ve-got-thirty-days-i-m-sorry-it-came-to-this",
-      "move": "state-deliver-news",
-      "kind": "spoken",
-      "text": "This is a notice. You've got thirty days. I'm sorry it came to this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "deliver-news",
-          "role": "asker",
-          "purpose": "eviction-terms",
-          "key": "loss"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-plea.i-can-pay-half-now-and-the-rest-on-the-first-my-hours-got-cut-they-re-",
-      "move": "reply-plea",
-      "kind": "spoken",
-      "text": "I can pay half now and the rest on the first. My hours got cut. They're coming back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "plea",
-          "role": "asked",
-          "purpose": "eviction-terms",
-          "key": "loss"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "plea",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.is-there-a-hearing-date-on-that",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Is there a hearing date on that?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "eviction-terms",
-          "key": "loss"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.you-can-t-just-put-me-out-i-know-my-rights",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "You can't just put me out. I know my rights.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "eviction-terms",
-          "key": "loss"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-accept.okay-thirty-days",
-      "move": "reply-accept",
-      "kind": "spoken",
-      "text": "Okay. Thirty days.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "accept",
-          "role": "asked",
-          "purpose": "eviction-terms",
-          "key": "loss"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.half-now-and-the-rest-on-the-first-in-writing-miss-it-and-we-re-back-h",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Half now and the rest on the first. In writing. Miss it and we're back here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "plea"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-refuse.i-ve-heard-the-first-before-three-times",
-      "move": "follow-refuse",
-      "kind": "spoken",
-      "text": "I've heard the first before. Three times.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "refuse",
-          "role": "asker",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "plea"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "refuse",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-on-the-back-the-court-sends-its-own-letter",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's on the back. The court sends its own letter.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-threaten.then-i-ll-see-you-in-court",
-      "move": "follow-threaten",
-      "kind": "spoken",
-      "text": "Then I'll see you in court.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "confront"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "threaten",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-deflect.talk-to-the-management-company-i-just-deliver-these",
-      "move": "follow-deflect",
-      "kind": "spoken",
-      "text": "Talk to the management company. I just deliver these.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "deflect",
-          "role": "asker",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "confront"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.i-ll-give-the-deposit-back-clean-if-the-place-is-clean",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll give the deposit back clean if the place is clean.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "accept"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-plea.give-me-till-the-hearing-if-i-can-t-pay-by-then-i-ll-go",
-      "move": "reply-plea",
-      "kind": "spoken",
-      "text": "Give me till the hearing. If I can't pay by then, I'll go.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "plea",
-          "role": "asked",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "answer"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "plea",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-plea.then-i-ll-get-it-to-you-friday-all-of-it-i-can-find",
-      "move": "reply-plea",
-      "kind": "spoken",
-      "text": "Then I'll get it to you Friday. All of it I can find.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "plea",
-          "role": "asked",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "refuse"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "plea",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-accept.fine-court-then",
-      "move": "reply-accept",
-      "kind": "spoken",
-      "text": "Fine. Court, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "accept",
-          "role": "asked",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "threaten"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.it-ll-be-clean",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "It'll be clean.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "promise"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-have-to-go-inside",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I have to go inside.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "eviction-terms",
-          "key": "loss"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.thirty-days",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "Thirty days.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "leave",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "warn",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.your-phone-rings-it-s-name-from-outlet",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -30185,56 +29757,6 @@
       "tag": {
         "move": "decline",
         "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-accept.then-i-ll-see-you-at-the-hearing",
-      "move": "reply-accept",
-      "kind": "spoken",
-      "text": "Then I'll see you at the hearing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "accept",
-          "role": "asked",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "answer"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-warn.bring-the-rent-not-a-lawyer",
-      "move": "follow-warn",
-      "kind": "spoken",
-      "text": "Bring the rent, not a lawyer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "eviction-terms",
-          "key": "loss",
-          "after": "scene-talk.reply-accept.then-i-ll-see-you-at-the-hearing"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "warn",
-        "key": "loss"
       }
     },
     {
@@ -58173,6 +57695,14 @@
           "purpose": "hearing-testify",
           "key": "routine",
           "after": "scene-talk.reply-thank.thank-you-i-appreciate-it"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "request"
         }
       ],
       "bearing": "calm",
@@ -58198,6 +57728,14 @@
           "purpose": "hearing-testify",
           "key": "routine",
           "after": "scene-talk.reply-accept.all-right-i-ll-hold-you-to-it"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "thank"
         }
       ],
       "bearing": "calm",
@@ -110136,6 +109674,14 @@
           "purpose": "hallway-word",
           "key": "colleague-word",
           "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "refuse"
         }
       ],
       "bearing": "calm",
@@ -119921,6 +119467,13 @@
           "step": "state",
           "move": "accept-terms",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk"
         }
       ],
       "transcriptsUsing": 3800,
@@ -119979,6 +119532,13 @@
           "step": "state",
           "move": "accept-terms",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk"
         }
       ],
       "transcriptsUsing": 2389,
@@ -120038,6 +119598,13 @@
           "step": "state",
           "move": "accept-terms",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk"
         }
       ],
       "transcriptsUsing": 176,
@@ -120081,6 +119648,13 @@
           "step": "state",
           "move": "accept-terms",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk"
         }
       ],
       "transcriptsUsing": 348,
@@ -120534,6 +120108,708 @@
       "tag": {
         "move": "answer",
         "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.right",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.uh-huh",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Uh-huh.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "quiet:fine"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.glad-to-hear-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Glad to hear it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "family:well"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-to-hear",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "quiet:fine"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "family:well"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-you-can-put-it-behind-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. You can put it behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "acquittal:tell"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.i-m-sorry-to-hear-that",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry to hear that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "comfort",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.i-m-so-sorry",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I'm so sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "comfort",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.get-some-rest",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Get some rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "quiet:tired"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "comfort",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.take-it-easy-tonight",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Take it easy tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "quiet:tired"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "comfort",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.glad-i-m-not-the-only-one",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "Glad I'm not the only one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.good-i-thought-it-was-just-me",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "Good. I thought it was just me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.if-you-say-so",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "If you say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.i-still-think-i-m-right",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "I still think I'm right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "disagree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.we-ll-see-who-s-right",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "We'll see who's right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "disagree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.same-here",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "Same here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.me-too",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "Me too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.good-question",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "Good question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.that-s-what-i-keep-wondering",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "That's what I keep wondering.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.sure",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "request"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-ll-leave-you-be",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll leave you be.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "decline"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.sure-i-ll-give-you-some-space",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Sure. I'll give you some space.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "decline"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-s-what-they-re-saying",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That's what they're saying.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "react"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-s-what-i-heard",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That's what I heard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "react"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-ll-drop-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll drop it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-appreciate-the-honesty",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I appreciate the honesty.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "confess"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-know-you-are",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I know you are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.it-s-all-right",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "It's all right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.i-missed-you-too",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I missed you too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "quiet:miss"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "comfort",
+        "key": "talk"
       }
     }
   ]

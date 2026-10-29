@@ -5,7 +5,7 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/guards-screen-rulings
 pr: #6510
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T03:25:23.195Z
 **Files.** src/bench/clock.browser.mjs, src/bench/people.browser.mjs
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6510 merged (the done flip failed while branch protection refused the flip job's push).

@@ -4,10 +4,9 @@
 // changes (owner, Oct 27: "one for every menu, and then a menu type, and then just
 // insert it").
 //
-// A definition: { controls?: [node], heading?: { name, meta }, lede?, grid?, paged?,
+// A definition: { controls?: [node], heading?: { name, meta }, lede?, grid?,
 // sections: [{ title, items, wide? }] }. `controls` (a select, a picker) sit above the
-// rest; `grid` lays the sections two across, a `wide` one across both; `paged` shows
-// one section at a time with Back and Next. An item is one of:
+// rest; `grid` lays the sections two across, a `wide` one across both. An item is one of:
 //   { text, tone? }            a line: tone "feature", "narrative", "small", "empty" or "title"
 //   { fact: [label, value] }   a label and its value on one line
 //   { people: [{ name, note, onOpen }] }   names that open their card
@@ -16,15 +15,14 @@
 //   { picture }                a picture slot (removes itself when the file is missing)
 //   { views: [{ label?, text }] }          short paragraphs side by side
 //   { total: [value, label] }  a large count and what it counts
-//   { pages: [item, ...], size, start? }   items in pages of `size`, from `start`
+//   { pages: [item, ...] }     items one under another
 //   { actions: [{ label, onClick, className?, testid? }] }   buttons in a row
 //   { section: { title, items } }          a section inside a section's pages
-//   { node }                   a node another kit part drew (a chart, a select, a pager)
+//   { node }                   a node another kit part drew (a chart, a select)
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { section } from "./section.mjs";
 import { picture } from "./picture.mjs";
-import { stepPages, menuPages } from "./pager.mjs";
 
 const TONES = {
   plain: ["p", ""],
@@ -60,7 +58,8 @@ function item(part) {
       part.section.title,
       ...part.section.items.filter(Boolean).map(item),
     );
-  if (part.pages) return menuPages(part.pages.map(item), part.size, part.start);
+  if (part.pages)
+    return el("div", { className: "record-pages" }, ...part.pages.map(item));
   if (part.actions)
     return el(
       "div",
@@ -124,14 +123,7 @@ function item(part) {
 }
 
 /** The nodes of a record screen, for the sheet's body. */
-export function recordScreen({
-  controls = [],
-  heading,
-  lede,
-  grid,
-  paged,
-  sections,
-}) {
+export function recordScreen({ controls = [], heading, lede, grid, sections }) {
   const top = [...controls];
   if (heading)
     top.push(
@@ -153,7 +145,6 @@ export function recordScreen({
     if (s.wide) node.classList.add("wide");
     return node;
   });
-  if (paged) return [...top, stepPages(drawn, "record-pages-one")];
   if (grid) return [...top, el("div", { className: "screen-grid" }, ...drawn)];
   return [...top, ...drawn];
 }

@@ -23,7 +23,10 @@
     "outlet": "The outlet's name as recorded.",
     "weekday": "The day of the week, from the calendar.",
     "last-together": "When two people last spent time together, as spoken.",
-    "position": "The speaker's new job, with its article (\"a server\"), from the job record's title."
+    "position": "The speaker's new job, with its article (\"a server\"), from the job record's title.",
+    "about": "The policy question the reporter asks about, as a noun phrase that reads after 'on' or 'about', from the question's spoken name (data/english/question-names.json).",
+    "to": "The same question as a verb phrase that reads after 'to', from the question's spoken name (data/english/question-names.json).",
+    "rival": "A rival on the same ballot, by name, from their filing."
   },
   "maxWords": 10,
   "mining": {
@@ -18805,7 +18808,8 @@
           "move": "address-answer-agree",
           "subject": "address",
           "role": "answer",
-          "choice": "agree"
+          "choice": "agree",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18822,7 +18826,8 @@
           "move": "address-answer-agree",
           "subject": "address",
           "role": "answer",
-          "choice": "agree"
+          "choice": "agree",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18839,7 +18844,8 @@
           "move": "address-answer-doubt",
           "subject": "address",
           "role": "answer",
-          "choice": "doubt"
+          "choice": "doubt",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18856,7 +18862,8 @@
           "move": "address-answer-doubt",
           "subject": "address",
           "role": "answer",
-          "choice": "doubt"
+          "choice": "doubt",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18873,7 +18880,8 @@
           "move": "address-answer-hope",
           "subject": "address",
           "role": "answer",
-          "choice": "hope"
+          "choice": "hope",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18890,7 +18898,8 @@
           "move": "address-answer-hope",
           "subject": "address",
           "role": "answer",
-          "choice": "hope"
+          "choice": "hope",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18907,8 +18916,9 @@
           "move": "address-answer-think",
           "subject": "address",
           "role": "answer",
-          "choice": "think",
-          "raises": "address"
+          "choice": "turn",
+          "raises": "address",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
@@ -18925,13 +18935,104 @@
           "move": "address-answer-think",
           "subject": "address",
           "role": "answer",
-          "choice": "think",
-          "raises": "address"
+          "choice": "turn",
+          "raises": "address",
+          "requiresFacts": ["seen"]
         }
       ],
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-plain.i-did",
+      "move": "address-answer-plain",
+      "kind": "spoken",
+      "text": "I did.",
+      "uses": [
+        {
+          "move": "address-answer-plain",
+          "subject": "address",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-plain.i-saw-it",
+      "move": "address-answer-plain",
+      "kind": "spoken",
+      "text": "I saw it.",
+      "uses": [
+        {
+          "move": "address-answer-plain",
+          "subject": "address",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-plain.yes-i-caught-it",
+      "move": "address-answer-plain",
+      "kind": "spoken",
+      "text": "Yes, I caught it.",
+      "uses": [
+        {
+          "move": "address-answer-plain",
+          "subject": "address",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-missed.no-i-missed-it",
+      "move": "address-answer-missed",
+      "kind": "spoken",
+      "text": "No, I missed it.",
+      "uses": [
+        {
+          "move": "address-answer-missed",
+          "subject": "address",
+          "role": "answer",
+          "choice": "missed",
+          "requiresFacts": ["missed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
+    },
+    {
+      "key": "conversation.address-answer-missed.i-didn-t-get-to-see-it",
+      "move": "address-answer-missed",
+      "kind": "spoken",
+      "text": "I didn't get to see it.",
+      "uses": [
+        {
+          "move": "address-answer-missed",
+          "subject": "address",
+          "role": "answer",
+          "choice": "missed",
+          "requiresFacts": ["missed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
+      "date": "2026-10-29"
     },
     {
       "key": "conversation.address-view-raise-for.i-thought-the-president-made-a-lot-of-sense",
@@ -19831,7 +19932,7 @@
           "move": "quiet-answer-talk",
           "subject": "quiet",
           "role": "answer",
-          "choice": "talk"
+          "choice": "miss"
         }
       ],
       "origin": "authored",
@@ -20733,6 +20834,1849 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.interview-open-open.thanks-for-sitting-down-with-me",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "Thanks for sitting down with me.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.interview-open-open.thanks-for-making-the-time-im-with-outlet",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "Thanks for making the time. I'm with {outlet}.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["stranger", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.interview-open-open.lets-get-started-ill-keep-it-short",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "Let's get started. I'll keep it short.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.interview-open-open.ill-ask-and-you-answer-as-you-like",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "I'll ask, and you answer as you like.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.interview-open-open.good-to-see-you-again-lets-get-started",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "Good to see you again. Let's get started.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.interview-open-open.thanks-for-doing-this-you-know-how-it-goes",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "Thanks for doing this. You know how it goes.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.lets-start-with-about-where-do-you-stand",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Let's start with {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.first-question-where-do-you-stand-on-about",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "First question: where do you stand on {about}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.ill-start-with-about-whats-your-position",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "I'll start with {about}. What's your position?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.next-about-where-are-you-on-that",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Next, {about}. Where are you on that?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.moving-on-to-about-where-do-you-stand",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Moving on to {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.now-about-whats-your-position",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Now {about}. What's your position?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.last-one-about-where-do-you-stand",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Last one: {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["last"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.one-more-where-do-you-stand-on-about",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "One more: where do you stand on {about}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["last"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.i-have-one-question-where-do-you-stand-on-about",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "I have one question: where do you stand on {about}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["only"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.just-one-question-about-where-do-you-stand",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Just one question: {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["only"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.would-you-vote-to-to",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Would you vote to {to}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.whats-your-position-on-about",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "What's your position on {about}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.i-have-to-ask-where-do-you-stand-on-about",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "I have to ask: where do you stand on {about}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.id-like-to-ask-about-about-where-do-you-stand",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "I'd like to ask about {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stranger"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.you-voted-on-about-where-do-you-stand-now",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "You voted on {about}. Where do you stand now?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.you-voted-on-about-do-you-stand-by-that-vote",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "You voted on {about}. Do you stand by that vote?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.youve-voted-on-about-do-you-stand-by-it",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "You've voted on {about}. Do you stand by it?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.im-for-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I'm for {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-support-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I support {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-want-to-to-thats-my-platform",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I want to {to}. That's my platform.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.im-against-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I'm against {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-oppose-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I oppose {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-wouldnt-to-thats-my-platform",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I wouldn't {to}. That's my platform.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-havent-said-where-i-stand-on-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I haven't said where I stand on {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["no-stand"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-havent-taken-a-position-on-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I haven't taken a position on {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.my-platform-doesnt-cover-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "My platform doesn't cover {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.im-for-it",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "I'm for it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["stance-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.yes-id-vote-for-it",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "Yes. I'd vote for it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["stance-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.im-against-it",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "I'm against it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["stance-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.no-id-vote-against-it",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "No. I'd vote against it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["stance-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.no-position-yet",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "No position yet.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["no-stand"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.nothing-to-add-on-that",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "Nothing to add on that.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-for-it-and-id-do-it-again",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted for it, and I'd do it again.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "vote-same"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-for-about-my-vote-stands",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted for {about}. My vote stands.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "vote-same"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-against-it-and-id-do-it-again",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted against it, and I'd do it again.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "vote-same"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-against-about-id-vote-that-way-again",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted against {about}. I'd vote that way again.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "vote-same"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-for-it-i-see-it-differently-now",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted for it. I see it differently now.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "vote-changed"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-for-about-before-ive-changed-my-mind",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted for {about} before. I've changed my mind.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "vote-changed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-against-it-ive-changed-my-mind",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted against it. I've changed my mind.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "vote-changed"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-against-about-before-i-see-it-differently-now",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted against {about} before. I see it differently now.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "vote-changed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-for-about-thats-my-record",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted for {about}. That's my record.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.my-vote-on-about-was-for-it",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "My vote on {about} was for it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "no-stand"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-against-about-thats-my-record",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted against {about}. That's my record.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.my-vote-on-about-was-against-it",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "My vote on {about} was against it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "no-stand"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.im-for-about-rival-is-against-it",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "I'm for {about}. {rival} is against it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["stance-for", "rival-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.rival-is-against-about-im-not",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "{rival} is against {about}. I'm not.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["stance-for", "rival-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.im-against-about-rival-is-for-it",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "I'm against {about}. {rival} is for it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["stance-against", "rival-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.rival-is-for-about-im-not",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "{rival} is for {about}. I'm not.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["stance-against", "rival-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.rival-is-for-about-ask-them-why",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "{rival} is for {about}. Ask them why.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["no-stand", "rival-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.rival-is-against-about-ask-them-why",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "{rival} is against {about}. Ask them why.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["no-stand", "rival-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.i-never-voted-for-about",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I never voted for {about}.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.i-was-against-about-from-the-start",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I was against {about} from the start.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.i-voted-against-about",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I voted against {about}.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.i-voted-for-about",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I voted for {about}.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.ive-always-been-for-about",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I've always been for {about}.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.i-never-voted-against-about",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I never voted against {about}.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.thank-you-thats-clear",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "Thank you. That's clear.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.got-it-thats-a-straight-answer",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "Got it. That's a straight answer.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.all-right-ill-put-that-down",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "All right. I'll put that down.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-further-reply-take.thats-on-the-record-then",
+      "move": "interview-take-further-reply-take",
+      "kind": "spoken",
+      "text": "That's on the record, then.",
+      "uses": [
+        {
+          "move": "interview-take-further-reply-take",
+          "subject": "interview-take-further",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-further-reply-take.good-ill-note-the-vote",
+      "move": "interview-take-further-reply-take",
+      "kind": "spoken",
+      "text": "Good. I'll note the vote.",
+      "uses": [
+        {
+          "move": "interview-take-further-reply-take",
+          "subject": "interview-take-further",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-further-reply-take.noted-the-vote-is-on-the-record",
+      "move": "interview-take-further-reply-take",
+      "kind": "spoken",
+      "text": "Noted. The vote is on the record.",
+      "uses": [
+        {
+          "move": "interview-take-further-reply-take",
+          "subject": "interview-take-further",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-turn-reply-take.ill-ask-them-too-im-asking-you",
+      "move": "interview-take-turn-reply-take",
+      "kind": "spoken",
+      "text": "I'll ask them too. I'm asking you.",
+      "uses": [
+        {
+          "move": "interview-take-turn-reply-take",
+          "subject": "interview-take-turn",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-turn-reply-take.ill-put-that-to-rival",
+      "move": "interview-take-turn-reply-take",
+      "kind": "spoken",
+      "text": "I'll put that to {rival}.",
+      "uses": [
+        {
+          "move": "interview-take-turn-reply-take",
+          "subject": "interview-take-turn",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-turn-reply-take.fair-enough-thats-theirs-to-answer",
+      "move": "interview-take-turn-reply-take",
+      "kind": "spoken",
+      "text": "Fair enough. That's theirs to answer.",
+      "uses": [
+        {
+          "move": "interview-take-turn-reply-take",
+          "subject": "interview-take-turn",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.short-and-clear-thanks",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "Short and clear. Thanks.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.thats-brief-but-its-an-answer",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "That's brief, but it's an answer.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.that-was-quick-all-right",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "That was quick. All right.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-lie-reply-take.okay-ill-write-that-down",
+      "move": "interview-take-lie-reply-take",
+      "kind": "spoken",
+      "text": "Okay. I'll write that down.",
+      "uses": [
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-lie-reply-take.understood-that-goes-in-the-story",
+      "move": "interview-take-lie-reply-take",
+      "kind": "spoken",
+      "text": "Understood. That goes in the story.",
+      "uses": [
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-lie-reply-take.thanks-ill-quote-you-on-that",
+      "move": "interview-take-lie-reply-take",
+      "kind": "spoken",
+      "text": "Thanks. I'll quote you on that.",
+      "uses": [
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-declined-reply-take.youd-rather-not-say-ill-note-that",
+      "move": "interview-take-declined-reply-take",
+      "kind": "spoken",
+      "text": "You'd rather not say? I'll note that.",
+      "uses": [
+        {
+          "move": "interview-take-declined-reply-take",
+          "subject": "interview-take-declined",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-declined-reply-take.nothing-on-that-one-all-right",
+      "move": "interview-take-declined-reply-take",
+      "kind": "spoken",
+      "text": "Nothing on that one. All right.",
+      "uses": [
+        {
+          "move": "interview-take-declined-reply-take",
+          "subject": "interview-take-declined",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-declined-reply-take.ill-note-you-passed-on-it",
+      "move": "interview-take-declined-reply-take",
+      "kind": "spoken",
+      "text": "I'll note you passed on it.",
+      "uses": [
+        {
+          "move": "interview-take-declined-reply-take",
+          "subject": "interview-take-declined",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-close-leave-done.thats-everything-i-have-thanks-for-your-time",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's everything I have. Thanks for your time.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.interview-close-leave-done.thats-all-my-questions-thank-you",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's all my questions. Thank you.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.interview-close-leave-done.were-done-ill-write-it-up",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "We're done. I'll write it up.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.interview-close-leave-done.thanks-for-sitting-down-ill-write-it-up",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "Thanks for sitting down. I'll write it up.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.interview-close-leave-done.thats-all-ill-note-the-ones-you-passed-on",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's all. I'll note the ones you passed on.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "farewell"
+      }
     }
   ]
 }

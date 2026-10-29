@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/wire-school-names
 pr: #6664
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at: 2026-10-28T16:18:13.165Z
 **Files.** src/core2/deep-past.ts, src/core2/data/opening-schools.json
 
 **Notes.** Filed by the realistic-not-real audit of Oct 27.
+
+Oct 29 (CTO): set done; PR #6664 merged (the done flip failed while branch protection refused the flip job's push).

@@ -8,12 +8,6 @@
       "stopgapId": "SG-WEB-crime-justice-links-unread"
     },
     {
-      "link": "pretrial-detention-to-employment",
-      "outcome": "labor.formal-employment",
-      "reason": "no measure: the web does not keep labor.formal-employment and no engine produces it; nothing in the core records its cause, justice.pretrial-detained",
-      "stopgapId": "SG-LABOR-pretrial-employment"
-    },
-    {
       "link": "release-lower-level-to-larceny",
       "outcome": "crime.property",
       "reason": "the web does not run it: it waits on law.low-level-offense-reclassified; nothing in the core records its cause, law.low-level-offense-reclassified",
@@ -96,12 +90,6 @@
       "outcome": "household.child-poverty",
       "reason": "no measure: the web does not keep household.child-poverty and no engine produces it; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-household-child-poverty"
-    },
-    {
-      "link": "parent-incarceration-to-household-income",
-      "outcome": "household.income",
-      "reason": "engine doesn't read the factor: an engine records household.income, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-household-income"
     },
     {
       "link": "teacher-quality-to-earnings",
@@ -272,10 +260,10 @@
       "stopgapId": "SG-WEB-crime-justice-links-unread"
     },
     {
-      "link": "cannabis-sales-to-youth-use",
-      "outcome": "health.youth-cannabis-use",
-      "reason": "engine doesn't read the factor: health.youth-cannabis-use moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-EW-HEALTH-condition-record"
+      "link": "loan-rate-cap-to-high-cost-borrowing",
+      "outcome": "finance.high-cost-loans",
+      "reason": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it",
+      "stopgapId": "SG-WEB-unread-finance-high-cost-loans"
     },
     {
       "link": "container-deposit-to-litter",
@@ -300,6 +288,12 @@
       "outcome": "health.drug-out-of-pocket",
       "reason": "engine doesn't read the factor: health.drug-out-of-pocket moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-EW-HEALTH-condition-record"
+    },
+    {
+      "link": "federal-loan-cap-to-high-cost-loans",
+      "outcome": "finance.high-cost-loans",
+      "reason": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it",
+      "stopgapId": "SG-WEB-unread-finance-high-cost-loans"
     },
     {
       "link": "student-debt-relief-to-finances",
@@ -344,12 +338,6 @@
       "stopgapId": "SG-WEB-unread-school-reading-proficient-pct"
     },
     {
-      "link": "defense-contracts-to-earnings",
-      "outcome": "labor.median-earnings",
-      "reason": "the web does not run it: it waits on federal.defense-boost-pct",
-      "stopgapId": "SG-LABOR-defense-cause"
-    },
-    {
       "link": "farm-payments-cut-to-land-values",
       "outcome": "farmland.value-per-acre",
       "reason": "engine doesn't read the factor: farmland.value-per-acre moves only in the web's monthly ledger; no engine multiplies its own rates by it",
@@ -366,12 +354,6 @@
       "outcome": "rail.intercity-ridership",
       "reason": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-WEB-unread-rail-intercity-ridership"
-    },
-    {
-      "link": "higher-education-spending-to-college-completion",
-      "outcome": "school.college-completion-pct",
-      "reason": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces school.college-completion-pct",
-      "stopgapId": "SG-SCHOOL-college-completion"
     }
   ]
 }

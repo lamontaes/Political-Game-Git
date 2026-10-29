@@ -1,7 +1,7 @@
 /* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
-import { makeButton, mountPagers, buttonRow } from "./ui/button.mjs";
+import { makeButton, buttonRow } from "./ui/button.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import {
   talkLine,
@@ -28,7 +28,6 @@ import {
   noteLine,
   withNotes,
 } from "./ui/list-row.mjs";
-import { pageIn, pageWhenChanged, pagerWords } from "./ui/pager.mjs";
 import { fillArtwork } from "./ui/picture.mjs";
 import { barChart } from "./ui/chart.mjs";
 import {
@@ -68,7 +67,6 @@ import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
 mountCloseButtons();
 mountSpeakers();
-mountPagers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
@@ -266,7 +264,6 @@ function openNewsReader(news) {
   $("news-reader-more").replaceChildren(...readerMore(rest.map(storyHeadline)));
   show("news-reader", true);
 }
-pageWhenChanged($("news-reader-body"), $("news-reader-pager"));
 $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
@@ -441,7 +438,6 @@ const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
 const controlsReady = api("/api/controls").then((value) => {
   controls = value;
-  pagerWords(controls.politics);
   // A dimmed title entry's reason is a control name from data, never typed here.
   for (const el of document.querySelectorAll("[data-label]"))
     el.textContent =
@@ -1289,6 +1285,8 @@ function volunteerCount(n) {
 
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
+// Each person the last call reached, in the English engine's words.
+let campaignLines = [];
 // The speech being built: the parts said and the four on offer, from the server.
 let speechState = null;
 /**
@@ -1320,6 +1318,13 @@ async function campaignRows() {
       );
       // The outing's hours moved the clock: the card shows the new time.
       if (result.packet) renderPacket(result.packet);
+      campaignLines = (result.calls ?? []).map((call) => call.line);
+      // The calls are read on the sheet, each person with what they gave or why not.
+      if (outing === "calls" && result.callsLine) {
+        campaignResult = result.callsLine;
+        openSheet("campaigns");
+        return;
+      }
       campaignResult = [
         controls.campaignOutings[outing],
         result.doorsKnocked
@@ -1346,6 +1351,7 @@ async function campaignRows() {
       if (!result.scene && !moment) openSheet("campaigns");
     };
     const act = async (kind, extra = {}) => {
+      campaignLines = [];
       const result = await post(
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
       );
@@ -1498,6 +1504,7 @@ async function campaignRows() {
         bold(controls.raceStanding.title),
         ...(standing ?? []).map((text) => listRow("", { textContent: text })),
         campaignResult ? line(campaignResult) : "",
+        ...campaignLines.map((text) => line(text)),
       ),
     );
   }
@@ -1725,7 +1732,11 @@ async function showPerson(person) {
         c.shared?.length && {
           title: labels.together,
           items: c.shared.map((s) => {
-            const line = row(labels.sharedWords?.[s.kind], s.name ?? "");
+            // A tie with no name to give (living in the same home) is a plain line,
+            // never a label with nothing beside it.
+            const line = s.name
+              ? row(labels.sharedWords?.[s.kind], s.name)
+              : prose(labels.sharedWords?.[s.kind] ?? "");
             line.dataset.record = s.recordId;
             return { node: line };
           }),
@@ -1805,10 +1816,6 @@ $("talk-name").addEventListener("keydown", (event) => {
   if (event.key !== "Enter" && event.key !== " ") return;
   event.preventDefault();
   $("talk-name").click();
-});
-pageWhenChanged($("person-facts"), $("person-pager"));
-window.addEventListener("resize", () => {
-  if (!$("person").hidden) pageIn($("person-facts"), $("person-pager"));
 });
 
 // ---- Go to a place in town: its picture now, and whoever works there ----
@@ -2709,7 +2716,6 @@ const sheets = {
   async patchNotes() {
     const { releases } = await api("/api/patch-notes");
     return recordScreen({
-      paged: true,
       sections: releases.map((release) => ({
         title: release.title,
         items: [
@@ -2756,7 +2762,6 @@ const sheets = {
             ...(fullScreen ?? []),
             {
               actions: [
-                { label: labels.continue, onClick: closeSheet },
                 // Dev mode, for a developer's session only.
                 {
                   label: labels.devMode,
@@ -3325,12 +3330,23 @@ const sheets = {
             },
           }),
           [
-            lead ? (k.chamber ?? k.officeTitle) : null,
+            // A leader's chamber and the state they serve read as one note, so the
+            // state never floats on a line of its own.
+            lead
+              ? {
+                  text: [k.chamber ?? k.officeTitle, k.stateName]
+                    .filter(Boolean)
+                    .join(" · "),
+                  className: "person-row-note person-row-sub",
+                }
+              : null,
             k.own && k.post ? words(k.post) : null,
-            k.stateName,
+            lead ? null : k.stateName,
             // The President and Vice President a territory's voters do not choose.
             k.chosenByHere === false ? controls.politics.notChosenHere : null,
-          ].map((text) => ({ text })),
+          ].map((note) =>
+            note !== null && typeof note === "object" ? note : { text: note },
+          ),
         );
         // Play anyone: a resident officeholder can be taken over (bench only).
         if (k.resident && k.personId !== me.id) {
@@ -3644,6 +3660,8 @@ async function openSheet(tab) {
     group === "politics"
       ? await api(`/api/government?id=${encodeURIComponent(me.id)}`)
       : { seats: [], filings: [], ofVotingAge: false };
+  // A slower request for an earlier sheet must not put its tabs over the one opened since.
+  if (openTab !== tab) return;
   const holdsOffice = politics.seats.some((s) => s.holder?.personId === me.id);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
@@ -3715,12 +3733,6 @@ async function openSheet(tab) {
   show("sheet", true);
   $("game").classList.add("sheet-open");
 }
-pageWhenChanged($("sheet-body"), $("sheet-pager"));
-pageWhenChanged($("ballot-races"), $("ballot-pager"));
-// The creator's states and towns page like every other list; nothing in a
-// menu scrolls (kit13 APPROVED; owner, Oct 28: "the Mac's native scroller").
-pageWhenChanged($("cr-states"), $("cr-states-pager"));
-pageWhenChanged($("cr-towns"), $("cr-towns-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
 // the one menu, Who you are among them, the Guide its own entry (owner, Oct 28,
 // point 23: not a tab in Politics). The card under it shows only the date
@@ -4162,8 +4174,10 @@ async function pickColor(row, value) {
 // Character appearance: the people engine's portrait and arrows.
 function showLook(view) {
   setup.recipe = view.recipe;
-  $("cr-portrait").src =
-    `/api/portrait?recipe=${encodeURIComponent(JSON.stringify(view.recipe))}`;
+  // Everyday clothes and, beside them, work clothes (owner, Oct 29).
+  const recipe = encodeURIComponent(JSON.stringify(view.recipe));
+  $("cr-portrait").src = `/api/portrait?recipe=${recipe}`;
+  $("cr-portrait-work").src = `/api/portrait?recipe=${recipe}&dress=work`;
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) =>
       lookRow(row, {
