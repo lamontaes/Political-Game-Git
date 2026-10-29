@@ -3993,34 +3993,6 @@ details.entry[open] {
   color: var(--paper-ink);
   text-shadow: none;
 }
-/* A story opened to read, under the same masthead. */
-.paper-article {
-  max-width: 1040px;
-}
-.article-title {
-  margin: 8px 0 6px;
-  font: 700 40px/1.1 var(--speech);
-  letter-spacing: -0.01em;
-}
-.article-deck {
-  margin: 0 0 14px;
-  font: italic 19px/1.35 var(--speech);
-}
-.paper-article .story-image {
-  max-width: 620px;
-  float: right;
-  margin: 4px 0 12px 24px;
-}
-.article-body {
-  columns: 2 300px;
-  column-gap: 28px;
-  column-rule: 1px solid var(--paper-rule);
-  font: 17px/1.55 var(--speech);
-}
-.article-body p {
-  margin: 0 0 12px;
-  break-inside: avoid;
-}
 /* A modern daily (MOCKS news2.png): white stock, the name on a blue bar, sans type. */
 .paper-modern {
   font-family: var(--ui);
@@ -4048,18 +4020,15 @@ details.entry[open] {
 .paper-modern .paper-stories {
   grid-template-columns: 1.5fr 1fr;
 }
-#sheet-body .paper-modern .story-headline,
-.paper-modern .article-title {
+#sheet-body .paper-modern .story-headline {
   font-family: var(--ui);
   letter-spacing: -0.02em;
 }
-.paper-modern .story-lede,
-.paper-modern .article-deck {
+.paper-modern .story-lede {
   font: 18px/1.4 var(--ui);
   color: #3a3a3a;
 }
-.paper-modern .story-text,
-.paper-modern .article-body {
+.paper-modern .story-text {
   font-family: var(--ui);
 }
 .paper-modern .paper-column {
@@ -4103,8 +4072,7 @@ details.entry[open] {
   text-transform: uppercase;
   letter-spacing: -0.02em;
 }
-#sheet-body .paper-tabloid .story-headline,
-.paper-tabloid .article-title {
+#sheet-body .paper-tabloid .story-headline {
   font-family: var(--ui);
 }
 .paper-tabloid .paper-column {
@@ -4120,9 +4088,7 @@ details.entry[open] {
   padding-top: 8px;
 }
 .paper-tabloid .story-lede,
-.paper-tabloid .story-text,
-.paper-tabloid .article-body,
-.paper-tabloid .article-deck {
+.paper-tabloid .story-text {
   font-family: var(--ui);
 }
 /* A small-town weekly: the engraved courthouse masthead, two even columns. */
