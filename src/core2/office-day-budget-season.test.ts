@@ -307,7 +307,7 @@ it("the executive's budget act opens in its season and its changes are what the 
       continue;
     }
     expect(award, `${where}: ${line} awarded to a town firm`).toBeDefined();
-    const paymentId = `treasury:${city.id}:${line}:${award!.organizationId}:${month!.date}`;
+    const paymentId = `treasury:${city.id}:budget-line:${line}:${award!.organizationId}:${month!.date}`;
     expect(month!.paymentIds, `${where}: ${month!.id}`).toContain(paymentId);
     expect(award!.paymentIds, `${where}: ${award!.id}`).toContain(paymentId);
     // A treasury short of cash pays every line the same share of what it
