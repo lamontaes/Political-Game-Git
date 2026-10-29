@@ -40,6 +40,13 @@ const check = async (where) => {
     });
 };
 try {
+  // BENCH_SEED replays a logged world (the same place and people, before and after a change).
+  if (process.env.BENCH_SEED)
+    await page.route("**/api/newlife*", (route) => {
+      const url = new URL(route.request().url());
+      url.searchParams.set("seed", process.env.BENCH_SEED);
+      return route.continue({ url: url.toString() });
+    });
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto("http://localhost:3000/play");
   await ready;
@@ -64,6 +71,15 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
+  // The opening evening's paper: the news toast opens the reader.
+  const toast = page.locator("#news-surface-open");
+  if (await toast.isVisible().catch(() => false)) {
+    await toast.click();
+    await page.locator("#news-reader:not([hidden])").waitFor();
+    await page.waitForTimeout(600);
+    await check("news reader");
+    await page.locator("#news-reader-close").click();
+  }
   const tabs = await page
     .locator("#rings [data-tab]")
     .evaluateAll((nodes) => nodes.map((n) => n.dataset.tab));
@@ -87,6 +103,17 @@ try {
       await check(`sheet ${tab} · ${sub}`);
     }
   }
+  // A person card, opened from the People web: the card for someone who is not the player.
+  await page
+    .locator('#rings [data-tab="people"]')
+    .first()
+    .evaluate((e) => e.click());
+  await page.waitForTimeout(800);
+  await page.locator(".people-node").first().click();
+  await page.locator(".people-selection button").first().click();
+  await page.locator("#person:not([hidden])").waitFor();
+  await page.waitForTimeout(800);
+  await check("person card");
   assert.deepEqual(errors, [], "page errors");
   assert.deepEqual(found, [], "Continue or Back on a menu");
   console.log("No menu shows Continue or Back.");
