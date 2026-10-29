@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/home-talk-news-headline
-pr:
+pr: #6770
 blocked-on:
 lead: words
 source: added with npm run pool -- add
