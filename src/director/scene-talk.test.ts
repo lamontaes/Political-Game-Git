@@ -92,6 +92,8 @@ const facts: Record<string, Fact> = {
   where: fact("county clerk's office"),
   executive: fact("governor"),
   employer: fact("the hardware store"),
+  position: fact("a cashier"),
+  pay: fact("$15.00"),
   when: fact("this morning"),
   "stake-money": fact("money"),
   cushion: fact("two months"),
