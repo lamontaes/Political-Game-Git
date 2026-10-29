@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: L
-status: open
+status: done
 claimed-by:
 pr:
 blocked-on:

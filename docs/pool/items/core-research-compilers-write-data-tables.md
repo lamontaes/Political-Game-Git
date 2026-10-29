@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/fdic-compilers-tables
 pr: #6658
 blocked-on:

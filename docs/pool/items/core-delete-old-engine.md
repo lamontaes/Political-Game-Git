@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/old-engine-delete
 pr: #6659
 blocked-on:

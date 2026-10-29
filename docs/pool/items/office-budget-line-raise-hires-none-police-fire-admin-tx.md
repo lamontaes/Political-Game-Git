@@ -5,7 +5,7 @@ area: office
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #5809
 blocked-on:

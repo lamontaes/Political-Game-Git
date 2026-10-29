@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/realistic-empty-place
 pr: #6670
 blocked-on:

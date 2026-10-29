@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/old-engine-opening-port
 pr: #6637
 blocked-on:

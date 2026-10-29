@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by:
 pr: #6637
 after: core-old-engine-03-schedules-jobs-traits-history

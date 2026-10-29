@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 1
 size: L
-status: in-pr
+status: done
 claimed-by: claude/wire-opening-history-birth-year
 pr: #6653
 blocked-on:

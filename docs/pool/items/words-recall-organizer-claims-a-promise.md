@@ -6,7 +6,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/recall-answer-names-the-vote
 pr: #6751
 blocked-on:

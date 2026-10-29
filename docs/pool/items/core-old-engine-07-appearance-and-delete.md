@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/old-engine-appearance
 pr: #6659
 after:

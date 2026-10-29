@@ -6,7 +6,7 @@ kind: bug
 priority: 2
 size: S
 lead: words
-status: in-pr
+status: done
 claimed-by: words/concession-tied-count
 pr: #6749
 blocked-on:
