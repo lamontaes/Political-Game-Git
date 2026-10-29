@@ -650,17 +650,7 @@ function playHours(
         const person = core.people.get(one.personId);
         if (!person?.alive || one.endsAt !== undefined) return false;
         const age = ageOnDate(makeIsoDate(person.birthDate), core.date);
-        // A filled-in commuter's job records the hours of a workday as its
-        // hours a day (residents.ts: 8, where a role's job records its week
-        // over seven days), so the work engine schedules it for 56 hours a week
-        // although the week it prices the pay over is 40; the proof is on a
-        // role's job.
-        return (
-          one.hoursDaily * week >= 55 &&
-          !one.id.startsWith("job:commuter:") &&
-          age >= 25 &&
-          age <= 64
-        );
+        return one.hoursDaily * week >= 55 && age >= 25 && age <= 64;
       })
       .sort((a, b) => a.id.localeCompare(b.id))[0];
     if (!job) return null;
