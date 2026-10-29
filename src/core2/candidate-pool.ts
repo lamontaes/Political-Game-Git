@@ -199,7 +199,7 @@ function countsOf(api: CoreAPI): Counts {
   const states = new Set<string>();
   for (const row of officialRows(api)) {
     if (row.ended !== null) continue;
-    body.set(row.body, (body.get(row.body) ?? 0) + row.standsFor);
+    body.set(row.body, (body.get(row.body) ?? 0) + 1);
     states.add(row.stateKey);
     if (row.bodyKind === "us-house")
       house.set(row.stateKey, (house.get(row.stateKey) ?? 0) + 1);

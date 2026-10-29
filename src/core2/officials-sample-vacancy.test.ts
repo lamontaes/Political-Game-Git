@@ -1,13 +1,14 @@
 /**
  * An official the officials engine seats with no term in the offices engine
- * (a sampled member of another state's legislature, another state's
- * governor, a member of Congress outside the town) who dies leaves a vacancy
- * the offices engine opens under that office's own rule row, and the seat is
+ * (a member of Congress outside the town) who dies leaves a vacancy the
+ * offices engine opens under that office's own rule row, and the seat is
  * filled through it: the appointee takes the seat that day, or the special
  * election's stand-in on its date (SG-GOV-special-election-appointee). The
- * new holder keeps the party and the weight of the one they replace, and a
- * House seat waiting for its special election is not among the House's
- * members until it is filled.
+ * new holder keeps the party of the one they replace, and a House seat
+ * waiting for its special election is not among the House's members until it
+ * is filled. (Another place's legislators and governors sit on office terms
+ * since gov-every-state-and-town-governs U1, so their seats are the offices
+ * engine's own.)
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -24,7 +25,7 @@ import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
-it(`a sampled legislator, a governor or a member of Congress who dies is replaced through the vacancy engine (seed ${seed})`, () => {
+it(`a member of Congress outside the town who dies is replaced through the vacancy engine (seed ${seed})`, () => {
   setBookkeeping(false);
   const passed: string[] = [];
   for (let draw = 0; draw < 4; draw += 1) {
@@ -101,7 +102,6 @@ it(`a sampled legislator, a governor or a member of Congress who dies is replace
       const filler = now[0]!;
       expect(filler.id, `${where}: ${vacancy.seatId}`).not.toBe(gone!.id);
       expect(filler.party, `${where}: ${filler.id}`).toBe(gone!.party);
-      expect(filler.standsFor, `${where}: ${filler.id}`).toBe(gone!.standsFor);
       filled += 1;
       lines.push(
         `${vacancy.id} (${vacancy.rule.method}) left by ${gone!.id}, filled by ${filler.id}`,

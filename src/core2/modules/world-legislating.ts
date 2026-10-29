@@ -188,7 +188,10 @@ export function openWorldLegislating(core: CoreState): void {
   // The town's council and its county board meet on their own.
   for (const office of townBodies(api)) scheduleMeeting(api, office);
   // Congress and the state's legislature open their next session (or the one
-  // already sitting, today).
+  // already sitting, today). Every other place's chambers are seated (the
+  // offices engine's `seatOutsideOffices`) but do not sit yet.
+  // stopgapId: SG-GOV-other-legislatures-not-sitting
+  api.stopgap("SG-GOV-other-legislatures-not-sitting");
   for (const jurisdiction of ["US", lawChain(api).stateKey])
     scheduleOpening(api, jurisdiction, core.date, true);
 }

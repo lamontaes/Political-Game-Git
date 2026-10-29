@@ -1233,16 +1233,20 @@ function computerGovernorsDay(api: CoreAPI): void {
   for (const term of api
     .moduleState(OFFICES_MODULE_ID)
     .table("terms")
-    .rows() as unknown as TermRow[]) {
-    if (term.status !== "serving") continue;
+    .query("byStatus", ["serving"]) as unknown as TermRow[]) {
     // A governor seated after the opening (a successor in line, a race's
     // winner) is a person from the first day the office acts: their seat is
-    // read here, as every other engine reads a seat's holder.
-    const kind = (
-      offices.get(term.officeId) as unknown as { kind?: string } | undefined
-    )?.kind;
+    // read here, as every other engine reads a seat's holder. Another
+    // place's governor stays a named official on the term until the player
+    // meets or opens them.
+    const office = offices.get(term.officeId) as unknown as
+      { kind?: string; coversTown?: boolean } | undefined;
     const held =
-      term.personId || kind !== "governor" ? term : holderOf(api, term);
+      term.personId ||
+      office?.kind !== "governor" ||
+      office.coversTown === false
+        ? term
+        : holderOf(api, term);
     if (held.personId) governors.add(held.personId);
   }
   for (const personId of [...governors].sort()) {

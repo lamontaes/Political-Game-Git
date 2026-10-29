@@ -466,7 +466,10 @@ export function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
         .query("byStatus", ["serving"]) as unknown as TermRow[]) {
         if (!term.personId || !api.state.people.has(term.personId)) continue;
         const office = offices.table("offices").get(term.officeId) as
-          { kind?: string } | undefined;
+          { kind?: string; coversTown?: boolean } | undefined;
+        // The town's law reaches the offices over the town, never another
+        // place's (a holder filled in when the player met them included).
+        if (office?.coversTown === false) continue;
         if (kinds && !kinds.some((k) => (office?.kind ?? "").startsWith(k)))
           continue;
         out.push({ id: term.personId, personId: term.personId, count: null });

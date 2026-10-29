@@ -10,9 +10,13 @@ import { incompatibleOffices } from "../office-incompatibility";
  *
  * Federal (president, vice president, the state's senators, every House seat
  * of the state), state (governor and statewide offices, both chambers with
- * every seat) and local (city, town or township, county). Other states' seats
- * are created the first time anything reads them (`officesOfState`), from the
- * world seed, so they are the same every time and cost nothing until used.
+ * every seat) and local (city, town or township, county). Every other place
+ * in the session calendar data (the other states, D.C. and the territories)
+ * has its chambers, governor and statewide executives seated at the opening
+ * too, by one writer (`seatOutsideOffices`), each holder a named official on
+ * the term row; another state's seats in Congress are created the first time
+ * anything reads them (`officesOfState`). Both come from the world seed, so
+ * they are the same every time.
  *
  * Holders: a local seat is held by a resident of the town. Among residents old
  * enough for the office, the ones whose traits suit public life most
@@ -71,6 +75,7 @@ import { POLICY_QUESTIONS } from "../policy-answers";
 import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { isRealOfficeholderName } from "../officials-names";
 import { pressConflict } from "../press-conflict";
+import { sessionPlaces } from "../state-session-calendar";
 
 export const OFFICES_MODULE_ID = "core2-offices-v1";
 
@@ -116,10 +121,9 @@ export interface VacancyRow {
   readonly filledBy?: string;
   readonly electionDate?: string;
   /**
-   * A seat the offices engine keeps no term for (a sample member of another
-   * state's legislature, another state's governor, whom the officials engine
-   * seats): its office, so the rule row and the special election's date are
-   * read from it.
+   * A seat the offices engine keeps no term for (another state's member of
+   * Congress, whom the officials engine seats): its office, so the rule row
+   * and the special election's date are read from it.
    */
   readonly unheld?: { readonly stateKey: string; readonly officeKind: string };
 }
@@ -643,6 +647,7 @@ export function openOffices(core: CoreState, worldSeed: string): void {
       );
   }
   table(api, "loaded").put({ id: `state:${stateKey}` });
+  table(api, "loaded").put({ id: `federal:${stateKey}` });
   recordInauguration(api, place.context.jurisdiction.id);
   const rule = municipalVacancyRule(stateKey.slice(3));
   const taken = new Set<string>();
@@ -699,6 +704,58 @@ export function openOffices(core: CoreState, worldSeed: string): void {
             ),
       );
     }
+  }
+  // Every other place whose legislature the session calendar records: its
+  // chambers, governor and statewide executives, each holder a named
+  // official until the player meets or opens them.
+  for (const key of sessionPlaces()) {
+    if (key === stateKey) continue;
+    seatOutsideOffices(
+      api,
+      worldSeed,
+      worldParties(worldSeed, stateOffices(key, "", date)),
+      date,
+    );
+    table(api, "loaded").put({ id: `state:${key}` });
+  }
+}
+
+/**
+ * The one writer of offices outside the town (another place's chambers,
+ * governor and statewide executives at the opening; another state's seats in
+ * Congress when first read): each office and seat as covering no part of the
+ * town, each seat held by a named official on the term row (`personId`
+ * null, filled in as a full person only when the player meets or opens
+ * them), with the career behind them. An office its law creates later has
+ * no holder until its first election.
+ */
+function seatOutsideOffices(
+  api: CoreAPI,
+  worldSeed: string,
+  entries: readonly OfficeWithSeats[],
+  date: string,
+): void {
+  for (const entry of entries) {
+    if (entry.office.jurisdiction === "US") continue;
+    const office = { ...entry.office, coversTown: false };
+    const seats = entry.seats.map((s) => ({ ...s, coversTown: false }));
+    putOffice(api, { ...entry, office, seats });
+    if (office.firstTermStart && office.firstTermStart > date) continue;
+    for (const seat of seats)
+      pastTerms(
+        api,
+        worldSeed,
+        office,
+        seat,
+        seatNamedOfficial(
+          api,
+          worldSeed,
+          office,
+          seat,
+          date,
+          "in office at the opening",
+        ),
+      );
   }
 }
 
@@ -838,9 +895,11 @@ function pastTerms(
         termStartInYear(office, shiftYears(start, -prior * years)) < created))
   )
     prior -= 1;
-  // A state that limits legislative terms caps the service before today.
-  const state = (table(api, "loaded").get("town") as { stateKey?: string })
-    ?.stateKey;
+  // A state that limits legislative terms caps the service before today: the
+  // office's own state, the town's for a local body.
+  const state = office.jurisdiction.startsWith("US-")
+    ? office.jurisdiction
+    : (table(api, "loaded").get("town") as { stateKey?: string })?.stateKey;
   if (
     LEGISLATIVE.test(office.kind) &&
     state &&
@@ -975,43 +1034,26 @@ export function pastElections(
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
-/** Another state's offices, created the first time anything reads them. */
+/**
+ * A state's offices: its own (seated at the opening) and its seats in
+ * Congress, created the first time anything reads them.
+ */
 export function officesOfState(
   api: CoreAPI,
   stateKey: string,
 ): readonly OfficeInput[] {
-  if (!table(api, "loaded").get(`state:${stateKey}`)) {
+  if (!table(api, "loaded").get(`federal:${stateKey}`)) {
     const town = table(api, "loaded").get("town") as unknown as {
       worldSeed: string;
     };
     const date = api.state.date;
-    for (const entry of worldParties(town.worldSeed, [
-      ...federalOffices(stateKey, "", date),
-      ...stateOffices(stateKey, "", date),
-    ])) {
-      if (entry.office.jurisdiction === "US") continue;
-      putOffice(api, {
-        ...entry,
-        office: { ...entry.office, coversTown: false },
-        seats: entry.seats.map((s) => ({ ...s, coversTown: false })),
-      });
-      for (const seat of entry.seats)
-        pastTerms(
-          api,
-          town.worldSeed,
-          entry.office,
-          seat,
-          seatNamedOfficial(
-            api,
-            town.worldSeed,
-            entry.office,
-            seat,
-            date,
-            "in office at the opening",
-          ),
-        );
-    }
-    table(api, "loaded").put({ id: `state:${stateKey}` });
+    seatOutsideOffices(
+      api,
+      town.worldSeed,
+      worldParties(town.worldSeed, federalOffices(stateKey, "", date)),
+      date,
+    );
+    table(api, "loaded").put({ id: `federal:${stateKey}` });
   }
   return table(api, "offices").query("byJurisdiction", [
     stateKey,
@@ -1122,13 +1164,12 @@ export function vacateSeat(
 }
 
 /**
- * A vacancy in a seat the offices engine keeps no term for: a sample member
- * of another state's legislature or another state's governor, whom the
- * officials engine seats. The same
- * vacancy row and record, the chamber's own rule row, the same fill and the
- * same special election; each fill is a took-office record naming the seat,
- * and the officials engine seats the new member from it. Null where the
- * state has no such chamber on record.
+ * A vacancy in a seat the offices engine keeps no term for: another state's
+ * member of Congress, whom the officials engine seats from the roster. The
+ * same vacancy row and record, the chamber's own rule row, the same fill and
+ * the same special election; each fill is a took-office record naming the
+ * seat, and the officials engine seats the new member from it. Null where
+ * the state has no such seat on record.
  */
 export function vacateUnheldSeat(
   api: CoreAPI,
@@ -1191,21 +1232,17 @@ export function vacateUnheldSeat(
 }
 
 /**
- * The office an unheld seat belongs to, as its state's own office row: the
- * state's chamber or governorship, or its seats in Congress (a delegate's
- * House seat is the House's).
+ * The office an unheld seat belongs to, as its state's own office row: its
+ * seats in Congress (a delegate's House seat is the House's). Every state
+ * office outside the town is held on a term from the opening
+ * (`seatOutsideOffices`), so its vacancy is `vacateSeat`'s.
  */
 function unheldOffice(
   api: CoreAPI,
   unheld: { readonly stateKey: string; readonly officeKind: string },
 ): (OfficeInput & { vacancyRule: VacancyRule }) | null {
-  const date = api.state.date;
-  const federal = unheld.officeKind.startsWith("us-");
-  const entry = (
-    federal
-      ? federalOffices(unheld.stateKey, "", date)
-      : stateOffices(unheld.stateKey, "", date)
-  ).find(
+  if (!unheld.officeKind.startsWith("us-")) return null;
+  const entry = federalOffices(unheld.stateKey, "", api.state.date).find(
     (row) =>
       row.office.jurisdiction === unheld.stateKey &&
       (row.office.kind === unheld.officeKind ||

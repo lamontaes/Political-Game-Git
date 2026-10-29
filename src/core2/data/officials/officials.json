@@ -265,12 +265,6 @@
     "roles": ["presiding", "majority-leader", "minority-leader"],
     "spread": [3, 3]
   },
-  "stateSample": {
-    "about": "For legislatures outside the town's state, the rank-and-file members are a representative sample: this many members per chamber, split among the parties by their real seat counts, each standing for an equal share of their party's members. Kept small because those legislatures act only at the coarse level today.",
-    "tag": "TUNABLE",
-    "perChamber": 8,
-    "spread": [4, 20]
-  },
   "colleagues": {
     "about": "Officials who serve together know each other: a state's delegation to Congress, and each chamber's members with their party's leader. The time they've spent together is their shared years of service at a few hours a year (delegation lunches and caucus meetings); closeness then follows the core's own closeness model.",
     "hoursPerSharedYear": {

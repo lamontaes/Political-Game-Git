@@ -4831,6 +4831,13 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
     worldSeed: string;
   };
   const named = race.candidates?.find((c) => c.party === race.winnerParty);
+  const office = offices.table("offices").get(race.offices.officeId) as
+    { readonly title?: string; readonly jurisdiction?: string } | undefined;
+  // A new holder lives in the office's own state; a local office's is the
+  // town's.
+  const homeState = office?.jurisdiction?.startsWith("US-")
+    ? office.jurisdiction
+    : lawChain(api).stateKey;
   const identity = reelected
     ? serving[0]!.identity
     : named
@@ -4839,7 +4846,7 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
           const drawn = drawOfficialIdentity({
             worldSeed: loaded.worldSeed,
             seatKey: raceId,
-            stateUsps: lawChain(api).stateKey.slice(3),
+            stateUsps: homeState.slice(3),
             role: "state-executive-challenger",
             referenceDate: api.state.date,
           });
@@ -4848,13 +4855,11 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
             familyName: drawn.familyName,
             gender: drawn.gender,
             birthDate: drawn.birthDate,
-            homeState: lawChain(api).stateKey,
+            homeState,
           };
         })();
   const years = race.offices.termYears;
   const personId = reelected ? serving[0]!.personId : null;
-  const office = offices.table("offices").get(race.offices.officeId) as
-    { readonly title?: string } | undefined;
   seatWinner(api, {
     seatId: race.seatId,
     officeId: race.offices.officeId,

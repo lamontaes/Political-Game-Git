@@ -7528,12 +7528,12 @@
     "id": "SG-GOV-unheld-filler-party",
     "kind": "assumed-data",
     "file": "src/core2/modules/officials.ts",
-    "line": 177,
-    "whatItFakes": "Whoever fills a seat the offices engine keeps no term for (a sample member of another state's legislature, another state's governor) sits in the party of the one they replace: an appointee or a special election's winner is assumed to keep the seat's party, and a governor's successor (a lieutenant governor elected on their own ticket in some states) is assumed to share the governor's.",
-    "why": "The officials engine seats these holders without the offices engine's terms, so no record names the appointee, the special election's candidates or the successor's own party.",
+    "line": 171,
+    "whatItFakes": "Whoever fills a seat the offices engine keeps no term for (another state's member of Congress, whom the officials engine seats from the roster) sits in the party of the one they replace: an appointee or a special election's winner is assumed to keep the seat's party. Since gov-every-state-and-town-governs U1 (Oct 29) every other place's chambers, governor and statewide executives are held on office terms, so their vacancies go through the offices engine's own fill, not this one.",
+    "why": "The officials engine seats other states' members of Congress without the offices engine's terms, so no record names the appointee or the special election's candidates.",
     "addedBy": "gov-sampled-legislator-seats-never-refilled (Claude, wire-office)",
     "addedAt": "2026-10-28",
-    "replacement": "The successor's own party from the state's statewide-office roster for a governor, and the appointing authority's choice or the special election's result (the voting engine's world races) for a legislative seat.",
+    "replacement": "Other states' seats in Congress held on office terms like every other seat, so the appointing authority's choice or the special election's result (the voting engine's world races) names the holder and their party.",
     "status": "open"
   },
   {
@@ -7689,6 +7689,18 @@
     "addedBy": "play-first lane (Claude)",
     "addedAt": "2026-10-29",
     "replacement": "Carry the partnership in the counted household record when the opening generates it, with the day it began, so fill-in reads it instead of inferring it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-other-legislatures-not-sitting",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/world-legislating.ts",
+    "line": 193,
+    "whatItFakes": "Every other state's, D.C.'s and each territory's chambers, governor and statewide executives are seated at the opening as named officials on office terms, and their seats are raced on their own calendars, but only Congress and the town's own state legislature sit: no other legislature opens a session, files a bill or enacts a law.",
+    "why": "gov-every-state-and-town-governs is built in units (docs/reports/world-governing-plan-2026-10-29.md): U1 seats every chamber; each body's law must be its own (U2) before another state's act can be written without landing as the town's own state law.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1)",
+    "addedAt": "2026-10-29",
+    "replacement": "U3 of the plan: openWorldLegislating opens a session for Congress and every place in the session calendar data, each body voting from its members' saved positions on the official rows, never filling them in.",
     "status": "open"
   },
   {

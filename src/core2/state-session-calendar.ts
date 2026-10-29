@@ -83,3 +83,8 @@ export function sessionWindows(
   const row = sessionYear(stateKey, year);
   return row?.meets ? row.windows : [];
 }
+
+/** Every place whose legislature the calendar table records (the 50 states, D.C. and the five territories), sorted. */
+export function sessionPlaces(): readonly string[] {
+  return Object.keys(data.places).sort();
+}
