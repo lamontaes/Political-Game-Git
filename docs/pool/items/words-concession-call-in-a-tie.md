@@ -6,11 +6,12 @@ kind: bug
 priority: 2
 size: S
 lead: words
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/concession-tied-count
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T06:06:22.226Z
 ---
 
 **What.** In Nashville, Ohio (3953634), run seed 62c54aceac792551 of src/director/concession-received.test.ts, the council race tied 1 to 1 and the state's law settled it by a drawing (the elections engine's tie record tie:<contest>). Nobody finished ahead, so the scene has no lead, and the winner's answer to the caller's question about the count has no line (bank gap concession-received/reply/answer after ask); the test also read a lead it assumed. CI drew that seed on PR 6744.
