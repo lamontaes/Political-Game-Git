@@ -53,6 +53,7 @@ import {
   snapMaximumChangePct,
 } from "../gov-measures";
 import { monthEvent } from "../outcome-news";
+import { closedNewspapers } from "./press";
 import severityData from "../data/disasters/severity.json" with { type: "json" };
 
 /** The disasters engine's news event for a disaster, which carries its severity (src/core2/modules/disasters.ts). */
@@ -241,6 +242,16 @@ const ENGINE_READERS: Readonly<
   "property-tax-rate": (api, placeId) => {
     const rate = propertyTaxRateInForce(api, placeId);
     return rate ? { value: rate.share, recordId: rate.recordId } : null;
+  },
+  // The press module's own outlets: how many of the place's local newspapers
+  // have closed (press.local-newspaper), counted from the finance ledger's
+  // closing dates; null where the press keeps no outlet for the place.
+  "newspapers-closed": (api, placeId) => {
+    // stopgapId: SG-WEB-voting-newspaper-closure (a paper closes only by its
+    // owner's choice, and no paper's books show the losses that choice weighs)
+    api.stopgap("SG-WEB-voting-newspaper-closure");
+    const closed = closedNewspapers(api, placeId);
+    return closed ? { value: closed.count, recordId: closed.recordId } : null;
   },
   // A budget line above its Census base (gov-measures keeps the readings).
   "parks-added-pct": (api) => lineAddedPct(api, "budget.parks-added-pct"),
