@@ -6,6 +6,10 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 18:20 UTC: every session makes and updates skills (owner, about 2:15 PM Eastern)
+
+- **Ruling:** "Make sure every session knows that it can proactively create skills and update the skills that they use if they find stuff, or they can ask if it's a, you know, that kind of thing. I want skills to be made." Every session adds a line to the skill that should have told it what it just learned (a trap, a fix that worked, a method used twice, a check that caught a defect) or creates a new skill when none covers it, in the same pass, mirrored to `.claude/skills/`, named in AGENTS.md's Skills list, with `test:skill-ops` passing and an `impact: none` declaration. It ships inside the work PR or as its own `skills:` PR the CTO merges. A skill line records a ruling, a standing rule or a working method and never makes policy; when unsure, the session asks the CTO. Carried in `AGENTS.md` (Skills) and the `skill-lessons` skill. Extends the Oct 27 rulings that skills learn from errors and from what works. The owner added: "it can be a project skill... deleting helper's entire cloned repositories and only keeping what's needed. So that way they have plenty of gigabytes to work with. I told it to make a skill for that. So it can be meta like that, or it can be... anything in game as well."
+
 ## Oct 29, 17:40 UTC: side stories on the paper (owner, directly to his words session, about 1:30 PM Eastern; that session asked the CTO who owns the two pieces outside its area)
 
 - **Ask:** short filler "side stories" on the newspaper, for realism: a fourth car stolen when crime is up, someone opening a business, a local child winning a spelling bee, three Division I recruits on the high school team. Briefs of a line or two, maybe a picture, not clickable.
