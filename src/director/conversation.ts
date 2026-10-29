@@ -161,12 +161,22 @@ const REPLY_MOVES = (
     replyMoves: {
       default: string;
       answerable: readonly string[];
+      notes: readonly string[];
     } & Readonly<Record<string, unknown>>;
   }
 ).replyMoves;
 
-/** The move the player's answer to a line of this kind makes. */
+/**
+ * The move the player's answer to a line of this kind makes: "note" for one
+ * that only takes the line in ("Oh, okay."), which the talk does not answer.
+ */
 function replyMoveOf(kind: string, choice: string): string {
+  if (
+    REPLY_MOVES.notes.some(
+      (note) => choice === note || choice.startsWith(`${note}:`),
+    )
+  )
+    return "note";
   const own = REPLY_MOVES[kind.replace(/-new$/, "")] as
     Readonly<Record<string, string>> | undefined;
   return own?.[choice] ?? REPLY_MOVES.default;
@@ -2865,17 +2875,17 @@ export function say(
     // line), in words written to answer it ("Sit with me a minute?" "Sure.",
     // never "That's what I thought too."), then carries on; after a request
     // or a plea to be left alone, their answer ends the talk. An answer that
-    // only takes their line in ("All right.") gets none.
-    const take =
-      doubted || choice.move.startsWith("ack:")
-        ? null
-        : answerInTalk(core, {
-            replyMove: replyMoveOf(last.kind, choice.move),
-            answered: `${last.kind.replace(/-new$/, "")}:${choice.move}`,
-            key: last.kind,
-            speakerId: otherId,
-            momentKey: `${playerId}:${otherId}:${conversation.lines.length}:take`,
-          });
+    // only takes their line in ("Oh, okay.") gets none: the talk has no
+    // answer to a note.
+    const take = doubted
+      ? null
+      : answerInTalk(core, {
+          replyMove: replyMoveOf(last.kind, choice.move),
+          answered: `${last.kind.replace(/-new$/, "")}:${choice.move}`,
+          key: last.kind,
+          speakerId: otherId,
+          momentKey: `${playerId}:${otherId}:${conversation.lines.length}:take`,
+        });
     if (take)
       conversation.lines.push({
         speakerId: otherId,
