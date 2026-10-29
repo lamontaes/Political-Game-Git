@@ -5,12 +5,13 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-college-step
 pr:
 lead: laws
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T16:32:40.180Z
 ---
 
 **What.** Owner ruling Oct 29 13:30 UTC (OWNER-DECISIONS.md): build the missing record as a background simulation from research, never a step the player takes, inside the engine that owns it (no system beside it). The law matrix grades the higher education budget line stopgapped because higher-education-spending-to-college-completion moves only the web's school.college-completion-pct number (SG-SCHOOL-college-completion). Build the step the stopgap names: the school engine gives each graduating senior an enrollment and completion record by the same standing rule it uses for graduation (their own scores and household), calibrated to NCES enrollment of recent completers and six-year completion (fetched and quoted), and a degree on each adult who completes, read back as the measure. Where it decides completion it multiplies the graduate's rate by the web's factor for school.college-completion-pct. Read web-college-completion-stock-not-accumulated first: the link is a yearly flow into the stock of graduates.

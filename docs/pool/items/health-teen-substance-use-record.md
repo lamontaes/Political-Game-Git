@@ -5,12 +5,13 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-teen-substance-use
 pr:
 lead: laws
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T16:32:47.879Z
 ---
 
 **What.** Owner ruling Oct 29 13:30 UTC (OWNER-DECISIONS.md): build the missing record as a background simulation from research, never a step the player takes, inside the engine that owns it (no system beside it). The law matrix grades legalize-cannabis-sales partly wired because cannabis-sales-to-youth-use moves only the web's health.youth-cannabis-use number (SG-EW-HEALTH-condition-record). Build the record in the health engine beside its substance-use-disorder behavior condition: each full person aged 12 to 17 carries a past-month cannabis use record decided from their own traits (the same drug-use log-odds per trait level the adult condition reads) and household, calibrated to the national youth rate (NSDUH, fetched and quoted), and the web's factor for health.youth-cannabis-use multiplies that rate where the health engine decides it.
