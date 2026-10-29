@@ -19,7 +19,6 @@ import {
   memberPosition,
   votesOn,
 } from "../core2/modules/legislature";
-import { composeAskTalk, lastAnswer, type AskStanding } from "./ask-talk";
 import {
   MEETINGS_MODULE_ID,
   type DebateRow,
@@ -50,6 +49,8 @@ import {
 import type { Moment } from "./types";
 import {
   composeSceneTalk,
+  lastAnswerAlong,
+  type AskStanding,
   type PurposeType,
   type SceneTalk,
   type TreeNode,
@@ -79,7 +80,7 @@ export interface PurposeScene {
   askerId: PersonId;
   askedId: PersonId;
   /**
-   * The player asks (`ask-talk.ts`): `askedId` is still the player's seat,
+   * The player asks: `askedId` is still the player's seat,
    * and the reply kept is the colleague's answer, said by the colleague.
    */
   playerAsks?: boolean;
@@ -602,17 +603,15 @@ function composeBinding(
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
   }
-  const result = standing
-    ? composeAskTalk(core, { askerId, askedId }, type, facts, standing, wording)
-    : composeSceneTalk(
-        core,
-        director,
-        { askerId, askedId },
-        type,
-        facts,
-        {},
-        wording,
-      );
+  const result = composeSceneTalk(
+    core,
+    director,
+    { askerId, askedId },
+    type,
+    facts,
+    standing ? { standing } : {},
+    wording,
+  );
   if (result.kind !== "composed") return result;
   return {
     kind: "composed",
@@ -915,7 +914,7 @@ export function replyInScene(
   // Where the player asks, the reply kept is the colleague's answer, theirs
   // to the player (the one asked first, as the legislature reads it).
   const theirs = scene.playerAsks
-    ? lastAnswer(scene.talk.tree, path)
+    ? lastAnswerAlong(scene.talk.tree, path)
     : undefined;
   // The ending the reply reaches, if it ends the scene: what the scene keeps
   // is written on its record for the engines that read it, and a tie it
