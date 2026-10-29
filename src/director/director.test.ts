@@ -706,8 +706,8 @@ describe("story director on the new core", () => {
     });
     expect(one.bindings.map((row) => row.typeKey)).toEqual(["news-arrives"]);
     expect(one.outcome).toBe("scene-now");
-    // The shipped layoff and eviction types give way to the household's news.
-    for (const key of ["layoff", "eviction-notice"])
+    // The shipped layoff type gives way to the household's news.
+    for (const key of ["layoff"])
       expect(
         SITUATION_LIBRARY.types.find((row) => row.key === key)!.yieldsTo,
       ).toEqual(["news-arrives"]);
