@@ -802,6 +802,24 @@ export function composeJournal(
     );
     const logged = core.durableLog.get(moment.causeId);
     for (const [key, spec] of Object.entries(row?.eventFacts ?? {})) {
+      // How far a count fell ("before" an official's answer to the count
+      // after it), told only where it fell, citing the records that moved it.
+      if (spec.format === "drop") {
+        const fell =
+          Number(logged?.facts?.[spec.fact]) -
+          Number(logged?.facts?.[spec.less ?? ""]);
+        if (fell > zero)
+          facts[key] = {
+            text: fell.toLocaleString("en-US"),
+            sourceRecordIds: [
+              moment.causeId,
+              ...String(logged?.facts?.[spec.cites ?? ""] ?? "")
+                .split(" ")
+                .filter(Boolean),
+            ],
+          };
+        continue;
+      }
       // A law is named from the bill that enacted it, citing both.
       const law =
         spec.format === "lawName"
@@ -838,7 +856,9 @@ export function composeJournal(
                 style: "currency",
                 currency: "USD",
               }).format(Number(value) / P.minorPerDollar)
-            : value,
+            : spec.format === "count"
+              ? Number(value).toLocaleString("en-US")
+              : value,
         sourceRecordIds:
           spec.format === "organization"
             ? [moment.causeId, logged!.topic!]
@@ -846,6 +866,7 @@ export function composeJournal(
       };
     }
     const hasOwnLine = Boolean(row?.hasOwnLine);
+    const toldWithoutOther = Boolean(row?.toldWithoutOther);
     const otherId =
       moment.counterpartIds[zero] ??
       (moment.causeKind === "family:child"
@@ -855,7 +876,10 @@ export function composeJournal(
       const said = other(otherId);
       // One's own race is told without a rival the person never knew by
       // name: its own lines say only how it went.
-      if (!said) return moment.selfNamed && hasOwnLine ? facts : null;
+      if (!said)
+        return moment.selfNamed && (hasOwnLine || toldWithoutOther)
+          ? facts
+          : null;
       const row = core.people.get(otherId);
       // A child is born with a name: "My daughter Jane was born." (owner,
       // Oct 15). A second child already said by name keeps it alone.
@@ -950,6 +974,22 @@ export function composeJournal(
       ...(stage !== undefined ? { stage } : {}),
       ...(words ? { words } : {}),
     });
+
+  // The stage a line is worded in: the record's own fact (a vote's yes or
+  // no, a petition's outcome), marked where the moment holds the row's mark
+  // (a count the official's answer lowered: "on-ballot:moved").
+  const stageOf = (
+    row: (typeof rows)[number],
+    moment: JournalMoment,
+    facts: Facts,
+  ): string | undefined => {
+    const stage = row.stageFact
+      ? core.durableLog.get(moment.causeId)?.facts?.[row.stageFact]
+      : undefined;
+    return stage !== undefined && row.stageMark && facts[row.stageMark.fact]
+      ? `${stage}:${row.stageMark.mark}`
+      : stage;
+  };
 
   const through = options.through ?? core.date;
   // Moments of one day are told in the order the rows give: where the family
@@ -1186,9 +1226,7 @@ export function composeJournal(
           ? facts.winner?.text === moment.counterpartIds[zero]
             ? "won"
             : "lost"
-          : row.stageFact
-            ? core.durableLog.get(moment.causeId)?.facts?.[row.stageFact]
-            : undefined,
+          : stageOf(row, moment, facts),
       );
     if (!event) continue;
     const parts = [event];

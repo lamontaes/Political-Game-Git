@@ -287,6 +287,40 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "event:recall-outcome",
+      "turn": false,
+      "entry": "story",
+      "hasOtherLine": true,
+      "eventFacts": {
+        "signatures": {
+          "fact": "signatures",
+          "format": "count"
+        },
+        "required": {
+          "fact": "required",
+          "format": "count"
+        },
+        "fewer": {
+          "fact": "before",
+          "less": "signatures",
+          "format": "drop",
+          "cites": "answerIds"
+        }
+      },
+      "stageFact": "outcome",
+      "stageMark": {
+        "fact": "fewer",
+        "mark": "moved"
+      },
+      "toldWithoutOther": true,
+      "stageWords": {
+        "on-ballot:moved": "^(?=.*\\b(?:hearing|heard)\\b)(?=.*\\b(?:vote|ballot)\\b)",
+        "failed:moved": "^(?=.*\\b(?:hearing|heard)\\b)(?=.*\\bshort\\b)",
+        "on-ballot": "\\b(?:vote|ballot)\\b",
+        "failed": "\\bshort\\b"
+      }
+    },
+    {
       "kindPrefix": "event:candidate-filed",
       "turn": true,
       "eventFacts": {
