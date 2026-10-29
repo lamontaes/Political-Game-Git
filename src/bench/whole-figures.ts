@@ -172,6 +172,7 @@ const turnApart = (a: number, b: number) => {
 const byId = (a: PackFigure, b: PackFigure) => (a.id < b.id ? -1 : 1);
 
 // stopgapId: SG-PLAY-people-pack-six
+// stopgapId: SG-PLAY-people-pack-v4-pose-gaps
 /** The figure a person takes on a mannequin: the same pose, then the nearest facing, then the same seat; none where the pack paints them no such pose. */
 export function figureForSpot(
   core: CoreState,
