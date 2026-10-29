@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/laws-child-access-repeal
-pr:
+pr: #6799
 blocked-on:
 source: added with npm run pool -- add
 lead: laws
