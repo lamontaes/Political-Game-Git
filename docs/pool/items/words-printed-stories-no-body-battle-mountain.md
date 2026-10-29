@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/printed-bodies
-pr:
+pr: #6777
 blocked-on:
 lead: words
 source: added with npm run pool -- add
