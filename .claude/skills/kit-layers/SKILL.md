@@ -14,6 +14,7 @@ Owner, Oct 28 and again Oct 29 after seeing the game: "sleeves are bleeding into
 - **hand-in-clothes:** one solid piece of skin in the trousers or top layer, usually a hand resting on the lap. Khaki trousers match skin too, but only as scattered shading, so the test is one big solid piece.
 - **top-holds-legs / top-holds-shoes:** a broken split where the top layer holds the whole outfit (Oct 29: all ten of the heavy man's pose-sheet figures).
 - **waist-gap:** bare body showing in a run across the body between the top's hem and the trousers.
+- **Hair** (owner, Oct 29: "and hair"): `hair-in-top` (strands over the shoulders in the top layer take the sweater's color: "green on the woman's long hair"), `hair-in-body` (strands left in the body layer keep their old color when the hair is recolored, so the hair goes two-tone), `top-in-hair` (sweater inside the hair layer takes the hair's color; Oct 29, woman-heavy r09's neckline). Fix by moving the piece and its outline to the layer whose color it is. The loud sheet paints hair orange.
 
 ## Fixing
 
