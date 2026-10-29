@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/vote-sought-narration
-pr:
+pr: #6754
 blocked-on:
 lead: words
 source: added with npm run pool -- add
