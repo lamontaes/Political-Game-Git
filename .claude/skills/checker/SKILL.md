@@ -37,6 +37,12 @@ From the moment a PR is open and ready, the builder has moved to its next unit a
 3. Read the PR's CI checks on GitHub (validate, golden-path, M0 guards, Release) as one more input; they run on GitHub's machines by themselves, so never wait on them before you finish your own run, and never re-run them to kick them. A red CI job your gate did not cover is a failure like any other.
 4. A failure that also fails on clean `origin/main` does not block: name it and the red-main fixer's item in your comment.
 
+## Traps (Oct 29)
+
+- **Fetch the branch again before you push or comment.** A merger can merge main into the branch, or merge the PR, while your gate runs (a full check takes 20+ minutes; #6794 merged mid-check). Run `git fetch origin <branch>` and `git merge-base --is-ancestor origin/<branch> origin/main` just before pushing; if the head moved, push nothing and check the new head's differences only.
+- **A fresh clone is shallow.** `release:check` fails with "Needed a single revision" until `git fetch --unshallow origin`.
+- **Regenerating the law matrices only reorders evidence** (glob order); if the counts equal main's plus the PR's, `git checkout` the file back rather than commit churn.
+
 ## Fix or send back
 
 - **Fix yourself, as plain commits on the branch:** prettier and eslint `--fix` output, a missing or malformed release declaration, the `Pool item:` line, pool item paperwork, a spelling-guard hit, a stale count in the body, and a type error whose fix is local and obvious (a missing import, a renamed field, a null check the type already demands). Each fix keeps the builder's behavior exactly; rerun the check it fixes.
