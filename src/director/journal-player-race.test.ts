@@ -6,6 +6,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { corePlaceByKey } from "../core2/place-lookup";
 import {
   checkEligibility,
@@ -72,8 +73,21 @@ it(`the player's journal tells their own first race the day after the count, see
         contestId: contest.id,
         platform: [],
       });
-      if (filed.status !== "on-ballot") {
+      if (!["petitioning", "on-ballot"].includes(filed.status ?? "")) {
         tried.push(`${where}: filing for ${contest.id} was ${filed.status}`);
+        continue;
+      }
+      // Filing is a petition: the player canvasses for signatures until the
+      // clerk's check puts them on the ballot.
+      const petition = gatherSignatures(
+        core,
+        `filing:${contest.id}:${playerId}`,
+      );
+      if (
+        petition &&
+        !(petition.check && petition.check.valid >= petition.needed)
+      ) {
+        tried.push(`${where}: the petition for ${contest.id} came up short`);
         continue;
       }
       advanceCore(core, addDays(makeIsoDate(contest.electionDate), 1));

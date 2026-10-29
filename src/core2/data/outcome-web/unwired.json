@@ -122,12 +122,6 @@
       "stopgapId": "SG-WEB-unread-household-child-poverty"
     },
     {
-      "link": "snap-to-food-insecurity",
-      "outcome": "household.food-insecurity",
-      "reason": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-snap-receipt-ledger"
-    },
-    {
       "link": "parent-incarceration-to-household-income",
       "outcome": "household.income",
       "reason": "engine doesn't read the factor: an engine records household.income, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
@@ -234,18 +228,6 @@
       "outcome": "labor.deal-industry-jobs",
       "reason": "no measure: the web does not keep labor.deal-industry-jobs and no engine produces it; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-LABOR-unsized-links"
-    },
-    {
-      "link": "enforcement-to-undocumented-employment",
-      "outcome": "labor.undocumented-employment",
-      "reason": "engine doesn't read the factor: labor.undocumented-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces labor.undocumented-employment",
-      "stopgapId": "SG-LABOR-no-legal-status"
-    },
-    {
-      "link": "enforcement-to-us-born-employment",
-      "outcome": "labor.us-born-employment",
-      "reason": "engine doesn't read the factor: labor.us-born-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces labor.us-born-employment",
-      "stopgapId": "SG-LABOR-no-legal-status"
     },
     {
       "link": "baby-bonus-to-births",

@@ -62,7 +62,10 @@ function fileLocal(core: CoreState, adults: readonly { id: string }[]) {
         contestId: contest.id,
         platform: [`${PLATFORM_QUESTIONS[0]}=1`],
       });
-      if (filed.status !== "refused" && filed.filing.status === "on-ballot")
+      if (
+        filed.status !== "refused" &&
+        ["petitioning", "on-ballot"].includes(filed.filing.status ?? "")
+      )
         return filed.filing;
     }
   }
