@@ -26,3 +26,5 @@ source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real
 **Notes.** Filed by the realistic-not-real audit of Oct 27.
 
 Oct 28 (words and director session): evidence. The President is a Republican in 5 of 5 drawn worlds (seeds addr-a to addr-e), because officials are seated in the party that really holds the seat (officials-roster, partySource roster). The address now reads the party (its creed paragraph), so a party drawn per world would change the speech with no words code.
+
+Oct 28 23:45 UTC (laws session): evidence. The two-seeds-differ guard (src/core2/realistic-not-real.test.ts, audit row 45, who holds the legislatures, Congress and the governorships) is red on clean main by draw: REALISTIC_SEED=210d38cd8a389651 draws Washington, District of Columbia (1150000) and fails with "seat:US-DC:us-house:98: expected 'Democratic' to be null"; the delegate seat opens in the party that really holds it. It turns `npm run guards` red on any PR whose run draws that place.

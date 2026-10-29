@@ -19,6 +19,8 @@ interface StoredStory {
 export interface WordedStory {
   readonly headline?: string;
   readonly lede?: string;
+  /** The lede and the sentences after it, when the record gives more to say. */
+  readonly paragraphs?: readonly string[];
   readonly sourceRecordIds: readonly string[];
 }
 
@@ -186,6 +188,11 @@ function worded(
   return {
     ...(composed.headline ? { headline: opened(composed.headline) } : {}),
     ...(composed.lede ? { lede: opened(composed.lede) } : {}),
+    // The story's body as print sets it: the lede, then each sentence the
+    // record gives it, so News prints a story, not only a brief.
+    ...(composed.paragraphs && composed.paragraphs.length > 1
+      ? { paragraphs: composed.paragraphs.map(opened) }
+      : {}),
     sourceRecordIds: composed.sourceRecordIds,
   };
 }

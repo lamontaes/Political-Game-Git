@@ -69,7 +69,9 @@ try {
         .locator('[data-tab="travel"]')
         .first()
         .evaluate((e) => e.click());
-      const go = page.locator("#sheet-body button", { hasText: /Go/ });
+      const go = page.locator("#sheet-body .entry", {
+        hasText: /You file here/,
+      });
       await go.first().waitFor();
       return go;
     };
@@ -79,6 +81,8 @@ try {
       if (i >= (await go.count())) break;
       const label = (await go.nth(i).getAttribute("aria-label")) ?? "";
       await go.nth(i).click();
+      const placeGo = page.locator('[data-testid="place-go"]');
+      if (await placeGo.isVisible().catch(() => false)) await placeGo.click();
       const atCounter = await page
         .locator("#talk:not([hidden])")
         .waitFor({ timeout: 5000 })
@@ -88,9 +92,9 @@ try {
         await page.keyboard.press("Escape").catch(() => {});
         continue;
       }
-      // The choices that name an office: every one but leaving; and the race menu, if open.
+      // The choices that name an office: every one but leaving (no race menu
+      // beside the counter: owner, Oct 28, point 29).
       const read = await page.evaluate(() => {
-        const menu = document.getElementById("race-menu");
         const text = (node) => node?.textContent?.trim() ?? "";
         return {
           replies: [...document.querySelectorAll("#talk-choices button")].map(
@@ -99,17 +103,10 @@ try {
               facts: text(b.querySelector(".reply-facts")),
             }),
           ),
-          menuOpen: Boolean(menu && !menu.hidden),
-          menuRows: menu
-            ? [...menu.querySelectorAll(".choice")].map((row) => ({
-                text: text(row.querySelector(".nl")),
-                facts: text(row.querySelector(".choice-facts")),
-              }))
-            : [],
           said: [...document.querySelectorAll("#talk-lines li")].map(text),
         };
       });
-      const found = read.menuOpen ? read.menuRows : read.replies;
+      const found = read.replies;
       tried.push(`${label}: ${found.length}`);
       if (found.length > picks.length) {
         picks = found;

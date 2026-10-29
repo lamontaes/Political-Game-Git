@@ -61,14 +61,19 @@ const daysBetween = (from: string, to: string) =>
 /** Seats emptied during the run and empty past the grace with nothing filling them: the offices engine's vacancies and the officials roster. */
 function unfilledSeats(core: CoreState, since: string): string[] {
   const out: string[] = [];
+  // A seat whose special election is still to come waits by law, its
+  // member's row ended or not.
+  const awaiting = new Set<string>();
   for (const row of rows(core, OFFICES, "vacancies")) {
     if (row.status === "filled") continue;
     if (
       row.status === "awaiting-election" &&
       typeof row.electionDate === "string" &&
       row.electionDate >= core.date
-    )
+    ) {
+      awaiting.add(row.seatId as string);
       continue;
+    }
     const days = daysBetween(row.since as string, core.date);
     if (days > VACANCY_GRACE_DAYS)
       out.push(
@@ -82,6 +87,7 @@ function unfilledSeats(core: CoreState, since: string): string[] {
     bySeat.set(row.seatId as string, list);
   }
   for (const [seatId, list] of bySeat) {
+    if (awaiting.has(seatId)) continue;
     if (list.some((row) => row.ended === null || row.ended === undefined))
       continue;
     // A nominee the confirming bodies passed over was never seated: no seat emptied.
