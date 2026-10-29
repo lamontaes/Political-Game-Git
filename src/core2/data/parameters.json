@@ -6767,6 +6767,18 @@
       "citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
     }
   },
+  "budgetHearingLeadDays": {
+    "value": 30,
+    "tag": "ESTIMATED",
+    "citation": "How long before the fiscal year the body holds its public hearing on the executive's budget: the Government Finance Officers Association's budget-process practice and the truth-in-budgeting hearing laws many states set put the hearing two to six weeks before adoption, after the proposal is in the body's hands.",
+    "estimatedFrom": "Common statutory and charter hearing lead times; no count of every place's charter exists.",
+    "spread": {
+      "low": 14,
+      "high": 45,
+      "unit": "days",
+      "citation": "Two to six weeks before adoption (GFOA budget-process practice)."
+    }
+  },
   "coarsePlaceOldestWorkingAge": {
     "value": 80,
     "tag": "TUNABLE",
