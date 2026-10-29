@@ -448,7 +448,8 @@ describe("medical bills and medical debt in a played world", () => {
           }
           // A town household's months when, in the expansion world, a member
           // held Medicaid coverage and, in the twin, none did, with every
-          // member's care need the same in both, so only coverage differs.
+          // member's care need the same in both and every other member on
+          // the same plan, so only the expansion's coverage differs.
           const twinRows = new Map(
             inTwin.rows
               .filter((row) => !row.counted)
@@ -465,12 +466,15 @@ describe("medical bills and medical debt in a played world", () => {
               const twin = twinRows.get(`${row.householdId}|${row.date}`);
               if (!twin || twin.members.some((m) => m.plan === "medicaid"))
                 return [];
-              const need = new Map(
-                twin.members.map((m) => [m.personId, m.careNeed]),
-              );
+              const there = new Map(twin.members.map((m) => [m.personId, m]));
               const same =
                 twin.members.length === row.members.length &&
-                row.members.every((m) => need.get(m.personId) === m.careNeed);
+                row.members.every(
+                  (m) =>
+                    there.get(m.personId)?.careNeed === m.careNeed &&
+                    (m.plan === "medicaid" ||
+                      there.get(m.personId)?.plan === m.plan),
+                );
               return same ? [{ expanded: row, twin }] : [];
             });
           const gap = (c: {
