@@ -17,7 +17,11 @@ import {
   type BillRow,
 } from "../core2/modules/legislature";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import {
+  federalOffices,
+  OFFICES_MODULE_ID,
+  stateOffices,
+} from "../core2/modules/offices";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import {
   corePlaceByJurisdictionId,
@@ -31,7 +35,6 @@ import {
   spokenDesignation,
 } from "../english/bill-names";
 import type { StoryKind } from "../english/english-newscast";
-import { federalOffices, stateOffices } from "../core2/offices-state";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
 
