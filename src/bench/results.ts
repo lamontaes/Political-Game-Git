@@ -230,9 +230,10 @@ export function resultsScene(core: CoreState, playerId: string) {
       reason: id === playerId ? ("you" as const) : ("household" as const),
     };
   });
+  const backdrop = backdropFor(core, place, ran ? 22 * 60 : 18 * 60);
   return {
     place,
-    backdrop: backdropFor(core, place, ran ? 22 * 60 : 18 * 60),
-    people: stagePeople(core, place, cast).people,
+    backdrop,
+    people: stagePeople(core, backdrop.file, cast).people,
   };
 }

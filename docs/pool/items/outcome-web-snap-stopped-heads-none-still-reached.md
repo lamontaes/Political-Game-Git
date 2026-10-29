@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/laws-snap-stopped-heads
+pr: #6806
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T19:13:32.222Z
 ---
 
 **What.** src/core2/outcome-web-public-finance.test.ts 'stops the heads the law reaches after their own months' fails on clean main (d4f61f3c07, Oct 28 17:45 UTC) with PUBLIC_FINANCE_SEED=d4592d3821f01152: North Hodge, Louisiana (2255910), place seed 914395bc9c354954d47a84fd2dbd0198844470db85e2f9a70bd0031a9a3b4258, 'a stopped head the law still reaches: expected 0 to be greater than 0'. The benefit stopped heads, but by the end of the run the requirement reaches none of them, so the test finds no stopped head to check. Either every stopped head left the requirement's reach (age, work, household) or the reach and the stop read different records. The laws session found it while checking the grocery exemption change and did not change the SNAP engine.

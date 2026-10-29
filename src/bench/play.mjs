@@ -1732,7 +1732,11 @@ async function showPerson(person) {
         c.shared?.length && {
           title: labels.together,
           items: c.shared.map((s) => {
-            const line = row(labels.sharedWords?.[s.kind], s.name ?? "");
+            // A tie with no name to give (living in the same home) is a plain line,
+            // never a label with nothing beside it.
+            const line = s.name
+              ? row(labels.sharedWords?.[s.kind], s.name)
+              : prose(labels.sharedWords?.[s.kind] ?? "");
             line.dataset.record = s.recordId;
             return { node: line };
           }),
@@ -3645,6 +3649,8 @@ async function openSheet(tab) {
     group === "politics"
       ? await api(`/api/government?id=${encodeURIComponent(me.id)}`)
       : { seats: [], filings: [], ofVotingAge: false };
+  // A slower request for an earlier sheet must not put its tabs over the one opened since.
+  if (openTab !== tab) return;
   const holdsOffice = politics.seats.some((s) => s.holder?.personId === me.id);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
@@ -4157,8 +4163,10 @@ async function pickColor(row, value) {
 // Character appearance: the people engine's portrait and arrows.
 function showLook(view) {
   setup.recipe = view.recipe;
-  $("cr-portrait").src =
-    `/api/portrait?recipe=${encodeURIComponent(JSON.stringify(view.recipe))}`;
+  // Everyday clothes and, beside them, work clothes (owner, Oct 29).
+  const recipe = encodeURIComponent(JSON.stringify(view.recipe));
+  $("cr-portrait").src = `/api/portrait?recipe=${recipe}`;
+  $("cr-portrait-work").src = `/api/portrait?recipe=${recipe}&dress=work`;
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) =>
       lookRow(row, {
