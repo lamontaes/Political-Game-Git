@@ -80682,7 +80682,7 @@
       "key": "scene-talk.state-deliver-news.we-lost-bill-on-the-floor-tally",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "We lost {bill} on the floor, {tally}.",
+      "text": "We lost {bill} on the floor, {nays} to {ayes}.",
       "uses": [
         {
           "subject": "scene",
@@ -80707,7 +80707,7 @@
       "key": "scene-talk.state-deliver-news.bill-went-down-on-the-floor-it-was-tally",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "{bill} went down on the floor. It was {tally}.",
+      "text": "{bill} went down on the floor. It was {nays} to {ayes}.",
       "uses": [
         {
           "subject": "scene",
@@ -80732,7 +80732,7 @@
       "key": "scene-talk.state-deliver-news.the-committee-voted-down-bill-tally",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "The committee voted down {bill}, {tally}.",
+      "text": "The committee voted down {bill}, {nays} to {ayes}.",
       "uses": [
         {
           "subject": "scene",
@@ -80757,7 +80757,7 @@
       "key": "scene-talk.state-deliver-news.bill-didn-t-make-it-out-of-committee-it-was-tally",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "{bill} didn't make it out of committee. It was {tally}.",
+      "text": "{bill} didn't make it out of committee. It was {nays} to {ayes}.",
       "uses": [
         {
           "subject": "scene",
@@ -80808,7 +80808,7 @@
       "key": "scene-talk.follow-answer.it-lost-tally-that-s-where-we-are",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It lost {tally}. That's where we are.",
+      "text": "It lost {nays} to {ayes}. That's where we are.",
       "uses": [
         {
           "subject": "scene",
@@ -84276,7 +84276,7 @@
       "key": "scene-talk.state-congratulate.the-count-has-you-ahead-by-lead-congratulations",
       "move": "state-congratulate",
       "kind": "spoken",
-      "text": "The count has you ahead by {lead}. Congratulations.",
+      "text": "The count has you ahead by {lead} votes. Congratulations.",
       "uses": [
         {
           "subject": "scene",
@@ -84285,7 +84285,8 @@
           "role": "asker",
           "purpose": "concession-received",
           "key": "call-in",
-          "requiresFacts": ["lead"]
+          "requiresFacts": ["lead"],
+          "excludesFacts": ["lead-one"]
         }
       ],
       "bearing": "solemn",
@@ -84325,7 +84326,7 @@
       "key": "scene-talk.state-congratulate.lead-that-s-what-it-came-to-you-earned-it",
       "move": "state-congratulate",
       "kind": "spoken",
-      "text": "{lead}. That's what it came to. You earned it.",
+      "text": "{lead} votes. That's what it came to. You earned it.",
       "uses": [
         {
           "subject": "scene",
@@ -84334,7 +84335,8 @@
           "role": "asker",
           "purpose": "concession-received",
           "key": "call-in",
-          "requiresFacts": ["lead"]
+          "requiresFacts": ["lead"],
+          "excludesFacts": ["lead-one"]
         }
       ],
       "bearing": "guarded",
@@ -85115,7 +85117,7 @@
       "key": "scene-talk.reply-answer.the-last-report-i-saw-had-me-ahead-by-lead-i-wouldn-t-expect-that-to-c",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "The last report I saw had me ahead by {lead}. I wouldn't expect that to change.",
+      "text": "The last report I saw had me ahead by {lead} votes. I wouldn't expect that to change.",
       "uses": [
         {
           "subject": "scene",
@@ -85125,7 +85127,8 @@
           "purpose": "concession-received",
           "key": "call-in",
           "after": "ask",
-          "requiresFacts": ["lead"]
+          "requiresFacts": ["lead"],
+          "excludesFacts": ["lead-one"]
         }
       ],
       "bearing": "calm",
@@ -104146,7 +104149,7 @@
       "key": "scene-talk.state-request.bill-passed-roll-i-m-asking-you-to-sign-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{bill} passed {roll}. I'm asking you to sign it.",
+      "text": "{bill} passed {ayes} to {nays}. I'm asking you to sign it.",
       "uses": [
         {
           "subject": "scene",
@@ -104171,7 +104174,7 @@
       "key": "scene-talk.state-request.bill-is-on-your-desk-it-cleared-roll-sign-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{bill} is on your desk. It cleared {roll}. Sign it.",
+      "text": "{bill} is on your desk. It cleared {ayes} to {nays}. Sign it.",
       "uses": [
         {
           "subject": "scene",
@@ -104346,7 +104349,7 @@
       "key": "scene-talk.state-request.bill-passed-roll-that-doesn-t-make-it-right-i-m-asking-you-to-veto-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{bill} passed {roll}. That doesn't make it right. I'm asking you to veto it.",
+      "text": "{bill} passed {ayes} to {nays}. That doesn't make it right. I'm asking you to veto it.",
       "uses": [
         {
           "subject": "scene",
@@ -105129,7 +105132,7 @@
       "key": "scene-talk.follow-answer.it-passed-roll-that-s-the-record",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It passed {roll}. That's the record.",
+      "text": "It passed {ayes} to {nays}. That's the record.",
       "uses": [
         {
           "subject": "scene",
@@ -105155,7 +105158,7 @@
       "key": "scene-talk.follow-answer.the-vote-was-roll-ask-the-other-side-about-cost",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "The vote was {roll}. Ask the other side about cost.",
+      "text": "The vote was {ayes} to {nays}. Ask the other side about cost.",
       "uses": [
         {
           "subject": "scene",
@@ -118412,6 +118415,82 @@
       "tag": {
         "move": "warn",
         "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.the-count-has-you-ahead-by-one-vote-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "The count has you ahead by one vote. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["lead", "lead-one"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.one-vote-that-s-what-it-came-to-you-earned-it",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "One vote. That's what it came to. You earned it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["lead", "lead-one"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.the-last-report-i-saw-had-me-ahead-by-one-vote-i-wouldn-t-expect-that-to-change",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "The last report I saw had me ahead by one vote. I wouldn't expect that to change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "ask",
+          "requiresFacts": ["lead", "lead-one"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "call-in"
       }
     }
   ]

@@ -154,9 +154,14 @@ const run = (drawSeed: string): string | null => {
   expect(scene.cause.id, where).toBe(causeId);
   expect(scene.askerId, where).toBe(callerId);
   expect(scene.askedId, where).toBe(winner);
-  // The lead is the count's own difference, citing the record.
+  // The lead is the count's own difference, citing the record; the bank's
+  // lines say "votes", or "one vote" where the flag says it was one.
   const lead = scene.facts.find((row) => row.key === "lead");
-  expect(lead?.text, where).toMatch(/^[\d,]+ votes?$/);
+  expect(lead?.text, where).toMatch(/^[\d,]+$/);
+  expect(
+    scene.facts.some((row) => row.key === "lead-one"),
+    where,
+  ).toBe(lead?.text === "1");
   expect(lead?.recordIds, where).toContain(causeId);
   expect(Number.parseInt(lead!.text.replaceAll(",", ""), 10), where).toBe(
     ranked[0]![1] - ranked[1]![1],
