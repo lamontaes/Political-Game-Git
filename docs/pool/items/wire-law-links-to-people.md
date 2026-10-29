@@ -5,9 +5,9 @@ area: laws
 kind: feature
 priority: 1
 size: L
-status: claimed
+status: done
 claimed-by: laws/wire-law-links
-pr:
+pr: #6757
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T14:40:59.335Z
