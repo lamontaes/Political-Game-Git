@@ -9,15 +9,16 @@
  * 120-day wait goes to collections as a medical-debt record on the
  * household's books.
  *
- * (a) A household with a seriously ill member is billed more than a healthy
- *     neighbor, members covered by a plan are billed less than uncovered
- *     ones, each payment is a journal entry that balances, from the
- *     household to the medical seller.
+ * (a) A member whose health record asks for care is billed more than a
+ *     healthy member on the same plan, members covered by a plan are billed
+ *     less than uncovered ones, and every payment is a journal entry that
+ *     balances, from the household to the medical seller.
  * (b) A named low-income household carries a smaller medical-debt record
  *     with the expansion than in its twin: its adults' Medicaid coverage (the
- *     law reach's payment records) prices their bills at Medicaid's share,
- *     and the place-level expansion row is left out of its collections share
- *     so the expansion moves it once.
+ *     law reach's payment records, more months of it than in the twin)
+ *     prices their bills at Medicaid's share, and the place-level expansion
+ *     row is left out of its collections share so the expansion moves it
+ *     once.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -208,47 +209,58 @@ describe("medical bills and medical debt in a played world", () => {
           const withLaw = withExpansion.rows;
           const without = inTwin.rows;
 
-          // (a) Bills follow health and coverage, by record.
+          // (a) Bills follow health and coverage, by record: the member whose
+          // health record asks the most care (a serious illness under way
+          // first, else a held condition's share, the same rule) is billed
+          // more than a member on the same plan whose record asks none, in a
+          // household of the same size, place and month in the same world.
+          // A small town may have no serious illness under way in the months
+          // played.
           const all = [...withLaw, ...without];
-          const ill = all
-            .filter(
-              (row) =>
-                row.paidMinor > 0 &&
-                row.journalIds.length > 0 &&
-                row.members.some((m) => m.careNeed === 1),
+          const worldOf = new Map<MedicalBillRow, "expanded" | "twin">([
+            ...withLaw.map((row) => [row, "expanded"] as const),
+            ...without.map((row) => [row, "twin"] as const),
+          ]);
+          const billed = all.flatMap((row) =>
+            row.members.map((m) => ({ ...m, size: row.members.length, row })),
+          );
+          type Billed = (typeof billed)[number];
+          const peerKey = (m: Billed) =>
+            `${worldOf.get(m.row)}|${m.row.placeId}|${m.row.date}|${m.plan}|${m.size}`;
+          const healthyPeer = new Map<string, Billed>();
+          for (const m of billed)
+            if (
+              m.careNeed === 0 &&
+              m.billMinor > (healthyPeer.get(peerKey(m))?.billMinor ?? -1)
             )
-            .sort((a, b) => b.billMinor - a.billMinor)[0];
-          const healthy = ill
-            ? all
-                .filter(
-                  (row) =>
-                    row.placeId === ill.placeId &&
-                    row.date === ill.date &&
-                    row.members.length === ill.members.length &&
-                    row.paidMinor > 0 &&
-                    row.journalIds.length > 0 &&
-                    row.members.every((m) => m.careNeed === 0),
-                )
-                .sort((a, b) => b.billMinor - a.billMinor)[0]
-            : undefined;
+              healthyPeer.set(peerKey(m), m);
+          const ill = billed
+            .filter((m) => m.careNeed > 0 && healthyPeer.has(peerKey(m)))
+            .sort(
+              (a, b) => b.careNeed - a.careNeed || b.billMinor - a.billMinor,
+            )[0];
+          const healthy = ill ? healthyPeer.get(peerKey(ill)) : undefined;
           if (!ill || !healthy) {
             passed.push(
-              `${where}: ${ill ? "no healthy neighbor of the same size paid that month" : "no seriously ill member's household paid a bill"}`,
+              `${where}: no member whose health asked for care had a healthy member on the same plan in a household of the same size that month`,
             );
             continue;
           }
           expect(
             ill.billMinor,
-            `${where}: ${ill.id} against ${healthy.id}`,
+            `${where}: ${ill.personId} of ${ill.row.id} on ${ill.row.date} against ${healthy.personId} of ${healthy.row.id}`,
           ).toBeGreaterThan(healthy.billMinor);
           // Each payment is one balanced entry from the household to the
-          // seller, for the amount the bill row says it paid.
-          const worldOf = (row: MedicalBillRow) =>
-            withLaw.includes(row) ? "expanded" : "twin";
-          for (const row of [ill, healthy]) {
+          // seller, for the amount the bill row says it paid: every full
+          // household's payment, both worlds, every month played.
+          const paying = all.filter((row) => row.paidMinor > 0);
+          expect(paying.length, `${where}: payments`).toBeGreaterThan(0);
+          for (const row of paying) {
+            const at = `${where}: ${row.id} on ${row.date}`;
+            expect(row.journalIds.length, at).toBeGreaterThan(0);
             let moved = 0;
             for (const id of row.journalIds) {
-              const entry = posted.get(`${worldOf(row)}|${id}`);
+              const entry = posted.get(`${worldOf.get(row)}|${id}`);
               expect(entry, `${where}: ${id}`).toBeDefined();
               expect(entry!.source, id).toContain(row.householdId);
               expect(entry!.sum, `${where}: ${id} balances`).toBe(0);
@@ -257,7 +269,7 @@ describe("medical bills and medical debt in a played world", () => {
                 0,
               );
             }
-            expect(moved, `${where}: ${row.id} paid`).toBe(row.paidMinor);
+            expect(moved, `${at} paid`).toBe(row.paidMinor);
           }
           for (const [id, entry] of posted)
             expect(
@@ -295,32 +307,57 @@ describe("medical bills and medical debt in a played world", () => {
             expect(medicaid.c.billMinor).toBeLessThan(medicaid.u.billMinor);
 
           // (b) A named low-income household's medical debt, both worlds.
-          const lastOf = (rows: readonly MedicalBillRow[], id: string) =>
-            rows.filter((row) => row.householdId === id).at(-1);
+          // Covered by the expansion: more of its members' months on Medicaid
+          // in the expansion world than in the twin, over every month played
+          // (each world's own lawmakers and incomes move coverage too, so the
+          // last month alone can miss it). Its rows are the latest month a
+          // member was covered, and the twin's row for the same month.
+          const medicaidMonths = (rows: readonly MedicalBillRow[]) => {
+            const out = new Map<string, number>();
+            for (const row of rows)
+              out.set(
+                row.householdId,
+                (out.get(row.householdId) ?? 0) +
+                  row.members.filter((m) => m.plan === "medicaid").length,
+              );
+            return out;
+          };
+          const monthsWith = medicaidMonths(withLaw);
+          const monthsWithout = medicaidMonths(without);
           const households = [
             ...new Set(without.map((row) => row.householdId)),
           ].filter((id) => withExpansion.debts.has(id));
           const compared = households
+            .filter(
+              (id) =>
+                (inTwin.debts.get(id)?.balanceMinor ?? 0) > 0 &&
+                (monthsWith.get(id) ?? 0) > (monthsWithout.get(id) ?? 0),
+            )
             .map((id) => {
               const twinDebt = inTwin.debts.get(id);
               const withIt = withExpansion.debts.get(id);
+              const expandedRow = withLaw
+                .filter(
+                  (row) =>
+                    row.householdId === id &&
+                    row.members.some((m) => m.plan === "medicaid"),
+                )
+                .at(-1)!;
               return {
                 id,
                 twin: twinDebt?.balanceMinor ?? 0,
                 expanded: withIt?.balanceMinor ?? 0,
                 twinDebt,
                 expandedDebt: withIt,
-                twinRow: lastOf(without, id),
-                expandedRow: lastOf(withLaw, id),
+                monthsWith: monthsWith.get(id) ?? 0,
+                monthsWithout: monthsWithout.get(id) ?? 0,
+                expandedRow,
+                twinRow: without.find(
+                  (row) =>
+                    row.householdId === id && row.date === expandedRow.date,
+                ),
               };
             })
-            .filter(
-              (row) =>
-                row.twin > 0 &&
-                // Medicaid's members: an adult covered in the expansion world.
-                row.expandedRow?.members.some((m) => m.plan === "medicaid") &&
-                !row.twinRow?.members.some((m) => m.plan === "medicaid"),
-            )
             .sort((a, b) => b.twin - b.expanded - (a.twin - a.expanded));
           const named = compared[0];
           if (!named) {
@@ -333,22 +370,22 @@ describe("medical bills and medical debt in a played world", () => {
             named.twin,
           );
           // The expansion moves it once: its own coverage, not the place row.
-          expect(named.expandedRow!.ownRecordsFor).toContain(TWIN_LINK);
-          expect(named.expandedRow!.webLinks).not.toContain(TWIN_LINK);
+          expect(named.expandedRow.ownRecordsFor).toContain(TWIN_LINK);
+          expect(named.expandedRow.webLinks).not.toContain(TWIN_LINK);
           // A counted household has no Medicaid record of its own: where the
           // web moves the place row (the repeal, after the link's lag, or an
           // enactment), its share sent to collections moves off the base.
           const counted = [...withExpansion.counted, ...inTwin.counted];
           for (const row of counted.slice(0, 5))
             expect(row.collectionsShare, row.id).not.toBe(BASE_SHARE);
-          const covered = named.expandedRow!.members.filter(
+          const covered = named.expandedRow.members.filter(
             (m) => m.plan === "medicaid",
           );
           process.stdout.write(
             [
               `MEDICAL-DEBT (MEDICAL_DEBT_SEED=${SEED}) ${where}; expansion ${enacted} in one world, repealed in the twin (${repealed || "not held"}).`,
-              `(a) ${ill.id} on ${ill.date}: billed ${ill.billMinor}, paid ${ill.paidMinor} (${ill.journalIds.join(", ")}), members ${ill.members.map((m) => `${m.personId} ${m.plan} need ${m.careNeed.toFixed(2)} ${m.billMinor}`).join("; ")}; healthy neighbor ${healthy.id}: billed ${healthy.billMinor}, paid ${healthy.paidMinor} (${healthy.journalIds.join(", ")}). Employer member ${employer!.c.personId} ${employer!.c.billMinor} against uncovered ${employer!.u.personId} ${employer!.u.billMinor}${medicaid ? `; Medicaid member ${medicaid.c.personId} ${medicaid.c.billMinor} against uncovered ${medicaid.u.personId} ${medicaid.u.billMinor}` : ""}. ${posted.size} medical journal entries, each balanced.`,
-              `(b) ${named.id}: medical debt ${named.expanded} with the expansion (${named.expandedDebt?.id ?? "no record"}) against ${named.twin} in the twin (${named.twinDebt!.id}, first sent ${named.twinDebt!.chargedOffAt}, last ${named.twinDebt!.lastSentAt} ${named.twinDebt!.lastSentMinor} from ${named.twinDebt!.lastBillId}); Medicaid-covered members ${covered.map((m) => `${m.personId} ${m.billMinor}`).join(", ")}; twin bill ${named.twinRow!.billMinor} owed ${named.twinRow!.owed.reduce((n, o) => n + o.minor, 0)}, expanded bill ${named.expandedRow!.billMinor} owed ${named.expandedRow!.owed.reduce((n, o) => n + o.minor, 0)}; own records for ${named.expandedRow!.ownRecordsFor.join(", ")}. Counted rows reading the place row: ${counted.length}${counted[0] ? `, e.g. ${counted[0].id} share ${counted[0].collectionsShare.toFixed(4)} (${counted[0].webRecordId})` : ""}. Passed over: ${passed.join("; ") || "none"}`,
+              `(a) ${worldOf.get(ill.row)} world, ${ill.row.date}: member ${ill.personId} of ${ill.row.id} (${ill.plan}, care need ${ill.careNeed.toFixed(2)}) billed ${ill.billMinor} against ${healthy.personId} of ${healthy.row.id} (${healthy.plan}, none) billed ${healthy.billMinor}. Employer member ${employer!.c.personId} ${employer!.c.billMinor} against uncovered ${employer!.u.personId} ${employer!.u.billMinor}${medicaid ? `; Medicaid member ${medicaid.c.personId} ${medicaid.c.billMinor} against uncovered ${medicaid.u.personId} ${medicaid.u.billMinor}` : ""}. ${paying.length} household payments, each its journal entries for what its row says it paid (e.g. ${paying[0]!.id} on ${paying[0]!.date} paid ${paying[0]!.paidMinor} by ${paying[0]!.journalIds.join(", ")}); ${posted.size} medical journal entries, each balanced.`,
+              `(b) ${named.id}: medical debt ${named.expanded} with the expansion (${named.expandedDebt?.id ?? "no record"}) against ${named.twin} in the twin (${named.twinDebt!.id}, first sent ${named.twinDebt!.chargedOffAt}, last ${named.twinDebt!.lastSentAt} ${named.twinDebt!.lastSentMinor} from ${named.twinDebt!.lastBillId}); Medicaid member-months ${named.monthsWith} with the expansion against ${named.monthsWithout} in the twin; on ${named.expandedRow.date} Medicaid-covered members ${covered.map((m) => `${m.personId} ${m.billMinor}`).join(", ")}, expanded bill ${named.expandedRow.billMinor} owed ${named.expandedRow.owed.reduce((n, o) => n + o.minor, 0)}, twin bill ${named.twinRow?.billMinor ?? "none"} owed ${named.twinRow?.owed.reduce((n, o) => n + o.minor, 0) ?? "none"}; own records for ${named.expandedRow.ownRecordsFor.join(", ")}. Counted rows reading the place row: ${counted.length}${counted[0] ? `, e.g. ${counted[0].id} share ${counted[0].collectionsShare.toFixed(4)} (${counted[0].webRecordId})` : ""}. Passed over: ${passed.join("; ") || "none"}`,
             ].join("\n") + "\n",
           );
           return;
