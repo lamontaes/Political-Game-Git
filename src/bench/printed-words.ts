@@ -920,6 +920,17 @@ const estate: Builder = (read, f) =>
 /** A recall petition filed, or a recall's outcome. */
 const recall: Builder = (read, f) => {
   const outcome = f.outcome;
+  // The petition's count on its due day: how many signed and how many the
+  // law required, and, where the member's answer moved it, how many fewer
+  // signed than would have without it (the count's reasons cite the answer).
+  const signed = num(f.signatures);
+  const required = num(f.required);
+  const before = num(f.before);
+  const answers = (f.answerIds ?? "").split(" ").filter(Boolean);
+  const moved =
+    signed !== undefined && before !== undefined && before > signed
+      ? before - signed
+      : undefined;
   return story(
     read.kind === "recall-petition" ? "recall-petition" : "recall",
     {
@@ -934,6 +945,18 @@ const recall: Builder = (read, f) => {
             count: read.fact(
               `${count(num(f.keep)!)} to ${count(num(f.remove)!)}`,
             ),
+          }
+        : {}),
+      ...(signed !== undefined && required !== undefined
+        ? {
+            signatures: read.fact(count(signed)),
+            required: read.fact(count(required)),
+          }
+        : {}),
+      ...(moved !== undefined && answers.length
+        ? {
+            "answer-moved": read.fact("yes", ...answers),
+            fewer: read.fact(count(moved), ...answers),
           }
         : {}),
     },

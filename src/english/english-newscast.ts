@@ -121,7 +121,11 @@ export const STORY_KINDS = {
     headline: ["recall-petition"],
     lede: ["recall-petition"],
   },
-  recall: { headline: ["recall"], lede: ["recall"] },
+  recall: {
+    headline: ["recall"],
+    lede: ["recall"],
+    context: ["recall-count", "recall-answer"],
+  },
   "party-chair": { headline: ["party-chair"], lede: ["party-chair"] },
   charged: { headline: ["charged"], lede: ["charged"] },
   bail: { headline: ["bail"], lede: ["bail"] },
@@ -292,12 +296,17 @@ export function composeNewsStory(
     );
     if (!composed) continue;
     // A sentence that only repeats what the lede or an earlier sentence said
-    // (the bill's number, the opponent) is left out.
+    // (the bill's number, the opponent) is left out. A fact counts where it
+    // stands as a whole word, so a short count ("77") is a fact too.
     const said = [lede ?? "", ...context].join(" ");
+    const names = (text: string, fact: string) =>
+      new RegExp(
+        `(?:^|\\W)${fact.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\W|$)`,
+      ).test(text);
     const named = Object.values(packet.facts)
       .map((fact) => fact?.text ?? "")
-      .filter((text) => text.length > 2 && composed.text.includes(text));
-    if (named.length && named.every((text) => said.includes(text))) continue;
+      .filter((text) => text && names(composed.text, text));
+    if (named.length && named.every((text) => names(said, text))) continue;
     const text = keep(composed);
     if (text) context.push(text);
   }
