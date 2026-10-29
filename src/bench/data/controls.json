@@ -447,6 +447,71 @@
     "seriesNames": {
       "income-tax": "Income tax rate",
       "sales-tax": "Sales tax rate"
+    },
+    "branches": {
+      "legislative": "Legislative",
+      "executive": "Executive"
+    },
+    "meets": "Meets {schedule}",
+    "meetsWeekly": "every {weekday}",
+    "meetsTwice": "the {first} and {second} {weekday} of the month",
+    "meetsMonthly": "the {first} {weekday} of the month",
+    "weekdays": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "ordinals": ["1st", "2nd", "3rd", "4th", "5th"],
+    "nextMeeting": "next meeting {date}",
+    "nextElection": "next election {date}",
+    "seatsTotal": "{n} seats",
+    "recentVotes": "Recent votes",
+    "noVotes": "No roll calls on record yet",
+    "comingUp": "Coming up",
+    "nothingComing": "Nothing on the calendar yet",
+    "regularMeeting": "Regular meeting",
+    "billOnFloor": "{number}: {title}",
+    "yesCount": "{n} yes",
+    "noCount": "{n} no",
+    "passed": "Passed",
+    "failed": "Failed",
+    "partyPlural": {
+      "Democratic": "Democrats",
+      "Republican": "Republicans",
+      "Independent": "Independents",
+      "Libertarian": "Libertarians",
+      "Green": "Greens"
+    },
+    "partyCount": "{n} {party}",
+    "nonpartisan": "Nonpartisan",
+    "vacantCount": "{n} vacant",
+    "members": "Members",
+    "officers": "Officers",
+    "page": "{page} of {pages}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "feeling": {
+      "warm": "Thinks well of you",
+      "known": "Knows you",
+      "cool": "Cold toward you"
+    },
+    "delegation": "{state}'s members",
+    "ward": "Ward {n}",
+    "district": "District {n}",
+    "atLarge": "At large",
+    "partySince": "{party} · since {date}",
+    "sinceOnly": "Since {date}",
+    "seatChart": "{n} seats by party",
+    "partySingular": {
+      "Democratic": "Democrat",
+      "Republican": "Republican",
+      "Independent": "Independent",
+      "Libertarian": "Libertarian",
+      "Green": "Green"
     }
   },
   "results": {
