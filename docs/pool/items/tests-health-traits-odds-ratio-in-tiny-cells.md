@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: fixer/red-main-health-traits
 pr: #6694
 blocked-on:
