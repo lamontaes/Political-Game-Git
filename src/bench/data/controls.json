@@ -142,7 +142,14 @@
       "campaign": "On a campaign with you"
     },
     "seats": "Seats held",
-    "since": "Since"
+    "since": "Since",
+    "record": "Record",
+    "publicRecordTitle": "Public record",
+    "closeness": "How close you are",
+    "closenessEnds": ["Distant", "Close"],
+    "earlier": "Earlier years",
+    "later": "Later years",
+    "seat": "Seat held"
   },
   "options": {
     "version": "Version",
