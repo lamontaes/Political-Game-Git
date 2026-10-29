@@ -39,3 +39,5 @@ claimed-at: 2026-10-29T18:26:18.818Z
 **Files.** `src/bench/people-pack.ts`, `whole-figures.ts`, `mannequin-plates.ts`, `scene.ts` (`stagePeople`), `art/backdrops/manifest.json`, `desktop/scripts/build-play-api.mjs`.
 
 **Notes.** How the rooms and spots were made and measured: the `room-spots` skill (#6784). The CTO keeps adding looks, people and standard rooms as rows and plates; nothing in code should change for them.
+
+- 2026-10-29: merged in #6801 (19:55 UTC), the owner having approved v4 for main. Step 6 (`needsDesk`) and the art branch's re-cut v4 came after #6801 was built; they are in #6814 (branch claude/people-pack-v4-needs-desk, ready). Still owed as data: SG-PLAY-people-pack-v4-pose-gaps (pool item people-pack-v4-pose-gaps) and SG-PLAY-people-everyday-falls-back-to-work. The occasion field is agreed with Words (fifth argument to stagePeople, absent means seated); Words adds it in story.ts.
