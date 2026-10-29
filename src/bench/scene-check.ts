@@ -2,7 +2,9 @@
 // Every scene reached in a random place shows real art: a backdrop file
 // from the library and an approved whole figure for each person drawn.
 // Usage: node --import tsx src/bench/scene-check.ts [seed]
-import { existsSync, statSync } from "node:fs";
+import { existsSync } from "node:fs";
+import { figureAtPath, figurePng } from "./people-pack";
+import { plateFor } from "./mannequin-plates";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
@@ -29,16 +31,19 @@ function look(personId: string) {
   if (!existsSync(backdropPath(scene.backdrop.file)))
     throw new Error(`Missing backdrop ${scene.backdrop.file}`);
   for (const person of scene.people) {
-    // Only the v2 standing figures are drawn.
-    if (!person.figureUrl.startsWith("/art/people-engine/v2/figures/"))
-      throw new Error(`${person.personId} is not a v2 figure`);
-    const file = new URL(`../..${person.figureUrl}`, import.meta.url);
-    if (!existsSync(file) || statSync(file).size < 1000)
+    // Only the people pack's figures are drawn.
+    const figure = figureAtPath(
+      new URL(person.figureUrl, "http://bench").pathname,
+    );
+    if (!figure) throw new Error(`${person.personId} is not a pack figure`);
+    if (figurePng(figure).length < 1000)
       throw new Error(`Blank figure for ${person.personId}`);
     figures++;
   }
-  if (!scene.people.some((person) => person.personId === personId))
-    throw new Error(`${personId} is not drawn in their own scene.`);
+  // People are drawn only on a mannequin plate (owner, Oct 28 and 29).
+  const plated = plateFor(scene.backdrop.file) !== null;
+  if (!plated && scene.people.length)
+    throw new Error(`${scene.backdrop.file} has no plate but draws people.`);
   unplaced += scene.unplaced.length;
   places.set(scene.place, (places.get(scene.place) ?? 0) + 1);
   scenes++;

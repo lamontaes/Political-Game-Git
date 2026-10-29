@@ -6,6 +6,8 @@ import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld } from "./world";
 import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
+import { countedHouseholdsByPlace } from "../core2/modules/residents";
+import { personOrFillIn } from "../core2/state";
 import { knownCard } from "./card";
 import { schoolsOf } from "./words";
 
@@ -128,6 +130,8 @@ describe("a person's history on their card", () => {
         ...(person!.pastFacts ?? []).map((fact) => fact.id),
         ...preStartHistory(core, { personId: person!.id }).map((row) => row.id),
         ...core.relationships.keys(),
+        // The person's own record, which an official's birth and service stand on.
+        person!.id,
         ...schoolsOf(core, person!.id).map((row) => row.recordId),
         // An official's lines also stand on their term records.
         ...(
@@ -204,4 +208,46 @@ describe("a person's history on their card", () => {
       earlier.length + 1,
     );
   }, 600_000);
+
+  it("tells a couple among people filled in from the counts, on a record both share", () => {
+    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    setBookkeeping(false);
+    const tried: string[] = [];
+    let found = 0;
+    // A small place may have no counted household with a child at home: draw up to
+    // three places, each named with its seed.
+    for (let draw = 0; draw < 3 && !found; draw += 1) {
+      const place = drawPlace(seed, `card-history-couples-${draw}`);
+      const where = `${place.name}, seed ${place.seed}`;
+      tried.push(where);
+      const core = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      }).core;
+      for (const home of [...countedHouseholdsByPlace(core).values()].flat()) {
+        for (const member of (home as unknown as { people: { id: PersonId }[] })
+          .people)
+          personOrFillIn(core, member.id);
+        if (preStartHistory(core, { kind: "family.partnered" }).length >= 3)
+          break;
+      }
+      const couples = preStartHistory(core, { kind: "family.partnered" });
+      for (const couple of couples) {
+        const [a, b] = couple.personIds!.map((id) => core.people.get(id)!);
+        // Two grown people who share a home.
+        expect(a!.householdId, where).toBe(b!.householdId);
+        const card = knownCard(core, a!.id, b!.id);
+        expect(
+          card.history.some(
+            (line) =>
+              line.recordId === couple.id && /Set up home/.test(line.text),
+          ),
+          `${where}: ${couple.id} on ${b!.id}'s card`,
+        ).toBe(true);
+      }
+      found += couples.length;
+      process.stdout.write(`${where}: ${couples.length} couples told\n`);
+    }
+    expect(found, `a couple told in ${tried.join("; ")}`).toBeGreaterThan(0);
+  }, 900_000);
 });

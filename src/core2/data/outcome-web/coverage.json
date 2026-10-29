@@ -47,6 +47,7 @@
     "right-to-counsel-to-evictions",
     "housing-first-to-homelessness",
     "cannabis-sales-to-youth-use",
+    "age-verification-to-youth-depressive-episode",
     "loan-rate-cap-to-high-cost-borrowing",
     "paid-leave-to-mothers-work",
     "carbon-price-to-emissions",
@@ -239,8 +240,8 @@
       "carriedBy": "src/core2/modules/jobs.ts: a lost job ends its pay; src/core2/world-poverty.ts counts the household"
     },
     "parent-incarceration-to-household-income": {
-      "waitingOn": ["justice.parent-incarcerated", "household.income"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the justice engine's prison term (convict, imprison and endCustodyJobs in src/core2/modules/justice.ts): a sentence with custody months lists every job the person holds (currentJobs), imprisonment schedules each job's end for the next morning and justiceWork ends it with api.endJob on the custody record, so the household's income in the jobs records (fullHouseholdIncomes in src/core2/counted-income-fifth.ts, the reading of a household's income that the crime engine's victimization exposure in src/core2/modules/crime.ts and the school engine's outcomes in src/core2/school-outcomes.ts take) loses that earner's pay for the term. The web does not run the link because its cause is the individual's own custody record, not a rate of the place"
     },
     "child-coverage-to-graduation": {
       "waitingOn": [],
@@ -757,19 +758,11 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "household.income": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "immigration.deferred-action": {
       "owner": "OPUS-GOV",
       "links": 1
     },
     "justice.incarceration-risk": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "justice.parent-incarcerated": {
       "owner": "OPUS-GOV",
       "links": 1
     },

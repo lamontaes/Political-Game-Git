@@ -1700,6 +1700,12 @@ export function decideCountedCase(
   const date = api.state.date;
   const sentenceId = `sentence:${c.id}`;
   const custody: Partial<Record<CountedFacility, number>> = {};
+  // A counted term is a head count by group: the counts keep no record of
+  // which member serves it, so no counted member's job ends for it, as a
+  // named prisoner's does (endCustodyJobs; parent-incarceration-to-household-income).
+  // stopgapId: SG-JUSTICE-counted-custody-pay
+  if (outcome.terms.some((term) => term.count > 0))
+    api.stopgap("SG-JUSTICE-counted-custody-pay");
   for (const term of outcome.terms) {
     if (term.count <= 0) continue;
     custody[term.facility] = term.count;

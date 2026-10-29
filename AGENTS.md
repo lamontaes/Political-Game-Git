@@ -81,6 +81,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 
 ## Process
 
+- **Builders build; checkers check (owner, Oct 29: "Start 5 new Sonnet sessions that are explicitly like type check or doing like the prep work for the mergers after coding. So that way the builders can strictly build").** A builder and its helpers run only the test files they wrote or changed while building, never `npm run typecheck`, the guards or the gate; they open the PR ready with the Done-when table filled and message the checker whose number is the PR number mod 5 (`docs/coordination/CREW.md`). The checker merges main in, runs the local gate below in its own container, fixes what is mechanical, sends the rest back, and hands a passed gate to the mergers. Skill `checker`.
 - **Local gate, not the full suite.** Typecheck, eslint and prettier on changed files, `release:check --mode pr`, `npm run zero-dice`, `npm run pool -- --check`, the tests for changed files, and `npm run test:skill-ops` when instruction files change (`npm run agent:test-cadence` lists the commands for your changed files). A failure that's also red on clean `main` doesn't block. Never force-push; never permanently delete. See `local-gate`.
 - **Generated-world proof.** Claims about simulation-driven events, scenes, dialogue or law effects need the route in an ordinary generated world through existing producers and writers, naming the place, seed and record ids. Hand-inserted fixtures prove edge cases only.
 - **A fix lands on the branch where the failure reproduces.** Diagnose from the log on every platform that shows the failure.
@@ -94,6 +95,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 
 - `ask-why`: every proof answers why, by record
 - `asset-scene-admission`: admitting art into the game
+- `checker`: running the gate on every PR so builders only build
 - `civic-prose`: writing bank pieces in the owner's style
 - `civic-reports`: reports and PR bodies for the owner
 - `cto`: the CTO role
@@ -103,6 +105,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `merge-audit`: auditing merged PRs
 - `merger`: merging and validating PRs
 - `play-first`: one item of the play-first lane; the screenshot and browser check
+- `people-pack`: drawing people from the pack, on mannequin plates
 - `played-world-proof`: proving a feature in a played year
 - `player-screen-text`: checking every string a player sees
 - `pr-fixer`: finishing sent-back PRs

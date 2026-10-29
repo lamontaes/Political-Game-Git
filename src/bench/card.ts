@@ -13,7 +13,7 @@ import { pronounWords } from "../english/pronoun-words";
 import { circleChanges } from "./circle";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
-import { faceOf, scenePlace, stagePeople } from "./scene";
+import { faceOf, scenePlace } from "./scene";
 import {
   BALANCED_TRAIT,
   PEOPLE_TRAITS,
@@ -320,6 +320,47 @@ function historyLines(
           },
           recordId: row.id,
         });
+    } else if (row.kind === "person.moved-in") {
+      lines.push({
+        date: row.date,
+        key: "moved.in",
+        slots: { year: row.date.slice(0, 4) },
+        recordId: row.id,
+      });
+    } else if (row.kind === "family.partnered") {
+      const partner = core.people.get(
+        String(row.personIds?.find((id) => id !== other.id) ?? ""),
+      );
+      if (partner)
+        lines.push({
+          date: row.date,
+          key: partner.id === viewerId ? "partner.home-you" : "partner.home",
+          slots: {
+            year: row.date.slice(0, 4),
+            name: `${partner.givenName} ${partner.familyName}`,
+          },
+          recordId: row.id,
+        });
+    } else if (row.kind === "school.started" && row.facts.stage) {
+      // Each stage of school after the first is its own line (the first is
+      // the line that names the school).
+      if (
+        row.date ===
+        preStartHistory(core, {
+          kind: "school.started",
+          personId: other.id as PersonId,
+        })[0]?.date
+      )
+        continue;
+      lines.push({
+        date: row.date,
+        key: "school.stage",
+        slots: {
+          year: row.date.slice(0, 4),
+          stage: String(row.facts.stage),
+        },
+        recordId: row.id,
+      });
     } else if (row.kind === "office.seat-reached") {
       const office = officeTitle(core, String(row.facts.officeId ?? ""));
       if (office)
@@ -372,6 +413,10 @@ function tellHistory(lines: readonly HistoryLine[]) {
         line.slots,
       );
       if (!text) return [];
+      // The same sentence from two records (a move the person's own facts and the
+      // moves engine both keep) is said once.
+      if (said.has(text)) return [];
+      said.add(text);
       const school = line.key === "school.started";
       if (school && said.has(text.replace(/ in \d{4}\.$/, ""))) return [];
       if (school) said.add(text.replace(/ in \d{4}\.$/, ""));
@@ -504,14 +549,18 @@ function officialLines(
       recordId: term.id,
     });
   for (const row of rows.filter(same)) {
-    // A term the person held before the current one, by how they reached it.
-    if (row.id === term.id && term.reached === "in office at the opening")
-      continue;
     const office = officeTitle(core, row.officeId);
     if (!office) continue;
     lines.push({
       date: row.startDate,
-      key: row.reached === "appointed" ? "office.appointed" : "office.elected",
+      // By how they reached it; a term whose way in the records do not say is told
+      // as taking office.
+      key:
+        row.reached === "appointed"
+          ? "office.appointed"
+          : row.reached === "elected"
+            ? "office.elected"
+            : "office.entered",
       slots: { year: row.startDate.slice(0, 4), office: inSentence(office) },
       recordId: row.id,
     });
@@ -640,6 +689,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           .filter((row) => row.date <= core.date)
           .at(-1) ?? null)
       : null;
+  const face = faceOf(core, otherId, scenePlace(core, viewerId).place);
   return {
     personId: otherId,
     name: `${other.givenName} ${other.familyName}`,
@@ -729,16 +779,9 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // What the public knows of a figure the viewer may never have met (the
     // past module's public tier); null for anyone else.
     publicKnowledge,
-    // Their headshot for the talk box: the same face the People map draws.
-    face: faceOf(core, otherId, scenePlace(core, viewerId).place),
-    // A large standing figure: the person on the lead spot of the room you're in.
-    figureUrl:
-      stagePeople(core, scenePlace(core, viewerId).place, [
-        {
-          id: otherId,
-          name: `${other.givenName} ${other.familyName}`,
-          reason: "subject",
-        },
-      ]).people[0]?.figureUrl ?? null,
+    // Their headshot for the talk box (the same face the People map draws),
+    // and the card's standing figure: the same picture, whole.
+    face,
+    figureUrl: face?.url ?? null,
   };
 }
