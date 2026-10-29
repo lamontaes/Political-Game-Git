@@ -800,7 +800,7 @@
       "key": "campaign-standing.small.name-could-spare-less-than-a-dollar",
       "move": "small",
       "kind": "written",
-      "text": "{name} could spare less than a dollar.",
+      "text": "{name} had only pocket change to spare.",
       "uses": [
         {
           "move": "small",
@@ -821,7 +821,7 @@
       "key": "campaign-standing.total.you-asked-asked-and-gave-gave-amount-in-all",
       "move": "total",
       "kind": "written",
-      "text": "You asked {asked}, and {gave} gave, {amount} in all.",
+      "text": "You asked {asked} people, and {gave} gave, {amount} in all.",
       "uses": [
         {
           "move": "total",
@@ -863,7 +863,7 @@
       "key": "campaign-standing.none-gave.you-asked-asked-and-none-gave-anything",
       "move": "none-gave",
       "kind": "written",
-      "text": "You asked {asked}, and none gave anything.",
+      "text": "You asked {asked} people, and none gave anything.",
       "uses": [
         {
           "move": "none-gave",
@@ -884,7 +884,7 @@
       "key": "campaign-standing.none-gave.nobody-gave-anything-of-the-asked-you-asked",
       "move": "none-gave",
       "kind": "written",
-      "text": "Nobody gave anything, of the {asked} you asked.",
+      "text": "Of the {asked} you asked, nobody gave anything.",
       "uses": [
         {
           "move": "none-gave",
