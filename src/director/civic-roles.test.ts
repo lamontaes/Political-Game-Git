@@ -234,11 +234,13 @@ describe(`civic role fills in ${where}`, () => {
       (person) =>
         person.alive &&
         person.id !== clerk.personId &&
-        fileCandidacy(api, {
-          personId: person.id,
-          contestId: contest.id,
-          platform: [],
-        }).status === "on-ballot",
+        ["petitioning", "on-ballot"].includes(
+          fileCandidacy(api, {
+            personId: person.id,
+            contestId: contest.id,
+            platform: [],
+          }).status ?? "",
+        ),
     );
     expect(subject, `${where}: ${contest.id}`).toBeTruthy();
     const filing = (
