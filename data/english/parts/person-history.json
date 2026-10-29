@@ -140,6 +140,33 @@
       "author": "the screens designer",
       "date": "2026-10-28",
       "kind": "written"
+    },
+    {
+      "key": "person-history.work.spell",
+      "move": "work",
+      "text": "Started work at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (play-first lane, play-person-history-for-everyone-you-open)",
+      "date": "2026-10-29",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.office.appointed",
+      "move": "office",
+      "text": "Appointed {office} in {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (play-first lane, play-person-history-for-everyone-you-open)",
+      "date": "2026-10-29",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.office.entered",
+      "move": "office",
+      "text": "Took office as {office} in {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (play-first lane, play-person-history-for-everyone-you-open)",
+      "date": "2026-10-29",
+      "kind": "written"
     }
   ]
 }

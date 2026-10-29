@@ -4,7 +4,9 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld } from "./world";
+import { preStartHistory } from "../core2/past";
 import { knownCard } from "./card";
+import { schoolsOf } from "./words";
 
 describe("a person's history on their card", () => {
   it("tells a parent's life from their records, with your own birth as yours", () => {
@@ -37,6 +39,10 @@ describe("a person's history on their card", () => {
     const card = knownCard(core, child.id, parentId!);
     const records = new Set([
       ...(core.people.get(parentId!)?.pastFacts ?? []).map((fact) => fact.id),
+      ...preStartHistory(core, { personId: parentId! as PersonId }).map(
+        (row) => row.id,
+      ),
+      ...schoolsOf(core, parentId!).map((row) => row.recordId),
       ...core.relationships.keys(),
     ]);
     expect(card.history.length, where).toBeGreaterThan(0);
@@ -58,5 +64,70 @@ describe("a person's history on their card", () => {
       ),
       where,
     ).toBe(false);
+  }, 600_000);
+
+  it("tells a life for anyone opened, tied to the player or not", () => {
+    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    const place = drawPlace(seed, "card-history-all");
+    const where = `${place.name}, seed ${seed}`;
+    setBookkeeping(false);
+    const core = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    }).core;
+    const viewer = [...core.people.values()].find(
+      (person) => person.familyIds.size > 0,
+    )!;
+    const tied = new Set<string>(viewer.familyIds);
+    for (const id of core.relationshipsByPerson.get(viewer.id) ?? []) {
+      const row = core.relationships.get(id);
+      if (row) tied.add(row.actorId === viewer.id ? row.otherId : row.actorId);
+    }
+    const strangers = [...core.people.values()].filter(
+      (person) => person.id !== viewer.id && !tied.has(person.id),
+    );
+    // An official (a seat reached before the start), a neighbor and a coworker.
+    const seatHolder = strangers.find(
+      (person) =>
+        preStartHistory(core, {
+          kind: "office.seat-reached",
+          personId: person.id,
+        }).length,
+    );
+    const worker = strangers.find(
+      (person) =>
+        preStartHistory(core, {
+          kind: "person.work-spell",
+          personId: person.id,
+        }).length,
+    );
+    const neighbor = strangers.find(
+      (person) =>
+        person !== seatHolder &&
+        person !== worker &&
+        person.placeId === viewer.placeId &&
+        person.alive,
+    );
+    const chosen = { seatHolder, worker, neighbor };
+    for (const [role, person] of Object.entries(chosen)) {
+      expect(person, `${where}: a ${role}`).toBeDefined();
+      const card = knownCard(core, viewer.id, person!.id);
+      process.stdout.write(
+        `${where} ${role} ${person!.id}: ${card.history.length} lines: ${card.history.map((l) => l.text).join(" | ")}\n`,
+      );
+      const records = new Set<string>([
+        ...(person!.pastFacts ?? []).map((fact) => fact.id),
+        ...preStartHistory(core, { personId: person!.id }).map((row) => row.id),
+        ...core.relationships.keys(),
+        ...schoolsOf(core, person!.id).map((row) => row.recordId),
+      ]);
+      for (const line of card.history)
+        expect(records.has(line.recordId), `${where}: ${line.recordId}`).toBe(
+          true,
+        );
+      expect(card.history.length, `${where}: ${role}`).toBeGreaterThanOrEqual(
+        4,
+      );
+    }
   }, 600_000);
 });
