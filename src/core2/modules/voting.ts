@@ -3599,10 +3599,14 @@ function openSpecialRace(
   // The town's own seats are the voting engine's.
   if (townSeats(api).some((entry) => entry.seat.id === input.seatId))
     return false;
+  // A special election whose day has already come is held the day after
+  // (the calendar takes only a day not yet run).
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
     key: `special:${input.vacancyId}:${input.electionDate}`,
     date:
-      input.electionDate > api.state.date ? input.electionDate : api.state.date,
+      input.electionDate > api.state.date
+        ? input.electionDate
+        : dayAfter(api.state.date),
     kind: SPECIAL_KIND,
     source: {
       tag: "SOURCED",
