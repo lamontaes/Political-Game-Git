@@ -105,6 +105,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `played-world-proof`: proving a feature in a played year
 - `player-screen-text`: checking every string a player sees
 - `pr-fixer`: finishing sent-back PRs
+- `red-main`: taking a red on main from report to fix
 - `researcher`: turning a stopgap into a sourced number
 - `room-spots`: rooms and where people stand or sit in them
 - `scene-producers`: a scene's cause wired to an engine's record
