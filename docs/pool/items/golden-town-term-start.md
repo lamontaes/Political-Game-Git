@@ -5,8 +5,8 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: golden/town-term-start
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: golden-path playthrough, Oct 28
@@ -27,3 +27,5 @@ milestone: play-first
 **Screenshot.** None needed: the term start is a date the results and the journal read.
 
 **Files.** src/core2/elections-calendar.ts, src/core2/data/elections/term-starts.json, src/core2/town-term-start.test.ts
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `golden/town-term-start` is kept; claiming this item takes it over.
