@@ -23,26 +23,36 @@
 import deathWeb from "./data/health/death-web.json" with { type: "json" };
 import displacement from "./data/health/displacement.json" with { type: "json" };
 import longHours from "./data/health/long-hours.json" with { type: "json" };
-import { displacementsNow, type Displacement } from "./job-displacement";
+import { displacementsNow, type Displacement } from "./health-displacement";
 import { daysBetweenText } from "./kernel/dates";
 import {
   medicaidCoverageSpells,
+  WEB_LINKS,
   type CoverageSpell,
-} from "./law-reach/group-b-money";
-import { WEB_LINKS } from "./outcome-web-model";
+} from "./modules/laws";
 import type { CoreAPI } from "./types";
 
 const BAND = deathWeb.mortality5564;
 const PERSON = BAND.personLevel;
 
-const LINK = WEB_LINKS.find((link) => link.key === PERSON.link);
-if (!LINK || LINK.size === null)
-  throw new Error(`${PERSON.link} has no researched size`);
-
-/** The link's size per covered person-year (data/research/outcome-web/links.json). */
-const SIZE: number = LINK.size;
-/** Months between the coverage and its effect on the hazard. */
-const LAG_MONTHS: number = LINK.lagMonths;
+/**
+ * The link's size per covered person-year and the months between the
+ * coverage and its effect on the hazard (data/research/outcome-web/links.json),
+ * read on first use: the link table comes through the laws family's entry.
+ */
+let coverageLink: { readonly size: number; readonly lagMonths: number } | null =
+  null;
+function coverageLinkRow(): {
+  readonly size: number;
+  readonly lagMonths: number;
+} {
+  if (coverageLink) return coverageLink;
+  const row = WEB_LINKS.find((link) => link.key === PERSON.link);
+  if (!row || row.size === null)
+    throw new Error(`${PERSON.link} has no researched size`);
+  coverageLink = { size: row.size, lagMonths: row.lagMonths };
+  return coverageLink;
+}
 
 /** One look at a person's coverage, kept with the hazard factor it set. */
 export interface OwnCoveragePart {
@@ -140,7 +150,8 @@ export function ownCoverageFactor(input: {
   readonly today: string;
   readonly firstLook: { readonly date: string; readonly covered: boolean };
 }): OwnFactor {
-  const readOn = monthsBefore(input.today, LAG_MONTHS);
+  const { size: SIZE, lagMonths } = coverageLinkRow();
+  const readOn = monthsBefore(input.today, lagMonths);
   const spell =
     readOn < input.firstLook.date ? undefined : spellOn(input.spells, readOn);
   const covered =

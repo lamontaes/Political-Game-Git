@@ -144,6 +144,10 @@ interface Look {
   readonly hazardOwn: number | undefined;
   readonly onsetDate: string | null;
   readonly spellIds: readonly string[];
+  /** Whether a stretch of their coverage is still being paid on the day. */
+  readonly paidNow: boolean;
+  /** The day their last paid stretch ended, if every stretch has. */
+  readonly endedOn: string | null;
 }
 
 function look(core: CoreState, id: string): Look {
@@ -163,6 +167,13 @@ function look(core: CoreState, id: string): Look {
     hazardOwn: hazard?.own,
     onsetDate: found?.onsetDate ?? null,
     spellIds: spells.flatMap((spell) => spell.obligationIds),
+    paidNow: spells.some((spell) => spell.to === null),
+    endedOn: spells.every((spell) => spell.to !== null)
+      ? (spells
+          .map((spell) => spell.to!)
+          .sort()
+          .at(-1) ?? null)
+      : null,
   };
 }
 
@@ -170,7 +181,9 @@ function look(core: CoreState, id: string): Look {
  * Named people aged 56 to 63 on `on` whose Medicaid coverage is being paid,
  * whose illness has not begun, and who are low-income (the link's group): the
  * household income fifth the monthly look read is the lowest, or unread where
- * the household has no pay (the place-level twin row lands on both).
+ * the household has no pay (the place-level twin row lands on both). They
+ * live in the player's town, whose chain of governments the test enacts or
+ * repeals along (a counted place nearby reads its own county's law).
  */
 function coveredAdults(core: CoreState, on: string): string[] {
   const api = coreAPI(core);
@@ -179,11 +192,12 @@ function coveredAdults(core: CoreState, on: string): string[] {
   const cases = new Map(
     healthReport(core).cases.map((row) => [row.personId, row]),
   );
+  const town = core.people.get(core.playerId ?? "")?.placeId;
   return [...spells.keys()]
     .filter((id) => {
       const person = core.people.get(id);
-      if (!person?.alive || !cases.has(id) || cases.get(id)!.onsetEventId)
-        return false;
+      if (!person?.alive || person.placeId !== town) return false;
+      if (!cases.has(id) || cases.get(id)!.onsetEventId) return false;
       const age = ageOnDate(makeIsoDate(person.birthDate), on);
       const fifth = healthHazardOf(api, id)?.fifth;
       return age >= 56 && age <= 63 && (fifth === undefined || fifth === 0);
@@ -215,6 +229,15 @@ function layTwin(core: CoreState, placeId: string): void {
 }
 
 /**
+ * A person's own-record parts other than one link's, which the two worlds
+ * must share for the ratio of their factors to be that link's alone (the
+ * parts multiply: a long-hours job or an earlier closure moves both alike).
+ */
+function otherParts(look: Look, link: string): string {
+  return JSON.stringify(look.own.parts.filter((one) => one.link !== link));
+}
+
+/**
  * What the monthly look booked for a low-income person aged 55 to 64 (the
  * group the twin row lands on, the lowest income fifth or no pay on record)
  * against the web's factor for their age with and without the twin row.
@@ -233,12 +256,18 @@ function probeTwin(
 ): TwinProbe | undefined {
   const api = coreAPI(core);
   const candidates = [...prefer, ...[...core.people.keys()].sort()];
-  // The town the people reached live in, whose web month the twin is laid on.
-  const town = core.people.get(prefer[0]!)?.placeId;
+  // A place whose latest web month carries the laid twin row (a counted
+  // place keeps no web month, so nothing is laid there to leave out).
+  const months = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
+  const laid = new Set(
+    (months.rows() as unknown as WebMonth[])
+      .filter((row) => row.effects[TWIN] !== undefined)
+      .map((row) => row.placeId),
+  );
   for (const id of candidates) {
     const person = core.people.get(id);
     const hazard = person?.alive ? healthHazardOf(api, id) : undefined;
-    if (!person || !hazard || person.placeId !== town) continue;
+    if (!person || !hazard || !laid.has(person.placeId)) continue;
     if (hazard.fifth !== undefined && hazard.fifth !== 0) continue;
     const age = Math.floor(ageOnDate(makeIsoDate(person.birthDate), core.date));
     if (age < 55 || age > 64) continue;
@@ -320,10 +349,13 @@ function playCoverage(
     core,
     makeIsoDate(monthsAfter(lookOn, 0, DEATH_WEB_REFRESH_DAY - 1)),
   );
-  for (const placeId of new Set(
-    names.map((id) => core.people.get(id)!.placeId),
-  ))
-    layTwin(core, placeId);
+  // On the places of the people reached and on the player's town, which
+  // always keeps a web month (a counted place keeps none).
+  for (const placeId of new Set([
+    ...names.map((id) => core.people.get(id)!.placeId),
+    core.people.get(core.playerId ?? "")?.placeId ?? "",
+  ]))
+    if (placeId) layTwin(core, placeId);
   advanceCore(core, addDays(makeIsoDate(core.date), 1));
   const probe = probeTwin(core, names);
   advanceCore(core, makeIsoDate(lookOn));
@@ -401,18 +433,54 @@ it("coverage-to-mortality-55-64: a covered 55- to 64-year-old's hazard reads the
         );
         continue;
       }
-      expect(c.own.factor, `${where} ${id}: control factor`).toBe(1);
+      if (
+        otherParts(t, "coverage-to-mortality-55-64") !==
+        otherParts(c, "coverage-to-mortality-55-64")
+      ) {
+        passed.push(
+          `${where} ${id} (their other own records differ between the worlds)`,
+        );
+        continue;
+      }
+      // A repeal reaches the people it ends coverage for: one whose payment
+      // still runs at the look was not reached (the law reach keeps paying).
+      if (treated.mode === "repeal" && t.paidNow) {
+        passed.push(
+          `${where} ${id} (the repeal left their coverage paid: ${t.spellIds.at(-1)})`,
+        );
+        continue;
+      }
+      // The look reads coverage the link's lag back; coverage that ended after
+      // that day has not reached the hazard yet.
+      const readDay = monthsAfter(
+        treated.lookOn,
+        -link("coverage-to-mortality-55-64").lagMonths,
+        Number(treated.lookOn.slice(8)),
+      );
+      if (treated.mode === "repeal" && t.endedOn && t.endedOn > readDay) {
+        passed.push(
+          `${where} ${id} (their coverage ended on ${t.endedOn}, after the day the look read, ${readDay})`,
+        );
+        continue;
+      }
       // The treated person's own record: coverage paid (or ended), read the
       // link's lag later, against their coverage at their first look.
-      const part = t.own.parts[0]!;
-      expect(part.link).toBe("coverage-to-mortality-55-64");
-      if (!("covered" in part)) throw new Error("not a coverage part");
+      const part = t.own.parts.find(
+        (one) => one.link === "coverage-to-mortality-55-64",
+      );
+      if (!part || !("covered" in part))
+        throw new Error(
+          `${where} ${id}: no coverage part (own ${t.own.factor}, parts ${JSON.stringify(t.own.parts)}, spells ${t.spellIds.join(", ")})`,
+        );
       expect(part.covered, `${where} ${id}: covered then`).toBe(
         treated.mode === "enact",
       );
       expect(part.baseCovered).toBe(treated.mode === "repeal");
       expect(part.readOn <= treated.lookOn).toBe(true);
-      expect(t.own.factor, `${where} ${id}: own factor`).toBeCloseTo(want, 9);
+      expect(
+        t.own.factor / c.own.factor,
+        `${where} ${id}: own factor`,
+      ).toBeCloseTo(want, 9);
       // The record ids of the payments the person's stretch stands on.
       if (treated.mode === "enact") {
         expect(part.obligationIds.length).toBeGreaterThan(0);
@@ -578,7 +646,15 @@ it("job-loss-to-death-risk: a worker displaced from a long job carries the exces
         passed.push(`${where} ${id} (also let go in the control world)`);
         continue;
       }
-      expect(c.own.factor, `${where} ${id}: control factor`).toBe(1);
+      if (
+        otherParts(t, "job-loss-to-death-risk") !==
+        otherParts(c, "job-loss-to-death-risk")
+      ) {
+        passed.push(
+          `${where} ${id} (their other own records differ between the worlds)`,
+        );
+        continue;
+      }
       // The record the factor stands on is the jobs engine's own change row.
       const row = treated.records.find((one) => one.id === part.recordId);
       expect(row, `${where} ${id}: ${part.recordId}`).toBeDefined();
@@ -590,10 +666,10 @@ it("job-loss-to-death-risk: a worker displaced from a long job carries the exces
         expectedExcess,
         9,
       );
-      expect(t.own.factor, `${where} ${id}: own factor`).toBeCloseTo(
-        1 + expectedExcess,
-        9,
-      );
+      expect(
+        t.own.factor / c.own.factor,
+        `${where} ${id}: own factor`,
+      ).toBeCloseTo(1 + expectedExcess, 9);
       expect(
         t.hazardOwn! / c.hazardOwn!,
         `${where} ${id}: own part`,
@@ -721,13 +797,22 @@ it("long-hours-to-heart-and-stroke: a worker at long weekly hours carries the ex
       1 +
       part.heartShare * (part.heartRisk - 1) +
       part.strokeShare * (part.strokeRisk - 1);
-    expect(t.own.factor, `${where} ${t.id}: own factor`).toBeCloseTo(
-      expected,
-      9,
-    );
-    // The twin, with the job at the reference hours, carries none.
-    expect(c.own.factor, `${where} ${t.id}: control factor`).toBe(1);
-    expect(c.own.parts).toEqual([]);
+    // The twin, with the job at the reference hours, carries none, and
+    // shares the person's other own records.
+    expect(
+      c.own.parts.some((one) => one.link === part.link),
+      `${where} ${t.id}: control hours part`,
+    ).toBe(false);
+    if (otherParts(t, part.link) !== otherParts(c, part.link)) {
+      passed.push(
+        `${where} ${t.id} (their other own records differ between the worlds)`,
+      );
+      continue;
+    }
+    expect(
+      t.own.factor / c.own.factor,
+      `${where} ${t.id}: own factor`,
+    ).toBeCloseTo(expected, 9);
     expect(
       t.hazardOwn! / c.hazardOwn!,
       `${where} ${t.id}: own part`,
