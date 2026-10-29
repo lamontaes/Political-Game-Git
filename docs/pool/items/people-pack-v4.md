@@ -5,7 +5,7 @@ area: art
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/people-pack-v4
 pr: #6801
 blocked-on:
