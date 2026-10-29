@@ -1,0 +1,41 @@
+import { chromium } from "/home/user/Political-Game-Git/node_modules/playwright/index.mjs";
+const b = await chromium.launch({ executablePath: process.env.BENCH_BROWSER });
+const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+p.setDefaultTimeout(60000);
+const seed = process.env.SEED;
+if (seed) await p.route("**/api/newlife*", (r) => { const u = new URL(r.request().url()); u.searchParams.set("seed", seed); return r.continue({ url: u.toString() }); });
+await p.goto("http://localhost:3000/play");
+await p.waitForResponse((r) => r.url().endsWith("/api/title"));
+const made = p.waitForResponse((r) => new URL(r.url()).pathname === "/api/newlife", { timeout: 300000 });
+await p.locator("#new-life").click(); await p.locator("#new-advanced").click(); await p.locator("#new-world").click();
+const r = await made; console.log("seed", new URL(r.url()).searchParams.get("seed"));
+await p.waitForFunction(() => document.getElementById("card-name").textContent.trim());
+console.log(await p.locator("#card-place").innerText());
+let stuck;
+const vis = (id) => p.locator("#" + id).isVisible().catch(() => false);
+for (let i = 0; i < Number(process.env.N ?? 60); i++) {
+  const clock = (await p.locator("#card-clock").innerText()).replace("\n", " ");
+  if (await vis("talk")) {
+    const text = await p.locator("#talk").innerText();
+    if (/job|hire|offer|pay/i.test(text)) { console.log(i, clock, "TALK:", text.replace(/\s+/g, " ").slice(0, 300)); await p.screenshot({ path: `/tmp/claude-0/offer-${process.env.CHOICE ?? "first"}-${i}.png` }); }
+    if (await vis("talk-next")) { await p.locator("#talk-next").click(); await p.waitForTimeout(800); continue; }
+    const want = process.env.CHOICE ? p.locator("#talk-choices .reply", { hasText: new RegExp(process.env.CHOICE, "i") }) : null;
+    const reply = want && (await want.count()) ? want.first() : p.locator("#talk-choices .reply").first();
+    if (await reply.count()) { await reply.click(); await p.waitForTimeout(800); continue; }
+    if (await vis("talk-leave")) { await p.locator("#talk-leave").click(); await p.waitForTimeout(800); continue; }
+  }
+  if (await vis("continue")) { await p.locator("#continue").click(); await p.waitForTimeout(800); continue; }
+  const wk = p.locator("#week");
+  if (await wk.isDisabled()) {
+    const btns = await p.evaluate(() => [...document.querySelectorAll("button")].filter((e) => e.checkVisibility() && !e.disabled).map((e) => (e.id || e.className) + ":" + e.textContent.trim().slice(0, 20)));
+    console.log(i, clock, "WEEK DISABLED; buttons", btns.slice(0, 14).join(" | "));
+    const next = p.locator("#talk-next, #continue, #opening-next, #returns-next").locator("visible=true").first();
+    if (await next.count()) { await next.click(); await p.waitForTimeout(800); continue; }
+    stuck = (typeof stuck === "number" ? stuck : 0) + 1;
+    if (stuck > 8) { await p.screenshot({ path: `/tmp/claude-0/stuck-${i}.png` }); break; }
+    await p.waitForTimeout(3000); continue;
+  }
+  await wk.click(); await p.waitForTimeout(2500);
+}
+console.log("end", (await p.locator("#card-clock").innerText()).replace("\n", " "));
+await b.close();

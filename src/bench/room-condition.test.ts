@@ -73,8 +73,17 @@ describe("a home's rooms are drawn in the household's condition", () => {
         // The household's living room at midday, in its condition where painted.
         const room = homeOf(core, id, 12 * 60);
         const drawn = backdropFor(core, room, 12 * 60, id);
+        // One condition for the whole dwelling (owner, Oct 28 sitting): the
+        // most wanted one every room of the home is painted in, else as painted.
+        const rooms = new Set(
+          Array.from({ length: 24 }, (_, hour) => homeOf(core, id, hour * 60)),
+        );
         const painted = condition.find((c) =>
-          manifest.backdrops.some((r) => r.place === room && r.variant === c),
+          [...rooms].every((r) =>
+            manifest.backdrops.some(
+              (row) => row.place === r && row.variant === c,
+            ),
+          ),
         );
         expect(drawn.variant).toBe(painted ?? "midday");
         if (painted) shown++;
