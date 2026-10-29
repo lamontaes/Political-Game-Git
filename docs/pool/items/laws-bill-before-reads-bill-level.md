@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: laws
 ---
 
 **What.** In Brookside, Delaware (seed 4d50e1f88df997f9, found by the lane on #6843's bill screens), for the same income-tax series the draft card's 'In force today' reads 0% while the bill paper's 'before' reads a 37% top rate. Cause by line: billSections (src/core2/modules/legislature.ts ~1680-1682) takes answer.levels.find((l) => l.row), the first level in the chain with a row, which is the federal row, whatever level the bill legislates at; billCatalog (src/core2/bill-catalog.ts:85) reads currentAmount (legislature.ts ~1318-1329), which reads the bill's own level but for a state bill falls back to the federal row (at('state') ?? at('federal')), right for a minimum wage (a floor) and wrong for an income tax (the levels stack). A budget-line policy has no series, so the catalog's inForce is null and the card shows no today amount, while the paper reads the provision's own 'of'.
