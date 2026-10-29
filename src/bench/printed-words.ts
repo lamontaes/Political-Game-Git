@@ -31,6 +31,7 @@ import {
   spokenDesignation,
 } from "../english/bill-names";
 import type { StoryKind } from "../english/english-newscast";
+import { federalOffices, stateOffices } from "../core2/offices-state";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
 
@@ -112,6 +113,8 @@ const POLICIES = (
 ).policies;
 
 let ISSUES: Record<string, string> | undefined;
+/** Other states' office titles by office id, by state: read once, never stored in the world. */
+const ELSEWHERE = new Map<string, Map<string, string>>();
 
 /** The facts for one printed story, or null when its record can't be said. */
 export function printedFacts(
@@ -201,6 +204,29 @@ class Reader {
       officeId,
     ) as unknown as { title?: string } | undefined;
     return office?.title ?? null;
+  }
+  /**
+   * Another state's office (a U.S. Senate seat from Minnesota), which this
+   * world's office table does not keep: its title from that state's own
+   * offices, read without creating them, and the state's name.
+   */
+  officeElsewhere(
+    officeId: string | undefined,
+  ): { title: string; state: string } | null {
+    const jurisdiction = (officeId ?? "").split(":")[1] ?? "";
+    const state = this.place(jurisdiction);
+    let titles = ELSEWHERE.get(jurisdiction);
+    if (!titles) {
+      titles = new Map(
+        [
+          ...federalOffices(jurisdiction, "", this.core.date),
+          ...stateOffices(jurisdiction, "", this.core.date),
+        ].map((row) => [row.office.id, row.office.title]),
+      );
+      ELSEWHERE.set(jurisdiction, titles);
+    }
+    const title = titles.get(officeId ?? "");
+    return state && title ? { title, state } : null;
   }
   /** The office a person or official holds: by their term, else their serving term. */
   officeOf(id: string): string | null {
@@ -297,9 +323,16 @@ class Reader {
     };
   }
   /** A policy question by its name ("stand your ground"), as an issue is talked about. */
-  issue(question: string): Facts {
+  /**
+   * What an interview or a check of one was about, said after "about" or
+   * "on": a policy by what it is for ("preschool for every child"), a budget
+   * line by what it pays for ("public welfare"), else by the policy's name.
+   */
+  issue(topic: string): Facts {
     ISSUES ??= policyNames();
-    const name = ISSUES[question];
+    const name = topic.startsWith("budget-line:")
+      ? lineName(topic.slice("budget-line:".length))
+      : (POLICIES[topic]?.purpose ?? ISSUES[topic]);
     return name
       ? { issue: this.fact(name.charAt(0).toLowerCase() + name.slice(1)) }
       : {};
@@ -836,20 +869,36 @@ const primary: Builder = (read, f) => {
 };
 
 /** A winner sworn in. */
-const tookOffice: Builder = (read, f) =>
-  story(
+const tookOffice: Builder = (read, f) => {
+  const named = read.who(f.winnerId, "name", false);
+  // A seat whose new holder this world knows by no name (another state's
+  // sampled seat) is told by its title and its state: "A new State Senator
+  // from Texas took the oath of office."
+  const state = named.name ? null : read.place(f.seatId?.split(":")[1]);
+  return story(
     "took-office",
     {
-      ...read.who(f.winnerId, "name", false),
+      ...named,
       ...(f.office ? { office: read.fact(f.office, f.seatId ?? "") } : {}),
+      ...(state && f.office
+        ? {
+            post: read.fact(f.office, f.seatId ?? ""),
+            place: read.fact(state, f.seatId ?? ""),
+          }
+        : {}),
     },
-    ["name", "office"],
+    named.name ? ["name", "office"] : ["post", "place"],
     f.winnerId,
   );
+};
 
 /** A seat left empty, and why. */
 const vacancy: Builder = (read, f) => {
   const office = read.officeTitle(f.officeId);
+  // Another state's seat is told by its title and its state ("A U.S.
+  // Senator from Minnesota"), never by a bare title a reader here would take
+  // for their own.
+  const elsewhere = office ? null : read.officeElsewhere(f.officeId);
   const holder = read.first();
   const cause = f.cause === "death" ? "died" : f.cause ? "left" : "";
   return story(
@@ -857,11 +906,41 @@ const vacancy: Builder = (read, f) => {
     {
       ...read.who(holder, "name", false),
       ...(office ? { office: read.fact(office, f.officeId ?? "") } : {}),
+      ...(elsewhere
+        ? {
+            post: read.fact(elsewhere.title, f.officeId ?? ""),
+            place: read.fact(elsewhere.state, f.officeId ?? ""),
+          }
+        : {}),
       ...(cause ? { [cause]: read.yes() } : {}),
       ...(f.rule === "special-election" ? { special: read.yes() } : {}),
     },
-    ["office"],
+    office ? ["office"] : ["post", "place"],
     holder,
+  );
+};
+
+/**
+ * A reporter's story exposing an official's act: a bribe the corruption
+ * engine recorded them taking, or a vote to award a contract to a firm they
+ * or their family own.
+ */
+const exposed: Builder = (read, f) => {
+  const id = read.first();
+  const acts = Object.values(f);
+  const office = id ? read.officeOf(id) : null;
+  return story(
+    "exposed",
+    {
+      ...read.who(id, "name", false),
+      ...(office ? { office: read.fact(office) } : {}),
+      ...(acts.includes("bribe-taken") ? { bribe: read.yes() } : {}),
+      ...(acts.includes("conflict-of-interest")
+        ? { conflict: read.yes() }
+        : {}),
+    },
+    ["name"],
+    id,
   );
 };
 
@@ -1208,6 +1287,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "primary-result": primary,
   "took-office": tookOffice,
   "seat-vacated": vacancy,
+  "press.exposed": exposed,
   "campaign-gift": campaignGift,
   "official-appointed": appointed,
   appointed,
