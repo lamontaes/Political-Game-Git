@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: cto/government-screen
 pr: #6832
 blocked-on:
