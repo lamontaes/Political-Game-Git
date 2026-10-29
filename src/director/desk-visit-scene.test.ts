@@ -379,8 +379,11 @@ it(`a governor's year of presented bills brings each living sponsor in, seed ${s
         .table("bills")
         .get(String(record.facts?.billId)) as unknown as
         { sponsorId: string } | undefined;
-      const entry = book.schedule.find((row) =>
-        row.momentId.includes(record.id),
+      // A presentment the director paced down to a journal line is kept, not
+      // staged: it has no scene and casts no one.
+      const entry = book.schedule.find(
+        (row) =>
+          row.momentId.includes(record.id) && row.outcome !== "journal-line",
       );
       const cast = entry?.bindings.find((b) => b.typeKey === "desk-visit");
       const comes =
