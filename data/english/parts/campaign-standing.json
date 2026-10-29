@@ -797,10 +797,10 @@
       }
     },
     {
-      "key": "campaign-standing.small.name-could-spare-less-than-a-dollar",
+      "key": "campaign-standing.small.name-had-only-pocket-change-to-spare",
       "move": "small",
       "kind": "written",
-      "text": "{name} could spare less than a dollar.",
+      "text": "{name} had only pocket change to spare.",
       "uses": [
         {
           "move": "small",
@@ -818,10 +818,10 @@
       }
     },
     {
-      "key": "campaign-standing.total.you-asked-asked-and-gave-gave-amount-in-all",
+      "key": "campaign-standing.total.gave-of-asked-asked-gave-amount-in-all",
       "move": "total",
       "kind": "written",
-      "text": "You asked {asked}, and {gave} gave, {amount} in all.",
+      "text": "{gave} of {asked} asked gave, {amount} in all.",
       "uses": [
         {
           "move": "total",
@@ -839,10 +839,10 @@
       }
     },
     {
-      "key": "campaign-standing.total.of-the-asked-you-asked-gave-gave-amount-in-all",
+      "key": "campaign-standing.total.of-asked-asked-gave-gave-amount-in-all",
       "move": "total",
       "kind": "written",
-      "text": "Of the {asked} you asked, {gave} gave: {amount} in all.",
+      "text": "Of {asked} asked, {gave} gave: {amount} in all.",
       "uses": [
         {
           "move": "total",
@@ -860,10 +860,10 @@
       }
     },
     {
-      "key": "campaign-standing.none-gave.you-asked-asked-and-none-gave-anything",
+      "key": "campaign-standing.none-gave.none-of-asked-asked-gave-anything",
       "move": "none-gave",
       "kind": "written",
-      "text": "You asked {asked}, and none gave anything.",
+      "text": "None of {asked} asked gave anything.",
       "uses": [
         {
           "move": "none-gave",
@@ -881,10 +881,10 @@
       }
     },
     {
-      "key": "campaign-standing.none-gave.nobody-gave-anything-of-the-asked-you-asked",
+      "key": "campaign-standing.none-gave.of-asked-asked-nobody-gave-anything",
       "move": "none-gave",
       "kind": "written",
-      "text": "Nobody gave anything, of the {asked} you asked.",
+      "text": "Of {asked} asked, nobody gave anything.",
       "uses": [
         {
           "move": "none-gave",
