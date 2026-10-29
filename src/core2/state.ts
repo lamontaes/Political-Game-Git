@@ -491,7 +491,10 @@ export function createCore(
   for (const actor of core.people.values()) {
     assertKnownIdSources(core, actor);
     api.stopgap("SG-P8-opening-family-closeness");
-    if (!core.households.get(actor.householdId)?.memberIds.includes(actor.id))
+    if (
+      actor.diedOn === undefined &&
+      !core.households.get(actor.householdId)?.memberIds.includes(actor.id)
+    )
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
       // Relatives in the counts are husks until met (two-level population).
@@ -2744,6 +2747,8 @@ export function assertCoreIntegrity(core: CoreState): void {
     if (!condition) throw new Error(`Core invariant failed: ${what}`);
   };
   for (const actor of core.people.values()) {
+    // Someone who died before day one is a record in no place or tier index.
+    if (actor.diedOn !== undefined) continue;
     fail(
       core.peopleByTier.get(actor.tier)?.has(actor.id) === true,
       `tier:${actor.id}`,

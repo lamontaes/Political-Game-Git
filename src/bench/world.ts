@@ -511,7 +511,7 @@ function* benchWorldStages(
     director.ledger.opening = recordOpeningStory(core, playerId) ?? undefined;
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]
-    .filter((person) => person.placeId === placeId)
+    .filter((person) => person.placeId === placeId && person.alive)
     .map((person) => {
       const household = core.households.get(person.householdId);
       const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
