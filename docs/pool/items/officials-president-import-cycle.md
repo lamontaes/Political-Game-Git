@@ -5,6 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
+lead: wire-elections
 status: open
 claimed-by:
 pr:
