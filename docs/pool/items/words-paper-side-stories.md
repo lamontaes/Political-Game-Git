@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/press-briefs
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T20:28:54.227Z
 ---
 
 **What.** The owner asked on Oct 29 for side stories on the newspaper for realism: a fourth car stolen when crime is up, someone opening a business, a local child winning a spelling bee, Division I recruits on the high school team. They are a line or two and not clickable. The CTO ruled (OWNER-DECISIONS Oct 29 17:40) that the one press desk prints them from records it already sees, chosen by cause, never padded. Wording exists (#6800, brief: true); the school honors record is on words/school-honors; the wire lacks the police log and the school results, and the desk has no briefs column.
