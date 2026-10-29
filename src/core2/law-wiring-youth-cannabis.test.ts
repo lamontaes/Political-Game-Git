@@ -96,17 +96,32 @@ describe("legal cannabis sales reach teens' past-month use", () => {
           advanceCore(legal, until);
           advanceCore(banned, until);
           const placeId = lawChain(coreAPI(legal)).townPlaceId;
-          // The web runs the link in the legal world's months only.
-          const ran = webMonths(legal, placeId).filter(
-            (row) => (row.effects[LINK] ?? 0) !== 0,
+          // The web measures a law from the place's real starting law, so a
+          // place that began with legal sales runs the link in the banned
+          // world (a ban raises use) and a place that began without runs it
+          // in the legal one. Either way the months differ between the worlds.
+          const effectOf = (core: CoreState) =>
+            new Map(
+              webMonths(core, placeId).map((row) => [
+                row.month,
+                { id: row.id, effect: row.effects[LINK] ?? 0 },
+              ]),
+            );
+          const legalMonths = effectOf(legal);
+          const bannedMonths = effectOf(banned);
+          const ran = [...legalMonths]
+            .filter(
+              ([month, row]) =>
+                row.effect !== (bannedMonths.get(month)?.effect ?? 0),
+            )
+            .map(([month, row]) => ({
+              month,
+              legal: row,
+              banned: bannedMonths.get(month)!,
+            }));
+          const monthIds = new Set(
+            ran.flatMap((row) => [row.legal.id, row.banned?.id]),
           );
-          const twinRan = webMonths(banned, placeId).filter(
-            (row) => (row.effects[LINK] ?? 0) !== 0,
-          );
-          expect(
-            twinRan.map((row) => row.id),
-            where,
-          ).toEqual([]);
           // Full teens in the town with a record in both worlds.
           const pairs = [...legal.people.values()]
             .filter((person) => person.placeId === placeId)
@@ -118,7 +133,7 @@ describe("legal cannabis sales reach teens' past-month use", () => {
             .filter((pair) => pair.legal && pair.banned);
           if (!ran.length || !pairs.length) {
             passed.push(
-              `${where}: ${ran.length} web months ran the link, ${pairs.length} teens with a record in both worlds`,
+              `${where}: ${ran.length} web months differ on the link, ${pairs.length} teens with a record in both worlds`,
             );
             continue;
           }
@@ -126,15 +141,13 @@ describe("legal cannabis sales reach teens' past-month use", () => {
             const a = pair.legal!;
             const b = pair.banned!;
             expect(a.month, pair.id).toBe(b.month);
-            expect(b.factor, `${pair.id} banned`).toBe(1);
-            expect(a.factor, `${pair.id} legal`).not.toBe(1);
-            expect(
-              ran.some((row) => row.id === a.webRecordId),
-              `${pair.id}: ${a.webRecordId} is a month that ran the link`,
-            ).toBe(true);
-            // The share the teen is decided at is the twin's times the factor.
-            expect(a.placeShare, pair.id).toBeCloseTo(
-              b.placeShare * a.factor,
+            // Legal sales lower the share (the link's size is negative).
+            expect(a.factor, pair.id).toBeLessThan(b.factor);
+            for (const id of [a.webRecordId, b.webRecordId])
+              expect(monthIds.has(id!), `${pair.id}: ${id} moved`).toBe(true);
+            // The share each is decided at is the national share times its own factor.
+            expect(a.placeShare / b.placeShare, pair.id).toBeCloseTo(
+              a.factor / b.factor,
               12,
             );
           }
@@ -147,7 +160,7 @@ describe("legal cannabis sales reach teens' past-month use", () => {
           expect(countedLegal?.month, where).toBe(countedBanned?.month);
           if (countedLegal && countedBanned && countedBanned.teens > 0) {
             expect(
-              ran.some((row) => row.id === countedLegal.webRecordId),
+              monthIds.has(countedLegal.webRecordId!),
               `${where}: counted ${countedLegal.webRecordId}`,
             ).toBe(true);
             expect(countedLegal.teens, where).toBeCloseTo(
@@ -157,12 +170,12 @@ describe("legal cannabis sales reach teens' past-month use", () => {
             expect(countedLegal.users, where).toBeLessThan(countedBanned.users);
           }
           process.stdout.write(
-            `YOUTH-CANNABIS (YOUTH_CANNABIS_SEED=${seed}) ${where}, world seed ${drawn.seed}: sales legal at every level in one world, banned in the twin; ${ran.length} web months ran ${LINK} (${ran.map((row) => `${row.id} ${row.effects[LINK]}`).join(", ")}); ${pairs.length} full teens, e.g. ${sample.legal!.id}: share ${sample.legal!.placeShare.toFixed(6)} at factor ${sample.legal!.factor} (${sample.legal!.webRecordId}) against ${sample.banned!.placeShare.toFixed(6)} in the twin (${sample.banned!.id}), own share ${sample.legal!.share.toFixed(6)} against ${sample.banned!.share.toFixed(6)}; users ${used} legal, ${usedTwin} banned; counted teens ${countedLegal ? `${countedLegal.month}: ${countedLegal.teens.toFixed(1)} with ${countedLegal.users.toFixed(3)} users (${countedLegal.webRecordId}) against ${countedBanned?.users.toFixed(3)}` : "none"}. Passed over: ${passed.join("; ") || "none"}\n`,
+            `YOUTH-CANNABIS (YOUTH_CANNABIS_SEED=${seed}) ${where}, world seed ${drawn.seed}: sales legal at every level in one world, banned in the twin; ${ran.length} web months differ on ${LINK} (${ran.map((row) => `${row.legal.id} ${row.legal.effect} against ${row.banned?.effect ?? 0}`).join(", ")}); ${pairs.length} full teens, e.g. ${sample.legal!.id}: share ${sample.legal!.placeShare.toFixed(6)} at factor ${sample.legal!.factor} (${sample.legal!.webRecordId}) against ${sample.banned!.placeShare.toFixed(6)} at factor ${sample.banned!.factor} in the twin (${sample.banned!.id}), own share ${sample.legal!.share.toFixed(6)} against ${sample.banned!.share.toFixed(6)}; users ${used} legal, ${usedTwin} banned; counted teens ${countedLegal ? `${countedLegal.month}: ${countedLegal.teens.toFixed(1)} with ${countedLegal.users.toFixed(3)} users (${countedLegal.webRecordId}) against ${countedBanned?.users.toFixed(3)}` : "none"}. Passed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }
         throw new Error(
-          `No drawn place had a teen in a month the link ran: ${passed.join("; ")}`,
+          `No drawn place had a teen in a month the link moved: ${passed.join("; ")}`,
         );
       } finally {
         setBookkeeping(bookkeeping);
