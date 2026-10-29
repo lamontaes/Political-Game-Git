@@ -49,6 +49,16 @@
       "logOddsPerLevelParameter": "healthTobaccoLogOddsPerLevel"
     }
   ],
+  "youthCannabis": {
+    "about": "Each full person aged 12 to 17 carries a past-month cannabis use record, decided once a month on the web's refresh day by the adult drug-use condition's rule: the national share moved on the log-odds scale by their conscientiousness, the place's count from the share, and the outcome web's factor for health.youth-cannabis-use on each teen's share (cannabis-sales-to-youth-use).",
+    "measure": "health.youth-cannabis-use",
+    "fromAge": 12,
+    "belowAge": 18,
+    "shareParameter": "healthYouthCannabisPastMonthShare",
+    "logOddsPerLevelParameter": "healthDrugUseLogOddsPerLevel",
+    "recordPrefix": "youth-cannabis",
+    "unreadStopgapId": "SG-HEALTH-youth-cannabis-record-unread"
+  },
   "traitStopgapId": "SG-TRAITS-counted-health-no-trait",
   "jobLossSeverity": {
     "lifeChangeUnitsParameter": "srrsFiredAtWork",

@@ -13,8 +13,10 @@ import {
   CONDITION_PACK,
   conditionHazard,
   conditionPrevalence,
+  personalityShares,
   startingConditionAssignments,
 } from "../condition-pack";
+import { webReach } from "../outcome-web-reach";
 import { remainingDaysAfterOnset } from "../death-causes";
 import {
   DEATH_WEB_REFRESH_DAY,
@@ -100,6 +102,20 @@ export interface HealthData {
     key: string;
     logOddsPerLevelParameter: string;
   }[];
+  /**
+   * Each full teen's past-month cannabis use, decided monthly by the
+   * behavior conditions' rule; the outcome web's factor for `measure` moves
+   * each teen's share (cannabis-sales-to-youth-use).
+   */
+  youthCannabis: {
+    measure: string;
+    fromAge: number;
+    belowAge: number;
+    shareParameter: string;
+    logOddsPerLevelParameter: string;
+    recordPrefix: string;
+    unreadStopgapId: string;
+  };
   traitStopgapId: string;
   onsetSeverity: Severity;
   jobLossSeverity: Severity;
@@ -131,6 +147,22 @@ export interface HealthCase {
   deathEventId?: string;
 }
 
+/** One teen's past-month cannabis use for a month: the share they were decided at and whether they used. */
+export interface YouthCannabisRecord {
+  readonly id: string;
+  readonly personId: PersonId;
+  readonly placeId: string;
+  readonly month: string;
+  /** Their own share after their conscientiousness moved it, scaled to the place's count. */
+  readonly share: number;
+  /** The national share times the web's factor, before personality. */
+  readonly placeShare: number;
+  readonly factor: number;
+  /** The web month row the factor stands on, or null. */
+  readonly webRecordId: string | null;
+  readonly used: boolean;
+}
+
 interface HealthRuntime {
   initialized: boolean;
   /** People count at the last look; a change means newcomers to admit. */
@@ -154,6 +186,10 @@ interface HealthRuntime {
    * shifts who, not how many.
    */
   traitNorm: Map<string, number>;
+  /** Each full teen's latest past-month cannabis use record. */
+  youthCannabis: Map<PersonId, YouthCannabisRecord>;
+  /** The fraction of a user each place's count carried to the next month. */
+  youthCannabisCarry: Map<string, number>;
 }
 
 /** A day on the hazard model's calendar. */
@@ -202,6 +238,8 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
       plans: new Map(),
       causeOfDeath: new Map(),
       traitNorm: new Map(),
+      youthCannabis: new Map(),
+      youthCannabisCarry: new Map(),
     };
     runtimes.set(state, row);
   }
@@ -637,6 +675,125 @@ function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   }
 }
 
+/**
+ * The share of people this age in a place who used cannabis in the past
+ * month, before personality: the national share (NSDUH) times the outcome
+ * web's factor for the place (cannabis-sales-to-youth-use moves it where the
+ * state's sales law is in force). Null outside the teen ages. One rule for
+ * both tiers: a full teen's share is moved by their conscientiousness from
+ * this, and a counted teen carries it times their count (births-counted.ts).
+ */
+export function youthCannabisShare(
+  api: CoreAPI,
+  placeId: string,
+  age: number,
+  data: HealthData = DEFAULT_HEALTH_DATA,
+): { share: number; factor: number; recordId: string | null } | null {
+  const band = data.youthCannabis;
+  const whole = Math.floor(age);
+  if (whole < band.fromAge || whole >= band.belowAge) return null;
+  const web = webReach(api, placeId, band.measure, { age: whole });
+  return {
+    share: Math.min(
+      api.parameter("one"),
+      api.parameter(band.shareParameter) * web.factor,
+    ),
+    factor: web.factor,
+    recordId: web.recordId,
+  };
+}
+
+/**
+ * Once a month, on the web's refresh day, each full teen's past-month
+ * cannabis use, by the rule the behavior conditions follow at the opening
+ * (condition-pack.ts): each teen's share is the place's share for their age
+ * moved on the log-odds scale by their conscientiousness (Bogg and Roberts
+ * 2004, the drug-use slope), the place's count is the shares' sum with the
+ * fraction carried to next month, and a teen used where the running share
+ * of that count passes a whole number. No roll: the count is the rate's,
+ * personality decides who, the web's factor moves every teen's share.
+ */
+function refreshYouthCannabis(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+) {
+  const day = Number(api.state.date.slice(8, 10));
+  if (day !== DEATH_WEB_REFRESH_DAY) return;
+  const band = data.youthCannabis;
+  const today = makeIsoDate(api.state.date);
+  const month = api.state.date.slice(0, 7);
+  const slope = api.parameter(band.logOddsPerLevelParameter);
+  const byPlace = new Map<
+    string,
+    {
+      person: Readonly<PersonState>;
+      found: NonNullable<ReturnType<typeof youthCannabisShare>>;
+    }[]
+  >();
+  for (const person of api.state.people.values()) {
+    if (!person.alive || isDemoted(person)) continue;
+    const found = youthCannabisShare(
+      api,
+      person.placeId,
+      exactAge(api, person.birthDate, today),
+      data,
+    );
+    if (!found) continue;
+    const list = byPlace.get(person.placeId) ?? [];
+    list.push({ person, found });
+    byPlace.set(person.placeId, list);
+  }
+  row.youthCannabis.clear();
+  if (!byPlace.size) return;
+  // No other engine reads the record yet (school, the adult condition at 18).
+  // stopgapId: SG-HEALTH-youth-cannabis-record-unread
+  api.stopgap(band.unreadStopgapId);
+  for (const [placeId, teens] of [...byPlace].sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  )) {
+    teens.sort((a, b) =>
+      a.person.id < b.person.id ? -1 : a.person.id > b.person.id ? 1 : 0,
+    );
+    const shares = teens.map((teen) => teen.found.share);
+    const expected = shares.reduce((sum, share) => sum + share, 0);
+    const owed = expected + (row.youthCannabisCarry.get(placeId) ?? 0);
+    const count = Math.min(teens.length, Math.max(0, Math.round(owed)));
+    row.youthCannabisCarry.set(placeId, owed - count);
+    const weights = personalityShares(
+      shares,
+      teens.map((teen) => slope * conscientiousness(data, teen.person)),
+      expected,
+    );
+    const total = weights.reduce((sum, weight) => sum + weight, 0);
+    let running = api.parameter("zero");
+    for (const [position, teen] of teens.entries()) {
+      const before = Math.floor(running);
+      if (total > 0) running += (count * weights[position]!) / total;
+      const id = `${band.recordPrefix}:${teen.person.id}:${month}`;
+      row.youthCannabis.set(teen.person.id, {
+        id,
+        personId: teen.person.id,
+        placeId,
+        month,
+        share: weights[position] ?? 0,
+        placeShare: teen.found.share,
+        factor: teen.found.factor,
+        webRecordId: teen.found.recordId,
+        used: Math.floor(running) > before,
+      });
+    }
+  }
+}
+
+/** A full teen's latest past-month cannabis use record, or null. */
+export function youthCannabisRecordOf(
+  state: Readonly<CoreState>,
+  personId: PersonId,
+): YouthCannabisRecord | null {
+  return runtimes.get(state)?.youthCannabis.get(personId) ?? null;
+}
+
 function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   api.stopgap(data.stopgapId);
   const start = makeIsoDate(api.state.startedAt);
@@ -806,7 +963,10 @@ export function createHealthModule(
       const row = runtime(api.state);
       if (!row.initialized) initialize(api, data, row);
       else admitNewcomers(api, data, row);
-      if (row.initialized) refreshWebFactors(api, data, row);
+      if (row.initialized) {
+        refreshWebFactors(api, data, row);
+        refreshYouthCannabis(api, data, row);
+      }
       const date = makeIsoDate(api.state.date);
       for (const id of [...(row.onsetsByDate.get(date) ?? [])].sort()) {
         const person = api.state.people.get(id);
