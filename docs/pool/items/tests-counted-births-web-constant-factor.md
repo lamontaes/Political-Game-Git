@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/births-web-lagged` is kept; claiming this item takes it over.
+
+Oct 29 18:45 UTC (laws lead): a second draw red on clean main in the same test, a different assertion. WEB_BIRTHS_SEED=6e1164126090860a draws Los Cerrillos, New Mexico: "home prices moved the owners' link: expected undefined to be truthy" (the by-tenure case). Reproduced on origin/main at 169ee503ca and on the laws branch alike.
