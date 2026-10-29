@@ -6,17 +6,12 @@
  * records are GOV's (`openContests`, `filingOfficeFor`, `checkEligibility`),
  * passed in as plain data; the filing itself is GOV's `fileCandidacy`. The
  * visit says which move each line makes and the facts it stands on; the
- * English engine (`src/english/filing-visit-words.ts`) words it.
+ * English engine words it from the filing-clerk scene's own pieces
+ * (`wordSceneMove`), the one word maker every scene uses.
  */
 import type { CoreState, PersonId } from "../core2/types";
 import { spokenDate } from "./words";
-import { wordSceneMove } from "../english/scene-talk-words";
-import {
-  wordFilingMove,
-  type Fact,
-  type FilingMove,
-  type VisitWords,
-} from "../english/filing-visit-words";
+import { wordSceneMove, type Fact } from "../english/scene-talk-words";
 
 export interface FilingContest {
   id: string;
@@ -72,34 +67,11 @@ export interface FilingVisit {
   }[];
 }
 
-function say(
-  core: Readonly<CoreState>,
-  visit: FilingVisit,
-  speaker: "clerk" | "player",
-  move: FilingMove,
-  facts: Record<string, Fact>,
-  words: VisitWords | undefined,
-  stage?: string,
-) {
-  return wordFilingMove({
-    seed: core.seed,
-    move,
-    speakerId:
-      speaker === "clerk" ? (visit.clerkId ?? visit.playerId) : visit.playerId,
-    fallbackSourceId: visit.playerId,
-    facts,
-    momentKey: `${visit.playerId}:${core.date}:${visit.lines.length}:${move}`,
-    ...(stage ? { stage } : {}),
-    ...(words ? { words } : {}),
-  });
-}
-
 export function openFilingVisit(
   core: Readonly<CoreState>,
   playerId: PersonId,
   contests: readonly FilingContest[],
   clerkId?: PersonId,
-  words?: VisitWords,
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -108,16 +80,16 @@ export function openFilingVisit(
     lines: [],
     choices: [],
   };
-  const greet = say(core, visit, "clerk", "greet", {}, words);
+  const greet = visitLine(core, visit, "clerk", "greet-counter", {});
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
   for (const contest of contests) {
-    const line = say(
+    const line = visitLine(
       core,
       visit,
       "player",
-      "pick",
+      "pick-office",
       { office: { text: contest.title, sourceRecordIds: [contest.id] } },
-      words,
+      `${visit.playerId}:${core.date}:${contest.id}:pick-office`,
     );
     if (line)
       visit.choices.push({
@@ -138,7 +110,6 @@ export function pickContest(
   contestId: string,
   terms: FilingTerms,
   checks: readonly FilingCheck[],
-  words?: VisitWords,
 ): FilingVisit {
   const choice = visit.choices.find(
     (row) => row.action.kind === "pick" && row.action.contestId === contestId,
@@ -158,7 +129,7 @@ export function pickContest(
       text: spokenDate(contest.filingDeadline, core.date),
       sourceRecordIds: ids,
     },
-    "filing-office": { text: terms.filedWith, sourceRecordIds: ids },
+    where: { text: terms.filedWith, sourceRecordIds: ids },
   };
   // The clerk tells the candidate about the race before the paperwork
   // (owner, Oct 28 sitting, 32: "you're running for Trustee ... the primary
@@ -166,7 +137,7 @@ export function pickContest(
   // does, here is the term"), each line from the contest's records.
   for (const line of raceTold(core, visit, contest, ids))
     visit.lines.push({ speaker: "clerk", ...line });
-  const stated = say(core, visit, "clerk", "terms", facts, words, "none");
+  const stated = visitLine(core, visit, "clerk", "tell-deadline", facts);
   if (stated) visit.lines.push({ speaker: "clerk", ...stated });
 
   // Each rule that stops the filing, in the clerk's words, from its record.
@@ -177,23 +148,16 @@ export function pickContest(
         ? spokenDate(check.required, core.date)
         : check.required;
     const actual = check.actual;
-    const line = say(
-      core,
-      visit,
-      "clerk",
-      `rule:${check.rule}`,
-      {
-        ...facts,
-        required: { text: required, sourceRecordIds: ids },
-        actual: { text: actual, sourceRecordIds: [visit.playerId] },
-      },
-      words,
-    );
+    const line = visitLine(core, visit, "clerk", `rule-${check.rule}`, {
+      ...facts,
+      required: { text: required, sourceRecordIds: ids },
+      actual: { text: actual, sourceRecordIds: [visit.playerId] },
+    });
     if (line) visit.lines.push({ speaker: "clerk", ...line });
   }
   visit.choices = [];
   const offer = (key: "accept" | "file", action: FilingAction) => {
-    const line = say(core, visit, "player", key, facts, words);
+    const line = visitLine(core, visit, "player", "accept-terms", facts);
     if (line)
       visit.choices.push({
         key,
@@ -217,22 +181,32 @@ export function pickContest(
  */
 const RACE_MOVES = ["tell-running", "tell-dates", "tell-term", "tell-duty"];
 
-/** A clerk's line of the filing-clerk scene, worded in the clerk's voice. */
-function clerkLine(
+/**
+ * A line of the filing-clerk scene in the speaker's own voice: the clerk's,
+ * or the player's when they name an office or answer.
+ */
+function visitLine(
   core: Readonly<CoreState>,
   visit: FilingVisit,
+  speaker: "clerk" | "player",
   move: string,
   facts: Readonly<Record<string, Fact>>,
-  momentKey: string,
+  momentKey = `${visit.playerId}:${core.date}:${visit.lines.length}:${move}`,
   said: Set<string> = new Set(),
   step: "state" | "narrate" = "state",
 ): { text: string; sourceRecordIds: readonly string[] } | null {
-  const speakerId = visit.clerkId ?? visit.playerId;
+  const speakerId =
+    speaker === "clerk" ? (visit.clerkId ?? visit.playerId) : visit.playerId;
   const worded = wordSceneMove({
     move: {
       step,
       move,
-      role: step === "narrate" ? "narrator" : "asker",
+      role:
+        step === "narrate"
+          ? "narrator"
+          : speaker === "clerk"
+            ? "asker"
+            : "asked",
       purpose: "filing-clerk",
       key: "routine",
     },
@@ -274,9 +248,10 @@ function raceTold(
   if (contest.kind) facts[`office-${contest.kind}`] = fact("yes");
   const said = new Set<string>();
   return RACE_MOVES.flatMap((move) => {
-    const line = clerkLine(
+    const line = visitLine(
       core,
       visit,
+      "clerk",
       move,
       facts,
       `${visit.playerId}:${core.date}:${contest.id}:${move}`,
@@ -319,9 +294,10 @@ export function filedAtCounter(
             due: fact(spokenDate(petition.due, core.date)),
           }
         : { "no-petition": fact("yes") };
-  const line = clerkLine(
+  const line = visitLine(
     core,
     visit,
+    "clerk",
     petition.needed > 0 ? "tell-signatures" : "tell-no-petition",
     facts,
     `${visit.playerId}:${petition.id}:filed`,
@@ -363,9 +339,10 @@ export function counterNarration(
       text: visit.contests[0]!.title,
       sourceRecordIds: [visit.contests[0]!.id],
     };
-  const line = clerkLine(
+  const line = visitLine(
     core,
     visit,
+    "clerk",
     "narrate",
     facts,
     `counter:${visit.playerId}:${person.id}:${clerk.recordId}`,

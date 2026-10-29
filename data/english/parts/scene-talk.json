@@ -117174,6 +117174,822 @@
         "move": "tell",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.state-greet-counter.how-can-i-help-you",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "How can I help you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "crec": 1,
+        "hearings": 1,
+        "house": 1,
+        "nasa": 1,
+        "nasa2": 1
+      },
+      "source": {
+        "document": "INTERNAL REVENUE SERVICE DATA THEFT AFFECTING TAXPAYER INFORMATION",
+        "date": "2015-06-02",
+        "granule": "CHRG-114shrg20958",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-114shrg20958/html/CHRG-114shrg20958.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-greet-counter.what-can-i-do-for-you",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "What can I do for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker"
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "U.S. Senate Historical Office oral history": 3,
+        "dcpd": 1,
+        "house": 1,
+        "nasa": 2,
+        "nasa2": 2,
+        "nps": 1
+      },
+      "source": {
+        "document": "Remarks to Members of the Press With President Volodymyr Zelenskyy of Ukraine in Kyiv, Ukraine",
+        "date": "2023-02-20",
+        "granule": "DCPD-202300126",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300126/html/DCPD-202300126.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-greet-counter.can-i-help-you",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "Can I help you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker"
+        }
+      ],
+      "transcriptsUsing": 13,
+      "bySource": {
+        "Richard Nixon Presidential Library (NARA) oral history project": 1,
+        "U.S. Senate Historical Office oral history": 4,
+        "crec": 1,
+        "dcpd": 2,
+        "nasa": 2,
+        "nasa2": 1,
+        "nps": 2
+      },
+      "source": {
+        "document": "Remarks at a Campaign Event in Greenwich, Connecticut",
+        "date": "2024-06-03",
+        "granule": "DCPD-202400486",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400486/html/DCPD-202400486.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-pick-office.i-want-to-run-for-office",
+      "move": "state-pick-office",
+      "kind": "spoken",
+      "text": "I want to run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "pick-office",
+          "role": "asked"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "dcpd": 1
+      },
+      "source": {
+        "document": "Address to the Nation on the Conclusion of the Senate Impeachment Trial",
+        "date": "2020-02-06",
+        "granule": "DCPD-202000060",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000060/html/DCPD-202000060.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-deadline.the-deadline-is-deadline",
+      "move": "state-tell-deadline",
+      "kind": "spoken",
+      "text": "The deadline is {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-deadline",
+          "role": "asker"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "briefing": 1,
+        "dcpd": 3,
+        "hearings": 1,
+        "ntia": 1
+      },
+      "source": {
+        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Miami, Florida",
+        "date": "2025-04-03",
+        "granule": "DCPD-202500427",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500427/html/DCPD-202500427.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-minimum-age.you-have-to-be-at-least-required",
+      "move": "state-rule-minimum-age",
+      "kind": "spoken",
+      "text": "You have to be at least {required}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-minimum-age",
+          "role": "asker"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "hearings": 1
+      },
+      "source": {
+        "document": "2020 GENERAL ELECTION PREPARATIONS",
+        "date": "2020-07-22",
+        "granule": "CHRG-116shrg41243",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116shrg41243/html/CHRG-116shrg41243.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-minimum-age.you-have-to-be-required",
+      "move": "state-rule-minimum-age",
+      "kind": "spoken",
+      "text": "You have to be {required}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-minimum-age",
+          "role": "asker"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "source": {
+        "document": "Remarks Prior to a Meeting With President Gabriel Boric Font of Chile and an Exchange With Reporters",
+        "date": "2023-11-02",
+        "granule": "DCPD-202300972",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300972/html/DCPD-202300972.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-minimum-age.you-have-to-be-required-by-election-day",
+      "move": "state-rule-minimum-age",
+      "kind": "spoken",
+      "text": "You have to be {required} by election day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-minimum-age",
+          "role": "asker"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 2
+      },
+      "source": {
+        "document": "HEARING ON THE JANUARY 6TH INVESTIGATION",
+        "date": "2022-06-21",
+        "granule": "CHRG-117hhrg49352",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg49352/html/CHRG-117hhrg49352.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-residency.you-have-to-file-your-papers-with-where-in-the-county-where-you-live",
+      "move": "state-rule-residency",
+      "kind": "spoken",
+      "text": "You have to file your papers with {where} in the county where you live.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-residency",
+          "role": "asker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "transcriptsUsing": 1,
+      "bySource": {
+        "Florida Department of State, Division of Elections (dos.fl.gov)": 1
+      },
+      "source": {
+        "document": "Candidate and Campaign Treasurer Handbook",
+        "date": "2026-10-02",
+        "granule": "fl-dos-2026-candidate-campaign-treasurer-handbook",
+        "url": "https://dos.fl.gov/media/711203/2026-candidate-campaign-treasurer-handbook.pdf",
+        "license": "Florida government work: no copyright under Florida law (Microdecisions, Inc. v. Skinner, 889 So. 2d 871, Fla. 2d DCA 2004; Fla. Const. art. I, s. 24); public domain"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-registered-voter.you-have-to-be-a-registered-voter-in-the-county-where-you-want-to-serve",
+      "move": "state-rule-registered-voter",
+      "kind": "spoken",
+      "text": "You have to be a registered voter in the county where you want to serve.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-registered-voter",
+          "role": "asker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "transcriptsUsing": 1,
+      "bySource": {
+        "Florida Department of State, Division of Elections (dos.fl.gov)": 1
+      },
+      "source": {
+        "document": "voterregvotingguide 2026 election cycle eng updated 20260720",
+        "date": "2026-07-21",
+        "granule": "fl-dos-voterregvotingguide-2026-election-cycle-eng-updated-20260720",
+        "url": "https://dos.fl.gov/media/711211/voterregvotingguide-2026-election-cycle_eng-updated-20260720.pdf",
+        "license": "Florida government work: no copyright under Florida law (Microdecisions, Inc. v. Skinner, 889 So. 2d 871, Fla. 2d DCA 2004; Fla. Const. art. I, s. 24); public domain"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-accept-terms.i-understand",
+      "move": "state-accept-terms",
+      "kind": "spoken",
+      "text": "I understand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "accept-terms",
+          "role": "asked"
+        }
+      ],
+      "transcriptsUsing": 383,
+      "bySource": {
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "National Archives History Office oral history project": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 7,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
+        "U.S. Senate Historical Office oral history": 2,
+        "briefing": 53,
+        "crec": 10,
+        "dcpd": 56,
+        "hearings": 209,
+        "house": 3,
+        "nasa": 11,
+        "nasa2": 8,
+        "nih": 1,
+        "nps": 16
+      },
+      "source": {
+        "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
+        "date": "2026-09-09",
+        "granule": "DCPD-202600588",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600588/html/DCPD-202600588.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-accept-terms.okay",
+      "move": "state-accept-terms",
+      "kind": "spoken",
+      "text": "Okay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "accept-terms",
+          "role": "asked"
+        }
+      ],
+      "transcriptsUsing": 3800,
+      "bySource": {
+        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
+        "Federal Election Commission (fec.gov)": 3,
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 5,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 30,
+        "National Archives History Office oral history project": 50,
+        "National Archives History Office oral history project (brooks-oral-histories)": 2,
+        "National Archives History Office oral history project (nprc-oral-histories)": 11,
+        "National Archives History Office oral history project (nyc-oral-histories)": 6,
+        "National Archives History Office oral history project (ross-oral-histories)": 1,
+        "National Archives History Office oral history project (veterans-oral-histories)": 2,
+        "Naval History and Heritage Command, Navy Department Library oral histories": 3,
+        "Naval History and Heritage Command, Navy strategy oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 35,
+        "U.S. Army Center of Military History": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 54,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 42,
+        "U.S. Senate Historical Office oral history": 60,
+        "briefing": 797,
+        "crec": 28,
+        "dcpd": 988,
+        "doi": 1,
+        "hearings": 901,
+        "house": 75,
+        "nasa": 215,
+        "nasa2": 189,
+        "nih": 13,
+        "nps": 285,
+        "nps.gov": 1
+      },
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-accept-terms.all-right",
+      "move": "state-accept-terms",
+      "kind": "spoken",
+      "text": "All right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "accept-terms",
+          "role": "asked"
+        }
+      ],
+      "transcriptsUsing": 2389,
+      "bySource": {
+        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 2,
+        "Federal Election Commission (fec.gov)": 1,
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 5,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 7,
+        "National Archives History Office oral history project": 20,
+        "National Archives History Office oral history project (brooks-oral-histories)": 1,
+        "National Archives History Office oral history project (nprc-oral-histories)": 6,
+        "National Archives History Office oral history project (nyc-oral-histories)": 3,
+        "National Archives History Office oral history project (ross-oral-histories)": 2,
+        "National Archives History Office oral history project (veterans-oral-histories)": 1,
+        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
+        "Naval History and Heritage Command, Navy strategy oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 12,
+        "U.S. Army Center of Military History": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 38,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 8,
+        "U.S. Senate Historical Office oral history": 29,
+        "briefing": 469,
+        "crec": 12,
+        "dcpd": 524,
+        "hearings": 971,
+        "house": 18,
+        "hud": 1,
+        "nasa": 73,
+        "nasa2": 49,
+        "nih": 8,
+        "nps": 123,
+        "nps.gov (PDF)": 2,
+        "wpa": 1
+      },
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-accept-terms.got-it",
+      "move": "state-accept-terms",
+      "kind": "spoken",
+      "text": "Got it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "accept-terms",
+          "role": "asked"
+        }
+      ],
+      "transcriptsUsing": 176,
+      "bySource": {
+        "National Archives History Office oral history project": 1,
+        "National Archives History Office oral history project (nprc-oral-histories)": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 8,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "briefing": 14,
+        "crec": 1,
+        "dcpd": 12,
+        "hearings": 114,
+        "house": 1,
+        "nasa": 1,
+        "nasa2": 1,
+        "nih": 1,
+        "nps": 19
+      },
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-accept-terms.i-see",
+      "move": "state-accept-terms",
+      "kind": "spoken",
+      "text": "I see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "accept-terms",
+          "role": "asked"
+        }
+      ],
+      "transcriptsUsing": 348,
+      "bySource": {
+        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 3,
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 5,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 3,
+        "National Archives History Office oral history project": 3,
+        "National Archives History Office oral history project (nprc-oral-histories)": 3,
+        "Naval History and Heritage Command, Navy strategy oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 5,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 9,
+        "U.S. Senate Historical Office oral history": 8,
+        "briefing": 38,
+        "crec": 1,
+        "dcpd": 43,
+        "hearings": 100,
+        "house": 6,
+        "nasa": 3,
+        "nasa2": 4,
+        "nih": 12,
+        "nps": 99
+      },
+      "source": {
+        "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
+        "date": "2026-08-21",
+        "granule": "DCPD-202600552",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600552/html/DCPD-202600552.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-accept-terms.thank-you",
+      "move": "state-accept-terms",
+      "kind": "spoken",
+      "text": "Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "accept-terms",
+          "role": "asked"
+        }
+      ],
+      "transcriptsUsing": 6578,
+      "bySource": {
+        "Air Force Historical Research Agency, USAF Oral History Program": 1,
+        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 3,
+        "Federal Election Commission (fec.gov)": 11,
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 2,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 27,
+        "National Archives History Office oral history project": 30,
+        "National Archives History Office oral history project (nprc-oral-histories)": 7,
+        "National Archives History Office oral history project (nyc-oral-histories)": 4,
+        "National Archives History Office oral history project (ross-oral-histories)": 1,
+        "National Archives History Office oral history project (veterans-oral-histories)": 1,
+        "Naval History and Heritage Command, Navy strategy oral histories": 2,
+        "Richard Nixon Presidential Library (NARA) oral history project": 34,
+        "U.S. Army Center of Military History": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 61,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 20,
+        "U.S. Senate Historical Office oral history": 26,
+        "briefing": 768,
+        "crec": 92,
+        "dcpd": 3420,
+        "doi": 1,
+        "hearings": 1592,
+        "house": 70,
+        "hud": 1,
+        "nasa": 101,
+        "nasa2": 102,
+        "nih": 14,
+        "nps": 159,
+        "nps.gov": 5,
+        "nps.gov (PDF)": 3,
+        "va": 17,
+        "wpa": 2
+      },
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-accept-terms.thanks",
+      "move": "state-accept-terms",
+      "kind": "spoken",
+      "text": "Thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "accept-terms",
+          "role": "asked"
+        }
+      ],
+      "transcriptsUsing": 1038,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 2,
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "National Archives History Office oral history project": 3,
+        "National Archives History Office oral history project (nprc-oral-histories)": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 7,
+        "U.S. Election Assistance Commission (eac.gov)": 36,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "U.S. Senate Historical Office oral history": 2,
+        "briefing": 274,
+        "crec": 2,
+        "dcpd": 251,
+        "hearings": 391,
+        "house": 11,
+        "nasa": 16,
+        "nasa2": 14,
+        "nih": 1,
+        "nps": 22,
+        "nps.gov (PDF)": 2
+      },
+      "source": {
+        "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
+        "date": "2026-08-19",
+        "granule": "DCPD-202600547",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600547/html/DCPD-202600547.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-accept-terms.okay-thank-you",
+      "move": "state-accept-terms",
+      "kind": "spoken",
+      "text": "Okay, thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "accept-terms",
+          "role": "asked"
+        }
+      ],
+      "transcriptsUsing": 257,
+      "bySource": {
+        "National Archives History Office oral history project": 2,
+        "Richard Nixon Presidential Library (NARA) oral history project": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 13,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "U.S. Senate Historical Office oral history": 1,
+        "briefing": 25,
+        "dcpd": 52,
+        "hearings": 147,
+        "nasa": 1,
+        "nasa2": 4,
+        "nih": 1,
+        "nps": 8
+      },
+      "source": {
+        "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60273",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60273/html/CHRG-119shrg60273.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-accept-terms.that-makes-sense",
+      "move": "state-accept-terms",
+      "kind": "spoken",
+      "text": "That makes sense.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "accept-terms",
+          "role": "asked"
+        }
+      ],
+      "transcriptsUsing": 72,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 1,
+        "U.S. Army Center of Military History": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "U.S. Senate Historical Office oral history": 3,
+        "briefing": 1,
+        "crec": 2,
+        "dcpd": 3,
+        "hearings": 27,
+        "house": 1,
+        "nasa": 15,
+        "nasa2": 6,
+        "nps": 8
+      },
+      "source": {
+        "document": "Remarks During a Greeting With United States Servicemembers at Joint Base Andrews, Maryland",
+        "date": "2026-06-19",
+        "granule": "DCPD-202600413",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600413/html/DCPD-202600413.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-registered-voter.you-have-to-be-a-registered-voter",
+      "move": "state-rule-registered-voter",
+      "kind": "spoken",
+      "text": "You have to be a registered voter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-registered-voter",
+          "role": "asker"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "chrg": 1
+      },
+      "source": {
+        "document": "Examining Irregularities In The 2020 Election",
+        "date": "2020-12-16",
+        "granule": "CHRG-116shrg43071",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116shrg43071",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
     }
   ]
 }

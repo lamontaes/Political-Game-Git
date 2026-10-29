@@ -665,7 +665,6 @@
     "speech-stages": "public",
     "conversation": "private",
     "scene-talk": "private",
-    "filing-visit": "private",
     "bring-it-up": "private",
     "newscast": "broadcast",
     "news": "broadcast",
