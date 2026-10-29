@@ -120368,6 +120368,133 @@
         "move": "answer",
         "key": "call-in"
       }
+    },
+    {
+      "key": "scene-talk.state-congratulate.it-came-down-to-a-drawing-and-your-name-came-out-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "It came down to a drawing, and your name came out. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["tied-lot"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.we-tied-and-the-vote-to-settle-it-went-your-way-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "We tied, and the vote to settle it went your way. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["tied-vote"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.we-tied-and-the-drawing-settled-it-that-s-the-law-here-and-it-won-t-change",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "We tied, and the drawing settled it. That's the law here, and it won't change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "ask",
+          "requiresFacts": ["tied-lot"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.we-tied-and-the-vote-to-settle-it-is-done-i-don-t-expect-that-to-change",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "We tied, and the vote to settle it is done. I don't expect that to change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "ask",
+          "requiresFacts": ["tied-vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.as-far-as-i-know-every-ballot-is-counted-i-don-t-expect-it-to-move",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "As far as I know, every ballot is counted. I don't expect it to move.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "call-in"
+      }
     }
   ]
 }
