@@ -166,7 +166,10 @@ function electOf(api: ReturnType<typeof coreAPI>, seatId: string) {
  * The room a viewer's faces are drawn for: the same figure the People map
  * draws (faceOf); no room when the viewer is not a full person.
  */
-function facePlace(core: CoreState, viewerId: string | undefined): string {
+export function facePlace(
+  core: CoreState,
+  viewerId: string | undefined,
+): string {
   return viewerId && core.people.has(viewerId)
     ? scenePlace(core, viewerId).place
     : "";
@@ -178,7 +181,7 @@ function facePlace(core: CoreState, viewerId: string | undefined): string {
  * card id is what a click opens: the person, or `official:<term>` for a
  * named official not filled in (memberKey's form).
  */
-function holderFace(
+export function holderFace(
   core: CoreState,
   holder: { id: string; personId?: string | null },
   place: string,
@@ -309,12 +312,12 @@ export function governmentView(core: CoreState, personId: string) {
     ofVotingAge: ofVotingAge(core, personId),
     party: partyView(core, personId),
     // The player's own state, by name, for the State and Federal filter.
-    homeState: homeState(api),
+    homeState: homeStateOf(api),
   };
 }
 
 /** The state the player's town is in: its key and its name. */
-function homeState(api: ReturnType<typeof coreAPI>) {
+export function homeStateOf(api: ReturnType<typeof coreAPI>) {
   const key = lawChain(api).stateKey;
   const state = corePlaceStateIdentities().find(
     (row) => row.jurisdictionKey === key,
@@ -542,7 +545,7 @@ function ofVotingAge(core: CoreState, personId: string): boolean {
 }
 
 /** A record's name set in capitals ("TOWN OF CONCRETE") as a title reads. */
-function readable(name: string): string {
+export function readable(name: string): string {
   if (name !== name.toUpperCase()) return name;
   return name
     .toLowerCase()
