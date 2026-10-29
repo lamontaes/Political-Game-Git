@@ -17735,10 +17735,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.the-council-s-been-asleep-for-ten-years-somebody-had-to",
+      "key": "scene-talk.reply-tell.somebody-has-to-run-for-office-why-not-me",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "The council's been asleep for ten years. Somebody had to.",
+      "text": "Somebody has to run for {office}. Why not me?",
       "uses": [
         {
           "subject": "scene",
@@ -17746,7 +17746,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "family-filing",
-          "key": "news-received"
+          "key": "news-received",
+          "requiresFacts": ["office"]
         }
       ],
       "bearing": "proud",
