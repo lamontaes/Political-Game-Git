@@ -6,6 +6,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 19:35 UTC: five checkers run the gate so builders only build (owner, about 3:35 PM Eastern)
+
+- **Ruling:** "Start 5 new Sonnet sessions that are explicitly like type check or doing like the prep work for the mergers after coding. So that way the builders can strictly build... if they have helpers, type check apparently takes a long time... I wouldn't mind offloading those." And: "message every session so that they know, and find some way to... divide things or queue things up."
+- **How it works:** five Sonnet checker sessions (`CREW.md`); checker _k_ takes PRs whose number mod 5 is _k_. A builder and its helpers run only the tests they wrote or changed, never typecheck, the guards or the gate; they open the PR ready and message their checker. The checker is the branch's one writer from then until merge: it merges main in, runs the local gate with fresh draws, fixes what is mechanical (formatting, lint, declarations, paperwork, an obvious local type error), sends anything else back to the builder, and posts `Checker <k>: gate passed on head <sha>`. The mergers do not rerun a passed gate on the same head; they review and merge. Skill `checker`; `AGENTS.md` (Process), `session-start`, `merger`, `play-first` and `lead-session` updated.
+
 ## Oct 29, 19:20 UTC: people pack v4's look is approved; it goes into main and the build (owner, about 3:20 PM Eastern)
 
 - **Ruling:** "No, I've already approved the general look of V4. I'd like that to go in too." The owner's visual check on `people-pack-v4` is given for the general look; the PR is no longer held. It merges like any PR once its checks are green and a merger has checked it (not its author), and the Mac build waits for it. Later visual changes to single figures are ordinary fixes, not a new hold. Replaces the hold in `MERGE-FIRST.md` line 5 and in the 19:00 entry below.
