@@ -1018,26 +1018,6 @@
       }
     },
     {
-      "key": "scene-words.lead-eviction-notice-any.a-notice-has-come-you-have-to-leave-your-home",
-      "move": "lead-eviction-notice-any",
-      "kind": "spoken",
-      "text": "A notice has come: you have to leave your home.",
-      "uses": [
-        {
-          "move": "lead-eviction-notice-any",
-          "subject": "lead",
-          "role": "eviction-notice",
-          "choice": "any"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.lead-law-takes-effect-any.a-law-that-reaches-you-has-taken-effect",
       "move": "lead-law-takes-effect-any",
       "kind": "spoken",
@@ -3384,6 +3364,86 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-comes-up-the-walk-with-one-paper-bag",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} comes up the walk with one paper bag.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-director-one-path, step 6)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-served-the-time-today-it-s-over",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} served the time. Today it's over.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-director-one-path, step 6)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-stands-in-the-doorway-unsure-of-the-welcome",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} stands in the doorway, unsure of the welcome.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-director-one-path, step 6)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-alone.someone-you-ve-been-waiting-on-is-free",
+      "move": "lead-return-alone",
+      "kind": "spoken",
+      "text": "Someone you've been waiting on is free.",
+      "uses": [
+        {
+          "move": "lead-return-alone",
+          "subject": "lead",
+          "role": "return",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-director-one-path, step 6)",
+      "date": "2026-10-29",
       "tag": {
         "move": "narrate"
       }
