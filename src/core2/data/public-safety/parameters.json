@@ -88,11 +88,6 @@
         "citation": "Loyola first-year report, Cook County against collar counties."
       }
     },
-    "detentionConvictionRatio": {
-      "value": 1.31,
-      "tag": "SOURCED",
-      "citation": "Dobbie, Goldin and Yang 2018 (American Economic Review): detained defendants are about 31 percent more likely to be convicted than released ones (data/research/outcome-web/links.json, bail-to-conviction anchor)."
-    },
     "convictedShare.assault": {
       "value": 0.45,
       "tag": "ESTIMATED",

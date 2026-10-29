@@ -10,6 +10,7 @@
  */
 import type { CoreState, PersonId } from "../core2/types";
 import { spokenDate } from "./words";
+import { wordSceneMove } from "../english/scene-talk-words";
 import {
   wordFilingMove,
   type Fact,
@@ -21,6 +22,13 @@ export interface FilingContest {
   id: string;
   title: string;
   filingDeadline: string;
+  /** The general election and the primary, where the place holds one. */
+  electionDate?: string;
+  primaryDate?: string | null;
+  /** The office's term in years, from its record. */
+  termYears?: number | null;
+  /** The kind of office, for what the clerk says it does: family and body or single seat. */
+  kind?: string;
   sourceIds: readonly string[];
 }
 /** GOV's `FilingRequirements`. */
@@ -152,6 +160,12 @@ export function pickContest(
     },
     "filing-office": { text: terms.filedWith, sourceRecordIds: ids },
   };
+  // The clerk tells the candidate about the race before the paperwork
+  // (owner, Oct 28 sitting, 32: "you're running for Trustee ... the primary
+  // is this date and the general is this date ... here is what a trustee
+  // does, here is the term"), each line from the contest's records.
+  for (const line of raceTold(core, visit, contest, ids))
+    visit.lines.push({ speaker: "clerk", ...line });
   const stated = say(core, visit, "clerk", "terms", facts, words, "none");
   if (stated) visit.lines.push({ speaker: "clerk", ...stated });
 
@@ -195,4 +209,51 @@ export function pickContest(
   }
   offer("file", { kind: "file", contestId });
   return visit;
+}
+
+/**
+ * What the clerk says about the race, in order: the office, the dates, the
+ * term, the work. The petition's signature count waits on its record.
+ * stopgapId: SG-WORDS-clerk-petition-awaits-record
+ */
+const RACE_MOVES = ["tell-running", "tell-dates", "tell-term", "tell-duty"];
+
+function raceTold(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  contest: FilingContest,
+  ids: readonly string[],
+): { text: string; sourceRecordIds: readonly string[] }[] {
+  const fact = (text: string) => ({ text, sourceRecordIds: ids });
+  const facts: Record<string, Fact> = { office: fact(contest.title) };
+  if (contest.electionDate)
+    facts.general = fact(spokenDate(contest.electionDate, core.date));
+  if (contest.primaryDate)
+    facts.primary = fact(spokenDate(contest.primaryDate, core.date));
+  else if (contest.electionDate) facts["no-primary"] = fact("yes");
+  if (contest.termYears) facts.term = fact(String(contest.termYears));
+  if (contest.kind) facts[`office-${contest.kind}`] = fact("yes");
+  const said = new Set<string>();
+  return RACE_MOVES.flatMap((move) => {
+    const worded = wordSceneMove({
+      move: {
+        step: "state",
+        move,
+        role: "asker",
+        purpose: "filing-clerk",
+        key: "routine",
+      },
+      facts,
+      seed: core.seed,
+      speakerId: visit.clerkId ?? visit.playerId,
+      traits: core.people.get(visit.clerkId ?? visit.playerId)?.traits ?? {},
+      momentKey: `${visit.playerId}:${core.date}:${contest.id}:${move}`,
+      said,
+    });
+    if (!worded || !("text" in worded)) return [];
+    said.add(worded.pieceKey);
+    return [
+      { text: worded.text, sourceRecordIds: [...ids, ...worded.slotRecordIds] },
+    ];
+  });
 }

@@ -359,7 +359,8 @@
       "from": "justice.pretrial-detained",
       "evidence": "researched",
       "range": [0.24, 0.35],
-      "notes": "Not hooked by design: the justice code already decides each defendant's detention and case from the law in force, so a place-rate reader here would count detention's effect twice."
+      "notes": "Not read as a place rate, by design: the justice code already decides each defendant's detention and case from the law in force, so a place-rate reader here would count detention's effect twice. The court reads this row's size itself, at the moment it decides a case (see carriedBy). The size is the proportional rise for a held defendant over a released one, so a case holding share h of its defendants is convicted at released x (1 + size x h); the offense's base conviction share was measured with the detention money bail brings, so it stands where the case holds that many and falls only as far as the law held fewer (convicted = count x base x (1 + size x held) / (1 + size x held on money)).",
+      "carriedBy": "the court's decision of each counted case (resolveDue in src/core2/public-safety.ts, run each month by runSafetyMonth), which convicts the case's defendants at the offense's base share times one plus this row's size for the share held until the case is decided, against the share money bail would have held; the sentence row (src/core2/modules/justice.ts decideCountedCase) keeps the base share, the held and money-bail shares and the size as its reasons. A named bribery defendant's verdict (hearing and convict in src/core2/modules/justice.ts) does not read it: the verdict is a margin of evidence against the defense, with no rate this proportion can scale (stopgap SG-WEB-crime-justice-links-unread)"
     },
     {
       "key": "pretrial-detention-to-employment",
@@ -386,12 +387,12 @@
       "key": "release-lower-level-to-larceny",
       "status": "cause-not-recorded",
       "unsupportedReason": "cause-not-recorded",
-      "to": "crime.larceny",
+      "to": "crime.property",
       "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": 0.09,
+      "size": 0.0731,
       "per": "law in force",
       "lagMonths": 3,
       "group": "place",
@@ -400,8 +401,8 @@
       "source": "Lofstrom and Raphael 2018 (PPIC, The Impact of Proposition 47 on Crime and Recidivism); Bartos and Kubrin 2018 (Criminology and Public Policy)",
       "from": "law.low-level-offense-reclassified",
       "evidence": "contested",
-      "range": [0, 0.18],
-      "notes": "Unsupported until a law is recorded: no shipped policy question reclassifies low-level offenses, so the cause law.low-level-offense-reclassified has no reader, and larceny is not a kept place outcome."
+      "range": [0, 0.1463],
+      "notes": "Re-pointed from crime.larceny to crime.property, the measure the crime engine victimizes households by (src/core2/modules/crime.ts): larceny is the theft the NCVS counts as other theft, 79.3 of the 97.6 property victimizations per 1,000 households in 2024 (BJS Criminal Victimization, 2024, table 2; src/core2/data/crime/victimization.json), so the researched +9% in larceny moves the property total by 0.09 x 79.3 / 97.6 = 0.0731, and the range [0, 0.18] by the same share to [0, 0.1463]. The anchor above is the research as found, in larceny. crime.property also scales burglary (its webMeasures), which Prop 47 left unchanged, so once the cause runs burglary would rise by the same share: an overstatement the share cannot remove without a separate larceny measure. Still unsupported until a law is recorded: no shipped policy question reclassifies low-level offenses, so the cause law.low-level-offense-reclassified has no reader (stopgap SG-WEB-crime-justice-links-unread)."
     },
     {
       "key": "child-access-law-to-youth-gun-deaths",
@@ -725,7 +726,7 @@
       "source": "Currie, Hanushek, Kahn, Neidell and Rivkin 2009 (REStat)",
       "from": "env.carbon-monoxide",
       "evidence": "researched",
-      "notes": "Left unwired: no carbon monoxide reading is recorded (no code in src/core2 holds one). The study finds absences rise on days near the federal limit, a threshold on daily readings and not a slope on a place rate, and a student's absence in the core is their own day-by-day choice (src/core2/modules/school.ts), which a place rate does not set."
+      "notes": "Left unwired: no carbon monoxide reading is recorded (no code in src/core2 holds one). The study finds absences rise on days near the federal limit, a threshold on daily readings and not a slope on a place rate, and a student's absence in the core is their own day-by-day choice (src/core2/modules/school.ts), which a place rate does not set. The engine that would read it is schoolDay in that file, as a term in the attend-or-stay-home choice on a day with a recorded reading, once a reading and a size exist."
     },
     {
       "key": "emission-rules-to-particulates",
@@ -770,8 +771,8 @@
     },
     {
       "key": "disaster-to-public-transfers",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "gov.nondisaster-transfers",
       "strength": "strong",
       "shape": {
@@ -787,12 +788,12 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.015, 0.027],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and non-disaster transfers are not a kept place outcome. Transfers are not kept by kind (stopgap SG-EFFECT-WEB-prices-nondisaster-transfers)."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and non-disaster transfers are not a kept place outcome. Transfers are not kept by kind (stopgap SG-EFFECT-WEB-prices-nondisaster-transfers). Oct 28 update: the cause is now readable (disaster.severe, from the disasters engine's news events; see disaster-to-out-migration), so only the outcome waits. Looked for an engine that records transfers by kind and found payment engines but no place total: src/core2/jobs-benefits.ts pays each unemployment claim by the law's share of the claimant's lost pay, src/core2/housing-assistance.ts pays rent assistance (reasonKey housing.assistance), and FEMA aid is paid under its own reason keys, but no engine sums medical, income-support and unemployment-insurance payments for a place. Multiplying one claim's benefit by this link's size would misread the research, which measures total transfers per resident (more claimants and more medical spending, not larger benefits per claim). The engine that would read this factor is a place-level public transfers ledger that sums those payments by kind; none exists, so the link stays unread (SG-EFFECT-WEB-prices-nondisaster-transfers)."
     },
     {
       "key": "disaster-to-out-migration",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "population.out-migration",
       "strength": "moderate",
       "shape": {
@@ -808,13 +809,13 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.025, 0.1],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Boustan, Kahn, Rhode and Yanguas report no split of the out-migration effect by income, age, tenure or household kind (its heterogeneity section splits by disaster type, severity and period). Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study)."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Boustan, Kahn, Rhode and Yanguas report no split of the out-migration effect by income, age, tenure or household kind (its heterogeneity section splits by disaster type, severity and period). Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study). Oct 28 update, built: the cause is now read from the disasters engine's own records (src/core2/modules/disasters.ts severeDisasterReading), not from every declaration. Roth Tran and Wilson 2023 (FRBSF Working Paper 2020-34, p. 19-20) size the average FEMA Major Disaster declaration at no out-migration effect: \"the response of population to a disaster is small and generally statistically insignificant up to at least eight years out\", with \"modest longer-run declines in both in-migration and out-migration that roughly cancel each other out\". Only the most damaging disasters move people: \"a disaster with damages p.c. equal to the 99th percentile causes population to decline by roughly 1.5% after eight years\" (p. 25-26), the same size as this row's 1.5 points. So the cause is a severity from 0 to 1 on FEMA's inspected damaged homes per resident, 0 at the 90th percentile of the game's own FEMA town rows and 1 at the 95th (src/core2/data/disasters/severity.json), held for the ten years after the incident begins, and the researched size applies at severity 1. The size and range are unchanged. Assumed and registered as SG-WEB-disaster-severity-damage-proxy: FEMA's damaged-home figures stand for the study's deaths, and the ramp ends stand for its severe class."
     },
     {
       "key": "disaster-to-home-values",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
-      "to": "housing.home-prices",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "housing.home-value",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -829,7 +830,7 @@
       "from": "disaster.severe",
       "evidence": "researched",
       "range": [-0.053, -0.038],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and home prices are not a kept place outcome."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and home prices are not a kept place outcome. Oct 28 update, built: the cause is read from the disasters engine's own records (severity, not every declaration; see disaster-to-out-migration), and the outcome is now the kept index housing.home-value (before, `to` was housing.home-prices, which is the housing engine's own median home value that the births links read as a cause; one name could not be both the engine's reading and the web's factor on it). The housing engine values each owned home, and prices each purchase and sale, at the web's factor (src/core2/modules/housing.ts ownedHomes, sellHome), so the engine's median home value, the births links' cause, already includes it. The only source found that sizes the effect of FEMA Major Disaster declarations on prices is Roth Tran and Wilson 2023 (FRBSF Working Paper 2020-34), and it finds no fall for the average declaration: \"We find that the HPI is essentially flat in the near-term before increasing a good amount over the longer term. As of eight years after a disaster, the local HPI is estimated to be about 1.4% higher than it would have been otherwise.\" (p. 19) and, for the most damaging, \"the medium-run (1-3 years out) response to very severe disasters is strongly positive while the longer-run response is strongly negative\" (p. 25, with no number in the text). Calling every declaration severe would put -5.2% where the average declaration shows no fall, so the size is left as researched for a severe disaster and applies only at severity 1 (0 to 1 on FEMA's inspected damaged homes per resident, src/core2/data/disasters/severity.json). Not re-sized: that paper's severe-disaster price effect is shown only in a figure, with no figure the text quotes. Assumed and registered as SG-WEB-disaster-severity-damage-proxy."
     },
     {
       "key": "coverage-to-catastrophic-bills",
@@ -1146,7 +1147,8 @@
       "from": "program.snap-receipt:moved-by-causes",
       "evidence": "researched",
       "range": [-0.026, -0.015],
-      "notes": "Not carried: the SNAP benefit pays households, but no field counts its recipients into program.snap-receipt and no engine keeps food insecurity, so both stay ledger numbers and this link has no moved part to read (stopgaps SG-WEB-snap-receipt-ledger and SG-WEB-food-insecurity-ledger). A food-insecurity record should read each household's SNAP benefit and food prices."
+      "notes": "Not carried: the SNAP benefit pays households, but no field counts its recipients into program.snap-receipt and no engine keeps food insecurity, so both stay ledger numbers and this link has no moved part to read (stopgaps SG-WEB-snap-receipt-ledger and SG-WEB-food-insecurity-ledger). A food-insecurity record should read each household's SNAP benefit and food prices.",
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment and stops a head a law takes off it (the work requirement for assistance after the head's months, by the law row in force), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a household that loses its benefit buys less of its plan and what it cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     {
       "key": "minimum-wage-to-poverty",
@@ -1397,7 +1399,7 @@
       "who": "Kindergarten-through-third-grade pupils assigned to the relevant small/regular classrooms; schoolmates outside exposure are not treated.",
       "lagWhy": "The link has lag0, but the anchor describes four years of exposure. Assessments must follow the actual exposure; the cited contrast/CI is required before switch-on.",
       "aboutZero": false,
-      "notes": "Left unwired: the core records no class size. Every student of a place attends its one school district (schoolFor in src/core2/modules/school.ts), a district's teachers are jobs and counted staff, and the opening uses openingPupilTeacherRatio only to generate them, so no K-3 roster or pupil-teacher ratio exists to read. The study's +0.22 SD is for K-3 pupils in a small class against a regular one, after four years in it, while the school engine decides grade 8; once a roster is recorded, size the link by converting the standard deviations to the shift in the share above the proficiency line under a normal distribution at the place's base."
+      "notes": "Left unwired: the core records no class size. Every student of a place attends its one school district (schoolFor in src/core2/modules/school.ts), a district's teachers are jobs and counted staff, and the opening uses openingPupilTeacherRatio only to generate them, so no K-3 roster or pupil-teacher ratio exists to read. The study's +0.22 SD is for K-3 pupils in a small class against a regular one, after four years in it, while the school engine decides grade 8; once a roster is recorded, size the link by converting the standard deviations to the shift in the share above the proficiency line under a normal distribution at the place's base. Not re-pointed from school.test-scores: the study's test is a combined reading and math score and the school engine decides the two separately (decideSchoolOutcome in src/core2/school-outcomes.ts), so the row would be split by subject when the roster exists; and the size stays unset because +0.22 SD is after four years in grades K to 3, and what is left of it by grade 8 is not in the row."
     },
     {
       "key": "prek-to-graduation",
@@ -1502,13 +1504,13 @@
       "source": "Sharkey 2010 (PNAS)",
       "from": "crime.homicide-on-block",
       "evidence": "researched",
-      "notes": "Left unwired: it needs each student's own exposure, and no homicide has a location below the place. The crime engine's victimizations leave homicide out (stopgap SG-CORE-crime-firearm-homicide) and a death by homicide carries no block group; the effect (about -0.5 SD for the week after a homicide on a child's block) is for a child tested right after it."
+      "notes": "Left unwired: it needs each student's own exposure, and no homicide has a location below the place. The crime engine's victimizations leave homicide out (stopgap SG-CORE-crime-firearm-homicide) and a death by homicide carries no block group; the effect (about -0.5 SD for the week after a homicide on a child's block) is for a child tested right after it. The engine that would read it is the grade 8 tests of decideSchoolOutcome (src/core2/school-outcomes.ts) on the testing day, from a homicide record that carries a block group and a date; the test subject is not named in the row, so it is not re-pointed from school.test-scores."
     },
     {
       "key": "police-killing-to-graduation",
       "status": "size-not-set",
       "unsupportedReason": "size-not-set",
-      "to": "school.graduation",
+      "to": "school.graduation-pct",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -1522,27 +1524,30 @@
       "source": "Ang 2021 (QJE)",
       "from": "police.killing-nearby",
       "evidence": "researched",
-      "notes": "Left unwired: the core records no police killing (no code in src/core2 holds one), and the 3.5% is for ninth graders who live near a killing, so it needs each student's distance to one; a place-wide rate would put the effect on students who were not exposed."
+      "notes": "Left unwired: the core records no police killing (no code in src/core2 holds one), and the 3.5% is for ninth graders who live near a killing, so it needs each student's distance to one; a place-wide rate would put the effect on students who were not exposed. Re-pointed from school.graduation: high school graduation is the measure the school engine decides for every senior (decideSchoolOutcome in src/core2/school-outcomes.ts, school.graduation-pct), so that engine would read the link, on the senior's own rate, once a killing near the student's home is recorded. The size stays unset: the row's anchor says 3.5% less likely without saying whether that is a share of the rate or points of it, and a converted size would be a guess."
     },
     {
       "key": "school-move-to-scores",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
-      "to": "school.test-scores",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "school.math-proficient-pct",
       "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "move",
+      "size": -0.0336,
+      "per": "a school switch: the student's household moved into the town after the school year began",
       "lagMonths": 0,
-      "group": "movers and their classmates",
+      "group": "movers",
       "owner": "M",
       "anchor": "About -0.03 SD in math per switch",
-      "source": "Hanushek, Kain and Rivkin 2004",
+      "source": "Hanushek, Kain and Rivkin 2004 (Journal of Public Economics 88: 1721-1746), Table 2 panel A",
       "from": "housing.mid-year-school-move",
       "evidence": "researched",
-      "notes": "Left unwired: no mid-year school move is recorded. Every student of a place attends its one school district (schoolFor in src/core2/modules/school.ts), and the moves module records only departures from the town (src/core2/modules/moves.ts), so there is no switch to count; the effect (about -0.03 SD in math per switch, for the mover and for classmates) needs each student's own switch."
+      "range": [-0.0336, -0.0099],
+      "rangeSource": "Hanushek, Kain and Rivkin 2004, Table 2 panel A: the value-added estimate of the average cost of a move is 0.027 standard deviations in math (column 2, t 10.35), the central size; their preferred specification with student fixed effects separates the move's disruption from any change in school quality and puts it at roughly 0.01 (column 3: 0.014 less 0.006, the text says roughly 0.01), the low end. Both converted as the notes say.",
+      "carriedBy": "the school engine's math test (decideSchoolOutcome in src/core2/school-outcomes.ts), which reads the counted-moves record of each household that moved into the town after the school year began (countedMoves in src/core2/modules/counted-moves.ts, direction in) and lowers each such eighth grader's own expected share of clearing the proficiency line by this row's size (carriedLink), so the fifth's expected passes fall by the size times the switchers' weight; the group row records the switchers and the result row of a full student records the move it stands on. The web does not run the link because its cause is a record of the individual student, not a rate of the place (stopgap SG-SCHOOL-switch-window)",
+      "notes": "Carried by the school engine, which reads a student's own switch: the research outcome (math achievement, in standard deviations) is the engine's grade 8 proficiency share, so the effect is converted with the normal-density rule, change in the share = density at the base share's z-score times the change in standard deviations, at the median of the 51 places in data/research/outcome-web/place-outcome-bases-2024.json for school.math-proficient-pct (26.2 percent; ESTIMATED, the source's own figures, not a national count): density 0.3256, so -0.027 SD is -0.88 points of the share, a relative change of -0.0336 on the base; the low end -0.008 SD is -0.0099. Quoted: \"On average, movers have math scores that are lower than those of non-movers by 0.17 standard deviations ... Simply controlling for their lower achievement before the move with the value-added specification in column 2 dramatically lowers the estimate of average moving costs to 0.027 standard deviations\". The paper also reports that a move inside the school year adds no significant cost beyond a move at the year's start (Table 2 panel B, 0.005, t 0.75) and that families that moved across regions pay about none (0.0106 less 0.010); this row sizes every move into the town after the first day of school at the average. The paper's turnover cost to classmates who did not move (0.013 SD for a one standard deviation rise in the share of new students) is not applied (stopgap SG-SCHOOL-switch-window). The status field's old reading (no switch is recorded) was wrong: the counted-moves module records every household that moves into the town with its date, and counted newcomers arrive in the schools' counts."
     },
     {
       "key": "lead-to-reading",
@@ -1563,7 +1568,7 @@
       "from": "health.blood-lead",
       "evidence": "provisional",
       "range": [0.065, 0.26],
-      "notes": "Left unwired: the core records no blood lead (no code in src/core2 holds it), and the study's cause is the mean blood lead of children before school, which CDC does not publish by state (research question state-average-child-blood-lead-level). The outcome, the share far below proficient, is not what the school engine decides, so a recorded lead level would also need the 3.1-point rise on a 12% base converted to the proficiency share."
+      "notes": "Left unwired: the core records no blood lead (no code in src/core2 holds it), and the study's cause is the mean blood lead of children before school, which CDC does not publish by state (research question state-average-child-blood-lead-level). The outcome, the share far below proficient, is not what the school engine decides, so a recorded lead level would also need the 3.1-point rise on a 12% base converted to the proficiency share. It is not re-pointed to school.reading-proficient-pct: a child pushed into the lowest category was usually below the proficiency line already, and the study reports no change in the share at or above it, so the normal-density conversion of the rule used for school-move-to-scores has nothing to convert. The engine that would read it is the reading test of decideSchoolOutcome (src/core2/school-outcomes.ts), from a child's blood lead record."
     },
     {
       "key": "heat-to-learning",
@@ -1588,7 +1593,7 @@
       "from": "env.school-year-temperature",
       "evidence": "researched",
       "range": [-0.0125, -0.0075],
-      "notes": "Left unwired: the core records no school-year temperature and no share of schools with air conditioning (no weather or temperature in src/core2). Learning is not what the school engine decides either: it decides proficiency and graduation."
+      "notes": "Left unwired: the core records no school-year temperature and no share of schools with air conditioning (no weather or temperature in src/core2). Learning is not what the school engine decides either: it decides proficiency and graduation. No engine would read it as it stands: a year's learning is not a share, and the study's 1% of a year's learning has no conversion to the proficiency share in the row, so it is not re-pointed."
     },
     {
       "key": "home-internet-to-scores",
@@ -1628,13 +1633,13 @@
       "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
       "evidence": "researched",
       "range": [-0.1, -0.073],
-      "notes": "Runs on the web's ledger: school.hispanic-enrollment is a kept outcome, so the link moves that number from the 287(g) partnership law in force. No engine decides enrollment by ethnicity (the core records no ethnicity on a student; stopgap SG-SCHOOL-hispanic-enrollment), so no student or school record moves with it. The status above is the old engine's classifier, which does not produce this outcome."
+      "notes": "Runs on the web's ledger: school.hispanic-enrollment is a kept outcome, so the link moves that number from the 287(g) partnership law in force. No engine decides enrollment by ethnicity (the core records no ethnicity on a student; stopgap SG-SCHOOL-hispanic-enrollment), so no student or school record moves with it. The status above is the old engine's classifier, which does not produce this outcome. The engine that would read it is the school engine's enrollment (schoolFor in src/core2/modules/school.ts sends every school-age person to the town's one district today, so only attendance is decided), once a student carries an ethnicity; stopgap SG-SCHOOL-hispanic-enrollment names it."
     },
     {
       "key": "daca-to-graduation",
       "status": "size-not-set",
       "unsupportedReason": "size-not-set",
-      "to": "school.graduation",
+      "to": "school.graduation-pct",
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -1648,7 +1653,7 @@
       "source": "Kuka, Shenhav and Shih 2020",
       "from": "immigration.deferred-action",
       "evidence": "researched",
-      "notes": "Left unwired: deferred action is not recorded and is not a policy question the game asks, and no student's immigration status is recorded, so the eligible share of a place's students is unknown; the +15% is for eligible youth only."
+      "notes": "Left unwired: deferred action is not recorded and is not a policy question the game asks, and no student's immigration status is recorded, so the eligible share of a place's students is unknown; the +15% is for eligible youth only. Re-pointed from school.graduation: high school graduation is the measure the school engine decides for every senior (decideSchoolOutcome in src/core2/school-outcomes.ts, school.graduation-pct), so that engine would read the link, on the senior's own rate, once a student's status is recorded. The size stays unset: the +15% is for the eligible only and the eligible share of a place is unknown, so a place-wide conversion would be a guess."
     },
     {
       "key": "graduation-to-earnings",
@@ -6500,8 +6505,8 @@
     },
     {
       "key": "higher-education-spending-to-college-completion",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "moderate",
       "shape": {
         "kind": "diminishing",
@@ -6542,7 +6547,7 @@
       "who": "Students at the state's public colleges, wherever they now live; the place share is their share among its adults.",
       "lagWhy": "The paper's awards build over years t to t + 3 (the phase-in); the first year's 2 percent starts at once.",
       "aboutZero": false,
-      "notes": "Estimated conversion from a flow (degrees awarded) to a stock (adults holding one): the web holds the first year's addition while the cause lasts and does not stack years, so a decade of higher spending is understated. tuition-freeze-to-college-completion is the same paper's price result, about zero. The shape is diminishing with a scale of 100 percent: the studies measure changes of about ten percent, and a line more than doubled (a small town's line given a large grant) adds less for each further percent than the measured size says, so the factor can never run below zero. The scale is judged."
+      "notes": "Estimated conversion from a flow (degrees awarded) to a stock (adults holding one): the web holds the first year's addition while the cause lasts and does not stack years, so a decade of higher spending is understated. tuition-freeze-to-college-completion is the same paper's price result, about zero. The shape is diminishing with a scale of 100 percent: the studies measure changes of about ten percent, and a line more than doubled (a small town's line given a large grant) adds less for each further percent than the measured size says, so the factor can never run below zero. The scale is judged. The cause is recorded (the state's higher education line, budget-line-added:higherEducation in src/core2/modules/outcome-web.ts) and the web runs the link, but no engine decides a graduate's completion: decideSchoolOutcome (src/core2/school-outcomes.ts) decides a senior's graduation and the jobs engine's schoolingOn (src/core2/modules/jobs.ts) holds every graduate at no college, so the link reads on the web's ledger only. The engine that would read it is a college step of the school engine, on the graduate's own rate (stopgap SG-SCHOOL-college-completion)."
     },
     {
       "key": "welfare-spending-to-poverty",

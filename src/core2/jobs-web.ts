@@ -6,7 +6,13 @@
  * The jobs engine keeps deciding from its own records; this only reads the
  * web's factor for the people the records say belong to each group.
  */
+import {
+  isNoncitizen as isNoncitizenOf,
+  isUnauthorized,
+} from "./modules/people";
 import { ageOn, MemberState, type CountedStore } from "./counted-groups";
+import { citizenShareOf } from "./modules/voting";
+import { lawChain } from "./modules/laws";
 import type { HouseholdKind } from "./counted-groups";
 import { parameter } from "./parameters";
 import { webFactorFor, type Subject } from "./outcome-web-reach";
@@ -17,6 +23,8 @@ export const MOTHERS = "labor.mothers-participation";
 export const MARRIED_WOMEN = "labor.married-women-participation";
 export const OLDER_WORK = "labor.older-employment";
 export const LOW_WAGE_JOBS = "labor.low-wage-jobs";
+export const UNDOCUMENTED = "labor.undocumented-employment";
+export const US_BORN = "labor.us-born-employment";
 
 export interface LaborFacts {
   readonly age: number;
@@ -25,6 +33,8 @@ export interface LaborFacts {
   readonly incomeFifth?: number;
   readonly mother: boolean;
   readonly partnered: boolean;
+  /** The person's id, for what is seeded on who they are (work authorization). */
+  readonly id?: string;
 }
 
 interface Relative {
@@ -131,13 +141,16 @@ export function fullFacts(
       ? "adults"
       : "one-adult";
   const gender = person.looks?.gender;
-  return factsOf(
-    age,
-    gender === "female" || gender === "male" ? gender : undefined,
-    relatives,
-    p,
-    kind,
-  );
+  return {
+    ...factsOf(
+      age,
+      gender === "female" || gender === "male" ? gender : undefined,
+      relatives,
+      p,
+      kind,
+    ),
+    id: personId,
+  };
 }
 
 /**
@@ -166,14 +179,65 @@ export function countedFacts(
   }
   const gender = store.strings[store.genderIx[member]!];
   const group = store.groups[h.group];
-  return factsOf(
-    ageOn(store.born[member]!, date),
-    gender === "female" || gender === "male" ? gender : undefined,
-    relatives,
-    p,
-    group?.kind,
-    group?.incomeBand,
+  return {
+    ...factsOf(
+      ageOn(store.born[member]!, date),
+      gender === "female" || gender === "male" ? gender : undefined,
+      relatives,
+      p,
+      group?.kind,
+      group?.incomeBand,
+    ),
+    id: store.ids[member]!,
+  };
+}
+
+/**
+ * Whether the web moves a measure at a place today: an enforcement law in
+ * force, say. Only then is a person's seeded work authorization read, so a
+ * town with no such law spends nothing on it. Cached per place and day.
+ */
+const MOVING = new WeakMap<
+  CoreState,
+  { date: string; byKey: Map<string, boolean> }
+>();
+function moves(api: CoreAPI, placeId: string, measure: string): boolean {
+  const c = api.state as CoreState;
+  let cache = MOVING.get(c);
+  if (!cache || cache.date !== c.date)
+    MOVING.set(c, (cache = { date: c.date, byKey: new Map() }));
+  const key = `${placeId}|${measure}`;
+  let moving = cache.byKey.get(key);
+  if (moving === undefined)
+    cache.byKey.set(key, (moving = webFactorFor(api, placeId, measure) !== 1));
+  return moving;
+}
+
+/**
+ * The outcome a person's work authorization puts them under: an unauthorized
+ * noncitizen's employment, or a citizen's, standing for the U.S.-born the
+ * research measures (the core records no birthplace). A noncitizen with
+ * authorization is in neither. Seeded on who they are (citizenship.ts) at the
+ * town's citizen share.
+ */
+export function authorizationMeasure(
+  api: CoreAPI,
+  personId: string,
+  p: (key: string) => number,
+): string {
+  // stopgapId: SG-LABOR-no-legal-status
+  stopgap("SG-LABOR-no-legal-status");
+  const c = api.state as CoreState;
+  const share = citizenShareOf(
+    c.placeMetadata.placeKey,
+    lawChain(api).stateKey.slice(3),
+    c.seed,
   );
+  if (
+    isUnauthorized(c.seed, personId, share, p("unauthorizedShareOfNoncitizens"))
+  )
+    return UNDOCUMENTED;
+  return isNoncitizenOf(c.seed, personId, share) ? "" : US_BORN;
 }
 
 const SHIFTS = new WeakMap<
@@ -204,6 +268,15 @@ export function participationShift(
     facts.age < p("jobsFullRetirementAge")
   )
     measures.push(OLDER_WORK);
+  // Local immigration enforcement reaches a worker by their work
+  // authorization, read only where the web moves either outcome.
+  if (
+    facts.id &&
+    (moves(api, placeId, UNDOCUMENTED) || moves(api, placeId, US_BORN))
+  ) {
+    const measure = authorizationMeasure(api, facts.id, p);
+    if (measure) measures.push(measure);
+  }
   if (!measures.length) return 0;
   if (facts.mother || facts.partnered) stopgap("SG-LABOR-participation-scale");
   const c = api.state as CoreState;
@@ -263,7 +336,6 @@ export function lowWageStaffFactor(
 
 /** The links this family cannot yet wire, marked where the jobs engine runs. */
 export function markUnwiredLaborLinks(): void {
-  stopgap("SG-LABOR-no-legal-status");
   stopgap("SG-LABOR-person-exposure");
   stopgap("SG-LABOR-unsized-links");
   stopgap("SG-LABOR-pretrial-employment");

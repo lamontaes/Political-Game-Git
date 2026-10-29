@@ -102,7 +102,12 @@ it(`a resident's journal names the law they learned changed what they pay, seed 
       for (let day = 0; day < 90; day += 1) {
         advanceCore(core, addDays(makeIsoDate(core.date), 1));
         const staged = [...core.durableLog.values()].filter((row) => {
-          if (row.kind !== "law.effect-learned" || row.date !== core.date)
+          // Only this law's: another law learned the same day is its own line.
+          if (
+            row.kind !== "law.effect-learned" ||
+            row.date !== core.date ||
+            row.facts?.lawId !== lawId
+          )
             return false;
           learned += 1;
           const book = director.ledger.people.get(row.personIds?.[0] ?? "");

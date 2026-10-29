@@ -208,6 +208,12 @@ export interface CountedCaseRow {
   readonly groups: Readonly<Record<string, number>>;
   /** Of them, held in jail until the case is decided. */
   readonly detained: number;
+  /**
+   * Of them, how many money bail would have held without a cash-bail law: the
+   * detention the offense's base conviction share was measured at, so the
+   * detention link moves a case only as far as the law moved who is held.
+   */
+  readonly heldOnMoney?: number;
   readonly noncitizens: number;
   /** The law ending cash bail, when in force at filing; empty otherwise. */
   readonly bailLawId: string;
@@ -233,6 +239,8 @@ export interface CountedSentenceRow {
   readonly date: string;
   /** Defendants convicted (adjudicated, in juvenile court). */
   readonly convicted: number;
+  /** What the count stood on, when the court gave it: the base share and the detention link's part (pretrial-detention-to-conviction). */
+  readonly reasons?: Readonly<Record<string, number | string>>;
   /** Of them, how many serve a term in each place. */
   readonly custody: Readonly<Partial<Record<CountedFacility, number>>>;
 }
@@ -1655,6 +1663,7 @@ export function decideCountedCase(
   caseId: string,
   outcome: {
     readonly convicted: number;
+    readonly reasons?: Readonly<Record<string, number | string>>;
     readonly terms: readonly {
       readonly facility: CountedFacility;
       readonly count: number;
@@ -1704,6 +1713,7 @@ export function decideCountedCase(
     caseId: c.id,
     date,
     convicted: outcome.convicted,
+    ...(outcome.reasons ? { reasons: outcome.reasons } : {}),
     custody,
   };
   table(api, "sentences").put(sentence as unknown as ModuleRow);

@@ -1,6 +1,9 @@
 /**
  * The housing, transit, roads and family links that wait, each with the one
  * reason it cannot reach a person's records yet (web-reach-places-services).
+ * (The disaster-to-home-values and disaster-to-out-migration links left this
+ * list when the disasters engine began recording a severity on its news
+ * events: src/core2/law-wiring-disasters-web.test.ts.)
  * Each is on the unwired list under an open row that names it, and the reason
  * holds in the code: the web does not run it because its cause is not
  * recorded or it has no size. The day an engine names a cause or an outcome
@@ -29,19 +32,6 @@ const WAITING: Readonly<
 > = {
   /** No size, and no engine records air conditioning use. */
   "energy-price-to-ac-use": { waitingOn: [], needsSize: true },
-  /** No engine records a severe disaster (research-disaster-severity-from-declarations). */
-  "disaster-to-home-values": {
-    waitingOn: ["disaster.severe", "housing.home-prices"],
-    needsSize: false,
-  },
-  "disaster-to-out-migration": {
-    waitingOn: ["disaster.severe"],
-    needsSize: false,
-    outcomeReadBy: [
-      "src/core2/modules/counted-moves.ts",
-      "src/core2/modules/moves.ts",
-    ],
-  },
   /** No size, the law is not recorded as a cause, and no engine records same-sex marriages. */
   "marriage-equality-to-marriages": {
     waitingOn: ["law.marriage-equality", "family.same-sex-marriages"],
@@ -122,16 +112,16 @@ describe("places and services links that wait, and why", () => {
     });
 
   // Break-it: the check trips the day an engine file names a cause.
-  it("the cause check trips when an engine records disaster.severe", () => {
+  it("the cause check trips when an engine records federal.rail-expansion-pct", () => {
     const reading = [
       ...SOURCES,
       {
         path: "src/core2/modules/engine-that-records.ts",
-        text: `export const SEVERE = "disaster.severe";`,
+        text: `export const SPENDING = "federal.rail-expansion-pct";`,
       },
     ];
-    expect(namedBy("disaster.severe")).toEqual([]);
-    expect(namedBy("disaster.severe", reading)).toEqual([
+    expect(namedBy("federal.rail-expansion-pct")).toEqual([]);
+    expect(namedBy("federal.rail-expansion-pct", reading)).toEqual([
       "src/core2/modules/engine-that-records.ts",
     ]);
   });

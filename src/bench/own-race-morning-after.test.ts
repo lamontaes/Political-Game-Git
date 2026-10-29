@@ -6,6 +6,7 @@ import { gameStartDate } from "../core2/game-start";
 import type { PersonId } from "../core2/types";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { openContests } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import { composeJournal } from "../director/journal";
@@ -50,10 +51,22 @@ it("the day after the player's race, Journal, News and Government cite its resul
         const result = fileForOffice(core, playerId!, contest.id) as {
           filing?: { status?: string };
         };
-        return result.filing?.status === "on-ballot";
+        return ["petitioning", "on-ballot"].includes(
+          result.filing?.status ?? "",
+        );
       });
     if (!filed) {
       tried.push(`${where}: no race the player could enter`);
+      continue;
+    }
+    // Filing is a petition: the player gathers signatures until the clerk's
+    // check puts them on the ballot.
+    const petition = gatherSignatures(core, `filing:${filed.id}:${playerId}`);
+    if (
+      petition &&
+      !(petition.check && petition.check.valid >= petition.needed)
+    ) {
+      tried.push(`${where}: the petition for ${filed.id} came up short`);
       continue;
     }
     advanceCore(core, addDays(makeIsoDate(filed.electionDate), 1));

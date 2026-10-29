@@ -1,8 +1,8 @@
 /**
  * Short worded lines for the play screens (a calendar entry, a person's sketch
- * and history), from the English engine's screen banks. A part that is not
- * shippable, that the owner's grades hold back, or whose slots the record cannot fill
- * gives null, and the screen shows nothing for it.
+ * and history), from the English engine's screen banks. A part the owner's
+ * grades hold back, or whose slots the record cannot fill, gives null, and
+ * the screen shows nothing for it.
  */
 import calendarJson from "../../data/english/parts/calendar.json" with { type: "json" };
 import personSketchJson from "../../data/english/parts/person-sketch.json" with { type: "json" };
@@ -12,7 +12,6 @@ import { playable } from "./bank-parts";
 interface ScreenPart {
   key: string;
   text: string;
-  shippable: boolean;
 }
 const BANKS: Readonly<Record<string, ReadonlyMap<string, ScreenPart>>> = {
   calendar: new Map(

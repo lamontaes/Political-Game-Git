@@ -62,8 +62,6 @@ export interface SpeechBuild {
   /** The four choices for the next stage; empty once the speech is whole. */
   choices: SpeechChoice[];
   done: boolean;
-  /** A grading page only: held parts are offered wherever one fits a stage. */
-  heldFirst?: boolean;
 }
 
 /** The facts a speaker's own records give a part. */
@@ -185,7 +183,7 @@ function standsOf(core: Readonly<CoreState>, speakerId: PersonId) {
 /** Core parts the speaker could give now, one per subject, each worded from their records. */
 function corePool(
   core: Readonly<CoreState>,
-  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "picked" | "heldFirst">,
+  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "picked">,
 ): SpeechChoice[] {
   const facts = factsOf(core, build.speakerId);
   const taken = new Set(build.picked.map((row) => row.subject));
@@ -203,7 +201,6 @@ function corePool(
       speakerId: build.speakerId,
       facts: { ...facts, ...extra },
       momentKey: `speech:${build.speakerId}:${build.startedOn}:${subject}`,
-      ...(build.heldFirst ? { heldFirst: true } : {}),
     });
     if (!line) return;
     pool.push({
@@ -276,19 +273,18 @@ function rank(
 
 function edgePool(
   core: Readonly<CoreState>,
-  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "heldFirst">,
+  build: Pick<SpeechBuild, "speakerId" | "startedOn">,
   role: "opener" | "closer",
 ): SpeechChoice[] {
   const facts = factsOf(core, build.speakerId);
   const pool: SpeechChoice[] = [];
-  for (const piece of speechStagePieces(role, build.heldFirst)) {
+  for (const piece of speechStagePieces(role)) {
     const line = wordSpeechPart({
       seed: core.seed,
       role,
       speakerId: build.speakerId,
       facts,
       momentKey: `speech:${build.speakerId}:${build.startedOn}:${role}`,
-      ...(build.heldFirst ? { heldFirst: true } : {}),
       pieceKey: piece,
     });
     if (line)
@@ -306,7 +302,7 @@ function edgePool(
 
 function offer(
   core: Readonly<CoreState>,
-  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "picked" | "heldFirst">,
+  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "picked">,
 ): SpeechChoice[] {
   const stage = SPEECH_STAGES[build.picked.length];
   if (!stage) return [];
@@ -319,7 +315,6 @@ function offer(
 export function beginSpeech(
   core: Readonly<CoreState>,
   speakerId: PersonId,
-  options: { heldFirst?: boolean } = {},
 ): SpeechBuild | null {
   const person = core.people.get(speakerId);
   if (!person?.alive) return null;
@@ -328,7 +323,6 @@ export function beginSpeech(
     placeId: person.placeId,
     startedOn: core.date,
     picked: [] as SpeechChoice[],
-    ...(options.heldFirst ? { heldFirst: true } : {}),
   };
   return { ...build, choices: offer(core, build), done: false };
 }

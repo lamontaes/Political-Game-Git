@@ -24,6 +24,11 @@ const seed =
 const ISLAND_AREAS = ["60", "66", "69", "78"];
 const AGES = [16, 20, 22, 25, 30, 35, 45, 55, 60, 62, 65, 70, 75];
 
+/** The table's cell as the reader estimates it: half a person added to each side. */
+const jeffreys = (employed: number, population: number) =>
+  (employed + parameter("employmentCellPriorCount")) /
+  (population + parameter("two") * parameter("employmentCellPriorCount"));
+
 describe(`island-area employment by age (run seed ${seed})`, () => {
   it("reads every island area's own rate at every working age, from its table", () => {
     const rows = table.counties as Record<string, Record<string, number[]>>;
@@ -34,7 +39,11 @@ describe(`island-area employment by age (run seed ${seed})`, () => {
         const [population, employed] = rows[area]![`acs-age-${age}`]!;
         expect(read, where).toBeDefined();
         expect(read!.basis, where).toMatch(/^county-ACS/);
-        expect(read!.rate, where).toBeCloseTo(employed! / population!, 10);
+        // Read as the Jeffreys estimate of the table's cell (opening-employment.ts).
+        expect(read!.rate, where).toBeCloseTo(
+          jeffreys(employed!, population!),
+          10,
+        );
         expect(read!.source, where).toContain("Island Areas Censuses");
       }
   });
@@ -69,7 +78,7 @@ describe(`island-area employment by age (run seed ${seed})`, () => {
       const [population, employed] = rows[area]![band.key.split(":")[1]!]!;
       expect(band.basis, `${where} ${band.key}`).toMatch(/^county-ACS/);
       // This world's rate sits within its drawn spread of the table's share.
-      const share = employed! / population!;
+      const share = jeffreys(employed!, population!);
       expect(
         Math.abs(band.rate - share),
         `${where} ${band.key}`,

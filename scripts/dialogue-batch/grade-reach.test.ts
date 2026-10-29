@@ -31,7 +31,9 @@ describe("a grade reaches the pieces that share its pattern, voice and register"
     expect(JSON.parse(readFileSync(REACH_FILE, "utf8"))).toEqual(built);
   });
 
-  it("a graded piece moves at least ten other pieces across at least three banks", () => {
+  // Across banks: a grade said in one bank moves the same pattern in another
+  // (with the batch-only interview bank gone, conversation and scene talk).
+  it("a graded piece moves at least ten other pieces in another bank too", () => {
     const withoutReach = { ...CALIBRATION, reach: undefined };
     let witnessed = 0;
     for (const [group, members] of reached()) {
@@ -42,7 +44,7 @@ describe("a grade reaches the pieces that share its pattern, voice and register"
             key !== graded &&
             gradeReach([key], CALIBRATION) !== gradeReach([key], withoutReach),
         );
-        if (moved.length >= 10 && new Set(moved.map(bankOf)).size >= 3)
+        if (moved.length >= 10 && new Set(moved.map(bankOf)).size >= 2)
           witnessed += 1;
       }
     }
