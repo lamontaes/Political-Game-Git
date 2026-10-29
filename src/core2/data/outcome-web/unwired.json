@@ -140,12 +140,6 @@
       "stopgapId": "SG-WEB-unread-household-child-poverty"
     },
     {
-      "link": "snap-to-food-insecurity",
-      "outcome": "household.food-insecurity",
-      "reason": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-snap-receipt-ledger"
-    },
-    {
       "link": "parent-incarceration-to-household-income",
       "outcome": "household.income",
       "reason": "engine doesn't read the factor: an engine records household.income, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
