@@ -35,7 +35,12 @@ import {
   preStartHistory,
   schoolsAttended,
 } from "../core2/past";
-import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
@@ -93,6 +98,7 @@ import {
   withArticle,
 } from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
+import { answerInTalk } from "./scene-talk";
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName, spoken, spokenWhen } from "./words";
@@ -148,6 +154,33 @@ export const CONVERSATION_RULES = rulesFile as unknown as Omit<
 >;
 
 type Facts = Record<string, Fact>;
+
+/** What move each answer the player gives makes, for the scene engine's `talk` answer (conversation-rules.json). */
+const REPLY_MOVES = (
+  rulesFile as unknown as {
+    replyMoves: {
+      default: string;
+      answerable: readonly string[];
+      notes: readonly string[];
+    } & Readonly<Record<string, unknown>>;
+  }
+).replyMoves;
+
+/**
+ * The move the player's answer to a line of this kind makes: "note" for one
+ * that only takes the line in ("Oh, okay."), which the talk does not answer.
+ */
+function replyMoveOf(kind: string, choice: string): string {
+  if (
+    REPLY_MOVES.notes.some(
+      (note) => choice === note || choice.startsWith(`${note}:`),
+    )
+  )
+    return "note";
+  const own = REPLY_MOVES[kind.replace(/-new$/, "")] as
+    Readonly<Record<string, string>> | undefined;
+  return own?.[choice] ?? REPLY_MOVES.default;
+}
 
 /** Something real to talk about, from the speaker's records. */
 export interface Subject {
@@ -667,7 +700,13 @@ function quietDay(
     },
   };
   const seen = lastContact(core, speaker.id, listener.id);
-  if (seen && seen.date < core.date)
+  // Not seeing much of someone takes some days apart: never "since
+  // yesterday".
+  if (
+    seen &&
+    daysBetween(makeIsoDate(seen.date), makeIsoDate(core.date)) >=
+      DEFAULT_DIRECTOR_DATA.parameters.directorTalkSeenLittleDays!.value
+  )
     // Kebab case, as the English engine's slots are ({last-together}).
     facts["last-together"] = {
       text: spokenWhen(seen.date, core.date),
@@ -1347,7 +1386,10 @@ function replyFacts(
           : "not-heard",
       };
     case "address": {
-      // Asked what they made of the address, the listener says their own take.
+      // Asked what they made of the address, the listener says their own
+      // take, only when their own record says they saw it or heard of it.
+      if (!core.knowledgeByPerson.get(listenerId)?.get(ADDRESS_FACT.event))
+        return null;
       const take = addressTake(core, listenerId, subject.aboutId!);
       return take ? { facts: { take: take.fact }, stage: take.stage } : null;
     }
@@ -1381,6 +1423,17 @@ function playerFacts(
       text: spoken(place),
       sourceRecordIds: [player.householdId],
     };
+  // Asked whether they saw the President's address, the player says yes only
+  // when their own record holds it; else they missed it.
+  if (last.kind === "address") {
+    const saw = core.knowledgeByPerson.get(playerId)?.get(ADDRESS_FACT.event);
+    if (saw) facts.seen = { text: "", sourceRecordIds: [saw.value] };
+    else
+      facts.missed = {
+        text: "",
+        sourceRecordIds: [last.subject.aboutId ?? last.subject.id],
+      };
+  }
   let stage: string | undefined;
   if (last.kind === "home" || last.kind === "home-new") {
     // The move the run of the years before the start recorded, and where
@@ -1539,6 +1592,7 @@ function askSubject(
   );
   conversation.used.push(subject.id);
   if (!line) return false;
+  const before = conversation.last;
   conversation.lines.push({
     speakerId: otherId,
     subjectId: subject.id,
@@ -1549,6 +1603,17 @@ function askSubject(
   conversation.last = { subject, kind, facts: subject.facts, stage: "default" };
   conversation.topics.push(subject.id);
   offerChoices(core, conversation, data);
+  // A question the player has no answer to is not asked (someone who never
+  // saw the President's address asking about it gets nothing back): the
+  // talk goes on to something else.
+  if (!conversation.choices.length) {
+    conversation.lines.pop();
+    conversation.topics.pop();
+    if (before) conversation.last = before;
+    else delete conversation.last;
+    conversation.lies = [];
+    return false;
+  }
   return true;
 }
 
@@ -1754,14 +1819,22 @@ function carryOn(
   core: Readonly<CoreState>,
   conversation: Conversation,
   data: ConversationData,
+  /** The last line already ends the talk if nothing follows: no goodbye. */
+  options: { quietly?: boolean } = {},
 ): void {
   const main = conversation.topics[zero];
   const related = main ? (data.related[subjectKindOf(main)] ?? []) : [];
+  // Asked to sit a while, they bring up what they have, as a talk opens.
+  const next = options.quietly && !related.length ? OPENING_ORDER : related;
   if (
     conversation.topics.length > one ||
-    !otherAsks(core, conversation, data, related)
-  )
-    endConversation(core, conversation, data);
+    !otherAsks(core, conversation, data, next)
+  ) {
+    if (options.quietly) {
+      conversation.choices = [];
+      conversation.lies = [];
+    } else endConversation(core, conversation, data);
+  }
 }
 
 /**
@@ -1968,8 +2041,18 @@ export function openConversation(
   if (
     !opened &&
     (occasion || !otherAsks(core, conversation, data, OPENING_ORDER))
-  )
+  ) {
+    // Hello and goodbye with nothing between is not a talk (owner, Oct 24:
+    // "that should be going to the hi, have a good day. That makes no
+    // sense."): with nothing on record to say, nothing is said.
+    if (conversation.lines.every((line) => line.kind === "greet")) {
+      conversation.lines = [];
+      conversation.choices = [];
+      conversation.lies = [];
+      return conversation;
+    }
     endConversation(core, conversation, data);
+  }
   return conversation;
 }
 
@@ -2138,12 +2221,13 @@ function offerChoices(
   const facts = { ...own.facts, ...last.facts };
   const stage = own.stage ?? last.stage;
   const turn = conversation.lines.length;
-  const unused = subjectsBetween(
+  const between = subjectsBetween(
     core,
     playerId,
     otherId,
     conversation.director,
-  ).filter(
+  );
+  const unused = between.filter(
     (row) =>
       !conversation.used.includes(row.id) &&
       row.id !== last.subject.id &&
@@ -2152,6 +2236,10 @@ function offerChoices(
       raisable(data, row.kind),
   );
   const taken = new Set<string>();
+  // A question put to the player is answered before anything is asked back
+  // (owner, Oct 29): no reply to it opens with a question of its own.
+  const said = conversation.lines.at(-one);
+  const putQuestion = !!said && asksQuestion(said);
   // A reply's second move follows from its first (owner, batch 6): turning
   // the same question back ("I'm from here. And you?"), or asking about their
   // work after naming yours. Never an unrelated subject tacked on.
@@ -2171,14 +2259,22 @@ function offerChoices(
   );
   const seen = new Set<string>();
   const answerBank = `conversation:${last.kind}:answers`;
-  const answerWith = (group: Group, momentKey: string) =>
+  const answerWith = (
+    group: Group,
+    momentKey: string,
+    statementsOnly = false,
+  ) =>
     worded(
       core,
       data,
       playerId,
       last.kind,
       "answers",
-      { keys: [group.key], ...(group.from ? { from: group.from } : {}) },
+      {
+        keys: [group.key],
+        ...(group.from ? { from: group.from } : {}),
+        ...(statementsOnly ? { statementsOnly } : {}),
+      },
       facts,
       `${playerId}:${otherId}:${turn}:${momentKey}`,
       stage,
@@ -2191,11 +2287,13 @@ function offerChoices(
     bank = answerBank,
     // A further wording of the same move (when a first one said what another did).
     again = "",
-  ) => {
+    statementsOnly = false,
+  ): void => {
     // Each raised subject has its own moment, so brief answers vary.
     const answer = answerWith(
       group,
       raised ? `${choiceKey}:${raised.id}${again}` : `${choiceKey}${again}`,
+      statementsOnly,
     );
     if (!answer) return;
     let head: Said = answer;
@@ -2229,7 +2327,31 @@ function offerChoices(
       // A turned-back question ("And you?") already asks; it carries no second line.
       if (!answer.asks) tail = line;
     }
+    // A reply that ends on a question is offered only where the other person
+    // can answer it (owner, Oct 29: "Did you see the President's address?"
+    // answered "Oh, okay. What about you?"): it raises a subject they have,
+    // asks them to tell more, or makes a move the talk answers (a request, a
+    // plea to be left alone, a reaction). Else a wording that asks nothing
+    // stands in, or the reply is not offered.
+    const asksLast = tail ? asksQuestion(tail) : answer.asks;
+    const heard =
+      NEWS_SUBJECTS.has(last.subject.kind) ||
+      // What say() reads: the raised subject between them, and the other
+      // person's own words for it.
+      (!!raised &&
+        between.some((row) => row.id === raised.id) &&
+        !!replyFacts(core, otherId, raised)) ||
+      !!data.tells?.[last.kind]?.[choiceKey] ||
+      REPLY_MOVES.answerable.includes(replyMoveOf(last.kind, choiceKey));
     const text = joinedReply(head, tail);
+    const opensAsking = asksQuestion({
+      text: text.match(/^[^.?!]*[.?!]/)?.[zero] ?? text,
+    });
+    if ((asksLast && !heard) || (putQuestion && opensAsking)) {
+      if (!statementsOnly && !raised)
+        add(choiceKey, group, raised, bank, again, true);
+      return;
+    }
     if (seen.has(text)) return;
     seen.add(text);
     if (raised) taken.add(raised.id);
@@ -2766,32 +2888,53 @@ export function say(
     return conversation;
   }
   if (!raised) {
-    // Nothing new raised: the other person takes the answer in, as people do
-    // in small talk, then carries on with something else.
-    const ack = words(
-      core,
-      data,
-      otherId,
-      "ack",
-      "reply",
-      ALL,
-      {},
-      `${playerId}:${otherId}:${conversation.lines.length}:ack`,
-      // People who live together take an answer in their own way ("Fair
-      // enough." from a spouse); the farewell's stage, below.
-      core.people.get(otherId)?.householdId === player.householdId
-        ? "home"
-        : "default",
-    );
-    if (ack && !doubted)
+    // Nothing new raised: the other person takes the answer in by the scene
+    // engine's rule for the move it made (owner, Oct 29: one engine for every
+    // line), in words written to answer it ("Sit with me a minute?" "Sure.",
+    // never "That's what I thought too."), then carries on; after a request
+    // or a plea to be left alone, their answer ends the talk. An answer that
+    // only takes their line in ("Oh, okay.") gets none: the talk has no
+    // answer to a note.
+    const take = doubted
+      ? null
+      : answerInTalk(core, {
+          replyMove: replyMoveOf(last.kind, choice.move),
+          answered: `${last.kind.replace(/-new$/, "")}:${choice.move}`,
+          key: last.kind,
+          speakerId: otherId,
+          momentKey: `${playerId}:${otherId}:${conversation.lines.length}:take`,
+        });
+    if (take)
       conversation.lines.push({
         speakerId: otherId,
         subjectId: choice.answers,
         kind: "ack",
         act: "tell",
-        ...ack,
-        sourceRecordIds: [eventId, ...ack.sourceRecordIds],
+        text: take.text,
+        sourceRecordIds: [eventId],
+        wording: {
+          bank: "scene-talk",
+          parts: [take.pieceKey],
+          stage: "default",
+          facts: [],
+        },
       });
+    // A yes never ends a talk (owner, Oct 15): after "Sit with me a minute?"
+    // "Of course." they carry on with what they have. Where the answer
+    // closes it ("Okay. I'll leave you be.", or they have nothing more),
+    // their answer is the last word: no goodbye follows it.
+    if (take?.closes) {
+      if (
+        take.move === "accept" &&
+        replyMoveOf(last.kind, choice.move) === "request"
+      )
+        carryOn(core, conversation, data, { quietly: true });
+      else {
+        conversation.choices = [];
+        conversation.lies = [];
+      }
+      return conversation;
+    }
     carryOn(core, conversation, data);
     return conversation;
   }

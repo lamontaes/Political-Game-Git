@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: fixer/red-main-oct29
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-28T14:39:05.792Z
+claimed-at: 2026-10-29T16:25:36.530Z
 ---
 
 **What.** The CTO started a standing red-main owner on the owner's word (Oct 28, 10:40 AM Eastern: fix the red items on main; why does nobody own it). Every failed job on main's Deterministic validation, M0 guards, Release and Every place nightly runs is read, the failing test or guard named with the place and seed, the commit that turned it red found, and the red fixed at the root on its own PR with this item on line 1. Reds known at 14:30 UTC: the two-seed guard (realistic-not-real.test.ts) on referencePopulation and the mailer-print price (Branchville, Virginia, seed 709839a49d0953f4) and on local pay (Leusoali'i, American Samoa, seed 1564c1a4803378be); golden-path M0-12 (Lincoln, Vermont); world-legislating.test.ts (Module has no registered state from group-a-bargaining.ts); health.traits.test.ts; scene-talk.test.ts and law-reached-scenes; scene-narration-once by seed; the english guard's British labor; six bench browser checks.

@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-web-test-carried-turnout
 pr: #6634
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T15:46:28.557Z
 **Files.** src/core2/outcome-web.test.ts,src/core2/law-wiring-government.test.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6634 merged (the done flip failed while branch protection refused the flip job's push).

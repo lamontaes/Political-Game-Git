@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/traits-wire-civic
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-26T03:23:26.117Z
+claimed-at:
 ---
 
 **What.** This is one bounded family of the trait wiring audit (`traits-wiring-audit`, reopened Oct 24). Every decision in the civic life and news family: voting turnout, telling news, meetings, parties, interest groups, press contact, believing a claim, persuasion and trust must run in a played year and weigh the person's traits at a size taken from research. A decision with no study keeps the owner's general weight of 1 only with a gap row that says why. Twins with traits flat or mirrored must show the decisions turning, at the rate the research gives, never at overwhelming odds.
@@ -29,3 +29,5 @@ Sent back 2026-10-25 from PR #5657 (branch claude/traits-civic): corrected emplo
 
 Oct 25 (traits lead): PR #5657's completed slice (believing a story, party meetings, joining a group and passing on news at their study sizes, with a gap row for every other civic decision) moved to `traits-civic-shared-rule`, and the PR's director change moved to the Words line as `words-director-claims-shared-rule`. This item stays open for the rest: the ballot-measure vote in both audit years, and backing the incumbent, telling an exit pollster, holding a town hall, joining a party, a lobbyist speaking up, accepting an interview and taking part at a meeting at their research rates. Each one's gap row names its cause and numbers.
 Claim released Oct 25: branch never pushed (`claude/traits-wire-civic-rest`).
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/traits-wire-civic` is kept; claiming this item takes it over.

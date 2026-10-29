@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/people-plates-third
 pr: #6566
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T06:19:03.307Z
 **Files.** art/backdrops/staging.json, art/backdrops/occluders, scripts/people/room-spots.ts, art/people-rooms
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6566 merged (the done flip failed while branch protection refused the flip job's push).

@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/people-back-figures-draw
 pr: #6555
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T06:01:23.578Z
 **Files.** src/bench/figure-hair.ts, src/bench/figure-hair.test.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6555 merged (the done flip failed while branch protection refused the flip job's push).
