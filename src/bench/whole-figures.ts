@@ -198,6 +198,13 @@ export function portraitFigure(
     : dressesFor(core, who, place);
   return portraitOf(person, who, dresses);
 }
+/**
+ * A figure a portrait may show: standing, holding nothing (owner, Oct 29:
+ * nobody sits in the character creator or a profile; "They should all be
+ * standing").
+ */
+export const portraitPose = (row: PackFigure) =>
+  row.seat === "none" && !row.prop;
 /** A pack person's standing portrait in a look or dress. */
 export function portraitOf(
   person: PackPerson,
@@ -208,11 +215,8 @@ export function portraitOf(
     person,
     who,
     dresses,
-    (row) => !row.prop,
-    (a, b) =>
-      Number(a.seat !== "none") - Number(b.seat !== "none") ||
-      turnApart(a.facing, 0) - turnApart(b.facing, 0) ||
-      byId(a, b),
+    portraitPose,
+    (a, b) => turnApart(a.facing, 0) - turnApart(b.facing, 0) || byId(a, b),
   );
 }
 

@@ -13,7 +13,12 @@ import {
   packPeople,
 } from "./people-pack";
 import { depthOf, plates } from "./mannequin-plates";
-import { appearanceRows, drawnAppearance, moveAppearance } from "./appearance";
+import {
+  appearanceRows,
+  drawnAppearance,
+  figureFor,
+  moveAppearance,
+} from "./appearance";
 import type { CoreState } from "../core2/types";
 import { figureForSpot, fitOn, packPersonOf } from "./whole-figures";
 
@@ -212,6 +217,22 @@ describe("the people pack", () => {
     );
     expect(front.length).toBeGreaterThan(0);
     for (const spot of front) expect(depthOf(desk)).toBeLessThan(depthOf(spot));
+  });
+
+  it("shows everyone standing in the creator and in their portrait", () => {
+    // Owner, Oct 29: "people shouldn't be sitting in their image creator".
+    for (const person of packPeople()) {
+      let look = drawnAppearance(
+        person.sex === "woman" ? "female" : "male",
+        person.id,
+        0,
+      );
+      for (let n = 0; n < 12; n++) {
+        const figure = figureFor(look)!;
+        expect(figure.seat, `${look.person} ${look.outfit}`).toBe("none");
+        look = moveAppearance(look, "female", "outfit", 1);
+      }
+    }
   });
 
   it("lists every look a person has in the creator, three or more", () => {

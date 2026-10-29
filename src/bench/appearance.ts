@@ -11,7 +11,7 @@ import {
   type PackFigure,
   type PackPerson,
 } from "./people-pack";
-import { portraitOf } from "./whole-figures";
+import { portraitOf, portraitPose } from "./whole-figures";
 import rules from "./data/whole-figures.json" with { type: "json" };
 
 /**
@@ -54,12 +54,12 @@ const sexes = () => [...new Set(packPeople().map((row) => row.sex))];
 const peopleOf = (sex: string) => packPeople().filter((row) => row.sex === sex);
 /**
  * Every look a person has (people-pack.ts `lookKey`: everyday clothes, or an
- * outfit in one hairstyle), each one they can be drawn in holding nothing.
+ * outfit in one hairstyle) that is painted standing, as the creator shows it.
  */
 const outfitsOf = (person: string) => [
   ...new Set(
     packFigures()
-      .filter((row) => row.person === person && !row.prop)
+      .filter((row) => row.person === person && portraitPose(row))
       .map(lookKey),
   ),
 ];
