@@ -43,11 +43,9 @@
  */
 import data from "./data/health/medical-bills.json" with { type: "json" };
 import customers from "./data/opening-customers.json" with { type: "json" };
-import { outsideAccountOf } from "./budgets-treasury";
 import { chargeGroups, fundGroups } from "./counted-money";
 import { incomeBandOf, fullHouseholdIncomes } from "./counted-income-fifth";
 import { countedIllnessOf } from "./counted-illness";
-import { housingKeptBack, livingPlan, mainBalance } from "./cost-of-living";
 import { coverageSpellsNow, spellOn } from "./health-own";
 import {
   addDays,
@@ -55,18 +53,23 @@ import {
   daysBetweenText,
   makeIsoDate,
 } from "./kernel/dates";
-import { recordMedicalDebt } from "./modules/credit";
+import { outsideAccountOf } from "./modules/budgets";
+import {
+  housingKeptBack,
+  livingPlan,
+  mainBalance,
+  recordMedicalDebt,
+} from "./modules/business";
 import { careNeedOf } from "./modules/health";
+import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
+import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
-import { webReach, type WebReach } from "./outcome-web-reach";
 import { parameter, type Parameter } from "./parameters";
-import { corePlaceByJurisdictionId } from "./place-lookup";
 import {
   livingCostsRegionForState,
   type LivingCostsRegion,
 } from "./reference/living-costs-data";
 import { worldLevel } from "./world-draw";
-import type { EntityId } from "./kernel/brands";
 import type {
   CoreAPI,
   CoreState,
@@ -147,15 +150,11 @@ export interface MedicalBillRow {
   readonly source: Source;
 }
 
-const REGIONS = new Map<string, LivingCostsRegion>();
-function regionOf(placeId: string): LivingCostsRegion {
-  let region = REGIONS.get(placeId);
-  if (!region) {
-    const place = corePlaceByJurisdictionId(placeId as EntityId);
-    region = livingCostsRegionForState(place?.stateJurisdictionKey ?? null);
-    REGIONS.set(placeId, region);
-  }
-  return region;
+/** The survey's region for the world's state (the town's law chain), national where it has none. */
+function regionOf(api: CoreAPI): LivingCostsRegion {
+  return livingCostsRegionForState(
+    api.state.modules.has(LAWS_MODULE_ID) ? lawChain(api).stateKey : null,
+  );
 }
 
 const PARENT = (
@@ -367,11 +366,11 @@ function billMembers(
   const average = q("medicalPatientShareAverage");
   const perMonth =
     api.parameter("minorPerDollar") / api.parameter("monthsPerYear");
+  const region = regionOf(api);
   const out = new Map<string, BilledMember[]>();
   for (const h of households) {
     const size = h.members.length;
-    const perMember =
-      (annualOutOfPocketUsd(api, regionOf(h.placeId), size) * level) / size;
+    const perMember = (annualOutOfPocketUsd(api, region, size) * level) / size;
     out.set(
       h.householdId,
       h.members.map((m) => ({

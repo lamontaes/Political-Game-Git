@@ -98,6 +98,8 @@ const SCHOOL_MEASURED = new Set([
 ]);
 
 export { OUTCOME_WEB_MODULE_ID };
+/** The factor an engine in another family multiplies its own rate by (medical-bills.ts). */
+export { webReach, type WebReach } from "../outcome-web-reach";
 const STATE_ID = "outcome-web:state";
 const RUN_KIND = "outcome-web";
 const SETTINGS = WEB_SETTINGS;
