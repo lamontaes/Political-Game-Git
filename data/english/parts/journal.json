@@ -2622,9 +2622,7 @@
               "field": "line"
             }
           ],
-          "requiresFacts": [
-            "weather-hot"
-          ]
+          "requiresFacts": ["weather-hot"]
         }
       ],
       "transcriptsUsing": 12,
@@ -2662,9 +2660,7 @@
               "field": "line"
             }
           ],
-          "requiresFacts": [
-            "weather-cold"
-          ]
+          "requiresFacts": ["weather-cold"]
         }
       ],
       "transcriptsUsing": 25,
@@ -2703,9 +2699,7 @@
               "field": "line"
             }
           ],
-          "requiresFacts": [
-            "weather-cold"
-          ]
+          "requiresFacts": ["weather-cold"]
         }
       ],
       "transcriptsUsing": 2,
@@ -5247,9 +5241,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 28,
@@ -5286,9 +5278,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 4,
@@ -5325,9 +5315,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 4,
@@ -5363,9 +5351,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 26,
@@ -5402,9 +5388,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 16,
@@ -5442,9 +5426,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 2,
@@ -5480,9 +5462,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 15,
@@ -5519,9 +5499,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 11,
@@ -5557,9 +5535,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 4,
@@ -5596,9 +5572,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 13,
@@ -5635,9 +5609,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 2,
@@ -5673,9 +5645,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 2,
@@ -5712,9 +5682,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 4,
@@ -5751,9 +5719,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 4,
