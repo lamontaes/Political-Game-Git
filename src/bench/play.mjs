@@ -1,7 +1,7 @@
 /* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
-import { makeButton, buttonRow } from "./ui/button.mjs";
+import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import {
   talkLine,
@@ -51,7 +51,7 @@ import {
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
 import { recordScreen } from "./ui/screen.mjs";
-import { listScreen } from "./ui/list-screen.mjs";
+import { listScreen, listEntry } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
@@ -345,6 +345,8 @@ let governmentLevel;
 let governmentState = "";
 // The branch the Government tab shows, Legislative or Executive.
 let governmentBranch;
+// The subject the Issues tab shows (Taxes and money, Schools...).
+let issueSubject;
 let guideQuery = "";
 // Each civic term and its one-line definition.
 let guideTerms = new Map();
@@ -3629,28 +3631,22 @@ const sheets = {
         ? lawText(law, law.value, law.unit)
         : null);
     // The law's own screen.
+    // One law's page: what is in force at each level on plates, what passed
+    // it, and beside it what is coming, what changed and how members voted.
     const showLaw = async (law) => {
       const level = governingLevel(law);
       const inForce = law.levels
         .filter((l) => l.row)
         .map((l) => ({
-          fact: [
-            setBy(l.level),
-            [
-              lawText(law, l.row.value, l.row.unit),
-              l.row.effectiveDate
-                ? `${labels.since} ${dateWords(l.row.effectiveDate)}`
-                : null,
-            ]
-              .filter(Boolean)
-              .join(" · "),
-          ],
+          title: setBy(l.level),
+          value: lawText(law, l.row.value, l.row.unit),
+          note: l.row.effectiveDate
+            ? `${labels.since} ${dateWords(l.row.effectiveDate)}`
+            : "",
         }));
-      // The law itself: the statute the answer rests on, and the measure
-      // of this world that enacted it, read as its paper.
       const statutes = law.levels
         .filter((l) => l.row?.terms?.cite)
-        .map((l) => ({ fact: [labels.statute, l.row.terms.cite] }));
+        .map((l) => row(labels.statute, l.row.terms.cite));
       const measures = (
         await Promise.all(
           law.levels
@@ -3661,61 +3657,57 @@ const sheets = {
                 `/api/bill?billId=${encodeURIComponent(billId)}`,
               ).catch(() => null);
               return paper
-                ? {
-                    actions: [
-                      {
-                        label: `${labels.enactedBy} ${paper.title}`,
-                        onClick: () =>
-                          openBillPaper(
-                            billId,
-                            (...nodes) =>
-                              $("sheet-body").replaceChildren(...nodes),
-                            () => showLaw(law),
-                          ),
-                      },
-                    ],
-                  }
+                ? makeButton({
+                    textContent: `${labels.enactedBy} ${paper.title}`,
+                    onclick: () =>
+                      openBillPaper(
+                        billId,
+                        (...nodes) => $("sheet-body").replaceChildren(...nodes),
+                        () => showLaw(law),
+                      ),
+                  })
                 : null;
             }),
         )
       ).filter(Boolean);
-      const coming = law.pending.map((pending) => ({
-        fact: [
+      const coming = law.pending.map((pending) =>
+        row(
           `${setBy(pending.level)} · ${dateWords(pending.effectiveDate)}`,
           lawText(law, pending.value, pending.unit),
-        ],
-      }));
+        ),
+      );
       const changed = [...changes.took, ...changes.ahead]
         .filter((c) => c.series === law.series)
-        .map((change) => ({
-          fact: [
+        .map((change) =>
+          row(
             dateWords(change.date),
             [change.measure, change.what].filter(Boolean).join(" · "),
-          ],
-        }));
-      const votes = (law.votes ?? []).map((vote) => ({
-        fact: [vote.name, controls.meeting?.[vote.vote] ?? ""],
-      }));
+          ),
+        );
+      const votes = (law.votes ?? []).map((vote) =>
+        row(vote.name, controls.meeting?.[vote.vote] ?? ""),
+      );
       if (openTab !== "issues") return;
-      // One law reads in one column, in a panel that ends under it.
-      $("sheet-body").classList.remove("cols");
-      $("sheet").classList.add("fits");
+      const side = [
+        coming.length && { title: labels.coming, nodes: coming },
+        changed.length && { title: labels.changed, nodes: changed },
+        votes.length && { title: labels.votes, nodes: votes },
+      ].filter(Boolean);
+      // A law with nothing beside it reads in a panel that ends at its plate.
+      $("sheet").classList.toggle("fits", !side.length);
       $("sheet-body").replaceChildren(
-        ...recordScreen({
-          heading: {
-            name: policyLabel(law.series),
-            meta: level ? setBy(level) : "",
-          },
-          lede: valueText(law),
-          sections: [
-            {
-              title: labels.inForce,
-              items: [...inForce, ...statutes, ...measures],
-            },
-            coming.length && { title: labels.coming, items: coming },
-            changed.length && { title: labels.changed, items: changed },
-            votes.length && { title: labels.votes, items: votes },
-          ].filter(Boolean),
+        splitScreen({
+          controls: [heading(policyLabel(law.series), "h2")],
+          main: [
+            plate(
+              labels.inForce,
+              factPlates(inForce),
+              ...statutes,
+              ...(measures.length ? [buttonTray(...measures)] : []),
+            ),
+          ],
+          side,
+          className: `law-page${level ? ` ${level}` : ""}`,
         }),
       );
     };
@@ -3736,61 +3728,91 @@ const sheets = {
         data: { series: law.series },
       };
     };
+    // The cards of one subject at a time, chosen on the rail, paged inside
+    // a plate to fit the window; the panel never scrolls (owner, Oct 29). A
+    // search narrows the subjects and their cards as it is typed.
     const order = Object.keys(labels.issueGroups ?? {});
-    const screen = async (query) => {
-      const match = (law) =>
-        policyLabel(law.series).toLowerCase().includes(query.toLowerCase());
+    const byName = (a, b) =>
+      policyLabel(a.series).localeCompare(policyLabel(b.series));
+    const columns = Math.max(
+      3,
+      Math.min(5, Math.floor((window.innerWidth - 240) / 230)),
+    );
+    const rows = Math.max(
+      2,
+      Math.min(5, Math.floor((window.innerHeight - 330) / 122)),
+    );
+    const pageWords = {
+      page: labels.page,
+      previous: labels.previousPage,
+      next: labels.nextPage,
+    };
+    let query = "";
+    let rail = tabBar({ tabs: [] });
+    const cards = plate(null);
+    cards.classList.add("issue-plate");
+    const draw = () => {
       const groups = new Map();
-      for (const law of v.law.filter(match)) {
+      for (const law of v.law) {
+        if (
+          !policyLabel(law.series).toLowerCase().includes(query.toLowerCase())
+        )
+          continue;
         const key = groupOf(law.series);
         if (!groups.has(key)) groups.set(key, []);
         groups.get(key).push(law);
       }
-      const sections = await Promise.all(
-        [...groups]
-          .sort(([a], [b]) => order.indexOf(a) - order.indexOf(b))
-          .map(async ([key, laws]) => ({
-            title: labels.issueGroups?.[key] ?? words(key),
-            items: [
-              {
-                node: (
-                  await listScreen({
-                    entries: () =>
-                      laws
-                        .sort((a, b) =>
-                          policyLabel(a.series).localeCompare(
-                            policyLabel(b.series),
-                          ),
-                        )
-                        .map(card),
-                    layout: "cards",
-                  })
-                )[0],
-              },
-            ],
-          })),
+      const keys = [...groups.keys()].sort(
+        (a, b) => order.indexOf(a) - order.indexOf(b),
       );
-      return recordScreen({
-        controls: [
-          searchBox({
-            value: query,
-            placeholder: labels.searchIssues,
-            onInput: async (text) => {
-              const nodes = await screen(text);
-              if (openTab !== "issues") return;
-              // The sheet's own rule: many sections flow in columns across
-              // the window, a few sit in a panel that ends under them.
-              const cols = nodes.length > 12;
-              $("sheet-body").classList.toggle("cols", cols);
-              $("sheet").classList.toggle("fits", !cols);
-              $("sheet-body").replaceChildren(...nodes);
-            },
-          }),
-        ],
-        sections,
+      const subject = keys.includes(issueSubject) ? issueSubject : keys[0];
+      const next = tabBar({
+        attr: "subject",
+        className: "issue-subjects",
+        active: subject,
+        tabs: keys.map((key) => ({
+          key,
+          label: labels.issueGroups?.[key] ?? words(key),
+          onSelect: () => {
+            issueSubject = key;
+            draw();
+          },
+        })),
       });
+      rail.replaceWith(next);
+      rail = next;
+      cards.replaceChildren(
+        subject
+          ? pager({
+              items: [...groups.get(subject)].sort(byName).map(card),
+              render: listEntry,
+              rows,
+              columns,
+              rowHeight: 112,
+              gap: 10,
+              words: pageWords,
+              className: "issue-cards",
+            })
+          : prose(labels.noIssues),
+      );
     };
-    return screen("");
+    const search = searchBox({
+      value: query,
+      placeholder: labels.searchIssues,
+      onInput: (text) => {
+        query = text;
+        draw();
+      },
+    });
+    search.setAttribute("aria-label", labels.searchIssues ?? "");
+    draw();
+    return [
+      splitScreen({
+        controls: [rail, search],
+        main: [cards],
+        className: "issues-screen",
+      }),
+    ];
   },
 };
 // Screens shown as tabs across the top of one menu screen.

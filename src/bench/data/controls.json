@@ -507,7 +507,8 @@
       "Independent": "Independent",
       "Libertarian": "Libertarian",
       "Green": "Green"
-    }
+    },
+    "noIssues": "No law matches that."
   },
   "results": {
     "you": "You",
