@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/door-yes-counted-split
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T22:16:51.687Z
 ---
 
 **What.** A counted resident record can stand for several real households (its weight), but a campaign's door reaches one of them. After campaign-door-yes-near-binding, a counted resident's yes moves the whole record's vote, so one door adds as many pledged votes as the record's weight, which favors the candidates whose doors reach counted records in larger towns. The split counts that one household on its word and the record's other households as they would have voted without it.
