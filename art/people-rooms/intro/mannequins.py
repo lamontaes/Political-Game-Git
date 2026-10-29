@@ -71,6 +71,31 @@ def green_mask(plate):
     return ndi.binary_fill_holes(ndi.binary_closing(m, iterations=2))
 
 
+def with_outline(M, plate, reach=4):
+    """The mannequin's own drawn outline belongs to it: add the dark line pixels hugging the green, so a cut
+    made around the mannequin goes right up to its black line instead of stopping short of it."""
+    a = np.asarray(plate.convert('L')).astype(np.int32)
+    near = ndi.binary_dilation(M, iterations=reach)
+    return M | (near & (a < 95))
+
+
+def front_pieces(M, plate, xs, ys, mt, mb):
+    """Furniture drawn in front of a mannequin: inside its row span on the lower body, where the plate shows
+    no mannequin (outline included), and wide enough to hide the body (a desk or table edge, a couch arm).
+    Room showing through the gap between two legs, or between an arm and the body, is never in front."""
+    span = np.zeros_like(M)
+    for y in np.unique(ys):
+        row = xs[ys == y]
+        span[y, row.min():row.max() + 1] = True
+    lower = np.zeros_like(M); lower[mt + int(0.45 * (mb - mt)):] = True
+    front = span & lower & ~with_outline(M, plate)
+    lab, n = ndi.label(front)
+    bw = int(xs.max() - xs.min()) + 1
+    keep = [j + 1 for j, sl in enumerate(ndi.find_objects(lab))
+            if (lab[sl] == j + 1).sum() > 250 and (lab[sl] == j + 1).sum(1).max() >= 0.35 * bw]
+    return np.isin(lab, keep)
+
+
 def fit(backdrop, plate, placements, light=None):
     """Put each person on its mannequin; furniture the plate drew over the mannequin stays in front."""
     plate = plate.convert('RGB').resize(backdrop.size, Image.LANCZOS)
@@ -87,7 +112,7 @@ def fit(backdrop, plate, placements, light=None):
         if g.sum() < 0.25 * (person & blob).sum():
             pl['_warn'] = 'mannequin missing or moved'
         # inside the silhouette, wherever the plate shows no mannequin, the room is in front
-        hidden = blob & ~ndi.binary_dilation(g, iterations=3) & person
+        hidden = blob & ~with_outline(g, plate) & person
         # the head and hair are never hidden by furniture (the mannequin is bald; hair is wider)
         ys = np.nonzero(person.any(1))[0]
         if len(ys):
@@ -168,16 +193,7 @@ def fit_to_mannequins(backdrop, plate, placements, light=None):
         # furniture in front: inside the mannequin's row span, where the plate shows no mannequin
         # only big pieces of furniture drawn over the mannequin's lower body hide the person
         # (an armrest, a desk edge); slivers where the poses differ never cut an arm or a hand
-        span = np.zeros_like(M)
-        for y in np.unique(ys):
-            row = xs[ys == y]
-            span[y, row.min():row.max() + 1] = True
-        lower = np.zeros_like(M); lower[mt + int(0.45 * (mb - mt)):] = True
-        hidden = person & span & lower & ~ndi.binary_dilation(M, iterations=6)
-        labh, nh = ndi.label(hidden)
-        if nh:
-            sz = ndi.sum(hidden, labh, range(1, nh + 1))
-            hidden = np.isin(labh, [j + 1 for j, v in enumerate(sz) if v > 250])
+        hidden = person & front_pieces(M, plate, xs, ys, mt, mb)
         L[hidden, 3] = 0
         canvas.alpha_composite(Image.fromarray(L))
         report.append((i, f'scale {s:.2f}, hidden {int(hidden.sum())} px'))
@@ -201,3 +217,48 @@ def register(backdrop, plate):
     out = Image.new('RGB', backdrop.size, (0, 0, 0)); out.paste(p, (dx, dy))
     register.last = (dx, dy)
     return out
+
+
+def export_spots(name, backdrop, plate, placements, out_dir):
+    """Write the game's data for a mannequin plate: <name>.mannequins.json plus one front-mask PNG per
+    mannequin. Each spot: the pose it was painted in (pose, seat, facing), its head (top, x, width),
+    its feet (or, behind a desk, its resting hands and the desk edge), and a mask of the furniture
+    painted in front of it (draw the person, then the room through that mask)."""
+    import json, os
+    plate = register(backdrop, plate)
+    green = green_mask(plate)
+    lab, n = ndi.label(green)
+    spots, used = [], set()
+    for i, pl in enumerate(placements):
+        near = ndi.binary_dilation(pl['_blob'], iterations=25)
+        ids = [j for j in np.unique(lab[near & green]) if j and j not in used]
+        if not ids:
+            continue
+        sizes = sorted([(int(((lab == j) & pl['_blob']).sum()), j) for j in ids], reverse=True)
+        best = sizes[0][1]; comp = lab == best
+        bh = max(1, int(np.ptp(np.nonzero(pl['_blob'].any(1))[0])))
+        if sizes[0][0] < 0.3 * comp.sum():
+            M = comp; used.add(best)
+        else:
+            keep = [j for s_, j in sizes if s_ > 0.15 * sizes[0][0]]; used.update(keep)
+            M = np.isin(lab, keep) & ndi.binary_dilation(pl['_blob'], iterations=max(4, int(0.06 * bh)))
+        ys, xs = np.nonzero(M)
+        mt, mb = int(ys.min()), int(ys.max())
+        top_x = xs[ys < mt + max(3, int(0.05 * (mb - mt)))]
+        hrow = int(mt + 0.05 * (mb - mt)); hx = np.nonzero(M[hrow])[0]
+        front = front_pieces(M, plate, xs, ys, mt, mb)
+        x0, y0, x1, y1 = int(xs.min()), mt, int(xs.max()) + 1, mb + 1
+        spot = dict(id=f'{name}-{len(spots)}', pose=pl['tag'][0], seat=pl['tag'][1], facing=pl['tag'][2],
+                    head={'top': mt, 'x': round(float(top_x.mean()), 1), 'width': int(hx.max() - hx.min()) if len(hx) else 0},
+                    box=[x0, y0, x1, y1])
+        if pl.get('desk_edge') is not None:
+            spot.update(hands=mb, deskEdge=int(pl['desk_edge']))
+        else:
+            spot.update(feet=mb)
+        if front.any():
+            fm = Image.fromarray((front[y0:y1, x0:x1] * 255).astype(np.uint8))
+            fn = f'{name}.front-{len(spots)}.png'; fm.save(os.path.join(out_dir, fn)); spot['front'] = fn
+        spots.append(spot)
+    json.dump({'scene': name, 'size': list(backdrop.size), 'backdrop': os.path.basename(getattr(backdrop, 'filename', '') or ''),
+               'spots': spots}, open(os.path.join(out_dir, f'{name}.mannequins.json'), 'w'), indent=1)
+    return spots
