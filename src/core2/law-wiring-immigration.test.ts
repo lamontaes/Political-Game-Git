@@ -25,7 +25,7 @@ import {
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { appliedOn } from "./law-reach/applied";
 import { advanceCore } from "./life";
-import { enactLaw, lawChain, lawInForce } from "./modules/laws";
+import { enactLaw, lawChain, lawInForce, webReach } from "./modules/laws";
 import { WEB_LINKS } from "./outcome-web-model";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
@@ -33,9 +33,9 @@ import type { CoreAPI, CoreState } from "./types";
 const seed = process.env.IMMIGRATION_SEED || randomBytes(20).toString("hex");
 const LAW =
   "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement";
-/** Past the next month's web row, which reads the law in force. */
+/** The most days to play until the web's month row reads the law in force. */
 const DAYS = 45;
-const TRIES = 4;
+const TRIES = 6;
 
 const sizeOf = (key: string) => WEB_LINKS.find((l) => l.key === key)!.size!;
 
@@ -83,9 +83,17 @@ describe("local immigration enforcement reaches workers' pull to work", () => {
             measureId: `immigration-test-${attempt}`,
             citation: "Immigration test: a 287(g) partnership",
           });
-          const until = addDays(makeIsoDate(lawWorld.date), DAYS);
-          advanceCore(lawWorld, until);
-          advanceCore(control, until);
+          // Play to the first day the web's month row reads the law, and the
+          // control world to the same day: later, a county's own partnership
+          // enacted in play would stand in both worlds alike.
+          const town = lawChain(api).townPlaceId;
+          const last = addDays(makeIsoDate(lawWorld.date), DAYS);
+          while (
+            lawWorld.date < last &&
+            webReach(api, town, UNDOCUMENTED).factor === 1
+          )
+            advanceCore(lawWorld, addDays(makeIsoDate(lawWorld.date), 1));
+          advanceCore(control, lawWorld.date);
           // A state law that forbids local partnerships keeps a city's out.
           const governing = lawInForce(api, LAW);
           if (governing.value !== 1) {
@@ -94,8 +102,16 @@ describe("local immigration enforcement reaches workers' pull to work", () => {
             );
             continue;
           }
+          // A place whose own governments put a partnership in force in play
+          // has it in the control world too, so the two worlds read alike.
+          const controlLaw = lawInForce(coreAPI(control), LAW);
+          if (controlLaw.value === 1) {
+            passed.push(
+              `${drawn.name}, ${drawn.state} (${drawn.key}): the control world put a partnership in force in play (${controlLaw.governing?.id ?? "no row"} governs)`,
+            );
+            continue;
+          }
           const p = (key: string) => api.parameter(key);
-          const town = lawChain(api).townPlaceId;
           const adults = [...lawWorld.people.values()].filter(
             (person) => person.alive && person.placeId === town,
           );
