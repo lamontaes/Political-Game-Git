@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/one-path-step6
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-29T16:34:41.039Z
 ---
 
 **What.** The words and director plan (docs/reports/words-director-plan-2026-10-28.md), approved by the owner Oct 28 2:10 PM Eastern with all six decisions yes. Sections 1 to 4: the duplicates deleted (two tree builders, two bespoke visits, three who-is-present deciders, two narrators, eleven bank loaders, two held flags, three journal-past writers, five typed-string entries, the batch tooling); the owner's voice notes of Oct 15, 23 and 24 folded into the one grade file and the sitting bans into the English guard; stakes read from the engines that own them and endings written back to them; the opening address assembled in parts by party, traits, stances and world events; the filing conversation; news bodies; the ten missing producers and the four typeless scenes. First PR is big: the voice notes applied everywhere at once.

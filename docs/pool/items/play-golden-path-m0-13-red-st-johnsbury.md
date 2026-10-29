@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/quirky-ride-vrwwz4-m0-13-stj
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T14:28:36.399Z
+claimed-at:
 ---
 
 **What.** The accepted spec M0-13 (tests/golden-path/played-world.node-test.ts) fails on main 663a38fedf in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4): heap growth 110.5 MiB a month against a 5 MiB ceiling; modules that never ran (public projects, succession, world races, ballot measures, past); 2 of 15 races with no one on the ballot (Commissioner and County treasurer, 2025-11-04); 9 of 2,830 homes with no value or rent; 7 of 42 people paid in the last month with no cash at the end; both new businesses borrowing more than 9 times the founder's cash (largest $215,153). Golden-path-year turned red on #5919 by this draw. Each failure may need its own item once triaged.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T14:28:36.399Z
 **Files.** tests/golden-path/played-world.node-test.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/quirky-ride-vrwwz4-m0-13-stj` is kept; claiming this item takes it over.

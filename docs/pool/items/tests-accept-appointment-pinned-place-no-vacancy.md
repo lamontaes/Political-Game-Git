@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/accept-appointment-drawn
 pr: #6716
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at: 2026-10-28T22:07:51.147Z
 **Files.** src/core2/offices-accept-appointment-played.test.ts
 
 **Notes.** Found while testing gov-sampled-legislator-seats-never-refilled; run alone with GOLDEN_PATH_SEED unset, it fails the same way every time because the place and seed are pinned.
+
+Oct 29 (CTO): set done; PR #6716 merged (the done flip failed while branch protection refused the flip job's push).
