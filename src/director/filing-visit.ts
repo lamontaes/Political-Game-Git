@@ -8,6 +8,7 @@
  * visit says which move each line makes and the facts it stands on; the
  * English engine (`src/english/filing-visit-words.ts`) words it.
  */
+import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import { spokenDate } from "./words";
 import { wordSceneMove } from "../english/scene-talk-words";
@@ -17,6 +18,9 @@ import {
   type FilingMove,
   type VisitWords,
 } from "../english/filing-visit-words";
+
+const zero = P.zero;
+const one = P.one;
 
 export interface FilingContest {
   id: string;
@@ -308,12 +312,12 @@ export function filedAtCounter(
   if (!petition) return visit;
   const fact = (text: string) => ({ text, sourceRecordIds: [petition.id] });
   const facts: Record<string, Fact> =
-    petition.needed > 1
+    petition.needed > one
       ? {
           signatures: fact(petition.needed.toLocaleString("en-US")),
           due: fact(spokenDate(petition.due, core.date)),
         }
-      : petition.needed === 1
+      : petition.needed === one
         ? {
             "one-signature": fact("yes"),
             due: fact(spokenDate(petition.due, core.date)),
@@ -322,7 +326,7 @@ export function filedAtCounter(
   const line = clerkLine(
     core,
     visit,
-    petition.needed > 0 ? "tell-signatures" : "tell-no-petition",
+    petition.needed > zero ? "tell-signatures" : "tell-no-petition",
     facts,
     `${visit.playerId}:${petition.id}:filed`,
   );
@@ -353,15 +357,15 @@ export function counterNarration(
     // in running text as a common noun; one with proper names stays as written.
     post: {
       text: /^\S+( [a-z]+)*$/.test(clerk.title)
-        ? `${clerk.title.charAt(0).toLowerCase()}${clerk.title.slice(1)}`
+        ? `${clerk.title.charAt(zero).toLowerCase()}${clerk.title.slice(one)}`
         : clerk.title,
       sourceRecordIds: [clerk.recordId],
     },
   };
-  if (visit.contests.length === 1)
+  if (visit.contests.length === one)
     facts.office = {
-      text: visit.contests[0]!.title,
-      sourceRecordIds: [visit.contests[0]!.id],
+      text: visit.contests[zero]!.title,
+      sourceRecordIds: [visit.contests[zero]!.id],
     };
   const line = clerkLine(
     core,
