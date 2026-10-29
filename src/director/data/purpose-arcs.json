@@ -3241,6 +3241,52 @@
         }
       ]
     },
+    "offer-to-run": {
+      "state": "request",
+      "replies": ["ask", "agree", "decline", "stall"],
+      "follow": {
+        "ask": ["answer"],
+        "agree": ["thank"],
+        "decline": ["press", "accept"],
+        "stall": ["accept", "press"]
+      },
+      "again": {
+        "answer": ["agree", "decline", "leave"],
+        "press": ["agree", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "running-it",
+          "label": "They're running your campaign",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "thinking",
+          "label": "You'll let them know",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall"]
+          }
+        },
+        {
+          "id": "not-needed",
+          "label": "You'll run it yourself",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "job-offer": {
       "state": "request",
       "replies": ["ask", "agree", "decline", "stall"],
