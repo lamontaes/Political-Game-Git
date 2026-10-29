@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6791
 blocked-on:
 after:
 source: added with npm run pool -- add
