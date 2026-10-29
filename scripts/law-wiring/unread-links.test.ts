@@ -13,21 +13,19 @@ const row = (link: string) => ({
 });
 
 describe("which fired outcome links an engine reads", () => {
-  it("does not count the SNAP food-insecurity ledger row, listed unwired under its open stopgap", () => {
-    const listed = unwired.links.find(
-      (l) => l.link === "snap-to-food-insecurity",
-    );
-    expect(listed?.stopgapId).toBe("SG-WEB-snap-receipt-ledger");
-    expect(open(listed!.stopgapId)).toBe(true);
+  // Any link listed unwired under an open stopgap: the list shrinks as
+  // families land, so the test takes whichever one is listed now.
+  const listed = unwired.links.find((l) => open(l.stopgapId));
+
+  it("does not count a ledger row listed unwired under its open stopgap", () => {
+    expect(listed).toBeDefined();
     const { read, unread } = splitByReader(
-      [row("snap-to-food-insecurity")],
+      [row(listed!.link)],
       unwired.links,
       open,
     );
     expect(read).toEqual([]);
-    expect(unread.map((u) => u.stopgapId)).toEqual([
-      "SG-WEB-snap-receipt-ledger",
-    ]);
+    expect(unread.map((u) => u.stopgapId)).toEqual([listed!.stopgapId]);
   });
 
   it("still counts a fired link that is not listed unwired", () => {
@@ -45,7 +43,7 @@ describe("which fired outcome links an engine reads", () => {
 
   it("counts a listed link once its stopgap is resolved", () => {
     const { read, unread } = splitByReader(
-      [row("snap-to-food-insecurity")],
+      [row(listed!.link)],
       unwired.links,
       () => false,
     );

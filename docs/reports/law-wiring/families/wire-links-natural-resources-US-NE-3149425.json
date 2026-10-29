@@ -1,0 +1,375 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 35,
+  "after": 31,
+  "results": [
+    {
+      "key": "budget-line:naturalResources",
+      "kind": "budget-line",
+      "family": "energy-environment",
+      "inForceAtOpening": false,
+      "change": "place:3149425 naturalResources 35352 -> 10035352 by law-wiring-8d04ad08",
+      "lawIds": ["law-wiring-8d04ad08"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 107,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 110,
+        "ended": 1,
+        "sample": [
+          "budget-line:naturalResources|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:naturalResources|person:press:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:naturalResources|person_014872ba8397579a|2025-01-20",
+          "budget-line:naturalResources|person_014873ba8397594d|2025-01-20"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 107,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 110,
+        "ended": 1,
+        "sample": [
+          "budget-line:naturalResources|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:naturalResources|person:press:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:naturalResources|person_014872ba8397579a|2025-01-20",
+          "budget-line:naturalResources|person_014873ba8397594d|2025-01-20"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|budget-line:naturalResources|jurisdiction_45a3b3ebe97fe71d"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 21889390,
+            "control": 21894642,
+            "ids": [
+              "journal:2025-01-21:1582",
+              "journal:2025-01-21:1583",
+              "journal:2025-01-21:1584"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 2597478700,
+            "control": 2597479120,
+            "ids": [
+              "journal:2025-01-21:1541",
+              "journal:2025-01-21:1542",
+              "journal:2025-01-21:1543"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 218801136,
+            "control": 218801451,
+            "ids": [
+              "journal:2025-01-25:1635",
+              "journal:2025-01-25:1637",
+              "journal:2025-01-27:1657"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+            "treatment": 59067966164895,
+            "control": 59067966164894,
+            "ids": [
+              "journal:2025-02-01:1763",
+              "journal:2025-02-01:1764",
+              "journal:2025-02-01:1765"
+            ]
+          }
+        ],
+        "diffKinds": 4,
+        "cited": [
+          {
+            "token": "budget-line:naturalResources",
+            "gross": 1832885924,
+            "ids": [
+              "journal:2025-02-01:1885",
+              "journal:2025-02-01:1886",
+              "journal:2025-02-01:1919"
+            ],
+            "control": 1832752466
+          },
+          {
+            "token": "law-wiring-8d04ad08",
+            "gross": 266986,
+            "ids": [
+              "journal:2025-02-01:1952",
+              "journal:2025-02-01:1952",
+              "journal:2025-02-01:1954"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:3149425",
+            "line": "naturalResources",
+            "moved": 10000000,
+            "treatment": 133964,
+            "control": 506,
+            "ids": [
+              "journal:2025-02-01:1952",
+              "journal:2025-02-01:1953",
+              "journal:2025-02-01:1954"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+              "way": "in",
+              "targets": 1,
+              "moved": 11368,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|budget-line:naturalResources|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+                  "way": "in",
+                  "treatment": 59012559066460,
+                  "control": 59012559055092,
+                  "journal": "journal:2025-02-01:1766"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "out",
+              "targets": 1,
+              "moved": 5252,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|budget-line:naturalResources|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": 5276898,
+                  "control": 5282150,
+                  "journal": "journal:2025-02-01:2069"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "out",
+              "targets": 1,
+              "moved": 420,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|budget-line:naturalResources|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "out",
+                  "treatment": 18875783,
+                  "control": 18876203,
+                  "journal": "journal:2025-02-01:1991"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "out",
+              "targets": 1,
+              "moved": 315,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_45a3b3ebe97fe71d",
+                  "row": "applied|budget-line:naturalResources|jurisdiction_45a3b3ebe97fe71d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                  "way": "out",
+                  "treatment": 3094141,
+                  "control": 3094456,
+                  "journal": "journal:2025-02-01:2077"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1226|in",
+          "sample": [
+            {
+              "target": "jurisdiction_45a3b3ebe97fe71d",
+              "row": "applied|budget-line:naturalResources|jurisdiction_45a3b3ebe97fe71d",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+              "way": "in",
+              "treatment": 59012559066460,
+              "control": 59012559055092,
+              "journal": "journal:2025-02-01:1766"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|budget-line:naturalResources|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+                "way": "in",
+                "treatment": 59012559066460,
+                "control": 59012559055092,
+                "journal": "journal:2025-02-01:1766"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|budget-line:naturalResources|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                "way": "out",
+                "treatment": 5276898,
+                "control": 5282150,
+                "journal": "journal:2025-02-01:2069"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|budget-line:naturalResources|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                "way": "out",
+                "treatment": 18875783,
+                "control": 18876203,
+                "journal": "journal:2025-02-01:1991"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_45a3b3ebe97fe71d",
+                "row": "applied|budget-line:naturalResources|jurisdiction_45a3b3ebe97fe71d",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                "way": "out",
+                "treatment": 3094141,
+                "control": 3094456,
+                "journal": "journal:2025-02-01:2077"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "natural-resources-spending-to-exercise-access",
+            "status": "built",
+            "to": "parks.access-to-exercise"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "link": "natural-resources-spending-to-exercise-access",
+            "effect": 0.01662304378977269
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "link": "natural-resources-spending-to-exercise-access",
+            "effect": 0.01662304378977269
+          }
+        ],
+        "firedCount": 2,
+        "windowDays": 35,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 70,
+        "sample": [
+          "person_e02fea68a64aaf0b:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:naturalResources:law-wiring-8d04ad08",
+          "person_014872ba8397579a:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:naturalResources:law-wiring-8d04ad08",
+          "person_e02fe968a64aad58:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:naturalResources:law-wiring-8d04ad08"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 110,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 109,
+        "sample": []
+      },
+      "seconds": 11
+    }
+  ]
+}

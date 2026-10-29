@@ -6,13 +6,13 @@ kind: bug
 priority: 2
 size: S
 status: done
-claimed-by: play-first/play-stop-41-person-card-no-empty-headings
-pr: #6246
+claimed-by:
+pr: #6789
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-27T06:20:38.969Z
+claimed-at:
 ---
 
 **What.** Kendall Roberts's person card in v0.34.0 reads "parent · Age 47" in lowercase, shows a FAMILY heading with nothing under it, a lone date "January 20, 2025" floating at the right, and one action, Talk. Leo Roberts's card, "brother · Age 21", is the same. The approved person card is a small header (name, office, age, street, chips) with facts below it. This item removes every heading that has nothing under it, labels or drops the floating date, capitalizes the relation, and fills the facts the records already give: where they live and their work or school, and how the player knows them.

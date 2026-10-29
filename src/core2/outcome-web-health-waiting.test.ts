@@ -15,10 +15,9 @@ import stopgaps from "./data/stopgaps.json" with { type: "json" };
 import { WEB_LINKS } from "./outcome-web-model";
 
 const WAITING = {
-  /** The outcome is no engine's record: a child's asthma, a teen's cannabis use, Part D spending, a birth weight. */
+  /** The outcome is no engine's record: a child's asthma, Part D spending, a birth weight. */
   "SG-EW-HEALTH-condition-record": [
     "gas-hookup-ban-to-child-asthma",
-    "cannabis-sales-to-youth-use",
     "drug-negotiation-to-out-of-pocket",
     "water-violations-to-infant-health",
   ],

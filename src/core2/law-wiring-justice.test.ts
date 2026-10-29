@@ -83,10 +83,14 @@ function setQuestion(api: CoreAPI, key: string, value: 0 | 1): void {
   const levels = lawChain(api).levels;
   if (value === 0) {
     for (const { level, jurisdiction } of levels) {
+      // Every level whose law is in force on the repeal's day: a body in play
+      // may have passed it to take effect that very day (Maine's LD 7 on the
+      // day the test repealed it, Richmond, seed 2d779733...), and then the
+      // repeal takes effect the day after.
       const latest = (
         laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
       )
-        .filter((r) => r.effectiveDate <= api.state.date)
+        .filter((r) => r.effectiveDate <= date)
         .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
       if (latest?.value !== 1) continue;
       enactLaw(api, {
@@ -94,7 +98,10 @@ function setQuestion(api: CoreAPI, key: string, value: 0 | 1): void {
         level,
         series: key,
         value: 0,
-        effectiveDate: date,
+        effectiveDate:
+          latest.effectiveDate < date
+            ? date
+            : addDays(makeIsoDate(latest.effectiveDate), 1),
         measureId: `test:${key}:repeal`,
         citation: "Test repeal",
       });

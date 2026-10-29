@@ -765,6 +765,8 @@ export interface HuskInput {
   looks: Readonly<Record<string, string>>;
   said: readonly string[];
   birthDate?: IsoDate;
+  /** Set for a person who died before day one: a named record, never filled in. */
+  diedOn?: IsoDate;
   familyIds?: readonly PersonId[];
   source: Source;
 }

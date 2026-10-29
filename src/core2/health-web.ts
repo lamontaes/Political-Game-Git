@@ -86,6 +86,21 @@ export function deathWebFactor(
   return result;
 }
 
+/**
+ * The web's factor on a teen's past-month cannabis use for their age in a
+ * place this month (cannabis-sales-to-youth-use), and the web month record it
+ * stands on: the health engine's teen record reads it (modules/health.ts).
+ */
+export function youthCannabisWeb(
+  api: CoreAPI,
+  placeId: string,
+  measure: string,
+  age: number,
+): DeathWeb {
+  const found = webReach(api, placeId, measure, { age });
+  return { factor: found.factor, recordId: found.recordId };
+}
+
 /** The health links no engine reads yet, each named by its registered stopgap. */
 const WAITING_STOPGAPS = [
   "SG-EW-HEALTH-marriage-equality-cause",
