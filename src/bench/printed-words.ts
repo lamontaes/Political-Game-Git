@@ -2256,6 +2256,8 @@ const schoolTests: Builder = (read) => {
 /** The president's address. */
 const address: Builder = (read, f) => {
   const id = f["address:president"];
+  // One sentence the address itself held, quoted as the record keeps it.
+  const quote = (f["address:remembered"] ?? f["address:opening"] ?? "").trim();
   return story(
     "address",
     {
@@ -2264,6 +2266,7 @@ const address: Builder = (read, f) => {
         ? { inaugural: read.yes() }
         : { "joint-session": read.yes() }),
       date: read.date(),
+      ...(quote ? { quote: read.fact(quote, f["address:event"] ?? "") } : {}),
     },
     ["name"],
     id,
