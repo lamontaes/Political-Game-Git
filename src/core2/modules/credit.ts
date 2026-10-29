@@ -1597,6 +1597,9 @@ function householdApplications(
       household.placeId !== lender.placeId
     )
       continue;
+    // stopgapId: SG-WORLD-small-dollar-one-lender — one record stands for the
+    // town's storefront, title and online high-cost lenders.
+    api.stopgap("SG-WORLD-small-dollar-one-lender");
     // The bank wrote no loan: the household asks the storefront lender, on the
     // lender's own terms. Its rate is the product's, under the same cap.
     const product = smallDollarData.products[lender.product];

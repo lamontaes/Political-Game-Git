@@ -1,12 +1,4 @@
 {
-  "about": "Links a housing or credit law does not show in a played world, with the registered stopgap behind each. The loan rate cap binds only the bank's consumer loan, which never reaches the ceiling in an ordinary rate year, so it moves no dollar until world-small-dollar-lenders builds the small-dollar lenders the owner ruled on Oct 24.",
-  "laws": {
-    "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
-      "money": {
-        "status": "stopgap",
-        "id": "SG-WORLD-credit-rate-cap-no-small-lender",
-        "why": "The cap applies only to the bank's consumer loan (about 13 percent against a 36 percent ceiling), so no borrower's rate changes and the law moves no dollar; the game has no small-dollar lender for it to bind"
-      }
-    }
-  }
+  "about": "Links a housing or credit law does not show in a played world, with the registered stopgap behind each. The consumer-loan rate cap's entry is gone: world-small-dollar-lenders built the small-dollar lenders it binds (Oct 29).",
+  "laws": {}
 }

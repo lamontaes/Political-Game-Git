@@ -5733,8 +5733,8 @@
     "why": "The credit engine lends one product, the town bank's personal loan at prime plus spread, which never reaches a high-cost rate; there is no payday or title lender, and the cap law already ceilings that loan's rate in householdApplications.",
     "addedBy": "effect-web-prices",
     "addedAt": "2026-10-20",
-    "replacement": "A high-cost lender product in credit.ts whose loans (and their count per 100,000) the cap links' factor multiplies.",
-    "status": "open"
+    "replacement": "Resolved Oct 29 (world-small-dollar-lenders): the credit engine's small-dollar lender is the high-cost lender product, and it reads the web's factor on finance.high-cost-loans through webReach where it quotes a loan (householdApplications in src/core2/modules/credit.ts), so the loan-rate-cap links change what it lends.",
+    "status": "resolved"
   },
   {
     "id": "SG-EFFECT-WEB-prices-roads-condition",
@@ -6755,8 +6755,8 @@
     "why": "The owner ruled on Oct 24 that small-dollar lenders are simulated in the background: payday and small-dollar lenders exist where state law allows them, with rates and volumes from sourced data, read by the consumer-loan rate cap and by households that borrow (docs/coordination/OWNER-DECISIONS.md, Oct 24, \"Small-dollar lenders\"). Until world-small-dollar-lenders builds them, the law is read at every quote and records each household it governed (credit.ts), and its outcome-web link moves lender counts, but no loan is repriced.",
     "addedBy": "claude/laws-nine-links-housing-credit",
     "addedAt": "2026-10-24",
-    "replacement": "world-small-dollar-lenders: payday and small-dollar lenders where the place's law allows them, their rates and volumes from CFPB and state regulator data, whose rate and fees the cap binds, with the cap's ceiling read from the law in force.",
-    "status": "open"
+    "replacement": "Resolved Oct 29 (world-small-dollar-lenders): the town has a small-dollar lender record where its state's starting law lets payday lending operate (src/core2/modules/credit.ts smallDollarLenderFor, rates from src/core2/data/credit/small-dollar.json), a household the bank does not lend to asks it, and the cap's ceiling binds that quote, so the loan's rate and payment on the journal differ from the uncapped twin's (src/core2/law-wiring-small-dollar-lenders.test.ts).",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-housing-eviction-day-counting",
@@ -7586,6 +7586,18 @@
     "addedBy": "claude/elections-petition-filing",
     "addedAt": "2026-10-28",
     "replacement": "Signatures gathered in the district's other places at a coarse step, from the campaign's effort there, checked against the law's whole count.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-small-dollar-one-lender",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/credit.ts",
+    "line": 1600,
+    "whatItFakes": "One small-dollar lender record stands for every high-cost lender in a town (storefront payday, installment, vehicle title and online), at the state's one sourced rate, payday or installment by state. A lender never opens or closes in play: a state that repeals its cap or bans the product gains or loses none, and the outcome web's factor on high-cost lenders shrinks or grows what the one lender lends.",
+    "why": "The credit engine had no lender beside the town bank. The sourced rates are one per state (CRL's single-payment payday map, NCLC's installment cap), the sourced volume is a national household share, and the Census count of consumer-lending storefronts per state (the web's finance.high-cost-loans base) is not yet read to place one lender per storefront or to mix products.",
+    "addedBy": "claude/laws-small-dollar-lenders",
+    "addedAt": "2026-10-29",
+    "replacement": "One lender record per storefront, from the place's share of the state's Census consumer-lending establishments (data/research/outcome-web/place-outcome-bases-2024.json, finance.high-cost-loans), each with a product (payday, installment, title) and its own rate, opening and closing as the law in force and the web's count move.",
     "status": "open"
   }
 ]
