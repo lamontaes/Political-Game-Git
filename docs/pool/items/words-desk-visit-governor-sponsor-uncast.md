@@ -5,6 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
+lead: words
 status: open
 claimed-by:
 pr:
