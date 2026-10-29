@@ -39,8 +39,16 @@ def lectern_mask(plate):
     dark = mx < 0.3
     mm = np.zeros_like(m)
     mm[756:820, 1780:1840] = dark[756:820, 1780:1840]
-    m |= ndi.binary_dilation(mm, iterations=1)
     m = ndi.binary_closing(m, iterations=2)
+    # only from the lectern's top edge down (rows above it caught brown bits of the wall)
+    rows = np.nonzero(m[:, x0:x1].sum(1) > 120)[0]
+    if len(rows):
+        m[:rows.min()] = False
+    # the microphone: only its own stroke (the dark part joined to the lectern top), no wall lines
+    lab, n = ndi.label(mm)
+    if n:
+        sizes = ndi.sum(mm, lab, range(1, n + 1))
+        m |= lab == (int(np.argmax(sizes)) + 1)
     return ndi.gaussian_filter(m.astype(np.float32), 0.8)
 
 

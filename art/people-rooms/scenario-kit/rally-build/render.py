@@ -177,63 +177,130 @@ def head_anchor(lay):
     return float(top), float(hcx), float(width)
 
 
+Z = {'body': 1, 'trousers': 2, 'shoes': 3, 'top': 4, 'hair': 5, 'phone': 6}
+PAINTED = ['top', 'trousers', 'shoes', 'hair']
+
+
+def owner_map(src, lay, own, fixed=None):
+    """One owner per pixel. A part can own a pixel only where its layer is solid;
+    among those, the drawing's color decides, with the part in front favored, so a
+    sweater hem stays sweater and a hand over the sweater stays skin."""
+    names = [n for n in Z if n in lay]
+    H, W = src.shape[:2]
+    cost = np.full((len(names), H, W), 1e9, np.float32)
+    s = src.astype(np.float32)
+    for i, n in enumerate(names):
+        l = lay[n]
+        d = np.abs(s - l[..., :3].astype(np.float32)).mean(-1)
+        c = d - 10.0 * Z[n]
+        cost[i] = np.where(l[..., 3] > 128, c, 1e9)
+    lab = np.argmin(cost, 0)
+    none = cost.min(0) >= 1e9
+    if fixed is not None:
+        fm, fl = fixed
+        lab[fm] = fl[fm]
+        none &= ~fm
+    # a pixel's owner follows its neighborhood, so no stray speckles of one part inside another
+    votes = np.stack([ndi.gaussian_filter(((lab == i) & ~none).astype(np.float32), 1.2) for i in range(len(names))])
+    lab = np.argmax(votes, 0)
+    out = {n: (lab == i) & ~none & own for i, n in enumerate(names)}
+    return out
+
+
+def palette_paint(rgb, mask, pal=None, sigma=2.0):
+    """Repaint one part in three flat tones (shadow, base, highlight) like the
+    game's cel shading. Tones follow the drawing's broad light, not its texture;
+    the drawn outlines stay as they are. pal=None keeps the part's own colors."""
+    if mask.sum() < 30:
+        return rgb
+    L = lum(rgb)
+    m = mask.astype(np.float32)
+    Ls = ndi.gaussian_filter(L * m, sigma) / np.maximum(ndi.gaussian_filter(m, sigma), 1e-3)
+    v = Ls[mask]
+    p15 = np.percentile(L[mask], 15)
+    line = mask & (L < 0.6 * p15) & (L < 0.16)
+    body = mask & ~line
+    t1, t2 = np.percentile(Ls[body], [28, 90]) if body.sum() > 30 else np.percentile(v, [28, 90])
+    w = 0.012
+    sh = np.clip((t1 + w - Ls) / (2 * w), 0, 1)
+    hi = np.clip((Ls - (t2 - w)) / (2 * w), 0, 1)
+    ba = np.clip(1 - sh - hi, 0, 1)
+    if pal is None:
+        def med(sel):
+            sel = sel & body
+            return np.median(rgb[sel], 0) if sel.sum() > 10 else np.median(rgb[body], 0)
+        cs, cb, ch = med(Ls < t1), med((Ls >= t1) & (Ls <= t2)), med(Ls > t2)
+    else:
+        d, mm, l = [np.array(c, np.float32) for c in pal]
+        cs, cb, ch = 0.45 * d + 0.55 * mm, mm, 0.6 * mm + 0.4 * l
+    col = sh[..., None] * cs + ba[..., None] * cb + hi[..., None] * ch
+    out = rgb.astype(np.float32).copy()
+    out[body] = col[body]
+    # drawn lines keep their darkness but take a hint of the new color
+    out[line] = (0.75 * rgb[line].astype(np.float32) + 0.25 * cs * 0.4)
+    return out
+
+
 def render(spec):
     """spec: dict(p, k, top, trousers, shoes, hair, hair_from=(p2, k2))
+    Every garment and the hair are repainted from a palette (their own colors
+    when none is given), so all people share one clean look.
     Returns RGBA image, feet (x, y) and stature in its own pixels."""
     P = person(spec['p'])
     box, src, lay, own = figure_parts(P, spec['k'])
-    rgb = src.astype(np.float32)
-    under_rgb, under_a = stack(lay, ['body', 'trousers', 'shoes', 'top'])
     full_rgb, full_a = stack(lay, ['body', 'trousers', 'shoes', 'top', 'hair', 'phone'])
+    rgb = src.astype(np.float32)
     alpha = full_a.copy()
-    # edges: the sheet's pixels there are mixed with its gray background, so take the parts' own color
     edge = full_a < 0.98
     rgb[edge] = full_rgb[edge]
 
-    recolored_layers = dict(lay)
-    for part in ['top', 'trousers', 'shoes']:
-        pal = spec.get(part)
-        if not pal or part not in lay:
-            continue
-        a = lay[part][..., 3] / 255
-        w = a * agree(src, lay[part])
-        ref = (a > 0.9) & (w > 0.9)
-        rgb = shade_map(rgb, w, PAL[pal], ref).astype(np.float32)
-        lr = lay[part].copy()
-        lr[..., :3] = shade_map(lr[..., :3].astype(np.float32), (lr[..., 3] > 0).astype(np.float32), PAL[pal], lr[..., 3] > 230)
-        recolored_layers[part] = lr
-
-    hair_pal = spec.get('hair')
+    fixed = None
+    newhair = None
     if spec.get('hair_from'):
-        p2, k2 = spec['hair_from']
-        # take the old hair away: under it lie the bald head and the completed top
-        u_rgb, u_a = stack(recolored_layers, ['body', 'trousers', 'shoes', 'top'])
+        # lift the old hair: under it lie the bald head and the completed top
+        u_rgb, u_a = stack(lay, ['body', 'trousers', 'shoes', 'top'])
         R = ndi.binary_dilation(lay['hair'][..., 3] > 10, iterations=3)
         rgb[R] = u_rgb[R]
         alpha[R] = u_a[R]
-        top0, cx0, w0 = head_anchor(lay)
-        Q = person(p2)
-        _, src2, lay2, _ = figure_parts(Q, k2)
+        names = [n for n in Z if n in lay]
+        fl = np.zeros(R.shape, int)
+        best = np.zeros(R.shape, int) - 1
+        for i, n in enumerate(names):
+            if n in ('hair', 'phone'):
+                continue
+            solid = lay[n][..., 3] > 128
+            fl = np.where(solid & (Z[n] > best), i, fl)
+            best = np.where(solid & (Z[n] > best), Z[n], best)
+        fixed = (R & (best > 0), fl)
+        lay = dict(lay)
+        lay['hair'] = np.zeros_like(lay['hair'])
+        top0, cx0, w0 = head_anchor({'hair': (np.dstack([R] * 4) * 255).astype(np.uint8), 'body': figure_parts(P, spec['k'])[2]['body']})
+        _, src2, lay2, _ = figure_parts(person(spec['hair_from'][0]), spec['hair_from'][1])
         top1, cx1, w1 = head_anchor(lay2)
-        s = w0 / max(w1, 1)
+        sc = w0 / max(w1, 1)
         hl = Image.fromarray(lay2['hair']).convert('RGBa')
-        hl = hl.resize((max(1, int(hl.width * s)), max(1, int(hl.height * s))), Image.LANCZOS).convert('RGBA')
-        H = np.zeros_like(lay['hair'])
-        ox, oy = int(round(cx0 - cx1 * s)), int(round(top0 - top1 * s))
+        hl = hl.resize((max(1, int(hl.width * sc)), max(1, int(hl.height * sc))), Image.LANCZOS).convert('RGBA')
+        Hh = np.zeros_like(lay2['hair'][:1, :1]).repeat(rgb.shape[0], 0).repeat(rgb.shape[1], 1)
+        ox, oy = int(round(cx0 - cx1 * sc)), int(round(top0 - top1 * sc))
         hh = np.asarray(hl)
         ys0, xs0 = max(0, oy), max(0, ox)
-        ys1, xs1 = min(H.shape[0], oy + hh.shape[0]), min(H.shape[1], ox + hh.shape[1])
-        H[ys0:ys1, xs0:xs1] = hh[ys0 - oy:ys1 - oy, xs0 - ox:xs1 - ox]
-        if hair_pal:
-            hm = H[..., 3] > 230
-            H[..., :3] = gradient_map(H[..., :3].astype(np.float32), (H[..., 3] > 0).astype(np.float32), PAL[hair_pal], hm)
-        ha = H[..., 3:4].astype(np.float32) / 255
-        rgb = H[..., :3] * ha + rgb * (1 - ha)
+        ys1, xs1 = min(Hh.shape[0], oy + hh.shape[0]), min(Hh.shape[1], ox + hh.shape[1])
+        Hh[ys0:ys1, xs0:xs1] = hh[ys0 - oy:ys1 - oy, xs0 - ox:xs1 - ox]
+        newhair = Hh
+
+    owners = owner_map(src if fixed is None else rgb.astype(np.uint8), lay, own, fixed)
+    for part in PAINTED:
+        if part not in owners or (part == 'hair' and newhair is not None):
+            continue
+        pal = PAL[spec[part]] if spec.get(part) else None
+        rgb = palette_paint(rgb, owners[part], pal)
+
+    if newhair is not None:
+        hm = newhair[..., 3] > 128
+        hr = palette_paint(newhair[..., :3].astype(np.float32), hm, PAL[spec['hair']] if spec.get('hair') else None)
+        ha = newhair[..., 3:4].astype(np.float32) / 255
+        rgb = hr * ha + rgb * (1 - ha)
         alpha = ha[..., 0] + alpha * (1 - ha[..., 0])
-    elif hair_pal and 'hair' in lay:
-        a = lay['hair'][..., 3] / 255
-        w = a * agree(src, lay['hair'], 30, 70)
-        rgb = gradient_map(rgb, w, PAL[hair_pal], (a > 0.9) & (w > 0.9)).astype(np.float32)
 
     out = np.dstack([rgb.clip(0, 255), (alpha * 255).clip(0, 255)]).astype(np.uint8)
     out[~own] = 0

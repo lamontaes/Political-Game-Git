@@ -1,0 +1,336 @@
+[
+ {
+  "id": "speaker",
+  "x": 926,
+  "y": 541,
+  "stature": 192,
+  "behind_lectern": true,
+  "spec": {
+   "p": "woman-medium",
+   "k": 9,
+   "top": "navy",
+   "trousers": "charcoal",
+   "shoes": "gray",
+   "hair": "h-dark brown"
+  }
+ },
+ {
+  "id": "stage-L1",
+  "x": 760,
+  "y": 537,
+  "stature": 176,
+  "spec": {
+   "p": "woman-heavy",
+   "k": 8,
+   "top": "royal blue",
+   "trousers": "denim",
+   "shoes": "white",
+   "hair": "h-auburn"
+  }
+ },
+ {
+  "id": "stage-L2",
+  "x": 834,
+  "y": 535,
+  "stature": 186,
+  "spec": {
+   "p": "man-medium",
+   "k": 7,
+   "top": "forest green",
+   "trousers": "khaki",
+   "shoes": "brown"
+  }
+ },
+ {
+  "id": "stage-R1",
+  "x": 1036,
+  "y": 535,
+  "stature": 186,
+  "spec": {
+   "p": "man-slim",
+   "k": 8,
+   "top": "red",
+   "trousers": "black",
+   "shoes": "black"
+  }
+ },
+ {
+  "id": "stage-R2",
+  "x": 1118,
+  "y": 537,
+  "stature": 184,
+  "spec": {
+   "p": "man-heavy",
+   "k": 8,
+   "top": "heather gray",
+   "trousers": "navy",
+   "shoes": "brown"
+  }
+ },
+ {
+  "id": "A",
+  "x": 205,
+  "y": 588,
+  "spec": {
+   "p": "man-slim",
+   "k": 0,
+   "top": "rust",
+   "trousers": "denim",
+   "shoes": "navy"
+  }
+ },
+ {
+  "id": "B",
+  "x": 302,
+  "y": 600,
+  "h": 0.94,
+  "spec": {
+   "p": "woman-heavy",
+   "k": 0,
+   "top": "teal",
+   "trousers": "charcoal",
+   "shoes": "white",
+   "hair": "h-black"
+  }
+ },
+ {
+  "id": "C",
+  "x": 470,
+  "y": 596,
+  "spec": {
+   "p": "man-medium",
+   "k": 0,
+   "top": "navy",
+   "trousers": "stone",
+   "shoes": "black"
+  }
+ },
+ {
+  "id": "D",
+  "x": 668,
+  "y": 600,
+  "h": 0.95,
+  "spec": {
+   "p": "woman-slim",
+   "k": 2,
+   "top": "red",
+   "trousers": "denim",
+   "shoes": "black",
+   "hair": "h-dark brown"
+  }
+ },
+ {
+  "id": "E",
+  "x": 1300,
+  "y": 612,
+  "h": 0.94,
+  "spec": {
+   "p": "woman-heavy",
+   "k": 1,
+   "top": "olive",
+   "trousers": "slate",
+   "shoes": "cream",
+   "hair": "h-blond"
+  }
+ },
+ {
+  "id": "F",
+  "x": 1392,
+  "y": 630,
+  "look": [
+   "mh-navy-row0",
+   1
+  ]
+ },
+ {
+  "id": "G",
+  "x": 150,
+  "y": 650,
+  "h": 0.95,
+  "spec": {
+   "p": "woman-medium",
+   "k": 0,
+   "top": "teal",
+   "trousers": "black",
+   "shoes": "tan",
+   "hair": "h-auburn"
+  }
+ },
+ {
+  "id": "H",
+  "x": 395,
+  "y": 662,
+  "spec": {
+   "p": "man-slim",
+   "k": 5,
+   "top": "forest green",
+   "trousers": "charcoal",
+   "shoes": "brown"
+  }
+ },
+ {
+  "id": "I",
+  "x": 610,
+  "y": 676,
+  "h": 0.96,
+  "spec": {
+   "p": "woman-medium",
+   "k": 3,
+   "top": "plum",
+   "trousers": "denim",
+   "shoes": "gray",
+   "hair": "h-light brown"
+  }
+ },
+ {
+  "id": "S1",
+  "x": 728,
+  "y": 668,
+  "h": 0.95,
+  "spec": {
+   "p": "woman-slim",
+   "k": 0,
+   "top": "royal blue",
+   "trousers": "navy",
+   "shoes": "burgundy",
+   "hair": "h-strawberry"
+  }
+ },
+ {
+  "id": "S2",
+  "x": 842,
+  "y": 706,
+  "spec": {
+   "p": "man-medium",
+   "k": 5,
+   "top": "charcoal",
+   "trousers": "khaki",
+   "shoes": "brown"
+  }
+ },
+ {
+  "id": "S4",
+  "x": 1005,
+  "y": 682,
+  "h": 0.94,
+  "spec": {
+   "p": "woman-heavy",
+   "k": 4,
+   "top": "tan",
+   "trousers": "denim",
+   "shoes": "white",
+   "hair": "h-gray"
+  }
+ },
+ {
+  "id": "S5",
+  "x": 1140,
+  "y": 706,
+  "spec": {
+   "p": "man-slim",
+   "k": 1,
+   "top": "slate",
+   "trousers": "black",
+   "shoes": "black"
+  }
+ },
+ {
+  "id": "J",
+  "x": 1255,
+  "y": 676,
+  "h": 0.96,
+  "spec": {
+   "p": "woman-medium",
+   "k": 1,
+   "top": "rust",
+   "trousers": "brown",
+   "shoes": "tan",
+   "hair": "h-brown"
+  }
+ },
+ {
+  "id": "K",
+  "x": 1338,
+  "y": 700,
+  "spec": {
+   "p": "man-medium",
+   "k": 4,
+   "top": "olive",
+   "trousers": "cream",
+   "shoes": "black"
+  }
+ },
+ {
+  "id": "L",
+  "x": 72,
+  "y": 740,
+  "h": 0.95,
+  "spec": {
+   "p": "woman-heavy",
+   "k": 5,
+   "top": "red",
+   "trousers": "denim",
+   "shoes": "white",
+   "hair": "h-black"
+  }
+ },
+ {
+  "id": "M",
+  "x": 300,
+  "y": 762,
+  "spec": {
+   "p": "man-medium",
+   "k": 0,
+   "top": "teal",
+   "trousers": "sky blue",
+   "shoes": "navy"
+  }
+ },
+ {
+  "id": "N",
+  "x": 530,
+  "y": 796,
+  "spec": {
+   "p": "man-slim",
+   "k": 2,
+   "top": "orange",
+   "trousers": "navy",
+   "shoes": "navy"
+  }
+ },
+ {
+  "id": "O",
+  "x": 1215,
+  "y": 768,
+  "h": 0.95,
+  "spec": {
+   "p": "woman-heavy",
+   "k": 3,
+   "top": "maroon",
+   "trousers": "navy",
+   "shoes": "cream",
+   "hair": "h-auburn"
+  }
+ },
+ {
+  "id": "P",
+  "x": 1088,
+  "y": 752,
+  "spec": {
+   "p": "man-heavy",
+   "k": 1,
+   "top": "rust",
+   "trousers": "denim",
+   "shoes": "brown"
+  }
+ },
+ {
+  "id": "Q",
+  "x": 1340,
+  "y": 782,
+  "look": [
+   "mh-flannel-row0",
+   3
+  ]
+ }
+]
