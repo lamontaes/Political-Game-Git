@@ -21,7 +21,10 @@
     "job": "A job title with its article (\"a county clerk\"), from the job record.",
     "span": "How long something lasted, in months as people say it, from the dates on its record.",
     "next": "The employer someone went to next, from the record of their next job.",
-    "topic": "What a law no bill enacted is about, from its own record (\"electricity and the grid\")."
+    "topic": "What a law no bill enacted is about, from its own record (\"electricity and the grid\").",
+    "signatures": "How many signed a recall petition, from the count's record.",
+    "required": "How many signatures the law required, from the count's record.",
+    "fewer": "How many fewer signed after the official heard the petitioners out, from the count's before and after."
   },
   "maxWords": 10,
   "mining": {
@@ -8119,6 +8122,422 @@
       "origin": "authored",
       "author": "Words session (Claude Code)",
       "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.other-turned-in-signatures-signatures-to-recall-me-enough-for-a-vote",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "{other} turned in {signatures} signatures to recall me, enough for a vote.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.other-s-recall-petition-got-signatures-signatures-it-went-to-a-vote",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "{other}'s recall petition got {signatures} signatures. It went to a vote.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.other-s-petition-to-recall-me-fell-short-signatures-of-required",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "{other}'s petition to recall me fell short, {signatures} of {required}.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.the-petition-to-recall-me-came-up-short-signatures-of-required",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "The petition to recall me came up short: {signatures} of {required}.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.hearing-other-out-cost-the-petition-fewer-signatures-not-the-vote",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "Hearing {other} out cost the petition {fewer} signatures, not the vote.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.i-heard-other-out-fewer-fewer-signed-it-still-made-the-ballot",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "I heard {other} out; {fewer} fewer signed. It still made the ballot.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.hearing-other-out-cost-the-petition-fewer-signatures-it-fell-short",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "Hearing {other} out cost the petition {fewer} signatures. It fell short.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.i-heard-other-out-fewer-fewer-signed-and-it-fell-short",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "I heard {other} out. {fewer} fewer signed, and it fell short.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.our-petition-to-recall-other-got-signatures-signatures-enough-for-a-vote",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "Our petition to recall {other} got {signatures} signatures, enough for a vote.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "other",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.our-petition-to-recall-other-came-up-short-signatures-of-required",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "Our petition to recall {other} came up short: {signatures} of {required}.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "other",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.other-heard-us-out-we-still-got-our-vote",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "{other} heard us out. We still got our vote.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "other",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.other-heard-us-out-and-the-petition-fell-short",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "{other} heard us out, and the petition fell short.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "other",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.signatures-people-signed-to-recall-me-it-went-to-a-vote",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "{signatures} people signed to recall me. It went to a vote.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.the-recall-petition-against-me-came-up-short-signatures-of-required",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "The recall petition against me came up short: {signatures} of {required}.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.hearing-the-petitioners-out-cost-them-fewer-signatures-not-the-vote",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "Hearing the petitioners out cost them {fewer} signatures, not the vote.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.recall-count.hearing-the-petitioners-out-cost-them-fewer-signatures-it-fell-short",
+      "move": "recall-count",
+      "kind": "spoken",
+      "text": "Hearing the petitioners out cost them {fewer} signatures. It fell short.",
+      "uses": [
+        {
+          "move": "recall-count",
+          "subject": "recall",
+          "role": "line",
+          "choice": "count",
+          "journal": [
+            {
+              "kindPrefix": "event:recall-outcome",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
       "tag": {
         "move": "tell"
       }

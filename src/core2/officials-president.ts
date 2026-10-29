@@ -9,7 +9,8 @@
  */
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreStateName } from "./place-lookup";
-import { OFFICIALS_DATA, uniform } from "./officials-roster";
+import officialsData from "./data/officials/officials.json" with { type: "json" };
+import { uniform } from "./officials-roster";
 import { partySide } from "./appointments";
 import type { CoreState, PersonInput, Source } from "./types";
 import { worldSwing } from "./modules/elections";
@@ -25,7 +26,9 @@ interface PresidentData {
     shares: Record<string, { value: number; title: string | null }>;
   };
 }
-const DATA = (OFFICIALS_DATA as unknown as { president: PresidentData })
+// Read from the officials file itself, not the roster's copy: the roster is
+// still loading when the elections module reaches this file through it.
+const DATA = (officialsData as unknown as { president: PresidentData })
   .president;
 
 const MAP = (

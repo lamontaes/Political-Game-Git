@@ -1314,6 +1314,78 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-and-you-don-t-have-the-votes-yet-you-go-looking-for-first",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The vote on {bill} is tomorrow, and you don't have the votes yet. You go looking for {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "key": "vote-sought"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.it-s-the-evening-before-the-vote-on-bill-you-catch-first-on-the-way-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "It's the evening before the vote on {bill}. You catch {first} on the way out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "key": "vote-sought"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-tomorrow-and-first-is-still-on-your-list",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You've counted the votes on {bill} twice. It comes to the floor tomorrow, and {first} is still on your list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "key": "vote-sought"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-stops-by-your-office-you-told-name-you-d-vote-yes-on-bill",
       "move": "narrate-narrate",
       "kind": "spoken",

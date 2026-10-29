@@ -29,10 +29,26 @@ export interface JournalWordRow {
   entry?: "story" | "setting";
   /** One's own race, worded by result (stage "won" or "lost"). */
   ownLine?: readonly Wording[];
-  /** Facts read from the causing event's own record. */
-  eventFacts?: Readonly<Record<string, { fact: string; format: string }>>;
+  /**
+   * Facts read from the causing event's own record. A "drop" is how far one
+   * of the record's counts (`fact`) fell to another (`less`), told only where
+   * it fell, citing the records a third fact names (`cites`).
+   */
+  eventFacts?: Readonly<
+    Record<
+      string,
+      { fact: string; format: string; less?: string; cites?: string }
+    >
+  >;
   /** An event fact that names the stage a line is worded in (a vote, "yes" or "no"). */
   stageFact?: string;
+  /** A fact that, where the moment holds it, marks the stage ("on-ballot:moved"). */
+  stageMark?: { fact: string; mark: string };
+  /**
+   * The person's own moment is told even when they do not know the other by
+   * name (a recall's organizer): its lines that name the other are left out.
+   */
+  toldWithoutOther?: boolean;
   line: readonly Wording[];
   otherLine?: readonly Wording[];
   repeatLine?: readonly { key: string; text: string }[];
@@ -65,6 +81,8 @@ export interface RowShape {
   /** An event fact that names the stage a line is worded in, with the words that mark each stage. */
   stageFact?: string;
   stageWords?: Readonly<Record<string, string>>;
+  stageMark?: JournalWordRow["stageMark"];
+  toldWithoutOther?: boolean;
   title?: JournalWordRow["title"];
   selfWhenNamed?: boolean;
   sameDay?: string;
