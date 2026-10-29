@@ -11,3 +11,13 @@ window.__stuck = () => { let hit = false; window.__walk(document, e => { if (!hi
 // One click per `gap` ms; waits for Generate to come back; stops and logs ['stuck', key] when Firefly shows "We can't wait to
 // generate more content..." (the tab must then be reloaded, helpers re-run, and the missing keys requeued).
 window.__runQ = async (items, refs, gap, model = 'google:firefly:colligo:gemini-3.1', res = '1K') => { window.__rlog = window.__rlog || []; const f = async (u, n) => new File([await fetch(u).then(r => r.blob())], n, {type: 'image/png'}); const files = await Promise.all(refs.map((u, i) => f(u, 'ref' + i + '.png'))); await window.__setModel(model); if (res) await window.__setRes(res); await window.__setAspect('Widescreen (16:9)'); await window.__ocdSetRefFiles(files); for (const [k, p] of items) { if (window.__stuck()) { window.__rlog.push(['stuck', k]); return; } const t = Date.now(); let x; for (let i = 0; i < 20; i++) { x = await window.__ocdGenerateRaw(p); if (x !== 'no generate button') break; await new Promise(r => setTimeout(r, 1500)); } window.__rlog.push([k, new Date().toTimeString().slice(0, 8), JSON.stringify(x)]); await new Promise(r => setTimeout(r, Math.max(0, gap - (Date.now() - t)))); } window.__rlog.push(['done']); };
+// Garment-piece prompts on a barefoot base (Oct 29, standard/layers.py). Item spec for __runQ via __ed: [key, kind, words]
+window.__KEEP = 'Keep everything else exactly the same: the same person, same face, same head, same skin, the same five poses with every arm, hand, leg and foot in exactly the same place and size, the same outlines, the same flat illustrated style, the same light gray background. Nothing else moves or changes. No text.';
+window.__ed = {
+  top: (k, w) => `[${k}] Edit Image 1. Change only the gray t-shirt into ${w}; its hem hangs naturally over the gray shorts. Keep the gray shorts and the bare feet. ${window.__KEEP}`,
+  bot: (k, w) => `[${k}] Edit Image 1. Change only the gray shorts into ${w}; tuck the gray t-shirt in so the whole waistband and belt show. Keep the bare feet. ${window.__KEEP}`,
+  sho: (k, w) => `[${k}] Edit Image 1. Change only the bare feet: put on ${w}. Keep the gray t-shirt and gray shorts. ${window.__KEEP}`,
+  hair: (k, w) => `[${k}] Edit Image 1. Give the person ${w} on the bald head. Change nothing else. ${window.__KEEP}`,
+  face: (k, w) => `[${k}] Edit Image 1. Give the person ${w}; keep the head bald. Change nothing else. ${window.__KEEP}`,
+};
+window.__items = (specs) => specs.map(([k, kind, w]) => [k, window.__ed[kind](k, w)]);
