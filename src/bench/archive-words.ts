@@ -64,14 +64,19 @@ export function wordArchiveStory(
     // moved from and to, the bill that made it, when the law's own row says so.
     if (recordKind === "law-took-effect") {
       const told = archivedLawFacts(core, story);
-      if (told)
-        return worded(
-          core,
-          story.id,
-          told.kind,
-          told.speaker || story.id,
-          told.facts,
-        );
+      // A law with only its name to tell (no bill, no amount moved) keeps the
+      // catalog's own words below.
+      const text =
+        told && told.kind !== "law-rule"
+          ? worded(
+              core,
+              story.id,
+              told.kind,
+              told.speaker || story.id,
+              told.facts,
+            )
+          : null;
+      if (text) return text;
     }
     NAMES ??= policyNames();
     const measure = NAMES[String(story.facts.series ?? "")];
