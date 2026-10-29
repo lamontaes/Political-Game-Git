@@ -9,6 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: words
+milestone: play-first
 source: added with npm run pool -- add
 ---
 
