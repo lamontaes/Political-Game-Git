@@ -5703,6 +5703,50 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.hearing.number-people-spoke-at-the-public-hearing-on-the-budget-designation",
+      "move": "hearing",
+      "kind": "written",
+      "text": "{number} people spoke at the public hearing on the budget, {designation}.",
+      "uses": [
+        {
+          "move": "hearing",
+          "subject": "news",
+          "role": "hearing",
+          "choice": "lede",
+          "requiresFacts": ["budget", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.hearing.the-budget-designation-had-its-public-hearing",
+      "move": "hearing",
+      "kind": "written",
+      "text": "The budget, {designation}, had its public hearing.",
+      "uses": [
+        {
+          "move": "hearing",
+          "subject": "news",
+          "role": "hearing",
+          "choice": "lede",
+          "requiresFacts": ["budget"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

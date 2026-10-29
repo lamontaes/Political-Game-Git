@@ -591,6 +591,20 @@ const hearing: Builder = (read, f) => {
   );
 };
 
+/** A government's public hearing on its budget bill, and how many spoke. */
+const budgetHearing: Builder = (read, f) => {
+  const speakers = num(f.speakers) ?? 0;
+  return story(
+    "hearing",
+    {
+      ...read.billFacts(f.billId, f.number),
+      budget: read.yes(),
+      ...(speakers ? { number: read.fact(count(speakers)) } : {}),
+    },
+    ["designation"],
+  );
+};
+
 /** A bill put before a body. */
 const introduced: Builder = (read, f) => {
   const bill = read.bill(f.billId);
@@ -1532,6 +1546,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "justice.held-before-trial": court,
   "executive-action": signed,
   "public-comment": hearing,
+  "budget-hearing": budgetHearing,
   "office.introduced": introduced,
   "budget-line-changed": budgetLine,
   "budget-adopted": budgetAdopted,
