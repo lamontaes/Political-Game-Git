@@ -16,7 +16,6 @@ import {
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { districtMap, partyLegend } from "./ui/map.mjs";
-import { faceGrid } from "./ui/face-grid.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { partyBar } from "./ui/party-bar.mjs";
 import { memberCard } from "./ui/member-card.mjs";
@@ -3139,7 +3138,6 @@ const sheets = {
         : fill(labels.sinceOnly, { date: monthWords(m.serviceStart) });
     // How many rows of cards fit under the room's picture in this window:
     // the panel never scrolls, so a short window pages sooner.
-    /* global window */
     const rowsFor = (taken, most) =>
       Math.max(
         1,
