@@ -21,4 +21,4 @@ claimed-at: 2026-10-28T19:38:26.646Z
 
 **Files.** .github/workflows/pool-done-on-merge.yml, tests/release/pool-done-on-merge.test.ts
 
-**Notes.** Found Oct 28 by the old engine session: run 40733896241 (PR #6643) failed with GH006 after eight push retries; no done commit on main since 03:46 UTC.
+**Notes.** Found Oct 28 by the old engine session: run 40733896241 (PR #6643) failed with GH006 after eight push retries; no done commit on main since 03:46 UTC. Oct 29 07:05 UTC, Words and director: the flip runs for #6745, #6746, #6747, #6748, #6749, #6750 and #6751 (05:55 to 06:52 UTC) all failed; the latest, run 40831752697, with GH006 after eight retries. The last success was 05:43. #6682 is still open.
