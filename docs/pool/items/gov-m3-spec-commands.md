@@ -5,9 +5,9 @@ area: docs
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: governing/m3-spec-commands
-pr:
+pr: #6839
 blocked-on:
 source: governing lead, Oct 29 (work order first task)
 lead: governing
