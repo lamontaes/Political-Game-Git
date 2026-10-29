@@ -99,9 +99,12 @@ it("an offer of help joins the one campaign record and stops the player only by 
     const local = offerWeight(api, filing, filed, someone);
     if (statewide) {
       const wide = offerWeight(api, filing, statewide, someone);
-      expect(wide, `${where}: ${statewide.id} vs ${filed.id}`).toBeLessThan(
-        local,
-      );
+      // Never more: a territory-wide race and an at-large seat can share one
+      // electorate (American Samoa), and then the two weigh the same.
+      expect(
+        wide,
+        `${where}: ${statewide.id} vs ${filed.id}`,
+      ).toBeLessThanOrEqual(local);
       // At a statewide race's size a stranger's offer stays under the line.
       expect(
         params.directorVolunteerOfferImpact!.value * wide,
@@ -125,10 +128,14 @@ it("an offer of help joins the one campaign record and stops the player only by 
           continue;
         offers.push(row.id);
         const helper = String(row.facts.offeredBy);
-        // One record: the helper is on the campaign the header reads.
+        // One record: the helper is on the campaign the header reads, on its
+        // staff when the offer was to run it.
+        const campaign = campaignFor(api, filingId);
         expect(
-          campaignFor(api, filingId).volunteerIds,
-          `${where}: ${row.id}`,
+          row.facts.role === "manager"
+            ? campaign.staffIds
+            : campaign.volunteerIds,
+          `${where}: ${row.id} (${row.facts.role})`,
         ).toContain(helper);
         // The director's moment is the offer's weight times the impact.
         const moment = book.moments.find((m) => m.causeId === row.id);
@@ -143,7 +150,9 @@ it("an offer of help joins the one campaign record and stops the player only by 
         const entry = book.schedule.find((e) => e.momentId === moment!.id);
         if (
           entry?.interrupt &&
-          entry.bindings.every((b) => b.typeKey === "volunteer-offer")
+          entry.bindings.every((b) =>
+            ["volunteer-offer", "manager-offer"].includes(b.typeKey),
+          )
         )
           expect(
             moment!.impact,

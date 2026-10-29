@@ -1353,7 +1353,7 @@
     "managerThreshold": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "source": "How strong the pull must be, before personality, for someone close who heard of a filing to offer to run the campaign: warmth, closeness and family counted with managerClosenessWeight, less their hours of work, against this bar. Set where a partner or close relative with a full-time job clears it and an acquaintance does not; the share of filings with a manager is printed by src/core2/campaign-manager.test.ts.",
+      "source": "How strong the pull must be, before personality, for someone close who heard of a filing to offer to run the campaign: warmth, closeness and family counted with managerClosenessWeight, less their hours of work, against this bar. Set where a partner or close relative with a full-time job clears it and an acquaintance does not: in a played Garrison, Nebraska (seed ed4ee1184480e6a70d28:0) 9 of the town's 29 campaigns had someone close running them by election day, and the player's partner or relative offered in the first weeks; src/director/campaign-manager.test.ts prints the share for each draw.",
       "spread": [0, 1.5]
     },
     "volunteerOfferThreshold": {
