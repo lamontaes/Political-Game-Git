@@ -762,6 +762,20 @@ export function countedHousingInArrears(
 }
 
 /**
+ * The counted group, by its own id, that holds a counted household's money: the
+ * name an engine records a payment under when it says whom it reached (the
+ * group's fund account carries the same id).
+ */
+export function countedGroupIdOf(
+  api: CoreAPI,
+  householdId: string,
+): string | undefined {
+  const rt = residentsRuntime(api.state as CoreState);
+  const h = rt ? householdById(rt, householdId) : undefined;
+  return rt && h ? rt.store.groups[h.group]?.id : undefined;
+}
+
+/**
  * A payment between a counted person, household or place and another owner,
  * for engines outside the residents engine (benefits, an owner's draw, a
  * tax bill): positive `amountMinor` is paid by the counted side, negative is

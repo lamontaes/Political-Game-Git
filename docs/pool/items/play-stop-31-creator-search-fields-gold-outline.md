@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-stop-31-creator-search-fields-gold-outline
+pr: #6244
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T06:20:27.255Z
 ---
 
 **What.** The search box above the state list and the town list in the creator has no outline, while the other menus keep the slight gold edge the owner asked for. The owner: "I don't know why there's a search thing but ... there's no slight outline like I wanted on the other menus." The same sitting he said he really likes the state list's font ("I really like this menu font with the states"), so the list stays as it is. This item gives both search fields the gold outline at rest and on focus, and leaves the font and the list alone.

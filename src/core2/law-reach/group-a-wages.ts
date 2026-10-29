@@ -7,13 +7,18 @@
  */
 import type { Source } from "../types";
 import type { ModuleRow } from "../module-data";
-import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
+import {
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  yesLevels,
+} from "../modules/laws";
 import { holdFederalWage, holdRaisedWage } from "../question-wages";
 import { raiseToFloor } from "../wage-floor";
 import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
 import { lawApplied } from "./applied";
 import type { PolicyHandler } from "./host";
-import { ensureReachA, putMechanic, yesLevels } from "./group-a-records";
+import { ensureReachA, putMechanic } from "./group-a-records";
 
 const AUTHORITY_KEY =
   "us-policy-positions:labor-workforce.local-minimum-wage-authority";

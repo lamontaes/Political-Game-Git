@@ -42,6 +42,12 @@ describe(`a member's drafting menus (seed ${seed})`, () => {
           ).toBe(true);
         }
         expect(items.some((item) => item.inForce !== null)).toBe(true);
+        // A budget line reads by its budgets-screen name, never "Spending:
+        // healthAndHospitals" (golden-draft-list-names).
+        for (const item of items.filter((row) => row.kind === "budget-line"))
+          expect(item.name, `${place.name}; seed ${place.seed}`).not.toMatch(
+            /:|[a-z][A-Z]/,
+          );
         // No debate is waiting for a member who is in no race.
         expect(() =>
           debateAnswer(world.core, term.personId!, "debate:none", []),

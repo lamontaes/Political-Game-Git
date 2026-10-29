@@ -31,3 +31,5 @@ Oct 23, merger A: The historical recommendation above is not a current coverage 
 
 Oct 23 (claude, fixer): accounting against current `src/core2/data/outcome-web/coverage.json`: of the 18 links named above, `home-prices-to-owner-births` and `home-prices-to-renter-births` are wired and 16 still wait. The three child items cover all 16: outcome-causes-press-government (2), outcome-causes-health-programs (7, including `abortion-denied-to-financial-distress`) and outcome-causes-housing-disaster-justice (7). This item stays open until its children are built.
 Sent back 2026-10-24 from planning PR #5075 (branch claude/outcome-causes-split): own-environment applicable checks passed on ad9e8cac2813c16e38dab993c97776441a603cc3, but the head-pinned merge returned 405 merge conflicts after main advanced; implementation acceptance remains open. Finish the planning merge on that branch, merge current main into it first and rerun the changed-file checks.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up of its three children; the children carry the work.

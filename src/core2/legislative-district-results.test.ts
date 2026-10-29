@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { legislativePlace } from "./electorate-places";
+import { legislativePlace, worldSwing } from "./electorate-places";
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
   legislativeDistrictResult,
@@ -64,15 +64,19 @@ describe("legislative district results", () => {
         legislativeDistrictResult("OH", "upper", x.districtCode),
     )!;
     const own = legislativeDistrictResult("OH", "upper", d.districtCode)!;
+    const seed = "legislative-district-results";
     const place = legislativePlace(
       "OH",
       `seat:US-OH:upper:${d.districtCode}:0`,
       33,
       0,
       null,
+      seed,
     )!;
+    // The district's own 2024 share, as this world's swing moved it.
     expect(place.rightShare).toBeCloseTo(
-      own.republican / (own.republican + own.democratic),
+      own.republican / (own.republican + own.democratic) +
+        worldSwing(seed, "OH"),
       6,
     );
     expect(place.source).toContain("doi:10.7910/DVN/DODOBJ");

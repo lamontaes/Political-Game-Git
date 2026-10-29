@@ -10,6 +10,7 @@ import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
 import { registerModule } from "../state";
+import { parameter } from "../parameters";
 import type {
   CoreAPI,
   CoreModule,
@@ -26,11 +27,10 @@ import {
   firearmOwnershipRate,
   householdOwnsFirearm,
 } from "../firearm-ownership";
-import { lawChain, LAWS_MODULE_ID } from "../modules/laws";
+import { lawChain } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
 import { countedJobHeads } from "../residents-economy";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
-import type { LawRowInput } from "../laws-starting";
 
 export const REACH_A_MODULE_ID = "core2-law-reach-a-v1";
 export const PREMIUM_KIND = "law-reach-a:leave-premium";
@@ -123,7 +123,12 @@ const params = (
   }
 ).parameters;
 
+/**
+ * A number from the group A parameter table. The voting age is the elections
+ * data's one row (`votingAge`, the Twenty-Sixth Amendment), never a copy here.
+ */
 export function reachParameter(key: string): number {
+  if (key === "votingAge") return parameter(key);
   const row = params[key];
   if (!row) throw new Error(`No law-reach parameter: ${key}`);
   return row.value;
@@ -244,29 +249,6 @@ export const tomorrow = (date: string) =>
     .toISOString()
     .slice(0, 10);
 
-/**
- * The levels (with their jurisdictions) whose latest law in force on a
- * policy says yes: the same reading as the law-reach host's `inForceHere`.
- */
-export function yesLevels(
-  api: CoreAPI,
-  key: string,
-): readonly { level: string; jurisdiction: string; lawId: string }[] {
-  const date = api.state.date;
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  const out: { level: string; jurisdiction: string; lawId: string }[] = [];
-  for (const { level, jurisdiction } of lawChain(api).levels) {
-    const latest = (
-      laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    if (latest?.value === 1)
-      out.push({ level, jurisdiction, lawId: latest.id });
-  }
-  return out;
-}
-
 export function townPeople(api: CoreAPI): readonly PersonState[] {
   const town = lawChain(api).townPlaceId;
   return [...api.state.people.values()].filter(
@@ -329,6 +311,7 @@ function townCitizenShare(api: CoreAPI): number {
   return citizenShareOf(
     api.state.placeMetadata.placeKey as string | undefined,
     lawChain(api).stateKey.slice(3),
+    api.state.seed,
   );
 }
 
@@ -367,7 +350,7 @@ function personMatches(
 
 /** Adults in the town, named and counted: the base an estimated share applies to. */
 export function townAdults(api: CoreAPI): number {
-  const adult = reachParameter("adultAge");
+  const adult = reachParameter("votingAge");
   const date = api.state.date;
   const named = townPeople(api).filter(
     (p) => ageOn(p.birthDate, date) >= adult,

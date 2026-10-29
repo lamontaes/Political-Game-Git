@@ -17,7 +17,9 @@ import territoryData from "../data/credit/territories.json" with { type: "json" 
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { worldLevel } from "../world-draw";
 import type {
+  Affect,
   CoreAPI,
   CoreInput,
   CoreModule,
@@ -34,12 +36,18 @@ import {
   residentFacts,
 } from "./residents";
 import { chooseAct, traitLean } from "../choice";
-import { decisionTraitWeight, leanedByKinds } from "../trait-decisions";
+import {
+  decisionTraitWeight,
+  hardshipReason,
+  leanedByKinds,
+} from "../trait-decisions";
+import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
 import { bankDepositLiability } from "../accounts";
 import { reviewBankDeposits } from "../credit-deposits";
+import { weightedPayrollMinor } from "../residents-economy";
 
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
@@ -142,8 +150,15 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
   const placeId = [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   if (!placeId) return undefined;
+  // The county's published deposits are the center; this world's banks hold a
+  // level drawn from its seed (realistic, not real; owner, Oct 27).
   const depositsMinor = Math.round(
-    deposits *
+    worldLevel(
+      deposits,
+      input.seed,
+      "world-deposits-level",
+      "worldDepositsSpreadShare",
+    ) *
       p0("creditDepositsInThousands") *
       p0("creditMinorPerDollar") *
       (Math.min(townPeople, countyPeople) / countyPeople),
@@ -458,9 +473,16 @@ function review(api: CoreAPI): void {
     a[0].localeCompare(b[0]),
   )) {
     if (books.closedAt || books.creditFacilityId) continue;
+    // The paydays a line covers are the weighted ones, as the firm's cash
+    // is: a counted worker's record stands for its household's weight.
+    const payroll = weightedPayrollMinor(
+      c,
+      id,
+      books.annualPayrollMinor,
+      p("jobsDaysPerYear"),
+    );
     const cover =
-      (books.annualPayrollMinor / p("macroMonthsPerYear")) *
-      p("creditLineMonthsOfPayroll");
+      (payroll / p("macroMonthsPerYear")) * p("creditLineMonthsOfPayroll");
     const cash = c.organizations.get(id)!.liquidMinor;
     const requested = Math.max(0, cover - cash);
     if (!requested) continue;
@@ -471,7 +493,13 @@ function review(api: CoreAPI): void {
     const ownerId =
       (owners?.get(id) as { ownerId?: string } | undefined)?.ownerId ??
       managerOf(c, id);
-    const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
+    // Its sales stand for the same weight as its payroll.
+    const monthlySales =
+      (books.annualDemandMinor *
+        (books.annualPayrollMinor > 0
+          ? payroll / books.annualPayrollMinor
+          : p("one"))) /
+      p("macroMonthsPerYear");
     // The owner weighs the rate the bank will charge this borrower, risk spread and all.
     const rate = quotedLineRate(api, lineTerms(api, books).spreadPct);
     const reasons = {
@@ -583,6 +611,9 @@ interface HouseholdMonthRow {
   paidMinor: number;
   /** What the household's cash didn't cover: everyday living it went without, rent or loan payments it owes. */
   unpaidMinor: number;
+  /** Why everyday living went short: what the members held on its day, and what they kept back for their home. */
+  livingHeldMinor?: number;
+  keptBackMinor?: number;
   unemploymentMemberIds: string[];
   application?: { id: string; approved: boolean; limitMinor: number };
 }
@@ -638,6 +669,10 @@ function householdMonths(api: CoreAPI): HouseholdMonthRow[] {
     row.billsMinor += plan.lastRequestedMinor;
     row.paidMinor += plan.lastPaidMinor;
     row.unpaidMinor += plan.lastRequestedMinor - plan.lastPaidMinor;
+    if (plan.lastHeldMinor !== undefined)
+      row.livingHeldMinor = plan.lastHeldMinor;
+    if (plan.lastKeptBackMinor !== undefined)
+      row.keptBackMinor = plan.lastKeptBackMinor;
   }
   const homeOf = new Map<string, string>();
   for (const person of c.people.values())
@@ -838,7 +873,7 @@ function earnedDaily(
  */
 export function personalBorrowingDecision(
   api: CoreAPI,
-  actor: Pick<PersonInput, "traits"> & { id?: string },
+  actor: Pick<PersonInput, "traits"> & { id?: string; affect?: Affect },
   need: number,
   burden: number,
 ) {
@@ -848,13 +883,18 @@ export function personalBorrowingDecision(
     (traitLean(api.state, actor, creditData.actions.borrow.actKinds) -
       traitLean(api.state, actor, creditData.actions.wait.actKinds)) *
     decisionTraitWeight(api.state, "credit.borrow");
+  // Stress a layoff, an eviction or a missed payment left and has not let go
+  // of them pulls toward borrowing, by the stress itself (no step, no roll).
+  const hardship = hardshipReason(api.state, actor, "credit.borrow");
   const reasons = {
     trait: traitTerm,
     baseline: p("creditBorrowBaseline"),
     need: p("creditBorrowNeedWeight") * need,
     cost: -p("creditBorrowCostWeight") * Math.min(burden, p("two")),
+    hardshipStress: hardship.term,
   };
-  const bare = reasons.baseline + reasons.need + reasons.cost;
+  const bare =
+    reasons.baseline + reasons.need + reasons.cost + reasons.hardshipStress;
   // The core chooser breaks ties by action id (borrow sorts before do-without).
   const borrow =
     leanedByKinds(
@@ -1048,7 +1088,12 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
     );
     const towardInterest = Math.min(paid, interest);
     // The cap held the rate below the market's: the interest the borrower did not owe this month.
-    if (loan.rateLawId && (loan.marketAnnualRate ?? 0) > loan.annualRate) {
+    // A repeal leaves the loan at the rate it was written at (nothing is repriced or forgiven), but the law no longer applies to it.
+    if (
+      loan.rateLawId &&
+      lawInForce(api, CAP_LOAN_RATES).value === 1 &&
+      (loan.marketAnnualRate ?? 0) > loan.annualRate
+    ) {
       const weight = loanWeight(api, loan.householdId);
       lawApplied(api, {
         key: CAP_LOAN_RATES,
@@ -1086,6 +1131,25 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         cashBeforeMinor: cashBefore,
         employed: Boolean(person?.jobId),
         standing,
+      });
+    // A missed payment is a hardship at the Holmes and Rahe size of a change
+    // in financial state, and the borrower's appraisal scales it by who they are
+    // (emotion.ts). The coping decisions that follow read the stress it left.
+    if (pastDue > 0 && c.people.has(loan.borrowerId))
+      api.emit({
+        id: `event:credit.payment-missed:${loan.id}:${c.date}`,
+        date: c.date,
+        kind: "credit.payment-missed",
+        personIds: [loan.borrowerId],
+        placeId: c.people.get(loan.borrowerId)!.placeId,
+        publicRecord: false,
+        source: {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: creditData.source.citation,
+          estimatedFrom: `${loan.id}: the borrower's cash covered ${paid} of the ${Math.round(due)} due.`,
+        },
+        ...severityImpulse(api, DEFAULT_HEALTH_DATA.missedPaymentSeverity),
       });
     const { firstPastDueAt: previousPastDueAt, ...rest } = loan;
     store(api)
@@ -1164,6 +1228,9 @@ function householdApplications(
     const ceiling = applicable
       ? lawParameters.parameters.consumerLoanRateCap.value
       : null;
+    // stopgapId: SG-WORLD-credit-rate-cap-no-small-lender — the cap binds only
+    // this bank loan, which sits far below the ceiling in an ordinary rate year.
+    if (applicable) api.stopgap("SG-WORLD-credit-rate-cap-no-small-lender");
     const rate = ceiling === null ? marketRate : Math.min(marketRate, ceiling);
     const lawId = applicable ? cap.governing!.id : null;
     // Whom the cap governed at the quote: every household quoted under it, and whether it held the rate below the market.

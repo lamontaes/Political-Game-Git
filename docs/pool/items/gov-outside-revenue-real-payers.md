@@ -28,3 +28,5 @@ claimed-at:
 Session handed off Oct 15, 2026: nothing pushed (claim only, no branch on the remote); remainder: the whole item.
 
 Oct 20 (pool feeder): spec written; the item's own split already exists as pool items (taxes, aid, borrowing, spending-payees done; fees claimed; retire-plug claimed and waiting on fees); this item is only the roll-up and closes after retire-plug.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up of gov-outside-revenue-retire-plug; the children carry the work.

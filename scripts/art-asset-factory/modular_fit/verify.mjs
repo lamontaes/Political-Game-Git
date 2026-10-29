@@ -49,5 +49,5 @@ run(process.execPath, [
   "node_modules/vitest/vitest.mjs",
   "run",
   "--maxWorkers=1",
-  "src/presentation/sha256.test.ts",
+  "src/appearance/sha256.test.ts",
 ]);

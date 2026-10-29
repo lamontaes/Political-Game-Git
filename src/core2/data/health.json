@@ -29,7 +29,7 @@
   },
   "source": {
     "tag": "ESTIMATED",
-    "citation": "Ruling 29/38/39 ordinary all-cause mortality: SSA 2023 period life table hazard times recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) against one fixed strain threshold; src/simulation/crisis/mortality.ts, condition-pack.ts, death-causes.ts.",
+    "citation": "Ruling 29/38/39 ordinary all-cause mortality: SSA 2023 period life table hazard times recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) against one fixed strain threshold; the old engine's mortality.ts, condition-pack.ts, death-causes.ts.",
     "estimatedFrom": "Pure helpers of the existing no-dice mortality rule, applied to core2 residents from the world's opening day; no seeded roll decides a death date."
   },
   "gaps": [
@@ -57,6 +57,11 @@
   },
   "evictionSeverity": {
     "lifeChangeUnitsParameter": "srrsForeclosure",
+    "maximumUnitsParameter": "srrsMaximumUnits",
+    "stopgapId": "SG-P10-event-severity"
+  },
+  "missedPaymentSeverity": {
+    "lifeChangeUnitsParameter": "srrsChangeInFinancialState",
     "maximumUnitsParameter": "srrsMaximumUnits",
     "stopgapId": "SG-P10-event-severity"
   }

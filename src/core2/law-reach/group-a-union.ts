@@ -9,6 +9,7 @@
  * they rise by the same. A state whose law stood at the opening already has
  * its effect in the membership rate the dues were set from.
  */
+import { daysBetweenText as daysBetween } from "../kernel/dates";
 import type { CoreAPI, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import {
@@ -28,10 +29,6 @@ import {
 
 const KIND = "law-reach-a-union-dues";
 const ROW = "right-to-work";
-const daysBetween = (from: string, to: string) =>
-  (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-  86_400_000;
-
 function table(api: CoreAPI) {
   return reachTable(api, "mechanics");
 }

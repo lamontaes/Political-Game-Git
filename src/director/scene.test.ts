@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { enrichCivicInputs } from "../core2/civic-inputs";
-import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
@@ -15,16 +14,14 @@ import { composeScene } from "./scene";
 // narrated in second person, and opens a conversation with someone present.
 const seed = process.env.GOLDEN_PATH_SEED ?? "scenes-a";
 const base = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 600,
-    }),
-  ),
+  buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 600,
+  }),
 );
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
@@ -125,7 +122,7 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
     expect(homes).toBeGreaterThan(0);
   });
 
-  it("opens each scene with one narrator paragraph of at least three sentences, before anyone speaks", () => {
+  it("opens each scene with one narrator paragraph that never restates the day or the player's own home", () => {
     let checked = 0;
     for (const book of director.ledger.people.values())
       for (const entry of book.schedule) {
@@ -134,8 +131,16 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
         if (!scene.narration.length) continue;
         // One paragraph, not two short lines.
         expect(scene.narration).toHaveLength(1);
-        const sentences = scene.narration[0]!.text.match(/[.!?](\s|$)/g);
-        expect(sentences?.length ?? 0).toBeGreaterThanOrEqual(3);
+        const text = scene.narration[0]!.text;
+        expect(text.match(/[.!?](\s|$)/g)?.length ?? 0).toBeGreaterThanOrEqual(
+          1,
+        );
+        // The screen shows the day and the town (owner, Oct 26: "it shouldn't
+        // say you're at home in Albion or it's Tuesday in November").
+        expect(text).not.toMatch(
+          /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/,
+        );
+        expect(text).not.toMatch(/\b(You're|You are) (at )?home\b/);
         checked += 1;
       }
     expect(checked).toBeGreaterThan(0);

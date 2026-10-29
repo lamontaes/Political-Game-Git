@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
-pr: #6007
+status: done
+claimed-by: finisher/words-carry-bill-scene
+pr: #6387
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:

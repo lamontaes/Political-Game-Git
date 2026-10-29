@@ -1,5 +1,5 @@
 {
-  "about": "The form a bill takes in each kind of body: what it is (a bill for an act, or an ordinance), how the body numbers it, and its enacting clause. A state chamber's prefix and numbering period come from the recorded research (src/simulation/bill-numbering-styles.generated.ts, decision OCD-LEG-NUM-001); its enacting clause from enacting-clauses.json.",
+  "about": "The form a bill takes in each kind of body: what it is (a bill for an act, or an ordinance), how the body numbers it, and its enacting clause. A state chamber's prefix and numbering period come from the recorded research (the old engine's bill-numbering-styles.generated.ts, decision OCD-LEG-NUM-001); its enacting clause from enacting-clauses.json.",
   "federal": {
     "kind": "act",
     "lower": "H.R. {n}",

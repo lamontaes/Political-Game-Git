@@ -31,8 +31,9 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  yesLevels,
 } from "../../src/core2/modules/laws";
-import { inForceHere, LAW_REACH_HOST_ID } from "../../src/core2/law-reach/host";
+import { LAW_REACH_HOST_ID } from "../../src/core2/law-reach/host";
 import {
   LAW_APPLIED_TABLE,
   type LawAppliedRow,
@@ -44,8 +45,16 @@ import {
 } from "../../src/core2/modules/budgets";
 import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { REACH_B_MODULE_ID } from "../../src/core2/law-reach/group-b-store";
-import { ownPayments, UNDER, type Posting, type Reached } from "./own-payments";
+import {
+  lineMoney,
+  ownPayments,
+  UNDER,
+  type Posting,
+  type Reached,
+} from "./own-payments";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
+import { countyNonattainment } from "../../src/core2/business-operating-rules";
+import { HOUSING_MODULE_ID } from "../../src/core2/modules/housing";
 import type { LawRowInput } from "../../src/core2/laws-starting";
 import { townSeats } from "../../src/core2/modules/offices";
 import { draftBill, type Provision } from "../../src/core2/modules/legislature";
@@ -54,6 +63,8 @@ import powerQuestions from "../../data/research/powers-catalog/question-powers.j
 import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 import { linkCoverage, WEB_LINKS } from "../../src/core2/outcome-web-model";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
+import legislaturePowers from "../../src/core2/data/legislature/series-powers.json" with { type: "json" };
+import startingLawData from "../../src/core2/data/laws/starting-law.json" with { type: "json" };
 
 const ROOT = `${process.cwd()}/`;
 /** Days after a repeal (or the old amount put back) before reach is read again: a month, so an engine that applies a law at a monthly close runs once. */
@@ -508,6 +519,97 @@ function stepHearing(
   }
 }
 
+/** Who a law could bind in the drawn place: the subjects its handler applies it to. */
+interface Subjects {
+  count: number;
+  why: string;
+  ids: string[];
+}
+
+/**
+ * For a law whose handler binds only one kind of subject, who in the drawn
+ * place it could bind, read from the records the handler reads: none means
+ * reaching nobody here is the statute's own terms, not a missing wire.
+ */
+const SUBJECTS: Readonly<
+  Record<string, (core: CoreState, since: string) => Subjects>
+> = {
+  // routeCompliance in modules/business.ts: a county out of attainment of an
+  // air quality standard (EPA Green Book) puts the plan's duty on its emitters.
+  "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties":
+    (core) => {
+      const county = core.placeMetadata?.housingCounty ?? "";
+      const year = Number(core.date.slice(0, 4));
+      const rows = county
+        ? countyNonattainment(county, year).filter((row) => !row.revoked)
+        : [];
+      return {
+        count: rows.length,
+        why: `county ${county || "(none)"} misses ${rows.length} air quality standards in ${year} (EPA Green Book)`,
+        ids: rows.map((row) => `${county}:${row.standard}`),
+      };
+    },
+  // The groundwater cap in modules/business.ts binds the town's open farms.
+  "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal":
+    (core) => {
+      const town = lawChain(coreAPI(core)).townPlaceId;
+      const farms = [...core.finance.businesses]
+        .filter(
+          ([id, book]) =>
+            !book.closedAt &&
+            core.organizations.get(id)?.placeId === town &&
+            (core.organizations.get(id)?.classification ?? "").startsWith(
+              "enterprise:agriculture",
+            ),
+        )
+        .map(([id]) => id);
+      return {
+        count: farms.length,
+        why: `${farms.length} open farms in the town`,
+        ids: farms.slice(0, 3),
+      };
+    },
+  // payCounsel in modules/housing.ts: a lawyer at the hearing of an eviction case.
+  "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": (
+    core,
+    since,
+  ) => {
+    const cases = core.modules.has(HOUSING_MODULE_ID)
+      ? (
+          coreAPI(core)
+            .moduleState(HOUSING_MODULE_ID)
+            .table("cases")
+            .rows() as unknown as { id: string; filedAt?: string }[]
+        ).filter((row) => row.filedAt && row.filedAt >= since)
+      : [];
+    return {
+      count: cases.length,
+      why: `${cases.length} eviction cases filed in the window`,
+      ids: cases.slice(0, 3).map((row) => row.id),
+    };
+  },
+};
+
+/** The law's own applied rows in the window and how many record an amount owed, paid, taken or held. */
+function appliedAmounts(
+  core: CoreState,
+  key: string,
+  lawIds: ReadonlySet<string> | null,
+): { rows: number; withAmount: number; sample: string[] } {
+  const out = { rows: 0, withAmount: 0, sample: [] as string[] };
+  if (!core.modules.has(LAW_REACH_HOST_ID)) return out;
+  for (const row of coreAPI(core)
+    .moduleState(LAW_REACH_HOST_ID)
+    .table(LAW_APPLIED_TABLE)
+    .query("byKey", [key, null]) as unknown as LawAppliedRow[]) {
+    if (lawIds && !lawIds.has(row.lawId)) continue;
+    out.rows += 1;
+    if (row.amountMinor) out.withAmount += 1;
+    if (out.sample.length < 3) out.sample.push(row.id);
+  }
+  return out;
+}
+
 function reachedTargets(
   core: CoreState,
   key: string,
@@ -561,38 +663,36 @@ function snapshotMoney() {
   return m;
 }
 
-/**
- * The treasury's payments on a budget line in a window: the payment ids that
- * name the government and the line (a provider's, a payee group's), summed,
- * for payments dated before `before` (the day a body in play first changed the
- * law, after which the two worlds no longer differ by the checker's change).
- */
-function lineMoney(
-  paid: ReadonlyMap<string, { gross: number; ids: string[] }>,
-  governmentId: string,
-  line: string,
-  before: string | null,
-): { gross: number; ids: string[] } {
-  const named = new RegExp(
-    `(^|:)${(governmentId + ":" + line).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(:|$)`,
-  );
-  const out = { gross: 0, ids: [] as string[] };
-  for (const [id, row] of paid) {
-    const dated = /^(.*):(\d{4}-\d{2}-\d{2})$/.exec(id);
-    if (!dated || !named.test(dated[1]!)) continue;
-    if (before && dated[2]! >= before) continue;
-    out.gross += row.gross;
-    for (const at of row.ids) if (out.ids.length < 3) out.ids.push(at);
-  }
-  return out;
-}
-
 // ---- changing a law -------------------------------------------------------
 
 interface Change {
   lawIds: Set<string>;
   how: string;
   undo: () => void;
+  /** The budget line the change raised, as an act's move rows record theirs (a budget-line law's own line). */
+  lines?: { governmentId: string; moves: Record<string, number> }[];
+}
+
+/**
+ * The levels a law may be enacted at: the catalog's levels narrowed to those
+ * that hold the power, read from the same series powers the legislature's
+ * authority check reads (`beyondPower`: a "local" power is the city, county
+ * and township). A catalog level with no power is dropped; when none is left,
+ * the levels that hold the power are used. Null where nothing is recorded.
+ */
+const POWERS = legislaturePowers as unknown as {
+  series: Record<string, { levels: string[] }>;
+  questions: Record<string, { levels: string[] }>;
+};
+function enactingLevels(law: LawEntry): readonly string[] | null {
+  const power = POWERS.questions[law.key] ?? POWERS.series[law.key];
+  const catalog = law.catalog?.levels ?? null;
+  if (!power) return catalog;
+  const held = power.levels.flatMap((l) =>
+    l === "local" ? ["city", "county", "township", "local"] : [l],
+  );
+  const both = (catalog ?? []).filter((l) => held.includes(l));
+  return both.length ? both : held;
 }
 
 function townLevel(
@@ -689,7 +789,7 @@ function setQuestion(
   }
   const at = townLevel(
     api,
-    AT ? [AT] : (ENACT_AT[law.key] ?? law.catalog?.levels ?? null),
+    AT ? [AT] : (ENACT_AT[law.key] ?? enactingLevels(law)),
   );
   if (!at) return "no level of the town's chain may enact it";
   const row = enactLaw(api, {
@@ -793,6 +893,36 @@ const FIRST_AMOUNT: Readonly<Record<string, number>> = {
   "public-pay-floor": 70_000,
 };
 
+/**
+ * Amount series whose every starting row is 0 or 1: a grant or a yes-or-no
+ * (a state granting localities an income tax). A body changes one by
+ * switching it, not by raising it a tenth (1 to 2 would not be read as
+ * granted).
+ */
+const SWITCH_SERIES: ReadonlySet<string> = (() => {
+  const values = new Map<string, boolean>();
+  for (const rows of Object.values(
+    (
+      startingLawData as unknown as {
+        jurisdictions: Record<string, { series: string; value: number }[]>;
+      }
+    ).jurisdictions,
+  ))
+    for (const row of rows)
+      values.set(
+        row.series,
+        (values.get(row.series) ?? true) &&
+          (row.value === 0 || row.value === 1),
+      );
+  // A series with a first amount of its own (the public pay floor, in dollars)
+  // is an amount that happens to start at 0, not a switch.
+  return new Set(
+    [...values]
+      .filter(([k, only01]) => only01 && !(k in FIRST_AMOUNT))
+      .map(([k]) => k),
+  );
+})();
+
 function changeAmount(
   api: CoreAPI,
   law: LawEntry,
@@ -818,7 +948,7 @@ function changeAmount(
       : governing;
   const at = g
     ? { level: g.level, jurisdiction: g.jurisdiction }
-    : townLevel(api, AT ? [AT] : (law.catalog?.levels ?? null));
+    : townLevel(api, AT ? [AT] : enactingLevels(law));
   if (!at)
     return {
       lawIds: ids,
@@ -828,8 +958,12 @@ function changeAmount(
   // The governing row's own amount: the change is written at its level, and
   // the law in force can be several levels' sum (a federal and a state tax).
   const old = Number(g?.value ?? now.value ?? 0);
-  const next =
-    old > 0
+  const switched = SWITCH_SERIES.has(series);
+  const next = switched
+    ? old === 1
+      ? 0
+      : 1
+    : old > 0
       ? Number.isInteger(old)
         ? Math.max(old + 1, Math.round(old * 1.1))
         : Math.round(old * 1.1 * 100) / 100
@@ -841,7 +975,9 @@ function changeAmount(
     value: next,
     effectiveDate: date,
     measureId: `law-wiring-${tag}`,
-    citation: "Law-wiring check: amount raised a tenth",
+    citation: switched
+      ? "Law-wiring check: grant switched"
+      : "Law-wiring check: amount raised a tenth",
     ...(g?.unit ? { unit: g.unit } : {}),
     ...(g?.terms ? { terms: { ...g.terms } } : {}),
   });
@@ -904,6 +1040,9 @@ function changeBudget(
     how: row
       ? `${gov.id} ${line} ${base} -> ${base + delta} by law-wiring-${tag}`
       : `${gov.id} has no budget this year`,
+    ...(row
+      ? { lines: [{ governmentId: gov.id, moves: { [line]: delta } }] }
+      : {}),
     undo: () => {
       amendBudget(api, {
         governmentId: gov.id,
@@ -1058,7 +1197,8 @@ function checkLaw(
   trackedKeys = new Set([law.key]);
   resetTrace();
 
-  const opening = law.kind === "question" ? inForceHere(api, law.key) : false;
+  const opening =
+    law.kind === "question" ? yesLevels(api, law.key).length > 0 : false;
   // Link 1 in the drawn place: the row in force (or saying no) on day one.
   const openingRow =
     law.kind === "budget-line"
@@ -1096,6 +1236,7 @@ function checkLaw(
       : dayOne;
   let how: string;
   let undo: () => void;
+  let raised: NonNullable<Change["lines"]> = [];
   if (law.kind === "question") {
     const repealed: { level: LawRowInput["level"]; jurisdiction: string }[] =
       [];
@@ -1107,6 +1248,7 @@ function checkLaw(
     const c = changeBudget(api, law, tag, ids);
     how = c.how;
     undo = c.undo;
+    raised = c.lines ?? [];
   } else {
     const c = changeAmount(api, law, tag, ids);
     how = c.how;
@@ -1151,6 +1293,8 @@ function checkLaw(
   // Once a body's own row takes over, the people the change reached cite that
   // row, so an enactment's reach is its widest step in the window.
   const reachAtEnd = reachOf(core, law.key, ids);
+  const subjects = SUBJECTS[law.key]?.(core, since);
+  const applied = appliedAmounts(core, law.key, opening ? null : ids);
   // The law's own payments to whom it reached, against the control world.
   const own = ownPayments(
     (id) => core.households.get(id)?.memberIds ?? [],
@@ -1280,8 +1424,12 @@ function checkLaw(
   // An act that moves budget lines is paid by the treasury on those lines: the
   // lines its own move rows name, and what the treasury paid on each here and
   // in the control world, up to the day a body in play first changed the act
-  // (no rows: the law is not one that moves a line).
-  const moveRows = earlyMoves ?? moveRowsOf(core, law.key);
+  // (no rows: the law is not one that moves a line). A budget-line law is the
+  // same with its own line, the one the checker raised: the treasury pays the
+  // line's workers and contractors through the town's outside market, which no
+  // person's or organization's account shows, so its payments are followed by
+  // the line their payment ids name.
+  const moveRows = [...(earlyMoves ?? moveRowsOf(core, law.key)), ...raised];
   const changedByBodyOn = inPlay.map((r) => r.effectiveDate).sort()[0] ?? null;
   const lines = moveRows.length
     ? moveRows.flatMap((row) =>
@@ -1362,6 +1510,8 @@ function checkLaw(
     reach,
     reachAtEnd,
     inPlay,
+    ...(subjects ? { subjects } : {}),
+    applied,
     readers: Object.fromEntries([...readers].sort((a, b) => b[1] - a[1])),
     openingRow,
     money: {

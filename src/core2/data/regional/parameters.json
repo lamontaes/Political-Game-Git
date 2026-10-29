@@ -268,6 +268,17 @@
       "citation": "Blanchard and Katz 1992; Dao, Furceri and Loungani 2017."
     }
   },
+  "regionalPayGrowthPerGapPoint": {
+    "value": -0.1934,
+    "tag": "SOURCED",
+    "citation": "Pooled OLS of a state's December-over-December change in CES average hourly earnings, less the mean of the states, on its December unemployment rate less the mean of the states (LAUS), 51 states, Decembers 2015 to 2024, 520 state-years from data/research/regional/series/state-monthly.json: slope -0.193 percentage points of pay change a year per point of unemployment gap, SE 0.071, R-squared 0.018. States' pay changes are mostly not explained by their labor-market conditions (the pay deviation's standard deviation is 1.94 points), so this term moves states apart by their conditions and the rest of the real spread is left unmodeled.",
+    "spread": {
+      "low": -0.3334,
+      "high": -0.0534,
+      "unit": "percentage points of a year's pay growth against the nation's, per point of the unemployment gap",
+      "citation": "Pooled OLS of a state's December-over-December change in CES average hourly earnings, less the mean of the states, on its December unemployment rate less the mean of the states (LAUS), 51 states, Decembers 2015 to 2024, 520 state-years from data/research/regional/series/state-monthly.json: slope -0.193 percentage points of pay change a year per point of unemployment gap, SE 0.071, R-squared 0.018. States' pay changes are mostly not explained by their labor-market conditions (the pay deviation's standard deviation is 1.94 points), so this term moves states apart by their conditions and the rest of the real spread is left unmodeled."
+    }
+  },
   "regionalPriceLevelPayElasticity": {
     "value": 0.277,
     "tag": "SOURCED",
@@ -277,6 +288,42 @@
       "high": 0.348,
       "unit": "percent change in a region's price level per percent change in its pay against the nation's",
       "citation": "OLS of the log of BEA regional price parity (2024) on the log of BEA per capita personal income across the 77 metro and rest-of-state regions in regions.json that carry both, slope 0.277, SE 0.036, R-squared 0.44."
+    }
+  },
+  "regionalWorldUnemploymentSpreadPoints": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "citation": "How far a state's unemployment rate sits from its published LAUS rate beyond the nation's move: about the typical 12-month change in a state's rate relative to the nation's (BLS LAUS state series, 2010-2024).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published state series is the center; a state's offset is drawn once from the world's seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, on top of the world's national offset.",
+    "spread": {
+      "low": 0.25,
+      "high": 1.0,
+      "unit": "percentage points",
+      "citation": "BLS LAUS state unemployment rates; src/core2/data/regional/regions.json series."
+    }
+  },
+  "regionalWorldLevelSpreadShare": {
+    "value": 0.02,
+    "tag": "ESTIMATED",
+    "citation": "How far a state's payroll jobs and hourly pay sit from their published CES levels beyond the nation's move: about a year of a state's growth relative to the nation's (BLS CES state series).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published state series is the center; a state's offset is drawn once from the world's seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, on top of the world's national offset.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.04,
+      "unit": "share of the published level",
+      "citation": "BLS CES state jobs and average hourly earnings; src/core2/data/regional/regions.json series."
+    }
+  },
+  "regionalWorldPriceLevelSpreadPoints": {
+    "value": 1.0,
+    "tag": "ESTIMATED",
+    "citation": "How far a state's or metro's regional price parity sits from BEA's published one: about BEA's year-to-year revision and change in a state's RPP (BEA Regional Price Parities, 2008-2023).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published state series is the center; a state's offset is drawn once from the world's seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, on top of the world's national offset.",
+    "spread": {
+      "low": 0.5,
+      "high": 2.0,
+      "unit": "RPP points (nation = 100)",
+      "citation": "BEA Regional Price Parities by state and metro."
     }
   }
 }

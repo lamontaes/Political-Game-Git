@@ -18,6 +18,7 @@
  * same inactive tier as relatives who live elsewhere). The ACS rates check a
  * year's totals.
  */
+import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
@@ -25,7 +26,11 @@ import majority from "../../../data/research/people/age-of-majority.json" with {
 import destinations from "../data/moves/destinations.json" with { type: "json" };
 import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
-import { decisionLean, decisionTraitWeight } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  hardshipReason,
+} from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { moveRecipientIncomeHome } from "../finance-state";
 import { sellHome } from "../housing-sale";
@@ -56,7 +61,6 @@ export const MOVED_AWAY_EVENT = "person.moved-away";
 const STOPGAP = "SG-P15-moves-weights";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const TAX_STOPGAP = "SG-WEB-moves-full-tax-pull";
-const DISASTER_STOPGAP = "SG-WEB-moves-disaster-severity";
 const INACTIVE_TIER = "husk";
 
 type Rates = Readonly<Record<string, number>>;
@@ -127,6 +131,8 @@ interface Pull {
   webRecord?: string;
   /** At the opening: the pushes less the holds the opening pull was ranked by. */
   openingNet?: number;
+  /** Months to go at the opening, before their own pace: the most pushed have the fewest. */
+  openingMonths?: number;
 }
 
 function pullOf(api: CoreAPI, person: Readonly<PersonState>): Pull {
@@ -157,7 +163,11 @@ function ageOf(api: CoreAPI, person: Readonly<PersonState>): number {
 
 /** The ACS age band a person is in, or none below the youngest. */
 function bandOf(api: CoreAPI, person: Readonly<PersonState>): string | null {
-  const age = ageOf(api, person);
+  return bandFor(ageOf(api, person));
+}
+
+/** The ACS age band an age is in, or none below the youngest. */
+function bandFor(age: number): string | null {
   for (const band of RATES.ageBands) {
     const [low, high] = band.replace("+", "-").split("-");
     if (age >= Number(low) && (!high || age <= Number(high))) return band;
@@ -171,12 +181,26 @@ function lifeStageRate(
   person: Readonly<PersonState>,
   band: string,
 ): number {
-  const place = corePlaceByJurisdictionId(person.placeId as EntityId);
+  return rateOf(person.placeId, band) ?? api.parameter("zero");
+}
+
+/** The share of a place's state's people in an ACS age band who leave their county in a year, else the nation's. */
+function rateOf(placeId: string, band: string): number | undefined {
+  const place = corePlaceByJurisdictionId(placeId as EntityId);
   const byAge = (
     (place?.stateJurisdictionKey && RATES.places[place.stateJurisdictionKey]) ||
     RATES.national
   ).departurePerYearByAge;
-  return byAge[band] ?? api.parameter("zero");
+  return byAge[band];
+}
+
+/**
+ * The life-stage rate for an age in a place (the rule the monthly pull reads
+ * in play), for the run of the years before the start (src/core2/past-moves.ts).
+ */
+export function departureRateFor(placeId: string, age: number): number {
+  const band = bandFor(age);
+  return (band && rateOf(placeId, band)) || 0;
 }
 
 interface Kin {
@@ -525,6 +549,15 @@ export function pushesOf(
       m(api, "movesCloseElsewherePull") * diminishing(api, closeness);
     reads.closeElsewhere = away;
   }
+  // Stress that a layoff, an eviction or a missed payment left and has not
+  // worn off: on this log scale it speeds the pull by the stress itself, so a
+  // person hit harder (their own appraisal, emotion.ts) leans harder toward
+  // leaving and a month-old loss almost none.
+  const hardship = hardshipReason(core, person, "moves.move-away");
+  if (hardship.term > zero) {
+    parts.hardshipStress = hardship.term;
+    reads.hardshipStress = [person.id];
+  }
   return { parts, reads };
 }
 
@@ -871,11 +904,12 @@ function webLeavingFor(
   }
   const age = ageOf(api, person);
   const tenure = ownsHome(api, person.householdId) ? "own" : "rent";
+  const adultAge = api.parameter("votingAge");
   const children = (
     core.households.get(person.householdId)?.memberIds ?? []
   ).some((id) => {
     const member = core.people.get(id);
-    return member?.alive && ageOf(api, member) < 18;
+    return member?.alive && ageOf(api, member) < adultAge;
   });
   const householdKind: Subject["householdKind"] = children
     ? "with-children"
@@ -885,7 +919,6 @@ function webLeavingFor(
   if (held) return held;
   const subject: Subject = { age, tenure, householdKind };
   api.stopgap(TAX_STOPGAP);
-  api.stopgap(DISASTER_STOPGAP);
   const leaving = webReach(
     api,
     person.placeId,
@@ -924,7 +957,9 @@ function accumulate(
   // region's conditions move how many.
   const web = webLeavingFor(api, person);
   const stage =
-    (lifeStageRate(api, person, band) / api.parameter("monthsPerYear")) *
+    ((lifeStageRate(api, person, band) *
+      worldRateFactor(api.state.seed, "movers")) /
+      api.parameter("monthsPerYear")) *
     m(api, "movesLifeStageScale") *
     (factor / (typical?.get(band) ?? factor)) *
     conditions.factor *
@@ -956,14 +991,29 @@ function accumulate(
  * been running for years) and the first to go are the ones their records
  * push hardest. Equal records stand at the same place.
  */
-function openingPulls(api: CoreAPI, adults: readonly PersonState[]): void {
+function openingPulls(
+  api: CoreAPI,
+  adults: readonly PersonState[],
+  typical: ReadonlyMap<string, number>,
+): void {
   const zero = api.parameter("zero");
   const one = api.parameter("one");
   const seated = officeholders(api);
   const rows = adults
     .filter((person) => bandOf(api, person) && !seated.has(person.id))
-    .map((person) => ({ person, ...netFactor(api, person) }))
+    .map((person) => {
+      const band = bandOf(api, person)!;
+      const net = netFactor(api, person);
+      // How fast their pull will build each month once the town runs.
+      const gain =
+        (lifeStageRate(api, person, band) / api.parameter("monthsPerYear")) *
+        m(api, "movesLifeStageScale") *
+        (net.factor / (typical.get(band) ?? net.factor));
+      return { person, ...net, gain };
+    })
     .sort((a, b) => a.net - b.net);
+  const meanGain =
+    rows.reduce((total, row) => total + row.gain, zero) / (rows.length || one);
   const stay = m(api, "movesStayPull");
   let start = zero;
   while (start < rows.length) {
@@ -975,7 +1025,12 @@ function openingPulls(api: CoreAPI, adults: readonly PersonState[]): void {
     for (let index = start; index <= end; index += one) {
       const row = rows[index]!;
       const pull = pullOf(api, row.person);
-      const opening = at * stay;
+      // The months to go are spread evenly with the records' push (the most
+      // pushed go first), the town's departures a year running at the rate
+      // its adults' ages give; the pull left to build is the months to go at
+      // this person's own pace, so a fast builder is not also nearer the bar.
+      const toGo = (one - at) * (row.gain / meanGain);
+      const opening = Math.max(zero, one - toGo) * stay;
       pull.value += opening;
       pull.causes = { ...pull.causes, opening };
       pull.reads = {
@@ -988,6 +1043,7 @@ function openingPulls(api: CoreAPI, adults: readonly PersonState[]): void {
           .sort(),
       };
       pull.openingNet = row.net;
+      pull.openingMonths = (one - at) / meanGain;
       savePull(api, pull);
     }
     start = end + one;
@@ -1235,7 +1291,7 @@ function monthlyReview(api: CoreAPI): void {
   const state = store(api).table("state").get("moves:state") as
     { id: string; openingRanked?: boolean } | undefined;
   if (state && !state.openingRanked) {
-    openingPulls(api, adults);
+    openingPulls(api, adults, typical);
     store(api)
       .table("state")
       .put({ ...state, openingRanked: true });

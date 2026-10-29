@@ -62,6 +62,28 @@ export function booksOf(core: CoreState, organizationId: string) {
   };
 }
 
+/**
+ * A budget as the screens show it: its lines largest first and the sums the
+ * screen reads (revenue, spending and the balance between them), so no screen
+ * adds the lines up itself.
+ */
+function totaled(budget: ReturnType<typeof budgetsOf>[number]) {
+  const revenue = sorted(budget.revenueMinor);
+  const spending = sorted(budget.spendingMinor);
+  const sum = (lines: readonly { minor: number }[]) =>
+    lines.reduce((total, row) => total + row.minor, 0);
+  return {
+    fiscalYear: budget.fiscalYear,
+    adoptedOn: budget.adoptedOn,
+    adoptedBy: budget.adoptedBy,
+    revenue,
+    spending,
+    revenueMinor: sum(revenue),
+    spendingMinor: sum(spending),
+    balanceMinor: sum(revenue) - sum(spending),
+  };
+}
+
 /** Every government over the town, its latest budget, and the player's taxes. */
 export function budgetView(core: CoreState, personId: string) {
   if (!core.modules.has("core2-budgets-v1"))
@@ -87,13 +109,7 @@ export function budgetView(core: CoreState, personId: string) {
         youAreExecutive: [...executive].some((j) => gov.id.includes(j)),
         priorities: budgetPriorities(api, gov.id),
         books: booksOf(core, gov.organizationId),
-        latest: latest && {
-          fiscalYear: latest.fiscalYear,
-          adoptedOn: latest.adoptedOn,
-          adoptedBy: latest.adoptedBy,
-          revenue: sorted(latest.revenueMinor),
-          spending: sorted(latest.spendingMinor),
-        },
+        latest: latest && totaled(latest),
       };
     }),
     withholding: {

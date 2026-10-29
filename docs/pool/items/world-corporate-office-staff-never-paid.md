@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5041
 blocked-on:
@@ -32,3 +32,5 @@ Oct 21 (CTO merger, PR #5041): this consolidates the specification and findings 
 Author's Oct 18 investigation and proposed standing-inflow approach (historical proposal, not an approved funding source): The opening gives a county business-services office (the town's regional office of a larger firm, classification `enterprise:corporate-office`) $0 in cash and no source of revenue, so any staff it has are never paid. `src/core2/data/business-books.json` binds that classification, `enterprise:utility` and `service:hospital` to no business kind and the funding route `branch-or-institution-budget-required` (its citation: the old town business table excluded them), and `src/core2/opening-capital.ts` then opens each one as modeled-zero-funded under the stopgap SG-P8-opening-unsupported-owner-funding. A branch is paid by the firm it belongs to, whose revenue lies outside the town, so it needs a standing inflow from outside sized to its payroll, its employer taxes and a margin, the way a local paper's revenue is started by `startOutletRevenue` in `src/core2/press-money.ts`. Checked Oct 18: in Green Park, Missouri (seed `biz0`, purpose "corp") St. Louis County Business Services opens with $0 and no revenue flow, though it has no full-person job there, so the payroll case needs a place where a full person works at one.
 
 Current-code clarification, Oct 21: business-books.json now gives enterprise:utility kindId utility and fundingRoute business. The null-kind branch-or-institution-budget-required rows are enterprise:corporate-office and service:hospital. SG-P8-opening-unsupported-owner-funding remains open and requires genuine dated funding authority and receipts, with actual supplied balances preserved; its replacement explicitly forbids a synthetic owner contribution. The historical suggestion of an inflow sized merely to cover payroll does not override that constraint. Implementation must retain the existing named-payer acceptance.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `world-worker-unpaid-four-months`; close into it and carry any line it lacks there. (verify the shared cause first)

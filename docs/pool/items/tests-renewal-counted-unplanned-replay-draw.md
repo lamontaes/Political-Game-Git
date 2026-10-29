@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6255
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The counted unplanned-pregnancy case in src/core2/renewal.test.ts calls randomBytes inside each attempt instead of using the file replay root. On main the source at lines 387-391 keeps the drawn key and seed only in the in-memory tried array, and prints the input after successful play. A worker killed during world construction or its year therefore leaves no complete replay input; this is a separate source defect from the currently observed rooted-case memory failures. Record the input before building so a later failure can be compared on main without replacing its town.

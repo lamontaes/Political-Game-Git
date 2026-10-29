@@ -41,9 +41,10 @@ try {
     try {
       await page.goto(`${base}/play`);
       await page.locator("#new-life").click();
-      await page.locator("#new-custom").click();
+      await page.locator("#new-advanced").click();
       await page.locator("#seed").fill(seed);
-      await page.locator("#custom-next").click();
+      await page.locator("#advanced-back").click();
+      await page.locator("#new-start").click();
       await page.locator("#cr-character:not([hidden])").waitFor();
       await page.locator("[data-gender=male]").click();
       await page.locator("#cr-random-name").click();
@@ -59,13 +60,25 @@ try {
       const stateFont = await page
         .locator(`[data-testid="state-${state.key}"]`)
         .evaluate(fontOf);
+      // The states page; the search brings this one onto the first page.
+      await page.locator("#cr-state-search").fill(state.name);
       await page.locator(`[data-testid="state-${state.key}"]`).click();
       await page.locator("#cr-towns button").first().waitFor();
       await page.waitForTimeout(1500);
+      // Every row's words, the pages not shown included (textContent reads
+      // rows the pager has out of view; innerText would not).
       const texts = await page
         .locator("#cr-towns button")
-        .evaluateAll((all) => all.map((b) => b.innerText.replace(/\s+/g, " ")));
-      await page.locator("#cr-towns button").last().scrollIntoViewIfNeeded();
+        .evaluateAll((all) =>
+          all.map((b) =>
+            [...b.querySelectorAll("span, small")]
+              .map((part) => part.textContent.trim())
+              .join(" "),
+          ),
+        );
+      // To the last page, with the pager's Continue.
+      const next = page.locator("#cr-towns-pager button").last();
+      while (await next.isVisible()) await next.click();
       await page.screenshot({
         path: `${out}/${state.key}-end-of-list.png`,
       });
@@ -95,7 +108,8 @@ try {
         recorded(usps),
         `${state.name}: the list holds ${texts.length} of ${recorded(usps)} towns`,
       );
-      const noCount = texts.filter((t) => !/\d[\d,]* \S+$/.test(t));
+      // The count, then for a same-named town its own "in <county>" line.
+      const noCount = texts.filter((t) => !/\d[\d,]* \S+( in .+)?$/.test(t));
       assert.equal(
         noCount.length,
         0,

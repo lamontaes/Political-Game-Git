@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/director/government-scenes.test.ts, src/director/civic-roles.ts, src/director/data/situation-types.json
 
 **Notes.** Oct 20 (pool feeder): spec written; split into three M parts because it touches the speech, legislature and offices records and the screen opener. Ownership call (acting CTO): any builder may build the director-side producer; every word still comes from the English engine's mined bank (src/director/mined, data/english); where the bank has no graded sentence, register a Words-line item for mining it and keep the scene out of play until graded.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up; close it: the children carry the work.

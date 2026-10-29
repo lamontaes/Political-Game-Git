@@ -13,7 +13,6 @@ import { renderLine, type Fact } from "./bank-line";
 import { RELATION_WORDS } from "./journal-words";
 import {
   CONVERSATION_BANK,
-  conversationDataFromBank,
   MINED_CONVERSATION,
 } from "./mined/conversation-bank";
 import { fitMoves, moveVariantKey } from "./move-fit";
@@ -57,10 +56,6 @@ export interface ConversationWords {
 }
 /** The mined words, read by default. */
 export const CONVERSATION_WORDS = MINED_CONVERSATION;
-/** The words with the held pieces in, for a grading view only. */
-export function heldConversationWords(): typeof MINED_CONVERSATION {
-  return conversationDataFromBank(undefined, true);
-}
 /** Whether a piece of the bank serves a subject (or its reply), by a use of its own. */
 export function pieceServes(key: string, subject: string): boolean {
   return CONVERSATION_BANK.parts.some(

@@ -5,8 +5,9 @@
  * - The next local, state and federal contests carry that place's real dates
  *   (general election, primary, filing deadline) from the data files, and
  *   filing requires what that place's rules require.
- * - A resident files once, at no charge and with no petition, and is on
- *   the ballot.
+ * - A resident files once, at no charge: the filing is a petition and the
+ *   candidate stands in the race while it circulates (the clerk's check is
+ *   the voting engine's; `petition-filing.test.ts`).
  * - An ineligible person gets the rule that stops them, as a structured reason.
  */
 import { createHash } from "node:crypto";
@@ -141,7 +142,7 @@ describe("M2-02 election calendars and filing rules", () => {
 });
 
 describe("M2-03 filing (engine)", () => {
-  it("a resident files once, at no charge and with no petition, and is on the ballot; an ineligible person is told the rule", () => {
+  it("a resident files once, at no charge, and stands in the race while the petition circulates; an ineligible person is told the rule", () => {
     const core = world(randomPlace("file").key);
     const api = coreAPI(core);
     const open = openContests(api);
@@ -171,7 +172,7 @@ describe("M2-03 filing (engine)", () => {
     // Filing costs nothing.
     expect(core.people.get(candidate.id)!.liquidMinor).toBe(cashBefore);
     const filing = result.filing;
-    expect(filing.status).toBe("on-ballot");
+    expect(filing.status).toBe("petitioning");
     expect(ballot(api, contest.id).map((f) => f.personId)).toContain(
       candidate.id,
     );

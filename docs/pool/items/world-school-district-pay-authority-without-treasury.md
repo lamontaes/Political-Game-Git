@@ -6,12 +6,12 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/school-pay-treasury
+pr: #6280
 blocked-on:
 source: laws lead, Oct 26
-claimed-at:
+claimed-at: 2026-10-27T09:37:18.997Z
 ---
 
 **What.** `src/core2/school-pay.test.ts` fails on clean main (040b9796b3) with `GOLDEN_PATH_SEED=c04e187bb54f8800c54726f409fe32f13c27e00c`: "opening-public-pay:85edd023d00d06ab is funded by a treasury: expected undefined to be defined". The district the test drew has full teachers on its pay authority, but `publicPayTreasuries` finds no treasury for that authority. The counted case on the same seed passes. Whether the world builds this district under a government with no treasury, or links the authority to the wrong government, is not traced. The schools budget line pays teachers through this link, so a district without it is a district whose line pays no one.

@@ -38,3 +38,5 @@ Sent back 2026-10-23 from PR #5533 (branch claude/political-game-pool-yucp92-tt)
 Sent back 2026-10-25 from PR #5533 (branch claude/political-game-pool-yucp92-tt): normal integration of current main 8fed3e04a8 conflicts in production configuration src/core2/data/parameters.json at the appended budgetHearingLeadDays versus current main parameter rows; merge aborted, retain both sides on the source branch before the changed-file gate and required played-mayor proof; finish on that branch, merge main into it first.
 
 Sent back 2026-10-26 from PR #5533 (branch claude/political-game-pool-yucp92-tt): integration conflict and positive cash receipt repaired, but the owner-route Done-when still does not prove a council amendment: the test permits unchanged passage and own drawn Samson year proposed/passed +1000000 unchanged; add a positive council-changed proposal through the office route with amendment reasons and the existing treasury-to-person chain; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (roll-up; children carry the rest).

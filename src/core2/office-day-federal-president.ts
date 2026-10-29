@@ -342,7 +342,10 @@ export function confirmGivenVotes(api: CoreAPI, presidentId: string): void {
       seatKey: `cabinet:US:${row.postId}`,
       appointerSide: partySide(federalSeatOf(api, presidentId)?.term.party),
       candidates: nominee ? [nominee] : [],
-      confirmingBody: { name: CABINET.confirmation.body, sides: senateSides() },
+      confirmingBody: {
+        name: CABINET.confirmation.body,
+        sides: senateSides(api.state.seed),
+      },
       tolerance: campaignParameter("confirmationTolerance"),
     });
     const confirmed = vote.confirmation?.confirmed ?? false;
@@ -723,7 +726,7 @@ export function travelToTown(
     throw new Error("No one to send");
   const place = corePlaceByKey(placeKey);
   if (!place?.stateJurisdictionKey) throw new Error(`No town ${placeKey}`);
-  const coarse = coarsePlace(placeKey);
+  const coarse = coarsePlace(placeKey, (api.state as CoreState).seed);
   // stopgapId: SG-WORLD-coarse-place-no-payroll
   api.stopgap("SG-WORLD-coarse-place-no-payroll");
   // stopgapId: SG-OFFICE-FED-trip-residents

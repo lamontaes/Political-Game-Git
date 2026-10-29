@@ -7,6 +7,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
 import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
@@ -18,6 +19,7 @@ import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
+import { stakeOf } from "./family-stake";
 import { purposeScene } from "./purpose-scene";
 
 // Scenes with a purpose fire in play from their cause records, in the lines
@@ -26,8 +28,9 @@ import { purposeScene } from "./purpose-scene";
 // filing's own record fires the household's reaction, which plays as an
 // exchange on the play screen, worded by the English engine and naming the
 // record and every fact it says. The count's result record fires the win or
-// the loss at home for every filer on the night it plays, and the year plays
-// out in full. Many places elect their seats only in even years: a place with
+// the loss at home for every filer on the night it plays; for one a top-two
+// or top-four primary put out, the primary's record fires the loss that
+// night. The year plays out in full. Many places elect their seats only in even years: a place with
 // no race counted within the year is passed over the day it is built. Most
 // drawn places are (eight in a row in one CI run), so up to 32 are drawn.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -98,7 +101,8 @@ const run = (drawSeed: string): string | null => {
         contestId: race.id,
         platform: [],
       });
-      if (result.status === "on-ballot") filings.push(result.filing);
+      if (["petitioning", "on-ballot"].includes(result.status ?? ""))
+        filings.push(result.filing);
     }
     if (filings.length) {
       contest = race;
@@ -119,10 +123,18 @@ const run = (drawSeed: string): string | null => {
         row.momentId.includes(`candidate-filed:${filing.id}`),
       );
     expect(entry, `${here} fired no scene`).toBeTruthy();
+    // The household reacts only where a relative has a stake in the run, on
+    // the records (family-stake.ts); the others hear of it in the journal.
+    const mates =
+      core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? [];
+    const stake = mates.some(
+      (id) => stakeOf(core, filer, `candidate-filed:${filing.id}`, id) !== null,
+    );
     expect(
-      entry!.bindings.map((row) => row.typeKey),
-      here,
-    ).toContain("family-filing");
+      entry!.bindings.some((row) => row.typeKey === "family-filing"),
+      `${here}: stake ${stake}`,
+    ).toBe(stake);
+    if (!stake) continue;
     // Filing is a record of the filer's own life: it stops the day at home.
     expect(entry!.outcome, here).toBe("scene-now");
     // The lines that play, as ordinary play says them.
@@ -157,6 +169,52 @@ const run = (drawSeed: string): string | null => {
     );
   }
 
+  // Filing is a petition: each filer canvasses for signatures until the
+  // clerk's check, the morning after the deadline.
+  gatherSignatures(core, ...filings.map((f) => f.id));
+
+  // Whether the filer still lives with someone to meet them at home.
+  const livesWithSomeone = (filer: PersonId) =>
+    (
+      core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? []
+    ).some((id) => id !== filer && core.people.get(id)?.alive);
+  // A top-two or top-four primary sends only its top finishers on. Its record
+  // names everyone it put out and fires their loss on the night it plays: at
+  // home with the household, or the race's own scene for one who lives alone.
+  // They are not on the general's count.
+  const outInPrimary = new Set<string>();
+  if (contest.primaryDate && contest.primaryDate >= core.date) {
+    advanceCore(core, addDays(makeIsoDate(contest.primaryDate), 2));
+    const primary = core.durableLog.get(`primary-result:${contest.id}`);
+    const out = JSON.parse(String(primary?.facts?.outIds ?? "[]")) as string[];
+    for (const filing of filings) {
+      const filer = filing.personId as PersonId;
+      if (!out.includes(filer)) continue;
+      outInPrimary.add(filer);
+      const here = `${where}: ${filing.id}`;
+      const entry = director.ledger.people
+        .get(filer)!
+        .schedule.find((row) => row.momentId.includes(primary!.id));
+      expect(entry, `${here}: the primary fired no scene`).toBeTruthy();
+      const home = livesWithSomeone(filer);
+      expect(
+        entry!.bindings.map((row) => row.typeKey),
+        here,
+      ).toContain(home ? "family-loss" : "race-lost");
+      const scene = purposeScene(core, director, filer, entry!);
+      expect(scene?.kind, here).toBe("composed");
+      if (scene?.kind !== "composed") continue;
+      expect(scene.scene.cause.id, here).toBe(primary!.id);
+      expect(
+        scene.scene.facts.find((row) => row.key === "office")?.recordIds,
+        here,
+      ).toContain(primary!.id);
+      told.push(
+        `${scene.scene.cause.id} (out in the primary): "${scene.scene.talk.state.text}"`,
+      );
+    }
+  }
+
   // The count, with its two days to report: its result record fires the win
   // or the loss for every filer, read on the night it plays. A watched
   // resident's older moments later fold into the director's summaries (its
@@ -179,23 +237,10 @@ const run = (drawSeed: string): string | null => {
   ).toBeTruthy();
   let counted = 0;
   let alone = 0;
-  let outInPrimary = 0;
-  const primary = core.durableLog.get(`primary-result:${contest.id}`);
   for (const filing of filings) {
     const filer = filing.personId as PersonId;
     const here = `${where}: ${filing.id}`;
-    // A top-two or top-four primary sends only its top finishers on: a filer
-    // it put out is named on the primary's record, and the general's count
-    // is not theirs.
-    const now = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .get(filing.id) as unknown as FilingRow | undefined;
-    if (now?.status === "withdrawn" && primary) {
-      expect(primary.personIds, `${here}: out in the primary`).toContain(filer);
-      outInPrimary += 1;
-      continue;
-    }
+    if (outInPrimary.has(filer)) continue;
     const entry = director.ledger.people
       .get(filer)!
       .schedule.find((row) =>
@@ -227,10 +272,7 @@ const run = (drawSeed: string): string | null => {
     };
     // A filer who lives alone by the count (their household moved out or
     // died) has the race's own scene: nobody is at home to meet them.
-    const home = (
-      core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? []
-    ).some((id) => id !== filer && core.people.get(id)?.alive);
-    if (!home) {
+    if (!livesWithSomeone(filer)) {
       expect(
         sitting(won ? "race-won" : "race-lost"),
         `${here}: no ${won ? "race-won" : "race-lost"} scene`,
@@ -278,11 +320,11 @@ const run = (drawSeed: string): string | null => {
   }
   // Every filer on the count has its scene: the household's for each who
   // still lives with someone, and there is at least one.
-  expect(counted + alone + outInPrimary, `${where}: result scenes`).toBe(
+  expect(counted + alone + outInPrimary.size, `${where}: result scenes`).toBe(
     filings.length,
   );
   if (!counted)
-    return `${where}: no filer on the count lived with someone (${alone} alone, ${outInPrimary} out in the primary)`;
+    return `${where}: no filer on the count lived with someone (${alone} alone, ${outInPrimary.size} out in the primary)`;
   // The rest of the year plays out.
   advanceCore(core, end);
   console.log(`PURPOSE SCENES ${where}\n${told.join("\n")}`);

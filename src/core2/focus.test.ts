@@ -106,9 +106,10 @@ describe("normal play circle and tier scope", () => {
       "household",
       "player",
     ]);
-    expect(
-      coreAPI(core).knows("player", "person:coworker:name"),
-    ).toBeUndefined();
+    // A coworker is known by name from the job record they share, never invented.
+    expect(coreAPI(core).knows("player", "person:coworker:name")).toMatchObject(
+      { sourceId: "job:player" },
+    );
     expect(
       duePeople(core, "2021-01-02")
         .map((row) => row.personId)

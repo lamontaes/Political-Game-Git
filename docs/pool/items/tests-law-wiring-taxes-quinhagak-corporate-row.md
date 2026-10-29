@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/quinhagak-corp
+pr: #6372
 blocked-on:
 source: Merger 3 paired clean-main check on PR #6207, October 27
+claimed-at: 2026-10-27T17:59:34.951Z
 ---
 
 **What.** The changed tax-law test on PR #6207 failed in Quinhagak, Alaska (0264600), on GOLDEN_PATH_SEED=29d2c0825b8a100ebbbc50b0836f8dae4fafd192 because corporate-income-tax had no applied record after play. The exact seed and original test fail identically on clean main fd775f578926bb314445fc76e021b7412d2fd982, while the separate arrears case passes in St. George, West Virginia. This is a baseline acceptance gap, separate from Greenville's pension-law reapplication repair. Trace the missing corporate-tax subject or reader through the ordinary generated world and preserve the positive tax/payment assertions.

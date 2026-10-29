@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
 pr: #6208
 blocked-on:
@@ -31,3 +31,4 @@ claimed-at:
 **Files.** src/bench/play.mjs, src/bench/handler.ts, src/director/scene-talk.ts
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-01-talk-says-nothing (Oct 24, lane). Engine changes are the Words lead's (`needs-from: words`). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): The county board clerk (Laura Pierce) spoke "Can I help you?" with no introduction (OD:345); include the filing counter in the done-when.
+Merged Oct 27 in PR #6208; awaiting the owner's installed-build check

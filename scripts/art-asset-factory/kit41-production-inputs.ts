@@ -41,8 +41,6 @@ export function exportProductionInputs(root: string, destination: string) {
     "art/authoring/modular41-head-v2/pose.py",
     "art/manifest/character_candidate_engine41_registry.json",
     "art/manifest/character_candidate_engine41_generation.json",
-    "src/presentation/pose41-adapter.ts",
-    "src/presentation/scene-framing.ts",
     "src/player/SceneBackdrop.tsx",
     "scripts/art-asset-factory/cli-kit41.ts",
     "scripts/art-asset-factory/kit41.ts",

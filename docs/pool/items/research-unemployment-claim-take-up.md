@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/traits-ui-take-up
+pr: #6681
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T18:24:54.894Z
 ---
 
 **What.** benefitsFileBase (0.6) makes filing a claim nearly certain: skipping needs a lean at or below -(0.6 + stress), and observed leans run about -0.3 to +1, so no claim in eight played years was skipped. Real take-up among eligible unemployed is about 70 to 80 percent. Source the take-up rate and set the base so the played share matches it, with temperament and the claimant's circumstances deciding who skips.

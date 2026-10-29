@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { enrichCivicInputs } from "./civic-inputs";
-import { buildDeepPast } from "./deep-past";
 import { advanceCore, availableActs, createLifeCore } from "./life";
 import { parameter } from "./parameters";
 import { buildPopulation } from "./population";
@@ -10,13 +9,11 @@ import { buildPopulation } from "./population";
 // residents plan the coming week and each act happens on its own date.
 describe("filling free hours", () => {
   const input = enrichCivicInputs(
-    buildDeepPast(
-      buildPopulation({
-        seed: "p15-free-block",
-        startedAt: "2021-01-01",
-        minimumPeople: 300,
-      }),
-    ),
+    buildPopulation({
+      seed: "p15-free-block",
+      startedAt: "2021-01-01",
+      minimumPeople: 300,
+    }),
   );
   const core = createLifeCore(input);
   const p = (key: string) => parameter(key, core.data.parameters);

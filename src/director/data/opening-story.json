@@ -1,66 +1,5 @@
 {
-  "about": "What the opening story reads that no record names yet: the town's lead story maps a public record's event kind to the newscast bank's kind of story.",
-  "townStoryKinds": {
-    "organization.closed": "closing",
-    "life.death": "death"
-  },
-  "sequence": {
-    "about": "The opening's sequence (owner, Oct 14, 2026, late; key people ruled Oct 15, afternoon): the President giving the address with the Vice President and the most powerful person in each chamber behind, pointed out by name and office as the camera passes; then Congress (your U.S. senators and representative); then your state, your council and your state legislators; then your family, if you have one; then home. Each part of the address plays over its stage, in the address's own order. Who the key people are is one list (src/core2/opening-key-people.ts, data/opening/key-people.json), read here and by the Politics screen; a stage lists the reasons whose people it points out, and nobody else is pointed out. A stage with no one to point out still shows; a stage marked 'else' that finds no one hands its sentences to that stage, so a player with no family goes from the state's stage straight home. 'reason' is a key reason (and 'scope' federal or state for a chamber's most powerful person); 'household' the player's own household; 'most' caps how many are pointed out.",
-    "stages": [
-      {
-        "stage": "president",
-        "levels": ["salutation", "occasion", "country"],
-        "people": [
-          {
-            "reason": "vice-president"
-          },
-          {
-            "reason": "chamber-leader",
-            "scope": "federal"
-          }
-        ]
-      },
-      {
-        "stage": "congress",
-        "levels": ["congress"],
-        "people": [
-          {
-            "reason": "own-us-senator"
-          },
-          {
-            "reason": "own-us-representative"
-          }
-        ]
-      },
-      {
-        "stage": "state",
-        "levels": ["governors", "towns"],
-        "most": 6,
-        "people": [
-          {
-            "reason": "chamber-leader",
-            "scope": "state"
-          },
-          {
-            "reason": "own-state-legislator"
-          },
-          {
-            "reason": "own-council-member"
-          }
-        ]
-      },
-      {
-        "stage": "family",
-        "levels": ["families", "close"],
-        "else": "state",
-        "people": [
-          {
-            "household": true
-          }
-        ]
-      }
-    ]
-  },
+  "about": "What the opening story reads that no record names yet: the numbers' rounding and the titles of each kind of address.",
   "numbers": {
     "about": "How the opening says its numbers: a figure to one decimal place (\"4.2 percent\"), and jobs in the thousands the payroll series counts and in millions past a million (\"1.9 million\"), and a change over the year as a percent of where it stood (\"up 3.9 percent\"). Writing conventions, not estimates (AP Stylebook, numerals).",
     "decimals": 1,
@@ -72,18 +11,5 @@
     "about": "The address's own title, the topic the anchor's lead-in names (\"We begin with {topic}.\"): the names the U.S. Constitution (Art. II, sec. 3) and the inauguration record give these addresses. A title, like an office's, not composed prose.",
     "state-of-the-union": "the State of the Union",
     "inaugural": "the inaugural address"
-  },
-  "named": {
-    "about": "Who the address names, so the camera points them out on the sentence that does (owner, Oct 14, 2026: a person lit with no recorded reason is a defect). 'role' is the sequence rule that picked the figure (a key person is also pointed out for being key, on the stage the sequence puts them); 'says' a word of the sentence's salutation; 'fact' a fact the sentence used, whose record is the figure's own. The player's household needs no sentence: the home is theirs.",
-    "rules": [
-      {
-        "role": "key:chamber-leader:federal:speaker",
-        "says": "\\bSpeaker\\b"
-      },
-      {
-        "role": "key:vice-president",
-        "says": "\\bVice President\\b"
-      }
-    ]
   }
 }

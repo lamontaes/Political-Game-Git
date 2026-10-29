@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5767
 blocked-on:
@@ -28,3 +28,6 @@ Sent back 2026-10-26 from PR #5767 (branch claude/counted-job-choices): code con
 
 Sent back 2026-10-27 from PR #5767 (branch claude/counted-job-choices): Main conflict repaired; previous morning-check holds remain: cached historical seekers lack current-row and eligible-jobless preconditions before forced-wait removal assertions, and counted worker zero strain has no dedicated open stopgap/code marker (PR comment 6431560064); finish on that branch, merge main into it first.
 Sent back 2026-10-27 from PR #5767 (branch claude/counted-job-choices): its regression test fails on drawn place 2127982 (GOLDEN_PATH_SEED=d922870c54542e13): a layoff-begun claimant loses its seeker row; finish on that branch, merge main into it first.
+Sent back 2026-10-27 from PR #5767 (branch claude/counted-job-choices): by-choice seeker keeps its row in place 0407310 (GOLDEN_PATH_SEED=399e62a05d266d86); finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built.

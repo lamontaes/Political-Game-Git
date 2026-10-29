@@ -1,10 +1,5 @@
 import { tagEngineText } from "./runtime-text-origin";
-import {
-  bearingFactor,
-  lengthFactor,
-  pieceFactor,
-  wordCount,
-} from "./calibration";
+import { calibratedVariants, type CalibrationTable } from "./calibration";
 import { stableHash } from "../core2/kernel/ids";
 import type { EntityId } from "../core2/kernel/brands";
 
@@ -58,6 +53,8 @@ export interface GroundedEnglishPacket {
   readonly voice?: {
     readonly traits: Readonly<Record<string, number>>;
     readonly register?: string;
+    /** The calibration table to read; the shipped one by default. */
+    readonly calibration?: CalibrationTable;
   };
 }
 
@@ -160,7 +157,7 @@ export function renderGroundedEnglish(
   const hash = stableHash(
     `${packet.worldSeed}:${packet.momentKey}:${bank.key}:${bank.version}`,
   );
-  const weightOf = voicedWeights(packet, usable);
+  const weightOf = voicedWeights(packet, bank.key, usable);
   const totalWeight = usable.reduce(
     (total, row) => total + weightOf(row.variant),
     0,
@@ -210,34 +207,35 @@ export function renderGroundedEnglish(
   };
 }
 
-/** Shares a voice's weight is scaled to, so the stable pick stays an integer draw. */
-const VOICE_SHARES = 1000;
-
 /**
  * Each eligible variant's weight in the stable pick. Without a voice it is the
  * authored weight. With one, the calibration table moves it: the speaker's
- * trait pulls toward a length and a bearing, and the piece's running grade
- * (`src/english/calibration.ts`). Weights only: the table names no scene,
- * person or place, and the draw is still the stable hash, never a roll.
+ * trait pulls toward a length and a bearing, and the piece's running grade,
+ * all computed by `calibratedVariants` (`src/english/calibration.ts`), the one
+ * place a variant's weight factor is worked out. Weights only: the table
+ * names no scene, person or place, and the draw is still the stable hash,
+ * never a roll.
  */
 function voicedWeights(
   packet: GroundedEnglishPacket,
+  bankKey: string,
   usable: readonly { variant: AuthoredEnglishVariant }[],
 ): (variant: AuthoredEnglishVariant) => number {
   const voice = packet.voice;
   if (!voice) return (variant) => variant.weight ?? 1;
-  const weights = new Map<string, number>();
-  for (const { variant } of usable) {
-    const text = variant.kind === "template" ? variant.text : "";
-    const factor =
-      lengthFactor(voice.register, wordCount(text), voice.traits) *
-      bearingFactor(variant.bearing, voice.traits) *
-      pieceFactor([variant.pieceKey ?? variant.key]);
-    weights.set(
-      variant.key,
-      Math.max(1, Math.round((variant.weight ?? 1) * VOICE_SHARES * factor)),
-    );
-  }
+  const weights = new Map(
+    calibratedVariants(
+      usable.map((row) => row.variant),
+      {
+        bankKey,
+        ...(voice.register ? { register: voice.register } : {}),
+        traits: voice.traits,
+        textOf: (variant) =>
+          variant.kind === "template" ? variant.text : undefined,
+      },
+      voice.calibration,
+    ).map((variant) => [variant.key, variant.weight ?? 1] as const),
+  );
   return (variant) => weights.get(variant.key) ?? 1;
 }
 

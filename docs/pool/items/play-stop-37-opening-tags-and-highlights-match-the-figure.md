@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-stop-37-opening-tags-and-highlights-match-the-figure
+pr: #6243
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T06:06:58.515Z
 ---
 
 **What.** In the opening's cutaways the tags and the pictures disagree. The House chamber tag reads "Ronald McPherson · U.S. Representative · Pennsylvania" but the figure standing in the aisle is a woman; the seated figures have glowing outlines that mean nothing to the player; over the Pennsylvania capitol a tag reads "George Williamson · Council member" with no town named; and the President's tag reads "President · Michigan", his home state, which the owner took for where the player is. The owner: "I don't know why they're being highlighted like that" and "What state is on here right now? Is it Michigan, maybe? I was in Pennsylvania. That doesn't make any sense." This item makes the figure the tag names the person drawn, highlights only the one person pointed out, puts a tag only over a picture of that person's own place, and drops the President's home state from his tag.

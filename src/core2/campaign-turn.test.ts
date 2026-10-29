@@ -115,7 +115,10 @@ function twoCandidates(
         contestId: contest.id,
         platform: [],
       });
-      if (result.status === "refused" || result.filing.status !== "on-ballot")
+      if (
+        result.status === "refused" ||
+        !["petitioning", "on-ballot"].includes(result.filing.status ?? "")
+      )
         continue;
       filed.push(result.filing);
       if (filed.length === 2) return { you: filed[0]!, rival: filed[1]! };
@@ -128,14 +131,33 @@ function twoCandidates(
  * A world in which two wealthy adults can file in the first contest. A small
  * town may have none, so another place is drawn (up to eight) before failing.
  */
-function worldWithPair(salt: string) {
+function worldWithPair(
+  salt: string,
+  /** Null when the world has what the case tests, else why it has not (read from the world's own records), and the draw goes on. */
+  suits?: (
+    w: ReturnType<typeof world> & {
+      pair: NonNullable<ReturnType<typeof twoCandidates>>;
+    },
+  ) => string | null,
+) {
+  const tried: string[] = [];
   for (let attempt = 0; attempt < 8; attempt += 1) {
     const w = world(`${salt}:${attempt}`);
     const pair = twoCandidates(w.api, w.core);
-    if (pair) return { ...w, pair };
+    if (!pair) {
+      tried.push(`${w.where}: no two candidates for the first contest`);
+      continue;
+    }
+    const found = { ...w, pair };
+    const lacks = suits?.(found) ?? null;
+    if (lacks) {
+      tried.push(`${w.where}: ${lacks}`);
+      continue;
+    }
+    return found;
   }
   throw new Error(
-    `no drawn place had two candidates for the first contest in 8 draws (run seed ${runSeed}, ${salt})`,
+    `no drawn place suited the case in 8 draws (run seed ${runSeed}, ${salt}): ${tried.join("; ")}`,
   );
 }
 
@@ -247,10 +269,18 @@ describe("campaigns that raise and spend", () => {
   }, 300_000);
 
   it("a world candidate's turn is a campaign day taken through the player's own choices", () => {
-    const { core, api, where } = world("shared-day");
-    const pair = twoCandidates(api, core);
-    expect(pair, where).not.toBeNull();
-    const { rival } = pair!;
+    // A candidate whose town has someone left to ask for money (the choice's
+    // own facts say so); a town where every reachable adult has given or is
+    // not askable is passed over by name.
+    const { api, where, pair } = worldWithPair("shared-day", (w) => {
+      const raise = campaignDayChoices(w.api, w.pair.rival.id, true).find(
+        (c) => c.kind === "raise-money",
+      );
+      return raise?.available
+        ? null
+        : `no one left to ask for money (${JSON.stringify(raise?.facts ?? {})})`;
+    });
+    const { rival } = pair;
     // The player's day is not open to a rival; the same choices are, for a world candidate.
     expect(campaignDayChoices(api, rival.id)).toEqual([]);
     const choices = campaignDayChoices(api, rival.id, true);
@@ -314,7 +344,23 @@ describe("campaigns that raise and spend", () => {
   }, 300_000);
 
   it("a rich rival holds an event on a day it is offered and a poor one does not", () => {
-    const { core, api, where, pair } = worldWithPair("rival-event");
+    // A rival whose campaign could hold an event if it could pay the venue:
+    // a platform with a stance and a live candidate, read from the choice's
+    // facts with money given to it. A campaign with no platform is passed over.
+    const { core, api, where, pair } = worldWithPair("rival-event", (w) => {
+      const bank = w.core.organizations.get(
+        campaignFor(w.api, w.pair.rival.id).organizationId,
+      )!;
+      const had = bank.liquidMinor;
+      bank.liquidMinor = 50_000_000_00;
+      const offered = campaignDayChoices(w.api, w.pair.rival.id, true).find(
+        (c) => c.kind === "event",
+      );
+      bank.liquidMinor = had;
+      return offered?.available
+        ? null
+        : `no event could be offered (${JSON.stringify(offered?.facts ?? {})})`;
+    });
     const filing = pair.rival;
     const campaign = campaignFor(api, filing.id);
     const candidate = core.people.get(campaign.candidateId)!;
@@ -451,6 +497,18 @@ describe("campaigns that raise and spend", () => {
       }
       if (free === 0 && campaign.spentMinor === 0) {
         tried.push(`${where}: nothing raised or spent`);
+        continue;
+      }
+      // The views engine moves a stance someone holds: viewers with none on
+      // the ad's question have nothing for it to move.
+      if (
+        !viewers.some((id) =>
+          stancesOf(api, id).some((s) => s.topic === lead.question),
+        )
+      ) {
+        tried.push(
+          `${where}: none of ${viewers.length} viewers holds a stance on ${lead.question}`,
+        );
         continue;
       }
       const moved = viewers.filter((id) =>

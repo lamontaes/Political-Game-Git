@@ -502,7 +502,7 @@ export function officeActHandlers(host: OfficeActHost) {
         let decision = chosen;
         let duty: number | null = null;
         if (!decision) {
-          const own = ownCaseDecision(api, actorId);
+          const own = ownCaseDecision(api, actorId, row);
           duty = own.duty;
           decision = own.decision;
         }

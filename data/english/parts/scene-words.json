@@ -101,140 +101,6 @@
   },
   "parts": [
     {
-      "key": "scene-words.setting-workplace-work.youre-at-employer",
-      "move": "setting-workplace-work",
-      "kind": "spoken",
-      "text": "You're at {employer}.",
-      "uses": [
-        {
-          "move": "setting-workplace-work",
-          "subject": "setting",
-          "role": "workplace",
-          "choice": "work"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 2,
-        "hearings": 1,
-        "house": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
-        "date": "2025-05-01",
-        "granule": "DCPD-202500550",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500550/html/DCPD-202500550.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-workplace-work.you-are-at-employer",
-      "move": "setting-workplace-work",
-      "kind": "spoken",
-      "text": "You are at {employer}.",
-      "uses": [
-        {
-          "move": "setting-workplace-work",
-          "subject": "setting",
-          "role": "workplace",
-          "choice": "work"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "dcpd": 2,
-        "hearings": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Commencement Address at the United States Coast Guard Academy in New London, Connecticut",
-        "date": "2026-05-20",
-        "granule": "DCPD-202600354",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600354/html/DCPD-202600354.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-school-school.you-are-at-school",
-      "move": "setting-school-school",
-      "kind": "spoken",
-      "text": "You are at {school}.",
-      "uses": [
-        {
-          "move": "setting-school-school",
-          "subject": "setting",
-          "role": "school",
-          "choice": "school"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "COMMERCE, JUSTICE, SCIENCE, AND RELATED AGENCIES APPROPRIATIONS FOR 2020",
-        "date": "2019-02-26",
-        "granule": "CHRG-116hhrg36826",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36826/html/CHRG-116hhrg36826.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-public-out.youre-in-place",
-      "move": "setting-public-out",
-      "kind": "spoken",
-      "text": "You're in {place}.",
-      "uses": [
-        {
-          "move": "setting-public-out",
-          "subject": "setting",
-          "role": "public",
-          "choice": "out"
-        },
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 1,
-        "dcpd": 3,
-        "hearings": 2,
-        "nasa2": 1,
-        "nps": 1,
-        "nps.gov (PDF)": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "EXAMINING THE POLICIES AND PRIORITIES OF THE U.S. DEPARTMENT OF EDUCATION",
-        "date": "2021-06-24",
-        "granule": "CHRG-117hhrg44859",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg44859/html/CHRG-117hhrg44859.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.setting-phone-phone.the-phone-rings",
       "move": "setting-phone-phone",
       "kind": "spoken",
@@ -253,7 +119,6 @@
         "nasa2": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "NPS History Collection oral history: francis phil oct 23 2015",
         "date": "2015-10-23",
@@ -286,7 +151,6 @@
         "nasa2": 2,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Congressional Record, Senate section, 2024-02-27",
         "date": "2024-02-27",
@@ -317,7 +181,6 @@
         "dcpd": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Legislation To Promote United States Semiconductor Production, Technological Innovation, and Advanced Manufacturing",
         "date": "2022-08-09",
@@ -327,76 +190,6 @@
       },
       "tag": {
         "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.setting-public-out.you-are-in-place",
-      "move": "setting-public-out",
-      "kind": "spoken",
-      "text": "You are in {place}.",
-      "uses": [
-        {
-          "move": "setting-public-out",
-          "subject": "setting",
-          "role": "public",
-          "choice": "out"
-        },
-        {
-          "move": "setting-venue-venue",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "venue"
-        },
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "chrg": 4
-      },
-      "shippable": true,
-      "source": {
-        "document": "Nomination Of Hon. Sean Duffy, Nominee To Be Secretary, U.S. Department Of Transportation",
-        "date": "2025-01-15",
-        "granule": "CHRG-119shrg61928",
-        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61928",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-public-out.youre-outside",
-      "move": "setting-public-out",
-      "kind": "spoken",
-      "text": "You're outside.",
-      "uses": [
-        {
-          "move": "setting-public-out",
-          "subject": "setting",
-          "role": "public",
-          "choice": "out"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "nasa": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history interview with Mark S. Geyer",
-        "date": "2020-12-03",
-        "granule": "geyerms-12-3-20",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-12-3-20.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
       }
     },
     {
@@ -418,7 +211,6 @@
         "chrg": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2020",
         "date": "2019-02-06",
@@ -428,216 +220,6 @@
       },
       "tag": {
         "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.frame-day.it-s-a-weekday-in-month",
-      "move": "frame-day",
-      "text": "It's a {weekday} in {month}.",
-      "uses": [
-        {
-          "move": "frame-day",
-          "subject": "frame",
-          "role": "day",
-          "choice": "day"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.frame-day.it-is-a-weekday-in-month",
-      "move": "frame-day",
-      "text": "It is a {weekday} in {month}.",
-      "uses": [
-        {
-          "move": "frame-day",
-          "subject": "frame",
-          "role": "day",
-          "choice": "day"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.frame-day.this-is-a-weekday-in-month",
-      "move": "frame-day",
-      "text": "This is a {weekday} in {month}.",
-      "uses": [
-        {
-          "move": "frame-day",
-          "subject": "frame",
-          "role": "day",
-          "choice": "day"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-home-home.you-re-at-home",
-      "move": "setting-home-home",
-      "text": "You're at home.",
-      "uses": [
-        {
-          "move": "setting-home-home",
-          "subject": "setting",
-          "role": "home",
-          "choice": "home"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-home-home.you-re-at-home-in-place",
-      "move": "setting-home-home",
-      "text": "You're at home in {place}.",
-      "uses": [
-        {
-          "move": "setting-home-home",
-          "subject": "setting",
-          "role": "home",
-          "choice": "home"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-home-home.you-are-home-in-place",
-      "move": "setting-home-home",
-      "text": "You are home in {place}.",
-      "uses": [
-        {
-          "move": "setting-home-home",
-          "subject": "setting",
-          "role": "home",
-          "choice": "home"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-other-home.you-re-at-host-home",
-      "move": "setting-other-home",
-      "text": "You're at {host} home.",
-      "uses": [
-        {
-          "move": "setting-other-home",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-other-home.you-are-at-host-house",
-      "move": "setting-other-home",
-      "text": "You are at {host} house.",
-      "uses": [
-        {
-          "move": "setting-other-home",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-venue-out.you-re-out-in-place",
-      "move": "setting-venue-out",
-      "text": "You're out in {place}.",
-      "uses": [
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-venue-out.you-are-out-in-place",
-      "move": "setting-venue-out",
-      "text": "You are out in {place}.",
-      "uses": [
-        {
-          "move": "setting-venue-out",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "out"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "shippable": true,
-      "kind": "spoken",
-      "tag": {
-        "move": "narrate"
       }
     },
     {
@@ -655,7 +237,6 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -676,7 +257,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -697,7 +277,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -718,7 +297,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -739,7 +317,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -767,7 +344,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -795,7 +371,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -816,7 +391,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -837,7 +411,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -858,7 +431,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -886,7 +458,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -907,7 +478,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -928,7 +498,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -956,7 +525,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -977,7 +545,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1005,7 +572,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1026,7 +592,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1047,7 +612,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1068,7 +632,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1089,7 +652,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1110,7 +672,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1129,7 +690,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1150,7 +710,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1171,7 +730,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1192,7 +750,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1213,49 +770,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-argument-alone.there-is-a-disagreement-in-the-room",
-      "move": "lead-argument-alone",
-      "kind": "spoken",
-      "text": "There is a disagreement in the room.",
-      "uses": [
-        {
-          "move": "lead-argument-alone",
-          "subject": "lead",
-          "role": "argument",
-          "choice": "alone"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-celebration-other.other-is-part-of-what-is-being-marked-today",
-      "move": "lead-celebration-other",
-      "kind": "spoken",
-      "text": "{other} is part of what is being marked today.",
-      "uses": [
-        {
-          "move": "lead-celebration-other",
-          "subject": "lead",
-          "role": "celebration",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1276,28 +790,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-funeral-other.other-is-among-the-people-who-have-come-to-say-g",
-      "move": "lead-funeral-other",
-      "kind": "spoken",
-      "text": "{other} is among the people who have come to say goodbye.",
-      "uses": [
-        {
-          "move": "lead-funeral-other",
-          "subject": "lead",
-          "role": "funeral",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1318,7 +810,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1339,7 +830,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1360,28 +850,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-first-day-other.its-your-first-day-and-other-is-there-when-you-a",
-      "move": "lead-first-day-other",
-      "kind": "spoken",
-      "text": "It's your first day, and {other} is there when you arrive.",
-      "uses": [
-        {
-          "move": "lead-first-day-other",
-          "subject": "lead",
-          "role": "first-day",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1402,28 +870,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-last-day-other.its-your-last-day-and-other-is-there-for-it",
-      "move": "lead-last-day-other",
-      "kind": "spoken",
-      "text": "It's your last day, and {other} is there for it.",
-      "uses": [
-        {
-          "move": "lead-last-day-other",
-          "subject": "lead",
-          "role": "last-day",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1444,7 +890,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1465,7 +910,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1486,7 +930,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1507,7 +950,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1528,28 +970,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-arrival-other.a-child-has-been-born-and-other-is-there",
-      "move": "lead-arrival-other",
-      "kind": "spoken",
-      "text": "A child has been born, and {other} is there.",
-      "uses": [
-        {
-          "move": "lead-arrival-other",
-          "subject": "lead",
-          "role": "arrival",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1570,28 +990,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-layoff-other.your-job-has-ended-and-other-is-there",
-      "move": "lead-layoff-other",
-      "kind": "spoken",
-      "text": "Your job has ended, and {other} is there.",
-      "uses": [
-        {
-          "move": "lead-layoff-other",
-          "subject": "lead",
-          "role": "layoff",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1612,7 +1010,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1621,10 +1018,10 @@
       }
     },
     {
-      "key": "scene-words.lead-eviction-notice-any.a-notice-has-come-that-you-must-leave-your-home",
+      "key": "scene-words.lead-eviction-notice-any.a-notice-has-come-you-have-to-leave-your-home",
       "move": "lead-eviction-notice-any",
       "kind": "spoken",
-      "text": "A notice has come that you must leave your home.",
+      "text": "A notice has come: you have to leave your home.",
       "uses": [
         {
           "move": "lead-eviction-notice-any",
@@ -1633,31 +1030,9 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-eviction-notice-other.a-notice-says-you-must-leave-and-other-is-there",
-      "move": "lead-eviction-notice-other",
-      "kind": "spoken",
-      "text": "A notice says you must leave, and {other} is there.",
-      "uses": [
-        {
-          "move": "lead-eviction-notice-other",
-          "subject": "lead",
-          "role": "eviction-notice",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "tag": {
         "move": "narrate"
       }
@@ -1675,7 +1050,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1696,7 +1070,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1717,7 +1090,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1738,7 +1110,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1759,7 +1130,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1780,7 +1150,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1801,7 +1170,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1822,7 +1190,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1843,7 +1210,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1864,7 +1230,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1885,7 +1250,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1906,7 +1270,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1927,7 +1290,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1948,7 +1310,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1969,7 +1330,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1990,7 +1350,6 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2011,72 +1370,8 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-home-home.you-re-home-in-place",
-      "move": "setting-home-home",
-      "kind": "spoken",
-      "text": "You're home in {place}.",
-      "uses": [
-        {
-          "move": "setting-home-home",
-          "subject": "setting",
-          "role": "home",
-          "choice": "home"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-other-home-visit.you-re-at-host-house",
-      "move": "setting-other-home-visit",
-      "kind": "spoken",
-      "text": "You're at {host} house.",
-      "uses": [
-        {
-          "move": "setting-other-home-visit",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-other-home-visit.you-re-over-at-host-place",
-      "move": "setting-other-home-visit",
-      "kind": "spoken",
-      "text": "You're over at {host} place.",
-      "uses": [
-        {
-          "move": "setting-other-home-visit",
-          "subject": "setting",
-          "role": "other-home",
-          "choice": "visit"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
       "date": "2026-10-15",
       "tag": {
         "move": "narrate"
@@ -2095,28 +1390,6 @@
           "choice": "letter"
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.setting-school-school.you-re-at-school",
-      "move": "setting-school-school",
-      "kind": "spoken",
-      "text": "You're at {school}.",
-      "uses": [
-        {
-          "move": "setting-school-school",
-          "subject": "setting",
-          "role": "school",
-          "choice": "school"
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2138,7 +1411,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2160,7 +1432,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2182,7 +1453,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2204,7 +1474,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2226,7 +1495,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2248,7 +1516,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2270,7 +1537,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2292,7 +1558,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2314,7 +1579,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2336,7 +1600,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2358,29 +1621,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.cause-feeling:event:housing.eviction-self.you-have-to-move-out-of-your-home-in-place",
-      "move": "cause-feeling:event:housing.eviction-self",
-      "kind": "spoken",
-      "text": "You have to move out of your home in {place}.",
-      "uses": [
-        {
-          "move": "cause-feeling:event:housing.eviction-self",
-          "subject": "cause",
-          "role": "feeling:event:housing.eviction",
-          "choice": "self",
-          "stages": ["self"]
-        }
-      ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2402,7 +1642,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2424,7 +1663,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2446,7 +1684,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2468,7 +1705,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2490,7 +1726,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2512,7 +1747,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2534,7 +1768,6 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2556,7 +1789,6 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2577,7 +1809,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2598,7 +1829,6 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2619,7 +1849,6 @@
           "choice": "deliver-news"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2640,7 +1869,6 @@
           "choice": "farewell"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2661,7 +1889,6 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2682,7 +1909,6 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2703,7 +1929,6 @@
           "choice": "thank"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2724,7 +1949,6 @@
           "choice": "request"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2745,7 +1969,6 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2766,7 +1989,6 @@
           "choice": "announce-result"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2789,7 +2011,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2810,7 +2031,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2831,7 +2051,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2852,7 +2071,6 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2871,7 +2089,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
@@ -2892,7 +2109,6 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
@@ -2913,7 +2129,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
@@ -2934,10 +2149,209 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-interview-invite-other.a-call-from-other-a-reporter",
+      "move": "lead-interview-invite-other",
+      "kind": "spoken",
+      "text": "A call from {other}, a reporter.",
+      "uses": [
+        {
+          "move": "lead-interview-invite-other",
+          "subject": "lead",
+          "role": "interview-invite",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-interview-invite-alone.a-reporter-is-calling",
+      "move": "lead-interview-invite-alone",
+      "kind": "spoken",
+      "text": "A reporter is calling.",
+      "uses": [
+        {
+          "move": "lead-interview-invite-alone",
+          "subject": "lead",
+          "role": "interview-invite",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-debate-invite-other.other-is-calling-about-the-debate",
+      "move": "lead-debate-invite-other",
+      "kind": "spoken",
+      "text": "{other} is calling about the debate.",
+      "uses": [
+        {
+          "move": "lead-debate-invite-other",
+          "subject": "lead",
+          "role": "debate-invite",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-debate-invite-alone.a-call-about-the-debate",
+      "move": "lead-debate-invite-alone",
+      "kind": "spoken",
+      "text": "A call about the debate.",
+      "uses": [
+        {
+          "move": "lead-debate-invite-alone",
+          "subject": "lead",
+          "role": "debate-invite",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-volunteer-offer-other.other-has-come-by-to-offer-a-hand",
+      "move": "lead-volunteer-offer-other",
+      "kind": "spoken",
+      "text": "{other} has come by to offer a hand.",
+      "uses": [
+        {
+          "move": "lead-volunteer-offer-other",
+          "subject": "lead",
+          "role": "volunteer-offer",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-volunteer-offer-alone.someone-has-come-by-to-offer-a-hand",
+      "move": "lead-volunteer-offer-alone",
+      "kind": "spoken",
+      "text": "Someone has come by to offer a hand.",
+      "uses": [
+        {
+          "move": "lead-volunteer-offer-alone",
+          "subject": "lead",
+          "role": "volunteer-offer",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rival-word-other.other-has-come-by-with-news-from-the-race",
+      "move": "lead-rival-word-other",
+      "kind": "spoken",
+      "text": "{other} has come by with news from the race.",
+      "uses": [
+        {
+          "move": "lead-rival-word-other",
+          "subject": "lead",
+          "role": "rival-word",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rival-word-alone.someone-has-come-by-with-news-from-the-race",
+      "move": "lead-rival-word-alone",
+      "kind": "spoken",
+      "text": "Someone has come by with news from the race.",
+      "uses": [
+        {
+          "move": "lead-rival-word-alone",
+          "subject": "lead",
+          "role": "rival-word",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rival-filed-other.other-has-news-about-the-race",
+      "move": "lead-rival-filed-other",
+      "kind": "spoken",
+      "text": "{other} has news about the race.",
+      "uses": [
+        {
+          "move": "lead-rival-filed-other",
+          "subject": "lead",
+          "role": "rival-filed",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rival-filed-alone.there-s-news-about-the-race",
+      "move": "lead-rival-filed-alone",
+      "kind": "spoken",
+      "text": "There's news about the race.",
+      "uses": [
+        {
+          "move": "lead-rival-filed-alone",
+          "subject": "lead",
+          "role": "rival-filed",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-26",
       "tag": {
         "move": "narrate"
       }
@@ -2955,7 +2369,6 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item words-scene-party-asks-you-to-run)",
       "date": "2026-10-26",
@@ -2976,10 +2389,1001 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item words-scene-party-asks-you-to-run)",
       "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-constituent-stop-other.other-stops-you-on-the-street",
+      "move": "lead-constituent-stop-other",
+      "kind": "spoken",
+      "text": "{other} stops you on the street.",
+      "uses": [
+        {
+          "move": "lead-constituent-stop-other",
+          "subject": "lead",
+          "role": "constituent-stop",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-constituent-stop-other.other-recognizes-you-and-comes-over",
+      "move": "lead-constituent-stop-other",
+      "kind": "spoken",
+      "text": "{other} recognizes you and comes over.",
+      "uses": [
+        {
+          "move": "lead-constituent-stop-other",
+          "subject": "lead",
+          "role": "constituent-stop",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-constituent-stop-alone.someone-stops-you-on-the-street",
+      "move": "lead-constituent-stop-alone",
+      "kind": "spoken",
+      "text": "Someone stops you on the street.",
+      "uses": [
+        {
+          "move": "lead-constituent-stop-alone",
+          "subject": "lead",
+          "role": "constituent-stop",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:story-read-home-other.other-has-been-reading-the-paper",
+      "move": "cause-circumstance:story-read-home-other",
+      "kind": "spoken",
+      "text": "{other} has been reading the paper.",
+      "uses": [
+        {
+          "move": "cause-circumstance:story-read-home-other",
+          "subject": "cause",
+          "role": "circumstance:story-read-home",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:story-read-home-other.other-read-something-in-the-news",
+      "move": "cause-circumstance:story-read-home-other",
+      "kind": "spoken",
+      "text": "{other} read something in the news.",
+      "uses": [
+        {
+          "move": "cause-circumstance:story-read-home-other",
+          "subject": "cause",
+          "role": "circumstance:story-read-home",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:national-news-work-other.other-has-the-news-on-at-work",
+      "move": "cause-circumstance:national-news-work-other",
+      "kind": "spoken",
+      "text": "{other} has the news on at work.",
+      "uses": [
+        {
+          "move": "cause-circumstance:national-news-work-other",
+          "subject": "cause",
+          "role": "circumstance:national-news-work",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:national-news-work-other.everyone-at-work-is-talking-about-the-news-other-included",
+      "move": "cause-circumstance:national-news-work-other",
+      "kind": "spoken",
+      "text": "Everyone at work is talking about the news, {other} included.",
+      "uses": [
+        {
+          "move": "cause-circumstance:national-news-work-other",
+          "subject": "cause",
+          "role": "circumstance:national-news-work",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:price-moved-street-other.other-is-talking-about-what-things-cost-now",
+      "move": "cause-circumstance:price-moved-street-other",
+      "kind": "spoken",
+      "text": "{other} is talking about what things cost now.",
+      "uses": [
+        {
+          "move": "cause-circumstance:price-moved-street-other",
+          "subject": "cause",
+          "role": "circumstance:price-moved-street",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:price-moved-street-other.prices-have-gone-up-and-other-has-noticed",
+      "move": "cause-circumstance:price-moved-street-other",
+      "kind": "spoken",
+      "text": "Prices have gone up, and {other} has noticed.",
+      "uses": [
+        {
+          "move": "cause-circumstance:price-moved-street-other",
+          "subject": "cause",
+          "role": "circumstance:price-moved-street",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:death-known-street-other.other-lost-someone",
+      "move": "cause-circumstance:death-known-street-other",
+      "kind": "spoken",
+      "text": "{other} lost someone.",
+      "uses": [
+        {
+          "move": "cause-circumstance:death-known-street-other",
+          "subject": "cause",
+          "role": "circumstance:death-known-street",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:death-known-street-other.other-is-grieving",
+      "move": "cause-circumstance:death-known-street-other",
+      "kind": "spoken",
+      "text": "{other} is grieving.",
+      "uses": [
+        {
+          "move": "cause-circumstance:death-known-street-other",
+          "subject": "cause",
+          "role": "circumstance:death-known-street",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:new-coworker-other.other-just-started-where-you-work",
+      "move": "cause-circumstance:new-coworker-other",
+      "kind": "spoken",
+      "text": "{other} just started where you work.",
+      "uses": [
+        {
+          "move": "cause-circumstance:new-coworker-other",
+          "subject": "cause",
+          "role": "circumstance:new-coworker",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:new-coworker-other.other-is-new-at-work",
+      "move": "cause-circumstance:new-coworker-other",
+      "kind": "spoken",
+      "text": "{other} is new at work.",
+      "uses": [
+        {
+          "move": "cause-circumstance:new-coworker-other",
+          "subject": "cause",
+          "role": "circumstance:new-coworker",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:new-housemate-other.other-has-moved-in",
+      "move": "cause-circumstance:new-housemate-other",
+      "kind": "spoken",
+      "text": "{other} has moved in.",
+      "uses": [
+        {
+          "move": "cause-circumstance:new-housemate-other",
+          "subject": "cause",
+          "role": "circumstance:new-housemate",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:new-housemate-other.other-lives-here-now",
+      "move": "cause-circumstance:new-housemate-other",
+      "kind": "spoken",
+      "text": "{other} lives here now.",
+      "uses": [
+        {
+          "move": "cause-circumstance:new-housemate-other",
+          "subject": "cause",
+          "role": "circumstance:new-housemate",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:vote-read-street-other.other-read-how-you-voted",
+      "move": "cause-circumstance:vote-read-street-other",
+      "kind": "spoken",
+      "text": "{other} read how you voted.",
+      "uses": [
+        {
+          "move": "cause-circumstance:vote-read-street-other",
+          "subject": "cause",
+          "role": "circumstance:vote-read-street",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:vote-read-street-other.other-saw-your-vote-in-the-paper",
+      "move": "cause-circumstance:vote-read-street-other",
+      "kind": "spoken",
+      "text": "{other} saw your vote in the paper.",
+      "uses": [
+        {
+          "move": "cause-circumstance:vote-read-street-other",
+          "subject": "cause",
+          "role": "circumstance:vote-read-street",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:law-reached-street-other.a-law-you-voted-on-has-reached-other",
+      "move": "cause-circumstance:law-reached-street-other",
+      "kind": "spoken",
+      "text": "A law you voted on has reached {other}.",
+      "uses": [
+        {
+          "move": "cause-circumstance:law-reached-street-other",
+          "subject": "cause",
+          "role": "circumstance:law-reached-street",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:law-reached-street-other.other-is-living-with-a-law-you-voted-on",
+      "move": "cause-circumstance:law-reached-street-other",
+      "kind": "spoken",
+      "text": "{other} is living with a law you voted on.",
+      "uses": [
+        {
+          "move": "cause-circumstance:law-reached-street-other",
+          "subject": "cause",
+          "role": "circumstance:law-reached-street",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:hallway-colleague-other.other-catches-you-in-the-hallway",
+      "move": "cause-circumstance:hallway-colleague-other",
+      "kind": "spoken",
+      "text": "{other} catches you in the hallway.",
+      "uses": [
+        {
+          "move": "cause-circumstance:hallway-colleague-other",
+          "subject": "cause",
+          "role": "circumstance:hallway-colleague",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:hallway-colleague-other.other-wants-a-word-before-the-vote",
+      "move": "cause-circumstance:hallway-colleague-other",
+      "kind": "spoken",
+      "text": "{other} wants a word before the vote.",
+      "uses": [
+        {
+          "move": "cause-circumstance:hallway-colleague-other",
+          "subject": "cause",
+          "role": "circumstance:hallway-colleague",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:hallway-reporter-other.other-has-been-waiting-for-you-in-the-hallway",
+      "move": "cause-circumstance:hallway-reporter-other",
+      "kind": "spoken",
+      "text": "{other} has been waiting for you in the hallway.",
+      "uses": [
+        {
+          "move": "cause-circumstance:hallway-reporter-other",
+          "subject": "cause",
+          "role": "circumstance:hallway-reporter",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:hallway-reporter-other.other-has-a-question-for-you-on-your-way-in",
+      "move": "cause-circumstance:hallway-reporter-other",
+      "kind": "spoken",
+      "text": "{other} has a question for you on your way in.",
+      "uses": [
+        {
+          "move": "cause-circumstance:hallway-reporter-other",
+          "subject": "cause",
+          "role": "circumstance:hallway-reporter",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:job-lost-calls-other.other-lost-a-job-and-is-calling-around",
+      "move": "cause-circumstance:job-lost-calls-other",
+      "kind": "spoken",
+      "text": "{other} lost a job and is calling around.",
+      "uses": [
+        {
+          "move": "cause-circumstance:job-lost-calls-other",
+          "subject": "cause",
+          "role": "circumstance:job-lost-calls",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:job-lost-calls-other.other-needs-work-and-thought-of-you",
+      "move": "cause-circumstance:job-lost-calls-other",
+      "kind": "spoken",
+      "text": "{other} needs work and thought of you.",
+      "uses": [
+        {
+          "move": "cause-circumstance:job-lost-calls-other",
+          "subject": "cause",
+          "role": "circumstance:job-lost-calls",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:organizing-warning-other.other-has-heard-something-you-should-know",
+      "move": "cause-circumstance:organizing-warning-other",
+      "kind": "spoken",
+      "text": "{other} has heard something you should know.",
+      "uses": [
+        {
+          "move": "cause-circumstance:organizing-warning-other",
+          "subject": "cause",
+          "role": "circumstance:organizing-warning",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:organizing-warning-other.other-calls-with-a-warning",
+      "move": "cause-circumstance:organizing-warning-other",
+      "kind": "spoken",
+      "text": "{other} calls with a warning.",
+      "uses": [
+        {
+          "move": "cause-circumstance:organizing-warning-other",
+          "subject": "cause",
+          "role": "circumstance:organizing-warning",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:bill-introduced-carry-other.other-is-looking-for-someone-to-carry-a-bill",
+      "move": "cause-circumstance:bill-introduced-carry-other",
+      "kind": "spoken",
+      "text": "{other} is looking for someone to carry a bill.",
+      "uses": [
+        {
+          "move": "cause-circumstance:bill-introduced-carry-other",
+          "subject": "cause",
+          "role": "circumstance:bill-introduced-carry",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:bill-introduced-carry-other.other-thinks-you-should-sponsor-the-bill",
+      "move": "cause-circumstance:bill-introduced-carry-other",
+      "kind": "spoken",
+      "text": "{other} thinks you should sponsor the bill.",
+      "uses": [
+        {
+          "move": "cause-circumstance:bill-introduced-carry-other",
+          "subject": "cause",
+          "role": "circumstance:bill-introduced-carry",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:donor-ask-street-other.other-has-money-to-give-and-wants-to-talk-about-it",
+      "move": "cause-circumstance:donor-ask-street-other",
+      "kind": "spoken",
+      "text": "{other} has money to give and wants to talk about it.",
+      "uses": [
+        {
+          "move": "cause-circumstance:donor-ask-street-other",
+          "subject": "cause",
+          "role": "circumstance:donor-ask-street",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:donor-ask-street-other.other-might-give-to-your-campaign",
+      "move": "cause-circumstance:donor-ask-street-other",
+      "kind": "spoken",
+      "text": "{other} might give to your campaign.",
+      "uses": [
+        {
+          "move": "cause-circumstance:donor-ask-street-other",
+          "subject": "cause",
+          "role": "circumstance:donor-ask-street",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:rival-message-other.other-s-campaign-is-out-with-a-new-message",
+      "move": "cause-circumstance:rival-message-other",
+      "kind": "spoken",
+      "text": "{other}'s campaign is out with a new message.",
+      "uses": [
+        {
+          "move": "cause-circumstance:rival-message-other",
+          "subject": "cause",
+          "role": "circumstance:rival-message",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-circumstance:rival-message-other.your-opponent-s-message-has-reached-other",
+      "move": "cause-circumstance:rival-message-other",
+      "kind": "spoken",
+      "text": "Your opponent's message has reached {other}.",
+      "uses": [
+        {
+          "move": "cause-circumstance:rival-message-other",
+          "subject": "cause",
+          "role": "circumstance:rival-message",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-speech-afterward-other.other-comes-your-way-as-the-room-empties",
+      "move": "lead-speech-afterward-other",
+      "kind": "spoken",
+      "text": "{other} comes your way as the room empties.",
+      "uses": [
+        {
+          "move": "lead-speech-afterward-other",
+          "subject": "lead",
+          "role": "speech-afterward",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-speech-afterward-alone.the-candidate-who-spoke-is-coming-your-way",
+      "move": "lead-speech-afterward-alone",
+      "kind": "spoken",
+      "text": "The candidate who spoke is coming your way.",
+      "uses": [
+        {
+          "move": "lead-speech-afterward-alone",
+          "subject": "lead",
+          "role": "speech-afterward",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-news-arrives-other.other-has-been-waiting-for-you-to-get-home",
+      "move": "lead-news-arrives-other",
+      "kind": "spoken",
+      "text": "{other} has been waiting for you to get home.",
+      "uses": [
+        {
+          "move": "lead-news-arrives-other",
+          "subject": "lead",
+          "role": "news-arrives",
+          "choice": "other",
+          "settings": ["home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-news-arrives-other.other-asks-you-to-sit-down-first",
+      "move": "lead-news-arrives-other",
+      "kind": "spoken",
+      "text": "{other} asks you to sit down first.",
+      "uses": [
+        {
+          "move": "lead-news-arrives-other",
+          "subject": "lead",
+          "role": "news-arrives",
+          "choice": "other",
+          "settings": ["home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-hallway-other.other-catches-you-on-the-way-out-of-the-meeting",
+      "move": "lead-hallway-other",
+      "kind": "spoken",
+      "text": "{other} catches you on the way out of the meeting.",
+      "uses": [
+        {
+          "move": "lead-hallway-other",
+          "subject": "lead",
+          "role": "hallway",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-hallway-other.other-falls-in-step-with-you-in-the-hallway",
+      "move": "lead-hallway-other",
+      "kind": "spoken",
+      "text": "{other} falls in step with you in the hallway.",
+      "uses": [
+        {
+          "move": "lead-hallway-other",
+          "subject": "lead",
+          "role": "hallway",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-hallway-alone.the-meeting-lets-out-into-the-hallway",
+      "move": "lead-hallway-alone",
+      "kind": "spoken",
+      "text": "The meeting lets out into the hallway.",
+      "uses": [
+        {
+          "move": "lead-hallway-alone",
+          "subject": "lead",
+          "role": "hallway",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-first-meeting-other.someone-wants-you-to-meet-other",
+      "move": "lead-first-meeting-other",
+      "kind": "spoken",
+      "text": "Someone wants you to meet {other}.",
+      "uses": [
+        {
+          "move": "lead-first-meeting-other",
+          "subject": "lead",
+          "role": "first-meeting",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-first-meeting-other.other-is-brought-over-to-meet-you",
+      "move": "lead-first-meeting-other",
+      "kind": "spoken",
+      "text": "{other} is brought over to meet you.",
+      "uses": [
+        {
+          "move": "lead-first-meeting-other",
+          "subject": "lead",
+          "role": "first-meeting",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-becoming-friends-other.you-and-other-keep-ending-up-at-the-same-table",
+      "move": "lead-becoming-friends-other",
+      "kind": "spoken",
+      "text": "You and {other} keep ending up at the same table.",
+      "uses": [
+        {
+          "move": "lead-becoming-friends-other",
+          "subject": "lead",
+          "role": "becoming-friends",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-becoming-friends-other.other-waves-you-over-again",
+      "move": "lead-becoming-friends-other",
+      "kind": "spoken",
+      "text": "{other} waves you over again.",
+      "uses": [
+        {
+          "move": "lead-becoming-friends-other",
+          "subject": "lead",
+          "role": "becoming-friends",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-reunion-other.other-spots-you-first-and-comes-over",
+      "move": "lead-reunion-other",
+      "kind": "spoken",
+      "text": "{other} spots you first and comes over.",
+      "uses": [
+        {
+          "move": "lead-reunion-other",
+          "subject": "lead",
+          "role": "reunion",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-reunion-other.it-s-been-a-long-while-but-other-knows-you-right-away",
+      "move": "lead-reunion-other",
+      "kind": "spoken",
+      "text": "It's been a long while, but {other} knows you right away.",
+      "uses": [
+        {
+          "move": "lead-reunion-other",
+          "subject": "lead",
+          "role": "reunion",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-argument-other.other-still-looks-put-out-with-you",
+      "move": "lead-argument-other",
+      "kind": "spoken",
+      "text": "{other} still looks put out with you.",
+      "uses": [
+        {
+          "move": "lead-argument-other",
+          "subject": "lead",
+          "role": "argument",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-argument-other.other-hasn-t-let-the-last-talk-go",
+      "move": "lead-argument-other",
+      "kind": "spoken",
+      "text": "{other} hasn't let the last talk go.",
+      "uses": [
+        {
+          "move": "lead-argument-other",
+          "subject": "lead",
+          "role": "argument",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
       "tag": {
         "move": "narrate"
       }

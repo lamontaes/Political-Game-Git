@@ -46,7 +46,7 @@ export function basePlaces(
       api.state.placeMetadata.countyNames as string | undefined,
       usps,
     );
-    const places = statePlaces(usps);
+    const places = statePlaces(usps, api.state.seed);
     return {
       places,
       home: places.some((p) => p.id === county) ? county : null,
@@ -54,7 +54,11 @@ export function basePlaces(
   }
   if (contest.family === "usHouse") {
     const district = townDistrict(geoid, usps, "congressional", api.state.date);
-    const place = housePlaceByGeoid(usps, district?.geoid ?? null);
+    const place = housePlaceByGeoid(
+      usps,
+      district?.geoid ?? null,
+      api.state.seed,
+    );
     return place
       ? { places: [place], home: place.id }
       : { places: [], home: null };
@@ -76,7 +80,8 @@ export function basePlaces(
       usps,
     );
     const own = county
-      ? (statePlaces(usps).find((p) => p.id === county)?.rightShare ?? null)
+      ? (statePlaces(usps, api.state.seed).find((p) => p.id === county)
+          ?.rightShare ?? null)
       : null;
     const place = legislativePlace(
       usps,
@@ -84,6 +89,7 @@ export function basePlaces(
       districts,
       partySide(holder?.party ?? null),
       own,
+      api.state.seed,
     );
     return place
       ? { places: [place], home: place.id }

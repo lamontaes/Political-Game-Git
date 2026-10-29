@@ -1,7 +1,7 @@
 """Export ACS populations for the places the Census 2025 estimates leave out.
 
 The game's town populations come from the Census Bureau's Vintage 2025
-estimates (src/simulation/nationwide-world/place-population.ts), which cover
+estimates (the old engine's place-population.ts), which cover
 incorporated places in the 50 states and D.C. only. Census-designated places
 (Bear, Delaware; Urban Honolulu) and every place in Puerto Rico have none, so
 a budget for one of those towns had no population to scale by.
@@ -15,7 +15,7 @@ file:
 and writes data/research/money/place-population-acs-2024.json with each place
 (summary level 160) the Vintage 2025 file does not hold. The public budgets
 read it only where the Vintage 2025 figure is missing
-(src/simulation/public-budgets/opening.ts).
+(the old engine's opening.ts).
 
 A census-designated place has no government of its own: its residents are
 served by their county, or in Puerto Rico by their municipio. So the file also

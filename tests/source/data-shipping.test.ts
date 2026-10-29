@@ -25,7 +25,7 @@ import {
  * White House Exit Interview Project"); it is not authored text. Every other
  * field is still scanned.
  */
-const NOT_SHIPPED = new Set(["data/english/batches", "data/english/grades"]);
+const NOT_SHIPPED = new Set(["data/english/grades"]);
 const PROVENANCE_KEYS = new Set(["source", "bySource", "read"]);
 function withoutProvenance(text: string): Buffer {
   return Buffer.from(

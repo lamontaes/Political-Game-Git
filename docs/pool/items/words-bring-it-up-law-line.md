@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by: claude/bring-it-up-law
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T11:03:35.574Z
 **Notes.** Filed by fs11vb while rewriting the 17 director tests for PR #5647, as the CTO required for every slot left without engine parts.
 
 Oct 25 audit: unblocked; PR #5647 (the held hand-written parts) merged Oct 23, so the slot is empty on main and waits for the engine's line.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built.

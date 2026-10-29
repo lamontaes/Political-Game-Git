@@ -50,13 +50,6 @@ try {
     const r = await response;
     assert.equal(r.status(), 200);
     seed = new URL(r.url()).searchParams.get("seed");
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
     await page.locator("#news-surface:not([hidden])").waitFor();
     clock = await page.locator("#card-clock").innerText();
     fresh = await readRates();
@@ -95,15 +88,21 @@ try {
   console.log("Continued reader rates:", continued);
   assert.ok(continued.length > 0, "the continued reader gives a rate");
   if (fresh) assert.deepEqual(continued, fresh, "the same kept rates");
-  // Each sentence the reader shows is the kept opening's record.
-  const recorded = new Set([
-    // A lead story line by line; a later story as one paragraph of its lines.
-    ...(kept?.news?.stories ?? []).flatMap((story) => {
-      const lines = (story.broadcast ?? []).map((line) => line.text);
-      return [...lines, lines.join(" ")];
-    }),
-    ...(kept?.news?.address ?? []),
-  ]);
+  // Each sentence the reader shows is the kept opening's record: the lead
+  // story's printed paragraphs (or its broadcast and the address), then each
+  // later story's headline.
+  const [lead, ...later] = kept?.news?.stories ?? [];
+  const headlineOf = (story) =>
+    story.headline ?? story.lede ?? story.broadcast?.[0]?.text;
+  const recorded = new Set(
+    [
+      ...(lead?.paragraphs ?? [
+        ...(lead?.broadcast ?? []).map((line) => line.text),
+        ...(kept?.news?.address ?? []),
+      ]),
+      ...later.map(headlineOf),
+    ].filter(Boolean),
+  );
   for (const text of continued)
     assert.ok(recorded.has(text), `kept in the opening record: ${text}`);
   // Every rate the kept paper carries is back: the nation's, and the

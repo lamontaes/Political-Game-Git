@@ -1,8 +1,10 @@
 import type { EntityId } from "../core2/kernel/brands";
+import { spokenDate } from "../core2/kernel/dates";
 import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
 import { lineName } from "./budget";
+import { printedFacts } from "./printed-words";
 import type { ownRace } from "./results";
 import { policyNames } from "./words";
 
@@ -17,6 +19,8 @@ interface StoredStory {
 export interface WordedStory {
   readonly headline?: string;
   readonly lede?: string;
+  /** The lede and the sentences after it, when the record gives more to say. */
+  readonly paragraphs?: readonly string[];
   readonly sourceRecordIds: readonly string[];
 }
 
@@ -27,25 +31,6 @@ export interface WordedStory {
  * words (an election's outcome, a law enacted or taking effect); the rest stay
  * records until the banks grow.
  */
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-/** An ISO date as people say it: "January 20, 2025". */
-function sayDate(iso: string): string {
-  const [year, month, day] = iso.split("-").map(Number);
-  return `${MONTHS[month! - 1]} ${day}, ${year}`;
-}
 
 const MINOR_PER_DOLLAR = 100;
 let NAMES: Record<string, string> | undefined;
@@ -53,7 +38,6 @@ let NAMES: Record<string, string> | undefined;
 export function wordArchiveStory(
   core: CoreState,
   story: StoredStory,
-  options: { heldFirst?: boolean } = {},
 ): WordedStory | null {
   if (story.kind !== "press.archived") return null;
   const recordKind = story.facts.recordKind;
@@ -82,7 +66,7 @@ export function wordArchiveStory(
     kind = "vote-or-law";
     facts = {
       measure: fact(measure, [String(story.facts.lawId ?? "")]),
-      date: fact(sayDate(story.date)),
+      date: fact(spokenDate(story.date)),
       [recordKind === "law-enacted" ? "enacted" : "effective"]: fact("yes"),
     };
   } else if (recordKind === "budget-adopted") {
@@ -114,10 +98,60 @@ export function wordArchiveStory(
     speaker = survivor || story.id;
     facts = {
       name: fact(name, survivor ? [survivor] : []),
-      date: fact(sayDate(story.date)),
+      date: fact(spokenDate(story.date)),
     };
   } else return null;
-  return worded(core, story.id, kind, speaker, facts, options);
+  return worded(core, story.id, kind, speaker, facts);
+}
+
+/** The paper each kind of outlet prints in: a paper's columns, or a station's page. */
+const LAYOUTS: Readonly<Record<string, string>> = {
+  newspaper: "broadsheet",
+  "national-paper": "broadsheet",
+  magazine: "modern",
+  online: "modern",
+  television: "modern",
+  cable: "modern",
+  radio: "modern",
+};
+
+/**
+ * The words for a story the press printed during play, by the outlet that
+ * printed it: the English engine words it from the record it was printed from
+ * (printed-words), and News files it under that outlet's name.
+ */
+export function wordPrintedStory(
+  core: CoreState,
+  story: StoredStory & { readonly outletId?: string },
+):
+  | (WordedStory & { outlet?: { id: string; name: string; layout: string } })
+  | null {
+  const read = printedFacts(core, story);
+  if (!read) return null;
+  const text = worded(
+    core,
+    story.id,
+    read.kind,
+    read.speaker || story.id,
+    read.facts,
+  );
+  if (!text) return null;
+  const organization = story.outletId
+    ? core.organizations.get(story.outletId as EntityId)
+    : undefined;
+  const kind = story.outletId?.split(":")[2] ?? "";
+  return {
+    ...text,
+    ...(organization
+      ? {
+          outlet: {
+            id: organization.id,
+            name: organization.name,
+            layout: LAYOUTS[kind] ?? "broadsheet",
+          },
+        }
+      : {}),
+  };
 }
 
 type StoryFact = { text: string; sourceRecordIds: EntityId[] };
@@ -129,7 +163,6 @@ function worded(
   kind: StoryKind,
   speaker: string,
   facts: Record<string, StoryFact>,
-  options: { heldFirst?: boolean } = {},
 ): WordedStory | null {
   const packet: GroundedEnglishPacket = {
     surface: "dialogue",
@@ -146,11 +179,18 @@ function worded(
       sourceRecordIds: row.sourceRecordIds,
     })),
   };
-  const composed = composeNewsStory(packet, kind, options);
+  const composed = composeNewsStory(packet, kind);
   if (!composed.headline && !composed.lede) return null;
+  // A headline or sentence opens with a capital, whatever fact starts it.
+  const opened = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
   return {
-    ...(composed.headline ? { headline: composed.headline } : {}),
-    ...(composed.lede ? { lede: composed.lede } : {}),
+    ...(composed.headline ? { headline: opened(composed.headline) } : {}),
+    ...(composed.lede ? { lede: opened(composed.lede) } : {}),
+    // The story's body as print sets it: the lede, then each sentence the
+    // record gives it, so News prints a story, not only a brief.
+    ...(composed.paragraphs && composed.paragraphs.length > 1
+      ? { paragraphs: composed.paragraphs.map(opened) }
+      : {}),
     sourceRecordIds: composed.sourceRecordIds,
   };
 }

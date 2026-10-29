@@ -1,4 +1,5 @@
 import healthJson from "../data/health.json" with { type: "json" };
+import { worldRateFactor } from "../world-base-rates";
 import { settleEstate } from "../estates";
 import { HOUSING_STATUS_EVENT } from "../housing-homeless";
 import {
@@ -26,6 +27,17 @@ import {
   SUBSTANCE_CONDITION,
 } from "../death-cause";
 import { incomeBandOf } from "../counted-income-fifth";
+import {
+  combineOwn,
+  coverageSpellsNow,
+  displacementFactor,
+  displacementsOfPeople,
+  longHoursFactor,
+  ownCoverageFactor,
+  readsOwnCoverage,
+  spellOn,
+  type OwnPart,
+} from "../health-own";
 import {
   firstThresholdDay,
   MULTIPLIER_ONE,
@@ -92,6 +104,8 @@ export interface HealthData {
   onsetSeverity: Severity;
   jobLossSeverity: Severity;
   evictionSeverity: Severity;
+  /** A missed debt payment weighs as a change in financial state (pool item traits-outcome-hardship-coping), in Holmes and Rahe units. */
+  missedPaymentSeverity: Severity;
   deathSeverity: Severity;
   source: Source & { asOf?: string };
   gaps: readonly string[];
@@ -156,6 +170,13 @@ interface HealthPlan {
   housing: { date: Day; factor: number }[];
   /** The outcome web's factor on this person's death hazard, from each month it moved, oldest first. */
   web: { date: Day; factor: number }[];
+  /**
+   * The factor on this person's death hazard from their own records (health-own.ts),
+   * from each month it moved, oldest first, with the reasons it stands on.
+   */
+  own: { date: Day; factor: number; parts: readonly OwnPart[] }[];
+  /** The first month their coverage was read, and whether it was paid then (the table's own coverage). */
+  coverageBase?: { date: Day; covered: boolean };
   evictedOn?: Day;
   /** The household income fifth the last monthly web refresh read, for the cause of death. */
   fifth?: number;
@@ -337,7 +358,13 @@ function lateConditions(
       radix ** digits;
     if (
       quantile <
-      conditionPrevalence(condition, age, data.calibrationCategory) * shift
+      conditionPrevalence(
+        condition,
+        age,
+        data.calibrationCategory,
+        worldRateFactor(api.state.seed, "conditions"),
+      ) *
+        shift
     )
       held.push(condition.key);
   }
@@ -386,6 +413,7 @@ function assignPerson(
     ...(strongest ? { conditionKey: strongest.key } : {}),
     housing: [],
     web: [],
+    own: [],
   });
   scheduleOnset(api, data, row, person, from);
 }
@@ -404,6 +432,7 @@ function segments(api: CoreAPI, plan: HealthPlan) {
     plan.from,
     ...plan.housing.map((row) => row.date),
     ...plan.web.map((row) => row.date),
+    ...plan.own.map((row) => row.date),
     ...(plan.evictedOn && evictionEnds ? [plan.evictedOn, evictionEnds] : []),
   ]
     .filter((date) => date >= plan.from)
@@ -422,9 +451,15 @@ function segments(api: CoreAPI, plan: HealthPlan) {
     const web =
       [...plan.web].reverse().find((row) => row.date <= date)?.factor ??
       p("one");
+    const own =
+      [...plan.own].reverse().find((row) => row.date <= date)?.factor ??
+      p("one");
+    // This world's life table: the published hazard times its mortality
+    // factor, the same one counted people die by (one model, two tiers).
+    const world = worldRateFactor(api.state.seed, "mortality");
     return {
       effectiveAt: date,
-      micros: Math.round(plan.micros * housing * evicted * web),
+      micros: Math.round(plan.micros * housing * evicted * web * own * world),
     };
   });
 }
@@ -529,6 +564,11 @@ function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   const p = (key: string) => api.parameter(key);
   const today = makeIsoDate(api.state.date);
   const pay = householdMonthlyPay(api);
+  // Named people's own Medicaid coverage, read once for the month; null where
+  // the world does not model it (their web factor then keeps the place row).
+  const spells = coverageSpellsNow(api);
+  // Who the jobs engine has displaced from a long job (its closure records).
+  const displaced = displacementsOfPeople(api);
   for (const [id, plan] of row.plans) {
     const person = api.state.people.get(id);
     if (!person?.alive || row.cases.get(id)?.onsetEventId) continue;
@@ -536,15 +576,62 @@ function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
     const fifth =
       monthly == null ? undefined : incomeBandOf(monthly * p("monthsPerYear"));
     plan.fifth = fifth;
+    const age = Math.floor(exactAge(api, person.birthDate, today));
+    const mine = spells?.get(id);
+    // The job they hold now, whose recorded hours are the cause of long-hours-to-heart-and-stroke.
+    const held = person.jobId ? api.state.jobs.get(person.jobId) : undefined;
+    if (spells && !plan.coverageBase)
+      plan.coverageBase = {
+        date: today,
+        covered: spellOn(mine, today) !== undefined,
+      };
+    // coverage-to-mortality-55-64: a full person's own Medicaid coverage sets
+    // their factor at 55 to 64; job-loss-to-death-risk: a worker displaced
+    // from a long job carries the excess after it; long-hours-to-heart-and-stroke:
+    // a worker at long weekly hours carries the excess in their heart disease
+    // and stroke deaths. A counted person has none of these records of their
+    // own (the payment keeps a count; the counted flows read no closure or
+    // job hours), so the counted tier keeps the place-level twin row and no
+    // job-loss or long-hours factor.
+    // stopgapId: SG-HEALTH-own-records-counted
+    const own = combineOwn(
+      plan.coverageBase && readsOwnCoverage(age)
+        ? ownCoverageFactor({
+            spells: mine,
+            today,
+            firstLook: plan.coverageBase,
+          })
+        : undefined,
+      displacementFactor({
+        displaced: displaced.get(id),
+        today,
+        daysPerYear: p("daysPerMeanYear"),
+      }),
+      longHoursFactor({
+        weeklyHours: held ? held.hoursDaily * p("daysPerWeek") : undefined,
+        age,
+        jobId: held?.id,
+      }),
+    );
+    if (own) api.stopgap("SG-HEALTH-own-records-counted");
     const web = deathWebFactor(
       api,
       person.placeId,
-      Math.floor(exactAge(api, person.birthDate, today)),
+      age,
       fifth,
+      spells !== null,
     ).factor;
     const last = plan.web.at(-1)?.factor ?? p("one");
-    if (web === last) continue;
-    plan.web.push({ date: today, factor: web });
+    const ownFactor = own?.factor ?? p("one");
+    const ownMoved = ownFactor !== (plan.own.at(-1)?.factor ?? p("one"));
+    if (web === last && !ownMoved) continue;
+    if (web !== last) plan.web.push({ date: today, factor: web });
+    if (ownMoved)
+      plan.own.push({
+        date: today,
+        factor: ownFactor,
+        parts: own?.parts ?? [],
+      });
     api.stopgap(data.stopgapId);
     scheduleOnset(api, data, row, person, today);
   }
@@ -566,6 +653,7 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       conscientiousness: conscientiousness(data, person),
     })),
     behaviorSlopes(api, data),
+    worldRateFactor(api.state.seed, "conditions"),
   );
   for (const person of alive)
     assignPerson(
@@ -843,4 +931,50 @@ export function healthDeathWebOf(
   personId: PersonId,
 ): number {
   return runtimes.get(state)?.plans.get(personId)?.web.at(-1)?.factor ?? 1;
+}
+
+/**
+ * The factor now on one person's death hazard from their own records (1
+ * where none has moved it) and the reasons it stands on: the link, its size,
+ * the day their coverage was read at, whether it was paid then and at their
+ * first look, and the obligations that paid it.
+ */
+export function healthDeathOwnOf(
+  state: Readonly<CoreState>,
+  personId: PersonId,
+): { readonly factor: number; readonly parts: readonly OwnPart[] } {
+  const last = runtimes.get(state)?.plans.get(personId)?.own.at(-1);
+  return { factor: last?.factor ?? 1, parts: last?.parts ?? [] };
+}
+
+/**
+ * The multiplier on the life table's hazard the engine now uses for one
+ * person (conditions, housing, eviction, the web, their own records and the
+ * world's mortality factor), with the web's and their own records' parts of
+ * it. Undefined for someone with no health record.
+ */
+export function healthHazardOf(
+  api: CoreAPI,
+  personId: PersonId,
+):
+  | {
+      readonly micros: number;
+      readonly web: number;
+      readonly own: number;
+      /** The household income fifth the last monthly look read, for the web's factor. */
+      readonly fifth: number | undefined;
+    }
+  | undefined {
+  const plan = runtimes.get(api.state)?.plans.get(personId);
+  if (!plan) return undefined;
+  const now = segments(api, plan)
+    .filter((segment) => segment.effectiveAt <= api.state.date)
+    .at(-1);
+  if (!now) return undefined;
+  return {
+    micros: now.micros,
+    web: plan.web.at(-1)?.factor ?? 1,
+    own: plan.own.at(-1)?.factor ?? 1,
+    fifth: plan.fifth,
+  };
 }

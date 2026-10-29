@@ -17,6 +17,9 @@ const STOPGAPS = "src/core2/data/stopgaps.json";
 /** The resolution of a shared row whose every link now reaches an engine's records. */
 const REACHED =
   "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.";
+/** The resolution of a shared row whose every link its research finds about zero. */
+const ABOUT_ZERO =
+  "Resolved: the research finds every link this row named about zero, so there is no effect for an engine to read (scripts/outcome-web/effect-matrix.ts grades it not applicable), and it is off the unwired list.";
 
 /**
  * What a shared row's links fake. A link the web runs moves its outcome in the
@@ -54,7 +57,11 @@ export const unreadId = (measure: string) => `SG-WEB-unread-${slug(measure)}`;
 /** The rows the matrix gives today, in link order. */
 export function unwiredRows(): UnwiredRow[] {
   return matrix()
-    .links.filter((row) => row.points.reaches!.status !== "pass")
+    .links.filter(
+      (row) =>
+        row.points.reaches!.status !== "pass" &&
+        row.points.reaches!.status !== "n/a",
+    )
     .map((row) => ({
       link: row.key,
       outcome: row.to,
@@ -93,6 +100,13 @@ if (process.argv[1]?.endsWith("write-unwired.ts")) {
   // superseded), and the rest reach an engine's records. A row resolved with
   // the old reaching text is read again, so the history stays true.
   const waitingOn = new Map(rows.map((row) => [row.link, row.stopgapId]));
+  const graded = matrix().links;
+  const linkKeys = new Set(graded.map((row) => row.key));
+  const aboutZero = new Set(
+    graded
+      .filter((row) => row.points.reaches!.status === "n/a")
+      .map((row) => row.key),
+  );
   const resolution = (whatItFakes = "") => {
     // Each clause of the text opens with the links it names ("a, b move ...;
     // c is not run ..."); only known link keys are kept.
@@ -110,15 +124,20 @@ if (process.argv[1]?.endsWith("write-unwired.ts")) {
         }),
       ),
     ].sort();
-    return by.length
-      ? `Superseded by ${by.join(", ")}: the links this row named that still do not reach an engine's records now wait on ${by.length === 1 ? "that stopgap" : "those stopgaps"} instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.`
+    if (by.length)
+      return `Superseded by ${by.join(", ")}: the links this row named that still do not reach an engine's records now wait on ${by.length === 1 ? "that stopgap" : "those stopgaps"} instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.`;
+    // The clause openers include plain words ("no person ..."): keep link keys.
+    const links = named.filter((key) => linkKeys.has(key));
+    return links.length && links.every((key) => aboutZero.has(key))
+      ? ABOUT_ZERO
       : REACHED;
   };
   const kept = registry.map((row) =>
     row.id.startsWith("SG-WEB-unread-") &&
     !byId.has(row.id) &&
     (row.status !== "resolved" ||
-      (row as { replacement?: string }).replacement === REACHED)
+      (row as { replacement?: string }).replacement === REACHED ||
+      (row as { replacement?: string }).replacement === ABOUT_ZERO)
       ? {
           ...row,
           status: "resolved",

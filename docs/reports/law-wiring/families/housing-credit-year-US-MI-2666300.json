@@ -1,0 +1,2292 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "kind": "question",
+      "family": "housing",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce) effective 2025-01-21; then repealed at no level effective 2026-01-22",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones|organization:landlord:jurisdiction_971998ff58477430"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [
+        {
+          "id": "law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-09-04:2025-3",
+          "level": "city",
+          "effectiveDate": "2025-09-04",
+          "value": 0
+        }
+      ],
+      "readers": {
+        "src/core2/modules/legislature.ts:2094": 1674,
+        "src/core2/modules/outcome-web.ts:166": 306,
+        "src/core2/modules/world-legislating.ts:253": 260,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/modules/world-legislating.ts:333": 36,
+        "src/core2/modules/housing.ts:1646": 24,
+        "src/core2/life.ts:556": 14
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 46506961,
+            "control": 46606961,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8336"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 362268828,
+            "control": 373772388,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208791677006,
+            "control": 710208788574871,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 351666721,
+            "control": 348947007,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1532",
+            "treatment": 3331865278,
+            "control": 3333416989,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 422672357,
+            "control": 423833317,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 178113399,
+            "control": 177473059,
+            "ids": [
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613",
+              "journal:2025-02-01:2614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 177079580411475,
+            "control": 177079579796101,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+            "treatment": 18329974,
+            "control": 17757209,
+            "ids": [
+              "journal:2025-02-03:7435",
+              "journal:2025-02-03:7436",
+              "journal:2025-02-03:7437"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 59453475,
+            "control": 59939242,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 64738043,
+            "control": 65210889,
+            "ids": [
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907",
+              "journal:2025-02-01:1908"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
+            "treatment": 1942379696,
+            "control": 1942612922,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+            "treatment": 30967731,
+            "control": 31176679,
+            "ids": [
+              "journal:2025-01-25:1642",
+              "journal:2025-01-25:1644",
+              "journal:2025-01-25:1646"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "housing-by-right-to-new-buildings",
+            "status": "built",
+            "to": "housing.new-large-buildings"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "housing-by-right-to-new-buildings",
+            "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "month": "2025-09",
+            "link": "housing-by-right-to-new-buildings",
+            "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "month": "2025-10",
+            "link": "housing-by-right-to-new-buildings",
+            "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "month": "2025-11",
+            "link": "housing-by-right-to-new-buildings",
+            "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "month": "2025-12",
+            "link": "housing-by-right-to-new-buildings",
+            "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2026-01",
+            "month": "2026-01",
+            "link": "housing-by-right-to-new-buildings",
+            "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          }
+        ],
+        "reenacted": {
+          "id": "law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-09-04:2025-3",
+          "level": "city",
+          "effectiveDate": "2025-09-04",
+          "value": 0
+        }
+      },
+      "heard": {
+        "people": 116,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-01-21:law-wiring-30180bce"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 83
+    },
+    {
+      "key": "budget-line:housing",
+      "kind": "budget-line",
+      "family": "housing",
+      "inForceAtOpening": false,
+      "change": "place:2666300 housing 1191250 -> 11191250 by law-wiring-63831aa3",
+      "lawIds": ["law-wiring-63831aa3"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 5,
+        "countedPeople": 5,
+        "households": 4,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 9,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:housing|household_10931c8c88d368c5",
+          "applied|budget-line:housing|household_fd7378cc7f49cd35",
+          "applied|budget-line:housing|household_fd7677cc7f4c0159",
+          "applied|budget-line:housing|household_fd4a72cc7f26bdef"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 97742544,
+            "control": 83634996,
+            "ids": [
+              "journal:2025-02-01:1970",
+              "journal:2025-02-01:1971",
+              "journal:2025-02-01:1972"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1115",
+            "treatment": 710131228895102,
+            "control": 710131232640430,
+            "ids": [
+              "journal:2025-02-01:1790",
+              "journal:2025-02-01:1791",
+              "journal:2025-02-01:1792"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 324841811,
+            "control": 321683835,
+            "ids": [
+              "journal:2025-01-25:1687",
+              "journal:2025-01-25:1689",
+              "journal:2025-01-25:1691"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 390389050,
+            "control": 388169957,
+            "ids": [
+              "journal:2025-01-21:1645",
+              "journal:2025-01-21:1646",
+              "journal:2025-01-21:1647"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+            "treatment": 162248510,
+            "control": 160975074,
+            "ids": [
+              "journal:2025-02-01:3088",
+              "journal:2025-02-01:3089",
+              "journal:2025-02-01:3090"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1278",
+            "treatment": 642981037,
+            "control": 643582026,
+            "ids": [
+              "journal:2025-02-01:3099",
+              "journal:2025-02-01:3100",
+              "journal:2025-02-01:3101"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1296",
+            "treatment": 1348568186,
+            "control": 1347998489,
+            "ids": [
+              "journal:2025-01-21:1619",
+              "journal:2025-01-21:1620",
+              "journal:2025-01-21:1621"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 492278299,
+            "control": 492690198,
+            "ids": [
+              "journal:2025-01-27:1716",
+              "journal:2025-01-28:1719",
+              "journal:2025-01-28:1722"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/housing.ts:1197",
+            "treatment": 1184601,
+            "control": 797909,
+            "ids": ["journal:2025-09-06:65453", "journal:2025-12-06:89275"]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:563",
+            "treatment": 53214637,
+            "control": 53570658,
+            "ids": [
+              "journal:2025-01-21:1605",
+              "journal:2025-01-21:1606",
+              "journal:2025-01-21:1607"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:817",
+            "treatment": 176956857806309,
+            "control": 176956858133538,
+            "ids": [
+              "journal:2025-02-01:1780",
+              "journal:2025-02-01:1781",
+              "journal:2025-02-01:1782"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1881",
+            "treatment": 4695603,
+            "control": 4418627,
+            "ids": [
+              "journal:2025-02-04:8442",
+              "journal:2025-02-04:8443",
+              "journal:2025-02-04:8444"
+            ]
+          }
+        ],
+        "diffKinds": 39,
+        "cited": [
+          {
+            "token": "budget-line:housing",
+            "gross": 163630150176,
+            "ids": [
+              "journal:2025-02-01:1859",
+              "journal:2025-02-01:1860",
+              "journal:2025-02-01:1861"
+            ],
+            "control": 163626060916
+          },
+          {
+            "token": "law-wiring-63831aa3",
+            "gross": 8209258,
+            "ids": [
+              "journal:2025-02-01:1928",
+              "journal:2025-02-01:1928",
+              "journal:2025-02-01:1930"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2666300",
+            "line": "housing",
+            "moved": 10000000,
+            "treatment": 4592412,
+            "control": 503152,
+            "ids": [
+              "journal:2025-02-01:1928",
+              "journal:2025-02-01:1929",
+              "journal:2025-02-01:1930"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 3,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "out",
+              "targets": 2,
+              "moved": 294594,
+              "earliest": "2026-01-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                  "way": "out",
+                  "treatment": 6063086,
+                  "control": 6236942,
+                  "journal": "journal:2026-01-01:91541"
+                },
+                {
+                  "target": "organization_382d8445c99fb630",
+                  "row": "applied|budget-line:housing|organization_382d8445c99fb630",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                  "way": "out",
+                  "treatment": -825051,
+                  "control": -704313,
+                  "journal": "journal:2026-01-01:90363"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1278",
+              "way": "out",
+              "targets": 2,
+              "moved": 16155,
+              "earliest": "2026-01-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1278",
+                  "way": "out",
+                  "treatment": 272435,
+                  "control": 288588,
+                  "journal": "journal:2026-01-01:91561"
+                },
+                {
+                  "target": "organization_382d8445c99fb630",
+                  "row": "applied|budget-line:housing|organization_382d8445c99fb630",
+                  "date": "2026-01-06",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1278",
+                  "way": "out",
+                  "treatment": -571763,
+                  "control": -571761,
+                  "journal": "journal:2026-01-06:97163"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1296",
+              "way": "out",
+              "targets": 2,
+              "moved": 985,
+              "earliest": "2026-01-06",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                  "date": "2026-01-06",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1296",
+                  "way": "out",
+                  "treatment": -19766422,
+                  "control": -19765439,
+                  "journal": "journal:2026-01-06:97130"
+                },
+                {
+                  "target": "organization_382d8445c99fb630",
+                  "row": "applied|budget-line:housing|organization_382d8445c99fb630",
+                  "date": "2026-01-13",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1296",
+                  "way": "out",
+                  "treatment": 80914,
+                  "control": 80916,
+                  "journal": "journal:2026-01-13:97348"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1278",
+              "way": "in",
+              "targets": 1,
+              "moved": 1886970,
+              "earliest": "2026-01-13",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                  "date": "2026-01-13",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1278",
+                  "way": "in",
+                  "treatment": 5327353,
+                  "control": 3440383,
+                  "journal": "journal:2026-01-13:97377"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "in",
+              "targets": 1,
+              "moved": 160499,
+              "earliest": "2026-01-06",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                  "date": "2026-01-06",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                  "way": "in",
+                  "treatment": 571471,
+                  "control": 410972,
+                  "journal": "journal:2026-01-06:97156"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1115",
+              "way": "in",
+              "targets": 1,
+              "moved": 124185,
+              "earliest": "2026-01-01",
+              "sample": [
+                {
+                  "target": "organization_382d8445c99fb630",
+                  "row": "applied|budget-line:housing|organization_382d8445c99fb630",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1115",
+                  "way": "in",
+                  "treatment": 872252,
+                  "control": 748067,
+                  "journal": "journal:2026-01-01:90165"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 1,
+              "moved": 120271,
+              "earliest": "2026-01-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": 10522493,
+                  "control": 10642764,
+                  "journal": "journal:2026-01-01:90309"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1115",
+              "way": "out",
+              "targets": 1,
+              "moved": 116880,
+              "earliest": "2026-01-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1115",
+                  "way": "out",
+                  "treatment": 58755956938215,
+                  "control": 58755957055095,
+                  "journal": "journal:2026-01-01:90112"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:817",
+              "way": "in",
+              "targets": 1,
+              "moved": 82682,
+              "earliest": "2026-01-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:817",
+                  "way": "in",
+                  "treatment": -7115536843144,
+                  "control": -7115536925826,
+                  "journal": "journal:2026-01-01:90099"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+              "way": "out",
+              "targets": 1,
+              "moved": 65508,
+              "earliest": "2026-01-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+                  "way": "out",
+                  "treatment": -13219995,
+                  "control": -13154487,
+                  "journal": "journal:2026-01-01:91551"
+                }
+              ]
+            }
+          ],
+          "paid": 2,
+          "pick": "accounts.transfer @ src/core2/counted-money.ts:616|out",
+          "sample": [
+            {
+              "target": "jurisdiction_971998ff58477430",
+              "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+              "date": "2026-01-01",
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "out",
+              "treatment": 6063086,
+              "control": 6236942,
+              "journal": "journal:2026-01-01:91541"
+            },
+            {
+              "target": "organization_382d8445c99fb630",
+              "row": "applied|budget-line:housing|organization_382d8445c99fb630",
+              "date": "2026-01-01",
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "out",
+              "treatment": -825051,
+              "control": -704313,
+              "journal": "journal:2026-01-01:90363"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "out",
+              "targets": 2,
+              "first": {
+                "target": "jurisdiction_971998ff58477430",
+                "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                "date": "2026-01-01",
+                "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                "way": "out",
+                "treatment": 6063086,
+                "control": 6236942,
+                "journal": "journal:2026-01-01:91541"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1278",
+              "way": "out",
+              "targets": 2,
+              "first": {
+                "target": "jurisdiction_971998ff58477430",
+                "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                "date": "2026-01-01",
+                "kind": "accounts.transfer @ src/core2/modules/residents.ts:1278",
+                "way": "out",
+                "treatment": 272435,
+                "control": 288588,
+                "journal": "journal:2026-01-01:91561"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1296",
+              "way": "out",
+              "targets": 2,
+              "first": {
+                "target": "jurisdiction_971998ff58477430",
+                "row": "applied|budget-line:housing|jurisdiction_971998ff58477430",
+                "date": "2026-01-06",
+                "kind": "accounts.transfer @ src/core2/modules/residents.ts:1296",
+                "way": "out",
+                "treatment": -19766422,
+                "control": -19765439,
+                "journal": "journal:2026-01-06:97130"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "housing-line-to-evictions",
+            "status": "cause-not-recorded",
+            "to": "housing.eviction"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 82,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:housing:law-wiring-63831aa3",
+          "person_b2532d2bb80a6385:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:housing:law-wiring-63831aa3",
+          "person_3f9b0f502a79bcc4:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:housing:law-wiring-63831aa3"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 1,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:housing|household_10931c8c88d368c5",
+          "applied|budget-line:housing|household_1093178c88d36046"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 62
+    },
+    {
+      "key": "us-policy-positions:housing-land-use.inclusionary-requirement",
+      "kind": "question",
+      "family": "housing",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd) effective 2025-01-21; then repealed at county effective 2026-01-22",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd",
+        "law:county:26129:county:us-policy-positions:housing-land-use.inclusionary-requirement:general:2026-01-15:2025-9",
+        "law:county:26129:county:us-policy-positions:housing-land-use.inclusionary-requirement:general:2026-01-22:law-wiring-6ef37edd-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.inclusionary-requirement|organization:landlord:jurisdiction_971998ff58477430"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [
+        {
+          "id": "law:county:26129:county:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-09-04:2025-7",
+          "level": "county",
+          "effectiveDate": "2025-09-04",
+          "value": 1
+        },
+        {
+          "id": "law:county:26129:county:us-policy-positions:housing-land-use.inclusionary-requirement:general:2026-01-15:2025-9",
+          "level": "county",
+          "effectiveDate": "2026-01-15",
+          "value": 1
+        },
+        {
+          "id": "law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-03-06:2025-1",
+          "level": "city",
+          "effectiveDate": "2025-03-06",
+          "value": 0
+        }
+      ],
+      "readers": {
+        "src/core2/modules/legislature.ts:2094": 1508,
+        "src/core2/modules/outcome-web.ts:166": 312,
+        "src/core2/modules/world-legislating.ts:253": 246,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/life.ts:556": 40,
+        "src/core2/modules/world-legislating.ts:333": 32,
+        "src/core2/modules/housing.ts:1650": 24
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:housing-land-use.inclusionary-requirement:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 46930592,
+            "control": 46606961,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8323"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 357072847,
+            "control": 373772388,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208792911265,
+            "control": 710208788574871,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 353038885,
+            "control": 348947007,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
+            "treatment": 1938916079,
+            "control": 1942612922,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1532",
+            "treatment": 3331178562,
+            "control": 3333416989,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 179208126,
+            "control": 177473059,
+            "ids": [
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613",
+              "journal:2025-02-01:2614"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 243679531,
+            "control": 241985618,
+            "ids": [
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 422241054,
+            "control": 423833317,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 58496985,
+            "control": 59939242,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 177079581078326,
+            "control": 177079579796101,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1209",
+            "treatment": 23418130,
+            "control": 24225960,
+            "ids": [
+              "journal:2025-02-01:2626",
+              "journal:2025-02-01:2627",
+              "journal:2025-02-01:2628"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+            "treatment": 18514395,
+            "control": 17757209,
+            "ids": [
+              "journal:2025-02-03:7435",
+              "journal:2025-02-03:7436",
+              "journal:2025-02-03:7437"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "inclusionary-to-homelessness",
+            "status": "built",
+            "to": "housing.homelessness"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "inclusionary-to-homelessness",
+            "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "inclusionary-to-homelessness",
+            "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "inclusionary-to-homelessness",
+            "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "inclusionary-to-homelessness",
+            "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "inclusionary-to-homelessness",
+            "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "month": "2025-07",
+            "link": "inclusionary-to-homelessness",
+            "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "month": "2025-08",
+            "link": "inclusionary-to-homelessness",
+            "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          }
+        ],
+        "reenacted": {
+          "id": "law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-03-06:2025-1",
+          "level": "city",
+          "effectiveDate": "2025-03-06",
+          "value": 0
+        }
+      },
+      "heard": {
+        "people": 102,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-01-21:law-wiring-6ef37edd"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 92
+    },
+    {
+      "key": "us-policy-positions:housing-land-use.rent-stabilization",
+      "kind": "question",
+      "family": "housing",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96",
+        "law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2026-01-22:law-wiring-6260df96-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 4,
+        "countedPeople": 4,
+        "households": 5,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 9,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_1093178c88d36046",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd4a72cc7f26bdef",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd7372cc7f49c303",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_10931c8c88d368c5"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 4,
+        "countedPeople": 4,
+        "households": 5,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 9,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_1093178c88d36046",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd4a72cc7f26bdef",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd7372cc7f49c303",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_10931c8c88d368c5"
+        ]
+      },
+      "inPlay": [
+        {
+          "id": "law:US-MI:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-06-10:HB 4008",
+          "level": "state",
+          "effectiveDate": "2025-06-10",
+          "value": 0
+        },
+        {
+          "id": "law:US-MI:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-06-18:SB 7",
+          "level": "state",
+          "effectiveDate": "2025-06-18",
+          "value": 0
+        },
+        {
+          "id": "law:US-MI:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-07-08:HB 4016",
+          "level": "state",
+          "effectiveDate": "2025-07-08",
+          "value": 0
+        }
+      ],
+      "readers": {
+        "src/core2/modules/legislature.ts:2094": 21229,
+        "src/core2/modules/outcome-web.ts:166": 520,
+        "src/core2/modules/world-legislating.ts:253": 296,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/life.ts:556": 40,
+        "src/core2/policy-authority.ts:47": 24,
+        "src/core2/housing-occupancy.ts:503": 20,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1174 <- src/core2/life.ts:556",
+            "treatment": 36089529,
+            "control": 35826976,
+            "ids": ["journal:2025-05-13:30847", "journal:2025-10-20:70625"]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 46645575,
+            "control": 46606961,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8336"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710250195685534,
+            "control": 710208788574871,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 372293182,
+            "control": 373772388,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:285",
+            "treatment": 5098658,
+            "control": 4341946,
+            "ids": [
+              "journal:2025-09-01:55207",
+              "journal:2025-09-01:55208",
+              "journal:2025-09-01:55209"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 242683749,
+            "control": 241985618,
+            "ids": [
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 349450714,
+            "control": 348947007,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
+            "treatment": 1942223292,
+            "control": 1942612922,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 423452271,
+            "control": 423833317,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 64848229,
+            "control": 65210889,
+            "ids": [
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907",
+              "journal:2025-02-01:1908"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 59606453,
+            "control": 59939242,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1532",
+            "treatment": 3333098409,
+            "control": 3333416989,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 177758704,
+            "control": 177473059,
+            "ids": [
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613",
+              "journal:2025-02-01:2614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1174 <- src/core2/life.ts:556",
+            "treatment": 36089529,
+            "control": 35826976,
+            "ids": ["journal:2025-05-13:30847", "journal:2025-10-20:70625"]
+          }
+        ],
+        "diffKinds": 34,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "rent-control-to-rental-supply",
+            "status": "built",
+            "to": "housing.rental-supply"
+          },
+          {
+            "key": "rent-control-to-tenant-stays",
+            "status": "built",
+            "to": "housing.renter-moves"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          }
+        ],
+        "firedCount": 13,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": {
+          "id": "law:US-MI:state:us-policy-positions:housing-land-use.rent-stabilization:general:2025-06-10:HB 4008",
+          "level": "state",
+          "effectiveDate": "2025-06-10",
+          "value": 0
+        }
+      },
+      "heard": {
+        "people": 120,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 86
+    },
+    {
+      "key": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "kind": "question",
+      "family": "housing",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc",
+        "law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2026-01-22:law-wiring-51e102dc-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 2,
+        "countedPeople": 2,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_1093178c88d36046",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_fd5807cc7f32457a",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 2,
+        "countedPeople": 2,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_1093178c88d36046",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_fd5807cc7f32457a",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:166": 327,
+        "src/core2/modules/world-legislating.ts:253": 296,
+        "src/core2/modules/legislature.ts:2094": 121,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/modules/world-legislating.ts:333": 18,
+        "src/core2/life.ts:556": 5,
+        "src/core2/modules/housing.ts:1778": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 46331835,
+            "control": 46606961,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8336"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 361225157,
+            "control": 373772388,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208791024479,
+            "control": 710208788574871,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 351264531,
+            "control": 348947007,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1532",
+            "treatment": 3331510349,
+            "control": 3333416989,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 422803890,
+            "control": 423833317,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 243003484,
+            "control": 241985618,
+            "ids": [
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:285",
+            "treatment": 5071999,
+            "control": 4341946,
+            "ids": [
+              "journal:2025-09-01:55186",
+              "journal:2025-09-01:55187",
+              "journal:2025-09-01:55188"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 177079580478591,
+            "control": 177079579796101,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+            "treatment": 18435220,
+            "control": 17757209,
+            "ids": [
+              "journal:2025-02-03:7435",
+              "journal:2025-02-03:7436",
+              "journal:2025-02-03:7437"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 178066776,
+            "control": 177473059,
+            "ids": [
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613",
+              "journal:2025-02-01:2614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 59355309,
+            "control": 59939242,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1812",
+            "treatment": 9877011,
+            "control": 9391861,
+            "ids": [
+              "journal:2025-02-19:8275",
+              "journal:2025-02-19:8276",
+              "journal:2025-02-19:8278"
+            ]
+          }
+        ],
+        "diffKinds": 37,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "right-to-counsel-to-evictions",
+            "status": "built",
+            "to": "housing.eviction"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "link": "right-to-counsel-to-evictions",
+            "effect": -0.62
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "link": "right-to-counsel-to-evictions",
+            "effect": -0.62
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "link": "right-to-counsel-to-evictions",
+            "effect": -0.62
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "link": "right-to-counsel-to-evictions",
+            "effect": -0.62
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "link": "right-to-counsel-to-evictions",
+            "effect": -0.62
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2026-01",
+            "link": "right-to-counsel-to-evictions",
+            "effect": -0.62
+          }
+        ],
+        "firedCount": 6,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "month": "2025-07",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "month": "2025-08",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "month": "2025-09",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "month": "2025-10",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "month": "2025-11",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "month": "2025-12",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 110,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 89
+    },
+    {
+      "key": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "kind": "question",
+      "family": "business",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2",
+        "law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2026-01-22:law-wiring-60189aa2-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 107,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 107,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_10931b8c88d36712",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_1093228c88d372f7",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_fd5174cc7f2ce003",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_fd7378cc7f49cd35"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 107,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 107,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_10931b8c88d36712",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_1093228c88d372f7",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_fd5174cc7f2ce003",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_fd7378cc7f49cd35"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:166": 424,
+        "src/core2/modules/world-legislating.ts:253": 296,
+        "src/core2/modules/legislature.ts:2094": 214,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/modules/credit.ts:1044": 45,
+        "src/core2/modules/credit.ts:1128": 26,
+        "src/core2/life.ts:556": 5,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "loan-rate-cap-to-high-cost-borrowing",
+            "status": "built",
+            "to": "finance.high-cost-loans"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "month": "2025-07",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "month": "2025-08",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "month": "2025-09",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "month": "2025-10",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "month": "2025-11",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "month": "2025-12",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 49,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 80
+    }
+  ]
+}

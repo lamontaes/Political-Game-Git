@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import * as PImage from "pureimage";
 
-import type { CharacterComponentDefinition } from "../../src/presentation/character-components";
+import type { CharacterComponentDefinition } from "../../src/appearance/character-components";
 import { hashArtFile } from "./content-hash";
 
 /**

@@ -13,6 +13,7 @@
 import declarations from "../data/disasters/declarations.json" with { type: "json" };
 import assistance from "../data/disasters/assistance.json" with { type: "json" };
 import households from "../data/disasters/households.json" with { type: "json" };
+import severityData from "../data/disasters/severity.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { stateOfPlaceKey } from "../places";
@@ -168,6 +169,42 @@ function damagedHomes(
   return homes > 0 ? { damagedHomes: String(homes) } : {};
 }
 
+/**
+ * How severe the disaster was in this town, 0 to 1: the homes FEMA inspected
+ * as damaged per resident, on a straight ramp from the damage below which
+ * research finds the longer-run price and population response slightly
+ * positive to the damage above which it finds the most severe disasters
+ * (src/core2/data/disasters/severity.json). The ramp has no step: a disaster
+ * between the two ends is severe by the share of the way it reaches.
+ */
+export function severityOf(damagedHomesPerResident: number): number {
+  const low = severityData.lowCutoff.value,
+    high = severityData.highCutoff.value;
+  return Math.min(
+    1,
+    Math.max(0, (damagedHomesPerResident - low) / (high - low)),
+  );
+}
+
+/**
+ * The severity fact of a disaster's news event. Absent where FEMA's figures
+ * show nothing for the town or the town has no recorded population: its
+ * damage is then not known, and the town reads no severity from the disaster.
+ */
+function severityFact(
+  core: CoreState,
+  rt: Runtime,
+  disaster: Disaster,
+): { severity?: string } {
+  const row = townRow(rt, disaster);
+  const residents = placePopulation(
+    (core.placeMetadata.placeKey ?? "").replace(/^.*:/, ""),
+    core.seed,
+  );
+  if (!row || !residents || residents <= 0) return {};
+  return { severity: String(severityOf(row[2] / residents)) };
+}
+
 function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   const core = api.state;
   const town = core.people.get(core.playerId ?? "")?.placeId;
@@ -188,6 +225,7 @@ function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
       ...(rt.county ? { countyCode: rt.county } : {}),
       statewide: String(disaster.statewide),
       ...damagedHomes(core, rt, disaster, town),
+      ...severityFact(core, rt, disaster),
     },
     source: source(
       api,
@@ -250,6 +288,7 @@ function townRow(rt: Runtime, disaster: Disaster): TownRow | undefined {
 function townShare(core: CoreState, town: PlaceId): number {
   const recorded = placePopulation(
     (core.placeMetadata.placeKey ?? "").replace(/^.*:/, ""),
+    core.seed,
   );
   let people = 0;
   for (const person of core.people.values())

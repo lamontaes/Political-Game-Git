@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import neighbors from "./data/housing/county-neighbors.json" with { type: "json" };
-import { rentValueOf } from "./modules/housing";
+import { publishedRentValueOf } from "./modules/housing";
 
 const rentValue = housingData.countyRentValue as unknown as Record<
   string,
@@ -13,7 +13,7 @@ const rentValue = housingData.countyRentValue as unknown as Record<
 describe("a county without an ACS median rent or home value", () => {
   for (const [county, near] of Object.entries(neighbors.neighbors)) {
     it(`${county} reads its neighbors' medians`, () => {
-      const [rent, value] = rentValueOf(county);
+      const [rent, value] = publishedRentValueOf(county);
       const published = near
         .map((n) => rentValue[n])
         .filter((rv) => rv?.[0] && rv[1]) as [number, number][];

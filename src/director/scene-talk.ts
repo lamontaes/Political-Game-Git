@@ -17,6 +17,11 @@
  * (`scene-talk.move`), scored by the trait engine as every other decision is,
  * so a person answers in talk the way they decide elsewhere. Every other reply
  * leads to its own branch, up to the tree's bounds (`scene-talk-rules.json`).
+ *
+ * Where the player does the asking (a colleague's vote, a resident's at the
+ * door), the same tree is built the other way round: the player says the
+ * asker's lines as the choices and the one asked answers from where they
+ * stand (the arc's `asks`). One numbering and one ending decider serve both.
  */
 import { traitLean } from "../core2/choice";
 import { decisionKinds } from "../core2/trait-decisions";
@@ -78,6 +83,19 @@ interface PurposeArc {
   repeatable?: Record<string, string[]>;
   /** When an exchange resolves the purpose may go on instead of closing: played once. */
   continue?: { on: string; asker: string; replies: string[] }[];
+  /** Where the player does the asking: how the one asked answers, and how the player asks again. */
+  asks?: {
+    /** The answer of one already for it, of one a favor would carry, of one against. */
+    yes: string;
+    carried: string;
+    no: string;
+    /** The answers to a second ask that carries them, best first. */
+    relent: string[];
+    /** The player's line after a yes. */
+    thanks: string;
+    /** The player's second ask after a "not yet" or a no, and what it weighs. */
+    again: { move: string; carries: "favor" | "lean" | "none" }[];
+  };
 }
 
 interface Arcs {
@@ -213,6 +231,19 @@ export interface PurposeType {
   asked?: string;
   stakes?: readonly string[];
   tag?: { key: string; endpoint?: string };
+  /**
+   * The player does the asking: the purpose's asker lines are the player's,
+   * and the one asked answers from where they stand (`SceneTalkVoice.standing`).
+   */
+  playerAsks?: boolean;
+}
+
+/** Where the one the player asks stands before they answer. */
+export interface AskStanding {
+  /** Their position today: above zero for it. */
+  lean: number;
+  /** What a yes given as a favor to the player adds at the roll. */
+  favor: number;
 }
 
 export interface SceneTalkCast {
@@ -226,6 +257,8 @@ export interface SceneTalkVoice {
   /** Trait levels laid over the asker (a grading profile) and over the asked. */
   askerTraits?: Readonly<Record<string, number>>;
   askedTraits?: Readonly<Record<string, number>>;
+  /** Where the player asks: where the one asked stands, which their answers read. */
+  standing?: AskStanding;
 }
 
 /** What a caller may ask of a composed scene. */
@@ -433,6 +466,393 @@ export function composeSceneTalk(
   const none: ReadonlySet<string> = new Set();
   const addParts = (said: ReadonlySet<string>, line: SceneTalkLine) =>
     new Set([...said, ...line.parts]);
+  // The player asks where the type says so and the caller says where the one
+  // asked stands; without it (a grading page) the purpose plays as asked of
+  // the player.
+  const asking = !!type.playerAsks && !!voice.standing;
+
+  /**
+   * The scene as the page reads it: every line numbered in the order the tree
+   * is read, each end named, and the trait-led path, its rounds and outcome.
+   */
+  const finish = ({
+    narrate,
+    open,
+    intro,
+    statement,
+    root,
+    nodes,
+    ledChoices,
+    ledBranch,
+  }: {
+    narrate: SceneTalkLine | null;
+    open: SceneTalkLine | null;
+    intro: SceneTalkLine[];
+    statement: SceneTalkLine;
+    root: TreeNode;
+    nodes: number;
+    ledChoices: ReadonlyMap<TreeNode, TreeReply>;
+    ledBranch: ReadonlyMap<TreeNode, NonNullable<TreeNode["branches"]>[number]>;
+  }): SceneTalkResult => {
+    // Number every line once, in the order the tree is read; collect the
+    // trait-led path, the rounds and the endings.
+    let count = zero;
+    const take = (line: SceneTalkLine) => {
+      count += one;
+      line.n = count;
+    };
+    if (narrate) take(narrate);
+    if (open) take(open);
+    intro.forEach(take);
+    take(statement);
+    const endings: Outcome[] = [];
+    const number = (node: TreeNode) => {
+      node.lines.forEach(take);
+      node.replies.forEach((reply) => take(reply.line));
+      for (const reply of node.replies) if (reply.next) number(reply.next);
+      for (const branch of node.branches ?? []) number(branch.node);
+      if (node.end) {
+        endings.push(node.end.outcome);
+        if (node.end.close) take(node.end.close);
+      }
+    };
+    number(root);
+    // Name each ending: the first of the purpose's endings that matches the end
+    // of the path (its last reply, the asker's last move, any reply on it, whether
+    // a lie was caught or believed, the outcome). An end no ending matches is a gap.
+    // The endings name the purpose's roles: its replies are the asked role's
+    // moves and its asker move the asker role's, so where the player asks, the
+    // replies are the answers of the one asked and the asker move the player's.
+    const endingCounts: Record<string, number> = {};
+    const resolveEndings = (
+      node: TreeNode,
+      context: {
+        choices: string[];
+        answers: string[];
+        caught: boolean;
+        believed: boolean;
+      },
+    ) => {
+      // A narrator's beat is not the asker's move: the ending reads past it.
+      const answers = [
+        ...context.answers,
+        ...node.lines
+          .filter((line) => line.role !== "narrator")
+          .map((line) => line.move),
+      ];
+      for (const reply of node.replies)
+        if (reply.next)
+          resolveEndings(reply.next, {
+            ...context,
+            answers,
+            choices: [...context.choices, reply.line.move],
+          });
+      for (const branch of node.branches ?? [])
+        resolveEndings(branch.node, {
+          ...context,
+          answers,
+          caught: branch.knows,
+          believed: !branch.knows,
+        });
+      if (node.end) {
+        // An end never leaves the asker's question hanging or invites speech.
+        const lastAsk =
+          node.end.close ??
+          node.lines.filter((l) => l.role === "asker").at(-one);
+        if (lastAsk?.asks || lastAsk?.invites)
+          gap("end", "dangling", `"${lastAsk.text.trim()}"`);
+      }
+      if (!node.end || !arc.endings) return;
+      const replies = asking ? answers : context.choices;
+      const askerMove =
+        (asking ? context.choices : answers).at(-one) ?? arc.state;
+      const last = replies.at(-one);
+      const found = arc.endings.find((row) => {
+        const when = row.when;
+        return (
+          (!when.reply || (last !== undefined && when.reply.includes(last))) &&
+          (!when.asker || when.asker.includes(askerMove)) &&
+          (!when.anyReply ||
+            replies.some((move) => when.anyReply!.includes(move))) &&
+          (when.caught === undefined || when.caught === context.caught) &&
+          (when.believed === undefined || when.believed === context.believed) &&
+          (!when.outcome || when.outcome.includes(node.end!.outcome))
+        );
+      });
+      if (found) {
+        node.end.ending = {
+          id: found.id,
+          label: found.label,
+          keeps: found.keeps,
+          ...(found.opens ? { opens: found.opens } : {}),
+        };
+        endingCounts[found.id] = (endingCounts[found.id] ?? zero) + one;
+      } else
+        gap(
+          "ending",
+          "unmatched",
+          `${last ?? "no reply"} (asker ${askerMove}, ${node.end.outcome})`,
+        );
+    };
+    resolveEndings(root, {
+      choices: [],
+      answers: [],
+      caught: false,
+      believed: false,
+    });
+    const depthOf = (node: TreeNode): number =>
+      Math.max(
+        node.replies.length
+          ? one +
+              Math.max(
+                ...node.replies.map((reply) =>
+                  reply.next ? depthOf(reply.next) : zero,
+                ),
+              )
+          : zero,
+        ...(node.branches ?? []).map((branch) => depthOf(branch.node)),
+      );
+
+    const flat: SceneTalkLine[] = [
+      ...(narrate ? [narrate] : []),
+      ...(open ? [open] : []),
+      ...intro,
+      statement,
+    ];
+    const rounds: SceneTalkRound[] = [];
+    let outcome: Outcome = "open";
+    let ending: SceneTalkLine | undefined;
+    let node: TreeNode | null = root;
+    flat.push(...root.lines);
+    while (node) {
+      flat.push(...node.replies.map((row) => row.line));
+      const taken = ledChoices.get(node);
+      if (!taken) {
+        if (node.end) {
+          outcome = node.end.outcome;
+          ending = node.end.close ?? ending;
+          if (node.end.close) flat.push(node.end.close);
+        }
+        break;
+      }
+      let nextNode: TreeNode | null = taken.next;
+      // After a lie, the branch the staged records give: caught or believed.
+      if (nextNode?.branches?.length)
+        nextNode = (ledBranch.get(nextNode) ?? nextNode.branches[zero]!).node;
+      rounds.push({
+        round: taken.line.round,
+        replies: node.replies.map((row) => row.line),
+        chosen: taken.line,
+        ...(nextNode?.lines[zero] ? { answer: nextNode.lines[zero] } : {}),
+      });
+      outcome = outcomeOf(taken.line.move);
+      if (nextNode) {
+        flat.push(...nextNode.lines);
+        ending =
+          nextNode.lines.filter((line) => line.role !== "narrator").at(-one) ??
+          ending;
+      }
+      node = nextNode;
+    }
+
+    return {
+      kind: "composed",
+      talk: {
+        typeKey: type.key,
+        purpose,
+        askerId: cast.askerId,
+        askedId: cast.askedId,
+        narration: narrate ? [narrate] : [],
+        ...(open ? { open } : {}),
+        intro,
+        state: statement,
+        tree: root,
+        rounds,
+        ...(ending ? { close: ending } : {}),
+        outcome,
+        lines: flat,
+        nodes,
+        endings,
+        depth: depthOf(root),
+        gaps: [...gaps].sort(),
+        endingCounts,
+      },
+    };
+  };
+
+  // The player does the asking (owner, Oct 14: convince one member to
+  // switch): the player says the purpose's asker lines and the one asked
+  // answers in its asked lines, the player's lines the choices. The one asked
+  // answers from where they stand, never by a roll: asked plainly, yes only
+  // if they already lean for it, not yet if a favor would carry them, no
+  // otherwise; asked again, the favor carries them where it would at the
+  // roll and pressing holds them where they stood (the arc's `asks`).
+  if (asking) {
+    const ask = arc.asks;
+    const standing = voice.standing;
+    if (!ask || !standing)
+      return {
+        kind: "skipped",
+        reason: `the player does not ask in ${purpose}`,
+      };
+    const mine = (
+      use: Pick<FitUse, "step" | "move" | "after" | "afterPiece">,
+      moment: string,
+      said: ReadonlySet<string>,
+    ) => {
+      const line = render(
+        { ...use, role: "asker", ...base },
+        cast.askedId,
+        askedTraits,
+        moment,
+        said,
+      );
+      if (line) line.role = "asked";
+      return line;
+    };
+    // The answer of the one asked: the first of `moves` the bank can word.
+    const theirs = (
+      moves: readonly string[],
+      after: SceneTalkLine,
+      moment: string,
+      said: ReadonlySet<string>,
+    ) => {
+      for (const move of moves) {
+        const line = render(
+          {
+            step: "reply",
+            move,
+            role: "asked",
+            ...base,
+            after: after.move,
+            ...(after.parts[zero] ? { afterPiece: after.parts[zero] } : {}),
+          },
+          cast.askerId,
+          askerTraits,
+          `${moment}:${move}`,
+          said,
+        );
+        if (line) {
+          line.role = "asker";
+          return line;
+        }
+      }
+      gap("reply", moves.join("/"), after.move);
+      return null;
+    };
+    // The setup is told from the player's side: a purpose asked both ways (a
+    // vote) has the player's own setup under the type's key, and the
+    // purpose's setup plays where the bank has none.
+    const setup = (at: string) =>
+      render(
+        {
+          step: "narrate",
+          move: "narrate",
+          role: "narrator",
+          purpose,
+          key: at,
+        },
+        cast.askerId,
+        {},
+        "narrate",
+        none,
+      );
+    const narrate = setup(type.key) ?? setup(key);
+    const set = narrate ? addParts(none, narrate) : none;
+    const request = mine({ step: "state", move: arc.state }, "state", set);
+    if (!request)
+      return {
+        kind: "skipped",
+        reason: `the ${arc.state} that opens ${type.key} cannot be worded from the records given`,
+      };
+    request.auto = true;
+    const said = addParts(set, request);
+    const carried = standing.lean + standing.favor > zero;
+    const first = theirs(
+      standing.lean > zero ? [ask.yes] : carried ? [ask.carried] : [ask.no],
+      request,
+      "first",
+      said,
+    );
+    if (!first)
+      return {
+        kind: "skipped",
+        reason: `the answer to ${type.key} cannot be worded from the records given`,
+      };
+    first.round = one;
+    const root: TreeNode = { lines: [first], replies: [] };
+    let count = one;
+    // A yes is thanked; a not yet or a no is asked again, or let go.
+    const yes = first.move === ask.yes;
+    for (const again of yes
+      ? [{ move: ask.thanks, carries: "none" as const }]
+      : ask.again) {
+      const line = mine(
+        {
+          step: "follow",
+          move: again.move,
+          after: first.move,
+          ...(first.parts[zero] ? { afterPiece: first.parts[zero] } : {}),
+        },
+        `again:${again.move}`,
+        addParts(said, first),
+      );
+      if (!line) {
+        gap("follow", again.move, first.move);
+        continue;
+      }
+      line.round = two;
+      const next: TreeNode = { lines: [], replies: [] };
+      count += one;
+      root.replies.push({ line, next });
+      const carries =
+        again.carries === "favor"
+          ? carried
+          : again.carries === "lean"
+            ? standing.lean > zero
+            : undefined;
+      const last =
+        carries === undefined
+          ? null
+          : theirs(
+              carries ? ask.relent : [ask.no],
+              line,
+              `last:${again.move}`,
+              addParts(addParts(said, first), line),
+            );
+      if (last) {
+        last.round = two;
+        next.lines.push(last);
+      }
+      next.end = { outcome: outcomeOf(last?.move ?? first.move) };
+    }
+    if (!yes && root.replies.length < two)
+      return {
+        kind: "skipped",
+        reason: `fewer than two asks after ${first.move} can be worded for ${type.key}`,
+      };
+    if (!root.replies.length) root.end = { outcome: outcomeOf(first.move) };
+    // The page follows the ask the player's traits lean toward most.
+    const [led] = [...root.replies].sort(
+      (a, b) =>
+        leanOf(core, b.line.move, askedTraits) -
+          leanOf(core, a.line.move, askedTraits) ||
+        stableHash(`${scene}:root:${a.line.move}`).localeCompare(
+          stableHash(`${scene}:root:${b.line.move}`),
+        ),
+    );
+    if (led) led.line.chosen = true;
+    return finish({
+      narrate,
+      open: null,
+      intro: [],
+      statement: request,
+      root,
+      nodes: count,
+      ledChoices: new Map(led ? [[root, led]] : []),
+      ledBranch: new Map(),
+    });
+  }
 
   // The setup: the narrator's paragraph for this purpose and key, with no
   // traits, so it reads the same for every profile.
@@ -1192,183 +1612,38 @@ export function composeSceneTalk(
     }
   }
 
-  // Number every line once, in the order the tree is read; collect the
-  // trait-led path, the rounds and the endings.
-  let count = zero;
-  const take = (line: SceneTalkLine) => {
-    count += one;
-    line.n = count;
-  };
-  take(narrate);
-  if (open) take(open);
-  intro.forEach(take);
-  take(statement);
-  const endings: Outcome[] = [];
-  const number = (node: TreeNode) => {
-    node.lines.forEach(take);
-    node.replies.forEach((reply) => take(reply.line));
-    for (const reply of node.replies) if (reply.next) number(reply.next);
-    for (const branch of node.branches ?? []) number(branch.node);
-    if (node.end) {
-      endings.push(node.end.outcome);
-      if (node.end.close) take(node.end.close);
-    }
-  };
-  number(root);
-  // Name each ending: the first of the purpose's endings that matches the end
-  // of the path (its last reply, the asker's last move, any reply on it, whether
-  // a lie was caught or believed, the outcome). An end no ending matches is a gap.
-  const endingCounts: Record<string, number> = {};
-  const resolveEndings = (
-    node: TreeNode,
-    context: {
-      replies: string[];
-      askerMove: string;
-      caught: boolean;
-      believed: boolean;
-    },
-  ) => {
-    let askerMove = context.askerMove;
-    // A narrator's beat is not the asker's move: the ending reads past it.
-    for (const line of node.lines)
-      if (line.role !== "narrator") askerMove = line.move;
-    for (const reply of node.replies)
-      if (reply.next)
-        resolveEndings(reply.next, {
-          ...context,
-          askerMove,
-          replies: [...context.replies, reply.line.move],
-        });
-    for (const branch of node.branches ?? [])
-      resolveEndings(branch.node, {
-        ...context,
-        askerMove,
-        caught: branch.knows,
-        believed: !branch.knows,
-      });
-    if (node.end) {
-      // An end never leaves the asker's question hanging or invites speech.
-      const lastAsk =
-        node.end.close ?? node.lines.filter((l) => l.role === "asker").at(-one);
-      if (lastAsk?.asks || lastAsk?.invites)
-        gap("end", "dangling", `"${lastAsk.text.trim()}"`);
-    }
-    if (!node.end || !arc.endings) return;
-    const last = context.replies.at(-one);
-    const found = arc.endings.find((row) => {
-      const when = row.when;
-      return (
-        (!when.reply || (last !== undefined && when.reply.includes(last))) &&
-        (!when.asker || when.asker.includes(askerMove)) &&
-        (!when.anyReply ||
-          context.replies.some((move) => when.anyReply!.includes(move))) &&
-        (when.caught === undefined || when.caught === context.caught) &&
-        (when.believed === undefined || when.believed === context.believed) &&
-        (!when.outcome || when.outcome.includes(node.end!.outcome))
-      );
-    });
-    if (found) {
-      node.end.ending = {
-        id: found.id,
-        label: found.label,
-        keeps: found.keeps,
-        ...(found.opens ? { opens: found.opens } : {}),
-      };
-      endingCounts[found.id] = (endingCounts[found.id] ?? zero) + one;
-    } else
-      gap(
-        "ending",
-        "unmatched",
-        `${last ?? "no reply"} (asker ${askerMove}, ${node.end.outcome})`,
-      );
-  };
-  resolveEndings(root, {
-    replies: [],
-    askerMove: arc.state,
-    caught: false,
-    believed: false,
-  });
-  const depthOf = (node: TreeNode): number =>
-    Math.max(
-      node.replies.length
-        ? one +
-            Math.max(
-              ...node.replies.map((reply) =>
-                reply.next ? depthOf(reply.next) : zero,
-              ),
-            )
-        : zero,
-      ...(node.branches ?? []).map((branch) => depthOf(branch.node)),
-    );
-
-  const flat: SceneTalkLine[] = [
+  return finish({
     narrate,
-    ...(open ? [open] : []),
-    ...intro,
+    open,
+    intro,
     statement,
-  ];
-  const rounds: SceneTalkRound[] = [];
-  let outcome: Outcome = "open";
-  let ending: SceneTalkLine | undefined;
-  let node: TreeNode | null = root;
-  flat.push(...root.lines);
-  while (node) {
-    flat.push(...node.replies.map((row) => row.line));
-    const taken = ledChoices.get(node);
-    if (!taken) {
-      if (node.end) {
-        outcome = node.end.outcome;
-        ending = node.end.close ?? ending;
-        if (node.end.close) flat.push(node.end.close);
-      }
-      break;
-    }
-    let nextNode: TreeNode | null = taken.next;
-    // After a lie, the branch the staged records give: caught or believed.
-    if (nextNode?.branches?.length)
-      nextNode = (ledBranch.get(nextNode) ?? nextNode.branches[zero]!).node;
-    rounds.push({
-      round: taken.line.round,
-      replies: node.replies.map((row) => row.line),
-      chosen: taken.line,
-      ...(nextNode?.lines[zero] ? { answer: nextNode.lines[zero] } : {}),
-    });
-    outcome = outcomeOf(taken.line.move);
-    if (nextNode) {
-      flat.push(...nextNode.lines);
-      ending =
-        nextNode.lines.filter((line) => line.role !== "narrator").at(-one) ??
-        ending;
-    }
-    node = nextNode;
-  }
-
-  return {
-    kind: "composed",
-    talk: {
-      typeKey: type.key,
-      purpose,
-      askerId: cast.askerId,
-      askedId: cast.askedId,
-      narration: [narrate],
-      ...(open ? { open } : {}),
-      intro,
-      state: statement,
-      tree: root,
-      rounds,
-      ...(ending ? { close: ending } : {}),
-      outcome,
-      lines: flat,
-      nodes,
-      endings,
-      depth: depthOf(root),
-      gaps: [...gaps].sort(),
-      endingCounts,
-    },
-  };
+    root,
+    nodes,
+    ledChoices,
+    ledBranch,
+  });
 }
 
 /** A close, if there is one, as the field of an ending. */
 function closed(close: SceneTalkLine | undefined): { close?: SceneTalkLine } {
   return close ? { close } : {};
+}
+
+/**
+ * Where the player asks, the last answer of the one asked along a path
+ * through the tree: the move the engine that asked for it reads.
+ */
+export function lastAnswerAlong(
+  tree: TreeNode,
+  path: readonly number[],
+): string | undefined {
+  let node: TreeNode | null = tree;
+  let last = tree.lines.filter((row) => row.role === "asker").at(-one)?.move;
+  for (const index of path) {
+    node = node?.replies[index]?.next ?? null;
+    if (!node) break;
+    last =
+      node.lines.filter((row) => row.role === "asker").at(-one)?.move ?? last;
+  }
+  return last;
 }

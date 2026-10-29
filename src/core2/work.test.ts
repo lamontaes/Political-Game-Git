@@ -8,7 +8,7 @@ import { coreAPI } from "./state";
 import { parameter as p } from "./parameters";
 import { plannedWorkMinutesBetween, runScheduledWork } from "./modules/work";
 import {
-  residentEmploymentRate,
+  publishedResidentEmploymentRate,
   DEFAULT_RESIDENT_EMPLOYMENT,
 } from "./opening-employment";
 import type {
@@ -130,7 +130,7 @@ function cashWorkSnapshot(core: CoreState) {
 describe("recorded opening work boundary", () => {
   it("uses actual age resident denominators below full employment and source labels", () => {
     for (const row of DEFAULT_RESIDENT_EMPLOYMENT.nationalAgeRows) {
-      const result = residentEmploymentRate(
+      const result = publishedResidentEmploymentRate(
         p(row.minimumAgeParameter),
         undefined,
       )!;
@@ -139,7 +139,7 @@ describe("recorded opening work boundary", () => {
       expect(result.basis).toContain("tunable-missing-county");
     }
     const ageRow = DEFAULT_RESIDENT_EMPLOYMENT.countyAgeRows[p("zero")]!;
-    const local = residentEmploymentRate(
+    const local = publishedResidentEmploymentRate(
       p(ageRow.minimumAgeParameter),
       "fixture-geoid",
       {

@@ -3,8 +3,15 @@ import { describe, expect, it } from "vitest";
 import { check, main } from "../../scripts/release/cli";
 import { declarationText, makeFixture } from "./fixtures";
 
-const workflow = readFileSync(".github/workflows/release.yml", "utf8");
+// The jobs live in the reusable release-candidate.yml; release.yml (every push
+// to main) and release-package.yml (the clock) call it.
+const workflow = readFileSync(
+  ".github/workflows/release-candidate.yml",
+  "utf8",
+);
+const pushWorkflow = readFileSync(".github/workflows/release.yml", "utf8");
 const validate = readFileSync(".github/workflows/validate.yml", "utf8");
+const packaging = readFileSync(".github/workflows/release-package.yml", "utf8");
 
 function stepIndex(name: string): number {
   const at = workflow.indexOf(`- name: ${name}`);
@@ -23,19 +30,19 @@ function job(name: string, next?: string): string {
 
 describe("the release event", () => {
   it("runs on main pushes with a manual final drain", () => {
-    expect(workflow).toContain("push:\n    branches: [main]");
+    expect(pushWorkflow).toContain("push:\n    branches: [main]");
     // Pool-only commits start no run; any push touching other files does.
-    expect(workflow).toMatch(/paths-ignore:\n\s+- "docs\/pool\/\*\*"/);
+    expect(pushWorkflow).toMatch(/paths-ignore:\n\s+- "docs\/pool\/\*\*"/);
     // So do the play-first lane's shared files, appended to straight on main.
     for (const path of [
       "docs/play-first/PROGRESS.md",
       "docs/coordination/LEADS-2026-10-24.md",
       "docs/coordination/MERGE-FIRST.md",
     ]) {
-      expect(workflow).toContain(`      - "${path}"`);
+      expect(pushWorkflow).toContain(`      - "${path}"`);
     }
-    expect(workflow).toContain("workflow_dispatch:");
-    expect(workflow).not.toContain("pull_request_target");
+    expect(pushWorkflow).toContain("workflow_dispatch:");
+    expect(pushWorkflow).not.toContain("pull_request_target");
   });
 
   it("waits for a candidate still validating, never cancels one", () => {
@@ -48,18 +55,59 @@ describe("the release event", () => {
       ["validate_candidate", "publish_candidate"],
     ] as const) {
       const row = job(name, next);
-      expect(row).toContain("group: release-main-validate");
+      expect(row).toContain("group: ${{ inputs.concurrency_group }}");
       expect(row).toContain("cancel-in-progress: false");
     }
-    for (const [name, next] of [
-      ["publish_candidate", "desktop_package"],
-      ["desktop_package", "desktop_publish"],
-      ["desktop_publish", undefined],
-    ] as const) {
-      const row = job(name, next);
-      expect(row).toContain("group: release-main-publish");
-      expect(row).toContain("cancel-in-progress: false");
-    }
+    // The push run validates under the push group; the clock run under its own,
+    // so a merge can never take a clock run's place in the queue.
+    expect(pushWorkflow).toContain("concurrency_group: release-main-validate");
+    expect(packaging).toContain("concurrency_group: release-package-candidate");
+    const publish = job("publish_candidate");
+    expect(publish).toContain("group: release-main-publish");
+    expect(publish).toContain("cancel-in-progress: false");
+  });
+
+  it("publishes nothing on a push, and publishes on the clock", () => {
+    // Owner, Oct 27, 2026: the publish job queued behind the next push, so
+    // with a merge every few minutes no run ever published.
+    expect(pushWorkflow).toContain(
+      "uses: ./.github/workflows/release-candidate.yml",
+    );
+    expect(pushWorkflow).toMatch(/publish: false/);
+    expect(pushWorkflow).not.toMatch(/publish: true/);
+    expect(job("publish_candidate")).toContain("inputs.publish &&");
+    expect(packaging).toContain(
+      "uses: ./.github/workflows/release-candidate.yml",
+    );
+    expect(packaging).toMatch(/publish: true/);
+    // A red candidate stops the clock run before it packages anything.
+    expect(packaging).toContain("needs: candidate");
+  });
+
+  it("packages on a clock or on request, never on a push to main", () => {
+    // Owner, Oct 27, 2026: merges starved the package for five hours.
+    expect(workflow).not.toContain("desktop_package");
+    expect(workflow).not.toContain("desktop_publish");
+    expect(workflow).toContain("name: Record the published candidate");
+    expect(packaging).toContain("needs.candidate.outputs.published_sha");
+    expect(packaging).toMatch(
+      /on:\n {2}schedule:\n {4}- cron: "\d+ \*\/2 \* \* \*"\n {2}workflow_dispatch:/,
+    );
+    expect(packaging).not.toContain("push:");
+    expect(packaging).not.toContain("pull_request");
+    // One group for the whole workflow; a running package is never canceled.
+    expect(packaging).toMatch(
+      /^concurrency:\n {2}group: release-package\n {2}cancel-in-progress: false/m,
+    );
+    expect(packaging).not.toContain("cancel-in-progress: true");
+    // It packages the ledger's published commit, never a newer main.
+    expect(packaging).toContain("artifacts?name=publish-record");
+    expect(packaging).toContain("workflows/release-package.yml/runs");
+    expect(packaging).toContain(
+      "ref: ${{ needs.find_candidate.outputs.published_sha }}",
+    );
+    expect(packaging).not.toContain("ref: main");
+    expect(packaging).toContain("already has a GitHub release");
   });
 
   it("cannot recursively release its own commit", () => {
@@ -73,8 +121,10 @@ describe("the release event", () => {
 describe("privilege separation", () => {
   const builder = job("build_candidate", "validate_candidate");
   const validator = job("validate_candidate", "publish_candidate");
-  const publisher = job("publish_candidate", "desktop_package");
-  const desktopPublisher = job("desktop_publish");
+  const publisher = job("publish_candidate");
+  const desktopPublisher = packaging.slice(
+    packaging.indexOf("  desktop_publish:"),
+  );
 
   it("keeps dependency and repository-code execution in read-only jobs", () => {
     expect(builder).toContain("permissions:\n      contents: read");
@@ -123,10 +173,29 @@ describe("privilege separation", () => {
     );
   });
 
+  it("passes the push token only from the caller that publishes", () => {
+    // A called workflow sees no secrets unless its caller passes them, so the
+    // publish step's RELEASE_PUSH_TOKEN stays empty without this.
+    expect(workflow).toMatch(
+      /secrets:\s+RELEASE_PUSH_TOKEN:\s+description:[^\n]+\n\s+required: false/,
+    );
+    expect(packaging).toContain(
+      "RELEASE_PUSH_TOKEN: ${{ secrets.RELEASE_PUSH_TOKEN }}",
+    );
+    expect(pushWorkflow).not.toContain("RELEASE_PUSH_TOKEN");
+    expect(pushWorkflow).not.toContain("secrets: inherit");
+    expect(packaging).not.toContain("secrets: inherit");
+  });
+
   it("gives write authority only to the minimal publisher", () => {
     // The candidate's publisher and the desktop release's; neither runs
     // repository code.
-    expect(workflow.match(/contents: write/g)).toHaveLength(2);
+    expect(workflow.match(/contents: write/g)).toHaveLength(1);
+    // The clock caller's candidate job (the called publisher) and the
+    // desktop release publisher; the push caller names it only because the
+    // called workflow does, and passes publish: false.
+    expect(packaging.match(/contents: write/g)).toHaveLength(2);
+    expect(pushWorkflow.match(/contents: write/g)).toHaveLength(1);
     expect(publisher).toContain("contents: write");
     expect(desktopPublisher).toContain("contents: write");
     expect(desktopPublisher).not.toContain("actions/checkout");

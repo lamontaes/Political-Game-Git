@@ -19,7 +19,11 @@ import {
   openWorldLegislating,
   WORLD_LEGISLATING_MODULE_ID,
 } from "../modules/world-legislating";
-import { openWorldRaces, WORLD_RACES_MODULE_ID } from "../modules/world-races";
+import {
+  openWorldRaces,
+  VOTING_MODULE_ID,
+  worldRacesOpen,
+} from "../modules/voting";
 
 const seed = process.argv[2] ?? "officials-proof";
 const placeKey = process.argv[3] || undefined;
@@ -35,7 +39,7 @@ const buildSeconds = (performance.now() - t0) / 1000;
 const heapAfterBuild = process.memoryUsage().heapUsed;
 const core = world.core;
 const api = coreAPI(core);
-if (!core.modules.has(WORLD_RACES_MODULE_ID)) openWorldRaces(core);
+if (!worldRacesOpen(coreAPI(core))) openWorldRaces(core);
 if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID)) openWorldLegislating(core);
 
 const officials = allOfficials(api);
@@ -108,7 +112,7 @@ const report = bills
     };
   });
 const races = (
-  api.moduleState(WORLD_RACES_MODULE_ID).table("races").rows() as unknown as {
+  api.moduleState(VOTING_MODULE_ID).table("races").rows() as unknown as {
     office: string;
     incumbentParty: string | null;
     winnerParty: string;

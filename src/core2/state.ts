@@ -4,7 +4,6 @@ import {
   CLOSENESS,
   closenessAfter,
   openingClosenessHours,
-  openingPeerHours,
   temperedHours,
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
@@ -15,14 +14,13 @@ import {
   queueDecisionDetail,
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
-import { buildDeepPast } from "./deep-past";
+import { meetAtWork } from "./encounters";
+import { workgroupOf } from "./shared-history";
+import { derivePersonAppearance } from "./appearance";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
   countedJob,
-  peerCohortSize,
-  residentsRuntime,
   enterResidentMarket,
-  countedSinceOpening,
   releaseResidentHousehold,
   residentFacts,
   residentPerson,
@@ -33,6 +31,7 @@ import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { forgetTraitLean } from "./choice";
 import { giveHealthRecord } from "./modules/health";
+import { pastForLater } from "./pre-start";
 import { COUNTED_PLACE_PREFIX, isDemoted } from "./counted-groups";
 import {
   prepareModuleState,
@@ -249,33 +248,34 @@ function admitOwnerCashAccount(
 const OPENING_FAMILY_CAUSE = "opening-family";
 
 /**
- * Opening peer ties: a person ties to each classmate and coworker the opening
- * records name (the generated peer circles), at the closeness those shared
- * hours leave. Full people and counted ones are read the same way. A world
+ * Opening peer ties: a person meets the coworkers of their workgroup at their
+ * employer (the jobs engine's staff, `workgroupOf`), as a new hire does
+ * (`meetAtWork`), at the closeness the hours of a casual friendship leave.
+ * Full people and counted ones filled in later are read the same way. A world
  * built to play (createLifeCore) opens these for every resident; people filled
- * in or promoted later open theirs as they join.
+ * in or promoted later open theirs as they join. Classmates meet in the school
+ * engine's records once a school year is attended, not before.
  */
+const SCHOOLMATES_STOPGAP = "SG-WIRE-PEOPLE-SCHOOLMATES";
+
 export function openOpeningPeerTies(
   core: CoreState,
   api: CoreAPI,
   actor: PersonState,
 ): void {
-  for (const id of actor.knownIds) {
-    if (actor.familyIds.has(id)) continue;
-    const relationshipId = pairKey(actor.id, id);
-    if (core.relationships.has(relationshipId)) continue;
-    if (!core.people.has(id) && !core.husks.has(id)) continue;
-    const hours = openingPeerHours(core, actor, id);
-    if (hours <= api.parameter("zero")) continue;
-    api.relationship(
-      actor.id,
-      id,
-      CLOSENESS.peerTies.kind as Relationship["kind"],
-      hours,
-      undefined,
-      { cause: CLOSENESS.peerTies.cause },
-    );
-  }
+  // No schooling before the start is simulated yet (engine map line 7), so
+  // nobody opens knowing a schoolmate (SG-WIRE-PEOPLE-SCHOOLMATES).
+  api.stopgap(SCHOOLMATES_STOPGAP);
+  const job = actor.jobId ? core.jobs.get(actor.jobId) : undefined;
+  if (!job || job.endsAt) return;
+  meetAtWork(
+    api,
+    actor.id,
+    job.organizationId,
+    workgroupOf(core, actor.id),
+    api.parameter(CLOSENESS.peerTies.hoursParameter),
+    job.id,
+  );
 }
 
 function assertKnownIdSources(
@@ -728,9 +728,10 @@ export function retainLog(
     (id) =>
       core.focusPersonIds.has(id) ||
       id === core.playerId ||
-      (event.kind === "person.acted" &&
-        event.actorId === id &&
-        isExplicitlyControlledPersonV1(core, id)),
+      // The person the player controls is the player however they were
+      // chosen (a new life, or an officeholder picked in Advanced): what
+      // names them is theirs to keep, as for the generated player.
+      isExplicitlyControlledPersonV1(core, id),
   );
   const publicRecord =
     event.publicRecord && core.visiblePlaceIds.has(event.placeId);
@@ -1588,6 +1589,14 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (!given || !family) throw new Error("A name is needed.");
       if (makeIsoDate(identity.birthDate) > core.date)
         throw new Error("A birth date cannot be in the future.");
+      // The household that carried the player's drawn family name carries the
+      // chosen one, so the family the player meets shares it.
+      const drawn = actor.familyName;
+      for (const id of core.households.get(actor.householdId)?.memberIds ??
+        []) {
+        const member = core.people.get(id);
+        if (member && member.familyName === drawn) member.familyName = family;
+      }
       actor.givenName = given;
       actor.familyName = family;
       actor.birthDate = identity.birthDate;
@@ -1705,7 +1714,7 @@ export function coreAPI(core: CoreState): CoreAPI {
           mover.id,
         ]);
       // Nobody leaves a child in a household with no adult.
-      const adultAge = api.parameter("benchmarkAdultMinimumAge");
+      const adultAge = api.parameter("votingAge");
       for (const [fromId, leaving] of bySource) {
         const staying = core.households
           .get(fromId)!
@@ -1785,7 +1794,7 @@ export function coreAPI(core: CoreState): CoreAPI {
         ];
       };
       if (input.together) {
-        const adultAge = api.parameter("benchmarkAdultMinimumAge");
+        const adultAge = api.parameter("votingAge");
         const ageNow = (born: string) =>
           Number(core.date.slice(0, 4)) -
           Number(born.slice(0, 4)) -
@@ -2204,61 +2213,10 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const returning = existing !== undefined;
   const taken = takeResidentHousehold(core, personId);
   if (!taken) throw new Error(`Not in the wider population: ${personId}`);
-  // Their past exists only from now: rebuilt from the world's seed, as the
-  // opening would have built it.
-  // Counted people carry no past at all (one model, two tiers): everyone in
-  // the household gets theirs now.
-  const build = returning ? undefined : residentsRuntime(core)?.input.pastBuild;
-  const rebuild = build
-    ? taken.people.filter((row) => countedSinceOpening(core, row.id))
-    : [];
-  let record = taken;
-  if (build && rebuild.length) {
-    const before = new Map(
-      rebuild.map((row) => [
-        row.id,
-        {
-          head: row.pastFacts ?? [],
-          tail: [],
-        },
-      ]),
-    );
-    const rebuilt = new Map(
-      buildDeepPast(
-        {
-          seed: build.seed,
-          startedAt: build.startedAt,
-          people: rebuild.map((row) => ({
-            ...row,
-            pastFacts: before.get(row.id)!.head,
-          })),
-          households: [taken.household],
-          jobs: taken.jobs,
-          gaps: [],
-        } as unknown as CoreInput,
-        {
-          // The opening's class and workgroup sizes, so the same peer groups form.
-          peerCohortSize: (circle, contextKey, present) =>
-            peerCohortSize(core, circle, contextKey) ?? present,
-        },
-      ).people.map((row) => [row.id, row]),
-    );
-    record = {
-      ...taken,
-      people: taken.people.map((row) => {
-        const built = rebuilt.get(row.id);
-        return built
-          ? {
-              ...row,
-              pastFacts: [
-                ...(built.pastFacts ?? []),
-                ...before.get(row.id)!.tail,
-              ],
-            }
-          : row;
-      }),
-    };
-  }
+  // Their past exists only from now: the engines' pre-start passes give the
+  // household its years before the start when it is filled in (each
+  // module's onFillIn), read against the same records as the opening's.
+  const record = taken;
   const api = coreAPI(core);
   const home = record.household;
   if (returning) {
@@ -2545,6 +2503,18 @@ export interface RecordedIdentity {
  * PEOPLE's builder supplies them (stopgap SG-CORE-identity-fill-in-traits).
  * Returns the existing person if already full.
  */
+/** A stored look for someone filled in, under the recipe of the people already here. */
+function lookOf(
+  core: CoreState,
+  personId: string,
+): { appearanceSeed: string; recipeVersion: string } {
+  let recipe: string | undefined;
+  for (const person of core.people.values())
+    if ((recipe = person.looks?.recipeVersion)) break;
+  const look = derivePersonAppearance(personId, recipe);
+  return { appearanceSeed: look.seed, recipeVersion: look.recipeVersion };
+}
+
 export function fillInIdentity(
   core: CoreState,
   identity: RecordedIdentity,
@@ -2661,24 +2631,19 @@ export function fillInIdentity(
     source: identity.source,
     familyIds: [],
     knownIds: [],
-    ...(identity.gender ? { looks: { gender: identity.gender } } : {}),
+    // Their look is stored once, from the one writer residents' looks come
+    // from, under the recipe the world's people already carry.
+    looks: {
+      ...(identity.gender ? { gender: identity.gender } : {}),
+      ...lookOf(core, identity.id),
+    },
     pastFacts: facts,
   };
-  // A named person is filled in whole: the childhood, schools and era the
-  // opening gives everyone, built from the world's seed and their birth, so
-  // the same person comes back the same every time.
-  const lived = buildDeepPast({
-    seed: core.seed,
-    startedAt: core.startedAt,
-    people: [input],
-    households: [core.households.get(householdId)!],
-    jobs: [],
-    gaps: [],
-  } as unknown as CoreInput).people[0];
-  const person = admitPerson(core, {
-    ...input,
-    pastFacts: lived?.pastFacts ?? facts,
-  });
+  const person = admitPerson(core, input);
+  // A named person filled in after the run gets the years before the start
+  // the engines' runs give everyone (the school years, by the school
+  // engine's own rule).
+  pastForLater(core, [person]);
   recordEntry(core, {
     id: person.id,
     kind: "person",

@@ -12,7 +12,12 @@
  */
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
-import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
+import {
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  yesLevels,
+} from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import { registerLawReach } from "./index";
 import { REACH_A_MODULE_ID } from "./group-a-records";
@@ -101,27 +106,6 @@ export function openLawReach(core: CoreState): void {
 const STANDING_BENEFITS: readonly string[] = ["snap-maximum"];
 
 /**
- * Whether a policy is law for the town on a date: any level of its chain
- * (federal, state, county or city) whose latest row in force says yes. A
- * higher level saying no doesn't undo a lower level's yes.
- */
-export function inForceHere(api: CoreAPI, question: string): boolean {
-  const date = api.state.date;
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  return lawChain(api).levels.some(({ jurisdiction }) => {
-    const latest = (
-      laws.query("bySeries", [
-        jurisdiction,
-        question,
-      ]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    return latest?.value === 1;
-  });
-}
-
-/**
  * What a policy does once it's law: one handler per policy key, registered
  * by the law-reach files. Called whenever the law in force on that key may
  * have changed, with whether it's now in force for the town.
@@ -135,10 +119,14 @@ export type PolicyHandler = (
     readonly level: string;
     readonly value: number | null;
     readonly placeId: string;
+    /** The treasury read the standing law at its close: only the budget line follows, not the people's records. */
+    readonly standing?: boolean;
     /** The law was already in force when the world opened (no change happened today). */
     readonly opening?: boolean;
   },
 ) => void;
+/** The id prefix of the event the treasury raises when it reads a standing law. */
+const STANDING_EVENT = "law-standing:";
 const handlers = new Map<string, PolicyHandler[]>();
 export function registerPolicyHandler(
   key: string,
@@ -163,7 +151,7 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     event.kind === "budget-line-changed"
       ? true
       : key.includes(":")
-        ? inForceHere(api, key)
+        ? yesLevels(api, key).length > 0
         : true;
   if (event.kind === "law-took-effect") endReplaced(api, key, inForce);
   const list = handlers.get(key);
@@ -176,8 +164,48 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       level: facts.level ?? "",
       value: Number.isFinite(value) ? value : null,
       placeId: event.placeId,
+      standing: event.id.startsWith(STANDING_EVENT),
       ...(event.id.startsWith("law-in-force:") ? { opening: true } : {}),
     });
+}
+
+/**
+ * The laws that set a budget line's level are read again by the treasury each
+ * month it closes and each year a budget is adopted: every level of the town's
+ * chain whose latest row says yes runs the key's handlers once more, so a new
+ * fiscal year's budget carries what the law in force sets, and a law that has
+ * since been repealed is read as such. The handlers keep no duplicate of
+ * what they already did.
+ */
+export function reassertStandingLaws(
+  api: CoreAPI,
+  keys: readonly string[],
+): void {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return;
+  const date = api.state.date;
+  const town = lawChain(api).townPlaceId;
+  for (const key of keys)
+    for (const { level, jurisdiction, row: latest } of yesLevels(api, key)) {
+      runHandlers(api, {
+        id: `${STANDING_EVENT}${latest.id}:${date}`,
+        date,
+        kind: "law-took-effect",
+        personIds: [],
+        placeId: town,
+        source: {
+          tag: "SOURCED",
+          citation: `${String(latest.source)} (read by the treasury at its close)`,
+          asOf: date,
+        },
+        facts: {
+          lawId: latest.id,
+          series: key,
+          level,
+          jurisdiction,
+          value: String(latest.value),
+        },
+      } as unknown as CoreEventInput);
+    }
 }
 
 /**

@@ -54,17 +54,6 @@
       "citation": "Savings let a worker leave work; checked against JOLTS quits."
     }
   },
-  "jobsLeaveBaseline": {
-    "value": -5,
-    "tag": "TUNABLE",
-    "citation": "How far leaving work sits below staying before strain; checked against JOLTS quits and CPS flows out of the labor force.",
-    "spread": {
-      "low": -7,
-      "high": -3,
-      "unit": "score",
-      "citation": "How far leaving work sits below staying before needs and savings; checked against JOLTS quits and CPS flows out of the labor force."
-    }
-  },
   "jobsLookBaseline": {
     "value": -2.4,
     "tag": "TUNABLE",
@@ -131,17 +120,6 @@
       "citation": "Employers weigh experience in the same occupation (Lazear and Oyer 2013, Handbook of Organizational Economics)."
     }
   },
-  "jobsFitReliabilityWeight": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "Employers weigh a recorded record of turning up; traitScale 3.",
-    "spread": {
-      "low": 0.2,
-      "high": 1.5,
-      "unit": "score per trait point",
-      "citation": "Employers weigh a recorded record of turning up; traitScale 3."
-    }
-  },
   "jobsKeepTenureWeight": {
     "value": 1,
     "tag": "TUNABLE",
@@ -165,15 +143,26 @@
     }
   },
   "benefitsFileBase": {
-    "value": 0.6,
-    "tag": "TUNABLE",
+    "value": 0.02,
+    "tag": "ESTIMATED",
     "spread": {
-      "low": 0.3,
-      "high": 0.9,
-      "unit": "scaled trait lean (about -1 to 1)",
-      "citation": "Unemployment insurance recipiency among eligible unemployed workers is well below 100%, about 0.7 to 0.8 take-up among eligibles (Auray, Fuller & Lkhagvasuren 2019). A worker files when this base plus their traits' scaled lean toward filing over skipping is above zero."
+      "low": -0.1,
+      "high": 0.14,
+      "unit": "score",
+      "citation": "The fit's neighbors: -0.1 gives take-up 0.61 to 0.75 and 0.14 gives 0.58 to 0.85 in the three towns below."
     },
-    "citation": "How readily an eligible worker files for unemployment insurance before their traits tilt it (OPUS-TRAITS, Oct 12, 2026)."
+    "citation": "How readily an eligible worker files for unemployment insurance before the benefit's share of the lost pay, the layoff's stress and their traits are weighed (jobs-benefits.ts filingDecision). Take-up among eligible unemployed workers: 0.734 mean, SD 0.201, over 714 state-years 2002-15 (Auray & Fuller, Quantitative Economics 2020, Table 1); 77% over 1989-2012 (Auray, Fuller & Lkhagvasuren 2018); a literature range of 0.55 to 0.83 (Anderson & Meyer, NBER WP 4787). Fitted with benefitsFileReplacementWeight over every business worker (full and counted) of three drawn towns with at least 100, each laid off in thought from their own job: Wayland, Michigan (2684880, seed 0c4eea785dc2), Piltzville, Montana (3057475, seed b3ab1b16e0f7) and Washington, District of Columbia (1150000, seed ed36e0484fc6), label trait-wiring, built January 20, 2025: take-up 0.73 in Wayland and 0.76 in Washington. Piltzville reads 0.46 because Montana's law row gives a benefit of 0.26 of the lost pay (pool item laws-unemployment-share-basis-mt-co)."
+  },
+  "benefitsFileReplacementWeight": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "spread": {
+      "low": 0.4,
+      "high": 0.6,
+      "unit": "score per log of the benefit's share of the lost pay",
+      "citation": "The fit's neighbors with the base refitted: 0.4 gives elasticities of 0.30 to 0.46 and 0.6 about 0.45 to 0.60 in the three towns of benefitsFileBase."
+    },
+    "citation": "How much the share of the lost weekly pay the benefit replaces pulls an eligible worker toward filing, as the log of the share (jobs-benefits.ts filingDecision). A 10% higher weekly benefit raises take-up 4.7%: elasticity 0.467, 95% CI 0.382 to 0.553 (McQuillan & Moore, Washington ESD working paper, Nov 2025, https://esd.wa.gov/media/pdf/4240/endogenoustake-upuibenefts-working-paper-nov2025pdf); Anderson & Meyer (NBER WP 4787) report 0.46 to 0.78. At 0.5, raising every benefit by 10% raises take-up by an elasticity of 0.45 (Wayland), 0.42 (Piltzville) and 0.52 (Washington) over every business worker (full and counted) of three drawn towns with at least 100, each laid off in thought from their own job: Wayland, Michigan (2684880, seed 0c4eea785dc2), Piltzville, Montana (3057475, seed b3ab1b16e0f7) and Washington, District of Columbia (1150000, seed ed36e0484fc6), label trait-wiring, built January 20, 2025. The share is the state's weekly share of pay up to its weekly maximum, so a high earner capped at the maximum files less."
   },
   "jobsDaysPerYear": {
     "value": 365,
@@ -186,9 +175,9 @@
     "citation": "Mean weeks per month (52.14 / 12)."
   },
   "jobsEnterBaseline": {
-    "value": -1.5,
+    "value": -2.5,
     "tag": "TUNABLE",
-    "citation": "How far starting to look sits below staying out before money pressure; checked against CPS flows into the labor force and the region's unemployment rate.",
+    "citation": "How far starting to look sits below staying out before money pressure, for a full person and a counted adult alike; checked against CPS flows into the labor force and the region's unemployment rate (in two drawn towns, counted seekers settle at about 5% to 7% of the counted jobs; at -1.5 they were about twice the jobs).",
     "spread": {
       "low": -3,
       "high": 0,
@@ -202,9 +191,9 @@
     "citation": "42 U.S.C. 402(a), 416(l): Social Security retirement benefits start at 62 at the earliest."
   },
   "jobsRetireBaseline": {
-    "value": -4,
+    "value": -2,
     "tag": "TUNABLE",
-    "citation": "How far retiring sits below staying at 62 before age and savings; checked against CPS labor force participation by age (about 57% at 62-64, 26% at 65-69, BLS 2019). First generated-world month (Landrum, July 2022) at -3 and 0.6 retired 63 of about 2,300 workers at once, far above CPS exits at 65-69.",
+    "citation": "How far retiring sits below staying at 62 before age and savings, so that the chooser's comparison against staying puts most workers out of work by their mid-60s with the poorest and the youngest last; checked against CPS labor force participation by age (about 57% at 62-64, 26% at 65-69, BLS 2019). At -3 and 0.6 the first generated-world month (Landrum, July 2022) retired 63 of about 2,300 workers at once, far above CPS exits at 65-69.",
     "spread": {
       "low": -6,
       "high": -2,
@@ -213,7 +202,7 @@
     }
   },
   "jobsRetireAgeWeight": {
-    "value": 0.3,
+    "value": 0.45,
     "tag": "TUNABLE",
     "citation": "Each year past 62 pulls further toward retiring; checked against CPS participation falling from 62 to 70.",
     "spread": {
@@ -269,44 +258,6 @@
       "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law)."
     }
   },
-  "jobsCountedEntryBaseline": {
-    "value": -7,
-    "tag": "TUNABLE",
-    "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow.",
-    "spread": {
-      "low": -8,
-      "high": -5.5,
-      "unit": "logit of a month's pull to start looking",
-      "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow."
-    }
-  },
-  "jobsCountedEntryYouthWeight": {
-    "value": 4,
-    "tag": "TUNABLE",
-    "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow.",
-    "spread": {
-      "low": 2.5,
-      "high": 5,
-      "unit": "added at the peak of school-leaving years",
-      "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow."
-    }
-  },
-  "jobsCountedEntryYouthYears": {
-    "value": 7,
-    "tag": "SOURCED",
-    "citation": "Ages 18 to 25: the BLS CPS school-leaving years (16-24 enrollment and July youth labor force tables)."
-  },
-  "jobsCountedStopLookingBaseline": {
-    "value": -1.4,
-    "tag": "TUNABLE",
-    "citation": "BLS CPS labor force status flows, 2010-2019: about a fifth of the unemployed are out of the labor force the next month (unemployed to not in labor force, LNS17900000 over unemployment).",
-    "spread": {
-      "low": -2,
-      "high": -0.9,
-      "unit": "logit of a month's pull to stop looking",
-      "citation": "BLS CPS labor force status flows, 2010-2019: about a fifth of the unemployed are out of the labor force the next month (unemployed to not in labor force, LNS17900000 over unemployment)."
-    }
-  },
   "jobsQuitToNonemploymentShare": {
     "value": 0.5,
     "tag": "TUNABLE",
@@ -335,7 +286,7 @@
     "citation": "BLS Employee Tenure in 2024, median tenure of wage and salary workers (about 3.9 years)."
   },
   "jobsQuitTenureWeight": {
-    "value": 1.0,
+    "value": 1,
     "tag": "TUNABLE",
     "citation": "Short-tenure workers quit far more often than long-tenure ones (BLS Employee Tenure; Farber 1994, JOLE): each log step of tenure below the typical raises the pull; checked against JOLTS quits by industry.",
     "spread": {
@@ -376,17 +327,6 @@
       "high": 0.12,
       "unit": "logit per point of unemployment above the natural rate",
       "citation": "Discouraged-worker effect: fewer enter the labor force when the local unemployment rate is high (BLS CPS participation through the 2007-2010 recession)."
-    }
-  },
-  "jobsUnemploymentStopLookingWeight": {
-    "value": 0.05,
-    "tag": "TUNABLE",
-    "citation": "Long unemployment spells end in leaving the labor force more often when unemployment is high (BLS CPS gross flows U to N through the 2007-2010 recession).",
-    "spread": {
-      "low": 0.01,
-      "high": 0.12,
-      "unit": "logit per point of unemployment above the natural rate",
-      "citation": "Long unemployment spells end in leaving the labor force more often when unemployment is high (BLS CPS gross flows U to N through the 2007-2010 recession)."
     }
   },
   "jobsSwitchCost": {
@@ -443,6 +383,38 @@
       "unit": "days",
       "citation": "A referral helps while the search is live; the median unemployment spell is about ten weeks (Bureau of Labor Statistics, Current Population Survey)."
     }
+  },
+  "jobsOlderApplicantPenalty": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Older applicants draw fewer callbacks than younger ones with the same resume (Neumark, Burn and Button 2019, Journal of Political Economy: a large resume field experiment, callbacks for applicants in their mid-sixties well below those for applicants around thirty). Applied as score points taken off an employer's fit for the oldest applicants where no law bars it; three points is three years' experience in the fit score.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "fit score at the oldest applicant age",
+      "citation": "Older applicants draw fewer callbacks than younger ones with the same resume (Neumark, Burn and Button 2019, Journal of Political Economy: a large resume field experiment, callbacks for applicants in their mid-sixties well below those for applicants around thirty). Applied as score points taken off an employer's fit for the oldest applicants where no law bars it; three points is three years' experience in the fit score."
+    }
+  },
+  "jobsAgeBiasFromAge": {
+    "value": 40,
+    "tag": "SOURCED",
+    "citation": "Age Discrimination in Employment Act, 29 U.S.C. 631(a): protects workers 40 and older."
+  },
+  "jobsAgeBiasFullAge": {
+    "value": 64,
+    "tag": "TUNABLE",
+    "citation": "The oldest age tested in the field experiment (Neumark, Burn and Button 2019): the penalty slides from the protected age to its full size here.",
+    "spread": {
+      "low": 62,
+      "high": 66,
+      "unit": "age in years",
+      "citation": "The oldest age tested in the field experiment (Neumark, Burn and Button 2019): the penalty slides from the protected age to its full size here."
+    }
+  },
+  "jobsAgeLawEmployees": {
+    "value": 20,
+    "tag": "SOURCED",
+    "citation": "Age Discrimination in Employment Act, 29 U.S.C. 630(b): covers employers with 20 or more employees; a state or local ban reaches smaller ones."
   },
   "jobsMotherYoungChildYears": {
     "value": 5,
@@ -507,6 +479,42 @@
       "high": 0.7,
       "unit": "share of the raw weekly-earnings gap",
       "citation": "Assumed range around a middle value; unmeasured."
+    }
+  },
+  "jobsTenureReturnFull": {
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "Altonji and Williams 2005, Do Wages Rise with Job Seniority? A Reassessment (ILR Review 58(3); NBER w6010 abstract): \"The evidence from the data used by AS and Topel points to an effect of ten years of tenure on the log wage equal to .11\", above Altonji and Shakotko's .066 and well below Topel's estimate, and probably biased upward by the wage measure. Read as the long-tenure ceiling of the profile full x (1 - e^(-years / jobsTenureReturnYears)): .11 / (1 - e^(-10/4)) = 0.12 log points.",
+    "estimatedFrom": "The reconciled ten-year return to tenure (Altonji and Williams 2005), spread over the profile whose shape Buchinsky, Fougere, Kramarz and Tchernis (IZA DP 1521, 2005; Review of Economic Studies 77(3), 2010) Table 8 gives. Checked against totals, not any one worker: a stayer at the BLS median tenure, 3.9 years (jobsTypicalTenureYears), gets 0.12 x (e^(-3.9/4) - e^(-4.9/4)) = 1.0 point a year over the market's move; job stayers' median wage growth ran 3.5 percent in the 12 months to September 2026 (Atlanta Fed Wage Growth Tracker, FRED FRBATLWGT12MMUMHWGJST) against 3.2 percent for ECI wages and salaries in the 12 months to June 2026 (BLS ECI release), and 4.4 against about 3.6 a year earlier.",
+    "spread": {
+      "low": 0.072,
+      "high": 0.253,
+      "unit": "log points of pay at long tenure",
+      "citation": "Low: Altonji and Shakotko 1987's .066 at ten years, as Altonji and Williams 2005 quote it, over 0.918. High: Topel 1991 (JPE 99(1); NBER w3294 abstract: \"10 years of current job seniority raises the wage of the typical male worker in the U.S. by over 25 percent\"), .2323 at ten years in Buchinsky et al.'s Table 8, over 0.918."
+    }
+  },
+  "jobsTenureReturnYears": {
+    "value": 4,
+    "tag": "ESTIMATED",
+    "citation": "Buchinsky, Fougere, Kramarz and Tchernis, Interfirm Mobility, Wages and the Returns to Seniority and Experience in the U.S. (IZA DP 1521, 2005; Review of Economic Studies 77(3), 2010), Table 8, cumulative return to tenure, Altonji-Williams estimator on the PSID: .0528 at 2 years, .0988 at 5, .1195 at 10, .1164 at 15, .1287 at 20; Topel two-step: .0973, .1843, .2323, .2343, .2469.",
+    "estimatedFrom": "The span of the profile full x (1 - e^(-years / span)) fitted to both columns' shape: at 4 years it reaches 0.43 of its ten-year value at 2 years (the table: 0.44 and 0.42), 0.78 at 5 (0.83 and 0.79) and 1.06 at 15 (0.97 and 1.01), flat after ten as the table is.",
+    "spread": {
+      "low": 3,
+      "high": 5,
+      "unit": "years",
+      "citation": "At 3 years the profile reaches 0.50 of its ten-year value at 2 years and 0.84 at 5; at 5 years, 0.38 and 0.73: together they bracket Table 8's 0.42 to 0.44 and 0.79 to 0.83 (Buchinsky et al. 2005)."
+    }
+  },
+  "jobsRaisePerWorkYear": {
+    "value": 0.0017,
+    "tag": "ESTIMATED",
+    "citation": "WorldatWork 2024-2025 Salary Budget Survey, Figure 17 (United States): in 2023 high performers (24 percent of employees) got a mean merit increase of 4.8 percent, middle performers (59 percent) 3.5 percent and low performers (5 percent) 1.3 percent; Figure 18: the gap between middle and high performers was 1.2 to 1.5 points every year from 2015 to 2024 (2.0 in 2020). Barrick and Mount 1991 (Personnel Psychology 44(1), Table 2): conscientiousness correlates 0.22 with job performance.",
+    "estimatedFrom": "About 1.0 point of merit increase per standard deviation of rated performance (on a normal spread of the rated, the top 24 percent sit about 1.5 deviations above the middle group, 1.3 points apart, and the bottom 5 percent about 1.7 below it, 2.2 points apart), times the 0.22 of rated performance that conscientiousness carries, over the spread of the employer's read of how a person works, 1.28 years (traitWeightJobsValueWorker 4.4 times the 0.29 lean spread within a firm its citation measures): 0.010 x 0.22 / 1.28 = 0.0017 of pay a year per year of that read. A worker one deviation more diligent gets about 0.2 point more a year, about 2 percent more pay after ten years in the job; Gensowski 2018, Personality, IQ, and lifetime earnings (doi:10.1016/j.labeco.2017.12.004), finds 16.7 percent of lifetime earnings per deviation of conscientiousness in the high-IQ Terman sample, which also carries schooling and the jobs people reach, an upper bound this raise stays well under.",
+    "spread": {
+      "low": 0.0012,
+      "high": 0.0025,
+      "unit": "share of pay a year per year of how they work",
+      "citation": "Merit points per deviation of rated performance 0.8 to 1.2 (WorldatWork Figure 18's 1.2 to 2.0 point gaps between performance groups), the trait correlation 0.20 to 0.23 across occupational groups (Barrick and Mount 1991, Table 2) and the lean spread 0.25 to 0.34 across the three places traitWeightJobsValueWorker names."
     }
   }
 }

@@ -1,0 +1,133 @@
+{
+  "schema": "english-parts/1",
+  "register": "calendar",
+  "description": "One line per dated thing on the player's calendar, saying who and what in words. Slots are filled from the elections module's contest rows and the family's birth dates; an own part is said of a race the player has filed in.",
+  "slots": {
+    "name": "A family member's full name, from their person record.",
+    "office": "The contest's recorded office title.",
+    "count": "How many seats of that office share the date, from the contest rows."
+  },
+  "maxWords": 12,
+  "parts": [
+    {
+      "key": "calendar.birthday.1",
+      "move": "birthday",
+      "text": "{name}'s birthday",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.your-birthday.1",
+      "move": "your-birthday",
+      "text": "Your birthday",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.filing-opens.1",
+      "move": "filing-opens",
+      "text": "Filing opens for {office}",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.filing-opens.seats",
+      "move": "filing-opens",
+      "text": "Filing opens for {office}, {count} seats",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.filing-deadline.1",
+      "move": "filing-deadline",
+      "text": "Last day to file for {office}",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.filing-deadline.seats",
+      "move": "filing-deadline",
+      "text": "Last day to file for {office}, {count} seats",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.filing-deadline.own",
+      "move": "filing-deadline",
+      "text": "Your last day to file for {office}",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "own": true
+    },
+    {
+      "key": "calendar.primary.1",
+      "move": "primary",
+      "text": "Primary for {office}",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.primary.seats",
+      "move": "primary",
+      "text": "Primary for {office}, {count} seats",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.primary.own",
+      "move": "primary",
+      "text": "Your primary for {office}",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "own": true
+    },
+    {
+      "key": "calendar.election.1",
+      "move": "election",
+      "text": "Election day for {office}",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.election.seats",
+      "move": "election",
+      "text": "Election day for {office}, {count} seats",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.election.own",
+      "move": "election",
+      "text": "Election day: your race for {office}",
+      "origin": "authored",
+      "author": "the screens designer",
+      "date": "2026-10-27",
+      "kind": "written",
+      "own": true
+    }
+  ]
+}

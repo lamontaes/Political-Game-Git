@@ -13,7 +13,7 @@ import {
   type GroundedEnglishKnowledge,
   type GroundedEnglishPacket,
 } from "./grounded-english";
-import { SCENE_BANK, sceneWordsFromBank } from "./mined/scene-bank";
+import { sceneWordsFromBank } from "./mined/scene-bank";
 
 const zero = P.zero;
 const one = P.one;
@@ -22,13 +22,13 @@ interface Variant {
   key: string;
   text: string;
   stages?: string[];
+  /** The settings the line can be said in; none, any. */
+  settings?: readonly string[];
 }
 export interface SceneWords {
   version: string;
   and: string;
   settings: Readonly<Record<string, Variant[]>>;
-  /** The day, as the narrator opens: "It's a Tuesday in March." */
-  frame: Variant[];
   /** What is happening, by the staged situation's type. */
   leads: readonly { typeKey: string; variants: Variant[] }[];
   causes: readonly { labelPrefix: string; variants: Variant[] }[];
@@ -37,13 +37,6 @@ export interface SceneWords {
 }
 /** The default words are the mined bank's. */
 export const SCENE_WORDS: SceneWords = sceneWordsFromBank();
-/** Every piece of the bank, shipped or held, as the grading view reads them. */
-export function everySceneWord(): SceneWords {
-  return sceneWordsFromBank({
-    ...SCENE_BANK,
-    parts: SCENE_BANK.parts.map((part) => ({ ...part, shippable: true })),
-  });
-}
 
 export interface Fact {
   text: string;
@@ -54,18 +47,24 @@ export interface SceneLine {
   sourceRecordIds: readonly string[];
   /** The facts the sentence names (its slots), so the director knows what it said. */
   usedFactKeys?: readonly string[];
+  /** The bank pieces that said it, so a grade reaches them. */
+  parts?: readonly string[];
 }
 
 /**
- * A line the narrator gives: the day (`frame`), the setting by its kind, who
- * is there, what is happening by the staged situation's type (`lead`), how the
+ * A line the narrator gives: the setting by its kind (never the player's own
+ * home, and never the day: the screen shows both), who is there, what is happening by the staged situation's type (`lead`), how the
  * first move opens the scene, and what led here by the moment's label
  * (`cause`).
  */
 export type NarrationMove =
-  | { part: "frame" }
   | { part: "setting"; kind: string }
-  | { part: "lead"; typeKey: string }
+  | {
+      part: "lead";
+      typeKey: string;
+      /** The scene's setting: a line written for another place is not said. */
+      setting?: string;
+    }
   | { part: "opening"; move: string }
   | { part: "cause"; label: string };
 
@@ -74,8 +73,6 @@ const bankOf = (
   move: NarrationMove,
 ): { key: string; variants: readonly Variant[] | undefined } | null => {
   switch (move.part) {
-    case "frame":
-      return { key: "scene-frame", variants: words.frame };
     case "setting":
       return {
         key: `scene-setting:${move.kind}`,
@@ -125,7 +122,16 @@ export function wordSceneLine(request: {
   if (!found) return null;
   const facts =
     typeof request.facts === "function" ? request.facts() : request.facts;
-  const rows = found.variants;
+  // A line written for one kind of place ("has been waiting for you to get
+  // home") is said only in a scene set there.
+  const move = request.move;
+  const rows = found.variants?.filter(
+    (row) =>
+      move.part !== "lead" ||
+      !move.setting ||
+      !row.settings ||
+      row.settings.includes(move.setting),
+  );
   if (!rows?.length) return null;
   const bank: AuthoredEnglishBank = {
     key: found.key,
@@ -159,6 +165,7 @@ export function wordSceneLine(request: {
     text: result.text.charAt(zero).toUpperCase() + result.text.slice(one),
     sourceRecordIds: result.sourceRecordIds,
     usedFactKeys: result.usedFactKeys,
+    parts: [result.variantKey],
   };
 }
 

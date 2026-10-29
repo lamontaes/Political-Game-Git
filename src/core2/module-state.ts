@@ -196,6 +196,12 @@ export function setTableTrace(hook: typeof tableTrace): void {
   tableTrace = hook;
 }
 
+/** Whether an installed engine keeps its own tables in this world. */
+export function hasModuleState(core: CoreState, moduleId: string): boolean {
+  const store = stores.get(core)?.get(moduleKey(moduleId));
+  return !!store && core.modules.get(moduleId) === store.module;
+}
+
 export function moduleState(
   core: CoreState,
   moduleId: string,

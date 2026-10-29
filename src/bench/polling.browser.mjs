@@ -16,6 +16,18 @@ const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+// Election morning comes first (owner, Oct 26: going to vote is a choice):
+// skip the canvass if offered, then Go vote opens the ballot.
+const toBallot = async () => {
+  if (!(await page.locator("#election-day:not([hidden])").count())) return;
+  const skipCanvass = page.getByRole("button", {
+    name: "Not today",
+    exact: true,
+  });
+  if (await skipCanvass.count()) await skipCanvass.click();
+  await page.getByRole("button", { name: "Go vote", exact: true }).click();
+  await page.locator("#ballot:not([hidden])").waitFor();
+};
 page.setDefaultTimeout(60000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
@@ -28,7 +40,7 @@ page.on("response", async (r) => {
         "CHOOSE RESULT:",
         JSON.stringify(j.result ?? null).slice(0, 300),
       );
-      if (j.result?.status === "on-ballot")
+      if (["petitioning", "on-ballot"].includes(j.result?.status ?? ""))
         filedContest = j.result.filing.contestId;
     } catch {
       // Non-JSON filing response; the UI state below is the evidence.
@@ -74,6 +86,11 @@ try {
     await page.locator("#cr-states .item").first().waitFor();
     const drawn = drawPlace(runSeed, `polling-${attempt}`);
     console.log("Drawn place:", drawn.key, drawn.name, drawn.state);
+    // The states page; the search brings the drawn one onto the first page.
+    const stateName = await page
+      .locator(`[data-testid="state-${drawn.state}"]`)
+      .evaluate((b) => b.textContent);
+    await page.locator("#cr-state-search").fill(stateName);
     await page.locator(`[data-testid="state-${drawn.state}"]`).click();
     await page.locator("#cr-towns .item").first().waitFor();
     const townName = drawn.name.split(",")[0];
@@ -92,13 +109,6 @@ try {
     // The world seed the creator obtained: with the drawn place this
     // reproduces the world (BENCH_SEED only reproduces the draws).
     console.log("World seed (creator):", seed, "run seed:", runSeed);
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 300000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
     await page.waitForFunction(() =>
       document.getElementById("card-name").textContent.trim(),
     );
@@ -231,29 +241,19 @@ try {
           await choices.nth(c).click();
           await page.waitForTimeout(2000);
           console.log(
-            "Overlay open:",
-            await page.locator("#filing-overlay:not([hidden])").count(),
             "choices:",
             await page
               .locator("#talk-choices button")
               .allInnerTexts()
               .catch(() => []),
           );
-          if (await page.locator("#filing-overlay:not([hidden])").count()) {
-            await page
-              .locator("#filing-party option")
-              .nth(1)
-              .waitFor({ timeout: 10000 })
-              .catch(() => {});
-            if ((await page.locator("#filing-party option").count()) > 1)
-              await page.locator("#filing-party").selectOption({ index: 1 });
-            const confirm = page.locator("#talk-choices button", {
-              hasText: /file for this office/i,
-            });
-            if (await confirm.count()) {
-              await confirm.first().click();
-              await page.waitForTimeout(2000);
-            }
+          // No form at the counter: the filing carries the party on record.
+          const confirm = page.locator("#talk-choices button", {
+            hasText: /file for this office/i,
+          });
+          if (await confirm.count()) {
+            await confirm.first().click();
+            await page.waitForTimeout(2000);
           }
           acted = true;
           break;
@@ -335,13 +335,14 @@ try {
     path: "docs/reports/ballot-pages-2026-10-24/calendar-nov.png",
   });
   // Run time forward with the skip control; answer stops until the ballot shows.
-  const skip = page.locator(".calendar-details .skip-forward");
+  const skip = page.locator(".calendar-side-head .skip-forward");
   console.log("Skip-forward present:", await skip.count());
   if (await skip.count()) {
     await skip.first().click();
     await page.waitForTimeout(3000);
   }
   for (let leg = 0; leg < 48; leg += 1) {
+    await toBallot();
     if (await page.locator("#ballot:not([hidden])").count()) {
       const clock = await page
         .locator("#card-clock")
@@ -478,7 +479,7 @@ try {
     }
     await day3.first().click();
     await page.waitForTimeout(1000);
-    const skip2 = page.locator(".calendar-details .skip-forward");
+    const skip2 = page.locator(".calendar-side-head .skip-forward");
     if (await skip2.count()) {
       await skip2.first().click();
       await page.waitForTimeout(4000);
@@ -514,6 +515,7 @@ try {
   ).includes(targetClock);
   assert.ok(arrived, `legs never reached ${targetClock}`);
   for (let round = 0; round < 30; round += 1) {
+    await toBallot();
     if (await page.locator("#ballot:not([hidden])").count()) break;
     console.log(
       "Round",

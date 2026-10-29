@@ -55,9 +55,10 @@ import {
   officialCandidateId,
   resultOf,
 } from "../../src/core2/modules/voting";
-import { WORLD_RACES_MODULE_ID } from "../../src/core2/modules/world-races";
+import { worldRacesOpen } from "../../src/core2/modules/voting";
 import { WORLD_LEGISLATING_MODULE_ID } from "../../src/core2/modules/world-legislating";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
+import { expectedRenterHouseholds } from "../../src/core2/modules/housing";
 import type { CoreModule, CoreState } from "../../src/core2/types";
 import policies from "../../scripts/core2-guard/policies.json" with { type: "json" };
 
@@ -429,10 +430,11 @@ function playWorld(seed: string) {
         )
       : pass(`all ${engines.length} engines ran and changed their records`);
   const missing = [
-    WORLD_RACES_MODULE_ID,
-    WORLD_LEGISLATING_MODULE_ID,
-    OUTCOME_WEB_MODULE_ID,
-  ].filter((id) => !core.modules.has(id));
+    ...(worldRacesOpen(coreAPI(core)) ? [] : ["the world's races"]),
+    ...[WORLD_LEGISLATING_MODULE_ID, OUTCOME_WEB_MODULE_ID].filter(
+      (id) => !core.modules.has(id),
+    ),
+  ];
   verdicts["national races, lawmaking and outcomes are installed"] =
     missing.length
       ? fail(
@@ -831,11 +833,26 @@ function playWorld(seed: string) {
       : !Number(d.valueMinor),
   );
   const renters = dwellings.filter((d) => d.tenure === "rent");
+  // A rented home is required only where the records expect a renter
+  // household (a tiny town whose owner share leaves everyone an owner has
+  // none). A renter who moved away or lost the home still counts: the former
+  // home keeps its tenure.
+  const everRented = dwellings.filter(
+    (d) => d.tenure === "rent" || d.formerTenure === "rent",
+  );
+  const rentersExpected = expectedRenterHouseholds(
+    core,
+    dwellings.map((d) => String(d.householdId)),
+  );
   verdicts["homes have values and rents"] =
-    dwellings.length && !unpriced.length && renters.length
-      ? pass(`${dwellings.length} homes priced, ${renters.length} rented`)
+    dwellings.length &&
+    !unpriced.length &&
+    (everRented.length || !rentersExpected)
+      ? pass(
+          `${dwellings.length} homes priced, ${renters.length} rented, ${everRented.length} rented at some point (${rentersExpected} renter households expected)`,
+        )
       : fail(
-          `${unpriced.length} of ${dwellings.length} homes have no value or rent, and ${renters.length} are rented. Housing (src/core2/modules/housing.ts) must seed values and rents from the place's records.`,
+          `${unpriced.length} of ${dwellings.length} homes have no value or rent, and ${everRented.length} were ever rented where the records expect ${rentersExpected} renter households. Housing (src/core2/modules/housing.ts) must seed values and rents from the place's records.`,
         );
 
   // Break 20: pay reaches an account the worker can spend from.

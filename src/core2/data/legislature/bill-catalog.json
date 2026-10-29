@@ -336,6 +336,14 @@
               "levels": ["state"]
             },
             {
+              "id": "law:local-income-tax-authority",
+              "name": "Local income tax authority",
+              "kind": "law-amount",
+              "series": "local-income-tax-authority",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:fiscal.adopt-income-tax",
               "name": "adopt income tax",
               "kind": "policy-question",

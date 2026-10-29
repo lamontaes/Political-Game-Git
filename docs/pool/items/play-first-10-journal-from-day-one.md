@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6345
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
@@ -36,3 +36,5 @@ Sent back 2026-10-25 from PR #6093 (branch words/play-first-10-journal): 23 new 
 2026-10-25 Merger 1 correction: the authored-only send-back is withdrawn after verifying the newer Oct 24 owner ruling releasing that hold. Bank shippable flags are checked against the grade ledger; authored origin alone is not a blocker. Current Words claim and in-pr status are preserved; local gate resumes after the fresh main-integration window. GitHub comment 6404004843 records the correction.
 
 Sent back 2026-10-25 from PR #6093 (branch words/play-first-10-journal): own main-integrated static gates, opening-world proof, 113 bank checks and East Douglas first-evening screenshot pass; three journal failures reproduced identically on clean base and do not block; plain integration push rejected by automatic approval review, explicit user authorization needed, no author source fix requested and authored-origin objection remains withdrawn; finish on that branch, merge main into it first.
+Sent back Oct 27 from PR #6230 (branch play-first/play-first-10-journal-from-day-one): journal.json has a duplicate part text (`i went on to {school}.` under two keys) failing english-parts-banks; finish on that branch, merge main into it first.
+- Merged Oct 27 in PR #6345 (supersedes #6230); awaiting the owner's installed-build check.

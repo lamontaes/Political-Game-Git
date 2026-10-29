@@ -40,18 +40,20 @@ it("a counted worker filled in keeps the tenure their counted record gave them, 
     const hiredHere = (job: JobInput) =>
       (pay.get(job.id) as { since?: string } | undefined)?.since !== undefined;
 
-    // A hire made in play holds its job from its own start: no commitment
-    // copied from a filled-in worker's role carries that worker's tenure.
+    // A hire the jobs engine made in play (its job named for the opening it
+    // filled) holds its job from its own start: no commitment copied from the
+    // role's worker carries that worker's tenure. (A job held when the game
+    // began keeps its estimated start, and a filled-in hire keeps its own on
+    // its ":filled:" payroll.)
+    const hire = (row: { jobId: string; payrollCalendarId?: string }) =>
+      row.jobId.startsWith("job:position:") &&
+      !(row.payrollCalendarId ?? "").includes(":filled:");
     for (const h of rt.store.liveHouseholds())
       for (const row of h.workCommitments)
-        if (row.startsAt > core.startedAt)
+        if (hire(row))
           expect(row.heldSince, `${where}: ${row.id}`).toBeUndefined();
-    // (A filled-in worker's own commitment, on its ":filled:" payroll, keeps theirs.)
     for (const row of core.work.commitments.values())
-      if (
-        row.startsAt > core.startedAt &&
-        !(row.payrollCalendarId ?? "").includes(":filled:")
-      )
+      if (hire(row))
         expect(row.heldSince, `${where}: ${row.id}`).toBeUndefined();
 
     const live = [...rt.jobs.values()]

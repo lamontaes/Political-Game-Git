@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-stop-35-people-drawn-from-their-own-look
+pr: #6236
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T05:55:10.434Z
 ---
 
 **What.** In v0.34.0 the people the player sees all look alike: the first evening's living room shows three bald figures with the same skin and the same gray clothes (the player in a vest, a man in a t-shirt and shorts on the couch, a man in a shirt by the kitchen), the House chamber shows two bald men from behind, and the door-knocking street has about nine identical gray figures. The owner, about the street: "Who the hell are all these people ... It just throws you into a location." The ruling is that every figure is drawn from that person's own appearance record. This item gives each staged person a look read from their own record (sex, build, outfit, and hair, skin and clothes color as those fields exist) so two neighbors differ and the same person is drawn the same in every scene.
@@ -30,3 +30,6 @@ claimed-at:
 **Files.** src/bench/staging.ts, src/bench/scene.ts, src/bench/appearance.ts, src/bench/whole-figures.ts, src/bench/data/whole-figures.json
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "Who the hell are all these people." Wildermyth grade of the opening room (CTO read): people, no variety, everyone identical gray: fail. play-first-06-created-look-in-every-scene (open) covers the player's own look; this item covers everyone else and does not wait on hair and colors, which play-stop-33 and play-stop-34 add. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+
+CTO root-cause report, Oct 27 (docs/reports/opening-root-cause-2026-10-27.md): in Iowa City, Iowa, seed 28c0b8150290, Representative Saunders (official:term:seat:US-IA:us-house:01:2025-01-20) wears figure v2-38 on the House floor and v2-02 in the next opening picture. Cause: pickLook hashes the id among looks still free in that picture (src/bench/whole-figures.ts:263-269; the no-twins set at src/bench/scene.ts:600 rerolls it). Residents carry looks.appearanceSeed that no bench code reads; officials get gender only (src/core2/state.ts:2664, now core-officials-appearance-and-home-past, lead m0-m2).
+- Merged Oct 27 in PR #6236; awaiting the owner's installed-build check. Still owed: the played-world street test by record id (buildBenchWorld, a door-knocking street), flagged in the PR body.

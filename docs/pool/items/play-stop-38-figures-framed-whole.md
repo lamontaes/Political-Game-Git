@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-stop-38-figures-framed-whole
+pr: #6240
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T06:03:50.301Z
 ---
 
 **What.** Three framing defects in v0.34.0. The President's portrait in the talk box crops his head ("Their head is cut off in the portrait," the owner). In the bedroom scenes on January 22 and 28 the player stands at the far left edge with the head cut off by the frame. At the county board of elections the player's figure and the clerk's overlap behind the counter. This item frames every portrait with the whole head and places room figures inside the frame and apart from one another, and adds a check that measures it.
@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/bench/staging.ts, src/bench/scene.ts, src/bench/play.css, src/bench/play.mjs, src/bench/framing.browser.mjs (new)
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "Their head is cut off in the portrait." The bedroom crop and the counter overlap are the CTO's observations in the same sitting (the owner said nothing about them). Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+- Merged Oct 27 in PR #6240; awaiting the owner's installed-build check. Not yet screenshotted: bedroom and filing-counter scenes (geometry tests cover them).

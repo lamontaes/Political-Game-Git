@@ -62,10 +62,10 @@
       "kind": "list-pick",
       "build": null,
       "count": 1,
-      "code": "let hash = 0; for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0; return options[hash % options.length]!;",
+      "code": "const hash = fnv(id); return options[hash % options.length]!;",
       "class": "PRESENTATION",
-      "keyedBy": "home id",
-      "reason": "How a home looks in the scene, the same every time: decoration, not a decision.",
+      "keyedBy": "id (home, or town + scene key)",
+      "reason": "How a home or a town's place looks in the scene, the same every time: decoration, not a decision.",
       "replacement": null
     },
     {
@@ -149,43 +149,13 @@
       "code": "new SeededRng(seed).fork(`citizenship:${personId}`).next() >= citizenShare"
     },
     {
-      "file": "src/core2/deep-past.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "if (!(total > p(\"zero\"))) return rows.length ? rng.pick(rows) : undefined;",
-      "class": "DECISION",
-      "keyedBy": "place and stage (not the child)",
-      "reason": "Falls back to a seeded school pick when no enrollment is known (stopgap SG-P15-school-assignment); a school a child attended follows from where the family lived, so this is not generation.",
-      "replacement": "the school follows from the home's location once homes have locations (SG-P15-school-assignment)"
-    },
-    {
-      "file": "src/core2/deep-past.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "let point = rng.next() * total;",
-      "class": "DECISION",
-      "keyedBy": "place and stage (not the child)",
-      "reason": "Enrollment-weighted school pick (stopgap SG-P15-school-assignment); a school a child attended follows from where the family lived, so this is not generation.",
-      "replacement": "the school follows from the home's location once homes have locations (SG-P15-school-assignment)"
-    },
-    {
-      "file": "src/core2/deep-past.ts",
+      "file": "src/core2/citizenship.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "if (point < p(\"zero\")) return rows[i];"
-    },
-    {
-      "file": "src/core2/deep-past.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "`${rng.pick(SCHOOL_NAMES.features)} ${stage.nameSuffix}`;",
+      "code": "new SeededRng(seed).fork(`work-authorization:${personId}`).next() <",
       "class": "GENERATION",
-      "keyedBy": "school id (place and stage)",
-      "reason": "Generated name pattern for a school that has no record; who exists, not what anyone does.",
+      "keyedBy": "world seed + person id",
+      "reason": "Whether a noncitizen holds work authorization is who they are, drawn once at the share of noncitizens Pew estimates are unauthorized, like citizenship on the line above: the same person has the same status every time and at both tiers. What they do about work is the jobs engine's choice from their own reasons.",
       "replacement": null
     },
     {
@@ -203,7 +173,7 @@
       "code": "let point = rng.next() * total;",
       "class": "IDENTITY",
       "keyedBy": "caller rng stream (person name)",
-      "reason": "Given name weighted by birth-year cohort counts for a fictional official (ported from src/simulation/given-name-cohorts.ts); who they are, not what they do.",
+      "reason": "Given name weighted by birth-year cohort counts for a fictional official (ported from the old engine's given-name-cohorts.ts); who they are, not what they do.",
       "replacement": null
     },
     {
@@ -301,13 +271,6 @@
       "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
       "code": "if (moveHazard(rates, fromAge, age) < line) return true;"
-    },
-    {
-      "file": "src/core2/opening-kin.ts",
-      "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
-      "count": 1,
-      "code": "if (total + hazard >= line) {"
     },
     {
       "file": "src/core2/opening-kin.ts",
@@ -508,7 +471,7 @@
     {
       "file": "src/core2/town-households.ts",
       "kind": "fixed-share",
-      "build": "pool:core-zero-dice-shares-in-code",
+      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
       "code": "export const SAME_SEX_COUPLE_SHARE = 0.015;"
     },
@@ -525,6 +488,17 @@
       "build": "pool:core-zero-dice-shares-in-code",
       "count": 1,
       "code": "export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {"
+    },
+    {
+      "file": "src/bench/whole-figures.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "return from[hash(`${front.file}:${spot.id ?? \"\"}`) % from.length]!;",
+      "class": "PRESENTATION",
+      "keyedBy": "the person's look and the spot",
+      "reason": "Which painted pose at a lectern, desk or counter shows a person: how they appear there, not what they do.",
+      "replacement": null
     }
   ]
 }

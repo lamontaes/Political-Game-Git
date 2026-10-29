@@ -10,9 +10,11 @@ description: >
 
 # Merge audit
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Add to the checklist: a merged PR whose owner question lacks the reading line, a stopgap without its code marker, or a send-back that was not SMART is a merger defect. Each reviewer brief is SMART with a time box.
 
-Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: four mergers by PR number mod 4 plus a recheck merger; the lane edits director and English files with Words review; held lines flipped to shippable are the owner's ruling)
+Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: four mergers by PR number mod 4 plus a recheck merger; the lane edits director and English files with Words review; lines the grade ledger lets play are the owner's ruling)
 
 1. **List the window:** every PR merged since a time T, with base branch, head branch and size (`gh api graphql` search `is:pr is:merged merged:>=T`). Leave out the CTO's own docs PRs.
 2. **Fan out:** three or four Sonnet reviewers, 7 or 8 PRs each. They read only: `gh api repos/lamontaes/Political-Game-Git/pulls/N` and `.../pulls/N/files` (each file has a `patch`). Give each reviewer the checklist below verbatim. Ask for a table of PR, verdict (good, concerns, bad), reason and red flags with `file:line`, then the exact fix for every concerns or bad verdict.
@@ -22,7 +24,7 @@ Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: four mergers by PR number mo
    - Tests narrowed, skipped, returning early, `>= 0`, looping over a set that can be empty, or pinned to one convenient seed.
    - Timeouts raised without a measured reason.
    - Done-when proof missing (the pool item names it).
-   - Hand-written player text in code, or a bank part whose `shippable` flag disagrees with the grade ledger (owner, Oct 24: bank parts play unless graded out).
+   - Hand-written player text in code, or a bank part that carries a play flag of its own (owner, Oct 24: bank parts play unless the grade ledger rejects them; the ledger is the one gate).
    - Director or English edits by a session that is neither Words nor a play-first lane PR (`Review: words`); `src/bench` edits by anyone but the lane.
    - A play item merged without its before and after screenshots, or a changed look merged without the owner's yes.
    - `src/core2` importing `src/simulation`.

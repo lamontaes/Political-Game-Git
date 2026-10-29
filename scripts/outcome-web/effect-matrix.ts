@@ -240,17 +240,20 @@ function researchBlocker(
   }
 }
 
-function reaches(link: WebLink & { carriedBy?: string }): Point {
+function reaches(
+  link: WebLink & { carriedBy?: string; status?: string },
+): Point {
   const point = unrun(link, reachPoint(link));
   if (point.status === "pass") return point;
-  // An engine that reads the same cause by its own mechanic does not carry
-  // this row's size and lag; the link stays unwired and says so.
-  const why = [
-    point.why,
-    researchBlocker(link),
-    link.engineGap &&
-      `an engine reads the cause its own way: ${link.engineGap}`,
-  ].filter(Boolean);
+  // A link its research finds about zero has no effect for an engine to read:
+  // it is not an unread link, so it does not count among them.
+  if (link.status === "about-zero")
+    return {
+      status: "n/a",
+      evidence: `${linksPath}:${lineOf(link.key)} size ${link.size}`,
+      why: "its research finds no effect (about zero), so there is nothing for an engine to read",
+    };
+  const why = [point.why, researchBlocker(link)].filter(Boolean);
   return { ...point, why: why.join("; ") };
 }
 
@@ -535,6 +538,52 @@ export function matrix(): {
   return { links, measures };
 }
 
+/**
+ * The trait decisions, carried from the trait-wiring matrix so the effects
+ * matrix is the one place every engine's reach is read (owner, Oct 26): each
+ * decision personality weighs, with its calls in the played year and whether
+ * it ran. Built by scripts/traits/trait-wiring-matrix.ts from its three twin
+ * runs; this reads it, it does not play.
+ */
+const TRAIT_MATRIX = "docs/reports/trait-wiring-2026-10-20.json";
+interface TraitRow {
+  readonly id: string;
+  readonly kind: string;
+  readonly route: string;
+  readonly site: string;
+  readonly callsInYear: number;
+  readonly turnedShare: number | null;
+  readonly status: string;
+  readonly gap: unknown;
+  readonly weightTag: string;
+}
+function traits() {
+  if (!existsSync(TRAIT_MATRIX)) return null;
+  const t = JSON.parse(readFileSync(TRAIT_MATRIX, "utf8")) as {
+    readonly place: string;
+    readonly seed: string;
+    readonly span: readonly string[];
+    readonly rows: readonly TraitRow[];
+  };
+  const decisions = t.rows.filter((row) => row.kind === "decision");
+  return {
+    source: TRAIT_MATRIX,
+    place: t.place,
+    seed: t.seed,
+    span: t.span,
+    decisions: decisions.map((row) => ({
+      id: row.id,
+      route: row.route,
+      site: row.site,
+      callsInYear: row.callsInYear,
+      turnedShare: row.turnedShare,
+      status: row.status,
+      weightTag: row.weightTag,
+      gap: row.gap,
+    })),
+  };
+}
+
 function summary(rows: readonly MatrixRow[]) {
   const all = (row: MatrixRow) => row.wiredPoints === 8;
   const by = (filter: (row: MatrixRow) => boolean) =>
@@ -548,9 +597,14 @@ function summary(rows: readonly MatrixRow[]) {
     reachesOrCarried: by((row) => row.points.reaches!.status === "pass"),
     namedInAStopgap: by((row) => row.stopgap !== null),
     notReachingAndNoStopgap: by(
-      (row) => row.points.reaches!.status !== "pass" && row.stopgap === null,
+      (row) =>
+        row.points.reaches!.status !== "pass" &&
+        row.points.reaches!.status !== "n/a" &&
+        row.stopgap === null,
     ),
     reachesTheWorld: by((row) => row.points.reaches!.status === "pass"),
+    /** Links whose research finds no effect: nothing to reach, so not unread. */
+    aboutZero: by((row) => row.points.reaches!.status === "n/a"),
     withAnyModerator: by((row) => row.points.varied!.status !== "fail"),
     byPoint: Object.fromEntries(
       points.map((point) => [
@@ -579,10 +633,22 @@ if (process.argv[1]?.endsWith("effect-matrix.ts")) {
   } catch {
     twins = undefined;
   }
+  const trait = traits();
   const result = {
     generatedBy: "scripts/outcome-web/effect-matrix.ts",
-    summary: summary(table.links),
+    summary: {
+      ...summary(table.links),
+      ...(trait
+        ? {
+            traitDecisions: trait.decisions.length,
+            traitDecisionsRan: trait.decisions.filter(
+              (row) => row.status === "ran",
+            ).length,
+          }
+        : {}),
+    },
     ...table,
+    ...(trait ? { traits: trait } : {}),
     ...(twins ? { twins } : {}),
   };
   writeFileSync(out, `${JSON.stringify(result, null, 2)}\n`);

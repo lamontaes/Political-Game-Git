@@ -42,6 +42,10 @@
       "kind": "news",
       "stage": "not-heard"
     },
+    "quiet": {
+      "kind": "quiet",
+      "stage": "default"
+    },
     "job-lost": {
       "kind": "job-lost-reply",
       "stage": "default"
@@ -105,6 +109,10 @@
     "victimization": {
       "kind": "victimization-reply",
       "stage": "default"
+    },
+    "job-new-detail": {
+      "kind": "job-new-detail-reply",
+      "stage": "default"
     }
   },
   "follows": {
@@ -158,6 +166,10 @@
       "agree": "address-view",
       "doubt": "address-view",
       "hope": "address-view"
+    },
+    "job-new-reply": {
+      "ask": "job-new-detail",
+      "brief": "job-new-detail"
     }
   },
   "familyTalk": {

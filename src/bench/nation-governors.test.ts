@@ -4,7 +4,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
-import { racesOf } from "../core2/modules/world-races";
+import { racesOf, raceVotes } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import { governorRacesTonight } from "./results";
 import { buildBenchWorld } from "./world";
@@ -40,7 +40,7 @@ it("the night after the 2026 election, the Nation page lists every governor race
     for (const row of shown) {
       const race = records.find((r) => r.id === row.id)!;
       expect(row.winnerParty, `${where}: ${row.id}`).toBe(race.winnerParty);
-      const { republican, democratic } = race.votes!;
+      const { republican, democratic } = raceVotes(coreAPI(core), race);
       expect(row.marginPoints, `${where}: ${row.id}`).toBeCloseTo(
         (100 * Math.abs(republican - democratic)) / (republican + democratic),
         9,

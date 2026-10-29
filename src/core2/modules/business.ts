@@ -10,7 +10,8 @@
 import { BUSINESS_MODULE_ID } from "../business-module-id";
 import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
-import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import { lawApplied } from "../law-reach/applied";
+import { carriedLink } from "./outcome-web";
 import { chooseAct } from "../choice";
 import { countedPayment } from "../counted-money";
 import { depositsHeld, withdrawSavings } from "../accounts";
@@ -37,13 +38,16 @@ import bdsRates from "../data/business/bds-rates.json" with { type: "json" };
 import ownership from "../data/business/ownership.json" with { type: "json" };
 import openingFinance from "../data/opening-finance.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
-import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
+import { DEFAULT_BUSINESS_BOOKS_DATA, worldBookRatio } from "../business-books";
+import { worldRate } from "../world-draw";
 import { businessName, businessNameContext } from "../business-names";
 import type { BusinessBooksState } from "../finance-types";
 import {
   addResidentFlow,
+  businessScaleOf,
   countedHeadcountOf,
   countedJobsOf,
+  outputLostPerYear,
   weightedPayrollMinor,
   purchaseShareOf,
   shiftPurchaseShare,
@@ -167,6 +171,24 @@ function option(share: number, reasons: Record<string, number>): ActOffer {
 
 const OUTSIDE_FIRM = "outside-firm";
 
+/** The published share of the state's employment in multi-establishment firms (Census): calibration for the world's draw and its checks. */
+export function publishedOutsideOwnedShare(api: CoreAPI): number {
+  const usps = core(api).placeMetadata?.housingState ?? "";
+  return (
+    (ownership.byState as Record<string, number>)[usps] ?? ownership.national
+  );
+}
+
+/** This world's share of jobs in outside-owned firms: the published share moved by the world's own draw (owner, Oct 27: realistic, not real). */
+export function outsideOwnedShare(api: CoreAPI): number {
+  return worldRate(
+    publishedOutsideOwnedShare(api),
+    core(api).seed,
+    "business-world:outside-owned",
+    "businessWorldOutsideOwnedSpreadShare",
+  );
+}
+
 /**
  * The opening's businesses that belong to firms based outside the town: the
  * largest by staff, in order, until their share of the town's jobs reaches
@@ -175,9 +197,7 @@ const OUTSIDE_FIRM = "outside-firm";
  */
 function outsideOwned(api: CoreAPI): Map<string, string> {
   const c = core(api);
-  const usps = c.placeMetadata?.housingState ?? "";
-  const share =
-    (ownership.byState as Record<string, number>)[usps] ?? ownership.national;
+  const share = outsideOwnedShare(api);
   const sized = [...c.finance.businesses.entries()]
     .filter(([, book]) => !book.closedAt)
     .map(([id]) => ({
@@ -648,6 +668,8 @@ export function countedClosurePulls(
   lossMonths: number,
   agePull: number,
   netCashMinor: number,
+  /** How many firms the book's yearly figures stand for (its counted workers' weight); its cash already does. */
+  weight = 1,
 ): {
   share: number;
   bar: number;
@@ -655,10 +677,11 @@ export function countedClosurePulls(
 } {
   const p = (key: string) => api.parameter(key);
   const monthlyCosts =
-    (book.annualPayrollMinor + book.annualOtherCostsMinor) /
+    ((book.annualPayrollMinor + book.annualOtherCostsMinor) * weight) /
     p("macroMonthsPerYear");
   const runway = monthlyCosts > 0 ? netCashMinor / monthlyCosts : 0;
-  const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
+  const monthlyPayroll =
+    (book.annualPayrollMinor * weight) / p("macroMonthsPerYear");
   const pulls = {
     losses: p("businessCloseLossWeight") * lossMonths,
     age: agePull,
@@ -742,12 +765,24 @@ function reviewClosures(api: CoreAPI): void {
         );
     } else {
       // Outside firm: causes summed against the stay bar, sliding.
+      // Its cash, debts and unpaid wages are its counted workers' weight's,
+      // so its costs are weighed the same way.
+      const weight =
+        book.annualPayrollMinor > 0
+          ? weightedPayrollMinor(
+              c,
+              row.id,
+              book.annualPayrollMinor,
+              p("jobsDaysPerYear"),
+            ) / book.annualPayrollMinor
+          : 1;
       const { share, pulls, bar } = countedClosurePulls(
         api,
         book,
         losses,
         reasons.age,
         netCash(c, row.id),
+        weight,
       );
       if (share > 0)
         counted.push({
@@ -1005,6 +1040,19 @@ function payCompliance(api: CoreAPI): void {
       requested,
       row.source,
     );
+    const statute = c.modules.has(LAWS_MODULE_ID)
+      ? lawOfCost(api, row.cause)
+      : null;
+    if (statute)
+      lawApplied(api, {
+        key: statute.key,
+        lawId: statute.lawId,
+        targetId: row.organizationId,
+        target: "organization",
+        engine: BUSINESS_MODULE_ID,
+        what: statute.what,
+        amountMinor: -paid,
+      });
     store(api)
       .table("compliance")
       .put({
@@ -1129,6 +1177,14 @@ function routeOutsideCosts(api: CoreAPI): void {
   }
 }
 
+/**
+ * The researched cut in irrigation pumping under a withdrawal cap (the outcome
+ * web's groundwater-limits-to-irrigation-pumping row, Deines, Kendall, Butler
+ * and Hyndman 2019). This engine carries that link: each farm's groundwater
+ * input falls by its size, so the web does not run it a second time.
+ */
+const GROUNDWATER_LINK = "groundwater-limits-to-irrigation-pumping";
+
 /** Read the withdrawal statute where farm production limits are set. */
 function readGroundwaterLaw(api: CoreAPI): void {
   const c = core(api);
@@ -1156,34 +1212,90 @@ function readGroundwaterLaw(api: CoreAPI): void {
     // This input slot may already be owned by another recorded restriction.
     if (existing && !owned) continue;
     const cause = `${prefix}${law.governing.id}`;
-    if (existing?.cause === cause) continue;
+    if (existing?.cause === cause) {
+      // Each month the farm sells less outside the town than it would without the cap.
+      recordGroundwaterLoss(api, question, law.governing.id, id);
+      continue;
+    }
     // stopgapId: SG-GOV-REACH-B-business-cost — farm irrigation exposure,
     // pumping records and crop-specific responses are not present yet.
     api.stopgap("SG-GOV-REACH-B-business-cost");
+    const pumping = carriedLink(GROUNDWATER_LINK);
     setOperatingLimit(api, table, {
       organizationId: id,
       input: "groundwater",
-      share: 1 - resourceParameters.parameters.groundwaterWithdrawalShare.value,
+      share: 1 + pumping.size!,
       cause,
       source: {
         tag: "ESTIMATED",
         asOf: c.date,
-        citation: `${law.governing.id}: ${String(law.governing.source)}; ${resourceParameters.parameters.groundwaterWithdrawalShare.source}`,
+        citation: `${law.governing.id}: ${String(law.governing.source)}; ${pumping.source}`,
         estimatedFrom:
-          "Agricultural operating limit using the existing withdrawal estimate and irrigation-output elasticity; individual irrigation exposure is not recorded.",
+          "Agricultural operating limit at the outcome web's researched pumping cut and the irrigation-output elasticity; individual irrigation exposure is not recorded.",
       },
     });
+    recordGroundwaterLoss(api, question, law.governing.id, id);
   }
 }
 
+/** The outside sales a groundwater cap takes from one farm this month, recorded as the law applied. */
+function recordGroundwaterLoss(
+  api: CoreAPI,
+  key: string,
+  lawId: string,
+  organizationId: string,
+): void {
+  lawApplied(api, {
+    key,
+    lawId,
+    targetId: organizationId,
+    target: "organization",
+    engine: BUSINESS_MODULE_ID,
+    what: "groundwater-output-limited",
+    amountMinor: -Math.round(
+      outputLostPerYear(core(api), organizationId) /
+        api.parameter("macroMonthsPerYear"),
+    ),
+  });
+}
+
 /**
- * A consumer data privacy law binds the town's employing businesses to honor
- * customers' requests to see and delete their data. The duty costs a share of
- * the business's other operating costs (paid monthly like any compliance
- * cost, so the books and a closure review read it); a repeal ends it.
+ * A law that puts a recurring duty on businesses (honoring customers' data
+ * requests, verifying the age of new account holders) costs each business it
+ * binds a share of its other operating costs. The cost is paid monthly like
+ * any compliance cost, so the books and a closure review read it, and the
+ * monthly payment is what the law is recorded as applying to; a repeal ends it.
  */
 export const DATA_PRIVACY_QUESTION =
   "us-policy-positions:technology-privacy.consumer-data-privacy-law";
+const AGE_VERIFICATION_QUESTION =
+  "us-policy-positions:technology-privacy.age-verification-for-social-media";
+
+interface BusinessDuty {
+  readonly question: string;
+  /** The classifications it binds; every enterprise where empty. */
+  readonly classifications: readonly string[];
+  /** Whether only a business with workers in the town is bound (a platform verifying accounts needs none here). */
+  readonly employingOnly: boolean;
+  readonly parameter: keyof typeof businessParameters;
+}
+
+const BUSINESS_DUTIES: readonly BusinessDuty[] = [
+  {
+    question: DATA_PRIVACY_QUESTION,
+    classifications: [],
+    employingOnly: true,
+    parameter: "businessDataPrivacyShareOfCosts",
+  },
+  {
+    question: AGE_VERIFICATION_QUESTION,
+    classifications: businessData.ageVerification.classifications,
+    employingOnly: false,
+    parameter: "businessAgeVerificationShareOfCosts",
+  },
+];
+
+const dutyCause = (question: string) => `law:${question}`;
 
 /**
  * What a consumer data privacy law costs an employing business in a year: the
@@ -1201,23 +1313,32 @@ export function businessDataPrivacyCostYear(
   );
 }
 
-function readDataPrivacyLaw(api: CoreAPI): void {
+function readBusinessDuty(api: CoreAPI, duty: BusinessDuty): void {
   const c = core(api);
   if (!c.modules.has(LAWS_MODULE_ID)) return;
-  const law = lawInForce(api, DATA_PRIVACY_QUESTION);
+  const law = lawInForce(api, duty.question);
   const town = lawChain(api).townPlaceId;
   const table = store(api).table("operating");
-  const cause = `law:${DATA_PRIVACY_QUESTION}`;
+  const cause = dutyCause(duty.question);
+  const parameter = businessParameters[duty.parameter] as unknown as {
+    citation: string;
+    estimatedFrom: string;
+  };
   for (const [id, book] of c.finance.businesses) {
     const org = c.organizations.get(id);
     if (org?.placeId !== town) continue;
     const ruleId = `cost:${id}:${cause}`;
     const existing = table.get(ruleId);
     const employing = (c.finance.jobsByOrganization.get(id)?.size ?? 0) > 0;
+    const classification = classificationOf(c, id);
     if (
       book.closedAt ||
-      !classificationOf(c, id).startsWith("enterprise:") ||
-      !employing ||
+      !classification.startsWith("enterprise:") ||
+      (duty.classifications.length > 0 &&
+        !duty.classifications.includes(classification)) ||
+      (duty.employingOnly && !employing) ||
+      // A business whose books carry no other operating costs (a press outlet) has nothing a duty could take a share of.
+      !(book.annualOtherCostsMinor > 0) ||
       law.value !== 1 ||
       !law.governing
     ) {
@@ -1233,17 +1354,43 @@ function readDataPrivacyLaw(api: CoreAPI): void {
       continue;
     addRegulatoryCost(api, table, {
       organizationId: id,
-      shareOfCosts: api.parameter("businessDataPrivacyShareOfCosts"),
+      shareOfCosts: api.parameter(duty.parameter),
       cause,
       source: {
         tag: "ESTIMATED",
         asOf: c.date,
-        citation: `${law.governing.id}: ${String(law.governing.source)}; ${businessParameters.businessDataPrivacyShareOfCosts.citation}`,
-        estimatedFrom:
-          businessParameters.businessDataPrivacyShareOfCosts.estimatedFrom,
+        citation: `${law.governing.id}: ${String(law.governing.source)}; ${parameter.citation}`,
+        estimatedFrom: parameter.estimatedFrom,
       },
     });
   }
+}
+
+/**
+ * The statute behind a recurring compliance cost, as a policy question and the
+ * row in force, so the monthly payment is recorded as the law applied.
+ */
+function lawOfCost(
+  api: CoreAPI,
+  cause: string,
+): { key: string; lawId: string; what: string } | null {
+  const key =
+    cause === businessData.compliance.cause
+      ? CLEAN_AIR_QUESTION
+      : BUSINESS_DUTIES.find((duty) => dutyCause(duty.question) === cause)
+          ?.question;
+  if (!key) return null;
+  const law = lawInForce(api, key);
+  return law.value === 1 && law.governing
+    ? {
+        key,
+        lawId: law.governing.id,
+        what:
+          cause === businessData.compliance.cause
+            ? "clean-air-plan-cost"
+            : "compliance-duty-cost",
+      }
+    : null;
 }
 
 function month(api: CoreAPI): void {
@@ -1253,7 +1400,7 @@ function month(api: CoreAPI): void {
   reviewClosures(api);
   membershipPayouts(api);
   readGroundwaterLaw(api);
-  readDataPrivacyLaw(api);
+  for (const duty of BUSINESS_DUTIES) readBusinessDuty(api, duty);
   routeCompliance(api);
   payCompliance(api);
   recordOutsideCosts(api);
@@ -1318,11 +1465,27 @@ function month(api: CoreAPI): void {
         // Only cash past the payroll cushion is spare: a draw never takes the
         // cash the next payroll needs, whatever profit the business has kept.
         const wanted = Math.min(retained * share, Math.max(0, cash - cushion));
-        // The business's cash is already at the town's weight: the counted
-        // owner's group receives the whole draw, and the draw on the books is
-        // what the journal moved.
+        // The business's cash is already at the town's weight. A full owner
+        // is one household and owns one of the businesses the record stands
+        // for: the rest of the draw is the other owners', the town's counted
+        // households. A counted owner's group receives the whole draw. The
+        // draw on the books is what the journal moved.
+        const scale = found.full ? businessScaleOf(c, row.id) : 1;
+        const whole = Math.floor(wanted);
+        const own = scale > 1 ? Math.floor(whole / scale) : whole;
         drawn = found.full
-          ? transferCash(api, id, row.id, account, wanted, source)
+          ? transferCash(api, id, row.id, account, own, source) +
+            (scale > 1 && whole > own
+              ? countedPayment(api, {
+                  id: `${id}:others`,
+                  placeId: owner.placeId,
+                  otherOwnerId: row.id,
+                  amountMinor: -(whole - own),
+                  whole: true,
+                  reasonKey: "owner-draw",
+                  source,
+                })
+              : 0)
           : countedPayment(api, {
               id,
               placeId: owner.placeId,
@@ -1424,7 +1587,8 @@ function annualOutflowsMinor(
   );
   return kind
     ? book.annualDemandMinor *
-        (api.parameter("one") - api.parameter(kind.marginParameter))
+        (api.parameter("one") -
+          worldBookRatio(core(api).seed, kind, "margin", api.parameter))
     : 0;
 }
 
@@ -1485,7 +1649,7 @@ function prospectMonthly(api: CoreAPI, market: Market): number {
   if (!kind) return 0;
   return (
     ((market.demandMinor / (market.incumbents.length + 1)) *
-      api.parameter(kind.marginParameter)) /
+      worldBookRatio(core(api).seed, kind, "margin", api.parameter)) /
     api.parameter("macroMonthsPerYear")
   );
 }
@@ -1498,7 +1662,7 @@ function startupCost(api: CoreAPI, market: Market): number {
   if (!kind) return 0;
   return (
     ((market.demandMinor / (market.incumbents.length + 1)) *
-      (1 - api.parameter(kind.marginParameter)) *
+      (1 - worldBookRatio(core(api).seed, kind, "margin", api.parameter)) *
       api.parameter("businessStartupMonthsOfCosts")) /
     api.parameter("macroMonthsPerYear")
   );
@@ -1920,21 +2084,25 @@ function found(
   const capacityMinor = rivals.length
     ? rivals.reduce((n, row) => n + row!.capacityMinor, 0) / rivals.length
     : market.demandMinor * share;
-  const incumbents = new Set(market.incumbents);
-  const countedBuyers = [...(residentsRuntime(c)?.flows.values() ?? [])].some(
-    (flow) =>
+  // The incumbent whose counted buyers in this place the entrant shares:
+  // the first that has any (the core copies its kinds of purchase).
+  const counted = new Set<string>();
+  for (const flow of residentsRuntime(c)?.flows.values() ?? [])
+    if (
       flow.kind === "purchase" &&
       !flow.endedAt &&
-      incumbents.has(flow.payeeId) &&
-      !c.people.has(flow.payerId),
-  );
-  const households = !countedBuyers
+      flow.placeId === market.placeId &&
+      !c.people.has(flow.payerId)
+    )
+      counted.add(flow.payeeId);
+  const like = market.incumbents.find((rid) => counted.has(rid));
+  const households = !like
     ? 0
     : api
         .enterMarket({
           organizationId: id,
           placeId: market.placeId,
-          like: market.incumbents[0]!,
+          like,
           capacityMinor: capacityMinor * scale,
         })
         .reduce((n, row) => n + row.annualDemandMinor, 0);
@@ -1971,10 +2139,12 @@ function found(
   const kind = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
     (row) => row.id === kindId,
   )!;
-  const annualPayrollMinor = annualDemandMinor * p(kind.payrollShareParameter);
+  const annualPayrollMinor =
+    annualDemandMinor * worldBookRatio(c.seed, kind, "payrollShare", p);
   const annualOtherCostsMinor = Math.max(
     0,
-    annualDemandMinor * (1 - p(kind.marginParameter)) - annualPayrollMinor,
+    annualDemandMinor * (1 - worldBookRatio(c.seed, kind, "margin", p)) -
+      annualPayrollMinor,
   );
   api.addBusinessBooks({
     organizationId: id,
@@ -2044,7 +2214,7 @@ function found(
           founderId,
           equityMinor: funded,
           monthlyProfitMinor:
-            (annualDemandMinor * p(kind.marginParameter)) /
+            (annualDemandMinor * worldBookRatio(c.seed, kind, "margin", p)) /
             p("macroMonthsPerYear"),
         })
       : 0;
@@ -2118,6 +2288,26 @@ export function ownerOf(
   )?.ownerId;
 }
 
+const ownerIdsByDay = new WeakMap<
+  object,
+  { readonly date: string; readonly ids: ReadonlySet<string> }
+>();
+
+/** The people who own a business that is still open (full or counted), for a reader that must not draw them away from it. One scan a day. */
+export function openBusinessOwnerIds(api: CoreAPI): ReadonlySet<string> {
+  const c = api.state as CoreState;
+  if (!c.modules.has(BUSINESS_MODULE_ID)) return new Set();
+  const held = ownerIdsByDay.get(c);
+  if (held?.date === c.date) return held.ids;
+  const ids = new Set<string>();
+  for (const row of store(api)
+    .table("owners")
+    .query("all", [true]) as unknown as OwnerRow[])
+    if (!c.finance.businesses.get(row.id)?.closedAt) ids.add(row.ownerId);
+  ownerIdsByDay.set(c, { date: c.date, ids });
+  return ids;
+}
+
 /**
  * A person who already owns a business the book was added for (an outlet's
  * publisher, say) is recorded as its owner, so the owner's draws, hiring and
@@ -2157,12 +2347,27 @@ const FIPS_OF_USPS = new Map(
   ]),
 );
 
-/** The share of the state's businesses that close in a year (BDS), the nation's where the state has none. */
-export function stateExitShare(api: CoreAPI): number {
+/** The published share of the state's businesses that close in a year (BDS), the nation's where the state has none: calibration for the world's draw and its checks. */
+export function publishedStateExitShare(api: CoreAPI): number {
   const usps = core(api).placeMetadata?.housingState ?? "";
   return (
     (BDS.states[FIPS_OF_USPS.get(usps) ?? ""]?.exitPct ?? BDS.nationExitPct) /
     api.parameter("macroHundred")
+  );
+}
+
+/**
+ * The share of this world's businesses that close in a year: the state's
+ * published rate moved by the world's own draw (owner, Oct 27: realistic,
+ * not real). A base rate that checks totals and sizes the past years'
+ * closures; no one business's closing is rolled from it.
+ */
+export function stateExitShare(api: CoreAPI): number {
+  return worldRate(
+    publishedStateExitShare(api),
+    core(api).seed,
+    "business-world:exit-rate",
+    "businessWorldExitRateSpreadShare",
   );
 }
 
@@ -2194,8 +2399,9 @@ export function businessesIn(
  * Businesses before the start (M1-14): every opening business gets a founding
  * date, so firms have ages. In a steady state where the state's businesses
  * exit at its BDS rate x a year, the share at least a years old is (1 - x)^a;
- * the largest businesses are the oldest. Foundings inside the window and each
- * year's exits (the same rate) are dated history.
+ * the largest businesses are the oldest. Foundings inside the window are
+ * dated history; the businesses that closed are named by the past's one
+ * closures writer (`buildPastClosures`, src/core2/past-business.ts).
  */
 function businessHistory(
   api: CoreAPI,
@@ -2245,23 +2451,6 @@ function businessHistory(
         source,
       });
   });
-  // Each year in the window, the businesses that closed (the same exit rate, a steady count).
-  const first = Number(window.from.slice(0, 4)),
-    last = Number(window.through.slice(0, 4));
-  for (let year = first; year <= last; year++) {
-    const date = makeIsoDate(
-      `${year}-12-31` > window.through ? window.through : `${year}-12-31`,
-    );
-    if (date < window.from) continue;
-    history.record({
-      id: `business.exits:${year}`,
-      date,
-      kind: "business.exits",
-      facts: { year, closed: Math.round(firms.length * exit) },
-      publicRecord: true,
-      source,
-    });
-  }
 }
 
 export const BUSINESS_MODULE: PreStartModule = {
@@ -2352,24 +2541,3 @@ export const BUSINESS_MODULE: PreStartModule = {
     if (!store(api).table("state").get("business:state")) open(api);
   },
 };
-
-/** A law limits an input a business uses (groundwater): its output and sales fall (OPUS-GOV's law reach calls this). */
-export function setBusinessOperatingLimit(
-  api: CoreAPI,
-  input: Parameters<typeof setOperatingLimit>[2],
-): void {
-  setOperatingLimit(api, store(api).table("operating"), input);
-}
-
-/** A law adds a compliance cost to a business's operations (a clean air plan). */
-export function addBusinessComplianceCost(
-  api: CoreAPI,
-  input: Parameters<typeof addRegulatoryCost>[2],
-): void {
-  addRegulatoryCost(api, store(api).table("operating"), input);
-}
-
-/** A repeal: `limit:<organization>:<input>` or `cost:<organization>:<cause>`. */
-export function endBusinessOperatingRule(api: CoreAPI, id: string): void {
-  endOperatingRule(api, store(api).table("operating"), id);
-}

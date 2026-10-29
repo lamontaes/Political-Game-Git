@@ -1,5 +1,12 @@
+import { servingTermsOf } from "../core2/modules/offices";
+import { hash as fnv } from "./appearance";
+import { ageOnDate } from "../core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { homePlaceFor, workplacePlaceFor } from "./backdrop-places";
+import {
+  hasBackdrop,
+  homePlaceFor,
+  workplacePlaceFor,
+} from "./backdrop-places";
 import {
   BACKDROP_ASPECT,
   backdropStaging,
@@ -14,25 +21,22 @@ import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import figureRules from "./data/whole-figures.json" with { type: "json" };
+import { GARMENTS } from "./figure-colors";
 import {
   ageBandOf,
   figureOn,
+  colorsFor,
+  headOf,
   pickLook,
   type Figure,
   type FigurePerson,
   type WholeFigure,
+  spotIdOf,
 } from "./whole-figures";
 
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
 
 const BACKDROP_DIR = new URL("../../art/backdrops/", import.meta.url);
-// The presentation's hasBackdrop reads Vite's file glob; the bench reads the manifest.
-const PICTURED = new Set(
-  manifest.backdrops
-    .filter((row) => row.variant === "midday")
-    .map((row) => row.place),
-);
-export const hasBackdrop = (place: string) => PICTURED.has(place);
 const FRONTS = figureRules.roomFronts as unknown as Record<
   string,
   number | undefined
@@ -108,7 +112,8 @@ export function orgPlace(
   const kind =
     ORG_KINDS[classification] ??
     classification.slice(classification.indexOf(":") + 1);
-  return workplacePlaceFor(null, null, kind);
+  // Each business its own picture of its kind.
+  return pictureFor(core, workplacePlaceFor(null, null, kind), org.id);
 }
 
 const RESIDENCES = scenePlaces.officialResidences as unknown as Record<
@@ -120,24 +125,18 @@ const OFFICE_WORK = scenePlaces.officeWorkplaces as unknown as Record<
   readonly string[]
 >;
 
-/** The kinds of office a person is serving in now (core2-offices-v1 terms). */
+/** The kinds of office a person is serving in now. */
 function servingOfficeKinds(core: CoreState, personId: string): string[] {
-  if (!core.modules.has(OFFICES)) return [];
-  const state = coreAPI(core).moduleState(OFFICES);
-  return (
-    state.table("terms").query("byPerson", [personId]) as unknown as {
-      status: string;
-      officeId: string;
-    }[]
-  )
-    .filter((term) => term.status === "serving")
-    .map(
-      (term) =>
-        (
-          state.table("offices").get(term.officeId) as
-            { kind?: string } | undefined
-        )?.kind ?? "",
-    );
+  const state = core.modules.has(OFFICES)
+    ? coreAPI(core).moduleState(OFFICES)
+    : null;
+  return servingTermsOf(coreAPI(core), personId).map(
+    (term) =>
+      (
+        state?.table("offices").get(term.officeId) as
+          { kind?: string } | undefined
+      )?.kind ?? "",
+  );
 }
 
 const COURTHOUSES = scenePlaces.courthouseByState as unknown as Record<
@@ -189,10 +188,15 @@ function workplaceOf(core: CoreState, person: PersonState): string {
     ? (ORG_KINDS[classification] ??
       classification.slice(classification.indexOf(":") + 1))
     : null;
-  return workplacePlaceFor(
-    (job.occupationClassification ?? null) as Occupation,
-    null,
-    kind,
+  // Each employer its own picture of its kind.
+  return pictureFor(
+    core,
+    workplacePlaceFor(
+      (job.occupationClassification ?? null) as Occupation,
+      null,
+      kind,
+    ),
+    job.organizationId,
   );
 }
 
@@ -242,12 +246,13 @@ interface DwellingRow {
  */
 const thirds = new WeakMap<
   CoreState,
-  { date: string; of: Map<string, Third> }
+  { date: string; of: Map<string, Third>; renters: Set<string> }
 >();
 function thirdOf(core: CoreState, householdId: string): Third {
   let cached = thirds.get(core);
   if (!cached || cached.date !== core.date) {
     const of = new Map<string, Third>();
+    const renters = new Set<string>();
     if (core.modules.has(HOUSING_MODULE_ID)) {
       const groups = new Map<string, DwellingRow[]>();
       for (const row of coreAPI(core)
@@ -255,6 +260,7 @@ function thirdOf(core: CoreState, householdId: string): Third {
         .table("dwellings")
         .rows() as unknown as DwellingRow[]) {
         const key = `${row.kind ?? "house"}:${row.tenure ?? ""}`;
+        if (row.tenure === "rent") renters.add(row.householdId);
         groups.set(key, [...(groups.get(key) ?? []), row]);
       }
       for (const rows of groups.values()) {
@@ -276,10 +282,81 @@ function thirdOf(core: CoreState, householdId: string): Third {
         );
       }
     }
-    cached = { date: core.date, of };
+    cached = { date: core.date, of, renters };
     thirds.set(core, cached);
   }
   return cached.of.get(householdId) ?? "middle";
+}
+
+const CONDITION = scenePlaces.roomCondition;
+
+/**
+ * How kept a household's rooms look, most wanted first, from its records: a
+ * renter in the town's cheapest third of rents lives with the landlord's
+ * neglect (rundown); a household in the top third with few enough people
+ * keeps the room as painted (no condition); every other home is lived-in.
+ * stopgapId: SG-PLAY-room-condition-rule
+ */
+export function roomCondition(core: CoreState, personId: string): string[] {
+  const household = core.people.get(personId)?.householdId;
+  if (!household) return [];
+  const third = thirdOf(core, household);
+  const renting = thirds.get(core)?.renters.has(household) ?? false;
+  if (third === "low" && renting) return ["rundown", "lived-in"];
+  const members = core.households.get(household)?.memberIds.length ?? 1;
+  if (third === "high" && members <= CONDITION.tidyAtMostMembers) return [];
+  return ["lived-in"];
+}
+
+const REGIONS = scenePlaces.regionalVariants as unknown as Record<
+  string,
+  readonly string[]
+>;
+/** The town's regional rebuilds of a place (region-new-england, region-alaska), from its state. stopgapId: SG-PLAY-region-states */
+function regionVariants(core: CoreState): string[] {
+  const state = stateOf(core.placeMetadata?.placeKey ?? "");
+  return Object.entries(REGIONS)
+    .filter(
+      ([variant, states]) => variant !== "about" && states.includes(state),
+    )
+    .map(([variant]) => variant);
+}
+
+/**
+ * The picture for a place in this world: the town's regional rebuild of it
+ * where one is painted, and at the person's home, the household's condition.
+ */
+export function backdropFor(
+  core: CoreState,
+  place: string,
+  minuteOfDay: number,
+  personId?: string,
+) {
+  return backdropFile(place, minuteOfDay, [
+    ...(personId && homeRooms(core, personId).has(place)
+      ? homeCondition(core, personId)
+      : []),
+    ...regionVariants(core),
+  ]);
+}
+
+/**
+ * The one condition every room of a home is shown in: the most wanted of the
+ * household's conditions that each of its rooms is painted in, so the living
+ * room and the kitchen of one dwelling match (owner, Oct 28 sitting: a
+ * run-down living room beside a clean kitchen). With none painted for every
+ * room, every room is shown as painted.
+ */
+function homeCondition(core: CoreState, personId: string): string[] {
+  const rooms = [...homeRooms(core, personId)];
+  const shared = roomCondition(core, personId).find((condition) =>
+    rooms.every((room) =>
+      manifest.backdrops.some(
+        (row) => row.place === room && row.variant === condition,
+      ),
+    ),
+  );
+  return shared ? [shared] : [];
 }
 
 /** Which room of the home a person is in at this minute of the day. */
@@ -292,8 +369,7 @@ function roomAt(minuteOfDay: number): Room {
 
 /** A stable pick from a list by an id, so the same home always looks the same. */
 function pickFor(id: string, options: readonly string[]): string {
-  let hash = 0;
-  for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  const hash = fnv(id);
   return options[hash % options.length]!;
 }
 
@@ -323,7 +399,7 @@ export function homeOf(
     servingOfficeKinds(core, personId).map((kind) => RESIDENCES[kind]?.[room]),
   );
   if (residence) return residence;
-  const age = person ? ageOn(person.birthDate, core.date) : 30;
+  const age = person ? ageOnDate(person.birthDate, core.date) : 30;
   const living = () => {
     const state = stateOf(core.placeMetadata?.placeKey ?? "");
     const regional = Object.entries(
@@ -376,12 +452,6 @@ function homeRooms(core: CoreState, personId: string): Set<string> {
   );
 }
 
-/** Whole years of age on a date. */
-function ageOn(birthDate: string, date: string): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
-}
-
 /** What the person is doing right now, from the open pause or their last act. */
 function doing(
   core: CoreState,
@@ -431,7 +501,7 @@ export function scenePlace(
             : step;
     if (place && hasBackdrop(place))
       return {
-        place,
+        place: pictureFor(core, place, act?.targetId ?? step, minuteOfDay),
         why: act ? `${act.actionId}` : "at home",
         ...(act?.targetId ? { targetId: act.targetId } : {}),
       };
@@ -439,13 +509,65 @@ export function scenePlace(
   return { place: homeOf(core, personId, minuteOfDay), why: "at home" };
 }
 
-export function backdropFile(place: string, minuteOfDay: number) {
+/** The light a picture is painted in at this minute of the day (morning, midday, night). */
+function lightAt(minuteOfDay: number): string {
   const hour = Math.floor(minuteOfDay / 60);
   let wanted = "midday";
   for (const row of scenePlaces.variantByHour)
     if (hour >= row.fromHour) wanted = row.variant;
+  return wanted;
+}
+
+const FAMILIES = new Map<string, readonly string[]>();
+for (const family of scenePlaces.pictureFamilies.families)
+  for (const place of family) FAMILIES.set(place, family);
+const LIGHTS = new Map<string, Set<string>>();
+for (const row of manifest.backdrops) {
+  if (!LIGHTS.has(row.place)) LIGHTS.set(row.place, new Set());
+  LIGHTS.get(row.place)!.add(row.variant);
+}
+
+/**
+ * The picture for a place a scene names: any picture of its family
+ * (data/scene-places.json pictureFamilies), chosen for this town and this
+ * business or situation (`key`) so the same place looks the same every time
+ * and two towns differ. At an hour whose light the town's choice is not
+ * painted in, the next of the family in the town's order that is.
+ */
+export function pictureFor(
+  core: CoreState,
+  place: string,
+  key: string,
+  minuteOfDay?: number,
+): string {
+  const family = FAMILIES.get(place)?.filter(hasBackdrop);
+  if (!family?.length) return place;
+  const town = core.placeMetadata?.placeKey ?? "";
+  const first = family.indexOf(pickFor(`${town}:${key}:${family[0]}`, family));
+  const order = [...family.slice(first), ...family.slice(0, first)];
+  if (minuteOfDay === undefined) return order[0]!;
+  const light = lightAt(minuteOfDay);
+  return order.find((row) => LIGHTS.get(row)?.has(light)) ?? order[0]!;
+}
+
+export function backdropFile(
+  place: string,
+  minuteOfDay: number,
+  /** Conditions the room may be painted in (lived-in, rundown), most wanted first. */
+  conditions: readonly string[] = [],
+) {
+  const wanted = lightAt(minuteOfDay);
   const rows = manifest.backdrops.filter((row) => row.place === place);
+  // A condition is painted in midday light: by another light the room is
+  // shown in that light when it has one, in its condition when it doesn't.
+  const condition =
+    wanted === "midday" || !rows.some((r) => r.variant === wanted)
+      ? conditions
+          .map((c) => rows.find((r) => r.variant === c))
+          .find((r) => r !== undefined)
+      : undefined;
   const row =
+    condition ??
     rows.find((r) => r.variant === wanted) ??
     rows.find((r) => r.variant === "midday") ??
     rows[0]!;
@@ -454,6 +576,24 @@ export function backdropFile(place: string, minuteOfDay: number) {
     variant: row.variant,
     url: `/art/backdrops/${row.file}`,
   };
+}
+
+/**
+ * Who works at an organization: its full people with an open job (living,
+ * sorted) and the counted residents still in the counts whose job is there,
+ * not filled in yet. The one reader of a workplace's staff for scenes and
+ * the town's places.
+ */
+export function staffOf(core: CoreState, organizationId: string) {
+  const full = [...core.jobs.values()]
+    .filter((row) => row.organizationId === organizationId && !row.endsAt)
+    .map((row) => row.personId)
+    .filter((id) => core.people.get(id)?.alive);
+  const counted = [...(residentsRuntime(core)?.jobs.values() ?? [])]
+    .filter((row) => row.organizationId === organizationId)
+    .map((row) => row.personId)
+    .filter((id) => !core.people.has(id));
+  return { full: full.sort(), counted: counted.sort() };
 }
 
 /** Who is there: the household at home, coworkers at work, else the act's other person. */
@@ -469,25 +609,13 @@ export function presentIds(
   if (why === "work-shift" || why === "attend-scheduled-work-date-segment") {
     const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
     if (!job) return [];
-    const full = [...core.jobs.values()]
-      .filter(
-        (row) =>
-          row.organizationId === job.organizationId &&
-          row.personId !== personId &&
-          !row.endsAt,
-      )
-      .map((row) => row.personId)
-      .filter(alive)
-      .sort();
+    const staff = staffOf(core, job.organizationId);
+    const full = staff.full.filter((id) => id !== personId);
     // Two-level world: coworkers still in the counts are met here, so they
     // are filled in (OPUS-CORE's fillInPerson), up to the room's spots.
     const room = (backdropStaging(place)?.spots.length ?? 1) - 1;
-    const counted = [...(residentsRuntime(core)?.jobs.values() ?? [])]
-      .filter((row) => row.organizationId === job.organizationId)
-      .map((row) => row.personId)
-      .sort()
-      .slice(0, Math.max(room - full.length, 0));
-    for (const id of counted) if (!core.people.has(id)) fillInPerson(core, id);
+    const counted = staff.counted.slice(0, Math.max(room - full.length, 0));
+    for (const id of counted) fillInPerson(core, id);
     return [...full, ...counted.filter(alive)];
   }
   // A bedroom is someone's own room: nobody is drawn in it unless the records
@@ -513,6 +641,8 @@ interface Looks {
   id: string;
   birthDate: string;
   gender?: string;
+  /** The seed of the person's appearance record, when it holds one. */
+  seed?: string;
   /** The look chosen in the creator (the player), when there is one. */
   look?: FigurePerson["look"];
 }
@@ -520,17 +650,31 @@ interface Looks {
 function chosenLook(text: string | undefined): FigurePerson["look"] {
   if (!text) return undefined;
   try {
-    const { sex, build, outfit } = JSON.parse(text) as Record<string, unknown>;
+    const record = JSON.parse(text) as Record<string, unknown>;
+    const { sex, build, outfit } = record;
     return typeof sex === "string" &&
       typeof build === "string" &&
       typeof outfit === "string"
-      ? { sex, build, outfit }
+      ? {
+          sex,
+          build,
+          outfit,
+          ...Object.fromEntries(
+            ["skin", "hair", "hairColor", "face", ...GARMENTS].flatMap((key) =>
+              typeof record[key] === "string" ? [[key, record[key]]] : [],
+            ),
+          ),
+        }
       : undefined;
   } catch {
     return undefined;
   }
 }
 const OFFICES = "core2-offices-v1";
+/** Which seats a room keeps for each kind of office (data/whole-figures.json). */
+const SEAT_ROLES = figureRules.seatRoles as unknown as Readonly<
+  Record<string, readonly string[]>
+>;
 export function looksOf(core: CoreState, id: string): Looks | null {
   const person = core.people.get(id);
   if (person) {
@@ -539,6 +683,9 @@ export function looksOf(core: CoreState, id: string): Looks | null {
       id: person.id,
       birthDate: person.birthDate,
       ...(person.looks?.gender ? { gender: person.looks.gender } : {}),
+      ...(person.looks?.appearanceSeed
+        ? { seed: person.looks.appearanceSeed }
+        : {}),
       ...(look ? { look } : {}),
     };
   }
@@ -554,11 +701,18 @@ export function looksOf(core: CoreState, id: string): Looks | null {
 
 /** An official: someone known only by their term, or a resident holding a seat. */
 function isOfficial(core: CoreState, id: string): boolean {
-  if (!core.people.has(id)) return true;
-  const terms = coreAPI(core).moduleState(OFFICES).table("terms");
-  return (
-    terms.query("byPerson", [id]) as unknown as { status: string }[]
-  ).some((row) => row.status === "serving");
+  return !core.people.has(id) || servingTermsOf(coreAPI(core), id).length > 0;
+}
+
+/** The kinds of office someone serves in: by their own term, or by the person's serving terms. */
+function officeKinds(core: CoreState, id: string): string[] {
+  if (!core.modules.has(OFFICES)) return [];
+  const state = coreAPI(core).moduleState(OFFICES);
+  const own = state.table("terms").get(id) as { officeId: string } | undefined;
+  if (!own) return servingOfficeKinds(core, id);
+  const office = state.table("offices").get(own.officeId) as
+    { kind: string } | undefined;
+  return office ? [office.kind] : [];
 }
 
 /**
@@ -572,32 +726,45 @@ export function stagePeople(
   core: CoreState,
   place: string,
   ids: readonly { id: string; name: string; reason: StageReason }[],
+  /** Whose speech it is: at the picture's podium, where it has one, in the lectern pose. */
+  speaker?: string,
 ): { people: BenchScenePerson[]; unplaced: BenchScene["unplaced"] } {
   const stage = backdropStaging(place);
   const people: BenchScenePerson[] = [];
   const unplaced: BenchScene["unplaced"] = [];
   if (!stage) return { people, unplaced };
   const hero = stage.spots.find((spot) => spot.hero) ?? stage.spots[0]!;
+  // With a speaker at the podium, the others stand and sit nearest it (the
+  // rostrum behind a President), not at the hero spot in front of the room.
+  const podiumSpot = stage.spots.find((spot) => spot.pose === "podium");
+  const lead =
+    speaker && podiumSpot && ids.some((row) => row.id === speaker)
+      ? podiumSpot
+      : hero;
   // People who are together stand together: the nearest spots to the lead
   // first. A spot in front of the lead counts as farther, so the lead stays
   // in front and unhidden.
   const reach = (spot: StagingSpot) =>
-    Math.hypot(spot.x - hero.x, (spot.y - hero.y) * 2) +
-    (spot.y > hero.y + IN_FRONT ? FRONT_PENALTY : 0);
-  const rest = stage.spots
-    .filter((spot) => spot !== hero && spot.pose !== "podium")
-    .sort((a, b) => reach(a) - reach(b));
-  const free: StagingSpot[] = [hero, ...rest];
+    Math.hypot(spot.x - lead.x, (spot.y - lead.y) * 2) +
+    (spot.y > lead.y + IN_FRONT ? FRONT_PENALTY : 0);
+  // A lectern is the speaker's; anyone else stands at one only when every
+  // other spot is taken (a debate's second candidate).
+  const rest = [
+    ...stage.spots
+      .filter((spot) => spot !== lead && spot.pose !== "podium")
+      .sort((a, b) => reach(a) - reach(b)),
+    ...stage.spots.filter((spot) => spot !== lead && spot.pose === "podium"),
+  ];
+  const free: StagingSpot[] = lead === hero ? [hero, ...rest] : rest;
   const placed: {
     id: string;
     name: string;
     reason: StageReason;
     look: Figure;
+    colors: string;
     band: Parameters<typeof figureOn>[1];
     spot: StagingSpot;
   }[] = [];
-  // No twins: each look is worn by one person in the scene, the lead first.
-  const taken = new Set<string>();
   for (const { id, name, reason } of ids) {
     if (!reason) {
       unplaced.push({ personId: id, reason: "no-reason" });
@@ -608,14 +775,8 @@ export function stagePeople(
       unplaced.push({ personId: id, reason: "no-record" });
       continue;
     }
-    const who: Who = {
-      id,
-      birthDate: looks.birthDate,
-      ...(looks.gender ? { gender: looks.gender } : {}),
-      official: isOfficial(core, id),
-      ...(looks.look ? { look: looks.look } : {}),
-    };
-    const look = pickLook(core, who, place, taken);
+    const who = whoOf(core, id, looks);
+    const look = pickLook(core, who, place);
     if (!look) {
       unplaced.push({ personId: id, reason: "no-whole-figure" });
       continue;
@@ -627,7 +788,35 @@ export function stagePeople(
       figureOn(look, band, place, stage, spot) !== null;
     const clear = (spot: StagingSpot) =>
       placed.every((row) => !hides(stage, spot, row.spot));
-    let index = free.findIndex((spot) => clear(spot) && fits(spot));
+    // The speaker takes the podium, when the picture has one they fit.
+    const podium = stage.spots.find((spot) => spot.pose === "podium");
+    if (
+      id === speaker &&
+      podium &&
+      !placed.some((row) => row.spot === podium) &&
+      fits(podium)
+    ) {
+      placed.push({
+        id,
+        name,
+        reason,
+        look,
+        colors: new URLSearchParams(colorsFor(who, look.sex, band)).toString(),
+        band,
+        spot: podium,
+      });
+      continue;
+    }
+    // A seat the room keeps for an office (the Resolute desk's chair) goes to
+    // whoever holds it.
+    const kept = officeKinds(core, id).flatMap(
+      (kind) => SEAT_ROLES[kind] ?? [],
+    );
+    const own = kept.length
+      ? free.findIndex((spot) => kept.includes(spot.role ?? "") && fits(spot))
+      : -1;
+    let index =
+      own >= 0 ? own : free.findIndex((spot) => clear(spot) && fits(spot));
     if (index < 0) index = free.findIndex(fits);
     if (index < 0) {
       unplaced.push({
@@ -636,12 +825,15 @@ export function stagePeople(
       });
       continue;
     }
-    taken.add(look.look);
+    const colors = new URLSearchParams(
+      colorsFor(who, look.sex, band),
+    ).toString();
     placed.push({
       id,
       name,
       reason,
       look,
+      colors,
       band,
       spot: free.splice(index, 1)[0]!,
     });
@@ -650,7 +842,7 @@ export function stagePeople(
   // Drawn far to near, so nearer people stand in front of farther ones.
   const depth = (spot: StagingSpot) => spot.depth ?? spot.y;
   const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
-  for (const { id, name, reason, look, band, spot } of order) {
+  for (const { id, name, reason, look, colors, band, spot } of order) {
     const turn = turnOf(
       spot,
       placed.map((row) => row.spot),
@@ -661,9 +853,9 @@ export function stagePeople(
       personId: id,
       name,
       reason,
-      spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
+      spotId: spotIdOf(place, stage, spot),
       figure: whole.figure,
-      figureUrl: whole.url,
+      figureUrl: colors ? `${whole.url}?${colors}` : whole.url,
       art: "whole",
     });
   }
@@ -683,7 +875,9 @@ function outline(stage: PlaceStaging, spot: StagingSpot) {
     left: spot.x - width / 2,
     right: spot.x + width / 2,
     top: spot.y - height,
-    bottom: spot.y,
+    // Behind a counter or desk, only what shows above its front can be covered.
+    bottom:
+      spot.behindY !== undefined ? Math.min(spot.y, spot.behindY) : spot.y,
   };
 }
 /** Whether two people on these spots would cover much of one another. */
@@ -706,25 +900,67 @@ export function hides(
 }
 
 type Who = FigurePerson;
+/** A person as the figures read them: age, sex, seed, chosen look and office. */
+function whoOf(core: CoreState, id: string, looks: Looks): Who {
+  return {
+    id,
+    birthDate: looks.birthDate,
+    ...(looks.gender ? { gender: looks.gender } : {}),
+    official: isOfficial(core, id),
+    ...(looks.seed ? { seed: looks.seed } : {}),
+    ...(looks.look ? { look: looks.look } : {}),
+  };
+}
+
+/** A person's face for a map or list: their front figure in their own colors, and where its head is. */
+export interface PersonFace {
+  url: string;
+  /** The head in the figure's pixels: top, middle and width. */
+  head: readonly [number, number, number];
+  width: number;
+  height: number;
+}
+/** The same figure a room would draw for them in `place`, or null for a child or a look with no measured head. */
+export function faceOf(
+  core: CoreState,
+  id: string,
+  place: string,
+): PersonFace | null {
+  const looks = looksOf(core, id);
+  if (!looks) return null;
+  const who = whoOf(core, id, looks);
+  const look = pickLook(core, who, place);
+  const head = look && headOf(look);
+  if (!look || !head) return null;
+  const colors = new URLSearchParams(
+    colorsFor(who, look.sex, ageBandOf(core, who.birthDate)),
+  ).toString();
+  return {
+    url: `/art/people-engine/v2/${look.file}${colors ? `?${colors}` : ""}`,
+    head,
+    width: look.width,
+    height: look.height,
+  };
+}
 type Turn = NonNullable<Parameters<typeof figureOn>[5]>;
 // Presentation choices, TUNABLE by eye: how far below the lead a spot counts
-// as in front of them, how much farther that makes it, how near in depth two
-// people are to be side by side, and how near the front's line a person is
-// to keep their own facing.
+// as in front of them, how much farther that makes it, and how near the
+// front's line a person is to keep their own facing.
 const IN_FRONT = 3;
 const FRONT_PENALTY = 25;
-const SIDE_BY_SIDE = 6;
 const ON_THE_LINE = 3;
 // An adult's height for the outline, a body's width as a share of its
-// height, and how much of a person may be covered before a spot is passed over.
+// height (measured on the v2 figures: arms and stance make a standing figure
+// about 0.4 as wide as it is tall, as the picture shows), and how much of a
+// person may be covered before a spot is passed over.
 const ADULT_METERS = 1.72;
-const BODY_WIDTH = 0.3;
+const BODY_WIDTH = 0.4;
 const HIDDEN_SHARE = 0.25;
 
 /**
- * Which way a person turns: in a room with a front (a chamber, a dais, a
- * classroom) toward the front, from behind where the spot faces away; else
- * toward the nearest person they're with, side-on when level with them;
+ * Which way a person turned to one side faces (the spot's facing picks
+ * the angle, `viewOf`): in a room with a front (a chamber, a dais, a
+ * classroom) toward the front; else toward the nearest person they're with;
  * alone, the spot's own facing.
  */
 export function turnOf(
@@ -732,14 +968,10 @@ export function turnOf(
   spots: readonly StagingSpot[],
   front: number | undefined,
 ): Turn {
-  if (front !== undefined) {
-    const view = spot.facing === "away" ? ("back" as const) : undefined;
-    if (Math.abs(front - spot.x) < ON_THE_LINE) return view ? { view } : {};
-    return {
-      toward: front > spot.x ? "right" : "left",
-      ...(view ? { view } : {}),
-    };
-  }
+  if (front !== undefined)
+    return Math.abs(front - spot.x) < ON_THE_LINE
+      ? {}
+      : { toward: front > spot.x ? "right" : "left" };
   const others = spots.filter((other) => other !== spot);
   if (!others.length) return {};
   const nearest = others.reduce((a, b) =>
@@ -748,12 +980,7 @@ export function turnOf(
       ? a
       : b,
   );
-  return {
-    toward: nearest.x >= spot.x ? "right" : "left",
-    ...(Math.abs(nearest.y - spot.y) < SIDE_BY_SIDE
-      ? { view: "profile" as const }
-      : {}),
-  };
+  return { toward: nearest.x >= spot.x ? "right" : "left" };
 }
 
 export function benchScene(
@@ -794,14 +1021,14 @@ export function benchScene(
   return {
     place,
     why,
-    backdrop: backdropFile(place, minute),
+    backdrop: backdropFor(core, place, minute, personId),
     people,
     unplaced,
   };
 }
 
 export function backdropPath(file: string): URL {
-  if (!/^[a-z0-9-]+__[a-z]+\.jpg$/.test(file))
+  if (!/^[a-z0-9-]+__[a-z-]+\.jpg$/.test(file))
     throw new Error("Unknown backdrop.");
   return new URL(file, BACKDROP_DIR);
 }

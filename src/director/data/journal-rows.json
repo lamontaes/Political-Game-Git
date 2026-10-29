@@ -88,7 +88,12 @@
   },
   "lines": [
     {
-      "kindPrefix": "school:",
+      "kindPrefix": "person.birth",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "school.started",
       "turn": false,
       "oncePer": "school",
       "entry": "setting"
@@ -97,6 +102,38 @@
       "kindPrefix": "work:opening",
       "turn": false,
       "entry": "setting"
+    },
+    {
+      "kindPrefix": "job-started:first",
+      "turn": false,
+      "entry": "story",
+      "wordsFrom": "job-started"
+    },
+    {
+      "kindPrefix": "job-started:again",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:let-go",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "job-ended:moved-on",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:child",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:retired",
+      "turn": false,
+      "entry": "story"
     },
     {
       "kindPrefix": "job-started",
@@ -250,6 +287,40 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "event:recall-outcome",
+      "turn": false,
+      "entry": "story",
+      "hasOtherLine": true,
+      "eventFacts": {
+        "signatures": {
+          "fact": "signatures",
+          "format": "count"
+        },
+        "required": {
+          "fact": "required",
+          "format": "count"
+        },
+        "fewer": {
+          "fact": "before",
+          "less": "signatures",
+          "format": "drop",
+          "cites": "answerIds"
+        }
+      },
+      "stageFact": "outcome",
+      "stageMark": {
+        "fact": "fewer",
+        "mark": "moved"
+      },
+      "toldWithoutOther": true,
+      "stageWords": {
+        "on-ballot:moved": "^(?=.*\\b(?:hearing|heard)\\b)(?=.*\\b(?:vote|ballot)\\b)",
+        "failed:moved": "^(?=.*\\b(?:hearing|heard)\\b)(?=.*\\bshort\\b)",
+        "on-ballot": "\\b(?:vote|ballot)\\b",
+        "failed": "\\bshort\\b"
+      }
+    },
+    {
       "kindPrefix": "event:candidate-filed",
       "turn": true,
       "eventFacts": {
@@ -287,6 +358,7 @@
     },
     {
       "kindPrefix": "event:office.voted",
+      "hasOtherLine": true,
       "turn": false,
       "entry": "story",
       "stageFact": "vote",
@@ -297,18 +369,19 @@
       "eventFacts": {
         "law": {
           "fact": "billId",
-          "format": "billName"
+          "format": "billNumberAndName"
         }
       }
     },
     {
       "kindPrefix": "event:office.introduced",
+      "hasOtherLine": true,
       "turn": false,
       "entry": "story",
       "eventFacts": {
         "law": {
           "fact": "billId",
-          "format": "billName"
+          "format": "billNumberAndName"
         }
       }
     },
@@ -390,6 +463,33 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "household:siblings-older",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:siblings-born",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:school-started:elementary",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "household:school-started:high",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "household:livelihood",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "household:sibling-older",
       "turn": false,
       "entry": "story"
@@ -401,6 +501,41 @@
     },
     {
       "kindPrefix": "household:sibling-born",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "life:came-of-age",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:promise",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:favor-owed",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:relationship-strained",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:trust-lost",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:meeting-set",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:story-runs",
       "turn": false,
       "entry": "story"
     }

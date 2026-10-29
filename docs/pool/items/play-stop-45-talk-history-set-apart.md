@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6188
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/play.html, src/bench/talk-history.browser.mjs (new)
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "The chat history thing that popped up needs to be delineated either with a different color or with a line or something." New owner instruction in playtest; CTO to record in OWNER-DECISIONS.md. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+Merged Oct 27 in PR #6188; awaiting the owner's installed-build check

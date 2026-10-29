@@ -7,7 +7,7 @@
  */
 import stagesJson from "../../data/english/parts/speech-stages.json" with { type: "json" };
 import type { PersonId } from "../core2/types";
-import { heldByGrades } from "./english-grades";
+import { admittedParts, type BankPart } from "./bank-parts";
 import {
   renderLine,
   type Fact,
@@ -17,12 +17,6 @@ import {
 
 export type { Fact };
 
-interface BankPart {
-  key: string;
-  text: string;
-  uses: { subject: string; role: string }[];
-  shippable: boolean;
-}
 const BANK = stagesJson as unknown as { parts: BankPart[] };
 
 /** The bank's version, for the renderer's stable pick. */
@@ -30,22 +24,12 @@ export const SPEECH_STAGES_VERSION = "words-speech-stages-v1";
 
 /**
  * The pieces that may word one stage role ("opener", "core:work", ...), as
- * renderer variants. Play offers only shipped pieces. A grading page
- * (`heldFirst`) offers the held ones wherever one fits, so the owner hears
- * each in a real speech; a stage no held piece fits keeps its shipped pieces.
+ * renderer variants: every piece the owner's grades leave in.
  */
-export function speechStageVariants(
-  role: string,
-  heldFirst = false,
-): Variant[] {
-  const fits = (part: BankPart) =>
-    !heldByGrades(part.key) &&
-    part.uses.some((use) => use.subject === "stage" && use.role === role);
-  const shipped = BANK.parts.filter((part) => part.shippable && fits(part));
-  const held = heldFirst
-    ? BANK.parts.filter((part) => !part.shippable && fits(part))
-    : [];
-  return (held.length ? held : shipped).map((part) => ({
+export function speechStageVariants(role: string): Variant[] {
+  return admittedParts(BANK.parts, (part) =>
+    part.uses.some((use) => use.subject === "stage" && use.role === role),
+  ).map((part) => ({
     key: part.key,
     // The bank writes a slot as {name}; the renderer reads {{name}}.
     text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
@@ -53,8 +37,8 @@ export function speechStageVariants(
 }
 
 /** The pieces that may word a stage role, by key: each is offered as its own choice at an edge of the speech. */
-export function speechStagePieces(role: string, heldFirst = false): string[] {
-  return speechStageVariants(role, heldFirst).map((variant) => variant.key);
+export function speechStagePieces(role: string): string[] {
+  return speechStageVariants(role).map((variant) => variant.key);
 }
 
 /**
@@ -69,10 +53,9 @@ export function wordSpeechPart(request: {
   speakerId: PersonId;
   facts: Record<string, Fact>;
   momentKey: string;
-  heldFirst?: boolean;
   pieceKey?: string;
 }): RenderedLine | null {
-  const variants = speechStageVariants(request.role, request.heldFirst).filter(
+  const variants = speechStageVariants(request.role).filter(
     (variant) => !request.pieceKey || variant.key === request.pieceKey,
   );
   return renderLine({

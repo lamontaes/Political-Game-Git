@@ -2,8 +2,7 @@
  * The labor links that wait, each with the one reason it cannot reach a
  * person's records yet (web-reach-labor). Each cites the labor engine's own
  * stopgap in the unwired list, that stopgap names it, and the reason holds in
- * the code: no person carries a work authorization, the cause is a person's
- * own exposure history no record keeps, the link has no size (or about
+ * the code: the cause is a person's own exposure history no record keeps, the link has no size (or about
  * zero), or no engine records formal-sector employment. The day an engine
  * file names one of these outcomes, or an unsized link gets a size, this test
  * fails and says to wire the link.
@@ -16,25 +15,19 @@ import stopgaps from "./data/stopgaps.json" with { type: "json" };
 import { WEB_LINKS } from "./outcome-web-model";
 
 const WAITING = {
-  /** No person carries a work authorization, and only officials a nativity. */
-  "SG-LABOR-no-legal-status": [
-    "enforcement-to-undocumented-employment",
-    "enforcement-to-us-born-employment",
-  ],
   /** The cause is the person's own exposure history, which no record keeps. */
   "SG-LABOR-person-exposure": [
     "birth-year-pollution-to-adult-earnings",
     "teacher-quality-to-earnings",
     "neighborhood-years-to-adult-outcomes",
   ],
-  /** No researched size the game can apply, or about zero. */
+  /** No researched size the game can apply (a link about zero is graded not applicable and is not listed). */
   "SG-LABOR-unsized-links": [
     "graduation-to-earnings",
     "transit-loss-to-unemployment",
     "broadband-to-employment",
     "incentive-deal-to-industry-jobs",
     "more-immigration-to-workforce",
-    "work-requirement-to-employment",
   ],
   /** No engine records formal-sector employment. */
   "SG-LABOR-pretrial-employment": ["pretrial-detention-to-employment"],
@@ -133,7 +126,7 @@ describe("labor links that wait, and why", () => {
   // outcome, for an unsized link as for one with no record.
   for (const key of [
     "transit-loss-to-unemployment",
-    "enforcement-to-undocumented-employment",
+    "pretrial-detention-to-employment",
   ])
     it(`the reader check trips when an engine reads ${key}'s outcome`, () => {
       const outcome = link(key).to;

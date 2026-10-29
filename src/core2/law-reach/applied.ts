@@ -41,6 +41,13 @@ export interface LawAppliedRow {
 /** The host module's id (host.ts); kept here so engines import no host code. */
 const HOST_ID = "core2-law-effects-v1";
 
+/** Whether the world runs the law reach (laws are applied to people in it). */
+export function lawReachRuns(core: {
+  readonly modules: ReadonlyMap<string, unknown>;
+}): boolean {
+  return core.modules.has(HOST_ID);
+}
+
 /**
  * Record that an engine applied a law to a target today. A no-op in a world
  * with no law-reach host (a unit test's small world).
@@ -69,12 +76,15 @@ export function lawApplied(
     if (
       held.lastOn === date &&
       held.count === count &&
+      held.target === input.target &&
       held.what === input.what &&
       amount === 0
     )
       return;
+    // The target's tier follows the record: a counted household filled in as a full one (same id) is a household from then on, and the row says so.
     table.put({
       ...held,
+      target: input.target,
       count,
       what: input.what,
       lastOn: date,

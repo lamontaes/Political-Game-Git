@@ -301,10 +301,14 @@ export function buildIndex(items: Item[]): string {
   return out.join("\n");
 }
 
-/** Reads a pool directory (the folder holding items/ and INDEX.md). Returns the index text and every problem. */
+/**
+ * Reads a pool directory (the folder holding items/ and INDEX.md). Returns the index text and every problem.
+ * `qualityOnly`, when given, limits the writing-quality checks to those item files; structure is checked everywhere.
+ */
 export function run(
   poolDir: string,
   check: boolean,
+  qualityOnly?: ReadonlySet<string>,
 ): { index: string; errors: string[]; warnings: string[] } {
   const dir = join(poolDir, "items");
   const files = existsSync(dir)
@@ -320,7 +324,8 @@ export function run(
     const fm = parseFrontMatter(text);
     const errs = validate(f, fm);
     errors.push(...errs);
-    if (!errs.length && fm) warnings.push(...quality(f, fm, text));
+    if (!errs.length && fm && (!qualityOnly || qualityOnly.has(f)))
+      warnings.push(...quality(f, fm, text));
     if (!errs.length && fm)
       items.push({ "claimed-by": "", pr: "", "blocked-on": "", ...fm } as Item);
   }
@@ -558,7 +563,21 @@ if (
     process.exit(0);
   }
   const check = process.argv.includes("--check");
-  const { errors, warnings } = run(join(process.cwd(), "docs", "pool"), check);
+  // `--changed`: the writing-quality checks cover only the items named in
+  // CHANGED_FILES (one path per line), so a change answers for its own items.
+  const qualityOnly = process.argv.includes("--changed")
+    ? new Set(
+        (process.env.CHANGED_FILES ?? "")
+          .split("\n")
+          .filter((f) => f.startsWith("docs/pool/items/"))
+          .map((f) => f.slice("docs/pool/items/".length)),
+      )
+    : undefined;
+  const { errors, warnings } = run(
+    join(process.cwd(), "docs", "pool"),
+    check,
+    qualityOnly,
+  );
   if (!check && warnings.length) console.warn(warnings.join("\n"));
   if (errors.length) {
     console.error(errors.join("\n"));

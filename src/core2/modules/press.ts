@@ -21,7 +21,14 @@ import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { spendLivingCost } from "../official-living";
-import { decisionLean, leanedScore, leanedYes } from "../trait-decisions";
+import { keepsWhy } from "../why-kept";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedScore,
+  leanedYes,
+  reportOutcome,
+} from "../trait-decisions";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -32,10 +39,16 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
-import { countedResidents, countedResidentsOf } from "../electorate";
+import {
+  countedResidents,
+  countedResidentsOf,
+  engagementOf,
+  NATIONAL_ENGAGEMENT,
+} from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
+  standing,
   type ContestRow,
   type FilingRow,
 } from "./elections";
@@ -54,6 +67,13 @@ import { promisesOf, votesOf } from "./record";
 import { partySide } from "../appointments";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
+import { familyRelation } from "../closeness";
+import {
+  awardsOn,
+  CONTRACTS_MODULE_ID,
+  OWNER_RELATION,
+  type ContractAwardRow,
+} from "./contracts";
 import { type Stance as ViewStance } from "./views";
 import { candidateStance } from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
@@ -99,6 +119,7 @@ import {
   type PrintedStory,
 } from "../press-desk";
 import type { Story } from "./news";
+import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
 /** The change a speech against an outlet asks of its hearers. */
@@ -202,6 +223,19 @@ export interface InterviewRow {
   readonly reporterId?: string | null;
   /** The story the outlet printed from it. */
   readonly storyId?: string | null;
+  /**
+   * Why the candidate accepted or declined, kept where why is kept: the share
+   * of the town that follows the outlet, whether they hold the seat, their
+   * closeness to the reporter and any grudge, and their trait lean toward
+   * accepting before the weight.
+   */
+  readonly acceptReasons?: {
+    readonly reach: number;
+    readonly incumbent: boolean;
+    readonly closeness: number;
+    readonly grudge: number;
+    readonly lean: number;
+  };
 }
 
 interface ParameterRow {
@@ -216,7 +250,7 @@ export function pressParameter(key: string): number {
   return row.value;
 }
 
-interface PlaceNews {
+export interface PlaceNews {
   readonly newspapers: number;
   readonly tvStations: number;
   readonly radioStations: number;
@@ -240,6 +274,54 @@ const HABIT: Record<LocalKind, HabitKey> = {
   television: "localTv",
   radio: "localRadio",
 };
+
+/**
+ * The local outlets of each kind a state's published counts give a town, not
+ * yet rounded (Medill 2024, FCC 2025; the state split is estimated):
+ * calibration for the world's draw and its checks, never read by play.
+ */
+export function publishedOutletLevels(
+  counts: PlaceNews | undefined,
+  countyShare: number,
+): Record<LocalKind, number> {
+  return counts
+    ? {
+        newspaper: counts.newspapers * countyShare,
+        television: counts.tvStations / Math.max(1, counts.tvMarkets),
+        radio:
+          counts.radioStations * pressParameter("newsRadioShare") * countyShare,
+      }
+    : { newspaper: 0, television: 0, radio: 0 };
+}
+
+/**
+ * How many outlets of each kind this world's town has: the published level
+ * moved by the world's own draw, rounded, and never below one where the
+ * published count is at least one (owner, Oct 27: realistic, not real).
+ */
+export function worldOutletCounts(
+  seed: string,
+  counts: PlaceNews | undefined,
+  countyShare: number,
+): Record<LocalKind, number> {
+  const published = publishedOutletLevels(counts, countyShare);
+  const draw = (kind: LocalKind) => {
+    const level = Math.round(
+      worldLevel(
+        published[kind],
+        seed,
+        `press-world:${kind}`,
+        "pressWorldOutletSpreadShare",
+      ),
+    );
+    return Math.round(published[kind]) >= 1 ? Math.max(1, level) : level;
+  };
+  return {
+    newspaper: draw("newspaper"),
+    television: draw("television"),
+    radio: draw("radio"),
+  };
+}
 
 export const PRESS_MODULE: CoreModule = {
   id: PRESS_MODULE_ID,
@@ -287,6 +369,11 @@ export const PRESS_MODULE: CoreModule = {
   },
   eventKinds: ["*"],
   onEvent(api, event) {
+    // The one invited answers in the scene the invitation stages.
+    if (event.kind === "scene.reply") {
+      answerInvitation(api, event);
+      return;
+    }
     // A hidden act someone was just told of may reach a reporter.
     if (event.kind === "crime.told") {
       const crimeKey = Object.keys(event.facts ?? {}).find((k) =>
@@ -471,17 +558,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
     (county ? BASES.countyPopulation2024[county] : undefined) ?? townPeople;
   const share = Math.min(1, countyPeople / Math.max(1, statePeople));
   const cap = pressParameter("maxOutletsPerKind");
-  const wanted: Record<LocalKind, number> = counts
-    ? {
-        newspaper: Math.round(counts.newspapers * share),
-        television: Math.round(
-          counts.tvStations / Math.max(1, counts.tvMarkets),
-        ),
-        radio: Math.round(
-          counts.radioStations * pressParameter("newsRadioShare") * share,
-        ),
-      }
-    : { newspaper: 0, television: 0, radio: 0 };
+  const wanted = worldOutletCounts(core.seed, counts, share);
   const source = {
     tag: "ESTIMATED" as const,
     citation:
@@ -792,12 +869,13 @@ function enrollPressEmployers(api: CoreAPI): void {
 function countedAudience(api: CoreAPI, outlet: OutletRow): number {
   const town = outlet.placeId;
   const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
+  const adultAge = api.parameter("votingAge");
   let total = 0;
   for (const row of countsThisMonth(api)) {
     if (row.placeId !== town) continue;
     for (const [bandKey, people] of Object.entries(row.byAgeBand ?? {})) {
       const low = Number(bandKey.split("-")[0]);
-      if (!Number.isFinite(low) || low < 18) continue;
+      if (!Number.isFinite(low) || low < adultAge) continue;
       total +=
         people *
         (NEWS.habits.byAge[bandOf(low)]?.[HABIT[outlet.kind as LocalKind]] ??
@@ -844,20 +922,40 @@ function scheduleWeek(api: CoreAPI, from: string): void {
   });
 }
 
-/** Every trait's lean toward keeping up with the news over letting it go. */
-const habitScore = (p: Readonly<PersonState>, core: Pick<CoreState, "data">) =>
-  decisionLean(core, p, "press.follow-news", "follow", "skip");
+/**
+ * How much a person keeps up with the news: how closely they follow politics
+ * (their view's engagement, against the nation's) plus every trait's lean
+ * toward keeping up over letting it go, at the decision's weight.
+ */
+export const habitScore = (p: Readonly<PersonState>, core: CoreState) => {
+  const engaged =
+    (engagementOf(core, p) ?? NATIONAL_ENGAGEMENT) - NATIONAL_ENGAGEMENT;
+  const lean = decisionLean(core, p, "press.follow-news", "follow", "skip");
+  const term = decisionTraitWeight(core, "press.follow-news") * lean;
+  // The audit's probe (off in play) sees the habit with and without the trait term.
+  reportOutcome("press.follow-news", p.id, lean, "size", (withTerm) =>
+    withTerm ? engaged + term : engaged,
+  );
+  return engaged + term;
+};
 
 const followCache = new WeakMap<
   object,
   { date: string; map: Map<string, readonly string[]> }
 >();
 
-/** Each adult's habit, once per rebuild, not once per sort comparison. */
-function habitOf(api: CoreAPI, scores: Map<string, number>, p: PersonState) {
+/**
+ * Each adult's habit, worked out once and kept: a person's engagement and
+ * traits do not change after they are built, and the audiences are rebuilt
+ * every week and sorted by it.
+ */
+const habitScores = new WeakMap<object, Map<string, number>>();
+function habitOf(api: CoreAPI, p: PersonState) {
+  let scores = habitScores.get(api.state);
+  if (!scores) habitScores.set(api.state, (scores = new Map()));
   let score = scores.get(p.id);
   if (score === undefined) {
-    score = habitScore(p, api.state);
+    score = habitScore(p, api.state as CoreState);
     scores.set(p.id, score);
   }
   return score;
@@ -868,25 +966,22 @@ function habitOf(api: CoreAPI, scores: Map<string, number>, p: PersonState) {
  * the share that follows that kind (Pew 2024), its most dutiful and
  * deliberate members first.
  */
-function audienceOfKind(
-  api: CoreAPI,
-  kind: OutletKind,
-  scores: Map<string, number> = new Map(),
-): readonly string[] {
+function audienceOfKind(api: CoreAPI, kind: OutletKind): readonly string[] {
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   const bands = new Map<Band, PersonState[]>();
   for (const id of api.state.peopleByPlace.get(town) ?? []) {
     const p = api.state.people.get(id);
     if (!p?.alive) continue;
     const age = ageOn(p, date);
-    if (age < 18) continue;
+    if (age < adultAge) continue;
     const band = bandOf(age);
     const list = bands.get(band) ?? [];
     list.push(p);
     bands.set(band, list);
   }
-  const habit = (p: PersonState) => habitOf(api, scores, p);
+  const habit = (p: PersonState) => habitOf(api, p);
   const followers: PersonState[] = [];
   const national = NATIONAL.kinds.find((row) => row.kind === kind);
   for (const [band, people] of bands) {
@@ -923,13 +1018,12 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
     return cached.map.get(outletId) ?? [];
   const map = new Map<string, readonly string[]>();
   const outlets = outletsHere(api);
-  const scores = new Map<string, number>();
   for (const kind of ALL_KINDS) {
     const own = outlets.filter((o) => o.kind === kind);
     if (!own.length) continue;
     const lists = new Map<string, string[]>(own.map((o) => [o.id, []]));
     const views = api.state.modules.has(VIEWS_MODULE_ID);
-    for (const id of audienceOfKind(api, kind, scores)) {
+    for (const id of audienceOfKind(api, kind)) {
       const lean = leanOf(api, id);
       // Distrust of an outlet (a speech against it they took in) pushes a
       // follower away from it, on the lean scale.
@@ -998,10 +1092,11 @@ function townAdultsByBand(api: CoreAPI): ReadonlyMap<Band, number> {
     return held.adults;
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   const adults = new Map<Band, number>();
   for (const voter of countedResidentsOf(api.state as CoreState, town)) {
     const age = ageOn(voter, date);
-    if (age < 18) continue;
+    if (age < adultAge) continue;
     const band = bandOf(age);
     adults.set(band, (adults.get(band) ?? 0) + voter.weight);
   }
@@ -1108,6 +1203,47 @@ function isIncumbent(api: CoreAPI, contest: ContestRow, personId: string) {
 }
 
 /**
+ * How much of the town knows a candidate: the people who've heard of them and
+ * the counted households their mail reached (`campaignRecognition`).
+ */
+function knownShare(api: CoreAPI, filing: FilingRow): number {
+  if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return 0;
+  const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID);
+  if (campaigns.table("campaigns").get(filing.id))
+    return campaignRecognition(api, filing.id);
+  const adults =
+    [...(api.state.peopleByPlace.get(lawChain(api).townPlaceId) ?? [])]
+      .length || 1;
+  return (
+    (
+      campaigns
+        .table("impressions")
+        .query("byCandidate", [filing.personId]) as unknown as ImpressionRow[]
+    ).filter((i) => i.heardOf).length / adults
+  );
+}
+
+/**
+ * A candidate's case for accepting an interview, before temperament: a base,
+ * the share of the town the outlet reaches, less a sitting official's
+ * reluctance, and how they stand with the reporter who asks.
+ */
+export function acceptCase(reasons: {
+  readonly reach: number;
+  readonly incumbent: boolean;
+  readonly closeness: number;
+  readonly grudge: number;
+}): number {
+  return (
+    pressParameter("interviewAcceptBase") +
+    pressParameter("interviewReachWeight") * Math.min(1, reasons.reach) -
+    (reasons.incumbent ? pressParameter("interviewIncumbentReluctance") : 0) +
+    reasons.closeness -
+    reasons.grudge
+  );
+}
+
+/**
  * How newsworthy a candidate is to a reporter: how many people in town have
  * heard of them, whether they hold the seat, and their share of the money
  * raised in the race.
@@ -1162,24 +1298,10 @@ export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
     );
   }
   const contest = contestOf(api, filing.contestId);
-  const town = lawChain(api).townPlaceId;
-  const adults = [...(api.state.peopleByPlace.get(town) ?? [])].length || 1;
   const campaigns = api.state.modules.has(CAMPAIGNS_MODULE_ID)
     ? api.moduleState(CAMPAIGNS_MODULE_ID)
     : null;
-  // How much of the town knows them: the people who've heard of them and
-  // the counted households their mail reached (`campaignRecognition`).
-  const known = !campaigns
-    ? 0
-    : campaigns.table("campaigns").get(filing.id)
-      ? campaignRecognition(api, filing.id)
-      : (
-          campaigns
-            .table("impressions")
-            .query("byCandidate", [
-              filing.personId,
-            ]) as unknown as ImpressionRow[]
-        ).filter((i) => i.heardOf).length / adults;
+  const known = knownShare(api, filing);
   const raised = (f: FilingRow) =>
     (
       campaigns?.table("campaigns").get(f.id) as unknown as
@@ -1326,9 +1448,7 @@ export function interviewQuestions(
         add(v.stance.question, pressParameter("partyBreakNewsWeight"));
   const own = platformOf(api, speaker);
   const rivals = filing
-    ? ballot(api, filing.contestId).filter(
-        (f) => f.id !== filing.id && f.status === "on-ballot",
-      )
+    ? ballot(api, filing.contestId).filter((f) => f.id !== filing.id)
     : [];
   const questions = [
     ...new Set([
@@ -1390,7 +1510,10 @@ export function interviewQuestions(
     add(
       q,
       pressParameter("divisiveNewsWeight") *
-        Math.max(0, Math.abs(questionAxis(q)) - Math.abs(publicOffset(q))),
+        Math.max(
+          0,
+          Math.abs(questionAxis(q)) - Math.abs(publicOffset(q, api.state.seed)),
+        ),
     );
   }
   // Asked before, on the record: less to learn from asking again.
@@ -1593,7 +1716,7 @@ function arrangeWith(
   if (filing) {
     if (
       contestOf(api, filing.contestId).electionDate < api.state.date ||
-      filing.status !== "on-ballot"
+      !standing(filing)
     )
       return declined("race-over");
     if (already(api, outletId, filing.id))
@@ -2097,16 +2220,17 @@ export function townStand(api: CoreAPI, question: string): number {
   if (hit !== undefined) return hit;
   const town = lawChain(api).townPlaceId;
   const views = core.modules.has(VIEWS_MODULE_ID);
+  const adultAge = api.parameter("votingAge");
   let sum = 0;
   let adults = 0;
   for (const id of core.peopleByPlace.get(town) ?? []) {
     const p = core.people.get(id);
-    if (!p?.alive || ageOn(p, core.date) < 18) continue;
+    if (!p?.alive || ageOn(p, core.date) < adultAge) continue;
     sum += leanOf(api, id) / 2;
     adults += 1;
   }
   for (const voter of countedResidents(core)) {
-    if (voter.placeId !== town || ageOn(voter, core.date) < 18) continue;
+    if (voter.placeId !== town || ageOn(voter, core.date) < adultAge) continue;
     sum += ((views ? countedLean(api, voter) : 0) / 2) * voter.weight;
     adults += voter.weight;
   }
@@ -2271,7 +2395,7 @@ function tipOff(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       )[0];
     if (!reporterId) continue;
     const row = weighTip(api, {
-      crimeId,
+      act: bribeAct(crimeId),
       officialId,
       knowerId,
       reporterId,
@@ -2291,6 +2415,28 @@ function reportersHere(api: CoreAPI): Map<string, OutletRow> {
 }
 
 /**
+ * An act the press can expose, named on the tip, the exposure and the story:
+ * the id the tip is kept under, the fact that names the act and says what it
+ * was, any more facts the exposure carries, the citation, and the fields that
+ * name the act on the tip's row.
+ */
+interface ExposableAct {
+  readonly id: string;
+  readonly fact: readonly [key: string, word: string];
+  readonly facts?: Readonly<Record<string, string>>;
+  readonly citation: string;
+  readonly row: Readonly<Record<string, unknown>>;
+}
+
+/** A bribe an official took: the crime record on the cash journal. */
+const bribeAct = (crimeId: string): ExposableAct => ({
+  id: crimeId,
+  fact: [`crime:${crimeId}`, "bribe-taken"],
+  citation: `A reporter's story on recorded bribe ${crimeId}`,
+  row: { crimeId },
+});
+
+/**
  * One person's tip of a hidden act to a reporter, weighed in order: whether
  * the one who knows takes it (their lean toward tipping off over keeping
  * quiet, their closeness to the reporter, their regard for the official; a
@@ -2302,7 +2448,7 @@ function reportersHere(api: CoreAPI): Map<string, OutletRow> {
 function weighTip(
   api: CoreAPI,
   input: {
-    readonly crimeId: string;
+    readonly act: ExposableAct;
     readonly officialId: string;
     readonly knowerId: string;
     readonly reporterId: string;
@@ -2310,7 +2456,7 @@ function weighTip(
     readonly leak: boolean;
   },
 ): Record<string, unknown> | null {
-  const { crimeId, officialId, knowerId, reporterId, staff } = input;
+  const { act, officialId, knowerId, reporterId, staff } = input;
   const knower = api.state.people.get(knowerId);
   const reporter = api.state.people.get(reporterId);
   const outlet = staff.get(reporterId);
@@ -2331,8 +2477,8 @@ function weighTip(
             regard(api, p, knowerId, officialId),
         );
   const row: Record<string, unknown> = {
-    id: crimeId,
-    crimeId,
+    id: act.id,
+    ...act.row,
     knowerId,
     reporterId,
     officialId,
@@ -2347,7 +2493,8 @@ function weighTip(
     table(api, "tips").put(row as unknown as ModuleRow);
     return row;
   }
-  // The paper trail: the payment is on the cash journal.
+  // The paper trail: the payment is on the cash journal, the award on the
+  // government's books.
   const dig =
     decisionLean(api.state, reporter, "press.dig", "dig", "let-go") +
     grudge(api, reporterId, officialId) -
@@ -2362,7 +2509,7 @@ function weighTip(
       (outlet.headId ? regard(api, p, outlet.headId, officialId) : 0);
   row.run = dig > 0 ? run : null;
   if (dig > 0 && run > 0) {
-    const exposedId = `press.exposed:${crimeId}:${outlet.id}`;
+    const exposedId = `press.exposed:${act.id}:${outlet.id}`;
     api.emit({
       id: exposedId,
       date: api.state.date,
@@ -2372,10 +2519,14 @@ function weighTip(
       publicRecord: true,
       news: true,
       topic: `conduct:${officialId}`,
-      facts: { [`crime:${crimeId}`]: "bribe-taken", outletId: outlet.id },
+      facts: {
+        [act.fact[0]]: act.fact[1],
+        ...act.facts,
+        outletId: outlet.id,
+      },
       source: {
         tag: "SOURCED",
-        citation: `A reporter's story on recorded bribe ${crimeId}`,
+        citation: act.citation,
         asOf: api.state.date,
       },
     });
@@ -2401,7 +2552,7 @@ function weighTip(
           slant: -Math.min(1, run),
           reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
         },
-        facts: { [`crime:${crimeId}`]: "bribe-taken" },
+        facts: { [act.fact[0]]: act.fact[1] },
       },
     );
     row.storyId = story.id;
@@ -2418,6 +2569,94 @@ function weighTip(
   }
   table(api, "tips").put(row as unknown as ModuleRow);
   return row;
+}
+
+/**
+ * The week's conflicts of interest reach the desk. An award a government
+ * made in the last week whose record names a member who chose a firm they
+ * own, or a relative or housemate owns (contracts.ts `conflicts`), is public
+ * business the local reporters can read: the award on the government's books
+ * is the paper trail. Each reporter of the town's local outlets, in outlet and
+ * id order, weighs it as they weigh a tip they came to themself (nobody to
+ * take it to): whether to dig, then whether the outlet's owner and head let
+ * it run. The first to run it prints it and the others see it on the wire. A
+ * reporter never covers themself, the firm's owner or either one's relatives.
+ * Every conflict the desk weighs keeps a tip row under its award and member;
+ * nothing rolls.
+ */
+function conflictBeat(api: CoreAPI): void {
+  if (!api.state.modules.has(CONTRACTS_MODULE_ID)) return;
+  // stopgapId: SG-PEOPLE-press-conflict-beat
+  const local = outletsHere(api).filter((o) => o.tier !== "national");
+  const staff = new Map<string, OutletRow>();
+  for (const outlet of local)
+    for (const id of outlet.reporterIds ?? []) staff.set(id, outlet);
+  if (!staff.size) return;
+  // Awards made since the desk last sat (it sits weekly; a conflict already
+  // weighed keeps its tip row and is not weighed again).
+  const awards = new Map<string, ContractAwardRow>();
+  for (let back = 0; back <= api.parameter("daysPerWeek"); back += 1)
+    for (const award of awardsOn(
+      api,
+      addDays(makeIsoDate(api.state.date), -back),
+    ))
+      if (award.conflicts.length) awards.set(award.id, award);
+  for (const award of [...awards.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  ))
+    for (const conflict of award.conflicts) {
+      const act = conflictAct(award, conflict);
+      if (
+        !api.state.people.has(conflict.memberId) ||
+        table(api, "tips").get(act.id)
+      )
+        continue;
+      const reporters = local
+        .flatMap((o) => [...(o.reporterIds ?? [])].sort())
+        .filter(
+          (id) =>
+            ![conflict.memberId, conflict.ownerId].some(
+              (party) =>
+                id === party || familyRelation(api.state, id, party) !== null,
+            ),
+        );
+      for (const reporterId of reporters) {
+        api.stopgap("SG-PEOPLE-press-conflict-beat");
+        const row = weighTip(api, {
+          act,
+          officialId: conflict.memberId,
+          knowerId: reporterId,
+          reporterId,
+          staff,
+          leak: false,
+        });
+        if (row?.storyId) break;
+      }
+    }
+}
+
+/** A member's vote for a firm their family owns, as an act the press can expose. */
+function conflictAct(
+  award: ContractAwardRow,
+  conflict: ContractAwardRow["conflicts"][number],
+): ExposableAct {
+  return {
+    id: `${award.id}:${conflict.memberId}`,
+    fact: [`award:${award.id}`, "conflict-of-interest"],
+    facts: {
+      memberId: conflict.memberId,
+      organizationId: conflict.organizationId,
+      ownerId: conflict.ownerId,
+      relation: conflict.relation,
+    },
+    citation: `A reporter's story on contract award ${award.id}: ${conflict.memberId} chose a firm owned by ${conflict.relation === OWNER_RELATION ? "themself" : `their ${conflict.relation}`}.`,
+    row: {
+      awardId: award.id,
+      memberId: conflict.memberId,
+      organizationId: conflict.organizationId,
+      relation: conflict.relation,
+    },
+  };
 }
 
 /**
@@ -2460,7 +2699,7 @@ export function leakToReporter(
     Record<string, unknown> | undefined;
   if (had?.storyId) return had;
   const row = weighTip(api, {
-    crimeId: input.crimeId,
+    act: bribeAct(input.crimeId),
     officialId: crime.officialId,
     knowerId: input.leakerId,
     reporterId: input.reporterId,
@@ -2619,12 +2858,11 @@ function rivalsOf(api: CoreAPI, personId: string): readonly string[] {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
     .query("byPerson", [personId]) as unknown as FilingRow[]) {
-    if (filing.status !== "on-ballot") continue;
+    if (!standing(filing)) continue;
     const contest = contestOf(api, filing.contestId);
     if (!contest || contest.electionDate < api.state.date) continue;
     for (const rival of ballot(api, contest.id))
-      if (rival.personId !== personId && rival.status === "on-ballot")
-        out.add(rival.personId);
+      if (rival.personId !== personId) out.add(rival.personId);
   }
   return [...out].sort();
 }
@@ -2837,6 +3075,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     Number(api.state.date.slice(8, 10)) <= api.parameter("daysPerWeek"),
   );
   ownersLive(api);
+  conflictBeat(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.
@@ -2877,8 +3116,11 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (!contests.length) return;
   const filings = contests
     .flatMap((c) => ballot(api, c.id))
-    .filter((f) => f.status === "on-ballot")
     .map((f) => ({ f, worth: newsworthiness(api, f) }));
+  // The player's invitations this week, put to them as one.
+  const invitedThisWeek = new Map<string, InterviewRow[]>();
+  const townAdults =
+    api.state.peopleByPlace.get(lawChain(api).townPlaceId)?.size || 1;
   for (const outlet of outletsHere(api))
     // Access: a candidate close to the outlet's reporters is asked first.
     for (const { f, worth } of filings
@@ -2901,26 +3143,63 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (already(api, outlet.id, f.id)) continue;
       if (worth < newsworthyBar(outlet)) continue;
       const row = arrange(api, f.id, outlet.id, "outlet");
+      if (row.status === "invited" && f.personId === playerId)
+        invitedThisWeek.set(row.candidateId, [
+          ...(invitedThisWeek.get(row.candidateId) ?? []),
+          row,
+        ]);
       if (row.status !== "invited" || f.personId === playerId) continue;
       const person = api.state.people.get(f.personId);
       const reporter = row.reporterId ?? "";
-      // How they stand with the reporter who asks, past the bar, and every
-      // trait's lean toward accepting.
-      const accepts = person
-        ? leanedYes(
-            api.state,
-            person,
-            "press.accept-interview",
-            "accept",
-            "decline",
-            closeness(api, person.id, reporter) -
-              grudge(api, person.id, reporter) -
-              pressParameter("interviewShyness"),
-          )
-        : true;
-      if (!accepts) refuse(api, row);
-      else publish(api, row, candidateAnswers(api, row.questions, f));
+      // The voters the outlet would put them before (the share of the town
+      // that follows it), whether they hold the seat (a sitting official needs
+      // the coverage least and risks their record), how they stand with the
+      // reporter who asks, and every trait's lean toward accepting.
+      const reasons = person && {
+        reach: followersOf(api, outlet.id).length / townAdults,
+        incumbent: isIncumbent(api, contestOf(api, f.contestId), f.personId),
+        closeness: closeness(api, person.id, reporter),
+        grudge: grudge(api, person.id, reporter),
+      };
+      const accepts =
+        person && reasons
+          ? leanedYes(
+              api.state,
+              person,
+              "press.accept-interview",
+              "accept",
+              "decline",
+              acceptCase(reasons),
+            )
+          : true;
+      const weighed =
+        person && reasons && keepsWhy(api.state as CoreState, person.id)
+          ? record(api, {
+              ...row,
+              acceptReasons: {
+                ...reasons,
+                lean: decisionLean(
+                  api.state,
+                  person,
+                  "press.accept-interview",
+                  "accept",
+                  "decline",
+                ),
+              },
+            })
+          : row;
+      if (!accepts) refuse(api, weighed);
+      else publish(api, weighed, candidateAnswers(api, row.questions, f));
     }
+  // Those still waiting on the player's answer reach them as one call.
+  if (playerId) {
+    const open = (invitedThisWeek.get(playerId) ?? []).filter(
+      (row) =>
+        (table(api, "interviews").get(row.id) as unknown as InterviewRow)
+          ?.status === "invited",
+    );
+    if (open.length) invited(api, open);
+  }
 }
 
 /**
@@ -2970,6 +3249,109 @@ function snubbed(
       asOf: api.state.date,
     },
   });
+}
+
+/** The kind of an outlet's invitation to a candidate to sit for an interview. */
+export const INTERVIEW_INVITED_EVENT = "interview-invited";
+/** The replies in an invitation's scene that accept it. */
+export const ACCEPTING_MOVES: ReadonlySet<string> = new Set([
+  "agree",
+  "relent",
+]);
+/** The replies in an invitation's scene that turn it down. */
+export const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline"]);
+
+/**
+ * The outlets' invitations of the week to the player, on the record as one
+ * for the candidate and the first outlet's reporter who asks: the director
+ * stages it as a call from that reporter, and the answer there is read back
+ * here for every outlet that asked (`answerInvitation`).
+ */
+function invited(api: CoreAPI, rows: readonly InterviewRow[]): void {
+  const row = rows[0]!;
+  const ids = [row.candidateId, row.reporterId ?? ""].filter((id) =>
+    api.state.people.has(id),
+  );
+  if (!ids.includes(row.candidateId)) return;
+  const contest = row.contestId ? contestOf(api, row.contestId) : null;
+  // The outlet by its organization, as the press's other records name it.
+  const outlet = outletsHere(api).find((o) => o.id === row.outletId);
+  api.emit({
+    id: `${INTERVIEW_INVITED_EVENT}:${row.id}`,
+    date: api.state.date,
+    kind: INTERVIEW_INVITED_EVENT,
+    personIds: ids,
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Interviews ${rows.map((r) => r.id).join(", ")}`,
+      asOf: api.state.date,
+    },
+    facts: {
+      interviewId: row.id,
+      // Every outlet that asked this week; the answer goes to each.
+      interviewIds: rows.map((r) => r.id).join(" "),
+      outlets: String(rows.length),
+      invitedId: row.candidateId,
+      outletId: outlet?.organizationId ?? row.outletId,
+      ...(row.reporterId ? { reporterId: row.reporterId } : {}),
+      ...(row.contestId ? { contestId: row.contestId } : {}),
+      ...(contest ? { office: contest.title } : {}),
+    },
+  });
+}
+
+/**
+ * A candidate's own answers to a sitting's questions (an interview, a
+ * debate): what their filed platform states, and no answer where it states
+ * nothing. The engine never answers for them.
+ */
+export function platformAnswers(
+  api: CoreAPI,
+  filingId: string | null,
+  questions: readonly string[],
+): readonly InterviewAnswer[] {
+  const filing = filingId
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filingId) as unknown as FilingRow | undefined)
+    : undefined;
+  const platform = filing ? platformOf(api, filing) : [];
+  return questions.map((question): InterviewAnswer => {
+    const stated = platform.find((s) => s.question === question);
+    return {
+      question,
+      position: stated ? stated.position : null,
+      move: "plain",
+    };
+  });
+}
+
+/**
+ * The answer to an outlet's invitation, said in its scene: a yes sits for the
+ * interview with the candidate's filed platform as their answers, a no is a
+ * refusal on the record (the outlet's people may take it as a snub), and
+ * anything else leaves it open until the race is over.
+ */
+function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  const cause = api.state.durableLog.get(String(facts.causeId ?? ""));
+  if (cause?.kind !== INTERVIEW_INVITED_EVENT) return;
+  const move = String(facts.move);
+  for (const id of String(cause.facts?.interviewIds ?? "").split(" ")) {
+    const row = table(api, "interviews").get(id) as unknown as
+      InterviewRow | undefined;
+    if (row?.status !== "invited" || !event.personIds.includes(row.candidateId))
+      continue;
+    if (ACCEPTING_MOVES.has(move))
+      answerInterview(
+        api,
+        row.id,
+        platformAnswers(api, row.filingId, row.questions),
+      );
+    else if (REFUSING_MOVES.has(move)) refuse(api, row);
+  }
 }
 
 /** The player turns down an interview an outlet offered. */

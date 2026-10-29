@@ -5,14 +5,14 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/laws-filing-positions-own-issues
+pr: #6274
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: laws-effects
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T07:09:55.079Z
 ---
 
 **What.** The filing panel for a borough council seat shows thirteen position dropdowns, all set to a dash, on questions a borough council cannot decide: limit groundwater withdrawal, protect farmland, cap consumer loan rates, legalize cannabis sales, ban discrimination in housing and work, restrict abortion, public funds for private schooling, raise the teacher minimum salary, universal preschool, a bottle deposit, a clean air plan for polluted counties, a clean electricity standard, and a price on carbon. Filing went through with all thirteen blank and no prompt. The owner: "This screen, the council members, thing on the right, that looks like a dev panel. I don't know why that's there, but that's an example of a submenu that I mean." The list is one constant (PLATFORM_QUESTIONS in src/core2/campaign-views.ts) used for every contest. This item reads each contest's positions from the policies that body's powers cover in that place.

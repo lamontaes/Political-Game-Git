@@ -7,7 +7,7 @@ import type {
   CharacterBodyContacts,
   CharacterComponentCandidateDefinition,
   CharacterComponentManifestRecord,
-} from "../../src/presentation/character-components";
+} from "../../src/appearance/character-components";
 import { hashArtFile } from "./content-hash";
 import { measureBodyRig, opaqueBounds } from "./pg-modular-intake";
 import {

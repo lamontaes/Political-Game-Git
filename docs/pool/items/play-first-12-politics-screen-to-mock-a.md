@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: play-stop-05-politics-lists-wrong-officials-b
+after:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
@@ -30,3 +30,5 @@ milestone: play-first
 **Files.** src/bench/government.ts, src/bench/play.mjs, src/bench/play.css
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Ruled (owner, Oct 24, "go ahead"): the Politics screens follow the mocks; Issues (the -b item) is law cards, not a list (OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): Owner: "Why is everything being printed on the menu like a spreadsheet? Why is everything not in the UI?" The item waits on 05-b, which waits on 05-a: ungate it.
+
+CTO, Oct 27 12:00 UTC: the `after:` line is cleared so the lane can build it for the owner's build; the earlier part landed or is in PR, and a merged play item waits only on the owner's installed-build check.

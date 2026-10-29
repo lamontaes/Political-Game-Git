@@ -84,7 +84,6 @@ const LAGGED_LINKS = [
   "medicaid-expansion-to-coverage",
   "medicaid-expansion-to-medical-debt",
   "work-requirement-to-coverage",
-  "snap-maximum-to-food-insecurity",
   "health-hospitals-spending-to-infant-mortality",
   "higher-education-spending-to-college-completion",
   "school-spending-to-attainment",
@@ -862,6 +861,12 @@ function play(where: string, seed: string, core: CoreState): void {
   expect(
     firedIn(api, "snap-work-requirement-to-participation"),
     say("the web ran the SNAP work requirement link the benefit carries"),
+  ).toBeUndefined();
+  // The SNAP maximum's link is carried by the benefit it sets and the food the
+  // household buys with it (links.json carriedBy), so the web does not run it.
+  expect(
+    firedIn(api, "snap-maximum-to-food-insecurity"),
+    say("the web ran the SNAP maximum link the benefit and purchases carry"),
   ).toBeUndefined();
 
   govReport(

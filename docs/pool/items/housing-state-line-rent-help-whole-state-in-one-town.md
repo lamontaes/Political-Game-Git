@@ -6,11 +6,12 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6219
 blocked-on:
 source: laws-effects lead, Oct 26 (helper's finding on #6011)
+claimed-at:
 ---
 
 **What.** payRentAssistance (src/core2/housing-assistance.ts) turns a government's whole housing line above its Census base into vouchers at the average voucher and pays them to the played town's renters. For a state government that is the extra for the whole state. In Rockville, Maryland (2467675, world seed c2acafc662419fbc...) the state's line stood 2,438,653,898 minor units above its base, 2,120 vouchers, all paid in a town of about 68,000 people in a state of 6.2 million, roughly a hundred times its share. The same rule pays a county's whole extra in one of its towns.
@@ -24,3 +25,4 @@ source: laws-effects lead, Oct 26 (helper's finding on #6011)
 **Files.** src/core2/housing-assistance.ts, src/core2/law-wiring-housing.test.ts
 
 **Notes.** Laws-effects lead, Oct 26. Found by the housing helper while fixing #6011's family test; not fixed there.
+Sent back 2026-10-27 from PR #6219 (branch claude/rent-help-town-share): the population-share stand-in for renter share has no stopgap row or code marker; finish on that branch, merge main into it first.

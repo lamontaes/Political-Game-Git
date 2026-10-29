@@ -46,6 +46,7 @@ function convict(personId: string, custodyMonths: number) {
   const date = api.state.date;
   const sentence: SentenceRow = {
     id: `sentence:test:${personId}`,
+    kind: "person",
     caseId: `case:test:${personId}`,
     personId,
     date,
@@ -65,6 +66,7 @@ function convict(personId: string, custodyMonths: number) {
   };
   const row: CaseRow = {
     id: sentence.caseId,
+    kind: "person",
     investigationId: "investigation:test",
     prosecutorOfficeId: "office:test",
     defendantId: personId,

@@ -32,14 +32,21 @@ function claimant(
 }
 import type { LawRowInput } from "./laws-starting";
 import { residentFacts, residentsRuntime } from "./modules/residents";
-import { decisionLean } from "./trait-decisions";
+import { countedPersonOf } from "./counted-actor";
+import { appraiseEvent } from "./emotion";
+import { parameter, parameterValues } from "./parameters";
+import { initialPersonState } from "./person-state";
+import { hardshipReason, leanedYesWithTerm } from "./trait-decisions";
 import { transferCash } from "./world-transfer";
 import { countedPayment } from "./counted-money";
 import type {
+  Affect,
   CoreAPI,
+  CoreEventInput,
   CoreState,
   JobInput,
   PersonId,
+  PersonInput,
   PlaceId,
   Source,
 } from "./types";
@@ -78,6 +85,8 @@ export interface ClaimRow {
   /** The weekly maximum's law row, where it, not the share of pay, fixed the benefit. */
   cappedByLawId?: string;
   source?: Source;
+  /** Why they filed, for the player and the people they deal with: the base, their traits' lean and the stress the loss left. */
+  reasons?: Readonly<Record<string, number>>;
   endedAt?: string;
   endReason?: "hired" | "exhausted" | "no-payer" | "left";
 }
@@ -176,7 +185,72 @@ function weeksAfter(date: string, weeks: number): string {
   return at.toISOString().slice(0, "YYYY-MM-DD".length);
 }
 
-/** Opens a claim for a worker who lost `job` through no choice of their own; returns it, or nothing when they don't qualify. */
+/**
+ * What a claimant is under today, for the filing decision. A full person is
+ * read as they stand (the layoff just emitted has already raised their
+ * stress). A counted worker stores no stress, so the layoff's own appraisal of
+ * them stands for it on the day: their traits, the same rule that raised a full
+ * person's. With no layoff to appraise (a closure) a counted worker reads none.
+ */
+export function claimantFeeling(
+  c: CoreState,
+  full: { affect?: Affect } | undefined,
+  counted: PersonInput | undefined,
+  lost: CoreEventInput | undefined,
+): { affect?: Affect } {
+  if (full) return full;
+  if (!counted || !lost) return {};
+  return {
+    affect: appraiseEvent(
+      initialPersonState(c, counted, false),
+      lost,
+      parameter("zero", c.data.parameters),
+      parameterValues(c.data.parameters),
+      c.data.appraisalTraits,
+    ).affect,
+  };
+}
+
+/**
+ * An eligible worker files when the case for it is above zero: the base, how
+ * much of the lost pay the benefit would replace (a bigger share pulls toward
+ * filing, as the log of the share, sized from the benefit elasticity of
+ * take-up), the stress the loss left them under (help sought for a hardship,
+ * sized from a study) and their traits' lean toward filing over skipping. The
+ * record's traits are the full person's or the counted worker's own.
+ * `replaced` is the weekly benefit over the lost weekly pay.
+ */
+export function filingDecision(
+  api: CoreAPI,
+  filer: Pick<PersonInput, "traits"> & { id?: string },
+  feeling: { affect?: Affect },
+  replaced: number,
+) {
+  const c = api.state as CoreState;
+  const baseline = api.parameter("benefitsFileBase");
+  const replacement =
+    api.parameter("benefitsFileReplacementWeight") * Math.log(replaced);
+  const hardship = hardshipReason(c, feeling, "jobs-benefits.file-claim");
+  // Savings and expected time to a new job are not weighed yet, so temperament sorts who skips.
+  api.stopgap("SG-TRAITS-file-claim-circumstances-tie");
+  // The stress is one more reason in the case; the trait term is the lean
+  // toward filing over skipping at the decision's calibrated weight.
+  const { yes, term } = leanedYesWithTerm(
+    c,
+    filer,
+    "jobs-benefits.file-claim",
+    "file",
+    "skip",
+    baseline + replacement + hardship.term,
+  );
+  return { files: yes, baseline, replacement, lean: term, hardship };
+}
+
+/**
+ * Opens a claim for a worker who lost `job` through no choice of their own;
+ * returns it, or nothing when they don't qualify. `lost` is the layoff event
+ * just emitted (see `claimantFeeling`).
+ */
 export function fileClaim(
   api: CoreAPI,
   table: ModuleTable,
@@ -184,21 +258,13 @@ export function fileClaim(
   reasonKey: string,
   /** Weeks the lost job ran, for the base period. */
   weeksWorked: number,
+  lost?: CoreEventInput,
 ): ClaimRow | undefined {
   const c = api.state as CoreState;
   const full = c.people.get(job.personId);
   const placeId = (full ?? residentFacts(c, job.personId))?.placeId;
   if (!placeId) return undefined;
-  // An eligible worker files unless their traits lean hard toward skipping;
-  // the record's traits are the full person's or the counted worker's own.
   const filer = full ?? residentFacts(c, job.personId);
-  if (
-    filer &&
-    api.parameter("benefitsFileBase") +
-      decisionLean(c, filer, "jobs-benefits.file-claim", "file", "skip") <=
-      api.parameter("zero")
-  )
-    return undefined;
   const payee = full
     ? full.id
     : residentsRuntime(c)?.input.accounts.find((row) => row.placeId === placeId)
@@ -218,6 +284,30 @@ export function fileClaim(
     Math.min(terms.weeklyMaximumMinor, terms.weeklyShare * weeklyPay),
   );
   if (!(weekly > 0)) return undefined;
+  let reasons: Record<string, number> | undefined;
+  if (filer) {
+    const decision = filingDecision(
+      api,
+      filer,
+      claimantFeeling(
+        c,
+        full,
+        full || !lost ? undefined : countedPersonOf(c, filer.id),
+        lost,
+      ),
+      weekly / weeklyPay,
+    );
+    if (!decision.files) return undefined;
+    // Why they filed is kept for the player and the people they deal with.
+    if (c.observer || c.focusPersonIds.has(filer.id) || filer.id === c.playerId)
+      reasons = {
+        baseline: decision.baseline,
+        replacement: decision.replacement,
+        lean: decision.lean,
+        hardshipStress: decision.hardship.term,
+        stress: decision.hardship.stress,
+      };
+  }
   const capped =
     terms.maximumLawId &&
     terms.weeklyShare * weeklyPay > terms.weeklyMaximumMinor
@@ -238,6 +328,7 @@ export function fileClaim(
     lawId: terms.lawId,
     ...(capped ? { cappedByLawId: capped } : {}),
     source: terms.source,
+    ...(reasons ? { reasons } : {}),
   };
   table.put({ ...row });
   // The program's law reached this worker (a counted worker is a counted

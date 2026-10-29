@@ -17,11 +17,6 @@ import {
 } from "../core2/modules/legislature";
 import { remarksOn } from "../core2/modules/meetings";
 import {
-  followersOf,
-  interviewsFor,
-  outletsHere,
-} from "../core2/modules/press";
-import {
   adjourn,
   decideDesk,
   deskWaiting,
@@ -31,10 +26,7 @@ import {
   officeHost,
   officeJobsOf,
   prepareAct,
-  setStops,
   speakOnItem,
-  stopsOf,
-  stopKinds,
   takeUpItem,
   upcomingMeeting,
 } from "../core2/modules/office-day";
@@ -44,7 +36,7 @@ import { budgetProposalDue } from "../core2/office-day-acts";
 import { budgetsOf, governments } from "../core2/modules/budgets";
 import { lineName } from "./budget";
 
-/** A bill as the meeting and the desk show it: its real name, number, sponsor, sections, remarks and votes. */
+/** A bill as the meeting and the desk show it: its real name, number, sponsor, remarks and votes; its sections are on the paper (Read the bill). */
 export function billItem(core: CoreState, bill: BillRow) {
   const api = coreAPI(core);
   return {
@@ -54,7 +46,6 @@ export function billItem(core: CoreState, bill: BillRow) {
     number: bill.number,
     status: bill.status,
     sponsor: personName(core, bill.sponsorId),
-    provisions: bill.provisions,
     remarks: remarksOn(api, bill.id).map((r) => ({
       name: personName(core, r.personId),
       position: r.position,
@@ -150,25 +141,6 @@ export function officeView(core: CoreState, personId: string) {
       citation: j.citation,
       nextMeeting: upcomingMeeting(api, j.officeId)?.date ?? null,
     })),
-    stops: stopKinds().map((kind) => ({
-      kind,
-      on: stopsOf(api, personId)[kind],
-    })),
-    // The town's outlets the official may ask for an interview, widest reach first; one that has had them on is marked.
-    outlets: (() => {
-      const had = new Set(
-        interviewsFor(api, personId).map((row) => row.outletId),
-      );
-      return outletsHere(api)
-        .map((o) => ({
-          id: o.id,
-          name: core.organizations.get(o.organizationId)?.name ?? o.id,
-          kind: o.kind,
-          reach: followersOf(api, o.id).length,
-          hadThem: had.has(o.id),
-        }))
-        .sort((a, b) => b.reach - a.reach || a.id.localeCompare(b.id));
-    })(),
     // The town posts the official appoints that stand open, each with the people it could go to, best first by the official's own reasons.
     heads: postsToFill(api, personId).map((post) => ({
       post: post.key,
@@ -203,29 +175,6 @@ export function officeView(core: CoreState, personId: string) {
       .sort((a, b) => b.date.localeCompare(a.date))
       .slice(0, 20),
   };
-}
-
-export function officeStops(
-  core: CoreState,
-  personId: string,
-  kind: string,
-  on: boolean,
-) {
-  if (!stopKinds().includes(kind)) throw new Error("Unknown stop.");
-  return setStops(coreAPI(core), personId, { [kind]: on });
-}
-
-/** The player picks which outlet the next interview asks; the character's own pick (the widest reach) stands until they do. */
-export function interviewOutlet(
-  core: CoreState,
-  personId: string,
-  outletId: string,
-) {
-  const api = coreAPI(core);
-  if (!outletsHere(api).some((o) => o.id === outletId))
-    throw new Error("Not an outlet in this town.");
-  prepareAct(api, personId, "interview", { outletId });
-  return officeView(core, personId);
 }
 
 /** The player picks who the next "name a department head" names to an open post; left alone, the official's own first choice stands. */

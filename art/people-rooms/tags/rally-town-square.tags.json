@@ -1,0 +1,51 @@
+{
+ "scene": "rally-town-square",
+ "plate": "sg-rallytown",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 180,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "speaker",
+   "box": [
+    1080,
+    390,
+    1180,
+    660
+   ],
+   "pose": "lectern",
+   "facing": 0,
+   "coveredBy": "lectern",
+   "role": "speaker",
+   "dress": "business"
+  },
+  {
+   "name": "behind the stage",
+   "box": [
+    720,
+    540,
+    1070,
+    640
+   ],
+   "facing": 0,
+   "coveredBy": "stage",
+   "pose": "stand"
+  },
+  {
+   "name": "crowd",
+   "box": [
+    0,
+    0,
+    1672,
+    941
+   ],
+   "facing": 180,
+   "pose": "stand"
+  }
+ ]
+}

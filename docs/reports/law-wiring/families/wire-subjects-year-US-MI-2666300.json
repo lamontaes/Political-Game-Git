@@ -1,0 +1,1596 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "estate-tax",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "estate-tax 40 -> 44 at federal (law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+        "law:US:federal:estate-tax:general:2025-01-01",
+        "law:US:federal:estate-tax:general:2026-01-22:law-wiring-287823aa-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 1,
+        "countedGroups": 6,
+        "countedPeople": 6,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 7,
+        "ended": 0,
+        "sample": [
+          "applied|estate-tax|person_14e9184f935aac79|US",
+          "applied|estate-tax|person_024a51c849c59bed|US",
+          "applied|estate-tax|person_4b4eeb2da364728f|US",
+          "applied|estate-tax|person_f5c8e341c3bd3050|US"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 1,
+        "countedGroups": 6,
+        "countedPeople": 6,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 7,
+        "ended": 0,
+        "sample": [
+          "applied|estate-tax|person_14e9184f935aac79|US",
+          "applied|estate-tax|person_024a51c849c59bed|US",
+          "applied|estate-tax|person_4b4eeb2da364728f|US",
+          "applied|estate-tax|person_f5c8e341c3bd3050|US"
+        ]
+      },
+      "inPlay": [
+        {
+          "id": "law:US:federal:estate-tax:general:2026-01-01",
+          "level": "federal",
+          "effectiveDate": "2026-01-01",
+          "value": 40
+        }
+      ],
+      "applied": {
+        "rows": 7,
+        "withAmount": 0,
+        "sample": [
+          "applied|estate-tax|person_14e9184f935aac79|US",
+          "applied|estate-tax|person_024a51c849c59bed|US",
+          "applied|estate-tax|person_4b4eeb2da364728f|US"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:175": 231,
+        "src/core2/laws-death-taxes.ts:68": 44,
+        "src/core2/life.ts:557": 11
+      },
+      "openingRow": "law:US:federal:estate-tax:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:381",
+            "treatment": 14398178,
+            "control": 13805730,
+            "ids": [
+              "journal:2025-04-01:17063",
+              "journal:2025-05-01:25035",
+              "journal:2025-07-01:40938"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 346905315,
+            "control": 346352482,
+            "ids": [
+              "journal:2025-01-21:1640",
+              "journal:2025-01-21:1641",
+              "journal:2025-01-21:1642"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 442697434,
+            "control": 442424669,
+            "ids": [
+              "journal:2025-01-26:1683",
+              "journal:2025-01-27:1699",
+              "journal:2025-01-28:1702"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:863",
+            "treatment": 17230035,
+            "control": 17466992,
+            "ids": [
+              "journal:2025-02-01:7771",
+              "journal:2025-02-01:7772",
+              "journal:2025-02-01:7773"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+            "treatment": 713993020519503,
+            "control": 713993020729451,
+            "ids": [
+              "journal:2025-02-01:1773",
+              "journal:2025-02-01:1774",
+              "journal:2025-02-01:1775"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:924",
+            "treatment": 175666520718168,
+            "control": 175666520863603,
+            "ids": [
+              "journal:2025-02-01:1763",
+              "journal:2025-02-01:1764",
+              "journal:2025-02-01:1765"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:562",
+            "treatment": 48331201,
+            "control": 48447351,
+            "ids": [
+              "journal:2025-01-21:1597",
+              "journal:2025-01-21:1598",
+              "journal:2025-01-21:1599"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:913",
+            "treatment": 9546008,
+            "control": 9615208,
+            "ids": [
+              "journal:2025-02-01:2947",
+              "journal:2025-03-01:10414",
+              "journal:2025-04-01:18312"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1691",
+            "treatment": 3344957716,
+            "control": 3344920974,
+            "ids": [
+              "journal:2025-01-26:1684",
+              "journal:2025-01-27:1700",
+              "journal:2025-01-28:1703"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:303",
+            "treatment": 3984546,
+            "control": 4019941,
+            "ids": [
+              "journal:2025-09-01:57010",
+              "journal:2025-09-01:57011",
+              "journal:2025-09-01:57012"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 1110553221,
+            "control": 1110565376,
+            "ids": [
+              "journal:2025-01-25:1673",
+              "journal:2025-01-25:1675",
+              "journal:2025-01-25:1677"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:735",
+            "treatment": 36632282,
+            "control": 36620749,
+            "ids": [
+              "journal:2025-01-25:1674",
+              "journal:2025-01-25:1676",
+              "journal:2025-01-25:1678"
+            ]
+          }
+        ],
+        "diffKinds": 27,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 7,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "estate-tax-to-out-migration",
+            "status": "built",
+            "to": "population.out-migration"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 85,
+        "sample": [
+          "person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+          "person_b2532c2bb80a61d2:printed:outlet:cable:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 3,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|estate-tax|person_fc805f30fdfa1175|US",
+          "applied|estate-tax|official:seat:US-CA:us-house:18|US",
+          "applied|estate-tax|official:seat:US-AZ:us-house:09|US",
+          "applied|estate-tax|official:seat:US-WA:lower:sample:Republican:0|US"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 44
+    },
+    {
+      "key": "us-policy-positions:housing-land-use.rent-stabilization",
+      "kind": "question",
+      "family": "housing",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96",
+        "law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2026-01-22:law-wiring-6260df96-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 4,
+        "countedPeople": 4,
+        "households": 5,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 9,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_1093178c88d36046",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd4a72cc7f26bdef",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd7372cc7f49c303",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd7677cc7f4c0159"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 4,
+        "countedPeople": 4,
+        "households": 5,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 9,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_1093178c88d36046",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd4a72cc7f26bdef",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd7372cc7f49c303",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd7677cc7f4c0159"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 9,
+        "withAmount": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_1093178c88d36046",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd4a72cc7f26bdef",
+          "applied|us-policy-positions:housing-land-use.rent-stabilization|household_fd7372cc7f49c303"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:175": 390,
+        "src/core2/modules/world-legislating.ts:299": 296,
+        "src/core2/modules/legislature.ts:3703": 240,
+        "src/core2/modules/legislature.ts:2525": 120,
+        "src/core2/modules/world-legislating.ts:229": 90,
+        "src/core2/policy-authority.ts:47": 41,
+        "src/core2/housing-occupancy.ts:509": 18,
+        "src/core2/life.ts:557": 5,
+        "src/core2/modules/world-legislating.ts:384": 4,
+        "src/core2/modules/world-legislating.ts:674": 1
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 442383448,
+            "control": 442424669,
+            "ids": [
+              "journal:2025-01-26:1683",
+              "journal:2025-01-27:1699",
+              "journal:2025-01-28:1702"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1691",
+            "treatment": 3344911211,
+            "control": 3344920974,
+            "ids": [
+              "journal:2025-01-26:1684",
+              "journal:2025-01-27:1700",
+              "journal:2025-01-28:1703"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:735",
+            "treatment": 36616745,
+            "control": 36620749,
+            "ids": [
+              "journal:2025-01-25:1674",
+              "journal:2025-01-25:1676",
+              "journal:2025-01-25:1678"
+            ]
+          },
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:2147",
+            "treatment": 71800,
+            "control": 71900,
+            "ids": [
+              "journal:2025-06-04:39626",
+              "journal:2025-06-04:39627",
+              "journal:2025-06-04:39629"
+            ]
+          },
+          {
+            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:2147",
+            "treatment": 22770,
+            "control": 22680,
+            "ids": [
+              "journal:2025-07-07:47958",
+              "journal:2025-07-16:48198",
+              "journal:2025-07-25:48543"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 346352559,
+            "control": 346352482,
+            "ids": [
+              "journal:2025-01-21:1640",
+              "journal:2025-01-21:1641",
+              "journal:2025-01-21:1642"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:2147",
+            "treatment": 35015,
+            "control": 35074,
+            "ids": [
+              "journal:2025-06-04:39628",
+              "journal:2025-06-04:39632",
+              "journal:2025-06-04:39635"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 69644834,
+            "control": 69644892,
+            "ids": [
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1950",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1357",
+            "treatment": 43999,
+            "control": 44039,
+            "ids": [
+              "journal:2025-02-24:8892",
+              "journal:2025-02-25:8951",
+              "journal:2025-02-26:8952"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:924",
+            "treatment": 175666520863597,
+            "control": 175666520863603,
+            "ids": [
+              "journal:2025-02-01:1763",
+              "journal:2025-02-01:1764",
+              "journal:2025-02-01:1765"
+            ]
+          }
+        ],
+        "diffKinds": 10,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 9,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "rent-control-to-rental-supply",
+            "status": "built",
+            "to": "housing.rental-supply"
+          },
+          {
+            "key": "rent-control-to-tenant-stays",
+            "status": "built",
+            "to": "housing.renter-moves"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "link": "rent-control-to-tenant-stays",
+            "effect": -0.2
+          }
+        ],
+        "firedCount": 13,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "rent-control-to-rental-supply",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "rent-control-to-tenant-stays",
+            "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 68,
+        "sample": [
+          "person_b2532d2bb80a6385:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96",
+          "person_cced9380e845bfe8:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96",
+          "person_64420c52d99b1844:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-21:law-wiring-6260df96"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 40
+    },
+    {
+      "key": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+      "kind": "question",
+      "family": "energy-environment",
+      "inForceAtOpening": false,
+      "change": "enacted at state (law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+        "law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2026-01-22:law-wiring-fbc8b216-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "subjects": {
+        "count": 0,
+        "why": "county 26129 misses 0 air quality standards in 2026 (EPA Green Book)",
+        "ids": []
+      },
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:175": 234,
+        "src/core2/modules/legislature.ts:3703": 228,
+        "src/core2/modules/legislature.ts:2525": 227,
+        "src/core2/modules/world-legislating.ts:299": 222,
+        "src/core2/modules/world-legislating.ts:229": 90,
+        "src/core2/modules/business.ts:955": 24,
+        "src/core2/life.ts:557": 5,
+        "src/core2/modules/world-legislating.ts:384": 4,
+        "src/core2/modules/world-legislating.ts:674": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:438",
+            "treatment": 0,
+            "control": 150000,
+            "ids": [
+              "journal:2025-04-22:24429",
+              "journal:2025-04-22:24430",
+              "journal:2025-04-22:24431"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 346452454,
+            "control": 346352482,
+            "ids": [
+              "journal:2025-01-21:1640",
+              "journal:2025-01-21:1641",
+              "journal:2025-01-21:1642"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 69694897,
+            "control": 69644892,
+            "ids": [
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1950",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/moves.ts:774",
+            "treatment": 3807251738,
+            "control": 3807201738,
+            "ids": [
+              "journal:2025-03-03:15745",
+              "journal:2025-05-03:31618",
+              "journal:2025-05-19:32250"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/finance-state.ts:1975",
+            "treatment": 45221894,
+            "control": 45171894,
+            "ids": ["journal:2025-07-01:40921"]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 1110615364,
+            "control": 1110565376,
+            "ids": [
+              "journal:2025-01-25:1673",
+              "journal:2025-01-25:1675",
+              "journal:2025-01-25:1677"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/press-money.ts:374",
+            "treatment": 18967293,
+            "control": 18967325,
+            "ids": [
+              "journal:2025-01-27:1688",
+              "journal:2025-01-27:1689",
+              "journal:2025-01-27:1690"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+            "treatment": 713993020729454,
+            "control": 713993020729451,
+            "ids": [
+              "journal:2025-02-01:1773",
+              "journal:2025-02-01:1774",
+              "journal:2025-02-01:1775"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 442424667,
+            "control": 442424669,
+            "ids": [
+              "journal:2025-01-26:1683",
+              "journal:2025-01-27:1699",
+              "journal:2025-01-28:1702"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 233369181,
+            "control": 233369179,
+            "ids": [
+              "journal:2025-02-01:1979",
+              "journal:2025-02-01:1980",
+              "journal:2025-02-01:1981"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:924",
+            "treatment": 175666520863604,
+            "control": 175666520863603,
+            "ids": [
+              "journal:2025-02-01:1763",
+              "journal:2025-02-01:1764",
+              "journal:2025-02-01:1765"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+            "treatment": 578844375,
+            "control": 578844376,
+            "ids": [
+              "journal:2025-02-01:2974",
+              "journal:2025-02-01:2975",
+              "journal:2025-02-01:2976"
+            ]
+          }
+        ],
+        "diffKinds": 13,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "emission-rules-to-particulates",
+            "status": "built",
+            "to": "env.particulates"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "month": "2025-07",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "month": "2025-08",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "month": "2025-09",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "month": "2025-10",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "month": "2025-11",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "month": "2025-12",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 87,
+        "sample": [
+          "person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+          "person_b2532c2bb80a61d2:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 39
+    },
+    {
+      "key": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "kind": "question",
+      "family": "housing",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc",
+        "law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2026-01-22:law-wiring-51e102dc-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 3,
+        "countedPeople": 3,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_1093178c88d36046",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_fd5807cc7f32457a",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_fd627ecc7f3b6434",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 3,
+        "countedPeople": 3,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_1093178c88d36046",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_fd5807cc7f32457a",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_fd627ecc7f3b6434",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300"
+        ]
+      },
+      "inPlay": [],
+      "subjects": {
+        "count": 3,
+        "why": "3 eviction cases filed in the window",
+        "ids": [
+          "eviction:rent:household_1093178c88d36046:2025-07-06",
+          "eviction:rent:household_fd5807cc7f32457a:2025-09-06",
+          "eviction:rent:household_fd627ecc7f3b6434:2026-01-06"
+        ]
+      },
+      "applied": {
+        "rows": 4,
+        "withAmount": 4,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_1093178c88d36046",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_fd5807cc7f32457a",
+          "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_fd627ecc7f3b6434"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/world-legislating.ts:299": 296,
+        "src/core2/modules/outcome-web.ts:175": 274,
+        "src/core2/modules/legislature.ts:3703": 235,
+        "src/core2/modules/legislature.ts:2525": 205,
+        "src/core2/modules/world-legislating.ts:229": 90,
+        "src/core2/modules/world-legislating.ts:384": 18,
+        "src/core2/life.ts:557": 10,
+        "src/core2/modules/housing.ts:1945": 6,
+        "src/core2/modules/world-legislating.ts:674": 4,
+        "src/core2/modules/legislature.ts:4984": 1
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/housing.ts:1258",
+            "treatment": 698104,
+            "control": 698103,
+            "ids": ["journal:2025-11-06:78968"]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+            "treatment": 1145483807,
+            "control": 1147518879,
+            "ids": [
+              "journal:2025-01-21:1614",
+              "journal:2025-01-21:1615",
+              "journal:2025-01-21:1616"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+            "treatment": 175598410,
+            "control": 174894742,
+            "ids": [
+              "journal:2025-02-01:2963",
+              "journal:2025-02-01:2964",
+              "journal:2025-02-01:2965"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 72870222,
+            "control": 73447117,
+            "ids": [
+              "journal:2025-02-01:1996",
+              "journal:2025-02-01:1998",
+              "journal:2025-02-01:2000"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+            "treatment": 579345282,
+            "control": 578844376,
+            "ids": [
+              "journal:2025-02-01:2974",
+              "journal:2025-02-01:2975",
+              "journal:2025-02-01:2976"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+            "treatment": 713993021067498,
+            "control": 713993020729451,
+            "ids": [
+              "journal:2025-02-01:1773",
+              "journal:2025-02-01:1774",
+              "journal:2025-02-01:1775"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 233706976,
+            "control": 233369179,
+            "ids": [
+              "journal:2025-02-01:1979",
+              "journal:2025-02-01:1980",
+              "journal:2025-02-01:1981"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:562",
+            "treatment": 48121946,
+            "control": 48447351,
+            "ids": [
+              "journal:2025-01-21:1597",
+              "journal:2025-01-21:1598",
+              "journal:2025-01-21:1599"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 69950689,
+            "control": 69644892,
+            "ids": [
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1950",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 442142115,
+            "control": 442424669,
+            "ids": [
+              "journal:2025-01-26:1683",
+              "journal:2025-01-27:1699",
+              "journal:2025-01-28:1702"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 1110821057,
+            "control": 1110565376,
+            "ids": [
+              "journal:2025-01-25:1673",
+              "journal:2025-01-25:1675",
+              "journal:2025-01-25:1677"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 346108213,
+            "control": 346352482,
+            "ids": [
+              "journal:2025-01-21:1640",
+              "journal:2025-01-21:1641",
+              "journal:2025-01-21:1642"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:924",
+            "treatment": 175666520646933,
+            "control": 175666520863603,
+            "ids": [
+              "journal:2025-02-01:1763",
+              "journal:2025-02-01:1764",
+              "journal:2025-02-01:1765"
+            ]
+          }
+        ],
+        "diffKinds": 37,
+        "cited": [
+          {
+            "token": "law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc",
+            "gross": 1278000,
+            "ids": [
+              "journal:2025-07-16:48022",
+              "journal:2025-09-16:63881",
+              "journal:2026-01-16:95085"
+            ]
+          },
+          {
+            "token": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "gross": 1278000,
+            "ids": [
+              "journal:2025-07-16:48022",
+              "journal:2025-09-16:63881",
+              "journal:2026-01-16:95085"
+            ],
+            "control": 1278000
+          },
+          {
+            "token": "law-wiring-51e102dc",
+            "gross": 1278000,
+            "ids": [
+              "journal:2025-07-16:48022",
+              "journal:2025-09-16:63881",
+              "journal:2026-01-16:95085"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 4,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "out",
+              "targets": 1,
+              "moved": 59984,
+              "earliest": "2025-09-25",
+              "sample": [
+                {
+                  "target": "organization:treasury:place:2666300",
+                  "row": "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300",
+                  "date": "2025-09-25",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "out",
+                  "treatment": -1047800,
+                  "control": -987816,
+                  "journal": "journal:2025-09-25:64152"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+              "way": "out",
+              "targets": 1,
+              "moved": 16732,
+              "earliest": "2025-08-01",
+              "sample": [
+                {
+                  "target": "organization:treasury:place:2666300",
+                  "row": "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300",
+                  "date": "2025-08-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+                  "way": "out",
+                  "treatment": 639141,
+                  "control": 655873,
+                  "journal": "journal:2025-08-01:50111"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+              "way": "out",
+              "targets": 1,
+              "moved": 3020,
+              "earliest": "2025-09-01",
+              "sample": [
+                {
+                  "target": "organization:treasury:place:2666300",
+                  "row": "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300",
+                  "date": "2025-09-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+                  "way": "out",
+                  "treatment": -700661,
+                  "control": -697641,
+                  "journal": "journal:2025-09-01:56663"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/budgets.ts:1042",
+              "way": "in",
+              "targets": 1,
+              "moved": 3018,
+              "earliest": "2025-09-01",
+              "sample": [
+                {
+                  "target": "organization:treasury:place:2666300",
+                  "row": "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300",
+                  "date": "2025-09-01",
+                  "kind": "accounts.transfer @ src/core2/modules/budgets.ts:1042",
+                  "way": "in",
+                  "treatment": 783873,
+                  "control": 780855,
+                  "journal": "journal:2025-09-01:56635"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+              "way": "in",
+              "targets": 1,
+              "moved": 2839,
+              "earliest": "2025-08-01",
+              "sample": [
+                {
+                  "target": "organization:treasury:place:2666300",
+                  "row": "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300",
+                  "date": "2025-08-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+                  "way": "in",
+                  "treatment": 830340,
+                  "control": 827501,
+                  "journal": "journal:2025-08-01:48650"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/budgets.ts:1042",
+              "way": "out",
+              "targets": 1,
+              "moved": 2838,
+              "earliest": "2025-08-01",
+              "sample": [
+                {
+                  "target": "organization:treasury:place:2666300",
+                  "row": "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300",
+                  "date": "2025-08-01",
+                  "kind": "accounts.transfer @ src/core2/modules/budgets.ts:1042",
+                  "way": "out",
+                  "treatment": 721783,
+                  "control": 724621,
+                  "journal": "journal:2025-08-01:48622"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+              "way": "out",
+              "targets": 1,
+              "moved": 69,
+              "earliest": "2025-08-02",
+              "sample": [
+                {
+                  "target": "organization:treasury:place:2666300",
+                  "row": "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300",
+                  "date": "2025-08-02",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+                  "way": "out",
+                  "treatment": 7063,
+                  "control": 7132,
+                  "journal": "journal:2025-08-02:54961"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+              "way": "in",
+              "targets": 1,
+              "moved": 43,
+              "earliest": "2025-07-21",
+              "sample": [
+                {
+                  "target": "organization:treasury:place:2666300",
+                  "row": "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|organization:treasury:place:2666300",
+                  "date": "2025-07-21",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+                  "way": "in",
+                  "treatment": 6554,
+                  "control": 6511,
+                  "journal": "journal:2025-07-21:48309"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+              "way": "out",
+              "targets": 1,
+              "moved": 27,
+              "earliest": "2025-07-26",
+              "sample": [
+                {
+                  "target": "household_1093178c88d36046",
+                  "row": "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_1093178c88d36046",
+                  "date": "2025-07-26",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+                  "way": "out",
+                  "treatment": 17919,
+                  "control": 17946,
+                  "journal": "journal:2025-07-26:48385"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "in",
+              "targets": 1,
+              "moved": 27,
+              "earliest": "2025-08-01",
+              "sample": [
+                {
+                  "target": "household_1093178c88d36046",
+                  "row": "applied|us-policy-positions:housing-land-use.right-to-counsel-in-eviction|household_1093178c88d36046",
+                  "date": "2025-08-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -17919,
+                  "control": -17946,
+                  "journal": "journal:2025-08-01:48911"
+                }
+              ]
+            }
+          ],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "right-to-counsel-to-evictions",
+            "status": "built",
+            "to": "housing.eviction"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "link": "right-to-counsel-to-evictions",
+            "effect": -0.62
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "link": "right-to-counsel-to-evictions",
+            "effect": -0.62
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "link": "right-to-counsel-to-evictions",
+            "effect": -0.62
+          }
+        ],
+        "firedCount": 3,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "right-to-counsel-to-evictions",
+            "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+            "lagMonths": 6,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 108,
+        "sample": [
+          "person_b2532d2bb80a6385:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc",
+          "person_cced9380e845bfe8:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc",
+          "person_64420c52d99b1844:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-01-21:law-wiring-51e102dc"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 45
+    }
+  ]
+}

@@ -38,3 +38,5 @@ Sent back 2026-10-20 from PR #5241 (branch claude/news-headlines-more): data/eng
 Sent back 2026-10-23 from PR #5706 (branch claude/political-game-pool-yucp92-bo): Words ownership is resolved, but the missing Done-when table and explicitly unfinished broad scope require a valid bounded held-headline item or full acceptance proof; finish on that branch, merge main into it first.
 
 Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the batch-page grading clause.

@@ -35,6 +35,7 @@ describe("opening mortgages", () => {
       bankId: "organization:bank:fixture",
       bankRoomMinor: Number.POSITIVE_INFINITY,
       usps: "NJ",
+      seed: "fixture-seed",
       account: { accountId: "residents:fixture", placeId: "place:fixture" },
       placeId: "place:fixture",
       p,

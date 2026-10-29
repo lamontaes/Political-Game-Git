@@ -8,6 +8,8 @@ description: >
 
 # Played-world proof
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 **SMART (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** A proof's done-when is the record id another engine read, in a drawn place, inside the time box the item set.
 
 Current as of 2026-10-24, 21:30 UTC (unchanged by the Oct 24 rulings; a play-first lane item's acceptance is a screenshot, `play-first`, and this proof backs the engine side)

@@ -17,11 +17,8 @@
  * calendar for that day. Nobody too young to follow the news hears it.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import newsRows from "./data/news/parameters.json" with { type: "json" };
-import { newsKey, NEWS_MODULE_ID, trustOf, type Story } from "./modules/news";
+import { printStory, readingDelay, type Story } from "./modules/news";
 import { writeArchiveStory } from "./modules/press";
-import { viewOf } from "./modules/views";
-import type { Parameter } from "./parameters";
 import type { PastTown } from "./past-bodies";
 import type { PastClosureRow } from "./past-business";
 import {
@@ -32,13 +29,6 @@ import {
   type PastElectionRow,
 } from "./past-module";
 import type { CoreAPI, CoreEventInput, PersonState } from "./types";
-
-const NEWS = newsRows as Readonly<Record<string, Parameter>>;
-const news = (api: CoreAPI, key: string): number => {
-  const row = NEWS[key]!;
-  if (row.stopgapId) api.stopgap(row.stopgapId);
-  return row.value;
-};
 
 /** The day a reader hears a story, by the news engine's delivery rule; null if never. */
 export function heardOn(
@@ -51,14 +41,8 @@ export function heardOn(
     pastParameter(api, "pastPublicAwarenessAge")
   )
     return null;
-  const view = viewOf(api, person.id);
-  const engagement = view?.engagement ?? 0;
-  if (engagement <= 0) return null;
-  const reach =
-    engagement * (trustOf(api, view!.lean) / news(api, "newsTrustAverage"));
-  const delay = Math.ceil(news(api, "newsOutletDelayDays") / reach);
-  if (delay > news(api, "newsMaxAgeDays")) return null;
-  return shiftDays(date, delay);
+  const delay = readingDelay(api, person.id);
+  return delay === null ? null : shiftDays(date, delay);
 }
 
 export function buildNewsArchive(
@@ -77,7 +61,6 @@ export function buildNewsArchive(
   // no paper to carry the past, and the archive is empty.
   // A resident's parent who died is archived for full residents only.
   api.stopgap("SG-CORE-past-counted-parents-deaths");
-  const store = api.moduleState(NEWS_MODULE_ID);
   const stories: Story[] = [];
   const add = (
     kind: string,
@@ -207,43 +190,27 @@ export function buildNewsArchive(
   stories.sort(
     (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
   );
+  // Printed through the news engine: its one delivery rule says who read
+  // each story and when; a reading day before the start is heard then, a
+  // later one is delivered in play. Nobody too young to follow the news reads
+  // it; the story's own subject hears it the day it happened.
   for (const story of stories) {
-    if (store.table("stories").get(story.id)) continue;
-    store.table("stories").put(story as unknown as { id: string });
-    for (const person of readers) {
-      const on =
-        story.facts.survivorId === person.id ||
-        story.facts.ownerId === person.id
-          ? story.date
-          : heardOn(api, person, story.date);
-      if (!on) continue;
-      if (on >= town.opening) {
-        store.table("deliveries").put({
-          id: `${story.id}:${person.id}`,
-          storyId: story.id,
-          personId: person.id,
-          date: on,
-        });
-        continue;
-      }
-      store.table("heard").put({
-        id: `${person.id}:${story.id}`,
-        personId: person.id,
-        storyId: story.id,
-        date: on,
-      });
-      const learned = (key: string, value: string) =>
-        api.observe(person.id, {
-          key,
-          value,
-          learnedAt: on,
-          sourceId: story.id,
-          access: "public",
-        });
-      learned(newsKey(story.id), story.facts.recordKind!);
-      // The story's facts stay on the story; the reader keeps where it is.
-      learned(`${newsKey(story.id)}:record`, story.facts.recordId!);
-    }
+    const subject = [story.facts.survivorId, story.facts.ownerId].filter(
+      (id): id is string => !!id,
+    );
+    printStory(
+      api,
+      story,
+      readers
+        .filter(
+          (person) =>
+            subject.includes(person.id) ||
+            ageOnDate(person.birthDate, story.date) >=
+              pastParameter(api, "pastPublicAwarenessAge"),
+        )
+        .map((person) => person.id),
+      subject,
+    );
   }
   return stories;
 }

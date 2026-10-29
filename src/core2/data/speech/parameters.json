@@ -11,16 +11,37 @@
     "citation": "Weight on how far the speech moved the listener's stance when deciding whether to retell it; people talk about what affected them (Berger 2014, Journal of Consumer Psychology 24(4):586-607, on word of mouth). Spread 3 to 10.",
     "stopgapId": "SG-P15-speech-reception"
   },
-  "speechSociabilityWeight": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Weight on the listener's trait lean toward retelling over keeping it (every trait through the shared trait table, about -1 to 1; OPUS-TRAITS, Oct 12, 2026) in deciding whether to retell. Doubled from 0.5 on sociability alone (-2 to 2) so the term keeps its range. Spread 0.5 to 2.",
-    "stopgapId": "SG-P15-speech-reception"
+  "speechRetellEngagementWeight": {
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "How much the listener's own engagement (how closely they follow politics, 0 to 1) adds to retelling a speech at home. Fitted with speechKeepPull, speechRetellHomeWeight and the trait weight to the ANES 2020 rates by interest given under speechKeepPull.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.7,
+      "unit": "weight per unit of engagement",
+      "citation": "Case sets that match the ANES rates about as well (pooled error up to 0.008, against 0.0073 here) at the study's odds run from listener 0.1, home 0.15 and keep 0.22 to listener 0.7, home 2.5 and keep 2.6: the case's scale is set only against the move's weight (speechRetellWeight, 6), and what the fit pins is its ratios, the listener's own engagement about 0.3 of the household's and the keep pull about 1.05 of it."
+    }
+  },
+  "speechRetellHomeWeight": {
+    "value": 1.0,
+    "tag": "ESTIMATED",
+    "citation": "How much the engagement of the one at home most likely to take it up (the most engaged household member outside the audience) adds to retelling a speech: a talk needs someone who will listen. Fitted with speechKeepPull, speechRetellEngagementWeight and the trait weight to the ANES 2020 rates by interest given under speechKeepPull; the respondent's own interest alone could not spread the shares without the trait term doing it all.",
+    "spread": {
+      "low": 0.15,
+      "high": 2.5,
+      "unit": "weight per unit of engagement",
+      "citation": "Case sets that match the ANES rates about as well (pooled error up to 0.008, against 0.0073 here) at the study's odds run from listener 0.1, home 0.15 and keep 0.22 to listener 0.7, home 2.5 and keep 2.6: the case's scale is set only against the move's weight (speechRetellWeight, 6), and what the fit pins is its ratios, the listener's own engagement about 0.3 of the household's and the keep pull about 1.05 of it."
+    }
   },
   "speechKeepPull": {
-    "value": 0.6,
-    "tag": "TUNABLE",
-    "citation": "The pull of not retelling, against which retelling is weighed. Checked so that some, not all, listeners retell a speech that moved them. Spread 0.3 to 1.",
-    "stopgapId": "SG-P15-speech-reception"
+    "value": 1.07,
+    "tag": "ESTIMATED",
+    "citation": "The pull of keeping a speech to oneself, against which retelling it at home (the move, the listener's engagement and that of the one at home most likely to take it up) is weighed. Fitted with the two engagement weights and the trait weight (traits-retell-circumstances) so each listener's share of speeches retold matches, by their engagement, how often people talk politics at home: ANES 2020 Time Series (full release, post-election wave, weight V200010b, read through the SDA tables at sda.ist.berkeley.edu, dataset nes2020full): \"R ever discuss politics with family or friends\" (V202022) by \"How interested in politics is R\" (V202406) gives 98% of the very interested, 92% somewhat, 85% not very and 74% not at all; \"How many days in past week discussed politics with family or friends\" (V202023), asked of those who do, averages 5.20, 3.84, 2.96 and 2.64 days. So the share of days a person talks politics at home runs 0.73, 0.50, 0.36 and 0.28 by interest, matched here on the listener's engagement (CES newsint 1 to 0 for most of the time to hardly at all). Fitted on every weighing in four drawn towns' played years (Cloverport, Kentucky; El Tumbao, Puerto Rico; Hamburg, Minnesota; Shoemakersville, Pennsylvania; 22,461 weighings by 393 listeners, each listener counted once), the listeners' shares come to 0.05, 0.38, 0.60 and 0.67 by engagement; the lowest band holds 16 listeners.",
+    "spread": {
+      "low": 0.22,
+      "high": 2.6,
+      "unit": "pull",
+      "citation": "Case sets that match the ANES rates about as well (pooled error up to 0.008, against 0.0073 here) at the study's odds run from listener 0.1, home 0.15 and keep 0.22 to listener 0.7, home 2.5 and keep 2.6: the case's scale is set only against the move's weight (speechRetellWeight, 6), and what the fit pins is its ratios, the listener's own engagement about 0.3 of the household's and the keep pull about 1.05 of it."
+    }
   }
 }

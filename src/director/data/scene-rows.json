@@ -1,17 +1,8 @@
 {
   "version": "words-scene-v1",
-  "about": "The structure of scene narration: the setting kinds, the cause label prefixes and the word that joins several names. It holds no sentences; they come from the bank (data/english/parts/scene-words.json) through src/english/mined/scene-bank.ts. A setting or cause the bank has no sentence for is left out. The narrator opens a scene with one short paragraph: the day, the setting, who is there, what is happening, by the staged situation type, what led here, and how the scene opens (its first role's move, narrated by the bank's opening sentences).",
+  "about": "The structure of scene narration: the setting kinds, the cause label prefixes and the word that joins several names. It holds no sentences; they come from the bank (data/english/parts/scene-words.json) through src/english/mined/scene-bank.ts. A setting or cause the bank has no sentence for is left out. The narrator opens a scene with one short paragraph: how the scene reaches the player when it is a call or a letter (never the day, the place or who is there: the screen shows them; owner, Oct 26 and Oct 27), what is happening, by the staged situation type, what led here, and how the scene opens (its first role's move, narrated by the bank's opening sentences).",
   "and": "and",
-  "settings": [
-    "home",
-    "other-home",
-    "workplace",
-    "school",
-    "public",
-    "venue",
-    "phone",
-    "letter"
-  ],
+  "settings": ["phone", "letter"],
   "causes": [
     "tie:contact",
     "money:job-ended",
@@ -68,6 +59,13 @@
     "address",
     "hearing",
     "verdict",
-    "party-recruit"
+    "party-recruit",
+    "speech-afterward",
+    "interview-invite",
+    "debate-invite",
+    "volunteer-offer",
+    "job-offer",
+    "rival-word",
+    "rival-filed"
   ]
 }

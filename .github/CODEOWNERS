@@ -1,0 +1,288 @@
+# Written by scripts/guards/codeowners.ts from tests/guards/families.json.
+# Edit the families there, then run the script; a hand edit here fails the guard.
+# One engine per mechanic: each block is one engine family (docs/design/guards.md).
+
+# The shared kernel
+/src/core2/kernel/** @lamontaes
+/src/core2/reference/** @lamontaes
+/src/core2/data/** @lamontaes
+/src/core2/tooling/** @lamontaes
+/src/core2/types.ts @lamontaes
+/src/core2/state.ts @lamontaes
+/src/core2/opening-draft.ts @lamontaes
+/src/core2/appearance.ts @lamontaes
+/src/core2/parameters.ts @lamontaes
+/src/core2/stopgaps.ts @lamontaes
+/src/core2/seeded.ts @lamontaes
+/src/core2/world-base-rates.ts @lamontaes
+/src/core2/world-draw.ts @lamontaes
+/src/core2/union-rate.ts @lamontaes
+/src/core2/module-*.ts @lamontaes
+/src/core2/saves.ts @lamontaes
+/src/core2/snapshot.ts @lamontaes
+/src/core2/saved-trace-v1.ts @lamontaes
+/src/core2/why-kept.ts @lamontaes
+/src/core2/decision-detail.ts @lamontaes
+/src/core2/choice.ts @lamontaes
+/src/core2/compact-choice.ts @lamontaes
+/src/core2/condition-pack.ts @lamontaes
+/src/core2/core-pieces-fixture.ts @lamontaes
+/src/core2/data.ts @lamontaes
+/src/core2/bug-report.ts @lamontaes
+/src/core2/gov-test-report.ts @lamontaes
+/src/core2/law-test-start.ts @lamontaes
+/src/core2/free-block.ts @lamontaes
+/src/core2/focus.ts @lamontaes
+
+# Elections and campaigns (elections)
+/src/core2/modules/elections.ts @lamontaes
+/src/core2/modules/voting.ts @lamontaes
+/src/core2/modules/campaigns.ts @lamontaes
+/src/core2/modules/candidacy.ts @lamontaes
+/src/core2/modules/filing-clerk.ts @lamontaes
+/src/core2/modules/ballot-measures.ts @lamontaes
+/src/core2/modules/recalls.ts @lamontaes
+/src/core2/modules/parties.ts @lamontaes
+/src/core2/modules/interest-groups.ts @lamontaes
+/src/core2/ballot-order.ts @lamontaes
+/src/core2/campaign-*.ts @lamontaes
+/src/core2/candidate-*.ts @lamontaes
+/src/core2/contest-positions.ts @lamontaes
+/src/core2/contingent-election.ts @lamontaes
+/src/core2/election-ties.ts @lamontaes
+/src/core2/elections-calendar.ts @lamontaes
+/src/core2/electorate*.ts @lamontaes
+/src/core2/legislative-district-results.ts @lamontaes
+/src/core2/race-places.ts @lamontaes
+/src/core2/turnout*.ts @lamontaes
+/src/core2/civic-inputs.ts @lamontaes
+/src/core2/membership-dues.ts @lamontaes
+
+# Legislative bodies (bodies)
+/src/core2/modules/legislature.ts @lamontaes
+/src/core2/modules/meetings.ts @lamontaes
+/src/core2/modules/world-legislating.ts @lamontaes
+/src/core2/modules/leadership.ts @lamontaes
+/src/core2/modules/world-panels.ts @lamontaes
+/src/core2/legislature-*.ts @lamontaes
+/src/core2/bill-*.ts @lamontaes
+/src/core2/board-appointer.ts @lamontaes
+/src/core2/session-law-audit.ts @lamontaes
+/src/core2/state-session-calendar.ts @lamontaes
+/src/core2/state-item-veto.ts @lamontaes
+
+# Executives and offices (executive)
+/src/core2/modules/executive.ts @lamontaes
+/src/core2/modules/offices.ts @lamontaes
+/src/core2/modules/officials.ts @lamontaes
+/src/core2/modules/office-day.ts @lamontaes
+/src/core2/modules/official-pay.ts @lamontaes
+/src/core2/modules/staff.ts @lamontaes
+/src/core2/modules/succession.ts @lamontaes
+/src/core2/modules/constituent-cases.ts @lamontaes
+/src/core2/office-*.ts @lamontaes
+/src/core2/offices-*.ts @lamontaes
+/src/core2/officials-*.ts @lamontaes
+/src/core2/official-living.ts @lamontaes
+/src/core2/executive-term-limits.ts @lamontaes
+/src/core2/appointments.ts @lamontaes
+/src/core2/central-bank-*.ts @lamontaes
+/src/core2/outside-governments.ts @lamontaes
+/src/core2/government-jurisdictions.ts @lamontaes
+/src/core2/gov-rules/** @lamontaes
+
+# Budgets, taxes and public money (budgets)
+/src/core2/modules/budgets.ts @lamontaes
+/src/core2/modules/finance.ts @lamontaes
+/src/core2/modules/projects.ts @lamontaes
+/src/core2/modules/contracts.ts @lamontaes
+/src/core2/modules/purchase-tax.ts @lamontaes
+/src/core2/modules/employer-taxes.ts @lamontaes
+/src/core2/budget-*.ts @lamontaes
+/src/core2/budgets-*.ts @lamontaes
+/src/core2/finance-*.ts @lamontaes
+/src/core2/tax-*.ts @lamontaes
+/src/core2/bookkeeping.ts @lamontaes
+/src/core2/accounts.ts @lamontaes
+/src/core2/act-cash.ts @lamontaes
+/src/core2/cash-host.ts @lamontaes
+/src/core2/school-budget-line.ts @lamontaes
+/src/core2/starting-cash.ts @lamontaes
+/src/core2/world-transfer.ts @lamontaes
+
+# Laws, justice and their effects (laws)
+/src/core2/modules/laws.ts @lamontaes
+/src/core2/modules/justice.ts @lamontaes
+/src/core2/modules/public-safety.ts @lamontaes
+/src/core2/modules/crime.ts @lamontaes
+/src/core2/modules/corruption.ts @lamontaes
+/src/core2/modules/outcome-web.ts @lamontaes
+/src/core2/modules/prices-web-gaps.ts @lamontaes
+/src/core2/law-reach/** @lamontaes
+/src/core2/laws-*.ts @lamontaes
+/src/core2/justice-*.ts @lamontaes
+/src/core2/policy-*.ts @lamontaes
+/src/core2/gov-measure*.ts @lamontaes
+/src/core2/state-effective-date.ts @lamontaes
+/src/core2/right-to-work-dues.ts @lamontaes
+/src/core2/social-security-law.ts @lamontaes
+/src/core2/wage-floor.ts @lamontaes
+/src/core2/low-level-offenses.ts @lamontaes
+/src/core2/firearm-ownership.ts @lamontaes
+/src/core2/paid-leave.ts @lamontaes
+/src/core2/public-pay-floor.ts @lamontaes
+/src/core2/public-safety.ts @lamontaes
+/src/core2/outcome-web-*.ts @lamontaes
+/src/core2/health-web.ts @lamontaes
+/src/core2/jobs-web.ts @lamontaes
+
+# Jobs, businesses and the economy (jobs-businesses)
+/src/core2/modules/jobs.ts @lamontaes
+/src/core2/modules/work.ts @lamontaes
+/src/core2/modules/business.ts @lamontaes
+/src/core2/modules/credit.ts @lamontaes
+/src/core2/modules/macro.ts @lamontaes
+/src/core2/modules/regional.ts @lamontaes
+/src/core2/modules/place-prices.ts @lamontaes
+/src/core2/jobs-*.ts @lamontaes
+/src/core2/job-*.ts @lamontaes
+/src/core2/work-*.ts @lamontaes
+/src/core2/business-*.ts @lamontaes
+/src/core2/census-*.ts @lamontaes
+/src/core2/opening-employment.ts @lamontaes
+/src/core2/opening-town-jobs.ts @lamontaes
+/src/core2/opening-staffing.ts @lamontaes
+/src/core2/opening-payroll-calendar.ts @lamontaes
+/src/core2/opening-org-profiles.ts @lamontaes
+/src/core2/opening-customer*.ts @lamontaes
+/src/core2/opening-capital.ts @lamontaes
+/src/core2/opening-outside-market.ts @lamontaes
+/src/core2/opening-department-pay.ts @lamontaes
+/src/core2/opening-public-pay.ts @lamontaes
+/src/core2/opening-work.ts @lamontaes
+/src/core2/opening-economy.ts @lamontaes
+/src/core2/opening-finance.ts @lamontaes
+/src/core2/opening-public-owner.ts @lamontaes
+/src/core2/town-workplaces.ts @lamontaes
+/src/core2/town-employment-mix.ts @lamontaes
+/src/core2/town-pay.ts @lamontaes
+/src/core2/public-payroll.ts @lamontaes
+/src/core2/public-work-pay.ts @lamontaes
+/src/core2/question-wages.ts @lamontaes
+/src/core2/legacy-wage-counters.ts @lamontaes
+/src/core2/macro-model.ts @lamontaes
+/src/core2/regional-model.ts @lamontaes
+/src/core2/credit-deposits.ts @lamontaes
+/src/core2/commuting-shares.ts @lamontaes
+/src/core2/cost-of-living.ts @lamontaes
+/src/core2/living-cost-split.ts @lamontaes
+
+# Households and people (people)
+/src/core2/modules/people.ts @lamontaes
+/src/core2/modules/residents.ts @lamontaes
+/src/core2/modules/life.ts @lamontaes
+/src/core2/modules/moves.ts @lamontaes
+/src/core2/modules/counted-moves.ts @lamontaes
+/src/core2/modules/counted-demotion.ts @lamontaes
+/src/core2/modules/health.ts @lamontaes
+/src/core2/modules/housing.ts @lamontaes
+/src/core2/modules/school.ts @lamontaes
+/src/core2/modules/drives.ts @lamontaes
+/src/core2/modules/trait-change.ts @lamontaes
+/src/core2/modules/resting-stress.ts @lamontaes
+/src/core2/modules/retirement-claims.ts @lamontaes
+/src/core2/modules/homeless-count.ts @lamontaes
+/src/core2/modules/coverage.ts @lamontaes
+/src/core2/modules/views.ts @lamontaes
+/src/core2/modules/speech.ts @lamontaes
+/src/core2/modules/record.ts @lamontaes
+/src/core2/modules/renewal.ts @lamontaes
+/src/core2/births-*.ts @lamontaes
+/src/core2/death-*.ts @lamontaes
+/src/core2/people-*.ts @lamontaes
+/src/core2/person-*.ts @lamontaes
+/src/core2/personality-*.ts @lamontaes
+/src/core2/trait-*.ts @lamontaes
+/src/core2/trait-effects/** @lamontaes
+/src/core2/household-*.ts @lamontaes
+/src/core2/housing-*.ts @lamontaes
+/src/core2/hud-rents.ts @lamontaes
+/src/core2/health-hazard.ts @lamontaes
+/src/core2/health-own.ts @lamontaes
+/src/core2/health-displacement.ts @lamontaes
+/src/core2/health-mortality-table.ts @lamontaes
+/src/core2/counted-*.ts @lamontaes
+/src/core2/opening-kin.ts @lamontaes
+/src/core2/opening-people.ts @lamontaes
+/src/core2/opening-upbringing.ts @lamontaes
+/src/core2/opening-personality.ts @lamontaes
+/src/core2/opening-partnership.ts @lamontaes
+/src/core2/opening-key-people.ts @lamontaes
+/src/core2/opening-profile.ts @lamontaes
+/src/core2/opening-trait-table.ts @lamontaes
+/src/core2/opening-income*.ts @lamontaes
+/src/core2/opening-private-tuition.ts @lamontaes
+/src/core2/opening-public-schools.ts @lamontaes
+/src/core2/school-*.ts @lamontaes
+/src/core2/private-tuition-reenroll.ts @lamontaes
+/src/core2/residents*.ts @lamontaes
+/src/core2/population.ts @lamontaes
+/src/core2/nativity.ts @lamontaes
+/src/core2/citizenship.ts @lamontaes
+/src/core2/grief.ts @lamontaes
+/src/core2/emotion.ts @lamontaes
+/src/core2/mind-*.ts @lamontaes
+/src/core2/closeness.ts @lamontaes
+/src/core2/encounters.ts @lamontaes
+/src/core2/knowledge-retention.ts @lamontaes
+/src/core2/estates.ts @lamontaes
+/src/core2/sibling-births.ts @lamontaes
+/src/core2/retirement-claim.ts @lamontaes
+/src/core2/resting-stress.ts @lamontaes
+/src/core2/representative-sample.ts @lamontaes
+/src/core2/money-traits-kit.ts @lamontaes
+/src/core2/town-households.ts @lamontaes
+/src/core2/world-poverty.ts @lamontaes
+/src/core2/circle-turnover-check.ts @lamontaes
+/src/core2/turnover-check.ts @lamontaes
+/src/core2/journal-state.ts @lamontaes
+/src/core2/journal.ts @lamontaes
+/src/core2/heard-claims.ts @lamontaes
+/src/core2/home-distance.ts @lamontaes
+
+# The past before the start (past)
+/src/core2/past.ts @lamontaes
+/src/core2/past-*.ts @lamontaes
+/src/core2/deep-past.ts @lamontaes
+/src/core2/pre-start.ts @lamontaes
+/src/core2/shared-history.ts @lamontaes
+
+# The clock, the world and places (clock-places)
+/src/core2/modules/world.ts @lamontaes
+/src/core2/modules/world-metrics.ts @lamontaes
+/src/core2/modules/disasters.ts @lamontaes
+/src/core2/life.ts @lamontaes
+/src/core2/calendar.ts @lamontaes
+/src/core2/game-start.ts @lamontaes
+/src/core2/places.ts @lamontaes
+/src/core2/place-lookup.ts @lamontaes
+/src/core2/coarse-place.ts @lamontaes
+/src/core2/world-settings.ts @lamontaes
+/src/core2/player-*.ts @lamontaes
+/src/core2/opening-*.ts @lamontaes
+
+# News and the press (news)
+/src/core2/modules/news.ts @lamontaes
+/src/core2/modules/press.ts @lamontaes
+/src/core2/press-*.ts @lamontaes
+/src/core2/outcome-news.ts @lamontaes
+
+# The story director (director)
+/src/director/** @lamontaes
+
+# The English engine (english)
+/src/english/** @lamontaes
+/data/english/** @lamontaes
+
+# Screens and the UI kit (screens)
+/src/bench/** @lamontaes

@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:19:00.484Z
 **Files.** data/english/parts/address.json, scripts/english-corpus/address-bank.ts, src/director/speech-builder.ts, src/core2/modules/speech.ts
 
 **Notes.** Checklist line from words.md; verify against main before starting. Released from idle draft #5196 by the CTO, Oct 26.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop batch grading; re-scope after words-speech-part-words.

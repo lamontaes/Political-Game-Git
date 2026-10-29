@@ -73,14 +73,9 @@ check(
   opening.size > 0 && changed >= opening.size * 0.9,
   `${where}: only ${changed} of ${opening.size} regions' populations changed from ${openingMonth} to ${stepped}`,
 );
-// Moves between the town and other states; a move within the town's own
-// state (its rest-of-state) is the town's, not another place's.
+// Every counted move, within the town's state or across states.
 const moves = countedMoves(api).filter(
-  (row) =>
-    row.date >= `${openingMonth}-01` &&
-    row.date <= `${stepped}-31` &&
-    !row.fromPlace.endsWith(":rest-of-state") &&
-    !row.toPlace.endsWith(":rest-of-state"),
+  (row) => row.date >= `${openingMonth}-01` && row.date <= `${stepped}-31`,
 );
 const causeless = moves.filter((row) => !Object.keys(row.reasons ?? {}).length);
 check(

@@ -39,7 +39,7 @@ export function withoutOutsideShelter(
     const id = size.has(homeId) ? homeId : homeId.replace(HOUSEHOLD, "");
     const home = size.get(id);
     if (!home || home.members < 1) return 0;
-    const rent = hudRentRowFor(home.placeId as EntityId);
+    const rent = hudRentRowFor(home.placeId as EntityId, input.seed);
     const fmr = rent
       ? (rent.rents[bedroomsForHousehold(home.members)] ?? 0) * CENTS
       : 0;

@@ -225,6 +225,24 @@ export function countedHeadcountOf(
 }
 
 /**
+ * How many businesses one business record stands for: its staff in heads
+ * over its job records, a counted worker's record standing for its
+ * household's weight (one with no staff, and one in a town whose households
+ * each stand for one). A full owner is one household and owns one of them.
+ */
+export function businessScaleOf(
+  core: CoreState,
+  organizationId: string,
+): number {
+  let rows = 0;
+  for (const jobId of core.finance.jobsByOrganization.get(organizationId) ?? [])
+    if (core.jobs.get(jobId)?.endsAt === undefined) rows += 1;
+  const full = rows;
+  rows += countedJobsOf(core, organizationId).length;
+  return rows ? (full + countedHeadcountOf(core, organizationId)) / rows : 1;
+}
+
+/**
  * An employer's annual payroll for the weight of its counted workers: the
  * book's payroll plus what each counted job's household stands for beyond one
  * (the book counts one worker per counted job). Readers that size a cushion
@@ -241,6 +259,28 @@ export function weightedPayrollMinor(
     payroll +=
       (countedJobHeads(core, job) - 1) * job.wageDailyMinor * daysPerYear;
   return payroll;
+}
+
+/**
+ * How many times its book a business runs at: its payroll with its counted
+ * workers at their weight over the book's payroll (one with no payroll).
+ * Every reader of the book's other figures (its demand, its other costs)
+ * multiplies by it the same way.
+ */
+export function staffedScale(
+  core: CoreState,
+  organizationId: string,
+  annualPayrollMinor: number,
+  daysPerYear: number,
+): number {
+  return annualPayrollMinor > 0
+    ? weightedPayrollMinor(
+        core,
+        organizationId,
+        annualPayrollMinor,
+        daysPerYear,
+      ) / annualPayrollMinor
+    : 1;
 }
 
 /**
@@ -501,6 +541,29 @@ export function limitOutsideSales(
     changed += 1;
   }
   return changed;
+}
+
+/**
+ * What a business's operating limit costs it in outside sales a year: each
+ * outside buyers' flow at the amount it would pay without the limit, less
+ * what it pays now.
+ */
+export function outputLostPerYear(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const rt = residentsRuntime(core);
+  const limit = limitOf(core, organizationId);
+  if (!rt || !(limit > 0) || limit >= 1) return 0;
+  let lost = 0;
+  for (const flow of rt.flows.values())
+    if (
+      flow.kind === "outside-sales" &&
+      !flow.endedAt &&
+      flow.payeeId === organizationId
+    )
+      lost += perYear(flow, (flow.amountMinor * (1 - limit)) / limit);
+  return Math.round(lost);
 }
 
 /**

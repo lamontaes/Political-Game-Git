@@ -5,11 +5,9 @@
  * cost it pays each month to whoever the law names, or outside the town
  * (the equipment, monitoring and services it buys).
  */
-import { townOutsideOf } from "./opening-outside-market";
 import nonattainment from "./data/business/nonattainment.json" with { type: "json" };
 import { limitOutsideSales } from "./residents-economy";
 import type { ModuleTable } from "./module-state";
-import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 export type OperatingInput = "groundwater";
@@ -101,29 +99,6 @@ export function endOperatingRule(
   table.remove(id);
   if (row.kind === "limit")
     limitOutsideSales(api.state as CoreState, row.organizationId, 1);
-}
-
-/** Each month, every business pays its compliance costs. */
-export function payOperatingCosts(api: CoreAPI, table: ModuleTable): void {
-  const c = api.state as CoreState;
-  for (const row of table.query("all", [true]) as unknown as RuleRow[]) {
-    if (row.kind !== "cost") continue;
-    const book = c.finance.businesses.get(row.organizationId);
-    if (!book || book.closedAt) continue;
-    const placeId = c.organizations.get(row.organizationId)?.placeId;
-    const to =
-      row.payeeId ?? townOutsideOf(c.organizations.values(), placeId)?.id;
-    if (!to) continue;
-    transferCash(
-      api,
-      `compliance:${row.id}:${c.date}`,
-      row.organizationId,
-      to,
-      (book.annualOtherCostsMinor * row.share) /
-        api.parameter("macroMonthsPerYear"),
-      row.source,
-    );
-  }
 }
 
 const NONATTAINMENT = nonattainment.counties as unknown as Record<

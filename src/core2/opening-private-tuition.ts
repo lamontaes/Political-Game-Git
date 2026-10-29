@@ -13,6 +13,7 @@ import shares from "../../data/research/people/nces-private-enrollment-share-fal
 import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { parameter as p } from "./parameters";
+import { worldLevel, worldRate } from "./world-draw";
 import { stopgap } from "./stopgaps";
 import type { FinanceContractInput } from "./finance-types";
 import type { EntityId } from "./kernel/brands";
@@ -24,7 +25,7 @@ import type { CoreInput, Source } from "./types";
  * governing unit's id, which the place lookup may not know, so the world's
  * own place stands in for its state.
  */
-export function privateShareOf(
+export function publishedPrivateShareOf(
   placeId: string | undefined,
   worldPlaceKey: string | undefined,
 ): number {
@@ -41,6 +42,34 @@ export function privateShareOf(
   return row?.share ?? shares.median;
 }
 
+/**
+ * The private share of students in this world's state: the published NCES
+ * share drawn once per world from its seed, kept between 0 and 1 (realistic,
+ * not real; owner, Oct 27).
+ */
+export function privateShareOf(
+  placeId: string | undefined,
+  worldPlaceKey: string | undefined,
+  seed: string,
+): number {
+  return worldRate(
+    publishedPrivateShareOf(placeId, worldPlaceKey),
+    seed,
+    "world-private-share",
+    "worldPrivateShareSpreadShare",
+  );
+}
+
+/** The average private tuition this world's schools charge a year: the NCES average, scaled by one level drawn per world from its seed. */
+export function worldPrivateTuitionAnnualUsd(seed: string): number {
+  return worldLevel(
+    p("openingPrivateTuitionAnnualUsd"),
+    seed,
+    "world-private-tuition",
+    "worldTuitionSpreadShare",
+  );
+}
+
 export function withPrivateTuition(input: CoreInput): CoreInput {
   if (!input.finance) return input;
   const schools = input.organizations.filter(
@@ -54,9 +83,13 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
   first.setUTCMonth(first.getUTCMonth() + 1, 1);
   const dueAt = makeIsoDate(first.toISOString().slice(0, 10));
   const perChildMonthly =
-    (p("openingPrivateTuitionAnnualUsd") * p("minorPerDollar")) /
+    (worldPrivateTuitionAnnualUsd(input.seed) * p("minorPerDollar")) /
     p("monthsPerYear");
-  const share = privateShareOf(undefined, input.placeMetadata?.placeKey);
+  const share = privateShareOf(
+    undefined,
+    input.placeMetadata?.placeKey,
+    input.seed,
+  );
   const contracts: FinanceContractInput[] = [];
   const sorted = [...schools].sort((a, b) => a.id.localeCompare(b.id));
   const town = new Set(schools.map((row) => row.placeId));
@@ -128,7 +161,7 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
         tag: "ESTIMATED",
         asOf: start,
         citation: data.citation,
-        estimatedFrom: `${family.children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} at average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; this family is among the best-off per child in a town where the private share of school-age children is ${share}.`,
+        estimatedFrom: `${family.children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} at average tuition $${Math.round(worldPrivateTuitionAnnualUsd(input.seed))} a year; this family is among the best-off per child in a town where the private share of school-age children is ${share}.`,
       };
       contracts.push({
         id: `opening-private-tuition:${family.home.id}:${school.id}`,

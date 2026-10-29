@@ -2,13 +2,13 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
   considerBribe,
   corruptionModule,
   crimesKnownTo,
   scandalsOf,
+  settleBribe,
   settleBribes,
   type CrimeRecord,
 } from "./modules/corruption";
@@ -16,6 +16,8 @@ import { buildPopulation } from "./population";
 import { currentCloseness } from "./closeness";
 import { coreAPI } from "./state";
 import { decisionLean } from "./trait-decisions";
+import { officialHousehold } from "./official-living";
+import { corePlaceStateIdentities } from "./place-lookup";
 
 // M3-09: a corrupt act happens only where the people's own traits and money
 // support it, leaves a record, and is learned by others only through a real
@@ -34,14 +36,12 @@ function corruptionCases(
   placeKey?: string,
   fresh = false,
 ): string | null {
-  const input = buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(placeKey ? { placeKey } : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 500,
-    }),
-  );
+  const input = buildPopulation({
+    seed,
+    ...(placeKey ? { placeKey } : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 500,
+  });
   const core = createLifeCore(input, { modules: [corruptionModule] });
   const api = coreAPI(core);
   const adults = [...core.people.values()].filter(
@@ -85,11 +85,15 @@ function corruptionCases(
         "corruption-tell-no",
       ) > 0;
     const taken = records.filter((row) => row.taken);
+    // The meeting case settles the first taken bribe as a broken promise, a
+    // falling-out of its own; the telling case needs another taken one.
     if (
       taken.length < 2 ||
-      !taken.some(
-        (row) => leansToTell(row.offererId) || leansToTell(row.officialId),
-      )
+      !taken
+        .slice(1)
+        .some(
+          (row) => leansToTell(row.offererId) || leansToTell(row.officialId),
+        )
     )
       return `${input.placeMetadata?.placeName} (seed ${seed}): ${taken.length} taken of ${records.filter((row) => row.offered).length} offers`;
   }
@@ -122,6 +126,31 @@ function corruptionCases(
         );
     });
 
+    it("a taken bribe is a meeting, so a payer whose favor does not come has a tie to lose (contract awards settle it)", () => {
+      const pairKey = (x: string, y: string) => [x, y].sort().join(":");
+      // First of the cases to touch any pair: only the taking itself has met them.
+      const crime = records.find((row) => row.taken);
+      expect(crime).toBeDefined();
+      const level = () => {
+        const row = core.relationships.get(
+          pairKey(crime!.offererId, crime!.officialId),
+        );
+        return row ? currentCloseness(core, row) : 0;
+      };
+      // Passing the money alone built a tie between two who had none.
+      expect(level()).toBeGreaterThan(0);
+      const before = level();
+      const award = { ...crime!, id: `${crime!.id}:award` };
+      settleBribe(api, award, "contract:fixture", false, "other-firm");
+      expect(level()).toBeLessThan(before);
+      expect(
+        api
+          .moduleState("corruption")
+          .table("settled")
+          .get(`settled:${award.id}`),
+      ).toMatchObject({ delivered: false, vote: "other-firm" });
+    });
+
     it("is known only to the two people, until one falls out with the other and tells someone", () => {
       // A bribe where one of the two leans toward telling over keeping quiet:
       // someone who leans hard the other way keeps it even after a falling-out.
@@ -133,9 +162,14 @@ function corruptionCases(
           "corruption-tell-yes",
           "corruption-tell-no",
         ) > 0;
+      // The meeting case above settled the first taken bribe as a broken
+      // promise, and that falling-out may already have told someone (a cheated
+      // payer's tie sours): this case takes a pair no case has touched yet.
+      const settled = records.find((row) => row.taken);
       const crime = records.find(
         (row) =>
           row.taken &&
+          row !== settled &&
           (leansToTell(row.offererId) || leansToTell(row.officialId)),
       );
       expect(crime).toBeDefined();
@@ -308,6 +342,15 @@ corruptionCases(
 const fresh = process.env.CORRUPTION_SEED ?? randomBytes(16).toString("hex");
 const passedOver: string[] = [];
 let drawn = 0;
+// CORRUPTION_WORLD_SEED with CORRUPTION_PLACE_KEY replays one recorded draw
+// (the world seed and place a failing run printed) before the fresh ones.
+const replaySeed = process.env.CORRUPTION_WORLD_SEED;
+const replayKey = process.env.CORRUPTION_PLACE_KEY;
+if (replaySeed && replayKey) {
+  const refused = corruptionCases(replaySeed, replayKey, true);
+  if (refused) passedOver.push(`replay: ${refused}`);
+  else drawn += 1;
+}
 for (let draw = 0; drawn < 3 && draw < 12; draw++) {
   const place = drawPlace(`${fresh}:${draw}`, "corruption");
   const refused = corruptionCases(place.seed, place.key, true);
@@ -319,4 +362,24 @@ describe(`fresh corruption draws (CORRUPTION_SEED ${fresh})`, () => {
     if (passedOver.length) console.log(`passed over: ${passedOver.join("; ")}`);
     expect(drawn, passedOver.join("; ")).toBe(3);
   });
+});
+
+it("officials at one pay keep different savings, around the same median (a body is not all one cushion)", () => {
+  const input = buildPopulation({
+    seed: "official-savings-spread",
+    startedAt: "2021-01-01",
+    minimumPeople: 200,
+  });
+  const api = coreAPI(createLifeCore(input, { modules: [corruptionModule] }));
+  const stateKey = [...corePlaceStateIdentities()][0]!.jurisdictionKey;
+  const savings = Array.from({ length: 60 }, (_, i) =>
+    officialHousehold(api, stateKey, 9_000_000, `official:fixture:${i}`),
+  ).map((home) => home.savingsMinor);
+  const sorted = [...savings].sort((a, b) => a - b);
+  expect(sorted[0]).toBeLessThan(sorted.at(-1)! / 10);
+  // The same official always has the same savings.
+  expect(
+    officialHousehold(api, stateKey, 9_000_000, "official:fixture:3")
+      .savingsMinor,
+  ).toBe(savings[3]);
 });

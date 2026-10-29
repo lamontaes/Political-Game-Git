@@ -1,0 +1,39 @@
+{
+ "scene": "election-night-venue",
+ "plate": "sg-p08",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "business"
+ },
+ "zones": [
+  {
+   "name": "speaker at the lectern",
+   "box": [
+    790,
+    200,
+    900,
+    300
+   ],
+   "pose": "lectern",
+   "facing": 0,
+   "coveredBy": "lectern",
+   "role": "speaker",
+   "dress": "formal"
+  },
+  {
+   "name": "crowd",
+   "box": [
+    0,
+    0,
+    1672,
+    941
+   ],
+   "pose": "stand",
+   "facing": 180
+  }
+ ]
+}

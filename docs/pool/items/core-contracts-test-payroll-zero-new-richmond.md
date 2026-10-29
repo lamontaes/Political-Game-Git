@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/contracts-new-richmond
+pr: #6217
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T04:52:17.629Z
 ---
 
 **What.** src/core2/contracts.test.ts fails in New Richmond, West Virginia (place 5458756, world seed 316714e6a857a0fbf59cec54893baa1a7a979e67ea5fbc4009f891993e48c36b): contract:US-WV:schools:2025-02-01 payroll expected 0 to be greater than 0. It fails identically on clean main.

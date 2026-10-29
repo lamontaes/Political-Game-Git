@@ -1,0 +1,30 @@
+{
+  "id": "pose-counter-02",
+  "file": "pose-counter-02.png",
+  "garments": "pose-counter-02-garments.png",
+  "sheet": "in-scene",
+  "scene": "clerk-counter",
+  "plate": "ds-c1.png",
+  "pose": "stand",
+  "angle": "three-quarter-back",
+  "facing": -130,
+  "gesture": "explaining with one hand",
+  "interacts": "counter: standing at it",
+  "hairView": "tqb-m",
+  "sex": "m",
+  "build": "heavy",
+  "ageBand": "adult",
+  "prop": "none",
+  "outfit": "suit",
+  "width": 150,
+  "height": 412,
+  "boxInScene": [723, 149, 873, 561],
+  "sceneSize": [1365, 768],
+  "head": {
+    "top": 4,
+    "x": 95.0,
+    "width": 83
+  },
+  "frontEdgeY": null,
+  "clothesLabelled": 0.8
+}

@@ -10,6 +10,7 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
 import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
 import unwiredLinks from "../../src/core2/data/outcome-web/unwired.json" with { type: "json" };
+import effectMatrix from "../../docs/reports/effect-web-matrix-2026-10-20.json" with { type: "json" };
 import { ownLeast, pickOwn, type OwnPair } from "./own-payments";
 import { splitByReader } from "./unread-links";
 import {
@@ -119,6 +120,10 @@ interface Result {
     reenacted?: { id: string; effectiveDate: string; value: number } | null;
   };
   heard: { people: number; sample: string[] };
+  /** Who the law could bind in the drawn place, for a law whose handler binds one kind of subject (older result files have none). */
+  subjects?: { count: number; why: string; ids: string[] };
+  /** The law's own applied rows in the window and how many record an amount (older result files have none). */
+  applied?: { rows: number; withAmount: number; sample: string[] };
   afterUndo: ReachCount;
   /** Reach still citing the changed row once the old amount is put back (older result files have none). */
   afterUndoChanged?: ReachCount;
@@ -156,6 +161,53 @@ const NOT_AN_EFFECT = [
   "src/bench/",
 ];
 /** Laws with no researched outcome link, each with its registered stopgap. */
+/**
+ * Who reads each outcome-web link's factor, by file and line, from the effect
+ * matrix (scripts/outcome-web/effect-matrix.ts): a web link counts as wired
+ * only where its row names the reader beside the month's record id
+ * (OWNER-DECISIONS, Oct 28 05:30).
+ */
+/**
+ * The research links counted once, here beside the laws (the effect matrix
+ * is the one grader of links): how many reach people or are carried by an
+ * engine, how many the research finds about zero, and how many are unread,
+ * each named in a stopgap.
+ */
+const LINK_COUNTS = (() => {
+  const summary = (
+    effectMatrix as unknown as {
+      summary: {
+        links: number;
+        reachesTheWorld: number;
+        aboutZero?: number;
+        namedInAStopgap: number;
+        notReachingAndNoStopgap: number;
+      };
+    }
+  ).summary;
+  const aboutZero = summary.aboutZero ?? 0;
+  return {
+    links: summary.links,
+    reaching: summary.reachesTheWorld,
+    aboutZero,
+    unread: summary.links - summary.reachesTheWorld - aboutZero,
+    unreadWithNoStopgap: summary.notReachingAndNoStopgap,
+  };
+})();
+
+const WEB_READERS = new Map(
+  (
+    effectMatrix as unknown as {
+      links: {
+        key: string;
+        points: { reaches?: { status: string; evidence?: string } };
+      }[];
+    }
+  ).links
+    .filter((l) => l.points.reaches?.status === "pass")
+    .map((l) => [l.key, l.points.reaches!.evidence ?? ""]),
+);
+
 const RESEARCH_GAPS = new Map(
   (
     researchGaps as {
@@ -253,20 +305,29 @@ function reachLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
         `${p.place}: ${p.c.open} open (full ${p.c.fullPeople}, counted groups ${p.c.countedGroups}/${p.c.countedPeople} people, households ${p.c.households}, orgs ${p.c.organizations}, govts ${p.c.governments}) e.g. ${p.c.sample[0] ?? "-"}`,
     )
     .join("; ");
-  const zero = per.filter((p) => p.c.open === 0).map((p) => p.place);
+  // A place where the law has nobody to bind (no county out of attainment,
+  // no farm, no eviction filed) reaching nobody is the statute's own terms.
+  const none = per.filter((p) => p.c.open === 0 && p.r.subjects?.count === 0);
+  const zero = per
+    .filter((p) => p.c.open === 0 && p.r.subjects?.count !== 0)
+    .map((p) => p.place);
+  const evidenceAll = [
+    evidence,
+    ...none.map((p) => `${p.place}: nobody to bind (${p.r.subjects!.why})`),
+  ].join("; ");
   if (zero.length)
     return {
       status: "partial",
-      evidence,
+      evidence: evidenceAll,
       why: `reached nobody in ${zero.join(", ")}`,
     };
   if (!counted && per.some((p) => p.c.fullPeople > 0))
     return {
       status: "partial",
-      evidence,
+      evidence: evidenceAll,
       why: "full people only: no counted group is reached (one model, two tiers)",
     };
-  return { status: "wired", evidence, why: "" };
+  return { status: "wired", evidence: evidenceAll, why: "" };
 }
 
 function systemsLink(
@@ -351,11 +412,24 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
   // its money is the lines its own move rows name, what the treasury paid on
   // them with the act and without it. An act that moved no line (a budget
   // already in balance) moved no money, whatever else differed between worlds.
+  // A budget-line law is the same with its own line (the raise the checker
+  // made): the treasury pays the line's workers and contractors through the
+  // town's outside market, so its money is the payments the line's payment ids
+  // name, here and in the control world, and it counts where the treasury paid
+  // more on the line with the raise (a difference the other way is drift). Where
+  // it did not, the law's other payments below are looked at.
+  const line = law.kind === "budget-line";
+  const what = line ? "raise" : "act";
   const moved = runs.filter(({ r }) => r.money?.lines);
   if (moved.length) {
     const paid = moved.flatMap(({ place, r }) =>
       r.money
-        .lines!.filter((l) => l.treatment !== l.control)
+        .lines!.filter(
+          (l) =>
+            l.treatment !== l.control &&
+            (!line ||
+              Math.sign(l.treatment - l.control) === Math.sign(l.moved)),
+        )
         .map((l) => ({ place, l, opening: r.inForceAtOpening })),
     );
     if (paid.length)
@@ -365,32 +439,33 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
           .slice(0, 3)
           .map(
             ({ place, l, opening }) =>
-              `${place}: the ${l.government} treasury's payments on ${l.line}, which the act moved by ${l.moved}: ${
+              `${place}: the ${l.government} treasury's payments on ${l.line}, which the ${what} moved by ${l.moved}: ${
                 opening
                   ? `${l.control} with the act in force, ${l.treatment} with it repealed`
-                  : `${l.control} without the act, ${l.treatment} with it`
+                  : `${l.control} without the ${what}, ${l.treatment} with it`
               }${l.before ? `, payments before ${l.before}` : ""} (${l.ids[0] ?? ""})`,
           )
           .join("; "),
         why: "",
       };
     const none = moved.every(({ r }) => !r.money.lines!.length);
-    return {
-      status: "missing",
-      evidence: moved
-        .map(
-          ({ place, r }) =>
-            `${place}: ${
-              r.money.lines!.length
-                ? `the act moved ${r.money.lines!.map((l) => l.line).join(", ")} and the treasury paid the same with and without it`
-                : "the act's move rows hold no line"
-            }`,
-        )
-        .join("; "),
-      why: none
-        ? "the act moved no budget line in the drawn places (the budget it balances had nothing to cut), so it moved no money"
-        : "the treasury paid the same on the lines the act moved with and without it",
-    };
+    if (!line)
+      return {
+        status: "missing",
+        evidence: moved
+          .map(
+            ({ place, r }) =>
+              `${place}: ${
+                r.money.lines!.length
+                  ? `the act moved ${r.money.lines!.map((l) => l.line).join(", ")} and the treasury paid the same with and without it`
+                  : "the act's move rows hold no line"
+              }`,
+          )
+          .join("; "),
+        why: none
+          ? "the act moved no budget line in the drawn places (the budget it balances had nothing to cut), so it moved no money"
+          : "the treasury paid the same on the lines the act moved with and without it",
+      };
   }
   const direct = runs.flatMap(({ place, r }) =>
     (r.money?.direct ?? [])
@@ -481,6 +556,25 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
     ].join("; ");
     return { status: "wired", evidence: ev, why: "" };
   }
+  // The law's own applied rows say its terms bound nobody in any drawn place
+  // (an estate under the exemption, a lease whose market rise stayed under the
+  // cap): no dollar of its own moved, by its own records.
+  if (
+    runs.length &&
+    runs.every(
+      ({ r }) => r.applied && r.applied.rows > 0 && !r.applied.withAmount,
+    )
+  )
+    return {
+      status: "n/a",
+      evidence: runs
+        .map(
+          ({ place, r }) =>
+            `${place}: ${r.applied!.rows} applied rows, none with an amount owed, paid or held (e.g. ${r.applied!.sample[0]})`,
+        )
+        .join("; "),
+      why: "its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held",
+    };
   const any = runs.flatMap(({ place, r }) =>
     (r.money?.diff ?? []).map((d) => ({ place, d })),
   );
@@ -539,8 +633,13 @@ function webLink(
           evidence: "data/research/outcome-web/links.json",
           why: "no researched outcome-web link starts from this law",
         };
+  // A link an engine now carries is not run by the web: a ledger row an
+  // older run kept for it is history, not this link's evidence.
+  const carriedNow = new Set(links.filter((l) => carried(l)).map((l) => l.key));
   const allFired = runs.flatMap(({ place, r }) =>
-    (r.web?.fired ?? []).map((f) => ({ place, f })),
+    (r.web?.fired ?? [])
+      .filter((f) => !carriedNow.has(f.link))
+      .map((f) => ({ place, f })),
   );
   // A fired ledger row whose factor no engine reads (unwired.json, open
   // stopgap) is a record, not wiring.
@@ -583,7 +682,8 @@ function webLink(
     const ev = fired
       .slice(0, 3)
       .map(
-        ({ place, f }) => `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)}`,
+        ({ place, f }) =>
+          `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)}${WEB_READERS.has(f.link) ? `, read by ${WEB_READERS.get(f.link)}` : ""}`,
       )
       .join("; ");
     const missing = [
@@ -711,9 +811,18 @@ function repealLink(runs: { place: string; r: Result }[]): Link {
     } else {
       if (r.reach.open === 0) continue;
       had += 1;
-      if (r.afterUndo.open === 0) ok += 1;
+      // A row open after the repeal under a law a body passed in play (not
+      // the checker's) is the world enacting it again, not the repeal failing;
+      // it counts only when every open row is in the sample.
+      const theWorlds =
+        r.afterUndo.sample.length === r.afterUndo.open
+          ? r.afterUndo.sample.filter(
+              (id) => !r.lawIds.some((law) => id.includes(law)),
+            )
+          : [];
+      if (r.afterUndo.open - theWorlds.length === 0) ok += 1;
       notes.push(
-        `${place}: ${r.reach.open} open -> after repeal ${r.afterUndo.open} open, ${r.afterUndo.ended} ended`,
+        `${place}: ${r.reach.open} open -> after repeal ${r.afterUndo.open} open, ${r.afterUndo.ended} ended${theWorlds.length ? ` (${theWorlds.length} under a law the world passed itself, ${theWorlds[0]})` : ""}`,
       );
     }
   }
@@ -759,19 +868,22 @@ function table(
     family: string;
     overall: string;
     links: Record<string, Link>;
+    screens: readonly { screen: string }[];
   }[],
 ): string {
   const lines = [
     "# Law wiring table",
     "",
-    "Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id.",
+    `Laws wired: ${rows.filter((r) => r.overall === "wired").length} of ${rows.length} (${rows.filter((r) => r.overall === "partly").length} partly, ${rows.filter((r) => r.overall === "stopgapped").length} on a stopgap). Research links reaching people or carried by an engine: ${LINK_COUNTS.reaching} of ${LINK_COUNTS.links} (${LINK_COUNTS.aboutZero} the research finds about zero, ${LINK_COUNTS.unread} unread, ${LINK_COUNTS.unreadWithNoStopgap} of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.`,
     "",
-    "| Law | Family | " + LINKS.join(" | ") + " | Overall |",
-    "| --- | --- | " + LINKS.map(() => "---").join(" | ") + " | --- |",
+    "Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).",
+    "",
+    "| Law | Family | " + LINKS.join(" | ") + " | Overall | Seen on |",
+    "| --- | --- | " + LINKS.map(() => "---").join(" | ") + " | --- | --- |",
   ];
   for (const r of rows)
     lines.push(
-      `| ${r.name} | ${r.family} | ${LINKS.map((k) => MARK[r.links[k]!.status]).join(" | ")} | ${r.overall} |`,
+      `| ${r.name} | ${r.family} | ${LINKS.map((k) => MARK[r.links[k]!.status]).join(" | ")} | ${r.overall} | ${r.screens.map((s) => s.screen.replace("Politics → ", "")).join(", ") || "none"} |`,
     );
   lines.push("", "## Why each link is missing", "");
   for (const r of rows) {
@@ -784,6 +896,24 @@ function table(
   }
   return `${lines.join("\n")}\n`;
 }
+
+/**
+ * Where a player sees each law (wiring-audit: "wired is not seen"): the
+ * screens scripts/law-wiring/screens.ts read each law on in a played world.
+ */
+const SCREENS_FILE = "docs/reports/law-wiring-screens.json";
+interface ScreensFile {
+  places: {
+    place: { key: string; name: string };
+    runSeed: string;
+    from: string;
+    through: string;
+  }[];
+  laws: Record<string, { screen: string; evidence: string }[]>;
+}
+const screensRun: ScreensFile | null = existsSync(SCREENS_FILE)
+  ? (JSON.parse(readFileSync(SCREENS_FILE, "utf8")) as ScreensFile)
+  : null;
 
 function main(): void {
   const files = process.argv.slice(2);
@@ -856,15 +986,16 @@ function main(): void {
       links.web = webLink(law, rs, links.systems);
       links.knowing = knowingLink(rs);
       links.repeal = repealLink(rs);
+      // A place with nobody for the law to bind is left out: reaching nobody
+      // there is the statute's terms, not a place the wiring missed.
+      const open = ({ r }: { r: Result }) =>
+        r.inForceAtOpening ? r.openingReach.open : r.reach.open;
+      const bindable = rs.filter(
+        (p) => open(p) > 0 || p.r.subjects?.count !== 0,
+      );
       const sameEverywhere =
-        rs.every(
-          ({ r }) =>
-            (r.inForceAtOpening ? r.openingReach.open : r.reach.open) > 0,
-        ) ||
-        rs.every(
-          ({ r }) =>
-            (r.inForceAtOpening ? r.openingReach.open : r.reach.open) === 0,
-        );
+        bindable.every((p) => open(p) > 0) ||
+        bindable.every((p) => open(p) === 0);
       links.allPlaces = {
         status:
           sameEverywhere && links.reach.status !== "missing"
@@ -928,6 +1059,7 @@ function main(): void {
       mechanic: data.mechanic,
       overall,
       links,
+      screens: screensRun?.laws[law.key] ?? [],
       runs: rs.map(({ place, r }) => ({
         place,
         change: r.change,
@@ -949,6 +1081,17 @@ function main(): void {
       wired: rows.filter((r) => r.overall === "wired").length,
       partly: rows.filter((r) => r.overall === "partly").length,
       stopgapped: rows.filter((r) => r.overall === "stopgapped").length,
+      // The research links, counted once (the effect matrix's grade).
+      researchLinks: LINK_COUNTS,
+      // Laws a player sees on at least one screen, and where that was read.
+      shownOnAScreen: rows.filter((r) => r.screens.length).length,
+      screensRead:
+        screensRun?.places.map((p) => ({
+          place: `${p.place.name} (${p.place.key})`,
+          runSeed: p.runSeed,
+          from: p.from,
+          through: p.through,
+        })) ?? [],
       byLink: Object.fromEntries(
         [
           "exists",

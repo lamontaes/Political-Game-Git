@@ -6,12 +6,13 @@ name: Deterministic validation
 
 on:
   pull_request:
-  push:
-    branches: [main]
-    # Pool-only bookkeeping changes no executable code. Keep pull-request,
-    # scheduled and manual validation; pushes touching other paths still run.
-    paths-ignore:
-      - "docs/pool/**"
+  # Main is validated once an hour, not on every push (owner, Oct 28: the CI
+  # queue reached 85 runs on 12 runners at thirty merges an hour, and every
+  # merge's pull request had already run this workflow on the merged result).
+  # The Release workflow still builds and typechecks every push to main.
+  schedule:
+    - cron: "7 * * * *"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -63,7 +64,7 @@ jobs:
 
       - name: Check only the files this change touches
         # Owner rule (Oct 12, 2026): never run the full repository. Formatting,
-        # lint, American English and release declarations cover only the files
+        # lint and release declarations cover only the files
         # this pull request (or push) adds or edits; a change never fails on
         # files it didn't touch. Whole-repo typecheck and data validations are
         # not part of this check.
@@ -98,11 +99,59 @@ jobs:
           if [[ ${#code[@]} -gt 0 ]]; then
             npx eslint --no-warn-ignored "${code[@]}"
           fi
-          CHANGED_FILES="$(printf '%s\n' "${changed[@]}")" npx vitest run tests/american-english.test.ts
           RELEASE_DECLARATION_BASE="$declaration_base" \
           RELEASE_DECLARATION_HEAD="$VALIDATED_HEAD_SHA" \
           RELEASE_DECLARATION_MODE="$declaration_mode" \
             npm run release:check
+
+  guards:
+    name: guards
+    # Every standing-rule guard, on every pull request and push, whatever the
+    # change touches. The list, each guard's rule and where to read it live in
+    # scripts/guards/index.ts; docs/design/guards.md explains each one.
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          # The guards judge what main becomes: the pull request merged into
+          # its base (GitHub's merge commit), so a branch cut before a guard
+          # existed is judged by today's guards, not by its own old copy.
+          ref: ${{ github.sha }}
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Run every guard
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          # The reading-line guard reads the pull request's body live.
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            base="$(git merge-base HEAD "$PR_BASE_SHA")"
+          elif [[ -n "$EVENT_BEFORE" && ! "$EVENT_BEFORE" =~ ^0+$ ]]; then
+            base="$EVENT_BEFORE"
+          else
+            base="$(git rev-parse HEAD~1)"
+          fi
+          CHANGED_FILES="$(git diff --name-only --diff-filter=AMR "$base" HEAD)" npm run guards
 
   scope:
     name: scope
@@ -187,6 +236,7 @@ jobs:
     if: always()
     needs:
       - repository
+      - guards
       - scope
       - unit
     runs-on: ubuntu-latest
@@ -200,12 +250,14 @@ jobs:
         run: |
           set -euo pipefail
           repository='${{ needs.repository.result }}'
+          guards='${{ needs.guards.result }}'
           unit='${{ needs.unit.result }}'
           echo "repository=$repository"
+          echo "guards=$guards"
           echo "unit=$unit"
           docs_only='${{ needs.scope.outputs.docs_only }}'
           if [[ "$docs_only" == "true" && "$unit" == "skipped" ]]; then unit=success; fi
-          if [[ "$repository" != "success" || "$unit" != "success" ]]; then
+          if [[ "$repository" != "success" || "$guards" != "success" || "$unit" != "success" ]]; then
             echo "Aggregate validate succeeds only when every mandatory job succeeded."
             exit 1
           fi

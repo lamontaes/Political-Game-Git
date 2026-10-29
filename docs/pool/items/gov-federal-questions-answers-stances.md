@@ -23,3 +23,7 @@ source: split from gov-stopgap-world-legislating-missing-mechanic by pool feeder
 **Files.** src/core2/data/legislature/federal-answers.json, src/core2/modules/world-legislating.ts, src/core2/modules/officials.ts, src/core2/federal-answers.test.ts
 
 **Notes.** Oct 20 (pool feeder): part 1 of 4 of gov-stopgap-world-legislating-missing-mechanic.
+
+Oct 27 (director lead, #6300): evidence. In five drawn worlds the President's `ownStance` (src/core2/officials-roster.ts) is exactly 0 on every federal question, and all three signature issues are state questions, so since #6300 (Congress hears only what federal law can answer) the opening address has no Congress ask in 12 of 12 drawn places. A President's stance on each federal question, beside the members', brings the Congress section back with no director code.
+
+Oct 28 (words and director session, #6675 stack): still true. In five more drawn worlds (seeds addr-a to addr-e, East Millinocket ME, North Branch MI, Kingwood WV, Kellogg Point CT, St. Johnsbury VT) policyAuthority answers level-lacks-power for 106 of 108 questions at the federal level and the two it allows have no federal law row, so the address in parts has no priority part. The address waits on this item for its middle paragraphs.

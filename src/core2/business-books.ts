@@ -2,6 +2,7 @@ import { makeIsoDate, daysBetweenText } from "./kernel/dates";
 import dataJson from "./data/business-books.json" with { type: "json" };
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import type { Source } from "./types";
+import { worldLevel, worldRate } from "./world-draw";
 
 /** Pure estimates and funding plans. No transfer, opening receipt, or job mutation. */
 export interface BusinessKind {
@@ -55,12 +56,59 @@ export const DEFAULT_BUSINESS_BOOKS_DATA: BusinessBooksData = dataJson;
 export interface BusinessBooksOptions {
   data?: BusinessBooksData;
   parameters?: Readonly<Record<string, Parameter>>;
+  /** The world's seed: the industry ratios a book reads are this world's own (see `worldBookRatio`). */
+  seed?: string;
+}
+
+/** The three IRS ratios a kind of business carries. */
+export type BookRatio = "margin" | "payrollShare" | "salesCostShare";
+const RATIO_PARAMETER: Readonly<Record<BookRatio, keyof BusinessKind>> = {
+  margin: "marginParameter",
+  payrollShare: "payrollShareParameter",
+  salesCostShare: "salesCostShareParameter",
+};
+
+/** The IRS aggregate ratio as published (tax year 2022): calibration for the world's draw and its checks, never read by play. */
+export function publishedBookRatio(
+  kind: BusinessKind,
+  which: BookRatio,
+  p: (key: string) => number,
+): number {
+  return p(kind[RATIO_PARAMETER[which]] as string);
+}
+
+/**
+ * This world's ratio for a kind of business: the published aggregate moved
+ * by the world's own draw (owner, Oct 27: realistic, not real). Margin and
+ * pay share move as levels; the sales-sensitive cost share stays between 0
+ * and 1. Every business of a kind in one world reads the same ratio.
+ */
+export function worldBookRatio(
+  seed: string,
+  kind: BusinessKind,
+  which: BookRatio,
+  p: (key: string) => number,
+): number {
+  const published = publishedBookRatio(kind, which, p),
+    key = `books-world:${kind.id}:${which}`,
+    spread = "businessWorldBooksSpreadShare";
+  return which === "salesCostShare"
+    ? worldRate(published, seed, key, spread)
+    : worldLevel(published, seed, key, spread);
 }
 
 function settings(options: BusinessBooksOptions) {
   const data = options.data ?? DEFAULT_BUSINESS_BOOKS_DATA;
   const registry = options.parameters ?? PARAMETERS;
-  return { data, p: (key: string) => parameter(key, registry) };
+  const p = (key: string) => parameter(key, registry);
+  const ratio = (kind: BusinessKind, which: BookRatio) => {
+    if (options.seed === undefined)
+      throw new Error(
+        "Business ratios are read for a world: pass its seed in the options.",
+      );
+    return worldBookRatio(options.seed, kind, which, p);
+  };
+  return { data, p, ratio };
 }
 
 function nonnegative(value: number, field: string, zero: number): void {
@@ -141,7 +189,7 @@ export function projectOpeningBusiness(
   input: OpeningBusinessInput,
   options: BusinessBooksOptions = {},
 ): { books?: OpeningBusinessProjection; gap?: string } {
-  const { data, p } = settings(options),
+  const { data, p, ratio } = settings(options),
     zero = p("zero"),
     one = p("one");
   makeIsoDate(input.at);
@@ -151,8 +199,8 @@ export function projectOpeningBusiness(
   const classification = classifyBusiness(input.classification, options);
   if (!classification.kind) return { gap: classification.gap };
   const kind = classification.kind;
-  const payrollShare = p(kind.payrollShareParameter),
-    margin = p(kind.marginParameter);
+  const payrollShare = ratio(kind, "payrollShare"),
+    margin = ratio(kind, "margin");
   positive(payrollShare, "industry payroll share", zero);
   if (!Number.isFinite(margin) || margin >= one)
     throw new Error("Industry margin must be finite and below unity.");
@@ -378,7 +426,7 @@ export function projectOtherCosts(
   salesCostEstimated: boolean;
   parameterRef: string;
 } {
-  const { data, p } = settings(options),
+  const { data, p, ratio } = settings(options),
     zero = p("zero"),
     one = p("one");
   for (const [field, value] of Object.entries({
@@ -391,7 +439,7 @@ export function projectOtherCosts(
   if (input.capacityMinor === zero && input.annualDemandMinor > zero)
     throw new Error("Positive firm demand requires a positive capacity basis.");
   const kind = kindById(data, input.kindId),
-    share = p(kind.salesCostShareParameter);
+    share = ratio(kind, "salesCostShare");
   nonnegative(share, "sales-sensitive cost share", zero);
   if (share > one) throw new Error("Sales-sensitive cost share exceeds unity.");
   const scale =

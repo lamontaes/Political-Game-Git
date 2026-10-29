@@ -7,10 +7,10 @@ describe("deterministic validation workflow capacity", () => {
   it("keeps the required aggregate named validate and does not green a failed job", () => {
     expect(validate).toContain("name: validate\n    if: always()");
     expect(validate).toContain(
-      "needs:\n      - repository\n      - scope\n      - unit",
+      "needs:\n      - repository\n      - guards\n      - scope\n      - unit",
     );
     expect(validate).toContain(
-      '"$repository" != "success" || "$unit" != "success"',
+      '"$repository" != "success" || "$guards" != "success" || "$unit" != "success"',
     );
     expect(validate).not.toContain("continue-on-error");
     expect(validate).not.toContain("pull_request_target");
@@ -46,6 +46,20 @@ describe("deterministic validation workflow capacity", () => {
     expect(validate).toMatch(/paths-ignore:\n\s+- "docs\/pool\/\*\*"/);
   });
 
+  // The guards are the one exception to changed-files-only: each holds a
+  // standing rule over the whole tree, so they run on every change.
+  it("runs every guard on every change and the aggregate requires it", () => {
+    expect(validate).toContain("  guards:\n    name: guards\n");
+    expect(validate).toContain("npm run guards");
+    const guardsJob = validate.slice(
+      validate.indexOf("  guards:\n"),
+      validate.indexOf("  scope:\n"),
+    );
+    expect(guardsJob).not.toContain("if:");
+    // The guards read the merged result, so an old branch meets today's guards.
+    expect(guardsJob).toContain("ref: ${{ github.sha }}");
+  });
+
   it("checks only the changed files in validate", () => {
     // Owner rule (Oct 12, 2026): never run the full repository. Validate
     // checks the files a change touches and runs only its changed tests.
@@ -58,8 +72,13 @@ describe("deterministic validation workflow capacity", () => {
   });
 
   it("preserves trusted checkout, action versions, and exact PR-head refs", () => {
-    expect(validate.match(/actions\/checkout@v7/g)).toHaveLength(2);
-    expect(validate.match(/actions\/setup-node@v7/g)).toHaveLength(2);
+    expect(validate.match(/actions\/checkout@v7/g)).toHaveLength(3);
+    expect(
+      validate.match(
+        /ref: \$\{\{ github\.event\.pull_request\.head\.sha \|\| github\.sha \}\}/g,
+      ),
+    ).toHaveLength(2);
+    expect(validate.match(/actions\/setup-node@v7/g)).toHaveLength(3);
     expect(validate).toContain(
       "ref: ${{ github.event.pull_request.head.sha || github.sha }}",
     );

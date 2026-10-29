@@ -26,17 +26,11 @@ try {
       { timeout: 300000 },
     );
     await page.locator("#new-life").click();
+    await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     const r = await response;
     assert.equal(r.status(), 200);
     console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
@@ -49,15 +43,27 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
-  const tabs = await page
-    .locator(".nav-item[data-tab]")
-    .evaluateAll((nodes) => nodes.map((n) => n.dataset.tab));
+  // Every screen: the rail's, Who you are from the portrait, and its Jobs and
+  // study tab.
+  const tabs = [
+    ...(await page
+      .locator("#rings [data-tab]")
+      .evaluateAll((nodes) => nodes.map((n) => n.dataset.tab))),
+    "jobs",
+  ];
   const scan = async (when) => {
     for (const tab of tabs) {
-      await page
-        .locator(`.nav-item[data-tab="${tab}"]`)
-        .first()
-        .evaluate((e) => e.click());
+      if (tab === "jobs") {
+        await page
+          .locator('#rings [data-tab="who"]')
+          .evaluate((e) => e.click());
+        await page.locator('#sheet-tabs [data-tab="jobs"]').waitFor();
+        await page.locator('#sheet-tabs [data-tab="jobs"]').click();
+      } else
+        await page
+          .locator(`#rings [data-tab="${tab}"]`)
+          .first()
+          .evaluate((e) => e.click());
       await page.waitForTimeout(1500);
       // Only what a reader can see: hidden lines don't count.
       const text = await page.locator("#sheet").evaluate((sheet) => {
@@ -71,8 +77,35 @@ try {
       for (const line of text.split("\n"))
         if (RECORD_ID.test(line) || MISSING.test(line))
           bad.push(`${when} · ${tab}: ${line.trim().slice(0, 160)}`);
+      // No dead space (owner, Oct 27): a reading screen ends under what it
+      // holds, a hand's width of chrome at most beyond its content.
+      if (["journal", "jobs", "money"].includes(tab)) {
+        const fit = await page.evaluate(() => {
+          const sheet = document
+            .getElementById("sheet")
+            .getBoundingClientRect();
+          const body = document.getElementById("sheet-body");
+          const last = [...body.children].at(-1)?.getBoundingClientRect();
+          return { sheet: sheet.bottom, content: last?.bottom ?? sheet.top };
+        });
+        if (fit.sheet - fit.content > 120)
+          bad.push(
+            `${when} · ${tab}: ${Math.round(fit.sheet - fit.content)}px empty under the content`,
+          );
+      }
+      // What you're like is said in sentences, never as trait names and scores.
+      if (
+        tab === "who" &&
+        /Deliberation|Sociability|Neither, much|Handling disagreement|Keeping commitments/.test(
+          text,
+        )
+      )
+        bad.push(`${when} · who: trait names on screen`);
       await page.keyboard.press("Escape");
     }
+    // Escape opens Options over a screen; close whatever is open before going on.
+    if (await page.locator("#sheet").isVisible())
+      await page.locator("#sheet-close").click();
   };
   await scan("start");
   await page.locator("#day").click();

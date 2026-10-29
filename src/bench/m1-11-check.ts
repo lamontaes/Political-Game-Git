@@ -4,8 +4,12 @@
 // gets (`buildBenchWorld`, every module) and plays a year with the ordinary
 // producers (nothing is injected), keeping every response the drives engine
 // records to a job loss, an eviction or a closure. Then:
-// (1) each kind (a job loss, an eviction, a closure) happened and was
-//     answered: a kind that never happened leaves its clause unchecked;
+// (1) job losses or closures happened, and every event the producers emitted
+//     that named someone was answered. Whether a kind happened is read from
+//     the producers' own events, never from the responses: a kind no producer
+//     emitted in the year (often evictions in a small town) is named in the
+//     output as not exercised; one that happened but lost its responses fails,
+//     and an event that named no one is listed by its id;
 // (2) displaced workers (job losses and closures) take up an ambition at the
 //     displaced-worker rate and most carry on, the band the engine's own test
 //     uses (data/research/drives/economic-losses.json: retraining 10 to 16
@@ -15,20 +19,25 @@
 //     (src/bench/m1-11-named.ts);
 // (4) every drive formed from these events that aims at someone aims at the
 //     party the event names as responsible, and that party is a record.
-// Exits nonzero naming each failed clause.
+// Exits nonzero naming each failed clause. M1_11_DROP_RESPONSES_OF=<kind>
+// drops that kind's responses as they are recorded, to show the check fails.
 // Usage: node --max-old-space-size=8192 --import tsx src/bench/m1-11-check.ts
 import { buildBenchWorld } from "./world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import type { CoreEventInput } from "../core2/types";
 import {
   DEFAULT_DRIVES_DATA,
   drivesReport,
+  responsibleId,
   type FormationTrace,
 } from "../core2/modules/drives";
-import { residentsRuntime } from "../core2/modules/residents";
+import { residentFacts, residentsRuntime } from "../core2/modules/residents";
+import { coreAPI } from "../core2/state";
 import { answeredByNamed } from "./m1-11-named";
+import { occurrence, type OccurredEvent } from "./m1-11-occurred";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "m1-11-check";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
@@ -66,22 +75,67 @@ const closureWorkers = (eventId: string) => {
     return personId ? [personId] : [];
   });
 };
-const kept = drivesReport(core).decisions;
-const push = kept.push.bind(kept);
-kept.push = (...rows: FormationTrace[]) => {
-  for (const row of rows) {
-    if (!KINDS.has(row.eventKind)) continue;
-    answers.push(row);
-    if (
-      row.eventKind === "organization.closed" &&
-      !endedCounted.has(row.eventId)
-    )
-      endedCounted.set(row.eventId, closureWorkers(row.eventId));
-  }
-  return push(...rows);
+const { factKeys: driveFacts } = DEFAULT_DRIVES_DATA as unknown as {
+  factKeys: { countedSubject: string; countedPerceivers: string };
 };
-
+// Every event of these kinds the producers emit, with the people it named
+// then: full people, and the counted people its records name (its counted
+// subject and perceivers, and the counted workers a closure ended).
+const occurred: OccurredEvent[] = [];
+coreAPI(core).subscribeEvents("m1-11-check", [...KINDS], (_api, event) => {
+  watch();
+  const facts = (event.facts ?? {}) as Record<string, string | undefined>;
+  const perceivers = facts[driveFacts.countedPerceivers];
+  const counted = [
+    facts[driveFacts.countedSubject],
+    ...(perceivers ? (JSON.parse(perceivers) as string[]) : []),
+  ].filter((id): id is string => !!id);
+  // The engine answers a full person who is alive and a counted person still
+  // in the counts; anyone else the records name is kept, by id, as unable to.
+  const candidates = [
+    ...(event.personIds ?? []),
+    ...counted,
+    ...(event.kind === "organization.closed" ? closureWorkers(event.id) : []),
+  ];
+  const able = (id: string) =>
+    core.people.get(id as never)?.alive === true ||
+    (!core.people.has(id as never) &&
+      residentFacts(core, id as never) !== undefined);
+  occurred.push({
+    id: event.id,
+    kind: event.kind,
+    named: [...new Set(candidates.filter(able))],
+    ineligible: [...new Set(candidates.filter((id) => !able(id)))],
+  });
+});
+const dropped = process.env.M1_11_DROP_RESPONSES_OF;
+const take = (row: FormationTrace) => {
+  if (!KINDS.has(row.eventKind) || row.eventKind === dropped) return;
+  answers.push(row);
+  if (row.eventKind === "organization.closed" && !endedCounted.has(row.eventId))
+    endedCounted.set(row.eventId, closureWorkers(row.eventId));
+};
+// The engine makes its list the first time it answers anything; until then
+// the report hands out an empty one it never writes. Watch the live list from
+// the moment it exists, taking what it already holds when it appeared during
+// the year (an opening's answers are not this year's).
+let watched: FormationTrace[] | undefined;
+const watch = (held = true) => {
+  const report = drivesReport(core);
+  // No runtime yet: `perceived` is unset and the list is a stand-in.
+  if (report.perceived === undefined || report.decisions === watched) return;
+  const kept = report.decisions;
+  if (held) for (const row of kept) take(row);
+  const push = kept.push.bind(kept);
+  kept.push = (...rows: FormationTrace[]) => {
+    for (const row of rows) take(row);
+    return push(...rows);
+  };
+  watched = kept;
+};
+watch(false);
 advanceCore(core, addDays(makeIsoDate(core.date), 365));
+watch();
 
 // (1) Events happened and were answered.
 const events = new Map<string, FormationTrace["event"] & { kind: string }>();
@@ -90,11 +144,28 @@ for (const row of answers)
 const byKind = (kind: string) =>
   [...events.values()].filter((e) => e.kind === kind).length;
 const losses = answers.filter((row) => LOSS.has(row.eventKind));
-for (const kind of KINDS)
+// Read from the producers' events: a kind that never happened in this town's
+// year is named, not failed (a small town can go a year without an
+// eviction); an event that happened and named someone must have been
+// answered. A year in which no worker lost a job (Rosston, Oklahoma: no
+// layoff, three closures with no one on staff) leaves the displaced-worker
+// clauses unchecked and says so, as it does for a kind that never happened.
+const report = occurrence(
+  KINDS,
+  occurred,
+  new Set(answers.map((row) => row.eventId)),
+);
+const { notExercised } = report;
+for (const kind of KINDS) {
+  const lost = report.unanswered.filter((event) => event.kind === kind);
   check(
-    answers.some((row) => row.eventKind === kind),
-    `${where}: no ${kind} event was answered in a year, so the spec's clause for it ran on nothing`,
+    lost.length === 0,
+    `${where}: ${lost.length} ${kind} events named someone and drew no response (${lost
+      .slice(0, 3)
+      .map((event) => `${event.id} naming ${event.named.join(" ")}`)
+      .join(", ")})`,
   );
+}
 
 // (2) The displaced-worker rate.
 const share = (id: string) =>
@@ -102,13 +173,21 @@ const share = (id: string) =>
   Math.max(1, losses.length);
 const prove = share("prove-oneself");
 const carryOn = share("carry-on");
+// The band is for a whole population; one town's year is a sample of its
+// displaced workers, so each bound widens by two standard errors at that
+// sample's size (three workers can all carry on by chance; 145 cannot).
+const n = Math.max(1, losses.length);
+const slack = (p: number) => 2 * Math.sqrt((p * (1 - p)) / n);
+const low = Math.max(0, PROVE[0] - slack(PROVE[0]));
+const high = Math.min(1, PROVE[1] + slack(PROVE[1]));
+const carryFloor = Math.max(0, CARRY_ON_AT_LEAST - slack(CARRY_ON_AT_LEAST));
 check(
-  losses.length === 0 || (prove >= PROVE[0] && prove <= PROVE[1]),
-  `${where}: ${(100 * prove).toFixed(1)}% of displaced workers set out to prove themselves, outside ${100 * PROVE[0]}-${100 * PROVE[1]}%`,
+  losses.length === 0 || (prove >= low && prove <= high),
+  `${where}: ${(100 * prove).toFixed(1)}% of ${losses.length} displaced workers set out to prove themselves, outside ${(100 * low).toFixed(1)}-${(100 * high).toFixed(1)}% (${100 * PROVE[0]}-${100 * PROVE[1]}% with this sample's error)`,
 );
 check(
-  losses.length === 0 || carryOn >= CARRY_ON_AT_LEAST,
-  `${where}: only ${(100 * carryOn).toFixed(1)}% of displaced workers carry on, under ${100 * CARRY_ON_AT_LEAST}%`,
+  losses.length === 0 || carryOn >= carryFloor,
+  `${where}: only ${(100 * carryOn).toFixed(1)}% of ${losses.length} displaced workers carry on, under ${(100 * carryFloor).toFixed(1)}% (${100 * CARRY_ON_AT_LEAST}% with this sample's error)`,
 );
 
 // (3) Who answered: someone the event's records name (for a counted person,
@@ -121,9 +200,6 @@ for (const link of core.familyLinks.values()) {
   kin.set(a, (kin.get(a) ?? new Set()).add(b));
   kin.set(b, (kin.get(b) ?? new Set()).add(a));
 }
-const { factKeys: driveFacts } = DEFAULT_DRIVES_DATA as unknown as {
-  factKeys: { countedSubject: string; countedPerceivers: string };
-};
 const lookups = {
   householdOf: (id: string) =>
     core.people.get(id as never)?.householdId ??
@@ -146,28 +222,18 @@ check(
 );
 
 // (4) Every aimed drive aims at the party the event names, a record.
-const { factKeys, institutionFact, responsibleInTopic } =
-  DEFAULT_DRIVES_DATA as unknown as {
-    factKeys: { responsible: string };
-    institutionFact: { prefix: string; suffix: string };
-    responsibleInTopic: readonly string[];
-  };
-const responsible = (id: string) => {
-  const event = events.get(id)!;
-  const named = event.facts?.[`event:${id}:${factKeys.responsible}`];
-  if (named) return named;
-  if (responsibleInTopic.includes(event.kind) && event.topic)
-    return event.topic;
-  const key = Object.keys(event.facts ?? {}).find(
-    (row) =>
-      row.startsWith(institutionFact.prefix) &&
-      row.endsWith(institutionFact.suffix),
+// The party an event names is read by the drives engine's own `responsibleId`
+// (one rule, not a second copy): the responsible fact, else the person its
+// record names as deciding the harm (who decided a layoff), else the topic or
+// the institution the record names.
+const responsible = (id: string) =>
+  // The trace keeps the event without its id, people and place; the engine's
+  // rule reads only the id, the facts, the topic and the kind.
+  responsibleId(
+    DEFAULT_DRIVES_DATA,
+    { ...events.get(id)!, id } as unknown as CoreEventInput,
+    core.people,
   );
-  return key?.slice(
-    institutionFact.prefix.length,
-    key.length - institutionFact.suffix.length,
-  );
-};
 const isRecord = (id: string) =>
   core.people.has(id as never) || core.organizations.has(id);
 const aimed = drivesReport(core).drives.filter(
@@ -210,6 +276,14 @@ console.log(
         closures: byKind("organization.closed"),
         evictions: byKind("housing.eviction"),
       },
+      notExercised,
+      displacedClausesRan: losses.length > 0,
+      occurred: occurred.length,
+      namedNoOne: report.namedNoOne.length,
+      namedNoOneSample: report.namedNoOne.slice(0, 5).map((event) => ({
+        event: event.id,
+        ineligible: event.ineligible,
+      })),
       answers: answers.length,
       countedAnswers: answers.filter((row) => row.counted).length,
       countedSample: answers

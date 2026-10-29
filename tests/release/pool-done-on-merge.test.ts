@@ -73,4 +73,23 @@ describe("the pool flips to done when a pull request merges", () => {
       "beta-two",
     );
   });
+
+  it("flips nothing for a Touches line, even when the item's pr field names the pull request", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pool-"));
+    mkdirSync(join(dir, "items"));
+    writeFileSync(
+      join(dir, "items", "alpha-one.md"),
+      `---\nid: alpha-one\ntitle: "t"\nstatus: in-pr\npr: #1234\n---\n\nbody\n`,
+    );
+    const pool = readPool(dir);
+    // The pr: field names this pull request, yet the Touches line protects the item.
+    expect(
+      itemForMergedPr("1234", "Touches pool item: alpha-one\n\nrest", pool),
+    ).toBeNull();
+    // The two ways to finish an item still flip it.
+    expect(itemForMergedPr("1234", "Pool item: alpha-one\n\nrest", pool)).toBe(
+      "alpha-one",
+    );
+    expect(itemForMergedPr("1234", "", pool)).toBe("alpha-one");
+  });
 });

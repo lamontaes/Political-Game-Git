@@ -5,7 +5,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { placesOf } from "../core2/modules/voting";
+import { placesOf, returnsOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import controls from "./data/controls.json" with { type: "json" };
 import { electionResults } from "./results";
@@ -27,14 +27,7 @@ it("marks a race with one candidate unopposed and labels the night from controls
       twoLevel: true,
       placeKey: place.key,
     });
-    for (const key of [
-      "turnout",
-      "exitPoll",
-      "wonIn",
-      "you",
-      "unopposed",
-      "abstained",
-    ])
+    for (const key of ["you", "yourRace", "won", "lost"])
       expect(
         (controls.results as Record<string, string>)[key],
         key,
@@ -66,6 +59,24 @@ it("marks a race with one candidate unopposed and labels the night from controls
           );
         counted += 1;
       }
+      // The night's returns are the count's own record: the places that cast
+      // a vote, smallest first, ending on the places' totals.
+      if (!rows.length) continue;
+      const reports = returnsOf(api, race.contestId)?.reports ?? [];
+      const cast = rows.filter((row) => row.cast > 0);
+      expect(reports.length, `${where}: ${race.contestId} returns`).toBe(
+        cast.length,
+      );
+      for (let i = 1; i < reports.length; i += 1)
+        expect(reports[i]!.cast).toBeGreaterThanOrEqual(reports[i - 1]!.cast);
+      const totals: Record<string, number> = {};
+      for (const row of cast)
+        for (const [id, votes] of Object.entries(row.votes))
+          totals[id] = (totals[id] ?? 0) + votes;
+      if (reports.length)
+        expect(reports.at(-1)!.running, `${where}: ${race.contestId}`).toEqual(
+          totals,
+        );
     }
     if (!counted) continue;
     console.log(`${where}: ${races.length} races, ${counted} places counted`);

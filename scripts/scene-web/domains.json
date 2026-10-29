@@ -1,0 +1,89 @@
+{
+  "about": "Which domain of the scene web each situation type belongs to (words-scene-web-from-lives). One domain per type; a new type must be added here or npm run scene-web fails.",
+  "domains": {
+    "home-and-family": [
+      "advice",
+      "arrival",
+      "asking-permission",
+      "breakup",
+      "care",
+      "celebration",
+      "diploma-home",
+      "confession",
+      "departure",
+      "eviction-notice",
+      "family-absence",
+      "family-filing",
+      "family-loss",
+      "family-win",
+      "favor-asked",
+      "first-day",
+      "funeral",
+      "gathering-missing",
+      "hearing",
+      "interview",
+      "last-day",
+      "law-takes-effect",
+      "layoff",
+      "letter",
+      "new-baby",
+      "news-arrives",
+      "notice-home",
+      "proposal",
+      "return",
+      "verdict"
+    ],
+    "meeting-people-and-places": [
+      "accusation",
+      "apology",
+      "argument",
+      "becoming-friends",
+      "betrayal",
+      "cause-invite",
+      "date",
+      "first-meeting",
+      "reach-out",
+      "reconciliation",
+      "rescue",
+      "reunion",
+      "visit",
+      "warning"
+    ],
+    "the-campaign": [
+      "campaign-stop",
+      "door-ask",
+      "filing",
+      "party-ask",
+      "party-recruit",
+      "rally-opponent",
+      "speech-afterward"
+    ],
+    "election-day-and-night": [
+      "polling-place",
+      "race-lost",
+      "race-told",
+      "race-won"
+    ],
+    "legislating": [
+      "bill-carry",
+      "floor-vote",
+      "public-hearing",
+      "section-bargain",
+      "vote-asked",
+      "vote-confirmed",
+      "vote-sought"
+    ],
+    "the-executive": [
+      "address",
+      "appointment",
+      "bill-signed",
+      "desk-bill",
+      "recall",
+      "staff-news",
+      "veto"
+    ],
+    "constituents-and-cases": ["office-hours"],
+    "donors-and-corruption": ["donor-ask"],
+    "the-press": ["press-interview", "scandal"]
+  }
+}

@@ -49,10 +49,10 @@
       "spread": [0.05, 0.3]
     },
     "secondhandWeight": {
-      "value": 0.28,
+      "value": 0.405,
       "tag": "TUNABLE",
-      "source": "Share of a first-hand impression that a retelling passes on to family and friends before the teller's personality, which multiplies it by 1 plus the calibrated campaigns.retell weight times their lean (a town average of 1.77 times at the retell weight of 5.8, Newfane, Vermont, seed c1, adults at the opening; 1.65 at the earlier 4.9). Set to 0.5 divided by that average so the town's mean second-hand reach stays where Katz and Lazarsfeld 1955 and Nickerson 2008 (60% of a canvassing turnout effect passed to housemates) put it.",
-      "spread": [0.17, 0.39]
+      "source": "Share of a first-hand impression that a retelling passes on to family and friends before the teller's personality, which multiplies it by 1 plus the calibrated campaigns.retell weight times their lean (a town average of 1.23 times at the retell weight of 1.13, six drawn towns, seed scratch:0 to 5, Oct 27; 1.77 times at the earlier retell weight of 5.8, Newfane, Vermont, seed c1, adults at the opening; 1.65 at the earlier 4.9). Set to 0.5 divided by that average so the town's mean second-hand reach stays where Katz and Lazarsfeld 1955 and Nickerson 2008 (60% of a canvassing turnout effect passed to housemates) put it.",
+      "spread": [0.17, 0.45]
     },
     "donationShareOfCashPerWarmth": {
       "value": 0.01,
@@ -187,9 +187,9 @@
       "spread": [20, 40]
     },
     "turnoutBase": {
-      "value": -0.48,
+      "value": -0.15,
       "tag": "TUNABLE",
-      "source": "The reason to vote every adult carries before their own duty and reliability (on the trait scale, about -4.5 to 4.5), the trait lean between voting and staying home (traitDecisionWeight times about -1 to 1), the stakes of the day's races, the campaigns' reach, their habit and the cost of voting; the sum is their turnout propensity through the logistic (src/core2/turnout.ts). Checked so the counted turnout in a presidential year lands near the state's CPS citizen turnout (src/core2/electorate.test.ts, tolerance countedTurnoutTolerance) and named adults on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald). Measured with the logistic propensity over eight random places (OPUS-GOV elections, Oct 14, 2026): counted turnout 0.624 in a presidential year.",
+      "source": "The reason to vote every adult carries before the trait lean between voting and staying home (one term, the voting.turnout weight times about -1 to 1; duty and reliability reach it through that lean), raised from -0.48 by 0.33 when the separate duty and reliability terms were removed (their mean over counted adults was 0.14 to 0.20 above the one lean term in three drawn worlds, and the narrower spread lowers mean propensity through the logistic; -0.25 left a Rhode Island town at 0.449 against CPS 0.700 with a 0.25 tolerance, seed e07450be), the mean they carried (four drawn places, mean propensity 0.46 before and after), the stakes of the day's races, the campaigns' reach, their habit and the cost of voting; the sum is their turnout propensity through the logistic (src/core2/turnout.ts). Checked so the counted turnout in a presidential year lands near the state's CPS citizen turnout (src/core2/electorate.test.ts, tolerance countedTurnoutTolerance) and named adults on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald). Measured with the logistic propensity over eight random places (OPUS-GOV elections, Oct 14, 2026): counted turnout 0.624 in a presidential year.",
       "spread": [-1.2, 0.6]
     },
     "turnoutScale": {
@@ -420,6 +420,12 @@
       "source": "What a petition or a removal over misconduct asks of anyone before they act on it, whatever their temperament: with the weight at 1, someone who heard of it and is not close to the official is halfway past the bar, and their lean decides the rest.",
       "spread": [0.25, 0.75]
     },
+    "recallAnswerWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How much an official's answer to a recall petition's organizer weighs with a voter who heard of it, on the same scale as an ordinance grievance (-1 to 1): an answer that hears the petitioners out or meets them weighs against signing, a dismissal toward it. A quarter of the strongest disagreement, since one answer seldom undoes the vote or the misconduct that started the drive. Checked against Ballotpedia's yearly recall analyses (2015 to 2020, read through search summaries; the pages do not load for the fetcher): recalls against 123 to 208 officials a year did not reach the ballot, and 9 to 26 officials a year resigned before a vote.",
+      "spread": [0.1, 0.5]
+    },
     "recallMisconductNewsDays": {
       "value": 14,
       "tag": "TUNABLE",
@@ -451,10 +457,10 @@
       "spread": [20000, 150000]
     },
     "groupJoinBar": {
-      "value": 1,
+      "value": 0.44,
       "tag": "TUNABLE",
-      "source": "How strongly a resident must feel about a bill's question (stances run about 0 to 0.7, doubled where it touches their own life), with their trait lean toward joining added (about -1 to 1 times the trait weight), to join a group over it: checked over two random played worlds so a small share join on the most divisive questions and almost none on mild ones, near the roughly one in ten adults who report working with others in their community to solve a problem in a year (AmeriCorps and Census Bureau, Civic Engagement and Volunteering Supplement, 2021 to 2023).",
-      "spread": [0.75, 1.5]
+      "source": "How strongly a resident must feel about a bill's question (stances run about 0 to 0.7, doubled where it touches their own life), plus how strongly the group's members already draw them in, to join a group over it: checked over a played election-window year of Halfway, Missouri (seed 3e9ed70a5fb7) so that about one in six residents weighed on each bill joins (16%), a small share on the most divisive questions and almost none on mild ones, near the roughly one in ten adults who report working with others in their community to solve a problem in a year (AmeriCorps and Census Bureau, Civic Engagement and Volunteering Supplement, 2021 to 2023). The resident's trait lean toward joining is added at the decision's weight (0.1).",
+      "spread": [0.2, 0.8]
     },
     "carryStandingWeight": {
       "value": 0.3,
@@ -493,6 +499,12 @@
       "source": "How far past neutral a member's view on their group's question must cross to the other side before they leave, doubled for someone who follows politics most of the time (they hold on to a commitment longer). Group members who change their minds tend to drift out rather than quit at the first doubt (Han 2014, How Organizations Develop Activists). No study sets the size; checked by members leaving only after hearing cases against their side.",
       "spread": [0.05, 0.25]
     },
+    "groupDrawWeight": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "source": "How much a resident's closest tie to a member already in a group (closeness today, 0 to 1) adds to their reason to join it: people are most often drawn into groups through people they know who are already in them (Verba, Schlozman and Brady 1995, Voice and Equality: recruitment through social networks). No study reports the size against the question's own pull.",
+      "spread": [0.5, 3]
+    },
     "groupFoundingMembers": {
       "value": 3,
       "tag": "TUNABLE",
@@ -518,15 +530,15 @@
       "spread": [1, 4]
     },
     "caseEffort": {
-      "value": 1.15,
+      "value": 1.36,
       "tag": "TUNABLE",
-      "source": "How much a problem must press on a resident, plus their readiness to reach out, before they bring it to an official; checked so a small share of residents with a problem come in a given month (about 1 in 5 Americans contacted an elected official in the past year: Pew, 2018). Moved from 1.3 when the case's trait weight fell from 1 to 0.51, so a resident out of work with no savings left still brings a problem at the same lean (above 0.3).",
+      "source": "How much a problem must press on a resident, plus their readiness to reach out, before they bring it to an official; checked so a small share of residents with a problem come in a given month (about 1 in 5 Americans contacted an elected official in the past year: Pew, 2018). Moved from 1.3 when the case's trait weight fell from 1 to 0.51, so a resident out of work with no savings left still brings a problem at the same lean (above 0.3). Raised to 1.48 when a resident's interest in politics joined the case (caseEngagementWeight 0.6 times a typical engagement of about 0.55).",
       "spread": [0.9, 1.7]
     },
     "constituentHelpBase": {
-      "value": 0.5,
+      "value": -0.38,
       "tag": "TUNABLE",
-      "source": "How readily an official with no staffer helps a resident's case before their traits tilt it (scaled trait lean runs about -1 to 1): most do, and only strongly unhelpful temperaments turn one away (OPUS-TRAITS, Oct 12, 2026).",
+      "source": "An official's readiness to help a resident's case before the case's own circumstances (severity, standing, the office's load) and their traits tilt it (scaled trait lean runs about -1 to 1). Lowered from 0.5 when the case gained its circumstances (traits-integrity-cases-vary), so an average case (severity about 0.8, a stranger, a light load) weighs about what the constant did.",
       "spread": [0.25, 0.75]
     },
     "caseRetirementAge": {
@@ -583,9 +595,9 @@
       "spread": [0, 3]
     },
     "staffHireBase": {
-      "value": 0.25,
+      "value": 0,
       "tag": "TUNABLE",
-      "source": "How readily an official takes on the aide their office allows before their trait lean toward hiring over doing it alone (scaled trait lean runs about -1 to 1): most do, the most self-reliant don't.",
+      "source": "How readily an official takes on the aide their office allows before their trait lean toward hiring over doing it alone (scaled trait lean runs about -1 to 1): most do, the most self-reliant don't. Lowered from 0.25 to 0 when hiring began to read the office's recent caseload (staffHireLoadWeight), so an office with no recent cases weighs hiring on its budget and its official's temperament.",
       "spread": [0, 0.5]
     },
     "staffAbsenceTolerance": {
@@ -625,7 +637,7 @@
       "spread": [0.05, 0.35]
     },
     "staffCaseFollowThrough": {
-      "value": 0.5,
+      "value": 0.6,
       "tag": "TUNABLE",
       "source": "How good a staffer's work on a case must be for them to see it through to a referral.",
       "spread": [0.3, 0.7]
@@ -673,11 +685,29 @@
       "source": "Days between a local party committee's meetings: county and town committees commonly meet monthly under their party rules (e.g. state party bylaws for county committees), some every other month or quarterly.",
       "spread": [30, 90]
     },
-    "partyMeetingAttendBar": {
-      "value": 0.5,
+    "partyMeetingAttendEase": {
+      "value": 1.9,
       "tag": "TUNABLE",
-      "source": "How far a member's trait lean toward attending (about -1 to 1) must reach for them to show up at a party meeting: only the most inclined do, checked against the 6 to 10% of adults who report attending a political meeting in a year (American National Election Studies, 'attended political meetings', 2016 to 2024).",
-      "spread": [0.3, 0.8]
+      "source": "What a party member has going for them to show up at the monthly meeting before the evening's cost: loyalty to the party and a taste for the room. Set so that about one member in five goes to a given meeting, the share the earlier flat bar gave (19% of members weighed in a played election-window year of Halfway, Missouri, seed 3e9ed70a5fb7), with the cost of the evening now split into the member's work hours and distance (partyMeetingFreeTimeWeight, partyMeetingDistanceWeight). Party members go far more often than other adults, 6 to 10% of whom report attending a political meeting in a year (American National Election Studies, 'attended political meetings', 2016 to 2024).",
+      "spread": [1.2, 2.6]
+    },
+    "partyMeetingFreeTimeWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much a full working week of work (turnoutWorkWeekMinutes, 2,400 minutes) takes from a member's reason to go to an evening meeting; a member with no work hours loses nothing. No study gives the size: voting already counts work hours as a cost the same way (turnout), and the party meeting does the same.",
+      "spread": [1, 3]
+    },
+    "partyMeetingDistanceWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much the farthest-out home (a distance share near 1) takes from a member's reason to go to the meeting; a home at the middle of town loses nothing. No study gives the size; distance to a meeting is a recognized cost of attending but no source reports its weight against the other reasons.",
+      "spread": [0.5, 3]
+    },
+    "partyMeetingHalfDistanceMiles": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "The distance from the middle of town at which the distance cost reaches half its weight (the share is miles over miles plus this distance): about a ten-minute drive in town. A household's distance is an estimate from its place's land area and a point fixed by the world's seed (home-distance.ts).",
+      "spread": [1, 8]
     },
     "partiesJoinBase": {
       "value": 0.5,
@@ -877,6 +907,24 @@
       "source": "How many of the people closest to a candidate are asked for an endorsement in one turn, each asked once, the closest first: a local candidate collects a handful of public endorsements over a campaign (Ballotpedia local candidate pages list a few to a dozen).",
       "spread": [1, 8]
     },
+    "petitionSignOpenness": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "How low the bar to sign a candidate's nominating petition stands, before personality and beside the signer's warmth, agreement, party and tie to the candidate: a signature puts a neighbor on the ballot and is not a vote, so most voters a canvasser reaches sign unless they oppose the candidate. Checked against practitioners' door-to-door petitioning yields of about 10 to 18 signatures an hour (ballot-access and initiative canvassing guides) against the 12 to 20 doors an hour a canvasser reaches (doorsPerCanvasserHour), a signing share of most of those who answer; see the PR's calibration for the share it gives in played worlds.",
+      "spread": [0, 1]
+    },
+    "rivalPetitionNeedWeight": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How strongly the signatures a world candidate's petition still lacks, as a share of what the clerk will count, pull their campaign day to the doors before the filing deadline: a candidate short of signatures spends their hours petitioning (campaign field manuals put the petition drive first in a first campaign's calendar). Checked against the share of world filings the clerk puts on the ballot in played worlds (see the PR's calibration).",
+      "spread": [1, 6]
+    },
+    "petitionCircleAsksPerDay": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How many of the people closest to a candidate are asked to sign the petition on a campaign day, each asked once, the closest first: a first-time candidate's first signatures come from family, friends and neighbors, asked a few at a time over the first days (campaign field manuals' petition drives).",
+      "spread": [2, 15]
+    },
     "playerCanvassHours": {
       "value": 3,
       "tag": "ESTIMATED",
@@ -954,6 +1002,12 @@
       "tag": "TUNABLE",
       "source": "How far a candidate's sociability moves their event share, and their deliberation their poll share (each trait -1 to 1).",
       "spread": [0.2, 1]
+    },
+    "pollSampleSize": {
+      "value": 50,
+      "tag": "TUNABLE",
+      "source": "The interviews the player's own poll asks for from the Campaigns screen: a small first look a new local campaign can pay for, under the 200 a commissioned local poll usually runs (pollMinimumInterviews). Checked against the cash a first-month local campaign raises.",
+      "spread": [30, 200]
     },
     "pollMinimumInterviews": {
       "value": 200,
@@ -1237,9 +1291,9 @@
       "spread": [0.5, 2]
     },
     "chairVotePullWeight": {
-      "value": 0.5,
+      "value": 1,
       "tag": "TUNABLE",
-      "source": "How much a colleague's pull to lead (sociability plus dutifulness, about -2 to 2, the rule an opening chair is read by) counts in whom a member backs: smaller than closeness or agreement, so the choice is the members', but enough to separate colleagues no one knows.",
+      "source": "How much a colleague's pull to lead (their traits' lean toward taking part in the party, about -1 to 1, through the shared trait table and the attend decision's weight) counts in whom a member backs: smaller than closeness or agreement, so the choice is the members', but enough to separate colleagues no one knows.",
       "spread": [0.25, 1]
     },
     "floorConcernWeight": {
@@ -1289,6 +1343,84 @@
       "tag": "TUNABLE",
       "source": "How far against a bill a member must stand (their position's size, a full stance about 1) before bending the rules to sink it with an amendment is worth the standing it costs them; below it the member votes no and lets it pass. Compared with the member's own position, so a stronger opponent moves a pill whatever their temperament, and temperament moves the members near the bar.",
       "spread": [0.25, 1]
+    },
+    "volunteerOfferThreshold": {
+      "value": 0,
+      "tag": "TUNABLE",
+      "source": "How strong the pull must be, before personality, for someone who knows a candidate and heard they filed to offer to help unasked: the same reasons as an ask (warmth, closeness, family, against work hours) against this bar instead of the ask's. Set where about one in ten of a candidate's ties who hear of the filing offer (campaign guides put a local candidate's first volunteers among friends and family, docs/research/words-scenes-2026-10-26.md section 1); checked by src/director/campaign-season.test.ts, which prints the share.",
+      "spread": [-0.5, 1]
+    },
+    "rivalWordDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "source": "How long a rival's paid message stays news someone passes on to a candidate, and how often at most a candidate hears of one: a week, the campaigns engine's own turn. Checked by src/director/campaign-season.test.ts.",
+      "spread": [3, 14]
+    },
+    "volunteerOfferHalfElectorate": {
+      "value": 10000,
+      "tag": "TUNABLE",
+      "source": "The race's eligible voters at which an offer of help counts half as much to the candidate's story on size alone: a town council or small-city race (a few thousand voters) keeps most of its weight, a state legislative district (tens of thousands) little and a statewide or presidential race next to none (owner, Oct 27, 4 PM Eastern: 'it shouldn't be stopped for literally every single volunteer. Maybe some that matter. And that's only when you're doing small local campaigns, or maybe your first campaign.'). Checked by src/director/volunteer-offer-weight.test.ts in a drawn place.",
+      "spread": [2500, 40000]
+    },
+    "volunteerOfferFirstCampaignShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much of an offer's reach a candidate's first campaign carries whatever the race's size, halving with each campaign run before: a first statewide race keeps half the reach of a first council race, never all of it (owner, Oct 27, 4 PM Eastern: volunteers matter 'when you're doing small local campaigns, or maybe your first campaign'). Checked by src/director/volunteer-offer-weight.test.ts in a drawn place.",
+      "spread": [0.25, 0.75]
+    },
+    "offerSpacingDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "source": "The fewest days between two offers to help the same campaign: word of a filing reaches a candidate's people over weeks, and a campaign takes on its first helpers one at a time, not all in one week (docs/research/words-scenes-2026-10-26.md, section 1: team building is front-loaded over the first months). Checked by src/director/campaign-season.test.ts.",
+      "spread": [3, 14]
+    },
+    "caseHelpSeverityWeight": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How much more readily an official helps a case the harder the problem presses on the resident (its severity, 0 to 1, from their records). Checked so a case's circumstances spread the officials' calls (traits-integrity-cases-vary).",
+      "spread": [0.3, 0.9]
+    },
+    "caseHelpStandingWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much more readily an official helps a resident they are close to (their recorded closeness, 0 to 1).",
+      "spread": [0.25, 1]
+    },
+    "caseHelpLoadWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much the other cases already open in the office take from an official's readiness to help one more, at the full load (caseLoad).",
+      "spread": [0.25, 1]
+    },
+    "caseLoadHalf": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "Open cases at which the office's load takes half its time: the load slides from none toward all as cases pile up.",
+      "spread": [2, 10]
+    },
+    "staffCaseLoadWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much the office's open caseload takes from a staffer's follow-through on one case, at the full load.",
+      "spread": [0.25, 1]
+    },
+    "staffHireLoadWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much an office's open caseload adds to an official's case for hiring an aide, at the full load.",
+      "spread": [0.25, 1]
+    },
+    "caseEngagementWeight": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How much a resident's interest in politics (CES news interest, 0 to 1, from the views engine or their survey cell) eases bringing a problem to an official: political interest is among the strongest correlates of contacting officials (Verba, Schlozman and Brady 1995, Voice and Equality).",
+      "spread": [0.3, 1]
+    },
+    "staffHireCaseDays": {
+      "value": 90,
+      "tag": "TUNABLE",
+      "source": "The window of recent cases an official weighs when deciding whether to take on an aide: the office's demand over the last season.",
+      "spread": [30, 180]
     }
   }
 }

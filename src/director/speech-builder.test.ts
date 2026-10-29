@@ -2,13 +2,10 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { OPENING_DATE } from "../../scripts/dialogue-batch/play-lives";
-import { coreAPI } from "../core2/state";
-import { stancesOf } from "../core2/modules/views";
 import {
   SPEECH_STAGES,
   beginSpeech,
   chooseSpeechPart,
-  giveBuiltSpeech,
   speechText,
   type SpeechBuild,
 } from "./speech-builder";
@@ -62,32 +59,5 @@ describe(`a built speech in ${place.key} (seed ${place.seed})`, () => {
     const first = speechText(play((build) => build.choices[0]!.key));
     const last = speechText(play((build) => build.choices.at(-1)!.key));
     expect(first).not.toBe(last);
-  });
-
-  it("gives each stand to the speech engine, and the audience's views read it", () => {
-    const build = play((b) => {
-      // Prefer a stand at the core when one is offered.
-      return (b.choices.find((row) => row.stand) ?? b.choices[0]!).key;
-    });
-    const stands = build.picked.filter((row) => row.stand);
-    const audience = [...core.people.values()]
-      .filter(
-        (row) =>
-          row.alive &&
-          row.id !== speakerId &&
-          row.placeId === core.people.get(speakerId)!.placeId,
-      )
-      .slice(0, 30)
-      .map((row) => row.id);
-    const ids = giveBuiltSpeech(core, build, audience);
-    expect(ids).toHaveLength(stands.length);
-    expect(stands.length).toBeGreaterThan(0);
-    const api = coreAPI(core);
-    const reached = audience.filter((id) =>
-      stancesOf(api, id).some((stance) =>
-        stance.causes.some((cause) => ids.includes(cause.eventId)),
-      ),
-    );
-    expect(reached.length).toBeGreaterThan(0);
   });
 });

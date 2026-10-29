@@ -80,11 +80,8 @@
       "scene-words": ["narrate", "deliver-news"],
       "headlines": ["headline"],
       "news": ["deliver-news", "announce-result"],
-      "newspaper-ledes": ["deliver-news"],
-      "legislation": ["enact", "title", "provision"],
       "minutes": ["record", "announce-result"],
-      "notice": ["notice"],
-      "winning-losing": ["announce-result"]
+      "notice": ["notice"]
     }
   },
   "rules": {
@@ -250,13 +247,8 @@
         "tag": "close"
       },
       {
-        "move": "^(inaugural|state-of-the-union|state-floor)-close$",
+        "move": "^state-floor-close$",
         "tag": "close"
-      },
-      {
-        "move": "^inaugural-moment$",
-        "tag": "tell",
-        "key": "honor"
       },
       {
         "move": "-salutation$",
@@ -285,18 +277,6 @@
       },
       {
         "move": "^public-comment-story$",
-        "tag": "tell"
-      },
-      {
-        "move": "^state-of-the-union-ask$",
-        "tag": "request"
-      },
-      {
-        "move": "^state-of-the-union-guest$",
-        "tag": "introduce"
-      },
-      {
-        "move": "^state-of-the-union-report$",
         "tag": "tell"
       },
       {
@@ -700,71 +680,6 @@
         "tag": "answer"
       }
     ],
-    "counter": [
-      {
-        "move": "^clerk-answer$",
-        "tag": "answer",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-close$",
-        "tag": "close",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-(fee|form)$",
-        "tag": "tell",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-greet$",
-        "tag": "greet",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-id$",
-        "tag": "ask",
-        "key": "routine"
-      },
-      {
-        "move": "^visitor-ask$",
-        "text": "(?i)thank|appreciate",
-        "tag": "thank",
-        "key": "routine"
-      },
-      {
-        "move": "^visitor-ask$",
-        "tag": "ask",
-        "key": "routine"
-      }
-    ],
-    "filing-visit": [
-      {
-        "move": "^clerk-close",
-        "tag": "close",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-greet",
-        "tag": "greet",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-(rule|terms)",
-        "tag": "tell",
-        "key": "routine"
-      },
-      {
-        "move": "^player-accept",
-        "tag": "agree",
-        "key": "routine"
-      },
-      {
-        "move": "^player-pick",
-        "tag": "request",
-        "key": "routine"
-      }
-    ],
     "headlines": [
       {
         "move": "^(life-death|organization-closed)$",
@@ -784,39 +699,6 @@
       {
         "move": ".",
         "tag": "headline"
-      }
-    ],
-    "hearing": [
-      {
-        "move": "^agree$",
-        "tag": "agree"
-      },
-      {
-        "move": "^(answer|confirm)$",
-        "tag": "answer"
-      },
-      {
-        "move": "^chair-procedure$",
-        "text": "(?i)so ordered|without objection",
-        "tag": "announce-result",
-        "key": "routine"
-      },
-      {
-        "move": "^chair-procedure$",
-        "tag": "call-to-order",
-        "key": "routine"
-      },
-      {
-        "move": "^repair$",
-        "tag": "apologize"
-      },
-      {
-        "move": "^thanks$",
-        "tag": "thank"
-      },
-      {
-        "move": "^time$",
-        "tag": "close"
       }
     ],
     "interview": [
@@ -926,38 +808,6 @@
         "tag": "tell"
       }
     ],
-    "legislation": [
-      {
-        "move": "^enacting-clause$",
-        "tag": "enact",
-        "key": "routine"
-      },
-      {
-        "move": "(title|section-heading)$",
-        "tag": "title",
-        "key": "routine"
-      },
-      {
-        "move": ".",
-        "tag": "provision",
-        "key": "routine"
-      }
-    ],
-    "meeting": [
-      {
-        "move": "^closer$",
-        "tag": "close"
-      },
-      {
-        "move": "^opener$",
-        "tag": "address-chair"
-      },
-      {
-        "move": "^procedural$",
-        "tag": "call-to-order",
-        "key": "routine"
-      }
-    ],
     "minutes": [
       {
         "move": "^vote$",
@@ -1035,13 +885,6 @@
         "key": "news-received"
       }
     ],
-    "newspaper-ledes": [
-      {
-        "move": ".",
-        "tag": "deliver-news",
-        "key": "news-received"
-      }
-    ],
     "notice": [
       {
         "move": ".",
@@ -1057,14 +900,6 @@
       {
         "move": "-close$",
         "tag": "close"
-      },
-      {
-        "move": "^state-of-the-union-congress$",
-        "tag": "request"
-      },
-      {
-        "move": "^state-of-the-union-governors$",
-        "tag": "thank"
       },
       {
         "move": ".",
@@ -1097,17 +932,6 @@
       {
         "move": "^stage-",
         "tag": "tell"
-      }
-    ],
-    "winning-losing": [
-      {
-        "move": "^lost$",
-        "tag": "announce-result",
-        "key": "loss"
-      },
-      {
-        "move": ".",
-        "tag": "announce-result"
       }
     ],
     "scene-talk": [

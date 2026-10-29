@@ -12,7 +12,7 @@ import {
   type CharacterComponentManifestRecord,
   type CharacterRecipe,
   type ProjectedCharacterLayer,
-} from "../src/presentation/character-components";
+} from "../src/appearance/character-components";
 import {
   FIT_GARMENT_EXTENTS,
   FIT_TOP_FAMILY,

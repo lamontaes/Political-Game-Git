@@ -15,6 +15,7 @@ import {
   TOWN_EMPLOYMENT_META,
 } from "./reference/town-employment.generated";
 import type { EntityId } from "./kernel/brands";
+import { worldLevel } from "./world-draw";
 
 type Sector = (typeof TOWN_EMPLOYMENT_META.sectors)[number];
 type LocalGroup = (typeof TOWN_EMPLOYMENT_META.localGroups)[number];
@@ -212,9 +213,35 @@ const LOCAL_GROUP_WORKPLACES: Readonly<
   "53": [["public-works", 1]],
 };
 
-/** Every workplace's share of the town's jobs, from the sourced mix. */
+/**
+ * Every workplace's share of the town's jobs in this world: the sourced mix
+ * with each sector's and public group's jobs moved once by the world's own
+ * offset (owner, Oct 27: realistic, not real). Play reads this.
+ */
 export function townWorkplaceWeights(
   town: EntityId,
+  seed: string,
+): ReadonlyMap<string, number> {
+  return weightsOf(town, (part, amount) =>
+    worldLevel(
+      amount,
+      seed,
+      `sector-mix:${town}:${part}`,
+      "jobsWorldSectorMixSpreadShare",
+    ),
+  );
+}
+
+/** Every workplace's share of the town's jobs, from the sourced mix (calibration). */
+export function publishedTownWorkplaceWeights(
+  town: EntityId,
+): ReadonlyMap<string, number> {
+  return weightsOf(town, (_part, amount) => amount);
+}
+
+function weightsOf(
+  town: EntityId,
+  moved: (part: string, amount: number) => number,
 ): ReadonlyMap<string, number> {
   const mix = townEmploymentMix(town);
   const weights = new Map<string, number>();
@@ -227,10 +254,10 @@ export function townWorkplaceWeights(
       weights.set(key, (weights.get(key) ?? 0) + (amount * share) / sum);
   };
   for (const [sector, amount] of mix.sectors)
-    spread(amount, SECTOR_WORKPLACES[sector]);
+    spread(moved(`sector:${sector}`, amount), SECTOR_WORKPLACES[sector]);
   for (const [group, amount] of mix.local)
-    spread(amount, LOCAL_GROUP_WORKPLACES[group]);
-  spread(mix.state, [["state-office", 1]]);
-  spread(mix.federal, [["post-office", 1]]);
+    spread(moved(`local:${group}`, amount), LOCAL_GROUP_WORKPLACES[group]);
+  spread(moved("state", mix.state), [["state-office", 1]]);
+  spread(moved("federal", mix.federal), [["post-office", 1]]);
   return weights;
 }

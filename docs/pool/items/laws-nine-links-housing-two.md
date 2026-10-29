@@ -6,9 +6,9 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/laws-nine-links-housing-credit
-pr: "#6011"
+pr: #6011
 blocked-on:
 source: laws-effects lead, Oct 26 (Merger 3's send-back on #6011)
 claimed-at: 2026-10-27T02:20:37.479Z

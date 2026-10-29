@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: director-officeholder-address-scene
@@ -22,3 +22,5 @@ source: split from words-director-watches-officeholders by pool feeder Oct 20
 **Files.** src/director/civic-roles.ts, src/director/officeholder-records.ts, src/director/data/situation-types.json, src/director/government-scenes.test.ts, src/core2/modules/legislature.ts, src/core2/modules/press.ts
 
 **Notes.** Oct 20 (pool feeder): spec written; civic-roles.ts already names the executive who signed from the act record. Part 2 of 3 for words-director-watches-officeholders.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `scene-signing-casts-who-it-reaches`; close into it and carry any line it lacks there. (fold staff/press cast in)

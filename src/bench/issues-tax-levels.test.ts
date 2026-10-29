@@ -41,11 +41,14 @@ it(`each tax on Issues names who sets it, seed ${seed}`, () => {
   const { view, where } = issuesIn();
   const names = policyNames();
   for (const law of view.law) {
-    // The figure is every level's law together: its name claims no level.
-    expect(
-      names[law.series] ?? law.series,
-      `${where}: ${law.series}`,
-    ).not.toMatch(/^Local\b/);
+    // An amount is every level's law together: its name claims no level. A
+    // policy question's name may be about local power ("Local minimum wage
+    // authority"), a state's law.
+    if (!law.yesNo)
+      expect(
+        names[law.series] ?? law.series,
+        `${where}: ${law.series}`,
+      ).not.toMatch(/^Local\b/);
     for (const level of law.levels.filter((l) => l.row)) {
       const standIn = level.row!.series !== law.series;
       // A level's own law names its government; a stand-in names its series.

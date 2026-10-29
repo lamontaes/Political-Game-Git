@@ -32,6 +32,24 @@
       "tag": "ESTIMATED",
       "source": "The vote share the first-listed candidate gains over a place further down the same ballot, read by every voter as a cue on the printed ballot; it decides only where nothing else separates the candidates. Koppell and Steen 2004, 'The Effects of Ballot Position on Election Outcomes', Journal of Politics 66(1):267-281: in New York City's 1998 Democratic primaries, with names rotated by precinct, first-listed candidates did better in 71 of 79 contests; Pasek, Schneider, Krosnick and others 2014, Public Opinion Quarterly 78(2):416-439, find smaller edges in California general elections. Two points is in the range both report.",
       "spread": [0.005, 0.05]
+    },
+    "exitPollBase": {
+      "value": -2.25,
+      "tag": "ESTIMATED",
+      "source": "A voter's reluctance to stop for an exit pollster's questionnaire before their engagement, interest and temperament: set so about 45% of the voters approached tell, the response rate Edison Research gives (Pew Research Center, 'Just how does the general election exit poll work, anyway?', November 2, 2016: \"about 45% of the voters the firm approaches agree to fill out questionnaires\"; earlier \"more like 60%\"). Fitted on the named voters of three drawn race towns (src/core2/trait-test-kit.ts drawnRaceWorld, 30 days to two days past the race, every module): Finklea, South Carolina (place key 4525405, seed 100a9eddd8c1, 586 voters with a choice), Silver City, Nevada (3266800, 62fd4b12c74d, 122) and Douglas, Nebraska (3113505, d6f5f50c5452, 209): 46.5% pooled, 34% to 52% by town.",
+      "spread": [-2.6, -1.9]
+    },
+    "exitPollEngagementWeight": {
+      "value": 6.3,
+      "tag": "ESTIMATED",
+      "source": "How much more readily a voter who follows politics closely tells the pollster, per unit of engagement (0 to 1) above the nation's average. Politically engaged adults are over-represented among survey respondents (Pew Research Center, 'What Low Response Rates Mean for Telephone Surveys', May 15, 2017: \"politically engaged adults are overrepresented in surveys\"; telephone polls overstate the registered share by about 7 points). No study gives the size against interest in the race, so engagement and interest are weighted equally per standard deviation among the voters (engagement 0.071, interest 0.903 in the fitting towns); only the ratio of the case to the trait weight is fitted.",
+      "spread": [3, 12]
+    },
+    "exitPollInterestWeight": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "source": "How much more readily a voter tells the pollster the more the day's races mattered to them (their own gap between the candidates, the turnout decision's interest): people take part more in a survey on a topic that matters to them (Pew Research Center 2017, citing topic salience). Sets the scale of the case; the base, the engagement weight and the trait weight are fitted against it. Fitted on the named voters of three drawn race towns (src/core2/trait-test-kit.ts drawnRaceWorld, 30 days to two days past the race, every module): Finklea, South Carolina (place key 4525405, seed 100a9eddd8c1, 586 voters with a choice), Silver City, Nevada (3266800, 62fd4b12c74d, 122) and Douglas, Nebraska (3113505, d6f5f50c5452, 209).",
+      "spread": [0.25, 1]
     }
   }
 }

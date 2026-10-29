@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/regional-pay
+pr: #6447
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T23:56:12.505Z
 ---
 
 **What.** The new M1-03 check (src/core2/tooling/m1-03-check.ts) in Cloud Creek, Oklahoma (place key 4015625, seed 9a529f875359eafe9ad32ea1c2e54df576e017ca2ffc0a32a86d7547bd23626f) drew Puerto Rico and North Carolina: their pay rose 2.893 and 2.882 percent over the year. The real December-over-December spread of state pay changes is -0.878 to 6.915 percent (CES state private average hourly earnings, data/research/regional/series/stats.json). src/core2/regional-model.ts:260 moves each region's pay with the nation's plus only a small unemployment-gap term, so states barely diverge.

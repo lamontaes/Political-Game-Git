@@ -2,7 +2,7 @@
 
 Reads three research files already in the repository and writes
 data/research/money/public-budget-bases.json, which the game imports
-(src/simulation/public-budgets/opening.ts):
+(src/core2/modules/budgets.ts reads each place's `governments` rows):
 
 1. data/research/money/state-local-finances-2022.json: the Census Bureau's
    2022 state and local government finances. Each state's state-only and
@@ -17,7 +17,10 @@ data/research/money/public-budget-bases.json, which the game imports
 4. The four island areas' 2020 populations, which BEA does not publish, from
    the Census Bureau's 2020 Island Areas Censuses (ISLAND_AREA_POPULATION
    below, read from the source on September 28, 2026).
-5. Puerto Rico's population on July 1, 2025, the sum of the Census Bureau's
+5. data/research/budgets/local-spending-by-type.json: Census 2022 shares of
+   each function's local spending by type of government, which divide a
+   state's local columns into the county's and the city's base rows.
+6. Puerto Rico's population on July 1, 2025, the sum of the Census Bureau's
    Vintage 2025 municipio estimates already in the repository (PR_MUNICIPIOS).
 
 The calibration factor carrying 2022 dollars to 2026 is measured here:
@@ -39,7 +42,17 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 FINANCES = ROOT / "data/research/money/state-local-finances-2022.json"
 BUDGETS = ROOT / "data/research/money/government-budgets-2026.json"
 POPULATION = ROOT / "data/research/money/population-2024.json"
+LOCAL_SPLIT = ROOT / "data/research/budgets/local-spending-by-type.json"
 OUT = ROOT / "data/research/money/public-budget-bases.json"
+
+# Functions a county carries where the survey shows no local spending on them.
+COUNTY_FUNCTIONS = {
+    "welfareAndMedicaid",
+    "healthAndHospitals",
+    "corrections",
+    "highways",
+    "naturalResources",
+}
 PR_MUNICIPIOS = (
     ROOT
     / "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230"
@@ -128,6 +141,110 @@ def per_resident(dollars: dict, population: int) -> dict:
     }
 
 
+def county_share(split: dict, state: str, function: str) -> float:
+    """The county's share of a function's local spending against the city's."""
+    row = split["states"].get(state, {}).get(function) or split["national"].get(
+        function
+    )
+    city = (row or {}).get("municipal", 0) + (row or {}).get("township", 0)
+    total = (row or {}).get("county", 0) + city
+    if total > 0:
+        return row["county"] / total
+    return 1.0 if function in COUNTY_FUNCTIONS else 0.0
+
+
+def local_row(local: dict, shares: dict) -> dict:
+    """A local government's row: its share of each function's local spending,
+    and of each revenue source in proportion to the spending it carries."""
+    spending = {
+        key: round(value * shares[key], 6)
+        for key, value in local["spending"].items()
+        if shares[key] > 0
+    }
+    carried = sum(spending.values()) / max(sum(local["spending"].values()), 1e-9)
+    revenue = {
+        key: round(value * carried, 6) for key, value in local["revenue"].items()
+    }
+    return {"revenue": revenue, "spending": spending}
+
+
+def add_government_rows(places: dict, calibration: float) -> None:
+    """One base row per government the game opens for a place, keyed by the
+    row name the budgets engine reads (src/core2/modules/budgets.ts):
+
+    - state: the state's own Census columns. An island area has no function
+      breakdown, only all-funds spending for those that publish it, so its row
+      takes the states' residents-weighted mix scaled to a total a resident:
+      its own where published, else the median of those that are (an
+      estimate; stopgap SG-GOV-territory-budget-mix). Revenue equals spending,
+      as a balanced general fund does.
+    - county and city: each function's local spending divided by the state's
+      real county and city shares (Census 2022, by type of government; school
+      and special districts divide the same way, as the game has no separate
+      districts). county-whole carries the whole local share, for a town with
+      no city or township government of its own.
+
+    Values are fiscal 2022 dollars a resident, before the calibration factor.
+    """
+    split = json.loads(LOCAL_SPLIT.read_text())
+    states = [row for row in places.values() if "state" in row and row.get("population2024")]
+    weight = sum(row["population2024"] for row in states)
+
+    def mix(side: str) -> dict:
+        sums: dict = {}
+        for row in states:
+            for key, value in row["state"][side].items():
+                sums[key] = sums.get(key, 0) + value * row["population2024"] / weight
+        total = sum(sums.values())
+        return {key: value / total for key, value in sums.items()}
+
+    def residents(row: dict) -> int:
+        return (
+            row.get("population2024")
+            or row.get("puertoRicoPopulation2025")
+            or row.get("islandAreaPopulation2020")
+            or 0
+        )
+
+    published = sorted(
+        row["territoryAllFundsSpendingFY2025Millions"] * 1_000_000 / residents(row)
+        for row in places.values()
+        if "state" not in row
+        and isinstance(row.get("territoryAllFundsSpendingFY2025Millions"), (int, float))
+    )
+    median = published[(len(published) - 1) // 2] if published else 0
+    revenue_mix, spending_mix = mix("revenue"), mix("spending")
+
+    for key, row in places.items():
+        if "state" in row:
+            local = row["local"]
+            shares = {fn: county_share(split, key, fn) for fn in local["spending"]}
+            row["governments"] = {
+                "state": {
+                    "revenue": row["state"]["revenue"],
+                    "spending": row["state"]["spending"],
+                },
+                "county": local_row(local, shares),
+                "county-whole": local_row(local, {fn: 1.0 for fn in shares}),
+                "city": local_row(local, {fn: 1 - s for fn, s in shares.items()}),
+            }
+            continue
+        own = row.get("territoryAllFundsSpendingFY2025Millions")
+        per_resident = (
+            own * 1_000_000 / residents(row)
+            if isinstance(own, (int, float))
+            else median
+        )
+        scale = per_resident / calibration
+        row["governments"] = {
+            "state": {
+                "revenue": {k: round(v * scale, 6) for k, v in revenue_mix.items()},
+                "spending": {k: round(v * scale, 6) for k, v in spending_mix.items()},
+                "stopgapId": "SG-GOV-territory-budget-mix",
+            }
+        }
+
+
 def millions(row: dict, key: str):
     value = row.get(key)
     return value if isinstance(value, (int, float)) else None
@@ -200,6 +317,8 @@ def main() -> None:
                     )
         places[key] = place
 
+    add_government_rows(places, calibration)
+
     counties = {
         code: count
         for code, count in population.items()
@@ -211,6 +330,7 @@ def main() -> None:
             "data/research/money/state-local-finances-2022.json",
             "data/research/money/government-budgets-2026.json",
             "data/research/money/population-2024.json",
+            "data/research/budgets/local-spending-by-type.json",
             "https://www.census.gov/library/stories/2021/10/first-2020-census-united-states-island-areas-data-released-today.html",
             "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/DATA-Census-Vintage-2025-Puerto-Rico-municipios.csv",
         ],

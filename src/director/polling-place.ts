@@ -1,28 +1,36 @@
 /**
  * Election day at the polls (owner, Oct 14, 2026): election day is a scene,
- * and the ballot is the scene's choice. On the eve of an election the voter's
- * day stops at the polling place; the contests on their ballot are the
- * elections engine's, each candidate as the ballot lists them, and what the
- * voter marks is cast through the voting engine's own `castBallot`, so the
- * count that opens election day reads it. The scene filter decides whether
- * the visit interrupts: a voter who leaves the polling place out of the
- * scenes that stop their day votes or stays home on their own reasons, like
- * everyone else. Words come from no hand-written bank: the screen shows the
- * ballot's record data and control names.
+ * and the ballot is the scene's choice. Going is the player's choice (owner,
+ * Oct 26): on the eve of an election the day offers the polls, and a voter
+ * who goes marks a ballot there, one who stays home casts none.
+ *
+ * The one polling-place path (engine map line 25): at the close of the eve,
+ * the director stages the polls for each watched person the voting engine
+ * counts as a voter the next day (`mayVoteOn`, the count's own rule), as the
+ * director's own visit record; the bench reads that record (`stagedPollingVisit`)
+ * and builds the ballot from it. The contests on the ballot are the elections
+ * engine's, each candidate as the ballot lists them, and what the voter marks
+ * is cast through the voting engine's own `castBallot`, so the count when the
+ * polls close reads it. The scene filter decides whether the visit is staged:
+ * a voter who leaves the polling place out of the scenes that stop their day
+ * votes or stays home on their own reasons, like everyone else. Words come
+ * from no hand-written bank: the screen shows the ballot's record data and
+ * control names.
  */
 import { coreAPI } from "../core2/state";
-import { barredFromVoting } from "../core2/law-reach/group-a-voting";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
+  contestsOnDate,
   type ContestRow,
 } from "../core2/modules/elections";
 import {
   VOTING_MODULE_ID,
   castBallot,
+  mayVoteOn,
   pollingPlaceOf,
 } from "../core2/modules/voting";
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { IsoDate } from "../core2/kernel/brands";
 import type { Ledger, PollingVisitRecord } from "./types";
@@ -31,7 +39,6 @@ import pollingData from "./data/polling-place.json" with { type: "json" };
 const DATA = pollingData as unknown as {
   situationKey: string;
   place: string;
-  votingAge: { value: number };
 };
 
 export interface PollingCandidate {
@@ -66,40 +73,44 @@ export interface PollingVisit {
 
 const visitId = (personId: PersonId, date: IsoDate) => `${personId}:${date}`;
 
-function town(api: CoreAPI): { townPlaceId: string } | undefined {
+/** The contests the town votes in on a date, from the elections engine's date index. */
+function contestsOn(api: CoreAPI, date: IsoDate): readonly ContestRow[] {
   // A world without the elections engine holds no elections.
-  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return undefined;
-  return api.moduleState(ELECTIONS_MODULE_ID).table("town").get("town") as
-    { townPlaceId: string } | undefined;
-}
-
-/** May this person vote in the town's contests on this date, by the count's own rule? */
-function mayVote(
-  api: CoreAPI,
-  townPlaceId: string,
-  personId: PersonId,
-  date: IsoDate,
-): boolean {
-  const person = api.state.people.get(personId);
-  return Boolean(
-    person?.alive &&
-    // Someone serving a prison term where the law takes the vote is not taken to the polls.
-    !barredFromVoting(api, personId) &&
-    person.placeId === townPlaceId &&
-    ageOnDate(makeIsoDate(person.birthDate), date) >= DATA.votingAge.value,
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
+  return [...contestsOnDate(api, date)].sort((a, b) =>
+    a.id.localeCompare(b.id),
   );
 }
 
-/** The contests the town votes in on a date, as the elections engine holds them. */
-function contestsOn(api: CoreAPI, date: IsoDate): readonly ContestRow[] {
-  return (
-    api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("contests")
-      .rows() as unknown as ContestRow[]
-  )
-    .filter((row) => row.electionDate === date)
-    .sort((a, b) => a.id.localeCompare(b.id));
+/**
+ * The director's producer for election day (the polling-place type's
+ * cause): at the close of the eve of an election, for each watched person
+ * the voting engine counts as a voter the next day, the visit to the polls
+ * is staged as the director's own record, unless one is kept already or the
+ * person left the polling place out of the scenes that stop their day.
+ * Reads the elections engine's date index once, and nothing on a day before
+ * no election.
+ */
+export function stagePollingVisits(core: Readonly<CoreState>, ledger: Ledger) {
+  const api = coreAPI(core as CoreState);
+  const date = addDays(makeIsoDate(core.date), api.parameter("one"));
+  const contests = contestsOn(api, date);
+  if (!contests.length) return;
+  for (const book of ledger.people.values()) {
+    const personId = book.personId;
+    if (ledger.pollingVisits.has(visitId(personId, date))) continue;
+    if (!mayVoteOn(api, personId, date)) continue;
+    const filter = ledger.sceneFilters.get(personId);
+    if (filter && !filter.allowedKinds.includes(DATA.situationKey)) continue;
+    ledger.pollingVisits.set(visitId(personId, date), {
+      id: visitId(personId, date),
+      personId,
+      electionDate: date,
+      contestIds: contests.map((row) => row.id),
+      marked: {},
+      status: "open",
+    });
+  }
 }
 
 function pollingContest(
@@ -130,42 +141,32 @@ function pollingContest(
 }
 
 /**
- * The visit due for a voter on an election date, or null: no contest that
- * day, the voter may not vote, they have been already, or they left the
- * polling place out of the scenes that stop their day. Reads only.
+ * The visit the director staged for a voter on an election date, as the
+ * screen plays it, or null: none staged (no contest that day, the voter may
+ * not vote, or they left the polling place out of their scenes) or they have
+ * been already. Reads only.
  */
-export function pollingVisitDue(
+export function stagedPollingVisit(
   core: Readonly<CoreState>,
   ledger: Ledger,
   personId: PersonId,
   date: IsoDate,
 ): PollingVisit | null {
-  const api = coreAPI(core as CoreState);
-  const place = town(api);
-  if (!place || !mayVote(api, place.townPlaceId, personId, date)) return null;
   const kept = ledger.pollingVisits.get(visitId(personId, date));
-  if (kept && kept.status !== "open") return null;
-  const filter = ledger.sceneFilters.get(personId);
-  if (filter && !filter.allowedKinds.includes(DATA.situationKey)) return null;
-  const contests = contestsOn(api, date).map((row) =>
-    pollingContest(core, api, row),
-  );
+  if (!kept || kept.status !== "open") return null;
+  const api = coreAPI(core as CoreState);
+  const contests = contestsOn(api, date)
+    .filter((row) => kept.contestIds.includes(row.id))
+    .map((row) => pollingContest(core, api, row));
   if (!contests.length) return null;
   const household = core.households.get(core.people.get(personId)!.householdId);
   return {
-    record: kept ?? {
-      id: visitId(personId, date),
-      personId,
-      electionDate: date,
-      contestIds: contests.map((row) => row.id),
-      marked: {},
-      status: "open",
-    },
+    record: kept,
     situationKey: DATA.situationKey,
     place: DATA.place,
     contests,
     withIds: (household?.memberIds ?? []).filter(
-      (id) => id !== personId && mayVote(api, place.townPlaceId, id, date),
+      (id) => id !== personId && mayVoteOn(api, id, date),
     ),
     ...pollingPlaceFields(api, personId, date),
   };
@@ -217,8 +218,9 @@ export function markBallot(
 }
 
 /**
- * The voter leaves before marking every race: what they marked stands, and
- * the rest they vote or leave on their own reasons, like everyone else.
+ * The voter stays home, or leaves before marking every race: what they marked
+ * stands, and the rest goes unmarked. The count casts no vote for the player
+ * (voting.ts writes their unmarked ballot as not voted).
  */
 export function leavePollingPlace(
   ledger: Ledger,

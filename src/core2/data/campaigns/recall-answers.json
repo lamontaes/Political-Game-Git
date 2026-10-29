@@ -1,0 +1,5 @@
+{
+  "note": "What an official's reply to a recall petition's organizer leaves (the recall scene's purpose, recall-confront in src/director/data/purpose-arcs.json; docs/design/scenes/from-life/the-recall-petition.md). A reply that hears the petitioners out, answers the charge or offers to meet them is an answer: a voter who heard of it weighs it against signing, by recallAnswerWeight in campaigns/parameters.json. A reply that dares them, turns it back on them, deflects or walks away is a dismissal and weighs the same toward signing. The recount on the petition's due day reads it (src/core2/modules/recalls.ts).",
+  "answered": ["ask", "tell", "offer", "answer"],
+  "dismissed": ["boast", "confront", "deflect", "leave"]
+}

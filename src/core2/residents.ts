@@ -16,7 +16,6 @@ import {
   OUTSIDE_MARKET_KIND,
   outsideMarketAccount,
 } from "./opening-outside-market";
-import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
 import type { FinanceContractInput } from "./finance-types";
 import { FinanceReadGuard } from "./finance-plan";
 import {
@@ -39,6 +38,8 @@ import type {
 } from "./types";
 import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json" };
 import schools from "./data/opening-public-schools.json" with { type: "json" };
+import { worldLevel } from "./world-draw";
+import { parameter } from "./parameters";
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
@@ -112,8 +113,6 @@ export interface ResidentsInput {
   accounts: readonly { placeId: PlaceId; accountId: string }[];
   households: readonly ResidentHouseholdRecord[];
   flows: readonly ResidentFlowInput[];
-  /** Each class and workgroup's size in the full build, by `${circle}|${contextKey}` (PEOPLE's peerCohortSize). */
-  cohortSizes?: Readonly<Record<string, number>>;
   /** Employer payday calendars the counted workers were on (fill-in reuses their cadence). */
   calendars?: readonly WorkPayrollCalendarInput[];
   /**
@@ -122,16 +121,6 @@ export interface ResidentsInput {
    * place for one each). Every reader of a count multiplies by it.
    */
   weights?: Readonly<Record<PlaceId, number>>;
-  /**
-   * Counted people carry no deep past: fill-in rebuilds a household's from
-   * the world's seed and start date (deep past depends on nobody else).
-   */
-  pastBuild?: {
-    seed: string;
-    startedAt: IsoDate;
-    /** Per person, how many of their facts came before deep past. */
-    deepPastAt: Readonly<Record<string, number>>;
-  };
   source: Source;
 }
 
@@ -275,6 +264,27 @@ export interface CollapseOptions {
   unplacedWorkerIncome?: boolean;
   /** Real households each counted household of a place stands for (see `ResidentsInput.weights`). */
   weights?: Readonly<Record<PlaceId, number>>;
+}
+
+/** The median annual earnings (dollars) of a place's workers in the ACS 2024 table; undefined where the sample is too thin (calibration). */
+export function publishedPlaceEarnings(placeKey: string): number | undefined {
+  return (PLACE_EARNINGS.byPlace as Readonly<Record<string, number>>)[placeKey];
+}
+
+/** This world's median earnings for a place: the published median moved once by the world's own offset (owner, Oct 27: realistic, not real). */
+export function placeEarningsOf(
+  placeKey: string,
+  seed: string,
+): number | undefined {
+  const published = publishedPlaceEarnings(placeKey);
+  return published === undefined
+    ? undefined
+    : worldLevel(
+        published,
+        seed,
+        `place-earnings:${placeKey}`,
+        "jobsWorldPlaceEarningsSpreadShare",
+      );
 }
 
 export function collapseToTwoLevels(
@@ -743,12 +753,20 @@ export function collapseToTwoLevels(
   // opening's own ACS/CPS receipt, less recorded jobs, at the median recorded
   // wage, paid every two weeks from outside.
   const receipt = input.placeMetadata?.openingEmploymentReceipt;
-  const target = receipt
-    ? Number(
-        (JSON.parse(receipt) as { employmentTarget?: number }).employmentTarget,
-      )
-    : NaN;
-  const employed = new Set(input.jobs.map((row) => row.personId)).size;
+  const receiptRow = receipt
+    ? (JSON.parse(receipt) as {
+        employmentTarget?: number;
+        residentSourceCohort?: number;
+      })
+    : undefined;
+  const target = receiptRow ? Number(receiptRow.employmentTarget) : NaN;
+  // The share of the receipt's resident cohort the opening employs: what any
+  // place's adults are held to, since the receipt counts the town's residents
+  // but the counted households of the places around it earn alike.
+  const employmentRate =
+    Number.isFinite(target) && Number(receiptRow?.residentSourceCohort) > 0
+      ? target / Number(receiptRow!.residentSourceCohort)
+      : NaN;
   const annualWages = input.jobs
     .map((row) => row.wageDailyMinor * DAYS_PER_YEAR)
     .sort((a, b) => a - b);
@@ -756,9 +774,10 @@ export function collapseToTwoLevels(
   // place's own where its sample is firm enough), else the town's median
   // recorded wage. Many unplaced workers commute, so the town's own firms'
   // pay isn't theirs.
-  const placeEarnings = (
-    PLACE_EARNINGS.byPlace as Readonly<Record<string, number>>
-  )[input.placeMetadata?.placeKey ?? ""];
+  const placeEarnings = placeEarningsOf(
+    input.placeMetadata?.placeKey ?? "",
+    input.seed,
+  );
   const median = placeEarnings
     ? placeEarnings * 100
     : (annualWages[Math.floor(annualWages.length / 2)] ?? 0);
@@ -766,54 +785,76 @@ export function collapseToTwoLevels(
     let n = 0;
     for (const id of ids) {
       const born = peopleById.get(id)?.birthDate;
-      if (born && Number(start.slice(0, 4)) - Number(born.slice(0, 4)) >= 18)
+      if (
+        born &&
+        Number(start.slice(0, 4)) - Number(born.slice(0, 4)) >=
+          parameter("votingAge")
+      )
         n++;
     }
     return n;
   };
-  const countedAdults = adults(collapsed),
-    allAdults = adults(peopleById.keys());
-  const unplaced =
-    Number.isFinite(target) && allAdults > 0
-      ? Math.max(0, target - employed) * (countedAdults / allAdults)
-      : 0;
-  if (
-    options.unplacedWorkerIncome !== false &&
-    unplaced > 0 &&
-    median > 0 &&
-    accountByPlace.size
-  ) {
-    const placeId = [...accountByPlace.keys()][0]!;
-    // The sampled households stand for as many as the place's weight says,
-    // so the workers they leave unplaced, and what those workers are paid, do.
-    const weight = options.weights?.[placeId] ?? 1;
-    flows.push({
-      id: `residents:unplaced-wages:${placeId}`,
-      kind: "wages",
-      financeKind: "work.unplaced-residents",
-      payerId: outsideFor(placeId),
-      payeeId: accountFor(placeId),
-      residentsId: accountFor(placeId),
-      placeId,
-      amountMinor: Math.round(
-        (unplaced * weight * median * 14) / DAYS_PER_YEAR,
-      ),
-      unplacedWorkers: unplaced * weight,
-      firstAt: makeIsoDate(addDays(makeIsoDate(start), 14)),
-      cadence: { kind: "days", every: 14 },
-      salesReceipt: false,
-      marketAdjusted: false,
-      payIndexed: true,
-      source: {
-        tag: "ESTIMATED",
-        asOf: start,
-        citation: placeEarnings
-          ? `Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the place's median earnings. ${PLACE_EARNINGS.citation}`
-          : "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
-        estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model, each earning $${Math.round(median / 100)} a year${placeEarnings ? " (the place's median earnings)" : " (the town's median recorded wage; no firm place estimate)"}; a labeled estimate for the modeled wider population.`,
-      },
-    });
+  const allAdults = adults(peopleById.keys());
+  const countedAdultsByPlace = new Map<PlaceId, number>();
+  const countedEmployedByPlace = new Map<PlaceId, number>();
+  const jobHolders = new Set(input.jobs.map((row) => row.personId));
+  for (const home of collapsedHomes) {
+    countedAdultsByPlace.set(
+      home.placeId,
+      (countedAdultsByPlace.get(home.placeId) ?? 0) + adults(home.memberIds),
+    );
+    countedEmployedByPlace.set(
+      home.placeId,
+      (countedEmployedByPlace.get(home.placeId) ?? 0) +
+        home.memberIds.filter((id) => jobHolders.has(id)).length,
+    );
   }
+  // Each place's counted adults work at the receipt's rate: the workers the
+  // opening left unplaced are that rate of the place's adults less those it
+  // placed, and each place's flow pays its own (Warm Springs, Arkansas: one
+  // sum sized from the town alone went to the first place, leaving the
+  // places around it with no pay at all).
+  if (options.unplacedWorkerIncome !== false && median > 0)
+    for (const placeId of accountByPlace.keys()) {
+      const unplaced =
+        Number.isFinite(employmentRate) && allAdults > 0
+          ? Math.max(
+              0,
+              employmentRate * (countedAdultsByPlace.get(placeId) ?? 0) -
+                (countedEmployedByPlace.get(placeId) ?? 0),
+            )
+          : 0;
+      if (unplaced <= 0) continue;
+      // The sampled households stand for as many as the place's weight says,
+      // so the workers they leave unplaced, and what those workers are paid, do.
+      const weight = options.weights?.[placeId] ?? 1;
+      flows.push({
+        id: `residents:unplaced-wages:${placeId}`,
+        kind: "wages",
+        financeKind: "work.unplaced-residents",
+        payerId: outsideFor(placeId),
+        payeeId: accountFor(placeId),
+        residentsId: accountFor(placeId),
+        placeId,
+        amountMinor: Math.round(
+          (unplaced * weight * median * 14) / DAYS_PER_YEAR,
+        ),
+        unplacedWorkers: unplaced * weight,
+        firstAt: makeIsoDate(addDays(makeIsoDate(start), 14)),
+        cadence: { kind: "days", every: 14 },
+        salesReceipt: false,
+        marketAdjusted: false,
+        payIndexed: true,
+        source: {
+          tag: "ESTIMATED",
+          asOf: start,
+          citation: placeEarnings
+            ? `Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the place's median earnings. ${PLACE_EARNINGS.citation}`
+            : "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
+          estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model, each earning $${Math.round(median / 100)} a year${placeEarnings ? " (the place's median earnings)" : " (the town's median recorded wage; no firm place estimate)"}; a labeled estimate for the modeled wider population.`,
+        },
+      });
+    }
   for (const [placeId, group] of countedOutside)
     flows.push({
       ...householdOutsideFlow(
@@ -853,26 +894,16 @@ export function collapseToTwoLevels(
     }
   }
 
-  const deepPastAt: Record<string, number> = {};
   const households: ResidentHouseholdRecord[] = collapsedHomes.map((home) => ({
     household: home,
-    // Nobody in the counts has a past until they're filled in.
-    // Their upbringing is kept; deep past is rebuilt at fill-in, in place
-    // (facts written after deep past, e.g. retirement history, follow it).
+    // Nobody in the counts has a run past until they're filled in (the
+    // engines' pre-start passes write it then); their upbringing is kept.
     // Nor where they learned each name they know: fill-in rebuilds that from
     // their past (MEMORY-FLAT; modules/residents.ts, knownSources).
     people: home.memberIds.map((id) => {
       const { knownIdSources: _sources, ...row } = peopleById.get(id)!;
       void _sources;
-      const deep = `${row.id}:${DEFAULT_DEEP_PAST_DATA.version}:`;
-      const facts = row.pastFacts ?? [];
-      const first = facts.findIndex((fact) => fact.id.startsWith(deep));
-      if (first < 0) return row;
-      deepPastAt[row.id] = first;
-      return {
-        ...row,
-        pastFacts: facts.filter((fact) => !fact.id.startsWith(deep)),
-      };
+      return row;
     }),
     jobs: home.memberIds.flatMap((id) => jobsByPerson.get(id) ?? []),
     workCommitments: home.memberIds.flatMap(
@@ -915,18 +946,10 @@ export function collapseToTwoLevels(
       row.personIds.every((id) => keep.has(id)),
     ),
     focusPersonIds: input.focusPersonIds.filter((id) => keep.has(id)),
-    priorFactsSource: (input.priorFactsSource ?? []).filter((row) =>
-      keep.has(row.personId),
-    ),
     husks: [...husks.values()],
     ...(input.finance ? { finance: { ...input.finance, contracts } } : {}),
     residents: {
       version: "core2-residents-v1",
-      pastBuild: {
-        seed: input.seed,
-        startedAt: makeIsoDate(input.startedAt),
-        deepPastAt,
-      },
       accounts: [...accountByPlace].map(([placeId, accountId]) => ({
         placeId,
         accountId,

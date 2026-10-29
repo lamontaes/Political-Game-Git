@@ -14,7 +14,7 @@ const at = (path) => import(pathToFileURL(resolve(process.cwd(), path)).href);
 const { generatedOpening } = await at("src/core2/tooling/generated-world.ts");
 const { drawPlace } = await at("scripts/core2-year/place.ts");
 const { createLifeCore, advanceCore } = await at("src/core2/life.ts");
-const { lifePlaceByKey } = await at("src/simulation/life-places.ts");
+const { corePlaceByKey } = await at("src/core2/place-lookup.ts");
 const { customPolitics } = await at("src/core2/electorate.ts");
 const seed = value(
   "--seed",
@@ -26,8 +26,8 @@ const place = givenKey
   ? {
       seed,
       key: givenKey,
-      name: lifePlaceByKey(givenKey)?.formalName ?? givenKey,
-      state: lifePlaceByKey(givenKey)?.stateJurisdictionKey ?? "",
+      name: corePlaceByKey(givenKey)?.formalName ?? givenKey,
+      state: corePlaceByKey(givenKey)?.stateJurisdictionKey ?? "",
     }
   : drawPlace(seed, "core2-custom-world");
 

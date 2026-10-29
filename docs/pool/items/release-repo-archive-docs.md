@@ -5,7 +5,7 @@ area: docs
 kind: cleanup
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Covers the audit's pool rows `release-docs-archive-oct19`, `release-one-rulings-log` and `release-browser-shots-out-of-docs`, and the `public/education` part of `release-ship-weight`. The audit notes deletion is equally safe since Git keeps history; archive is the acting CTO's call for Oct 19.
 
 Sent back 2026-10-23 from PR #5844 (branch cto/docs-fresh-2026-10-23): live docs/packages/PW-common.md:7,48 and packages/README.md:12 still direct readers to archived paths, DECISION-REGISTER source pointers need repair, the generated pool index is stale, and a bounded item with a Done-when evidence table is missing; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `docs-stale-2026-10-23-audit`; close into it and carry any line it lacks there. (carry the public/education and catalog-*.json lines into the survivor)

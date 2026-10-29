@@ -10,14 +10,21 @@ import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { treasuryMonthsOf } from "./budgets-treasury";
 import { governments } from "./modules/budgets";
-import { businessTradingMonth } from "./modules/business";
 import { contractsOf } from "./modules/contracts";
 
 it("awards a line's work to a bidder by the body's members and pays the winner monthly", () => {
-  const draw = drawPlace(
+  const drawn = drawPlace(
     process.env.GOLDEN_PATH_SEED ?? randomBytes(32).toString("hex"),
     "gov-public-contract-awards",
   );
+  // GOLDEN_PATH_PLACE_KEY and GOLDEN_PATH_WORLD_SEED pin one place's world.
+  const draw = process.env.GOLDEN_PATH_PLACE_KEY
+    ? {
+        ...drawn,
+        key: process.env.GOLDEN_PATH_PLACE_KEY,
+        seed: process.env.GOLDEN_PATH_WORLD_SEED ?? drawn.seed,
+      }
+    : drawn;
   const where = `${draw.name} (${draw.key}), seed ${draw.seed}`;
   setBookkeeping(false);
   try {
@@ -68,11 +75,14 @@ it("awards a line's work to a bidder by the body's members and pays the winner m
             `^treasury:${award.governmentId}:budget-line:${award.line}:${award.organizationId}:`,
           ),
         );
-      // The firm that was paid pays its workers: its books show a payroll.
+      // The firm that was paid pays its workers: its books show wages paid
+      // over the run (a single month can hold no payday, as the one-worker
+      // firm's December in New Richmond, West Virginia did).
       if (award.paidMinor > 0)
         expect(
-          businessTradingMonth(api, award.organizationId)?.payrollMinor ?? 0,
-          `${where}: ${award.id} payroll`,
+          core.finance.businesses.get(award.organizationId)?.wagesPaidMinor ??
+            0,
+          `${where}: ${award.id} wages paid`,
         ).toBeGreaterThan(0);
     }
     expect(core.cashJournal.totals.grossDebitMinor).toBe(

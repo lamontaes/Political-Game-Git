@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6187
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
@@ -34,3 +34,4 @@ Sent back 2026-10-27 from PR #6187 (branch claude/screens-filing-menu): its seat
 
 Sent back 2026-10-27 from PR #6187 (branch claude/screens-filing-menu): SEED replay and fresh-server Waverly repair acknowledged. Done-when clerk introduction explicitly Not done here and screenshot lacks required introduction; finish row or bound menu implementation keeping original acceptance open. Browser test116-132 accepts2choices and conditionally skips all >4race menu assertions; require positive bounded >4race witness. No own runtime failure or gate claimed; finish on that branch, merge main into it first.
 Sent back 2026-10-27 from PR #6187 (branch claude/screens-filing-menu): see Merger 3's introduction-row point; my earlier 'Council member (2025, 1)' report was a stale bench server and is withdrawn; finish on that branch, merge main into it first.
+Merged Oct 27 in PR #6187; awaiting the owner's installed-build check (clerk introduction row bounded out to the Words line)

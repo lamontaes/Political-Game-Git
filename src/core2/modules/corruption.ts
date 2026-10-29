@@ -252,7 +252,21 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
   // A taken bribe is on the record once the money has moved.
   if (record.taken) pay(api, record);
   table(api, "crimes").put(record as unknown as { id: string });
-  if (record.taken) partiesOf(api).add(record.offererId).add(record.officialId);
+  if (record.taken) {
+    partiesOf(api).add(record.offererId).add(record.officialId);
+    // Passing the money is time spent together, as large as the falling-out
+    // it can cost (settleBribe): a payer with no tie to the official has none
+    // to lose when the favor does not come.
+    api.relationship(
+      ask.offererId,
+      ask.officialId,
+      "contact",
+      c(api, "bribeBreachHoursPerDayOfCost") *
+        (amount / Math.max(offerer.livingCostDailyMinor, 1)),
+      undefined,
+      { cause: "bribe-taken", sourceId: id },
+    );
+  }
   // Both parties hold the act; no one else does.
   for (const personId of [ask.offererId, ask.officialId])
     api.observe(personId, {
@@ -309,6 +323,11 @@ function pay(api: CoreAPI, record: CrimeRecord): void {
   });
 }
 
+/** One crime record by id. */
+export function crimeRecord(api: CoreAPI, id: string): CrimeRecord | undefined {
+  return table(api, "crimes").get(id) as unknown as CrimeRecord | undefined;
+}
+
 export function crimesKnownTo(api: CoreAPI, personId: PersonId): CrimeRecord[] {
   const known = api.state.knowledgeByPerson.get(personId);
   return [...(known?.values() ?? [])]
@@ -358,6 +377,7 @@ export const corruptionModule: CoreModule = {
     },
   },
   relationshipKinds: ["*"],
+  // stopgapId: SG-P15-bribe-falling-out-rare
   onRelationshipChange(api, notice) {
     // Most ties have no crime behind them: skip them without a table read.
     const parties = partiesOf(api);
@@ -551,34 +571,52 @@ export function settleBribes(
     table(api, "crimes").rows() as unknown as CrimeRecord[]
   ).filter((row) => row.taken && row.subjectId === billId);
   for (const crime of taken) {
-    const id = `settled:${crime.id}`;
-    if (table(api, "settled").get(id)) continue;
     const vote = voteOf(crime.officialId);
     if (vote === undefined) continue;
-    const delivered = vote !== "yes";
-    table(api, "settled").put({
-      id,
-      crimeId: crime.id,
-      billId,
-      date: api.state.date,
-      vote,
-      delivered,
-    });
-    const payer = api.state.people.get(crime.offererId);
-    if (delivered || !payer?.alive || !api.state.people.get(crime.officialId))
-      continue;
-    const hours =
-      c(api, "bribeBreachHoursPerDayOfCost") *
-      (crime.amountMinor / Math.max(payer.livingCostDailyMinor, 1));
-    api.relationship(
-      crime.offererId,
-      crime.officialId,
-      "contact",
-      -hours,
-      undefined,
-      { cause: "bribe-unrewarded", sourceId: crime.id },
-    );
+    settleBribe(api, crime, billId, vote !== "yes", vote);
   }
+}
+
+/**
+ * One taken bribe is settled once the official has acted on what it bought:
+ * delivered, the tie stands; not delivered, the payer loses closeness to the
+ * official (settleBribes above, and the contract awards, whose payer's firm
+ * either won the member's vote or did not).
+ */
+export function settleBribe(
+  api: CoreAPI,
+  crime: CrimeRecord,
+  subjectId: string,
+  delivered: boolean,
+  vote: string,
+): void {
+  const id = `settled:${crime.id}`;
+  if (table(api, "settled").get(id)) return;
+  table(api, "settled").put({
+    id,
+    crimeId: crime.id,
+    billId: subjectId,
+    date: api.state.date,
+    vote,
+    delivered,
+  });
+  const payer = api.state.people.get(crime.offererId);
+  if (delivered || !payer?.alive || !api.state.people.get(crime.officialId))
+    return;
+  const hours =
+    c(api, "bribeBreachHoursPerDayOfCost") *
+    (crime.amountMinor / Math.max(payer.livingCostDailyMinor, 1));
+  api.relationship(
+    crime.offererId,
+    crime.officialId,
+    "contact",
+    -hours,
+    undefined,
+    {
+      cause: "bribe-unrewarded",
+      sourceId: crime.id,
+    },
+  );
 }
 
 /** The scandal stories reported about an official by the date (each a news story id). */

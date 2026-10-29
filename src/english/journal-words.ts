@@ -29,10 +29,26 @@ export interface JournalWordRow {
   entry?: "story" | "setting";
   /** One's own race, worded by result (stage "won" or "lost"). */
   ownLine?: readonly Wording[];
-  /** Facts read from the causing event's own record. */
-  eventFacts?: Readonly<Record<string, { fact: string; format: string }>>;
+  /**
+   * Facts read from the causing event's own record. A "drop" is how far one
+   * of the record's counts (`fact`) fell to another (`less`), told only where
+   * it fell, citing the records a third fact names (`cites`).
+   */
+  eventFacts?: Readonly<
+    Record<
+      string,
+      { fact: string; format: string; less?: string; cites?: string }
+    >
+  >;
   /** An event fact that names the stage a line is worded in (a vote, "yes" or "no"). */
   stageFact?: string;
+  /** A fact that, where the moment holds it, marks the stage ("on-ballot:moved"). */
+  stageMark?: { fact: string; mark: string };
+  /**
+   * The person's own moment is told even when they do not know the other by
+   * name (a recall's organizer): its lines that name the other are left out.
+   */
+  toldWithoutOther?: boolean;
   line: readonly Wording[];
   otherLine?: readonly Wording[];
   repeatLine?: readonly { key: string; text: string }[];
@@ -65,6 +81,8 @@ export interface RowShape {
   /** An event fact that names the stage a line is worded in, with the words that mark each stage. */
   stageFact?: string;
   stageWords?: Readonly<Record<string, string>>;
+  stageMark?: JournalWordRow["stageMark"];
+  toldWithoutOther?: boolean;
   title?: JournalWordRow["title"];
   selfWhenNamed?: boolean;
   sameDay?: string;
@@ -311,6 +329,13 @@ const fitsGender = (text: string, gender: string | undefined) => {
   );
 };
 
+/**
+ * A row's own line can tell someone else's moment only when it names them:
+ * "{other} died." does, "I introduced {law}." would make it the reader's own.
+ */
+const namesTheOther = (wording: Wording) =>
+  /\{(?:other|named|relation)\}/.test(wording.text);
+
 function wordingsFor(
   words: JournalWords,
   move: JournalMove,
@@ -327,7 +352,7 @@ function wordingsFor(
             ? move.together
               ? (row?.groupLine ?? row?.line)
               : row?.line
-            : (row?.otherLine ?? row?.line),
+            : (row?.otherLine ?? row?.line?.filter(namesTheOther)),
       };
     }
     case "check": {
@@ -455,7 +480,10 @@ export function framedByAge<T extends JournalWorded>(
   const opensWithFact = Object.values(facts).some(
     (fact) => fact.text.length > zero && event.text.startsWith(fact.text),
   );
-  const lower = event.text.charAt(zero).toLowerCase() + event.text.slice(one);
+  // "I" stays a capital in the middle of a sentence.
+  const lower = /^I\b/.test(event.text)
+    ? event.text
+    : event.text.charAt(zero).toLowerCase() + event.text.slice(one);
   return {
     ...event,
     text: `${frame.text.replace(/[.]$/, ",")} ${opensWithFact ? event.text : lower}`,
@@ -476,4 +504,13 @@ export function saysOffice(
 /** The parts of a journal entry, said as one entry. */
 export function journalEntry(parts: readonly JournalWorded[]): string {
   return parts.map((part) => part.text).join(" ");
+}
+
+/** A job title as a sentence says it after "works as": "a county clerk", "an electrician". */
+export function withArticle(title: string): string {
+  const said =
+    title.length > one && title.charAt(one) === title.charAt(one).toLowerCase()
+      ? title.charAt(zero).toLowerCase() + title.slice(one)
+      : title;
+  return `${/^[aeiou]/i.test(said) ? "an" : "a"} ${said}`;
 }

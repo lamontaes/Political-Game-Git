@@ -64,7 +64,6 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
   for (const filing of filings) director.watch(core, filing.personId);
   // Each candidate asks the people around them to work the campaign; those
   // who say yes are its volunteers on record.
-  const asked = new Map<string, string[]>();
   for (const filing of filings) {
     const person = core.people.get(filing.personId)!;
     const around = [...person.familyIds, ...person.knownIds]
@@ -72,7 +71,6 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
       .sort()
       .slice(0, 40);
     for (const id of around) askToVolunteer(api, filing.id, id);
-    asked.set(filing.id, [...campaignFor(api, filing.id).volunteerIds]);
   }
   advanceCore(core, addDays(makeIsoDate(day!), 3));
 
@@ -87,11 +85,27 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
       row.momentId.includes(`election-result:${filing.contestId}`),
     );
     if (!entry) continue;
-    const types = entry!.bindings.map((row) => row.typeKey);
+    // Two races lost (or won) the same night are one sitting: the day's
+    // scene for the first takes the second in and cites its record, so the
+    // second's own entry stages nothing of its own.
+    const sitting = entry.bindings.length
+      ? entry
+      : book.schedule.find(
+          (row) =>
+            row.date === entry.date &&
+            row.bindings.some((binding) =>
+              binding.joined?.some((item) => item.momentId === entry.momentId),
+            ),
+        );
+    expect(
+      sitting,
+      `${entry.momentId}: staged or taken into the night's sitting`,
+    ).toBeDefined();
+    const types = sitting!.bindings.map((row) => row.typeKey);
     const won = result.winnerId === filing.personId;
     expect(types).toContain(won ? "race-won" : "race-lost");
     expect(types).not.toContain(won ? "race-lost" : "race-won");
-    const scene = entry!.bindings.find(
+    const scene = sitting!.bindings.find(
       (row) => row.typeKey === (won ? "race-won" : "race-lost"),
     )!;
     // The candidate is the subject, and the household is theirs on record.
@@ -106,10 +120,26 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
     const supporters = scene.roles.find(
       (row) => row.role === "supporters",
     )!.personIds;
-    // The campaign's own volunteers are the supporters, from its record.
+    // The campaign's own volunteers are the supporters, from its record: the
+    // sitting's own race's campaign, when this race was taken into it.
+    const sittingContest = core.durableLog.get(
+      book.momentsById.get(sitting!.momentId)?.causeId ?? "",
+    )?.facts?.contestId;
+    const sittingFiling =
+      filings.find(
+        (row) =>
+          row.personId === filing.personId && row.contestId === sittingContest,
+      ) ?? filing;
+    // Read from the campaign's record now: a candidate in several races who
+    // asks the same people for each moves them to the last campaign asked.
+    // A volunteer who lives with the candidate stands in the scene as family,
+    // and a person is cast once.
     expect(supporters).toEqual(
-      (asked.get(filing.id) ?? []).filter(
-        (id) => core.people.get(id)?.alive && id !== filing.personId,
+      [...campaignFor(api, sittingFiling.id).volunteerIds].filter(
+        (id) =>
+          core.people.get(id)?.alive &&
+          id !== filing.personId &&
+          !family.includes(id),
       ),
     );
     stated.push(
@@ -168,7 +198,8 @@ function filingAndStops(
       contestId: contest.id,
       platform: [],
     });
-    if (result.status === "on-ballot") filings.push(result.filing);
+    if (["petitioning", "on-ballot"].includes(result.status ?? ""))
+      filings.push(result.filing);
   }
   expect(filings.length, `${where}: residents who can file`).toBeGreaterThan(0);
   advanceCore(core, addDays(makeIsoDate(core.date), 2));

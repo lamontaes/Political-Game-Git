@@ -6,9 +6,9 @@
  * composed once while the world loads; a sentence the records can't support
  * is left out, never written.
  *
- * - It opens on the player's household at home that evening, the anchor
- *   leading into the address by its title, so the player knows what they
- *   are watching before the President speaks (owner, Oct 14, 2026).
+ * - It opens on the address itself, the President speaking with the Vice
+ *   President and key people pointed out; home comes after the governor and
+ *   the family (owner, Oct 26, 2026).
  * - The address reads the macro engine's opening month against the year
  *   before, saying a figure with what it is, never a bare claim ("Prices are
  *   too high"); the President's own three issues (an ask of Congress only
@@ -31,73 +31,50 @@ import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { ownStance } from "../core2/officials-roster";
 import { PRESIDENT_FACT } from "../core2/officials-president";
-import {
-  regionalMonth,
-  regionName,
-  regionOfPlace,
-} from "../core2/modules/regional";
-import { openingRegionMonths } from "../core2/regional-model";
-import { NEWS_MODULE_ID } from "../core2/modules/news";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import type { CoreState, PersonId, PersonState } from "../core2/types";
+import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import { policyAuthority, type PolicyLevel } from "../core2/policy-authority";
+import type { LawRowInput } from "../core2/laws-starting";
+import type { CoreAPI, CoreState, PersonId, PersonState } from "../core2/types";
 import type { EntityId } from "../core2/kernel/brands";
 import type {
   GroundedEnglishFact,
   GroundedEnglishPacket,
 } from "../english/grounded-english";
 import { composeAddress } from "../english/english-composition";
+import { addressesGivenBy } from "../core2/modules/people";
 import {
-  openingMoves,
-  openingSpeechKind,
-  OPENING_SECTIONS,
+  openingMove,
   type OpeningLevel,
+  type OpeningMove,
   type OpeningSpeechKind,
+  type SpeechVoice,
 } from "../english/english-opening-speech";
-import {
-  composeLeadIn,
-  composeNewsStory,
-  NEWSCAST_BANK,
-  type StoryKind,
-} from "../english/english-newscast";
 import openingData from "./data/opening-story.json" with { type: "json" };
-import { ADDRESS_FACT } from "./opening-facts";
-import { NAMED_QUESTIONS, questionTo } from "../english/question-names";
+import { ADDRESS_FACT, ADDRESS_PART_BREAK } from "./opening-facts";
+import {
+  NAMED_QUESTIONS,
+  questionAbout,
+  questionTo,
+} from "../english/question-names";
 import { questionSubject } from "../english/policy-names";
 import addressData from "./data/opening-address.json" with { type: "json" };
-import {
-  openingChambers,
-  openingSequence,
-  type OpeningFigure,
-  type OpeningStage,
-} from "./opening-sequence";
+import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
-import { properName, spoken } from "./words";
 
 export interface OpeningSentence {
   readonly level: OpeningLevel;
+  /** The part of the address it is said in, from 0, one per Continue. */
+  readonly part: number;
   readonly text: string;
   readonly sourceRecordIds: readonly string[];
   /** What the sentence is about: the facts it said ("jobs-up", "place", "goal"). */
   readonly facts: readonly string[];
+  /** What each of those facts said in the sentence, the figure or name filled in. */
+  readonly values: Readonly<Record<string, string>>;
   /** The state a place line names, from the campaign visit it came from. */
   readonly stateKey?: string;
-}
-
-export interface OpeningNewsStory {
-  /** The kind of story the newscast bank composed it as. */
-  readonly kind: StoryKind;
-  /** The record the story is about. */
-  readonly recordId: string;
-  readonly headline?: string;
-  readonly lede?: string;
-  readonly broadcast: readonly {
-    speaker: "anchor" | "reporter";
-    text: string;
-  }[];
-  readonly sourceRecordIds: readonly string[];
 }
 
 export interface OpeningStory {
@@ -121,24 +98,10 @@ export interface OpeningStory {
     /** The line people remember: the President's own ask, else the country's state. */
     readonly rememberedLine: OpeningSentence;
     readonly text: string;
+    /** The address as the talk box plays it, one paragraph per Continue. */
+    readonly parts: readonly string[];
     readonly sourceRecordIds: readonly string[];
   };
-  /**
-   * What the player is watching, said first: the anchor's lead into the
-   * address by its title, on the news the household has on at home.
-   */
-  readonly lead: readonly {
-    readonly speaker: "anchor";
-    readonly text: string;
-    readonly sourceRecordIds: readonly string[];
-  }[];
-  /** That evening's news: the address, then the town's own lead story. */
-  readonly newscast: readonly OpeningNewsStory[];
-  /**
-   * The sequence the address plays over (owner, Oct 14, 2026, late): the
-   * President's stage, Congress, the state, the family; who each points out.
-   */
-  readonly sequence: readonly OpeningStage[];
   /** The handoff: the player's household at home on the evening of day one. */
   readonly home: {
     readonly date: string;
@@ -156,26 +119,10 @@ interface OpeningData {
     jobsPerMillion: number;
     percentPerRatio: number;
   };
-  townStoryKinds: Readonly<Record<string, StoryKind>>;
   speechTitles: Readonly<Record<OpeningSpeechKind, string>>;
-  named: {
-    rules: readonly { role: string; says?: string; fact?: string }[];
-  };
 }
 const DATA = openingData as unknown as OpeningData;
 const N = DATA.numbers;
-
-/** The anchor's greetings and sign-offs, the newscast bank's lines with no slot. */
-const anchorLines = (role: string) =>
-  new Set(
-    NEWSCAST_BANK.parts
-      .filter((part) =>
-        part.uses.some((use) => use.subject === "anchor" && use.role === role),
-      )
-      .map((part) => part.text),
-  );
-const ANCHOR_OPENS = anchorLines("open");
-const ANCHOR_CLOSES = anchorLines("close");
 
 /** The offices engine's public record of the taking of office on Inauguration Day. */
 const INAUGURATION_EVENT = "inauguration";
@@ -241,8 +188,10 @@ function macroMonths(core: CoreState): {
         .rows() as unknown as MacroMonth[])
     : [];
   // Before the macro engine's first day the opening month is the one it
-  // will open from: the same published rows (`historyMonths`).
-  const months = (recorded.length ? recorded : historyMonths(core.startedAt, p))
+  // will open from: this world's own drawn months (`historyMonths`).
+  const months = (
+    recorded.length ? recorded : historyMonths(core.startedAt, core.seed, p)
+  )
     .slice()
     .sort((a, b) => a.month.localeCompare(b.month));
   const now = months
@@ -253,10 +202,36 @@ function macroMonths(core: CoreState): {
   return { now, before: months.find((row) => row.month === yearBefore) };
 }
 
+/** The speech fact each of the country's numbers is said with. */
+const NUMBER_FACT: Readonly<Record<string, readonly string[]>> = {
+  unemployment: ["unemployment-rate"],
+  inflation: ["inflation-rate"],
+  growth: ["growth-rate"],
+  wages: ["wage-growth"],
+  mortgage: ["mortgage-rate"],
+  jobs: ["jobs-added", "jobs-up"],
+};
+
+interface AddressData {
+  numbersBySubject: Readonly<Record<string, readonly string[]>>;
+  mannerTraits: { plain: readonly string[]; polished: readonly string[] };
+  parameters: Record<
+    "prioritiesMax" | "priorityStanceShare" | "storyFigures",
+    { value: number }
+  >;
+}
+const SHAPE = addressData as unknown as AddressData;
+
 /** The country's numbers and the claims its record supports, as speech facts. */
-function countryFacts(core: CoreState, kind: OpeningSpeechKind): Facts {
+interface Country {
+  readonly facts: Facts;
+  /** How far each number moved over the year, to choose the ones worth telling. */
+  readonly movement: Readonly<Record<string, number>>;
+}
+
+function countryFacts(core: CoreState, kind: OpeningSpeechKind): Country {
   const months = macroMonths(core);
-  if (!months) return {};
+  if (!months) return { facts: {}, movement: {} };
   const { now, before } = months;
   const api = coreAPI(core);
   const ids = [now.id, ...(before ? [before.id] : [])];
@@ -265,6 +240,7 @@ function countryFacts(core: CoreState, kind: OpeningSpeechKind): Facts {
     "inflation-rate": fact(now.inflationPct.toFixed(N.decimals), now.id),
     "mortgage-rate": fact(now.mortgage30Pct.toFixed(N.decimals), now.id),
   };
+  const movement: Record<string, number> = {};
   const claim = (key: string, holds: boolean) => {
     if (holds) facts[key] = fact("yes", ...ids);
   };
@@ -275,178 +251,183 @@ function countryFacts(core: CoreState, kind: OpeningSpeechKind): Facts {
         api.parameter("macroCpiOverPceWedgePct"),
   );
   claim("prices-up", now.inflationPct > P.zero);
-  if (!before) return facts;
+  if (!before) return { facts, movement };
   claim("unemployment-down", now.unemploymentPct < before.unemploymentPct);
+  claim("unemployment-up", now.unemploymentPct > before.unemploymentPct);
   claim("inflation-down", now.inflationPct < before.inflationPct);
   claim("inflation-up", now.inflationPct > before.inflationPct);
   claim("wages-up", now.hourlyEarnings > before.hourlyEarnings);
   claim("growth-up", now.realOutput > before.realOutput);
+  movement.unemployment = Math.abs(
+    now.unemploymentPct - before.unemploymentPct,
+  );
+  movement.inflation = Math.abs(now.inflationPct - before.inflationPct);
+  movement.mortgage = Math.abs(now.mortgage30Pct - before.mortgage30Pct);
   // A change over the year, as a percent of where it stood.
   const change = (to: number, from: number) =>
-    ((to / from - P.one) * N.percentPerRatio).toFixed(N.decimals);
-  if (now.hourlyEarnings > before.hourlyEarnings)
-    facts["wage-growth"] = fact(
-      change(now.hourlyEarnings, before.hourlyEarnings),
-      ...ids,
-    );
-  if (now.realOutput > before.realOutput)
-    facts["growth-rate"] = fact(
-      change(now.realOutput, before.realOutput),
-      ...ids,
-    );
+    (to / from - P.one) * N.percentPerRatio;
+  if (now.hourlyEarnings > before.hourlyEarnings) {
+    const grew = change(now.hourlyEarnings, before.hourlyEarnings);
+    facts["wage-growth"] = fact(grew.toFixed(N.decimals), ...ids);
+    movement.wages = grew;
+    // Pay against prices, over the same year.
+    claim("wages-ahead-of-prices", grew > now.inflationPct);
+    claim("wages-behind-prices", grew < now.inflationPct);
+  }
+  if (now.realOutput > before.realOutput) {
+    const grew = change(now.realOutput, before.realOutput);
+    facts["growth-rate"] = fact(grew.toFixed(N.decimals), ...ids);
+    movement.growth = grew;
+  }
   const added = now.payrollJobsThousands - before.payrollJobsThousands;
   // A new President can't claim the last administration's jobs as "we
   // created": an inaugural address says only that jobs are up.
   if (added > P.zero) {
     claim("jobs-up", true);
+    movement.jobs = added / N.jobsPerSeriesUnit / N.jobsPerMillion;
     if (kind !== "inaugural")
       facts["jobs-added"] = fact(jobsSaid(added), ...ids);
   }
-  return facts;
+  // The year in a word: more of the measures better than worse, or the
+  // reverse, or neither. Each is a count of the claims above, never a roll.
+  const better = [
+    "unemployment-down",
+    "inflation-down",
+    "wages-up",
+    "growth-up",
+    "jobs-up",
+  ].filter((key) => facts[key]).length;
+  const worse =
+    ["unemployment-up", "inflation-up"].filter((key) => facts[key]).length +
+    ["wages-up", "growth-up", "jobs-up"].filter((key) => !facts[key]).length;
+  claim("mood-better", better > worse);
+  claim("mood-hard", worse > better);
+  claim("mood-mixed", worse === better);
+  return { facts, movement };
+}
+
+/** One policy question the President has a view on, at a level that may act on it, with the law in force there. */
+interface Stand {
+  readonly question: string;
+  /** Positive for a President who wants it, negative for one who does not. */
+  readonly stance: number;
+  readonly signature: boolean;
+  /** The powers record that lets this level answer the question. */
+  readonly power: string;
+  readonly law: {
+    readonly id: string;
+    readonly inForce: boolean;
+    /** The jurisdiction whose law it is: the nation, or the player's state. */
+    readonly jurisdiction: string;
+  };
+}
+
+/** The law in force on a question in one jurisdiction, from the laws engine's own rows. */
+function lawOn(
+  api: CoreAPI,
+  question: string,
+  jurisdiction: string,
+): Stand["law"] | null {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return null;
+  const row = (
+    api
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .query("bySeries", [jurisdiction, question]) as unknown as LawRowInput[]
+  )
+    .filter((entry) => entry.effectiveDate <= api.state.date)
+    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[P.zero];
+  return row
+    ? { id: row.id, inForce: row.value === P.one, jurisdiction }
+    : null;
 }
 
 /**
- * What the President would ask for, most wanted first: every policy question
- * with a spoken ask (`questionTo`, "raise the minimum wage") that the
- * President supports (`ownStance`, from their recorded views). Their own
- * signature issues come first, then the rest by how strongly they hold
- * them. Each comes with the official record and the question it reads, so
- * two Presidents with different views or issues ask for different things.
+ * Every question the President holds a view on that federal law can answer
+ * and the world has a law for. The address is national only (owner, Oct 27:
+ * "nothing about your state"). Any question in the bill catalog can be here,
+ * so two Presidents with different views, or two worlds with different laws,
+ * say different things.
  */
-function presidentGoals(official: OfficialRow): GroundedEnglishFact[] {
-  return presidentQuestions(official).map((question) =>
-    fact(questionTo(question)!, official.id, `question:${question}`),
-  );
+function presidentStands(api: CoreAPI, official: OfficialRow): Stand[] {
+  const own = new Set(official.signature.map((row) => row.question));
+  const at = (level: PolicyLevel, jurisdiction: string | null) =>
+    NAMED_QUESTIONS.flatMap((question): Stand[] => {
+      const stance = ownStance(official.ideal, official.signature, question);
+      if (stance === P.zero || !jurisdiction) return [];
+      const power = policyAuthority(api, question, level);
+      const law = power.allowed ? lawOn(api, question, jurisdiction) : null;
+      return law
+        ? [
+            {
+              question,
+              stance,
+              signature: own.has(question),
+              power: power.source,
+              law,
+            },
+          ]
+        : [];
+    });
+  return at("federal", "US");
 }
 
-/** The questions behind the President's goals, most wanted first. */
-function presidentQuestions(official: OfficialRow): string[] {
-  const own = new Set(official.signature.map((row) => row.question));
-  return NAMED_QUESTIONS.map((question) => ({
-    question,
-    signature: own.has(question),
-    stance: ownStance(official.ideal, official.signature, question),
-  }))
+/** The ones they want: their own signature issues first, then by how strongly they hold them. */
+function wantedOf(stands: readonly Stand[]): Stand[] {
+  return stands
     .filter((row) => row.stance > P.zero)
     .sort(
       (a, b) =>
         Number(b.signature) - Number(a.signature) ||
         b.stance - a.stance ||
         a.question.localeCompare(b.question),
-    )
-    .map((row) => row.question);
-}
-
-interface AddressShape {
-  numbersBySubject: Readonly<Record<string, readonly string[]>>;
-  otherNumbers: readonly string[];
-  parameters: Record<
-    "addressNumbersAtLeast" | "addressGoalsRead",
-    { value: number }
-  >;
-}
-const SHAPE = addressData as unknown as AddressShape;
-/** The speech fact each of the country's numbers is said with. */
-const NUMBER_FACT: Readonly<Record<string, string>> = {
-  unemployment: "unemployment-rate",
-  inflation: "inflation-rate",
-  growth: "growth-rate",
-  wages: "wage-growth",
-  mortgage: "mortgage-rate",
-  jobs: "jobs-added",
-};
-
-/**
- * The address's shape, from the President's own record
- * (`data/opening-address.json`): the country's numbers it cites, in order,
- * and whether the agenda comes before them. Each of the President's leading
- * goals bears on the numbers its catalog subject names; those come first,
- * the rest after, and each goal that bears on one the record holds adds one
- * to the count. A President whose first goal bears on one opens with the
- * numbers, right after the salutation; any other opens with the occasion.
- * Unemployment is always said, first among the numbers.
- */
-function addressShape(
-  official: OfficialRow,
-  country: Facts,
-): { numbers: string[]; numbersFirst: boolean } {
-  const held = (number: string) => !!country[NUMBER_FACT[number] ?? ""];
-  const bears = (question: string) =>
-    (SHAPE.numbersBySubject[questionSubject(question) ?? ""] ?? []).filter(
-      held,
     );
-  const goals = presidentQuestions(official).slice(
-    P.zero,
-    SHAPE.parameters.addressGoalsRead.value,
-  );
-  const count =
-    SHAPE.parameters.addressNumbersAtLeast.value +
-    goals.filter((question) => bears(question).length).length;
-  const numbers = [
-    ...new Set([...goals.flatMap(bears), ...SHAPE.otherNumbers.filter(held)]),
-  ].slice(P.zero, count);
-  const first = goals[P.zero];
+}
+
+/** The ones they oppose, strongest first. */
+function opposedOf(stands: readonly Stand[]): Stand[] {
+  return stands
+    .filter((row) => row.stance < P.zero)
+    .sort(
+      (a, b) => a.stance - b.stance || a.question.localeCompare(b.question),
+    );
+}
+
+/** The facts a stand is spoken with: its names, the President's side and the law. */
+function standFacts(stand: Stand, official: OfficialRow, rank: string): Facts {
+  // The ask cites the powers record and the law it read (ask why).
+  const asked = [
+    official.id,
+    `question:${stand.question}`,
+    stand.power,
+    stand.law.id,
+  ];
   return {
-    numbers: ["unemployment", ...numbers],
-    numbersFirst: !!first && bears(first).length > P.zero,
+    about: fact(questionAbout(stand.question)!, ...asked),
+    to: fact(questionTo(stand.question)!, ...asked),
+    [stand.stance > P.zero ? "stance-for" : "stance-against"]: fact(
+      "yes",
+      ...asked,
+    ),
+    [stand.law.inForce ? "law-in-force" : "law-not-in-force"]: fact(
+      "yes",
+      stand.law.id,
+    ),
+    "federal-level": fact("yes", stand.law.id),
+    [rank]: fact("yes", ...asked),
   };
 }
 
-/**
- * The state the address names: the player's own state, when the President's
- * campaign went there; never another state (owner, Oct 14, 2026: "I went to
- * Minnesota" to a player in West Virginia).
- */
-function visitedPlace(
-  president: PersonState,
-  townState: string | null,
-): GroundedEnglishFact | null {
-  const chosen = (president.pastFacts ?? []).find(
-    (row) =>
-      row.kind === PRESIDENT_FACT.visit &&
-      row.facts?.stateName &&
-      row.facts?.stateKey === townState,
-  );
-  return chosen ? fact(chosen.facts!.stateName!, chosen.id) : null;
-}
-
-/** The facts each section of the address is composed with. */
-function sectionFacts(
-  core: CoreState,
-  president: PersonState,
-  official: OfficialRow,
-  kind: OpeningSpeechKind,
-  townState: string | null,
-  onStage: ReadonlySet<string>,
-): Record<OpeningLevel, Facts> {
-  const api = coreAPI(core);
-  const country = countryFacts(core, kind);
-  const [first, second, third] = presidentGoals(official);
-  const governor = townState
-    ? officialsIn(api, `${townState}:governor`)[P.zero]
-    : undefined;
-  // A governor is thanked by name only when the scene introduces them by
-  // office and state (owner, Oct 14, 2026: "Thank you, Governor Munoz").
-  const governorPerson =
-    governor && onStage.has(governor.id)
-      ? core.people.get(governor.id)
-      : undefined;
-  const place = visitedPlace(president, townState);
-  return {
-    salutation: {},
-    occasion: third ? { goal: third } : {},
-    country,
-    congress: first ? { goal: first } : {},
-    governors: {
-      ...(second ? { goal: second } : {}),
-      ...(governorPerson
-        ? { name: fact(governorPerson.familyName, governor!.id) }
-        : {}),
-    },
-    towns: place ? { place } : {},
-    families: {},
-    close: {},
-  };
+/** The President's manner of speaking, from their recorded traits. */
+function voiceOf(president: PersonState): SpeechVoice {
+  const sum = (keys: readonly string[]) =>
+    keys.reduce(
+      (total, key) => total + (president.traits[key] ?? P.zero),
+      P.zero,
+    );
+  return sum(SHAPE.mannerTraits.plain) > sum(SHAPE.mannerTraits.polished)
+    ? "plain"
+    : "polished";
 }
 
 /** The Speaker's recorded gender, for "Mr. Speaker" or "Madam Speaker". */
@@ -461,272 +442,310 @@ function chairStage(core: CoreState): string {
   return gender === "female" ? "chair-female" : "chair-male";
 }
 
+/** One part of the address: where the camera is, the facts it is said with, its moves. */
+interface Block {
+  readonly key: string;
+  readonly level: OpeningLevel;
+  /**
+   * The part of the address the block is said in: the talk box plays one
+   * part per Continue (owner, Oct 28 sitting, 11 and 41: "Each Continue can
+   * carry a paragraph"). Blocks with the same part are one paragraph.
+   */
+  readonly part: number;
+  readonly facts: Facts;
+  readonly moves: readonly (OpeningMove | null)[];
+  readonly required?: boolean;
+}
+
+const RANKS = ["rank-first", "rank-second", "rank-third"] as const;
+
+/**
+ * Plan the address from the world's records: which priorities the President
+ * leads with and the law on each, the line they will not cross, which of the
+ * country's numbers the story tells, and in what order. Two worlds differ in
+ * all of it. Nothing in it reads the player's state or town.
+ */
+function planAddress(
+  core: CoreState,
+  president: PersonState,
+  official: OfficialRow,
+  kind: OpeningSpeechKind,
+): Block[] {
+  const api = coreAPI(core);
+  const voice = voiceOf(president);
+  const move = (
+    role: string,
+    options: { topic?: string; required?: boolean } = {},
+  ) => openingMove(kind, voice, role, options);
+  const country = countryFacts(core, kind);
+  const stands = presidentStands(api, official);
+  // Congress hears only what it may answer and federal law does not have yet.
+  const open = stands.filter((row) => !row.law.inForce);
+  const wanted = wantedOf(open);
+  const opposed = opposedOf(open);
+  const par = SHAPE.parameters;
+
+  // The priorities: the questions they want, while the conviction holds,
+  // measured against the strongest want any level may answer.
+  const strongest = Math.max(P.zero, ...stands.map((row) => row.stance));
+  const priorities = wanted
+    .filter(
+      (row, at) =>
+        at === P.zero ||
+        row.stance >= par.priorityStanceShare.value * strongest,
+    )
+    .slice(P.zero, par.prioritiesMax.value);
+  // The line they will not cross, when they hold it harder than their weakest priority.
+  const firmest = opposed[P.zero];
+  const line =
+    firmest && -firmest.stance >= (priorities.at(-P.one)?.stance ?? P.zero)
+      ? firmest
+      : undefined;
+
+  // A priority argued from a number of the country's, when its subject bears on one.
+  const held = (topic: string) =>
+    (NUMBER_FACT[topic] ?? []).some((key) => country.facts[key]);
+  const taken = new Set<string>();
+  const topicOf = (stand: Stand) => {
+    const topic = (
+      SHAPE.numbersBySubject[questionSubject(stand.question) ?? ""] ?? []
+    ).filter((row) => held(row) && !taken.has(row))[P.zero];
+    if (topic) taken.add(topic);
+    return topic;
+  };
+
+  // Blocks before their part is set: a block that `joins` is said in the
+  // same paragraph as the block before it.
+  type Draft = Omit<Block, "part"> & { readonly joins?: boolean };
+  const blocks: Draft[] = [
+    {
+      key: "salutation",
+      level: "salutation",
+      facts: {},
+      moves: [move("salutation", { required: true })],
+      required: true,
+    },
+  ];
+  const standBlock = (
+    stand: Stand,
+    rank: (typeof RANKS)[number] | "rank-line",
+    topic: string | undefined,
+  ): Draft => ({
+    key: `${rank}-${stand.question}`,
+    level: "congress",
+    facts: {
+      ...country.facts,
+      ...standFacts(stand, official, rank),
+    },
+    moves: [
+      move("lead-in"),
+      ...(topic ? [move("stake", { topic })] : []),
+      move("law"),
+      move("ask"),
+    ],
+  });
+  const priorityTopics = priorities.map(topicOf);
+  const firstBears = !!priorityTopics[P.zero];
+  const priorityBlocks = priorities.map((stand, at) =>
+    standBlock(stand, RANKS[at]!, priorityTopics[at]),
+  );
+  const lineBlock = line ? standBlock(line, "rank-line", undefined) : undefined;
+
+  // The story of the country: the nation's unemployment rate and the numbers that
+  // moved most, apart from the ones the priorities argue from, under a word for the year.
+  const others = Object.keys(NUMBER_FACT)
+    .filter(
+      (topic) => topic !== "unemployment" && held(topic) && !taken.has(topic),
+    )
+    .sort(
+      (a, b) =>
+        (country.movement[b] ?? P.zero) - (country.movement[a] ?? P.zero) ||
+        a.localeCompare(b),
+    )
+    .slice(P.zero, par.storyFigures.value);
+  // The nation's unemployment rate is always told, under its scope: first,
+  // or last when it rose, so the pledge that follows answers it.
+  const jobless = held("unemployment") ? ["unemployment"] : [];
+  const told = country.facts["unemployment-up"]
+    ? [...others, ...jobless]
+    : [...jobless, ...others];
+  // After the numbers, what the President means to do about them: a hard
+  // year turns first ("It's a reason to get to work."), then every year ends
+  // on the pledge its record supports (owner, Oct 28 sitting, 11: "so what is
+  // he going to do about it?"). A new President never claims the gains.
+  const story: Draft = {
+    key: "story",
+    level: "country",
+    facts: country.facts,
+    moves: [
+      move("story-open"),
+      ...told.map((topic) => move("story-fig", { topic })),
+      ...(country.facts["mood-hard"] ? [move("story-turn")] : []),
+      move("pledge", pledgeOptions(country.facts)),
+    ],
+  };
+  const home = (president.pastFacts ?? []).find(
+    (row) => row.kind === PRESIDENT_FACT.homeState,
+  );
+  const prior = (president.pastFacts ?? []).find(
+    (row) => row.kind === PRESIDENT_FACT.priorOffice,
+  );
+  const occasion: Draft = {
+    key: "occasion",
+    level: "occasion",
+    facts: {
+      ...country.facts,
+      ...(home?.facts?.stateName
+        ? { "home-state": fact(home.facts.stateName, home.id) }
+        : {}),
+      ...(prior?.facts?.title
+        ? { "prior-office": fact(prior.facts.title, prior.id) }
+        : {}),
+    },
+    moves: [move("occasion")],
+  };
+  // What the President believes, in their party's terms, then (in an
+  // inaugural) that they serve those who voted against them too.
+  const party = (official.party ?? "").toLowerCase();
+  const creed: Draft = {
+    key: "creed",
+    level: "occasion",
+    joins: true,
+    facts: {
+      [`party-${PARTY_FACT[party] ?? "other"}`]: fact("yes", official.id),
+    },
+    moves: [move("creed"), move("unity")],
+  };
+  // A hard year, or a first priority that bears on a number, opens with the
+  // country's story; any other President opens with the occasion.
+  const storyFirst = !!country.facts["mood-hard"] || firstBears;
+  blocks.push(
+    ...(storyFirst ? [story, occasion, creed] : [occasion, creed, story]),
+  );
+  blocks.push(...priorityBlocks, ...(lineBlock ? [lineBlock] : []));
+
+  blocks.push(
+    {
+      key: "families",
+      level: "families",
+      facts: country.facts,
+      moves: [move("families")],
+    },
+    {
+      key: "close",
+      level: "close",
+      joins: true,
+      facts: {},
+      moves: [move("close", { required: true })],
+      required: true,
+    },
+  );
+  // The salutation opens the first paragraph with whatever follows it.
+  let part = -P.one;
+  return blocks.map((block, at) => {
+    if (
+      !block.joins &&
+      !(at > P.zero && blocks[at - P.one]!.key === "salutation")
+    )
+      part += P.one;
+    const { joins, ...rest } = block;
+    void joins;
+    return { ...rest, part };
+  });
+}
+
+/**
+ * What the pledge answers: the worst of the year's numbers when one went the
+ * wrong way (the most specific wins), else the year as a whole.
+ */
+function pledgeOptions(facts: Facts): { topic?: string } {
+  if (facts["unemployment-up"]) return { topic: "unemployment" };
+  if (facts["wages-behind-prices"]) return { topic: "wages" };
+  if (facts["inflation-up"]) return { topic: "inflation" };
+  return {};
+}
+
+/** The party fact a President's creed is said with, by the party's name. */
+const PARTY_FACT: Readonly<Record<string, string>> = {
+  republican: "republican",
+  democratic: "democratic",
+  democrat: "democratic",
+};
+
 function composeAddressOf(
   core: CoreState,
   president: PersonState,
   official: OfficialRow,
   kind: OpeningSpeechKind,
-  townState: string | null,
-  onStage: ReadonlySet<string>,
 ): OpeningSentence[] | null {
-  const facts = sectionFacts(
-    core,
-    president,
-    official,
-    kind,
-    townState,
-    onStage,
-  );
   const stage = chairStage(core);
+  // The addresses the President has given: each speech the speech module
+  // recorded, and each campaign stop on their record (a rally speech there).
+  const craft = [
+    ...addressesGivenBy(coreAPI(core), president.id),
+    ...(president.pastFacts ?? [])
+      .filter((row) => row.kind === PRESIDENT_FACT.visit)
+      .map((row) => row.id),
+  ];
   const sentences: OpeningSentence[] = [];
-  // The President's record shapes the address: which numbers, in what
-  // order, and whether they come before the occasion. Both are said on the
-  // President's own stage, so the camera's order holds.
-  const shape = addressShape(official, facts.country);
-  const sections = shape.numbersFirst
-    ? OPENING_SECTIONS.map((section, at, all) =>
-        section.level === "occasion"
-          ? all.find((row) => row.level === "country")!
-          : section.level === "country"
-            ? all.find((row) => row.level === "occasion")!
-            : section,
-      )
-    : OPENING_SECTIONS;
-  for (const section of sections) {
-    const own = facts[section.level];
-    const moves = openingMoves(kind, section.level)
-      .filter((move) => !move.topic || shape.numbers.includes(move.topic))
-      .sort(
-        (a, b) =>
-          shape.numbers.indexOf(a.topic ?? "") -
-          shape.numbers.indexOf(b.topic ?? ""),
-      )
-      .map((move) => ({
-        ...move,
-        bank: {
-          ...move.bank,
-          parts: {
-            core: {
-              variants: move.bank.parts.core!.variants.filter(
-                (variant) =>
-                  "text" in variant &&
-                  // A President taking office can't claim the last term's record.
-                  (kind !== "inaugural" ||
-                    !/^We(?:'ve| have)? (?:created|cut)\b/.test(
-                      variant.text,
-                    )) &&
-                  // The country is told by its figures: a sentence that
-                  // carries the number it reports, never a bare claim
-                  // ("Prices are too high", owner, Oct 14, 2026), nor
-                  // another number's ("Our wages grew" is not the economy's).
-                  (section.level !== "country" ||
-                    variant.text.includes(
-                      `{{${NUMBER_FACT[move.topic ?? ""] ?? ""}}}`,
-                    )),
-              ),
-            },
-          },
-        },
-      }))
-      .filter((move) => move.bank.parts.core.variants.length);
+  // Pieces already said, so no wording is used twice while another can say it.
+  const said: string[] = [];
+  for (const block of planAddress(core, president, official, kind)) {
+    const moves = block.moves.filter((row): row is OpeningMove => !!row);
     const base = packet(
-      `opening:${core.date}:${president.id}/${section.level}`,
+      `opening:${core.date}:${president.id}/${block.key}`,
       core.seed,
       president.id,
       stage,
-      own,
+      block.facts,
       [president.id],
     );
     // stopgapId: SG-PEOPLE-address-register
     markWordsStopgap("SG-PEOPLE-address-register");
-    // In the President's own voice: their recorded traits pull each pick.
+    // In the President's own voice: their recorded traits pull each pick,
+    // and a crafted device is theirs only once the record shows the
+    // addresses that earned it.
     const address = composeAddress(base, "election-night", moves, {
       speakerTraits: president.traits,
+      recentPartKeys: said,
+      addressesGiven: craft.length,
     });
     if (address.kind !== "rendered") {
-      if (section.required) return null;
+      if (block.required) return null;
       continue;
     }
     for (const move of address.moves) {
+      said.push(...move.parts.map((part) => part.partKey));
       const used = new Set(move.parts.flatMap((part) => part.usedFactKeys));
-      const visit = [...used].includes("place")
-        ? own.place?.sourceRecordIds
+      // A crafted device cites the addresses that earned it.
+      const earned = move.parts.some((part) => part.device) ? craft : [];
+      const visit = used.has("place")
+        ? block.facts.place?.sourceRecordIds
             .map((id) => /:visit:(US-[A-Z]{2})$/.exec(id)?.[P.one])
             .find(Boolean)
         : undefined;
       sentences.push({
-        level: section.level,
+        level: block.level,
+        part: block.part,
         text: move.text,
         facts: [...used].sort(),
+        values: Object.fromEntries(
+          [...used].sort().map((key) => [key, block.facts[key]?.text ?? ""]),
+        ),
         ...(visit ? { stateKey: visit } : {}),
         sourceRecordIds: [
           ...new Set([
             president.id,
-            ...[...used].flatMap((key) => own[key]?.sourceRecordIds ?? []),
+            ...[...used].flatMap(
+              (key) => block.facts[key]?.sourceRecordIds ?? [],
+            ),
+            ...earned,
           ]),
         ],
       });
     }
   }
   return sentences;
-}
-
-/** The town's own lead story on the opening day, from its records. */
-function townStory(
-  core: CoreState,
-  townId: string,
-  townName: string,
-): { kind: StoryKind; recordId: string; facts: Facts } | null {
-  const api = coreAPI(core);
-  const stories = core.modules.has(NEWS_MODULE_ID)
-    ? (api.moduleState(NEWS_MODULE_ID).table("stories").rows() as unknown as {
-        id: string;
-        kind: string;
-        date: string;
-        placeId: string;
-        facts: Record<string, string>;
-      }[])
-    : [];
-  for (const story of stories
-    .filter((row) => row.date === core.date && row.placeId === townId)
-    .sort((a, b) => a.id.localeCompare(b.id))) {
-    const kind = DATA.townStoryKinds[story.kind];
-    if (!kind) continue;
-    // The person a death names and the business a closure names, by the
-    // record ids the story carries.
-    const named = story.id
-      .split(":")
-      .map((token) => core.people.get(token))
-      .find(Boolean);
-    const organization = Object.keys(story.facts)
-      .map((key) => /^organization:(.+):status$/.exec(key)?.[P.one])
-      .map((id) => (id ? core.organizations.get(id) : undefined))
-      .find(Boolean);
-    const facts: Facts = { place: fact(townName, townId) };
-    if (kind === "death") {
-      if (!named) continue;
-      facts.name = fact(fullName(named), named.id, story.id);
-      facts.age = fact(
-        String(ageOnDate(makeIsoDate(named.birthDate), makeIsoDate(core.date))),
-        named.id,
-      );
-    }
-    if (kind === "closing") {
-      if (!organization) continue;
-      facts.subject = fact(
-        properName(organization.name),
-        organization.id,
-        story.id,
-      );
-    }
-    return { kind, recordId: story.id, facts };
-  }
-  // No closure or death today: the jobs figure for the town's area, from
-  // the regional engine's month (BLS state and metro series).
-  const months = macroMonths(core);
-  const regionId = regionOfPlace(townId);
-  if (!months || !regionId) return null;
-  const region =
-    regionalMonth(api, townId, months.now.month) ??
-    openingRegionMonths(months.now, (key) => api.parameter(key)).find(
-      (row) => row.regionId === regionId,
-    );
-  if (!region) return null;
-  const before = months.before
-    ? (regionalMonth(api, townId, months.before.month) ??
-      openingRegionMonths(months.before, (key) => api.parameter(key)).find(
-        (row) => row.regionId === regionId,
-      ))
-    : undefined;
-  const area = regionName(region.regionId);
-  return {
-    kind: "jobs-report",
-    recordId: region.id,
-    facts: {
-      place: fact(townName, townId),
-      // The rate is the region's (a metro, or the state outside its metros),
-      // so the story names that area, not the town.
-      ...(area ? { area: fact(area, region.id) } : {}),
-      percent: fact(region.unemploymentPct.toFixed(N.decimals), region.id),
-      ...(before && region.unemploymentPct < before.unemploymentPct
-        ? { "unemployment-down": fact("yes", region.id, before.id) }
-        : {}),
-    },
-  };
-}
-
-function newsStory(
-  core: CoreState,
-  kind: StoryKind,
-  recordId: string,
-  facts: Facts,
-): OpeningNewsStory {
-  // stopgapId: SG-PEOPLE-newscast-register
-  markWordsStopgap("SG-PEOPLE-newscast-register");
-  const story = composeNewsStory(
-    {
-      ...packet(
-        `opening-news:${core.date}:${recordId}`,
-        core.seed,
-        recordId,
-        "default",
-        { evening: fact("yes", recordId), ...facts },
-        [recordId],
-      ),
-      bankVersion: "words-newscast-v1",
-    },
-    kind,
-  );
-  // The anchor names themself only from the station's record (the bank's
-  // "I'm {name}" otherwise takes the story's name).
-  const broadcast = story.broadcast.filter(
-    (line) => !/\bI'm\b/.test(line.text) || facts.anchor,
-  );
-  return { kind, recordId, ...story, broadcast };
-}
-
-/**
- * Who the camera points out, each with the reason they are there: the first
- * address sentence that names them (a salutation's "Mr. Speaker"), their
- * place on the owner's list of key people, or the player's own household at
- * home. Anyone else is
- * left out (owner, Oct 14, 2026: a person lit with no recorded reason is a
- * defect).
- */
-function withReasons(
-  stages: readonly OpeningStage[],
-  sentences: readonly OpeningSentence[],
-  core: CoreState,
-): OpeningStage[] {
-  const namedBy = (figure: OpeningFigure): number | undefined => {
-    for (const rule of DATA.named.rules.filter(
-      (row) => row.role === figure.role,
-    )) {
-      const at = sentences.findIndex((sentence) =>
-        rule.says
-          ? new RegExp(rule.says).test(sentence.text)
-          : rule.fact
-            ? sentence.facts.includes(rule.fact) &&
-              sentence.sourceRecordIds.includes(figure.id)
-            : false,
-      );
-      if (at >= P.zero) return at;
-    }
-    return undefined;
-  };
-  return stages.map((stage) => ({
-    ...stage,
-    people: stage.people.flatMap((figure) => {
-      if (figure.role === "household")
-        return core.people.get(figure.id)?.alive ? [figure] : [];
-      const at = namedBy(figure);
-      // A key person (owner, Oct 15) is pointed out for being key, on their
-      // stage; the sentence that names them, if any, is the line they are lit on.
-      if (at === undefined)
-        return figure.role.startsWith("key:") ? [figure] : [];
-      return [{ ...figure, namedBy: at }];
-    }),
-  }));
 }
 
 /**
@@ -743,23 +762,15 @@ export function composeOpeningStory(
   const official = officialsIn(api, "US:president")[P.zero];
   const president = official ? core.people.get(official.id) : undefined;
   if (!player || !official || !president) return null;
-  const town = corePlaceByJurisdictionId(player.placeId as never);
-  const townState = town?.stateJurisdictionKey ?? null;
-  const townName = town ? spoken(town) : null;
-  const kind = openingSpeechKind(
-    Number(core.date.slice(P.zero, core.date.indexOf("-"))),
-  );
-  const staged = openingSequence(core, playerId, president.id);
-  const sentences = composeAddressOf(
-    core,
-    president,
-    official,
-    kind,
-    townState,
-    new Set(staged.flatMap((stage) => stage.people.map((row) => row.id))),
-  );
+  // Inaugural only when the offices engine recorded the taking of office
+  // today (recordInauguration); every other opening is the address to Congress.
+  const kind: OpeningSpeechKind = core.eventIds.has(
+    `${INAUGURATION_EVENT}:${core.date}`,
+  )
+    ? "inaugural"
+    : "state-of-the-union";
+  const sentences = composeAddressOf(core, president, official, kind);
   if (!sentences?.length) return null;
-  const sequence = withReasons(staged, sentences, core);
   const pastFact = (kindKey: string) =>
     (president.pastFacts ?? []).find((row) => row.kind === kindKey);
   const home = pastFact(PRESIDENT_FACT.homeState);
@@ -772,39 +783,7 @@ export function composeOpeningStory(
     sentences.find((row) => row.level === "country") ??
     sentences[P.zero]!;
   const id = `${OPENING_ADDRESS_EVENT}:${core.date}`;
-  const inauguration = `${INAUGURATION_EVENT}:${core.date}`;
   const allIds = [...new Set(sentences.flatMap((row) => row.sourceRecordIds))];
-  // The evening news: the address, then the town's own lead story.
-  const newscast: OpeningNewsStory[] = [
-    newsStory(core, "election", id, {
-      name: fact(
-        fullName(president),
-        president.id,
-        ...(elected ? [elected.id] : []),
-        // The offices engine's record of the taking of office, when the
-        // world opens on Inauguration Day.
-        ...(core.eventIds.has(inauguration) ? [inauguration] : []),
-      ),
-      ...(elected ? { won: fact("yes", elected.id) } : {}),
-      ...(townName ? { place: fact(townName, player.placeId) } : {}),
-    }),
-  ];
-  const local = townName ? townStory(core, player.placeId, townName) : null;
-  if (local)
-    newscast.push(newsStory(core, local.kind, local.recordId, local.facts));
-  // One broadcast: the anchor greets once, at the top, and signs off once.
-  const program = newscast.map((item, index) => ({
-    ...item,
-    broadcast: item.broadcast.filter(
-      (line, at) =>
-        !(index > P.zero && at === P.zero && ANCHOR_OPENS.has(line.text)) &&
-        !(
-          index < newscast.length - P.one &&
-          at === item.broadcast.length - P.one &&
-          ANCHOR_CLOSES.has(line.text)
-        ),
-    ),
-  }));
   const household = core.households.get(player.householdId);
   return {
     id,
@@ -825,24 +804,14 @@ export function composeOpeningStory(
       openingLine: sentences[P.zero]!,
       rememberedLine: remembered,
       text: sentences.map((row) => row.text).join(" "),
+      parts: [...new Set(sentences.map((row) => row.part))].map((part) =>
+        sentences
+          .filter((row) => row.part === part)
+          .map((row) => row.text)
+          .join(" "),
+      ),
       sourceRecordIds: allIds,
     },
-    lead: composeLeadIn({
-      ...packet(
-        `opening-lead:${core.date}`,
-        core.seed,
-        id,
-        "default",
-        {
-          evening: fact("yes", id),
-          topic: fact(DATA.speechTitles[kind], id),
-        },
-        [id],
-      ),
-      bankVersion: "words-newscast-v1",
-    }),
-    newscast: program,
-    sequence,
     home: {
       date: core.date,
       householdId: player.householdId,
@@ -864,12 +833,11 @@ export function recordOpeningStory(
   core: CoreState,
   playerId: PersonId,
 ): OpeningStory | null {
-  // The chambers the sequence points out leaders of organize now, the first
-  // time anything needs their leaders, so composing reads them as they stand.
+  // The key chambers organize now, the first time anything needs their
+  // leaders, so composing reads them as they stand.
   const api = coreAPI(core);
   if (api.state.modules.has(LEADERSHIP_MODULE_ID))
-    for (const chamber of openingChambers(core, playerId))
-      organize(api, chamber);
+    for (const chamber of keyChambersOf(core, playerId)) organize(api, chamber);
   const story = composeOpeningStory(core, playerId);
   if (!story) return null;
   applyCoreEvent(core, {
@@ -905,6 +873,7 @@ export function recordOpeningStory(
       [ADDRESS_FACT.opening]: story.address.openingLine.text,
       [ADDRESS_FACT.remembered]: story.address.rememberedLine.text,
       [ADDRESS_FACT.text]: story.address.text,
+      [ADDRESS_FACT.parts]: story.address.parts.join(ADDRESS_PART_BREAK),
     },
   });
   return story;

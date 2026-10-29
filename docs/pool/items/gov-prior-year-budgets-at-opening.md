@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/prior-year-budgets
+pr: #6231
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T05:35:49.658Z
 ---
 
 **What.** The new M1-14 check (src/bench/m1-14-check.ts) in Dayton, Indiana (place key 1817002, seed 2a04cfa145d92fed4953136fc2e3f97c9287c907b8bb574d2d9683273cccb399) read the pre-start history of a new game. Each government shows exactly one adopted budget before the start: the United States and Indiana fiscal 2024, Tippecanoe County and the Town of Dayton fiscal 2025. The budgets module's pre-start pass (budgetHistory in src/core2/modules/budgets.ts) enters only the budget the opening carries, so the spec's 'governments show prior years' budgets' has nothing to show.

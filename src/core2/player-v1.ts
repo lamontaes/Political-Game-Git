@@ -1,4 +1,3 @@
-import { runModuleCalendar } from "./module-calendar";
 /** Process-local controlled clock. Client IDs select saved offers, never amounts or motives. */
 import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { advanceDate, duePeople } from "./calendar";
@@ -9,18 +8,12 @@ import { FinanceReadGuard } from "./finance-plan";
 import {
   activate,
   availableActs,
-  compactRoutineMetrics,
   projectWorkNeeds,
   refreshNeeds,
+  runDay,
 } from "./life";
 import { parameter } from "./parameters";
-import {
-  assertFactoryCoreV1,
-  condenseCircleDecisions,
-  coreAPI,
-  resolveOperation,
-} from "./state";
-import { compactQuietWorkResults } from "./work-state";
+import { assertFactoryCoreV1, coreAPI, resolveOperation } from "./state";
 import { runWorkPayrollDay } from "./work-payroll-dispatch";
 import {
   WORK_MODULE,
@@ -518,49 +511,48 @@ function closeDay(core: CoreState, s: Session, day: Day): void {
   if (day.work.length || day.action)
     throw new Error("Cannot close a day with unfinished controlled acts.");
   try {
-    runModuleCalendar(core, s.api);
-    for (const module of core.modules.values()) {
-      const decide = (
-        actorId: string,
-        offers: readonly ActOffer[],
-        context?: Parameters<typeof chooseAct>[3],
-      ) => {
-        if (actorId === s.personId)
-          throw new Error(
-            "A module attempted an autonomous controlled choice.",
-          );
-        return chooseAct(core, actorId, offers, context, false, false);
-      };
-      const refresh = (
-        actor: Parameters<typeof refreshNeeds>[2],
-        ids?: readonly string[],
-      ) => {
-        // The controlled person's needs belong to the clock's continuation:
-        // a module may read a projection of them but never refresh them.
-        if (actor.id === s.personId)
-          return ids ? projectWorkNeeds(core, s.api, actor, ids) : undefined;
-        if (ids) return projectWorkNeeds(core, s.api, actor, ids);
-        refreshNeeds(core, s.api, actor);
-        return undefined;
-      };
-      const count =
-        module.id === WORK_MODULE.id
-          ? runScheduledWork(s.api, decide, refresh, s.personId)
-          : module.onDay?.(s.api, decide, refresh);
-      if (module.id === WORK_MODULE.id) runWorkPayrollDay(s.api);
-      if (count) {
-        s.decisions += count.decisions;
-        s.acts += count.acts;
-      }
-    }
-    for (const row of day.due) {
-      s.decisions++;
-      if (activate(core, row.personId, row.days)) s.acts++;
-    }
-    for (const module of core.modules.values()) module.onAfterDay?.(s.api);
-    compactRoutineMetrics(core);
-    compactQuietWorkResults(core, s.api);
-    condenseCircleDecisions(core);
+    // The one day loop (life.ts runDay): no module may choose for the
+    // controlled person, whose needs belong to the clock's continuation.
+    const decide = (
+      actorId: string,
+      offers: readonly ActOffer[],
+      context?: Parameters<typeof chooseAct>[3],
+    ) => {
+      if (actorId === s.personId)
+        throw new Error("A module attempted an autonomous controlled choice.");
+      return chooseAct(core, actorId, offers, context, false, false);
+    };
+    const refresh = (
+      actor: Parameters<typeof refreshNeeds>[2],
+      ids?: readonly string[],
+    ) => {
+      // A module may read a projection of the controlled person's needs but
+      // never refresh them.
+      if (actor.id === s.personId)
+        return ids ? projectWorkNeeds(core, s.api, actor, ids) : undefined;
+      if (ids) return projectWorkNeeds(core, s.api, actor, ids);
+      refreshNeeds(core, s.api, actor);
+      return undefined;
+    };
+    const counted = runDay(core, s.api, day.due, {
+      decide,
+      refresh,
+      activate: (row) => (activate(core, row.personId, row.days) ? 1 : 0),
+      // The controlled person's own shifts are the clock's; everyone else's
+      // run as in any day.
+      ownDay: new Map([
+        [
+          WORK_MODULE.id,
+          () => {
+            const count = runScheduledWork(s.api, decide, refresh, s.personId);
+            runWorkPayrollDay(s.api);
+            return count;
+          },
+        ],
+      ]),
+    });
+    s.decisions += counted.decisions;
+    s.acts += counted.acts;
     s.simulatedDays++;
     s.day = undefined;
   } catch (error) {

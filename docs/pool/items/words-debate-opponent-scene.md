@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
-pr: #5975
+status: done
+claimed-by: finisher/debate-opponent
+pr: #6386
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Builds on the branch of words-staff-news-bill-lost (#5965) and the chain it carries.
 
 Sent back 2026-10-26 from PR #5975 (branch words/debate-opponent-scene): Declared parent5965 is still open at e204727cb9 and its code remains carried in this main-target stack;5955 has merged but does not clear that remaining staff-news prerequisite; land the parent in its lane, then integrate main and gate the isolated debate scene; finish on that branch, merge main into it first.
+
+Evidence (words lead, Oct 27): the real-life packet `docs/design/scenes/from-life/the-local-candidate-debate.md` (League and chamber forums, calibration only) shows the format (moderator, timed answers, rebuttal, closing, audience cards) and the gaps: `holdDebate` (`src/core2/modules/meetings.ts`) writes one pass of positions per question with no rebuttal, moderator or hall audience, and no situation type stages the `debate:` record (`speech-afterward` excludes debates).

@@ -1,6 +1,11 @@
 /** Completed rentals are occupied by households choosing a cheaper home. */
 import { regionalLevel, regionalRegistered } from "./modules/regional";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  yesLevels,
+} from "./modules/laws";
 import lawParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ProjectRow, StockRow } from "./housing-construction";
@@ -11,10 +16,10 @@ import {
 } from "./modules/residents";
 import { fundBalance, peopleInGroup } from "./counted-money";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import { nextDue } from "./housing-homeless";
 import { addResidentFlow, setResidentFlowAmount } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
-import { inForceHere } from "./law-reach/host";
 import { CONSTRUCTION_LAW_KEYS } from "./housing-construction";
 import { webFactorFor } from "./outcome-web-reach";
 import type { CoreAPI, CoreState } from "./types";
@@ -193,7 +198,8 @@ function appliedSetAside(
 ): void {
   const lawId = project.lawIds?.inclusionary;
   // A repealed law reaches no one new; the unit's rent stays what it was.
-  if (!lawId || !inForceHere(api, CONSTRUCTION_LAW_KEYS.inclusionary)) return;
+  if (!lawId || !yesLevels(api, CONSTRUCTION_LAW_KEYS.inclusionary).length)
+    return;
   lawApplied(api, {
     key: CONSTRUCTION_LAW_KEYS.inclusionary,
     lawId,
@@ -206,6 +212,35 @@ function appliedSetAside(
       Math.max(0, (project.askingRentMinor ?? 0) - rentMinor) *
       household.weight *
       api.parameter("macroMonthsPerYear"),
+  });
+}
+
+/**
+ * A household takes a unit in a building the by-right zoning law governed:
+ * the law reached it. The money the law moved is the building's cost the
+ * outcome web's factor added, on the builder's row (housing-construction.ts);
+ * the household's own money is its rent, in the journal.
+ */
+function appliedByRight(
+  api: CoreAPI,
+  project: ProjectRow,
+  household: {
+    readonly id: string;
+    readonly tier: "full" | "counted";
+    readonly weight: number;
+  },
+): void {
+  const lawId = project.lawIds?.multifamily;
+  if (!lawId || !yesLevels(api, CONSTRUCTION_LAW_KEYS.multifamily).length)
+    return;
+  lawApplied(api, {
+    key: CONSTRUCTION_LAW_KEYS.multifamily,
+    lawId,
+    targetId: household.id,
+    target: household.tier === "full" ? "household" : "group",
+    count: household.weight,
+    engine: "housing",
+    what: "moved-into-by-right-building",
   });
 }
 
@@ -309,6 +344,7 @@ export function occupyCompletedRentals(api: CoreAPI): void {
         since: c.date,
         basis: "completed-project",
       });
+      appliedByRight(api, project, tenant);
       if (affordable) {
         table(api, "affordable").put({
           id: tenant.id,
@@ -367,6 +403,36 @@ export function occupyCompletedRentals(api: CoreAPI): void {
   }
 }
 
+/**
+ * The date an opening lease was last renewed. A lease that exists when the
+ * housing records open is some way through its year: its anniversary falls in
+ * one of the twelve months after this first review, fixed by the lease (the
+ * hash of its id, a seeded fact about a lease that already exists, not a
+ * chance). Leases are signed through the year, so their renewals spread over
+ * it instead of all falling a year after the opening.
+ */
+function openingAnniversary(api: CoreAPI, leaseId: string): string {
+  // stopgapId: SG-WORLD-housing-lease-anniversary
+  api.stopgap("SG-WORLD-housing-lease-anniversary");
+  const c = api.state as CoreState;
+  const months = api.parameter("macroMonthsPerYear");
+  const anniversary =
+    Number.parseInt(
+      stableHash(`${c.seed}:lease-anniversary:${leaseId}`).slice(0, 8),
+      16,
+    ) % months;
+  // Renewed (months - anniversary) months before this review: renewal falls due `anniversary` months from now.
+  const at =
+    Number(c.date.slice(0, 4)) * months +
+    Number(c.date.slice(5, 7)) -
+    1 -
+    (months - anniversary);
+  const year = Math.floor(at / months);
+  const month = at - year * months + 1;
+  // Only the month matters to a renewal; the first of it is a date every month has.
+  return `${year}-${String(month).padStart(2, "0")}-01`;
+}
+
 /** Both tiers renew the rent their payment writer actually reads. */
 export function renewRentalLeases(api: CoreAPI): void {
   if (!regionalRegistered(api)) return;
@@ -406,7 +472,7 @@ export function renewRentalLeases(api: CoreAPI): void {
         id: tenant.leaseId,
         webFactor: webFactor(tenant.placeId),
         regionPay: level.hourlyEarnings,
-        renewedAt: c.date,
+        renewedAt: openingAnniversary(api, tenant.leaseId),
         rentMinor: tenant.rentMinor,
         ...(vacancy === undefined ? {} : { vacancy }),
       });
@@ -526,7 +592,7 @@ function noticeRentRenewal(
       (p) =>
         p?.alive &&
         ageOnDate(makeIsoDate(p.birthDate), today) >=
-          lawParameters.parameters.adultAge.value,
+          api.parameter("votingAge"),
     )
     .sort(
       (a, b) =>

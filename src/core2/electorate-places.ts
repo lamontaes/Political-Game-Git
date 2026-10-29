@@ -8,12 +8,20 @@
  * holds (its 2024 two-party votes over its state's CPS citizen turnout) and
  * where it leans (its 2024 Republican two-party share, net of the holder's
  * incumbency where a holder carried the seat then).
+ *
+ * Realistic, not real (owner, Oct 27): every world opens on its own 2024. One
+ * national swing and each state's own move every place's two-party share,
+ * each state's votes cast move by the world's turnout, and the town's citizen
+ * share is drawn around its survey figure, all once per world from its seed.
+ * The eligible voters stay the people who live there, so a world's turnout
+ * differs from the published one.
  */
 import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { type: "json" };
 import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
-import { partySide } from "./appointments";
+import { nationalParty, partySide } from "./appointments";
+import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { campaignParameter } from "./campaign-views";
 import {
   LEGISLATIVE_RESULTS_CITATION,
@@ -23,6 +31,7 @@ import {
 import { parameter } from "./parameters";
 import { corePlaceStateIdentities } from "./place-lookup";
 import { lazyValue, readJsonData } from "./reference/lazy-data";
+import { worldOffsetUnit, worldRate } from "./world-draw";
 
 /** A place counted coarsely: how many may vote there and where it leans. */
 export interface ElectoratePlace {
@@ -136,6 +145,21 @@ export function cpsTurnout(
 export function citizenShareOf(
   placeKey: string | undefined,
   usps: string,
+  seed: string,
+): number {
+  // This world's share, drawn around the survey's (realistic, not real).
+  return worldRate(
+    publishedCitizenShareOf(placeKey, usps),
+    seed,
+    `citizenship:${placeKey ?? usps}`,
+    "worldCitizenShareSpreadShare",
+  );
+}
+
+/** The survey's citizen share of the town's adults (calibration only). */
+export function publishedCitizenShareOf(
+  placeKey: string | undefined,
+  usps: string,
 ): number {
   const state = cpsTurnout(usps)?.citizenShare ?? 1;
   const own = placeKey
@@ -148,6 +172,29 @@ export function citizenShareOf(
   return (own[0] + prior * state) / (own[1] + prior);
 }
 
+/**
+ * This world's swing in a state's Republican two-party share from 2024: the
+ * world's national swing and the state's own, each drawn once from the seed
+ * (realistic, not real; owner, Oct 27). Positive toward the Republicans.
+ */
+export function worldSwing(seed: string, usps: string): number {
+  return (
+    worldOffsetUnit(seed, "politics:national-swing") *
+      parameter("worldNationalSwingSpreadShare") +
+    worldOffsetUnit(seed, `politics:state-swing:${usps}`) *
+      parameter("worldStateSwingSpreadShare")
+  );
+}
+
+/** This world's votes cast, as a share of the published, in a state's 2024 races. */
+function worldTurnoutFactor(seed: string, usps: string): number {
+  return (
+    parameter("one") +
+    worldOffsetUnit(seed, `politics:turnout:${usps}`) *
+      parameter("worldTurnoutSpreadShare")
+  );
+}
+
 /** Eligible voters behind a place's 2024 votes, at its state's citizen turnout. */
 function eligibleFor(usps: string, votes: number): number {
   const turnout = cpsTurnout(usps)?.turnout;
@@ -155,6 +202,7 @@ function eligibleFor(usps: string, votes: number): number {
 }
 
 function makePlace(
+  seed: string,
   id: string,
   name: string,
   usps: string,
@@ -164,10 +212,15 @@ function makePlace(
   holderSide = 0,
 ): ElectoratePlace | null {
   if (dem + rep <= 0) return null;
-  const target = rep / (dem + rep);
+  // This world's 2024: the published share moved by the world's swing.
+  const target = Math.max(
+    0,
+    Math.min(1, rep / (dem + rep) + worldSwing(seed, usps)),
+  );
   return {
     id,
     name,
+    // The people who could vote there; the world's turnout moves the votes.
     eligible: eligibleFor(usps, dem + rep),
     // The holder's incumbency carried part of the 2024 vote; the place's
     // people stand where the rest of it puts them.
@@ -175,8 +228,8 @@ function makePlace(
       0,
       Math.min(1, target - holderSide * campaignParameter("incumbencyShare")),
     ),
-    votes2024: dem + rep,
-    source: `${source}; ${CPS_CITATION}`,
+    votes2024: (dem + rep) * worldTurnoutFactor(seed, usps),
+    source: `${source}; ${CPS_CITATION}; this world's swing and turnout`,
   };
 }
 
@@ -232,14 +285,16 @@ const statePlaceCache = new Map<string, readonly ElectoratePlace[]>();
  */
 export function statePlaces(
   usps: string,
+  seed: string,
   territoryEligible?: number,
 ): readonly ElectoratePlace[] {
-  const key = `${usps}|${territoryEligible ?? ""}`;
+  const key = `${seed}|${usps}|${territoryEligible ?? ""}`;
   const hit = statePlaceCache.get(key);
   if (hit) return hit;
   const places: ElectoratePlace[] = [];
   for (const [name, [dem, rep]] of COUNTIES_BY_STATE.get(usps) ?? []) {
     const place = makePlace(
+      seed,
       `county:${name}`,
       name.slice(usps.length + 1),
       usps,
@@ -254,6 +309,7 @@ export function statePlaces(
     const delegate = DELEGATES[usps];
     const place = state
       ? makePlace(
+          seed,
           `state:${usps}`,
           usps,
           usps,
@@ -266,9 +322,15 @@ export function statePlaces(
             id: `state:${usps}`,
             name: usps,
             eligible: territoryEligible,
-            rightShare:
-              delegate.republicanPercent /
-              (delegate.democraticPercent + delegate.republicanPercent),
+            rightShare: Math.max(
+              0,
+              Math.min(
+                1,
+                delegate.republicanPercent /
+                  (delegate.democraticPercent + delegate.republicanPercent) +
+                  worldSwing(seed, usps),
+              ),
+            ),
             votes2024: 0,
             source:
               "2024 delegate race (data/research/elections/house-delegates-2024.json), sized from the place's own eligible voters",
@@ -281,19 +343,20 @@ export function statePlaces(
 }
 
 /** A state's two-party presidential votes in 2024. */
-export function stateTwoPartyVotes(usps: string): number {
-  let votes = stateVotesCache.get(usps);
+export function stateTwoPartyVotes(usps: string, seed: string): number {
+  const key = `${seed}|${usps}`;
+  let votes = stateVotesCache.get(key);
   if (votes === undefined) {
-    votes = statePlaces(usps).reduce((sum, b) => sum + b.votes2024, 0);
-    stateVotesCache.set(usps, votes);
+    votes = statePlaces(usps, seed).reduce((sum, b) => sum + b.votes2024, 0);
+    stateVotesCache.set(key, votes);
   }
   return votes;
 }
 const stateVotesCache = new Map<string, number>();
 
 /** A state's whole Republican two-party share in 2024. */
-export function stateRightShare(usps: string): number | null {
-  const places = statePlaces(usps);
+export function stateRightShare(usps: string, seed: string): number | null {
+  const places = statePlaces(usps, seed);
   const votes = places.reduce((s, b) => s + b.votes2024, 0);
   return votes
     ? places.reduce((s, b) => s + b.votes2024 * b.rightShare, 0) / votes
@@ -307,13 +370,22 @@ export function stateRightShare(usps: string): number | null {
  * state's typical district toward the winner by the typical margin, sized as
  * the state's average district.
  */
-export function housePlace(usps: string, code: string): ElectoratePlace | null {
-  const key = `${usps}-${code}`;
-  if (!houseCache.has(key)) houseCache.set(key, readHousePlace(usps, code));
+export function housePlace(
+  usps: string,
+  code: string,
+  seed: string,
+): ElectoratePlace | null {
+  const key = `${seed}|${usps}-${code}`;
+  if (!houseCache.has(key))
+    houseCache.set(key, readHousePlace(usps, code, seed));
   return houseCache.get(key)!;
 }
 const houseCache = new Map<string, ElectoratePlace | null>();
-function readHousePlace(usps: string, code: string): ElectoratePlace | null {
+function readHousePlace(
+  usps: string,
+  code: string,
+  seed: string,
+): ElectoratePlace | null {
   const row = CAL.house.find(
     (h) => h.stateUsps === usps && h.districtCode === code,
   );
@@ -324,6 +396,7 @@ function readHousePlace(usps: string, code: string): ElectoratePlace | null {
   const rep = row?.candidateTotalsByParty.republican ?? 0;
   if (row && dem > 0 && rep > 0)
     return makePlace(
+      seed,
       `district:${row.districtGeoid}`,
       `${usps}-${code}`,
       usps,
@@ -333,10 +406,11 @@ function readHousePlace(usps: string, code: string): ElectoratePlace | null {
       side,
     );
   const districts = CAL.house.filter((h) => h.stateUsps === usps).length || 1;
-  const votes = stateTwoPartyVotes(usps) / districts;
+  const votes = stateTwoPartyVotes(usps, seed) / districts;
   if (!votes) return null;
   const share = 0.5 + side * campaignParameter("legislativeSeatMargin");
   return makePlace(
+    seed,
     `district:${row?.districtGeoid ?? `${usps}${code}`}`,
     `${usps}-${code}`,
     usps,
@@ -351,14 +425,17 @@ function readHousePlace(usps: string, code: string): ElectoratePlace | null {
 export function housePlaceByGeoid(
   usps: string,
   geoid: string | null,
+  seed: string,
 ): ElectoratePlace | null {
   const row = geoid
     ? CAL.house.find((h) => h.districtGeoid === geoid)
     : undefined;
-  if (row) return housePlace(row.stateUsps, row.districtCode);
+  if (row) return housePlace(row.stateUsps, row.districtCode, seed);
   // An at-large seat: the state's one district.
   const only = CAL.house.filter((h) => h.stateUsps === usps);
-  return only.length === 1 ? housePlace(usps, only[0]!.districtCode) : null;
+  return only.length === 1
+    ? housePlace(usps, only[0]!.districtCode, seed)
+    : null;
 }
 
 /**
@@ -374,8 +451,9 @@ export function legislativePlace(
   districts: number,
   holderSide: number,
   ownRightShare: number | null,
+  seed: string,
 ): ElectoratePlace | null {
-  const votes = stateTwoPartyVotes(usps) / Math.max(1, districts);
+  const votes = stateTwoPartyVotes(usps, seed) / Math.max(1, districts);
   if (!votes) return null;
   const parts = legislativeSeatParts(seatKey);
   const own = parts
@@ -386,6 +464,7 @@ export function legislativePlace(
     : (ownRightShare ??
       0.5 + holderSide * campaignParameter("legislativeSeatMargin"));
   const place = makePlace(
+    seed,
     `legislative:${seatKey}`,
     seatKey,
     usps,
@@ -415,4 +494,211 @@ export function countyPlaceIdOf(
     .filter(Boolean))
     if (COUNTY_ROWS[`${usps}|${name}`]) return `county:${usps}|${name}`;
   return null;
+}
+
+/** A state's 2024 Republican two-party share for president, as published. */
+function publishedStateRight(usps: string): number | null {
+  const state = CAL.presidentialByState.find((s) => s.stateUsps === usps);
+  const dem = state?.totalsByParty.democratic ?? 0,
+    rep = state?.totalsByParty.republican ?? 0;
+  return dem > 0 && rep > 0 ? rep / (dem + rep) : null;
+}
+
+/** A U.S. House district's 2024 Republican two-party share, where both parties contested it. */
+function publishedHouseRight(usps: string, code: string): number | null {
+  const row = CAL.house.find(
+    (h) => h.stateUsps === usps && h.districtCode === code,
+  );
+  const dem = row?.candidateTotalsByParty.democratic ?? 0,
+    rep = row?.candidateTotalsByParty.republican ?? 0;
+  return dem > 0 && rep > 0 ? rep / (dem + rep) : null;
+}
+
+/** A state legislative district's 2024 Republican two-party share, where both parties contested it. */
+function publishedDistrictRight(
+  usps: string,
+  chamber: "upper" | "lower" | "unicameral",
+  district: string,
+): number | null {
+  const own =
+    legislativeDistrictResult(usps, chamber, district) ??
+    legislativeDistrictResult(usps, chamber, district.padStart(3, "0"));
+  return own ? own.republican / (own.republican + own.democratic) : null;
+}
+
+/**
+ * Who holds a seat when this world starts (realistic, not real; owner, Oct
+ * 27): the real holder, unless the world's swing carried the seat's 2024
+ * share across even against the holder's party, when the other party holds
+ * it. A seat with no contested 2024 result on record keeps its holder (an
+ * uncontested seat was safe; a chamber that did not vote in 2024 is the
+ * stopgap SG-WORLD-roster-no-2024-vote). Generation of who holds what at the
+ * start, read from the seat's own vote, never a roll.
+ */
+// stopgapId: SG-WORLD-roster-no-2024-vote
+function heldInWorld(
+  seed: string,
+  usps: string,
+  published: number | null,
+  party: string | null,
+): string | null {
+  if (published === null || !party) return party;
+  const side = partySide(party);
+  const world = published + worldSwing(seed, usps);
+  const even = parameter("half");
+  if (side > 0 && published >= even && world < even) return rosterLabel(-side);
+  if (side < 0 && published < even && world >= even) return rosterLabel(-side);
+  return party;
+}
+
+/**
+ * The name the published roster gives a side's national party (its most
+ * common label for that side), so a seat that changes hands is counted under
+ * the roster's own name for the party; the national party where the roster
+ * has none.
+ */
+function rosterLabel(side: number): string {
+  if (!rosterLabels) {
+    const counts = new Map<string, number>();
+    const add = (label: string, n: number) =>
+      counts.set(label, (counts.get(label) ?? 0) + n);
+    for (const chambers of Object.values(ROSTER.places))
+      for (const chamber of Object.values(chambers))
+        for (const [label, n] of Object.entries(chamber.parties)) add(label, n);
+    for (const seats of Object.values(ROSTER.congress))
+      for (const holders of Object.values(seats))
+        for (const label of holders) add(label, 1);
+    rosterLabels = new Map();
+    for (const [label] of [...counts].sort(
+      (x, y) => y[1] - x[1] || x[0].localeCompare(y[0]),
+    )) {
+      const own = partySide(label);
+      if (own && !rosterLabels.has(own)) rosterLabels.set(own, label);
+    }
+  }
+  return rosterLabels.get(Math.sign(side)) ?? nationalParty(side);
+}
+let rosterLabels: Map<number, string> | undefined;
+
+/** The party holding a seat when this world starts, by the seat's office and its own 2024 vote. */
+export function worldSeatParty(
+  seed: string,
+  office: {
+    readonly kind: string;
+    readonly level: string;
+    readonly jurisdiction: string;
+  },
+  seat: { readonly id: string; readonly party: string | null },
+): string | null {
+  if (!office.jurisdiction.startsWith("US-")) return seat.party;
+  const usps = office.jurisdiction.slice(3);
+  const parts = legislativeSeatParts(seat.id);
+  if (parts)
+    return heldInWorld(
+      seed,
+      usps,
+      publishedDistrictRight(parts.usps, parts.chamber, parts.district),
+      seat.party,
+    );
+  if (office.kind.startsWith("us-house")) {
+    const code = seat.id.split(":").at(-1) ?? "";
+    return heldInWorld(
+      seed,
+      usps,
+      publishedHouseRight(
+        usps,
+        /^\d+$/.test(code) ? code.padStart(2, "0") : "00",
+      ),
+      seat.party,
+    );
+  }
+  if (office.kind === "us-senate" || office.level === "state")
+    return heldInWorld(seed, usps, publishedStateRight(usps), seat.party);
+  return seat.party;
+}
+
+type RosterChamber = {
+  readonly members: number;
+  readonly parties: Readonly<Record<string, number>>;
+  readonly seatParties?: Readonly<Record<string, readonly string[]>>;
+};
+/** The roster of who holds the legislatures and Congress (the published one, read only here). */
+const ROSTER = partyCounts as unknown as {
+  readonly places: Readonly<
+    Record<string, Readonly<Record<string, RosterChamber>>>
+  >;
+  readonly congress: Readonly<
+    Record<string, Readonly<Record<string, readonly string[]>>>
+  >;
+};
+const rosters = new Map<string, typeof ROSTER>();
+
+/**
+ * A state's Senate seats as the published roster holds them, seat by seat:
+ * which seat is which (its class pairs with it by this party), never who holds
+ * it in a world (`worldRoster`).
+ */
+export function publishedSenateSeats(stateKey: string): readonly string[] {
+  return ROSTER.congress[stateKey]?.senate ?? [];
+}
+
+/**
+ * This world's roster of the legislatures and Congress: each seat's holder by
+ * `worldSeatParty`'s rule, and each chamber's party counts moved by its seats
+ * that changed hands. Built once per world.
+ */
+export function worldRoster(seed: string): typeof ROSTER {
+  const known = rosters.get(seed);
+  if (known) return known;
+  const places: Record<string, Record<string, RosterChamber>> = {};
+  for (const [stateKey, chambers] of Object.entries(ROSTER.places)) {
+    const usps = stateKey.slice(3);
+    places[stateKey] = {};
+    for (const [key, chamber] of Object.entries(chambers)) {
+      const kind = key === "legislature" ? "unicameral" : key;
+      const parties = { ...chamber.parties };
+      const seatParties: Record<string, string[]> = {};
+      for (const [district, holders] of Object.entries(
+        chamber.seatParties ?? {},
+      )) {
+        const share =
+          kind === "upper" || kind === "lower" || kind === "unicameral"
+            ? publishedDistrictRight(usps, kind, district)
+            : null;
+        seatParties[district] = holders.map((party) => {
+          const held = heldInWorld(seed, usps, share, party) ?? party;
+          if (held !== party) {
+            parties[party] = (parties[party] ?? 0) - 1;
+            parties[held] = (parties[held] ?? 0) + 1;
+          }
+          return held;
+        });
+      }
+      places[stateKey]![key] = {
+        ...chamber,
+        parties,
+        ...(chamber.seatParties ? { seatParties } : {}),
+      };
+    }
+  }
+  const congress: Record<string, Record<string, string[]>> = {};
+  for (const [stateKey, seats] of Object.entries(ROSTER.congress)) {
+    const usps = stateKey.slice(3);
+    congress[stateKey] = {};
+    for (const [seat, holders] of Object.entries(seats))
+      congress[stateKey]![seat] = holders.map(
+        (party) =>
+          heldInWorld(
+            seed,
+            usps,
+            seat === "senate"
+              ? publishedStateRight(usps)
+              : publishedHouseRight(usps, seat.padStart(2, "0")),
+            party,
+          ) ?? party,
+      );
+  }
+  const world = { places, congress };
+  rosters.set(seed, world);
+  return world;
 }

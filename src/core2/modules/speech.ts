@@ -3,9 +3,10 @@
  * its audience; the views engine moves each listener's stance on its topic by
  * the speaker's standing with them (`standingWith`), and the drives engine
  * may turn it into a cause. Then each listener decides, through the core's one
- * chooser, whether to retell it at home, from how far it moved them and how
- * sociable they are; a retelling reaches their household and moves them the
- * same way. The wording of the speech is GOV's (`giveSpeech`) and the English
+ * chooser, whether to retell it at home, from how far it moved them, how
+ * closely they follow politics and their temperament; a retelling reaches
+ * their household and moves them the same way. A listener with nobody at home
+ * outside the audience has no one to tell and weighs nothing. The wording of the speech is GOV's (`giveSpeech`) and the English
  * engine's; this engine records who heard it and what it did.
  */
 import { scoreOffers, decisionFromScores } from "../choice";
@@ -16,9 +17,13 @@ import type {
   ActOffer,
   CoreAPI,
   CoreModule,
+  CoreState,
   PersonId,
+  PersonState,
 } from "../types";
-import { decisionKinds, decisionLean } from "../trait-decisions";
+import { engagementOf, NATIONAL_ENGAGEMENT } from "../electorate";
+import { believesClaim, claimFit } from "../heard-claims";
+import { decisionKinds } from "../trait-decisions";
 import { stancesOf, VIEWS_SPEAKER_KEY } from "./views";
 
 export const SPEECH_MODULE_ID = "speech";
@@ -48,6 +53,9 @@ export interface Retelling {
   retold: boolean;
   /** How far the speech moved the listener's stance on its topic. */
   moved: number;
+  /** Where the listener weighed retelling it: how closely they follow politics, and the one at home most likely to take it up does. */
+  engagement?: number;
+  home?: number;
   scores: readonly { actionId: string; score: number }[];
   toIds: readonly PersonId[];
 }
@@ -78,7 +86,31 @@ export const KEEP = action("speech-keep", false);
 
 const table = (api: CoreAPI) =>
   api.moduleState(SPEECH_MODULE_ID).table("retellings");
-const moved = new WeakMap<object, number>();
+const addresses = (api: CoreAPI) =>
+  api.moduleState(SPEECH_MODULE_ID).table("addresses");
+/**
+ * The retelling case being weighed: how far the speech moved the listener,
+ * how closely they follow politics, and how closely the one at home most
+ * likely to take it up does.
+ */
+const weighing = new WeakMap<
+  object,
+  { moved: number; engagement: number; home: number }
+>();
+
+/**
+ * The speeches the person has given, by the record each one leaves (the
+ * English engine earns a speaker their crafted devices from them).
+ */
+export function addressesGivenBy(
+  api: CoreAPI,
+  personId: PersonId,
+): readonly string[] {
+  if (!api.state.modules.has(SPEECH_MODULE_ID)) return [];
+  return addresses(api)
+    .query("bySpeaker", [personId])
+    .map((row) => (row as { id: string }).id);
+}
 
 function movedBy(
   api: CoreAPI,
@@ -121,35 +153,63 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
     facts,
     source,
   });
+  addresses(api).put({
+    id: speech.id,
+    speakerId: speech.speakerId,
+    date: api.state.date,
+    topic: speech.topic,
+  } as unknown as { id: string });
   const out: Retelling[] = [];
+  const audience = new Set(speech.audienceIds);
   for (const listenerId of speech.audienceIds) {
     const listener = api.state.people.get(listenerId);
     if (!listener?.alive || listenerId === speech.speakerId) continue;
     const amount = movedBy(api, listenerId, speech.id, speech.topic);
-    moved.set(api.state, amount);
-    const offers: ActOffer[] = [KEEP, RETELL].map((definition) => ({
-      definition,
-      targetId: speech.id,
-      availableHours: api.parameter("hoursPerDay"),
-    }));
-    const scored = scoreOffers(api.state, listenerId, offers, {
-      needValues: { company: api.parameter("zero") },
+    // Who is at home to hear it: the household outside the audience.
+    const atHome = (
+      api.state.households.get(listener.householdId)?.memberIds ?? []
+    ).filter(
+      (id) =>
+        id !== listenerId &&
+        id !== speech.speakerId &&
+        !audience.has(id) &&
+        api.state.people.get(id)?.alive,
+    );
+    let retold = false;
+    let scored: ReturnType<typeof scoreOffers> = [];
+    let weighed: { engagement: number; home: number } | undefined;
+    if (atHome.length) {
+      const follows = (person: PersonState) =>
+        engagementOf(api.state as CoreState, person) ?? NATIONAL_ENGAGEMENT;
+      weighed = {
+        engagement: follows(listener),
+        home: Math.max(
+          ...atHome.map((id) => follows(api.state.people.get(id)!)),
+        ),
+      };
+      weighing.set(api.state, { moved: amount, ...weighed });
+      const offers: ActOffer[] = [KEEP, RETELL].map((definition) => ({
+        definition,
+        targetId: speech.id,
+        availableHours: api.parameter("hoursPerDay"),
+      }));
+      scored = scoreOffers(api.state, listenerId, offers, {
+        needValues: { company: api.parameter("zero") },
+      });
+      const decision = decisionFromScores(api.state, listenerId, scored);
+      weighing.delete(api.state);
+      retold = decision.selected?.definition.id === RETELL.id;
+    }
+    const told = retold ? atHome : [];
+    // Each one told decides for themselves whether to take it in, as anyone
+    // does a claim they cannot check; only those who do are moved by it.
+    const toIds = told.filter((id) => {
+      const hearer = api.state.people.get(id)!;
+      return believesClaim(api.state, hearer, {
+        tellerId: listenerId,
+        fit: claimFit(api, hearer, speech.topic, speech.desiredChange),
+      });
     });
-    const decision = decisionFromScores(api.state, listenerId, scored);
-    moved.delete(api.state);
-    const retold = decision.selected?.definition.id === RETELL.id;
-    const audience = new Set(speech.audienceIds);
-    const toIds = retold
-      ? (
-          api.state.households.get(listener.householdId)?.memberIds ?? []
-        ).filter(
-          (id) =>
-            id !== listenerId &&
-            id !== speech.speakerId &&
-            !audience.has(id) &&
-            api.state.people.get(id)?.alive,
-        )
-      : [];
     if (toIds.length)
       api.emit({
         id: `${speech.id}:retold:${listenerId}`,
@@ -169,8 +229,9 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
       id: `${speech.id}:${listenerId}`,
       speechId: speech.id,
       listenerId,
-      retold: retold && toIds.length > api.parameter("zero"),
+      retold,
       moved: amount,
+      ...weighed,
       scores: scored.map((entry) => ({
         actionId: entry.offer.definition.id,
         score: entry.score,
@@ -196,24 +257,21 @@ export const speechModule: CoreModule = {
   id: SPEECH_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { retellings: { indexes: { bySpeech: { fields: ["speechId"] } } } },
+    tables: {
+      retellings: { indexes: { bySpeech: { fields: ["speechId"] } } },
+      addresses: { indexes: { bySpeaker: { fields: ["speakerId"] } } },
+    },
   },
   reasonProviders: {
     "speech-reception": (api, actor, _offer, binding) => {
-      const amount = moved.get(api.state);
-      if (amount === undefined) return undefined;
+      const now = weighing.get(api.state);
+      if (now === undefined) return undefined;
       return {
         value:
           binding.arguments?.retelling === "true"
-            ? s(api, "speechRetellWeight") * amount +
-              s(api, "speechSociabilityWeight") *
-                decisionLean(
-                  api.state,
-                  actor,
-                  "speech.retell",
-                  "speech-retell",
-                  "speech-keep",
-                )
+            ? s(api, "speechRetellWeight") * now.moved +
+              s(api, "speechRetellEngagementWeight") * now.engagement +
+              s(api, "speechRetellHomeWeight") * now.home
             : s(api, "speechKeepPull"),
         sourceIds: [actor.id],
       };

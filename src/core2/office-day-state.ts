@@ -52,7 +52,7 @@ import {
   servedShare,
 } from "./modules/justice";
 import { lawChain } from "./modules/laws";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID, seatTerm, type TermRow } from "./modules/offices";
 import { holderOf } from "./modules/officials";
 import {
   billOf,
@@ -734,7 +734,7 @@ export function actOn(
           if (row.status !== "open") continue;
           const decision =
             chosen.cases?.[row.id] ??
-            ownCaseDecision(api, entry.holderId).decision;
+            ownCaseDecision(api, entry.holderId, row).decision;
           const done = handleCase(api, row.id, decision);
           if (done) recordIds.push(done.id);
         }
@@ -1436,26 +1436,16 @@ export function seatPlayerInStateOffice(
   if (!found)
     throw new Error(`No ${input.role} seat in ${stateKey} covers the town.`);
   const { office, seat } = found;
-  const terms = offices.table("terms");
-  const serving = terms.query("bySeatStatus", [
-    seat.id,
-    "serving",
-  ]) as unknown as TermRow[];
   const date = api.state.date;
-  for (const term of serving)
-    terms.put({
-      ...term,
-      status: "ended",
-      endDate: date,
-      endEstimated: false,
-      endedBy: "dev start: the player took the seat",
-    } as unknown as ModuleRow);
-  const previous = serving[0];
-  const termId = `term:${seat.id}:${date}:dev-start`;
-  terms.put({
-    id: termId,
+  const previous = (
+    offices
+      .table("terms")
+      .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[]
+  )[0];
+  seatTerm(api, {
     seatId: seat.id,
     officeId: office.id,
+    termId: `term:${seat.id}:${date}:dev-start`,
     personId: person.id,
     identity: {
       givenName: person.givenName,
@@ -1470,23 +1460,18 @@ export function seatPlayerInStateOffice(
     endDate: previous?.endDate ?? null,
     endEstimated: previous?.endEstimated ?? true,
     reached: "dev start as a sitting officeholder",
-    status: "serving",
-  } as unknown as ModuleRow);
-  api.emit({
-    id: `took-office:${seat.id}:${date}`,
-    date,
-    kind: "took-office",
-    personIds: [person.id],
-    placeId: lawChain(api).townPlaceId,
-    source: {
-      tag: "ESTIMATED",
-      citation: "Dev mode custom start as a sitting officeholder",
-      asOf: date,
-      estimatedFrom: "SG-STATE-dev-seat-player",
+    endsServingBecause: "dev start: the player took the seat",
+    tookOffice: {
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "ESTIMATED",
+        citation: "Dev mode custom start as a sitting officeholder",
+        asOf: date,
+        estimatedFrom: "SG-STATE-dev-seat-player",
+      },
+      news: false,
+      facts: { office: office.id, seatId: seat.id, winnerId: person.id },
     },
-    publicRecord: true,
-    news: false,
-    facts: { office: office.id, seatId: seat.id, winnerId: person.id },
   });
   const held = stateOfficeOf(api, person.id);
   if (!held) throw new Error("The seat did not take.");

@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6234
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/director/opening-sequence.ts, src/bench/opening.ts, src/bench/data/opening-pictures.json, src/bench/play.mjs, src/bench/play.html
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "why does it start in like your house and we begin with the inaugural?" / "Again, it's the right idea, wrong execution. Let's get it done." The picture and the visible speaker of the same scene are play-opening-address-empty-waiting-room (open); one builder may take both, this item owns the order and who is pointed out. What the address says is play-first-09-opening-speech-per-world. Tags and highlights are play-stop-37. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+Sent back 2026-10-27 from PR #6234 (branch play-first/play-stop-36-opening-starts-with-the-address): typecheck fails on the merge with main (opening.ts:162, frame type has no speaker); finish on that branch, merge main into it first.

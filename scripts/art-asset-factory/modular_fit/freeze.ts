@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { createHash } from "node:crypto";
 import path from "node:path";
-import { computeCharacterGenerationSignature } from "../../../src/presentation/character-components";
+import { computeCharacterGenerationSignature } from "../../../src/appearance/character-components";
 const [candidate, destination, reportPath] = process.argv.slice(2);
 if (!candidate || !destination || !reportPath)
   throw new Error("candidate destination report required");

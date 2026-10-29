@@ -1,3 +1,4 @@
+import { heldSinceRecord, pastWorkOf, PAST_WORK_SPELL } from "../past-work";
 import { workedToday } from "../job-lifecycle";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
@@ -43,16 +44,7 @@ import {
 import { drawOfficialIdentity } from "../officials-identity";
 import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
-import {
-  executiveDecision,
-  leanOf,
-  mayorVeto,
-  memberKey,
-  members,
-  registerLegislatureHooks,
-  type BillRow,
-  type DeskAction,
-} from "./legislature";
+import { leanOf, mayorVeto, memberKey, members } from "./legislature";
 import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
@@ -115,7 +107,6 @@ export const EXECUTIVE_MODULE: CoreModule = {
       orders: {},
       emergencies: {},
       nominations: {},
-      desk: { indexes: { byExecutive: { fields: ["executiveId"] } } },
       review: {},
     },
   },
@@ -145,11 +136,10 @@ export function townForm(
 }
 
 /**
- * Register the desk and fill the town's department heads and the state's
+ * Fill the town's department heads and the state's
  * cabinet at the opening (who holds them then; vacancies come later).
  */
 export function openExecutive(core: CoreState, worldSeed: string): void {
-  registerLegislatureHooks({ onDesk: recordDesk });
   if (core.modules.has(EXECUTIVE_MODULE_ID)) return;
   registerModule(core, EXECUTIVE_MODULE);
   const api = coreAPI(core);
@@ -186,8 +176,9 @@ const yearsBetween = (from: string, to: string) =>
 /**
  * What the records say a resident has done toward heading a department: years
  * of work in the post's own field, years of any work, and schooling, each with
- * the record it was read from. A job counts from when its holder began it (the
- * deep past's tenure record, where the opening job has one).
+ * the record it was read from. A job counts from when its holder began it
+ * (the record of their working life before the start, where it has one), and
+ * the jobs that working life ended before day one count as years of work.
  */
 export function postRecord(
   api: CoreAPI,
@@ -202,21 +193,27 @@ export function postRecord(
 } {
   const core = api.state as CoreState;
   const fields = new Set(RELATED.posts[post] ?? []);
-  const tenure = new Map(
-    (person.pastFacts ?? [])
-      .filter((row) => row.kind === "work:tenure-summary")
-      .map((row) => [row.id.slice(row.id.lastIndexOf(":job:") + 5), row]),
-  );
   let relatedYears = 0;
   let workYears = 0;
   const recordIds: string[] = [];
+  for (const row of pastWorkOf(core, person.id))
+    if (
+      row.kind === PAST_WORK_SPELL &&
+      row.facts.endedAt &&
+      String(row.facts.endedAt) <= date
+    )
+      workYears += yearsBetween(
+        String(row.facts.startedAt),
+        String(row.facts.endedAt),
+      );
   for (const id of core.work.commitmentsByPerson.get(person.id) ?? []) {
     const commitment = core.work.commitments.get(id);
     if (!commitment || commitment.startsAt > date) continue;
-    const since = tenure.get(commitment.jobId);
+    const since = heldSinceRecord(core, person.id, commitment.jobId);
+    const started = since ? String(since.facts.startedAt) : undefined;
     const from =
-      since && since.date < commitment.startsAt
-        ? since.date
+      started && started < commitment.startsAt
+        ? started
         : (commitment.heldSince ?? commitment.startsAt);
     const to =
       commitment.endsAt && commitment.endsAt < date ? commitment.endsAt : date;
@@ -602,6 +599,7 @@ function seatCabinetPerson(
               (maxDailyMinor *
                 parameter("daysPerMeanYear", core.data.parameters)) /
                 parameter("minorPerDollar", core.data.parameters),
+              core.seed,
             ) * parameter("minorPerDollar", core.data.parameters),
           ),
         }
@@ -638,6 +636,7 @@ function appointStateCabinet(
   api: CoreAPI,
   worldSeed: string,
   round = "",
+  onlyPosts?: ReadonlySet<string>,
 ): void {
   const chain = lawChain(api);
   const state = chain.stateKey;
@@ -665,6 +664,7 @@ function appointStateCabinet(
   const date = api.state.date;
   for (const spec of posts) {
     if (!/governor/.test(spec.appointedBy)) continue;
+    if (onlyPosts && !onlyPosts.has(spec.key)) continue;
     const pool = [0, 1, 2].map((n) => {
       const identity = drawOfficialIdentity({
         worldSeed,
@@ -678,6 +678,9 @@ function appointStateCabinet(
     const appointment = nominateAndConfirm({
       seatKey: `cabinet:${state}:${spec.key}`,
       appointerSide: side,
+      // The governor's own traits weigh loyalty against merit, as they do for
+      // a post they fill by name (appointStatePost) and a town head's appointer.
+      weighing: appointerWeighing(api.state as CoreState, memberKey(governor)),
       candidates: pool.map(({ n }) => ({
         id: `official:cabinet:${state}:${spec.key}:${round}${n}`,
         // Candidates for a governor's cabinet come from the governor's side;
@@ -1158,63 +1161,6 @@ export function declareEmergency(
   return row;
 }
 
-export interface DeskRow {
-  readonly id: string;
-  readonly billId: string;
-  readonly number: string;
-  readonly executiveId: string;
-  readonly date: string;
-  readonly status: DeskAction["status"];
-  /** The executive's own position on the bill, and their temperament's lean toward signing. */
-  readonly position: number;
-  readonly temperament: number;
-  /** For a bill still waiting: the last day to act before inaction decides it. */
-  readonly signBy?: string;
-}
-
-/** A passed bill on an executive's desk: what they did with it, and why. */
-function recordDesk(api: CoreAPI, action: DeskAction): void {
-  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return;
-  table(api, "desk").put({
-    id: `desk:${action.bill.id}`,
-    billId: action.bill.id,
-    number: action.bill.number,
-    executiveId: action.executiveId,
-    date: api.state.date,
-    status: action.status,
-    position: action.position,
-    temperament: action.temperament,
-    ...(action.signBy ? { signBy: action.signBy } : {}),
-  } satisfies DeskRow as unknown as ModuleRow);
-}
-
-/**
- * The player, as mayor, county executive, governor or president, signs or
- * vetoes a bill waiting on their desk. The decision goes on the record and
- * the bill becomes law (or goes back for an override vote) from it.
- */
-export function decideOnDesk(
-  api: CoreAPI,
-  billId: string,
-  sign: boolean,
-): BillRow {
-  const row = table(api, "desk").get(`desk:${billId}`) as unknown as
-    DeskRow | undefined;
-  const playerId =
-    snapshotExplicitControlV1(api.state).personId ??
-    (api.state as CoreState).playerId;
-  if (!row || row.status !== "awaiting" || row.executiveId !== playerId)
-    throw new Error(`No bill ${billId} is waiting on your desk.`);
-  return executiveDecision(api, billId, sign);
-}
-
-export function deskOf(api: CoreAPI, executiveId: string): readonly DeskRow[] {
-  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
-  return table(api, "desk").query("byExecutive", [
-    executiveId,
-  ]) as unknown as DeskRow[];
-}
-
 function scheduleReview(api: CoreAPI, from: string): void {
   const date = addDays(
     makeIsoDate(from),
@@ -1286,6 +1232,25 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     (!before || holderOf(before) !== holderOf(governor))
   )
     appointStateCabinet(api, worldSeed, `${governor.id}:`);
+  else if (worldSeed && memberKey(governor) !== playerId) {
+    // A cabinet member who died or left the state leaves their post empty: the
+    // governor fills it through the same appointment as the rest of the cabinet.
+    const vacant = new Set(
+      cabinet
+        .filter((row) => {
+          const holder = api.state.people.get(row.holderId);
+          return !(holder?.alive && holder.placeId === state);
+        })
+        .map((row) => row.post),
+    );
+    if (vacant.size)
+      appointStateCabinet(
+        api,
+        worldSeed,
+        `${governor.id}:${api.state.date}:`,
+        vacant,
+      );
+  }
   // The election agency's head is replaced when they die.
   if (worldSeed) seatElectionChief(api, worldSeed);
   const executiveId = memberKey(governor);

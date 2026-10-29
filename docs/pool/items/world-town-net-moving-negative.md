@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** A played town loses far more residents to moving away than move in: 3.6 to 4.7 percent of its residents a year net, where a real town's net migration sits within about 1 percent of its state's. Find what makes in-moves fall short of out-moves and fix the cause.
+**What.** A played town loses far more residents to moving away than move in: 3.6 to 4.7 percent of its residents a year net. A real town's net migration sits within about 1 percent of its state's. Find what makes in-moves fall short of out-moves and fix the cause.
 
 **Rules.** No dice: movers come from the pull of income, prices and jobs, never a roll. One model, two tiers: a counted household and a full person leave and arrive by the same rule. One rule, all 56 places. Never tune a seed.
 

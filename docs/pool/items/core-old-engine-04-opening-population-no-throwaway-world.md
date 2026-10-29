@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #6637
 after: core-old-engine-03-schedules-jobs-traits-history
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A and G2 step 6"
@@ -22,3 +22,5 @@ source: "docs/reports/repo-audit-2026-10-19.md section A and G2 step 6"
 **Files.** src/core2/population.ts, src/bench/world.ts, src/core2/tooling/generated-world.ts, src/simulation/world.ts, src/simulation/types.ts, src/simulation/history-index.ts
 
 **Notes.** This is the audit's step 6 and the pool item `core-port-world-scaffold`, which was blocked until steps 2–5 landed; this item carries it. Parent: core-delete-old-engine.
+
+Old engine session, Oct 28: PR #6637 (branch claude/old-engine-opening-port) finishes every line but "the old files no longer exist": src/core2 and src/bench import nothing from src/simulation, and ten drawn towns plus a played year in Rockingham, Georgia (seed 7c4b3250b2f08409) match main by record id. The lifted old files are still imported by about 800 other old-engine files, so they go with the folder in core-delete-old-engine, whose done-when already requires it; the CTO marks this item done when #6637 merges (`--by=cto`).

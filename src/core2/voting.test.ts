@@ -30,6 +30,7 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { knockDoors, openCampaigns } from "./modules/campaigns";
+import { openLaws } from "./modules/laws";
 import { openParties } from "./modules/parties";
 import {
   VOTING_MODULE_ID,
@@ -81,6 +82,7 @@ function filedRace(place: string) {
       minimumPeople: 60,
     }),
   );
+  openLaws(core);
   openOffices(core, seed);
   openElections(core);
   openCampaigns(core);
@@ -101,7 +103,8 @@ function filedRace(place: string) {
         platform,
       });
       if (result.status === "refused") break;
-      if (result.filing.status === "on-ballot") filed.push(result.filing);
+      if (["petitioning", "on-ballot"].includes(result.filing.status ?? ""))
+        filed.push(result.filing);
     }
     if (filed.length === 2) return { core, api, contest: open, filed };
   }

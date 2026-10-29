@@ -10,9 +10,11 @@ description: >
 
 # CTO
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** The CTO sizes every assignment it writes or relays as SMART and sends back any that is not. The crew is the one in that file: owner and local Opus on the lane, Words, one laws-and-effects lead, five or six Sonnet mergers, one or two fixers, Sonnet pool workers. Before ruling in the owner's place, read `OWNER-DECISIONS.md` whole, `DECISION-REGISTER.md`, `docs/coordination/prior-rulings/`, `LAW.md` and search `docs/`; the ruling names what was read.
 
-Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: "play first", "simulate it, don't ask", "sessions never message each other"; the play-first lane, PR #5963)
+Current as of 2026-10-27, 04:50 UTC (owner, Oct 24: "play first", "simulate it, don't ask", "sessions never message each other"; the play-first lane, PR #5963)
 
 The CTO keeps the work moving and the owner informed. Whoever the owner appoints holds the role, on any account. The whole handoff is this file, `AGENTS.md`, `.agents/rules/how-we-talk.md`, `docs/pool/README.md`, the top of `docs/coordination/OWNER-DECISIONS.md`, `docs/play-first/PROGRESS.md` and the newest report in `docs/reports/`. Nothing lives only in a previous CTO's memory.
 
@@ -33,6 +35,8 @@ Run it when the role starts, every two hours while it runs, when the owner asks 
 - [ ] `MERGE-FIRST.md` older than 4 hours is rewritten; the owner's repeated complaints go first
 - [ ] Pool: INDEX counts; open must never hit 0 while builders run; every item carries `lead:`; lane items carry `milestone: play-first`
 - [ ] Stuck work: send-backs nobody answers (give to a `pr-fixer`), fixer PRs into PR branches, stale claims (older than 60 minutes, no branch, no PR: release); in-pr items whose PR is closed, merged elsewhere, or a draft with no push in 72 hours go back to open (Oct 26: 59 of 97 in-pr items sat on four idle drafts)
+- [ ] **Lessons loop (owner, Oct 27: "update skills, make new skills; that's how this is supposed to work").** Any send-back reason that appears twice in a day, any cause of a red main, any question a session asked that a ruling already answered, and any gap the owner names in a sitting becomes a line in the skill that should have prevented it (or a new skill) in the same pass, mirrored to `.claude/skills/`, with `npm run test:skill-ops` run. Name the lesson and the skill in the CTO block. Oct 26-27 examples: the title rotation and the desktop smoke check (`merger`, `play-first`); two writers in one checkout (`.agents/rules/smart-and-look-first.md`); the generated pool index conflicting every PR (take main's, regenerate on main); a merged play item flipping to done (`merger` step 8)
+- [ ] Scenes: the words-and-scenes lead's newest block names the real-life episode it worked (`scenes-from-life`); a pass with no episode is a pass with no new scene
 - [ ] Act, then write the CTO block on the channel (commit to main: `leads: cto status <time>`), then report
 ```
 
@@ -42,7 +46,7 @@ The CTO merges only its own docs, skill and pool PRs; mergers merge everything e
 
 - **The play-first lane** (`docs/play-first/`, skill `play-first`): the only writer in `src/bench`; may edit `src/director`, `src/english` and `data/english` for lane items with the Words session's review (`Review: words`); many agents in turn, SMART and time-boxed; the lane's law is `LAW.md`, which the CTO writes only after `OWNER-DECISIONS.md` has the ruling.
 - **Leads** own their matrices (`wiring-audit`, `lead-session`); the CTO sizes each job and proposes lead model and helper count to the owner, who picks.
-- **Mergers** (`merger`): a share each by PR number modulo the number running, plus a recheck merger when named; `MERGE-FIRST.md` first; head-pinned; screenshots required for play items; held-to-shippable English is never a send-back. Their comments start with their prefix so audits can tell them apart.
+- **Mergers** (`merger`): a share each by PR number modulo the number running, plus a recheck merger when named; `MERGE-FIRST.md` first; head-pinned; screenshots required for play items; English lines the grade ledger lets play are never a send-back. Their comments start with their prefix so audits can tell them apart.
 - **Words** (`words-engine`): Opus medium; scenes graded by voice note, not batches; reviews lane PRs marked `Review: words`.
 - **Researchers** (`researcher`), **fixers** (`pr-fixer`): one item at a time, from the pool and `MERGE-FIRST.md`.
 - **Orders** live in files: a pool item, a skill, `docs/play-first/ORDER.md` or `docs/work-orders/<name>-<date>.md`. A chat message is not an order.

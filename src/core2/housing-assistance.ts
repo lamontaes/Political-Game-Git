@@ -1,6 +1,6 @@
 /**
  * Rent assistance from a housing budget line. A government whose housing line
- * stands above the line as adopted pays the extra to as many of the town's
+ * stands above its Census base pays the extra to as many of the town's
  * renting households as it covers at the average voucher, the households with
  * the least income per member first. Full households are paid through the
  * journal to their oldest adult; a counted household is paid through its
@@ -11,14 +11,14 @@
 import { countedPayment } from "./counted-money";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import {
-  baseLine,
   budgetToday,
   HOUSING_LINE_KEY,
   housingLineMeasureId,
 } from "./law-reach/group-a-money";
 import { mechanicRow } from "./law-reach/group-a-records";
+import { townShare } from "./law-reach/group-b-money";
 import lawParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
-import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
+import { baseBudget, BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { tenants } from "./housing-occupancy";
 import { transferCash } from "./world-transfer";
@@ -32,18 +32,27 @@ export function payRentAssistance(api: CoreAPI): void {
   const c = api.state as CoreState;
   const annual = lawParameters.parameters.housingAssistanceAnnualMinor.value;
   const months = api.parameter("macroMonthsPerYear");
-  const adult = lawParameters.parameters.adultAge.value;
+  const adult = api.parameter("votingAge");
   const today = makeIsoDate(c.date);
   const funded = new Set<string>();
   let renters: ReturnType<typeof tenants> | undefined;
   for (const gov of governments(api)) {
     const budget = budgetToday(api, gov);
     if (!budget) continue;
+    // The line above its Census base: this year's amendments and every budget bill the body has passed, which later years' budgets start from.
     const extra =
       (budget.spendingMinor.housing ?? 0) -
-      baseLine(api, gov, budget, "housing");
-    let slots = Math.floor(extra / annual);
-    if (slots <= 0) continue;
+      (baseBudget(api, gov, budget.fiscalYear).spendingMinor.housing ?? 0);
+    // A state's or county's line is shared across all its people: the played
+    // town receives the part its own people stand for (1 for the city's own
+    // line). ESTIMATED from the population share, as renter households are
+    // not recorded for the whole government.
+    const share = townShare(api, gov);
+    // stopgapId: SG-GOV-rent-help-population-share
+    if (share < 1 && extra > 0)
+      api.stopgap("SG-GOV-rent-help-population-share");
+    let slots = (extra * share) / annual;
+    if (!(slots > 0)) continue;
     // The measure that last changed this line is the law the help is paid under.
     const lawId = String(
       mechanicRow(api, housingLineMeasureId(gov.id))?.facts.lawId ?? budget.id,
@@ -62,11 +71,13 @@ export function payRentAssistance(api: CoreAPI): void {
       // A counted household uses one slot per household it stands for; the last one may be served in part.
       const served = Math.min(tenant.weight, slots);
       slots -= served;
-      const amount = Math.min(annual / months, tenant.rentMinor);
+      // The last household may be served in part, full or counted alike.
+      const amount =
+        (Math.min(annual / months, tenant.rentMinor) * served) / tenant.weight;
       const source = {
         tag: "ESTIMATED" as const,
         asOf: c.date,
-        citation: `${budget.id}: housing line above its adopted base, paid as rent assistance at the average voucher.`,
+        citation: `${budget.id}: housing line above its Census base, paid as rent assistance at the average voucher.`,
         estimatedFrom: `HUD Picture of Subsidized Households 2023, average voucher ${annual} a year`,
       };
       const id = `rent-assistance:${tenant.id}:${c.date}`;
@@ -100,7 +111,7 @@ export function payRentAssistance(api: CoreAPI): void {
             placeId: tenant.placeId,
             householdId: tenant.id,
             otherOwnerId: gov.organizationId,
-            amountMinor: -Math.floor((amount * served) / tenant.weight),
+            amountMinor: -Math.floor(amount),
             reasonKey: "housing.assistance",
             source,
           }) * tenant.weight;

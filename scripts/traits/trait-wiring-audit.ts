@@ -242,6 +242,13 @@ interface FormulaTally {
   samples: { bare: number; lean: number }[];
 }
 const formula = new Map<string, FormulaTally>();
+/** Decisions whose trait term joins a sum or scales a size: kept results with and without the term, by lean. */
+interface OutcomeTally {
+  unit: "probability" | "size";
+  calls: number;
+  samples: { lean: number; value: number; flat: number }[];
+}
+const outcomes = new Map<string, OutcomeTally>();
 /** Each full person's picks by action id (opening people only: twins share them). */
 const picks = new Map<string, Map<string, number>>();
 
@@ -346,6 +353,25 @@ if (process.env.TRAIT_PROBE !== "off")
         t.samples.push({
           bare: Math.round(row.bare * 1e4) / 1e4,
           lean: Math.round(row.lean * 1e4) / 1e4,
+        });
+    },
+    outcome(row) {
+      let t = outcomes.get(row.decisionId);
+      if (!t)
+        outcomes.set(
+          row.decisionId,
+          (t = { unit: row.unit, calls: 0, samples: [] }),
+        );
+      t.calls++;
+      // Every call while few, then every tenth, as the formula samples are kept.
+      if (
+        t.samples.length < SAMPLE_CAP &&
+        (t.calls < SAMPLE_CAP / 2 || t.calls % 10 === 0)
+      )
+        t.samples.push({
+          lean: Math.round(row.lean * 1e4) / 1e4,
+          value: Math.round(row.value * 1e6) / 1e6,
+          flat: Math.round(row.flat * 1e6) / 1e6,
         });
     },
   });
@@ -465,6 +491,7 @@ writeFileSync(
       ]),
     ),
     formula: Object.fromEntries(formula),
+    outcomes: Object.fromEntries(outcomes),
     events,
     records: recordsOfYear(core),
     examples: {

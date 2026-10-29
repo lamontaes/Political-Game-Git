@@ -15,7 +15,7 @@ milestone: play-first
 claimed-at:
 ---
 
-**What.** The owner, Oct 26: "Shifts are for the simulation. Absolutely not... Remove every semblance from that in the game... The player should not be clicking through that." Every Day press stopped at a shift's start and again at its end ("Shift starts · Larimer County Kitchen", "Shift ends ·") with Day and Week greyed out until Continue. The core player clock read work boundaries as stops. The stop is removed and the shift is still worked and paid.
+**What.** The owner, Oct 26: "Shifts are for the simulation. Absolutely not... Remove every semblance from that in the game... The player should not be clicking through that." Every Day press stopped at a shift's start and again at its end ("Shift starts · Larimer County Kitchen", "Shift ends ·") with Day and Week grayed out until Continue. The core player clock read work boundaries as stops. The stop is removed and the shift is still worked and paid.
 
 **Rules.** Replace, never layer: the work-boundary query, its acknowledgment plumbing and the bench's shift-stop branch and labels are deleted, not left beside the new path. Speed: a year is not slower.
 

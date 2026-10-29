@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/bill-title-property-tax
+pr: #6313
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T12:10:48.784Z
 ---
 
 **What.** src/bench/office-bill-title.test.ts drafts a city bill for every catalog policy and operation and expects the meeting's bill item to carry the bill's real name. On clean main (41302ac661) with GOLDEN_PATH_SEED=a290e218295c1ddf4aabe9289024b8dbf1832e9b, drawn New Germany, Minnesota, it fails: 'law:property-tax raise: expected null not to be null'. The bill's title comes back null for a property-tax raise in that town, so the meeting would show a bill with no name.

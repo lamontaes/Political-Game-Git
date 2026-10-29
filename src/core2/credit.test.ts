@@ -10,10 +10,11 @@ import { chooseAct } from "./choice";
 import creditData from "./data/credit/credit.json" with { type: "json" };
 import { collapseToTwoLevels } from "./residents";
 import { residentsRuntime } from "./modules/residents";
-import { fillInPerson } from "./state";
+import { fillInPerson, registerModule } from "./state";
 import { CREDIT_MODULE, personalBorrowingDecision } from "./modules/credit";
 import { MACRO_MODULE, withCentralBank } from "./modules/macro";
 import { worldCoreData } from "./modules/world";
+import { hardshipStress } from "./trait-decisions";
 import { coreAPI } from "./state";
 import { transferCash } from "./world-transfer";
 import type { CoreInput, CoreState, Source } from "./types";
@@ -148,6 +149,63 @@ describe("household loans", () => {
     expect(loan.chargeOffCause).toBe("payments-beyond-cash");
     expect((t.payments as unknown[]).length).toBeGreaterThan(3);
     expect(money(core)).toBe(total);
+  });
+
+  it("a missed payment is a hardship to the borrower at a change in financial state's size, and a payment made in full is not", () => {
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [MACRO_MODULE, CREDIT_MODULE],
+        scheduledWork: false,
+      }),
+      api = coreAPI(core),
+      left: number[] = [];
+    // The stress the borrower stands under the moment a missed payment reaches them.
+    registerModule(core, {
+      id: "credit-test-watch",
+      // Subscribed to every kind, so it runs after the life module's own
+      // appraisal of the event (a kind-specific subscriber runs before it).
+      eventKinds: ["*"],
+      onEvent: (_api, event) => {
+        if (event.kind !== "credit.payment-missed") return;
+        const person = core.people.get(event.personIds[0]!)!;
+        left.push(hardshipStress(core, person));
+      },
+    });
+    advanceCore(core, "2026-10-02");
+    transferCash(
+      api,
+      "fixture:spending",
+      "earner",
+      "organization:store",
+      core.people.get("earner")!.liquidMinor,
+      src,
+    );
+    advanceCore(core, "2027-06-02");
+    const payments = api.moduleState("credit").snapshot().tables
+      .payments as unknown as {
+      id: string;
+      loanId: string;
+      date: string;
+      dueMinor: number;
+      paidMinor: number;
+    }[];
+    const missed = payments.filter((row) => row.paidMinor < row.dueMinor);
+    expect(missed.length).toBeGreaterThan(0);
+    for (const row of payments)
+      expect(
+        core.eventIds.has(
+          `event:credit.payment-missed:${row.loanId}:${row.date}`,
+        ),
+        row.id,
+      ).toBe(row.paidMinor < row.dueMinor);
+    // It reached the borrower at a change in financial state's Holmes and Rahe
+    // size (38 of 100 units, an average temperament): their stress stood that
+    // far above rest.
+    expect(left[0]).toBeCloseTo(
+      api.parameter("srrsChangeInFinancialState") /
+        api.parameter("srrsMaximumUnits"),
+      6,
+    );
   });
 });
 

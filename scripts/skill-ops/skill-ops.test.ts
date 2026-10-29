@@ -38,8 +38,7 @@ const contracts: readonly SkillContract[] = [
     name: "asset-scene-admission",
     trigger:
       /environment intake, scene geometry, asset-bank disposition, or release review/i,
-    nontrigger:
-      /do not use to generate new art, infer rights, or approve pixels without review/i,
+    nontrigger: /do not use to approve pixels without review/i,
     links: [
       "docs/systems/art-assets.md",
       "docs/systems/scene-authoring-pipeline.md",

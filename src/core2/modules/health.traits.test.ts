@@ -15,12 +15,17 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import { HOUSING_STATUS_EVENT } from "../housing-homeless";
 import { gameStartDate } from "../game-start";
 import { advanceCore } from "../life";
-import { startingConditionAssignments } from "../condition-pack";
+import {
+  CONDITION_PACK,
+  conditionPrevalence,
+  startingConditionAssignments,
+} from "../condition-pack";
 import { parameter } from "../parameters";
+import { worldRateFactor } from "../world-base-rates";
 import { healthReport, DEFAULT_HEALTH_DATA } from "./health";
 import type { CoreState } from "../types";
 
-const SEED = "traits-health-test";
+const SEED = process.env.HEALTH_TRAITS_SEED ?? "traits-health-test";
 const TRAIT = DEFAULT_HEALTH_DATA.conscientiousnessTrait;
 let core: CoreState;
 let placeKey: string;
@@ -62,6 +67,8 @@ describe("health reads conscientiousness", () => {
         category: DEFAULT_HEALTH_DATA.calibrationCategory,
         monthlyHouseholdIncomeMinor: null,
       })),
+      new Map(),
+      worldRateFactor(SEED, "conditions"),
     );
     let expected = 0;
     let held = 0;
@@ -85,12 +92,70 @@ describe("health reads conscientiousness", () => {
     const odds = (a: number, n: number) => a / Math.max(n - a, 1);
     const ratio =
       odds(counts.loHeld, counts.lo) / odds(counts.hiHeld, counts.hi);
-    console.log(
-      `place ${placeKey} seed ${SEED}: odds ratio low vs high ${ratio.toFixed(2)}, held ${held} expected ${expected.toFixed(1)}`,
+    // The slope the world shows, fitted over every adult with a level: each
+    // one's log odds is their age's prevalence on that scale (the engine's
+    // own), plus one intercept, plus the slope times their level. The two
+    // groups' odds ratio above rests on the few adults at level -1 or below
+    // (19 in this world), where one holder more or less halves or doubles it;
+    // the fit reads all of them (Newton's method on the two terms).
+    const condition = CONDITION_PACK.find((c) => c.key === key)!;
+    const factor = worldRateFactor(SEED, "conditions");
+    const rows: { base: number; level: number; has: number }[] = [];
+    for (const person of opening) {
+      const age = ageYears(person.birthDate, core.startedAt);
+      const level = person.traits[TRAIT];
+      const share = conditionPrevalence(
+        condition,
+        age,
+        DEFAULT_HEALTH_DATA.calibrationCategory,
+        factor,
+      );
+      if (age < 18 || level === undefined || !Number.isInteger(level)) continue;
+      if (share <= 0 || share >= 1) continue;
+      const has = report.conditionsByPerson.get(person.id)?.includes(key);
+      rows.push({
+        base: Math.log(share / (1 - share)),
+        level,
+        has: has ? 1 : 0,
+      });
+    }
+    let intercept = 0;
+    let fitted = 0;
+    let error = Infinity;
+    for (let step = 0; step < 25; step += 1) {
+      let g0 = 0,
+        g1 = 0,
+        h00 = 0,
+        h01 = 0,
+        h11 = 0;
+      for (const row of rows) {
+        const p =
+          1 / (1 + Math.exp(-(row.base + intercept + fitted * row.level)));
+        const w = p * (1 - p);
+        g0 += row.has - p;
+        g1 += (row.has - p) * row.level;
+        h00 += w;
+        h01 += w * row.level;
+        h11 += w * row.level * row.level;
+      }
+      const det = h00 * h11 - h01 * h01;
+      intercept += (h11 * g0 - h01 * g1) / det;
+      fitted += (h00 * g1 - h01 * g0) / det;
+      error = Math.sqrt(h00 / det);
+    }
+    const researched = parameter(
+      DEFAULT_HEALTH_DATA.behaviorConditions.find((c) => c.key === key)!
+        .logOddsPerLevelParameter,
     );
-    // Slope -0.716 per level over a 2.4-level gap between the groups is a
-    // ratio near 5; sampling spread is wide with a few hundred holders.
-    expect(ratio).toBeGreaterThan(4);
+    console.log(
+      `place ${placeKey} seed ${SEED}: odds ratio low vs high ${ratio.toFixed(2)}, fitted slope ${fitted.toFixed(3)} (standard error ${error.toFixed(3)}) over ${rows.length} adults against ${researched}, held ${held} expected ${expected.toFixed(1)}`,
+    );
+    expect(rows.length).toBeGreaterThan(100);
+    // The less conscientious hold it more, and the fitted slope sits within
+    // three of its own standard errors of the researched one (Bogg and
+    // Roberts 2004, -0.716 per level).
+    expect(fitted).toBeLessThan(0);
+    expect(Math.abs(fitted - researched)).toBeLessThan(3 * error);
     // Personality shifts who, not how many.
     expect(Math.abs(held - expected) / expected).toBeLessThan(0.05);
   });

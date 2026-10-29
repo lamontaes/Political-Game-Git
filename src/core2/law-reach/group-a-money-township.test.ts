@@ -3,8 +3,8 @@
  * the law chain, a township included: with only a township's law in force,
  * the township's treasury runs the program. A place is drawn from all 56 on a
  * seed nobody chose (LEAVE_TOWNSHIP_SEED pins one); places whose chain has no
- * township, or already has the law in force at another level, are skipped,
- * and the test throws naming each place tried when the draws run out.
+ * township in its records, or already has the law in force at another level,
+ * are skipped, and the test throws naming each place tried when the draws run out.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -17,21 +17,37 @@ import {
   governments,
   type GovernmentRow,
 } from "../modules/budgets";
-import { LAWS_MODULE_ID, lawChain } from "../modules/laws";
+import { lawChainForPlace } from "../laws-starting";
+import { LAWS_MODULE_ID, lawChain, yesLevels } from "../modules/laws";
 import { coreAPI } from "../state";
 import type { ModuleRow } from "../module-data";
-import { mechanicRow, yesLevels } from "./group-a-records";
+import { mechanicRow } from "./group-a-records";
 import { LEAVE_KEY, paidLeave } from "./group-a-money";
 
+/** Places drawn (records only) and places built among them. */
+const DRAWS = 400;
+const BUILDS = 6;
 const seed = process.env.LEAVE_TOWNSHIP_SEED ?? randomBytes(8).toString("hex");
 
 it("a township-only paid-leave law selects the township treasury", () => {
   const tried: string[] = [];
   const before = setBookkeeping(false);
   try {
-    for (let draw = 0; draw < 40; draw += 1) {
+    // Drawing and reading a place's records is cheap; only a place with a
+    // township is built, at most BUILDS of them.
+    let built = 0;
+    for (let draw = 0; draw < DRAWS && built < BUILDS; draw += 1) {
       const place = drawPlace(`${seed}:${draw}`, "leave-township");
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      // The place's records say whether a township stands over it, before any
+      // world is built (a build is seconds; most places have none).
+      if (
+        !lawChainForPlace(place.key).levels.some((l) => l.level === "township")
+      ) {
+        tried.push(`${where}: no township in the law chain`);
+        continue;
+      }
+      built += 1;
       const { core } = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
@@ -60,7 +76,7 @@ it("a township-only paid-leave law selects the township treasury", () => {
           jurisdiction: township.jurisdiction,
           level: "township",
           series: LEAVE_KEY,
-          tier: "test",
+          tier: "general",
           value: 1,
           effectiveDate: api.state.date,
           endDate: null,

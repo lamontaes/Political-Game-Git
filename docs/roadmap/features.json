@@ -189,7 +189,7 @@
       "golden_path": "world",
       "package": "M1-housing",
       "test": "Rents and home prices in a random place fall within real ranges for its region; an eviction happens only from unpaid rent, through the steps that place's law requires.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-05-check.ts",
       "passes": false
     },
     {
@@ -209,7 +209,7 @@
       "golden_path": "world",
       "package": "M1-budgets-taxes + M1-budgets-programs",
       "test": "In a random place over a year, every level adopts a budget on its real calendar; federal and state money reaches named residents and the town; every dollar balances; spending and taxes per resident fall within real ranges.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-07-check.ts",
       "passes": false
     },
     {
@@ -219,7 +219,7 @@
       "golden_path": "world",
       "package": "M1-business",
       "test": "A year's business openings and closings stay within real rates (Census Business Dynamics Statistics); owners' income comes from profit; across multi-year runs, some businesses add locations without being scripted to.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-08-check.ts",
       "passes": false
     },
     {
@@ -250,7 +250,8 @@
       "package": "M1-drives-economy",
       "test": "Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.",
       "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/drives-economy.test.ts && node --max-old-space-size=8192 --import tsx src/bench/m1-11-check.ts",
-      "passes": false
+      "passes": true,
+      "longRunning": true
     },
     {
       "id": "M1-12",

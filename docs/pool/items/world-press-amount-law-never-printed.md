@@ -5,14 +5,14 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/press-amount-law
+pr: #6247
 blocked-on:
 source: "found by the words-and-scenes lead, Oct 27, building words-live-news-worded (the owner's Oct 26 playtest: Ohio's minimum wage went from $10.70 to $7.25 with no news)"
 lead: effects
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T05:52:15.616Z
 ---
 
 **What.** In Stockport, Ohio (seed `ohio-a`, place drawn from Ohio's localities), HB 2 ends the state's minimum wage on April 27–28, 2025: the wage in force falls from $10.70 to $7.25. On January 1, 2026 the state's scheduled $11.00 takes effect. Both records are public and both reach the press wire at state level. In a year of play no outlet prints either one. The desk (`runDesk` in `src/core2/press-desk.ts`) ranks items by proximity, reader care, people involved and renown. An amount law's topic is its series (`minimum-wage`), which is not a policy topic, so its reader care is 0. Every state law involves every follower about equally, so a wage change always loses to a policy law that week. The change's size (a third of every low-wage worker's floor) counts for nothing.

@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/office.ts, src/bench/play.ts, src/bench/data/controls.json
 
 **Notes.** Found by the browser run on PR #5533 (Scarsdale, New York; Thompsonville, Michigan 2679600).
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: the Advanced play-as picker is the route (OD:82); do not add Play buttons to Government.

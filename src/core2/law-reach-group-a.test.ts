@@ -29,10 +29,14 @@ import { POLICY_QUESTIONS } from "./policy-answers";
 import powerCatalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import powerMapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import {
+  adoptedLine,
+  BUDGETS_MODULE_ID,
   governments,
   openBudgets,
   type GovernmentRow,
 } from "./modules/budgets";
+import { appliedOn } from "./law-reach/applied";
+import { outsideAccountOf } from "./budgets-treasury";
 import { openLawReach } from "./law-reach/host";
 import { selectorGroup } from "./law-reach/group-a-records";
 import {
@@ -54,6 +58,8 @@ import {
   SAME_DAY,
   termLimitReached,
 } from "./law-reach/group-a-voting";
+// After the engines: the outcome web reads this module while it loads.
+import { govMeasure } from "./gov-measures";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -429,7 +435,7 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
   });
 
   it("election laws change named voters' turnout costs, and repeals put them back", () => {
-    const adult = reachParameter("adultAge");
+    const adult = reachParameter("votingAge");
     const workers = townPeople(api)
       .filter((p) => p.jobId)
       .map((p) => ({
@@ -570,6 +576,107 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     expect(openReach(api, homeRule), where).toEqual([]);
     report.homeRule = { question, grantId, repealId };
   });
+
+  it("a dedicated parks law at the state moves the town's parks measure the outcome web reads, and a repeal puts it back", () => {
+    const key =
+      "us-policy-positions:civil-family-community.dedicated-parks-funding";
+    const before = govMeasure(api, "budget.parks-added-pct") ?? 0;
+    enact(key, "state", 1);
+    expect(
+      govMeasure(api, "budget.parks-added-pct") ?? 0,
+      where,
+    ).toBeGreaterThan(before);
+    enact(key, "state", 0);
+    expect(govMeasure(api, "budget.parks-added-pct") ?? 0, where).toBeCloseTo(
+      before,
+      6,
+    );
+  });
+
+  // Last in the file: it lives a year, which the tests above (they share this town) must not.
+  it("the treasury reads a dedicated parks levy again when a new fiscal year's budget is adopted, and a repeal ends it", () => {
+    const key =
+      "us-policy-positions:civil-family-community.dedicated-parks-funding";
+    const gov = cityGov();
+    const share = reachParameter("parksDedicatedShare");
+    enact(key, "city", 1);
+    const first = budgetToday(api, gov)!;
+    // A treasury that cannot pay a month of its lines pays none at its first close, and then nothing is paid under the law (governments open with no cash). Read as the law is set, before it acts: the town's treasury is given a year of its lines, an edge fixture, so the first close pays.
+    const accounts = api.accounts();
+    const lines = Object.values(first.spendingMinor).reduce(
+      (sum, minor) => sum + minor,
+      0,
+    );
+    const cash = accounts.balance(accounts.main(gov.organizationId));
+    if (cash < lines / 12) {
+      // stopgapId: SG-WORLD-government-opening-fund-balance
+      accounts.transfer({
+        id: `fixture:parks-levy-cash:${api.state.date}`,
+        from: accounts.main(outsideAccountOf(api)!),
+        to: accounts.main(gov.organizationId),
+        amountMinor: lines,
+        reasonKey: "fixture",
+        source: {
+          tag: "SOURCED",
+          citation: "Test fixture: cash for the treasury's first close.",
+          asOf: api.state.date,
+        },
+      });
+      process.stdout.write(
+        `FIXTURE treasury cash: ${where}: the treasury held ${cash} against ${Math.round(lines / 12)} a month of its lines; given ${lines}\n`,
+      );
+    }
+    // The treasury's first close pays the levy's share of the line under the law's own payment, and records whom it reached.
+    advanceCore(core, after(api.state.date, 35));
+    const paid = appliedOn(api, key).filter(
+      (r) => r.what === "parks-line-paid",
+    );
+    expect(
+      paid.length,
+      `${where}: the levy's share is recorded`,
+    ).toBeGreaterThan(0);
+    expect(
+      paid.every((r) => r.amountMinor > 0),
+      where,
+    ).toBe(true);
+    expect(
+      (
+        api
+          .moduleState(BUDGETS_MODULE_ID)
+          .table("spendingPayments")
+          .rows() as unknown as {
+          id: string;
+          amountMinor: number;
+        }[]
+      ).some((p) => p.id.includes(paid[0]!.lawId) && p.amountMinor > 0),
+      `${where}: a payment names the law row ${paid[0]?.lawId}`,
+    ).toBe(true);
+    // Live to the next fiscal year's start: its budget begins without the levy.
+    for (
+      let i = 0;
+      i < 14 && budgetToday(api, gov)!.fiscalYear === first.fiscalYear;
+      i += 1
+    )
+      advanceCore(core, after(api.state.date, 30));
+    const next = budgetToday(api, gov)!;
+    expect(next.fiscalYear, where).toBeGreaterThan(first.fiscalYear);
+    // The law is still in force, so the new year's line carries the levy on the line as the council adopted it
+    // (a budget bill the council passed that year may have moved the line itself).
+    const adopted = adoptedLine(api, gov, next.fiscalYear, "parks");
+    expect(next.spendingMinor.parks, where).toBe(
+      adopted + Math.round(adopted * share),
+    );
+    enact(key, "city", 0);
+    expect(budgetToday(api, gov)!.spendingMinor.parks ?? 0, where).toBe(
+      adopted,
+    );
+    // A repeal ends the treasury's records of it.
+    expect(
+      appliedOn(api, key).filter((r) => r.what === "parks-line-paid"),
+      where,
+    ).toHaveLength(0);
+    // It lives a year and a month of a town's days: over the default 30 seconds on a loaded machine.
+  }, 180_000);
 
   it("reports", () => {
     govReport("law-reach-group-a", JSON.stringify(report));

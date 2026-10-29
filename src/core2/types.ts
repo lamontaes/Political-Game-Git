@@ -73,6 +73,15 @@ export interface Affect {
   stress: number;
   moodBaseline: number;
   stressBaseline: number;
+  /**
+   * The part of `stress` that a hardship (a layoff, an eviction, a missed
+   * payment: `hardshipEventKinds` in content.json) put there and has not let
+   * go of, decaying to nothing at the stress half-life. Absent when none. The
+   * coping decisions read it (`hardshipStress` in trait-decisions.ts), so
+   * stress that came from elsewhere (a cause shared, an illness) is not read
+   * as a reason to claim, borrow or leave.
+   */
+  hardship?: number;
 }
 
 export interface Drive {
@@ -736,14 +745,6 @@ export interface CoreInput {
   visiblePlaceIds?: readonly PlaceId[];
   calendarDates: readonly IsoDate[];
   gaps: readonly string[];
-  priorFactsSource?: readonly {
-    personId: PersonId;
-    field: string;
-    status: "filled" | "preserved" | "unresolved";
-    factIds: readonly string[];
-    source?: Source;
-    reason: string;
-  }[];
   familyLinks?: readonly {
     id: string;
     kind: "parent-child" | "partner";

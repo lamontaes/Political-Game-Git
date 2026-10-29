@@ -5,7 +5,6 @@
  */
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import placeKinds from "../../data/content/place-kinds.json" with { type: "json" };
-import { backdropUrl } from "./backdrop-urls";
 
 /** A recorded dwelling kind, `residential:apartment` and the like. */
 export type DwellingClassification = `${
@@ -33,17 +32,15 @@ interface PlaceKinds {
 
 const PLACE_KINDS = placeKinds as PlaceKinds;
 
-const BY_PLACE = new Map<string, Map<string, string>>();
-for (const record of manifest.backdrops as readonly BackdropRecord[]) {
-  const url = backdropUrl(record.file);
-  if (!url) continue;
-  const variants = BY_PLACE.get(record.place) ?? new Map<string, string>();
-  variants.set(record.variant, url);
-  BY_PLACE.set(record.place, variants);
-}
+/** The places painted at midday, from the art manifest: the one list every picker reads. */
+const PICTURED: ReadonlySet<string> = new Set(
+  (manifest.backdrops as readonly BackdropRecord[])
+    .filter((record) => record.variant === "midday")
+    .map((record) => record.place),
+);
 
 export function hasBackdrop(place: string): boolean {
-  return BY_PLACE.get(place)?.has("midday") ?? false;
+  return PICTURED.has(place);
 }
 
 /** States whose capitol is a tower rather than a dome. */
@@ -74,7 +71,7 @@ export function homePlaceFor(
     case "residential:mobile-home":
     case "residential:other-mobile":
       return "mobile-home";
-    // The town's homes record these kinds (`simulation/living-world/town-homes.ts`).
+    // The town's homes record these kinds (the old engine's town-homes.ts).
     case "residential:rowhouse":
       return "rowhouse";
     case "residential:large-house":

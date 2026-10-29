@@ -389,11 +389,11 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
       "results",
     ).filter((r) => r.measure === MEASURE && r.placeId === placeId);
     // Each senior's record names the raised web month and a higher factor.
-    // Who graduates is not monotone one senior at a time: the far raise moves
-    // household incomes, so seniors change fifths, and a fifth's share goes to
-    // its students in order of standing, each taking their household's weight
-    // of it, so a heavier household ahead can clear and leave a lighter one
-    // short. Across the town, at least as many newly graduate as newly fail.
+    // Who graduates is not monotone one senior at a time across worlds: the
+    // far raise moves household incomes, so seniors change fifths and a
+    // fifth's students in order of standing change with them. Within a fifth
+    // the rule is monotone (below, and in school-outcomes-order.test.ts).
+    // Across the town, at least as many newly graduate as newly fail.
     const flipped: string[] = [];
     const failed: string[] = [];
     for (const result of shiftedResults) {
@@ -405,6 +405,41 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
       if (!result.passed && before.passed) failed.push(result.id);
     }
     expect(shiftedResults.length).toBeGreaterThan(0);
+    // One senior at a time, where nothing else moved: in a fifth whose
+    // seniors are the same people in both worlds, the raise fails no one who
+    // graduated before (the pass rule is monotone in the fifth's share).
+    const idsByFifth = (list: readonly SchoolResultRow[]) => {
+      const out = new Map<number, string[]>();
+      for (const r of list) {
+        const ids = out.get(r.incomeFifth) ?? [];
+        ids.push(r.id);
+        out.set(r.incomeFifth, ids);
+      }
+      for (const ids of out.values()) ids.sort();
+      return out;
+    };
+    const baseFifths = idsByFifth([...baseResults.values()]);
+    const shiftedFifths = idsByFifth(shiftedResults);
+    let steady = 0;
+    for (const result of shiftedResults) {
+      const before = baseResults.get(result.id);
+      if (!before || before.incomeFifth !== result.incomeFifth) continue;
+      const same =
+        JSON.stringify(baseFifths.get(result.incomeFifth)) ===
+        JSON.stringify(shiftedFifths.get(result.incomeFifth));
+      if (!same) continue;
+      steady += 1;
+      if (before.passed)
+        expect(
+          result.passed,
+          `${where}: ${result.id} graduated before the raise and fails after it`,
+        ).toBe(true);
+    }
+    // Where the far raise moved every fifth's seniors (Washington, D.C. seed
+    // d6453558: household incomes moved, so no fifth kept its seniors) there is
+    // no senior to compare one by one; the rule itself is checked for every
+    // owed share and weights in school-outcomes-order.test.ts.
+    process.stdout.write(`seniors compared one by one: ${steady}\n`);
     expect(
       flipped.length,
       `newly graduated against newly failed [${failed.join(", ")}]`,

@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
 pr: #6050
 blocked-on:
@@ -24,3 +24,4 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-26 from PR #6050 (branch claude/quirky-ride-vrwwz4-full-18, head 456e5890b284f7767fa9ef950ad089da3388fedb): normal main merge conflicts in src/core2/data/parameters.json at playerEntryAge citation and spread citation; reconcile main's existing household-selection implementation and refresh named acceptance evidence; finish on that branch, merge main into it first.
+Closed out Oct 27 by Merger 2: the fix is on main (0b989e12af, Release 0.32.1); m0-life-at-18 passes at the named place and seed; PR 6050 is superseded.

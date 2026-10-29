@@ -3,7 +3,8 @@
  * drivers' repair bills follow it (place-prices reads the rule monthly). A
  * drawn place for a year: cut the line, the poor share rises above its base
  * and households' monthly repair spending rises by the engine's own figure;
- * restore it and the rule ends. A drawn place with no government that funds
+ * restore it and the rule ends (or returns to where a highway shift in force
+ * at the opening left it). A drawn place with no government that funds
  * highways (a small territory village) is skipped for another draw, and the
  * test names every place skipped if none of 25 draws has one.
  */
@@ -16,12 +17,15 @@ import { gameStartDate } from "../game-start";
 import { advanceCore } from "../life";
 import { amendBudget, governments } from "../modules/budgets";
 import { lawChain } from "../modules/laws";
-import { PLACE_PRICES_MODULE_ID } from "../modules/place-prices";
-import goods from "../data/prices/goods.json";
+import {
+  PLACE_PRICES_MODULE_ID,
+  monthlyChange,
+  worldGoods,
+} from "../modules/place-prices";
 import { coreAPI } from "../state";
 import { budgetNow, residentsOf } from "./group-b-money";
 
-const seed = randomBytes(32).toString("hex");
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(32).toString("hex");
 
 /** Draws places until one has a government that funds highways; names those skipped. */
 function townWithHighways() {
@@ -52,14 +56,16 @@ it(`a cut highways line leaves more roads in poor condition and raises drivers' 
   const town = lawChain(api).townPlaceId;
   const rules = () => api.moduleState(PLACE_PRICES_MODULE_ID).table("rules");
   const ruleId = `${town}:vehicle-repair:road`;
-  const base = goods.goods["vehicle-repair"].poorShareBase;
+  const world = worldGoods(core.seed).goods;
+  const base = world["vehicle-repair"].poorShareBase;
   const day = (n: number) =>
     new Date(Date.parse(`${core.date}T00:00:00Z`) + n * 86_400_000)
       .toISOString()
       .slice(0, 10);
-  expect(rules().get(ruleId), `${where}: a road rule before any change`).toBe(
-    undefined,
-  );
+  // A highway shift already in force at the opening (a starting law the
+  // treasury reads) can leave the line under its base, and a rule with it.
+  const before = rules().get(ruleId) as unknown as
+    { value: number } | undefined;
   const line = budgetNow(api, gov.id)!.spendingMinor.highways!;
   amendBudget(api, {
     governmentId: gov.id,
@@ -72,9 +78,30 @@ it(`a cut highways line leaves more roads in poor condition and raises drivers' 
     { value: number; cause: string } | undefined;
   expect(cut, `${where}: the cut left no road rule`).toBeDefined();
   expect(cut!.value, `${where}: poor share after the cut`).toBeGreaterThan(
-    base,
+    before?.value ?? base,
   );
   expect(cut!.cause).toContain("highways");
+  // The repair bill follows the poor share: an average household's net monthly
+  // repair cost under the cut rule is above what the opening rule (or none) cost.
+  const bill = (value: number) => {
+    const m = monthlyChange(
+      {
+        good: "vehicle-repair",
+        kind: "road",
+        value,
+        refundable: false,
+        replacesFuelTax: false,
+      },
+      1,
+      1,
+      world,
+    );
+    return m.payMinor - m.refundMinor;
+  };
+  expect(
+    bill(cut!.value),
+    `${where}: repair bill after the cut`,
+  ).toBeGreaterThan(bill(before?.value ?? base));
   const journal = core.cashJournal.totals;
   expect(journal.grossDebitMinor).toBe(journal.grossCreditMinor);
   amendBudget(api, {
@@ -84,7 +111,11 @@ it(`a cut highways line leaves more roads in poor condition and raises drivers' 
     measureId: "TEST-ROADS-RESTORE",
   });
   advanceCore(core, day(35));
-  expect(rules().get(ruleId), `${where}: the rule ends at base`).toBe(
-    undefined,
-  );
+  const restored = rules().get(ruleId) as unknown as
+    { value: number } | undefined;
+  if (before)
+    expect(restored?.value, `${where}: the rule returns to its start`).toBe(
+      before.value,
+    );
+  else expect(restored, `${where}: the rule ends at base`).toBe(undefined);
 }, 600_000);

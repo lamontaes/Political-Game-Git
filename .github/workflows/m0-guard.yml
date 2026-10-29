@@ -1,19 +1,18 @@
 name: M0 guards
 on:
   pull_request:
-  push:
-    branches: [main]
-    # Pool-only bookkeeping changes no executable code. Keep pull-request,
-    # scheduled and manual validation; pushes touching other paths still run.
-    paths-ignore:
-      - "docs/pool/**"
+  # Main is checked once an hour, not on every push (owner, Oct 28: the CI
+  # queue, see validate.yml). Every merge's pull request already ran this
+  # workflow on the merged result.
   schedule:
-    - cron: "17 6 * * *"
+    - cron: "37 * * * *"
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: m0-guard-${{ github.workflow }}-${{ github.ref }}
+  # The event is in the key so the nightly run on main is never canceled by
+  # the next push to main; otherwise main never gets a golden-path verdict.
+  group: m0-guard-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   golden-path:

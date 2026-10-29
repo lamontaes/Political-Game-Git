@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: done
+claimed-by: claude/traits-civic
 pr: #5657
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-27T04:06:55.828Z
 ---
 
 **What.** The bounded part of traits-wire-civic that its open PR delivers. Believing a story (conversation.believe-claim), going to party meetings (parties.attend), joining an interest group (interest-groups.member-join) and passing on news (news.pass-on) read their case through the shared two-way rule and weigh temperament at the size their studies give: a hearer weighs the teller's closeness and the claim's fit, a member weighs work hours and distance, a resident weighs a friend already in the group. Every other decision in the civic family runs in a played election-window year, and where its rate is not yet at its study's size its gap row names the cause and the numbers.

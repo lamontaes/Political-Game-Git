@@ -10,9 +10,9 @@ import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { LAWS_MODULE_ID, openLaws } from "./modules/laws";
+import { LAWS_MODULE_ID, openLaws, yesLevels } from "./modules/laws";
 import { openBudgets } from "./modules/budgets";
-import { inForceHere, openLawReach } from "./law-reach/host";
+import { openLawReach } from "./law-reach/host";
 import { answerIn } from "./modules/world-legislating";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
@@ -78,7 +78,7 @@ describe("starting policy answers are law at the opening", () => {
       expect(answerIn(api, state, question)).toBe(
         answer.answer === "yes" ? 1 : -1,
       );
-      expect(inForceHere(api, question), `${where}: ${question}`).toBe(
+      expect(yesLevels(api, question).length > 0, `${where}: ${question}`).toBe(
         answer.answer === "yes",
       );
       if (answer.answer === "yes") yes.push(question);

@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { enrichCivicInputs } from "../civic-inputs";
 import { currentCloseness } from "../closeness";
-import { buildDeepPast } from "../deep-past";
 import { advanceCore, createLifeCore } from "../life";
 import { buildPopulation } from "../population";
 import type { CoreInput } from "../types";
@@ -12,9 +11,7 @@ const seed = "p15-people-module";
 let input: CoreInput | undefined;
 const opening = () =>
   (input ??= enrichCivicInputs(
-    buildDeepPast(
-      buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 300 }),
-    ),
+    buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 300 }),
   ));
 
 function run(targetKind: string, days: number) {

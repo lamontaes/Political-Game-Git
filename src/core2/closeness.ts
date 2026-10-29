@@ -203,7 +203,7 @@ export function openingClosenessHours(
   const rate = (visits * p("socialHours")) / p("daysPerMeanYear");
 
   // Childhood at home together, then the years apart since the elder left.
-  const adultDays = p("benchmarkAdultMinimumAge") * p("daysPerMeanYear");
+  const adultDays = p("votingAge") * p("daysPerMeanYear");
   const age = (birthDate: IsoDate) => daysBetweenText(birthDate, core.date);
   let together = p("zero"),
     apart = p("zero");
@@ -234,38 +234,70 @@ export function openingClosenessHours(
     : steadyHours(p, rate, kind);
 }
 
+/** A relative as a person's own records name them: the relation and the fact that records it. */
+export interface FamilyFact {
+  relation: string;
+  factId: string;
+}
+
 /**
- * Opening closeness between two people the records say shared a school class
- * or a workgroup (the opening peer circles), in hours of time together: the
- * hours it takes to become a casual friend, faded since the day the shared
- * context began. Zero when no recorded peer fact joins them. Read the same
- * for a full person and a counted one: only the recorded facts decide.
+ * Every relative a person's own past facts name (`family:<relation>` naming
+ * the other), each with the latest fact recorded for them, since a
+ * partnership that ended is a later fact than the partnership. Former ties
+ * stay in, under their own relation (a former partner). The one reader of
+ * family facts: the director, the card, the calendar and every scene read
+ * relatives through it or `familyRelation`.
  */
-export function openingPeerHours(
-  core: Pick<CoreState, "data" | "date">,
-  actor: Pick<PersonState, "pastFacts">,
-  otherId: PersonId,
-): number {
-  stopgap(data.stopgapId);
-  const p = lookup(core);
-  let hours = p("zero");
-  for (const fact of actor.pastFacts ?? []) {
-    if (
-      fact.facts?.otherPersonId !== otherId ||
-      !data.peerTies.factKinds.includes(fact.kind)
-    )
-      continue;
-    hours = Math.max(
-      hours,
-      faded(
-        p,
-        p(data.peerTies.hoursParameter),
-        elapsed(p, fact.date, core.date),
-        data.peerTies.kind,
-      ),
-    );
+export function familyFactsOf(
+  person: Pick<PersonState, "pastFacts"> | undefined,
+): Map<PersonId, FamilyFact> {
+  const out = new Map<PersonId, FamilyFact>();
+  for (const fact of person?.pastFacts ?? []) {
+    const otherId = fact.facts?.otherPersonId;
+    if (!otherId || !fact.kind.startsWith(data.familyFactPrefix)) continue;
+    out.set(otherId as PersonId, {
+      relation: fact.kind.slice(data.familyFactPrefix.length),
+      factId: fact.id,
+    });
   }
-  return hours;
+  return out;
+}
+
+/** Whether a relation names a tie that has ended (a former partner). */
+export function formerKin(relation: string): boolean {
+  return data.formerKinRelations.includes(relation);
+}
+
+/** The relation a person's records hold for a relative today; undefined for none or an ended tie. */
+function recordedRelation(
+  person: Pick<PersonState, "pastFacts"> | undefined,
+  otherId: PersonId,
+): string | undefined {
+  const relation = familyFactsOf(person).get(otherId)?.relation;
+  return relation === undefined || formerKin(relation) ? undefined : relation;
+}
+
+/**
+ * How two people are family today, from the records: the relation either one
+ * records for the other (parent, sibling, partner, aunt-or-uncle and the
+ * rest of the opening family, and the partners and children that come after),
+ * else the household relation for two people who share a home. Null when
+ * nothing joins them. A relative still in the wider population is read from
+ * the full person's own facts, so a counted relative counts the same.
+ */
+export function familyRelation(
+  core: Pick<CoreState, "people">,
+  a: PersonId,
+  b: PersonId,
+): string | null {
+  if (a === b) return null;
+  const left = core.people.get(a),
+    right = core.people.get(b);
+  const recorded = recordedRelation(left, b) ?? recordedRelation(right, a);
+  if (recorded) return recorded;
+  return left && right && left.householdId === right.householdId
+    ? data.householdRelation
+    : null;
 }
 
 /**

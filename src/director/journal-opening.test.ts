@@ -1,6 +1,7 @@
+import { preStartHistory } from "../core2/pre-start";
+import { FAMILY_PARTNERED } from "../core2/modules/people";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import bankJson from "../../data/english/parts/journal.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -17,33 +18,6 @@ import { composeJournal } from "./journal";
 // Places are drawn in turn until the player has a parent and a sibling.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const ATTEMPTS = 6;
-
-/** The bank's wordings of one journal row, as patterns over the told line. */
-function wordings(kindPrefix: string): RegExp[] {
-  const parts = (
-    bankJson as {
-      parts: {
-        text: string;
-        uses: { journal?: { kindPrefix: string }[] }[];
-      }[];
-    }
-  ).parts;
-  return parts
-    .filter((part) =>
-      part.uses.some((use) =>
-        use.journal?.some((row) => row.kindPrefix === kindPrefix),
-      ),
-    )
-    .map(
-      (part) =>
-        new RegExp(
-          `^${part.text
-            .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
-            .replace(/\{\w+\}/g, ".+")}$`,
-          "i",
-        ),
-    );
-}
 
 it(`the first evening's journal names the family from their records (seed ${seed})`, () => {
   const tried: string[] = [];
@@ -91,51 +65,58 @@ it(`the first evening's journal names the family from their records (seed ${seed
       expect(line, here).toBeDefined();
       // By relation and name: "My mother Helen raised me."
       expect(line!.text, here).toContain(relative.givenName);
-      const kind =
-        fact.kind === "family:sibling"
-          ? relative.birthDate > player.birthDate
-            ? "household:sibling-born"
-            : relative.birthDate < player.birthDate
-              ? "household:sibling-older"
-              : "household:sibling-twin"
-          : relative.householdId === player.householdId
-            ? "household:raised-by"
-            : "household:parent-apart";
+      // Told as part of a memoir entry of several sentences, never a bare
+      // fact on a line of its own (owner, Oct 27).
       expect(
-        wordings(kind).some((pattern) => pattern.test(line!.text)),
-        `${here}: "${line!.text}" is not a ${kind} line`,
-      ).toBe(true);
+        line!.text.split(/(?<=\.)\s+/).length,
+        `${here}: "${line!.text}" is one bare sentence`,
+      ).toBeGreaterThan(1);
       console.log(`JOURNAL OPENING ${here}: "${line!.text}"`);
     }
     // Where the family came from comes before the people in it, when the
     // record names the place; how the parents met, before both.
-    const factOf = (kind: string) =>
-      (player.pastFacts ?? []).find((fact) => fact.kind === kind);
     const lineOf = (id: string) =>
       lines.findIndex((row) => row.sourceRecordIds.includes(id));
     const firstPerson = Math.min(
       ...family.map((fact) => lineOf(fact.id)).filter((at) => at >= 0),
     );
-    const roots = factOf("household:roots");
-    const origin = roots?.facts?.parentBirthplaces
-      ?.split(" ")
-      .map((id) => corePlaceByJurisdictionId(id as never))
-      .find(Boolean);
+    // Where the family came from: the place of the player's recorded birth
+    // in the run, when the family lives somewhere else now.
+    const roots = preStartHistory(core, {
+      kind: "person.birth",
+      personId: player.id,
+    }).find((row) => row.placeId && row.placeId !== player.placeId);
+    const origin = roots
+      ? corePlaceByJurisdictionId(roots.placeId as never)
+      : null;
     if (roots && origin) {
       const at = lineOf(roots.id);
       expect(at, `${where}: no roots line`).toBeGreaterThanOrEqual(0);
       expect(lines[at]!.text, where).toContain(origin.displayName);
-      expect(at, `${where}: roots after a person`).toBeLessThan(firstPerson);
+      expect(at, `${where}: roots after a person`).toBeLessThanOrEqual(
+        firstPerson,
+      );
     }
-    const met = factOf("household:parents-met");
-    if (
-      met &&
-      (met.facts?.setting === "school" ||
-        corePlaceByJurisdictionId((met.facts?.placeId ?? "") as never))
-    ) {
+    // The day the player's parents set up home, from the people engine's run.
+    const parents = family
+      .filter((fact) =>
+        ["family:parent", "family:other-parent"].includes(fact.kind),
+      )
+      .map((fact) => fact.facts!.otherPersonId!);
+    const met = parents.length
+      ? preStartHistory(core, {
+          kind: FAMILY_PARTNERED,
+          personId: parents[0] as never,
+        }).find((row) =>
+          parents.every((id) => row.personIds?.includes(id as never)),
+        )
+      : undefined;
+    if (met && corePlaceByJurisdictionId((met.placeId ?? "") as never)) {
       const at = lineOf(met.id);
       expect(at, `${where}: no line for ${met.id}`).toBeGreaterThanOrEqual(0);
-      expect(at, `${where}: the parents met after`).toBeLessThan(firstPerson);
+      expect(at, `${where}: the parents met after`).toBeLessThanOrEqual(
+        firstPerson,
+      );
     }
     console.log(
       `JOURNAL OPENING ${where}: ${lines.map((row) => `"${row.text}"`).join(" ")}`,

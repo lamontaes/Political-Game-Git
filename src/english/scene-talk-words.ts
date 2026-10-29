@@ -21,7 +21,7 @@ import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "jso
 import { renderLine, type Fact } from "./bank-line";
 
 export type { Fact };
-import { heldByGrades } from "./english-grades";
+import { admittedParts } from "./bank-parts";
 
 const zero = P.zero;
 const one = P.one;
@@ -59,17 +59,14 @@ interface BankPart {
   key: string;
   text: string;
   bearing?: string;
-  shippable?: boolean;
   uses: PartUse[];
 }
 
 const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
-/** What play may say: a part held until the owner grades it, or one he failed, is not. */
-const SHIPPED = PARTS.filter(
-  (part) => part.shippable === true && !heldByGrades(part.key),
-);
+/** What play may say: a part the owner's grades hold back is not. */
+const SHIPPED = admittedParts(PARTS);
 const SHIPPED_KEYS = new Set(SHIPPED.map((part) => part.key));
-/** Whether play may say this piece: released and not failed by the owner's grades. */
+/** Whether play may say this piece: the owner's grades do not hold it. */
 export function shipped(partKey: string): boolean {
   return SHIPPED_KEYS.has(partKey);
 }
@@ -101,9 +98,9 @@ export interface SceneWordingOptions {
   /** Seen pieces are never said (a review page shows only new wording). */
   freshOnly?: boolean;
   /**
-   * Grading only: word from the parts held until the owner grades them, as
-   * the review page and the tests do. Play never sets it, so a scene whose
-   * only words are held stays out of play.
+   * Grading only: word from every part, the ones the owner's grades hold
+   * back too, as the bench's grading view and the tests do. Play never sets
+   * it, so a scene whose only words are held stays out of play.
    */
   includeHeld?: boolean;
 }

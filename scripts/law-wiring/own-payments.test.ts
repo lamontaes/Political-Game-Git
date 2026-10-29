@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { ownPayments, type Posting, type Reached } from "./own-payments";
+import {
+  accountIndex,
+  lineMoney,
+  ownPayments,
+  type Posting,
+  type Reached,
+} from "./own-payments";
 
 const reached = (id: string, since = "2025-01-02"): Reached => ({
   targetId: id,
@@ -321,5 +327,107 @@ describe("a law's own payments", () => {
     );
     expect(own.pick).toBe("work-payroll|in");
     expect(own.paid).toBe(3);
+  });
+
+  it("reads the account of an owner whose id holds colons, as a treasury's", () => {
+    // A town's treasury is `organization:treasury:place:2666300` and its cash
+    // account `cash:organization:treasury:place:2666300:residual`: the owner
+    // id sits between the kind and the account's name, and names the account.
+    const treasury = "organization:treasury:place:2666300";
+    const accounts = accountIndex(world({ [treasury]: [] }));
+    expect(accounts.get(treasury)).toEqual([accountOf(treasury)]);
+    const paid = (amount: number): Posting[] => [
+      [
+        "2025-02-01",
+        "accounts.transfer @ src/core2/budgets-treasury.ts:1115",
+        amount,
+        "journal:2025-02-01:1923",
+      ],
+    ];
+    const own = ownPayments(
+      none,
+      [{ ...reached(treasury), amountMinor: -10_000_000 }],
+      world({ [treasury]: paid(-139_324) }),
+      world({ [treasury]: paid(-99) }),
+      false,
+      "2025-01-02",
+    );
+    expect(own.paid).toBe(1);
+    expect(own.sample[0]).toMatchObject({
+      target: treasury,
+      way: "out",
+      treatment: -139_324,
+      control: -99,
+      journal: "journal:2025-02-01:1923",
+    });
+  });
+});
+
+describe("a budget line's own transfers", () => {
+  const payment = (id: string, gross: number, journal: string) =>
+    [id, { gross, ids: [journal] }] as const;
+  const town = "place:2666300";
+  const paid = new Map([
+    // The line's workers and contractors, and the raise's own share of each,
+    // paid through the town's outside market (the ids the treasury makes).
+    payment(
+      `treasury-wages:workers:${town}:budget-line:corrections:law-wiring-b12dcfab:2025-02-01`,
+      139_225,
+      "journal:2025-02-01:1923",
+    ),
+    payment(
+      `treasury-wages:workers:${town}:budget-line:corrections:2025-02-01`,
+      99,
+      "journal:2025-02-01:1924",
+    ),
+    payment(
+      `treasury-purchases:contractors:${town}:budget-line:corrections:2025-03-01`,
+      117,
+      "journal:2025-03-01:9382",
+    ),
+    payment(
+      `treasury:${town}:budget-line:corrections:organization_382d8445c99fb630:2025-03-01`,
+      1_000,
+      "journal:2025-03-01:9380",
+    ),
+    // Another government's payment on the same line, another line of the
+    // town's, and a line whose name only starts with this one's.
+    payment(
+      "treasury-wages:workers:US-MI:budget-line:corrections:2025-02-01",
+      11_884_678_326,
+      "journal:2025-02-01:1851",
+    ),
+    payment(
+      `treasury-wages:workers:${town}:budget-line:highways:2025-02-01`,
+      10_530,
+      "journal:2025-02-01:1917",
+    ),
+    payment(
+      `treasury-wages:workers:${town}:budget-line:correctionsAid:2025-02-01`,
+      7,
+      "journal:2025-02-01:1930",
+    ),
+  ]);
+
+  it("sums the payments whose ids name the government and the line", () => {
+    const got = lineMoney(paid, town, "corrections", null);
+    expect(got.gross).toBe(139_225 + 99 + 117 + 1_000);
+    expect(got.ids).toEqual([
+      "journal:2025-02-01:1923",
+      "journal:2025-02-01:1924",
+      "journal:2025-03-01:9382",
+    ]);
+  });
+
+  it("leaves out payments dated on or after the day a body in play changed the law", () => {
+    const got = lineMoney(paid, town, "corrections", "2025-03-01");
+    expect(got.gross).toBe(139_225 + 99);
+  });
+
+  it("shows nothing for a government that paid nothing on the line", () => {
+    expect(lineMoney(paid, "county:26129", "corrections", null)).toEqual({
+      gross: 0,
+      ids: [],
+    });
   });
 });

@@ -6,7 +6,7 @@ import type {
   CharacterAttachmentAnchor,
   CharacterComponentCandidateDefinition,
   CharacterComponentKind,
-} from "../../src/presentation/character-components";
+} from "../../src/appearance/character-components";
 import { hashArtFile } from "./content-hash";
 import { resampleLanczos } from "./resample";
 

@@ -14,7 +14,13 @@ import {
   type ResidentHouseholdRecord,
   type ResidentsInput,
 } from "../residents";
-import { drawSavingsToCover, transfer, transferSplit } from "../accounts";
+import {
+  depositsHeld,
+  drawSavingsToCover,
+  transfer,
+  transferSplit,
+  withdrawSavings,
+} from "../accounts";
 import { livingCostParts, outsideCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { openingWorkCommitments } from "./work";
@@ -61,16 +67,20 @@ import {
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
 import { incomeBandOf } from "../counted-income-fifth";
+import { parameter } from "../parameters";
 
 export { incomeBandOf };
+/** The world's private-school tuition, for the law that subsidizes it (the people family's entry). */
+export { worldPrivateTuitionAnnualUsd } from "../opening-private-tuition";
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
+import { recordEstatePaid, sellHome } from "../housing-sale";
 import {
   addCountedJob,
   countedJobHeads,
   countedJobsOf,
-  weightedPayrollMinor,
+  staffedScale,
 } from "../residents-economy";
 import {
   chargeGroups,
@@ -196,7 +206,10 @@ export interface ResidentsRuntime {
   /** The month the groups' money was last closed for. */
   lastMonth?: string;
   /** A household being filled in: its share of its group's money, paid to its people on release. */
-  fillInCash: Map<string, { group: number; amount: number; unplaced: number }>;
+  fillInCash: Map<
+    string,
+    { group: number; amount: number; unplaced: number; weight: number }
+  >;
   /** Households released to full people so far: each release names its own transfers, since a household can return to the counts and be filled in again. */
   fillIns: number;
 }
@@ -330,13 +343,14 @@ export function groupKeyOf(
 ): GroupKey {
   const store = rt.store;
   const members = store.countedMembers(h);
+  const adultAge = parameter("votingAge");
   let adults = 0,
     children = 0,
     head = -1,
     headAge = -1;
   for (const m of members) {
     const age = ageOn(store.born[m]!, date);
-    if (age >= 18) adults++;
+    if (age >= adultAge) adults++;
     else children++;
     if (age > headAge) [head, headAge] = [m, age];
   }
@@ -623,19 +637,8 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     input: {
       version: input.version,
       accounts: input.accounts,
-      ...(input.cohortSizes ? { cohortSizes: input.cohortSizes } : {}),
       ...(input.calendars ? { calendars: input.calendars } : {}),
       ...(input.weights ? { weights: input.weights } : {}),
-      // Counted people carry no past: fill-in builds each one's from the seed.
-      ...(input.pastBuild
-        ? {
-            pastBuild: {
-              seed: input.pastBuild.seed,
-              startedAt: input.pastBuild.startedAt,
-              deepPastAt: {},
-            },
-          }
-        : {}),
       source: input.source,
     },
     flows: new Map(),
@@ -1309,15 +1312,12 @@ function overCapacity(
     rt.sellerMonth.set(flow.payeeId, row);
   }
   // A seller staffed by counted workers serves as many as they stand for.
-  const staffed =
-    book.annualPayrollMinor > 0
-      ? weightedPayrollMinor(
-          api.state as CoreState,
-          flow.payeeId,
-          book.annualPayrollMinor,
-          DAYS_PER_YEAR,
-        ) / book.annualPayrollMinor
-      : 1;
+  const staffed = staffedScale(
+    api.state as CoreState,
+    flow.payeeId,
+    book.annualPayrollMinor,
+    DAYS_PER_YEAR,
+  );
   const capacity =
     (book.annualDemandMinor * staffed) /
     api.parameter("sellerCapacityUtilization") /
@@ -1501,19 +1501,6 @@ export function countedStaffOf(
     if (job.organizationId === organizationId && countedJob(core, jobId))
       jobs += 1;
   return jobs;
-}
-
-/**
- * The records' count of people in a school class or workgroup, as the full
- * build saw it, so people filled in later join the same-sized peer group.
- * Pass as buildDeepPast's peerCohortSize option.
- */
-export function peerCohortSize(
-  core: CoreState,
-  circle: string,
-  contextKey: string,
-): number | undefined {
-  return runtimes.get(core)?.input.cohortSizes?.[`${circle}|${contextKey}`];
 }
 
 /** The record of someone still in the wider population, built from their group's columns. */
@@ -1878,6 +1865,19 @@ export function releaseResidentHousehold(
         reasonKey: "residents.fill-in.cash",
         source: rt.input.source,
       });
+    // Its bank savings were banked for every household the record stood
+    // for: the one filled in keeps its own share, and the rest go back to
+    // its group, which still stands for the others.
+    const held = depositsHeld(core, householdId);
+    const others = Math.floor((held * (cash.weight - 1)) / cash.weight);
+    if (others > 0)
+      withdrawSavings(core, rt.api, {
+        id: `fill-in:${householdId}:${sequence}:deposits`,
+        holderId: householdId,
+        customerAccountId: fundOf(rt.api, rt, cash.group),
+        amountMinor: others,
+        source: rt.input.source,
+      });
   }
   const calendars = calendarsOf(rt);
   // The household now pays its own outside living costs from its payer.
@@ -1984,6 +1984,7 @@ export function takeResidentHousehold(
     group: h.group,
     amount: householdCash(rt, h),
     unplaced: unplacedShare(rt, h),
+    weight: store.weightOf(h),
   });
   // One real household is filled in; the rest it stood for stay counted.
   const held = heldJobHeads(rt, h);
@@ -2073,6 +2074,7 @@ function jobHolderNear(
   h: CountedHousehold,
 ): PersonId | undefined {
   const store = rt.store;
+  const adultAge = parameter("votingAge");
   const working = new Set<string>();
   for (const job of rt.jobs.values())
     if (job.endsAt === undefined) working.add(job.personId);
@@ -2081,7 +2083,7 @@ function jobHolderNear(
     for (const other of pool) {
       if (other === h || other.gone) continue;
       for (const m of store.countedMembers(other)) {
-        if (ageOn(store.born[m]!, core.date) < 18) continue;
+        if (ageOn(store.born[m]!, core.date) < adultAge) continue;
         const id = store.ids[m]!;
         if (!working.has(id)) return id;
         fallback ??= id;
@@ -2154,6 +2156,7 @@ export function residentCounts(core: CoreState): ResidentCounts[] {
   const rt = runtimes.get(core);
   if (!rt) return [];
   const at = makeIsoDate(core.date);
+  const adultAge = parameter("votingAge");
   const byPlace = new Map<PlaceId, ResidentCounts>();
   for (const row of rt.input.accounts)
     byPlace.set(row.placeId, {
@@ -2179,7 +2182,7 @@ export function residentCounts(core: CoreState): ResidentCounts[] {
     for (const m of store.countedMembers(h)) {
       const age = ageOn(store.born[m]!, at);
       counts.people += weight;
-      if (age >= 18) counts.adults += weight;
+      if (age >= adultAge) counts.adults += weight;
       const band = ageBandOf(age);
       counts.byAgeBand[band] = (counts.byAgeBand[band] ?? 0) + weight;
     }
@@ -2623,6 +2626,8 @@ export function countedHouseholdJobChanged(
 export function removeCountedPerson(
   core: CoreState,
   personId: PersonId,
+  /** The record of the death (the month's counts), which a home it sells names. */
+  deathRecordId = `counted-death:${personId}`,
 ): readonly { readonly heirId: PersonId; readonly amountMinor: number }[] {
   const rt = runtimes.get(core);
   const m = rt?.store.countedMember(personId);
@@ -2684,6 +2689,9 @@ export function removeCountedPerson(
     regroupHousehold(rt, h, core.date);
     return paid.filter((row) => row.amountMinor > 0);
   }
+  // The last of them: the home they owned is sold, as a full household's is
+  // when its last owner's estate closes, times the households it stands for.
+  sellCountedHome(rt, h, personId, deathRecordId);
   endHouseholdFlows(rt, h, core.date);
   rt.openingCashByPlace.set(
     h.placeId,
@@ -2691,6 +2699,47 @@ export function removeCountedPerson(
   );
   store.retire(h, MemberState.Dead);
   return [];
+}
+
+/**
+ * A counted household whose last member died sells the home it owned: the
+ * outside market pays its value times the households the record stands for,
+ * the lender is paid first, and the surplus goes to the counted residents of
+ * its group, as the counted dead's cash does. The sale names the estate and
+ * whom it paid.
+ */
+function sellCountedHome(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  decedentId: PersonId,
+  deathRecordId: string,
+): void {
+  const api = rt.api;
+  if (!api || !rt.funded || h.group < 0) return;
+  const fund = fundOf(api, rt, h.group);
+  const sale = sellHome(
+    api,
+    h.id,
+    "estate.counted-last-owner",
+    { decedentId, deathEventId: deathRecordId },
+    {
+      placeId: h.placeId,
+      weight: rt.store.weightOf(h),
+      surplus: (amountMinor, id, buyerId) =>
+        api.accounts().transfer({
+          id,
+          from: api.accounts().main(buyerId),
+          to: fund,
+          amountMinor,
+          reasonKey: "residents.counted-estate.home-surplus",
+          source: rt.input.source,
+        }).paidMinor,
+    },
+  );
+  if (sale)
+    recordEstatePaid(api, sale, deathRecordId, [
+      { toId: fund, amountMinor: sale.surplusMinor },
+    ]);
 }
 
 /** A household leaving the counts: its purchases, mortgage, rent and awards stop here. */
@@ -3181,9 +3230,11 @@ function startCommuterJob(
   const person = core.people.get(personId);
   if (!person || person.jobId) return false;
   const cadence = flow.cadence.every;
-  const hoursDaily = countedParameter("countedCommuterWorkdayHours");
   const weekHours =
-    hoursDaily * countedParameter("countedCommuterWorkdaysPerWeek");
+    countedParameter("countedCommuterWorkdayHours") *
+    countedParameter("countedCommuterWorkdaysPerWeek");
+  // A job's daily hours are its week spread over every day, as its daily wage is.
+  const hoursDaily = weekHours / api.parameter("daysPerWeek");
   const weeklyMinor = (amount * api.parameter("daysPerWeek")) / cadence;
   const hourlyMinor = Math.max(1, Math.round(weeklyMinor / weekHours));
   const startsAt = addDays(makeIsoDate(core.date), 1);

@@ -121,7 +121,7 @@ The move at 6 adds 0.300 to Sarah's thread only, because the record names only S
 
 **The rule.** A situation type is structure only. It names roles, what each role wants, the moves available, and what changes afterward. It holds no sentence. The world's records fill the roles; the English engine voices every line from a fact packet. One type serves every event of its kind. A departure covers a soldier leaving, a friend moving away and a sibling going to prison, because the roles and the record differ and the structure does not.
 
-**The data.** `data/content/situation-types.json` holds the types and `data/content/story-moves.json` holds the move kinds. Each move names one speech act and one to three act kinds from the 20 in `act-kinds.json`.
+**The data.** The types moved to `src/director/data/situation-types.json` and the moves to `scripts/english-corpus/moves.json`; the old `data/content` files were deleted on Oct 28, 2026 (duplicates report row W14). Each move names one speech act and one to three act kinds from the 20 in `act-kinds.json`.
 
 | Field       | Meaning                                                                                                                                        |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -138,42 +138,7 @@ The move at 6 adds 0.300 to Sarah's thread only, because the record names only S
 
 **The dialogue rules hold in every scene.** Every role always has ask, stay silent and leave, plus at least one move from the type, so four replies are always available. A Lie variant is offered beside a reply only where the player's record establishes the opposite of what the words say. That rule already exists for contextual scenes (`contextual-scenes.ts:51`, `lie-marker.ts:40`). Portraits and the dialogue box belong to P4. A non-player role chooses its move through the ordinary decision path. The options are its moves, and their act kinds let every recorded trait weigh in. The role's wants and its standing toward the others add reasons. Nothing is drawn by chance.
 
-**The first library, 32 types.**
-
-| Type                           | Roles                                            | Opened by                                                                            |
-| ------------------------------ | ------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| Departure                      | the one leaving, the one staying, others present | a household member leaving, a friend moving away, a sentence beginning, a deployment |
-| Return                         | the one returning, the one waiting               | an away reason ending: release, homecoming, moving back                              |
-| News arrives                   | bearer, receiver, the person it is about         | a death learned, a diagnosis, a job lost, an arrest, an acceptance, a result         |
-| Letter                         | writer (away), reader                            | contact from someone whose absence has a recorded reason                             |
-| Argument                       | two sides, a witness                             | a strained interaction, a dispute over money, rules or belief                        |
-| Apology                        | the one apologizing, the one wronged             | open tension, when the one at fault decides to concede                               |
-| Confession                     | the one telling, the one told                    | a private record one holds that the other does not know                              |
-| Favor asked                    | asker, asked                                     | a favor request (the existing favor records)                                         |
-| Reach-out                      | the one asking, the one asked                    | a meeting proposed, a check-in                                                       |
-| Becoming friends               | two people                                       | a friendship formed after repeated contact (answer 6)                                |
-| Celebration                    | honoree, host, guests                            | a birthday, graduation, wedding, birth, election win, new job                        |
-| Gathering with someone missing | the household, the absent one                    | a gathering date while a member is away or has died                                  |
-| Funeral                        | mourners, family, the deceased (absent)          | a death of someone with threads                                                      |
-| First meeting                  | newcomer, the person met, introducer             | an introduction, a first day somewhere new, a new neighbor                           |
-| First day                      | newcomer, teacher or supervisor, peers           | an enrollment or a job beginning                                                     |
-| Last day                       | the one leaving, those staying                   | an enrollment ending, retirement, quitting                                           |
-| Interview                      | interviewer, candidate                           | a job application, a press interview, an admission                                   |
-| Date                           | two people                                       | starting to date, an invitation                                                      |
-| Proposal                       | two partners                                     | a couple's next-stage decision                                                       |
-| Breakup                        | two partners, children as witnesses              | a couple ending, parents separating                                                  |
-| Reunion                        | two people with a faded thread                   | contact after dormancy                                                               |
-| Betrayal                       | the one betrayed, the betrayer                   | a broken undertaking, a lie found out, a secret told                                 |
-| Rescue                         | rescuer, the one in danger, bystanders           | an incident or an acute health episode with someone present                          |
-| Visit                          | visitor, the one who cannot come                 | a serious illness, a jail term, a nursing home                                       |
-| Arrival                        | the household, the newcomer                      | a birth, a stepparent, a housemate moving in                                         |
-| Care                           | caregiver, the person cared for                  | a care responsibility beginning                                                      |
-| Advice                         | adviser, the one deciding                        | a mentoring tie with a decision ahead, such as a school stage ending                 |
-| Accusation                     | accuser, accused, witnesses                      | an incident at school or work, a suspicion recorded                                  |
-| Warning                        | the one warning, the one at risk                 | arrears, an eviction notice, a conflict escalating                                   |
-| Reconciliation                 | two people with settled tension                  | help or care after a quarrel                                                         |
-| Asking permission              | the one asking, the one with authority           | a choice that needs a guardian or a supervisor                                       |
-| Election night                 | candidate, supporters, rivals                    | an election result (coordinated with the b03 election-night rows)                    |
+**The library.** The types in play, with their causes, lines, real-life episodes and whether each fired in a played year, are generated by `npm run scene-web` into `docs/reports/scene-web.md` (owner, Oct 27: the scene web replaces the hand list that stood here).
 
 The becoming-friends type is opened by a friendship formed between two people; it plays the next time both are in one place, as the visit, meal or outing where the friendship shows. Gathering dates are birthdays, which are on record, and holidays. The simulation holds no holiday calendar, so holiday gatherings wait on one (missing links).
 

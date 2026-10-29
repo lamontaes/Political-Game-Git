@@ -32,3 +32,5 @@ claimed-at: 2026-10-27T01:39:26.263Z
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-11-campaign-actions-do-nothing-visible (Oct 24, lane). Engine changes in campaigns.ts are the laws lead's (`needs-from: laws`). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
 Sent back 2026-10-26 from PR #6114 (branch play-first/play-stop-11-campaign-actions-do-nothing-visible-a): code conflict with main in src/bench/play.mjs; finish on that branch, merge main into it first.
 Sent back 2026-10-27 from PR #6114 (branch play-first/play-stop-11-campaign-actions-do-nothing-visible-a): donor-calls.test.ts fails about half of fresh draws (no gift in the drawn places); finish on that branch, merge main into it first.
+
+Fixer 6 (Oct 27): superseded by PR #6411 (the donor-calls test draws places until one gives; main merged).

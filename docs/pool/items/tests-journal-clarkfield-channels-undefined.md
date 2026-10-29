@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/journal-clarkfield
+pr: #6262
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T07:46:10.721Z
 ---
 
 **What.** src/director/journal.test.ts fails two cases in Clarkfield, Minnesota on seed 0c7cebcc3d2046e5, on clean main and on PR branches alike: the M4-01 law-and-raise case throws reading 'channels' of undefined, and the child-at-birth case sees zero lines. Run GOLDEN_PATH_SEED=0c7cebcc3d2046e5 npx vitest run src/director/journal.test.ts. Merger 2 found it on Oct 26 while gating PR 6147, and it reproduces on origin/main.

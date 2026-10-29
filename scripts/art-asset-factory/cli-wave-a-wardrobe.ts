@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { validateCharacterComponentCandidates } from "../../src/presentation/character-components";
+import { validateCharacterComponentCandidates } from "../../src/appearance/character-components";
 import {
   WAVE_A_WARDROBE_REGISTRY_PATH,
   WAVE_A_WARDROBE_REGISTRY_SCHEMA,

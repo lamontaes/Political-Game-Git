@@ -16,22 +16,31 @@
  * PEOPLE's views engine moving someone's views (until then views don't move).
  */
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
-import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import delegates from "../../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import nomination from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import parameters from "../data/campaigns/parameters.json" with { type: "json" };
 import { partySide } from "../appointments";
+import { worldRoster, worldSwing } from "../electorate-places";
 import { partyLean } from "../campaign-stances";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByKey } from "../place-lookup";
-import { personLean, PLATFORM_QUESTIONS } from "../campaign-views";
+import {
+  campaignParameter,
+  personLean,
+  PLATFORM_QUESTIONS,
+} from "../campaign-views";
+import { homeDistanceMiles } from "../home-distance";
 import { viewOn } from "./views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedYes,
+} from "../trait-decisions";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 
@@ -119,6 +128,7 @@ function noPartyScore(
 /** The parties of one state, with their shares, from the 2024 ballot or the legislature. */
 export function stateParties(
   stateKey: string,
+  seed: string,
 ): readonly { name: string; share: number; source: string }[] {
   const usps = stateKey.slice(3);
   const president = (
@@ -135,6 +145,11 @@ export function stateParties(
       (a, b) => a + b,
       0,
     );
+    // This world's 2024: the two major parties' votes moved by its swing.
+    const twoParty =
+      (president.totalsByParty.democratic ?? 0) +
+      (president.totalsByParty.republican ?? 0);
+    const moved = worldSwing(seed, usps) * twoParty;
     return president.rawLabels
       .filter((label) => !NOT_PARTIES.test(label))
       .map((label) => {
@@ -144,21 +159,19 @@ export function stateParties(
           .replace(/^-|-$/g, "");
         return {
           name: label,
-          share: total ? (president.totalsByParty[key] ?? 0) / total : 0,
+          share: total
+            ? Math.max(
+                0,
+                (president.totalsByParty[key] ?? 0) + partySide(label) * moved,
+              ) / total
+            : 0,
           source:
             "Clerk of the House, Statistics of the Presidential and Congressional Election of November 5, 2024 (data/source/electoral-calibration-2024)",
         };
       });
   }
-  const chambers =
-    (
-      partyCounts as unknown as {
-        places: Record<
-          string,
-          Record<string, { parties: Record<string, number> }>
-        >;
-      }
-    ).places[stateKey] ?? {};
+  // Who holds the state's chambers in this world (realistic, not real).
+  const chambers = worldRoster(seed).places[stateKey] ?? {};
   const seats = new Map<string, number>();
   for (const chamber of Object.values(chambers))
     for (const [name, n] of Object.entries(chamber.parties))
@@ -211,7 +224,7 @@ export function openParties(core: CoreState): void {
   ).places[stateKey];
   const town = place!.context.jurisdiction.id;
   const parties: PartyRow[] = [];
-  for (const party of stateParties(stateKey)) {
+  for (const party of stateParties(stateKey, core.seed)) {
     const id = `party:${stateKey}:${party.name.toLowerCase().replace(/[^a-z]+/g, "-")}`;
     const organizationId = `organization:${id}`;
     if (!core.organizations.has(organizationId))
@@ -237,6 +250,7 @@ export function openParties(core: CoreState): void {
     });
   }
   // Every adult's tie, firmest leans first.
+  const adultAge = api.parameter("votingAge");
   const townLean =
     (
       api
@@ -249,7 +263,8 @@ export function openParties(core: CoreState): void {
       (p) =>
         p.alive &&
         p.placeId === town &&
-        Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 18,
+        Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >=
+          adultAge,
     )
     .map((p) => ({ p, lean: personLean(core.people, p, townLean) }))
     .sort(
@@ -313,23 +328,26 @@ export function openParties(core: CoreState): void {
         index < noParty ? "leans-nowhere" : "independent-minded",
       ),
     );
-  // Each party's leader: its most outgoing, dutiful member in town.
+  // Each party's leader: the member whose traits lean most toward taking part.
   for (const party of parties) {
     const members = (ties.query("byParty", [party.id]) as unknown as TieRow[])
       .map((t) => core.people.get(t.personId)!)
-      .sort(
-        (a, b) =>
-          (b.traits["people-mind-v1:sociability"] ?? 0) +
-            (b.traits["personality-v1:facet-duty-bound"] ?? 0) -
-            ((a.traits["people-mind-v1:sociability"] ?? 0) +
-              (a.traits["personality-v1:facet-duty-bound"] ?? 0)) ||
-          a.id.localeCompare(b.id),
-      );
+      .map((member) => ({
+        member,
+        pull: decisionLean(core, member, "parties.join", "join", "stay-out"),
+      }))
+      .sort((a, b) => b.pull - a.pull || a.member.id.localeCompare(b.member.id))
+      .map((row) => row.member);
     for (const member of members)
       if (
-        value("partiesJoinBase") +
-          decisionLean(core, member, "parties.join", "join", "stay-out") >
-        0
+        leanedYes(
+          core,
+          member,
+          "parties.join",
+          "join",
+          "stay-out",
+          value("partiesJoinBase"),
+        )
       )
         api.join(member.id, party.organizationId);
     api
@@ -337,7 +355,9 @@ export function openParties(core: CoreState): void {
       .table("parties")
       .put({
         ...party,
-        leaderId: members[0]?.id ?? null,
+        // Never the player, who leads a party only if its members choose them
+        // in play (a player the creator made an adult is one of its members).
+        leaderId: members.find((m) => m.id !== core.playerId)?.id ?? null,
       } as unknown as ModuleRow);
   }
   scheduleMeeting(api, core.date);
@@ -422,6 +442,7 @@ export function joinParty(
   if (!party) throw new Error(`No party ${partyId} here`);
   const own = ownLeanOf(api, person);
   const agreement = agreementWith(api, own, party);
+  const held = partyTie(api, personId);
   put(
     api.moduleState(PARTIES_MODULE_ID).table("ties"),
     person,
@@ -431,6 +452,13 @@ export function joinParty(
     api.state.date,
     `joined; views against the party's positions ${agreement.toFixed(3)}`,
   );
+  // Joining is the person's own act, so the party's membership (which its
+  // meetings and chair read) holds them too, and a party they left does not.
+  const left = held?.partyId
+    ? partiesHere(api).find((row) => row.id === held.partyId)
+    : undefined;
+  if (left && left.id !== party.id) api.leave(personId, left.organizationId);
+  api.join(personId, party.organizationId);
   return { tie: partyTie(api, personId)!, agreement };
 }
 
@@ -441,6 +469,29 @@ export function partyTie(api: CoreAPI, personId: string): TieRow | null {
       .table("ties")
       .get(personId) as unknown as TieRow | undefined) ?? null
   );
+}
+
+/**
+ * The people a party's membership holds: tied to it and members of its
+ * organization (joining as an act writes both; the yearly weighing writes the
+ * membership only for those it settles to join). Its meetings and its chair
+ * read this roster.
+ */
+export function partyMemberIds(api: CoreAPI, partyId: string): string[] {
+  const party = partiesHere(api).find((row) => row.id === partyId);
+  if (!party) return [];
+  return (
+    api
+      .moduleState(PARTIES_MODULE_ID)
+      .table("ties")
+      .query("byParty", [partyId]) as unknown as TieRow[]
+  )
+    .filter((t) =>
+      (api.state as CoreState).memberships.has(
+        `${t.personId}:${party.organizationId}`,
+      ),
+    )
+    .map((t) => t.personId);
 }
 
 export function partiesHere(api: CoreAPI): readonly PartyRow[] {
@@ -540,9 +591,14 @@ export function chooseChair(
   const lean = new Map(
     members.map((m) => [m.id, personLean(core.people, m, townLean)]),
   );
-  const pull = (p: Readonly<PersonState>) =>
-    (p.traits["people-mind-v1:sociability"] ?? 0) +
-    (p.traits["personality-v1:facet-duty-bound"] ?? 0);
+  const pulls = new Map(
+    members.map((m) => [
+      m.id,
+      decisionTraitWeight(core, "parties.attend") *
+        decisionLean(core, m, "parties.attend", "attend", "stay-home"),
+    ]),
+  );
+  const pull = (p: Readonly<PersonState>) => pulls.get(p.id) ?? 0;
   const votes: Record<string, string> = {};
   const tally = new Map<string, number>();
   for (const voter of members) {
@@ -617,6 +673,34 @@ export function chooseChair(
 }
 
 /**
+ * A member's case for going to a party meeting, before temperament: the
+ * reason every member has to go, less the hours their work already takes of a working
+ * week (free time) and less how far from the meeting their home is (the
+ * household's distance from the middle of town against a distance that costs
+ * a trip the most). Both slide: a retiree across town and a worker next door
+ * are each in between.
+ */
+export function attendCase(
+  core: CoreState,
+  member: Readonly<PersonState>,
+): number {
+  const weeklyWork = [...(core.work.commitmentsByPerson.get(member.id) ?? [])]
+    .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
+    .reduce((a, b) => a + b, 0);
+  const workShare = Math.min(
+    1,
+    weeklyWork / campaignParameter("turnoutWorkWeekMinutes"),
+  );
+  const miles = homeDistanceMiles(core, member.householdId);
+  const farShare = miles / (miles + value("partyMeetingHalfDistanceMiles"));
+  return (
+    value("partyMeetingAttendEase") -
+    value("partyMeetingFreeTimeWeight") * workShare -
+    value("partyMeetingDistanceWeight") * farShare
+  );
+}
+
+/**
  * The parties' monthly meeting in town. Adults with no tie yet (come of age,
  * moved in, met for the first time) take one by the opening's rule: a lean
  * as firm as the town's party identifiers' takes the party on its side, the
@@ -643,9 +727,12 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         .table("town")
         .get("town") as unknown as { lean: number } | undefined
     )?.lean ?? 0;
+  const adultAge = api.parameter("votingAge");
   const adults = [...(core.peopleByPlace.get(town) ?? [])]
     .map((id) => core.people.get(id))
-    .filter((p): p is PersonState => !!p && p.alive && ageOn(p, date) >= 18)
+    .filter(
+      (p): p is PersonState => !!p && p.alive && ageOn(p, date) >= adultAge,
+    )
     .sort((a, b) => a.id.localeCompare(b.id))
     .map((p) => ({ p, lean: personLean(core.people, p, townLean) }));
   if (!adults.length) return;
@@ -700,9 +787,14 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       );
       recruited.set(party.id, [...(recruited.get(party.id) ?? []), p.id]);
       if (
-        value("partiesJoinBase") +
-          decisionLean(core, p, "parties.join", "join", "stay-out") >
-        0
+        leanedYes(
+          core,
+          p,
+          "parties.join",
+          "join",
+          "stay-out",
+          value("partiesJoinBase"),
+        )
       )
         api.join(p.id, party.organizationId);
     } else
@@ -718,13 +810,9 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   }
   const here = new Set(adults.map((a) => a.p.id));
   for (const party of parties) {
-    const members = (ties.query("byParty", [party.id]) as unknown as TieRow[])
-      .filter(
-        (t) =>
-          here.has(t.personId) &&
-          core.memberships.has(`${t.personId}:${party.organizationId}`),
-      )
-      .map((t) => core.people.get(t.personId)!);
+    const members = partyMemberIds(api, party.id)
+      .filter((id) => here.has(id))
+      .map((id) => core.people.get(id)!);
     if (!members.length) continue;
     // A chair who left the party is replaced by the members' own choice.
     const leaderId =
@@ -735,8 +823,14 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       .filter(
         (m) =>
           m.id === leaderId ||
-          decisionLean(core, m, "parties.attend", "attend", "stay-home") >=
-            value("partyMeetingAttendBar"),
+          leanedYes(
+            core,
+            m,
+            "parties.attend",
+            "attend",
+            "stay-home",
+            attendCase(core, m),
+          ),
       )
       .map((m) => m.id);
     for (const id of attendeeIds)

@@ -1,13 +1,13 @@
+import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
+import { defaultPreStart } from "../core2/saves";
+import { preStartWindow, runPreStart } from "../core2/pre-start";
 import { describe, expect, it } from "vitest";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { financeIndex } from "../core2/finance-state";
 import { enrichCivicInputs } from "../core2/civic-inputs";
-import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
-import {
-  CONVERSATION_WORDS,
-  heldConversationWords,
-} from "../english/conversation-words";
+import { CONVERSATION_WORDS } from "../english/conversation-words";
 import { newsKey, newsModule } from "../core2/modules/news";
 import { viewsModule } from "../core2/modules/views";
 import { P } from "../core2/parameters";
@@ -37,29 +37,97 @@ import type { PersonId } from "../core2/types";
 // traits give it the benefit of the doubt, and
 // is found out when someone who knows the truth talks to them.
 const seed = process.env.GOLDEN_PATH_SEED ?? "conversation-test";
-const base = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 500,
-    }),
-  ),
+// With the town's public school district, as a played world opens.
+const base = withSchools(
+  buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 500,
+  }),
 );
+function withSchools(input: Parameters<typeof enrichCivicInputs>[0]) {
+  return withPublicSchoolDistrict(enrichCivicInputs(input)).input;
+}
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
 const orgOf = (jobId: string | undefined) =>
   base.jobs.find((row) => row.id === jobId)?.organizationId;
+const byId = new Map(base.people.map((row) => [row.id, row]));
+const fullAlive = (id: string) => {
+  const row = byId.get(id);
+  return !!row && row.alive !== false && row.tier !== "husk";
+};
+/** A relative the person's own family record names by a relation that has a word. */
+const recordedRelative = (personId: string, id: string) => {
+  const fact = byId
+    .get(personId)
+    ?.pastFacts?.find(
+      (row) =>
+        row.kind.startsWith("family:") && row.facts?.otherPersonId === id,
+    );
+  return (
+    !!fact &&
+    !!relationPhrase(
+      fact.kind.slice("family:".length),
+      byId.get(id)?.looks?.gender ?? "other",
+      "scene",
+    )
+  );
+};
+/**
+ * Whether someone the person knows has a recorded relative the person does
+ * not share and the person has one the other does not, so the tests that ask
+ * after relatives have a pair to start from. Read from the opening records,
+ * never from a conversation's output.
+ */
+/** Everyone the person may know at the opening: who they know, and their employer's staff. */
+const peersOf = (person: (typeof base.people)[number]) => [
+  ...new Set([
+    ...person.knownIds,
+    ...base.jobs
+      .filter(
+        (job) =>
+          job.personId !== person.id &&
+          person.jobId !== undefined &&
+          job.organizationId === orgOf(person.jobId),
+      )
+      .map((job) => job.personId),
+  ]),
+];
+const hasRelativePair = (person: (typeof base.people)[number]) =>
+  peersOf(person).some((otherId) => {
+    const other = byId.get(otherId);
+    if (!other || !fullAlive(otherId)) return false;
+    const mine = person.familyIds.find(
+      (id) =>
+        id !== otherId &&
+        fullAlive(id) &&
+        !other.familyIds.includes(id) &&
+        recordedRelative(person.id, id),
+    );
+    return (
+      !!mine &&
+      other.familyIds.some(
+        (id) =>
+          id !== person.id &&
+          id !== mine &&
+          fullAlive(id) &&
+          !person.familyIds.includes(id) &&
+          recordedRelative(otherId, id),
+      )
+    );
+  });
 const player = base.people.find(
   (person) =>
     person.tier !== "husk" &&
+    hasRelativePair(person) &&
     age(person.birthDate) >= 25 &&
     age(person.birthDate) < 60 &&
     person.jobId &&
-    person.knownIds.length > 4 &&
+    peersOf(person).length > 4 &&
     base.households.find((row) => row.id === person.householdId)!.memberIds
       .length > 1 &&
     base.jobs.some(
@@ -73,6 +141,11 @@ const director = createDirector({ watch: [...initialFocusPeople(input)] });
 const core = createLifeCore(input, {
   modules: [viewsModule, newsModule, beliefsModule, director.module],
 });
+// The years before the start, run from the player's birth year as a new game
+// runs them (the school years people talk about are the school engine's).
+const history = defaultPreStart(core);
+if (history)
+  runPreStart(core, preStartWindow(core, history.from, history.step));
 director.start(core);
 advanceCore(core, "2021-01-03");
 const api = coreAPI(core);
@@ -93,12 +166,26 @@ const strangers = [...core.people.values()].filter(
 // The people already known, before the player meets three strangers: the
 // first, then two whose traits give a claim the benefit of the doubt (a hearer
 // who leans hard toward doubt keeps no belief; see the last test).
-const others = [...me.knownIds].filter((id) => core.people.get(id)?.alive);
+// Counted people (the "husk" tier) have no full record to talk from.
+const others = [...me.knownIds].filter((id) => {
+  const row = core.people.get(id);
+  return row?.alive && row.tier !== "husk";
+});
 const believing = strangers
   .slice(1)
   .filter((row) => !doubtsClaim(core, row))
   .slice(0, 2);
-const doubter = strangers.find((row) => doubtsClaim(core, row));
+// A doubter is looked for among every full adult the player does not know,
+// not only the unrelated workers: a town may hold none among those 38.
+const doubter = [...core.people.values()].find(
+  (row) =>
+    row.alive &&
+    row.tier !== "husk" &&
+    row.id !== me.id &&
+    !me.knownIds.has(row.id) &&
+    age(row.birthDate) >= 18 &&
+    doubtsClaim(core, row),
+);
 for (const row of [strangers[0]!, ...believing])
   api.meet(me.id, row.id, {
     placeId: me.placeId,
@@ -107,6 +194,22 @@ for (const row of [strangers[0]!, ...believing])
     hours: 1,
   });
 
+// A first meeting asks where you work and live once, so the people the first
+// test talks to have little left to ask afterward. The two tests that need a
+// talk with something left to ask also meet a few more strangers, and talk to
+// the people they know first, then these.
+const reserve = strangers
+  .filter((row) => row !== strangers[0] && !believing.includes(row))
+  .filter((row) => row.id !== doubter?.id)
+  .slice(0, 8);
+for (const row of reserve)
+  api.meet(me.id, row.id, {
+    placeId: me.placeId,
+    sourceId: "fixture-meeting",
+    cause: "met-in-group",
+    hours: 1,
+  });
+const talkers = [...others, ...reserve.map((row) => row.id)];
 /** The other person's first question, after any greeting. */
 const recentDays =
   DEFAULT_DIRECTOR_DATA.parameters.directorTalkRecentDays!.value;
@@ -125,8 +228,14 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
         expect(last.kind).not.toBe("ack");
-        // Four replies, always, each saying something else.
+        // Up to four replies, each a different move: never one answer
+        // reworded (owner, Oct 27, 4 PM Eastern: "four replies are four
+        // different answers"), so a stage with fewer moves offers fewer.
         const texts = talk.choices.map((row) => row.text);
+        const moves = talk.choices.map((row) =>
+          row.move.startsWith("ack:") ? "ack" : row.move,
+        );
+        expect(new Set(moves).size, texts.join(" / ")).toBe(moves.length);
         // An acknowledgment ("Okay.", "All right.") takes in a statement; it
         // is never a reply to a question, which every reply moves on
         //. Where a question has fewer than four real
@@ -137,7 +246,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
           for (const choice of talk.choices)
             expect(choice.move, choice.text).not.toMatch(/^ack:/);
           expect(texts.length).toBeGreaterThanOrEqual(P.two);
-        } else expect(texts).toHaveLength(four);
+        } else expect(texts.length).toBeGreaterThanOrEqual(P.two);
         expect(texts.length).toBeLessThanOrEqual(four);
         expect(new Set(texts).size).toBe(texts.length);
         // A second move only follows from the first (owner, batch 6): the
@@ -334,7 +443,9 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     const median = card.checks.find((row) => row.key === "median-words")!.value;
     const short = card.checks.find((row) => row.key === "short-turns")!.value;
     const lengths: number[] = [];
-    for (const otherId of others.slice(0, 20)) {
+    // The people the first test talked to have little left to ask; the
+    // strangers met for the later tests still have their questions.
+    for (const otherId of talkers.slice(0, 20)) {
       const talk = openConversation(core, player.id, otherId);
       for (let turn = 0; turn < 4 && talk.choices.length; turn += 1)
         say(core, talk, talk.choices[(turn * 3) % talk.choices.length]!.key);
@@ -457,7 +568,37 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       checked += 1;
       if (checked >= 3) break;
     }
-    expect(checked).toBeGreaterThan(0);
+    // Edge case by hand: shared work that ended decades ago. The opening
+    // keeps few ended jobs, so a job record the player held long ago at
+    // another person's employer is put on that employer's books for this check.
+    const known = [...core.people.values()]
+      .filter((row) => row.alive && row.tier !== "husk" && row.id !== me.id)
+      .map((row) => row.id)
+      .sort()
+      .find((id) => {
+        const job = core.people.get(id)?.jobId;
+        const org = job ? core.jobs.get(job)?.organizationId : undefined;
+        return org && org !== myOrg();
+      })!;
+    expect(known, "nobody works elsewhere").toBeDefined();
+    const theirOrg = core.jobs.get(
+      core.people.get(known)!.jobId!,
+    )!.organizationId;
+    const formerId = `test-former-job:${player.id}`;
+    core.jobs.set(formerId, {
+      ...core.jobs.get(me.jobId!)!,
+      id: formerId,
+      organizationId: theirOrg,
+      endsAt: makeIsoDate("1995-06-30"),
+    });
+    financeIndex(core.finance.jobsByOrganization, theirOrg, formerId);
+    const work = subjectsBetween(core, player.id, known, director).find(
+      (row) => row.kind === "shared-work",
+    );
+    core.jobs.delete(formerId);
+    core.finance.jobsByOrganization.get(theirOrg)!.delete(formerId);
+    expect(work?.aboutId).toBe(theirOrg);
+    expect(work?.facts["long-ago"]).toBeTruthy();
   });
   it("never asks the player what the asker already knows (a relative, where they live)", () => {
     const kin = [...me.familyIds].filter((id) => core.people.get(id)?.alive);
@@ -583,7 +724,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     // Any topic a talk keeps to is remembered by the listener: the next talk
     // with the same person opens on another (a shared school is not an opener).
     let checked = 0;
-    for (const otherId of others.slice(0, 15)) {
+    for (const otherId of talkers) {
       const first = openConversation(core, player.id, otherId, { director });
       if (!first.choices.length || !first.topics[0]) continue;
       say(core, first, first.choices[0]!.key);
@@ -599,7 +740,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     const reason = /remember|go to school|work at|work for/i;
     let talks = 0;
     let checkedPairs = 0;
-    for (const otherId of others.slice(0, 15)) {
+    for (const otherId of talkers) {
       const talk = openConversation(core, player.id, otherId, { director });
       talks += 1;
       // Rule 1: a shared school or workplace is raised only with a reason.
@@ -636,7 +777,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         }
       });
     }
-    expect(talks).toBe(Math.min(15, others.length));
+    expect(talks).toBe(talkers.length);
     expect(checkedPairs).toBeGreaterThan(0);
   });
 
@@ -739,15 +880,11 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       }
     }
     // A talk the neighbor opens by asking after the player's relative: the
-    // player's answer may turn it back, and the neighbor answers in turn. The
-    // family answers that turn a talk back are hand-written and held until
-    // graded, so this reads them the way a grading batch does.
-    const held = heldConversationWords();
+    // player's answer may turn it back, and the neighbor answers in turn.
     let turned = 0;
     for (const pair of pairs) {
       const talk = openConversation(core, player.id, pair.otherId, {
         director,
-        data: held,
       });
       if (talk.lines.find((row) => row.kind !== "greet")?.kind !== "family")
         continue;
@@ -761,7 +898,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       expect(aboutId).not.toBe(asked);
       expect(core.people.get(pair.otherId)!.familyIds.has(aboutId)).toBe(true);
       const before = talk.lines.length;
-      say(core, talk, back.key, held);
+      say(core, talk, back.key);
       const [said, reply] = talk.lines.slice(before);
       expect(said!.speakerId).toBe(player.id);
       expect(reply!.speakerId).toBe(pair.otherId);
@@ -818,12 +955,20 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     const day = core.date;
     api.endJob(jobId, `jobs:quit:${day}`);
     advanceCore(core, addDays(makeIsoDate(day), 1));
-    const labels = director.ledger.people
-      .get(player.id)!
-      .moments.filter((row) => row.date >= day)
+    const book = director.ledger.people.get(player.id)!;
+    const labels = book.moments
+      .filter((row) => row.date >= day)
       .map((row) => row.label);
-    expect(labels).toContain("money:job-left");
-    expect(labels).not.toContain("money:job-ended");
+    // A job left that is small against the person's own traits sits under the
+    // moment floor: the director counts it there under the same label and
+    // stores no moment, so the record shows it one way or the other.
+    const belowFloor = [...book.belowFloor.keys()];
+    expect([...labels, ...belowFloor].some((l) => l.includes("job-left"))).toBe(
+      true,
+    );
+    expect(
+      [...labels, ...belowFloor].some((l) => l.includes("job-ended")),
+    ).toBe(false);
     // Nothing about a lost job to talk about.
     for (const otherId of others.slice(0, 5))
       expect(

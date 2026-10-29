@@ -5,10 +5,12 @@
 // office that takes filings for a contest whose rules they don't meet (an
 // age, residency or deadline its records name) and name it: the clerk says
 // the rule that stops them and offers no way to file. At 18 they walk in
-// where a contest they can enter files, state a platform and file once: they
-// are on the ballot, and a second filing is refused. No one gathers signatures or pays a
-// fee (owner, Oct 13; src/core2/modules/elections.ts). Exits nonzero naming
-// each failed clause.
+// where a contest they can enter files, state a platform and file once: their
+// petition is out with the signatures the place asks (or, where its law asks
+// none, the clerk takes the filing at the counter), they stand in the race,
+// and a second filing is refused. Filing is a petition; no one pays a fee
+// (owner, Oct 28; src/core2/modules/elections.ts). Exits nonzero naming each
+// failed clause.
 // Usage: node --max-old-space-size=8192 --import tsx src/bench/m2-03-check.ts
 import { buildBenchWorld } from "./world";
 import { BenchPlayer } from "./player";
@@ -17,7 +19,7 @@ import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { gameStartDate } from "../core2/game-start";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { coreAPI } from "../core2/state";
-import { ballot } from "../core2/modules/elections";
+import { ballot, petitionOf } from "../core2/modules/elections";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "m2-03-check";
@@ -181,9 +183,16 @@ else {
     (result?.filing?.platform.length ?? 0) > 0,
     `${where}: the filing kept no platform`,
   );
+  const petition = result?.filing
+    ? petitionOf(coreAPI(w.core), result.filing.id)
+    : null;
+  check(!!petition, `${where}: the filing opened no petition`);
+  // Signatures where the place's law asks them; where it asks none, the
+  // clerk takes the filing at the counter.
   check(
-    result?.status === "on-ballot",
-    `${where}: filing for ${enterable.contest.id} came back ${result?.status ?? "with nothing"}`,
+    result?.status ===
+      ((petition?.needed ?? 0) > 0 ? "petitioning" : "on-ballot"),
+    `${where}: filing for ${enterable.contest.id} came back ${result?.status ?? "with nothing"} with ${petition?.needed ?? "no"} signatures needed`,
   );
   check(
     result?.filing?.filedWith === enterable.filingOffice.filedWith,
@@ -193,7 +202,7 @@ else {
     ballot(coreAPI(w.core), enterable.contest.id).some(
       (f) => f.personId === me,
     ),
-    `${where}: the player is not on the ballot for ${enterable.contest.id}`,
+    `${where}: the player does not stand in the race for ${enterable.contest.id}`,
   );
   // Once: a second filing for the same contest is refused.
   const second = fileForOffice(w.core, me, enterable.contest.id) as {

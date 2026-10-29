@@ -18,7 +18,7 @@ import { openCampaigns } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
 import { openVoting } from "./modules/voting";
 import { openLegislature } from "./modules/legislature";
-import { openWorldRaces, racesOf } from "./modules/world-races";
+import { openWorldRaces, raceResult, racesOf } from "./modules/voting";
 import { corePlaceStateIdentities, searchCorePlaces } from "./place-lookup";
 import { placeDistrictJoin } from "../districts/place-membership";
 
@@ -104,7 +104,10 @@ it("an unmatched town's state legislature is elected in the world races", () => 
   for (const s of due)
     expect(raced.has(s.id), `${where}: ${s.id} had no race`).toBe(true);
   for (const r of races) {
-    expect(r.reasons?.length, `${where}: ${r.id}`).toBe(2);
+    expect(
+      raceResult(api, r)?.electorateReasons?.length,
+      `${where}: ${r.id}`,
+    ).toBe(2);
     expect(r.winnerParty, `${where}: ${r.id}`).toBeTruthy();
   }
 }, 900_000);

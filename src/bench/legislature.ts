@@ -1,20 +1,25 @@
 import { coreAPI } from "../core2/state";
-import { lawHere } from "../core2/modules/laws";
+import { AMOUNT_SERIES, lawHere } from "../core2/modules/laws";
 import { composeBill } from "../english/bill-sections";
+import { billTitleOf, spokenDesignation } from "../english/bill-names";
+import { budgetLineNames, policyNames } from "./words";
 import {
   billForm,
   currentAmount,
   draftBill,
   memberKey,
   votesOn,
+  whipCount,
   type BillRow,
   type Provision,
 } from "../core2/modules/legislature";
 import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
+import { floorDateOf } from "../core2/modules/world-legislating";
 import type { TermRow } from "../core2/modules/offices";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
-import { backdropFile, hasBackdrop, stagePeople } from "./scene";
+import { backdropFor, stagePeople } from "./scene";
+import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const OFFICES = "core2-offices-v1";
@@ -109,7 +114,43 @@ function incompatibilitiesOf(core: CoreState, personId: string) {
     }));
 }
 
+/**
+ * Where a bill stands on the floor: the day the floor takes it up and, from
+ * the chambers' own members, how many are for, against or undecided.
+ */
+function floorOf(core: CoreState, bill: BillRow) {
+  const api = coreAPI(core);
+  const billId = bill.id;
+  // A body with regular meetings posts the bill on its next agenda; a
+  // chamber's bill waits for the floor, which names its date.
+  const agendaDate =
+    bill.status === "drafted" && upcomingMeeting(api, bill.bodyOfficeId)
+      ? placeOnAgenda(api, billId)
+      : undefined;
+  const offices = api.moduleState(OFFICES).table("offices");
+  return {
+    agendaDate,
+    floorDate: agendaDate ?? floorDateOf(api, billId),
+    whip: whipCount(api, billId).map((row) => ({
+      chamber:
+        (offices.get(row.chamber) as { title?: string } | undefined)?.title ??
+        "",
+      yes: row.yes.length,
+      no: row.no.length,
+      undecided: row.undecided.length,
+    })),
+  };
+}
+
 /** Your seat: the bodies you sit on, what you could change, and your bills. */
+/** How a bill's recorded votes came out: the yes and no counts the screens show. */
+function tallyOf(votes: readonly { vote: string }[]) {
+  return {
+    yes: votes.filter((row) => row.vote === "yes").length,
+    no: votes.filter((row) => row.vote === "no").length,
+  };
+}
+
 export function seatView(core: CoreState, personId: string) {
   if (!core.modules.has(LEGISLATURE))
     return {
@@ -124,13 +165,18 @@ export function seatView(core: CoreState, personId: string) {
     api.moduleState(LEGISLATURE).table("bills").rows() as unknown as BillRow[]
   )
     .filter((row) => row.sponsorId === personId)
-    .map((bill) => ({
-      bill,
-      votes: votesOn(api, bill.id).map((row) => ({
-        ...row,
-        name: personName(core, row.memberId),
-      })),
-    }));
+    .map((bill) => {
+      const votes = votesOn(api, bill.id);
+      return {
+        bill,
+        ...floorOf(core, bill),
+        votes: votes.map((row) => ({
+          ...row,
+          name: personName(core, row.memberId),
+        })),
+        tally: tallyOf(votes),
+      };
+    });
   // Each body's own catalog: what its level can pass, with the amount in force.
   const bodies = bodiesOf(core, personId).map((body) => ({
     ...body,
@@ -140,7 +186,7 @@ export function seatView(core: CoreState, personId: string) {
     bodies,
     // Seats the law made them leave on taking another (offices engine).
     incompatibilities: incompatibilitiesOf(core, personId),
-    amounts: lawHere(api).map((row) => ({
+    amounts: lawHere(api, undefined, AMOUNT_SERIES).map((row) => ({
       series: row.series,
       unit: row.unit,
       current: currentAmount(api, row.series),
@@ -190,8 +236,9 @@ export function seatAct(
           series: input.series,
           value: input.value ?? 0,
           unit:
-            lawHere(api).find((row) => row.series === input.series)?.unit ??
-            undefined,
+            lawHere(api, undefined, [input.series]).find(
+              (row) => row.series === input.series,
+            )?.unit ?? undefined,
         }
       : {
           kind: "policy-question",
@@ -212,11 +259,103 @@ export function seatAct(
       effective: form.effectiveSection,
       before: form.sections.map((section) => section.before),
     })?.text ?? [];
-  // A body with no regular meeting (a federal chamber votes on its floor
-  // calendar) keeps the drafted bill without an agenda date.
-  return bill.status === "drafted" && upcomingMeeting(api, bill.bodyOfficeId)
-    ? { ...bill, text, agendaDate: placeOnAgenda(api, bill.id) }
-    : { ...bill, text };
+  const floor = floorOf(core, bill);
+  return {
+    ...bill,
+    text,
+    ...(floor.agendaDate ? { agendaDate: floor.agendaDate } : {}),
+    floorDate: floor.floorDate,
+    whip: floor.whip,
+  };
+}
+
+/**
+ * The bill as one paper document, read from its records: the designation and
+ * title in the English engine's words, the sponsor by name, each section with
+ * the estimate the records give for it (the statute it amends with the values
+ * before and after, the budget line and its amount, the simulation's own cost
+ * estimate), the floor date and whip, and the vote and signature records when
+ * the body has made them. Every figure is a record read; the screen formats
+ * but never computes.
+ */
+export function billPaper(core: CoreState, billId: string) {
+  if (!core.modules.has(LEGISLATURE)) throw new Error("No bills on record.");
+  const api = coreAPI(core);
+  const bill = api
+    .moduleState(LEGISLATURE)
+    .table("bills")
+    .get(billId) as unknown as BillRow | undefined;
+  if (!bill) throw new Error("That bill is not before any body.");
+  const form = billForm(api, bill);
+  const composed = composeBill({
+    ...bill,
+    effective: form.effectiveSection,
+    before: form.sections.map((section) => section.before),
+  });
+  const titled = billTitleOf({ form: bill.form, provisions: bill.provisions });
+  const names = { ...policyNames(), ...budgetLineNames() };
+  const sections = bill.provisions.map((provision, index) => {
+    const subject = bill.title?.subjects[index] ?? null;
+    const purpose =
+      titled?.sections.find((row) => row.index === index)?.purpose ?? null;
+    const named =
+      (subject ? names[subject.key] : undefined) ??
+      (provision.question ? names[provision.question] : undefined) ??
+      (provision.series ? names[provision.series] : undefined) ??
+      null;
+    const section = form.sections[index] ?? null;
+    // A citation that is a web address never reaches the screen: the
+    // estimate names the law record instead, and the PR body cites it.
+    const clause = (
+      composed?.sections[index] ??
+      (purpose && named ? `${named}: ${purpose}` : (purpose ?? named))
+    )?.replace(/, amending https?:\/\/\S+\.?$/, "");
+    return {
+      index,
+      key: subject?.key ?? null,
+      text: clause,
+      estimate: {
+        statute: section?.before.statute ?? null,
+        lawId: section?.before.lawId ?? null,
+        beforeValue: section?.before.value ?? null,
+        beforeUnit: section?.before.unit ?? null,
+        afterValue: section?.after.value ?? null,
+        afterUnit: section?.after.unit ?? null,
+        line: provision.line ?? null,
+        lineAmountMinor:
+          provision.kind === "budget-line" ? provision.value : null,
+        ofMinor: provision.of ?? null,
+      },
+    };
+  });
+  const floor = floorOf(core, bill);
+  return {
+    id: bill.id,
+    number: bill.number,
+    spoken: spokenDesignation(bill.number, bill.form.kind),
+    title: composed?.title ?? titled?.title ?? bill.number,
+    purpose: titled?.purpose ?? null,
+    sponsor: personName(core, bill.sponsorId),
+    sections,
+    effective: composed?.effective ?? null,
+    estimate: {
+      workers: bill.costEstimate.workersRaised,
+      payMinor: bill.costEstimate.annualPayMinor,
+      note: bill.costEstimate.note,
+    },
+    agendaDate: floor.agendaDate ?? null,
+    floorDate: floor.floorDate,
+    whip: floor.whip,
+    votes: votesOn(api, bill.id).map((row) => ({
+      ...row,
+      name: personName(core, row.memberId),
+    })),
+    tally: tallyOf(votesOn(api, bill.id)),
+    decision:
+      bill.status === "drafted"
+        ? null
+        : { status: bill.status, passedOn: bill.passedOn ?? null },
+  };
 }
 
 /** The body in its meeting room: the player at the front, colleagues behind. */
@@ -266,7 +405,7 @@ export function bodyScene(
   return {
     title: body.title,
     place,
-    backdrop: backdropFile(place, minute),
+    backdrop: backdropFor(core, place, minute),
     ...stagePeople(core, place, cast),
   };
 }
@@ -277,6 +416,7 @@ export function bodyScene(
  * lets a town act (`billCatalog`, never the raw catalog file).
  */
 function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
+  const lineNames = budgetLineNames();
   const level =
     bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
   return billCatalog(api, level).map((menu) => ({
@@ -292,7 +432,11 @@ function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
       )
       .map((row) => ({
         kind: row.kind,
-        name: row.name,
+        // A budget line by its name on the budgets screen, never its key.
+        name:
+          (row.kind === "budget-line" &&
+            lineNames[`budget-line:${row.line}`]) ||
+          row.name,
         ...(row.question ? { question: row.question } : {}),
         ...(row.line ? { line: row.line } : {}),
         ...(row.series ? { series: row.series } : {}),

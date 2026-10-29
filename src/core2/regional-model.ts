@@ -1,7 +1,8 @@
 /** State and metro economies as pure math: each region moves with the nation by its own industries plus a gap that fades. */
 import regions from "./data/regional/regions.json" with { type: "json" };
 import type { MacroMonth, MacroParameter } from "./macro-model";
-import { shiftMonth } from "./macro-model";
+import { publishedMonths, shiftMonth } from "./macro-model";
+import { worldOffsetUnit } from "./world-draw";
 import { stopgap } from "./stopgaps";
 import territoryData from "./data/regional/territories.json" with { type: "json" };
 
@@ -118,8 +119,12 @@ function rppAt(
   return at === undefined ? undefined : table[String(at)];
 }
 
-/** Each region's opening month from LAUS, CES, BEA and the CBP mix; a gap in coverage takes the nearest published level. */
-export function openingRegionMonths(
+/**
+ * Each region's month from LAUS, CES, BEA and the CBP mix as published; a gap
+ * in coverage takes the nearest published level. Calibration only: play reads
+ * `openingRegionMonths`, this world's months.
+ */
+export function publishedRegionMonths(
   national: Readonly<MacroMonth>,
   p: MacroParameter,
 ): RegionMonth[] {
@@ -231,6 +236,56 @@ export function openingRegionMonths(
   return out;
 }
 
+/**
+ * Each region's month before the start in this world: the published months
+ * moved by the world's national offset from the published national month
+ * and by each state's own offsets, drawn once from the world's seed (owner,
+ * Oct 27: realistic, not real; the published figures calibrate). A state's
+ * offsets move its metros and the rest of it alike.
+ */
+export function openingRegionMonths(
+  national: Readonly<MacroMonth>,
+  startedAt: string,
+  seed: string,
+  p: MacroParameter,
+): RegionMonth[] {
+  const published =
+    publishedMonths(startedAt, p).find((row) => row.month === national.month) ??
+    national;
+  const nationalShiftPts = national.unemploymentPct - published.unemploymentPct;
+  const jobsRatio =
+    national.payrollJobsThousands / published.payrollJobsThousands;
+  const payRatio = national.hourlyEarnings / published.hourlyEarnings;
+  // The published regions are figured from the published national month, so a
+  // state with no series of its own starts from the published nation too.
+  return publishedRegionMonths(published, p).map((row) => {
+    const own = (key: string, spread: string) =>
+      worldOffsetUnit(seed, `region-world:${row.stateFips}:${key}`) * p(spread);
+    const unemploymentPct = Math.max(
+      p("zero"),
+      row.unemploymentPct +
+        nationalShiftPts +
+        own("unemployment", "regionalWorldUnemploymentSpreadPoints"),
+    );
+    return {
+      ...row,
+      unemploymentPct,
+      jobsThousands:
+        row.jobsThousands *
+        jobsRatio *
+        (p("one") + own("jobs", "regionalWorldLevelSpreadShare")),
+      hourlyEarnings:
+        row.hourlyEarnings *
+        payRatio *
+        (p("one") + own("pay", "regionalWorldLevelSpreadShare")),
+      priceLevelPct:
+        row.priceLevelPct +
+        own("prices", "regionalWorldPriceLevelSpreadPoints"),
+      openingGapPct: unemploymentPct - national.unemploymentPct,
+    };
+  });
+}
+
 function sectorGrowth(
   sector: string,
   nationalGrowth: number,
@@ -281,12 +336,16 @@ export function stepRegionMonth(
   const month = shiftMonth(previous.month, one, p);
   const nationalPayGrowth =
     nationalNow.hourlyEarnings / nationalBefore.hourlyEarnings;
+  // A tight labor market (unemployment under the nation's) runs pay ahead of the nation's, a slack one behind, by the pooled state fit.
   const hourlyEarnings =
     previous.hourlyEarnings *
     nationalPayGrowth *
     (one +
       (p("macroWageGrowthPerUnemployment") *
         (gapNow - previous.openingGapPct)) /
+        hundred /
+        p("macroMonthsPerYear") +
+      (p("regionalPayGrowthPerGapPoint") * gapNow) /
         hundred /
         p("macroMonthsPerYear"));
   return {

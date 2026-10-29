@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/traits-opening-job-tenure
 pr: #6043
 blocked-on:

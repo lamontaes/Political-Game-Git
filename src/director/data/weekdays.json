@@ -1,0 +1,15 @@
+{
+  "about": "The days of the week as people say them, Sunday first, matching the calendar's day numbers: read by a quiet evening's talk at home ('It's been a quiet Tuesday.'). The engine only picks the day from the date.",
+  "origin": "authored",
+  "author": "director lead",
+  "date": "2026-10-27",
+  "days": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ]
+}

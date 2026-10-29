@@ -9,6 +9,7 @@ import { buildBenchWorld } from "./world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { coreAPI } from "../core2/state";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
@@ -54,7 +55,10 @@ it("lists the invited debate for the player, who answers it, and it is held with
           contestId: contest.id,
           platform: [],
         });
-        if (result.status !== "refused" && result.filing.status === "on-ballot")
+        if (
+          result.status !== "refused" &&
+          ["petitioning", "on-ballot"].includes(result.filing.status ?? "")
+        )
           filed.push(result.filing);
       }
       if (filed.length >= 2) {
@@ -68,6 +72,15 @@ it("lists the invited debate for the player, who answers it, and it is held with
       .moduleState(ELECTIONS_MODULE_ID)
       .table("contests")
       .get(pair.you.contestId) as unknown as ContestRow;
+    // Filing is a petition: the player gathers signatures, and the rival's
+    // campaign gathers theirs, until the clerk's check.
+    gatherSignatures(core, pair.you.id);
+    const standing = (id: string) =>
+      (
+        api.moduleState(ELECTIONS_MODULE_ID).table("filings").get(id) as
+          FilingRow | undefined
+      )?.status === "on-ballot";
+    if (!standing(pair.you.id) || !standing(pair.rival.id)) continue;
     advanceCore(core, addDays(makeIsoDate(contest.electionDate), -3));
     const view = campaignView(core, pair.you.personId).campaigns.find(
       (c) => c.filing.id === pair!.you.id,
@@ -90,7 +103,11 @@ it("lists the invited debate for the player, who answers it, and it is held with
         .table("filings")
         .query("byContest", [contest.id]) as unknown as FilingRow[]
     )
-      .filter((row) => row.status === "on-ballot")
+      .filter(
+        (row) =>
+          row.status === "on-ballot" &&
+          core.people.get(row.personId)?.alive !== false,
+      )
       .map((row) => row.personId)
       .sort();
     expect(Object.keys(held.answers).sort(), where).toEqual(onBallot);

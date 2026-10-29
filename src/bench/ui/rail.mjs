@@ -3,6 +3,10 @@ import { makeButton } from "./button.mjs";
 // The rail's icons are Kit 13 line art on a 24-unit grid; the names are the screens' own
 // titles, shown on hover and read by a screen reader.
 const ICONS = {
+  who: [
+    '<circle cx="12" cy="8" r="3.6" />',
+    '<path d="M4.5 20c.6-4.2 3.5-6.6 7.5-6.6s6.9 2.4 7.5 6.6z" />',
+  ],
   journal: ['<path d="M4 5h16v11H9l-5 4z" />'],
   calendar: [
     '<rect x="3.5" y="5" width="17" height="15" rx="1.2" />',
@@ -27,6 +31,10 @@ const ICONS = {
   ],
   travel: [
     '<path d="M3.5 6.5l5-2 7 2 5-2v13l-5 2-7-2-5 2zM8.5 4.5v13M15.5 6.5v13" />',
+  ],
+  // The Guide: an open book, its own entry on the rail (owner, Oct 28, point 23).
+  guide: [
+    '<path d="M12 7c-1.7-1.5-4-2.2-7-2.2v13c3 0 5.3.7 7 2.2 1.7-1.5 4-2.2 7-2.2v-13c-3 0-5.3.7-7 2.2zM12 7v13" />',
   ],
 };
 

@@ -49,6 +49,24 @@
       "tag": "TUNABLE",
       "spread": [0.05, 0.5],
       "checkedAgainst": "The least share of its weight a wording keeps when the speaker leans away from its bearing; never zero, so a trait shapes a voice and never bans a line."
+    },
+    "reachFloor": {
+      "value": 0.8,
+      "tag": "TUNABLE",
+      "spread": [0.6, 0.95],
+      "checkedAgainst": "The lowest share of its weight a piece keeps when the other pieces of its pattern, voice and register were graded bad; it is chosen less, never banned (src/english/grade-reach.ts)."
+    },
+    "reachCeiling": {
+      "value": 1.25,
+      "tag": "TUNABLE",
+      "spread": [1.1, 1.5],
+      "checkedAgainst": "The highest multiple a piece reaches when the other pieces of its pattern, voice and register were graded good; kept below the own-grade ceiling so a neighbor's grade never outweighs the piece's own."
+    },
+    "reachSaturation": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "spread": [2, 10],
+      "checkedAgainst": "Net grades in a group at which the reach has covered about three quarters of the way to its floor or ceiling (tanh of 1); checked in docs/reports/grade-reach.md against the 128 shipped grades so no group saturates."
     }
   },
   "folded": ["batch-13"],
@@ -486,10 +504,6 @@
       "mean": 4,
       "count": 1
     },
-    "scene-talk.open-greet.you-re-home": {
-      "mean": 4,
-      "count": 1
-    },
     "scene-talk.state-confront.we-hardly-see-you-since-you-took-office": {
       "mean": 5,
       "count": 1
@@ -645,5 +659,23 @@
       "count": 1
     }
   },
-  "traitsSource": "ESTIMATED: the direction of each pull follows research on personality and word use (Mehl, Gosling and Pennebaker 2006, 'Personality in its natural habitat', JPSP 90(5); Yarkoni 2010, 'Personality in 100,000 words', J. Research in Personality 44(3)): extraverted and agreeable people talk more and warmer, neurotic people hedge, disagreeable people argue. Sizes are TUNABLE, spread -1 to 1 each; the owner's trait-fit grades move them. The people-mind traits every person carries (sociability, conflict, deliberation, risk, reliability) and the facets officials are drawn with (duty-bound, enterprising, practical) pull the same way: outgoing toward warm and longer, quarrelsome toward braced, deliberate toward calm, bold away from guarded."
+  "traitsSource": "ESTIMATED: the direction of each pull follows research on personality and word use (Mehl, Gosling and Pennebaker 2006, 'Personality in its natural habitat', JPSP 90(5); Yarkoni 2010, 'Personality in 100,000 words', J. Research in Personality 44(3)): extraverted and agreeable people talk more and warmer, neurotic people hedge, disagreeable people argue. Sizes are TUNABLE, spread -1 to 1 each; the owner's trait-fit grades move them. The people-mind traits every person carries (sociability, conflict, deliberation, risk, reliability) and the facets officials are drawn with (duty-bound, enterprising, practical) pull the same way: outgoing toward warm and longer, quarrelsome toward braced, deliberate toward calm, bold away from guarded.",
+  "registerClasses": {
+    "opening-speech": "public",
+    "speech-stages": "public",
+    "conversation": "private",
+    "scene-talk": "private",
+    "bring-it-up": "private",
+    "newscast": "broadcast",
+    "news": "broadcast",
+    "headlines": "broadcast",
+    "journal": "narration",
+    "scene-words": "narration",
+    "choice-names": "narration",
+    "calendar": "narration",
+    "talk-who": "narration",
+    "campaign-standing": "narration",
+    "person-sketch": "narration",
+    "person-history": "narration"
+  }
 }

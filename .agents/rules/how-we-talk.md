@@ -1,3 +1,5 @@
+> **Owner, Oct 28:** sessions never message each other. Session-to-session messages are refused or lost and the work they carry is dropped. Every need, report, hand-off and answer goes through GitHub (the channel, MERGE-FIRST, PROGRESS, PR bodies and comments, pool Notes) or the owner's Drive.
+
 # How we talk
 
 Current as of 2026-10-24 (owner, Oct 24: "Sessions never message each other"; the acting CTO's lane PR #5963)

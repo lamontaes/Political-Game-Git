@@ -19,8 +19,45 @@ export interface Reached {
   amountMinor: number;
   since: string;
 }
-/** Accounts by every id they name: a person's, organization's or counted group's fund names its owner. */
-function accountIndex(
+/**
+ * The treasury's payments on a budget line in a window: the payment ids that
+ * name the government and the line (a provider's, a payee group's, and a law's
+ * own share of the line, which names the law row before its date), summed, for
+ * payments dated before `before` (the day a body in play first changed the
+ * law, after which the two worlds no longer differ by the checker's change).
+ * A payment's id reads `<kind>:<payee>:<government>:budget-line:<line>[:<law
+ * row>]:<date>`, so the line is named after `budget-line:`, never straight
+ * after the government.
+ */
+export function lineMoney(
+  paid: ReadonlyMap<string, { gross: number; ids: string[] }>,
+  governmentId: string,
+  line: string,
+  before: string | null,
+): { gross: number; ids: string[] } {
+  const named = new RegExp(
+    `(^|:)${(governmentId + ":budget-line:" + line).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(:|$)`,
+  );
+  const out = { gross: 0, ids: [] as string[] };
+  for (const [id, row] of paid) {
+    const dated = /^(.*):(\d{4}-\d{2}-\d{2})$/.exec(id);
+    if (!dated || !named.test(dated[1]!)) continue;
+    if (before && dated[2]! >= before) continue;
+    out.gross += row.gross;
+    for (const at of row.ids) if (out.ids.length < 3) out.ids.push(at);
+  }
+  return out;
+}
+
+/**
+ * Accounts by every id they name: a person's, organization's or counted
+ * group's fund names its owner. A cash account is `cash:<owner id>:residual`
+ * and an owner's id may hold colons (a treasury's
+ * `organization:treasury:place:2666300`), so the owner id between the kind and
+ * the account's name is indexed whole too: without it a treasury, or any owner
+ * whose id has colons, matches no account and its payments are never seen.
+ */
+export function accountIndex(
   ...maps: ReadonlyMap<string, readonly Posting[]>[]
 ): Map<string, string[]> {
   const index = new Map<string, string[]>();
@@ -28,6 +65,7 @@ function accountIndex(
     for (const accountId of m.keys()) {
       const parts = accountId.split(":");
       const tokens = new Set([...parts, parts.slice(1).join(":")]);
+      if (parts[0] === "cash") tokens.add(parts.slice(1, -1).join(":"));
       for (const t of tokens) {
         if (!t) continue;
         const list = index.get(t);

@@ -22,3 +22,5 @@ source: split from words-director-watches-officeholders by pool feeder Oct 20
 **Files.** src/director/officeholder-records.ts, src/director/data/situation-types.json, src/director/scheduling.ts, src/core2/modules/offices.ts, src/bench/data/controls.json
 
 **Notes.** Oct 20 (pool feeder): spec written; the termEnd date is still an estimate (SG-GOV-term-end-estimate), so read it from the term record and do not recompute it. Part 3 of 3 for words-director-watches-officeholders.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the hold, circumstance rows (seat-vacated / took-office records).

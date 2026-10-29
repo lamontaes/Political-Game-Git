@@ -148,7 +148,9 @@ function playThrough(date: string, onHold: (key: string) => void = () => {}) {
       player.resume({ kind: "own-choice", pauseId: packet.pauseId });
       continue;
     }
-    if (core.date >= date) return;
+    // Days start in the morning (#6397): the core opens `date` at its
+    // morning, so `date` is lived through once the core has passed it.
+    if (core.date > date) return;
     player.advance("day");
   }
   throw new Error(`The day did not reach ${date}`);
@@ -174,6 +176,9 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     expect(state.status).toBe("nominated");
     stateVoteOn = state.voteOn!;
     expect(stateVoteOn > core.date).toBe(true);
+    process.stdout.write(
+      `FEDERAL-DAY ${place.name}, seed ${seed}: ${president} nominated ${state.nomineeId} for cabinet post ${state.id} on ${state.nominatedOn}, Senate vote ${stateVoteOn}\n`,
+    );
   });
 
   it("lets the character nominate the rest once that stop is off", () => {
@@ -200,6 +205,9 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     playThrough(due);
     const set = budgetPriorities(api, "US");
     expect(set?.setBy).toBe(president);
+    process.stdout.write(
+      `FEDERAL-DAY ${place.name}, seed ${seed}: budget priorities record US set by ${set?.setBy} on ${due}: ${JSON.stringify(set?.changes)}\n`,
+    );
     const gov = governments(api).find((g) => g.id === "US")!;
     const [line, delta] = Object.entries(set!.changes)[0] ?? ["", 0];
     if (line) {
@@ -244,7 +252,7 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
       expect(core.people.get(president)!.knownIds.has(p.id)).toBe(true);
     // Each is a worker of the town's coarse population: a job its counts show
     // and the age that job is open at.
-    const counts = coarsePlace(town.key);
+    const counts = coarsePlace(town.key, core.seed);
     for (const p of met) {
       const work = p.pastFacts?.find((f) => f.kind === "identity:work");
       const where = `${town.name} (${town.key}), seed ${seed}, ${p.id}`;

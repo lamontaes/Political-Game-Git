@@ -5,14 +5,14 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/scene-family-filing-stake
+pr: #6237
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T05:09:04.257Z
 ---
 
 **What.** After the player filed, Wednesday's scene had Kendall Roberts waiting in the bedroom: "Are you sure about running for Council member?", then "Who told you?" and "Word gets around. People talk.", four replies, "I'll do the yard signs. Not the phone calls." and "Okay. Next time, tell me first." The setup (reacting to the filing) is the right shape, but the owner: "there was no reason to have that dialogue. ... that's not like Wildermyth, because there was no reason to have that conversation. It was unnatural. Like, that scene was useless." A family reaction to a filing is on the ruled scene list; this one has no purpose of her own and nothing in it was recorded. This item makes the scene fire only when a record gives the relative a stake, open with that purpose in her own words, and end with something a later engine reads.

@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/justice-restore-vote
+pr: #6249
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T06:26:38.496Z
 ---
 
 **What.** On clean main, src/core2/law-wiring-justice.test.ts's restoring-the-vote case fails in Burton, Nebraska (3107310), seed e04a79c7b7a72c7620a1865ddc5932e2d9b2023f, with restored-voter rows: expected 0 to be greater than 0. Found Oct 26 while merging main into PR #6056. Either the place's opening census had no one whose vote a restoration would return, which the eligibility check should catch before play, or the restoration law did not reach people it should have.

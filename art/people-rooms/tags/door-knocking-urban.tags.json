@@ -1,0 +1,39 @@
+{
+ "scene": "door-knocking-urban",
+ "plate": "sg-p06u",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "resident in the doorway",
+   "box": [
+    280,
+    120,
+    460,
+    520
+   ],
+   "pose": "stand",
+   "facing": 0,
+   "coveredBy": "door-frame",
+   "role": "resident"
+  },
+  {
+   "name": "visitor on the step",
+   "box": [
+    560,
+    260,
+    740,
+    760
+   ],
+   "pose": "stand",
+   "facing": -45,
+   "role": "visitor"
+  }
+ ]
+}

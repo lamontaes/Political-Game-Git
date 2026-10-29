@@ -1,5 +1,5 @@
 {
-  "source": "USPS postal abbreviations and state names (src/simulation/state-reference.ts STATES at port time)",
+  "source": "USPS postal abbreviations and state names (the old engine's state-reference.ts STATES at port time)",
   "states": {
     "AL": "Alabama",
     "AK": "Alaska",

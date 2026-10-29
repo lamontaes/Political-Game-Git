@@ -12,11 +12,19 @@ const assets = new Map([
   ["/play", { file: "play.html", type: "text/html; charset=utf-8" }],
   ["/play.mjs", { file: "play.mjs", type: "text/javascript; charset=utf-8" }],
   ["/play.css", { file: "play.css", type: "text/css; charset=utf-8" }],
+  // Dates and money in words, shared with the server (src/english).
+  [
+    "/english/plain-words.mjs",
+    {
+      file: "../english/plain-words.mjs",
+      type: "text/javascript; charset=utf-8",
+    },
+  ],
 ]);
 // The approved Kit 12/13 fonts and controls, served from public/.
 const PUBLIC = new URL("../../public/", import.meta.url);
 const publicFile =
-  /^\/(fonts\/kit12\/[a-z0-9-]+\.ttf|ui\/kit1[23]\/[a-z0-9-]+\.svg)$/;
+  /^\/(fonts\/kit12\/[a-z0-9-]+\.ttf|ui\/kit1[23]\/[a-z0-9-]+\.svg|ui\/kit13\/calendar-[a-z]+\.png)$/;
 
 const server = createServer(async (request, response) => {
   const url = new URL(request.url ?? "/", "http://bench");
@@ -63,7 +71,9 @@ const server = createServer(async (request, response) => {
       response.writeHead(200, {
         "Content-Type": shared[1]!.endsWith(".svg")
           ? "image/svg+xml"
-          : "font/ttf",
+          : shared[1]!.endsWith(".png")
+            ? "image/png"
+            : "font/ttf",
         "Cache-Control": "max-age=3600",
       });
       response.end(content);

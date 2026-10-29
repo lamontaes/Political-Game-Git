@@ -1,7 +1,8 @@
 /* global process, console, document, URL, URLSearchParams */
 // Politics → Issues names each rate by the government that sets it and shows
 // no rate a level does not levy: a state with no income tax shows none, and
-// a level-free name heads each law. A drawn place by default; PLACE_KEY
+// a level-free name heads each amount. Every policy question a level has a
+// law on has its card too. A drawn place by default; PLACE_KEY
 // opens a named locality for a screenshot.
 // Run against a fresh bench: node src/bench/issues-levels.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
@@ -39,13 +40,6 @@ try {
       await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 300000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
@@ -68,32 +62,27 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Issues", exact: true })
     .click();
-  await page.locator(".law-card").first().waitFor();
+  await page.locator("details.entry").first().waitFor();
   if (shots)
     await page.screenshot({
       path: `${shots}/${process.env.SHOT_NAME ?? "after"}-issues.png`,
     });
   // Every card on every page, by its heading.
   const cards = new Map();
-  for (let p = 0; p < 10; p++) {
-    for (const card of await page.locator(".law-card summary").all()) {
+  // Every law in force here, amounts and policy questions: up to 30 pages of 4.
+  for (let p = 0; p < 30; p++) {
+    for (const card of await page.locator("details.entry summary").all()) {
       const name = await card.locator("h3").innerText();
       cards.set(
         name.toLowerCase(),
-        await card.locator(".law-value").innerText(),
+        await card.locator(".entry-value").innerText(),
       );
     }
-    const next = page.locator(".issues-content .record-pager button").nth(1);
+    const next = page.locator(".entries .record-pager button").nth(1);
     if (!(await next.count()) || (await next.isDisabled())) break;
     await next.click();
   }
   assert.ok(cards.size >= 3, "Issues shows no laws");
-  for (const [name] of cards)
-    assert.doesNotMatch(name, /^local /, `"${name}" names one level`);
-
-  // Each card: the levels that levy a rate, by their government, and no other.
-  const income = law.find((row) => row.series === "income-tax");
-  assert.ok(income, "no income tax record");
   const controls = await (
     await page.request.get(`${base}/api/controls`)
   ).json();
@@ -103,6 +92,21 @@ try {
       controls.policyNames?.[series] ??
       series.replace(/-/g, " ")
     ).toLowerCase();
+  // An amount's name never names one level ("local sales tax"); a policy
+  // question's may be about local power ("local minimum wage authority").
+  const questions = new Set(
+    law.filter((row) => row.yesNo).map((row) => heading(row.series)),
+  );
+  for (const [name] of cards)
+    if (!questions.has(name))
+      assert.doesNotMatch(name, /^local /, `"${name}" names one level`);
+  assert.ok(questions.size > 0, "Issues lists no policy question's law");
+  for (const name of questions)
+    assert.ok(cards.has(name), `no card for the law on "${name}"`);
+
+  // Each card: the levels that levy a rate, by their government, and no other.
+  const income = law.find((row) => row.series === "income-tax");
+  assert.ok(income, "no income tax record");
   for (const row of law) {
     const levied = row.levels.filter((l) => l.row && l.row.value);
     const quiet = row.levels.filter((l) => l.row && !l.row.value);

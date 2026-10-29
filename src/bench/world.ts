@@ -1,8 +1,7 @@
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { buildPopulation } from "../core2/population";
-import { buildDeepPast } from "../core2/deep-past";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
@@ -10,6 +9,7 @@ import { createLifeCore } from "../core2/life";
 import { preStartWindow, runPreStart } from "../core2/pre-start";
 import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
+import { wordPrintedStory } from "./archive-words";
 import {
   WORLD_MODULES,
   withWorldEconomy,
@@ -20,7 +20,7 @@ import { openOffices } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
-import { openVoting } from "../core2/modules/voting";
+import { openVoting, openWorldRaces } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
@@ -41,7 +41,6 @@ import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
-import { openWorldRaces } from "../core2/modules/world-races";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
@@ -56,17 +55,13 @@ import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
 import { OPENING_KIN } from "../core2/opening-kin";
 import { scaleFirmsToCensus } from "../core2/census-firms";
-import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
-import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { representativeSample } from "../core2/representative-sample";
 import { initialFocusPeople } from "../core2/focus";
-import { releaseRecentHistory } from "../simulation/history-index";
-import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { recordOpeningStory } from "../director/opening-story";
 import {
@@ -111,19 +106,27 @@ const ENTRY_AGE = 18;
  * households of their own are husk-tier records (src/core2/opening-kin.ts),
  * not people the town's day runs, even where they share the place.
  */
-export function entrantOf(input: CoreInput, placeId: string): string {
-  return entrantChoice(input, placeId).id;
+export function entrantOf(
+  input: CoreInput,
+  placeId: string,
+  birthDate?: string,
+): string {
+  return entrantChoice(input, placeId, birthDate).id;
 }
 
 /**
  * The entrant and what the pick rests on: `estimated` is true when nobody
  * here is 17 or 18 and the resident nearest 18 stands in, younger first so
  * the 18th birthday still comes in play. Fails only where no resident lives.
+ * With the birthday the New game creator chose, the entrant is the resident
+ * born nearest it instead (`entrantBornNear`).
  */
 export function entrantChoice(
   input: CoreInput,
   placeId: string,
+  birthDate?: string,
 ): { id: string; age: number; estimated: boolean } {
+  if (birthDate) return entrantBornNear(input, placeId, makeIsoDate(birthDate));
   const at = makeIsoDate(input.startedAt);
   const residents = input.people
     .filter((person) => person.placeId === placeId && person.tier !== "husk")
@@ -156,6 +159,58 @@ export function entrantChoice(
   return { id: nearest.id, age: nearest.age, estimated: true };
 }
 
+/**
+ * The resident a chosen birthday makes the player (owner's Oct 26 playtest: a
+ * creator birthday of 35 left the parent 47 and the schooling of a 17-year-old).
+ * The world is drawn with a resident that age, so the player is the resident
+ * born nearest that day, and the household, kin, schooling, work and money
+ * the builders drew for that resident already fit the age. The identity call
+ * then sets the exact birth date, name and looks. A resident is passed over
+ * if the chosen day would leave a parent, or the player as a parent, younger
+ * than the child-bearing minimum the kin builder keeps (`OPENING_KIN`); where
+ * none stays inside it, the nearest stands in. Nothing here is drawn.
+ */
+function entrantBornNear(
+  input: CoreInput,
+  placeId: string,
+  chosen: ReturnType<typeof makeIsoDate>,
+): { id: string; age: number; estimated: boolean } {
+  const at = makeIsoDate(input.startedAt);
+  const born = new Map(input.people.map((row) => [row.id, row.birthDate]));
+  const minParentAge = OPENING_KIN.fertilityByAge.rows[0]!.minAge;
+  // Whether each relative named by a parent or child record stays at least
+  // the minimum older (a parent) or younger (a child) than the chosen birth.
+  const kinFit = (person: CoreInput["people"][number]) =>
+    (person.pastFacts ?? []).every((fact) => {
+      const other = fact.facts?.otherPersonId
+        ? born.get(fact.facts.otherPersonId)
+        : undefined;
+      if (!other) return true;
+      if (fact.kind === "family:parent")
+        return ageOnDate(makeIsoDate(other), chosen) >= minParentAge;
+      if (fact.kind === "family:child")
+        return ageOnDate(chosen, makeIsoDate(other)) >= minParentAge;
+      return true;
+    });
+  const nearest = input.people
+    .filter((person) => person.placeId === placeId && person.tier !== "husk")
+    .map((person) => ({
+      person,
+      apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
+    }))
+    .sort(
+      (a, b) => a.apart - b.apart || a.person.id.localeCompare(b.person.id),
+    );
+  const pick = nearest.find((row) => kinFit(row.person)) ?? nearest[0];
+  if (!pick) throw new Error("No resident here.");
+  const age = ageOnDate(makeIsoDate(pick.person.birthDate), at);
+  return {
+    id: pick.person.id,
+    age,
+    estimated: age !== ageOnDate(chosen, at),
+  };
+}
+
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
   "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
@@ -174,6 +229,12 @@ type BuildOptions = {
    * count sets it; every reader of a count multiplies by it.
    */
   countScale?: number;
+  /**
+   * With `twoLevel`: the birthday the New game creator chose. The player is
+   * the resident born nearest it (`entrantBornNear`), not the 17-year-old
+   * who turns 18, so their past fits the age they chose.
+   */
+  playerBirthDate?: string;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
   /**
@@ -219,14 +280,10 @@ export async function buildBenchWorldInStages(
   }
 }
 
-/** Real people per sampled person: the place's Census count over the people generated, one where the sample is the whole town. */
-function censusScale(
-  place: { sourceGeoid?: string },
-  population: CoreInput,
-): number {
-  const real = place.sourceGeoid
-    ? placeReferencePopulation(place.sourceGeoid)?.value
-    : undefined;
+/** Real people per sampled person: the world's count of the town (drawn around the Census count when the population was built) over the people generated, one where the sample is the whole town. */
+function censusScale(population: CoreInput): number {
+  const held = Number(population.placeMetadata?.referencePopulation);
+  const real = Number.isFinite(held) ? held : undefined;
   const sample = population.people.filter(
     (person) => person.tier !== OPENING_KIN.kinTier,
   ).length;
@@ -254,11 +311,19 @@ function* benchWorldStages(
     // Every place opens with the player's cohort, even one whose own survey
     // sample shows no family with children (`entrantOf`).
     cohortAge: ENTRY_AGE - 1,
+    // And with a resident of the age the creator's birthday makes the player,
+    // as far as the place's households allow (`entrantBornNear`).
+    ...(options.playerBirthDate
+      ? {
+          playerAge: ageOnDate(
+            makeIsoDate(options.playerBirthDate),
+            makeIsoDate(date),
+          ),
+        }
+      : {}),
   });
   yield "past";
-  const schools = withPublicSchoolDistrict(
-    enrichCivicInputs(buildDeepPast(population)),
-  );
+  const schools = withPublicSchoolDistrict(enrichCivicInputs(population));
   // Public pay must exist before the custom world's wage multiplier runs.
   const input = applyWorldSettings(
     schools.receipt
@@ -280,17 +345,17 @@ function* benchWorldStages(
     // and their peers first, then the economy with the closures fix (outside
     // buyers by industry), light terms for counted households, two levels and
     // the counted voter groups.
-    playerId = entrantOf(input, place.context.jurisdiction.id);
+    playerId = entrantOf(
+      input,
+      place.context.jurisdiction.id,
+      options.playerBirthDate,
+    );
     // A town opens at its real Census size: the sample is the
     // people generated, and each counted household stands for as many real
     // households as the Census count is over the sample, unless asked for.
     const countScale =
-      options.countScale ??
-      (minimumPeople ? 1 : censusScale(place, population));
-    let withPlayer: CoreInput = {
-      ...buildOpeningPeerContacts(input, { personIds: [playerId] }).input,
-      playerId,
-    };
+      options.countScale ?? (minimumPeople ? 1 : censusScale(population));
+    let withPlayer: CoreInput = { ...input, playerId };
     withPlayer = {
       ...withPlayer,
       focusPersonIds: [...initialFocusPeople(withPlayer)].sort(),
@@ -344,8 +409,6 @@ function* benchWorldStages(
         }),
       ),
     );
-    releaseRecentHistory();
-    forgetLastValidatedWorld();
   } else
     opening = withWorldEconomy(
       withPrivateTuition({
@@ -355,7 +418,9 @@ function* benchWorldStages(
     );
   yield "core";
   options.onOpening?.(opening);
-  const director = createDirector();
+  // A talk at home can raise a printed story by its headline, in the words
+  // the paper's own screen prints it with.
+  const director = createDirector({ watch: [], storyWords: wordPrintedStory });
   const core = createLifeCore(opening, {
     observer: false,
     data: officeDayData(renewalData(worldCoreData(peopleData(DEFAULT_DATA)))),
@@ -365,7 +430,8 @@ function* benchWorldStages(
       // monthly row and every law that takes effect.
       OUTCOME_WEB_MODULE,
       // Every people engine a played world installs (OPUS-PEOPLE): health,
-      // drives, views, news, speeches, who runs, corruption and beliefs.
+      // drives, views, news, speeches, corruption and beliefs (who runs is
+      // installed by the voting engine, in every world).
       ...peopleModules(),
       director.module,
     ],

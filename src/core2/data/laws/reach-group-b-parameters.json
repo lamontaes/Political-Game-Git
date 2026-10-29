@@ -211,11 +211,6 @@
       "tag": "SOURCED",
       "source": "NCES, Digest of Education Statistics 2023, table 303.50: most undergraduates are 18 to 24."
     },
-    "adultAge": {
-      "value": 18,
-      "tag": "SOURCED",
-      "source": "Age of majority in the states (the age a household's adults are counted from)."
-    },
     "drivingAge": {
       "value": 16,
       "tag": "SOURCED",
@@ -325,12 +320,6 @@
       "tag": "ESTIMATED",
       "source": "EIA, Energy-Related CO2 Emissions by sector 2023: residential plus personal-vehicle emissions per household, about 6 to 16 tons a year.",
       "spread": [6, 16]
-    },
-    "groundwaterWithdrawalShare": {
-      "value": 0.8,
-      "tag": "ESTIMATED",
-      "source": "Kansas Local Enhanced Management Areas (K.S.A. 82a-1041) and Nebraska natural resources district allocations: limits cut pumping by about 5% to 40% from recent use.",
-      "spread": [0.6, 0.95]
     },
     "bottleDepositCents": {
       "value": 5,

@@ -46,5 +46,47 @@
     "tag": "TUNABLE",
     "spread": [0.5, 1.5],
     "checkedAgainst": "Batch 20: about one asker in six opens without a greeting, the share of adults a full level or more below the middle on the opening temperament's 10/20/40/20/10 cut."
+  },
+  "familyStakes": {
+    "about": "Who at home has a stake in a filing (scenes-from-life, spouse-stake-after-filing). A relative reacts to a filing only when the household's records give them one; the strongest stake casts the relative and gives the scene its facts, and with none the scene is not staged. Read from the household's savings and costs, the filing's election date, and the children's birth dates; nothing is rolled.",
+    "runwayShortfall": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "spread": [0.1, 0.5],
+      "checkedAgainst": "The share of the race the household's savings fail to cover before a relative has money to say about it; at a quarter, savings cover three-quarters of the race. Checked against drawn bench places: household runways run from under two months to most of a year against a race 9 to 10 months away, so the gate admits some households and not others."
+    },
+    "youngChildAge": {
+      "value": 13,
+      "tag": "TUNABLE",
+      "spread": [12, 14],
+      "checkedAgainst": "The age under which a child at home is not left alone in the evening in most households; local-candidate accounts name young children as the main cost of a run (Toledo Parent, Winston-Salem Chronicle; docs/design/scenes/from-life/spouse-stake-after-filing.md)."
+    },
+    "timeStrength": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.25, 0.75],
+      "checkedAgainst": "Where a child at home and a working filer rank against a money shortfall when a relative has both: a half shortfall in savings outranks it, a quarter shortfall does not."
+    },
+    "putOffHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": [0.5, 2],
+      "checkedAgainst": "Hours of quarrel a night of putting off a relative's stated cost counts for on the tie (the closeness engine reads negative hours as a quarrel, tempered by who holds on to it); one hour is about one talk's length, so a put-off cancels one talk's worth of time together. Checked in the played-world test: the tie ends lower than it began."
+    }
+  },
+  "endingStrain": {
+    "about": "What an ending that strains a tie writes to closeness (the plan of Oct 28, section 3: each ending's keeps is a write to the engine that owns it). The closeness engine reads negative hours as a quarrel, tempered by who holds on to it. An ending that keeps a favor or a promise is written on the scene's record (facts keeps and ending) for the legislature's obligations and the campaigns engine's promises to read (SG-WORDS-favor-promise-keeps-unread).",
+    "relationship-strained": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": [0.5, 2],
+      "checkedAgainst": "One talk's length of quarrel, as familyStakes.putOffHours: a scene left on a strained note cancels about one talk's time together."
+    },
+    "trust-lost": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": [1, 4],
+      "checkedAgainst": "Twice a strained ending: trust lost (a lie found out, a promise broken to their face) costs more than a talk left unfinished."
+    }
   }
 }

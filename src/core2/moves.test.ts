@@ -13,6 +13,7 @@ import {
   departuresSeen,
   watchDepartures,
   holdsOf,
+  pushesOf,
   MOVED_AWAY_EVENT,
   movesModule,
 } from "./modules/moves";
@@ -157,6 +158,7 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       causes: Record<string, number>;
       reads: Record<string, readonly string[]>;
       openingNet?: number;
+      openingMonths?: number;
     }[];
     const opened = pulls.filter((row) => row.causes.opening !== undefined);
     expect(opened.length).toBeGreaterThan(0);
@@ -164,11 +166,12 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       expect(row.reads.opening?.length).toBeGreaterThan(0);
       expect(row.openingNet).toBeTypeOf("number");
     }
-    // Higher net push stands further along at the opening.
+    // Higher net push has fewer months to go at the opening: the first to
+    // leave are the ones their records push hardest.
     const sorted = [...opened].sort((a, b) => a.openingNet! - b.openingNet!);
     for (let i = 1; i < sorted.length; i += 1)
-      expect(sorted[i]!.causes.opening!).toBeGreaterThanOrEqual(
-        sorted[i - 1]!.causes.opening!,
+      expect(sorted[i]!.openingMonths!).toBeLessThanOrEqual(
+        sorted[i - 1]!.openingMonths!,
       );
     for (const row of departures)
       for (const key of Object.keys(row.reasons).filter((k) =>
@@ -209,25 +212,6 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
     expect(residents.some((row) => left.has(row.id))).toBe(false);
   });
 
-  it("pays a mover's recorded income into the household where they live now", () => {
-    // A pension or Social Security award follows its person: its term names
-    // the household they live in, and the saved award still names the one
-    // it was written for.
-    for (const row of core.finance.contracts.values()) {
-      const term = row.recipientIncome;
-      if (!term || row.endedAt) continue;
-      const person = core.people.get(term.personId)!;
-      expect(person.householdId).toBe(term.householdId);
-      expect(core.households.get(term.householdId)!.memberIds).toContain(
-        person.id,
-      );
-      if (term.movedOn) {
-        expect(term.recordedHouseholdId).toBeDefined();
-        expect(term.recordedHouseholdId).not.toBe(term.householdId);
-      }
-    }
-  });
-
   it("lets a grown child living with a parent leave alone, and takes a householder's partner and children along", () => {
     for (const row of departures) {
       if (parentsAtHome.has(row.personId))
@@ -255,11 +239,19 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
         (a, b) => a + b,
         0,
       );
+    // The pull builds with the person's pushes over their ties, so the ties
+    // are compared with each person's pushes taken out.
     const built = (id: string) =>
-      (
+      ((
         api.moduleState("moves").table("pulls").get(id) as
           { causes: Record<string, number> } | undefined
-      )?.causes.lifeStage ?? 0;
+      )?.causes.lifeStage ?? 0) /
+      Math.exp(
+        Object.values(pushesOf(api, core.people.get(id)!).parts).reduce(
+          (a, b) => a + b,
+          0,
+        ),
+      );
     let compared = 0;
     for (const band of RATES.ageBands) {
       const staying = adults

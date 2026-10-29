@@ -3,12 +3,13 @@
  *
  *   node --import tsx scripts/dialogue-batch/apply-grades.ts
  *
- * Reads every grading batch in data/english/batches/ and every grade file in
- * data/english/grades/ with the same name, joins each grade to its batch item
- * by number, and counts the grade against the part keys that made the line.
- * Writes data/english/part-grades.json, which `src/presentation/
- * english-grades.ts` reads. A grade file whose batch is missing, or a grade
- * that names no item, stops the run with the file and number, so no grade is
+ * Reads every grade file in data/english/grades/ (one per set of voice notes,
+ * plus the file the in-play grade control writes), and counts each grade
+ * against the part keys of the line it names. Writes
+ * data/english/part-grades.json, which the English engine's english-grades.ts
+ * reads. A grade file whose rows carry no part keys needs a batch file of the
+ * same name in data/english/batches/ to join them by number; a grade that
+ * names no item stops the run with the file and number, so no grade is
  * silently lost.
  *
  * A development tool. It never words anything.
@@ -20,6 +21,7 @@ import type {
   CalibrationTable,
   RunningGrade,
 } from "../../src/english/calibration";
+import { buildReach, type PieceMakeup } from "../../src/english/grade-reach";
 import {
   type AxisGradeCounts,
   heldByGrades,
@@ -40,7 +42,7 @@ export interface BatchFileVariant {
   readonly parts: readonly string[];
 }
 
-/** One line of a bench item with the features the calibration table folds (data/english/batches/batch-12.json). */
+/** One line of a bench item with the features the calibration table folds. */
 export interface BatchFileLine {
   /** Its number in the item, from 1. */
   readonly n: number;
@@ -638,41 +640,26 @@ function without(
 }
 
 export const PARTS_DIR = "data/english/parts";
+export const REACH_FILE = "data/english/grade-reach.json";
 
-/**
- * Every bank's part plays unless the owner's grades hold it. A grade run
- * sets the flag across every bank at once, so a batch's grades reach the
- * whole game: a part graded bad or fix stops playing everywhere, and every
- * other part plays.
- */
-export function releaseBanks(
-  ledger: PartGradeLedger,
-  dir = PARTS_DIR,
-): { released: number; held: number } {
-  let released = 0;
-  let held = 0;
+/** Every bank piece's makeup by key, read from the banks. */
+export function readPieces(dir = PARTS_DIR): Map<string, PieceMakeup> {
+  const pieces = new Map<string, PieceMakeup>();
   for (const name of readdirSync(dir)
     .filter((entry) => entry.endsWith(".json"))
     .sort()) {
-    const file = join(dir, name);
-    const bank = JSON.parse(readFileSync(file, "utf8")) as {
-      parts?: { key: string; shippable?: boolean }[];
+    const bank = JSON.parse(readFileSync(join(dir, name), "utf8")) as {
+      parts?: (Omit<PieceMakeup, "bank"> & { key: string })[];
     };
-    if (!Array.isArray(bank.parts)) continue;
-    let changed = false;
-    for (const part of bank.parts) {
-      const plays = !heldByGrades(part.key, ledger);
-      if (part.shippable === plays) continue;
-      part.shippable = plays;
-      changed = true;
-      if (plays) released += 1;
-      else held += 1;
-    }
-    if (!changed) continue;
-    writeFileSync(file, `${JSON.stringify(bank, null, 2)}\n`);
-    execSync(`npx prettier --write ${file}`, { stdio: "ignore" });
+    for (const part of bank.parts ?? [])
+      pieces.set(part.key, {
+        bank: basename(name, ".json"),
+        move: part.move,
+        ...(part.tag ? { tag: part.tag } : {}),
+        ...(part.bearing ? { bearing: part.bearing } : {}),
+      });
   }
-  return { released, held };
+  return pieces;
 }
 
 function main() {
@@ -728,9 +715,21 @@ function main() {
   console.log(
     `Wrote ${LEDGER_FILE}: ${ledger.batches.length} graded batches, ${Object.keys(ledger.parts).length} parts graded, ${held.length} held back.`,
   );
-  const banks = releaseBanks(ledger);
+  // Every grade reaches the pieces sharing its pattern, voice and register
+  // (`src/english/grade-reach.ts`): the profile and group sums the engine reads.
+  const pieces = readPieces();
+  const reach = buildReach(pieces, ledger, table.registerClasses ?? {});
+  writeFileSync(REACH_FILE, `${JSON.stringify(reach, null, 2)}\n`);
+  execSync(`npx prettier --write ${REACH_FILE}`, { stdio: "ignore" });
   console.log(
-    `Banks in ${PARTS_DIR}: ${banks.released} parts now play, ${banks.held} now held by the grades.`,
+    `Wrote ${REACH_FILE}: ${Object.keys(reach.groups).length} groups reaching ${Object.keys(reach.profiles).length} pieces.`,
+  );
+  // The ledger is the only gate: a bank part plays unless the grades hold it.
+  const heldInBanks = [...pieces.keys()].filter((key) =>
+    heldByGrades(key, ledger),
+  ).length;
+  console.log(
+    `Banks in ${PARTS_DIR}: ${pieces.size - heldInBanks} parts play, ${heldInBanks} held by the grades.`,
   );
 }
 
