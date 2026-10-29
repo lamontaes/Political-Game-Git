@@ -144,10 +144,8 @@ interface Look {
   readonly hazardOwn: number | undefined;
   readonly onsetDate: string | null;
   readonly spellIds: readonly string[];
-  /** Whether a stretch of their coverage is still being paid on the day. */
-  readonly paidNow: boolean;
-  /** The day their last paid stretch ended, if every stretch has. */
-  readonly endedOn: string | null;
+  /** The stretches of their coverage the payment records hold. */
+  readonly stretches: readonly { from: string; to: string | null }[];
 }
 
 function look(core: CoreState, id: string): Look {
@@ -167,13 +165,7 @@ function look(core: CoreState, id: string): Look {
     hazardOwn: hazard?.own,
     onsetDate: found?.onsetDate ?? null,
     spellIds: spells.flatMap((spell) => spell.obligationIds),
-    paidNow: spells.some((spell) => spell.to === null),
-    endedOn: spells.every((spell) => spell.to !== null)
-      ? (spells
-          .map((spell) => spell.to!)
-          .sort()
-          .at(-1) ?? null)
-      : null,
+    stretches: spells.map((spell) => ({ from: spell.from, to: spell.to })),
   };
 }
 
@@ -442,24 +434,20 @@ it("coverage-to-mortality-55-64: a covered 55- to 64-year-old's hazard reads the
         );
         continue;
       }
-      // A repeal reaches the people it ends coverage for: one whose payment
-      // still runs at the look was not reached (the law reach keeps paying).
-      if (treated.mode === "repeal" && t.paidNow) {
-        passed.push(
-          `${where} ${id} (the repeal left their coverage paid: ${t.spellIds.at(-1)})`,
-        );
-        continue;
-      }
-      // The look reads coverage the link's lag back; coverage that ended after
-      // that day has not reached the hazard yet.
+      // The look reads coverage the link's lag back. A repeal reaches the
+      // hazard of the people it had ended coverage for by that day; one still
+      // paid then (the payment ran on past the repeal) is not reached yet.
       const readDay = monthsAfter(
         treated.lookOn,
         -link("coverage-to-mortality-55-64").lagMonths,
         Number(treated.lookOn.slice(8)),
       );
-      if (treated.mode === "repeal" && t.endedOn && t.endedOn > readDay) {
+      const paidThen = t.stretches.find(
+        (one) => one.from <= readDay && (one.to === null || readDay < one.to),
+      );
+      if (treated.mode === "repeal" && paidThen) {
         passed.push(
-          `${where} ${id} (their coverage ended on ${t.endedOn}, after the day the look read, ${readDay})`,
+          `${where} ${id} (still paid on ${readDay}, the day the look read: a stretch from ${paidThen.from} to ${paidThen.to ?? "now"})`,
         );
         continue;
       }
