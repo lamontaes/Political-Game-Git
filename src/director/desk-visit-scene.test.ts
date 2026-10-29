@@ -126,10 +126,9 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     const first = present(0);
     expect(first.entry, `${where}: no moment for the presentment`).toBeTruthy();
     const types = first.entry!.bindings.map((row) => row.typeKey);
+    // One desk scene for one bill: the sponsor's visit, not the aide's too.
     expect(types, where).toContain("desk-visit");
-    expect(types.indexOf("desk-visit"), where).toBeLessThan(
-      types.indexOf("desk-bill"),
-    );
+    expect(types, where).not.toContain("desk-bill");
     const visit = first.entry!.bindings.find(
       (b) => b.typeKey === "desk-visit",
     )!;
