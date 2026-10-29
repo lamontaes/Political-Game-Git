@@ -6,9 +6,9 @@ lead: play-first
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: play-first/play-person-history-fill-in-writes-the-coarse-past
-pr:
+pr: #6775
 blocked-on:
 source: added with npm run pool -- add
 milestone: play-first
@@ -32,3 +32,5 @@ claimed-at: 2026-10-29T17:51:50.596Z
 **Notes.** Filed by the play-first lane, Oct 29, from play-person-history-for-everyone-you-open (the card side landed there). Read: OWNER-DECISIONS (Oct 29), LAW section 5; searched: person history, pre-start, fill-in.
 
 Oct 29 (CTO): no history or laws-effects lead is running, so the lane that built the -a half takes this one next, and may edit `src/core2/pre-start.ts` and the fill-in path for it. The red-main fixer is in the same engine on `history-dead-parent-has-no-record`; message it before writing there so there is one pre-start history writer.
+
+Lane finding (Oct 29, #6772 and the -b PR): fill-in already wrote a past for school and work. A counted resident filled in through the card path (Richland, Georgia, seed probe-102) showed 1 to 12 history lines. Now written for filled-in people: the couple (family.partnered, from who shares a home and a child; SG-HIST-counted-couples-from-household), and the card reads moves, partnerships and each school stage. Still not written for a counted person: a move into the county (the counted columns keep no origin), a former partner, and a parent's death (history-dead-parent-has-no-record).

@@ -37,7 +37,7 @@ This section overrides anything heavier elsewhere in this file, in a skill or in
 
 - **The owner picks the model per job** (Oct 20; crew reshaped Oct 26). Opus for the one lead, the Words line, the CTO and the owner's local session; Sonnet for mergers, fixers, building and pool work; Codex at medium by default, high only when the job says why. Effort is proportional to the task, and so is the helper count.
 - **Mind the weekly usage.** Above about 75%, go lean: fewer helpers, no new sessions without the owner's word. Near or right after a reset, lean toward effectiveness.
-- **Helpers never copy the whole repository (owner, Oct 29: "they shouldn't. They should immediately delete what they don't need, or even more helpfully, only clone what they do need"; "This needs to be a project rule").** A full copy is about 3.3 GB, and six filled a cloud session's disk on Oct 29. A helper or sub-agent works in a sparse copy holding only the folders its task needs (by default everything except `art/`, `public/`, `desktop/` and the large docs folders), shares the main checkout's git objects instead of downloading them again, and links `node_modules` instead of installing it. A session that finds a full helper copy narrows it at once. Skill `helper-checkout`.
+- **Helpers never copy the whole repository (owner, Oct 29: "they shouldn't. They should immediately delete what they don't need, or even more helpfully, only clone what they do need"; "This needs to be a project rule").** A full copy is about 3.3 GB, and six filled a cloud session's disk on Oct 29. A helper or sub-agent works in a sparse copy without the repository's image files (every folder stays, so typecheck, tests and guards run; images are two thirds of a copy), shares the main checkout's git objects instead of downloading them again, and links `node_modules` instead of installing it. A session that finds a full helper copy narrows it at once. Skill `helper-checkout`.
 - **Helpers.** A helper needs an independently useful bounded output and explicit path and tool ownership; no recursive delegation or duplicate full-repo review. Each works in its own files or worktree, gets a clear objective, its check and an output format, and is read-only unless its brief says otherwise; the lead reviews every diff before it becomes a PR. Preserve configured concurrency limits (Codex: two). Model effort is proportional to the actual task.
 
 ## How every session works
@@ -81,6 +81,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 
 ## Process
 
+- **Builders build; checkers check (owner, Oct 29: "Start 5 new Sonnet sessions that are explicitly like type check or doing like the prep work for the mergers after coding. So that way the builders can strictly build").** A builder and its helpers run only the test files they wrote or changed while building, never `npm run typecheck`, the guards or the gate; they open the PR ready with the Done-when table filled and message the checker whose number is the PR number mod 5 (`docs/coordination/CREW.md`). The checker merges main in, runs the local gate below in its own container, fixes what is mechanical, sends the rest back, and hands a passed gate to the mergers. Skill `checker`.
 - **Local gate, not the full suite.** Typecheck, eslint and prettier on changed files, `release:check --mode pr`, `npm run zero-dice`, `npm run pool -- --check`, the tests for changed files, and `npm run test:skill-ops` when instruction files change (`npm run agent:test-cadence` lists the commands for your changed files). A failure that's also red on clean `main` doesn't block. Never force-push; never permanently delete. See `local-gate`.
 - **Generated-world proof.** Claims about simulation-driven events, scenes, dialogue or law effects need the route in an ordinary generated world through existing producers and writers, naming the place, seed and record ids. Hand-inserted fixtures prove edge cases only.
 - **A fix lands on the branch where the failure reproduces.** Diagnose from the log on every platform that shows the failure.
@@ -94,9 +95,11 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 
 - `ask-why`: every proof answers why, by record
 - `asset-scene-admission`: admitting art into the game
+- `checker`: running the gate on every PR so builders only build
 - `civic-prose`: writing bank pieces in the owner's style
 - `civic-reports`: reports and PR bodies for the owner
 - `cto`: the CTO role
+- `helper-checkout`: helpers work in sparse copies of the repository
 - `lead-session`: running a lead line
 - `look-first`: the search before building, fixing, filing or asking
 - `merge-audit`: auditing merged PRs
@@ -105,6 +108,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `played-world-proof`: proving a feature in a played year
 - `player-screen-text`: checking every string a player sees
 - `pr-fixer`: finishing sent-back PRs
+- `red-main`: taking a red on main from report to fix
 - `researcher`: turning a stopgap into a sourced number
 - `room-spots`: rooms and where people stand or sit in them
 - `scene-producers`: a scene's cause wired to an engine's record
