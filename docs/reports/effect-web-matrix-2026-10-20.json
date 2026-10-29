@@ -2268,7 +2268,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928"
+          "evidence": "src/core2/jobs-web.ts:25, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928"
         },
         "varied": {
           "status": "fail",
@@ -3871,7 +3871,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2862, src/core2/modules/jobs.ts:2871"
+          "evidence": "src/core2/jobs-web.ts:23, src/core2/modules/jobs.ts:2862, src/core2/modules/jobs.ts:2871"
         },
         "varied": {
           "status": "pass",
@@ -4108,9 +4108,8 @@
           "evidence": "data/research/outcome-web/links.json:2361 size -0.057, range [-0.0713, -0.0428], East, Luck, Mansour and Velasquez 2023 (JOLE)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: labor.undocumented-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces labor.undocumented-employment"
+          "status": "pass",
+          "evidence": "src/core2/jobs-web.ts:26"
         },
         "varied": {
           "status": "fail",
@@ -4136,7 +4135,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
+      "wiredPoints": 5,
       "stopgap": "SG-LABOR-no-legal-status"
     },
     {
@@ -4156,9 +4155,8 @@
           "evidence": "data/research/outcome-web/links.json:2383 size -0.005, range [-0.0063, -0.0037], East et al. 2023 (JOLE)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: labor.us-born-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces labor.us-born-employment"
+          "status": "pass",
+          "evidence": "src/core2/jobs-web.ts:27"
         },
         "varied": {
           "status": "fail",
@@ -4184,7 +4182,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
+      "wiredPoints": 5,
       "stopgap": "SG-LABOR-no-legal-status"
     },
     {
@@ -4546,7 +4544,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870"
+          "evidence": "src/core2/jobs-web.ts:22, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870"
         },
         "varied": {
           "status": "fail",
@@ -6036,7 +6034,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870"
+          "evidence": "src/core2/jobs-web.ts:22, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870"
         },
         "varied": {
           "status": "fail",
@@ -6461,7 +6459,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928"
+          "evidence": "src/core2/jobs-web.ts:25, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928"
         },
         "varied": {
           "status": "fail",
@@ -6745,7 +6743,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2872, src/core2/modules/jobs.ts:2892"
+          "evidence": "src/core2/jobs-web.ts:24, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2872, src/core2/modules/jobs.ts:2892"
         },
         "varied": {
           "status": "pass",
@@ -12939,7 +12937,7 @@
     {
       "measure": "labor.low-wage-jobs",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928",
+      "evidence": "src/core2/jobs-web.ts:25, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12950,7 +12948,7 @@
     {
       "measure": "labor.married-women-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2862, src/core2/modules/jobs.ts:2871",
+      "evidence": "src/core2/jobs-web.ts:23, src/core2/modules/jobs.ts:2862, src/core2/modules/jobs.ts:2871",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["broadband-to-married-women-work"]
@@ -12994,7 +12992,7 @@
     {
       "measure": "labor.mothers-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870",
+      "evidence": "src/core2/jobs-web.ts:22, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13005,7 +13003,7 @@
     {
       "measure": "labor.older-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2872, src/core2/modules/jobs.ts:2892",
+      "evidence": "src/core2/jobs-web.ts:24, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2872, src/core2/modules/jobs.ts:2892",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["retirement-age-to-older-work"]
@@ -13021,9 +13019,8 @@
     },
     {
       "measure": "labor.undocumented-employment",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/jobs-web.ts:26",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["enforcement-to-undocumented-employment"]
@@ -13054,9 +13051,8 @@
     },
     {
       "measure": "labor.us-born-employment",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/jobs-web.ts:27",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["enforcement-to-us-born-employment"]
