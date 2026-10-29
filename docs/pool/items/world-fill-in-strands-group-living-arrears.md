@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: red-main
 ---
 
 **What.** src/core2/living-costs-arrears.test.ts fails its both-tiers test on clean main with GOLDEN_PATH_SEED=wf-arr-3 (place 0118952, US-AL, world seed cde228114c13c57e95bf40f5b8c7b9b101238c2ad6d661f2f7de336ea0e4b316): on 2025-08-19 the counted flows carry 632354 in arrears against the groups' 699328. Cause by record: on 2025-07-27 both households of counted group 9 (group:jurisdiction_db391ce7fb2cb22b:town:one-adult:income-0:rent:18-29:not-working), household_c2a0307017b9de7a and household_c2851e7017a2f82c, were filled in while the group owed 66974 in rt.livingArrears. The group's people and fund went to 0 and its weight in residents:outside-living:counted:jurisdiction_db391ce7fb2cb22b fell from 75198 to 0, so chargeGroups never asks it again and the flow's arrearsMinor leaves out exactly 66974 (699328 minus 632354). The fill-in moves the household's share of the group's money (fillInCash) but not its share of the group's living arrears.
