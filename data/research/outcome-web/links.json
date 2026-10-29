@@ -2744,12 +2744,12 @@
       "source": "Gao, Lee and Murphy 2020 (JFE)",
       "from": "press.local-newspaper",
       "evidence": "researched",
-      "notes": "Unsupported until a unit adapter exists: the study prices county bonds after a county paper closes, but the game's outcome is a state's general obligation spread and the game has no place-level newspaper series. No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing)."
+      "notes": "Unsupported until a unit adapter exists and a local government prices its own borrowing. Its cause is now read (the web counts the town's closed local newspapers from the press module, newspaper-closure-to-engagement), but the study prices a county's own bonds after its county paper closes, and the only reader of gov.borrowing-cost, interestFactor in src/core2/budgets-treasury.ts, reprices the state's whole interest line; county and city interest lines read no spread (stopgap SG-EFFECT-WEB-prices-gov-borrowing). Sizing it now would charge the whole state for one town's closed paper, so the size (+5 to 11 basis points per closure) stays unset until a county or city bond record reads the same measure."
     },
     {
       "key": "newspaper-closure-to-engagement",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "voting.local-turnout",
       "strength": "moderate",
       "shape": {
@@ -2764,7 +2764,7 @@
       "source": "Gentzkow, Shapiro and Sinkinson 2011 (AER); Rubado and Jennings 2020 (Urban Affairs Review); Hayes and Lawless 2021",
       "from": "press.local-newspaper",
       "evidence": "provisional",
-      "notes": "Sized, waiting on its cause and outcome: the game records no local newspapers by place and keeps no local turnout outcome.",
+      "notes": "Runs. Its cause is the press module's own record: each local newspaper outlet is a business whose book in the finance ledger carries a closing date, and the web counts the town's closed papers (the newspapers-closed reader, ENGINE_READERS in src/core2/modules/outcome-web.ts). Its outcome is voting.local-turnout, and the voting engine multiplies a voter's own turnout propensity by this link's effect on a day whose ballot carries a municipal or county race, or a recall of a town seat (turnoutWeb in src/core2/turnout-web.ts). The size is the research's presidential and congressional estimate; the local range runs to twice that.",
       "range": [-0.012, 0]
     },
     {
@@ -2811,7 +2811,7 @@
       "source": "Ladd 2012",
       "from": "official.press-hostility",
       "evidence": "researched",
-      "notes": "Unsupported until sized: the studies find elite criticism lowers trust without a slope the game can read, and the game records no official press hostility."
+      "notes": "Unsupported until sized and read. The studies find elite criticism lowers trust without a slope the game can apply. An official's speech against an outlet is recorded (attackOutlet in src/core2/modules/press.ts writes the speech and the outlet's grudge), but no engine keeps press.media-trust for anyone: trust in the news is only a function of a person's left-right lean (trustOf and trustWeight in src/core2/modules/news.ts, from Gallup's shares by party), which the voting engine's scandal term weighs. A per-person trust the news engine keeps and the speeches a person heard move would be the record this link's factor multiplies."
     },
     {
       "key": "relief-spending-to-votes",
@@ -2831,7 +2831,7 @@
       "source": "Healy and Malhotra 2009 (APSR)",
       "from": "spending.disaster-relief",
       "evidence": "researched",
-      "notes": "Unsupported until a unit adapter exists: the study measures votes per doubling of relief, but the game records neither relief dollars nor an incumbent vote share by place."
+      "notes": "Unsupported until a unit adapter exists and the voting engine credits the president's party. Healy and Malhotra 2009 (Table 5, column 2) find .454 percentage points of the incumbent presidential party's county vote share per unit of the log of one plus relief spending per person in 2008 dollars (a rise from $1 to $10 per person gains about .77 points); it is the president's party in a presidential race. The relief dollars are recorded (the disasters module pays FEMA public assistance to the county and town governments and housing assistance to the town's households as cash-journal transfers, reason federal.disaster-public-assistance, ids disaster-assistance:<disaster>:<government>) and the vote is recorded in the voting results, but no engine reads the dollars when voters choose. The place to read them is candidateReasons in src/core2/electorate-inputs.ts, which already gives the president's party its economy term, once the town has heard of the relief, with the log per-person relief in 2008 dollars as the cause and a size in vote share."
     },
     {
       "key": "preparedness-spending-to-votes",

@@ -6,11 +6,12 @@ lead: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/swearing-in
 pr:
 blocked-on:
 source: owner, Oct 29 voice note on the governing brief
+claimed-at: 2026-10-29T21:33:49.309Z
 ---
 
 **What.** The owner ruled Sept 22 that "swearing in needs to be an event", and on Oct 29: "Yes, swearing in, it needs to happen... that's just a scene... depending on what your office is, you'll give a speech and... the word session will handle that." Today none of the director's 85 situation types is a swearing-in, so the player is seated silently on the start date (governing brief, Oct 29). The scene fires from the took-office record the offices engine already writes, casts who would be there from the world, and opens an address by office where the office gives one (mayor, governor, president).

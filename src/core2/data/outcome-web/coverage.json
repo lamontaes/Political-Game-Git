@@ -37,6 +37,7 @@
     "abortion-ban-to-infant-deaths",
     "universal-childcare-to-mothers-work",
     "voter-id-to-turnout",
+    "newspaper-closure-to-engagement",
     "medicaid-expansion-to-coverage",
     "medicaid-expansion-to-mortality",
     "medicaid-expansion-to-medical-debt",
@@ -374,11 +375,8 @@
       "waitingOn": ["voting.party-share"]
     },
     "newspaper-closure-to-borrowing-cost": {
-      "waitingOn": ["press.local-newspaper"],
+      "waitingOn": [],
       "needsSize": true
-    },
-    "newspaper-closure-to-engagement": {
-      "waitingOn": ["press.local-newspaper", "voting.local-turnout"]
     },
     "exposed-corruption-to-reelection": {
       "waitingOn": [],
@@ -634,10 +632,6 @@
       "owner": "OPUS-GOV",
       "links": 2
     },
-    "press.local-newspaper": {
-      "owner": "OPUS-PEOPLE",
-      "links": 2
-    },
     "program.child-benefit-dollars": {
       "owner": "OPUS-GOV",
       "links": 2
@@ -867,10 +861,6 @@
       "links": 1
     },
     "spending.disaster-relief": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "voting.local-turnout": {
       "owner": "OPUS-GOV",
       "links": 1
     },
