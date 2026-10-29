@@ -7,6 +7,7 @@ import {
   askToVolunteer,
   campaignFor,
   commissionPoll,
+  endorsementsOf,
   giveSpeech,
   runAd,
   statementSpeechId,
@@ -113,6 +114,10 @@ export function campaignView(core: CoreState, personId: string) {
           ...campaign,
           volunteers: campaign.volunteerIds.length,
           doors: campaign.doorsKnockedCount ?? 0,
+          // The people and groups who said yes, from the endorsement records.
+          endorsements: endorsementsOf(api, filing.id).filter(
+            (row) => row.answer === "yes",
+          ).length,
         },
         polls: polls.slice(-3),
         // What the contest turns on: each candidate's acts and how the people they reached came to feel.
