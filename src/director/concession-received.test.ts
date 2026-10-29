@@ -110,6 +110,10 @@ const run = (drawSeed: string): string | null => {
       .table("filings")
       .rows() as unknown as FilingRow[]
   ).filter((f) => f.contestId === contest!.id && f.status === "on-ballot");
+  // A filer whose petition fell short is not on the ballot; with one name
+  // left the winner is unopposed and nobody calls (the race is passed over).
+  if (onBallot.length < 2)
+    return `${where}: ${contest.id} has ${onBallot.length} on the ballot`;
   for (const f of onBallot) director.watch(core, f.personId as PersonId);
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), 2));
   const result = resultOf(api, contest.id);
