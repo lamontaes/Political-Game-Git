@@ -63,6 +63,1066 @@
   "maxWords": 70,
   "parts": [
     {
+      "key": "scene-talk.narrate-morning.it-s-election-day",
+      "move": "narrate-morning",
+      "kind": "written",
+      "text": "It's Election Day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "morning",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-morning.election-day-the-polls-are-open",
+      "move": "narrate-morning",
+      "kind": "written",
+      "text": "Election Day. The polls are open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "morning",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-morning.the-polls-opened-this-morning",
+      "move": "narrate-morning",
+      "kind": "written",
+      "text": "The polls opened this morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "morning",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-ballot.your-name-is-on-the-ballot-for-office",
+      "move": "narrate-ballot",
+      "kind": "written",
+      "text": "Your name is on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "ballot",
+          "role": "narrator",
+          "requiresFacts": ["candidate"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-ballot.today-the-town-chooses-between-you-and-opponent-for-office",
+      "move": "narrate-ballot",
+      "kind": "written",
+      "text": "Today the town chooses between you and {opponent} for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "ballot",
+          "role": "narrator",
+          "requiresFacts": ["candidate", "opponent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-ballot.number-races-are-on-the-ballot",
+      "move": "narrate-ballot",
+      "kind": "written",
+      "text": "{number} races are on the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "ballot",
+          "role": "narrator",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-ballot.one-race-is-on-the-ballot-office",
+      "move": "narrate-ballot",
+      "kind": "written",
+      "text": "One race is on the ballot: {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "ballot",
+          "role": "narrator",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-canvass.name-is-at-the-door-with-a-list-of-voters-who-haven-t-been-to-the-polls-yet",
+      "move": "narrate-canvass",
+      "kind": "written",
+      "text": "{name} is at the door with a list of voters who haven't been to the polls yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvass",
+          "role": "narrator",
+          "requiresFacts": ["helper"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-canvass.name-has-a-clipboard-and-a-street-map-there-s-time-for-a-few-more-doors",
+      "move": "narrate-canvass",
+      "kind": "written",
+      "text": "{name} has a clipboard and a street map. There's time for a few more doors.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvass",
+          "role": "narrator",
+          "requiresFacts": ["helper"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-canvass.there-s-still-time-to-knock-on-doors-before-the-polls-close",
+      "move": "narrate-canvass",
+      "kind": "written",
+      "text": "There's still time to knock on doors before the polls close.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvass",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-canvassed.you-knocked-on-number-doors-reached-people-talked-with-you",
+      "move": "narrate-canvassed",
+      "kind": "written",
+      "text": "You knocked on {number} doors. {reached} people talked with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvassed",
+          "role": "narrator",
+          "requiresFacts": ["several", "talked"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-canvassed.you-knocked-on-number-doors-and-nobody-came-to-the-door",
+      "move": "narrate-canvassed",
+      "kind": "written",
+      "text": "You knocked on {number} doors, and nobody came to the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvassed",
+          "role": "narrator",
+          "requiresFacts": ["several", "nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-canvassed.you-knocked-on-one-door-and-the-person-who-answered-talked-with-you",
+      "move": "narrate-canvassed",
+      "kind": "written",
+      "text": "You knocked on one door, and the person who answered talked with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvassed",
+          "role": "narrator",
+          "requiresFacts": ["one", "talked"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-canvassed.you-knocked-on-one-door-and-nobody-answered",
+      "move": "narrate-canvassed",
+      "kind": "written",
+      "text": "You knocked on one door, and nobody answered.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvassed",
+          "role": "narrator",
+          "requiresFacts": ["one", "nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-canvassed.there-were-no-doors-left-to-knock-on",
+      "move": "narrate-canvassed",
+      "kind": "written",
+      "text": "There were no doors left to knock on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvassed",
+          "role": "narrator",
+          "requiresFacts": ["none"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-vote-ask.your-polling-place-is-open-until-the-evening-going-is-up-to-you",
+      "move": "narrate-vote-ask",
+      "kind": "written",
+      "text": "Your polling place is open until the evening. Going is up to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "vote-ask",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-vote-ask.whether-you-vote-today-is-your-call",
+      "move": "narrate-vote-ask",
+      "kind": "written",
+      "text": "Whether you vote today is your call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "vote-ask",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-vote-ask.companion-is-heading-to-the-polls",
+      "move": "narrate-vote-ask",
+      "kind": "written",
+      "text": "{companion} is heading to the polls.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "vote-ask",
+          "role": "narrator",
+          "requiresFacts": ["with"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-stayed-home.you-stay-home-your-ballot-goes-uncast",
+      "move": "narrate-stayed-home",
+      "kind": "written",
+      "text": "You stay home. Your ballot goes uncast.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "stayed-home",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-stayed-home.you-don-t-go-to-the-polls-today",
+      "move": "narrate-stayed-home",
+      "kind": "written",
+      "text": "You don't go to the polls today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "stayed-home",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-open.the-polls-have-closed-the-first-returns-for-office-are-coming-in",
+      "move": "narrate-returns-open",
+      "kind": "written",
+      "text": "The polls have closed. The first returns for {office} are coming in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-open",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-open.polls-are-closed-and-the-count-for-office-begins",
+      "move": "narrate-returns-open",
+      "kind": "written",
+      "text": "Polls are closed, and the count for {office} begins.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-open",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-open.the-polls-closed-everyone-is-watching-the-numbers-for-office",
+      "move": "narrate-returns-open",
+      "kind": "written",
+      "text": "The polls closed. Everyone is watching the numbers for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-open",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-step.where-is-in-leader-leads-there-lead-to-trail",
+      "move": "narrate-returns-step",
+      "kind": "written",
+      "text": "{where} is in. {leader} leads there, {lead} to {trail}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-step",
+          "role": "narrator",
+          "requiresFacts": ["contested"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-step.where-reports-leader-carries-it-lead-to-trail",
+      "move": "narrate-returns-step",
+      "kind": "written",
+      "text": "{where} reports. {leader} carries it {lead} to {trail}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-step",
+          "role": "narrator",
+          "requiresFacts": ["contested"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-step.where-reports-cast-ballots",
+      "move": "narrate-returns-step",
+      "kind": "written",
+      "text": "{where} reports {cast} ballots.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-step",
+          "role": "narrator",
+          "requiresFacts": ["uncontested"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-step.where-is-in-and-it-s-tied-there-at-lead-each",
+      "move": "narrate-returns-step",
+      "kind": "written",
+      "text": "{where} is in, and it's tied there at {lead} each.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-step",
+          "role": "narrator",
+          "requiresFacts": ["tied"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-lead.with-in-of-all-places-in-leader-leads-by-margin",
+      "move": "narrate-returns-lead",
+      "kind": "written",
+      "text": "With {in} of {all} places in, {leader} leads by {margin}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-lead",
+          "role": "narrator",
+          "requiresFacts": ["ahead"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-lead.leader-is-ahead-by-margin-with-in-of-all-places-counted",
+      "move": "narrate-returns-lead",
+      "kind": "written",
+      "text": "{leader} is ahead by {margin} with {in} of {all} places counted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-lead",
+          "role": "narrator",
+          "requiresFacts": ["ahead"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-lead.with-in-of-all-places-in-it-s-even",
+      "move": "narrate-returns-lead",
+      "kind": "written",
+      "text": "With {in} of {all} places in, it's even.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-lead",
+          "role": "narrator",
+          "requiresFacts": ["even"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-call.every-place-is-in-winner-wins-the-race-for-office",
+      "move": "narrate-returns-call",
+      "kind": "written",
+      "text": "Every place is in. {winner} wins the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-call",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-call.the-count-is-done-winner-is-the-next-office",
+      "move": "narrate-returns-call",
+      "kind": "written",
+      "text": "The count is done: {winner} is the next {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-call",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-call.winner-has-won-the-race-for-office",
+      "move": "narrate-returns-call",
+      "kind": "written",
+      "text": "{winner} has won the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-call",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-mine.you-won",
+      "move": "narrate-returns-mine",
+      "kind": "written",
+      "text": "You won.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-mine",
+          "role": "narrator",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-mine.you-ve-been-elected",
+      "move": "narrate-returns-mine",
+      "kind": "written",
+      "text": "You've been elected.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-mine",
+          "role": "narrator",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-mine.it-wasn-t-enough-winner-won",
+      "move": "narrate-returns-mine",
+      "kind": "written",
+      "text": "It wasn't enough. {winner} won.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-mine",
+          "role": "narrator",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-mine.you-came-up-short-this-time",
+      "move": "narrate-returns-mine",
+      "kind": "written",
+      "text": "You came up short this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-mine",
+          "role": "narrator",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-unopposed.winner-ran-unopposed-for-office-with-cast-votes",
+      "move": "narrate-returns-unopposed",
+      "kind": "written",
+      "text": "{winner} ran unopposed for {office}, with {cast} votes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-unopposed",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-unopposed.nobody-ran-against-winner-for-office",
+      "move": "narrate-returns-unopposed",
+      "kind": "written",
+      "text": "Nobody ran against {winner} for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-unopposed",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-nation.elsewhere-tonight-count-states-chose-a-governor",
+      "move": "narrate-returns-nation",
+      "kind": "written",
+      "text": "Elsewhere tonight, {count} states chose a governor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-nation",
+          "role": "narrator",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-returns-nation.one-other-state-chose-a-governor-tonight",
+      "move": "narrate-returns-nation",
+      "kind": "written",
+      "text": "One other state chose a governor tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-nation",
+          "role": "narrator",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-vote-away.you-don-t-live-in-town-anymore-so-there-s-no-ballot-for-you-today",
+      "move": "narrate-vote-away",
+      "kind": "written",
+      "text": "You don't live in town anymore, so there's no ballot for you today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "vote-away",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-vote-away.your-name-is-still-on-the-ballot-but-you-moved-so-you-can-t-vote-in-this-race",
+      "move": "narrate-vote-away",
+      "kind": "written",
+      "text": "Your name is still on the ballot, but you moved, so you can't vote in this race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "vote-away",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-vote-away.there-s-no-ballot-for-you-here-today-you-no-longer-live-where-this-race-is-voted",
+      "move": "narrate-vote-away",
+      "kind": "written",
+      "text": "There's no ballot for you here today. You no longer live where this race is voted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "vote-away",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-vote-none.there-s-no-ballot-for-you-to-cast-today",
+      "move": "narrate-vote-none",
+      "kind": "written",
+      "text": "There's no ballot for you to cast today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "vote-none",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.the-filing-for-office-is-on-the-record-somebody-still-has-to-get-child-to-bed-ev",
       "move": "narrate-narrate",
       "kind": "spoken",
