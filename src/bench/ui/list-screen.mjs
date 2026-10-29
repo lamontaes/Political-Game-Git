@@ -14,7 +14,6 @@
 // the browser checks, never shown.
 import { el } from "./dom.mjs";
 import { searchBox } from "./fields.mjs";
-import { menuPages } from "./pager.mjs";
 import { picture } from "./picture.mjs";
 import { factRow } from "./list-row.mjs";
 
@@ -68,11 +67,10 @@ function entry(e, labelOf) {
 export async function listScreen({
   search,
   entries,
-  size,
   layout = "rows",
   labelOf = boldLabel,
 }) {
-  // Rows flow into the sheet, so its pager pages them; cards keep their grid.
+  // Rows flow into the sheet, which scrolls; cards keep their grid.
   const list = el("div", {
     className: `entries entries-${layout}${layout === "rows" ? " flow" : ""}`,
   });
@@ -82,7 +80,7 @@ export async function listScreen({
     const drawn = (await entries(query)).map((e) => entry(e, labelOf));
     // A slower answer to an older query never replaces a newer one.
     if (at !== query) return;
-    list.replaceChildren(...(size ? [menuPages(drawn, size)] : drawn));
+    list.replaceChildren(...drawn);
   };
   await draw();
   if (!search) return [list];
