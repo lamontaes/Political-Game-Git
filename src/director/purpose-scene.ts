@@ -613,6 +613,10 @@ function composeBinding(
   if (record?.kind === "bill-presented")
     deskFacts(core, facts, said, moment.causeId, askerId);
 
+  // A recall petition names the member's vote; a promise to vote against
+  // the bill (`promised-against`) is said only from a record of one, which no
+  // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
+
   // "Today" and "tonight" are true only on the record's own day, and
   // "yesterday" only the day after: a scene that plays later says neither.
   const recordDay = record?.date ?? moment.date;
