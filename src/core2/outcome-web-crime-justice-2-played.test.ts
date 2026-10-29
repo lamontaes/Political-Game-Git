@@ -190,7 +190,7 @@ function chargedWorld(
       CustodyRow | undefined;
     if (!sentence || !custody || custody.status !== "serving") {
       skipped.push(
-        `${c.defendantId} not serving a term (${sentence ? `${sentence.custodyMonths} custody months` : (table("cases").get(c.id) as CaseRow).status})`,
+        `${c.defendantId} not serving a term (${sentence ? `${sentence.custodyMonths} custody months` : (table("cases").get(c.id) as unknown as CaseRow | undefined)?.status})`,
       );
       continue;
     }
