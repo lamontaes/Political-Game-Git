@@ -36,11 +36,13 @@ import { WEB_LINKS } from "./outcome-web-model";
 import type { LawRowInput } from "./laws-starting";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
+import bills from "./data/health/medical-bills.json" with { type: "json" };
 
 const SEED = process.env.MEDICAL_DEBT_SEED ?? randomBytes(20).toString("hex");
 const EXPAND =
   "us-policy-positions:health-human-services.expand-medicaid-eligibility";
 const TWIN_LINK = "medicaid-expansion-to-medical-debt";
+const BASE_SHARE = bills.parameters.medicalCollectionsBaseShare.value;
 /** Months played: the first unpaid bills pass the 120-day wait in the fifth. */
 const MONTHS = 8;
 const TRIES = 4;
@@ -291,11 +293,14 @@ describe("medical bills and medical debt in a played world", () => {
           // The expansion moves it once: its own coverage, not the place row.
           expect(named.expandedRow!.ownRecordsFor).toContain(TWIN_LINK);
           expect(named.expandedRow!.webLinks).not.toContain(TWIN_LINK);
-          const counted = billsOf(expanded).filter(
+          // A counted household has no Medicaid record of its own: where the
+          // web moves the place row (the repeal, after the link's lag, or an
+          // enactment), its share sent to collections moves off the base.
+          const counted = [...billsOf(expanded), ...billsOf(twin)].filter(
             (row) => row.counted && row.webLinks.includes(TWIN_LINK),
           );
           for (const row of counted.slice(0, 5))
-            expect(row.collectionsShare, row.id).toBeLessThan(1);
+            expect(row.collectionsShare, row.id).not.toBe(BASE_SHARE);
           const covered = named.expandedRow!.members.filter(
             (m) => m.plan === "medicaid",
           );

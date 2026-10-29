@@ -1,5 +1,5 @@
 {
-  "about": "Out-of-pocket medical bills (world-medical-spending-categories) and the medical debt they leave (health-medical-debt-record), as the coverage engine pays them on the 1st (src/core2/medical-bills.ts). The Consumer Expenditure Survey's medical services line (the opening-customer parent parameters in parameters.json, BLS series CXUMEDSERVSLB0101M, 2024: $1,252 a consumer unit) less the clinic component the opening's customers already buy is each household's average; each member's share of it follows the care their health asks (the health record's care need) and the part of that care their coverage leaves them to pay (MEPS). What a household cannot pay from what it holds, less what it keeps back for its home, goes to collections as a medical-debt record on its books, times the outcome web's factor for finance.medical-debt-in-collections.",
+  "about": "Out-of-pocket medical bills (world-medical-spending-categories) and the medical debt they leave (health-medical-debt-record), as the coverage engine pays them on the 1st (src/core2/medical-bills.ts). The Consumer Expenditure Survey's medical services line (the opening-customer parent parameters in parameters.json, BLS series CXUMEDSERVSLB0101M, 2024: $1,252 a consumer unit) less the clinic component the opening's customers already buy is each household's average; each member's share of it follows the care their health asks (the health record's care need) and the part of that care their coverage leaves them to pay (MEPS). What a household cannot pay from what it holds, less what it keeps back for its home, is carried for the 120-day wait, then the share providers send to collections rather than write off goes there as a medical-debt record on its books, times the outcome web's factor for finance.medical-debt-in-collections.",
   "outcome": "finance.medical-debt-in-collections",
   "personLevel": {
     "about": "Where a full person's own Medicaid coverage is modeled (the law reach pays it to named people, read through coverageSpellsNow), the expansion lowers their bill through that record, so the place-level expansion row is left out of their household's web factor: the expansion moves them once. Counted households have no Medicaid record of their own (stopgap SG-HEALTH-own-records-counted) and keep the place-level row.",
@@ -15,6 +15,18 @@
   ],
   "medicalServicesParent": "medicalServices",
   "parameters": {
+    "medicalCollectionsBaseShare": {
+      "value": 0.405,
+      "tag": "ESTIMATED",
+      "citation": "Missouri Hospital Association, 2021 Community Investment Report, as reported by the Fulton Sun (Aug 10, 2021), https://www.fultonsun.com/news/local/story/2021/aug/10/hospital-charity-care-increasing-report-says/883019/: \"Missouri hospitals provided more than $1 billion in charity care (about $1.02 billion)\" and \"the state's hospitals absorbed about $693 million in bad debt\" in 2019.",
+      "estimatedFrom": "A hospital's unpaid patient balances end as charity care (financial assistance, written off) or bad debt (pursued in collections): bad debt over the two, $693 million of $1.713 billion, is 40.5 percent. One state's year stands for the nation until a national split by year is fetched; it is the share of bills unpaid past the wait sent to collections when the web moves nothing, and the web's factor scales it.",
+      "spread": {
+        "low": 0.3,
+        "high": 0.6,
+        "unit": "share of bills unpaid past the wait sent to collections",
+        "citation": "ESTIMATED around the one state's 40.5 percent; AHA defines uncompensated care as bad debt plus charity care (Uncompensated Hospital Care Cost fact sheet, https://www.aha.org/fact-sheets/2020-01-06-fact-sheet-uncompensated-hospital-care-cost) and reports no national split."
+      }
+    },
     "medicalPatientShareEmployer": {
       "value": 0.297,
       "tag": "SOURCED",

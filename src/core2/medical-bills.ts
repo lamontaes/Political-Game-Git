@@ -26,11 +26,14 @@
  * first), else the outside account. A counted household pays the same bill
  * times its weight through its group's account (counted-money.ts
  * chargeGroups), its housing arrears kept back. What a household cannot pay
- * goes to collections as a medical-debt record on its books (the credit
- * engine's loans, kind "medical"), times the outcome web's factor for
- * finance.medical-debt-in-collections, the measure the expansion's
- * medicaid-expansion-to-medical-debt link moves. No roll: the bill goes
- * unpaid because the household's cash and coverage say so.
+ * it still owes, oldest bill first, and asks again each month; a bill unpaid
+ * 120 days after it was billed (26 CFR 1.501(r)-6) is placed for collection
+ * as a medical-debt record on its books (the credit engine's loans, kind
+ * "medical"), at the share providers send to collections rather than write
+ * off, times the outcome web's factor for finance.medical-debt-in-collections,
+ * the measure the expansion's medicaid-expansion-to-medical-debt link moves.
+ * No roll: the bill goes unpaid because the household's cash and coverage
+ * say so.
  *
  * One cause, one path: a full household whose members' Medicaid coverage is
  * modeled meets the expansion through their own coverage (a smaller bill), so
@@ -387,7 +390,11 @@ function billMembers(
   return out;
 }
 
-/** The share of a household's unpaid bill sent to collections: everything unpaid, times the web's factor. */
+/**
+ * The share of a household's bills unpaid past the wait that its provider
+ * sends to collections rather than writing off as financial assistance (the
+ * hospitals' bad debt against their charity care), times the web's factor.
+ */
 function collectionsShare(
   api: CoreAPI,
   h: Household,
@@ -401,7 +408,10 @@ function collectionsShare(
     except.length ? new Set(except) : undefined,
   );
   return {
-    share: Math.min(api.parameter("one"), reach.factor),
+    share: Math.min(
+      api.parameter("one"),
+      q("medicalCollectionsBaseShare") * reach.factor,
+    ),
     reach,
     except,
   };
