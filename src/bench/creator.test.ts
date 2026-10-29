@@ -74,38 +74,42 @@ describe("the New game creator", () => {
     ).toThrow();
   });
 
-  it("offers the pack's people, steps them and draws the portrait", () => {
+  it("offers the pack's people, everyday and work clothes apart, and draws both portraits", () => {
     const recipe = drawnAppearance("female", "seed", 0);
     expect(packPerson(recipe.person)!.sex).toBe("woman");
-    const everyday = { ...recipe, outfit: "everyday" };
-    const labels = appearanceRows(everyday, "female").map((row) => row.label);
-    expect(labels).toEqual([
+    expect(recipe.outfit).toBe("everyday");
+    // Everyday clothes and their colors, then work clothes on their own row
+    // (owner, Oct 29: "There needs to be two separate ones").
+    expect(appearanceRows(recipe, "female").map((row) => row.label)).toEqual([
       "Build",
-      "Clothes",
       "Top color",
       "Pants color",
       "Shoes color",
       "Hair color",
+      "Work clothes",
     ]);
-    // A look is painted whole: no color rows.
-    const suit = moveAppearance(everyday, "female", "outfit", 1);
-    expect(suit.outfit).not.toBe("everyday");
-    expect(appearanceRows(suit, "female").map((row) => row.label)).toEqual([
-      "Build",
-      "Clothes",
-    ]);
+    const next = moveAppearance(recipe, "female", "work", 1);
+    expect(next.work).not.toBe(recipe.work);
+    expect(next.outfit).toBe(recipe.outfit);
+    expect(next.colors).toEqual(recipe.colors);
     expect(appearanceRows(recipe, "nonbinary")[0]!.label).toBe("Body");
-    expect(readRecipe(JSON.stringify(everyday))).toEqual(everyday);
+    expect(readRecipe(JSON.stringify(next))).toEqual(next);
     expect(() =>
-      readRecipe(JSON.stringify({ ...everyday, outfit: "hair" })),
+      readRecipe(JSON.stringify({ ...next, person: "nobody" })),
     ).toThrow();
-    // The portrait is the pack's own figure in the look's colors, through the
-    // same drawing the rooms use.
-    const png = portraitPng(everyday);
-    expect(png.subarray(1, 4).toString()).toBe("PNG");
-    const figure = figureFor(everyday)!;
-    expect(figure.person).toBe(everyday.person);
-    expect(png.equals(figurePng(figure, everyday.colors))).toBe(true);
+    // A look saved before the two were apart: its suit becomes the work clothes.
+    expect(
+      readRecipe(JSON.stringify({ person: next.person, outfit: next.work })),
+    ).toMatchObject({ outfit: "everyday", work: next.work });
+    // Each portrait is the pack's own figure, through the same drawing the rooms use.
+    const everyday = figureFor(next)!;
+    const work = figureFor(next, "work")!;
+    expect(everyday.dress).toBe("casual");
+    expect(work.dress).not.toBe("casual");
+    expect(portraitPng(next).equals(figurePng(everyday, next.colors))).toBe(
+      true,
+    );
+    expect(portraitPng(next, "work").equals(figurePng(work))).toBe(true);
   });
 });
 

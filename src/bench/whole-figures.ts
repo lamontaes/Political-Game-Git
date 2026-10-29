@@ -29,10 +29,15 @@ export function ageBandOf(core: CoreState, birthDate: string): AgeBand {
   return age < 13 ? "child" : age < 18 ? "teen" : age < 65 ? "adult" : "older";
 }
 
-/** A look chosen in the creator: one of the pack's people, one of their looks (people-pack.ts `lookKey`), and a palette color per part. */
+/**
+ * A look chosen in the creator: one of the pack's people, their everyday
+ * clothes and their work clothes (people-pack.ts `lookKey` each), and a
+ * palette color per part of the everyday clothes.
+ */
 export interface ChosenLook {
   person: string;
   outfit: string;
+  work?: string;
   colors?: Readonly<Record<string, string>>;
 }
 
@@ -97,8 +102,9 @@ function dressesFor(
 }
 
 /**
- * The person's figure in a pose: their chosen look first, then each dress
- * in turn, and in a dress their own look (set once from their seed); among
+ * The person's figure in a pose: each dress in turn, and in a dress the look
+ * chosen in the creator for that kind of clothes, else their own look (set
+ * once from their seed); among
  * those, the one turned most nearly as the spot faces, then on the same seat.
  */
 function figureIn(
@@ -112,26 +118,38 @@ function figureIn(
     (row) => row.person === person.id && fits(row),
   );
   const seed = who.seed ?? who.id;
-  const groups = [
-    ...(who.look
-      ? [mine.filter((row) => lookKey(row) === who.look!.outfit)]
-      : []),
-    ...dresses.map((dress) => {
-      const rows = mine.filter((row) => row.dress === dress);
-      const looks = [
-        ...new Set(
-          packFigures()
-            .filter((row) => row.person === person.id && row.dress === dress)
-            .map(lookKey),
-        ),
-      ].sort();
-      const own = looks.length
-        ? looks[mixed(`${seed}:${dress}`) % looks.length]
-        : undefined;
-      const worn = rows.filter((row) => lookKey(row) === own);
-      return worn.length ? worn : rows;
-    }),
-  ];
+  // In each dress, the look chosen in the creator for that kind of clothes
+  // (everyday or work) first, then their own look set once from their seed.
+  const chosenFor = (dress: string) =>
+    !who.look
+      ? undefined
+      : dress === rules.everydayDress
+        ? who.look.outfit
+        : who.look.work;
+  const groups = dresses.flatMap((dress) => {
+    const chosen = chosenFor(dress);
+    const picked = chosen
+      ? mine.filter(
+          (row) =>
+            lookKey(row) === chosen &&
+            (row.dress === rules.everydayDress) ===
+              (dress === rules.everydayDress),
+        )
+      : [];
+    const rows = mine.filter((row) => row.dress === dress);
+    const looks = [
+      ...new Set(
+        packFigures()
+          .filter((row) => row.person === person.id && row.dress === dress)
+          .map(lookKey),
+      ),
+    ].sort();
+    const own = looks.length
+      ? looks[mixed(`${seed}:${dress}`) % looks.length]
+      : undefined;
+    const worn = rows.filter((row) => lookKey(row) === own);
+    return [picked, worn.length ? worn : rows];
+  });
   const rows = groups.find((group) => group.length);
   return rows ? [...rows].sort(rank)[0]! : null;
 }

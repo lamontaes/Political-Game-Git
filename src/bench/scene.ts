@@ -639,11 +639,12 @@ function chosenLook(text: string | undefined): FigurePerson["look"] {
   if (!text) return undefined;
   try {
     const record = JSON.parse(text) as Record<string, unknown>;
-    const { person, outfit, colors } = record;
+    const { person, outfit, work, colors } = record;
     return typeof person === "string" && typeof outfit === "string"
       ? {
           person,
           outfit,
+          ...(typeof work === "string" ? { work } : {}),
           ...(colors && typeof colors === "object"
             ? {
                 colors: Object.fromEntries(

@@ -16,16 +16,21 @@ import rules from "./data/whole-figures.json" with { type: "json" };
 
 /**
  * The creator's appearance step: one of the people pack's painted people,
- * an outfit (everyday clothes or one of the looks painted for them), and for
- * everyday clothes a color for each part from that person's palettes. Every
- * choice is read from the pack's manifest, so a new person, outfit or color
- * there is offered here with no change. The look chosen here is the player's
- * figure in every scene.
+ * their everyday clothes (with a color for each part from that person's
+ * palettes) and, separately, their work clothes (a suit, a blazer, a dress)
+ * (owner, Oct 29: "The creator mixes formal clothes ... with regular
+ * clothes. There needs to be two separate ones"). Rooms dress the player in
+ * whichever the place calls for: work clothes at work and in office, everyday
+ * clothes elsewhere. Every choice is read from the pack's manifest, so a new
+ * person, look or color there is offered here with no change.
  */
 export interface LookRecipe {
   /** The pack person's id. */
   person: string;
+  /** Everyday clothes: one of the person's everyday looks (people-pack.ts `lookKey`). */
   outfit: string;
+  /** Work clothes: one of the person's work looks. */
+  work: string;
   /** A palette color's name for each recolorable part; the painted color where absent. */
   colors?: Readonly<Record<string, string>>;
 }
@@ -52,14 +57,24 @@ const sentenceCase = (name: string) =>
 
 const sexes = () => [...new Set(packPeople().map((row) => row.sex))];
 const peopleOf = (sex: string) => packPeople().filter((row) => row.sex === sex);
+/** Which clothes a look is: everyday, or work (every dress but the everyday one). */
+export type Clothes = "everyday" | "work";
+const clothesOf = (row: PackFigure): Clothes =>
+  row.dress === rules.everydayDress ? "everyday" : "work";
 /**
- * Every look a person has (people-pack.ts `lookKey`: everyday clothes, or an
- * outfit in one hairstyle) that is painted standing, as the creator shows it.
+ * Every look of one kind a person has (people-pack.ts `lookKey`: everyday
+ * clothes, or an outfit in one hairstyle) that is painted standing, as the
+ * creator shows it.
  */
-const outfitsOf = (person: string) => [
+const looksOf = (person: string, clothes: Clothes) => [
   ...new Set(
     packFigures()
-      .filter((row) => row.person === person && portraitPose(row))
+      .filter(
+        (row) =>
+          row.person === person &&
+          portraitPose(row) &&
+          clothesOf(row) === clothes,
+      )
       .map(lookKey),
   ),
 ];
@@ -86,14 +101,18 @@ function swatches(person: PackPerson, part: string): Swatch[] {
 const partsOf = (recipe: LookRecipe, person: PackPerson) =>
   recipe.outfit === EVERYDAY ? colorParts(person) : [];
 
-/** The figure the creator shows for a look: the person standing, facing the viewer. */
-export function figureFor(recipe: LookRecipe): PackFigure | null {
+/** The figure the creator shows for the everyday or the work clothes: the person standing, facing the viewer. */
+export function figureFor(
+  recipe: LookRecipe,
+  clothes: Clothes = "everyday",
+): PackFigure | null {
   const person = packPerson(recipe.person);
-  if (!person || !outfitsOf(person.id).includes(recipe.outfit)) return null;
+  const look = clothes === "work" ? recipe.work : recipe.outfit;
+  if (!person || !looksOf(person.id, clothes).includes(look)) return null;
   return portraitOf(
     person,
     { id: person.id, birthDate: "", official: false, look: recipe },
-    [],
+    clothes === "work" ? rules.dressOrder.work : [rules.everydayDress],
   );
 }
 
@@ -115,11 +134,16 @@ export function appearanceRows(
       ? [{ id: "body", label: "Body", value: sexLabel(person.sex) }]
       : []),
     { id: "build", label: "Build", value: sentenceCase(person.build) },
-    {
-      id: "outfit",
-      label: "Clothes",
-      value: outfitLabel(person.id, recipe.outfit),
-    },
+    // Everyday clothes: their look where the person has several, then its colors.
+    ...(looksOf(person.id, "everyday").length > 1
+      ? [
+          {
+            id: "outfit",
+            label: LABELS.rows.everyday,
+            value: outfitLabel(person.id, recipe.outfit),
+          },
+        ]
+      : []),
     ...partsOf(recipe, person).map((part) => {
       const list = swatches(person, part);
       const current = recipe.colors?.[part] ?? list[0]!.id;
@@ -130,6 +154,12 @@ export function appearanceRows(
         swatches: list.map((row) => ({ ...row, chosen: row.id === current })),
       };
     }),
+    // Work clothes, chosen apart from the everyday ones.
+    {
+      id: "work",
+      label: LABELS.rows.work,
+      value: outfitLabel(person.id, recipe.work),
+    },
   ];
 }
 
@@ -167,7 +197,12 @@ export function moveAppearance(
   if (rowId === "outfit")
     return {
       ...recipe,
-      outfit: step(outfitsOf(person.id), recipe.outfit, turn),
+      outfit: step(looksOf(person.id, "everyday"), recipe.outfit, turn),
+    };
+  if (rowId === "work")
+    return {
+      ...recipe,
+      work: step(looksOf(person.id, "work"), recipe.work, turn),
     };
   if (partsOf(recipe, person).includes(rowId)) {
     const ids = swatches(person, rowId).map((row) => row.id);
@@ -201,11 +236,23 @@ export function lookForGender(recipe: LookRecipe, gender: string): LookRecipe {
   return onPerson(recipe, sex, person.build);
 }
 
-/** A look the pack paints: an outfit or a color the person lacks falls back to their first. */
-function settled(recipe: LookRecipe): LookRecipe {
+/**
+ * A look the pack paints: clothes or a color the person lacks fall back to
+ * their first; a work look saved as the everyday clothes (before the two were
+ * separate) becomes the work clothes.
+ */
+function settled(recipe: Partial<LookRecipe> & { person: string }): LookRecipe {
   const person = packPerson(recipe.person)!;
-  const outfits = outfitsOf(person.id);
-  const outfit = outfits.includes(recipe.outfit) ? recipe.outfit : outfits[0]!;
+  const everyday = looksOf(person.id, "everyday");
+  const work = looksOf(person.id, "work");
+  const outfit = everyday.includes(recipe.outfit ?? "")
+    ? recipe.outfit!
+    : everyday[0]!;
+  const chosenWork = work.includes(recipe.work ?? "")
+    ? recipe.work!
+    : work.includes(recipe.outfit ?? "")
+      ? recipe.outfit!
+      : work[0]!;
   const colors = Object.fromEntries(
     Object.entries(recipe.colors ?? {}).filter(
       ([part, name]) => person.palettes[part]?.[name],
@@ -214,6 +261,7 @@ function settled(recipe: LookRecipe): LookRecipe {
   return {
     person: person.id,
     outfit,
+    work: chosenWork,
     ...(Object.keys(colors).length ? { colors } : {}),
   };
 }
@@ -238,10 +286,10 @@ export function drawnAppearance(
     items[hash(`${seed}:${draw}:${key}`) % items.length]!;
   const sex = PACK_SEX[gender] ?? pick(sexes(), "body");
   const person = pick(peopleOf(sex), "build");
-  const outfit = pick(outfitsOf(person.id), "outfit");
   return {
     person: person.id,
-    outfit,
+    outfit: pick(looksOf(person.id, "everyday"), "outfit"),
+    work: pick(looksOf(person.id, "work"), "work"),
     colors: Object.fromEntries(
       colorParts(person).map((part) => [
         part,
@@ -254,9 +302,11 @@ export function drawnAppearance(
 /** A look from the page or a person's record, checked against the pack. */
 export function readRecipe(text: string): LookRecipe {
   const input = JSON.parse(text) as Partial<LookRecipe>;
-  const recipe = {
-    person: String(input.person ?? ""),
-    outfit: String(input.outfit ?? ""),
+  if (!packPerson(String(input.person ?? ""))) throw new Error("No such look.");
+  const recipe = settled({
+    person: String(input.person),
+    ...(input.outfit ? { outfit: String(input.outfit) } : {}),
+    ...(input.work ? { work: String(input.work) } : {}),
     ...(input.colors && typeof input.colors === "object"
       ? {
           colors: Object.fromEntries(
@@ -264,19 +314,23 @@ export function readRecipe(text: string): LookRecipe {
           ),
         }
       : {}),
-  };
-  if (!figureFor(recipe)) throw new Error("No such look.");
-  return settled(recipe);
+  });
+  if (!figureFor(recipe) || !figureFor(recipe, "work"))
+    throw new Error("No such look.");
+  return recipe;
 }
 
-/** The look's standing figure, as the game draws it. */
-export function portraitPng(recipe: LookRecipe): Buffer {
-  const figure = figureFor(recipe);
+/** The look's standing figure in its everyday or work clothes, as the game draws it. */
+export function portraitPng(
+  recipe: LookRecipe,
+  clothes: Clothes = "everyday",
+): Buffer {
+  const figure = figureFor(recipe, clothes);
   if (!figure) throw new Error("No such look.");
   return figurePng(figure, figure.kind === "kit" ? (recipe.colors ?? {}) : {});
 }
 
-/** The look as a face for a headshot: its figure drawn at `url`, cropped by the screen to the figure's own head. */
+/** The look as a face for a headshot: its everyday figure drawn at `url`, cropped by the screen to the figure's own head. */
 export function portraitFace(
   recipe: LookRecipe,
   url: string,

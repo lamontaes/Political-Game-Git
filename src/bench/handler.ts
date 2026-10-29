@@ -556,7 +556,14 @@ export async function benchRequest(
           "Content-Type": "image/png",
           "Cache-Control": "max-age=3600",
         });
-        response.end(portraitPng(readRecipe(kept)));
+        // Everyday clothes, or with dress=work the work clothes (the creator
+        // shows the two side by side).
+        response.end(
+          portraitPng(
+            readRecipe(kept),
+            url.searchParams.get("dress") === "work" ? "work" : "everyday",
+          ),
+        );
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/title") {

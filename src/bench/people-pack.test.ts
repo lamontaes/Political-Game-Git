@@ -222,29 +222,55 @@ describe("the people pack", () => {
   it("shows everyone standing in the creator and in their portrait", () => {
     // Owner, Oct 29: "people shouldn't be sitting in their image creator".
     for (const person of packPeople()) {
-      let look = drawnAppearance(
-        person.sex === "woman" ? "female" : "male",
-        person.id,
-        0,
-      );
+      const gender = person.sex === "woman" ? "female" : "male";
+      let look = drawnAppearance(gender, person.id, 0);
       for (let n = 0; n < 12; n++) {
-        const figure = figureFor(look)!;
-        expect(figure.seat, `${look.person} ${look.outfit}`).toBe("none");
-        look = moveAppearance(look, "female", "outfit", 1);
+        for (const clothes of ["everyday", "work"] as const) {
+          const figure = figureFor(look, clothes)!;
+          expect(figure.seat, `${look.person} ${clothes}`).toBe("none");
+        }
+        look = moveAppearance(look, gender, "work", 1);
       }
     }
   });
 
-  it("lists every look a person has in the creator, three or more", () => {
+  it("lists every work look a person has in the creator, three or more, none of them everyday clothes", () => {
     let look = drawnAppearance("male", "looks", 0);
     const seen = new Set<string>();
     for (let n = 0; n < 12; n++) {
       seen.add(
-        appearanceRows(look, "male").find((row) => row.id === "outfit")!.value,
+        appearanceRows(look, "male").find((row) => row.id === "work")!.value,
       );
-      look = moveAppearance(look, "male", "outfit", 1);
+      expect(figureFor(look, "work")!.dress).not.toBe("casual");
+      look = moveAppearance(look, "male", "work", 1);
     }
     expect(seen.size).toBeGreaterThanOrEqual(3);
+  });
+
+  it("dresses an official at a government place in work clothes only", () => {
+    // Owner, Oct 29: the President renders in work clothes, not everyday ones.
+    const core = {
+      date: "2026-01-01",
+      people: new Map(),
+      jobs: new Map(),
+    } as unknown as CoreState;
+    for (const plate of plates())
+      for (const spot of plate.spots)
+        for (let n = 0; n < 12; n++) {
+          const official = {
+            id: `official-${n}`,
+            birthDate: "1970-01-01",
+            official: true,
+            seed: `work:${n}`,
+          };
+          const figure = figureForSpot(
+            core,
+            official,
+            "oval-office-standard",
+            spot,
+          );
+          if (figure) expect(figure.dress, figure.id).not.toBe("casual");
+        }
   });
 
   it("offers a new manifest row in the creator with no code change", async () => {

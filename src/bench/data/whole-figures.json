@@ -1,8 +1,8 @@
 {
-  "about": "How people are dressed and seated in rooms (src/bench/whole-figures.ts), read against the people pack's manifest (src/bench/people-pack.ts). `dressOrder`: the pack's dress values a person wears, most fitting first: an official at a government place, someone at their own workplace, anyone else. `packSex`: the pack's word for a recorded gender; a gender not listed may be any of the pack's people. `olderHair`: the palette color someone 65 or older wears where their palette has it. `propPlaces`: where a figure holding something may be drawn, by its `prop` (owner, Oct 29: phones at a rally or on the street, paper at a hearing or the address desk, pen and paper at a desk; never at home).",
+  "about": "How people are dressed and seated in rooms (src/bench/whole-figures.ts), read against the people pack's manifest (src/bench/people-pack.ts). `dressOrder`: the pack's dress values a person wears, most fitting first: an official at a government place and someone at their own workplace wear work clothes only (owner, Oct 29: the President renders in work clothes, never everyday ones); anyone else wears everyday clothes, falling back to work clothes where none is painted in the spot's pose. `everydayDress`: the dress value of everyday clothes; every other dress is work clothes (the creator chooses one of each). `packSex`: the pack's word for a recorded gender; a gender not listed may be any of the pack's people. `olderHair`: the palette color someone 65 or older wears where their palette has it. `propPlaces`: where a figure holding something may be drawn, by its `prop` (owner, Oct 29: phones at a rally or on the street, paper at a hearing or the address desk, pen and paper at a desk; never at home).",
   "dressOrder": {
-    "official": ["formal", "business", "casual"],
-    "work": ["business", "formal", "casual"],
+    "official": ["formal", "business"],
+    "work": ["business", "formal"],
     "everyday": ["casual", "business", "formal"]
   },
   "packSex": {
@@ -48,6 +48,10 @@
       "trousers": "Pants color",
       "shoes": "Shoes color",
       "hair": "Hair color"
+    },
+    "rows": {
+      "everyday": "Everyday clothes",
+      "work": "Work clothes"
     }
   },
   "propPlaces": {
@@ -89,5 +93,6 @@
       "campaign-office-storefront",
       "local-newspaper-office"
     ]
-  }
+  },
+  "everydayDress": "casual"
 }
