@@ -23,3 +23,5 @@ claimed-at: 2026-10-29T21:28:28.662Z
 **Files.** src/core2/modules/world-legislating.ts, src/core2/modules/legislature.ts, src/core2/data/legislature/congress-sessions.json
 
 **Notes.** Filed by the CTO, Oct 29, from the owner's voice note on the governing brief (OWNER-DECISIONS, Oct 29 21:40 UTC). Read: OWNER-DECISIONS, DECISION-REGISTER, the governing brief's four research notes; searched the pool for twins.
+
+Oct 29 (laws lead): mapped read-only; the plan is docs/reports/world-governing-plan-2026-10-29.md (units C1, C2, C3; about 8-13 builder hours). No admitted federal question yet has a reader in the town and a real path through 60 Senate votes; the C2 research (Oct 29) finds one. gov-federal-questions-admitted has the same test file, stopgap and done-when and should fold into this item.
