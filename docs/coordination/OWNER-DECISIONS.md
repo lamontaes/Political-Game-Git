@@ -6,7 +6,7 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
-## Oct 29, 17:40 UTC: side stories on the paper (owner, to his words session, about 1:30 PM Eastern; relayed to the CTO)
+## Oct 29, 17:40 UTC: side stories on the paper (owner, directly to his words session, about 1:30 PM Eastern; that session asked the CTO who owns the two pieces outside its area)
 
 - **Ask:** short filler "side stories" on the newspaper, for realism: a fourth car stolen when crime is up, someone opening a business, a local child winning a spelling bee, three Division I recruits on the high school team. Briefs of a line or two, maybe a picture, not clickable.
 - **Who builds it (CTO):** the words session owns the press desk's brief selection (`src/core2/modules/press.ts`) while no other session holds the news engine. The one desk prints briefs from records it already sees (crime, businesses founded or closed, graduation and test results), chosen by cause (the outlet's space, the record's reach in town, recency), never a roll. School and sports achievements (a spelling-bee win, college recruits) are a record in the school engine from the student's own traits, grades and the school's records, built by the words session's helper after agreeing files and record shapes with the laws lead, whose helper is in the school engine on `school-college-step-record`. The lane lays briefs out as headline plus one line with no click-through. Briefs are sized to what a town's records hold, never padded.
