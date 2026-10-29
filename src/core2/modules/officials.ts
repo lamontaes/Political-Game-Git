@@ -443,6 +443,15 @@ function unrecordedParty(
       party: governor.party,
       partySource: "elected on the governor's ticket",
     };
+  // A House seat the published roster leaves vacant is held in the world
+  // roster by the party its own vote favors: the one source of the fact.
+  const house = /^seat:(US-[A-Z]{2}):us-house:(\d+)$/.exec(term.seatId);
+  const rostered = house
+    ? worldRoster(api.state.seed).congress[house[1]!]?.[
+        String(Number(house[2]))
+      ]?.[0]
+    : undefined;
+  if (rostered) return { party: partyName(rostered), partySource: "roster" };
   // stopgapId: SG-OFFICIALS-unrecorded-party
   api.stopgap("SG-OFFICIALS-unrecorded-party");
   return {

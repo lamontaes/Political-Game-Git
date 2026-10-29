@@ -49,6 +49,28 @@ The owner does not grade batches. He plays or watches a scene or a scenario and 
 - **A scene shown to the owner answers why by record** (`ask-why`, `player-screen-text`): no raw id in a line, no body named by a member's title, no line repeated, no relative asked after with no recorded cause, no scene staged in the wrong household. Fix the engine defect at the root and replay in a fresh drawn place.
 - **Proof scenes** are welcome: a situation the director does not yet fire may be composed from real records in a played world and shown, marked as a proof, so the owner reacts to what the game can say and about what. `scripts/dialogue-batch/scene-year.ts --seed <seed>` plays a drawn place's year and lists every scene with the record that fired it; `npm run words:coverage` lists the zero cells of the coverage table.
 
+## News stories: headline, lede, body and briefs (owner, Oct 29: "headlines and then a little bit of story. Nothing is actually on the paper")
+
+- **One composer, one call.** A printed story's facts come from the source record by a builder in `src/bench/printed-words.ts` (`BUILDERS`, read through `Reader`). `composeNewsStory` (`src/english/english-newscast.ts`) words the headline, the lede, then one sentence per `context` role in `STORY_KINDS` whose facts are present. `wordPrintedStory` returns `{headline, lede, paragraphs, outlet}`, and the lane's paper prints exactly that (CREW.md seam): never a second composer on the page side.
+- **Measure before writing:** `node --import tsx scripts/dialogue-batch/printed-kinds.ts --seed <seed>` plays a drawn place's year and lists every printed kind with its count, how many print a body, the unworded records and one example with its facts. A failing printed-words test's `GOLDEN_PATH_SEED` reproduces there.
+- **A body sentence says something the record holds and the lede did not:** the bill's purpose, the sponsor, the chamber, what follows a veto or a committee vote, the national rate, the rate before. Add the fact to the builder from an engine record; never invent one. A sentence whose facts the lede already named is skipped by the composer.
+- **Pieces live in two banks:** `data/english/parts/news.json` (14 words at most) and `headlines.json`, gated by `requiresFacts`. Words like passed, failed, vetoed and won add their own requirement (`variants()` in english-newscast.ts).
+- **The paper's style:**
+  - headlines in sentence case;
+  - sums of a million or more rounded ("$228.7 million");
+  - a law's measure named by the English engine's subject for its series (`storyTopicName`), never the key read as words ("snap maximum").
+- **Briefs** (owner, Oct 29): the paper's side column carries short local stories for realism (a car stolen, a business opening, a student's win). A brief is a story kind marked `brief: true`, with a headline and one line only, not clickable. It comes from records the world keeps, chosen by the one press desk (`src/core2/press-desk.ts`, the Words session's per the CTO, Oct 29): by the outlet's space, the record's reach and its recency, never a roll.
+
+## Working with helpers and other sessions
+
+- **A helper gets its own worktree** (`isolation: "worktree"`, under `.claude/worktrees/`, ignored by git) and its own branch. It edits banks only on that branch, and the session merges its work by piece key (banks are never hand-merged). Once the branch is pushed and merged, remove the worktree (`git worktree remove <path>`) so the container keeps its disk (owner, Oct 29).
+- **Seams are settled by message, then written down** (CREW.md):
+  - the lane prints what the composer returns;
+  - laws sends each record's kind and fields when its PR opens;
+  - people v3 places the cast the director sends, with each one's reason.
+    Review every `Review: words` PR the hour it opens, with one comment.
+- **A PR body passes `npm run report:check`.** The first paragraph is the item line and one plain gate line, with no file paths in it. Then come headed sections, and the paths and test names go under them.
+
 ## What the owner saw on Oct 26 (read before writing)
 
 - **No newer English exists.** Batch 22 was the Oct 15 held lines laid out for grading; #5942 released them. The owner believed batch 22 was better English than what he heard; it is the same English. Better words come only from new pieces written per scene to `scene-standard` and his voice notes turned into grades. Tell him so plainly.
