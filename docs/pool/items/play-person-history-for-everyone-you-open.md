@@ -6,14 +6,14 @@ lead: play-first
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: play-first/play-person-history-for-everyone-you-open
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 playtest of v0.64.0 (to the CTO)
-claimed-at: 2026-10-29T17:10:15.130Z
+claimed-at:
 ---
 
 **What.** The owner opened profiles in v0.64.0 and said: "nobody has any record. I still don't see anybody's history being simulated when you open their profiles." The card's History section (from `screens-person-history`, merged Oct 28) shows only to family, a housemate or someone with a tie, and reads facts drawn once at the start (birth, school stages, a partner, a tenure summary) rather than the years the engines ran before the start (the one history from the player's birth year, ruled Oct 28). So an official, a neighbor or a coworker shows no past at all, and family shows a thin one. A person the player opens is filled in at that moment (two-level population), so from then on they must carry a past from the same history every engine reads: where they lived and moved, schooling, jobs held, partners and children, offices held and elections run, deaths in the family. The card tells it oldest first in words from the bank.
