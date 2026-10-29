@@ -23,3 +23,5 @@ claimed-at: 2026-10-29T21:28:24.226Z
 **Files.** src/core2/modules/world-legislating.ts, src/core2/data/offices/bodies.json, src/core2/data/legislature/
 
 **Notes.** Filed by the CTO, Oct 29, from the owner's voice note on the governing brief (OWNER-DECISIONS, Oct 29 21:40 UTC). Read: OWNER-DECISIONS, DECISION-REGISTER, the governing brief's four research notes; searched the pool for twins.
+
+Oct 29 (laws lead): mapped read-only; the plan is docs/reports/world-governing-plan-2026-10-29.md (units U1, U1b, U2, U3, U4, each one PR; about 22-34 builder hours). Speed is the hard limit: main is already about two minutes a year, so the CTO rules on the budget before U1 lands. U1 (seat every chamber, measured alone) starts Oct 29 on claude/gov-every-state-and-town-governs.
