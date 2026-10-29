@@ -5967,11 +5967,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:3438 size -0.011, range [-0.0381, 0.0035], Estimated from: eSafety Commissioner (Australia), evaluation of the social media minimum age, three-month findings, as reported by the CADE Project, 'eSafety finds early decline in under-16 social media account ownership after age restrictions', 3 Aug 2026 (https://cadeproject.org/updates/esafety-finds-early-decline-in-under-16-social-media-account-ownership-after-age-restrictions/), read Oct 29, 2026 (eSafety's own report pages returned 503 through the proxy); Braghieri, Levy and Makarin, Social Media and Mental Health, American Economic Review 2022 (https://aeaweb.org/content/file?id=17257 and the working paper https://epub.ub.uni-muenchen.de/91215/1/320.pdf, Table A.4 and note 29), read Oct 29, 2026; Allcott, Braghieri, Eichmeyer and Gentzkow, The Welfare Effects of Social Media, American Economic Review 110(3) 2020 (https://www.nber.org/papers/w25514.pdf), read Oct 29, 2026; Reducing Social Media Use Decreases Depression Symptoms: A Meta-Analysis of Randomised Controlled Trials, doi 10.3390/ejihpe15110222 (https://pmc.ncbi.nlm.nih.gov/articles/PMC12651081), read Oct 29, 2026; Orben and Przybylski, Nature Human Behaviour 2019, doi 10.1038/s41562-018-0506-1 (abstract read through Europe PMC, PMID 30944443), read Oct 29, 2026; SAMHSA, National Surveys on Drug Use and Health 2023-2024, state small area estimates, Table 38 (https://www.samhsa.gov/data/sites/default/files/reports/rpt56957/2024-nsduh-sae-tables-percent-csvs/2024-nsduh-sae-tables-percent.pdf), read Oct 29, 2026 (data/research/outcome-web/place-outcome-bases-2024.json, health.youth-major-depressive-episode)"
+          "evidence": "data/research/outcome-web/links.json:3438 size -0.011, range [-0.0381, 0.0035], Estimated from: eSafety Commissioner (Australia), evaluation of the social media minimum age, three-month findings, as reported by the CADE Project, 'eSafety finds early decline in under-16 social media account ownership after age restrictions', 3 Aug 2026 (https://cadeproject.org/updates/esafety-finds-early-decline-in-under-16-social-media-account-ownership-after-age-restrictions/), read Oct 29, 2026 (eSafety's own report pages returned 503 through the proxy); Braghieri, Levy and Makarin, Social Media and Mental Health, American Economic Review 2022 (https://aeaweb.org/content/file?id=17257 and the working paper https://epub.ub.uni-muenchen.de/91215/1/320.pdf, Table A.4 and note 29), read Oct 29, 2026; Allcott, Braghieri, Eichmeyer and Gentzkow, The Welfare Effects of Social Media, American Economic Review 110(3) 2020 (https://www.nber.org/papers/w25514.pdf), read Oct 29, 2026; Reducing Social Media Use Decreases Depression Symptoms: A Meta-Analysis of Randomized Controlled Trials, doi 10.3390/ejihpe15110222 (https://pmc.ncbi.nlm.nih.gov/articles/PMC12651081), read Oct 29, 2026; Orben and Przybylski, Nature Human Behavior 2019, doi 10.1038/s41562-018-0506-1 (abstract read through Europe PMC, PMID 30944443), read Oct 29, 2026; SAMHSA, National Surveys on Drug Use and Health 2023-2024, state small area estimates, Table 38 (https://www.samhsa.gov/data/sites/default/files/reports/rpt56957/2024-nsduh-sae-tables-percent-csvs/2024-nsduh-sae-tables-percent.pdf), read Oct 29, 2026 (data/research/outcome-web/place-outcome-bases-2024.json, health.youth-major-depressive-episode)"
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/resting-stress.ts:65"
+          "evidence": "src/core2/resting-stress.ts:68"
         },
         "varied": {
           "status": "fail",
@@ -12646,7 +12646,7 @@
     {
       "measure": "health.youth-major-depressive-episode",
       "status": "engine-reads-web",
-      "evidence": "src/core2/resting-stress.ts:65",
+      "evidence": "src/core2/resting-stress.ts:68",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["age-verification-to-youth-depressive-episode"]

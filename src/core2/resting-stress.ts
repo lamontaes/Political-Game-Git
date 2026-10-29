@@ -13,7 +13,7 @@
  */
 import reachParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { moduleState } from "./module-state";
-import { webReach, type WebHost } from "./outcome-web-reach";
+import { webReach } from "./modules/laws";
 import { parameterValues } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { CoreState, PersonInput } from "./types";
@@ -27,6 +27,9 @@ export type RestingStressRow = Pick<
   | "traits"
   | "placeId"
 >;
+
+/** What a read of the web needs of a world (outcome-web-reach.ts): its state and its modules' tables. */
+type WebHost = Parameters<typeof webReach>[0];
 
 /** The web's reach on a world, built from its state alone: the counted tier decides without an engine API. */
 const HOSTS = new WeakMap<CoreState, WebHost>();
