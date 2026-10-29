@@ -76,6 +76,10 @@
       "value": 0,
       "note": "Defined from the Census base: the higher education line above its base is 0 where it has not been changed, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
     },
+    "budget.naturalResources-added-pct": {
+      "value": 0,
+      "note": "Defined from the Census base: the natural resources line above its base is 0 where it has not been changed, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
+    },
     "program.snap-maximum-change-pct": {
       "value": 0,
       "note": "Defined from the opening: the SNAP maximum allotment's change since the opening is 0 at the opening, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
@@ -6150,6 +6154,26 @@
       "anchor": "Across the 50 states and D.C., each doubling of state and local parks spending per resident goes with 0.9 points more of residents near a park or recreation facility, with a 95% range of -1.6 to +3.3 points, once the rural share is held fixed: about zero, a cross-section fit and not a causal estimate (Research 1, from County Health Rankings 2025 and Census 2022 finances). A one percent rise in spending is 0.0144 of a doubling, 0.0129 points, 0.0157% of the median 82.25%, so the size is 0.000157 for each percent, and the range -0.000279 to +0.000575. A dedication adds about $9.26 a resident to a place that spends about $136, 6.8%, so access moves about 0.1% either way. The lag is the year a parks agency needs to spend new money on sites and hours, judged, not measured.",
       "source": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)",
       "range": [-0.000279, 0.000575]
+    },
+    {
+      "key": "natural-resources-spending-to-exercise-access",
+      "status": "built",
+      "unsupportedReason": null,
+      "from": "budget.naturalResources-added-pct",
+      "to": "parks.access-to-exercise",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.0000699,
+      "per": "percent of what the place spends on natural resources",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "M",
+      "evidence": "provisional",
+      "anchor": "ESTIMATED from the nearest research (owner, Oct 29: the two laws with no study are estimated from the nearest research with a spread). No study sizes what a natural resources line does to a measure the web keeps (the searches of Oct 25 are in the row's old note: state park funding follows attendance rather than driving it, Smith, Wilkins and Leung 2019; conservation and farmland studies answer other policies). The nearest measured relation between public land spending and residents' access is the parks line's own (parks-spending-to-exercise-access): 0.000157 of the median access for each percent of about $136 a resident, so 0.0001154 for each dollar a resident. A one percent rise in natural resources spending is $1.21 a resident (Census 2022: $121.15 a resident, state and local). Natural resources money buys state forests, wildlife areas, water and soil work, of which only part is land open to residents for exercise; that share is judged at one half, with a spread from none to all. So the size is 0.0001154 x 1.2115 x 0.5 = 0.0000699, and the range runs from the parks range's low end to its high end at the whole share: -0.000249 to +0.000512. The lag is the parks line's year.",
+      "source": "Estimated from parks-spending-to-exercise-access (Research 1, County Health Rankings & Roadmaps 2025 and the Census Bureau's 2022 Census of Governments: Finance) and the Census Bureau's State and Local Government Finances by Level of Government and by State: 2022, Table 1 (natural resources, $121.15 a resident; data/research/money/state-local-finances-2022.json)",
+      "range": [-0.000249, 0.000512]
     },
     {
       "key": "income-tax-rate-to-poverty",

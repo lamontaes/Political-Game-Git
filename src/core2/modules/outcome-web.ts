@@ -248,12 +248,15 @@ const ENGINE_READERS: Readonly<
   // laws set, as the town's treasuries and law rows record them.
   "snap-maximum-change": (api) => snapMaximumChangePct(api),
   ...Object.fromEntries(
-    ["healthAndHospitals", "welfareAndMedicaid", "higherEducation"].map(
-      (line) => [
-        `budget-line-added:${line}`,
-        (api: CoreAPI) => budgetLineAddedPct(api, line),
-      ],
-    ),
+    [
+      "healthAndHospitals",
+      "welfareAndMedicaid",
+      "higherEducation",
+      "naturalResources",
+    ].map((line) => [
+      `budget-line-added:${line}`,
+      (api: CoreAPI) => budgetLineAddedPct(api, line),
+    ]),
   ),
   // The severity of the town's most severe disaster in the last decade, from the disasters engine's news events.
   "disaster-severity": (api, placeId) => severeDisasterReading(api, placeId),

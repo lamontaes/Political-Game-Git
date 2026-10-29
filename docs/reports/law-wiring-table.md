@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 83 of 89 (2 partly, 4 on a stopgap). Research links reaching people or carried by an engine: 161 of 244 (19 the research finds about zero, 64 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
+Laws wired: 84 of 89 (2 partly, 3 on a stopgap). Research links reaching people or carried by an engine: 162 of 245 (19 the research finds about zero, 64 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
@@ -59,7 +59,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | ban new gas hookups                          | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | clean electricity standard                   | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | clean air plan for polluted counties         | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
-| Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Budgets, Your office, News          |
+| Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | bottle deposit                               | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | price carbon                                 | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | Spending: police                             | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
@@ -160,10 +160,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - money: The cap applies only to the bank's consumer loan (about 13 percent against a 36 percent ceiling), so no borrower's rate changes and the law moves no dollar; the game has no small-dollar lender for it to bind (SG-WORLD-credit-rate-cap-no-small-lender)
 - web: no production reader: loan-rate-cap-to-high-cost-borrowing (SG-WEB-unread-finance-high-cost-loans) move only the web's ledger
-
-**Spending: naturalResources** (`budget-line:naturalResources`)
-
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure land conservation and park visits (SG-LAW-outcome-link-unresearched)
 
 **Spending: corrections** (`budget-line:corrections`)
 
