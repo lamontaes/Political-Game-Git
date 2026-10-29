@@ -296,6 +296,181 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.63.0
+
+_Released October 29, 2026._
+
+### Added
+
+- **Someone at home marks your diploma** The day after you graduate, someone you
+  live with says they're proud of you and asks what comes next. You answer one
+  of four ways, and what you said is kept. A gentle relative and a gruff one say
+  it differently.
+
+- **A notice from the landlord is talked over at home** When your landlord
+  serves your household a notice to pay what it owes or leave, someone you live
+  with brings it to you that day: how much is owed and the date it is due. You
+  answer one of four ways, and a promise to find the money is kept and told in
+  your journal.
+
+- **The clerk tells you how many signatures your petition needs and the day they
+  are due** When you file for office at the counter, the clerk now says what
+  comes next: the number of signatures your petition needs from voters in town
+  and the day they must be back on the clerk's desk, read from the petition the
+  filing opened. Where the office takes no petition, the clerk says so. The
+  narrator's line that sets the scene at the counter now comes from the same
+  story director as every other scene.
+
+- **While your petition circulates, a door you knock asks for a signature** In
+  the weeks your petition still needs signatures, a door on your canvass now
+  plays as a signature ask instead of a vote ask. You ask the resident to sign,
+  and they answer from the petition record: whether they signed when you
+  knocked. Signing is not a promise to vote for you, so someone who would not
+  back you can still put their name down. You can press a resident who said no,
+  but the answer stays the same.
+
+- **Your journal remembers what a scene left you with** When a scene ends with
+  you making a promise, owing someone a favor, leaving things tense, getting
+  caught in a lie, setting a meeting or going on the record, your journal now
+  says so, with the person in it: "I gave my brother my word, and I meant it."
+
+### Fixed
+
+- **One scene for one bill on your desk** When a bill reaches your desk and its
+  sponsor comes in to argue for it, that is the bill's scene. Your aide's
+  briefing on the same bill no longer plays after it; the aide brings the bill
+  only when nobody comes to argue.
+
+- **An election for a seat whose term starts on election day no longer stops the
+  game** Some elections for seats outside your town stopped the game on election
+  night. This happened when the new term starts on election day itself, as with
+  the seat of a member chosen in a special election to serve out a term. The
+  winner now takes the seat the next morning. A special election called for a
+  day that has already come is now held the next day instead of stopping the
+  game.
+
+- **A small county's age group no longer opens fully employed in every world** A
+  county's employment share for one age group is read as a small-sample
+  estimate, so a cell the census reads as everyone or no one employed opens near
+  that, differently in each world, instead of exactly all or none every time.
+
+- **Laid-off workers set out to retrain or start over at a realistic rate
+  again** The fall with age in a laid-off worker's pull toward retraining or a
+  new business is gentler, so young workers no longer choose it half the time
+  and towns read inside the displaced-worker research again.
+
+- **The journal tells a law you learned changed your costs, even an old one**
+  When you learn that a law already on the books changed what you pay, your
+  journal now says so by what the law is about: "I learned the law on
+  electricity and the grid is behind what I pay now." Before, only a law a bill
+  had passed in play was told, and the older ones went missing.
+
+- **A scene's narrator no longer says its opening line twice** A scene with
+  something to settle, such as a job offer on the phone or a classmate's
+  goodbye, opened with two narrators, the situation's line and the scene's own,
+  so a job offer read "The phone rings." twice. It now opens with the scene's
+  own narrator alone, the same voice that speaks between the lines. A moment
+  with no exchange keeps its situation line.
+
+### Changed
+
+- **Vandalism happens to households, and ending cash bail changes how many
+  defendants are convicted** Households can now be victims of vandalism, at the
+  rate the FBI's incident counts give for homes, and more of it where
+  unemployment rises, as research on unemployment and vandalism measures. Where
+  a law ends cash bail, fewer defendants are held before trial, and the court
+  convicts fewer of them by the size research on pretrial detention measured;
+  each sentence keeps its reasons. Nothing changes where no such law passes.
+
+- **A severe disaster lowers what homes are worth and pushes people to leave**
+  When a disaster that FEMA found damaged many homes strikes a town, the town's
+  homes are worth less, by the size research measured for a severe disaster
+  (about 5 percent), and residents are more drawn to move away. Purchases and
+  sales of homes take the lower value. A town with only minor disasters is
+  unchanged.
+
+- **An eighth grader who moved to town after school started does a little worse
+  in math** A student whose family moved into town after the school year began
+  is a little less likely to pass the eighth grade math test, by the size
+  research measured for a school switch (about 0.03 standard deviations). The
+  student's own result record names the move it stands on. Nothing changes for
+  students who did not move.
+
+- **Losing SNAP to the work requirement shows up in what a household buys,
+  counted once** When the work requirement for assistance stops a household
+  head's SNAP benefit, the household now buys less of its everyday plan, and
+  that is the one place the change shows. The town's separate food-insecurity
+  figure no longer moves on its own for the same loss of benefit, so the effect
+  is not counted twice.
+
+- **Local immigration enforcement changes who keeps looking for work** Where a
+  city or county partners with federal immigration enforcement, a resident
+  without work authorization is less drawn to look for or stay in work, by the
+  size research measured (about 6 percent), and citizens a little less (about
+  half a percent). Work authorization is part of who each noncitizen is, set
+  when the world is made at the share of noncitizens Pew estimates are
+  unauthorized, so the same person has the same status every time. A town with
+  no such partnership is unchanged.
+
+- **What happens in a person's own life now moves their chance of dying** A
+  person's death hazard now reads their own records, not only the town's
+  averages. A 55- to 64-year-old whose Medicaid coverage the state pays runs a
+  quarter below the life table a year after it begins, and runs above it a year
+  after it ends; the town-wide cut from the Medicaid expansion no longer lands
+  on them a second time. A worker whose long job ended when the business closed
+  or cut its staff carries a higher chance of dying that fades over twenty
+  years. A worker who holds a job at 55 or more hours a week carries a higher
+  chance of dying of heart disease or stroke for as long as they hold it. Each
+  of these shows in the person's recorded reasons with the record it stands on.
+
+- **A President's turns of phrase come from the speeches they have given** The
+  opening address now uses a crafted turn of phrase, such as a contrast or a
+  list of three, only when the President's record shows enough speeches to have
+  earned it. Each campaign stop on their record counts as a speech, and every
+  speech the game records adds to it. A line with a crafted turn cites the
+  speeches that earned it.
+
+- **A laid-off worker can have it out with the owner who let them go, and a
+  governor fills an empty cabinet post** A worker who blames the business owner
+  for a layoff can now confront that owner even when the town has not met them
+  yet; the owner is filled in as anyone met is, and the falling-out costs the
+  tie. A governor's cabinet is chosen by weighing loyalty against merit, as town
+  department heads are, and a post left empty by a death or a move is filled at
+  the governor's next review.
+
+- **Filing for office is a petition you have to fill** Filing for office now
+  takes out a petition. Your name goes on the ballot only if enough voters have
+  signed it by the filing deadline. The number you need comes from your state's
+  filing rules for that office. The people you know, the doors you knock and the
+  evenings you hold all add signatures, and each person decides for their own
+  reasons whether to sign. The morning after the deadline, the clerk checks the
+  names and strikes anyone who has died, moved away or may not vote. You make
+  the ballot or come up short. The other candidates in town go through the same
+  petition.
+
+- **Asking someone for their vote plays through the same conversation engine as
+  every other scene** When you ask a colleague for their vote the evening before
+  a roll call, or a resident for theirs at the door, the scene is now built by
+  the same conversation engine as every scene someone brings to you. The answers
+  still come from where the other person stands, never from a roll. The scene's
+  ending is named by the same rules as every other ending, so a colleague who is
+  still deciding when you let it go reads as still undecided, not as a scene
+  left there. The wording of a line may differ from before.
+
+- **The clerk tells you about the race before the paperwork** At the filing
+  office, once you name the office, the clerk tells you about it: that you're
+  running for it, the primary and general election dates (or that there is no
+  primary), the length of the term, and what the office does, before the
+  deadline and any rule that stops you. The signatures a petition needs come
+  next, once the elections engine keeps the petition record.
+
+- **Election day narration no longer repeats the town's name** On election
+  morning and election night the narrator no longer names the town the screen
+  already shows: "The polls opened this morning." in place of "The polls opened
+  this morning in Lake Lindsey." A candidate who has moved away hears that they
+  can't vote in this race without the old town named. The narrator's election
+  day and night lines now come from the same word maker as every other scene.
+
 ## PRE-ALPHA 0.62.0
 
 _Released October 28, 2026._
