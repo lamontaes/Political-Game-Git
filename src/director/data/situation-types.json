@@ -3548,7 +3548,7 @@
           "key": "resident",
           "fill": "counterpart",
           "count": "one",
-          "moves": ["agree", "decline"],
+          "moves": ["agree", "decline", "deflect"],
           "wants": ["play-safe"],
           "bearing": "guarded"
         },

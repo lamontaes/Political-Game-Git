@@ -117771,6 +117771,471 @@
         "move": "accept",
         "key": "door"
       }
+    },
+    {
+      "key": "scene-talk.open-greet.hi-there-sorry-to-bother-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hi there. Sorry to bother you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.evening-i-ll-be-quick-i-promise",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Evening. I'll be quick, I promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.well-when-you-put-it-that-way-give-me-the-pen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Well, when you put it that way. Give me the pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-i-ll-sign-just-the-once",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine, I'll sign. Just the once.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.leave-me-something-to-read-and-i-ll-think-about-it",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Leave me something to read, and I'll think about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deflect",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.can-you-come-back-another-time",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Can you come back another time?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deflect",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-don-t-really-follow-local-politics",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I don't really follow local politics.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deflect",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-d-want-to-read-the-whole-thing-first",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'd want to read the whole thing first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deflect",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.does-signing-mean-i-m-voting-for-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Does signing mean I'm voting for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happens-to-my-name-after-this",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What happens to my name after this?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-something-on-the-stove",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have something on the stove.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "leave",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-really-have-to-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I really have to go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "leave",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.no-it-just-lets-your-neighbors-choose-from-one-more-name",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "No. It just lets your neighbors choose from one more name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-clerk-checks-it-against-the-voter-rolls-and-then-it-s-a-public-record",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The clerk checks it against the voter rolls, and then it's a public record.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.good-luck-with-it-2",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Good luck with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.hope-you-make-it-on",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Hope you make it on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-good-luck",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. Good luck.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.try-next-door-they-like-to-talk",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Try next door. They like to talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "warn",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-come-back-with-flyers",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't come back with flyers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "warn",
+        "key": "door"
+      }
     }
   ]
 }

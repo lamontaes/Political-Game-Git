@@ -3484,13 +3484,16 @@
           { "move": "accept", "carries": "none" }
         ]
       },
-      "replies": ["agree", "decline"],
+      "replies": ["ask", "agree", "decline", "deflect"],
       "follow": {
+        "ask": ["answer"],
         "agree": ["thank"],
-        "decline": ["press", "accept"]
+        "decline": ["press", "accept"],
+        "deflect": ["press", "accept"]
       },
       "again": {
-        "press": ["agree", "decline"]
+        "answer": ["agree", "decline", "leave"],
+        "press": ["agree", "decline", "leave"]
       },
       "endings": [
         {
