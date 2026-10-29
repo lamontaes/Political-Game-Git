@@ -5,8 +5,8 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: fixer/red-main-oct28
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -24,3 +24,5 @@ claimed-at: 2026-10-28T14:39:05.792Z
 **Notes.** lead: fixer. Standing item; stays open while reds remain. Read: OWNER-DECISIONS (through Oct 28 05:30 UTC), DECISION-REGISTER, LAW; searched docs/pool/items for release-main-red: six earlier incidents, all done or in-pr.
 
 Old engine session, Oct 28, 15:50 UTC: `src/core2/opening-key-people.test.ts` is red on clean main (a72d9e3c95). With GOLDEN_PATH_SEED=83517470d3ae82d8, Sparta, Missouri and Fort Belvoir, Virginia fail the last assertion, "The Politics screen reads the same list the opening does": the screen's list (`politicsKeyPeople` in src/bench/government.ts) filters and reorders by POLITICS_KEY_ORDER, so it holds 16 and 10 people against the opening's 209 and 147. Newport, Oregon runs out of memory on main before the assertion. The screen's filter is play-stop-05's design, so the test's equality looks stale rather than the screen wrong; the owner of that call is the play-first lane.
+
+Stopped Oct 29 13:58 UTC (owner's stop order, by the CTO): the open reds on main at stop are in the final block at the top of `## Red main` in docs/coordination/LEADS-2026-10-24.md, each with its item; nothing of this session is unpushed.
