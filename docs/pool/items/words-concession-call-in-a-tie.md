@@ -6,9 +6,9 @@ kind: bug
 priority: 2
 size: S
 lead: words
-status: claimed
+status: in-pr
 claimed-by: words/concession-tied-count
-pr:
+pr: #6749
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-29T06:06:22.226Z
