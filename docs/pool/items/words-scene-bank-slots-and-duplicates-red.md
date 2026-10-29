@@ -6,11 +6,12 @@ kind: bug
 priority: 1
 size: S
 lead: words
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/scene-bank-slots-and-duplicates
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T05:47:31.206Z
 ---
 
 **What.** tests/english-parts-banks.test.ts fails on main 64b0dca33f in two cases for data/english/parts/scene-talk.json. Uses only declared slots: 13 slots the bank's slots map does not declare (all, ayes, cast, companion, count, in, leader, margin, nays, number, reached, required, trail), brought in by today's folds (election night #6742, the filing counter #6743, the vote figures #6744). Validates against the bank schema: three texts appear twice (Thank you., Good luck with it., Understood. Take care.), from the signature door #6738 and the filing counter #6743. CI runs only changed test files, so neither PR ran it.
