@@ -6,6 +6,10 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 18:35 UTC: skill PRs merge without waiting on CI (owner, about 2:30 PM Eastern)
+
+- **Ruling:** "You shouldn't need to wait for checks to pass on new skills." A skills-only PR (skill files, their `.claude/skills` mirror, the AGENTS.md Skills list line, an `impact: none` declaration, dev-only scripts) is merged by the CTO as soon as it arrives: merge main in, run the skill test locally for the mirror and the list, merge. Carried in `AGENTS.md` (Skills) and the `cto` skill. First applied to #6785.
+
 ## Oct 29, 18:25 UTC: helpers never copy the whole repository (owner, about 2:15 PM Eastern, in the laws session; relayed by the laws lead)
 
 - **Ruling:** "be sure the subagents, even if they clone the entire repository, they shouldn't. They should immediately delete what they don't need, or even more helpfully, only clone what they do need." And: "This needs to be a project rule... I'm talking about the thing with the sub-agents." A helper or sub-agent works in a sparse copy holding only the folders its task needs (by default everything except `art/`, `public/`, `desktop/` and the large docs folders), shares the main checkout's git objects, and links `node_modules` instead of installing it; a session that finds a full helper copy narrows it at once. Why: a full copy is about 3.3 GB (art alone 1.6 GB); six helper copies filled the laws session's roughly 40 GB allowance at 18:00 UTC and writes failed until the lead narrowed them to 1.2 GB each. Carried in `AGENTS.md` (Models, effort and helpers) and the laws lead's `helper-checkout` skill.
