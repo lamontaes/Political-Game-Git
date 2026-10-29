@@ -112,7 +112,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Spending: higherEducation** (`budget-line:higherEducation`)
 
-- web: no production reader: higher-education-spending-to-college-completion (SG-WEB-unread-school-college-completion-pct) move only the web's ledger
+- web: no production reader: higher-education-spending-to-college-completion (SG-SCHOOL-college-completion) move only the web's ledger
 
 **Sales tax rate** (`sales-tax`)
 

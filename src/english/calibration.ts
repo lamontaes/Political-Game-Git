@@ -206,9 +206,14 @@ export function sentenceCount(text: string): number {
   ).length;
 }
 
+/** Shares an authored weight of 1 is scaled to, so the stable pick stays an integer draw. */
+const WEIGHT_SHARES = 1000;
+
 /**
  * Re-weights a bank's variants by the table: the piece's running grade, the
- * length and bearing the speaker's traits favor, and the move before it.
+ * length and bearing the speaker's traits favor, and the move before it. The
+ * one place a variant's weight factor is computed: a composed line's parts
+ * and a rendered line's voice both come here (`grounded-english.ts`).
  * Returns the same array untouched when every factor is 1 (so an empty table
  * changes no pick). Weights are integers, which the stable pick needs.
  */
@@ -217,12 +222,14 @@ export function calibratedVariants<
     readonly key: string;
     readonly weight?: number;
     readonly bearing?: string;
+    readonly pieceKey?: string;
   },
 >(
   variants: readonly V[],
   context: {
     readonly bankKey: string;
-    readonly part: string;
+    /** The bank part the variants fill; without one, only the variant's own piece key is looked up. */
+    readonly part?: string;
     readonly register?: string;
     readonly traits?: Readonly<Record<string, number>>;
     readonly previousMove?: string;
@@ -233,8 +240,10 @@ export function calibratedVariants<
 ): readonly V[] {
   const factors = variants.map((variant) => {
     const ids = [
-      `${context.bankKey}:${context.part}:${variant.key}`,
-      variant.key,
+      ...(context.part === undefined
+        ? []
+        : [`${context.bankKey}:${context.part}:${variant.key}`]),
+      variant.pieceKey ?? variant.key,
     ];
     const text = context.textOf?.(variant);
     return (
@@ -254,6 +263,9 @@ export function calibratedVariants<
   if (factors.every((factor) => factor === 1)) return variants;
   return variants.map((variant, at) => ({
     ...variant,
-    weight: Math.max(1, Math.round((variant.weight ?? 1) * factors[at]! * 100)),
+    weight: Math.max(
+      1,
+      Math.round((variant.weight ?? 1) * factors[at]! * WEIGHT_SHARES),
+    ),
   }));
 }
