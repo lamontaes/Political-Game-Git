@@ -41,6 +41,7 @@ import type {
   GroundedEnglishPacket,
 } from "../english/grounded-english";
 import { composeAddress } from "../english/english-composition";
+import { addressesGivenBy } from "../core2/modules/people";
 import {
   openingMove,
   type OpeningLevel,
@@ -678,6 +679,14 @@ function composeAddressOf(
   kind: OpeningSpeechKind,
 ): OpeningSentence[] | null {
   const stage = chairStage(core);
+  // The addresses the President has given: each speech the speech module
+  // recorded, and each campaign stop on their record (a rally speech there).
+  const craft = [
+    ...addressesGivenBy(coreAPI(core), president.id),
+    ...(president.pastFacts ?? [])
+      .filter((row) => row.kind === PRESIDENT_FACT.visit)
+      .map((row) => row.id),
+  ];
   const sentences: OpeningSentence[] = [];
   // Pieces already said, so no wording is used twice while another can say it.
   const said: string[] = [];
@@ -693,10 +702,13 @@ function composeAddressOf(
     );
     // stopgapId: SG-PEOPLE-address-register
     markWordsStopgap("SG-PEOPLE-address-register");
-    // In the President's own voice: their recorded traits pull each pick.
+    // In the President's own voice: their recorded traits pull each pick,
+    // and a crafted device is theirs only once the record shows the
+    // addresses that earned it.
     const address = composeAddress(base, "election-night", moves, {
       speakerTraits: president.traits,
       recentPartKeys: said,
+      addressesGiven: craft.length,
     });
     if (address.kind !== "rendered") {
       if (block.required) return null;
@@ -705,6 +717,8 @@ function composeAddressOf(
     for (const move of address.moves) {
       said.push(...move.parts.map((part) => part.partKey));
       const used = new Set(move.parts.flatMap((part) => part.usedFactKeys));
+      // A crafted device cites the addresses that earned it.
+      const earned = move.parts.some((part) => part.device) ? craft : [];
       const visit = used.has("place")
         ? block.facts.place?.sourceRecordIds
             .map((id) => /:visit:(US-[A-Z]{2})$/.exec(id)?.[P.one])
@@ -725,6 +739,7 @@ function composeAddressOf(
             ...[...used].flatMap(
               (key) => block.facts[key]?.sourceRecordIds ?? [],
             ),
+            ...earned,
           ]),
         ],
       });

@@ -98,6 +98,8 @@ import type {
 } from "../types";
 
 export const HOUSING_MODULE_ID = "housing";
+/** The record a household is served notice by: pay what is owed or leave. */
+export const NOTICE_SERVED_EVENT = "housing.notice-served";
 export const HOUSING_PARAMETERS = housingParameters as unknown as Readonly<
   Record<string, Parameter>
 >;
@@ -1458,6 +1460,32 @@ function review(api: CoreAPI): void {
         reasonKey: housingData.reasons.notice,
       });
     schedule(api, `cure:${caseId}`, cureBy, "housing-cure-deadline", caseId);
+    // The notice reaches the people it is served on: a record of their own
+    // that the story director reads (the household talks it over that day).
+    const household = c.households.get(householdId);
+    const servedOn = (household?.memberIds ?? []).filter(
+      (member) => c.people.get(member)?.alive,
+    );
+    if (servedOn.length)
+      api.emit({
+        id: `event:${NOTICE_SERVED_EVENT}:${caseId}`,
+        date: c.date,
+        kind: NOTICE_SERVED_EVENT,
+        personIds: servedOn,
+        placeId: household?.placeId ?? "",
+        topic: lease?.payeeId ?? late!.landlordId,
+        facts: {
+          caseId,
+          owedMinor: String(lease?.arrearsMinor ?? late!.owedMinor),
+          cureBy,
+        },
+        source: {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: String(law.statute ?? housingData.source.citation),
+          estimatedFrom: `A notice to pay or leave by ${cureBy}, after ${id}'s rent went unpaid.`,
+        },
+      });
   }
 }
 

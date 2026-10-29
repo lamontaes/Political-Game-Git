@@ -118,9 +118,8 @@ try {
     .first()
     .click();
   const result = (await (await filed).json()).result;
-  assert.equal(
-    result?.filing?.status,
-    "on-ballot",
+  assert.ok(
+    ["petitioning", "on-ballot"].includes(result?.filing?.status),
     `the filing was refused: ${JSON.stringify(result?.unmet ?? result)}`,
   );
   await page

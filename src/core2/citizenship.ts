@@ -21,3 +21,22 @@ export function isNoncitizen(
     new SeededRng(seed).fork(`citizenship:${personId}`).next() >= citizenShare
   );
 }
+
+/**
+ * True when a noncitizen holds no work authorization, given the share of
+ * noncitizens who are unauthorized. Seeded generation of who they are, like
+ * citizenship: the same person gets the same answer at both tiers, and a
+ * citizen is never unauthorized.
+ */
+export function isUnauthorized(
+  seed: string,
+  personId: string,
+  citizenShare: number,
+  unauthorizedShare: number,
+): boolean {
+  return (
+    isNoncitizen(seed, personId, citizenShare) &&
+    new SeededRng(seed).fork(`work-authorization:${personId}`).next() <
+      unauthorizedShare
+  );
+}

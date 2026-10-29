@@ -85,11 +85,15 @@ function corruptionCases(
         "corruption-tell-no",
       ) > 0;
     const taken = records.filter((row) => row.taken);
+    // The meeting case settles the first taken bribe as a broken promise, a
+    // falling-out of its own; the telling case needs another taken one.
     if (
       taken.length < 2 ||
-      !taken.some(
-        (row) => leansToTell(row.offererId) || leansToTell(row.officialId),
-      )
+      !taken
+        .slice(1)
+        .some(
+          (row) => leansToTell(row.offererId) || leansToTell(row.officialId),
+        )
     )
       return `${input.placeMetadata?.placeName} (seed ${seed}): ${taken.length} taken of ${records.filter((row) => row.offered).length} offers`;
   }
@@ -158,9 +162,14 @@ function corruptionCases(
           "corruption-tell-yes",
           "corruption-tell-no",
         ) > 0;
+      // The meeting case above settled the first taken bribe as a broken
+      // promise, and that falling-out may already have told someone (a cheated
+      // payer's tie sours): this case takes a pair no case has touched yet.
+      const settled = records.find((row) => row.taken);
       const crime = records.find(
         (row) =>
           row.taken &&
+          row !== settled &&
           (leansToTell(row.offererId) || leansToTell(row.officialId)),
       );
       expect(crime).toBeDefined();
