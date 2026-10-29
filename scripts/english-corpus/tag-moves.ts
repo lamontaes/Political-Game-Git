@@ -3,8 +3,8 @@
  * move and, where the sentence fits only one kind of moment, its situation
  * key, from the rules in scripts/english-corpus/moves.json. Development
  * tooling: it writes no sentence and changes none; it only sorts the parts so
- * the coverage table (scripts/dialogue-batch/coverage-table.ts) can count them
- * against the director's situation catalog.
+ * the reach table (src/english/grade-reach.ts) groups each piece with the
+ * others of its move.
  *
  *   node --import tsx scripts/english-corpus/tag-moves.ts           write tags
  *   node --import tsx scripts/english-corpus/tag-moves.ts --check   exit 1 on drift
