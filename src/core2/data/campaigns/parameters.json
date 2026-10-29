@@ -78,6 +78,12 @@
       "source": "How far one conversation at the door moves a voter toward what they make of the candidate. Checked against field experiments: face-to-face contact is the strongest campaign contact (Green and Gerber 2019).",
       "spread": [0.3, 0.7]
     },
+    "doorPledgeWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much a voter's own \"yes\" at a campaign's door holds at the ballot, in appeal units: near-binding (owner, Oct 29), so larger than the other reasons a local voter weighs together (party side and tie, standing, the incumbent lean, recognition, warmth and closeness each run about -1 to 1), and undone only as far as something heavy they learned since (pledgeDoubt in voting.ts). Checked against how often voters a canvass identifies as supporters vote as they said.",
+      "spread": [1, 3]
+    },
     "speechWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
