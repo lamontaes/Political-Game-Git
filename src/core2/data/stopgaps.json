@@ -1139,6 +1139,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-rival-donor-meeting",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 3719,
+    "whatItFakes": "A world candidate's campaign day (rivalDay) never holds a donor meeting at a supporter's home, though the same choice is offered to it; its money comes only from call time, the turn's asks and the outside donors.",
+    "why": "The donor meeting was built for the player's campaign first (campaign-like-real-races, phase A: named donors at house parties); scoring it in the rival's day changes every world race's money and pace, which wants its own calibration run.",
+    "addedBy": "governing/campaign-donor-meetings",
+    "addedAt": "2026-10-29",
+    "replacement": "rivalDay scores the donor-meeting choice on the same scale as the event and the interview (rising as the bank empties and with the host's warmth), takes it as the day's whole act when it scores best, and the world's races are re-checked against the campaign-finance calibration.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-voter-groups-stand-in",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",

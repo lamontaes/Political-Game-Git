@@ -103,7 +103,14 @@ describe("a campaign day", () => {
     expect(
       choices.map((c) => c.kind),
       where,
-    ).toEqual(["canvass", "event", "interview", "raise-money", "rest"]);
+    ).toEqual([
+      "canvass",
+      "event",
+      "interview",
+      "raise-money",
+      "donor-meeting",
+      "rest",
+    ]);
     const by = (kind: string) => choices.find((c) => c.kind === kind)!;
     expect(by("rest").available, where).toBe(true);
     expect(by("canvass").available, `doors left: ${where}`).toBe(true);

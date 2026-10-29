@@ -9,6 +9,7 @@ import {
   commissionPoll,
   giveSpeech,
   runAd,
+  sendMail,
   statementSpeechId,
   type CauseRow,
 } from "../core2/modules/campaigns";
@@ -42,7 +43,7 @@ import {
   type SpeechBuild,
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-views";
-import { backdropFor, stagePeople } from "./scene";
+import { backdropFor, homeOf, stagePeople } from "./scene";
 import { dollarsOf, nameList, standingLine } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -54,12 +55,13 @@ const CAMPAIGNS = "core2-campaigns-v1";
 
 /** The campaign day's acts that open as a scene, by the name the screen's control carries. */
 const OUTINGS: Partial<
-  Record<CampaignDayKind, "doors" | "calls" | "event" | "interview">
+  Record<CampaignDayKind, "doors" | "calls" | "event" | "interview" | "party">
 > = {
   canvass: "doors",
   "raise-money": "calls",
   event: "event",
   interview: "interview",
+  "donor-meeting": "party",
 };
 
 /** The outlet to ask first: the town's own before a regional or national one. */
@@ -319,6 +321,16 @@ export function campaignAct(
           amountMinor: input.amountMinor ?? 0,
         }),
       );
+    case "mail": {
+      // Mailers to the town's next households, as many as the amount the
+      // player chose buys (never past what the campaign holds).
+      const before = campaign.spentMinor;
+      const read = sendMail(api, input.filingId, input.amountMinor ?? 0);
+      return {
+        ...summary(read),
+        spentMinor: campaignFor(api, input.filingId).spentMinor - before,
+      };
+    }
     case "poll":
       return commissionPoll(api, {
         filingId: input.filingId,
@@ -361,15 +373,21 @@ function speechScene(
   };
 }
 
-/** The people an outing reached: who answered the doors, who was asked for money. */
+/** The people an outing reached: who answered the doors, who was asked for money, who was in the room (the host first). */
 function outingPeople(
   core: CoreState,
   kind: CampaignDayKind,
   result: {
     causeIds: readonly string[];
     giftIds: readonly string[];
+    donorMeeting: { hostId: string; guestIds: readonly string[] } | null;
   },
 ): string[] {
+  // A donor meeting's room: the host, then the guests who came.
+  if (kind === "donor-meeting" && result.donorMeeting)
+    return [result.donorMeeting.hostId, ...result.donorMeeting.guestIds].filter(
+      (id) => core.people.get(id)?.alive,
+    );
   const api = coreAPI(core);
   const ids =
     kind === "canvass"
@@ -398,7 +416,8 @@ function outingPeople(
 
 /**
  * Doors and calls where they happen: the street the first household that answered
- * lives on (by its kind of dwelling) or the phone bank, the candidate up front.
+ * lives on (by its kind of dwelling) or the phone bank, the candidate up front;
+ * a donor meeting in the host's (the first person met's) living room, in the evening.
  */
 function outingScene(
   core: CoreState,
@@ -409,14 +428,18 @@ function outingScene(
   const first = core.people.get(met[0] ?? "")?.householdId ?? "";
   const dwelling = (first && dwellingKind(coreAPI(core), first)) || "house";
   const doors = scenePlaces.doorKnockingPlaces as Record<string, string>;
-  const place =
-    kind === "canvass"
+  const party = kind === "donor-meeting" && !!met[0];
+  // A house party is an evening in the living room (homeRoomByHour).
+  const minute = party ? 20 * 60 : 16 * 60;
+  const place = party
+    ? homeOf(core, met[0]!, minute)
+    : kind === "canvass"
       ? (doors[dwelling] ?? doors.house!)
       : kind === "event"
         ? scenePlaces.speechPlaces[0]!
         : scenePlaces.phoneBankPlace;
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
-  const backdrop = backdropFor(core, place, 16 * 60);
+  const backdrop = backdropFor(core, place, minute, party ? met[0] : undefined);
   return {
     place,
     backdrop,
@@ -464,6 +487,7 @@ export function campaignDay(
     "event",
     "interview",
     "raise-money",
+    "donor-meeting",
     "rest",
   ];
   const kind = kinds.find((k) => k === input.kind);
@@ -493,7 +517,7 @@ export function campaignDay(
   });
   const gave = calls.filter((c) => c.givenMinor > 0).length;
   const callsLine =
-    kind !== "raise-money" || calls.length === 0
+    (kind !== "raise-money" && kind !== "donor-meeting") || calls.length === 0
       ? ""
       : gave > 0
         ? standingLine(core.seed, personId, "total", input.filingId, {

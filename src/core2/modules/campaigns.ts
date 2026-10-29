@@ -25,6 +25,7 @@ import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
 import { keepsWhy } from "../why-kept";
 import { closenessBetween } from "../closeness";
+import { ENCOUNTERS } from "../encounters";
 import {
   decisionLean,
   leanedScore,
@@ -147,6 +148,8 @@ export interface CampaignRow {
   readonly petitionAskedIds?: readonly string[];
   /** The day the candidate last asked their circle to sign. */
   readonly petitionAskedOn?: string;
+  /** Everyone who has hosted a donor meeting for the campaign (each hosts once). */
+  readonly donorMeetingHostIds?: readonly string[];
   /** Where the next mail drop starts in the town's list of addresses. */
   readonly mailCursor?: number;
   /** Counted adults (not yet full people) its doors, mail and ads reached. */
@@ -1964,12 +1967,7 @@ export function askCircleToSign(api: CoreAPI, filingId: string): number {
   if (!candidate?.alive) return 0;
   const town = townRow(api).townPlaceId;
   const asked = new Set(campaign.petitionAskedIds ?? []);
-  const ids = new Set<string>([...candidate.familyIds, ...candidate.knownIds]);
-  for (const rel of api.state.relationshipsByPerson.get(candidate.id) ?? []) {
-    const row = api.state.relationships.get(rel);
-    if (row) ids.add(row.actorId === candidate.id ? row.otherId : row.actorId);
-  }
-  const circle = [...ids]
+  const circle = [...circleOf(api, candidate)]
     .filter((id) => id !== candidate.id && !asked.has(id))
     .map((id) => api.state.people.get(id))
     .filter((p): p is PersonState => !!p?.alive && p.placeId === town)
@@ -2463,15 +2461,7 @@ export function reachablePeople(
 ): readonly string[] {
   const ids = new Set<string>(campaign.volunteerIds);
   const candidate = api.state.people.get(campaign.candidateId);
-  if (candidate) {
-    for (const id of candidate.familyIds) ids.add(id);
-    for (const id of candidate.knownIds) ids.add(id);
-    for (const rel of api.state.relationshipsByPerson.get(candidate.id) ?? []) {
-      const row = api.state.relationships.get(rel);
-      if (row)
-        ids.add(row.actorId === candidate.id ? row.otherId : row.actorId);
-    }
-  }
+  if (candidate) for (const id of circleOf(api, candidate)) ids.add(id);
   const label = filingOf(api, campaign.filingId)?.party ?? null;
   if (label && api.state.modules.has(PARTIES_MODULE_ID)) {
     const party = partiesHere(api).find(
@@ -2493,6 +2483,22 @@ export function reachablePeople(
 }
 
 /**
+ * A person's own circle, as the records link them: their family, the people
+ * they know and anyone they keep a relationship with.
+ */
+function circleOf(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): ReadonlySet<string> {
+  const ids = new Set<string>([...person.familyIds, ...person.knownIds]);
+  for (const rel of api.state.relationshipsByPerson.get(person.id) ?? []) {
+    const row = api.state.relationships.get(rel);
+    if (row) ids.add(row.actorId === person.id ? row.otherId : row.actorId);
+  }
+  return ids;
+}
+
+/**
  * Who comes to a candidate's event: of the people the campaign can reach who
  * live in town, each adult whose own reasons to back the candidate (warmth,
  * agreement, party, how they stand with the candidate) and every trait's
@@ -2511,24 +2517,320 @@ export function whoComes(
     const person = core.people.get(id);
     if (!person?.alive || person.placeId !== town) return false;
     if (ageOn(person, api.state.date) < adultAge) return false;
-    if (volunteers.has(id)) return true;
-    const why = backingReasons(api, campaign, person);
-    const weeklyWork = [...(core.work.commitmentsByPerson.get(id) ?? [])]
-      .map((c) => core.work.commitments.get(c)?.expectedWeeklyMinutes ?? 0)
-      .reduce((a, b) => a + b, 0);
-    return leanedYes(
+    return volunteers.has(id) || comes(api, campaign, person, 0);
+  });
+}
+
+/**
+ * Whether an adult comes to a candidate's evening: their own reasons to back
+ * the candidate (warmth, agreement, party, how they stand with the
+ * candidate), the pull of whoever invited them (`invitation`, zero for a
+ * public event) and every trait's lean toward attending, against the hours
+ * their work already takes.
+ */
+function comes(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+  invitation: number,
+): boolean {
+  return leanedYes(
+    api.state,
+    person,
+    "parties.attend",
+    "attend",
+    "stay-home",
+    eveningReason(api, campaign, person, invitation),
+  );
+}
+
+/**
+ * An adult's reasons to give a candidate an evening, before personality:
+ * their reasons to back the candidate (warmth, agreement, party, how they
+ * stand with the candidate) and an invitation's pull, less the hours their
+ * work already takes.
+ */
+function eveningReason(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+  invitation: number,
+): number {
+  const core = api.state as CoreState;
+  const why = backingReasons(api, campaign, person);
+  const weeklyWork = [...(core.work.commitmentsByPerson.get(person.id) ?? [])]
+    .map((c) => core.work.commitments.get(c)?.expectedWeeklyMinutes ?? 0)
+    .reduce((a, b) => a + b, 0);
+  return (
+    why.warmth +
+    why.agreement +
+    campaignParameter("donorPartyWeight") * why.party +
+    campaignParameter("donorRelationshipWeight") * why.relationship +
+    invitation -
+    weeklyWork / campaignParameter("turnoutWorkWeekMinutes")
+  );
+}
+
+/** Someone a donor meeting could seat or ask: a living, filled-in adult in town who is neither the candidate nor the controlled person. */
+function canJoinDonorMeeting(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState> | undefined,
+): person is PersonState {
+  return (
+    !!person?.alive &&
+    person.tier !== "husk" &&
+    person.placeId === townRow(api).townPlaceId &&
+    person.id !== campaign.candidateId &&
+    // The controlled person's home and money move only by their own choice.
+    person.id !== (api.state as CoreState).playerId &&
+    ageOn(person, api.state.date) >= api.parameter("votingAge")
+  );
+}
+
+/**
+ * Who would host a donor meeting (a house party for the candidate): of the
+ * candidate's own circle in town (family, the people they know, anyone they
+ * keep a relationship with) who have not hosted for this campaign yet, the
+ * warmest backer: their reasons to give the candidate an evening (warmth,
+ * agreement with the platform, party, how they stand with the candidate,
+ * against the hours their work takes, as a guest's are) and every trait's
+ * lean toward giving a campaign their time. Lending one's home is their own
+ * yes: null when nobody's reasons are above zero. Ties go to the lower id.
+ */
+export function donorMeetingHost(
+  api: CoreAPI,
+  campaign: CampaignRow,
+): string | null {
+  const candidate = api.state.people.get(campaign.candidateId);
+  if (!candidate?.alive) return null;
+  const hosted = new Set(campaign.donorMeetingHostIds ?? []);
+  let best: { id: string; score: number } | null = null;
+  for (const id of circleOf(api, candidate)) {
+    if (hosted.has(id)) continue;
+    const person = api.state.people.get(id);
+    if (!canJoinDonorMeeting(api, campaign, person)) continue;
+    const score = leanedScore(
       api.state,
       person,
-      "parties.attend",
-      "attend",
-      "stay-home",
-      why.warmth +
-        why.agreement +
-        campaignParameter("donorPartyWeight") * why.party +
-        campaignParameter("donorRelationshipWeight") * why.relationship -
-        weeklyWork / campaignParameter("turnoutWorkWeekMinutes"),
+      "campaigns.volunteer",
+      "volunteer",
+      "decline",
+      eveningReason(api, campaign, person, 0),
+    );
+    if (
+      score > 0 &&
+      (!best || score > best.score || (score === best.score && id < best.id))
+    )
+      best = { id, score };
+  }
+  return best?.id ?? null;
+}
+
+/**
+ * The adults of a donor meeting host's own circle in town (family, the people
+ * they know, anyone they keep a relationship with) who could come, the
+ * closest first (family before anyone).
+ */
+export function hostCircle(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  hostId: string,
+): readonly string[] {
+  const host = api.state.people.get(hostId);
+  if (!host?.alive) return [];
+  return [...circleOf(api, host)]
+    .filter((id) => id !== hostId)
+    .map((id) => api.state.people.get(id))
+    .filter((p): p is PersonState => canJoinDonorMeeting(api, campaign, p))
+    .map((p) => ({ id: p.id, tie: hostTie(api, host, p) }))
+    .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))
+    .map((row) => row.id);
+}
+
+/**
+ * Who a donor meeting invites: the host's own circle first (`hostCircle`),
+ * then the campaign's own list (everyone it can reach, the warmest first), as
+ * a house party's list is built from the host's friends and the campaign's
+ * contacts; as many as one party's list holds (`donorMeetingInvitesMax`).
+ */
+export function donorMeetingInvitees(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  hostId: string,
+): readonly string[] {
+  const own = hostCircle(api, campaign, hostId);
+  if (!api.state.people.get(hostId)?.alive) return [];
+  const listed = new Set([hostId, ...own]);
+  const list = reachablePeople(api, campaign)
+    .filter((id) => !listed.has(id))
+    .map((id) => api.state.people.get(id))
+    .filter((p): p is PersonState => canJoinDonorMeeting(api, campaign, p))
+    .map((p) => ({
+      id: p.id,
+      warmth: impressionOf(api, p.id, campaign.candidateId)?.warmth ?? 0,
+    }))
+    .sort((a, b) => b.warmth - a.warmth || a.id.localeCompare(b.id))
+    .map((row) => row.id);
+  return [...own, ...list].slice(
+    0,
+    campaignParameter("donorMeetingInvitesMax"),
+  );
+}
+
+/** How a guest stands with the host who invited them: 1 for family, else their closeness. */
+const hostTie = (
+  api: CoreAPI,
+  host: Readonly<PersonState>,
+  guest: Readonly<PersonState>,
+) =>
+  guest.familyIds.has(host.id)
+    ? 1
+    : clamp(closenessBetween(api.state, guest.id, host.id));
+
+/** What a donor meeting did: who hosted, who was invited and came, what each said to the ask. */
+export interface DonorMeetingResult {
+  /** The meeting's event id (`campaign-donor-meeting:...`) in the durable log. */
+  readonly id: string;
+  readonly hostId: string;
+  readonly invitedIds: readonly string[];
+  /** The guests who came, the host not counted. */
+  readonly guestIds: readonly string[];
+  /** What hearing the candidate in the room made of each person there. */
+  readonly causes: readonly CauseRow[];
+  /** Each person in the room asked for money (the host first), with what they gave or why not. */
+  readonly answers: readonly {
+    readonly personId: string;
+    readonly givenMinor: number;
+    readonly why: DonationWhy;
+  }[];
+  readonly raisedMinor: number;
+}
+
+/**
+ * A donor meeting: a house party at a supporter's home. The host
+ * (`donorMeetingHost`) gives their evening and invites their own circle and
+ * the campaign's list (`donorMeetingInvitees`); each guest comes by the same
+ * rule as a candidate's event (`comes`), with their tie to the host as the
+ * invitation's pull (`donorMeetingHostTieWeight`), and the campaign's
+ * volunteers come. The candidate meets everyone there they did not know (the
+ * encounter engine's meeting, at the host's home), speaks to the room on
+ * what they feel most strongly about (a face-to-face speech, heard and
+ * retold as one), and the evening ends by asking each person there, the
+ * host first, through `donationAnswer`: the gift rows, the journal and the
+ * public `campaign-gift` record follow from it. No venue is paid; the host's
+ * hours are recorded. While the petition circulates, the room is asked to
+ * sign. Null when the candidate or the host cannot be there.
+ */
+export function holdDonorMeeting(
+  api: CoreAPI,
+  filingId: string,
+  hostId: string,
+): DonorMeetingResult | null {
+  const campaign = campaignFor(api, filingId);
+  const candidate = api.state.people.get(campaign.candidateId);
+  const host = api.state.people.get(hostId);
+  if (!candidate?.alive || !canJoinDonorMeeting(api, campaign, host))
+    return null;
+  const date = api.state.date;
+  const invitedIds = donorMeetingInvitees(api, campaign, hostId);
+  const pull = campaignParameter("donorMeetingHostTieWeight");
+  const volunteers = new Set(campaign.volunteerIds);
+  const guestIds = invitedIds.filter((id) => {
+    const guest = api.state.people.get(id)!;
+    return (
+      volunteers.has(id) ||
+      comes(api, campaign, guest, pull * hostTie(api, host, guest))
     );
   });
+  const room = [hostId, ...guestIds];
+  const id = `campaign-donor-meeting:${filingId}:${date}:${hostId}`;
+  // The candidate meets everyone in the room they did not know, at the
+  // host's home: the evening's hours shared among them.
+  const hours = campaignParameter("playerDonorMeetingHours");
+  for (const personId of room)
+    if (!candidate.knownIds.has(personId))
+      api.meet(candidate.id, personId, {
+        placeId: host.householdId,
+        sourceId: id,
+        cause: ENCOUNTERS.causes.metOnVisit,
+        hours: hours / room.length,
+      });
+  const lead = [...campaign.platform].sort(
+    (a, b) =>
+      Math.abs(b.position) - Math.abs(a.position) ||
+      a.question.localeCompare(b.question),
+  )[0];
+  const venue = `home:${host.householdId}`;
+  const causes = makeStatements(api, {
+    filingId,
+    venue,
+    statements: lead ? [lead] : [],
+    audienceIds: room,
+    act: "speech",
+    weight: campaignParameter("speechWeight"),
+    faceToFace: true,
+  });
+  api.recordActivityTime(
+    hostId,
+    "campaign",
+    campaignParameter("donorMeetingHostHours") * 60,
+    {
+      tag: "SOURCED",
+      citation: `Campaign ${campaign.id} donor meeting at ${venue}`,
+      asOf: date,
+    },
+  );
+  if (petitionCirculating(api, filingId))
+    for (const personId of room)
+      askToSign(api, filingId, api.state.people.get(personId)!, "event");
+  const answers = room.map((personId) => ({
+    personId,
+    ...donationAnswer(api, filingId, personId),
+  }));
+  const raisedMinor = answers.reduce((t, a) => t + a.givenMinor, 0);
+  const latest = campaignFor(api, filingId);
+  save(api, {
+    ...latest,
+    donorMeetingHostIds: [...(latest.donorMeetingHostIds ?? []), hostId],
+  });
+  const donorIds = answers
+    .filter((a) => a.givenMinor > 0)
+    .map((a) => a.personId);
+  api.emit({
+    id,
+    date,
+    kind: "campaign-donor-meeting",
+    personIds: [campaign.candidateId, hostId],
+    witnessIds: guestIds,
+    placeId: townRow(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Campaign ${campaign.id} donor meeting at ${venue}`,
+      asOf: date,
+    },
+    facts: {
+      filingId,
+      contestId: campaign.contestId,
+      candidateId: campaign.candidateId,
+      hostId,
+      householdId: host.householdId,
+      invited: String(invitedIds.length),
+      came: String(guestIds.length),
+      gave: String(donorIds.length),
+      raisedMinor: String(raisedMinor),
+      donorIds: donorIds.join(","),
+      ...(lead
+        ? {
+            speechId: statementSpeechId(campaign.candidateId, date, {
+              act: "speech",
+              venue,
+            }),
+          }
+        : {}),
+    },
+  });
+  return { id, hostId, invitedIds, guestIds, causes, answers, raisedMinor };
 }
 
 /**
@@ -3158,7 +3460,8 @@ export function causesFor(
 
 /**
  * Mail: the campaign addresses its next households in town, as many as the
- * money buys at the printer's and postage's unit prices. The adults in a
+ * money buys at the printer's and postage's unit prices, out of the amount
+ * asked and never past what the campaign holds. The adults in a
  * full household read it (a recorded cause, and the views engine reads the
  * message); a counted household's adults are counted as reached without
  * filling anyone in. Returns the full people it reached.
@@ -3173,7 +3476,16 @@ export function sendMail(
   const campaign = campaignFor(api, filingId);
   const perPiece = unitPrice(api, "mailer-print") + unitPrice(api, "postage");
   const { list } = townAddresses(api);
-  const pieces = Math.min(list.length, Math.floor(amountMinor / perPiece));
+  // Never more than the campaign holds, as an ad buy is.
+  const available = (api.state as CoreState).cashJournal.accounts.get(
+    `cash:${campaign.organizationId}:residual`,
+  )
+    ? campaign.raisedMinor - campaign.spentMinor
+    : 0;
+  const pieces = Math.min(
+    list.length,
+    Math.floor(Math.min(amountMinor, available) / perPiece),
+  );
   if (pieces <= 0) return [];
   spend(api, filingId, {
     kind: "mail",
@@ -3402,6 +3714,10 @@ export function rivalDay(
     campaignParameter("rivalInterviewKnownWeight") * known +
     campaignParameter("rivalInterviewIncumbentWeight") * holdsSeat;
   const bestHourly = Math.max(calls ? callScore : 0, doors ? doorScore : 0);
+  // A world candidate's day never weighs the donor meeting the player's
+  // offers; their money comes from call time and the turn's asks.
+  // stopgapId: SG-GOV-rival-donor-meeting
+  if (offered("donor-meeting")) api.stopgap("SG-GOV-rival-donor-meeting");
   const canEvent = offered("event") && eventScore > bestHourly;
   const canInterview = offered("interview") && interviewScore > bestHourly;
   const act: RivalDay["act"] =
