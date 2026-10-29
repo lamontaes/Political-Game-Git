@@ -395,7 +395,8 @@
       "recordKinds": ["campaign.door"],
       "recordFactEquals": {
         "first": ["true"],
-        "stake": ["true"]
+        "stake": ["true"],
+        "petition": ["false"]
       },
       "lived": true,
       "place": "other-home",
@@ -413,7 +414,8 @@
       "recordKinds": ["campaign.door"],
       "recordFactEquals": {
         "first": ["false"],
-        "stake": ["true"]
+        "stake": ["true"],
+        "petition": ["false"]
       },
       "lived": true,
       "place": "other-home",
@@ -422,6 +424,21 @@
       "player": "anyone",
       "cast": "a resident the player's canvass has knocked on before, who opens the door again, the one whose agreement with the player's platform, for or against, is the day's strongest",
       "typeKey": "door-ask",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceDoorImpact",
+      "everyParameter": "directorCircumstanceDoorEveryDays"
+    },
+    {
+      "id": "door-petition",
+      "recordKinds": ["campaign.door"],
+      "recordFactEquals": { "stake": ["true"], "petition": ["true"] },
+      "lived": true,
+      "place": "other-home",
+      "pool": ["named"],
+      "where": "pool",
+      "player": "anyone",
+      "cast": "a resident who opened their door to the player's own canvass while the player's petition circulates, the one whose agreement with the player's platform, for or against, is the day's strongest; the campaign engine asked them to sign, and the record says whether they did",
+      "typeKey": "door-signature",
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceDoorImpact",
       "everyParameter": "directorCircumstanceDoorEveryDays"

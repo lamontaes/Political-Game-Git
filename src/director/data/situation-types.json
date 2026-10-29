@@ -3536,6 +3536,56 @@
       }
     },
     {
+      "key": "door-signature",
+      "note": "While the player's petition circulates, a door on their own canvass is a signature ask (owner, Oct 28: \"some scenes where you earn people's signatures ... signatures is the game's way of introducing you to campaigning\"). The campaign engine asked the resident to sign (askToSign) and the petition record says whether they did; the scene tells that answer, never a second decision.",
+      "purpose": "ask-signature",
+      "playerAsks": true,
+      "asker": "resident",
+      "asked": "you",
+      "stakes": ["race"],
+      "roles": [
+        {
+          "key": "resident",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["agree", "decline"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "press", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        }
+      ],
+      "setting": ["other-home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:door-petition"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "campaign.door",
+          "reason": "canvass",
+          "bind": {
+            "resident": "counterpart",
+            "you": "subject"
+          },
+          "opener": "you",
+          "setting": ["other-home"]
+        }
+      ],
+      "tag": {
+        "key": "door",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "vote-sought",
       "repeatsBy": "bill",
       "purpose": "ask-vote",
