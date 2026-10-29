@@ -185,7 +185,11 @@ it(`every other place's chambers, governor and statewide executives sit as named
     office.elected && office.kind.startsWith("legislature-")
       ? seatsOf(office.id)
           .filter((seat) => seat.electionYear === year)
-          .map((seat) => ({ seat, office }))
+          .map((seat) => ({
+            seat,
+            office,
+            before: servingOn(seat.id)[0]?.party ?? null,
+          }))
       : [],
   );
   advanceCore(core, addDays(opening, 365));
@@ -210,9 +214,13 @@ it(`every other place's chambers, governor and statewide executives sit as named
     racesOf(api).map((race) => [race.seatId, race] as const),
   );
   const seated: string[] = [];
-  for (const { seat, office } of up) {
+  const changed: string[] = [];
+  for (const { seat, office, before } of up) {
     const race = races.get(seat.id);
-    expect(race, `${where}: ${seat.id} up in ${year} was not raced`).toBeDefined();
+    expect(
+      race,
+      `${where}: ${seat.id} up in ${year} was not raced`,
+    ).toBeDefined();
     if (race!.seatedOn > core.date) continue;
     const [term] = servingOn(seat.id);
     expect(term, `${where}: ${seat.id} after ${race!.id}`).toBeDefined();
@@ -227,14 +235,24 @@ it(`every other place's chambers, governor and statewide executives sit as named
     );
     expect(term!.personId, `${where}: ${term!.id}`).toBeNull();
     seated.push(`${race!.id} -> ${term!.id} (${term!.party})`);
+    // A seat that changed party has a newly drawn holder from that state.
+    if (term!.party !== before)
+      changed.push(
+        `${race!.id} -> ${term!.id} (${before} to ${term!.party}, ${term!.identity.givenName} ${term!.identity.familyName} of ${term!.identity.homeState})`,
+      );
   }
   expect(up.length, `${where}: no outside seat up in ${year}`).toBeGreaterThan(
     0,
   );
-  expect(seated.length, `${where}: no raced seat seated by ${core.date}`).toBeGreaterThan(0);
+  expect(
+    seated.length,
+    `${where}: no raced seat seated by ${core.date}`,
+  ).toBeGreaterThan(0);
   process.stdout.write(
     `EVERY-LEGISLATURE ${where}: ${opened.length} outside terms named at the opening, none filled in by ${core.date}; ${seated.length} of ${up.length} seats up in ${year} seated by their race, e.g. ${seated
-      .slice(0, 3)
-      .join("; ")}\n${lines.slice(0, 5).join("\n")}\n`,
+      .slice(0, 2)
+      .join("; ")}; ${changed.length} changed party, e.g. ${changed
+      .slice(0, 2)
+      .join("; ")}\n${lines.join("\n")}\n`,
   );
 }, 3_600_000);

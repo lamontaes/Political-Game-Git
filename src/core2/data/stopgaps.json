@@ -7528,7 +7528,7 @@
     "id": "SG-GOV-unheld-filler-party",
     "kind": "assumed-data",
     "file": "src/core2/modules/officials.ts",
-    "line": 171,
+    "line": 167,
     "whatItFakes": "Whoever fills a seat the offices engine keeps no term for (another state's member of Congress, whom the officials engine seats from the roster) sits in the party of the one they replace: an appointee or a special election's winner is assumed to keep the seat's party. Since gov-every-state-and-town-governs U1 (Oct 29) every other place's chambers, governor and statewide executives are held on office terms, so their vacancies go through the offices engine's own fill, not this one.",
     "why": "The officials engine seats other states' members of Congress without the offices engine's terms, so no record names the appointee or the special election's candidates.",
     "addedBy": "gov-sampled-legislator-seats-never-refilled (Claude, wire-office)",

@@ -32,11 +32,7 @@ import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
-import {
-  publishedSenateSeats,
-  worldRoster,
-  worldSwing,
-} from "./elections";
+import { publishedSenateSeats, worldRoster, worldSwing } from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
@@ -806,10 +802,7 @@ function leaders(all: readonly Spec[]): Map<string, string> {
   for (const members of bodies.values()) {
     const seats = new Map<number, number>();
     for (const m of members)
-      seats.set(
-        partySide(m.party),
-        (seats.get(partySide(m.party)) ?? 0) + 1,
-      );
+      seats.set(partySide(m.party), (seats.get(partySide(m.party)) ?? 0) + 1);
     const [majority, minority] = [...seats]
       .filter(([side]) => side !== 0)
       .sort((a, b) => b[1] - a[1] || a[0] - b[0])
