@@ -29,7 +29,12 @@ import * as choice from "./choice";
 import justiceParameters from "./data/justice/parameters.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { defenseBoostPct } from "./gov-measures";
-import { DETENTION_LINK } from "./jobs-web";
+import {
+  DETENTION_LINK,
+  detentionShift,
+  fullFacts,
+  participationShift,
+} from "./jobs-web";
 import { END_CASH_BAIL, type PretrialRow } from "./justice-pretrial";
 import {
   addDays,
@@ -217,7 +222,11 @@ describe("defense contracts reach a worker's pay through the jobs engine", () =>
   );
 });
 
-/** One offer the jobs engine scored for a person, with the web term in it (zero where none). */
+/**
+ * One offer the jobs engine scored for a person, with the web term in it
+ * (zero where none), and what the pull to work was the instant it was scored:
+ * the whole shift and the part that is the person's own detention.
+ */
 interface WebTerm {
   readonly side: "held" | "freed";
   readonly personId: string;
@@ -225,6 +234,8 @@ interface WebTerm {
   readonly action: string;
   readonly target: string;
   readonly web: number;
+  readonly shift: number;
+  readonly detention: number;
 }
 
 describe("having been held for want of bail reaches a defendant's pull to work", () => {
@@ -241,6 +252,8 @@ describe("having been held for want of bail reaches a defendant's pull to work",
       const spy = vi
         .spyOn(choice, "chooseAct")
         .mockImplementation((core, personId, offers, ...rest) => {
+          // The spy would keep every call's world and offers for the whole run.
+          spy.mockClear();
           const side =
             core === sides.held
               ? "held"
@@ -249,7 +262,17 @@ describe("having been held for want of bail reaches a defendant's pull to work",
                 : undefined;
           // Only the watched defendants, and the jobs engine's own offers: the
           // other engines weigh theirs through the same chooser.
-          if (side && watch.has(personId))
+          if (side && watch.has(personId)) {
+            // What the engine's own pull to work reads for them this instant.
+            const capi = coreAPI(core);
+            const p = (key: string) => capi.parameter(key);
+            const person = core.people.get(personId);
+            const facts = person ? fullFacts(capi, personId, p) : undefined;
+            const shift =
+              person && facts
+                ? participationShift(capi, person.placeId, facts, p)
+                : 0;
+            const detention = detentionShift(capi, personId);
             for (const offer of offers)
               if (JOB_ACTIONS.has(offer.definition.id))
                 terms.push({
@@ -262,7 +285,10 @@ describe("having been held for want of bail reaches a defendant's pull to work",
                     offer.reasonBindings?.find((r) => r.id === "web")?.arguments
                       .value ?? 0,
                   ),
+                  shift,
+                  detention,
                 });
+          }
           return original(core, personId, offers, ...rest);
         });
       const passed: string[] = [];
@@ -357,7 +383,8 @@ describe("having been held for want of bail reaches a defendant's pull to work",
             freedRow: PretrialRow;
           }[] = [];
           for (const person of candidates) {
-            if (defendants.length >= 6) break;
+            // Many are convicted and imprisoned by the review; some are not.
+            if (defendants.length >= 10) break;
             const a = charge(held, person.id);
             const b = charge(freed, person.id);
             if (a?.status !== "charged" || b?.status !== "charged") continue;
@@ -393,68 +420,60 @@ describe("having been held for want of bail reaches a defendant's pull to work",
             step(held);
             step(freed);
           }
-          // The web term the engine scored for a defendant on each review
-          // day, offer by offer, in each world.
-          const reviews = (side: WebTerm["side"], id: string) => {
-            const days = new Map<string, Map<string, number>>();
-            for (const t of terms)
-              if (t.side === side && t.personId === id) {
-                const day = days.get(t.date) ?? new Map<string, number>();
-                day.set(`${t.action}|${t.target}`, t.web);
-                days.set(t.date, day);
-              }
-            return days;
-          };
           const lagMoves = Math.log(1 + link.size!);
           const look = JOBS_DATA.actions.look.id;
           const leave = JOBS_DATA.actions.leave.id;
           for (const d of defendants) {
-            const inHeld = reviews("held", d.id);
-            const inFreed = reviews("freed", d.id);
-            const days = [...inHeld.keys()]
-              .filter((day) => inFreed.has(day))
-              .sort();
+            const mine = terms.filter((t) => t.personId === d.id);
             const lagUp = (day: string) =>
               completedMonthsBetween(
                 makeIsoDate(d.heldRow.from),
                 makeIsoDate(day),
               ) >= link.lagMonths;
-            // Before the lag has run from the day they were first held, the
-            // two worlds weigh the same.
-            for (const day of days.filter((x) => !lagUp(x)))
-              for (const [key, web] of inHeld.get(day)!)
-                expect(
-                  web - (inFreed.get(day)!.get(key) ?? 0),
-                  `${where}: ${d.id} on ${day}, ${key}, before the lag`,
-                ).toBeCloseTo(0, 12);
-            const after = days.filter(lagUp);
-            if (!after.length) continue;
-            const day = after[0]!;
-            // After it, every offer that carries the pull moves by the log of
-            // one plus the size: looking for work is entered at it, a job is
-            // left at its negative.
-            const moved = [...inHeld.get(day)!].filter(
-              ([key, web]) => web !== (inFreed.get(day)!.get(key) ?? 0),
-            );
-            expect(
-              moved.length,
-              `${where}: ${d.id} on ${day} has a moved offer`,
-            ).toBeGreaterThan(0);
-            for (const [key, web] of moved) {
-              const gap = web - (inFreed.get(day)!.get(key) ?? 0);
-              const action = key.split("|")[0];
+            // An offer of the pull to work carries the engine's shift exactly,
+            // in either world: a jobless person looks for work at it, a worker
+            // leaves at its negative.
+            const pulls = (t: WebTerm) =>
+              t.action === leave || (t.action === look && t.target === d.id);
+            for (const t of mine.filter(pulls))
               expect(
-                action === look || action === leave,
-                `${where}: ${key} is an offer of the pull to work`,
-              ).toBe(true);
-              expect(gap, `${where}: ${d.id} on ${day}, ${key}`).toBeCloseTo(
-                action === look ? lagMoves : -lagMoves,
-                9,
+                t.web,
+                `${where}: ${d.id} on ${t.date}, ${t.side}, ${t.action}|${t.target}`,
+              ).toBeCloseTo(t.action === leave ? -t.shift : t.shift, 12);
+            // The part of the shift that is their detention: nothing in the
+            // freed world or before the row's lag has run from the day they
+            // were first held, the log of one plus the size after it.
+            for (const t of mine)
+              expect(
+                t.detention,
+                `${where}: ${d.id} on ${t.date}, ${t.side}`,
+              ).toBeCloseTo(
+                t.side === "held" && lagUp(t.date) ? lagMoves : 0,
+                12,
               );
-            }
+            const onDay = (side: WebTerm["side"], day: string) =>
+              mine.filter((t) => t.side === side && t.date === day);
+            const days = [...new Set(mine.map((t) => t.date))]
+              .filter(
+                (day) =>
+                  lagUp(day) &&
+                  onDay("held", day).some(pulls) &&
+                  onDay("freed", day).some(pulls),
+              )
+              .sort();
+            if (!days.length) continue;
+            const day = days[0]!;
+            const inHeld = onDay("held", day).filter(pulls);
+            const inFreed = onDay("freed", day).filter(pulls);
+            // The held defendant's pull is the freed one's less the log of
+            // one plus the size, the groups' part of it being the same.
+            const gap =
+              inHeld[0]!.shift -
+              inHeld[0]!.detention -
+              (inFreed[0]!.shift - inFreed[0]!.detention);
             const person = held.people.get(d.id)!;
             process.stdout.write(
-              `PRETRIAL (LABOR_WEB_SEED=${seed}) ${where}: ${ended.map((row) => row.id).join(", ")} ended cash bail in the freed world; ${person.givenName} ${person.familyName} (${d.id}) was ${d.heldRow.decision} (${d.heldRow.id}) against ${d.freedRow.decision} (${d.freedRow.id}) on ${chargedOn}; on the review of ${day}, ${link.lagMonths} months on, the jobs engine scored ${moved.map(([key, web]) => `${key} at web ${web.toFixed(6)} against ${(inFreed.get(day)!.get(key) ?? 0).toFixed(6)}`).join(", ")} (the link's log ${lagMoves.toFixed(6)}, size ${link.size}); ${days.filter((x) => !lagUp(x)).length} reviews before the lag matched. Passed over: ${passed.join("; ") || "none"}\n`,
+              `PRETRIAL (LABOR_WEB_SEED=${seed}) ${where}: ${ended.map((row) => row.id).join(", ")} ended cash bail in the freed world; ${person.givenName} ${person.familyName} (${d.id}) was ${d.heldRow.decision} (${d.heldRow.id}) against ${d.freedRow.decision} (${d.freedRow.id}) on ${chargedOn}; on the review of ${day}, ${link.lagMonths} months on, the jobs engine scored ${inHeld.map((t) => `${t.action}|${t.target} at web ${t.web.toFixed(6)}`).join(", ")} for them held against ${inFreed.map((t) => `${t.action}|${t.target} at ${t.web.toFixed(6)}`).join(", ")} freed (the link's log ${lagMoves.toFixed(6)}, size ${link.size}; the two worlds' other causes differ by ${gap.toFixed(6)}); ${mine.filter((t) => !lagUp(t.date) && t.side === "held").length} offers scored before the lag carried no detention. Passed over: ${passed.join("; ") || "none"}\n`,
             );
             return;
           }
