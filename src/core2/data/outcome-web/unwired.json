@@ -260,12 +260,6 @@
       "stopgapId": "SG-WEB-crime-justice-links-unread"
     },
     {
-      "link": "loan-rate-cap-to-high-cost-borrowing",
-      "outcome": "finance.high-cost-loans",
-      "reason": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-finance-high-cost-loans"
-    },
-    {
       "link": "container-deposit-to-litter",
       "outcome": "env.litter",
       "reason": "engine doesn't read the factor: env.litter moves only in the web's monthly ledger; no engine multiplies its own rates by it",
@@ -288,12 +282,6 @@
       "outcome": "health.drug-out-of-pocket",
       "reason": "engine doesn't read the factor: health.drug-out-of-pocket moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-EW-HEALTH-condition-record"
-    },
-    {
-      "link": "federal-loan-cap-to-high-cost-loans",
-      "outcome": "finance.high-cost-loans",
-      "reason": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-finance-high-cost-loans"
     },
     {
       "link": "student-debt-relief-to-finances",
