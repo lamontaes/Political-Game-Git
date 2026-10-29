@@ -7,9 +7,9 @@
  *
  * - the SNAP work-requirement link, carried by the SNAP benefit: played in a
  *   drawn place against a twin where the law is not in force;
- * - the parent-incarceration link, which waits on the unwired list: the
- *   justice engine's prison term ends the prisoner's jobs, but no ordinary
- *   played year reaches a parent's prison term yet;
+ * - the parent-incarceration link, carried by the justice engine: its prison
+ *   term ends the prisoner's jobs, so the household loses that pay (played in
+ *   outcome-web-crime-justice-2-played.test.ts);
  * - the links with no owning engine, each held to the one thing that keeps it
  *   unwired: no engine names its outcome, so none can multiply its own rate
  *   by the web's factor. When one does, the test fails and the link is wired.
@@ -77,25 +77,32 @@ describe("carried links: the engine decides the cause from the same law", () => 
     );
   });
 
-  it("keeps the parent-incarceration link unwired until a played year shows a parent's prison term", () => {
+  it("carries the parent-incarceration link by the justice engine's prison term, with the counted tier on its stopgap", () => {
     const row = link("parent-incarceration-to-household-income");
-    // The justice engine ends a prisoner's jobs, but it imprisons only those
-    // sentenced for bribery today, so no ordinary year shows a parent's prison
-    // term. The link waits on the unwired list with an open stopgap rather
-    // than claim the engine carries it.
-    expect(row.carriedBy).toBeUndefined();
-    expect(linkCoverage(row).wired).toBe(false);
+    // The justice engine ends a prisoner's jobs, so the household loses the
+    // pay in the jobs records; a web number on top would take it twice. A
+    // twin-world played year shows it for a named parent
+    // (outcome-web-crime-justice-2-played.test.ts).
+    expect(row.carriedBy).toContain("endCustodyJobs");
+    expect(row.carriedBy).toContain("src/core2/modules/justice.ts");
+    const coverage = linkCoverage(row);
+    expect(coverage.wired).toBe(false);
+    expect("carriedBy" in coverage && coverage.carriedBy).toBe(row.carriedBy);
     expect((WIRED_INTO.get(row.to) ?? []).map((r) => r.key)).not.toContain(
       row.key,
     );
-    const listed = (
-      unwired.links as { link: string; stopgapId: string }[]
-    ).find((r) => r.link === row.key);
-    expect(listed, row.key).toBeDefined();
+    expect(
+      (unwired.links as { link: string }[]).some((r) => r.link === row.key),
+      row.key,
+    ).toBe(false);
+    // A counted term is a head count with no member, so its pay stays: open.
     const stopgap = (
       stopgaps as unknown as { id: string; status: string }[]
-    ).find((r) => r.id === listed!.stopgapId);
-    expect(stopgap?.status, listed!.stopgapId).toBe("open");
+    ).find((r) => r.id === "SG-JUSTICE-counted-custody-pay");
+    expect(stopgap?.status).toBe("open");
+    expect(read("src/core2/modules/justice.ts")).toContain(
+      "stopgapId: SG-JUSTICE-counted-custody-pay",
+    );
   });
 });
 
