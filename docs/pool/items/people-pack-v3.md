@@ -5,12 +5,12 @@ area: art
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-pack-v3
 pr:
 blocked-on:
 source: owner, Oct 29 (CTO brief)
-claimed-at:
+claimed-at: 2026-10-29T16:18:04.410Z
 ---
 
 **What.** Owner, Oct 29: "i want the v2 figures removed completely and these put in the game"; "make it to where these can be updated very easily. so either a v4 version or more clothes or anything like that. make it a quick fix." Rulings: no face drawn separately (Oct 28); "do not put people in until there are mannequins in there for every position" (Oct 28); a room with no mannequin plate shows nobody (Oct 29); ship six people now, six more faces follow as manifest rows (Oct 29). Replaces `people-swap-week-figures`.
