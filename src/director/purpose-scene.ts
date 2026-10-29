@@ -585,6 +585,9 @@ function composeBinding(
   if (record?.kind === "bill-presented")
     deskFacts(core, facts, said, moment.causeId, askerId);
 
+  // A recall petition names the member's vote; a promise to vote against
+  // the bill (`promised-against`) is said only from a record of one, which no
+  // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
   const wording = options.includeHeld ? { includeHeld: true } : {};
   // A door on the player's own canvass: where the knock left the resident,
   // and the race the player asks them about.
