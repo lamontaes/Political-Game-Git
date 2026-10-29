@@ -4298,10 +4298,10 @@
       }
     },
     {
-      "key": "news.law-rule.a-place-law-on-measure-took-effect-on-date",
+      "key": "news.law-rule.a-place-law-on-the-measure-took-effect-on-date",
       "move": "law-rule",
       "kind": "written",
-      "text": "A {place} law on {measure} took effect on {date}.",
+      "text": "A {place} law on the {measure} took effect on {date}.",
       "uses": [
         {
           "move": "law-rule",
@@ -4319,10 +4319,10 @@
       }
     },
     {
-      "key": "news.law-rule.a-new-law-on-measure-took-effect-on-date",
+      "key": "news.law-rule.a-new-law-on-the-measure-took-effect-on-date",
       "move": "law-rule",
       "kind": "written",
-      "text": "A new law on {measure} took effect on {date}.",
+      "text": "A new law on the {measure} took effect on {date}.",
       "uses": [
         {
           "move": "law-rule",
@@ -5742,6 +5742,512 @@
       ],
       "origin": "authored",
       "author": "Words and director session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.the-bill-deals-with-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "The bill deals with {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.at-issue-is-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "At issue is {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.the-law-is-about-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "The {law} is about {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["law", "purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.designation-concerns-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "{designation} concerns {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["designation", "purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.the-bill-goes-back-to-lawmakers-who-can-vote-to-override-the-veto",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "The bill goes back to lawmakers, who can vote to override the veto.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["vetoed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.lawmakers-can-still-override-the-veto-with-enough-votes",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "Lawmakers can still override the veto with enough votes.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["vetoed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.designation-becomes-law-with-name-s-signature",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "{designation} becomes law with {name}'s signature.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["signed", "designation", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.with-the-signature-the-law-becomes-law",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "With the signature, the {law} becomes law.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["signed", "law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-bill-will-not-reach-the-floor-unless-the-committee-takes-it-up-aga",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The bill will not reach the floor unless the committee takes it up again.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.without-the-committee-s-support-the-bill-goes-no-further",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "Without the committee's support, the bill goes no further.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-bill-now-goes-to-the-floor-for-a-vote",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The bill now goes to the floor for a vote.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.next-the-full-body-votes-on-it",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "Next, the full body votes on it.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.override-next.the-veto-stands-and-the-bill-does-not-become-law",
+      "move": "override-next",
+      "kind": "written",
+      "text": "The veto stands, and the bill does not become law.",
+      "uses": [
+        {
+          "move": "override-next",
+          "subject": "news",
+          "role": "override-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.override-next.the-bill-will-not-take-effect",
+      "move": "override-next",
+      "kind": "written",
+      "text": "The bill will not take effect.",
+      "uses": [
+        {
+          "move": "override-next",
+          "subject": "news",
+          "role": "override-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.override-next.the-bill-now-takes-effect-despite-the-veto",
+      "move": "override-next",
+      "kind": "written",
+      "text": "The bill now takes effect despite the veto.",
+      "uses": [
+        {
+          "move": "override-next",
+          "subject": "news",
+          "role": "override-next",
+          "choice": "context",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.roll-call-next.the-body-took-the-vote",
+      "move": "roll-call-next",
+      "kind": "written",
+      "text": "The {body} took the vote.",
+      "uses": [
+        {
+          "move": "roll-call-next",
+          "subject": "news",
+          "role": "roll-call-next",
+          "choice": "context",
+          "requiresFacts": ["body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.roll-call-next.the-vote-was-in-the-body",
+      "move": "roll-call-next",
+      "kind": "written",
+      "text": "The vote was in the {body}.",
+      "uses": [
+        {
+          "move": "roll-call-next",
+          "subject": "news",
+          "role": "roll-call-next",
+          "choice": "context",
+          "requiresFacts": ["body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.introduced-sponsor.name-is-the-bill-s-sponsor",
+      "move": "introduced-sponsor",
+      "kind": "written",
+      "text": "{name} is the bill's sponsor.",
+      "uses": [
+        {
+          "move": "introduced-sponsor",
+          "subject": "news",
+          "role": "introduced-sponsor",
+          "choice": "context",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.introduced-sponsor.its-sponsor-is-name",
+      "move": "introduced-sponsor",
+      "kind": "written",
+      "text": "Its sponsor is {name}.",
+      "uses": [
+        {
+          "move": "introduced-sponsor",
+          "subject": "news",
+          "role": "introduced-sponsor",
+          "choice": "context",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.jobs-nation.across-the-country-the-rate-was-nation",
+      "move": "jobs-nation",
+      "kind": "written",
+      "text": "Across the country, the rate was {nation}.",
+      "uses": [
+        {
+          "move": "jobs-nation",
+          "subject": "news",
+          "role": "jobs-nation",
+          "choice": "context",
+          "requiresFacts": ["nation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.jobs-nation.the-national-rate-was-nation",
+      "move": "jobs-nation",
+      "kind": "written",
+      "text": "The national rate was {nation}.",
+      "uses": [
+        {
+          "move": "jobs-nation",
+          "subject": "news",
+          "role": "jobs-nation",
+          "choice": "context",
+          "requiresFacts": ["nation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.rate-from.it-had-been-from",
+      "move": "rate-from",
+      "kind": "written",
+      "text": "It had been {from}.",
+      "uses": [
+        {
+          "move": "rate-from",
+          "subject": "news",
+          "role": "rate-from",
+          "choice": "context",
+          "requiresFacts": ["from"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.rate-from.the-rate-was-from-before-the-meeting",
+      "move": "rate-from",
+      "kind": "written",
+      "text": "The rate was {from} before the meeting.",
+      "uses": [
+        {
+          "move": "rate-from",
+          "subject": "news",
+          "role": "rate-from",
+          "choice": "context",
+          "requiresFacts": ["from"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
       "date": "2026-10-29",
       "tag": {
         "move": "deliver-news",
