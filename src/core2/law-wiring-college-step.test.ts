@@ -17,6 +17,8 @@
  * after.
  */
 import { randomBytes } from "node:crypto";
+import v8 from "node:v8";
+import vm from "node:vm";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../tests/golden-path/place";
 import { buildBenchWorld } from "../bench/world";
@@ -52,17 +54,119 @@ const RAISE = 0.5;
 const UNTIL = "2025-07-01";
 const TRIES = 6;
 
-const collegeRows = (core: CoreState) =>
-  coreAPI(core)
-    .moduleState(SCHOOL_MODULE_ID)
-    .table("college")
-    .rows() as unknown as readonly CollegeRow[];
+// A played world is garbage the moment `play` returns, but V8 does not see the
+// container's memory limit and lets several lie about; collect between worlds.
+v8.setFlagsFromString("--expose_gc");
+const collect = vm.runInNewContext("gc") as () => void;
 
-const monthRow = (core: CoreState, id: string) =>
-  coreAPI(core)
-    .moduleState(OUTCOME_WEB_MODULE_ID)
-    .table("months")
-    .get(id) as unknown as WebMonth;
+/** What one played world kept, as plain rows: one world is alive at a time. */
+interface Played {
+  readonly rows: readonly CollegeRow[];
+  /** Every web month row the town kept, by id. */
+  readonly months: ReadonlyMap<string, WebMonth>;
+  /** Each named graduate's name and what the jobs engine reads for them on the first day after graduation and on the day normal time ends. */
+  readonly named: ReadonlyMap<
+    string,
+    { name: string; afterGraduation: string; atEnd: string }
+  >;
+  readonly placeId: string;
+  /** The raise, in the world that makes one. */
+  readonly raise?: {
+    readonly act: string;
+    readonly governmentId: string;
+    readonly budgetId: string;
+    readonly townShare: number;
+  };
+  readonly worldFactors: { enrollment: number; completion: number };
+}
+
+/**
+ * Play a drawn place to the end of its first school year. With `raiseBy`, the
+ * state raises its higher education line by that share of itself before play.
+ * Null where the place has no state line to raise or the town carries no
+ * share of it.
+ */
+function play(
+  drawn: ReturnType<typeof drawPlace>,
+  attempt: number,
+  raiseBy: number | null,
+): Played | string {
+  const core = buildBenchWorld(drawn.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: drawn.key,
+  }).core;
+  const api = coreAPI(core);
+  let raise: Played["raise"];
+  if (raiseBy !== null) {
+    const state = governments(api).find((gov) => gov.level === "state");
+    const budget = state ? budgetsOf(api, state.id).at(-1) : undefined;
+    const base =
+      state && budget
+        ? (baseBudget(api, state, budget.fiscalYear).spendingMinor[LINE] ?? 0)
+        : 0;
+    if (!state || !budget || base <= 0) return "no state higher education line";
+    const act = `college-step-test-${attempt}`;
+    amendBudget(api, {
+      governmentId: state.id,
+      line: LINE,
+      deltaMinor: Math.round(base * raiseBy),
+      measureId: act,
+      carry: true,
+    });
+    const cause = budgetLineAddedPct(api, LINE);
+    if (!cause || cause.value <= 0)
+      return "the town carries no share of the line";
+    raise = {
+      act,
+      governmentId: state.id,
+      budgetId: budget.id,
+      townShare: cause.value,
+    };
+  }
+  advanceCore(core, makeIsoDate(UNTIL));
+  const rows = collegeRows(core);
+  const named = new Map<
+    string,
+    { name: string; afterGraduation: string; atEnd: string }
+  >();
+  for (const row of rows) {
+    const person = core.people.get(row.personId as never);
+    if (!person || !row.enrolled || !row.endsOn) continue;
+    named.set(row.personId, {
+      name: `${person.givenName} ${person.familyName}`,
+      afterGraduation: schoolingOn(api, row.personId, UNTIL) ?? "none",
+      atEnd: schoolingOn(api, row.personId, row.endsOn) ?? "none",
+    });
+  }
+  const placeId = lawChain(api).townPlaceId;
+  const months = new Map(
+    (
+      api
+        .moduleState(OUTCOME_WEB_MODULE_ID)
+        .table("months")
+        .rows() as unknown as readonly WebMonth[]
+    ).map((row) => [row.id, row]),
+  );
+  return {
+    rows,
+    months,
+    named,
+    placeId,
+    ...(raise ? { raise } : {}),
+    worldFactors: {
+      enrollment: worldRateFactor(core.seed, "collegeEnrollment"),
+      completion: worldRateFactor(core.seed, "collegeCompletion"),
+    },
+  };
+}
+
+const collegeRows = (core: CoreState) =>
+  (
+    coreAPI(core)
+      .moduleState(SCHOOL_MODULE_ID)
+      .table("college")
+      .rows() as unknown as readonly CollegeRow[]
+  ).map((row) => ({ ...row }));
 
 /**
  * The web's factor for a graduate of one income fifth, worked out from the
@@ -70,8 +174,12 @@ const monthRow = (core: CoreState, id: string) =>
  * of each running link's effect, scaled by how hard it lands on the fifth, as
  * one plus that effect.
  */
-function factorOn(core: CoreState, recordId: string, fifth: number) {
-  const row = monthRow(core, recordId);
+function factorOn(
+  months: ReadonlyMap<string, WebMonth>,
+  recordId: string,
+  fifth: number,
+) {
+  const row = months.get(recordId)!;
   let factor = 1;
   for (const link of WIRED_INTO.get(MEASURE)!) {
     const effect = row.effects[link.key];
@@ -101,74 +209,60 @@ describe("the higher education line reaches a named graduate's completion", () =
         for (let attempt = 0; attempt < TRIES; attempt += 1) {
           const drawn = drawPlace(seed, `law-wiring-college-step:${attempt}`);
           const where = `${drawn.name}, ${drawn.state} (${drawn.key})`;
-          const build = () =>
-            buildBenchWorld(drawn.seed, gameStartDate(), {
-              twoLevel: true,
-              placeKey: drawn.key,
-            }).core;
-          const raised = build();
-          const control = build();
-          const api = coreAPI(raised);
-          const state = governments(api).find((gov) => gov.level === "state");
-          const budget = state ? budgetsOf(api, state.id).at(-1) : undefined;
-          const base =
-            state && budget
-              ? (baseBudget(api, state, budget.fiscalYear).spendingMinor[
-                  LINE
-                ] ?? 0)
-              : 0;
-          if (!state || base <= 0) {
-            passed.push(`${where}: no state higher education line`);
+          const raised = play(drawn, attempt, RAISE);
+          collect();
+          if (typeof raised === "string") {
+            passed.push(`${where}: ${raised}`);
             continue;
           }
-          const act = `college-step-test-${attempt}`;
-          amendBudget(api, {
-            governmentId: state.id,
-            line: LINE,
-            deltaMinor: Math.round(base * RAISE),
-            measureId: act,
-            carry: true,
-          });
-          const cause = budgetLineAddedPct(api, LINE);
-          if (!cause || cause.value <= 0) {
-            passed.push(`${where}: the town carries no share of the line`);
+          const control = play(drawn, attempt, null);
+          collect();
+          if (typeof control === "string") {
+            passed.push(`${where}: ${control}`);
             continue;
           }
-          advanceCore(raised, makeIsoDate(UNTIL));
-          advanceCore(control, makeIsoDate(UNTIL));
-          const placeId = lawChain(api).townPlaceId;
           const controlBy = new Map(
-            collegeRows(control).map((row) => [row.personId, row]),
+            control.rows.map((row) => [row.personId, row]),
           );
           // Graduates the school engine took to the college step in both
           // worlds, enrolled in both, ranked in the same fifth against the
           // same unraised rate.
-          const pairs = collegeRows(raised).flatMap((row) => {
+          const pairs = raised.rows.flatMap((row) => {
             const twin = controlBy.get(row.personId);
             return row.enrolled &&
               row.webRecordId &&
               twin?.enrolled &&
               twin.webRecordId &&
-              row.placeId === placeId &&
+              row.placeId === raised.placeId &&
               row.incomeFifth === twin.incomeFifth &&
               Math.abs(row.completionBaseRate! - twin.completionBaseRate!) <
                 1e-12
               ? [{ row, twin }]
               : [];
           });
-          const named = pairs.filter(({ row }) => !row.weight);
+          const named = pairs.filter(({ row }) =>
+            raised.named.has(row.personId),
+          );
           const counted = pairs.filter(({ row }) => !!row.weight);
           if (!named.length) {
             passed.push(
-              `${where}: ${collegeRows(raised).length} graduates, ${pairs.length} enrolled in both worlds, none a named person`,
+              `${where}: ${raised.rows.length} graduates, ${pairs.length} enrolled in both worlds, none a named person`,
             );
             continue;
           }
           // Every pair reads the web the way the engine says it did, and the
           // raised world's factor is the larger.
           for (const { row, twin } of pairs) {
-            const was = factorOn(control, twin.webRecordId!, twin.incomeFifth);
-            const is = factorOn(raised, row.webRecordId!, row.incomeFifth);
+            const was = factorOn(
+              control.months,
+              twin.webRecordId!,
+              twin.incomeFifth,
+            );
+            const is = factorOn(
+              raised.months,
+              row.webRecordId!,
+              row.incomeFifth,
+            );
             expect(row.factor, row.id).toBeCloseTo(is.factor, 12);
             expect(twin.factor, twin.id).toBeCloseTo(was.factor, 12);
             expect(is.factor, row.id).toBeGreaterThan(was.factor);
@@ -191,27 +285,20 @@ describe("the higher education line reaches a named graduate's completion", () =
           }
           const { row, twin } =
             named.find((pair) => pair.row.completionRate! < 1) ?? named[0]!;
-          const person = raised.people.get(row.personId as never)!;
+          const who = raised.named.get(row.personId)!;
           // The jobs engine reads the record when it prices a hire: the
           // diploma until normal time ends, then the bachelor's or some
           // college.
-          const japi = coreAPI(raised);
           const after = row.completes ? "college" : "some-college";
-          expect(schoolingOn(japi, row.personId, UNTIL), row.id).toBe(
-            "no-college",
-          );
-          expect(schoolingOn(japi, row.personId, row.endsOn!), row.id).toBe(
-            after,
-          );
-          const worlds = {
-            enrollment: worldRateFactor(raised.seed, "collegeEnrollment"),
-            completion: worldRateFactor(raised.seed, "collegeCompletion"),
-          };
-          expect(worlds.enrollment).toBe(
-            worldRateFactor(control.seed, "collegeEnrollment"),
-          );
+          expect(who.afterGraduation, row.id).toBe("no-college");
+          expect(who.atEnd, row.id).toBe(after);
+          // The world's own factors move the NCES shares and are the same in
+          // both worlds of one seed.
+          expect(raised.worldFactors).toEqual(control.worldFactors);
+          expect(raised.worldFactors.enrollment).not.toBe(1);
+          expect(raised.worldFactors.completion).not.toBe(1);
           process.stdout.write(
-            `COLLEGE-STEP (COLLEGE_STEP_SEED=${seed}) ${where}, world seed ${drawn.seed}: act ${act} raised ${state.id}'s ${LINE} line ${RAISE * 100}% (${budget!.id}), the town's share ${cause.value.toFixed(2)}% above its base; ${pairs.length} graduates enrolled in both worlds (${named.length} named, ${counted.length} counted); named graduate ${row.personId} (${person.givenName} ${person.familyName}), fifth ${row.incomeFifth}, record ${row.id} against ${twin.id}: completion rate ${row.completionRate!.toFixed(8)} (web factor ${row.factor!.toFixed(8)} on ${row.webRecordId}) against ${twin.completionRate!.toFixed(8)} (${twin.factor!.toFixed(8)} on ${twin.webRecordId}), base ${row.completionBaseRate!.toFixed(6)}, enrollment rate ${row.enrollmentRate.toFixed(6)}, completes ${row.completes}, schooling on ${row.endsOn}: ${after}; world factors enrollment ${worlds.enrollment.toFixed(4)}, completion ${worlds.completion.toFixed(4)}. Passed over: ${passed.join("; ") || "none"}\n`,
+            `COLLEGE-STEP (COLLEGE_STEP_SEED=${seed}) ${where}, world seed ${drawn.seed}: act ${raised.raise!.act} raised ${raised.raise!.governmentId}'s ${LINE} line ${RAISE * 100}% (${raised.raise!.budgetId}), the town's share ${raised.raise!.townShare.toFixed(2)}% above its base; ${pairs.length} graduates enrolled in both worlds (${named.length} named, ${counted.length} counted); named graduate ${row.personId} (${who.name}), fifth ${row.incomeFifth}, record ${row.id} against ${twin.id}: completion rate ${row.completionRate!.toFixed(8)} (web factor ${row.factor!.toFixed(8)} on ${row.webRecordId}) against ${twin.completionRate!.toFixed(8)} (${twin.factor!.toFixed(8)} on ${twin.webRecordId}), base ${row.completionBaseRate!.toFixed(6)}, enrollment rate ${row.enrollmentRate.toFixed(6)}, completes ${row.completes}, schooling ${who.afterGraduation} then ${who.atEnd} on ${row.endsOn}; world factors enrollment ${raised.worldFactors.enrollment.toFixed(4)}, completion ${raised.worldFactors.completion.toFixed(4)}. Passed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }
