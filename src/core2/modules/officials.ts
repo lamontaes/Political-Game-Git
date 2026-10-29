@@ -52,6 +52,7 @@ import {
   type IndependentRecord,
   type SignatureIssue,
 } from "../officials-roster";
+import officialsData from "../data/officials/officials.json" with { type: "json" };
 import { nationalHomeState, recordPresident } from "../officials-president";
 import { OFFICES_MODULE_ID, type TermRow, vacateUnheldSeat } from "./offices";
 import { filingRequirements } from "./elections";
@@ -1404,7 +1405,9 @@ export interface CandidateRow {
   } | null;
 }
 
-const candidacy = OFFICIALS_DATA.candidacy;
+// Read from the officials file itself, not the roster's copy: the roster is
+// still loading when the elections module reaches this file through it.
+const candidacy = (officialsData as unknown as typeof OFFICIALS_DATA).candidacy;
 
 /** The seat's office, body and lean, from the offices engine. */
 function seatFacts(api: CoreAPI, seatId: string) {
