@@ -4354,7 +4354,8 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
-      "bearing": "calm"
+      "bearing": "calm",
+      "device": "contrast"
     },
     {
       "key": "opening-speech.pledge.plain-ina-sta-i-didn-t-make-those-gains-and-i-won-t-take-credit-for-them-m",
@@ -4382,7 +4383,8 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
-      "bearing": "calm"
+      "bearing": "calm",
+      "device": "contrast"
     },
     {
       "key": "opening-speech.pledge.polished-ina-sta-too-many-people-who-want-work-cannot-find-it-and-that-is-whe",
@@ -4584,7 +4586,8 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
-      "bearing": "calm"
+      "bearing": "calm",
+      "device": "contrast"
     },
     {
       "key": "opening-speech.pledge.plain-ina-sta-where-it-s-better-we-keep-it-where-it-s-worse-we-fix-it",
@@ -4612,7 +4615,8 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
-      "bearing": "calm"
+      "bearing": "calm",
+      "device": "contrast"
     },
     {
       "key": "opening-speech.close.polished-ina-sta-may-god-bless-you-and-may-god-bless-the-united-states-of-ame",
@@ -5046,7 +5050,8 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
-      "bearing": "calm"
+      "bearing": "calm",
+      "device": "contrast"
     },
     {
       "key": "opening-speech.creed.plain-ina-sta-i-don-t-take-orders-from-either-party-i-take-them-from-you",
@@ -5074,7 +5079,8 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
-      "bearing": "calm"
+      "bearing": "calm",
+      "device": "contrast"
     },
     {
       "key": "opening-speech.story-open.polished-ina-sta-i-will-not-stand-here-and-tell-you-that-this-has-been-a-good",
@@ -5637,6 +5643,58 @@
       "author": "Words builder (Claude Code)",
       "date": "2026-10-28",
       "topic": "inflation"
+    },
+    {
+      "key": "opening-speech.families.polished-ina-sta-whether-you-work-a-shift-run-a-shop-or-raise-a-family-this-w",
+      "move": "families",
+      "kind": "spoken",
+      "text": "Whether you work a shift, run a shop or raise a family, this work is for you.",
+      "uses": [
+        {
+          "move": "families",
+          "subject": "inaugural",
+          "role": "families",
+          "choice": "families"
+        },
+        {
+          "move": "families",
+          "subject": "state-of-the-union",
+          "role": "families",
+          "choice": "families"
+        }
+      ],
+      "voice": "polished",
+      "device": "three-part-list",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words builder (Claude Code)",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "opening-speech.families.plain-ina-sta-work-a-shift-run-a-shop-raise-a-family-this-is-for-you",
+      "move": "families",
+      "kind": "spoken",
+      "text": "Work a shift, run a shop, raise a family: this is for you.",
+      "uses": [
+        {
+          "move": "families",
+          "subject": "inaugural",
+          "role": "families",
+          "choice": "families"
+        },
+        {
+          "move": "families",
+          "subject": "state-of-the-union",
+          "role": "families",
+          "choice": "families"
+        }
+      ],
+      "voice": "plain",
+      "device": "three-part-list",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words builder (Claude Code)",
+      "date": "2026-10-28"
     }
   ]
 }

@@ -149,6 +149,16 @@
       "code": "new SeededRng(seed).fork(`citizenship:${personId}`).next() >= citizenShare"
     },
     {
+      "file": "src/core2/citizenship.ts",
+      "kind": "roll",
+      "count": 1,
+      "code": "new SeededRng(seed).fork(`work-authorization:${personId}`).next() <",
+      "class": "GENERATION",
+      "keyedBy": "world seed + person id",
+      "reason": "Whether a noncitizen holds work authorization is who they are, drawn once at the share of noncitizens Pew estimates are unauthorized, like citizenship on the line above: the same person has the same status every time and at both tiers. What they do about work is the jobs engine's choice from their own reasons.",
+      "replacement": null
+    },
+    {
       "file": "src/core2/electorate-places.ts",
       "kind": "fixed-share",
       "build": "pool:core-zero-dice-shares-in-code",

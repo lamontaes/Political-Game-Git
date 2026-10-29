@@ -474,6 +474,36 @@
       "kindPrefix": "life:came-of-age",
       "turn": false,
       "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:promise",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:favor-owed",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:relationship-strained",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:trust-lost",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:meeting-set",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:story-runs",
+      "turn": false,
+      "entry": "story"
     }
   ],
   "firstTitle": [

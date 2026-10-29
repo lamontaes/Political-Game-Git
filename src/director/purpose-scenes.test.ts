@@ -7,6 +7,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
 import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
@@ -100,7 +101,8 @@ const run = (drawSeed: string): string | null => {
         contestId: race.id,
         platform: [],
       });
-      if (result.status === "on-ballot") filings.push(result.filing);
+      if (["petitioning", "on-ballot"].includes(result.status ?? ""))
+        filings.push(result.filing);
     }
     if (filings.length) {
       contest = race;
@@ -166,6 +168,10 @@ const run = (drawSeed: string): string | null => {
       `${scene.cause.id}: ${core.people.get(scene.askerId)!.givenName} to ${core.people.get(filer)!.givenName}: "${scene.talk.state.text}" / replies: ${scene.talk.tree.replies.map((row) => `"${row.line.text}"`).join(" ")}`,
     );
   }
+
+  // Filing is a petition: each filer canvasses for signatures until the
+  // clerk's check, the morning after the deadline.
+  gatherSignatures(core, ...filings.map((f) => f.id));
 
   // Whether the filer still lives with someone to meet them at home.
   const livesWithSomeone = (filer: PersonId) =>
