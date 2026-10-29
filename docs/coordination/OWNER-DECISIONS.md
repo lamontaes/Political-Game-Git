@@ -6,6 +6,15 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 21:15 UTC: governing interview, first answers (owner, about 5:15 PM Eastern)
+
+The CTO's governing brief (artifact "Our Civic Duty Governing Brief", Oct 29) put nine questions the rulings did not answer. Answers so far:
+
+- **A "yes" at the door is near-binding.** The owner chose near-binding over a promise kept or broken freely. A resident who tells the player "You've got my vote" votes for the player unless something heavy changes their mind (a scandal they learned of, a rival they are close to, a broken promise of the player's own), each read from records, never a roll (no dice). Today the vote reads a door visit only as recognition (`voting.ts` 929, 1041), which is why no New Game life has won a race.
+- **Before a vote you see what colleagues told you plus your aide's estimate, marked as an estimate that can be wrong.** No exact count. This follows the rule that stakes are learned only through routes the character could use (REG:284).
+- **What stops you in office: your own bills, any vote where yours could decide it, your desk, and scenes, by default; you can customize it.** And office life is fuller than votes: "maybe you'll have a meeting with somebody... you look at your calendar and you have a bunch of stuff booked like you have a meeting with this person and then... an executive board... or maybe your meeting with the lobbyist... I read about how... Teddy Kennedy would meet with experts on one thing every night and eat dinner and then the next night he would get a whole different group of experts... until he was an expert. You know there's a lot more that goes on... giving speeches, giving talks... showing up places like... strikes and stuff." The officeholder's calendar fills from the simulation and the story: booked meetings with named people, boards, lobbyists, expert dinners that teach a subject, speeches, talks and appearances at events (strikes, openings, protests), each a stop the player can set to play or let happen.
+- Still open: orientation after swearing in, co-sponsors, what "the town visibly changes" shows before the real screens, being appointed, Congress in early access, and the go for the governing lead.
+
 ## Oct 29, 19:35 UTC: five checkers run the gate so builders only build (owner, about 3:35 PM Eastern)
 
 - **Ruling:** "Start 5 new Sonnet sessions that are explicitly like type check or doing like the prep work for the mergers after coding. So that way the builders can strictly build... if they have helpers, type check apparently takes a long time... I wouldn't mind offloading those." And: "message every session so that they know, and find some way to... divide things or queue things up."
