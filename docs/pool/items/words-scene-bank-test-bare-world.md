@@ -6,9 +6,9 @@ kind: bug
 priority: 2
 size: S
 lead: words
-status: claimed
+status: in-pr
 claimed-by: words/scene-bank-played-world
-pr:
+pr: #6740
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-29T04:40:48.738Z
