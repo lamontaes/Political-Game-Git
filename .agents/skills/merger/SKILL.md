@@ -75,7 +75,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - Merge main once, right before you run the checks; if main moves while you check, merge again and rerun only the checks whose files moved. A push to main rejected as non-fast-forward is normal with many mergers: fetch, rebase your merge commit, push again; never force.
    - A conflict in code goes back to the author: one comment naming the files, and the pool item back to open (step 2.7).
    - Push the merge commit with a plain push.
-4. **Changed-file checks, on the merged result, in your own environment.** You run these whether or not the body has a gate line:
+4. **Changed-file checks, on the merged result, in your own environment.** When the PR carries a `Checker <k>: gate passed on head <sha>` comment and the current head is that sha, or every later commit is a merge of main that touched none of the PR's files, the gate is done: do not rerun it; run only the PR's own new or changed tests once and go to the morning check (owner, Oct 29: checkers do the prep work for the mergers; `checker`). Otherwise run these whether or not the body has a gate line:
    - `npm run typecheck` (the repo's script; it is already scoped)
    - `npx eslint <changed files>`
    - `npx prettier --check <changed files>`
