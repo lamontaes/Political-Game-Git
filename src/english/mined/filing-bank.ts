@@ -10,7 +10,7 @@
  * the place), the filing office is `{{filing-office}}` (GOV's `filedWith`).
  */
 import bankJson from "../../../data/english/parts/filing-visit.json" with { type: "json" };
-import { heldByGrades } from "../english-grades";
+import { admittedParts, directorSlots, type BankPart } from "../bank-parts";
 import rowsJson from "../../director/data/filing-visit-rows.json" with { type: "json" };
 import type { VisitWords } from "../filing-visit-words";
 import type { Variant } from "../bank-line";
@@ -20,12 +20,7 @@ interface Use {
   role: string;
   choice: string;
 }
-interface MinedPart {
-  key: string;
-  text: string;
-  uses: Use[];
-  shippable: boolean;
-}
+type MinedPart = BankPart<Use>;
 export const FILING_BANK = bankJson as unknown as { parts: MinedPart[] };
 
 /** Each rule the visit can state: the mined choice that words it, and the slot its value fills. */
@@ -36,8 +31,8 @@ export interface FilingRows {
 export const FILING_ROWS = rowsJson as unknown as FilingRows;
 
 function directorText(text: string, valueSlot?: string): string {
-  return text.replace(/\{(\w+)\}/g, (_all, slot: string) =>
-    slot === valueSlot ? "{{required}}" : `{{${slot.replace(/_/g, "-")}}}`,
+  return directorSlots(text, (slot) =>
+    slot === valueSlot ? "{{required}}" : undefined,
   );
 }
 
@@ -46,22 +41,17 @@ export function filingWordsFromBank(
   rows: FilingRows = FILING_ROWS,
 ): VisitWords {
   const of = (subject: string, role: string, choice?: string, slot?: string) =>
-    bank.parts
-      .filter(
-        (part) =>
-          part.shippable &&
-          !heldByGrades(part.key) &&
-          part.uses.some(
-            (use) =>
-              use.subject === subject &&
-              use.role === role &&
-              (choice === undefined || use.choice === choice),
-          ),
-      )
-      .map((part): Variant => ({
-        key: part.key,
-        text: directorText(part.text, slot),
-      }));
+    admittedParts(bank.parts, (part) =>
+      part.uses.some(
+        (use) =>
+          use.subject === subject &&
+          use.role === role &&
+          (choice === undefined || use.choice === choice),
+      ),
+    ).map((part): Variant => ({
+      key: part.key,
+      text: directorText(part.text, slot),
+    }));
   return {
     version: rows.version,
     greet: of("clerk", "greet"),

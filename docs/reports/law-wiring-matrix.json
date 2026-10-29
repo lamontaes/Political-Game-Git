@@ -135,9 +135,9 @@
     "stopgapped": 5,
     "researchLinks": {
       "links": 244,
-      "reaching": 149,
+      "reaching": 150,
       "aboutZero": 19,
-      "unread": 76,
+      "unread": 75,
       "unreadWithNoStopgap": 0
     },
     "shownOnAScreen": 87,
@@ -1497,7 +1497,7 @@
         "web": {
           "status": "stopgap",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 higher-education-spending-to-college-completion 0.0027 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 higher-education-spending-to-college-completion 0.0027 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 higher-education-spending-to-college-completion 0.0027 (ledger row only)",
-          "why": "no production reader: higher-education-spending-to-college-completion (SG-WEB-unread-school-college-completion-pct) move only the web's ledger"
+          "why": "no production reader: higher-education-spending-to-college-completion (SG-SCHOOL-college-completion) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -2222,7 +2222,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:35; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:35; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:35",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:39; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:39; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:39",
           "why": ""
         },
         "knowing": {
@@ -3481,7 +3481,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:914; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:914; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:914",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:932; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:932; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:932",
           "why": ""
         },
         "knowing": {
