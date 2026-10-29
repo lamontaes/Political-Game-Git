@@ -12,14 +12,20 @@
  * the same day without the poll; living elsewhere, they come home to the
  * town's doors; and their turn keeps the reading once, naming the poll, with
  * an event a scene can name by the row.
+ *
+ * With no poll at all, word does it: the challenger's evening of doors is a
+ * message the people met can pass on, and once someone who knows both is in
+ * touch with the incumbent in the days that follow (the campaigns engine's
+ * own day), the incumbent reads the race from that word and steps up.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
-import { createLifeCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
-import { takeCampaignDayChoice } from "./campaign-day";
+import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 import type { CoreAPI, CoreState } from "./types";
 import type { ModuleRow } from "./module-data";
 import { openLaws } from "./modules/laws";
@@ -39,6 +45,7 @@ import {
 import {
   CAMPAIGNS_MODULE_ID,
   CAMPAIGN_STEPPED_UP_EVENT,
+  CANVASS_MESSAGE_KIND,
   askForDonation,
   campaignFor,
   campaignTurn,
@@ -276,4 +283,196 @@ describe("the incumbent comes home to campaign when a challenger gains", () => {
       })}\n`,
     );
   }, 300_000);
+});
+
+interface MessageLike {
+  readonly id: string;
+  readonly kind?: string;
+  readonly candidateId: string;
+  readonly date: string;
+  readonly witnessIds: readonly string[];
+}
+interface WordLike {
+  readonly id: string;
+  readonly candidateId: string;
+  readonly date: string;
+  readonly contestId?: string;
+  readonly rivalId?: string;
+  readonly messageId?: string;
+  readonly tellerId?: string;
+}
+
+/**
+ * A drawn world where the challenger's evening of doors met people the
+ * incumbent knows and, in the days that follow, one of them passed word of
+ * it on to the incumbent, who has no poll of their own: the word is what
+ * they read the race from. Many places pass it over for a reason the world
+ * gives (no seat held, no one met who knows the incumbent, or an incumbent
+ * their own circle is warmer to), so up to 24 are drawn; each passed over is
+ * named with why.
+ */
+function wordOfDoors() {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 24; attempt += 1) {
+    const w = world(`incumbent-word:${attempt}`);
+    const race = incumbentRace(w.api, w.core);
+    if (typeof race === "string") {
+      tried.push(`${w.where}: ${race}`);
+      continue;
+    }
+    const { api, core } = w;
+    const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID);
+    const town = (
+      campaigns.table("town").get("town") as unknown as { townPlaceId: string }
+    ).townPlaceId;
+    // The challenger's campaign gains steam at the doors, an evening of them
+    // every day, while the days pass in the world. The campaigns engine's
+    // own day passes word of an evening on once someone met at a door who
+    // knows the incumbent has been in touch with them since.
+    const canvassed = () =>
+      new Map(
+        (
+          campaigns
+            .table("messages")
+            .query("byContest", [race.contest.id]) as unknown as MessageLike[]
+        )
+          .filter(
+            (m) =>
+              m.kind === CANVASS_MESSAGE_KIND &&
+              m.candidateId === race.challenger.personId,
+          )
+          .map((m) => [m.id, m]),
+      );
+    const wordOf = () => {
+      const messages = canvassed();
+      return (
+        campaigns
+          .table("rivalWord")
+          .query("byCandidate", [
+            race.incumbent.personId,
+          ]) as unknown as WordLike[]
+      ).find((r) => !!r.messageId && messages.has(r.messageId));
+    };
+    let word: WordLike | undefined;
+    for (let day = 0; day < 60 && !word; day += 1) {
+      if (
+        campaignDayChoices(api, race.challenger.id, true).find(
+          (c) => c.kind === "canvass",
+        )?.available
+      )
+        takeCampaignDayChoice(api, race.challenger.id, "canvass", {
+          world: true,
+        });
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      word = wordOf();
+    }
+    if (!word) {
+      const holderNow = core.people.get(race.incumbent.personId)!;
+      const met = new Set(
+        [...canvassed().values()].flatMap((m) =>
+          m.witnessIds.filter((id) => holderNow.knownIds.has(id as never)),
+        ),
+      );
+      tried.push(
+        `${w.where}: in sixty days of doors (${canvassed().size} evenings kept), word did not reach the incumbent from the ${met.size} met who know them`,
+      );
+      continue;
+    }
+    const filingId = race.incumbent.id;
+    const polls = (
+      campaigns
+        .table("polls")
+        .query("byContest", [race.contest.id]) as unknown as PollRow[]
+    ).filter((p) => p.campaignId === campaignFor(api, filingId).id);
+    if (polls.length) {
+      tried.push(`${w.where}: the incumbent's campaign took a poll meanwhile`);
+      continue;
+    }
+    const holder = core.people.get(race.incumbent.personId)!;
+    const reading = raceReading(api, filingId, holder, town);
+    if (!reading || reading.sourceRecordId !== word.id || reading.threat <= 0) {
+      tried.push(
+        `${w.where}: the word does not show the challenger ahead among the incumbent's circle (${JSON.stringify(reading)})`,
+      );
+      continue;
+    }
+    // The same day with no word of any rival.
+    const unheard = () => {
+      const table = campaigns.table("rivalWord");
+      const rows = (
+        table.query("byCandidate", [holder.id]) as unknown as WordLike[]
+      ).slice();
+      for (const row of rows) table.remove(row.id);
+      const day = rivalDay(api, filingId, holder, town);
+      for (const row of rows) table.put(row as unknown as ModuleRow);
+      return day;
+    };
+    const calm = unheard();
+    if (calm.doorHours <= 0 && holder.placeId === town) {
+      tried.push(`${w.where}: the incumbent's day has no doors on offer`);
+      continue;
+    }
+    const message = canvassed().get(word.messageId!)!;
+    return { ...w, race, holder, town, message, word, reading, calm };
+  }
+  throw new Error(
+    `no drawn place passed word of the challenger's doors to the incumbent in 24 draws (run seed ${runSeed}): ${tried.join("; ")}`,
+  );
+}
+
+describe("word of a challenger's doors reaches the incumbent", () => {
+  it("with no poll, word from someone who knows both makes the incumbent walk more doors, and the turn keeps it by the word's id", () => {
+    const {
+      core,
+      api,
+      where,
+      race,
+      holder,
+      town,
+      message,
+      word,
+      reading,
+      calm,
+    } = wordOfDoors();
+    const filingId = race.incumbent.id;
+    // The word names the challenger's evening of doors and who passed it on.
+    expect(word.rivalId, where).toBe(race.challenger.personId);
+    expect(word.contestId, where).toBe(race.contest.id);
+    expect(message.witnessIds, where).toContain(word.tellerId);
+    expect(holder.knownIds.has(word.tellerId as never), where).toBe(true);
+    expect(reading.sourceKind, where).toBe("word");
+    expect(reading.rivalId, where).toBe(race.challenger.personId);
+    expect(reading.rivalShare, where).toBeGreaterThan(reading.ownShare);
+    // The same incumbent on the same day, with and without the word.
+    const pressed = rivalDay(api, filingId, holder, town);
+    expect(calm.steppedUp, where).toBeNull();
+    expect(pressed.steppedUp?.reading.sourceRecordId, where).toBe(word.id);
+    expect(pressed.doorHours, `${where}: more doors`).toBeGreaterThan(
+      calm.doorHours,
+    );
+    // The turn keeps the reading, naming the word, and tells it as an event.
+    campaignTurn(api, filingId, race.contest.electionDate);
+    const row = steppedUpOf(api, filingId).find(
+      (r) => r.sourceRecordId === word.id,
+    );
+    expect(row, `${where}: the turn kept the word`).toBeDefined();
+    expect(row!.sourceKind).toBe("word");
+    expect(row!.rivalId).toBe(race.challenger.personId);
+    expect(
+      core.eventIds.has(`${CAMPAIGN_STEPPED_UP_EVENT}:${row!.id}`),
+      `${where}: the event names the row`,
+    ).toBe(true);
+    process.stdout.write(
+      `${JSON.stringify({
+        where,
+        contest: race.contest.id,
+        message: { id: message.id, met: message.witnessIds.length },
+        word,
+        reading,
+        calm: { ...calm, steppedUp: undefined },
+        pressed: { ...pressed, steppedUp: undefined },
+        steppedUp: row,
+      })}\n`,
+    );
+  }, 600_000);
 });
