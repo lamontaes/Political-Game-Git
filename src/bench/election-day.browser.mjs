@@ -67,7 +67,11 @@ try {
           { method: "POST" },
         );
         const body = await r.json().catch(() => ({}));
-        if (r.ok && ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")) return contest;
+        if (
+          r.ok &&
+          ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
+        )
+          return contest;
       }
       return null;
     });
