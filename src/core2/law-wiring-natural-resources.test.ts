@@ -181,8 +181,12 @@ describe("the natural resources line reaches the people who rest", () => {
             );
             continue;
           }
-          // The control world's months carry none of it.
-          for (const [, row] of without) expect(row.effect, row.id).toBe(0);
+          // The raise adds to whatever the state's own budget did in both
+          // worlds: each moved month reads higher than its twin's.
+          for (const [month, row] of moved)
+            expect(row.effect, row.id).toBeGreaterThan(
+              without.get(month)?.effect ?? 0,
+            );
           const restEffect = api.parameter("restEffect");
           for (const r of read) {
             expect(r.factor, r.personId).not.toBe(1);
@@ -195,7 +199,7 @@ describe("the natural resources line reaches the people who rest", () => {
           const sample = read.find((r) => r.before > 0);
           expect(sample, "a rest in a moved month with stress").toBeDefined();
           process.stdout.write(
-            `NATURAL-RESOURCES (NATURAL_RESOURCES_SEED=${seed}) ${where}, world seed ${drawn.seed}: act ${act} raised ${state.id}'s natural resources line ${RAISE * 100}% (${budget!.id}), the town's share ${cause.value.toFixed(2)}% above its base; ${moved.length} web months moved (${moved.map(([m, r]) => `${r.id} ${r.effect.toExponential(3)} against ${(without.get(m)?.effect ?? 0).toFixed(0)}`).join(", ")}); ${read.length} rests read them, e.g. ${sample!.personId} on ${sample!.date}: stress ${sample!.before.toFixed(6)} to ${sample!.after.toFixed(6)} at factor ${sample!.factor.toFixed(8)} (${sample!.recordId}). Passed over: ${passed.join("; ") || "none"}\n`,
+            `NATURAL-RESOURCES (NATURAL_RESOURCES_SEED=${seed}) ${where}, world seed ${drawn.seed}: act ${act} raised ${state.id}'s natural resources line ${RAISE * 100}% (${budget!.id}), the town's share ${cause.value.toFixed(2)}% above its base; ${moved.length} web months moved (${moved.map(([m, r]) => `${r.id} ${r.effect.toExponential(3)} against ${(without.get(m)?.effect ?? 0).toExponential(3)}`).join(", ")}); ${read.length} rests read them, e.g. ${sample!.personId} on ${sample!.date}: stress ${sample!.before.toFixed(6)} to ${sample!.after.toFixed(6)} at factor ${sample!.factor.toFixed(8)} (${sample!.recordId}). Passed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }
