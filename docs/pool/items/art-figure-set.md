@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Replace, never layer; the owner approves by looking at the composites.
 
-**Done when.** Three composites approved by the owner; v1 figures removed. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
+**Done when.** Three composites approved by the owner, each shown as a screenshot at midday and at night in the PR body; the v1 figures removed in the same change. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** art/people-engine/v2/
 

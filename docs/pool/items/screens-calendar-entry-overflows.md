@@ -12,9 +12,9 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** no-scroll.browser.mjs on a drawn life in Bountiful, Utah (Oct 28) failed with 'start · calendar: span.what over by 16px': one day-list entry's text runs 16px past its row on the first day. The same check passed in Stovall, North Carolina.
+**What.** no-scroll.browser.mjs on a drawn life in Bountiful, Utah (Oct 28) failed with 'start · calendar: span.what over by 16px': one day-list entry's text runs 16px past its row on the first day. The same check passed in Stovall, North Carolina. The entry is a span.what inside a calendar entry, styled by the .calendar-entry .what rules in src/bench/play.css, and which entry runs long and why its row does not wrap it is not yet known, so the first step is to reproduce it on the Bountiful, Utah draw.
 
-**Rules.** No scrolling or clipped text on any screen; one rule for all 56 places; words come from the calendar bank.
+**Rules.** No scrolling or clipped text on any screen. No hand-written player text: the entry's words come from the calendar bank, so the fix wraps the existing words inside the row and never shortens the wording in code. One rule, all 56 places: the check passes on every drawn place, not only the one that failed.
 
 **Done when.** no-scroll.browser.mjs passes on five drawn places including one whose calendar has a long entry, with each place and seed named in the PR, and the long entry wraps inside its row in a screenshot.
 
