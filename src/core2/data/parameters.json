@@ -7670,5 +7670,10 @@
       "unit": "share of the room to the nearer bound",
       "citation": "ACS 2020-2024 B05001 place margins (approximate; a researcher should confirm the figures)"
     }
+  },
+  "employmentCellPriorCount": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "The Jeffreys prior for a binomial share, Beta(1/2, 1/2): a share read from x of n people is estimated as (x + 1/2) / (n + 1), which stays strictly between none and all for any sample. Brown, Cai and DasGupta (2001), Interval Estimation for a Binomial Proportion, Statistical Science 16(2): 101-133, recommend the Jeffreys interval for small samples; its center is this estimate. Read by publishedResidentEmploymentRate for the ACS county age cells (B23001 counts of a few dozen in small counties)."
   }
 }

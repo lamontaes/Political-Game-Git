@@ -242,7 +242,14 @@ export function publishedResidentEmploymentRate(
       employed <= civilian
     )
       return {
-        rate: employed / civilian,
+        // A county's age cell is a small sample (a few dozen people), so it
+        // is read as the Jeffreys estimate, half a person added to each side:
+        // twelve employed of twelve reads just under all, not all, and the
+        // world's draw can move it (raw, a full or empty cell sat on its
+        // bound in every world).
+        rate:
+          (employed + p("employmentCellPriorCount")) /
+          (civilian + p("two") * p("employmentCellPriorCount")),
         basis:
           cells.civilianPopulation !== undefined
             ? "county-ACS-civilian-age"
