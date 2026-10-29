@@ -1142,6 +1142,15 @@ input[type="range"]::-moz-range-thumb {
   height: 200px;
   margin: 0 auto 4px;
 }
+/* The creator's everyday and work clothes, side by side. */
+.portraits {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+.portraits .portrait {
+  margin: 0 0 4px;
+}
 #front .acts {
   display: flex;
   justify-content: space-between;
@@ -2510,6 +2519,12 @@ select.government-state {
 .person-row-note {
   color: var(--text-2);
 }
+/* A line that belongs to the row above it: under the name, indented past the face. */
+.person-row-sub {
+  flex-basis: 100%;
+  margin: -10px 0 4px 46px;
+  font-size: 13px;
+}
 .record-total {
   display: block;
   font: 600 30px var(--name);
@@ -3506,6 +3521,12 @@ select.government-state {
 }
 .person-row-note {
   color: var(--text-2);
+}
+/* A line that belongs to the row above it: under the name, indented past the face. */
+.person-row-sub {
+  flex-basis: 100%;
+  margin: -10px 0 4px 46px;
+  font-size: 13px;
 }
 .record-total {
   display: block;

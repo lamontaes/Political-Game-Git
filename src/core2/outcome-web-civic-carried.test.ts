@@ -96,12 +96,16 @@ describe("votes, approval and press links and the engines that decide them", () 
     expect(read("src/core2/turnout-web.ts")).not.toMatch(/LAW_REACH_LINKS/);
   });
 
-  it("leaves a newspaper closing unwired: no outlet closes, so there is no cause to read", () => {
+  it("runs a newspaper closing on the web: the press module's closed papers are the cause and the voting engine reads the local-turnout effect", () => {
     const row = link("newspaper-closure-to-engagement");
     expect(row.carriedBy).toBeUndefined();
-    expect(linkCoverage(row).wired).toBe(false);
-    expect(read("src/core2/turnout-web.ts")).toContain(
-      "SG-WEB-voting-newspaper-closure",
+    expect(linkCoverage(row).wired).toBe(true);
+    expect(read("src/core2/turnout-web.ts")).toContain("voting.local-turnout");
+    expect(read("src/core2/modules/outcome-web.ts")).toContain(
+      '"newspapers-closed"',
+    );
+    expect(read("src/core2/modules/press.ts")).toMatch(
+      /export function closedNewspapers\(/,
     );
   });
 

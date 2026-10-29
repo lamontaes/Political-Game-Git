@@ -309,7 +309,7 @@ jobs:
       group: release-main-publish
       cancel-in-progress: false
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     permissions:
       actions: read
       contents: write
@@ -368,7 +368,11 @@ jobs:
           remote_url="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git remote add origin "$remote_url"
           # The checked parent is fetched by id, so main may already have moved on.
-          git fetch --no-tags --depth=1 origin "$SOURCE_SHA"
+          # Trees only: this step compares tree entries and reads blob ids, and the
+          # release files' blobs come from the bundle, so the repository's images
+          # are never downloaded (Oct 29: a full depth-1 fetch stalled past the
+          # job's limit; the blobless one takes seconds).
+          git fetch --no-tags --depth=1 --filter=blob:none origin "$SOURCE_SHA"
           git bundle verify "$bundle"
           git fetch --no-tags "$bundle" HEAD:refs/candidates/release
           [[ "$(git rev-parse refs/candidates/release)" == "$CANDIDATE_SHA" ]]
@@ -428,7 +432,7 @@ jobs:
             if [[ "$remote_head" == "$SOURCE_SHA" ]]; then
               target="$CANDIDATE_SHA"
             else
-              git fetch --no-tags --depth=1 origin "+refs/heads/main:refs/remotes/origin/main"
+              git fetch --no-tags --depth=1 --filter=blob:none origin "+refs/heads/main:refs/remotes/origin/main"
               main_tip="$(git rev-parse refs/remotes/origin/main)"
               while IFS=$'\t' read -r status path; do
                 if [[ "$(git rev-parse -q --verify "${SOURCE_SHA}:${path}" || true)" != \

@@ -37,6 +37,12 @@ From the moment a PR is open and ready, the builder has moved to its next unit a
 3. Read the PR's CI checks on GitHub (validate, golden-path, M0 guards, Release) as one more input; they run on GitHub's machines by themselves, so never wait on them before you finish your own run, and never re-run them to kick them. A red CI job your gate did not cover is a failure like any other.
 4. A failure that also fails on clean `origin/main` does not block: name it and the red-main fixer's item in your comment.
 
+## Traps (Oct 29)
+
+- **Fetch the branch again before you push or comment.** A merger can merge main into the branch, or merge the PR, while your gate runs (a full check takes 20+ minutes; #6794 merged mid-check). Run `git fetch origin <branch>` and `git merge-base --is-ancestor origin/<branch> origin/main` just before pushing; if the head moved, push nothing and check the new head's differences only.
+- **A fresh clone is shallow.** `release:check` fails with "Needed a single revision" until `git fetch --unshallow origin`.
+- **Regenerating the law matrices only reorders evidence** (glob order); if the counts equal main's plus the PR's, `git checkout` the file back rather than commit churn.
+
 ## Fix or send back
 
 - **Fix yourself, as plain commits on the branch:** prettier and eslint `--fix` output, a missing or malformed release declaration, the `Pool item:` line, pool item paperwork, a spelling-guard hit, a stale count in the body, and a type error whose fix is local and obvious (a missing import, a renamed field, a null check the type already demands). Each fix keeps the builder's behavior exactly; rerun the check it fixes.
@@ -50,6 +56,16 @@ When every line passes, post one comment and update the PR body's gate line:
 `Checker <k>: gate passed on head <sha> (main <sha>): typecheck, eslint, prettier, release:check, zero-dice, pool --check, <n> tests incl. fresh draws <place/seed>, <browser check>. Fixed: <what you fixed, or nothing>.`
 
 Then message the merger for the PR's parity (`CREW.md`) with the PR number and head. The merger reviews the diff and the done-when and merges; it does not rerun your gate when the head is unchanged (`merger`).
+
+## Traps from the first pass (Checker 2, Oct 29)
+
+- **One heavy process at a time.** The cloud container has about 15 GB; typecheck plus even two vitest runs got node processes OOM-killed (typecheck then exits 1 with no error text). Run typecheck alone, then the tests one after another. Never `pkill -f vitest` (it matches your own shell).
+- **Long tests run in the background with no timeout cap.** Drawn-place proof tests can take 3 to 20 minutes on a draw. Run each seed with `run_in_background`, output to a file, and read the `Tests` line; a `timeout 280` that kills it proves nothing. Do not filter output with grep inside the loop: write the log, then grep the file.
+- **`release:check` needs history.** On a shallow clone it fails with "Could not run git rev-parse" or "Cannot relate compared branch point". Run `git fetch --deepen=3000 origin main <branch>` and retry.
+- **Seeds.** Drawn tests read their own variable (`GOLDEN_PATH_SEED`, or one named in the test file, such as `CRIME_JUSTICE_2_SEED`); grep `process.env` in the test to find it, then name three seeds in your comment.
+- **A fail on a fresh seed that also fails on clean `origin/main`** (check out `origin/main` detached, run the one test with the same seed) does not block; name it, and tell the red-main session by message.
+- **A resolved `stopgaps.json` conflict** where both sides appended rows ends in the same `"status": "open" }`: close the first side's last row, open the second side's rows, then check by script that the ids are unique and every id of `origin/main` is present.
+- **Messages.** `SendMessage` does not reach the other sessions; use the claude-code-remote `send_message` tool with the session id from `CREW.md`. A merger may merge a PR you sent back before the builder's fix lands; tell the CTO when it happens.
 
 ## Stop condition
 

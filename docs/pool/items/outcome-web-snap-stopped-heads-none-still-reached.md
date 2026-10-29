@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-snap-stopped-heads
 pr: #6806
 blocked-on:

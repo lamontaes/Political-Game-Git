@@ -92,12 +92,6 @@
       "stopgapId": "SG-WEB-unread-household-child-poverty"
     },
     {
-      "link": "parent-incarceration-to-household-income",
-      "outcome": "household.income",
-      "reason": "engine doesn't read the factor: an engine records household.income, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-household-income"
-    },
-    {
       "link": "teacher-quality-to-earnings",
       "outcome": "labor.earnings-at-28",
       "reason": "no measure: the web does not keep labor.earnings-at-28 and no engine produces it; it needs each person's own exposure record, which no engine keeps",
@@ -226,14 +220,8 @@
     {
       "link": "newspaper-closure-to-borrowing-cost",
       "outcome": "gov.borrowing-cost",
-      "reason": "the web does not run it: it waits on press.local-newspaper, and it has no researched size; its research gives no size the game can apply, so the web does not run it",
+      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-gov-borrowing-cost"
-    },
-    {
-      "link": "newspaper-closure-to-engagement",
-      "outcome": "voting.local-turnout",
-      "reason": "engine doesn't read the factor: an engine records voting.local-turnout, but nothing multiplies its rates by the link's effect; nothing in the core records its cause, press.local-newspaper",
-      "stopgapId": "SG-WEB-voting-newspaper-closure"
     },
     {
       "link": "press-attacks-to-media-trust",
@@ -354,12 +342,6 @@
       "outcome": "rail.intercity-ridership",
       "reason": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-WEB-unread-rail-intercity-ridership"
-    },
-    {
-      "link": "higher-education-spending-to-college-completion",
-      "outcome": "school.college-completion-pct",
-      "reason": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces school.college-completion-pct",
-      "stopgapId": "SG-SCHOOL-college-completion"
     }
   ]
 }

@@ -12,7 +12,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
-import { baseCauseShares } from "./death-cause";
+import { baseCauseShares, causeMix } from "./death-cause";
 import { deathWebFactor } from "./health-web";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -33,6 +33,12 @@ const SHIFT = {
   "abortion-ban-to-infant-deaths": 0.06,
   "speed-limit-to-traffic-deaths": 0.2,
   "medicaid-expansion-to-mortality": -0.0188,
+  // The other links into the two mortality measures the test reads are held
+  // at zero, so what it asserts is the shifted four and nothing a place's own
+  // hospital spending or coverage adds (U.S. Virgin Islands, seed
+  // 4949fec9915f6df6, where the hospitals link raised infant deaths 2.8%).
+  "health-hospitals-spending-to-infant-mortality": 0,
+  "coverage-to-mortality-55-64": 0,
 };
 
 interface Counts {
@@ -99,15 +105,23 @@ describe(`web death factors reach both tiers (${place.name}, seed ${seed})`, () 
     const { web, factors } = moved;
     const { infant, poor, rich } = factors;
     expect(infant.recordId).toBe(web.id);
-    expect(infant.factor).toBeCloseTo(
-      1.03 * 1.06 * (1 + baseCauseShares(0)["motor-vehicle"]! * 0.2),
-      9,
-    );
+    // The shift overwrites four effects of the month row; the place's own
+    // conditions may move other causes too (a territory's overdose or firearm
+    // links), so the factor is read as the shifted multipliers times the
+    // cause mix the engine itself reads, never a formula that assumes the
+    // motor-vehicle cause is the only one that moves (U.S. Virgin Islands,
+    // seed 4949fec9915f6df6).
+    const mix = (age: number, fifth?: number) =>
+      causeMix(coreAPI(moved.world.core), web.placeId, age, fifth);
+    expect(mix(0).causeFactors["motor-vehicle"]).toBeCloseTo(1.2, 9);
+    expect(infant.factor / mix(0).factor).toBeCloseTo(1.03 * 1.06, 9);
     expect(poor).toBeLessThan(rich);
-    expect(poor).toBeCloseTo(
-      (1 - 0.0188 * 5) * (1 + baseCauseShares(60)["motor-vehicle"]! * 0.2),
-      9,
-    );
+    expect(mix(60, 0).causeFactors["motor-vehicle"]).toBeCloseTo(1.2, 9);
+    expect(poor / mix(60, 0).factor).toBeCloseTo(1 - 0.0188 * 5, 9);
+    expect(
+      mix(60, 0).factor - 1 >=
+        baseCauseShares(60)["motor-vehicle"]! * 0.2 - 1e-9,
+    ).toBe(true);
     // Full people in the shifted world carry the factor in their strain; the twin's carry none.
     const shifted = factors.full;
     expect(shifted.length).toBeGreaterThan(0);

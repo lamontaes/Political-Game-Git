@@ -1,6 +1,6 @@
-/* global process, console, document, fetch, location */
-// The People web's center is the face the creator made: its image is byte for
-// byte the creator's portrait. Run against the bench:
+/* global process, console, document, getComputedStyle, URL */
+// The People web's center is the player's own headshot: the figure the card draws for
+// them, cropped round. Run against the bench:
 //   BENCH_PORT=3000 node src/bench/people-center-face.browser.mjs [shot.png]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
@@ -11,11 +11,6 @@ const browser = await chromium.launch({
 });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(60000);
-const hash = (url) =>
-  page.evaluate(async (u) => {
-    const bytes = new Uint8Array(await (await fetch(u)).arrayBuffer());
-    return bytes.reduce((h, x) => (h * 31 + x) >>> 0, 7);
-  }, url);
 try {
   await page.goto(`${base}/play`);
   await page.locator("#new-life").click();
@@ -34,9 +29,6 @@ try {
     await swatch("shirt-color", "red").click();
   }
   await page.waitForTimeout(500);
-  const made = await page.evaluate(() =>
-    document.getElementById("cr-portrait").src.replace(location.origin, ""),
-  );
   await page.locator("#cr-begin").click();
   await page.locator("#card:not([hidden])").waitFor({ timeout: 300000 });
   console.log("place:", await page.locator("#card-place").innerText());
@@ -48,17 +40,28 @@ try {
   await page.locator(".relationship-web").waitFor();
   await page.waitForTimeout(1500);
   if (shot) await page.screenshot({ path: shot });
-  const center = await page
-    .locator(".people-center img")
-    .first()
-    .evaluate((img) => img.src);
-  console.log("center image:", center);
+  // The center is the player's round headshot, cut from the figure the card draws for them
+  // (the Oct 28 headshot, not an initial and not a separate portrait image).
+  const center = await page.evaluate(() => {
+    const node = document.querySelector(".people-center .headshot");
+    return node
+      ? (getComputedStyle(node).backgroundImage.match(/url\("?([^")]+)"?\)/) ??
+          [])[1]
+      : null;
+  });
+  console.log("center headshot:", center);
+  assert.ok(center, "the web's center is not a headshot");
+  const { life } = await (await page.request.get(`${base}/api/title`)).json();
+  const card = await (
+    await page.request.get(`${base}/api/card?id=${life.personId}`)
+  ).json();
+  assert.ok(card.face?.url, "the player's card has no face");
   assert.equal(
-    await hash(center),
-    await hash(made),
-    "the web's center is not the creator's portrait",
+    new URL(center, base).pathname,
+    new URL(card.face.url, base).pathname,
+    "the web's center is not the face the card draws for the player",
   );
-  console.log("PASS the People web's center is the face you made");
+  console.log("PASS the People web's center is the player's own face");
 } finally {
   await browser.close();
 }
