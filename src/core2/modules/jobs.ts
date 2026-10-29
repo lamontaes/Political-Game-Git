@@ -1806,7 +1806,11 @@ function reviewWorkers(api: CoreAPI): void {
 }
 
 /** The place's pay level against the opening: national hourly earnings times its region's pay. */
-function payLevel(api: CoreAPI, placeId: string, subject?: Subject): number {
+export function payLevel(
+  api: CoreAPI,
+  placeId: string,
+  subject?: Subject,
+): number {
   const c = core(api);
   const condition = (c.finance.conditionsByPlace.get(placeId) ?? [])
     .filter((row) => row.at <= c.date)
@@ -1821,7 +1825,10 @@ function payLevel(api: CoreAPI, placeId: string, subject?: Subject): number {
 }
 
 /** What the web's pay factors need to know of a worker, from the full or counted record. */
-function workerSubject(c: CoreState, personId: string): Subject | undefined {
+export function workerSubject(
+  c: CoreState,
+  personId: string,
+): Subject | undefined {
   const person = c.people.get(personId);
   if (person) {
     const gender = person.looks?.gender;

@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/director-tie-turn-scenes
 pr: 6335
 blocked-on:
@@ -33,3 +33,5 @@ claimed-at: 2026-10-27T14:06:10.958Z
 
 
 Update (words lead, Oct 27, 16:50 UTC): with the circumstance producer on main, `becoming-friends` fired 14 times in a played year in Fort Kent, Maine (seed `home-news-1`, `npm run scene-web`). `argument` and `reunion` still fired 0 times there. The item stands for the soured and re-entry turns.
+
+Oct 29 (CTO): set done; PR #6335 merged (the done flip failed while branch protection refused the flip job's push).

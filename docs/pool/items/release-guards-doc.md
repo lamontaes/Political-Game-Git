@@ -5,7 +5,7 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/guards-doc
 pr: #6520
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T04:01:33.370Z
 **Files.** docs/design/guards.md, scripts/guards/index.ts, .agents/skills/merger/SKILL.md, .agents/rules/standing-skills/local-gate/SKILL.md
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6520 merged (the done flip failed while branch protection refused the flip job's push).

@@ -69,18 +69,13 @@ try {
     });
   // Every card on every page, by its heading.
   const cards = new Map();
-  // Every law in force here, amounts and policy questions: up to 30 pages of 4.
-  for (let p = 0; p < 30; p++) {
-    for (const card of await page.locator("details.entry summary").all()) {
-      const name = await card.locator("h3").innerText();
-      cards.set(
-        name.toLowerCase(),
-        await card.locator(".entry-value").innerText(),
-      );
-    }
-    const next = page.locator(".entries .record-pager button").nth(1);
-    if (!(await next.count()) || (await next.isDisabled())) break;
-    await next.click();
+  // Every law in force here, amounts and policy questions, on the one scrolling screen.
+  for (const card of await page.locator("details.entry summary").all()) {
+    const name = await card.locator("h3").innerText();
+    cards.set(
+      name.toLowerCase(),
+      await card.locator(".entry-value").innerText(),
+    );
   }
   assert.ok(cards.size >= 3, "Issues shows no laws");
   const controls = await (

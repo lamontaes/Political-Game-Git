@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/traits-money
 pr: #5587
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T15:42:11.072Z
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/core2/modules/business.ts, data/content/trait-decision-gaps.json
 
 **Notes.** Filed Oct 24 by the traits lead from the money family's twin audit (place key 1515700, seed 6f7794a4906f). The traits-wire-money PR keeps these at the general weight with gap rows.
+
+Oct 29 (CTO): set done; PR #5587 merged (the done flip failed while branch protection refused the flip job's push).

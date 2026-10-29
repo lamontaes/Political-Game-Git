@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: words/web-cases
 pr: 6327
 blocked-on:
@@ -30,3 +30,5 @@ claimed-at: 2026-10-27T13:40:00.588Z
 **Files.** docs/design/scenes/from-life/, data/english/parts/, src/director/data/situation-types.json, docs/reports/scene-web.json
 
 **Notes.** Split from `words-scene-web-from-lives` by the words lead on Oct 27. Method per row: `scenes-from-life`. Producers belong to the director engineer (`lead: director` items); this item owns the packets and the lines.
+
+Oct 29 (CTO): set done; PR #6327 merged (the done flip failed while branch protection refused the flip job's push).

@@ -697,6 +697,31 @@ export function worldRoster(seed: string): typeof ROSTER {
             party,
           ) ?? party,
       );
+    // A House seat the published roster leaves vacant (its special election
+    // is pending on the research date) opens held, by the party the seat's
+    // own 2024 vote, as this world's swing moved it, favors: one holder in
+    // the roster for every engine to read (the offices engine seats the
+    // town state's members from it too).
+    const seatsHere = congress[stateKey]!;
+    for (const row of CAL.house)
+      if (row.stateUsps === usps && /^\d+$/.test(row.districtCode)) {
+        const district = String(Number(row.districtCode));
+        if (
+          Number(district) > 0 &&
+          Number(district) < 98 &&
+          !seatsHere[district]
+        ) {
+          const right =
+            publishedHouseRight(usps, row.districtCode) ??
+            publishedStateRight(usps) ??
+            parameter("half");
+          seatsHere[district] = [
+            rosterLabel(
+              right + worldSwing(seed, usps) >= parameter("half") ? 1 : -1,
+            ),
+          ];
+        }
+      }
   }
   const world = { places, congress };
   rosters.set(seed, world);
