@@ -33,13 +33,21 @@ import {
 } from "./modules/campaigns";
 import {
   MEETINGS_MODULE_ID,
+  meetingParameter,
   openMeetings,
+  townHallDrives,
   type TownHallRow,
 } from "./modules/meetings";
-import { campaignParameter } from "./campaign-views";
+import {
+  campaignParameter,
+  personLean,
+  PLATFORM_QUESTIONS,
+  type Stance,
+} from "./campaign-views";
+import type { ModuleRow } from "./module-data";
 import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
-import { viewsModule } from "./modules/views";
+import { viewOn, viewsModule } from "./modules/views";
 import {
   campaignDayChoices,
   takeCampaignDayChoice,
@@ -358,6 +366,29 @@ describe("a campaign day", () => {
       return choice;
     };
 
+    // The platform the player runs on (what they chose at filing, here a
+    // fixture write of the campaign row).
+    const choosePlatform = (platform: readonly Stance[]) =>
+      api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("campaigns")
+        .put({ ...campaignFor(api, id), platform } as unknown as ModuleRow);
+    const filed = campaignFor(api, id).platform;
+
+    // With no platform the forum is grayed as an event is: the candidate
+    // answers from it, so there would be nothing to say.
+    choosePlatform([]);
+    const bare = forum();
+    expect(bare.facts.platformStances, where).toBe(0);
+    expect(bare.available, where).toBe(false);
+    expect(whyNotToday(bare)?.key, where).toBe("noPlatform");
+    expect(() => takeCampaignDayChoice(api, id, "forum"), where).toThrow();
+    choosePlatform(
+      filed.length
+        ? filed
+        : [{ question: PLATFORM_QUESTIONS[0]!, position: 1 }],
+    );
+
     // Without the evening's venue in the account, the forum is grayed by the records.
     const unpaid = forum();
     expect(unpaid.facts.meetingsKept, where).toBe(true);
@@ -389,10 +420,63 @@ describe("a campaign day", () => {
       contributeOwnMoney(api, id, price),
       `own money for the venue: ${where}`,
     ).toBe(price);
+    // The player's platform holds the room's commonest question, at the
+    // opposite of their own view (so an answer from their views would show),
+    // and leaves out at least one other the room asks.
+    const room = townHallDrives(api, playerId).slice(
+      0,
+      meetingParameter("townHallSize"),
+    );
+    const counts = new Map<string, number>();
+    for (const r of room)
+      if (r.question) counts.set(r.question, (counts.get(r.question) ?? 0) + 1);
+    const top = [...counts.entries()].sort(
+      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+    )[0]?.[0];
+    expect(top, `the room asks something: ${where}`).toBeDefined();
+    const player = core.people.get(playerId)!;
+    const own = viewOn(api, playerId, top!, personLean(core.people, player, 0));
+    choosePlatform([
+      { question: top!, position: own > 0 ? -1 : 1 },
+      ...campaignFor(api, id).platform.filter(
+        (st) => st.question !== top && !counts.has(st.question),
+      ),
+    ]);
+    const platformBefore = campaignFor(api, id).platform;
+
     const offered = forum();
     expect(offered.available, `the venue is paid for: ${where}`).toBe(true);
     const spentBefore = campaignFor(api, id).spentMinor;
     const held = takeCampaignDayChoice(api, id, "forum");
+
+    // The candidate answers from the platform and declines what it does not
+    // hold: the forum never rewrites the platform, and every promise it puts
+    // on the record is a platform stance.
+    expect(campaignFor(api, id).platform, where).toEqual(platformBefore);
+    const answers = held.townHall!.answers;
+    for (const answer of answers) {
+      const stated = platformBefore.find(
+        (st) => st.question === answer.question,
+      );
+      expect(answer.position, `${answer.question}: ${where}`).toBe(
+        stated ? stated.position : null,
+      );
+    }
+    expect(
+      answers.find((a) => a.question === top)?.position,
+      `the commonest question is answered from the platform: ${where}`,
+    ).toBe(own > 0 ? -1 : 1);
+    const promises = (
+      api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("promises")
+        .rows() as unknown as { venue: string; stance: Stance }[]
+    ).filter((row) => row.venue === held.townHall!.id);
+    expect(promises.length, `one promise per answered question: ${where}`).toBe(
+      answers.filter((a) => a.position !== null).length,
+    );
+    for (const promise of promises)
+      expect(platformBefore, where).toContainEqual(promise.stance);
 
     // The meeting row is the meetings engine's town hall, hosted by the candidate for this race.
     const row = api
@@ -465,7 +549,7 @@ describe("a campaign day", () => {
     expect(whyNotToday(again)?.key, where).toBe("forumHeld");
 
     process.stdout.write(
-      `forum: ${where}; filing ${id}; town hall ${row.id}; ${row.attendeeIds.length} came, ${newcomers.length} new to the campaign; causes ${row.causeIds.slice(0, 3).join(", ")}; venue ${held.eventMoneyId}\n`,
+      `forum: ${where}; filing ${id}; town hall ${row.id}; ${row.attendeeIds.length} came, ${newcomers.length} new to the campaign; answered ${answers.filter((a) => a.position !== null).length} of ${answers.length} from the platform (${promises.map((p) => p.stance.question).join(", ")}), declined the rest; causes ${row.causeIds.slice(0, 3).join(", ")}; venue ${held.eventMoneyId}\n`,
     );
   });
 

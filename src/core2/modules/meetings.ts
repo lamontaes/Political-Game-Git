@@ -599,7 +599,11 @@ export function townConcernShare(api: CoreAPI, question: string): number {
   return touched / all;
 }
 
-/** A host's answers: their stated platform, else their own lean, else no answer. */
+/**
+ * An officeholder's answers at their own town hall (no race behind it): their
+ * own view on each question, else no answer. A candidate answers from their
+ * platform instead (`platformAnswers`).
+ */
 function ownView(
   api: CoreAPI,
   hostId: string,
@@ -666,9 +670,11 @@ export function townHallId(hostId: string, date: string): string {
 /**
  * Hold a town hall. The town's most civic-minded adults come; each asks about
  * the question they feel most strongly about, and the host takes the
- * commonest. The host answers (the player's own answers, or another host's
- * own views); a candidate's answers are promises those present heard, and
- * each attendee's view of the host moves with a recorded cause.
+ * commonest. The host answers (the player's own answers where given; a
+ * candidate otherwise answers from their platform and declines what it does
+ * not hold, an officeholder from their own views); a candidate's answers are
+ * promises those present heard, and each attendee's view of the host moves
+ * with a recorded cause.
  */
 export function holdTownHall(
   api: CoreAPI,
@@ -705,11 +711,20 @@ export function holdTownHall(
             p === null || p === undefined ? null : Math.max(-1, Math.min(1, p)),
         };
       })
-    : ownView(
-        api,
-        input.hostId,
-        taken.map((t) => t.question),
-      );
+    : input.filingId
+      ? // A candidate says only what they run on: a question their platform
+        // does not hold is declined, so a forum never rewrites the platform
+        // or makes a promise they never chose (the debate's own rule).
+        platformAnswers(
+          api,
+          input.filingId,
+          taken.map((t) => t.question),
+        )
+      : ownView(
+          api,
+          input.hostId,
+          taken.map((t) => t.question),
+        );
   const statements: Stance[] = answers.flatMap((a) =>
     a.position === null ? [] : [{ question: a.question, position: a.position }],
   );
@@ -877,6 +892,8 @@ function considerTownHalls(api: CoreAPI): void {
   )) {
     const host = api.state.people.get(hostId);
     if (!host?.alive || host.placeId !== town || hostId === playerId) continue;
+    // One a day: a forum the candidate hosted today was it.
+    if (table(api, "townHalls").get(townHallId(hostId, date))) continue;
     const last = (
       table(api, "townHalls").query("byHost", [
         hostId,

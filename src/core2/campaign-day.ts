@@ -99,6 +99,8 @@ export type CampaignDayChoice =
         readonly cashMinor: number;
         /** Whether the town's public meetings are kept (the meetings engine). */
         readonly meetingsKept: boolean;
+        /** The stances the candidate answers from; a question it does not hold is declined. */
+        readonly platformStances: number;
         /** The town hall the candidate already hosted today, if any: one a day. */
         readonly heldTodayId: string | null;
       };
@@ -168,7 +170,8 @@ export interface CampaignDayOptions {
   readonly interviewId?: string;
   /**
    * For `forum`: the player's answers by question (questions left out are
-   * declined); leave out to answer from the host's own views.
+   * declined); leave out to answer from the platform, declining what it does
+   * not hold.
    */
   readonly forumAnswers?: Readonly<Record<string, number | null>>;
   /**
@@ -299,6 +302,7 @@ export function whyNotToday(
         : undefined;
     case "forum":
       if (!choice.facts.meetingsKept) return { key: "noMeetings" };
+      if (choice.facts.platformStances === 0) return { key: "noPlatform" };
       if (choice.facts.heldTodayId) return { key: "forumHeld" };
       return choice.facts.cashMinor < choice.facts.venuePriceMinor
         ? {
@@ -496,14 +500,20 @@ export function campaignDayChoices(
       kind: "forum",
       filingId,
       hours: hours("forum"),
-      // The residents bring the questions, so a forum needs no platform:
-      // the venue's evening and a day the candidate has not hosted one.
+      // The residents bring the questions and the candidate answers from
+      // their platform, so a forum needs one, as an event does; then the
+      // venue's evening and a day the candidate has not hosted one.
       available:
-        candidateAlive && meetingsKept && !heldTodayId && cash >= price,
+        candidateAlive &&
+        meetingsKept &&
+        campaign.platform.length > 0 &&
+        !heldTodayId &&
+        cash >= price,
       facts: {
         venuePriceMinor: price,
         cashMinor: cash,
         meetingsKept,
+        platformStances: campaign.platform.length,
         heldTodayId,
       },
     },
