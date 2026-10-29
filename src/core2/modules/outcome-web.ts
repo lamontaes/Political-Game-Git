@@ -52,6 +52,43 @@ import {
   snapMaximumChangePct,
 } from "../gov-measures";
 import { monthEvent } from "../outcome-news";
+import severityData from "../data/disasters/severity.json" with { type: "json" };
+
+/** The disasters engine's news event for a disaster, which carries its severity (src/core2/modules/disasters.ts). */
+const DISASTER_KIND = "hazard.disaster";
+
+/**
+ * The outcome web's `disaster.severe` for the town, read from the disasters
+ * engine's news events: the severity of the most severe disaster that began
+ * here since the world opened, within the years a severe disaster is read to
+ * last (Boustan, Kahn, Rhode and Yanguas 2020 pool disasters by decade),
+ * citing that disaster's news event. Zero while none has; null for a place
+ * the disasters engine keeps no records of.
+ */
+function severeDisasterReading(
+  api: CoreAPI,
+  placeId: string,
+): { value: number; recordId: string | null } | null {
+  const core = api.state;
+  if (core.people.get(core.playerId ?? "")?.placeId !== placeId) return null;
+  // stopgapId: SG-WEB-disaster-severity-damage-proxy
+  api.stopgap("SG-WEB-disaster-severity-damage-proxy");
+  const since = addDays(
+    makeIsoDate(core.date),
+    -Math.round(
+      severityData.effectYears.value * api.parameter("daysPerMeanYear"),
+    ),
+  );
+  let value = 0,
+    recordId: string | null = null;
+  for (const id of core.logByKind.get(DISASTER_KIND) ?? []) {
+    const event = core.durableLog.get(id);
+    const severity = Number(event?.facts?.severity);
+    if (!event || event.placeId !== placeId || !(event.date > since)) continue;
+    if (severity > value) [value, recordId] = [severity, event.id];
+  }
+  return { value, recordId };
+}
 
 /** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
 const SCHOOL_MEASURED = new Set([
@@ -218,6 +255,8 @@ const ENGINE_READERS: Readonly<
       ],
     ),
   ),
+  // The severity of the town's most severe disaster in the last decade, from the disasters engine's news events.
+  "disaster-severity": (api, placeId) => severeDisasterReading(api, placeId),
   "schools-line-above-base": (api, placeId) => {
     const line = schoolsLineAboveBase(api, placeId);
     return line ? { value: line.pct, recordId: line.recordId } : null;
@@ -594,7 +633,6 @@ function run(api: CoreAPI, announced = false): void {
   api.stopgap("SG-WEB-poverty-licensing-no-engine");
   api.stopgap("SG-WEB-poverty-graduation-no-engine");
   api.stopgap("SG-WEB-housing-links-unsized");
-  api.stopgap("SG-WEB-disaster-severity");
   for (const placeId of placesOf(api)) {
     const row = recordMonth(api, placeId, state);
     if (announced) announce(api, row);
