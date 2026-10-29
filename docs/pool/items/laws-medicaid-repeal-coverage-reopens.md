@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/law-reach/group-b-money.ts; src/core2/law-wiring-mortality-web.test.ts
 
 **Notes.** TODO
+
+Oct 29 02:00 UTC (laws session): a second case. MORTALITY_WEB_SEED=m1, draw 0, Greenville, Rhode Island (4431600): after the test repeals the expansion, person_045b0f46b2f66ee9 (61) has coverage obligations reopened on 2025-07-01 and 2025-10-01 (reach-b:coverage:...expand-medicaid-eligibility:US-RI|person_045b0f46b2f66ee9:2025-07-01 and :2025-10-01, each with its +medicaid-match:US share). The person lives in the town itself, so the reopening is not about counted places.
