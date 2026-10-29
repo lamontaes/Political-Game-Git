@@ -274,6 +274,22 @@ function historyLines(
         recordId: fact.id,
       });
     }
+  // An official's earlier terms of the same seat, each on its own term record.
+  if (other.id.startsWith("official:")) {
+    const rows = coreAPI(core)
+      .moduleState(OFFICES)
+      .table("terms")
+      .rows() as unknown as TermLike[];
+    const own = rows.find(
+      (row) => row.id === other.id.slice("official:".length),
+    );
+    if (own)
+      lines.push(
+        ...officialLines(core, rows, own).filter(
+          (line) => line.key !== "born.year" && line.recordId !== own.id,
+        ),
+      );
+  }
   // Everyone has a birth year on their own record, even with no birthplace kept.
   if (!lines.some((line) => line.key.startsWith("born.")) && other.birthDate)
     lines.push({
@@ -488,6 +504,9 @@ function officialLines(
       recordId: term.id,
     });
   for (const row of rows.filter(same)) {
+    // A term the person held before the current one, by how they reached it.
+    if (row.id === term.id && term.reached === "in office at the opening")
+      continue;
     const office = officeTitle(core, row.officeId);
     if (!office) continue;
     lines.push({
@@ -690,10 +709,21 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     })),
     // Their history from the one history every engine reads, oldest first, for
     // everyone the viewer opens.
-    history: tellHistory([
-      ...historyLines(core, viewerId, other, tie),
-      ...enteredOffice(core, otherId, publicKnowledge),
-    ]),
+    history: tellHistory(
+      (() => {
+        const base = historyLines(core, viewerId, other, tie);
+        const entered = enteredOffice(core, otherId, publicKnowledge);
+        // Service that began with a term already told is not told twice.
+        const told = entered.some((line) =>
+          base.some(
+            (row) =>
+              row.key.startsWith("office.") &&
+              row.date.slice(0, 4) <= line.date.slice(0, 4),
+          ),
+        );
+        return told ? base : [...base, ...entered];
+      })(),
+    ),
     // An officeholder's colleagues in office, by their tie records.
     colleagues: colleaguesOf(core, otherId),
     // What the public knows of a figure the viewer may never have met (the

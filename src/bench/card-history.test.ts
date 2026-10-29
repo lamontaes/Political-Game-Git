@@ -5,6 +5,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld } from "./world";
 import { preStartHistory } from "../core2/past";
+import { coreAPI } from "../core2/state";
 import { knownCard } from "./card";
 import { schoolsOf } from "./words";
 
@@ -120,14 +121,76 @@ describe("a person's history on their card", () => {
         ...preStartHistory(core, { personId: person!.id }).map((row) => row.id),
         ...core.relationships.keys(),
         ...schoolsOf(core, person!.id).map((row) => row.recordId),
+        // An official's lines also stand on their term records.
+        ...(
+          coreAPI(core)
+            .moduleState("core2-offices-v1")
+            .table("terms")
+            .rows() as unknown as { id: string }[]
+        ).map((row) => row.id),
       ]);
       for (const line of card.history)
         expect(records.has(line.recordId), `${where}: ${line.recordId}`).toBe(
           true,
         );
+      // An official's records hold their birth and each term they won (three or
+      // more); a resident's hold school, work and family (four or more).
       expect(card.history.length, `${where}: ${role}`).toBeGreaterThanOrEqual(
-        4,
+        role === "seatHolder" ? 3 : 4,
       );
     }
+  }, 600_000);
+
+  it("tells an official's earlier terms of the same seat, each on its term record", () => {
+    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    const place = drawPlace(seed, "card-history-terms");
+    const where = `${place.name}, seed ${seed}`;
+    setBookkeeping(false);
+    const core = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    }).core;
+    const viewer = [...core.people.values()][0]!;
+    const terms = coreAPI(core)
+      .moduleState("core2-offices-v1")
+      .table("terms")
+      .rows() as unknown as {
+      id: string;
+      seatId: string;
+      status: string;
+      identity?: { givenName: string; familyName: string; birthDate?: string };
+    }[];
+    const official = terms.find(
+      (term) =>
+        term.status !== "ended" &&
+        term.identity &&
+        terms.some(
+          (earlier) =>
+            earlier.status === "ended" &&
+            earlier.seatId === term.seatId &&
+            earlier.identity?.familyName === term.identity!.familyName &&
+            earlier.identity?.givenName === term.identity!.givenName,
+        ),
+    );
+    expect(
+      official,
+      `${where}: an official with an earlier term`,
+    ).toBeDefined();
+    const card = knownCard(core, viewer.id, `official:${official!.id}`);
+    process.stdout.write(
+      `${where} official ${official!.id}: ${card.history.map((l) => l.text).join(" | ")}\n`,
+    );
+    const earlier = terms.filter(
+      (term) =>
+        term.status === "ended" &&
+        term.seatId === official!.seatId &&
+        term.identity?.familyName === official!.identity!.familyName,
+    );
+    for (const term of earlier)
+      expect(
+        card.history.some((line) => line.recordId === term.id),
+        `${where}: ${term.id} is on the card`,
+      ).toBe(true);
+    expect(card.history.length, where).toBeGreaterThanOrEqual(3);
   }, 600_000);
 });
