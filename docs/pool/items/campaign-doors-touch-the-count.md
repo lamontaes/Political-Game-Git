@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/doors-touch-counted
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T22:44:10.993Z
 ---
 
 **What.** The player's own canvass filled in every counted resident who opened as a full person, so a season of campaigning made about a thousand full people, held more than 4 GB and ran past fifty minutes. That breaks the two-level population rule (full people only where they matter) and the speed rule. The CTO ruled Oct 29 that a door touches the counted group and only someone the player talks with in a scene is filled in; the owner's Oct 27 ruling is a short scene at one or two doors.
