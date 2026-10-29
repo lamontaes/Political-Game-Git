@@ -6,6 +6,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 29, 16:30 UTC: one standard for backgrounds and people (owner, noon Eastern, four inline answers)
+
+- **Every pose at five angles, used throughout the game:** front, three-quarter left and right, back three-quarter left and right. No profiles, no flat back views, never mirrored. Owner: "5 angles per pose and have those 5 angles be able to be used throughout the game. So that way it can be standardized mannequins can make a lot more sense."
+- **Backgrounds are regenerated from the start in one camera standard:** two shots per place (wide and medium), the same eye-level camera height and horizon line everywhere, so a person at a given floor depth is the same size in every room.
+- **Mannequins first:** each background is painted with green mannequins at standard spots and angles, then edited to remove them; the empty room and its mannequin plate line up exactly.
+- **First batch:** the golden path rooms in order, their region and town-size versions, and every person redrawn at the five angles (with the six second faces) as people pack v4. Everything else follows in the same standard.
+
 ## Oct 29, 02:35 UTC: the opening, the President's speech, the people poses and location variance (owner, 10:30 PM Eastern, four inline answers)
 
 - **The opening is the montage with the key people inside it.** The address plays like a broadcast; the cutaways alternate the President working (the colonnade, the Oval Office window, writing at the Resolute desk) with America (people along a route, people pausing where they are). When the speech's subject turns to them, the Vice President, Congress and the player's governor with a few state legislators appear, each named by office as the camera passes. It ends at home with the partner's "Did you see the President's speech?". This joins the Oct 14 sequence (OD:301) and the Oct 28 montage (WANTED cto-28, cto-29); neither is dropped.
