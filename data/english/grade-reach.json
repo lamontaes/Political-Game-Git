@@ -1778,6 +1778,7 @@
     "scene-talk.open-greet.excuse-me-do-you-have-a-moment-i-m-name-and-i-cover-these-meetings": "greet|nervous|private",
     "scene-talk.open-greet.first-do-you-have-a-minute": "greet|calm|private",
     "scene-talk.open-greet.first-good-i-caught-you": "greet|calm|private",
+    "scene-talk.open-greet.first-i-m-name-i-held-this-seat-until-now-it-s-yours": "greet|calm|private",
     "scene-talk.open-greet.first-i-m-name-i-ll-be-giving-you-the-oath": "greet|calm|private",
     "scene-talk.open-greet.first-i-m-name-i-wanted-to-follow-up-on-what-i-said-to-you": "greet|curious|private",
     "scene-talk.open-greet.first-sit-down-a-second": "greet|calm|private",
