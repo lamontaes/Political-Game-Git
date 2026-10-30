@@ -76,6 +76,7 @@ import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "js
 import { isRealOfficeholderName } from "../officials-names";
 import { pressConflict } from "../press-conflict";
 import { sessionPlaces } from "../state-session-calendar";
+import { researchedHolderParty } from "../holder-parties";
 
 export const OFFICES_MODULE_ID = "core2-offices-v1";
 
@@ -93,6 +94,8 @@ export interface TermRow {
     readonly homeState: string;
   };
   readonly party: string | null;
+  /** Where the party was read, when not the seat's roster (the research's row). */
+  readonly partySource?: string;
   readonly startDate: string;
   /** When the holder's unbroken service in this seat began (seniority). */
   readonly serviceStart?: string;
@@ -141,15 +144,12 @@ function seatHistory(
   window: PreStartWindow,
   history: HistoryWriter,
 ): void {
-  const town = (table(api, "loaded").get("town") as { stateKey?: string })
-    ?.stateKey;
   for (const row of table(api, "terms").rows()) {
     const term = row as unknown as TermRow;
     if (term.startDate < window.from || term.startDate > window.through)
       continue;
     const office = table(api, "offices").get(term.officeId);
-    const jurisdiction = String(office?.jurisdiction ?? "");
-    if (jurisdiction.startsWith("US-") && jurisdiction !== town) continue;
+    if (isOutsideOffice(api, office)) continue;
     history.record({
       id: `seat-reached:${term.id}`,
       date: makeIsoDate(term.startDate),
@@ -234,6 +234,30 @@ const source = (citation: string, date: string, estimate: boolean): Source =>
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(OFFICES_MODULE_ID).table(name);
+}
+
+/**
+ * Whether an office belongs to another place: its jurisdiction is a state or
+ * territory other than the town's own. A federal office (the President, the
+ * Vice President, Congress) is never another place's, and neither is a local
+ * one. The one test every engine reads for "another place's office", by
+ * jurisdiction, never by whether the office covers the town (a territory town
+ * casts no electoral votes, and a district elsewhere in the town's own state
+ * does not cover it, yet both are the town's).
+ */
+export function isOutsideOffice(
+  api: CoreAPI,
+  office:
+    | { readonly level?: unknown; readonly jurisdiction?: unknown }
+    | null
+    | undefined,
+): boolean {
+  if (!office || office.level === "federal") return false;
+  const jurisdiction = String(office.jurisdiction ?? "");
+  if (!jurisdiction.startsWith("US-")) return false;
+  const town = (table(api, "loaded").get("town") as { stateKey?: string })
+    ?.stateKey;
+  return jurisdiction !== town;
 }
 
 /** A new mandate vacates only offices the law makes incompatible. */
@@ -432,6 +456,8 @@ export interface SeatTermInput {
   readonly personId: string | null;
   readonly identity: TermRow["identity"];
   readonly party: string | null;
+  /** Where the party was read, when not the seat's roster. */
+  readonly partySource?: string;
   readonly startDate: string;
   readonly endDate: string | null;
   readonly endEstimated: boolean;
@@ -472,6 +498,7 @@ export function seatTerm(api: CoreAPI, input: SeatTermInput): TermRow {
     personId: input.personId,
     identity: input.identity,
     party: input.party,
+    ...(input.partySource ? { partySource: input.partySource } : {}),
     startDate: input.startDate,
     endDate: input.endDate,
     endEstimated: input.endEstimated,
@@ -518,7 +545,7 @@ function seatNamedOfficial(
   api: CoreAPI,
   worldSeed: string,
   office: OfficeInput,
-  seat: SeatInput,
+  seat: SeatInput & { readonly partySource?: string },
   date: string,
   reached: string,
 ): TermRow {
@@ -570,6 +597,7 @@ function seatNamedOfficial(
       homeState: office.jurisdiction,
     },
     party: partyName(seat.party),
+    ...(seat.partySource ? { partySource: seat.partySource } : {}),
     startDate: date,
     endDate: termEnd(api, office, seat, date),
     endEstimated: true,
@@ -741,27 +769,36 @@ function seatOutsideOffices(
   entries: readonly OfficeWithSeats[],
   date: string,
 ): void {
+  const reached = "in office at the opening";
+  let unread = false;
   for (const entry of entries) {
     if (entry.office.jurisdiction === "US") continue;
     const office = { ...entry.office, coversTown: false };
     const seats = entry.seats.map((s) => ({ ...s, coversTown: false }));
     putOffice(api, { ...entry, office, seats });
     if (office.firstTermStart && office.firstTermStart > date) continue;
-    for (const seat of seats)
+    for (const listed of seats) {
+      // A holder the roster names no party for sits in the party the
+      // research reads for the seat (none for an office elected without
+      // party labels), with its source.
+      const read =
+        listed.party === null
+          ? researchedHolderParty(office.jurisdiction, listed.id, reached)
+          : undefined;
+      const seat = read ? { ...listed, ...read } : listed;
+      if (seat.party === null && !read) unread = true;
       pastTerms(
         api,
         worldSeed,
         office,
         seat,
-        seatNamedOfficial(
-          api,
-          worldSeed,
-          office,
-          seat,
-          date,
-          "in office at the opening",
-        ),
+        seatNamedOfficial(api, worldSeed, office, seat, date, reached),
       );
+    }
+  }
+  if (unread) {
+    // stopgapId: SG-GOV-outside-seat-party-unread (another place's holder whose party neither the roster nor the research reads sits with no party)
+    api.stopgap("SG-GOV-outside-seat-party-unread");
   }
 }
 

@@ -25,7 +25,6 @@ import calibration from "../../../data/source/electoral-calibration-2024/corpus.
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import stateResearchJson from "../../../data/research/offices/state-offices.json" with { type: "json" };
-import holderParties from "../../../data/research/offices/unrecorded-holder-parties-2026.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import { makeIsoDate } from "../kernel/dates";
@@ -50,7 +49,13 @@ import {
 } from "../officials-roster";
 import officialsData from "../data/officials/officials.json" with { type: "json" };
 import { nationalHomeState, recordPresident } from "../officials-president";
-import { OFFICES_MODULE_ID, type TermRow, vacateUnheldSeat } from "./offices";
+import { researchedHolderParty } from "../holder-parties";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  type TermRow,
+  vacateUnheldSeat,
+} from "./offices";
 import { filingRequirements } from "./elections";
 import { VIEWS_DATA, stanceOn } from "./views";
 
@@ -359,22 +364,6 @@ function nextEven(date: string): number {
   return year % 2 ? year + 1 : year;
 }
 
-const HOLDER_PARTIES = holderParties as unknown as {
-  places: Record<
-    string,
-    {
-      seats: Record<
-        string,
-        {
-          party: string | null;
-          appliesTo: "office" | "opening";
-          sourceId: string;
-        }
-      >;
-    }
-  >;
-};
-
 /**
  * The party of a holder the roster doesn't record (a statewide executive, a
  * seat whose roster row is missing): the party the research reads for that
@@ -390,17 +379,17 @@ function unrecordedParty(
   kind: string,
   stateKey: string,
 ): { party: string | null; partySource?: string } {
-  if (term.party) return { party: term.party };
-  const read =
-    HOLDER_PARTIES.places[term.identity.homeState]?.seats[term.seatId];
-  if (
-    read &&
-    (read.appliesTo === "office" || term.reached === "in office at the opening")
-  )
+  if (term.party)
     return {
-      party: read.party,
-      partySource: `unrecorded-holder-parties-2026 ${read.sourceId}`,
+      party: term.party,
+      ...(term.partySource ? { partySource: term.partySource } : {}),
     };
+  const read = researchedHolderParty(
+    term.identity.homeState,
+    term.seatId,
+    term.reached,
+  );
+  if (read) return read;
   const executives =
     (
       stateResearch.places[stateKey] as
@@ -462,14 +451,14 @@ function specs(api: CoreAPI, seed: string, townState: string): Spec[] {
     if (term.personId) continue;
     const office = offices.table("offices").get(term.officeId) as unknown as {
       kind: string;
+      level: string;
       jurisdiction: string;
       termYears: number | null;
       nextElectionYear?: number;
-      coversTown: boolean;
     };
     // Another place's offices stay named officials on their terms until the
     // player meets or opens them (`holderOf`), never a full person here.
-    if (!office.coversTown) continue;
+    if (isOutsideOffice(api, office)) continue;
     const seat = offices.table("seats").get(term.seatId) as unknown as {
       district: string | null;
       electionYear?: number;
@@ -990,9 +979,10 @@ export function holderOf(api: CoreAPI, term: TermRow): TermRow {
     kind: string;
     jurisdiction: string;
     termYears: number | null;
+    nextElectionYear?: number;
   };
   const seat = offices.table("seats").get(term.seatId) as unknown as
-    { district: string | null } | undefined;
+    { district: string | null; electionYear?: number } | undefined;
   const town = offices.table("loaded").get("town") as unknown as {
     stateKey: string;
   };
@@ -1009,6 +999,10 @@ export function holderOf(api: CoreAPI, term: TermRow): TermRow {
     district: seat?.district ?? null,
     ...unrecordedParty(api, term, office.kind, stateKey),
     termYears: office.termYears,
+    // As the opening reads a seated holder (`specs`): their unbroken
+    // service, and the seat's own recorded election.
+    serviceStart: term.serviceStart ?? term.startDate,
+    nextElectionYear: seat?.electionYear ?? office.nextElectionYear ?? null,
   });
   return { ...term, personId: row.id };
 }
@@ -1031,6 +1025,10 @@ export function seatOfficial(
     readonly party: string | null;
     readonly partySource?: string;
     readonly termYears: number | null;
+    /** When the holder's unbroken service began; the term's start by default. */
+    readonly serviceStart?: string;
+    /** The seat's next election; today plus a term by default. */
+    readonly nextElectionYear?: number | null;
   },
 ): OfficialRow {
   const personId = input.term
@@ -1059,10 +1057,14 @@ export function seatOfficial(
       {
         ...input,
         bodyKind,
-        serviceStart: input.term?.startDate ?? api.state.date,
-        nextElectionYear: input.termYears
-          ? Number(api.state.date.slice(0, 4)) + input.termYears
-          : null,
+        serviceStart:
+          input.serviceStart ?? input.term?.startDate ?? api.state.date,
+        nextElectionYear:
+          input.nextElectionYear !== undefined
+            ? input.nextElectionYear
+            : input.termYears
+              ? Number(api.state.date.slice(0, 4)) + input.termYears
+              : null,
         role:
           bodyKind === "executive"
             ? "executive-officeholder-at-opening"

@@ -6,10 +6,15 @@
  * opening, written by the one writer `seatOutsideOffices`. Each holder is a
  * named official on the term row (`official:<term>`), not a full person: the
  * two-level rule fills one in only when the player meets or opens them. The
- * old 8-per-chamber sample of other legislatures is gone. After a played
- * year no outside holder has been filled in, and every other place's seat
- * the voting engine raced in the year is held by its race's winner, at home
- * in the office's own state.
+ * old 8-per-chamber sample of other legislatures is gone. Checked seat by
+ * seat: every seat of every outside office is held once; a holder the roster
+ * names no party for carries the research's; a term-limited state's
+ * legislators' careers are capped by their own state's limit. After a played
+ * year no outside holder has been filled in, and every other place's seat the
+ * voting engine raced in the year (its legislators and its governor) is held
+ * by its race's winner, at home in the office's own state. A winner of
+ * another party is a new holder drawn from that state, and the town's law
+ * reaches its own officeholders, never another place's.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -21,21 +26,34 @@ import { addDays } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { lawChain } from "./modules/laws";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
-import { allOfficials } from "./modules/officials";
-import { racesOf } from "./modules/voting";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "./modules/offices";
+import { allOfficials, holderOf } from "./modules/officials";
+import { racesOf, VOTING_MODULE_ID } from "./modules/voting";
+import { targetsOf } from "./law-reach/group-a-records";
+import { statePlaces } from "./electorate-places";
+import { researchedHolderParty } from "./holder-parties";
+import { POLICY_QUESTIONS } from "./policy-answers";
 import { sessionPlaces } from "./state-session-calendar";
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import research from "../../data/research/offices/state-offices.json" with { type: "json" };
+import reachA from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 
 const seed = process.env.GOVERNS_SEED ?? randomBytes(8).toString("hex");
 
 interface Office {
   readonly id: string;
   readonly kind: string;
+  readonly level: string;
   readonly jurisdiction: string;
   readonly coversTown: boolean;
   readonly elected: boolean;
+  readonly termYears: number | null;
+  readonly nextElectionYear?: number;
+  readonly firstTermStart?: string;
 }
 interface Seat {
   readonly id: string;
@@ -60,6 +78,12 @@ const chambersRead = (
     >;
   }
 ).places;
+const TERM_LIMITS =
+  "us-policy-positions:government-operations.legislative-term-limits";
+const termLimitYears = (
+  reachA as unknown as { parameters: Record<string, { value: number }> }
+).parameters.termLimitYears!.value;
+const year = (date: string) => Number(date.slice(0, 4));
 
 it(`every other place's chambers, governor and statewide executives sit as named officials (seed ${seed})`, () => {
   setBookkeeping(false);
@@ -73,7 +97,6 @@ it(`every other place's chambers, governor and statewide executives sit as named
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const town = lawChain(api).stateKey;
   const opening = core.date;
-  const year = Number(opening.slice(0, 4));
   const servingOn = (seatId: string) =>
     offices
       .table("terms")
@@ -88,23 +111,14 @@ it(`every other place's chambers, governor and statewide executives sit as named
     const own = offices
       .table("offices")
       .query("byJurisdiction", [key]) as unknown as Office[];
-    outside.push(...own);
+    // Another place's own offices, never its seats in Congress.
+    outside.push(...own.filter((o) => o.level !== "federal"));
     // A lower chamber, or the one chamber of a unicameral legislature.
     const chamber =
       own.find((o) => o.kind === "legislature-lower") ??
       own.find((o) => o.kind === "legislature-unicameral");
     expect(chamber, `${where}: ${key} has no lower chamber`).toBeDefined();
-    expect(chamber!.coversTown, `${where}: ${chamber!.id}`).toBe(false);
     const seats = seatsOf(chamber!.id);
-    const held = seats.flatMap((seat) => servingOn(seat.id));
-    // Every seat is held, once.
-    expect(held.length, `${where}: ${chamber!.id} serving terms`).toBe(
-      seats.length,
-    );
-    expect(
-      seats.every((seat) => !seat.coversTown),
-      `${where}: ${chamber!.id} seats cover the town`,
-    ).toBe(true);
     // Every rostered member has a seat; a district the roster lists no
     // member for (vacant when it was read) is a seat too. Where there is no
     // roster (a territory), the chamber's recorded size, at large.
@@ -135,16 +149,44 @@ it(`every other place's chambers, governor and statewide executives sit as named
       own.find((o) => o.kind === "governor") ??
       own.find((o) => o.kind === "mayor");
     expect(executive, `${where}: ${key} has no chief executive`).toBeDefined();
-    const head = seatsOf(executive!.id).flatMap((seat) => servingOn(seat.id));
-    expect(head.length, `${where}: ${executive!.id} held`).toBe(1);
     lines.push(
-      `${key}: ${chamber!.id} ${held.length}/${seats.length} (roster ${rostered ?? "none"}), ${head[0]!.id}`,
+      `${key}: ${chamber!.id} ${seats.length} seats (roster ${rostered ?? "none"}), ${servingOn(seatsOf(executive!.id)[0]!.id)[0]?.id}`,
     );
   }
+  // Every outside office is another place's by the one test, covers no part
+  // of the town, and each of its seats is held by exactly one serving term
+  // (none where the office's law creates it after the opening).
+  const outsideSeats = new Map<string, Office>();
+  let seatCount = 0;
+  for (const office of outside) {
+    expect(isOutsideOffice(api, office), `${where}: ${office.id}`).toBe(true);
+    expect(office.coversTown, `${where}: ${office.id}`).toBe(false);
+    const created = Boolean(
+      office.firstTermStart && office.firstTermStart > opening,
+    );
+    for (const seat of seatsOf(office.id)) {
+      seatCount += 1;
+      outsideSeats.set(seat.id, office);
+      expect(seat.coversTown, `${where}: ${seat.id} covers the town`).toBe(
+        false,
+      );
+      expect(
+        servingOn(seat.id).length,
+        `${where}: ${seat.id} serving terms`,
+      ).toBe(created ? 0 : 1);
+    }
+  }
+  // The town's own offices and the federal ones are never another place's.
+  for (const office of offices.table("offices").rows() as unknown as Office[])
+    if (office.level === "federal" || office.jurisdiction === town)
+      expect(isOutsideOffice(api, office), `${where}: ${office.id}`).toBe(
+        false,
+      );
   // Every outside office's holders are named on their term, at home in the
-  // office's own state, and not full people.
+  // office's own state, not full people, and in the party the research
+  // reads for the seat where the roster names none.
   const outsideIds = new Set(outside.map((o) => o.id));
-  const jurisdictionOf = new Map(outside.map((o) => [o.id, o.jurisdiction]));
+  const officeOf = new Map(outside.map((o) => [o.id, o]));
   const outsideTerms = () =>
     (
       offices
@@ -153,6 +195,8 @@ it(`every other place's chambers, governor and statewide executives sit as named
     ).filter((term) => outsideIds.has(term.officeId));
   const opened = outsideTerms();
   expect(opened.length, where).toBeGreaterThan(7_000);
+  let researched = 0;
+  let partyless = 0;
   for (const term of opened) {
     expect(term.personId, `${where}: ${term.id} filled in`).toBeNull();
     expect(
@@ -160,13 +204,51 @@ it(`every other place's chambers, governor and statewide executives sit as named
       `${where}: ${term.id} has no name`,
     ).toBe(true);
     expect(term.identity.homeState, `${where}: ${term.id}`).toBe(
-      jurisdictionOf.get(term.officeId),
+      officeOf.get(term.officeId)!.jurisdiction,
     );
     expect(core.people.has(`official:${term.id}`), term.id).toBe(false);
+    const read = researchedHolderParty(
+      term.identity.homeState,
+      term.seatId,
+      term.reached,
+    );
+    if (term.party === null) {
+      partyless += 1;
+      // No holder sits party-less where the research reads a party.
+      expect(read?.party ?? null, `${where}: ${term.id} party unread`).toBe(
+        null,
+      );
+    }
+    if (term.partySource) {
+      researched += 1;
+      expect(term.partySource, `${where}: ${term.id}`).toBe(read?.partySource);
+      expect(term.party, `${where}: ${term.id}`).toBe(read?.party ?? null);
+    }
   }
-  const outsideSeats = new Set(
-    outside.flatMap((o) => seatsOf(o.id).map((s) => s.id)),
-  );
+  expect(
+    researched,
+    `${where}: no holder seated in the research's party`,
+  ).toBeGreaterThan(0);
+  // A term-limited state's legislators' careers are capped by that state's
+  // own limit, not the town's.
+  let capped = 0;
+  for (const term of opened) {
+    const office = officeOf.get(term.officeId)!;
+    if (
+      !office.kind.startsWith("legislature-") ||
+      !office.termYears ||
+      POLICY_QUESTIONS[TERM_LIMITS]?.answers[office.jurisdiction]?.answer !==
+        "yes"
+    )
+      continue;
+    capped += 1;
+    const prior = Math.max(0, Math.ceil(termLimitYears / office.termYears) - 2);
+    expect(
+      year(term.startDate) - year(term.serviceStart ?? term.startDate),
+      `${where}: ${term.id} served from ${term.serviceStart} in a term-limited state`,
+    ).toBeLessThanOrEqual(prior * office.termYears);
+  }
+  expect(capped, `${where}: no term-limited state outside`).toBeGreaterThan(0);
   const officialsOutside = () =>
     allOfficials(api).filter((row) => outsideSeats.has(row.seatId));
   expect(
@@ -180,18 +262,36 @@ it(`every other place's chambers, governor and statewide executives sit as named
     `${where}: sample officials`,
   ).toEqual([]);
 
-  // The seats whose election falls in the year, read at the opening.
-  const up = outside.flatMap((office) =>
-    office.elected && office.kind.startsWith("legislature-")
-      ? seatsOf(office.id)
-          .filter((seat) => seat.electionYear === year)
-          .map((seat) => ({
-            seat,
-            office,
-            before: servingOn(seat.id)[0]?.party ?? null,
-          }))
-      : [],
-  );
+  // Every outside seat whose election falls in the year, read at the
+  // opening: each legislative seat on its own cycle, and each governor on
+  // the office's. A place with no counted electorate (a territory) is not
+  // raced (SG-GOV-territory-legislature-race, SG-GOV-territory-governor-race),
+  // and statewide executives other than the governor are not raced yet
+  // (SG-GOV-outside-executives-not-raced).
+  const opensIn = year(opening);
+  const counted = new Map<string, boolean>();
+  const isCounted = (key: string) => {
+    if (!counted.has(key))
+      counted.set(key, statePlaces(key.slice(3), api.state.seed).length > 0);
+    return counted.get(key)!;
+  };
+  const up = outside.flatMap((office) => {
+    if (!office.elected || !isCounted(office.jurisdiction)) return [];
+    const legislative = office.kind.startsWith("legislature-");
+    const governorUp =
+      office.kind === "governor" &&
+      !!office.termYears &&
+      !!office.nextElectionYear &&
+      (opensIn - office.nextElectionYear) % office.termYears === 0;
+    if (!legislative && !governorUp) return [];
+    return seatsOf(office.id)
+      .filter((seat) => !legislative || seat.electionYear === opensIn)
+      .map((seat) => ({ seat, office, before: servingOn(seat.id)[0]! }));
+  });
+  expect(
+    up.filter(({ office }) => office.kind === "governor").length,
+    `${where}: no outside governor up in ${opensIn}`,
+  ).toBeGreaterThan(0);
   advanceCore(core, addDays(opening, 365));
 
   // Nobody outside the town was filled in during the year, unless the
@@ -209,7 +309,8 @@ it(`every other place's chambers, governor and statewide executives sit as named
   expect(filled, `${where}: filled in during the year`).toEqual([]);
 
   // Every such seat the voting engine raced is held by its race's winner,
-  // at home in the office's own state.
+  // at home in the office's own state; a re-elected holder is the same
+  // person, a winner of another party a new one.
   const races = new Map(
     racesOf(api).map((race) => [race.seatId, race] as const),
   );
@@ -219,9 +320,11 @@ it(`every other place's chambers, governor and statewide executives sit as named
     const race = races.get(seat.id);
     expect(
       race,
-      `${where}: ${seat.id} up in ${year} was not raced`,
+      `${where}: ${seat.id} up in ${opensIn} was not raced`,
     ).toBeDefined();
-    if (race!.seatedOn > core.date) continue;
+    // Seated the morning of the term's first day; one not begun by the last
+    // day run is left to the next year.
+    if (race!.seatedOn >= core.date) continue;
     const [term] = servingOn(seat.id);
     expect(term, `${where}: ${seat.id} after ${race!.id}`).toBeDefined();
     expect(term!.party, `${where}: ${term!.id} from ${race!.id}`).toBe(
@@ -235,24 +338,129 @@ it(`every other place's chambers, governor and statewide executives sit as named
     );
     expect(term!.personId, `${where}: ${term!.id}`).toBeNull();
     seated.push(`${race!.id} -> ${term!.id} (${term!.party})`);
-    // A seat that changed party has a newly drawn holder from that state.
-    if (term!.party !== before)
+    if (term!.party === before.party)
+      expect(term!.identity, `${where}: ${term!.id} re-elected`).toEqual(
+        before.identity,
+      );
+    else
       changed.push(
-        `${race!.id} -> ${term!.id} (${before} to ${term!.party}, ${term!.identity.givenName} ${term!.identity.familyName} of ${term!.identity.homeState})`,
+        `${race!.id} -> ${term!.id} (${before.party} to ${term!.party}, ${term!.identity.givenName} ${term!.identity.familyName} of ${term!.identity.homeState})`,
       );
   }
-  expect(up.length, `${where}: no outside seat up in ${year}`).toBeGreaterThan(
-    0,
+  const governorsSeated = seated.filter((line) => line.includes(":governor:"));
+  expect(
+    governorsSeated.length,
+    `${where}: no outside governor seated by ${core.date}`,
+  ).toBeGreaterThan(0);
+
+  // A winner of another party on an outside seat: the voting engine's own
+  // seat-winner work, given a race the incumbent's party lost (a fixture for
+  // the edge a year may not produce), seats a new holder drawn from the
+  // office's state, never the town's.
+  const target = outside
+    .filter(
+      (o) => o.kind.startsWith("legislature-") && isCounted(o.jurisdiction),
+    )
+    .flatMap((o) => seatsOf(o.id).map((seat) => ({ seat, office: o })))
+    .find(({ seat }) => servingOn(seat.id)[0]?.party);
+  expect(target, `${where}: no outside seat with a party`).toBeDefined();
+  const holder = servingOn(target!.seat.id)[0]!;
+  const loser = holder.party!;
+  const winner = /republican/i.test(loser) ? "Democratic" : "Republican";
+  const raceDate = core.date;
+  const raceId = `race:${target!.seat.id}:${raceDate}:fixture`;
+  const seatDay = addDays(raceDate, 1);
+  api
+    .moduleState(VOTING_MODULE_ID)
+    .table("races")
+    .put({
+      id: raceId,
+      seatId: target!.seat.id,
+      office: target!.office.kind,
+      date: raceDate,
+      incumbentParty: loser,
+      lean: 0.5,
+      winnerParty: winner,
+      seatedOn: seatDay,
+      leanSource: "fixture",
+      resultId: raceId,
+      offices: {
+        seatId: target!.seat.id,
+        officeId: target!.office.id,
+        termYears: target!.office.termYears,
+      },
+    });
+  api.moduleCalendar(VOTING_MODULE_ID).schedule({
+    key: `seat:${raceId}`,
+    date: seatDay,
+    kind: "seat-winner",
+    source: {
+      tag: "SOURCED",
+      citation: `Result of ${raceId}`,
+      asOf: raceDate,
+    },
+    sourceRecordIds: [raceId],
+  });
+  advanceCore(core, addDays(seatDay, 1));
+  const [newcomer] = servingOn(target!.seat.id);
+  expect(newcomer!.party, `${where}: ${raceId}`).toBe(winner);
+  expect(newcomer!.reached, `${where}: ${newcomer!.id}`).toBe(
+    `elected ${raceDate}`,
+  );
+  expect(newcomer!.identity.homeState, `${where}: ${newcomer!.id}`).toBe(
+    target!.office.jurisdiction,
+  );
+  expect(newcomer!.identity, `${where}: ${newcomer!.id}`).not.toEqual(
+    holder.identity,
+  );
+  expect(newcomer!.personId, `${where}: ${newcomer!.id}`).toBeNull();
+
+  // The town's law reaches its own officeholders (its state's legislators,
+  // whether or not their district covers the town), never another place's,
+  // even one the player opened.
+  const openedHolder = holderOf(api, newcomer!);
+  expect(openedHolder.personId, `${where}: ${newcomer!.id} opened`).toBe(
+    `official:${newcomer!.id}`,
+  );
+  const reached = new Set(
+    targetsOf(api, {
+      id: "every-officeholder",
+      target: "officeholders",
+      kind: "rule",
+      what: "every officeholder",
+      enforcer: "none",
+      penalty: "none",
+    }).map((t) => t.personId),
   );
   expect(
-    seated.length,
-    `${where}: no raced seat seated by ${core.date}`,
-  ).toBeGreaterThan(0);
+    reached.has(openedHolder.personId!),
+    `${where}: ${openedHolder.personId} reached`,
+  ).toBe(false);
+  const ownLegislators = (
+    offices
+      .table("terms")
+      .query("byStatus", ["serving"]) as unknown as TermRow[]
+  ).filter((term) => {
+    const office = offices.table("offices").get(term.officeId) as unknown as
+      Office | undefined;
+    return (
+      office?.jurisdiction === town &&
+      office.kind.startsWith("legislature-") &&
+      term.personId !== null
+    );
+  });
+  expect(ownLegislators.length, `${where}: own legislators`).toBeGreaterThan(0);
+  for (const term of ownLegislators)
+    expect(reached.has(term.personId!), `${where}: ${term.id}`).toBe(true);
+
   process.stdout.write(
-    `EVERY-LEGISLATURE ${where}: ${opened.length} outside terms named at the opening, none filled in by ${core.date}; ${seated.length} of ${up.length} seats up in ${year} seated by their race, e.g. ${seated
-      .slice(0, 2)
-      .join("; ")}; ${changed.length} changed party, e.g. ${changed
-      .slice(0, 2)
-      .join("; ")}\n${lines.join("\n")}\n`,
+    `EVERY-LEGISLATURE ${where}: ${opened.length} outside terms on ${seatCount} seats named at the opening (${researched} in the research's party, ${partyless} with no party), ${capped} capped by their own state's term limit, none filled in by ${core.date}; ${seated.length} of ${up.length} seats up in ${opensIn} seated by their race, e.g. ${[
+      ...governorsSeated,
+      ...seated,
+    ]
+      .slice(0, 3)
+      .join(
+        "; ",
+      )}; ${changed.length} changed party, e.g. ${changed.slice(0, 2).join("; ")}; fixture ${raceId} seated ${newcomer!.identity.givenName} ${newcomer!.identity.familyName} of ${newcomer!.identity.homeState}; ${ownLegislators.length} own legislators reached\n${lines.join("\n")}\n`,
   );
 }, 3_600_000);

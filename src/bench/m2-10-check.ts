@@ -199,33 +199,28 @@ for (const r of [...house, ...senate, ...legislative]) {
     check(false, `${where}: ${problem}`);
 }
 report.seated = [...house, ...senate, ...legislative].length;
-// A governor race's winner is recorded in the world races' seats from the
-// state's inauguration day. No engine seats them as governor yet: the
-// officials roster keeps the opening governor (SG-GOV-world-governor-executive,
-// pool item gov-world-races-run-no-governors), so this is a record, not a term.
+// A governor race's winner is seated on the governor's office term from the
+// state's inauguration day, by the same term writer as every other seat.
 for (const r of governors) {
-  const kept = midterm.api
-    .moduleState(VOTING_MODULE_ID)
-    .table("seats")
-    .get(r.seatId) as unknown as { party: string; since: string } | undefined;
-  const recorded: Holder[] = kept
-    ? [{ party: kept.party, from: kept.since }]
-    : [];
-  for (const problem of seatingProblems(r, recorded, sideOf))
-    check(false, `${where}: ${problem} (governor winner record)`);
+  const holders: Holder[] = serving(midterm.api, r.seatId).map((t) => ({
+    party: t.party,
+    from: t.startDate,
+  }));
+  for (const problem of seatingProblems(r, holders, sideOf))
+    check(false, `${where}: ${problem} (governor term)`);
 }
-report.governorsRecorded = governors.length;
+report.governorsSeated = governors.length;
 report.governorSample = governors
   .slice(0, 5)
   .map(
     (r) =>
-      `${r.id}: ${r.winnerParty} ${raceShare(midterm.api, r).toFixed(3)} over ${placesOf(midterm.api, r.id).length} places, recorded from ${r.seatedOn}`,
+      `${r.id}: ${r.winnerParty} ${raceShare(midterm.api, r).toFixed(3)} over ${placesOf(midterm.api, r.id).length} places, seated ${r.seatedOn}`,
   );
 report.sample = races
   .slice(0, 3)
   .map(
     (r) =>
-      `${r.id}: ${r.winnerParty} ${raceShare(midterm.api, r).toFixed(3)}, ${governors.includes(r) ? "recorded from" : "seated"} ${r.seatedOn}`,
+      `${r.id}: ${r.winnerParty} ${raceShare(midterm.api, r).toFixed(3)}, seated ${r.seatedOn}`,
   );
 
 // 2. November 2028: the presidency, in the electoral college, from January 20.

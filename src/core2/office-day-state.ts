@@ -52,7 +52,12 @@ import {
   servedShare,
 } from "./modules/justice";
 import { lawChain } from "./modules/laws";
-import { OFFICES_MODULE_ID, seatTerm, type TermRow } from "./modules/offices";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  seatTerm,
+  type TermRow,
+} from "./modules/offices";
 import { holderOf } from "./modules/officials";
 import {
   billOf,
@@ -1240,11 +1245,11 @@ function computerGovernorsDay(api: CoreAPI): void {
     // place's governor stays a named official on the term until the player
     // meets or opens them.
     const office = offices.get(term.officeId) as unknown as
-      { kind?: string; coversTown?: boolean } | undefined;
+      { kind?: string; level?: string; jurisdiction?: string } | undefined;
     const held =
       term.personId ||
       office?.kind !== "governor" ||
-      office.coversTown === false
+      isOutsideOffice(api, office)
         ? term
         : holderOf(api, term);
     if (held.personId) governors.add(held.personId);
