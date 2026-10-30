@@ -5,9 +5,9 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/m3-long-running
-pr:
+pr: #6860
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-30T02:10:23.426Z
