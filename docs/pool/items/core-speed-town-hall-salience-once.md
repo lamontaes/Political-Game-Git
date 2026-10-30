@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: speed/townhall-salience-once
 pr: #6863
 blocked-on:

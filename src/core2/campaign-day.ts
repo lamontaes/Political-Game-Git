@@ -1,12 +1,14 @@
 /**
  * A campaign day for the player (owner, Oct 14, 2026): a handful of choices,
  * each an act read from the records, no more than that. Knock on doors in a
- * neighborhood, hold an event, give an interview, raise money, rest.
+ * neighborhood, hold an event, host a forum, give an interview, raise money,
+ * rest.
  *
- * Nothing here is a new mechanic. Each choice runs the campaign engine's own
- * act (`knockDoors`, `holdEvent`, `requestInterview`, `askForDonation`) with
- * the player's own hours; availability is read from the records the engine
- * keeps (doors knocked, the campaign's cash, the press desk's week, the gifts
+ * Nothing here is a new mechanic. Each choice runs an engine's own act
+ * (`knockDoors`, `holdEvent`, the meetings engine's `holdTownHall`,
+ * `requestInterview`, `askForDonation`) with the player's own hours;
+ * availability is read from the records the engines keep (doors knocked, the
+ * campaign's cash, the town halls held, the press desk's week, the gifts
  * already given). No choice is decided by a roll. Choices carry ids and
  * numbers only; the English engine words them.
  */
@@ -20,17 +22,20 @@ import {
   type DonationWhy,
   unitPrice,
   askCircleToSign,
+  askToSign,
   campaignFor,
   doorsKnockedOf,
   giftOf,
   holdEvent,
   knockDoors,
   reachablePeople,
+  rentVenue,
   type CampaignRow,
   type CauseRow,
 } from "./modules/campaigns";
 import {
   ELECTIONS_MODULE_ID,
+  petitionCirculating,
   standing,
   type ContestRow,
   type FilingRow,
@@ -46,11 +51,17 @@ import {
   type InterviewAnswer,
   type InterviewRow,
 } from "./modules/press";
+import {
+  MEETINGS_MODULE_ID,
+  holdTownHall,
+  townHallId,
+  type TownHallRow,
+} from "./modules/meetings";
 import type { CoreAPI, CoreState } from "./types";
 import type { ModuleRow } from "./module-data";
 
 export type CampaignDayKind =
-  "canvass" | "event" | "interview" | "raise-money" | "rest";
+  "canvass" | "event" | "forum" | "interview" | "raise-money" | "rest";
 
 interface DayChoiceBase {
   readonly filingId: string;
@@ -79,6 +90,20 @@ export type CampaignDayChoice =
         readonly venuePriceMinor: number;
         readonly cashMinor: number;
         readonly platformStances: number;
+      };
+    })
+  | (DayChoiceBase & {
+      readonly kind: "forum";
+      readonly facts: {
+        /** The evening's venue, the same hall an event rents. */
+        readonly venuePriceMinor: number;
+        readonly cashMinor: number;
+        /** Whether the town's public meetings are kept (the meetings engine). */
+        readonly meetingsKept: boolean;
+        /** The stances the candidate answers from; a question it does not hold is declined. */
+        readonly platformStances: number;
+        /** The town hall the candidate already hosted today, if any: one a day. */
+        readonly heldTodayId: string | null;
       };
     })
   | (DayChoiceBase & {
@@ -130,8 +155,10 @@ export interface CampaignDayResult {
     readonly why: DonationWhy;
   }[];
   readonly raisedMinor: number;
-  /** The money record id of the event's venue, on the journal's `campaigns:purchase`. */
+  /** The money record id of the event's or forum's venue, on the journal's `campaigns:purchase`. */
   readonly eventMoneyId: string | null;
+  /** The forum's town hall row (meetings engine): who came, what they asked, what the host answered. */
+  readonly townHall: TownHallRow | null;
   readonly interview: InterviewRow | null;
 }
 
@@ -142,6 +169,12 @@ export interface CampaignDayOptions {
   readonly answers?: readonly InterviewAnswer[];
   /** For `interview`: answer an invitation already waiting. */
   readonly interviewId?: string;
+  /**
+   * For `forum`: the player's answers by question (questions left out are
+   * declined); leave out to answer from the platform, declining what it does
+   * not hold.
+   */
+  readonly forumAnswers?: Readonly<Record<string, number | null>>;
   /**
    * A world candidate's day (rivals take the same choices as
    * the player): the same acts for any living candidate on the ballot, whose
@@ -155,6 +188,7 @@ export interface CampaignDayOptions {
 const HOURS_PARAMETER: Readonly<Record<CampaignDayKind, string>> = {
   canvass: "playerCanvassHours",
   event: "playerEventHours",
+  forum: "playerForumHours",
   interview: "playerInterviewHours",
   "raise-money": "playerCallTimeHours",
   rest: "playerRestHours",
@@ -260,6 +294,17 @@ export function whyNotToday(
       return choice.facts.households > 0 ? undefined : { key: "noHouseholds" };
     case "event":
       if (choice.facts.platformStances === 0) return { key: "noPlatform" };
+      return choice.facts.cashMinor < choice.facts.venuePriceMinor
+        ? {
+            key: "eventMoney",
+            priceMinor: choice.facts.venuePriceMinor,
+            cashMinor: choice.facts.cashMinor,
+          }
+        : undefined;
+    case "forum":
+      if (!choice.facts.meetingsKept) return { key: "noMeetings" };
+      if (choice.facts.platformStances === 0) return { key: "noPlatform" };
+      if (choice.facts.heldTodayId) return { key: "forumHeld" };
       return choice.facts.cashMinor < choice.facts.venuePriceMinor
         ? {
             key: "eventMoney",
@@ -400,6 +445,17 @@ export function campaignDayChoices(
     api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
   const price = unitPrice(api, "event-venue");
   const candidateAlive = !!api.state.people.get(campaign.candidateId)?.alive;
+  // A forum is the meetings engine's town hall, hosted by the candidate: one
+  // a day, read by its id (no scan).
+  const meetingsKept = api.state.modules.has(MEETINGS_MODULE_ID);
+  const heldTodayId =
+    meetingsKept &&
+    api
+      .moduleState(MEETINGS_MODULE_ID)
+      .table("townHalls")
+      .get(townHallId(campaign.candidateId, api.state.date))
+      ? townHallId(campaign.candidateId, api.state.date)
+      : null;
 
   const invited = interviewsFor(api, filing.personId)
     .filter((i) => i.filingId === filingId && i.status === "invited")
@@ -455,6 +511,27 @@ export function campaignDayChoices(
         venuePriceMinor: price,
         cashMinor: cash,
         platformStances: campaign.platform.length,
+      },
+    },
+    {
+      kind: "forum",
+      filingId,
+      hours: hours("forum"),
+      // The residents bring the questions and the candidate answers from
+      // their platform, so a forum needs one, as an event does; then the
+      // venue's evening and a day the candidate has not hosted one.
+      available:
+        candidateAlive &&
+        meetingsKept &&
+        campaign.platform.length > 0 &&
+        !heldTodayId &&
+        cash >= price,
+      facts: {
+        venuePriceMinor: price,
+        cashMinor: cash,
+        meetingsKept,
+        platformStances: campaign.platform.length,
+        heldTodayId,
       },
     },
     {
@@ -536,6 +613,7 @@ export function takeCampaignDayChoice(
     answers: [],
     raisedMinor: 0,
     eventMoneyId: null,
+    townHall: null,
     interview: null,
   };
 
@@ -566,6 +644,32 @@ export function takeCampaignDayChoice(
       ...base,
       causeIds: causes.map((c) => c.id),
       eventMoneyId: moneyId,
+    };
+  }
+
+  if (choice === "forum") {
+    // The campaign rents the evening as it does an event's; the room is the
+    // meetings engine's town hall, filled by each resident's own drive to
+    // come (`townHallDrives`), whether or not the campaign had reached them.
+    const { moneyId } = rentVenue(api, filingId, "forum");
+    const hall = holdTownHall(api, {
+      hostId: player,
+      filingId,
+      ...(options.forumAnswers ? { answers: options.forumAnswers } : {}),
+    });
+    spendTime();
+    // While the petition circulates, those who came are asked to sign, as
+    // at an event.
+    if (petitionCirculating(api, filingId))
+      for (const id of hall.attendeeIds) {
+        const person = api.state.people.get(id);
+        if (person) askToSign(api, filingId, person, "event");
+      }
+    return {
+      ...base,
+      causeIds: hall.causeIds,
+      eventMoneyId: moneyId,
+      townHall: hall,
     };
   }
 
