@@ -1425,6 +1425,14 @@ export function postCashJournal(
     }[] = [];
     for (const [ownerId, flow] of projection.externalFlows) {
       const before = runtime.externalFlowsByOwner.get(ownerId)!;
+      // The carried totals are checked in play too, as plusTotals checks the others.
+      if (
+        !isCashJournalLifetimeMinor(before.outgoingMinor, zero) ||
+        !isCashJournalLifetimeMinor(before.incomingMinor, zero)
+      )
+        throw new Error(
+          "Invalid nonnegative integer journal amount: outside flow totals",
+        );
       const next: CashJournalExternalFlowTotals = {
         netMinor: flow.afterNetMinor,
         outgoingMinor: addLifetime(before.outgoingMinor, flow.outgoingMinor),
