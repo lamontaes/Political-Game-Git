@@ -6,12 +6,13 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: cto/menus-campaigns
 pr:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("redesign all the menu screens... So they're not blocks of text anymore with random buttons")
+claimed-at: 2026-10-30T02:25:56.025Z
 ---
 
 **What.** Politics → Campaigns printed each race on the coming ballot as a large heading followed by a line of body text ("No one has filed November 4, 2025"), with candidates and their stances folded under each heading, a long column that ran down the panel. The owner asked for every menu to be redesigned like Government (Oct 29, 22:45). This item shows the ballot as race cards on a framed plate, paged to fit the window, each card naming the office, who is running, election day and when filing closes, and opening the race's own page: who is running as face cards with where each stands, the race's dates beside them, and File for it in a tray.
