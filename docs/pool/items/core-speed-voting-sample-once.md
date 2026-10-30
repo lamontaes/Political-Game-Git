@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-voting
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T09:24:16.650Z
 ---
 
 **What.** On an election day, countPlaces in src/core2/electorate.ts places every voter of the coarse sample with a 24-step bisection (orderPlacement) for each of the fifty states, every race's decide and the town's own count, though the sample and its placement are the same all day. A 2028 profile of one Ringgold, Louisiana save (seed long-1) put that bisection at 8.2 s of countPlaces' 10.9 s, and turnoutShare at 6.8 s, reading its two parameters again for every voter. rosterDistricts in src/core2/offices-state.ts also keys every roster name again on each call.
