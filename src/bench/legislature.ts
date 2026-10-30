@@ -7,6 +7,7 @@ import {
   billForm,
   currentAmount,
   draftBill,
+  lawInForceRow,
   memberKey,
   votesOn,
   whipCount,
@@ -463,6 +464,14 @@ function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
         ...(row.series ? { series: row.series } : {}),
         ...(row.unit ? { unit: row.unit } : {}),
         inForce: row.inForce,
+        // The amount the law in force holds, as the bill's paper cites it ("before"): the
+        // draft card shows this beside the new amount so both screens say one thing.
+        today: row.series
+          ? (() => {
+              const law = lawInForceRow(api, row.series);
+              return law ? { value: law.value, unit: law.unit ?? null } : null;
+            })()
+          : null,
         allowed: row.authority.allowed,
         warning: row.authority.warning,
         reason: row.authority.reason,

@@ -64,26 +64,25 @@ export function compareYears(
         ).toFixed(3)}s (120% of main)`,
       );
     if (requireIdentical && before.fingerprint !== after.fingerprint) {
-      const tables =
-        before.tables && after.tables
-          ? compareProofs(
-              {
-                seed: baseline.seed,
-                date: before.date,
-                digest: "",
-                tables: before.tables,
-              },
-              {
-                seed: candidate.seed,
-                date: after.date,
-                digest: "",
-                tables: after.tables,
-              },
-            ).map((row) => row.table)
-          : [];
-      problems.push(
-        `Year ${after.year}: records differ${tables.length ? ` in ${tables.join(", ")}` : ""}`,
-      );
+      if (!before.tables || !after.tables)
+        problems.push(
+          `Year ${after.year}: a receipt has no records proof; rerun main with this run.ts`,
+        );
+      else if (baseline.seed === candidate.seed) {
+        const proof = (row: YearTiming, seed: string) => ({
+          seed,
+          date: row.date,
+          bookkeeping: false,
+          tables: row.tables!,
+        });
+        const tables = compareProofs(
+          proof(before, baseline.seed),
+          proof(after, candidate.seed),
+        ).map((row) => row.table);
+        problems.push(
+          `Year ${after.year}: records differ in ${tables.join(", ")}`,
+        );
+      }
     }
   }
   return problems;

@@ -43,7 +43,35 @@ describe("year speed budget", () => {
     };
     expect(compareYears(baseline, changed)).toEqual([]);
     expect(compareYears(baseline, changed, true)).toEqual([
-      "Year 1: records differ",
+      "Year 1: a receipt has no records proof; rerun main with this run.ts",
+    ]);
+  });
+  it("names the tables whose records differ", () => {
+    const table = (digest: string) => ({ rows: 1, digest });
+    const proved = {
+      ...baseline,
+      rows: [
+        {
+          ...baseline.rows[0]!,
+          tables: { "core.people": table("a"), "core.jobs": table("b") },
+        },
+      ],
+    };
+    const changed = {
+      ...proved,
+      rows: [
+        {
+          ...proved.rows[0]!,
+          fingerprint: "different",
+          tables: { "core.people": table("a"), "core.jobs": table("c") },
+        },
+      ],
+    };
+    expect(compareYears(proved, changed, true)).toEqual([
+      "Year 1: records differ in core.jobs",
+    ]);
+    expect(compareYears(proved, { ...changed, seed: "other" }, true)).toEqual([
+      "seed differs",
     ]);
   });
   it("accepts explicitly coordinated coexistence without claiming exclusivity", () => {

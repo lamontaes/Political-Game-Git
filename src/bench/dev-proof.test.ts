@@ -12,6 +12,7 @@ import { advanceCore } from "../core2/life";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { compareProofs, recordProof } from "./dev-proof";
 import { setBookkeeping } from "../core2/bookkeeping";
+import { residentsRuntime } from "../core2/modules/residents";
 
 const seed = process.env.DEV_PROOF_SEED ?? randomBytes(8).toString("hex");
 const played = () => {
@@ -43,5 +44,15 @@ describe(`dev records proof (seed ${seed})`, () => {
       firstId: person.id,
       differingIds: 1,
     });
+    person.liquidMinor -= 1;
+
+    // The counted population lives in the residents engine's part, not in core.people.
+    const store = residentsRuntime(world.core)!.store;
+    store.liquid[0] = store.liquid[0]! + 1;
+    expect(
+      compareProofs(first, recordProof(world.core, { rows: true })).map(
+        (row) => row.table,
+      ),
+    ).toEqual(["part.core2-residents"]);
   }, 240_000);
 });

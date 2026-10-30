@@ -3,15 +3,17 @@
  * every module (`buildBenchWorld`), advanced day by day (`advanceCore`) with
  * the debug bookkeeping off, as play runs it. Development tooling.
  *
- *   npm run speed:year -- [--seed <s>] [--place <key>] [--years 1] [--max-seconds 300]
+ *   npm run speed:year -- [--seed <s>] [--place <key>] [--years 4] [--max-seconds 300]
  *     [--exclusive] [--out <receipt.json>] [--baseline <main receipt.json>]
  *     [--same-records] [--proof-out <proof.json>]
  *
  * The place is drawn from all 56 by the seed unless `--place` names a key.
+ * Runs four years unless `--years` says otherwise, so every check holds an
+ * election year (CTO, Oct 30, 03:18: the 120-second bar applies to each year).
  * Prints the build seconds and each year's seconds, the heap and process
  * memory after a collection, and how many records the world keeps (a long run,
- * `--years 100`, shows whether a save grows), and exits 1 when a year
- * runs over `--max-seconds` (the game's own limit is 120 seconds a year).
+ * `--years 100`, shows whether a save grows), and exits 1 when a year runs over
+ * `--max-seconds` (the game's own limit is 120 seconds a year).
  * `--out` writes a receipt (`compare.ts`'s `SpeedReceipt`); `--baseline` reads
  * another and exits 1 when a year is more than 20% slower (`compareYears`),
  * as the local gate asks; with `--same-records` it also exits 1 when a year's
@@ -42,7 +44,8 @@ const option = (name: string, fallback: string) => {
   return at >= 0 && args[at + 1] !== undefined ? args[at + 1]! : fallback;
 };
 const seed = option("seed", randomBytes(8).toString("hex"));
-const years = Number(option("years", "1"));
+// Four years, so every check holds an election year (CTO, Oct 30 03:18).
+const years = Number(option("years", "4"));
 const maxSeconds = Number(option("max-seconds", "300"));
 const drawn = drawPlace(seed, "speed-year");
 const placeKey = option("place", drawn.key);
@@ -95,8 +98,20 @@ for (let year = 1; year <= years; year += 1) {
   const took = seconds(began);
   // Dev mode's records proof, taken after the clock stops (`dev-proof.ts`).
   const proof = recordProof(world.core, { rows: year === years && !!proofOut });
-  if (proof.rows) writeFileSync(proofOut, JSON.stringify(proof));
-  // What the save keeps, after a collection (`--expose-gc`), so a long run shows whether it grows.
+  if (proof.rows) {
+    writeFileSync(proofOut, JSON.stringify(proof));
+    // Dev mode opens the same world from the core's seed and the place key.
+    console.log(
+      `proof: core seed ${world.core.seed}, place ${placeKey}, ${world.core.date} -> ${proofOut}`,
+    );
+  }
+  if (year === 1 && proof.uncovered.length)
+    console.log(
+      `engines that have not declared their whole state saveable, so the proof sees only their tables: ${proof.uncovered.join(", ")}`,
+    );
+  // The proof's garbage is collected here (`--expose-gc`), not in the next
+  // timed year, and what the save keeps is read after it, so a long run
+  // shows whether a save grows.
   (globalThis as { gc?: () => void }).gc?.();
   const kept = Object.entries(proof.tables).sort(
     (a, b) => b[1].rows - a[1].rows,
