@@ -732,8 +732,10 @@ const attendanceHooks = new WeakMap<
   ReadonlyMap<string, CoreModule>,
   { size: number; hooks: readonly CoreModule[] }
 >();
-// Engines are only ever added to the registry, so the same registry at the
-// same size holds the same engines in the same order: no walk per attendance.
+// Outside tests engines are only ever added to the registry (registerModule),
+// so the same registry at the same size holds the same engines in the same
+// order: no walk per attendance. A test that replaces or deletes an engine
+// after an attendance uses a fresh world.
 function workAttendanceHooks(api: CoreAPI): readonly CoreModule[] {
   const modules = api.state.modules;
   let kept = attendanceHooks.get(modules);
