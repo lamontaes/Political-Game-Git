@@ -58,6 +58,8 @@ export interface PickReasons {
   /** Its place among the items the reporter weighed (1 is first). */
   readonly rank: number;
   readonly weighed: number;
+  /** The vote it was covered with, when it came up at the same sitting. */
+  readonly sitting?: string;
 }
 
 /** How a story came to read as it does, by term (each -1 to 1 before weighting). */
@@ -629,14 +631,13 @@ export function runDesk(
       item.subjectIds.some((id) => servesLocally(api, id))
     )
       return followers.length + ctx.countedFollowers(outlet);
-    // A town body's vote on a bill, carried or failed, decides a rule for
-    // the whole town as a law in force binds it: every follower, named or
-    // counted, is involved (a council member's own ordinance went unprinted
-    // behind town halls, Mentor, Kentucky, Oct 29).
-    if (
-      item.level === "town" &&
-      (item.kind === "legislative-vote" || item.kind === "bill-failed")
-    )
+    // A local body's vote on a bill (the town's, or the county's that covers
+    // it), carried or failed, decides a rule for the whole town as a law in
+    // force binds it: every follower, named or counted, is involved (a
+    // council member's own ordinance went unprinted behind town halls,
+    // Mentor, Kentucky, Oct 29; a county board member's in Mimbres, New
+    // Mexico, seed 2f279bff0762b7f00275).
+    if (sittingVote(item))
       return followers.length + ctx.countedFollowers(outlet);
     // A budget the executive signs or vetoes binds the whole town as much as
     // a law in force: every follower, named or counted, is involved.
@@ -713,22 +714,57 @@ export function runDesk(
       ),
       scored.length,
     );
-    for (let rank = 0; rank < count; rank += 1) {
-      const row = scored[rank]!;
-      taken.add(row.item.id);
-      out.push(
-        printItem(api, ctx, outlet, reporterId, row.item, {
-          proximity: row.proximity,
-          readerCare: row.readerCare,
-          people: row.people,
-          renown: row.renown,
-          drive: row.drive,
-          score: row.score,
-          rank: rank + 1,
-          weighed: scored.length,
-        }),
-      );
+    let rank = 0;
+    for (const row of scored) {
+      if (rank >= count) break;
+      if (taken.has(row.item.id)) continue;
+      rank += 1;
+      // A local body's sitting is covered whole: the reporter who files one
+      // of its votes files the others it took that day, one story a bill, as
+      // a paper reports a meeting's actions (a county board member's
+      // ordinance went unprinted behind the same board's three housing and
+      // policing votes, Cooper Landing, Alaska, seed 12edebda89d90d033822).
+      const sitting = sittingVote(row.item)
+        ? scored.filter(
+            (other) =>
+              other === row ||
+              (!taken.has(other.item.id) &&
+                sittingVote(other.item) &&
+                other.item.date === row.item.date &&
+                other.item.facts?.chamber === row.item.facts?.chamber),
+          )
+        : [row];
+      const bills = new Set<string>();
+      for (const one of sitting) {
+        taken.add(one.item.id);
+        // One story a bill: a failed bill's vote and its failure are one.
+        const billId = String(one.item.facts?.billId ?? one.item.id);
+        if (bills.has(billId)) continue;
+        bills.add(billId);
+        out.push(
+          printItem(api, ctx, outlet, reporterId, one.item, {
+            proximity: one.proximity,
+            readerCare: one.readerCare,
+            people: one.people,
+            renown: one.renown,
+            drive: one.drive,
+            score: one.score,
+            rank,
+            weighed: scored.length,
+            ...(one === row ? {} : { sitting: row.item.id }),
+          }),
+        );
+      }
     }
   }
   return out;
+}
+
+/** A local body's vote on a bill, carried or failed (one of a sitting's actions). */
+function sittingVote(item: WireItem): boolean {
+  return (
+    (item.level === "town" || item.level === "county") &&
+    (item.kind === "legislative-vote" || item.kind === "bill-failed") &&
+    !!item.facts?.chamber
+  );
 }

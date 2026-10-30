@@ -516,8 +516,8 @@
     "quote": "assembling, you know, an election team",
     "source": "same quote",
     "kind": "scene",
-    "types": ["volunteer-offer", "staff-news"],
-    "why": "the team forms from people who offer to work after a speech (volunteer-offer) and the staff who bring news (staff-news); hiring a paid manager has no record yet"
+    "types": ["manager-offer", "volunteer-offer", "staff-news"],
+    "why": "the team forms from someone close who offers to run the campaign (manager-offer, onto its staff), people who offer to work after a speech (volunteer-offer) and the staff who bring news (staff-news); hiring a paid manager has no record yet"
   },
   {
     "section": "Campaign season",

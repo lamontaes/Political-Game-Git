@@ -4,8 +4,11 @@
  * ordinance). In a played world of a place drawn from all 56, the player is
  * a member of a town body, sponsors an ordinance and it goes to a vote; within
  * three weeks a local outlet prints the vote (carried or failed), people in
- * town know the story, and those who read it bring it up with the player. A town body's vote binds the whole town, so the
- * desk weighs it as a law in force (press-desk.ts `involved`).
+ * town know the story, and those who read it bring it up with the player. A
+ * local body's vote (the town's, or the county's that covers it) binds the
+ * whole town, so the desk weighs it as a law in force (press-desk.ts
+ * `involved`), and a reporter who files one of the body's votes that day files
+ * the others, as a paper covers a meeting.
  */
 import { randomBytes } from "node:crypto";
 import { appendFileSync } from "node:fs";

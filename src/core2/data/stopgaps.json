@@ -5038,6 +5038,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-first-race-no-local-office",
+    "kind": "missing-data",
+    "file": "src/core2/modules/elections.ts",
+    "line": 729,
+    "whatItFakes": "A home the government-units listing ties to no local government (a place outside any organized borough, a census place inside a consolidated city-county or city-parish government, a newer census place the place-to-county relation misses) has no local office, so the player's first race there is the state's own lawmaking body instead of the place's council or its equivalent.",
+    "why": "The owner's Oct 29 ruling gives every place a first local race under whatever name its lawmaking body has; 244 of the 32,350 state localities have no local office in the data (src/core2/player-first-race.test.ts prints the ones it draws) because placeLocalGovernmentUnits finds no government unit serving them. The District of Columbia is not one: its council and mayor sit at the state level. The island areas' villages are their territories' own case.",
+    "addedBy": "governing/player-first-local-race",
+    "addedAt": "2026-10-29",
+    "replacement": "Each such home matched to the government that serves it (the borough, or the state where no borough is organized; the consolidated city-county or city-parish; the county the relation misses), so localOfficesForPlace seats its council or equivalent and the rule admits it.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-committee-day-hooks",
     "kind": "owner-decision",
     "file": "src/core2/modules/legislature.ts",
@@ -7689,6 +7701,53 @@
     "addedBy": "play-first lane (Claude)",
     "addedAt": "2026-10-29",
     "replacement": "Carry the partnership in the counted household record when the opening generates it, with the day it began, so fill-in reads it instead of inferring it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-government-judicial-no-judges",
+    "kind": "missing-record",
+    "file": "src/bench/play.mjs",
+    "line": 3409,
+    "whatItFakes": "Politics → Government offers Legislative and Executive but no Judicial branch, though the Oct 14 mock and the owner's Oct 29 answer (judges as read-only cards) have one: no judge exists in the world as an office or a person, so the tab would be empty.",
+    "why": "Courts come after early access (owner, Oct 10), and the justice engine decides cases without judges (SG-WORLD-housing-hearing-without-judge); nothing on screen may do nothing.",
+    "addedBy": "CTO",
+    "addedAt": "2026-10-29",
+    "replacement": "Judges seated in the world as offices with holders (pool item world-judges-seated), then the Judicial tab draws them as read-only member cards through the same member card and pager.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-town-hall-room-full-people",
+    "kind": "partial-model",
+    "file": "src/core2/modules/meetings.ts",
+    "line": 651,
+    "whatItFakes": "A town hall's room, a candidate's forum among them, fills only from the town's full adults (townHallDrives reads townAdults): a resident still in the counted wider population never comes, so a forum in a town of mostly counted residents meets only the people already filled in.",
+    "why": "The forum (campaign-day.ts) reuses the meetings engine's one audience rule rather than a second one, and that rule was written before the counted tier; public comment already reads counted residents by the same drive (commentSpeakers) and fills in those who speak.",
+    "addedBy": "governing builder (campaign-like-real-races, forum)",
+    "addedAt": "2026-10-29",
+    "replacement": "townHallDrives reads the town's counted adults by the same drive as commentSpeakers does (countedResidents with countedRecordOnly), indexed by place so a weekly town hall does not scan the whole wider population, and holdTownHall fills in each counted resident who comes before the room's causes are written.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CAMPAIGN-manager-changes-nothing-yet",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 1310,
+    "whatItFakes": "Someone close who runs a campaign is on its staff, cast as its team in scenes and the one who comes to canvass on election morning, but the campaign runs the same with or without them: the calls, the money and the volunteers' hours do not change.",
+    "why": "The owner asked for the manager as someone you know (Oct 27); what a local campaign's manager changes has not been researched, and no number may be typed for it.",
+    "addedBy": "words-director-one-path",
+    "addedAt": "2026-10-29",
+    "replacement": "Research what a local campaign's manager changes (follow-up calls, the volunteers' hours organized, the calendar kept) and have the campaign engine read staffIds where it decides those.",
+    "status": "open"
+  },
+  {
+    "id": "SG-MEETINGS-debate-no-moderator",
+    "kind": "missing-record",
+    "file": "src/core2/modules/meetings.ts",
+    "whatItFakes": "A debate whose host outlet has no living reporter, head or owner free to moderate it (every one of them is in the race or gone) has nobody to ask the questions, so the player's yes to its invitation puts no sitting on the record. The debate waits for the eve of the election and is then held with the player's filed platform as their answers, as a yes did before the sitting existed.",
+    "why": "The moderator is someone the outlet's record already names (its reporters, head and owner); a debate with none of them free is not given an invented moderator (owner, Oct 29: never invent a person).",
+    "addedBy": "Words, scenes and the director (debate sitting)",
+    "addedAt": "2026-10-29",
+    "replacement": "An outlet's masthead refilled by the jobs engine (refreshPressStaff), or a neutral host the town's league or chamber of commerce names in its records, so every debate has a moderator who asks.",
     "status": "open"
   }
 ]

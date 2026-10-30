@@ -11,3 +11,8 @@ export function makeButton(props = {}, ...children) {
 export function buttonRow(...buttons) {
   return el("div", { className: "acts" }, ...buttons);
 }
+
+/** Buttons in a tray: a recessed bar they sit on, never loose on a panel (owner, Oct 29). */
+export function buttonTray(...buttons) {
+  return el("div", { className: "tray" }, ...buttons);
+}
