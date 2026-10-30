@@ -6,7 +6,7 @@ lead: play-first
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/player-offices-test-redraw
 pr: #6930
 blocked-on:
