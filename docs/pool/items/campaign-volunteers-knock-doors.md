@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/volunteer-shifts
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T02:30:25.639Z
 ---
 
 **What.** A campaign's volunteers were only a list: someone who said yes to volunteering never walked a door, so the player's volunteers and every other candidate's moved no voters and a small campaign could cover only the doors its candidate walked alone. The owner said on Oct 29 to look at real races, where an underdog's campaign gains steam from the people working it, and that winning is 'not just door knocking, it's raising money and stuff like that'; volunteers carrying the doors is how a real local campaign covers a town. This is phase A of campaign-like-real-races: each volunteer walks the campaign's own walk list on the evenings their job and their day's free hours leave them, as often as their own reasons send them. The voters who open are moved and asked for their vote the same way the candidate's own doors move them.
