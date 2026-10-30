@@ -12,6 +12,7 @@ import {
 } from "../../director/conversation";
 import { createDirector } from "../../director/ledger";
 import { CONVERSATION_BANK, MINED_CONVERSATION } from "./conversation-bank";
+import sceneTalkJson from "../../../data/english/parts/scene-talk.json" with { type: "json" };
 
 /**
  * The mined conversation bank, run through the story director's real
@@ -32,16 +33,40 @@ const base = enrichCivicInputs(
 );
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
-const players = base.people.filter(
-  (person) =>
-    person.tier !== "husk" &&
-    age(person.birthDate) >= 18 &&
-    age(person.birthDate) < 70 &&
-    person.knownIds.length > 3,
-);
+// A husk (a relative living elsewhere, kept minimal until met) opens an
+// empty talk today, and in some places everyone the first adult knows is one
+// (Davenport, Florida, seed chk2-a; Point Clear, Alabama, chk2-c): the bank is
+// read with people who have lines of their own until a husk is filled in when
+// a talk opens (pool item words-talk-husk-acquaintances-empty).
+// Housemates don't greet each other at home, so a talk with one opens only
+// on a scene's occasion; the bank is read with people from other households.
+const byId = new Map(base.people.map((person) => [person.id, person]));
+const talkable = (id: string) => byId.get(id as never)?.tier !== "husk";
+// The adult with the widest circle reads the bank.
+const circle = (person: (typeof base.people)[number]) =>
+  person.knownIds.filter(talkable).length;
+const players = base.people
+  .filter(
+    (person) =>
+      person.tier !== "husk" &&
+      age(person.birthDate) >= 18 &&
+      age(person.birthDate) < 70 &&
+      circle(person) > 3,
+  )
+  .sort((a, b) => circle(b) - circle(a) || a.id.localeCompare(b.id));
 
-/** Each mined sentence as a pattern its filled line must match. */
-const minedPatterns = CONVERSATION_BANK.parts.map(
+/**
+ * Each bank sentence as a pattern its filled line must match: the mined
+ * conversation bank, and the scene engine's everyday talk, which words the
+ * other person's answer to the move the player's answer made ("Get some
+ * rest.", Davenport, Florida, seed chk2-a).
+ */
+const talkParts = (
+  sceneTalkJson as unknown as {
+    parts: { text: string; uses: { purpose?: string }[] }[];
+  }
+).parts.filter((part) => part.uses.some((use) => use.purpose === "talk"));
+const minedPatterns = [...CONVERSATION_BANK.parts, ...talkParts].map(
   (part) =>
     new RegExp(
       `^${part.text
@@ -88,7 +113,12 @@ describe("the mined conversation bank in the director", () => {
     advanceCore(core, "2021-01-03");
     const me = core.people.get(player.id)!;
     const others = [...me.knownIds]
-      .filter((id) => core.people.get(id)?.alive)
+      .filter(
+        (id) =>
+          core.people.get(id)?.alive &&
+          talkable(id) &&
+          core.people.get(id)!.householdId !== me.householdId,
+      )
       .slice(0, 12);
     let lines = 0;
     let choices = 0;
