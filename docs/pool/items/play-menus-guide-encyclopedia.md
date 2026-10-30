@@ -6,12 +6,13 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: cto/menus-guide
 pr:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("So they're not blocks of text anymore with random buttons")
+claimed-at: 2026-10-30T02:54:57.853Z
 ---
 
 **What.** The Guide printed its thirty-eight civic terms as gold headings over lines of text down the bare panel, and the panel scrolled. When Government became member cards (#6832), a leader's post stopped being an underlined Guide term, so the glossary's hover meaning and its way into the Guide were lost there, which the guide-menu check caught. This item makes the Guide an encyclopedia page, the terms as cards on a plate paged two across and the chosen term's article beside them with the search narrowing both, and underlines a leader's post on a member card again.
