@@ -60,8 +60,11 @@ const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-day:${Date.now()}`).digest("hex");
 
-function setup(options: { meetings?: boolean; local?: boolean } = {}) {
-  const place = drawPlace(runSeed, "campaign-day");
+function setupAt(
+  drawSeed: string,
+  options: { meetings?: boolean; local?: boolean } = {},
+) {
+  const place = drawPlace(drawSeed, "campaign-day");
   const core = createLifeCore(
     buildPopulation({
       seed: place.seed,
@@ -118,6 +121,20 @@ function setup(options: { meetings?: boolean; local?: boolean } = {}) {
     if (filing) break;
   }
   return { core: core as CoreState, api, filing, where };
+}
+
+/**
+ * A forum is held for a town or county race, and a place may have none (an
+ * island area's village has only territory-wide offices: Fagali'i, American
+ * Samoa, run seed chk2-d), so a local setup redraws from the same seed
+ * (seed, seed:1, ...) until the draw has a race to file for, and names the
+ * place it used.
+ */
+function setup(options: { meetings?: boolean; local?: boolean } = {}) {
+  let drawn = setupAt(runSeed, options);
+  for (let redraw = 1; options.local && !drawn.filing && redraw < 12; redraw++)
+    drawn = setupAt(`${runSeed}:${redraw}`, options);
+  return drawn;
 }
 
 describe("a campaign day", () => {
