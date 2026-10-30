@@ -1647,6 +1647,26 @@ function minutesAtWork(
 }
 
 /**
+ * A rival's own filing in a campaign's race: the person's filing standing in
+ * the same contest (on its ballot, or with its petition out) when they are
+ * not the campaign's candidate, else null. Someone running for a seat
+ * campaigns for themselves, so a rival never volunteers for or runs another
+ * candidate's campaign, hosts or comes to their donor meeting, or endorses
+ * them. A fact of the elections engine's ballot, not a lean, read alike for
+ * world candidates and the player.
+ */
+export function rivalFiling(
+  api: CoreAPI,
+  campaign: Pick<CampaignRow, "contestId" | "candidateId">,
+  personId: string,
+): FilingRow | null {
+  if (personId === campaign.candidateId) return null;
+  return (
+    ballot(api, campaign.contestId).find((f) => f.personId === personId) ?? null
+  );
+}
+
+/**
  * An ask to volunteer that comes through an organization that endorsed the
  * candidate: who asked for it, and how far the person shares its cause.
  */
@@ -1698,7 +1718,8 @@ export function volunteerReason(
  * Ask someone to volunteer. They say yes when liking the candidate,
  * closeness, an outgoing or dutiful temperament (and, asked through a group
  * that endorsed, their tie to its speaker and their share in its cause)
- * outweigh the hours their work already takes.
+ * outweigh the hours their work already takes. A rival standing in the same
+ * race is not asked (`rivalFiling`).
  */
 export function askToVolunteer(
   api: CoreAPI,
@@ -1710,7 +1731,8 @@ export function askToVolunteer(
   const person = api.state.people.get(personId);
   if (
     !person?.alive ||
-    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge")
+    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge") ||
+    rivalFiling(api, campaign, personId)
   )
     return false;
   const yes = leanedYes(
@@ -1755,6 +1777,7 @@ export function managerReason(
 /**
  * Ask someone to run the campaign. They say yes by the manager's reasons and
  * their own temperament; a yes puts them on its staff, off its volunteers.
+ * A rival standing in the same race is not asked (`rivalFiling`).
  */
 export function askToManage(
   api: CoreAPI,
@@ -1766,7 +1789,8 @@ export function askToManage(
   if (
     !person?.alive ||
     personId === campaign.candidateId ||
-    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge")
+    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge") ||
+    rivalFiling(api, campaign, personId)
   )
     return false;
   const yes = leanedYes(
@@ -1872,7 +1896,9 @@ function offersToHelp(api: CoreAPI): void {
           (person): person is PersonState =>
             !!person?.alive &&
             ageOn(person, date) >= campaignParameter("minimumVolunteerAge") &&
-            (person.householdId === candidate.householdId || heard(person.id)),
+            (person.householdId === candidate.householdId ||
+              heard(person.id)) &&
+            !rivalFiling(api, campaign, person.id),
         )
         .sort(
           (a, b) => closeness(b) - closeness(a) || a.id.localeCompare(b.id),
@@ -1918,7 +1944,8 @@ function offersToHelp(api: CoreAPI): void {
         !person?.alive ||
         person.householdId === candidate.householdId ||
         ageOn(person, date) < campaignParameter("minimumVolunteerAge") ||
-        !heard(id)
+        !heard(id) ||
+        rivalFiling(api, campaignFor(api, filing.id), id)
       )
         continue;
       weighed.add(id);
@@ -2213,8 +2240,9 @@ function raceElectorate(api: CoreAPI, contest: ContestRow): number {
  * Someone has said, to the candidate's face, that they will work the
  * campaign (a relative's answer in the talk at home after the filing): they
  * are counted among its volunteers, whom the canvass and the turnout read.
- * Returns whether they were newly enlisted; a child, the dead and anyone
- * already counted are not.
+ * Returns whether they were newly enlisted; a child, the dead, anyone
+ * already counted and a rival standing in the same race (`rivalFiling`) are
+ * not.
  */
 export function enlistVolunteer(
   api: CoreAPI,
@@ -2226,7 +2254,8 @@ export function enlistVolunteer(
   if (
     !person?.alive ||
     ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge") ||
-    campaign.volunteerIds.includes(personId)
+    campaign.volunteerIds.includes(personId) ||
+    rivalFiling(api, campaign, personId)
   )
     return false;
   save(api, {
@@ -2327,7 +2356,8 @@ export const VOLUNTEER_SHIFT_EVENT = "volunteer-shift";
  * volunteers in one pass, and whoever opens meets the volunteer (a
  * `volunteer-door` cause naming them). A counted resident who opens is
  * reached as a count and not filled in, since the player never met them.
- * The player is never sent: their hours are their own choice. `walked`
+ * The player is never sent: their hours are their own choice, and nor is a
+ * volunteer who has since filed in the same race (`rivalFiling`). `walked`
  * holds who already gave this evening to a campaign's doors, so someone on
  * two campaigns walks one evening, not two.
  */
@@ -2354,7 +2384,8 @@ export function volunteerShifts(
       !person?.alive ||
       id === core.playerId ||
       id === held.candidateId ||
-      walked.has(id)
+      walked.has(id) ||
+      rivalFiling(api, held, id)
     )
       continue;
     const hours = canvassHoursFree(api, person);
@@ -3239,7 +3270,7 @@ function eveningReason(
   );
 }
 
-/** Someone a donor meeting could seat or ask: a living, filled-in adult in town who is neither the candidate nor the controlled person. */
+/** Someone a donor meeting could seat or ask: a living, filled-in adult in town who is neither the candidate, the controlled person nor a rival standing in the same race (`rivalFiling`). */
 function canJoinDonorMeeting(
   api: CoreAPI,
   campaign: CampaignRow,
@@ -3252,7 +3283,8 @@ function canJoinDonorMeeting(
     person.id !== campaign.candidateId &&
     // The controlled person's home and money move only by their own choice.
     person.id !== (api.state as CoreState).playerId &&
-    ageOn(person, api.state.date) >= api.parameter("votingAge")
+    ageOn(person, api.state.date) >= api.parameter("votingAge") &&
+    !rivalFiling(api, campaign, person.id)
   );
 }
 
@@ -4105,7 +4137,10 @@ interface EndorsementWeighing extends PlatformRead {
  * it declines, and that candidate is no rival either), and it backs only a
  * candidate it agrees with, its speaker's tie adding to that agreement but
  * never standing in for it. A person may back a friend whose platform they
- * do not share; that yes is kept as the tie it is (`close-tie`).
+ * do not share; that yes is kept as the tie it is (`close-tie`). Someone
+ * standing in the race backs their own run (`rivalFiling`): asked for
+ * themselves or speaking for a group, they endorse no rival in it, their own
+ * filing the rival they prefer.
  */
 function weighEndorsement(
   api: CoreAPI,
@@ -4130,6 +4165,18 @@ function weighEndorsement(
   const weighed = (read: PlatformRead) =>
     speaksFor === "self" || read.shared > 0;
   const mine = backingOf(campaign);
+  const own = rivalFiling(api, campaign, endorser.id);
+  if (own)
+    return {
+      ...mine,
+      score: 0,
+      rival: {
+        filingId: own.id,
+        backing: backingOf(campaignFor(api, own.id)).backing,
+      },
+      yes: false,
+      reason: "prefers-rival",
+    };
   if (!weighed(mine))
     return { ...mine, score: 0, rival: null, yes: false, reason: "declines" };
   const score = leanedScore(
