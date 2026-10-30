@@ -126,11 +126,10 @@ try {
     const counter = await page.evaluate(() => ({
       sheet: document.getElementById("sheet").hidden,
       name: document.getElementById("talk-name").textContent.trim(),
-      overlay: !document.getElementById("filing-overlay").hidden,
       text: document.getElementById("talk").innerText,
     }));
     console.log(
-      `at the counter: ${counter.name}; sheet closed ${counter.sheet}; the race's rules open ${counter.overlay}`,
+      `at the counter: ${counter.name}; sheet closed ${counter.sheet}`,
     );
     assert.ok(counter.sheet, "the menu stayed open");
     assert.ok(counter.name.length > 0, "nobody at the counter");
