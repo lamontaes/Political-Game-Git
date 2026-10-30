@@ -7,7 +7,7 @@ Written by the CTO, Oct 29, 21:45 UTC, from the governing brief the owner read a
 - **Lead:** one Opus session, the governing lead (`docs/coordination/CREW.md`). It owns the player's path through governing end to end: the chain from a campaign that can win, through a first term, the executive desk and budget, to running on the record, then up the ladder to state legislator, governor, Congress and president. Skills: `lead-session`, `look-first`, `played-world-proof`, `wiring-audit` for the chain, `helper-checkout` for every helper.
 - **Ultracode:** allowed by the owner for this job. Use it for two things: playing the path from New Game in many drawn places to find every break, and fixing breaks in parallel when they sit in separate engines. All of a session's agents share one machine, and played-world runs are heavy (three were killed for memory on Oct 29), so keep heavy runs to two or three at once and ask the CTO for extra sessions when you need more in parallel. Keep the review stage proportional: one or two reviewers for low-risk changes, three only for engine logic.
 - **Builders build; checkers check (Oct 29):** you and your helpers run only the tests you write or change. Open each finished unit as its own PR, ready, and message the checker whose number is the PR number mod 5. Never run the full gate or typecheck in a helper.
-- **Never:** merge your own PR, force-push, skip or loosen a test, use a scheduling tool, edit anything under `.git`.
+- **Never:** merge your own PR, force-push, skip or loosen a test, use a scheduling tool (except the wake-up chain the owner ordered on Oct 29, 23:00: `send_later` every 302 minutes), edit anything under `.git`.
 
 ## The goal
 

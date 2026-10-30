@@ -1977,9 +1977,111 @@ body.dev .dev-ring {
   right: var(--gutter);
   bottom: calc(9vh + 18px);
   z-index: 6;
-  width: min(420px, calc(100vw - 2 * var(--gutter)));
+  width: min(560px, calc(100vw - 2 * var(--gutter)));
   padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+}
+/* The meeting and the desk: a titled panel whose agenda scrolls inside it, the Adjourn
+   control kept under it. */
+#meeting-items,
+#desk-items {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.55) transparent;
+}
+#meeting > .heading {
+  margin: 0 0 12px;
+  font-size: 26px;
+}
+.meeting-item + .meeting-item {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(214, 189, 132, 0.25);
+}
+.meeting-title {
+  margin: 0;
+  font: 600 20px/1.2 var(--name);
+}
+.meeting-sub {
+  margin: 2px 0 10px;
+  color: var(--text-2);
+  font: 13px var(--ui);
+}
+/* The members as round faces ringed by how each voted on this item. */
+.meeting-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+.meeting-member {
+  display: inline-block;
+  line-height: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.16);
+}
+.meeting-member.you {
+  box-shadow: 0 0 0 2px var(--gold);
+}
+.meeting-member.vote-yes {
+  box-shadow: 0 0 0 3px #5aa36b;
+}
+.meeting-member.vote-no {
+  box-shadow: 0 0 0 3px #c4524f;
+}
+.meeting-member.vote-abstain {
+  box-shadow: 0 0 0 3px #8c8c8c;
+}
+.meeting-face {
+  width: 38px;
+  height: 38px;
+  border-width: 0;
+}
+.meeting-result {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 6px;
+}
+.meeting-result strong {
+  font: 700 17px var(--ui);
+  color: var(--gold);
+}
+.meeting-tally {
+  display: flex;
+  height: 10px;
+  margin: 0 0 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+.meeting-tally .tally-yes {
+  background: #5aa36b;
+}
+.meeting-tally .tally-no {
+  background: #c4524f;
+}
+.meeting-tally .tally-abstain {
+  background: #8c8c8c;
+}
+.meeting-remarks {
+  margin: 0 0 8px;
+  color: var(--text-2);
+  font: 13px var(--ui);
+}
+.meeting-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 0;
+}
+.meeting-acts .action {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 #ballot,
 #election-day,
@@ -2012,18 +2114,14 @@ body.dev .dev-ring {
   position: relative;
   overflow-y: auto;
 }
-#ballot .race + .race,
-#meeting .race + .race,
-#desk .race + .race {
+#ballot .race + .race {
   margin-top: 18px;
 }
-#ballot .heading,
-#meeting .heading,
-#desk .heading {
+#ballot .heading {
   margin: 0 0 8px;
 }
 #ballot .acts,
-#meeting .acts,
+#meeting > .acts,
 #desk .acts {
   display: grid;
   gap: 6px;
@@ -2325,7 +2423,6 @@ body.dev .dev-ring {
 }
 .people-node img,
 .people-center img,
-.people-initial,
 .headshot {
   box-sizing: border-box;
   width: 60px;
@@ -2337,7 +2434,6 @@ body.dev .dev-ring {
   background: var(--iron);
 }
 .people-center img,
-.people-center .people-initial,
 .people-center .headshot {
   width: 72px;
   height: 72px;
@@ -2348,15 +2444,7 @@ body.dev .dev-ring {
   display: block;
   background-repeat: no-repeat;
 }
-.people-node .people-initial,
-.people-center .people-initial {
-  display: grid;
-  place-items: center;
-  color: var(--gold);
-  font: 20px var(--name);
-}
 .people-node.selected img,
-.people-node.selected .people-initial,
 .people-node.selected .headshot {
   border-width: 4px;
   border-color: var(--gold);
@@ -2415,7 +2503,6 @@ body.dev .dev-ring {
   order: 0;
 }
 .people-list .people-node img,
-.people-list .people-initial,
 .people-list .headshot {
   width: 48px;
   height: 48px;
@@ -2980,9 +3067,111 @@ details.entry[open] {
   right: var(--gutter);
   bottom: calc(9vh + 18px);
   z-index: 6;
-  width: min(420px, calc(100vw - 2 * var(--gutter)));
+  width: min(560px, calc(100vw - 2 * var(--gutter)));
   padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+}
+/* The meeting and the desk: a titled panel whose agenda scrolls inside it, the Adjourn
+   control kept under it. */
+#meeting-items,
+#desk-items {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.55) transparent;
+}
+#meeting > .heading {
+  margin: 0 0 12px;
+  font-size: 26px;
+}
+.meeting-item + .meeting-item {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(214, 189, 132, 0.25);
+}
+.meeting-title {
+  margin: 0;
+  font: 600 20px/1.2 var(--name);
+}
+.meeting-sub {
+  margin: 2px 0 10px;
+  color: var(--text-2);
+  font: 13px var(--ui);
+}
+/* The members as round faces ringed by how each voted on this item. */
+.meeting-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+.meeting-member {
+  display: inline-block;
+  line-height: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.16);
+}
+.meeting-member.you {
+  box-shadow: 0 0 0 2px var(--gold);
+}
+.meeting-member.vote-yes {
+  box-shadow: 0 0 0 3px #5aa36b;
+}
+.meeting-member.vote-no {
+  box-shadow: 0 0 0 3px #c4524f;
+}
+.meeting-member.vote-abstain {
+  box-shadow: 0 0 0 3px #8c8c8c;
+}
+.meeting-face {
+  width: 38px;
+  height: 38px;
+  border-width: 0;
+}
+.meeting-result {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 6px;
+}
+.meeting-result strong {
+  font: 700 17px var(--ui);
+  color: var(--gold);
+}
+.meeting-tally {
+  display: flex;
+  height: 10px;
+  margin: 0 0 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+.meeting-tally .tally-yes {
+  background: #5aa36b;
+}
+.meeting-tally .tally-no {
+  background: #c4524f;
+}
+.meeting-tally .tally-abstain {
+  background: #8c8c8c;
+}
+.meeting-remarks {
+  margin: 0 0 8px;
+  color: var(--text-2);
+  font: 13px var(--ui);
+}
+.meeting-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 0;
+}
+.meeting-acts .action {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 #ballot,
 #election-day,
@@ -3015,18 +3204,14 @@ details.entry[open] {
   position: relative;
   overflow-y: auto;
 }
-#ballot .race + .race,
-#meeting .race + .race,
-#desk .race + .race {
+#ballot .race + .race {
   margin-top: 18px;
 }
-#ballot .heading,
-#meeting .heading,
-#desk .heading {
+#ballot .heading {
   margin: 0 0 8px;
 }
 #ballot .acts,
-#meeting .acts,
+#meeting > .acts,
 #desk .acts {
   display: grid;
   gap: 6px;
@@ -3328,7 +3513,6 @@ details.entry[open] {
 }
 .people-node img,
 .people-center img,
-.people-initial,
 .headshot {
   box-sizing: border-box;
   width: 60px;
@@ -3340,7 +3524,6 @@ details.entry[open] {
   background: var(--iron);
 }
 .people-center img,
-.people-center .people-initial,
 .people-center .headshot {
   width: 72px;
   height: 72px;
@@ -3351,15 +3534,7 @@ details.entry[open] {
   display: block;
   background-repeat: no-repeat;
 }
-.people-node .people-initial,
-.people-center .people-initial {
-  display: grid;
-  place-items: center;
-  color: var(--gold);
-  font: 20px var(--name);
-}
 .people-node.selected img,
-.people-node.selected .people-initial,
 .people-node.selected .headshot {
   border-width: 4px;
   border-color: var(--gold);
@@ -3418,7 +3593,6 @@ details.entry[open] {
   order: 0;
 }
 .people-list .people-node img,
-.people-list .people-initial,
 .people-list .headshot {
   width: 48px;
   height: 48px;
