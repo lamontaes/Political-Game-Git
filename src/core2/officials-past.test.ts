@@ -8,6 +8,7 @@
  */
 import { preStartHistory } from "./pre-start";
 import { SCHOOL_STARTED } from "./past-school";
+import { researchedHolderParty } from "./holder-parties";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -32,8 +33,18 @@ it(`every seated official has a party, a seat, a look and their school years fro
   const missing: string[] = [];
   for (const official of officials) {
     const kinds = new Set((official.pastFacts ?? []).map((f) => f.kind));
+    // A holder of an office elected without party labels (the research's
+    // row for the office) has no party to carry.
+    const seatKey = String(
+      official.pastFacts?.find((f) => f.kind === "identity:seat")?.facts
+        ?.seatKey ?? "",
+    );
+    const nonpartisan =
+      researchedHolderParty(seatKey.split(":")[1] ?? "", seatKey, "elected")
+        ?.party === null;
     for (const kind of ["identity:party", "identity:seat"])
-      if (!kinds.has(kind)) missing.push(`${official.id} lacks ${kind}`);
+      if (!kinds.has(kind) && !(nonpartisan && kind === "identity:party"))
+        missing.push(`${official.id} lacks ${kind}`);
   }
   expect(missing.slice(0, 5), `${where}: ${missing.length} gaps`).toEqual([]);
   // Each has a stored look, written once when filled in (opening root cause 6).
