@@ -6,9 +6,9 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: cto/menus-parties
-pr:
+pr: #6873
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("redesign all the menu screens... buttons sitting there but without a railing")
