@@ -8,7 +8,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: play-first/player-offices-test-redraw
-pr: #0
+pr: #6930
 blocked-on:
 milestone: play-first
 source: Merger 0, Oct 30 (Campanillas, Puerto Rico, seed c14b90afe1990222 failed "other offices still hold contests")
