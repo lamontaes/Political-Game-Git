@@ -9009,6 +9009,162 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.scene-line-oath.other-swore-me-in",
+      "move": "scene-line-oath",
+      "kind": "spoken",
+      "text": "{other} swore me in.",
+      "uses": [
+        {
+          "move": "scene-line-oath",
+          "subject": "scene",
+          "role": "line",
+          "choice": "oath",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:oath",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-oath.i-raised-my-right-hand-and-other-swore-me-in",
+      "move": "scene-line-oath",
+      "kind": "spoken",
+      "text": "I raised my right hand, and {other} swore me in.",
+      "uses": [
+        {
+          "move": "scene-line-oath",
+          "subject": "scene",
+          "role": "line",
+          "choice": "oath",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:oath",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-oath.other-gave-me-the-oath-and-i-said-every-word",
+      "move": "scene-line-oath",
+      "kind": "spoken",
+      "text": "{other} gave me the oath, and I said every word.",
+      "uses": [
+        {
+          "move": "scene-line-oath",
+          "subject": "scene",
+          "role": "line",
+          "choice": "oath",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:oath",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-address.other-swore-me-in-and-then-i-spoke-to-the-room",
+      "move": "scene-line-address",
+      "kind": "spoken",
+      "text": "{other} swore me in, and then I spoke to the room.",
+      "uses": [
+        {
+          "move": "scene-line-address",
+          "subject": "scene",
+          "role": "line",
+          "choice": "address",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:address",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-address.i-took-the-oath-from-other-and-gave-my-first-address",
+      "move": "scene-line-address",
+      "kind": "spoken",
+      "text": "I took the oath from {other} and gave my first address.",
+      "uses": [
+        {
+          "move": "scene-line-address",
+          "subject": "scene",
+          "role": "line",
+          "choice": "address",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:address",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-address.after-other-swore-me-in-i-said-a-few-words",
+      "move": "scene-line-address",
+      "kind": "spoken",
+      "text": "After {other} swore me in, I said a few words.",
+      "uses": [
+        {
+          "move": "scene-line-address",
+          "subject": "scene",
+          "role": "line",
+          "choice": "address",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:address",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }

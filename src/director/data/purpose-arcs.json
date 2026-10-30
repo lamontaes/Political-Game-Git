@@ -3952,6 +3952,70 @@
           "when": {}
         }
       ]
+    },
+    "swearing-in": {
+      "state": "request",
+      "replies": ["agree", "promise", "thank", "ask"],
+      "follow": {
+        "agree": ["congratulate"],
+        "promise": ["congratulate"],
+        "thank": ["congratulate"],
+        "ask": ["answer"],
+        "tell": ["thank"],
+        "comfort": ["thank"],
+        "offer": ["accept"],
+        "deflect": ["accept"]
+      },
+      "again": {
+        "answer": ["agree", "promise"]
+      },
+      "continue": [
+        {
+          "on": "resolved",
+          "asker": "offer",
+          "replies": ["tell", "comfort", "offer", "deflect"]
+        }
+      ],
+      "endings": [
+        {
+          "id": "spoke",
+          "label": "You took the oath and spoke",
+          "keeps": "address",
+          "when": {
+            "reply": ["tell", "comfort", "offer", "deflect"]
+          }
+        },
+        {
+          "id": "sworn-asked",
+          "label": "You asked first, then took the oath",
+          "keeps": "oath",
+          "when": {
+            "anyReply": ["ask"]
+          }
+        },
+        {
+          "id": "sworn-pledged",
+          "label": "You took the oath and pledged to keep it",
+          "keeps": "oath",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "sworn-thanked",
+          "label": "You took the oath and thanked the room",
+          "keeps": "oath",
+          "when": {
+            "anyReply": ["thank"]
+          }
+        },
+        {
+          "id": "sworn",
+          "label": "You took the oath",
+          "keeps": "oath",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {
