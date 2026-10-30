@@ -9,7 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 30 (CTO ruling Oct 29 22:19: register the gap)
+lead: governing
 ---
 
 **What.** Interest groups in interest-groups.ts form only inside a legislature's beforeVote hook for a pending bill, so in a town where no bill has come to a vote there are no resident groups to endorse a council candidate or send volunteers. Real towns have standing groups (neighborhood associations, unions, advocacy chapters) before any race. The campaign's group endorsements (PR 6872) read interest groups, drives cause groups and party chapters through one view, and only the last two exist at the start.
