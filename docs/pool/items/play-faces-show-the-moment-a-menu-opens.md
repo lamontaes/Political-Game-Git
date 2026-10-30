@@ -6,7 +6,7 @@ lead: play-first
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/people-faces-instant
 pr: #6918
 after: people-pack-v4
