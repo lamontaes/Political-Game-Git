@@ -1,6 +1,40 @@
 {
   "entries": [
     {
+      "version": "0.67.0",
+      "releasedOn": "2026-10-29",
+      "revision": "c44d000c894549cc09a71d1d965e89abdc160add",
+      "changeIds": [
+        "campaign-door-yes-near-binding",
+        "checker-skill-first-pass-traps",
+        "cto-oct29-cto-word-is-owner-word",
+        "cto-oct29-governing-work-order",
+        "cto-oct29-skill-declare-direct-pushes",
+        "cto-oct29-wake-chain",
+        "effects-civic-family",
+        "effects-web-research-sizes",
+        "governing-m3-spec-commands",
+        "government-screen-to-the-mock",
+        "laws-snap-chk2c-household-paid",
+        "people-pack-v4-needs-desk",
+        "people-pack-v4-retire-resolute",
+        "people-web-empty-ring",
+        "play-player-runs-only-six-offices",
+        "play-vote-and-bill-screens-redesign",
+        "release-publish-fetch-blobless",
+        "skills-words-lessons-oct29",
+        "tests-campaign-season-fired-kinds",
+        "tests-card-shared-coworker-by-traits",
+        "tests-mark-gap-talk-with-a-line",
+        "words-campaign-manager",
+        "words-funeral-mourners",
+        "words-job-offer-lead",
+        "words-journal-votes-once",
+        "words-race-nobody-ran",
+        "words-school-honors"
+      ]
+    },
+    {
       "version": "0.66.0",
       "releasedOn": "2026-10-29",
       "revision": "55e28f66880504f69d282f94470706cbb47e13c6",
