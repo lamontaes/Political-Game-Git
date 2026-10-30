@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: speed/campaign-causes-fold
-pr:
+pr: #6880
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-30T02:21:40.730Z
