@@ -73,6 +73,7 @@
     "event": "Hold an event",
     "forum": "Host a forum",
     "interview": "Ask for an interview",
+    "party": "Meet donors at a supporter's home",
     "hours": "hours"
   },
   "campaignUnavailable": {
@@ -86,7 +87,8 @@
     "outletsFull": "No outlet has room this week",
     "notKnown": "Not known enough for television yet",
     "nobodyReached": "Nobody you can reach yet",
-    "allGave": "Everyone you can reach has given"
+    "allGave": "Everyone you can reach has given",
+    "noHost": "Nobody close to you would host yet"
   },
   "campaignContribute": {
     "give": "Put in your own money",
@@ -613,6 +615,7 @@
     "donation": "Donations",
     "endorsement": "Endorsements",
     "ad": "Ad",
+    "mail": "Mail",
     "poll": "Poll"
   },
   "campaignResults": {
