@@ -78,6 +78,18 @@
       "source": "How far one conversation at the door moves a voter toward what they make of the candidate. Checked against field experiments: face-to-face contact is the strongest campaign contact (Green and Gerber 2019).",
       "spread": [0.3, 0.7]
     },
+    "playerDoorFillIns": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How many counted residents who open the player's own door in an evening of canvassing are filled in as full people: the ones a porch scene could cast (owner, Oct 27: door knocking is \"a short scene at 1 or 2 doors\"; two-level population, owner Oct 11: full people exist only where they matter, and a door touches the counted group). Every other opener stays counted, reached and answering by the same rule from their record.",
+      "spread": [1, 2]
+    },
+    "doorPledgeWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much a voter's own \"yes\" at a campaign's door holds at the ballot, in appeal units: near-binding (owner, Oct 29), so larger than the other reasons a local voter weighs together (party side and tie, standing, the incumbent lean, recognition, warmth and closeness each run about -1 to 1), and undone only as far as something heavy they learned since (pledgeDoubt in voting.ts). Checked against how often voters a canvass identifies as supporters vote as they said.",
+      "spread": [1, 3]
+    },
     "speechWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
@@ -1350,6 +1362,18 @@
       "source": "How far against a bill a member must stand (their position's size, a full stance about 1) before bending the rules to sink it with an amendment is worth the standing it costs them; below it the member votes no and lets it pass. Compared with the member's own position, so a stronger opponent moves a pill whatever their temperament, and temperament moves the members near the bar.",
       "spread": [0.25, 1]
     },
+    "managerClosenessWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much more closeness to the candidate (relationship level, family) weighs in agreeing to run a campaign than in agreeing to volunteer: local campaign guides put a point person, often a partner, relative or close friend, first (docs/research/words-scenes-2026-10-26.md section 1).",
+      "spread": [0.25, 1]
+    },
+    "managerThreshold": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How strong the pull must be, before personality, for someone close who heard of a filing to offer to run the campaign: warmth, closeness and family counted with managerClosenessWeight, less their hours of work, against this bar. Set where a partner or close relative with a full-time job clears it and an acquaintance does not: in a played Garrison, Nebraska (seed ed4ee1184480e6a70d28:0) 9 of the town's 29 campaigns had someone close running them by election day, and the player's partner or relative offered in the first weeks; src/director/campaign-manager.test.ts prints the share for each draw.",
+      "spread": [0, 1.5]
+    },
     "volunteerOfferThreshold": {
       "value": 0,
       "tag": "TUNABLE",
@@ -1373,6 +1397,30 @@
       "tag": "TUNABLE",
       "source": "How much of an offer's reach a candidate's first campaign carries whatever the race's size, halving with each campaign run before: a first statewide race keeps half the reach of a first council race, never all of it (owner, Oct 27, 4 PM Eastern: volunteers matter 'when you're doing small local campaigns, or maybe your first campaign'). Checked by src/director/volunteer-offer-weight.test.ts in a drawn place.",
       "spread": [0.25, 0.75]
+    },
+    "volunteerShiftHours": {
+      "value": 2.5,
+      "tag": "ESTIMATED",
+      "source": "How long a volunteer's evening of doors runs, from canvassStartHour, before their work takes any of it: volunteer canvass shifts run two to three hours (Green and Gerber, Get Out the Vote, 4th ed., 2019, ch. 3, as rivalHoursWithJob cites). The repository's campaign-practice rows put one advocacy canvass at two-hour shifts (canvass-shift-aclu-ok-2018) and one get-out-the-vote canvass at four to four and a half hours (canvass-shift-9to5-ga-2014), data/research/campaign-reality/campaign-calibration.json; the American Time Use Survey 2025 puts a day of volunteering at 2.18 hours (volunteerHours). The midpoint of the two-to-three-hour shift.",
+      "spread": [2, 4.5]
+    },
+    "volunteerShiftThreshold": {
+      "value": 0,
+      "tag": "TUNABLE",
+      "source": "Where a volunteer's pull sits, before personality, against the bar for an evening of doors on a day the campaign works: the same reasons as an ask to volunteer (warmth, closeness, family, against weekly work hours) less this instead of the ask's bar (volunteerThreshold). The pull slides to the share of the campaign's working days they go (volunteerShiftScale): right at this bar one working day in two, past it most of them, short of it now and then, never always or never. At 0 someone who said yes to an ask or offered unasked, whose pull cleared the ask's higher bar, goes on more than half, and a relative enlisted at home who works full time goes more often as closeness and liking outweigh the work week. Checked by src/core2/campaigns.test.ts in a drawn place; not yet calibrated against a measured volunteer show-up rate.",
+      "spread": [-0.5, 1]
+    },
+    "volunteerShiftScale": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a volunteer's pull past the shift's bar (volunteerShiftThreshold) slides the share of the campaign's working days they give an evening of doors (a logistic step, the same scale doorAnswerScale gives a home's readiness to open): right at the bar one day in two, this far past it about three in four, this far short about one in four. Each working day adds the share to what the campaign's days owe the volunteer, starting even, and they go when it comes to a whole evening. Checked by src/core2/campaigns.test.ts in a drawn place; not yet calibrated against a measured volunteer show-up rate.",
+      "spread": [0.25, 1]
+    },
+    "volunteerShiftEventDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "source": "How many days apart a volunteer's evenings of doors are kept as an event the director can stage: their first evening, then at most one a week, so a campaign's regulars report back about weekly instead of on every working day (the campaign turn's own spacing, campaignTurnDays, sets how often they walk).",
+      "spread": [3, 14]
     },
     "offerSpacingDays": {
       "value": 7,

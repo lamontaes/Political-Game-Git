@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: cto/government-screen
-pr:
+pr: #6832
 blocked-on:
 after:
 source: added with npm run pool -- add
