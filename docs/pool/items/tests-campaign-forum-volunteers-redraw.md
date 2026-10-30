@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/campaign-tests-redraw
-pr:
+pr: #6950
 blocked-on:
 source: Merger 0, Oct 30 (after merging #6874)
 lead: governing
