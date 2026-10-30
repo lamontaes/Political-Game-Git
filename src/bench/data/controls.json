@@ -67,6 +67,7 @@
     "doors": "Knock on doors",
     "calls": "Call donors",
     "event": "Hold an event",
+    "forum": "Host a forum",
     "interview": "Ask for an interview",
     "hours": "hours"
   },
@@ -74,6 +75,8 @@
     "noHouseholds": "No households in town",
     "noPlatform": "Choose your platform first",
     "eventMoney": "Hall {price} · campaign {cash}",
+    "forumHeld": "You hosted a forum today",
+    "noMeetings": "No public meetings here",
     "noOutlet": "No paper or station here",
     "interviewed": "Every outlet here has interviewed you",
     "outletsFull": "No outlet has room this week",
@@ -511,7 +514,8 @@
       "Independent": "Independent",
       "Libertarian": "Libertarian",
       "Green": "Green"
-    }
+    },
+    "noIssues": "No law matches that."
   },
   "results": {
     "you": "You",
@@ -566,7 +570,10 @@
       "household.mortgage": "Mortgage payment",
       "household.everyday-living": "Everyday living",
       "household-purchase": "Purchases"
-    }
+    },
+    "householdCashByMonth": "Your household’s cash at each month’s review",
+    "householdLastMonth": "Your household’s last month",
+    "worth": "Worth"
   },
   "localRaces": {
     "title": "On the ballot",
