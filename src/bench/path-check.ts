@@ -5,7 +5,7 @@
 // Prints the furthest step reached. Usage: node --import tsx src/bench/path-check.ts
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
-import { ballotOf, countedBallotsOf, resultOf } from "../core2/modules/voting";
+import { resultOf } from "../core2/modules/voting";
 import { committeeRecords } from "../core2/modules/legislature";
 import { billTally } from "./bill-tally";
 import { buildBenchWorld } from "./world";
@@ -14,13 +14,8 @@ import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { campaignDay } from "./campaign";
-import { candidatePlatform } from "../core2/campaign-stances";
-import { contestPositions } from "../core2/contest-positions";
 import { campaignDayChoices } from "../core2/campaign-day";
-import {
-  CAMPAIGNS_MODULE_ID,
-  signaturesToGather,
-} from "../core2/modules/campaigns";
+import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
 import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -159,18 +154,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
   );
   if (pick) visit = chooseAtCounter(w.core, visit, pick.key);
   const file = visit.visit.choices.find((row) => row.action.kind === "file");
-  // The player files on a platform, as the counter asks: their own views on
-  // the questions the office decides (the stances a world candidate of their
-  // views would run on), so their doors, events and forums have something to
-  // say.
-  const platform = candidatePlatform(
-    coreAPI(w.core),
-    me,
-    null,
-    contestPositions(coreAPI(w.core), enterable.contest),
-  ).map((stance) => `${stance.question}=${stance.position}`);
-  if (file) visit = chooseAtCounter(w.core, visit, file.key, { platform });
-  log.push(`platform ${platform.join(", ") || "none"}`);
+  if (file) visit = chooseAtCounter(w.core, visit, file.key);
   log.push(
     `filed ${enterable.contest.title} with ${enterable.filingOffice.filedWith}: ${(visit.result as { status?: string } | undefined)?.status ?? "no filing"}`,
   );
@@ -198,7 +182,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
       if (
         !petition ||
         !petitionCirculating(api, filing.id) ||
-        petition.signers.length >= signaturesToGather(petition.needed)
+        petition.signers.length >= petition.needed
       )
         break;
       liveUntil(addDays(makeIsoDate(w.core.date), 1));
@@ -220,25 +204,14 @@ function stand(): { held: boolean; takesOffice: string | null } {
   // same clock the play screen spends them from.
   const day = enterable.contest.electionDate;
   if (filing) {
-    const week = {
-      doors: 0,
-      reached: 0,
-      raised: 0,
-      events: 0,
-      forums: 0,
-      donorMeetings: 0,
-      weeks: 0,
-    };
+    const week = { doors: 0, reached: 0, raised: 0, events: 0, weeks: 0 };
     while (addDays(makeIsoDate(w.core.date), 7) <= day) {
-      // A forum one week and a donor meeting the next, where the campaign
-      // can hold them.
       for (const kind of [
         "canvass",
         "canvass",
         "raise-money",
         "canvass",
         "event",
-        week.weeks % 2 ? "donor-meeting" : "forum",
       ]) {
         const choice = campaignDayChoices(coreAPI(w.core), filing.id).find(
           (c) => c.kind === kind,
@@ -249,24 +222,17 @@ function stand(): { held: boolean; takesOffice: string | null } {
         week.reached += out.reached;
         week.raised += out.raisedMinor;
         if (kind === "event") week.events += 1;
-        if (kind === "forum") week.forums += 1;
-        if (kind === "donor-meeting") week.donorMeetings += 1;
         player.spend(out.hours);
       }
       week.weeks += 1;
       liveUntil(addDays(makeIsoDate(w.core.date), 7));
-      // Measurement only (scratch branch governing/measure-m3, never merged).
-      if (week.weeks % 4 === 0)
-        console.error(
-          `PROGRESS ${w.core.date} weeks ${week.weeks} doors ${week.doors} reached ${week.reached} people ${w.core.people.size} heap ${Math.round(process.memoryUsage().heapUsed / 1048576)}MB ${Math.round((performance.now() - started) / 1000)}s`,
-        );
     }
     const pledged = coreAPI(w.core)
       .moduleState(CAMPAIGNS_MODULE_ID)
       .table("pledges")
       .query("byCandidate", [me]) as unknown as { contestId: string }[];
     log.push(
-      `campaign ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised $${Math.round(week.raised / 100)}, events ${week.events}, forums ${week.forums}, donor meetings ${week.donorMeetings}, door yes ${pledged.filter((p) => p.contestId === enterable.contest.id).length}`,
+      `campaign ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised $${Math.round(week.raised / 100)}, events ${week.events}, door yes ${pledged.filter((p) => p.contestId === enterable.contest.id).length}`,
     );
   }
   // Step 5: live to the election day, then read election night.
@@ -275,61 +241,6 @@ function stand(): { held: boolean; takesOffice: string | null } {
   const races = electionResults(w.core, me);
   const result = resultOf(coreAPI(w.core), enterable.contest.id);
   const won = result?.winnerId === me;
-  {
-    // PLEDGES: where each door "yes" went (scratch measurement only).
-    const api = coreAPI(w.core);
-    const cid = enterable.contest.id;
-    const rows = (
-      api
-        .moduleState(CAMPAIGNS_MODULE_ID)
-        .table("pledges")
-        .query("byCandidate", [me]) as unknown as {
-        voterId: string;
-        contestId: string;
-      }[]
-    ).filter((p) => p.contestId === cid);
-    const named = { n: 0, noBallot: 0, home: 0, forMe: 0, other: 0, blank: 0 };
-    const counted = { n: 0, noBallot: 0, turnout: 0, forMe: 0, other: 0 };
-    const kept = countedBallotsOf(api, cid);
-    for (const p of rows) {
-      if (w.core.people.has(p.voterId)) {
-        named.n += 1;
-        const b = ballotOf(api, cid, p.voterId);
-        if (!b) named.noBallot += 1;
-        else if (!b.voted) named.home += 1;
-        else if (b.choice === me) named.forMe += 1;
-        else if (b.choice === null) named.blank += 1;
-        else named.other += 1;
-      } else {
-        counted.n += 1;
-        const b = kept.find((x) => x.voterId === p.voterId);
-        if (!b) counted.noBallot += 1;
-        else {
-          counted.turnout += b.turnout;
-          if (b.choice === me) counted.forMe += 1;
-          else counted.other += 1;
-        }
-      }
-    }
-    log.push(
-      `PLEDGES ${rows.length}: named ${JSON.stringify(named)} counted ${JSON.stringify({ ...counted, turnout: Math.round((counted.turnout / Math.max(1, counted.n - counted.noBallot)) * 100) / 100 })}`,
-    );
-  }
-  // Measurement only (scratch branch governing/measure-m3, never merged):
-  // each part of the count by candidate, the player shown as ME.
-  if (result) {
-    const mine = new Set([me, filing?.id ?? me]);
-    const fmt = (votes: Readonly<Record<string, number>>) =>
-      Object.entries(votes)
-        .sort((x, y) => y[1] - x[1])
-        .map(
-          ([id, n]) => `${mine.has(id) ? "ME" : id.slice(-6)}=${Math.round(n)}`,
-        )
-        .join(" ");
-    log.push(
-      `TALLY ${enterable.contest.title} totals[${fmt(result.totals)}] named[${fmt(result.namedVotes)}] counted[${fmt(result.countedVotes)}] namedTurnout ${result.namedTurnout}/${result.namedEligible} counted ${result.countedTurnout}/${result.countedEligible}`,
-    );
-  }
   log.push(
     `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}`,
   );

@@ -84,12 +84,6 @@
       "source": "How many counted residents who open the player's own door in an evening of canvassing are filled in as full people: the ones a porch scene could cast (owner, Oct 27: door knocking is \"a short scene at 1 or 2 doors\"; two-level population, owner Oct 11: full people exist only where they matter, and a door touches the counted group). Every other opener stays counted, reached and answering by the same rule from their record.",
       "spread": [1, 2]
     },
-    "doorPledgeTurnoutWeight": {
-      "value": 0.7,
-      "tag": "ESTIMATED",
-      "source": "How much a voter's own \"yes\" at a campaign's door adds to their reason to vote, on the turnout scale (src/core2/turnout.ts readiness), on top of the stakes the pledge's appeal already adds: saying you will vote for someone is also saying you will vote. People who tell a caller they will vote mostly do: 13.3% (2008 general) to 54.2% (2009 New Jersey off-year) of them did not (Rogers and Aida, 'Why Bother Asking? The Limited Value of Self-Reported Vote Intention', Harvard Kennedy School, research.hks.harvard.edu/publications/getFile.aspx?Id=929); 61% to 73% of a poll's stated supporters were verified to have voted in the 2014 midterm (Pew Research Center, 'Polls and votes: the 2014 elections by the numbers', 2016); and signing an in-person pledge to vote raised turnout 3.7 points over a petition (Costa, Schaffner and Prevost 2018, PLoS ONE, pmc.ncbi.nlm.nih.gov/articles/PMC5973556). With the logistic scale 0.5, 0.7 here plus the pledge's stakes (about 0.58) lifts a voter at a 10% local-election propensity to about half, inside the 46% to 87% band that stated intent predicts; checked as a total, the turnout of a played race's pledgers against its other adults (src/core2/door-pledge.test.ts), never one voter's draw.",
-      "spread": [0.3, 1.2]
-    },
     "doorPledgeWeight": {
       "value": 2,
       "tag": "TUNABLE",
@@ -942,12 +936,6 @@
       "tag": "TUNABLE",
       "source": "How many of the people closest to a candidate are asked for an endorsement in one turn, each asked once, the closest first: a local candidate collects a handful of public endorsements over a campaign (Ballotpedia local candidate pages list a few to a dozen).",
       "spread": [1, 8]
-    },
-    "petitionSignatureCushion": {
-      "value": 0.5,
-      "tag": "ESTIMATED",
-      "source": "How many signatures beyond the clerk's minimum a campaign gathers, as a share of the minimum, because the clerk strikes names not on the roll, duplicates and incomplete lines before counting. Thin margins fail: in a Yuma, Arizona council race a challenge alleged 60 of a candidate's 276 signatures invalid (about 22%; Yuma Sun, June 17, 2015, via PressReader), a Milwaukee filing about 4.5% over its minimum was challenged (Urban Milwaukee), and an Asbury Park, New Jersey council candidate was left off the ballot when the clerk invalidated 8 signatures (Asbury Park Sun); candidates are advised to gather well above the minimum (ballot-access guides). Half again the minimum covers a strike rate near the observed 20% to 30% with room; the spread runs from a careful campaign's 25% to doubling the minimum. Checked as a total: the share of played filings the clerk finds short.",
-      "spread": [0.25, 1]
     },
     "petitionSignOpenness": {
       "value": 0.4,

@@ -230,6 +230,18 @@
     "favor": "A favor",
     "back-their-item": "Back their item"
   },
+  "officeScreen": {
+    "seat": "Your seat",
+    "draft": "Drafts",
+    "budget": "Budget",
+    "deals": "Deals",
+    "office": "Office",
+    "pay": "Pay",
+    "nextMeeting": "Next meeting",
+    "heads": "Posts you name",
+    "acts": "What you have done",
+    "left": "Laws that gave way"
+  },
   "officeStops": {
     "aYear": "a year",
     "nextMeeting": "next meeting",
@@ -270,7 +282,11 @@
     "decided": "Decided",
     "lawInForce": "the law in force",
     "backMeeting": "Back to the meeting",
-    "backDesk": "Back to the desk"
+    "backDesk": "Back to the desk",
+    "today": "In force today",
+    "proposed": "The bill makes it",
+    "newAmount": "The new amount",
+    "none": "Not set"
   },
   "advanced": {
     "none": "No one holds an office that matches"
@@ -305,7 +321,14 @@
     "nextMonth": "Next month",
     "today": "Today",
     "upcoming": "Coming up",
-    "advance": "Live until this day",
+    "advance": "Go to this day",
+    "tomorrow": "Tomorrow",
+    "daysAhead": "{n} days from now",
+    "daysAgo": "{n} days ago",
+    "nothing": "Nothing is on this day.",
+    "page": "{page} of {pages}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
   "party": {
@@ -361,16 +384,7 @@
     "list": "List",
     "web": "Web",
     "card": "View person",
-    "talk": "Talk",
-    "joined": "Closer this year",
-    "left": "Drifted away",
-    "noChange": "Your five closest are the same as a year ago",
-    "causes": {
-      "person.moved-away": "Moved away",
-      "life.death": "Died",
-      "no-time-together": "No time together lately",
-      "chosen-act": "Time together"
-    }
+    "talk": "Talk"
   },
   "news": {
     "title": "News"
@@ -381,7 +395,8 @@
     "pay": "Pay",
     "hours": "Hours",
     "daily": "per day",
-    "noJob": "No current job"
+    "noJob": "No current job",
+    "workAndSchool": "Work and school"
   },
   "politics": {
     "seats": "Seats",
@@ -429,7 +444,7 @@
     },
     "issueSetBy": {
       "federal": "Federal law",
-      "state": "State law",
+      "state": "{level} law",
       "county": "County law",
       "city": "City law"
     },
@@ -516,7 +531,15 @@
       "Independent": "Independent",
       "Libertarian": "Libertarian",
       "Green": "Green"
-    }
+    },
+    "noIssues": "No law matches that.",
+    "inOffice": "In office",
+    "comesFrom": "Where it comes from",
+    "goesTo": "Where it goes",
+    "books": "The books",
+    "otherLines": "Other",
+    "fiscalYear": "fiscal year",
+    "priorities": "Your priorities"
   },
   "results": {
     "you": "You",
@@ -571,7 +594,10 @@
       "household.mortgage": "Mortgage payment",
       "household.everyday-living": "Everyday living",
       "household-purchase": "Purchases"
-    }
+    },
+    "householdCashByMonth": "Your household’s cash at each month’s review",
+    "householdLastMonth": "Your household’s last month",
+    "worth": "Worth"
   },
   "localRaces": {
     "title": "On the ballot",
@@ -581,7 +607,10 @@
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
-    "noBallot": "No local election is on the calendar"
+    "noBallot": "No local election is on the calendar",
+    "dates": "Dates",
+    "electionDay": "Election day",
+    "yourCampaign": "Your campaign"
   },
   "grade": {
     "good": "Good",
@@ -594,7 +623,11 @@
     "markGap": "Mark gap"
   },
   "guide": {
-    "search": "Search"
+    "search": "Search",
+    "none": "No term matches that."
+  },
+  "patchNotes": {
+    "release": "Release"
   },
   "campaignActs": {
     "volunteer": "Volunteers",
@@ -614,7 +647,11 @@
     "play": "Play"
   },
   "seat": {
-    "draft": "Draft"
+    "draft": "Draft",
+    "title": "Draft a bill",
+    "issue": "What it is about",
+    "today": "In force today",
+    "newAmount": "The new amount"
   },
   "titles": {
     "people": "People",
@@ -635,6 +672,7 @@
     "patchNotes": "Patch notes",
     "guide": "Guide",
     "handoff": "Carry on as",
-    "news": "News"
+    "news": "News",
+    "history": "Your life"
   }
 }

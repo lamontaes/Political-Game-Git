@@ -10,7 +10,6 @@ import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { pronounWords } from "../english/pronoun-words";
-import { circleChanges } from "./circle";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
 import { faceOf, scenePlace } from "./scene";
@@ -151,8 +150,6 @@ export function personCard(core: CoreState, personId: string) {
       ? (viewOf(coreAPI(core), personId)?.label ?? null)
       : null,
     ties,
-    // Who joined or left their five closest this year, from the tie records.
-    circle: circleChanges(core, personId),
     schools: schoolsOf(core, personId),
     // What the law in force puts on this person's record (step 9).
     lawEffects: reachOn(coreAPI(core), personId).map((row) => ({
@@ -191,34 +188,17 @@ function servingOffices(core: CoreState, personId: string): string[] {
   });
 }
 
-const monthWords = (date: string) =>
-  new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-
 /**
  * A person's history as their card tells it, oldest first: one worded line
  * per dated record of their life (birth, school, a move, meeting a partner,
- * a child, a job, a parent's death, an election won) and the tie to the
- * viewer growing closer or apart. Each line names the record it stands on; a
+ * a child, a job, a parent's death, an election won). Never how close the
+ * tie to the viewer is (owner, Oct 29). Each line names the record it stands on; a
  * record whose words the bank cannot fill is left out.
  */
 function historyLines(
   core: CoreState,
   viewerId: string,
   other: NonNullable<ReturnType<CoreState["people"]["get"]>>,
-  tie:
-    | {
-        id: string;
-        latestChange?: {
-          date: string;
-          before: { level: number };
-          after: { level: number };
-        };
-      }
-    | undefined,
 ) {
   const personName = (id: unknown) => {
     const row = typeof id === "string" ? core.people.get(id) : undefined;
@@ -375,15 +355,6 @@ function historyLines(
         });
     }
   }
-  const change = tie?.latestChange;
-  if (change && change.after.level !== change.before.level)
-    lines.push({
-      date: change.date,
-      key:
-        change.after.level > change.before.level ? "tie.closer" : "tie.apart",
-      slots: { month: monthWords(change.date) },
-      recordId: tie.id,
-    });
   return lines;
 }
 
@@ -407,19 +378,22 @@ function tellHistory(lines: readonly HistoryLine[]) {
   return [...lines]
     .sort((a, b) => a.date.localeCompare(b.date))
     .flatMap((line) => {
+      // The timeline shows the year, so its lines leave it out (Words, #6862).
       const text = screenLine(
         "person-history",
-        `person-history.${line.key}`,
+        `person-history.timeline.${line.key}`,
         line.slots,
       );
       if (!text) return [];
-      // The same sentence from two records (a move the person's own facts and the
-      // moves engine both keep) is said once.
-      if (said.has(text)) return [];
-      said.add(text);
-      const school = line.key === "school.started";
-      if (school && said.has(text.replace(/ in \d{4}\.$/, ""))) return [];
-      if (school) said.add(text.replace(/ in \d{4}\.$/, ""));
+      // The same event from two records (a move the person's own facts and the
+      // moves engine both keep) is said once: the same words in the same year.
+      // One school is said once, whatever year a record starts it.
+      const key =
+        line.key === "school.started"
+          ? text
+          : `${line.date.slice(0, 4)} ${text}`;
+      if (said.has(key)) return [];
+      said.add(key);
       // The kind of record (born, school, work, office...) picks the
       // timeline's icon: the bank's move, the key's first part.
       return [
@@ -775,7 +749,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // everyone the viewer opens.
     history: tellHistory(
       (() => {
-        const base = historyLines(core, viewerId, other, tie);
+        const base = historyLines(core, viewerId, other);
         const entered = enteredOffice(core, otherId, publicKnowledge);
         // Service that began with a term already told is not told twice.
         const told = entered.some((line) =>

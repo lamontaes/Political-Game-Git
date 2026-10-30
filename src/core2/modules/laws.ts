@@ -19,6 +19,7 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
+import { tableTraceOn } from "../module-state";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { raiseToFloor } from "../wage-floor";
 import {
@@ -505,6 +506,34 @@ export function lawInForce(
       ? { localAverage: seriesRows(api, "local-sales-tax-average") }
       : {}),
   });
+}
+
+/** Today's answers by series, kept while the laws engine's tables are unwritten. */
+const todaysLaw = new WeakMap<
+  CoreState,
+  { writes: number; date: string; answers: Map<string, LawInForceAnswer> }
+>();
+
+/**
+ * The law on a series for the town today: `lawInForce`, answered once per
+ * series a day until the laws engine writes a row. The answer is built only
+ * from this engine's rows and the date, so a kept one is the one a fresh read
+ * would build; callers read it and keep none of it. With the table trace on
+ * every call reads again, so the law-wiring check still sees each reader.
+ */
+export function lawInForceToday(
+  api: CoreAPI,
+  series: string,
+): LawInForceAnswer {
+  if (tableTraceOn()) return lawInForce(api, series);
+  const writes = api.moduleState(LAWS_MODULE_ID).writes,
+    date = api.state.date;
+  let kept = todaysLaw.get(api.state);
+  if (!kept || kept.writes !== writes || kept.date !== date)
+    todaysLaw.set(api.state, (kept = { writes, date, answers: new Map() }));
+  let answer = kept.answers.get(series);
+  if (!answer) kept.answers.set(series, (answer = lawInForce(api, series)));
+  return answer;
 }
 
 /**

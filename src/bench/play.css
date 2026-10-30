@@ -377,16 +377,6 @@ select:focus-visible {
   background: url("/ui/kit13/primary-corner.svg") no-repeat 0 0 / 100% 100%;
   pointer-events: none;
 }
-#sheet-body .skip-forward {
-  width: 44px;
-  height: 36px;
-  padding: 0;
-}
-#sheet-body .skip-forward svg {
-  width: 22px;
-  height: 22px;
-  fill: currentColor;
-}
 .acts {
   display: flex;
   flex-wrap: wrap;
@@ -1089,7 +1079,6 @@ input[type="range"]::-moz-range-thumb {
 #person-facts,
 #news-reader-body,
 #ballot-races,
-.calendar-list,
 .pick-list {
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.55) transparent;
@@ -1099,7 +1088,6 @@ input[type="range"]::-moz-range-thumb {
 #person-facts::-webkit-scrollbar,
 #news-reader-body::-webkit-scrollbar,
 #ballot-races::-webkit-scrollbar,
-.calendar-list::-webkit-scrollbar,
 .pick-list::-webkit-scrollbar {
   width: 6px;
 }
@@ -1108,7 +1096,6 @@ input[type="range"]::-moz-range-thumb {
 #person-facts::-webkit-scrollbar-thumb,
 #news-reader-body::-webkit-scrollbar-thumb,
 #ballot-races::-webkit-scrollbar-thumb,
-.calendar-list::-webkit-scrollbar-thumb,
 .pick-list::-webkit-scrollbar-thumb {
   background: rgba(214, 189, 132, 0.55);
   border-radius: 3px;
@@ -1607,8 +1594,8 @@ body.dev .dev-ring {
   -webkit-backdrop-filter: none;
 }
 
-/* Calendar: the month fills the panel, each day shows what is on it in words, and
-   Coming up (or the chosen day) is a dense list beside it (principles 1, 5, 7). */
+/* Calendar, to its mock: a compact month of day tiles with small icons, the chosen day on
+   a plate between, Coming up paged inside its box beside them. Nothing scrolls. */
 #sheet-body:has(.calendar-layout) {
   max-width: none;
   display: flex;
@@ -1616,19 +1603,24 @@ body.dev .dev-ring {
 .calendar-layout {
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(0, 2.1fr) minmax(300px, 1fr);
-  gap: 28px;
+  grid-template-columns: minmax(0, 1.45fr) minmax(250px, 0.95fr) minmax(
+      250px,
+      0.9fr
+    );
+  gap: 26px;
   min-height: 0;
+  align-items: start;
 }
 .calendar-month,
+.calendar-day,
 .calendar-side {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  overflow: hidden;
+  min-width: 0;
 }
 .calendar-layout h3 {
-  font: 600 17px var(--name);
+  font: 600 20px var(--name);
   color: var(--gold);
   margin: 0;
 }
@@ -1639,89 +1631,79 @@ body.dev .dev-ring {
   margin-bottom: 12px;
 }
 .calendar-heading h3 {
-  min-width: 170px;
+  min-width: 150px;
   text-align: center;
 }
 #sheet-body .calendar-heading .month-step {
-  font-size: 12px;
-  padding: 4px 10px;
-  min-height: 28px;
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px 12px;
+  min-height: 30px;
   margin: 0;
 }
-#sheet-body .calendar-heading .month-step:last-child {
+#sheet-body .calendar-heading .today-step {
   margin-left: auto;
+  font-size: 12px;
 }
 #sheet-body .month {
-  flex: 1;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   grid-template-rows: auto;
-  grid-auto-rows: minmax(0, 1fr);
-  gap: 4px;
+  grid-auto-rows: 74px;
+  gap: 6px;
   min-height: 0;
+  max-height: 640px;
 }
 .month .weekday {
-  font: 500 11px var(--ui);
+  grid-row: 1;
+  height: auto;
+  font: 600 11px var(--ui);
   color: var(--gold);
-  text-align: left;
-  padding: 0 6px 4px;
+  text-align: center;
+  padding: 0 0 2px;
 }
 #sheet-body .month .day {
   display: flex;
+  min-height: 0;
   flex-direction: column;
   align-items: stretch;
+  justify-content: space-between;
   gap: 2px;
   min-height: 0;
   height: auto;
   margin: 0;
-  padding: 4px 6px;
+  padding: 5px 7px;
   overflow: hidden;
   text-align: left;
   font-weight: 400;
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: none;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.07),
+    rgba(255, 255, 255, 0.025)
+  );
+  border: 1px solid rgba(214, 189, 132, 0.22);
+  box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.45);
 }
 .month .day .num {
-  font: 600 13px var(--ui);
+  font: 600 14px var(--ui);
 }
 .month .day.past {
   opacity: 0.55;
 }
 .month .day.today {
   color: var(--gold);
-  background: rgba(214, 189, 132, 0.16);
+  border-color: var(--gold);
 }
 .month .day.selected {
-  outline: 1px solid var(--gold);
-  outline-offset: -1px;
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
 }
 .month .day::after {
   display: none;
 }
-.month .entry {
+.month .marks {
   display: flex;
-  align-items: center;
-  gap: 4px;
-  min-width: 0;
-  font: 13px/1.25 var(--ui);
-  color: var(--text);
-}
-.month .entry.own,
-.calendar-entry.own .what {
-  color: var(--gold);
-}
-.month .entry {
-  align-items: start;
-}
-.month .entry .what {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.month .more {
-  font: 11px var(--ui);
-  color: var(--muted, var(--text));
+  justify-content: flex-end;
+  gap: 3px;
 }
 .month .day-icon,
 .calendar-entry .day-icon {
@@ -1731,57 +1713,77 @@ body.dev .dev-ring {
   object-fit: contain;
   filter: brightness(2.2);
 }
-.calendar-entry .what {
-  text-align: left;
+.calendar-entry.own .what {
+  color: var(--gold);
 }
-.calendar-side-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 36px;
-  margin-bottom: 8px;
-}
-.calendar-list {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
+.calendar-day .plate {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
+  width: 100%;
+  padding: 18px 20px;
 }
-#sheet-body .calendar-entry {
-  flex: none;
+.calendar-day .plate > .label {
+  font: 700 11px var(--ui);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.calendar-day .plate h3 {
+  font-size: 30px;
+}
+.calendar-distance {
+  margin: 0 0 6px;
+  color: var(--muted, var(--text));
+  font: 14px var(--ui);
+}
+.calendar-day-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 96px;
+}
+.calendar-day-list .calendar-entry {
   display: grid;
-  grid-template-columns: 84px 18px minmax(0, 1fr);
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  font: 15px/1.35 var(--ui);
+}
+.calendar-empty {
+  margin: 0;
+  color: var(--muted, var(--text));
+  font: 14px var(--ui);
+}
+.calendar-day .plate > .action {
+  margin: 10px 0 0;
+  width: 100%;
+}
+.calendar-side-head {
+  margin: 0 0 10px;
+}
+#sheet-body .calendar-pager .calendar-entry {
+  display: grid;
+  grid-template-columns: 76px 18px minmax(0, 1fr);
   align-items: center;
   gap: 8px;
   width: 100%;
-  min-height: 0;
+  height: 100%;
   margin: 0;
-  padding: 7px 8px;
+  padding: 4px 8px;
   text-align: left;
-  font: 15px/1.3 var(--ui);
+  font: 14px/1.25 var(--ui);
   background: rgba(255, 255, 255, 0.04);
   box-shadow: none;
   border: 0;
+  overflow: hidden;
 }
-#sheet-body .calendar-entry:not(:has(.when)) {
-  grid-template-columns: 18px minmax(0, 1fr);
+.calendar-entry .what {
+  text-align: left;
 }
 .calendar-entry .when {
   white-space: nowrap;
   font: 600 12px var(--ui);
   color: var(--gold);
-}
-.calendar-paging {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-#sheet-body .calendar-paging button {
-  white-space: nowrap;
-  margin: 0;
 }
 
 /* The person card (MOCKS person.png, on framed plates, owner Oct 29): their standing
@@ -1800,7 +1802,8 @@ body.dev .dev-ring {
   column-gap: 26px;
   padding: 26px 30px 28px;
 }
-.dossier #person-media {
+.dossier #person-media,
+.character-sheet #sheet-media {
   border: 1px solid rgba(156, 131, 80, 0.6);
   border-radius: 3px;
   background:
@@ -1815,7 +1818,8 @@ body.dev .dev-ring {
     inset 0 0 40px rgba(0, 0, 0, 0.55),
     0 3px 8px rgba(0, 0, 0, 0.35);
 }
-.dossier #person-media::after {
+.dossier #person-media::after,
+.character-sheet #sheet-media::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -1831,7 +1835,8 @@ body.dev .dev-ring {
   background-repeat: no-repeat;
   background-size: 13px 13px;
 }
-.dossier #person-media .screen-portrait {
+.dossier #person-media .screen-portrait,
+.character-sheet #sheet-media .screen-portrait {
   inset: 14px 0 0;
   height: calc(100% - 14px);
 }
@@ -2366,8 +2371,18 @@ body.dev .dev-ring {
   gap: 24px;
 }
 .record-views h4 {
-  margin: 8px 0;
+  margin: 0 0 4px;
+  font: 600 10.5px var(--ui);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--gold);
+}
+.view-plate .narrative {
+  margin: 0;
+  font: 400 15.5px/1.4 var(--speech);
+}
+.record-views {
+  gap: 10px;
 }
 .record-value {
   overflow-wrap: anywhere;
@@ -2569,27 +2584,16 @@ body.dev .dev-ring {
 .people-key .household::before {
   border-top-style: dashed;
 }
-.people-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+/* The list of everyone you know: face cards across the area, paged. */
+.relationship-web.people-list {
+  height: auto;
+  min-height: 0;
 }
-#sheet-body .people-list .people-node {
-  position: static;
-  transform: none;
-  width: auto;
-  grid-template-columns: 48px 1fr;
-  text-align: left;
-  justify-items: start;
-}
-.people-list .people-node > :first-child {
-  grid-row: span 2;
-  order: 0;
-}
-.people-list .people-node img,
-.people-list .headshot {
-  width: 48px;
-  height: 48px;
+.people-list .member-card.on {
+  border-color: rgba(214, 189, 132, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(214, 189, 132, 0.35),
+    0 0 12px rgba(214, 189, 132, 0.2);
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
@@ -2800,7 +2804,7 @@ details.entry[open] {
   }
 }
 
-#sheet-body:has(.entries-cards) {
+#sheet-body:has(.entries-cards, .entries-tiles) {
   max-width: 1200px;
 }
 .entries-cards {
@@ -2829,17 +2833,20 @@ details.entry[open] {
 .entry-info {
   text-align: left;
 }
-.entries-cards .entry h3 {
+.entries-cards .entry h3,
+.entries-tiles .entry h3 {
   font: 600 16px/1.2 var(--ui);
   color: var(--text-strong);
   margin: 0 0 4px;
 }
-.entries-cards .entry p {
+.entries-cards .entry p,
+.entries-tiles .entry p {
   font: 14px/1.3 var(--ui);
   color: var(--text-2);
   margin: 0 0 2px;
 }
-.entries-cards .entry .entry-note {
+.entries-cards .entry .entry-note,
+.entries-tiles .entry .entry-note {
   color: var(--gold);
   font-size: 13px;
 }
@@ -2883,19 +2890,6 @@ details.entry[open] {
   margin-top: 2px;
   font-size: 0.85em;
   opacity: 0.8;
-}
-
-.people-node .circle-mark {
-  font: 600 12px var(--ui);
-  font-style: normal;
-  color: var(--gold);
-}
-.people-node.circle-left {
-  opacity: 0.7;
-}
-.people-selection .circle-why,
-.people-selection .circle-none {
-  color: var(--gold);
 }
 
 /* Advanced: the officeholders to play as, a button each. */
@@ -3502,6 +3496,55 @@ details.entry[open] {
   flex-direction: column;
   gap: 12px;
 }
+.split-screen.single .split-body {
+  grid-template-columns: minmax(0, 1fr);
+}
+/* Issues: the subjects on a rail, a search beside them, one subject's law cards
+   paged inside a plate (owner, Oct 29). */
+.issues-screen .split-controls {
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.issues-screen .issue-subjects {
+  flex: 1 1 auto;
+  margin: 0;
+}
+.issues-screen input[type="search"] {
+  flex: 0 0 240px;
+}
+.issue-plate {
+  margin: 0;
+}
+/* One law's page: its name over the plates. */
+.law-page .split-controls .heading {
+  margin: 0;
+  font-size: clamp(24px, 2.4vw, 34px);
+}
+.law-page .fact-plates {
+  margin: 0 0 10px;
+}
+.issue-cards .entry {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.issue-cards .entry h3 {
+  font: 600 15px/1.2 var(--ui);
+  color: var(--text-strong);
+  margin: 0 0 4px;
+}
+.issue-cards .entry .entry-value {
+  display: block;
+  font: 500 19px/1.15 var(--speech);
+  color: var(--gold);
+  overflow-wrap: break-word;
+  margin: 2px 0 4px;
+}
+.issue-cards .entry .entry-line {
+  font: 12.5px var(--ui);
+  color: var(--text-2);
+  margin: 0;
+}
 .split-side {
   min-height: 0;
   overflow: hidden;
@@ -3832,20 +3875,22 @@ details.entry[open] {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.date-list li {
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 12px;
+  row-gap: 8px;
   align-items: baseline;
+}
+/* Each row's date and words sit in the list's two columns, so every date
+   lines up with the longest. */
+.date-list li {
+  display: contents;
 }
 .date-list-when {
   font: 600 14px var(--ui);
   color: var(--gold);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 .date-list-text {
   font: 400 14px/1.3 var(--ui);
@@ -3864,6 +3909,88 @@ details.entry[open] {
 }
 .split-main .record-section > .label {
   margin: 0;
+}
+
+/* The draft card on a body's office screen: the issue, what is in force today beside the
+   amount typed, and Draft. */
+.draft-card {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(214, 189, 132, 0.35);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.draft-title {
+  margin: 0;
+  font: 700 12px var(--ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.draft-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 18px;
+}
+.draft-cell {
+  display: grid;
+  gap: 2px;
+}
+.draft-cell small {
+  color: var(--text-2);
+  font: 12px var(--ui);
+}
+.draft-today {
+  font: 600 18px var(--ui);
+}
+.draft-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.draft-entry .number-box {
+  width: 110px;
+}
+.draft-note {
+  margin: 0;
+  color: var(--text-2);
+  font: 13px var(--ui);
+}
+.draft-note:empty {
+  display: none;
+}
+
+/* Today's amount beside the new one on the bill paper's estimate card. */
+.bill-compare {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 10px 0;
+}
+.bill-compare-cell {
+  display: grid;
+  gap: 2px;
+  min-width: 110px;
+  padding: 8px 12px;
+  border: 1px solid rgba(214, 189, 132, 0.3);
+  border-radius: 6px;
+}
+.bill-compare-cell small {
+  color: var(--text-2);
+  font: 12px var(--ui);
+}
+.bill-compare-cell strong {
+  font: 700 20px var(--ui);
+}
+.bill-compare-cell.new {
+  border-color: var(--gold);
+}
+.bill-compare-arrow {
+  color: var(--gold);
+  font-size: 22px;
 }
 
 /* ---- Framed plates, trays and the timeline (owner, Oct 29, 22:45) ----
@@ -3907,6 +4034,9 @@ details.entry[open] {
 .split-side .plate,
 .split-main .plate {
   margin: 0;
+}
+.plate .tab-rail {
+  margin: 0 0 10px;
 }
 /* Small plates side by side, one fact each: a label, the fact, a note. */
 .fact-plates {
@@ -4069,4 +4199,420 @@ details.entry[open] {
   padding: 0;
   margin: 0;
   font: 600 18px/1 var(--ui);
+}
+
+/* Travel, to its mock: three large pictured tiles across, two rows to a page, the room's
+   picture with a people mark on its corner, the place's name and who is there under it. */
+.entries-tiles {
+  margin-top: 12px;
+}
+#sheet-body .entries-tiles .pager-grid .entry-go {
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.entry-art {
+  position: relative;
+}
+.entries-tiles .entry-picture {
+  aspect-ratio: 2 / 1;
+  height: auto;
+}
+.entry-badge {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 34px;
+  height: 34px;
+  padding: 6px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: rgba(24, 22, 20, 0.92);
+  border: 1px solid var(--brass);
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+#sheet-body .entries-tiles .entry {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* ---- Money (the Oct 14 mock on framed plates): the cash large, each month's
+   review as columns, where last month went as a ring with its key ---- */
+.money-figure {
+  font: 900 clamp(40px, 4.4vw, 64px) / 1.05 var(--name);
+  color: var(--brass-hi);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
+  margin: 2px 0 10px;
+}
+.money-cash {
+  display: flex;
+  flex-direction: column;
+}
+.money-home-picture {
+  width: 100%;
+  aspect-ratio: 5 / 2;
+  object-fit: cover;
+  border: 1px solid rgba(156, 131, 80, 0.6);
+  border-radius: 2px;
+  margin: 0 0 8px;
+}
+/* Columns side by side: each amount over its column, the month under it. */
+.column-chart {
+  margin: 12px 0 0;
+}
+.column-chart-columns {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  height: 190px;
+}
+.column-chart-item {
+  flex: 1 1 0;
+  max-width: 76px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+.column-chart-well {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+.column-chart-bar {
+  width: 100%;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 35%,
+    var(--brass-lo)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.column-chart-bar.below {
+  background: linear-gradient(#d07a68, var(--red));
+}
+.column-chart-value,
+.column-chart-label {
+  font: 500 11.5px var(--ui);
+  color: var(--text-2);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.column-chart-label {
+  color: var(--text);
+}
+.column-chart figcaption {
+  margin: 8px 0 0;
+  font: 500 12.5px var(--ui);
+  color: var(--text-2);
+}
+/* A ring of the parts of a whole, the whole in its middle, the key beside it. */
+.donut-chart {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+}
+.donut-center {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+.donut-ring svg {
+  width: 150px;
+  height: 150px;
+  transform: rotate(-90deg);
+}
+.donut-track {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.45);
+  stroke-width: 14;
+}
+.donut-part {
+  fill: none;
+  stroke-width: 14;
+}
+.donut-total {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 36px;
+  text-align: center;
+  font: 600 16px/1.15 var(--ui);
+  color: var(--text-strong);
+}
+.donut-key {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.donut-key li {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  font: 500 13.5px var(--ui);
+}
+.donut-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+.donut-share {
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+/* The kit's chart colors, in order: muted, never navy. */
+.donut-part.c0 {
+  stroke: #c9a55c;
+}
+.donut-part.c1 {
+  stroke: #4f8a8b;
+}
+.donut-part.c2 {
+  stroke: #9a4a3f;
+}
+.donut-part.c3 {
+  stroke: #6f7f3a;
+}
+.donut-part.c4 {
+  stroke: #7a8796;
+}
+.donut-part.c5 {
+  stroke: #8a6386;
+}
+.donut-part.c6 {
+  stroke: #b08a5a;
+}
+.donut-part.c7 {
+  stroke: #6f6c66;
+}
+.donut-swatch.c0 {
+  background: #c9a55c;
+}
+.donut-swatch.c1 {
+  background: #4f8a8b;
+}
+.donut-swatch.c2 {
+  background: #9a4a3f;
+}
+.donut-swatch.c3 {
+  background: #6f7f3a;
+}
+.donut-swatch.c4 {
+  background: #7a8796;
+}
+.donut-swatch.c5 {
+  background: #8a6386;
+}
+.donut-swatch.c6 {
+  background: #b08a5a;
+}
+.donut-swatch.c7 {
+  background: #6f6c66;
+}
+
+/* Jobs and study (the Oct 14 mock on framed plates): the workplace's painting
+   across the top of the job plate, the title in the name type. */
+.job-picture {
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  object-fit: cover;
+  border: 1px solid rgba(156, 131, 80, 0.6);
+  border-radius: 2px;
+  margin: 0 0 10px;
+}
+.job-plate .heading {
+  font: 800 clamp(20px, 2vw, 28px) / 1.15 var(--name);
+  margin: 0;
+}
+.job-plate .job-employer {
+  margin: 2px 0 10px;
+  color: var(--text-2);
+}
+
+/* Campaigns: the coming ballot as race cards on a plate; a race's own page
+   with who is running as face cards and where they stand. */
+.race-cards .entry {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.race-cards .entry h3 {
+  font: 600 15px/1.2 var(--ui);
+  color: var(--text-strong);
+  margin: 0 0 4px;
+}
+.race-cards .entry .entry-value {
+  display: block;
+  font: 500 16px/1.2 var(--speech);
+  color: var(--gold);
+  margin: 0 0 4px;
+}
+.race-cards .entry p {
+  font: 12.5px/1.3 var(--ui);
+  color: var(--text-2);
+  margin: 0;
+}
+.race-page .split-controls .heading {
+  margin: 0;
+  font-size: clamp(22px, 2.2vw, 32px);
+}
+.race-page .plate .plate {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Budget (the Oct 14 mock on framed plates): the government, its year and total
+   in the name type; three plates in a row; the rings' keys carry amounts. */
+.plate-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+.plate-row > .plate {
+  margin: 0;
+}
+.budget-title {
+  font: 800 clamp(18px, 1.8vw, 24px) / 1.2 var(--name);
+  color: var(--text-strong);
+}
+.budget-adopted {
+  margin: -6px 0 2px;
+  color: var(--text-2);
+}
+.budget-screen .donut-chart {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+.budget-screen .donut-key {
+  width: 100%;
+}
+
+/* The Guide and Patch notes: cards on a plate, the chosen card's article
+   beside them, reading inside its own box. */
+.pick-cards .entry {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.pick-cards .entry h3 {
+  font: 700 15px/1.2 var(--name);
+  color: var(--gold);
+  margin: 0 0 3px;
+}
+.pick-cards .entry span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font: 13px/1.3 var(--ui);
+  color: var(--text-2);
+}
+#sheet-body .pick-cards .entry.on {
+  border-color: rgba(214, 189, 132, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(214, 189, 132, 0.35),
+    0 0 12px rgba(214, 189, 132, 0.2);
+}
+.pick-article .heading {
+  font: 800 clamp(20px, 2vw, 28px) / 1.15 var(--name);
+  margin: 0 0 8px;
+}
+.guide-short {
+  font: 500 16px/1.4 var(--speech);
+  color: var(--text-strong);
+  margin: 0 0 10px;
+}
+.article-text {
+  font: 400 15px/1.45 var(--speech);
+  color: var(--text);
+  margin: 0 0 10px;
+}
+.pick-article {
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+}
+.pick-article .chips {
+  margin: 0 0 8px;
+}
+/* Patch notes: the release's name is its picker; its changes one card a
+   row, the chosen change wider beside them in the reading type. */
+.patch-notes .split-body {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+}
+select.release-pick {
+  font: 800 clamp(18px, 1.8vw, 24px) / 1.2 var(--name);
+  color: var(--text-strong);
+  max-width: 100%;
+  padding: 2px 6px;
+  margin: 0 0 2px -6px;
+}
+.release-date {
+  margin: 0 0 10px;
+  color: var(--text-2);
+  font: 13px/1.3 var(--ui);
+}
+.note-cards .entry h3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font: 600 14px/1.3 var(--ui);
+  color: var(--text-strong);
+  margin: 0;
+}
+.note-cards .entry span {
+  display: none;
+}
+.patch-notes .pick-article .heading {
+  font: 700 19px/1.3 var(--speech);
+  color: var(--text-strong);
+}
+.member-line b {
+  font-weight: inherit;
+}
+
+/* Politics → Your office on plates: a rail of tabs, one page of plates at a time, so the
+   panel fits and never scrolls as a page (owner, Oct 29). */
+.office-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+.office-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+.office-body .fact-plates {
+  margin: 0;
+}
+.office-paged .pager-grid > * {
+  align-self: center;
+}
+.office-bills .plate {
+  height: 100%;
+  overflow: hidden;
 }

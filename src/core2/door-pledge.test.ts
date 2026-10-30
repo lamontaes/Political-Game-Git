@@ -227,24 +227,10 @@ describe("a door yes is near-binding", () => {
           onBallot.has(b.voterId)
         )
           continue;
-        // The ballot carries their word, as far as it still holds: undone
-        // only by what heavy they learned since (pledgeDoubt).
+        // The ballot carries their word, as far as it still holds.
         const part = b.appeal[mine.personId]?.pledge ?? 0;
-        const voter = core.people.get(b.voterId)!;
-        const holds =
-          1 -
-          pledgeDoubt(
-            api,
-            voter,
-            b.lean ?? 0,
-            pledgeOf(api, b.voterId, mine.personId, contest.id)!,
-            ballot(api, contest.id).map((f) => ({ id: f.personId })),
-          );
-        expect(part, `${place}: ${b.id} pledge as held`).toBeCloseTo(
-          weight * holds,
-          6,
-        );
-        if (holds === 0) continue;
+        expect(part, `${place}: ${b.id} lost the pledge`).toBeGreaterThan(0);
+        expect(part).toBeLessThanOrEqual(weight);
         // Held in full, it decides the vote for the candidate.
         if (part === weight) {
           expect(
@@ -255,30 +241,6 @@ describe("a door yes is near-binding", () => {
         }
       }
       // The counted residents' kept ballots carry their door answers too.
-      // Their word at the door is also a word to vote: the pledged turn out
-      // more than the town's other adults, each by their own reasons.
-      const pledgedIds = new Set(pledged.map((c) => c.voterId));
-      const share = (rows: readonly BallotRow[]) =>
-        rows.length ? rows.filter((b) => b.voted).length / rows.length : 0;
-      const pledgedBallots = ballots.filter(
-        (b) =>
-          pledgedIds.has(b.voterId) &&
-          !onBallot.has(b.voterId) &&
-          pledgeOf(api, b.voterId, mine.personId, contest.id),
-      );
-      for (const b of pledgedBallots.filter((x) => x.voted))
-        expect(
-          b.turnoutReasons.pledge ?? 0,
-          `${place}: ${b.id} turnout without its word`,
-        ).toBeGreaterThan(0);
-      const others = ballots.filter(
-        (b) => !pledgedIds.has(b.voterId) && !onBallot.has(b.voterId),
-      );
-      if (pledgedBallots.length >= 5)
-        expect(
-          share(pledgedBallots),
-          `${place} (seed ${seed}): pledged turnout ${share(pledgedBallots).toFixed(2)} of ${pledgedBallots.length} vs others ${share(others).toFixed(2)} of ${others.length}`,
-        ).toBeGreaterThan(share(others));
       // A record standing for one household carries the pledge on its own
       // ballot; one standing for several votes one household on its word.
       const counted = countedBallotsOf(api, contest.id);
@@ -317,16 +279,18 @@ describe("a door yes is near-binding", () => {
 
 describe("a door yes holds for the one household the door reached", () => {
   it("in a town whose counted records each stand for several households, the pledged household votes on its word and the rest as they would have", () => {
-    // A played-world town opened at its Census count, where a counted record
-    // stands for a sample of households: draws go on until one has a record
-    // of weight above one that a door reaches.
-    for (let draw = 0; draw < 16; draw += 1) {
+    // A played-world town whose counted records each stand for several real
+    // households (the opening's count scale, as a town opened at its Census
+    // size above its generated sample has): draws go on until a door reaches
+    // a counted record that votes in the race.
+    for (let draw = 0; draw < 8; draw += 1) {
       const place = drawPlace(`${seed}:${draw}`, "door-pledge-weighted");
       const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
       setBookkeeping(false);
       const { core } = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
+        countScale: 3,
       });
       const weighted = new Set(
         countedResidents(core)

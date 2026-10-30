@@ -32,8 +32,6 @@ export interface TurnoutParts {
   readonly habit: number;
   /** Work hours and the election laws in force, the cycle's salience. */
   readonly cost: number;
-  /** Their own word at a campaign's door that they would vote, as far as it still holds. */
-  readonly pledge?: number;
 }
 
 /** A voter's reason to vote apart from the race, on the turnout scale. */
@@ -42,8 +40,7 @@ export function readinessOf(parts: Omit<TurnoutParts, "stakes">): number {
     campaignParameter("turnoutBase") +
     parts.duty +
     parts.reach +
-    parts.habit +
-    (parts.pledge ?? 0) -
+    parts.habit -
     parts.cost
   );
 }

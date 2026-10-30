@@ -201,6 +201,12 @@
       "source": "Government and politics stories a local reporter files in a week beside other assignments (Pew 2019 study of local news: local outlets run about 0.6 civic stories a day across their staff, about two a week per reporter covering a town).",
       "spread": [2, 6]
     },
+    "briefsPerOutletWeek": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "Short items a local outlet prints in its side column in a week (a police log, births, school results, new businesses), beside its reporters' stories; a weekly community paper's briefs and police-log columns run a handful of items an issue. Only items the town recorded are printed: a quiet week prints fewer, never padding.",
+      "spread": [2, 10]
+    },
     "storyProximityTown": {
       "value": 1,
       "tag": "TUNABLE",

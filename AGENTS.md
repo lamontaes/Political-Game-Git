@@ -75,7 +75,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 - **Owner decisions are flagged, never waited on (owner, Oct 14).** Build the simplest version that follows this file, register a stopgap of kind `owner-decision`, and write the question under **OWNER DECISIONS NEEDED** in the PR body and in `OWNER-DECISIONS.md`. The CTO brings the open list to the owner in one sitting.
 - **No hand-written player text in code.** Words come from the English engine's banks (`scene-standard`); screens show record data only through worded labels and control names, never raw kinds, ids, ISO dates or unrounded numbers (`player-screen-text`). Every bank piece plays unless the owner's grades reject it; a grade run sets every bank at once, and nothing waits on his grading (owner, Oct 24; `words-engine`).
 - **Research before building.** Real data checks the simulation and never decides an outcome by itself. See `research-habit`.
-- **Speed.** A town's game year must run in under two minutes (`npm run speed:year`). No change may make a year more than 20% slower than its base, measured on the same base and machine, one process at a time. Never scan the whole world or history every day; use indexes or act on the day something changed.
+- **Speed (owner, Oct 29: "It has to be a country's year... I want simulations to be able to go hundreds of years").** A country's year (the whole played world, not one town) runs in under two minutes on `npm run speed:year`, which measures four years so every check includes an election year; the bar holds for each year. No change may make a year more than 20% slower than its base, measured on the same base and machine, one process at a time. Over one save, years 97 to 100 run at most 1.2 times as long as years 1 to 4, and memory and records kept hold the same way: old records fold into summaries once play no longer reads them. Never scan the whole world or history every day; use indexes or act on the day something changed. See `OWNER-DECISIONS.md`, Oct 30 01:55.
 - **Saves don't matter** until early-access preparation, when a versioned save format is built.
 - **American English everywhere**, enforced by `tests/guards/english/`; `npm run spelling` lists what it would flag.
 
@@ -118,6 +118,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `screen-to-mock`: screens follow the mocks and the shared controls
 - `session-start`: the pool worker loop
 - `skill-lessons`: the skills learn from each day
+- `speed-work`: timing a year, proving a cut changes nothing, folding what grows
 - `trace-audit`: the 56-place trace audit
 - `wiring-audit`: auditing a family of mechanics end to end
 - `words-engine`: the English engine and the director
