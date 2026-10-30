@@ -12,7 +12,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
   standing,
-  openContests,
+  playerContests,
   type FilingRow,
 } from "../core2/modules/elections";
 import { advanceCore } from "../core2/life";
@@ -401,7 +401,7 @@ function fileNewAdult(
     .rows() as unknown as FilingRow[])
     if (row.personId !== playerId)
       rivals.set(row.contestId, (rivals.get(row.contestId) ?? 0) + 1);
-  const filed = [...openContests(coreAPI(core))]
+  const filed = [...playerContests(coreAPI(core))]
     .filter((contest) => !inYear || contest.electionDate <= lastDayOfRace())
     .sort(
       (a, b) =>

@@ -67,6 +67,7 @@
     "doors": "Knock on doors",
     "calls": "Call donors",
     "event": "Hold an event",
+    "forum": "Host a forum",
     "interview": "Ask for an interview",
     "hours": "hours"
   },
@@ -74,6 +75,8 @@
     "noHouseholds": "No households in town",
     "noPlatform": "Choose your platform first",
     "eventMoney": "Hall {price} · campaign {cash}",
+    "forumHeld": "You hosted a forum today",
+    "noMeetings": "No public meetings here",
     "noOutlet": "No paper or station here",
     "interviewed": "Every outlet here has interviewed you",
     "outletsFull": "No outlet has room this week",
@@ -261,7 +264,11 @@
     "decided": "Decided",
     "lawInForce": "the law in force",
     "backMeeting": "Back to the meeting",
-    "backDesk": "Back to the desk"
+    "backDesk": "Back to the desk",
+    "today": "In force today",
+    "proposed": "The bill makes it",
+    "newAmount": "The new amount",
+    "none": "Not set"
   },
   "advanced": {
     "none": "No one holds an office that matches"
@@ -609,7 +616,11 @@
     "play": "Play"
   },
   "seat": {
-    "draft": "Draft"
+    "draft": "Draft",
+    "title": "Draft a bill",
+    "issue": "What it is about",
+    "today": "In force today",
+    "newAmount": "The new amount"
   },
   "titles": {
     "people": "People",

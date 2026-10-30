@@ -943,6 +943,12 @@
       "source": "Hours an evening event takes the candidate, setup and the room together. Checked against the evening venue rental in campaign-unit-prices (an evening).",
       "spread": [2, 5]
     },
+    "playerForumHours": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Hours a forum the candidate hosts takes them: setting up the rented room, an hour or two of residents' questions and the talk after. Checked against the meetings engine's questionsPerTownHall (a few questions, each answered at length) and the evening venue rental in campaign-unit-prices (an evening).",
+      "spread": [2, 4]
+    },
     "playerInterviewHours": {
       "value": 1,
       "tag": "TUNABLE",
