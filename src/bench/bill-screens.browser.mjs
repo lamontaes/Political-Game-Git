@@ -29,24 +29,34 @@ try {
       url.searchParams.set("seed", process.env.BENCH_SEED);
       return route.continue({ url: url.toString() });
     });
-  const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto(`http://localhost:${process.env.BENCH_PORT ?? 3000}/play`);
-  await ready;
-  await page.locator("#new-life").click();
-  const built = page.waitForResponse(
-    (r) => new URL(r.url()).pathname === "/api/newlife",
-    { timeout: 600000 },
-  );
-  await page.locator("#new-advanced").click();
-  await page.locator("#front-advanced:not([hidden])").waitFor();
-  await page.locator("#advanced-build").click();
-  const seed = new URL((await built).url()).searchParams.get("seed");
-  await page.locator("#front-pick:not([hidden])").waitFor();
-  const names = await page.locator("#pick-list button").allInnerTexts();
-  const at = names.findIndex((t) =>
-    /council|commissioner|alderm|trustee|supervisor|selectm/i.test(t),
-  );
-  assert.ok(at >= 0, "no member of a body to step in as");
+  // A place can have no body to step in as (a seat of one executive); take a new draw and name it.
+  let seed = "";
+  let names = [];
+  let at = -1;
+  for (let attempt = 1; attempt <= 5 && at < 0; attempt += 1) {
+    const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
+    await page.goto(`http://localhost:${process.env.BENCH_PORT ?? 3000}/play`);
+    await ready;
+    await page.locator("#new-life").click();
+    const built = page.waitForResponse(
+      (r) => new URL(r.url()).pathname === "/api/newlife",
+      { timeout: 600000 },
+    );
+    await page.locator("#new-advanced").click();
+    await page.locator("#front-advanced:not([hidden])").waitFor();
+    await page.locator("#advanced-build").click();
+    seed = new URL((await built).url()).searchParams.get("seed");
+    await page.locator("#front-pick:not([hidden])").waitFor();
+    names = await page.locator("#pick-list button").allInnerTexts();
+    at = names.findIndex((t) =>
+      /council|commissioner|alderm|trustee|supervisor|selectm/i.test(t),
+    );
+    if (at < 0)
+      console.log(
+        `unusable draw ${attempt}: seed ${seed}, no member of a body`,
+      );
+  }
+  assert.ok(at >= 0, "no member of a body to step in as in five draws");
   await page.locator("#pick-list button").nth(at).click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
