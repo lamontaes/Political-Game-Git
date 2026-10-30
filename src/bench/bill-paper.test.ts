@@ -27,6 +27,8 @@ const seed =
 const place = drawPlace(seed, "bill-paper");
 /** The amount, in minor units, the spending bill sets for its budget line. */
 const BUDGET_LINE_AMOUNT_MINOR = 10000;
+/** The weeks in a year that `employerCosts` pays a job's scheduled hours for. */
+const WEEKS_A_YEAR = 52;
 
 describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
   it("reads the filed bill from its records, with the estimate beside each section", () => {
@@ -154,6 +156,24 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
         [...costs.values()].reduce((sum, cost) => sum + cost.annualMinor, 0),
         `${billId} the employers' rows add to the note`,
       ).toBe(note.payMinor);
+      // The pay, from the commitments themselves rather than the engine: each
+      // raised job's yearly change is the new floor less its hourly pay, times
+      // its scheduled weekly minutes over 60, times the weeks a year the engine
+      // pays. The engine rounds each employer's running total to a whole minor
+      // unit as it adds each job, so the note sits within half a minor unit
+      // per raised job of the exact sum.
+      const exactMinor = raised.reduce(
+        (sum, c) =>
+          sum +
+          (floor - c.hourlyMinor) *
+            (c.expectedWeeklyMinutes / 60) *
+            WEEKS_A_YEAR,
+        0,
+      );
+      expect(
+        Math.abs(note.payMinor - exactMinor),
+        `${billId} the note's ${note.payMinor} minor a year is the raised jobs' own pay change, ${exactMinor} minor, within the engine's rounding of half a minor unit for each of ${ids.length} jobs`,
+      ).toBeLessThanOrEqual(raised.length / 2);
       if (ids.length) expect(note.payMinor, billId).toBeGreaterThan(0);
       else expect(note.payMinor, billId).toBe(0);
       expect(
@@ -161,7 +181,7 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
         `${billId} the note says what it counts`,
       ).toBeGreaterThan(0);
       console.log(
-        `fiscal note: ${where} (${key}, root seed ${seed}, place seed ${drawn}) bill ${billId} floor ${floor} minor/hour: ${note.workers} workers, ${note.payMinor} minor a year, ${costs.size} employers; commitments ${ids.join(", ") || "none"}`,
+        `fiscal note: ${where} (${key}, root seed ${seed}, place seed ${drawn}) bill ${billId} floor ${floor} minor/hour: ${note.workers} workers, ${note.payMinor} minor a year (the jobs' own pay change ${exactMinor.toFixed(2)}), ${costs.size} employers; commitments ${ids.join(", ") || "none"}`,
       );
       return ids.length;
     };
