@@ -23,7 +23,7 @@ Every rule below comes from a merge audit. The ones that hurt most:
 
 - **Badges are not checks.** Once, 40 PRs merged in under four minutes on GitHub's badges, with no main merged in and no checks run. Every merge needs its own merge of main, its own checks on that merged result, and a comment naming them.
 - **A send-back is not undone by time.** Three PRs were merged after the merger itself had sent them back, with no new commit.
-- **Base branches.** A PR merged into another PR's branch was counted as merged to main and its pool item flipped to done.
+- **Base branches.** A PR merged into another PR's branch was counted as merged to main and its pool item flipped to done. And a PR stacked on a branch that had already landed was merged into that branch, so its change never reached main (#6875, the Journal, Oct 30). Before every merge, check the PR's base is `main`; when a stacked base has already merged, retarget the PR to `main` first, merge main into it and check again, or send it back.
 - **Weak tests passed.** Tests that return early, assert `>= 0`, loop over an empty set, or wrap every assertion in `if (found)` passed review and merged.
 - **Done-when skipped.** PRs merged without the proof their pool item's done-when names: the browser check never run, the played-world case never added.
 - **Guards bypassed.** A data file was added to a guard's bypass list (`rawSource`) so a red guard would stop complaining.
@@ -31,6 +31,7 @@ Every rule below comes from a merge audit. The ones that hurt most:
 - **Removed controls not disclosed.** A PR dropped three player buttons and said the actions "stay as they were".
 - **Broken pointers.** A PR deleted data entries that another file pointed at by index, so a test on main threw on load.
 - **Over-blocking.** A docs-only PR was left open only because its body said "checks: none needed". You run the checks; a missing gate line is never by itself a reason to leave a PR.
+- **A release between the gate and the merge.** A release consumes the declarations in `docs/release/changes/` and deletes them on main. A branch whose merge base with main predates that release still carries the ones it added, and merging it puts them back on main, so `release:check --mode pr` turns red for every PR (#6892, Oct 30, two menu declarations 0.68.0 had consumed). Merging main into the branch first does not stop it. When a release landed after the checker's pass, rerun `release:check --mode pr` on the merged tree, and delete any consumed declaration on the branch before merging.
 - **Holding back (owner, Oct 27).** On Oct 27, 31 green, mergeable PRs sat open at noon: two CTO merge freezes for a release, "merge after" chains, a send-back over a line-1 label. The owner: "There's no reason to be holding shit back. That's the point of having so many mergers and fixers." A merger merges; it never queues. A PR whose line 1 is `Touches pool item: <id>` flips nothing on merge, even if the item's `pr:` field names it (`scripts/pool/done-on-merge.ts`); a send-back needs no `pr:` edit to keep the item open.
 - **Holds nobody saw.** Two merge holds were broken by sessions mid-turn that never read the message. A hold lives on MERGE-FIRST line 0 and binds every push to main; read that file before every merge, not once per session.
 

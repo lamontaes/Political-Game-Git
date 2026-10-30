@@ -5,7 +5,7 @@ area: art
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
 pr:
 blocked-on:
@@ -30,3 +30,5 @@ Today people are the Codex v2 figures (`art/people-engine/v2/figures`), with a s
 **Files.** `src/bench/appearance.ts`, `src/bench/figure-hair.ts`, `src/bench/whole-figures.ts`, `art/people-engine/v2/wardrobe` (on `claude/people-rooms-art`: merge it into the work branch first).
 
 **Notes.** The CTO is making a redesigned set in the next 1–2 days: whole people drawn with their faces, with clothes and hair split off by the model and each piece's exact position given. It replaces this set. Keep the drawing path generic (a body plus ordered pieces at a box) so the new set drops in.
+
+Done (CTO, Oct 30 07:15, at the people session's word, checked): people pack v3 and then v4 replaced the v2 figures, the separate face layer and the borrowed hair; `src/bench/people-pack.test.ts` fails if any `art/people-engine/v2` file is referenced or packaged.

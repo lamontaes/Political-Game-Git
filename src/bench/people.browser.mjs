@@ -68,7 +68,7 @@ try {
   const boxed = await page.evaluate(() =>
     [
       ...document.querySelectorAll(
-        ".people-node, .people-center, .people-node img, .people-center img, .people-initial",
+        ".people-node, .people-center, .people-node img, .people-center img",
       ),
     ]
       .map((node) => {
@@ -89,6 +89,21 @@ try {
     [],
     "a person on the People map has a box around them",
   );
+  // Owner, Oct 28: never initials. A face is the person's own figure, or an
+  // empty ring until their figure exists (a child: the pack paints adults only).
+  const lettered = await page.evaluate(() =>
+    [...document.querySelectorAll(".people-node, .people-center")]
+      .filter((node) => {
+        const face = node.querySelector(":scope > img, :scope > .headshot");
+        return !face || face.textContent.trim() !== "";
+      })
+      .map((node) => node.getAttribute("aria-label") ?? node.textContent),
+  );
+  assert.deepEqual(
+    lettered,
+    [],
+    "a face on the People map is not a picture or a ring",
+  );
   await page.locator(".people-node").first().click();
   assert.equal(await page.locator(".people-node.selected").count(), 1);
   assert.equal(await page.locator(".people-edge.selected").count(), 1);
@@ -105,7 +120,9 @@ try {
   assert.equal(await page.locator(".people-node").count(), 1);
   await page.getByRole("button", { name: "List", exact: true }).click();
   assert.equal(await page.locator(".people-list").count(), 1);
-  await page.locator(".people-node").click();
+  // The list is face cards, paged; the one found is the only card.
+  assert.equal(await page.locator(".people-list .member-card").count(), 1);
+  await page.locator(".people-list .member-card").click();
   await page.getByRole("button", { name: "View person", exact: true }).click();
   await page.locator("#person:not([hidden])").waitFor();
   assert.equal(await page.locator("#person-name").innerText(), first);

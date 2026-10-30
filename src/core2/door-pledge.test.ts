@@ -8,6 +8,11 @@
  * closer to weakens it by how much closer, with no roll.
  */
 import { createHash } from "node:crypto";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { countedChoice, countedResidents } from "./electorate";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { describe, expect, it } from "vitest";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
@@ -15,6 +20,7 @@ import { coreAPI } from "./state";
 import { setKeepEveryonesWhy } from "./why-kept";
 import { openOffices } from "./modules/offices";
 import {
+  ballot,
   fileCandidacy,
   openContests,
   openElections,
@@ -27,6 +33,7 @@ import {
   knockDoors,
   openCampaigns,
   pledgeOf,
+  pledgesOf,
   type PledgeRow,
 } from "./modules/campaigns";
 import { openLaws } from "./modules/laws";
@@ -34,6 +41,7 @@ import { openParties } from "./modules/parties";
 import {
   VOTING_MODULE_ID,
   countedBallotsOf,
+  holdElection,
   openVoting,
   pledgeDoubt,
   resultOf,
@@ -202,13 +210,21 @@ describe("a door yes is near-binding", () => {
         .table("ballots")
         .query("byContest", [contest.id]) as unknown as BallotRow[];
       const weight = campaignParameter("doorPledgeWeight");
+      const onBallot = new Set(ballot(api, contest.id).map((f) => f.personId));
+      // Only a candidate still on the ballot holds anyone to a door "yes".
+      if (!onBallot.has(mine.personId)) return;
       let held = 0;
       for (const cause of pledged) {
         const b = ballots.find((x) => x.voterId === cause.voterId);
         if (!b?.voted || b.voterId === tested.id) continue;
+        // A candidate in the race backs themselves; a voter who also told
+        // another candidate yes weighs both words.
         if (
-          pledgeOf(api, b.voterId, theirs.personId, contest.id) ||
-          filed.some((f) => f.personId === b.voterId)
+          pledgesOf(api, b.voterId).some(
+            (p) =>
+              p.contestId === contest.id && p.candidateId !== mine.personId,
+          ) ||
+          onBallot.has(b.voterId)
         )
           continue;
         // The ballot carries their word, as far as it still holds.
@@ -217,9 +233,10 @@ describe("a door yes is near-binding", () => {
         expect(part).toBeLessThanOrEqual(weight);
         // Held in full, it decides the vote for the candidate.
         if (part === weight) {
-          expect(b.choice, `${place}: ${b.id} broke a held pledge`).toBe(
-            mine.personId,
-          );
+          expect(
+            b.choice,
+            `${place}: ${b.id} broke a held pledge ${JSON.stringify(b.appeal)}`,
+          ).toBe(mine.personId);
           held += 1;
         }
       }
@@ -258,4 +275,143 @@ describe("a door yes is near-binding", () => {
       setKeepEveryonesWhy(previousWhy);
     }
   }, 300_000);
+});
+
+describe("a door yes holds for the one household the door reached", () => {
+  it("in a town whose counted records each stand for several households, the pledged household votes on its word and the rest as they would have", () => {
+    // A played-world town whose counted records each stand for several real
+    // households (the opening's count scale, as a town opened at its Census
+    // size above its generated sample has): draws go on until a door reaches
+    // a counted record that votes in the race.
+    for (let draw = 0; draw < 8; draw += 1) {
+      const place = drawPlace(`${seed}:${draw}`, "door-pledge-weighted");
+      const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
+      setBookkeeping(false);
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+        countScale: 3,
+      });
+      const weighted = new Set(
+        countedResidents(core)
+          .filter((v) => v.weight > 1)
+          .map((v) => v.id),
+      );
+      if (!weighted.size) continue;
+      const api = coreAPI(core);
+      const adults = [...core.people.values()]
+        .filter(
+          (p) =>
+            p.alive &&
+            Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >=
+              35,
+        )
+        .sort((a, b) => a.id.localeCompare(b.id));
+      let filed: FilingRow[] = [];
+      let contestId = "";
+      let electionDate = "";
+      for (const contest of openContests(api)) {
+        filed = [];
+        for (const [n, person] of adults.slice(0, 2).entries()) {
+          const result = fileCandidacy(api, {
+            personId: person.id,
+            contestId: contest.id,
+            platform: [`${PLATFORM_QUESTIONS[0]}=${n ? -1 : 1}`],
+          });
+          if (result.status === "refused") break;
+          filed.push(result.filing);
+        }
+        if (filed.length === 2) {
+          contestId = contest.id;
+          electionDate = contest.electionDate;
+          break;
+        }
+      }
+      if (!contestId) continue;
+      // A door that carries a petition asks for a signature, not the vote:
+      // the candidates gather their signatures at the doors, then knock for
+      // votes once the petitions are in.
+      for (const f of filed)
+        for (
+          let evening = 0;
+          evening < 30 &&
+          petitionCirculating(api, f.id) &&
+          petitionOf(api, f.id)!.signers.length < petitionOf(api, f.id)!.needed;
+          evening++
+        )
+          knockDoors(api, {
+            filingId: f.id,
+            canvasserId: f.personId,
+            hours: 4,
+            fillCounted: false,
+          });
+      const dues = filed
+        .filter((f) => petitionCirculating(api, f.id))
+        .map((f) => petitionOf(api, f.id)!.due)
+        .sort();
+      if (dues.length) advanceCore(core, addDays(makeIsoDate(dues.at(-1)!), 1));
+      const onBallot = new Set(ballot(api, contestId).map((f) => f.personId));
+      if (
+        filed.some((f) => petitionCirculating(api, f.id)) ||
+        core.date >= electionDate ||
+        !onBallot.has(filed[0]!.personId)
+      )
+        continue;
+      const mine = filed[0]!;
+      // A volunteer-style evening (counted openers stay counted) until a
+      // weighted record says yes.
+      let pledged: PledgeRow | undefined;
+      for (let evening = 0; evening < 20 && !pledged; evening++) {
+        knockDoors(api, {
+          filingId: mine.id,
+          canvasserId: mine.personId,
+          hours: 4,
+          fillCounted: false,
+        });
+        pledged = (
+          api
+            .moduleState(CAMPAIGNS_MODULE_ID)
+            .table("pledges")
+            .query("byCandidate", [mine.personId]) as unknown as PledgeRow[]
+        ).find((p) => p.causeId === null && weighted.has(p.voterId));
+      }
+      if (!pledged) continue;
+      holdElection(api, contestId);
+      const kept = api
+        .moduleState(VOTING_MODULE_ID)
+        .table("countedBallots")
+        .get(`counted:${contestId}`) as unknown as {
+        readonly field: readonly { readonly id: string }[];
+        readonly voterIds: readonly string[];
+        readonly weight: readonly number[];
+        readonly choice: readonly number[];
+        readonly pledgedChoice?: readonly number[];
+      };
+      const at = kept.voterIds.indexOf(pledged.voterId);
+      // Not in the race's electorate (a ward seat elsewhere in town): redraw.
+      if (at < 0) continue;
+      expect(kept.weight[at], `${where}: weight`).toBeGreaterThan(1);
+      // The pledged household voted for the candidate on its word.
+      const mineAt = kept.field.findIndex((f) => f.id === mine.personId);
+      expect(mineAt, `${where}: on the counted ballot`).toBeGreaterThanOrEqual(
+        0,
+      );
+      expect(kept.pledgedChoice?.[at], `${where}: pledged household`).toBe(
+        mineAt,
+      );
+      // The record's own kept choice is the rest's: the top of its appeal
+      // without the pledge.
+      const recordBallot = countedBallotsOf(api, contestId)[at]!;
+      expect(recordBallot.appeal[mine.personId]?.pledge ?? 0).toBe(0);
+      const rest = countedChoice(recordBallot.appeal);
+      expect(
+        kept.choice[at],
+        `${where}: the rest of ${kept.weight[at]} households`,
+      ).toBe(rest === null ? -1 : kept.field.findIndex((f) => f.id === rest));
+      return;
+    }
+    throw new Error(
+      `seed ${seed}: no drawn town had a weighted counted record that a door reached and that votes in the race`,
+    );
+  }, 900_000);
 });

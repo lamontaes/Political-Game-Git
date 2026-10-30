@@ -8541,6 +8541,162 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.office-line-took-office.law-died-in-committee",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{law} died in committee.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-failed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.my-bill-law-failed-in-committee",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "My bill, {law}, failed in committee.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-failed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.law-failed-when-it-came-to-a-vote",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{law} failed when it came to a vote.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-failed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.the-vote-on-law-went-against-me",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "The vote on {law} went against me.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-failed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-vague-promise.i-told-other-i-d-look-at-it",
+      "move": "scene-line-vague-promise",
+      "kind": "spoken",
+      "text": "I told {other} I'd look at it.",
+      "uses": [
+        {
+          "move": "scene-line-vague-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "vague-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:vague-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-vague-promise.i-said-i-d-think-about-it-when-other-asked",
+      "move": "scene-line-vague-promise",
+      "kind": "spoken",
+      "text": "I said I'd think about it when {other} asked.",
+      "uses": [
+        {
+          "move": "scene-line-vague-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "vague-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:vague-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }
