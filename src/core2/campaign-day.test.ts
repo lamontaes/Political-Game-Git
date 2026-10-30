@@ -139,6 +139,7 @@ describe("a campaign day", () => {
       "forum",
       "interview",
       "raise-money",
+      "donor-meeting",
       "rest",
     ]);
     const by = (kind: string) => choices.find((c) => c.kind === kind)!;

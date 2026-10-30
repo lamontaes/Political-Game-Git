@@ -85,6 +85,8 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Your office" })
     .click();
+  // The drafts are on their own tab of Your office.
+  await page.locator('.office-tabs [data-office="draft"]').click();
   await page.locator(".draft-card select").waitFor();
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card.png` });
   const chosen = await page.evaluate(() => {
