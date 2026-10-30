@@ -1,5 +1,5 @@
 {
-  "about": "How a sitting plays in the conversation engine (src/director/sitting.ts): a candidate answers, one question at a time, what an asker puts as a line (owner, Oct 26-29: interviews are scenes). It holds no sentence text: every line is a piece of data/english/parts/conversation.json under the subjects named in a kind's row. A kind of sitting (an interview with a reporter; the debate next) is one row under `kinds`, with its source in code (src/director/interview-sitting.ts) that finds the sitting's record and publishes it.",
+  "about": "How a sitting plays in the conversation engine (src/director/sitting.ts): a candidate answers, one question at a time, what an asker puts as a line (owner, Oct 26-29: interviews are scenes). It holds no sentence text: every line is a piece of data/english/parts/conversation.json under the subjects named in a kind's row. A kind of sitting (an interview with a reporter, a debate with its moderator) is one row under `kinds`, with its source in code (src/director/interview-sitting.ts, src/director/debate-sitting.ts) that finds the sitting's record and publishes it.",
   "moves": ["plain", "further", "turn", "brief"],
   "lie": "lie",
   "declined": "declined",
@@ -22,8 +22,21 @@
       "subjects": {
         "open": "interview-open",
         "question": "interview-question",
+        "answers": "interview-question",
         "close": "interview-close",
         "takePrefix": "interview-take-"
+      }
+    },
+    "debate": {
+      "about": "A race's debate the candidate said yes to. The meetings engine puts `stagedBy` on the record and the director stages the `debate-sitting` situation type from it; `published` is the record the debate's holding writes. The moderator puts the questions; the player's answers are the same lines as in an interview (`answers` names the bank they come from: a stand, a vote, a rival are said the same on a stage), and the other candidates answer from their own positions when the debate is held.",
+      "stagedBy": "debate-accepted",
+      "published": "debate",
+      "subjects": {
+        "open": "debate-open",
+        "question": "debate-question",
+        "answers": "interview-question",
+        "close": "debate-close",
+        "takePrefix": "debate-take-"
       }
     }
   }

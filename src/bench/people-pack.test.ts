@@ -104,6 +104,38 @@ describe("the people pack", () => {
     ]);
   });
 
+  it("serves a plate's other lights only when they are the same room re-lit", () => {
+    // Night, morning, midday and rain are one painting re-lit, so the
+    // mannequins stand in the same places; a condition (lived-in, rundown)
+    // adds clutter on the seats and gets its own plate.
+    const manifest = JSON.parse(text("art/backdrops/manifest.json")) as {
+      backdrops: {
+        file: string;
+        place: string;
+        variant: string;
+        width: number;
+        height: number;
+      }[];
+    };
+    const row = (file: string) =>
+      manifest.backdrops.find((entry) => entry.file === file);
+    const lights = new Set(["night", "morning", "midday", "rain"]);
+    for (const plate of plates()) {
+      const painted = row(plate.backdrop)!;
+      for (const file of plate.backdrops ?? []) {
+        const other = row(file);
+        expect(other, `${plate.scene}: ${file}`).toBeTruthy();
+        expect(other!.place, file).toBe(painted.place);
+        expect(lights.has(other!.variant), file).toBe(true);
+        expect([other!.width, other!.height], file).toEqual([
+          painted.width,
+          painted.height,
+        ]);
+        expect(plateFor(file), file).toBe(plate);
+      }
+    }
+  });
+
   it("fits every plate to a backdrop the game has, with the retired Oval rooms gone", () => {
     const manifest = JSON.parse(text("art/backdrops/manifest.json")) as {
       backdrops: { file: string; place: string }[];
