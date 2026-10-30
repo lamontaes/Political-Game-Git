@@ -1,5 +1,5 @@
 import { coreAPI } from "../core2/state";
-import { AMOUNT_SERIES, lawHere } from "../core2/modules/laws";
+import { AMOUNT_SERIES, lawChain, lawHere } from "../core2/modules/laws";
 import { composeBill } from "../english/bill-sections";
 import { billTitleOf, spokenDesignation } from "../english/bill-names";
 import { screenLine } from "../english/screen-words";
@@ -7,6 +7,7 @@ import { budgetLineNames, policyNames } from "./words";
 import {
   billForm,
   bodyOf,
+  bodyRow,
   currentAmount,
   draftBill,
   floorDateOf,
@@ -18,7 +19,8 @@ import {
   type Provision,
 } from "../core2/modules/legislature";
 import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
-import type { TermRow } from "../core2/modules/offices";
+import { townSeats, type TermRow } from "../core2/modules/offices";
+import { appointmentsIn } from "../core2/modules/executive";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
 import { backdropFor, faceOf, stagePeople } from "./scene";
@@ -276,9 +278,13 @@ export function seatAct(
  * The body's lawyer's warning on a bill whose authority row the drafting
  * engine marked disputed (DECISION-REGISTER, "A law changes the record
  * first", Sept 22: the city attorney warns the player), in the English
- * engine's words: the lawyer by the title the body's own attorney or counsel
- * office row gives, else the body's lawyer named by the body as the bill's
- * enacting clause names it.
+ * engine's words. A bill before the town's own body (its office is one of the
+ * town's seats and its body row makes the place's law, the council the
+ * executive engine staffs departments for) names the lawyer by the title of
+ * the town's appointment whose post is its attorney or counsel (the City
+ * Attorney the executive engine seats at the opening); any other bill, or a
+ * town whose attorney post nobody was appointed to, names the body's lawyer
+ * by the body as the bill's enacting clause names it.
  */
 function disputedWarning(
   api: ReturnType<typeof coreAPI>,
@@ -287,23 +293,20 @@ function disputedWarning(
   const body = bodyOf(api, bill.bodyOfficeId);
   if (!body) return null;
   const name = body.bodyName ?? body.governmentName;
-  const lawyer = (
-    api.moduleState(OFFICES).table("offices").rows() as unknown as {
-      kind: string;
-      jurisdiction: string;
-      title: string;
-    }[]
-  ).find(
-    (office) =>
-      office.jurisdiction === body.jurisdiction &&
-      /-(attorney|counsel)$/.test(office.kind),
-  )?.title;
+  const townBody = townSeats(api).some(
+    (s) => s.office.id === body.id && bodyRow(s.office.kind)?.law === "place",
+  );
+  const lawyer = townBody
+    ? appointmentsIn(api, lawChain(api).townPlaceId).find((row) =>
+        /-(attorney|counsel)$/.test(row.post),
+      )?.title
+    : undefined;
   if (lawyer)
     return screenLine("bill-paper", "bill-paper.authority.disputed", {
       lawyer: lawyer.toLowerCase(),
       body: name,
     });
-  // stopgapId: SG-GOV-body-lawyer-unrecorded (no world seats a body's own attorney or counsel)
+  // stopgapId: SG-GOV-body-lawyer-unrecorded (a county board, a township board, a state chamber or a town with no attorney appointed has no lawyer on record)
   api.stopgap("SG-GOV-body-lawyer-unrecorded");
   return screenLine("bill-paper", "bill-paper.authority.disputed-body", {
     body: name,

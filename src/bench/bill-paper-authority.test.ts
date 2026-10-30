@@ -1,10 +1,18 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import powers from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
-import billPaperBank from "../../data/english/parts/bill-paper.json" with { type: "json" };
 import { drawPlace } from "../../scripts/core2-year/place";
+import { screenLine } from "../english/screen-words";
 import { gameStartDate } from "../core2/game-start";
-import { memberKey, members, type BillRow } from "../core2/modules/legislature";
+import { appointmentsIn } from "../core2/modules/executive";
+import { lawChain } from "../core2/modules/laws";
+import {
+  bodyRow,
+  memberKey,
+  members,
+  type BillRow,
+} from "../core2/modules/legislature";
+import { townSeats } from "../core2/modules/offices";
 import { policyAuthority } from "../core2/policy-authority";
 import { coreAPI } from "../core2/state";
 import { billPaper, seatAct, seatView } from "./legislature";
@@ -15,25 +23,20 @@ import { buildBenchWorld } from "./world";
 // first", Sept 22: "When a city proposes a measure whose authority is
 // disputed, the city attorney warns the player"). The warning counts only
 // where the paper reads the bill's own authority row, by bill id; a settled
-// power before the same body carries none. The bench world, a place drawn
-// from all 56 on a seed nobody chose; the disputed power comes from the draft
-// menu or the powers catalog, read against the place's law records.
+// power before the same body carries none. Before the town's council the
+// lawyer is the town's own attorney appointment (the City Attorney the
+// executive engine seats at the opening), by its title; before any other
+// body, or where no attorney is appointed, the body's lawyer by the body's
+// name, and SG-GOV-body-lawyer-unrecorded is marked. The bench world, a place
+// drawn from all 56 on a seed nobody chose; the disputed power comes from the
+// draft menu or the powers catalog, read against the place's law records.
 const seed =
   process.env.BILL_PAPER_SEED ??
   process.env.GOLDEN_PATH_SEED ??
   randomBytes(8).toString("hex");
 const place = drawPlace(seed, "bill-paper-authority");
 const LEGISLATURE = "core2-legislature-v1";
-
-/** Each bank line with its slots open, so a paper line is known to be the bank's. */
-const BANK_LINES = billPaperBank.parts.map(
-  (part) =>
-    new RegExp(
-      `^${part.text
-        .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
-        .replace(/\{\w+\}/g, ".+")}$`,
-    ),
-);
+const STOPGAP = "SG-GOV-body-lawyer-unrecorded";
 
 describe(`a bill on a disputed power (${place.name}, seed ${seed})`, () => {
   it("carries the lawyer's warning on its authority row and its paper; a settled power carries none", () => {
@@ -80,7 +83,9 @@ describe(`a bill on a disputed power (${place.name}, seed ${seed})`, () => {
       if (!body) continue;
       const [first] = members(api, body.id);
       if (!first) continue;
-      const level = body.kind === "county-board" ? "county" : "city";
+      // The body's level as the drafting engine reads it: its body row's.
+      const level = bodyRow(body.kind)?.level;
+      if (!level) continue;
       // The powers the draft menu offers this body first, then every power
       // the catalog maps to a question, each read against the place's law.
       const menu = seatView(world.core, memberKey(first))
@@ -141,14 +146,33 @@ describe(`a bill on a disputed power (${place.name}, seed ${seed})`, () => {
     expect(paper.sections[0]?.authority?.reason, drafted.id).toBe(
       row.authority[0]?.reason,
     );
-    // The warning is the English engine's line, naming the body as the
-    // bill's enacting clause does.
-    const warning = paper.authorityWarning ?? "";
-    expect(
-      BANK_LINES.some((line) => line.test(warning)),
-      `${drafted.id} warning "${warning}" is a bill-paper bank line`,
-    ).toBe(true);
-    expect(warning, drafted.id).toContain(body.bodyName ?? body.governmentName);
+    // The warning is the English engine's line: before the town's council,
+    // the town's own attorney appointment by its title; else the body's
+    // lawyer, the body named as the bill's enacting clause names it.
+    const name = body.bodyName ?? body.governmentName;
+    const townBody = townSeats(api).some(
+      (s) => s.office.id === body.id && bodyRow(s.office.kind)?.law === "place",
+    );
+    const attorney = townBody
+      ? appointmentsIn(api, lawChain(api).townPlaceId).find((a) =>
+          /-(attorney|counsel)$/.test(a.post),
+        )
+      : undefined;
+    const warning = paper.authorityWarning;
+    if (attorney)
+      expect(warning, `${drafted.id} ${attorney.id}`).toBe(
+        screenLine("bill-paper", "bill-paper.authority.disputed", {
+          lawyer: attorney.title.toLowerCase(),
+          body: name,
+        }),
+      );
+    else
+      expect(warning, drafted.id).toBe(
+        screenLine("bill-paper", "bill-paper.authority.disputed-body", {
+          body: name,
+        }),
+      );
+    expect(world.core.stopgapHits.has(STOPGAP), drafted.id).toBe(!attorney);
 
     // A settled power before the same body: no warning on the row or paper.
     const plain = seatAct(world.core, sponsor, {
@@ -167,7 +191,7 @@ describe(`a bill on a disputed power (${place.name}, seed ${seed})`, () => {
     expect(plainPaper.authorityWarning, plain.id).toBeNull();
 
     console.log(
-      `bill-paper authority: ${where}; body ${body.id}; disputed ${disputed} (${offered.has(disputed) ? "draft menu" : "powers catalog"}) -> ${drafted.id} (${row.status}, ${row.authority[0]?.reason}): "${warning}"; settled ${settled} (${offered.has(settled) ? "draft menu" : "powers catalog"}) -> ${plain.id} (${plainRow.status})`,
+      `bill-paper authority: ${where}; body ${body.id} (${townBody ? "the town's" : "not the town's"}); lawyer ${attorney ? `${attorney.id} "${attorney.title}" held by ${attorney.holderId}` : `none appointed (${STOPGAP})`}; disputed ${disputed} (${offered.has(disputed) ? "draft menu" : "powers catalog"}) -> ${drafted.id} (${row.status}, ${row.authority[0]?.reason}): "${warning}"; settled ${settled} (${offered.has(settled) ? "draft menu" : "powers catalog"}) -> ${plain.id} (${plainRow.status})`,
     );
   }, 900_000);
 });

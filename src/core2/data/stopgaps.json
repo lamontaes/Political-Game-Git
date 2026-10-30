@@ -7790,12 +7790,12 @@
     "id": "SG-GOV-body-lawyer-unrecorded",
     "kind": "missing-record",
     "file": "src/bench/legislature.ts",
-    "line": 306,
-    "whatItFakes": "A bill's paper words the lawyer's warning on a disputed power as the body's lawyer, named by the body (\"the Town Council's lawyer\"), because no world seats a town's, county's or legislature's own attorney or counsel as an office row to give the lawyer's title.",
-    "why": "The register rules that the city attorney warns the player on a disputed power (DECISION-REGISTER, \"A law changes the record first\", Sept 22); the offices engine seats no local attorney or counsel, and no title is typed in code.",
+    "line": 309,
+    "whatItFakes": "A bill's paper words the lawyer's warning on a disputed power as the body's lawyer, named by the body (bill-paper.authority.disputed-body), wherever no appointment gives the lawyer's title: a county board's bill (the executive engine seats only the town's departments at the opening, so the County Attorney post in executive-powers-2026.json is never filled), a township board's or a state chamber's bill, an unincorporated place, and a town whose City Attorney post is unfilled (the player's own post waiting for their choice, or nobody to appoint). A bill before the town's council names the town's own City Attorney appointment instead.",
+    "why": "The register rules that the city attorney warns the player on a disputed power (DECISION-REGISTER, \"A law changes the record first\", Sept 22); the executive engine appoints a City Attorney for the town's council (appointTownDepartments) but no attorney or counsel for a county board, a township board or a legislature, and no title is typed in code.",
     "addedBy": "governing builder (gov-m3-01-city-attorney-warning-on-the-bill)",
     "addedAt": "2026-10-30",
-    "replacement": "The offices engine seats each body's own attorney or counsel (city attorney, county attorney, town counsel, legislative counsel) from research on who advises each kind of body, and the paper names that office's title in bill-paper.authority.disputed.",
+    "replacement": "The executive engine seats each other body's own lawyer as an appointment the way it seats the town's City Attorney (the county attorney from the county forms in executive-powers-2026.json, township counsel and legislative counsel from research on who advises each kind of body), and the paper names that appointment's title in bill-paper.authority.disputed.",
     "status": "open"
   }
 ]
