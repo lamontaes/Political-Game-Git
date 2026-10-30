@@ -1111,3 +1111,6 @@ function gaveInYear(
     (row) => row.kind === kind && row.date.startsWith(year),
   );
 }
+
+// Entry face for the screens: the day a body meets.
+export { meetingRule } from "../office-day-calendar";

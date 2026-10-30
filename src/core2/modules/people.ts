@@ -605,3 +605,7 @@ export const PEOPLE_MODULE: PreStartModule = {
     "tie-fading": (api, actor, offer) => tiePull(api, actor, offer.targetId),
   },
 };
+
+// Entry face for the screens: the vote record's module id and row, and the opening's key people.
+export { RECORD_MODULE_ID, type VoteRecordRow } from "./record";
+export { keyPeopleOf } from "../opening-key-people";

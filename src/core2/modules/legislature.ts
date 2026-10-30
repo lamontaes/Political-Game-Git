@@ -5496,3 +5496,6 @@ export function votesOn(
 
 export type { PersonState };
 export { OFFICES_MODULE_ID };
+
+// Entry face for the screens: the day a bill reaches the floor.
+export { floorDateOf } from "./world-legislating";
