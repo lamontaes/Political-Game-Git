@@ -937,6 +937,12 @@
       "source": "How many of the people closest to a candidate are asked for an endorsement in one turn, each asked once, the closest first: a local candidate collects a handful of public endorsements over a campaign (Ballotpedia local candidate pages list a few to a dozen).",
       "spread": [1, 8]
     },
+    "petitionSignatureCushion": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "source": "How many signatures beyond the clerk's minimum a campaign gathers, as a share of the minimum, because the clerk strikes names not on the roll, duplicates and incomplete lines before counting. Thin margins fail: in a Yuma, Arizona council race a challenge alleged 60 of a candidate's 276 signatures invalid (about 22%; Yuma Sun, June 17, 2015, via PressReader), a Milwaukee filing about 4.5% over its minimum was challenged (Urban Milwaukee), and an Asbury Park, New Jersey council candidate was left off the ballot when the clerk invalidated 8 signatures (Asbury Park Sun); candidates are advised to gather well above the minimum (ballot-access guides). Half again the minimum covers a strike rate near the observed 20% to 30% with room; the spread runs from a careful campaign's 25% to doubling the minimum. Checked as a total: the share of played filings the clerk finds short.",
+      "spread": [0.25, 1]
+    },
     "petitionSignOpenness": {
       "value": 0.4,
       "tag": "TUNABLE",
