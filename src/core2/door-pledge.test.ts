@@ -227,10 +227,24 @@ describe("a door yes is near-binding", () => {
           onBallot.has(b.voterId)
         )
           continue;
-        // The ballot carries their word, as far as it still holds.
+        // The ballot carries their word, as far as it still holds: undone
+        // only by what heavy they learned since (pledgeDoubt).
         const part = b.appeal[mine.personId]?.pledge ?? 0;
-        expect(part, `${place}: ${b.id} lost the pledge`).toBeGreaterThan(0);
-        expect(part).toBeLessThanOrEqual(weight);
+        const voter = core.people.get(b.voterId)!;
+        const holds =
+          1 -
+          pledgeDoubt(
+            api,
+            voter,
+            b.lean ?? 0,
+            pledgeOf(api, b.voterId, mine.personId, contest.id)!,
+            ballot(api, contest.id).map((f) => ({ id: f.personId })),
+          );
+        expect(part, `${place}: ${b.id} pledge as held`).toBeCloseTo(
+          weight * holds,
+          6,
+        );
+        if (holds === 0) continue;
         // Held in full, it decides the vote for the candidate.
         if (part === weight) {
           expect(
