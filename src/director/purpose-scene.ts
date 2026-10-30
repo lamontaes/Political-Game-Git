@@ -10,7 +10,7 @@
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
-import { lawChain } from "../core2/modules/laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
 import {
   LEGISLATURE_MODULE_ID,
@@ -250,6 +250,21 @@ function composeBinding(
     if (name)
       facts.law = {
         text: name,
+        sourceRecordIds: [said.lawId, moment.causeId],
+      };
+    // Still in force today, by the laws engine's own answer: the lines that
+    // say the law took effect and is lived with need it (a street stop about
+    // a state law with no local bill number had none to say, Mount Horeb,
+    // Wisconsin, seed 16ca82ba-0487-44a2-96ee-c5231d4e0ab4).
+    const answer = core.modules.has(LAWS_MODULE_ID)
+      ? lawInForce(coreAPI(core as CoreState), said.series)
+      : undefined;
+    const kept = answer?.levels.find(
+      (level) => level.row?.id === said.lawId && !level.setAside,
+    );
+    if (kept)
+      facts["in-force"] = {
+        text: "yes",
         sourceRecordIds: [said.lawId, moment.causeId],
       };
   }

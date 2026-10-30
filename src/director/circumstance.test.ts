@@ -206,6 +206,13 @@ function playYear(
         );
       }
     }
+    // A resident who read that a law took effect has something to say about
+    // it: the law in force, by the laws engine (a stop with no line for a
+    // state law was skipped, Mount Horeb, Wisconsin, Oct 30).
+    if (row.id === "law-news-street")
+      expect(purpose?.kind, `${moment.id}: ${JSON.stringify(purpose)}`).toBe(
+        "composed",
+      );
     let replyId: string | undefined;
     if (purpose?.kind === "composed") {
       replyId =
