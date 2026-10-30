@@ -78,6 +78,12 @@
       "source": "How far one conversation at the door moves a voter toward what they make of the candidate. Checked against field experiments: face-to-face contact is the strongest campaign contact (Green and Gerber 2019).",
       "spread": [0.3, 0.7]
     },
+    "doorPledgeTurnoutWeight": {
+      "value": 0.7,
+      "tag": "ESTIMATED",
+      "source": "How much a voter's own \"yes\" at a campaign's door adds to their reason to vote, on the turnout scale (src/core2/turnout.ts readiness), on top of the stakes the pledge's appeal already adds: saying you will vote for someone is also saying you will vote. People who tell a caller they will vote mostly do: 13.3% (2008 general) to 54.2% (2009 New Jersey off-year) of them did not (Rogers and Aida, 'Why Bother Asking? The Limited Value of Self-Reported Vote Intention', Harvard Kennedy School, research.hks.harvard.edu/publications/getFile.aspx?Id=929); 61% to 73% of a poll's stated supporters were verified to have voted in the 2014 midterm (Pew Research Center, 'Polls and votes: the 2014 elections by the numbers', 2016); and signing an in-person pledge to vote raised turnout 3.7 points over a petition (Costa, Schaffner and Prevost 2018, PLoS ONE, pmc.ncbi.nlm.nih.gov/articles/PMC5973556). With the logistic scale 0.5, 0.7 here plus the pledge's stakes (about 0.58) lifts a voter at a 10% local-election propensity to about half, inside the 46% to 87% band that stated intent predicts; checked as a total, the turnout of a played race's pledgers against its other adults (src/core2/door-pledge.test.ts), never one voter's draw.",
+      "spread": [0.3, 1.2]
+    },
     "playerDoorFillIns": {
       "value": 2,
       "tag": "TUNABLE",
@@ -1523,12 +1529,6 @@
       "tag": "TUNABLE",
       "source": "The window of recent cases an official weighs when deciding whether to take on an aide: the office's demand over the last season.",
       "spread": [30, 180]
-    },
-    "causesKeptPerCandidate": {
-      "value": 3,
-      "tag": "TUNABLE",
-      "source": "How many of a closed race's contacts a person in the player's circle keeps as rows per candidate, the latest ones, when the rest fold into a summary (owner, Oct 29: old records fold into summaries; Keep it simple: the circle's why is saved). Enough to answer why someone feels as they do about a candidate with their most recent reasons; the summary keeps every sum the race standing reads.",
-      "spread": [1, 10]
     }
   }
 }

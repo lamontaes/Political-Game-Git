@@ -3108,10 +3108,12 @@ export function reviewCountedEntry(api: CoreAPI): void {
     let days: number | undefined;
     for (const m of counted.countedMembers(h)) {
       const personId = counted.ids[m]!;
-      if (working.has(personId) || inCustody(api, personId)) continue;
+      if (working.has(personId)) continue;
       const age =
         daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
       if (age < young || age >= old) continue;
+      // The custody query after the age test, so children and retirees skip it.
+      if (inCustody(api, personId)) continue;
       const placeId = counted.strings[counted.placeIx[m]!]!;
       // The household's money against its costs, as a full person's household reads.
       if (days === undefined) {

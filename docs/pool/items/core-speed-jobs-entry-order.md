@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: speed/cut-jobs-entry
 pr: #6928
 blocked-on:
