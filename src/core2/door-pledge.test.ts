@@ -351,7 +351,22 @@ describe("a door yes holds for the one household the door reached", () => {
       }
       if (!contestId) continue;
       // A door that carries a petition asks for a signature, not the vote:
-      // knock once the petitions are in.
+      // the candidates gather their signatures at the doors, then knock for
+      // votes once the petitions are in.
+      for (const f of filed)
+        for (
+          let evening = 0;
+          evening < 30 &&
+          petitionCirculating(api, f.id) &&
+          petitionOf(api, f.id)!.signers.length < petitionOf(api, f.id)!.needed;
+          evening++
+        )
+          knockDoors(api, {
+            filingId: f.id,
+            canvasserId: f.personId,
+            hours: 4,
+            fillCounted: false,
+          });
       const dues = filed
         .filter((f) => petitionCirculating(api, f.id))
         .map((f) => petitionOf(api, f.id)!.due)
@@ -408,9 +423,9 @@ describe("a door yes holds for the one household the door reached", () => {
       );
       // The record's own kept choice is the rest's: the top of its appeal
       // without the pledge.
-      const ballot = countedBallotsOf(api, contestId)[at]!;
-      expect(ballot.appeal[mine.personId]?.pledge ?? 0).toBe(0);
-      const rest = countedChoice(ballot.appeal);
+      const recordBallot = countedBallotsOf(api, contestId)[at]!;
+      expect(recordBallot.appeal[mine.personId]?.pledge ?? 0).toBe(0);
+      const rest = countedChoice(recordBallot.appeal);
       expect(
         kept.choice[at],
         `${where}: the rest of ${kept.weight[at]} households`,
