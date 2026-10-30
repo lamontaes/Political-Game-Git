@@ -23,7 +23,8 @@
  *   775.082(3)(d), ORS 161.605(2)); such a place cannot show a prison term
  *   and is passed over with its statute, after its build and before its run.
  * - A conviction vacates the parent's seats (convictionForfeitsOffice), and
- *   the office day then ends a full-time seat's payroll job (reviewOfficeJobs)
+ *   the seat's payroll job then ends with its term (a town seat's in
+ *   reviewOfficeJobs, an official's salaried post in official pay's review)
  *   whether or not the parent is imprisoned. A term whose ended jobs include
  *   such a job cannot show the prison term's own reach, so it is passed over
  *   with the seat named.
@@ -54,6 +55,8 @@ import {
 } from "./modules/justice";
 import { lawChain } from "./modules/laws";
 import { OFFICE_DAY_MODULE_ID, type OfficeJobRow } from "./modules/office-day";
+import { OFFICIAL_PAY_MODULE_ID } from "./modules/official-pay";
+import { OFFICIALS_MODULE_ID, type OfficialRow } from "./modules/officials";
 import { linkCoverage, WEB_LINKS, WIRED_INTO } from "./outcome-web-model";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
@@ -131,6 +134,69 @@ const incomeRecords = (core: CoreState, home: string) => {
       records.set(c.id, (c.amountMinor * MONTHS_PER_YEAR) / c.periodMonths);
   return records;
 };
+
+/**
+ * The jobs the term ended that are the payroll job of a seat the conviction
+ * vacated: a town seat's full-time job (the office day's officeJobs, ended in
+ * reviewOfficeJobs) or an official's salaried post (official pay's pay row,
+ * ended in its review). Either ends with the seat's term, prison or not.
+ */
+function vacatedSeatJobs(core: CoreState, sentence: SentenceRow) {
+  const api = coreAPI(core);
+  const found: {
+    jobId: string;
+    seatId: string;
+    title: string;
+    endedBy: string;
+  }[] = [];
+  const ends = (jobId: string | null, seatId: string) =>
+    jobId !== null &&
+    sentence.seatsVacated.includes(seatId) &&
+    sentence.jobsEnded.includes(jobId);
+  if (core.modules.has(OFFICE_DAY_MODULE_ID))
+    for (const raw of api
+      .moduleState(OFFICE_DAY_MODULE_ID)
+      .table("officeJobs")
+      .rows()) {
+      const row = raw as unknown as OfficeJobRow;
+      if (ends(row.jobId, row.seatId))
+        found.push({
+          jobId: row.jobId!,
+          seatId: row.seatId,
+          title: row.title,
+          endedBy: "reviewOfficeJobs",
+        });
+    }
+  if (
+    core.modules.has(OFFICIAL_PAY_MODULE_ID) &&
+    core.modules.has(OFFICIALS_MODULE_ID)
+  ) {
+    // Official pay keys its row by the official, who is the person.
+    const pay = api
+      .moduleState(OFFICIAL_PAY_MODULE_ID)
+      .table("pay")
+      .get(sentence.personId) as unknown as { jobId: string } | undefined;
+    const official = api
+      .moduleState(OFFICIALS_MODULE_ID)
+      .table("officials")
+      .get(sentence.personId) as unknown as OfficialRow | undefined;
+    // Only the salaried post it started ends with the office; a part-time
+    // official's own job does not.
+    if (
+      pay &&
+      official &&
+      core.jobs.get(pay.jobId)?.id.startsWith("job:office:") &&
+      ends(pay.jobId, official.seatId)
+    )
+      found.push({
+        jobId: pay.jobId,
+        seatId: official.seatId,
+        title: official.officeKind,
+        endedBy: "official pay's review",
+      });
+  }
+  return found;
+}
 
 /** A parent the court imprisoned in the charged world, as that world left them. */
 interface Term {
@@ -257,25 +323,13 @@ function chargedWorld(
       );
       continue;
     }
-    // A seat the conviction vacated ends its payroll job in the office day
-    // (convictionForfeitsOffice, then reviewOfficeJobs), prison term or not,
-    // so such a term cannot show what the prison term alone ends.
-    const seatJobs = core.modules.has(OFFICE_DAY_MODULE_ID)
-      ? api
-          .moduleState(OFFICE_DAY_MODULE_ID)
-          .table("officeJobs")
-          .rows()
-          .map((raw) => raw as unknown as OfficeJobRow)
-          .filter(
-            (row) =>
-              row.jobId !== null &&
-              sentence.seatsVacated.includes(row.seatId) &&
-              sentence.jobsEnded.includes(row.jobId),
-          )
-      : [];
+    // A seat the conviction vacated (convictionForfeitsOffice) ends its
+    // payroll job when the seat's term ends, prison term or not, so such a
+    // term cannot show what the prison term alone ends.
+    const seatJobs = vacatedSeatJobs(core, sentence);
     if (seatJobs.length) {
       skipped.push(
-        `${c.defendantId}'s ${seatJobs.map((row) => `${row.jobId} (the payroll job of ${row.seatId}, ${row.title})`).join(", ")} ended with the seat the conviction vacated (${sentence.id}), prison term or not`,
+        `${c.defendantId}'s ${seatJobs.map((row) => `${row.jobId} (the payroll job of ${row.seatId}, ${row.title}, ended by ${row.endedBy})`).join(", ")} ended with the seat the conviction vacated (${sentence.id}), prison term or not`,
       );
       continue;
     }
