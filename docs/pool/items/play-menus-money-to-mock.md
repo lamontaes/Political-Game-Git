@@ -6,12 +6,13 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: cto/menus-money
 pr:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("redesign all the menu screens... So they're not blocks of text anymore with random buttons")
+claimed-at: 2026-10-30T02:02:01.323Z
 ---
 
 **What.** The Money screen today is one plate holding the cash amount on an otherwise empty panel, with the months, spending, home, assets and debts as lines of label and amount. The owner asked for every menu to be redesigned like Government (Oct 29, 22:45), and the Oct 14 Money mock shows a big cash figure, six months of balances as columns, a ring of where the month went, and what you own and owe as cards. This item draws Money that way from the bank's, the ledger's and the housing engine's records, on framed plates, with nothing scrolling.
