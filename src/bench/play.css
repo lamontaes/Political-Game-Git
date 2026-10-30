@@ -1800,7 +1800,8 @@ body.dev .dev-ring {
   column-gap: 26px;
   padding: 26px 30px 28px;
 }
-.dossier #person-media {
+.dossier #person-media,
+.character-sheet #sheet-media {
   border: 1px solid rgba(156, 131, 80, 0.6);
   border-radius: 3px;
   background:
@@ -1815,7 +1816,8 @@ body.dev .dev-ring {
     inset 0 0 40px rgba(0, 0, 0, 0.55),
     0 3px 8px rgba(0, 0, 0, 0.35);
 }
-.dossier #person-media::after {
+.dossier #person-media::after,
+.character-sheet #sheet-media::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -1831,7 +1833,8 @@ body.dev .dev-ring {
   background-repeat: no-repeat;
   background-size: 13px 13px;
 }
-.dossier #person-media .screen-portrait {
+.dossier #person-media .screen-portrait,
+.character-sheet #sheet-media .screen-portrait {
   inset: 14px 0 0;
   height: calc(100% - 14px);
 }
@@ -2366,8 +2369,18 @@ body.dev .dev-ring {
   gap: 24px;
 }
 .record-views h4 {
-  margin: 8px 0;
+  margin: 0 0 4px;
+  font: 600 10.5px var(--ui);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--gold);
+}
+.view-plate .narrative {
+  margin: 0;
+  font: 400 15.5px/1.4 var(--speech);
+}
+.record-views {
+  gap: 10px;
 }
 .record-value {
   overflow-wrap: anywhere;
@@ -4386,4 +4399,23 @@ details.entry[open] {
 }
 .donut-swatch.c7 {
   background: #6f6c66;
+}
+
+/* Jobs and study (the Oct 14 mock on framed plates): the workplace's painting
+   across the top of the job plate, the title in the name type. */
+.job-picture {
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  object-fit: cover;
+  border: 1px solid rgba(156, 131, 80, 0.6);
+  border-radius: 2px;
+  margin: 0 0 10px;
+}
+.job-plate .heading {
+  font: 800 clamp(20px, 2vw, 28px) / 1.15 var(--name);
+  margin: 0;
+}
+.job-plate .job-employer {
+  margin: 2px 0 10px;
+  color: var(--text-2);
 }
