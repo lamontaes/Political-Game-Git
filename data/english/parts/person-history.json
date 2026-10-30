@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "person-history",
-  "description": "A person's history on their card, one dated line per record the player would know of: born, school, a move, meeting a partner, a child born, a job started, a parent's death, an election won, and the player's own tie growing closer or apart (owner, Oct 28: View person shows the person's history). Said of them without pronouns, so one line fits everyone; the card's name says who.",
+  "description": "A person's history on their card, one dated line per record the player would know of: born, school, a move, meeting a partner, a child born, a job started, a parent's death, an election won, and the player's own tie growing closer or apart (owner, Oct 28: View person shows the person's history). Said of them without pronouns, so one line fits everyone; the card's name says who. Each line has a timeline twin (person-history.timeline.<key>) without the year, for the card's timeline, which shows the year beside it.",
   "slots": {
     "place": "A place's name from the place records.",
     "year": "The record's year.",
@@ -194,6 +194,186 @@
       "origin": "authored",
       "author": "Claude Sonnet (play-first lane, play-person-history-fill-in-writes-the-coarse-past)",
       "date": "2026-10-29",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.born.place",
+      "move": "born",
+      "text": "Born in {place}.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.born.year",
+      "move": "born",
+      "text": "Born.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.school.started",
+      "move": "school",
+      "text": "Started at {school}.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.moved.in",
+      "move": "moved",
+      "text": "Moved to the county.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.moved.away",
+      "move": "moved",
+      "text": "Moved away.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.partner.met",
+      "move": "partner",
+      "text": "Met {name} in {place}.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.partner.met-you",
+      "move": "partner",
+      "text": "Met you in {place}.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.child.born",
+      "move": "child",
+      "text": "{name} was born.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.child.you",
+      "move": "child",
+      "text": "You were born.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.work.started",
+      "move": "work",
+      "text": "Started as {title} at {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.loss.parent",
+      "move": "loss",
+      "text": "{relation}, {name}, died.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.office.elected",
+      "move": "office",
+      "text": "Elected {office}.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.tie.closer",
+      "move": "tie",
+      "text": "Grew closer to you.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.tie.apart",
+      "move": "tie",
+      "text": "Grew apart from you.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.work.spell",
+      "move": "work",
+      "text": "Started work at {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.office.appointed",
+      "move": "office",
+      "text": "Appointed {office}.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.office.entered",
+      "move": "office",
+      "text": "Took office as {office}.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.partner.home",
+      "move": "partner",
+      "text": "Set up home with {name}.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.partner.home-you",
+      "move": "partner",
+      "text": "Set up home with you.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.timeline.school.stage",
+      "move": "school",
+      "text": "Started {stage} school.",
+      "origin": "authored",
+      "author": "Claude (Words, scenes and the director)",
+      "date": "2026-10-30",
       "kind": "written"
     }
   ]
