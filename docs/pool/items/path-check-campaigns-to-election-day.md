@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/path-check-campaigns
-pr:
+pr: #6849
 blocked-on:
 source: governing lead, Oct 29 (baseline: the player got 0 votes)
 lead: governing
