@@ -93,10 +93,14 @@ describe("the player's first local race is the place's council or its equivalent
     const unexcused: string[] = [];
     let councilPlaces = 0;
     let drawn = 0;
-    for (const stateKey of placeStateKeys()) {
+    const stateKeys = [...placeStateKeys()];
+    expect(stateKeys).toHaveLength(56);
+    const drawnBy = new Map<string, number>();
+    for (const stateKey of stateKeys) {
       let stateKinds: readonly string[] | undefined;
       for (const locality of sample(stateKey)) {
         drawn += 1;
+        drawnBy.set(stateKey, (drawnBy.get(stateKey) ?? 0) + 1);
         const where = `${locality.displayName} (${locality.key})`;
         const kinds = localOfficesForPlace(locality.key).map((o) => o.kind);
         if (!kinds.length) {
@@ -124,14 +128,19 @@ describe("the player's first local race is the place's council or its equivalent
           const place = corePlaceByKey(locality.key);
           const territory =
             place?.context.jurisdiction.kind === "territory-place";
-          const reason =
-            placeLocalGovernmentUnits(place).countyReason ??
-            "no local office in the data";
+          const units = placeLocalGovernmentUnits(place);
+          const reason = units.countyReason ?? "no local office in the data";
+          // The stopgap covers only a home no government unit is found for;
+          // a home with a unit but no office is a defect, open stopgap or not.
+          const unitless =
+            !units.municipal.length &&
+            !units.townships.length &&
+            !units.counties.length;
           noLocalOffice.push(
             `${where}: ${territory ? "an island-area village" : NO_LOCAL_OFFICE}, ${reason}`,
           );
           // A non-territory home with no local office stands only while its stopgap is open.
-          if (!territory && !gapOpen) unexcused.push(where);
+          if (!territory && (!gapOpen || !unitless)) unexcused.push(where);
           continue;
         }
         const admitted = LOCAL_RACES.filter(
@@ -160,6 +169,11 @@ describe("the player's first local race is the place's council or its equivalent
       `${message}\na council town admits another body:`,
     ).toEqual([]);
     expect(councilPlaces, message).toBeGreaterThan(0);
+    // Every one of the 56 contributed a draw.
+    expect(
+      stateKeys.filter((k) => !drawnBy.get(k)),
+      message,
+    ).toEqual([]);
     expect(
       unexcused,
       `${message}\nnot a territory, ${NO_LOCAL_OFFICE} resolved:`,
