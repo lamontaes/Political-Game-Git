@@ -31,7 +31,10 @@ import {
 import { heldFederal, releaseFederal } from "./office-day-federal";
 import { drawPlace } from "../../scripts/core2-year/place";
 
-const seed = process.env.OFFICE_DESK_SEED || randomBytes(8).toString("hex");
+const seed =
+  process.env.OFFICE_DESK_SEED ||
+  process.env.GOLDEN_PATH_SEED ||
+  randomBytes(8).toString("hex");
 
 describe(`the governor's desk (seed ${seed})`, () => {
   it("signs or vetoes a passed bill by the legislature's own executive lean", () => {

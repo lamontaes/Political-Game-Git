@@ -120811,6 +120811,717 @@
         "move": "comfort",
         "key": "talk"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-pulls-a-chair-up-to-the-table",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} pulls a chair up to the table.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-a-notebook-open-before-you-sit-down",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has a notebook open before you sit down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.got-a-minute-first-it-s-about-your-race",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Got a minute, {first}? It's about your race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-ve-been-thinking-about-this-campaign-all-week",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}. I've been thinking about this campaign all week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.somebody-has-to-keep-the-calendar-the-calls-and-the-money-straight-let-me-run-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Somebody has to keep the calendar, the calls and the money straight. Let me run it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-can-t-be-the-candidate-and-the-manager-both-let-me-take-the-second-job",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You can't be the candidate and the manager both. Let me take the second job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-don-t-want-to-help-with-your-campaign-for-office-i-want-to-run-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I don't want to help with your campaign for {office}. I want to run it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-d-do-it-for-me-let-me-run-this-one-for-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You'd do it for me. Let me run this one for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-known-you-long-enough-to-tell-you-when-you-re-wrong-that-s-what-a-manager-does",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've known you long enough to tell you when you're wrong. That's what a manager does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-running-it-mean-day-to-day",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would running it mean, day to day?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.do-you-really-have-the-time-for-this",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Do you really have the time for this?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-it-s-yours-to-run",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. It's yours to run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-d-rather-it-was-you-than-anyone",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'd rather it was you than anyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-rather-run-it-myself-for-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd rather run it myself for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-ask-that-much-of-you",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't ask that much of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-work-out-what-i-need-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me work out what I need first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-days-with-it",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few days with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.one-list-of-everyone-you-know-one-calendar-and-the-money-counted-every-week",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "One list of everyone you know, one calendar, and the money counted every week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.evenings-and-saturdays-i-keep-the-lists-you-shake-the-hands",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Evenings and Saturdays. I keep the lists, you shake the hands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-first-thing-every-name-you-know-goes-on-one-list",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. First thing, every name you know goes on one list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-we-start-tonight-where-do-you-keep-your-contacts",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then we start tonight. Where do you keep your contacts?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-ll-be-out-knocking-every-evening-somebody-has-to-mind-the-rest",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You'll be out knocking every evening. Somebody has to mind the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.somebody-will-tell-you-hard-things-before-this-is-over-better-me-than-a-stranger",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Somebody will tell you hard things before this is over. Better me than a stranger.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-the-offer-stays-open",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair. The offer stays open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.your-race-your-call-i-m-still-on-your-side",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Your race, your call. I'm still on your side.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-keep-it-straight-you-go-win-it",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll keep it straight. You go win it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.we-ll-start-with-the-list-tomorrow",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "We'll start with the list tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-you-ll-want-someone-before-long",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. You'll want someone before long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.can-we-talk-about-this-another-night",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Can we talk about this another night?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-tonight-ask-me-again-this-weekend",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not tonight. Ask me again this weekend.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
     }
   ]
 }

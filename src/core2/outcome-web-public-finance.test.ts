@@ -202,15 +202,21 @@ function play(place: ReturnType<typeof drawPlace>, requirement: boolean) {
       .filter((r) => r.id.startsWith("draw|"))
       .map((r) => [r.id.slice("draw|".length), r.months ?? []]),
   );
+  const facts = townFacts(api, lawChain(api).townPlaceId);
   // Who the requirement reaches on the last day: a head who aged out of it,
   // took work, or gained a child is no longer under it and may draw again.
   const reachedNow = new Set(
     selectResidents(
-      townFacts(api, lawChain(api).townPlaceId),
+      facts,
       groupBPolicy(ASSIST_WORK)!.people!,
       lawChain(api).stateKey,
     ).map((r) => r.id),
   );
+  // The households the benefit pays: it pays a household on its oldest member.
+  const householdOf = new Map(
+    facts.residents.map((r) => [r.id, r.householdId]),
+  );
+  const paidHouseholds = new Set([...drawing].map((id) => householdOf.get(id)));
   const web = (
     api
       .moduleState(OUTCOME_WEB_MODULE_ID)
@@ -229,6 +235,8 @@ function play(place: ReturnType<typeof drawPlace>, requirement: boolean) {
     api,
     drawing,
     reachedNow,
+    householdOf,
+    paidHouseholds,
     stopped,
     draws,
     web,
@@ -274,21 +282,29 @@ describe(`the SNAP work requirement is the benefit's, not the web's (seed ${seed
         // while the requirement still reaches them. One it no longer reaches
         // (Washington, DC: a newspaper owner stopped at 64 who turned 65, past
         // the requirement's age) draws again, by the law's own terms.
-        if (shifted.reachedNow.has(stop.recipientId)) {
-          expect(
-            shifted.drawing.has(stop.recipientId),
-            `${where}: ${stop.recipientId} is stopped, still reached and still paid`,
-          ).toBe(false);
-          held += 1;
-        }
+        if (!shifted.reachedNow.has(stop.recipientId)) continue;
+        expect(
+          shifted.drawing.has(stop.recipientId),
+          `${where}: ${stop.recipientId} is stopped, still reached and still paid`,
+        ).toBe(false);
+        // The benefit pays a household on its oldest member, so the one paid
+        // can change to a member the requirement does not reach, and the
+        // household draws in both worlds (Caliente, Nevada, seed
+        // 97de418c56d113d5: person_1f33b443275fd027, 57 and out of work, was
+        // stopped; from the April 1 review household_0898e50f43a0ccf9 was paid
+        // through person_1f33b343275fce74, who had turned 57 too and works 40
+        // hours a week). The law kept nothing from that household.
+        const household = shifted.householdOf.get(stop.recipientId);
+        if (!shifted.paidHouseholds.has(household)) held += 1;
       }
       // Every stopped head may have left the requirement by the last day
       // (Washington, DC, seed 38f268298f94fbde: the one head stopped took 22
-      // hours a week at an inn, past the requirement's 20). Then this place
-      // shows no head the law still holds, and the next draw is taken.
+      // hours a week at an inn, past the requirement's 20), or share a
+      // household still paid through another member. Then this place shows no
+      // household the law still holds, and the next draw is taken.
       if (held === 0) {
         tried.push(
-          `${where}: all ${shifted.stopped.length} stopped heads left the requirement's reach (work at its hours, age or a young child)`,
+          `${where}: none of ${shifted.stopped.length} stopped heads is still reached in a household the benefit no longer pays (work at its hours, age, a young child, or another member paid)`,
         );
         continue;
       }
