@@ -6,12 +6,13 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: cto/menus-people
 pr:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("none of that how close you are"; "redesign all the menu screens")
+claimed-at: 2026-10-30T03:05:16.654Z
 ---
 
 **What.** The People web marked almost everyone "Closer this year", said "Your five closest are the same as a year ago" when nothing changed, and put the date of the change beside a chosen person, all read from a ranking of the player's ties by closeness; a person's card history also said they "grew closer" or "apart" in a month. The owner ruled on Oct 29 that how someone feels about you is never a meter, scale or mark ("none of that how close you are"), and asked for every menu to be redesigned. This item removes the closeness marks, the line and the date, deletes the five-closest reader and the closer-or-apart history lines, and makes the People list face cards in a paged grid with the chosen one marked.
