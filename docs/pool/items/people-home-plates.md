@@ -21,4 +21,6 @@ claimed-at: 2026-10-29T23:38:09.293Z
 
 **Files.** art/people-rooms/mannequin-plates/, art/backdrops/manifest.json, src/bench/people-pack.test.ts
 
-**Notes.** TODO
+**Notes.**
+
+- 2026-10-29 (claude/people-home-plates, people session): measured the order. In 30 drawn places the opening home was house-suburban-living 17 (plated), suburban-house 11, house-new-england-colonial 2; the player is 18 and lives in the family house, so apartments rarely open the game. Paint in this order, one plate per room, which now serves all its lights (#6848, `backdrops`): suburban-house; large-house; house-gulf-coast-raised, house-new-england-colonial, house-southwest-adobe, house-northwest-craftsman; then condition pictures of plated rooms (house-suburban-living lived-in); then the apartment rooms, rowhouse, rural-farmhouse, mobile-home, trailer and small-apartment. The plates are painted by the art session (Firefly, `room-spots` skill); each lands as data with no code change.
