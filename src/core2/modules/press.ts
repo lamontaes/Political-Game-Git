@@ -2934,6 +2934,24 @@ function rivalsOf(api: CoreAPI, personId: string): readonly string[] {
   return [...out].sort();
 }
 
+/**
+ * The story a school measure row is, if the paper may print it: the
+ * graduation, or the spring tests, told once by their math row (reading is
+ * said with it). One student's result is theirs, not the town's: a year with
+ * a single senior or a single tested student is no story ("None of the 1
+ * seniors in Reserve graduated" would name one teenager).
+ */
+export function schoolResultKind(
+  row: SchoolMeasureRow,
+): "graduation" | "tests" | null {
+  if (row.students < 2) return null;
+  return row.measure === SCHOOL_MEASURE.graduation
+    ? "graduation"
+    : row.measure === SCHOOL_MEASURE.math
+      ? "tests"
+      : null;
+}
+
 /** Fresh items on the wire, oldest first. */
 /**
  * The school year's results reach the desk the week the school engine keeps
@@ -2953,13 +2971,7 @@ function schoolResults(api: CoreAPI): void {
     .table("measures")
     .query("byPlace", [town]) as unknown as readonly SchoolMeasureRow[]) {
     if (row.date < since || row.date > api.state.date) continue;
-    // The tests are told once, by their math row (reading is said with it).
-    const kind =
-      row.measure === SCHOOL_MEASURE.graduation
-        ? "graduation"
-        : row.measure === SCHOOL_MEASURE.math
-          ? "tests"
-          : null;
+    const kind = schoolResultKind(row);
     if (!kind) continue;
     const id = `${kind}:${row.startYear}`;
     if (table(api, "wire").get(id)) continue;
