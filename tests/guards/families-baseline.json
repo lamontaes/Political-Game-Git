@@ -15,7 +15,7 @@
     "src/bench/filing.ts": 3,
     "src/bench/government.ts": 5,
     "src/bench/handler.ts": 2,
-    "src/bench/legislature.ts": 2,
+    "src/bench/legislature.ts": 1,
     "src/bench/m0-check.ts": 3,
     "src/bench/m1-10-check.ts": 2,
     "src/bench/m1-11-check.ts": 2,
