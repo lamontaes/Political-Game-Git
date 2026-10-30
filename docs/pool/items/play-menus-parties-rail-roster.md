@@ -6,12 +6,13 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: cto/menus-parties
 pr:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("redesign all the menu screens... buttons sitting there but without a railing")
+claimed-at: 2026-10-30T02:31:35.112Z
 ---
 
 **What.** Politics → Parties drew the district map, then the parties to join as loose buttons that wrapped onto several lines, then each party's officeholders as rows in a grid of plates, one of them without a title. Joining a party sent the player back to Government, away from the membership it had just made, and two browser checks still looked for the old rows and for Join on the Government tab. This item puts the map and its key on a plate, the player's party (or the parties to join, in a tray) beside it, and each party's officeholders as face cards, one party at a time on the tab rail, paged; joining stays on Parties.
