@@ -11,6 +11,7 @@ import { gameStartDate } from "../core2/game-start";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
+import { lawChain } from "../core2/modules/laws";
 import { townSeats } from "../core2/modules/offices";
 import {
   fileCandidacy,
@@ -46,7 +47,15 @@ function openWorld(purpose: string) {
   const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
   const startYear = Number(core.date.slice(0, 4));
   const adults = [...core.people.values()]
-    .filter((p) => p.alive && startYear - Number(p.birthDate.slice(0, 4)) >= 35)
+    // Filing refuses a resident of another town (residency), so the candidates are the
+    // town's own people, not the richest adult anywhere (Valley City, Ohio, run seed
+    // c59844dd5a076c023b5303f9724ab57bc7aa1874de869e94ef9d8b70ba3faa72: 0 filed).
+    .filter(
+      (p) =>
+        p.alive &&
+        p.placeId === lawChain(api).townPlaceId &&
+        startYear - Number(p.birthDate.slice(0, 4)) >= 35,
+    )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
   return { core: core as CoreState, api, adults, where };
 }
@@ -154,11 +163,11 @@ function play(
   const view = campaignView(core, personId).campaigns.find(
     (c) => c.filing.id === filing.id,
   )!;
-  // The campaign day has no list of acts: the doors, an event, an interview and the calls, each named by a control.
+  // The campaign day has no list of acts: the doors, an event, a forum, an interview and the calls, each named by a control.
   expect(
     view.outings.map((c) => c.outing),
     where,
-  ).toEqual(["doors", "event", "interview", "calls"]);
+  ).toEqual(["doors", "event", "forum", "interview", "calls"]);
   expect("day" in view, `no Today list: ${where}`).toBe(false);
   for (const choice of view.outings)
     expect(
