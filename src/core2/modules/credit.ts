@@ -903,7 +903,7 @@ export function reportedMedicalMinor(
   p: (key: string) => number,
 ): number {
   const wait = p("creditMedicalReportDays");
-  return (row.placed ?? []).reduce(
+  return row.placed.reduce(
     (n, part) =>
       daysBetweenText(part.delinquentSince, date) >= wait ? n + part.minor : n,
     0,

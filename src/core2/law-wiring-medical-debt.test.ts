@@ -404,7 +404,12 @@ function careInsideLines(
   legs: { federal: number; total: number },
 ): string {
   const federal = governmentAt(api, "federal");
-  const state = governmentAt(api, "state")!;
+  const state = governmentAt(api, "state");
+  // With no state treasury, Medicaid's part is paid by no one (payMedicaidCare).
+  if (!state) {
+    expect(legs.total, `${where}: no state treasury`).toBe(0);
+    return "no state treasury, so no Medicaid care paid";
+  }
   const budgets = api.moduleState(BUDGETS_MODULE_ID);
   const months = budgets
     .table("treasuryMonths")

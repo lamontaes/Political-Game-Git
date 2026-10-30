@@ -44,9 +44,15 @@
  * left out of its factor. Medicaid's own part of a covered member's care (the
  * cost of the care less the member's share) is paid to the seller by the
  * state and federal treasuries, the federal share at the match in force
- * (law-reach payMedicaidCare). A household in another place the world keeps
- * (the places around the town), whose coverage the reach does not keep,
- * meets it through the place-level row on the share sent to collections.
+ * (law-reach payMedicaidCare), inside their budget lines. The coverage
+ * engine leaves the expansion's and the work requirement's place-level
+ * coverage links out of a town worker's employer plan (coverageTwinsOut). A
+ * member the expansion would cover but whose coverage the work requirement
+ * ends (its stretch on their person id) is billed at their own plan's share;
+ * what that adds over Medicaid's share is paid first, under ids that cite
+ * the requirement. A household in another place the world keeps (the places
+ * around the town), whose coverage the reach does not keep, meets the
+ * expansion through the place-level row on the share sent to collections.
  *
  * Only households in the places whose money the world keeps are billed
  * (billedPlaces); the care norm is theirs.

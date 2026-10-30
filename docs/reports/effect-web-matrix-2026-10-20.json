@@ -892,7 +892,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:520, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "pass",
@@ -1427,7 +1427,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:520, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -1571,7 +1571,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/medical-bills.ts:459, src/core2/medical-bills.ts:813",
+          "evidence": "outcome read by src/core2/medical-bills.ts:514, src/core2/medical-bills.ts:919",
           "why": "the web does not run it: it waits on health.coverage-pct; nothing in the core records its cause, health.coverage-pct"
         },
         "varied": {
@@ -1766,7 +1766,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/coverage.ts:227"
+          "evidence": "src/core2/modules/coverage.ts:234"
         },
         "varied": {
           "status": "partial",
@@ -3422,7 +3422,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:930"
+          "evidence": "src/core2/modules/counted-moves.ts:522, src/core2/modules/moves.ts:930"
         },
         "varied": {
           "status": "pass",
@@ -4336,7 +4336,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/modules/coverage.ts:227",
+          "evidence": "outcome read by src/core2/modules/coverage.ts:234",
           "why": "the web does not run it: it waits on law.marriage-equality; nothing in the core records its cause, law.marriage-equality"
         },
         "varied": {
@@ -5156,7 +5156,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/coverage.ts:227"
+          "evidence": "src/core2/modules/coverage.ts:234"
         },
         "varied": {
           "status": "fail",
@@ -5249,7 +5249,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/medical-bills.ts:459, src/core2/medical-bills.ts:813"
+          "evidence": "src/core2/medical-bills.ts:514, src/core2/medical-bills.ts:919"
         },
         "varied": {
           "status": "fail",
@@ -6389,7 +6389,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/coverage.ts:227"
+          "evidence": "src/core2/modules/coverage.ts:234"
         },
         "varied": {
           "status": "pass",
@@ -7373,7 +7373,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger health.uninsured-pct, which src/core2/modules/coverage.ts:227 reads into its own records"
+          "evidence": "web ledger health.uninsured-pct, which src/core2/modules/coverage.ts:234 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -9747,7 +9747,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:520, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9794,7 +9794,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:520, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9841,7 +9841,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:520, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9888,7 +9888,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:520, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9935,7 +9935,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:520, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -12372,7 +12372,7 @@
     {
       "measure": "finance.medical-debt-in-collections",
       "status": "engine-reads-web",
-      "evidence": "src/core2/medical-bills.ts:459, src/core2/medical-bills.ts:813",
+      "evidence": "src/core2/medical-bills.ts:514, src/core2/medical-bills.ts:919",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12648,7 +12648,7 @@
     {
       "measure": "health.uninsured-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/coverage.ts:227",
+      "evidence": "src/core2/modules/coverage.ts:234",
       "countedTwice": false,
       "asCause": ["uninsured-to-graduation"],
       "asOutcome": [
@@ -12868,7 +12868,7 @@
     {
       "measure": "housing.renter-moves",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:930",
+      "evidence": "src/core2/modules/counted-moves.ts:522, src/core2/modules/moves.ts:930",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["rent-control-to-tenant-stays"]
@@ -13256,7 +13256,7 @@
     {
       "measure": "population.out-migration",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925",
+      "evidence": "src/core2/modules/counted-moves.ts:520, src/core2/modules/moves.ts:925",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
