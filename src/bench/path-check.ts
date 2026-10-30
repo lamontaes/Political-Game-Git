@@ -44,10 +44,13 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
+  ballot,
+  incumbentOf,
   petitionCirculating,
   petitionOf,
   type ContestRow,
 } from "../core2/modules/elections";
+import { decisionOf } from "../core2/modules/candidacy";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "path-check";
 
@@ -58,6 +61,68 @@ function isCouncil(officeId: string): boolean {
     .table("offices")
     .get(officeId) as { kind?: string } | undefined;
   return (office?.kind ?? "").startsWith("council");
+}
+
+/** A race the player may enter: governmentView's contests, which come through playerContests. */
+type Enterable = ReturnType<typeof governmentView>["contests"][number];
+
+/**
+ * Whether a race's seat is open, as the player could know it on the day they
+ * file: no holder, a holder whose stand-again decision on record says they
+ * will not run, or a holder with no filing in the race by its filing
+ * deadline. A holder who has neither decided on record nor filed holds it.
+ */
+function seatOpen(contest: ContestRow): { open: boolean; why: string } {
+  const api = coreAPI(w.core);
+  const today = w.core.date;
+  const term = incumbentOf(api, contest.id);
+  if (!term) return { open: true, why: "holder none" };
+  const holderId = term.personId;
+  const holder = `holder ${holderId ?? `term ${term.id}`}`;
+  const recorded = holderId ? decisionOf(api, contest.id, holderId) : null;
+  const decision = recorded && recorded.date <= today ? recorded : null;
+  if (decision && !decision.run)
+    return { open: true, why: `${holder}, decision ${decision.id} run false` };
+  const filed = holderId
+    ? ballot(api, contest.id).find(
+        (row) => row.personId === holderId && row.filedOn <= today,
+      )
+    : undefined;
+  if (filed)
+    return {
+      open: false,
+      why: `${holder}, filing ${filed.id}${decision ? `, decision ${decision.id} run true` : ""}`,
+    };
+  if (contest.filingDeadline < today)
+    return {
+      open: true,
+      why: `${holder}, no filing by ${contest.filingDeadline}`,
+    };
+  return {
+    open: false,
+    why: `${holder}, ${decision ? `decision ${decision.id} run true` : "no decision on record"}, no filing yet`,
+  };
+}
+
+/**
+ * The race the player enters, of those whose checks they meet: a council
+ * race whose seat is open first (a first-time candidate who means to win runs
+ * where no incumbent stands), then the first council race, then the first.
+ */
+function chooseRace(open: readonly Enterable[]): {
+  race: Enterable | undefined;
+  why: string;
+} {
+  const council = open
+    .filter((c) => isCouncil(c.contest.officeId))
+    .map((c) => ({ c, seat: seatOpen(c.contest) }));
+  const openSeats = council.filter((row) => row.seat.open);
+  const chosen = openSeats[0] ?? council[0];
+  const race = chosen?.c ?? open[0];
+  const why = !race
+    ? ""
+    : `chose ${race.contest.title} (${race.contest.id}): ${chosen ? `${chosen.seat.open ? "open seat" : "no open seat, first council race"}, ${chosen.seat.why}` : "no council race, first race"}; ${openSeats.length} of ${council.length} council races open`;
+  return { race, why };
 }
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
 const started = performance.now();
@@ -137,15 +202,18 @@ const stillMe = () => lives.add(player.personId ?? me);
 /** Steps 3 to 5 once: file for a contest the player can enter, campaign, live to the election and read it. */
 function stand(): { held: boolean; takesOffice: string | null } {
   // Step 3: walk into the office that takes filings for a contest you can
-  // enter, a council seat first where the place has one (the golden path is
-  // a council race; owner, Oct 29: the player runs for six offices).
+  // enter, a council seat first where the place has one, an open seat first
+  // of those (the golden path is a council race; owner, Oct 29: the player
+  // runs for six offices).
   const gov = governmentView(w.core, me);
   const open = gov.contests.filter((c) => c.checks.every((k) => k.met));
-  const enterable = open.find((c) => isCouncil(c.contest.officeId)) ?? open[0];
+  const choice = chooseRace(open);
+  const enterable = choice.race;
   if (!enterable) {
     log.push("no contest the player can enter");
     return { held: false, takesOffice: null };
   }
+  log.push(choice.why);
   let visit = openBenchFilingVisit(
     w.core,
     me,
@@ -290,7 +358,7 @@ for (let race = 0; race < 3 && !won; race++) {
     const open = governmentView(w.core, me).contests.filter((c) =>
       c.checks.every((k) => k.met),
     );
-    const next = open.find((c) => isCouncil(c.contest.officeId)) ?? open[0];
+    const next = chooseRace(open).race;
     if (!next) break;
     log.push(`lost; trying ${next.contest.title}`);
   }
