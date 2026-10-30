@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-chooser
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T08:01:37.418Z
 ---
 
 **What.** When a counted resident decides something (the monthly job review asks every counted adult without a job to wait or look), chooseAct in src/core2/choice.ts scores the offers and then decisionFromScores builds the same temporary person again with decisionActor, only to read its id. A Grand Haven, Michigan profile (seed spd-d, a 223 s profiled year) put decisionActor at 5.9 s and initialPersonState at 4.7 s under the jobs review alone. scoreOffers, initialPersonState and restingStress also create a parameter-reading closure on every call, which tsx names at run time.
