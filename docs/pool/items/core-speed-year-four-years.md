@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/long-run
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T03:30:09.563Z
 ---
 
 **What.** npm run speed:year times one year from the opening, 2025, which holds no federal or most state elections. One Ringgold, Louisiana save (seed long-1) runs 2025 in 52 s and 2028, a presidential year, in 155 s, over the 120-second bar, because of election work (campaigns, the press, causes, voting). The CTO ruled on Oct 30 at 03:18 that the default becomes four years so every check holds an election year, that the bar applies to each year, and that receipts print each year. A long save also needs each year's memory and records kept, to show whether it grows (Oct 30 01:55 bar, part 2).
