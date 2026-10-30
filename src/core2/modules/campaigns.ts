@@ -457,6 +457,7 @@ export const CAMPAIGNS_MODULE: CoreModule = {
   onDay: (api) => {
     offersToHelp(api);
     rivalWordPassedOn(api);
+    if (api.state.date.endsWith("-01-01")) foldQuietCauses(api);
   },
   // The candidate's answer to an offer, said in the scene it stages; a
   // count closes a race, and its causes fold.
@@ -4602,23 +4603,53 @@ export function causeSummaryOf(
 /**
  * When a race's count is in, its candidates' causes fold into one summary row
  * a voter (owner, Oct 29: "simulations... hundreds of years... still
- * speedy"; core-long-run-tables-grow-with-history). A voter and candidate
- * fold whole or not at all, so a summary's sum is the same sum, in the same
- * order, that `contestStanding` reads. The player's own causes and those of
- * the people the player deals with stay as rows (Keep it simple: their why is
- * saved); a folded cause that a voter's known fact names as its source moves
- * to `foldedCauses`, where the trace still finds it.
+ * speedy"; core-long-run-tables-grow-with-history).
  */
 export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
   if (!contestId || !api.state.modules.has(ELECTIONS_MODULE_ID)) return;
+  const filings = elections(api, "filings").query("byContest", [
+    contestId,
+  ]) as unknown as { personId: string }[];
+  foldCauses(api, new Set(filings.map((f) => f.personId)));
+}
+
+/**
+ * On January 1 every candidate in no race still to be counted has their
+ * causes folded too: an official's service to a resident (`touchImpression`)
+ * belongs to no race, and a race's count may have come before a cause did.
+ */
+export function foldQuietCauses(api: CoreAPI): void {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
+  const open = new Set<string>();
+  for (const contest of elections(api, "contests").rows() as unknown as {
+    id: string;
+    electionDate: string;
+  }[])
+    if (contest.electionDate >= api.state.date)
+      for (const filing of elections(api, "filings").query("byContest", [
+        contest.id,
+      ]) as unknown as { personId: string }[])
+        open.add(filing.personId);
+  const quiet = new Set<string>();
+  for (const row of table(api, "causes").rows() as unknown as CauseRow[])
+    if (!open.has(row.candidateId)) quiet.add(row.candidateId);
+  foldCauses(api, quiet);
+}
+
+/**
+ * Fold candidates' causes into one summary row a voter. A voter and
+ * candidate fold whole, so a summary's sum is the same sum, in the same
+ * order, that `contestStanding` reads. The player's own causes stay as rows.
+ * A folded cause that a voter's known fact names as its source moves to
+ * `foldedCauses`, where the trace still finds it; no other folded cause is
+ * read in play, so none other is kept (CTO, Oct 30, amending 03:05).
+ */
+function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
   const core = api.state as CoreState;
   const causes = table(api, "causes"),
     summaries = table(api, "causeSummaries"),
     folded = table(api, "foldedCauses");
-  const filings = elections(api, "filings").query("byContest", [
-    contestId,
-  ]) as unknown as { personId: string }[];
-  for (const candidateId of new Set(filings.map((f) => f.personId))) {
+  for (const candidateId of candidateIds) {
     if (candidateId === core.playerId) continue;
     const byVoter = new Map<string, CauseRow[]>();
     for (const row of causes.query("byCandidate", [
@@ -4629,7 +4660,6 @@ export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
       byVoter.set(row.voterId, rows);
     }
     for (const [voterId, rows] of byVoter) {
-      if (keepsWhy(core, voterId)) continue;
       const id = `${voterId}|${candidateId}`;
       const before = summaries.get(id) as unknown as
         CauseSummaryRow | undefined;
