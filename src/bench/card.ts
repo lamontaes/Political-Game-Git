@@ -420,7 +420,16 @@ function tellHistory(lines: readonly HistoryLine[]) {
       const school = line.key === "school.started";
       if (school && said.has(text.replace(/ in \d{4}\.$/, ""))) return [];
       if (school) said.add(text.replace(/ in \d{4}\.$/, ""));
-      return [{ date: line.date, text, recordId: line.recordId }];
+      // The kind of record (born, school, work, office...) picks the
+      // timeline's icon: the bank's move, the key's first part.
+      return [
+        {
+          date: line.date,
+          text,
+          kind: line.key.split(".")[0],
+          recordId: line.recordId,
+        },
+      ];
     });
 }
 
@@ -655,7 +664,7 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
 }
 
 /** The tie between two people, either way round, when they have one. */
-export function tieBetween(core: CoreState, viewerId: string, otherId: string) {
+function tieBetween(core: CoreState, viewerId: string, otherId: string) {
   return [...(core.relationshipsByPerson.get(viewerId) ?? [])]
     .map((id) => core.relationships.get(id))
     .find(
