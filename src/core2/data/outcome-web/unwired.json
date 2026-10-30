@@ -184,13 +184,13 @@
     {
       "link": "marriage-equality-to-marriages",
       "outcome": "family.same-sex-marriages",
-      "reason": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; nothing in the core records its cause, law.marriage-equality",
+      "reason": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; its cause, law.marriage-equality, is national law that no place differs on, so it cannot vary",
       "stopgapId": "SG-FAMILY-marriage-not-recorded"
     },
     {
       "link": "marriage-equality-to-coverage",
       "outcome": "health.uninsured-pct",
-      "reason": "the web does not run it: it waits on law.marriage-equality; nothing in the core records its cause, law.marriage-equality",
+      "reason": "the web does not run it: it waits on law.marriage-equality; its cause, law.marriage-equality, is national law that no place differs on, so it cannot vary",
       "stopgapId": "SG-EW-HEALTH-medical-debt-reader"
     },
     {

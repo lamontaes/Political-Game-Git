@@ -232,6 +232,9 @@ function researchBlocker(
       return "its research finds no effect (about zero), so an engine would multiply by one";
     case "cause-not-recorded":
       return `nothing in the core records its cause, ${link.from}`;
+    case "cause-cannot-vary":
+      // The CTO's grade (OWNER-DECISIONS.md, Oct 29): a national law no place differs on.
+      return `its cause, ${link.from}, is national law that no place differs on, so it cannot vary`;
     case "outcome-not-produced":
       return `no engine produces ${link.to}`;
     case "person-level":

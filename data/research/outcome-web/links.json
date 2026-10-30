@@ -2463,8 +2463,8 @@
     },
     {
       "key": "marriage-equality-to-marriages",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "cause-cannot-vary",
+      "unsupportedReason": "cause-cannot-vary",
       "to": "family.same-sex-marriages",
       "strength": "strong",
       "shape": {
@@ -2479,12 +2479,12 @@
       "source": "Carpenter, Eppink, Gonzales and McKay 2021 (JPAM); working paper, Effects of Access to Legal Same-Sex Marriage on Marriage and Health: Evidence from BRFSS, NBER Working Paper 24651, read at https://www.nber.org/system/files/working_papers/w24651/w24651.pdf",
       "from": "law.marriage-equality",
       "evidence": "researched",
-      "notes": "Left unread, for three missing pieces. The cause: marriage equality is not a law question the game holds (the starting-law set has no row for it, the bill catalog's marriage, divorce and custody topic is unsupported with no policy, and the cause key law.marriage-equality is not a law: key the web reads), and it has been national law since 2015, so no place differs on it. The record: the core keeps no marriage; couples exist as the opening drew them, and no engine decides in play who partners, marries or separates (stopgap SG-TRAITS-partnerships-no-engine). How marriage works is not yet decided (OWNER-DECISIONS.md, Marriage and children). The outcome: nothing counts same-sex marriages by place. A marriage engine would read the marriage law in force when two people decide to marry, and the count would come from those records (stopgap SG-FAMILY-marriage-not-recorded). marriage-equality-to-coverage waits on the same cause."
+      "notes": "Graded cause cannot vary (CTO ruling, OWNER-DECISIONS.md, Oct 29, 22:15 UTC): marriage equality is national law, so no place differs on it and the web has no cause to run. Left unread, for three missing pieces. The cause: marriage equality is not a law question the game holds (the starting-law set has no row for it, the bill catalog's marriage, divorce and custody topic is unsupported with no policy, and the cause key law.marriage-equality is not a law: key the web reads), and it has been national law since 2015, so no place differs on it. The record: the core keeps no marriage; couples exist as the opening drew them, and no engine decides in play who partners, marries or separates (stopgap SG-TRAITS-partnerships-no-engine). How marriage works is not yet decided (OWNER-DECISIONS.md, Marriage and children). The outcome: nothing counts same-sex marriages by place. A marriage engine would read the marriage law in force when two people decide to marry, and the count would come from those records (stopgap SG-FAMILY-marriage-not-recorded). marriage-equality-to-coverage waits on the same cause."
     },
     {
       "key": "marriage-equality-to-coverage",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "cause-cannot-vary",
+      "unsupportedReason": "cause-cannot-vary",
       "to": "health.uninsured-pct",
       "strength": "moderate",
       "shape": {
@@ -2500,7 +2500,7 @@
       "from": "law.marriage-equality",
       "evidence": "provisional",
       "range": [-0.012, -0.002],
-      "notes": "Unsupported: marriage equality has been national law since 2015, so the cause does not vary by place and has no reader."
+      "notes": "Graded cause cannot vary (CTO ruling, OWNER-DECISIONS.md, Oct 29, 22:15 UTC): marriage equality has been national law since 2015, so no place differs on it, and the web runs no link whose cause it cannot read (law.marriage-equality is not a law question the game holds). The coverage engine already puts every household member on the policyholder's plan (plansToday in src/core2/modules/coverage.ts), a same-sex spouse included, so the law's effect is in every place's base."
     },
     {
       "key": "abortion-ban-to-births",
@@ -5311,11 +5311,11 @@
       "group": "children in families who qualify",
       "owner": "C",
       "evidence": "about-zero",
-      "anchor": "Chicago's 1997 voucher lottery (82,607 applicants), children followed 14 years: \"Estimated effects are mostly statistically insignificant.\" Boys 6 to 18 at the lottery graduated high school 1.5 points more where their family was offered a voucher (standard error 0.94, control mean 39.4 percent) and girls 1.0 point more (0.94, control mean 57.7 percent); \"If we account for multiple testing by controlling for either the FDR or FWER, then none of these estimates are statistically significant at conventional cutoffs.\"",
+      "anchor": "Chicago's 1997 voucher lottery (82,607 applicants), children followed 14 years: \"Estimated effects are mostly statistically insignificant\". Boys 6 to 18 at the lottery graduated high school 1.5 points more where their family was offered a voucher (standard error 0.94, control mean 39.4 percent) and girls 1.0 point more (0.94, control mean 57.7 percent); \"If we account for multiple testing by controlling for either the FDR or FWER, then none of these estimates are statistically significant at conventional cutoffs.\"",
       "source": "Jacob, Kapustin and Ludwig, Human Capital Effects of Anti-Poverty Programs: Evidence from a Randomized Housing Voucher Lottery, NBER Working Paper 20164 (May 2014; published in the QJE 2015); abstract read at https://www.nber.org/papers/w20164, full text at https://www.nber.org/system/files/working_papers/w20164/w20164.pdf (Table III)",
       "range": [-0.014, 0.085],
       "rangeSource": "ESTIMATED from Jacob, Kapustin and Ludwig (NBER w20164) Table III, high school graduation, children 6 to 18 at the lottery, intent-to-treat (a family offered a voucher, as a law offering one to every eligible family does): boys \"0.3940 0.0150\" with standard error \"(0.0094)\", a 95% interval of -0.0034 to 0.0334 on a control mean of 0.3940, or -0.009 to 0.085 proportional; girls \"0.5766 0.0101\" with \"(0.0094)\", -0.0083 to 0.0285, or -0.014 to 0.049. The range spans both. It is the change for a child whose family is offered a voucher; a place's graduation share moves by that times the share of its seniors in newly offered families, so this is an outer bound.",
-      "notes": "Graded about zero from the lottery's null, as public-bargaining-to-graduation was: a judgment over the study's intervals by the laws lead, not a ruling that statistical insignificance is zero (no owner ruling covers it). The school engine reads the web's graduation factor for every senior (decideSchoolOutcome in src/core2/school-outcomes.ts), so the law runs at size 0 and moves no one. The study's one schooling result near significance is on test scores for boys 0 to 6 at the lottery (0.0369, p 0.052), not on graduation."
+      "notes": "Graded about zero under the CTO's ruling (OWNER-DECISIONS.md, Oct 29, 22:15 UTC: a statistically insignificant result with a tight interval around zero is about zero, with its source and interval), as public-bargaining-to-graduation was: the lottery's intervals are in rangeSource. The school engine reads the web's graduation factor for every senior (decideSchoolOutcome in src/core2/school-outcomes.ts), so the law runs at size 0 and moves no one. The study's one schooling result near significance is on test scores for boys 0 to 6 at the lottery (0.0369, p 0.052), not on graduation."
     },
     {
       "key": "housing-vouchers-to-crime",
@@ -5337,7 +5337,7 @@
       "source": "Jacob, Kapustin and Ludwig, Human Capital Effects of Anti-Poverty Programs: Evidence from a Randomized Housing Voucher Lottery, NBER Working Paper 20164 (May 2014; published in the QJE 2015); abstract read at https://www.nber.org/papers/w20164, full text at https://www.nber.org/system/files/working_papers/w20164/w20164.pdf (Table III); Carr and Koppa 2020, Housing Vouchers, Income Shocks and Crime: Evidence from a Lottery, Journal of Economic Behavior & Organization 177:475-493, abstract read at https://econpapers.repec.org/RePEc:eee:jeborg:v:177:y:2020:i:c:p:475-493",
       "range": [-0.115, 0.209],
       "rangeSource": "ESTIMATED from Jacob, Kapustin and Ludwig (NBER w20164) Table III, \"Soc. costs, most conservative\" (each youth arrest valued at its cost to society), intent-to-treat: boys \"3,084.2100 -160.6255\" with standard error \"(98.2894)\", a 95% interval of -353.27 to 32.02, or -0.115 to 0.010 of the control mean; girls \"573.6593 60.8371**\" with \"(30.0558)\", 1.93 to 119.75, or 0.003 to 0.209. The range spans both, as a proportional change per family offered a voucher; Carr and Koppa's abstract gives no interval.",
-      "notes": "Graded about zero over two lotteries: a judgment over their intervals by the laws lead, as for the payroll taxes, not a ruling that statistical insignificance is zero (no owner ruling covers it). The Chicago girls' cost of arrests rose at the 5 percent level before the multiple-testing adjustment, and the authors note \"some indication that housing voucher receipt may be associated with an increase in arrests for violent crimes\" for girls 6 to 18; the range carries it. The web keeps no crime.rate-index and no engine issues vouchers under the federal question, so nothing reads this link, and at about zero nothing would."
+      "notes": "Graded about zero over two lotteries under the CTO's ruling (OWNER-DECISIONS.md, Oct 29, 22:15 UTC: a statistically insignificant result with a tight interval around zero is about zero, with its source and interval): Chicago's intervals are in rangeSource, and Houston finds no effect. The Chicago girls' cost of arrests rose at the 5 percent level before the multiple-testing adjustment, and the authors note \"some indication that housing voucher receipt may be associated with an increase in arrests for violent crimes\" for girls 6 to 18; the range carries it. The web keeps no crime.rate-index and no engine issues vouchers under the federal question, so nothing reads this link, and at about zero nothing would."
     },
     {
       "key": "top-income-tax-rate-to-poverty",
@@ -5823,7 +5823,7 @@
       "source": "Chen and Sacerdote 2026, Capital in the Capitol: Congressional Trades Resemble Uninformed Retail Trading, NBER Working Paper 35041, abstract read at https://www.nber.org/papers/w35041; Belmont, Sacerdote, Sehgal and Van Hoek 2020, Relief Rally: Senators As Feckless As the Rest of Us at Stock Picking, NBER Working Paper 26975, abstract read at https://www.nber.org/papers/w26975; Wei and Zhou 2025, \"Captain Gains\" on Capitol Hill, NBER Working Paper 34524, abstract read at https://www.nber.org/papers/w34524",
       "range": [-0.005, 0.005],
       "rangeSource": "ESTIMATED: the abstracts give no interval. Every rank-and-file estimate they print is within 50 basis points of the benchmark (senators' purchases -11, -28 and -17 basis points at 1, 3 and 6 months; sales +14, \"statistically insignificant\", at a year; Republican senators' sales -50 over three months), so a ban's change in members' returns is taken as -0.005 to +0.005 of the amount invested. The leaders' 47 points a year is left out: the game keeps no member holdings.",
-      "notes": "Graded about zero, and not applicable in play: the game keeps no member stock holdings, so no engine could read a return, and building portfolios is outside the golden path. The ban's route into the game is voters' views of the law. The CTO may rule it contested because of the leaders' result (Wei and Zhou)."
+      "notes": "Not applicable (CTO ruling, OWNER-DECISIONS.md, Oct 29, 22:15 UTC): the game keeps no member portfolios, so no engine has a member's market return to read. Its research finds rank-and-file members' trades about zero against the market, so it is recorded at size 0 and the effect matrix grades it not applicable with the about-zero links, not dropped. Building portfolios is outside the golden path; the ban's route into the game is voters' views of the law."
     },
     {
       "key": "privacy-law-to-earnings",
@@ -5881,7 +5881,7 @@
       "source": "ESTIMATED, no study of this law: American Library Association, release of March 14, 2024 on its 2023 censorship data, read at https://www.ala.org/news/2024/03/american-library-association-reports-record-number-unique-book-titles; Gilpin, Karger and Nencka 2024, The Returns to Public Library Investment, AEJ: Economic Policy 16(2):78-109, abstract read at https://www.aeaweb.org/articles?id=10.1257/pol.20210300",
       "range": [-0.03, 0],
       "rangeSource": "ESTIMATED: no study gives an interval for this law. A board's removals take titles away, so the change is not positive, and it is no larger than undoing a whole capital investment of $200 or more per student, which library-funding-to-reading sizes at 0.01 with range 0 to 0.03 on the same proportional scale (Gilpin, Karger and Nencka). So -0.03 to 0, an outer bound.",
-      "notes": "An ESTIMATED zero, said plainly: no study measures removals against reading scores (the nearest are educator surveys), so this is the nearest research rounded to zero, not a measured null; how estimated zeros are graded is the CTO's to rule. The school engine reads the web's reading factor for every grade 8 student (decideSchoolOutcome in src/core2/school-outcomes.ts), so the law runs at size 0 and moves no one. The law keeps its political weight through issue stances, not this link."
+      "notes": "An ESTIMATED zero, said plainly: no study measures removals against reading scores (the nearest are educator surveys), so this is the nearest research rounded to zero, not a measured null, graded so under the CTO's ruling (OWNER-DECISIONS.md, Oct 29, 22:15 UTC: no study, so an ESTIMATED about zero from the nearest research, citing it and its spread; the spread is in rangeSource). The school engine reads the web's reading factor for every grade 8 student (decideSchoolOutcome in src/core2/school-outcomes.ts), so the law runs at size 0 and moves no one. The law keeps its political weight through issue stances, not this link."
     },
     {
       "key": "city-anti-discrimination-to-poverty",

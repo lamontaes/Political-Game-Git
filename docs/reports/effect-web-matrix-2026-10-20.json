@@ -4285,7 +4285,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; nothing in the core records its cause, law.marriage-equality"
+          "why": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; its cause, law.marriage-equality, is national law that no place differs on, so it cannot vary"
         },
         "varied": {
           "status": "fail",
@@ -4334,7 +4334,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "outcome read by src/core2/modules/coverage.ts:222",
-          "why": "the web does not run it: it waits on law.marriage-equality; nothing in the core records its cause, law.marriage-equality"
+          "why": "the web does not run it: it waits on law.marriage-equality; its cause, law.marriage-equality, is national law that no place differs on, so it cannot vary"
         },
         "varied": {
           "status": "fail",
