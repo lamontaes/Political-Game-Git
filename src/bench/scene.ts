@@ -26,7 +26,7 @@ import {
   type FigurePerson,
 } from "./whole-figures";
 import { drawAhead, type PackFigure } from "./people-pack";
-import { depthOf, plateFor, type PlateSpot } from "./mannequin-plates";
+import { depthOf, plateFor, plates, type PlateSpot } from "./mannequin-plates";
 
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
 
@@ -417,11 +417,15 @@ export function homeOf(
         : [living()];
   for (const list of tries) {
     const options = list.filter(hasBackdrop);
+    // A room people are drawn in comes first, in every light alike, until
+    // every room the home can show has its plate (people-home-plates).
+    // stopgapId: SG-PLAY-home-plated-room-first
+    const staged = options.filter((place) => PLATED.has(place));
     // One picture per room for each household, the bedroom per person.
     if (options.length)
       return pickFor(
         room === "bedroom" ? personId : `${household}:${room}`,
-        options,
+        staged.length ? staged : options,
       );
   }
   return homePlaceFor(null);
@@ -708,6 +712,10 @@ function officeKinds(core: CoreState, id: string): string[] {
 
 /** The place a backdrop file paints (`<place>__<variant>.jpg`). */
 export const placeOfBackdrop = (file: string) => file.split("__")[0]!;
+/** The places a mannequin plate stages people in. */
+const PLATED = new Set(
+  plates().map((plate) => placeOfBackdrop(plate.backdrop)),
+);
 
 /**
  * Puts each id on the mannequins of the picture's plate (mannequin-plates.ts):
