@@ -5,9 +5,9 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/m3-long-running
-pr:
+pr: #6860
 blocked-on:
 source: governing lead, Oct 30 (CTO ruling Oct 29 23:37)
 lead: governing
