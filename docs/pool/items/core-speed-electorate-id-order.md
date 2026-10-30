@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-electorate
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T08:02:30.580Z
 ---
 
 **What.** countedResidents and countedResidentsOf in src/core2/electorate.ts rebuild the counted voters' list when the store changes and sort it by id with localeCompare every time, though the store only grows at its end. surveyCell looks up each place's state and each age's band for every person. Counting votes and turnout read these lists in every election, so an election year runs them many times a day.
