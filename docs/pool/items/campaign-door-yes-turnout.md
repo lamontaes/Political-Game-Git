@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/door-yes-turnout
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T01:43:32.664Z
 ---
 
 **What.** A resident who tells a campaign at the door that they will vote for its candidate turned out no more often than anyone else, because the turnout rule read the pledge only through the appeal gap. In Mount Auburn IL on Oct 29, 41 door yeses gave the player 9 votes at 8% turnout, so the near-binding yes rarely reached a ballot. Saying you will vote for someone is also saying you will vote, and people who say so mostly do.
