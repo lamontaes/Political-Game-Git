@@ -7755,7 +7755,7 @@
     "id": "SG-CAMPAIGN-manager-changes-nothing-yet",
     "kind": "partial-model",
     "file": "src/core2/modules/campaigns.ts",
-    "line": 1310,
+    "line": 1602,
     "whatItFakes": "Someone close who runs a campaign is on its staff, cast as its team in scenes and the one who comes to canvass on election morning, but the campaign runs the same with or without them: the calls, the money and the volunteers' hours do not change.",
     "why": "The owner asked for the manager as someone you know (Oct 27); what a local campaign's manager changes has not been researched, and no number may be typed for it.",
     "addedBy": "words-director-one-path",
@@ -7772,6 +7772,18 @@
     "addedBy": "Words, scenes and the director (debate sitting)",
     "addedAt": "2026-10-29",
     "replacement": "An outlet's masthead refilled by the jobs engine (refreshPressStaff), or a neutral host the town's league or chamber of commerce names in its records, so every debate has a moderator who asks.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CAMPAIGN-volunteer-shift-no-scene",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 2263,
+    "whatItFakes": "A volunteer's evening of doors for a campaign the player's circle is in is kept as a volunteer-shift event (the volunteer, the candidate, whether it was their first evening, the hours, the doors knocked, the full people met and the counted residents reached), on their first evening and then at most once a week (volunteerShiftEventDays), that no scene, journal line or screen reads yet; the player sees their volunteers' work only in the voters it moved and the campaign's door count.",
+    "why": "The campaigns engine writes the record; the director and the English banks belong to the Words session, which this change may not edit.",
+    "addedBy": "governing lead builder (campaign-like-real-races, volunteer shifts)",
+    "addedAt": "2026-10-29",
+    "replacement": "A director situation type (Words session) reading volunteer-shift events by id: a volunteer reporting back on their evening of doors, or the week's journal line of what the campaign's volunteers walked, with the volunteer-door causes that name the volunteer as actor.",
     "status": "open"
   },
   {

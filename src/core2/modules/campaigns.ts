@@ -22,6 +22,7 @@ import {
 } from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
+import { discretionaryHours } from "./work";
 import { fillInPerson } from "../state";
 import { keepsWhy } from "../why-kept";
 import { closenessBetween, ENCOUNTERS } from "./people";
@@ -180,6 +181,10 @@ export interface CampaignRow {
   readonly outsideReached?: number;
   /** What it bought, by kind, in minor units. */
   readonly spentByKind?: Readonly<Record<string, number>>;
+  /** What each volunteer's working days so far owe toward their next evening of doors (a share of one). */
+  readonly shiftCarries?: Readonly<Record<string, number>>;
+  /** The day each volunteer's last evening of doors was kept as an event. */
+  readonly shiftNotedOn?: Readonly<Record<string, string>>;
 }
 
 /** One donor's running total to one campaign (the legal limit reads it). */
@@ -1014,20 +1019,23 @@ function adultsAt(
  * at that minute is the one who might open; the evening opens as many doors
  * as their readiness adds up to, at the homes that owe an opening most.
  * Yields each opener in walk order (a counted resident is filled in by
- * the caller); `done` and `walked` gain every door knocked, `carries` each
- * knocked home's carry and `owed` the campaign's.
+ * the caller); `done` and `walked` gain every door knocked, `lastKnocked`
+ * today for each, `carries` each knocked home's carry and `owed` the
+ * campaign's. `cursor` keeps where the doors not yet walked start in the
+ * town's address list, so the next canvasser of the same walk starts there.
  */
 function* walkDoors(
   api: CoreAPI,
   input: {
     readonly done: Set<string>;
     /** When each door already walked was last knocked. */
-    readonly lastKnocked: ReadonlyMap<string, string>;
+    readonly lastKnocked: Map<string, string>;
     /** What each home's knocks so far owe it toward its next opening. */
     readonly carries: Map<string, number>;
     /** What the campaign's evenings so far owe toward its next opening. */
     readonly owed: { carry: number };
     readonly walked: string[];
+    readonly cursor: { list: readonly Address[] | null; at: number };
     readonly doors: number;
     readonly hours: number;
   },
@@ -1035,12 +1043,21 @@ function* walkDoors(
   const doors = input.doors;
   const done = input.done;
   const list = townAddresses(api).list;
+  const cursor = input.cursor;
+  // Every address before the cursor was walked by this walk's earlier
+  // canvassers; a rebuilt list starts over.
+  if (cursor.list !== list) {
+    cursor.list = list;
+    cursor.at = 0;
+  }
   const homes: { id: string; adults: ReturnType<typeof adultsAt> }[] = [];
-  for (const address of list) {
-    if (homes.length >= doors) break;
+  let at = cursor.at;
+  for (; at < list.length && homes.length < doors; at += 1) {
+    const address = list[at]!;
     if (done.has(address.id)) continue;
     homes.push({ id: address.id, adults: adultsAt(api, address) });
   }
+  cursor.at = at;
   // With every door in town walked, the canvass goes round again, the doors
   // knocked longest ago first, as a field campaign walks its turf again
   // before election day (the same walk order, SG-GOV-campaign-walk-order).
@@ -1069,6 +1086,7 @@ function* walkDoors(
   for (const [index, home] of homes.entries()) {
     done.add(home.id);
     input.walked.push(home.id);
+    input.lastKnocked.set(home.id, api.state.date);
     // Who's home at the minute of the knock: not at a scheduled shift.
     const minute = start + Math.floor((index * 60) / perHour);
     const athome = home.adults.filter(
@@ -1123,13 +1141,179 @@ function* walkDoors(
 }
 
 /**
- * Knock on doors for some hours: the montage. Households not yet visited, in
- * the order they stand, then (once every door has been knocked) those knocked
- * longest ago. At each door the most outgoing adult home answers, in the
- * share of knocks their readiness to open to a stranger says; they talk with
- * the canvasser, and tell their household. Returns everyone met at a door, in
- * order, so the screen can stop on a porch.
+ * One day's walk of a campaign's doors, shared by every canvasser it sends
+ * out that evening: the doors it has knocked, read once, and what the walk
+ * adds to them, written once when it closes.
  */
+interface DoorWalk {
+  readonly filingId: string;
+  readonly done: Set<string>;
+  readonly lastKnocked: Map<string, string>;
+  readonly carries: Map<string, number>;
+  readonly owed: { carry: number };
+  readonly walked: string[];
+  readonly cursor: { list: readonly Address[] | null; at: number };
+  /** Whether the filing's petition circulates: whoever opens is asked to sign. */
+  readonly petition: boolean;
+  /** Counted residents who opened, reached as a count. */
+  counted: number;
+}
+
+function openDoorWalk(api: CoreAPI, filingId: string): DoorWalk {
+  const campaign = campaignFor(api, filingId);
+  const knocked = doorRowsOf(api, campaign.id);
+  return {
+    filingId,
+    done: new Set(knocked.map((row) => row.householdId)),
+    lastKnocked: new Map(
+      knocked.map((row) => [row.householdId, row.lastDate ?? row.date]),
+    ),
+    carries: new Map(
+      knocked.flatMap((row) =>
+        row.answerCarry === undefined
+          ? []
+          : [[row.householdId, row.answerCarry] as const],
+      ),
+    ),
+    owed: { carry: campaign.doorAnswerCarry ?? OPENING_CARRY },
+    walked: [],
+    cursor: { list: null, at: 0 },
+    petition: petitionCirculating(api, filingId),
+    counted: 0,
+  };
+}
+
+/** One canvasser's hours of a walk; returns everyone they met at a door, in order. */
+function walkWith(
+  api: CoreAPI,
+  walk: DoorWalk,
+  canvasserId: string,
+  hours: number,
+  fillCounted: boolean | number | undefined,
+): CauseRow[] {
+  const campaign = campaignFor(api, walk.filingId);
+  const canvasser = api.state.people.get(canvasserId)!;
+  const efficiency =
+    1 +
+    campaignParameter("canvasserReliabilityEfficiency") *
+      (canvasser.traits["people-mind-v1:reliability"] ?? 0);
+  const doors = Math.floor(
+    hours * campaignParameter("doorsPerCanvasserHour") * efficiency,
+  );
+  api.recordActivityTime(canvasserId, "campaign", hours * 60, {
+    tag: "SOURCED",
+    citation: `Campaign ${campaign.id}`,
+    asOf: api.state.date,
+  });
+  const core = api.state as CoreState;
+  const met: CauseRow[] = [];
+  const openers = [
+    ...walkDoors(api, {
+      done: walk.done,
+      lastKnocked: walk.lastKnocked,
+      carries: walk.carries,
+      owed: walk.owed,
+      walked: walk.walked,
+      cursor: walk.cursor,
+      doors,
+      hours,
+    }),
+  ];
+  const fill = countedToFill(api, campaign, openers, fillCounted);
+  for (const opener of openers) {
+    const openerId = opener.id;
+    // A counted household is filled in when the player's campaign opens its
+    // door (the owner's on-meet design): the person who answers is a full
+    // person from then on. A world candidate's or a volunteer's door counts
+    // them as reached, and they answer the petition by the same rule, from
+    // their own record.
+    if (!api.state.people.has(openerId)) {
+      if (!fill.has(openerId)) {
+        walk.counted += 1;
+        if (walk.petition) askToSign(api, walk.filingId, opener, "door");
+        // Asked for their vote, a counted resident answers by the rule a
+        // first visit applies to a full person: what they make of the
+        // platform from their own record, and how the visit went.
+        else
+          answerAtDoor(
+            api,
+            campaign,
+            openerId,
+            canvasserId,
+            countedDoorWarmth(api, campaign, canvasser, opener),
+            null,
+          );
+        continue;
+      }
+      fillInPerson(core, openerId);
+    }
+    const answers = api.state.people.get(openerId);
+    if (!answers) continue;
+    const cause = reach(
+      api,
+      campaign,
+      answers.id,
+      canvasserId === campaign.candidateId ? "door" : "volunteer-door",
+      canvasserId,
+      {
+        carriesPlatform: true,
+        weight: campaignParameter("doorContactWeight"),
+        rapport: rapport(canvasser, answers),
+      },
+    );
+    if (!cause) continue;
+    if (canvasserId !== answers.id)
+      api.relationship(canvasserId, answers.id, "contact", 0.1);
+    met.push(cause);
+    retell(api, campaign, answers, cause);
+    // A door that carries a petition asks for a signature; any other asks
+    // for the vote, and the answer is how warm the visit left them.
+    if (walk.petition) askToSign(api, walk.filingId, answers, "door");
+    else
+      answerAtDoor(
+        api,
+        campaign,
+        answers.id,
+        canvasserId,
+        cause.warmthAfter,
+        cause.id,
+      );
+  }
+  return met;
+}
+
+/**
+ * Close a walk: one row a household, the day its door was first knocked, the
+ * last, how many times, and what its knocks owe toward the next opening; and
+ * the campaign's door count, carry and counted reach.
+ */
+function closeDoorWalk(api: CoreAPI, walk: DoorWalk): void {
+  const campaign = campaignFor(api, walk.filingId);
+  const doorRows = table(api, "doors");
+  for (const household of walk.walked) {
+    const id = `${campaign.id}|${household}`;
+    const prior = doorRows.get(id) as unknown as DoorRow | undefined;
+    doorRows.put({
+      id,
+      campaignId: campaign.id,
+      householdId: household,
+      date: prior?.date ?? api.state.date,
+      lastDate: api.state.date,
+      knocks: (prior?.knocks ?? (prior ? 1 : 0)) + 1,
+      ...(walk.carries.has(household)
+        ? { answerCarry: walk.carries.get(household) }
+        : {}),
+    } as unknown as ModuleRow);
+  }
+  // The campaign's door count is every door knocked, a second pass included.
+  save(api, {
+    ...campaign,
+    doorsKnockedCount: (campaign.doorsKnockedCount ?? 0) + walk.walked.length,
+    doorAnswerCarry: walk.owed.carry,
+    countedReached: (campaign.countedReached ?? 0) + walk.counted,
+  });
+}
+
 /**
  * The warmth a first door visit leaves a counted resident with: `reach`'s
  * own rule from an empty impression, read from their record (their lean
@@ -1166,6 +1350,14 @@ function countedAgreement(
   return groupAgreement(lean, campaign.platform, profile);
 }
 
+/**
+ * Knock on doors for some hours: the montage. Households not yet visited, in
+ * the order they stand, then (once every door has been knocked) those knocked
+ * longest ago. At each door the most outgoing adult home answers, in the
+ * share of knocks their readiness to open to a stranger says; they talk with
+ * the canvasser, and tell their household. Returns everyone met at a door, in
+ * order, so the screen can stop on a porch.
+ */
 export function knockDoors(
   api: CoreAPI,
   input: {
@@ -1183,135 +1375,15 @@ export function knockDoors(
     readonly fillCounted?: boolean | number;
   },
 ): readonly CauseRow[] {
-  let campaign = campaignFor(api, input.filingId);
-  let counted = 0;
-  const canvasser = api.state.people.get(input.canvasserId)!;
-  const efficiency =
-    1 +
-    campaignParameter("canvasserReliabilityEfficiency") *
-      (canvasser.traits["people-mind-v1:reliability"] ?? 0);
-  const doors = Math.floor(
-    input.hours * campaignParameter("doorsPerCanvasserHour") * efficiency,
+  const walk = openDoorWalk(api, input.filingId);
+  const met = walkWith(
+    api,
+    walk,
+    input.canvasserId,
+    input.hours,
+    input.fillCounted,
   );
-  api.recordActivityTime(input.canvasserId, "campaign", input.hours * 60, {
-    tag: "SOURCED",
-    citation: `Campaign ${campaign.id}`,
-    asOf: api.state.date,
-  });
-  const knocked = doorRowsOf(api, campaign.id);
-  const done = new Set(knocked.map((row) => row.householdId));
-  const lastKnocked = new Map(
-    knocked.map((row) => [row.householdId, row.lastDate ?? row.date]),
-  );
-  const carries = new Map(
-    knocked.flatMap((row) =>
-      row.answerCarry === undefined
-        ? []
-        : [[row.householdId, row.answerCarry] as const],
-    ),
-  );
-  const owed = { carry: campaign.doorAnswerCarry ?? OPENING_CARRY };
-  const walked: string[] = [];
-  const core = api.state as CoreState;
-  const met: CauseRow[] = [];
-  // While the filing's petition circulates, whoever opens is asked to sign.
-  const petition = petitionCirculating(api, input.filingId);
-  const openers = [
-    ...walkDoors(api, {
-      done,
-      lastKnocked,
-      carries,
-      owed,
-      walked,
-      doors,
-      hours: input.hours,
-    }),
-  ];
-  const fill = countedToFill(api, campaign, openers, input.fillCounted);
-  for (const opener of openers) {
-    const openerId = opener.id;
-    // A counted household is filled in when the player's campaign opens its
-    // door (the owner's on-meet design): the person who answers is a full
-    // person from then on. A world candidate's door counts them as reached,
-    // and they answer the petition by the same rule, from their own record.
-    if (!api.state.people.has(openerId)) {
-      if (!fill.has(openerId)) {
-        counted += 1;
-        if (petition) askToSign(api, input.filingId, opener, "door");
-        // Asked for their vote, a counted resident answers by the rule a
-        // first visit applies to a full person: what they make of the
-        // platform from their own record, and how the visit went.
-        else
-          answerAtDoor(
-            api,
-            campaign,
-            openerId,
-            input.canvasserId,
-            countedDoorWarmth(api, campaign, canvasser, opener),
-            null,
-          );
-        continue;
-      }
-      fillInPerson(core, openerId);
-    }
-    const answers = api.state.people.get(openerId);
-    if (!answers) continue;
-    const cause = reach(
-      api,
-      campaign,
-      answers.id,
-      input.canvasserId === campaign.candidateId ? "door" : "volunteer-door",
-      input.canvasserId,
-      {
-        carriesPlatform: true,
-        weight: campaignParameter("doorContactWeight"),
-        rapport: rapport(canvasser, answers),
-      },
-    );
-    if (!cause) continue;
-    if (input.canvasserId !== answers.id)
-      api.relationship(input.canvasserId, answers.id, "contact", 0.1);
-    met.push(cause);
-    retell(api, campaign, answers, cause);
-    // A door that carries a petition asks for a signature; any other asks
-    // for the vote, and the answer is how warm the visit left them.
-    if (petition) askToSign(api, input.filingId, answers, "door");
-    else
-      answerAtDoor(
-        api,
-        campaign,
-        answers.id,
-        input.canvasserId,
-        cause.warmthAfter,
-        cause.id,
-      );
-  }
-  // One row a household: the day its door was first knocked, the last, how
-  // many times, and what its knocks owe toward the next opening.
-  const doorRows = table(api, "doors");
-  for (const household of walked) {
-    const id = `${campaign.id}|${household}`;
-    const prior = doorRows.get(id) as unknown as DoorRow | undefined;
-    doorRows.put({
-      id,
-      campaignId: campaign.id,
-      householdId: household,
-      date: prior?.date ?? api.state.date,
-      lastDate: api.state.date,
-      knocks: (prior?.knocks ?? (prior ? 1 : 0)) + 1,
-      ...(carries.has(household)
-        ? { answerCarry: carries.get(household) }
-        : {}),
-    } as unknown as ModuleRow);
-  }
-  campaign = campaignFor(api, input.filingId);
-  // The campaign's door count is every door knocked, a second pass included.
-  save(api, {
-    ...campaign,
-    doorsKnockedCount: (campaign.doorsKnockedCount ?? 0) + walked.length,
-    doorAnswerCarry: owed.carry,
-    countedReached: (campaign.countedReached ?? 0) + counted,
-  });
+  closeDoorWalk(api, walk);
   return met;
 }
 
@@ -1491,39 +1563,69 @@ export function unitPrice(api: CoreAPI, kind: string): number {
       );
 }
 
-/** Whether a work commitment has its holder at a shift at this minute of this day. */
-function atWork(
-  commitment: Readonly<{
-    anchorDate: string;
-    periodDays: number;
-    slots: readonly {
-      offsetDays: number;
-      startMinute: number;
-      minutes: number;
-    }[];
-    startsAt: string;
-    endsAt?: string;
-  }>,
-  date: string,
-  minute: number,
-): boolean {
-  if (commitment.startsAt > date) return false;
-  if (commitment.endsAt !== undefined && commitment.endsAt <= date)
-    return false;
+type WorkSchedule = Readonly<{
+  anchorDate: string;
+  periodDays: number;
+  slots: readonly {
+    offsetDays: number;
+    startMinute: number;
+    minutes: number;
+  }[];
+  startsAt: string;
+  endsAt?: string;
+}>;
+
+/** Which day of its repeating schedule a work commitment is on, or null on a day it is not in force. */
+function scheduleDay(commitment: WorkSchedule, date: string): number | null {
+  if (commitment.startsAt > date) return null;
+  if (commitment.endsAt !== undefined && commitment.endsAt <= date) return null;
   const days = Math.round(
     (Date.parse(`${date}T00:00:00Z`) -
       Date.parse(`${commitment.anchorDate}T00:00:00Z`)) /
       86_400_000,
   );
-  const day =
+  return (
     ((days % commitment.periodDays) + commitment.periodDays) %
-    commitment.periodDays;
-  return commitment.slots.some(
-    (slot) =>
-      slot.offsetDays === day &&
-      minute >= slot.startMinute &&
-      minute < slot.startMinute + slot.minutes,
+    commitment.periodDays
   );
+}
+
+/** Whether a work commitment has its holder at a shift at this minute of this day. */
+function atWork(
+  commitment: WorkSchedule,
+  date: string,
+  minute: number,
+): boolean {
+  const day = scheduleDay(commitment, date);
+  return (
+    day !== null &&
+    commitment.slots.some(
+      (slot) =>
+        slot.offsetDays === day &&
+        minute >= slot.startMinute &&
+        minute < slot.startMinute + slot.minutes,
+    )
+  );
+}
+
+/** How many minutes of a work commitment's shifts on this day fall between two minutes of it. */
+function minutesAtWork(
+  commitment: WorkSchedule,
+  date: string,
+  from: number,
+  to: number,
+): number {
+  const day = scheduleDay(commitment, date);
+  if (day === null) return 0;
+  let minutes = 0;
+  for (const slot of commitment.slots)
+    if (slot.offsetDays === day)
+      minutes += Math.max(
+        0,
+        Math.min(to, slot.startMinute + slot.minutes) -
+          Math.max(from, slot.startMinute),
+      );
+  return minutes;
 }
 
 /**
@@ -2100,6 +2202,219 @@ export function enlistVolunteer(
     volunteerIds: [...campaign.volunteerIds, personId],
   });
   return true;
+}
+
+/**
+ * The hours of a canvass evening a volunteer has: a shift's length from the
+ * hour canvassing starts, less the minutes of it their scheduled work takes
+ * that day, and never more than the discretionary hours their day has left
+ * (`discretionaryHours`, the one daily budget every engine's choices draw on).
+ */
+export function canvassHoursFree(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): number {
+  const core = api.state as CoreState;
+  const perHour = api.parameter("minutesPerHour");
+  const from = campaignParameter("canvassStartHour") * perHour;
+  const length = campaignParameter("volunteerShiftHours") * perHour;
+  let busy = 0;
+  for (const id of core.work.commitmentsByPerson.get(person.id) ?? []) {
+    const row = core.work.commitments.get(id);
+    if (row) busy += minutesAtWork(row, api.state.date, from, from + length);
+  }
+  return Math.min(
+    Math.max(0, length - busy) / perHour,
+    discretionaryHours(api, person.id),
+  );
+}
+
+/**
+ * How strong a volunteer's pull to give an evening to the campaign's doors
+ * is, before personality: the reasons they volunteered for (liking the
+ * candidate, closeness, family, against the hours their work takes each
+ * week), against a shift's own bar instead of the ask's.
+ */
+export function shiftReason(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+): number {
+  return (
+    volunteerReason(api, campaign, person) +
+    campaignParameter("volunteerThreshold") -
+    campaignParameter("volunteerShiftThreshold")
+  );
+}
+
+/**
+ * The share of the campaign's working days a volunteer gives an evening to
+ * its doors: their reasons (`shiftReason`) and temperament, slid by a
+ * logistic step, so an eager volunteer goes on most and a reluctant one now
+ * and then, never always or never.
+ */
+export function shiftShare(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+): number {
+  return logistic(
+    leanedScore(
+      api.state,
+      person,
+      "campaigns.volunteer",
+      "volunteer",
+      "decline",
+      shiftReason(api, campaign, person),
+    ) / campaignParameter("volunteerShiftScale"),
+  );
+}
+
+/** What one volunteer's evening of doors did. */
+export interface VolunteerShift {
+  readonly volunteerId: string;
+  readonly hours: number;
+  readonly doorsKnocked: number;
+  /** The causes of the full people who opened, each naming the volunteer as its actor. */
+  readonly causeIds: readonly string[];
+  /** Counted residents who opened, reached as a count. */
+  readonly countedReached: number;
+}
+
+/** The kind of a volunteer's evening of doors for a campaign the player's circle is in. */
+export const VOLUNTEER_SHIFT_EVENT = "volunteer-shift";
+
+/**
+ * A campaign's volunteers walk its doors. On a day the campaign works, each
+ * volunteer with hours free that evening (`canvassHoursFree`: someone whose
+ * shift at work covers it, or whose day is already spent, stays home) adds
+ * their share of working days (`shiftShare`) to what the campaign's days owe
+ * them, and goes when it comes to a whole evening, giving those hours out of
+ * the day's discretionary budget. Their doors are the campaign's own walk
+ * list, after the doors it has knocked, walked by all of the day's
+ * volunteers in one pass, and whoever opens meets the volunteer (a
+ * `volunteer-door` cause naming them). A counted resident who opens is
+ * reached as a count and not filled in, since the player never met them.
+ * The player is never sent: their hours are their own choice. `walked`
+ * holds who already gave this evening to a campaign's doors, so someone on
+ * two campaigns walks one evening, not two.
+ */
+export function volunteerShifts(
+  api: CoreAPI,
+  filingId: string,
+  walked: Set<string> = new Set(),
+): readonly VolunteerShift[] {
+  const filing = elections(api, "filings").get(filingId) as unknown as
+    FilingRow | undefined;
+  const held = table(api, "campaigns").get(filingId) as unknown as
+    CampaignRow | undefined;
+  if (!filing || !standing(filing) || !held?.volunteerIds.length) return [];
+  const core = api.state as CoreState;
+  const date = api.state.date;
+  const perHour = api.parameter("minutesPerHour");
+  const campaign = campaignFor(api, filingId);
+  const carries: Record<string, number> = { ...(campaign.shiftCarries ?? {}) };
+  const going: { readonly person: PersonState; readonly hours: number }[] = [];
+  let weighed = false;
+  for (const id of held.volunteerIds) {
+    const person = api.state.people.get(id);
+    if (
+      !person?.alive ||
+      id === core.playerId ||
+      id === held.candidateId ||
+      walked.has(id)
+    )
+      continue;
+    const hours = canvassHoursFree(api, person);
+    if (hours <= 0) continue;
+    // Each working day adds their share to what they are owed (starting
+    // even); a whole evening owed sends them out and spends it.
+    const owed =
+      (carries[id] ?? OPENING_CARRY) + shiftShare(api, campaign, person);
+    const goes = owed >= 1;
+    carries[id] = goes ? owed - 1 : owed;
+    weighed = true;
+    if (!goes) continue;
+    // The evening comes out of the day's discretionary hours, the budget
+    // every other engine's choices read.
+    api.recordDiscretionaryTime(
+      person.id,
+      Math.min(hours * perHour, discretionaryHours(api, id) * perHour),
+    );
+    walked.add(id);
+    going.push({ person, hours });
+  }
+  const shifts: VolunteerShift[] = [];
+  if (going.length) {
+    const walk = openDoorWalk(api, filingId);
+    for (const { person, hours } of going) {
+      const doors = walk.walked.length;
+      const counted = walk.counted;
+      const met = walkWith(api, walk, person.id, hours, false);
+      shifts.push({
+        volunteerId: person.id,
+        hours,
+        doorsKnocked: walk.walked.length - doors,
+        causeIds: met.map((c) => c.id),
+        countedReached: walk.counted - counted,
+      });
+    }
+    closeDoorWalk(api, walk);
+  }
+  const noted: Record<string, string> = { ...(campaign.shiftNotedOn ?? {}) };
+  const contest = elections(api, "contests").get(filing.contestId) as
+    ContestRow | undefined;
+  for (const shift of shifts) {
+    const id = shift.volunteerId;
+    // Kept as a cause is: where the player's circle is in it (their own
+    // campaign's volunteers, a friend walking for a rival), on a volunteer's
+    // first evening and then at most once a week.
+    if (!keepsWhy(core, campaign.candidateId, id)) continue;
+    const last = noted[id];
+    if (
+      last !== undefined &&
+      daysBetween(last, date) < campaignParameter("volunteerShiftEventDays")
+    )
+      continue;
+    noted[id] = date;
+    const person = api.state.people.get(id)!;
+    // stopgapId: SG-CAMPAIGN-volunteer-shift-no-scene
+    api.stopgap("SG-CAMPAIGN-volunteer-shift-no-scene");
+    api.emit({
+      id: `${VOLUNTEER_SHIFT_EVENT}:${filingId}:${id}:${date}`,
+      date,
+      kind: VOLUNTEER_SHIFT_EVENT,
+      personIds: api.state.people.has(campaign.candidateId)
+        ? [campaign.candidateId as PersonId, person.id]
+        : [person.id],
+      placeId: townRow(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `${person.givenName} ${person.familyName} canvasses for campaign ${filingId}`,
+        asOf: date,
+      },
+      facts: {
+        volunteerId: id,
+        candidateId: campaign.candidateId,
+        campaignId: campaign.id,
+        filingId,
+        contestId: filing.contestId,
+        ...(contest ? { office: contest.title } : {}),
+        firstShift: String(last === undefined),
+        hours: String(shift.hours),
+        doorsKnocked: String(shift.doorsKnocked),
+        met: String(shift.causeIds.length),
+        countedReached: String(shift.countedReached),
+      },
+    });
+  }
+  if (!weighed) return shifts;
+  save(api, {
+    ...campaignFor(api, filingId),
+    shiftCarries: carries,
+    shiftNotedOn: noted,
+  });
+  return shifts;
 }
 
 /** The individual contribution limit for this contest, in minor units (null: no limit), and its source. */
@@ -4884,8 +5199,10 @@ const contestsSeen = new WeakMap<object, number>();
 /**
  * Every few days, each world candidate on the ballot of a contest the town
  * votes in (the player excepted) takes a campaign turn, from the day they
- * filed to election day. Races are noted when their contest appears (the
- * contests table read only when it has grown) and dropped once decided.
+ * filed to election day, and every candidate's volunteers, the player's
+ * included, weigh an evening of doors (`volunteerShifts`). Races are noted
+ * when their contest appears (the contests table read only when it has
+ * grown) and dropped once decided.
  */
 function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "campaign-turn") return;
@@ -4905,6 +5222,8 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   }
   const playerId = (api.state as CoreState).playerId;
   const turnDays = campaignParameter("campaignTurnDays");
+  // Who gave this evening to a campaign's doors already.
+  const walked = new Set<string>();
   for (const race of (
     races.rows() as unknown as {
       id: string;
@@ -4932,11 +5251,16 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     if (race.lastTurn && daysBetween(race.lastTurn, date) < every) continue;
     races.put({ ...race, lastTurn: date } as unknown as ModuleRow);
     // The town's organizations weigh the race first, so the volunteers they
-    // send work this turn.
+    // send work this turn; then every campaign's volunteers walk its doors on
+    // the days it works, the player's campaign's too (the player's own day is
+    // theirs to choose).
     groupsWeighRace(api, race.id);
-    for (const filing of ballot(api, race.id))
-      if (filing.personId !== playerId && filing.filedOn <= date)
+    for (const filing of ballot(api, race.id)) {
+      if (filing.filedOn > date) continue;
+      volunteerShifts(api, filing.id, walked);
+      if (filing.personId !== playerId)
         campaignTurn(api, filing.id, race.electionDate);
+    }
   }
 }
 
