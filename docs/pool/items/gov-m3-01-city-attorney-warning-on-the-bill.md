@@ -6,11 +6,12 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/city-attorney-warning
 pr:
 blocked-on:
 source: governing lead Oct 29
+claimed-at: 2026-10-30T07:06:34.821Z
 ---
 
 **What.** M3-01's test sentence says a bill beyond the body's authority gets the city attorney's warning, as the register rules (DECISION-REGISTER, "A law changes the record first", Sept 22: "When a city proposes a measure whose authority is disputed, the city attorney warns the player and a lawful challenge may proceed"). The authority reader already returns `warning: "disputed"` for an unsettled or limited power (`unsettled` and the limited cell in src/core2/policy-authority.ts), and seatView passes the warning to the draft menu (src/bench/legislature.ts, about line 447). But `billPaper` carries no authority row, and no test drafts a town bill on a disputed power and checks that the warning reaches the player; policy-authority.test.ts checks the reader only on an unmapped fixture question at state level. Put the drafted bill's own authority warning on its paper, worded by the English engine, and test it.

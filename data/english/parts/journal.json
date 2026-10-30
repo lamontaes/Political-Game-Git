@@ -8647,6 +8647,58 @@
       }
     },
     {
+      "key": "journal.scene-line-vague-promise.i-told-other-i-d-look-at-it",
+      "move": "scene-line-vague-promise",
+      "kind": "spoken",
+      "text": "I told {other} I'd look at it.",
+      "uses": [
+        {
+          "move": "scene-line-vague-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "vague-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:vague-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-vague-promise.i-said-i-d-think-about-it-when-other-asked",
+      "move": "scene-line-vague-promise",
+      "kind": "spoken",
+      "text": "I said I'd think about it when {other} asked.",
+      "uses": [
+        {
+          "move": "scene-line-vague-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "vague-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:vague-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.scene-line-oath.other-swore-me-in",
       "move": "scene-line-oath",
       "kind": "spoken",

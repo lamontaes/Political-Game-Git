@@ -24,7 +24,7 @@ import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
 import { keepsWhy } from "../why-kept";
-import { closenessBetween } from "../closeness";
+import { closenessBetween } from "./people";
 import {
   decisionLean,
   leanedScore,
@@ -409,6 +409,10 @@ export const CAMPAIGNS_MODULE: CoreModule = {
           byCandidate: { fields: ["candidateId"] },
         },
       },
+      /** A closed race's causes, folded: one row a voter and candidate (`foldClosedRaceCauses`). */
+      causeSummaries: { indexes: { byCandidate: { fields: ["candidateId"] } } },
+      /** Folded causes a voter's known fact still names as its source, kept for the trace. */
+      foldedCauses: {},
       promises: { indexes: { byCandidate: { fields: ["candidateId"] } } },
       /** Each resident's "yes" at a campaign's door, one row a voter and candidate in a contest. */
       pledges: {
@@ -446,9 +450,13 @@ export const CAMPAIGNS_MODULE: CoreModule = {
     offersToHelp(api);
     rivalWordPassedOn(api);
   },
-  // The candidate's answer to an offer, said in the scene it stages.
-  eventKinds: ["scene.reply"],
-  onEvent: (api, event) => answerOffer(api, event),
+  // The candidate's answer to an offer, said in the scene it stages; a
+  // count closes a race, and its causes fold.
+  eventKinds: ["scene.reply", "election-result"],
+  onEvent: (api, event) =>
+    event.kind === "election-result"
+      ? foldClosedRaceCauses(api, String(event.facts?.contestId ?? ""))
+      : answerOffer(api, event),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -3833,7 +3841,7 @@ export function commissionPoll(
   return poll;
 }
 
-/** Why one person feels as they do about a candidate: every recorded cause, oldest first. */
+/** Why one person feels as they do about a candidate: every cause still kept as a row, oldest first (a closed race's are folded, `foldClosedRaceCauses`). */
 export function causesFor(
   api: CoreAPI,
   voterId: string,
@@ -3844,6 +3852,122 @@ export function causesFor(
   )
     .filter((c) => c.candidateId === candidateId)
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+}
+
+/**
+ * A closed race's causes, folded for one voter and candidate: what the
+ * readers of a candidate's causes add up (each act's reach, the voter's net
+ * warmth moved, in the order the causes were kept, and the first door the
+ * candidate knocked), so they read the same numbers after the rows are gone.
+ */
+export interface CauseSummaryRow {
+  readonly id: string;
+  readonly voterId: string;
+  readonly candidateId: string;
+  /** The last date folded in. */
+  readonly through: string;
+  readonly moved: number;
+  readonly acts: Readonly<
+    Record<string, { reached: number; warmer: number; cooler: number }>
+  >;
+  /** The first door the candidate knocked on for this voter, if any. */
+  readonly firstDoor: string | null;
+}
+
+/** A candidate's folded causes, one row a voter. */
+export function causeSummariesOf(
+  api: CoreAPI,
+  candidateId: string,
+): readonly CauseSummaryRow[] {
+  return table(api, "causeSummaries").query("byCandidate", [
+    candidateId,
+  ]) as unknown as CauseSummaryRow[];
+}
+
+/** One voter's folded causes for a candidate. */
+export function causeSummaryOf(
+  api: CoreAPI,
+  voterId: string,
+  candidateId: string,
+): CauseSummaryRow | undefined {
+  return table(api, "causeSummaries").get(
+    `${voterId}|${candidateId}`,
+  ) as unknown as CauseSummaryRow | undefined;
+}
+
+/**
+ * When a race's count is in, its candidates' causes fold into one summary row
+ * a voter (owner, Oct 29: "simulations... hundreds of years... still
+ * speedy"; core-long-run-tables-grow-with-history). A voter and candidate
+ * fold whole or not at all, so a summary's sum is the same sum, in the same
+ * order, that `contestStanding` reads. The player's own causes and those of
+ * the people the player deals with stay as rows (Keep it simple: their why is
+ * saved); a folded cause that a voter's known fact names as its source moves
+ * to `foldedCauses`, where the trace still finds it.
+ */
+export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
+  if (!contestId || !api.state.modules.has(ELECTIONS_MODULE_ID)) return;
+  const core = api.state as CoreState;
+  const causes = table(api, "causes"),
+    summaries = table(api, "causeSummaries"),
+    folded = table(api, "foldedCauses");
+  const filings = elections(api, "filings").query("byContest", [
+    contestId,
+  ]) as unknown as { personId: string }[];
+  for (const candidateId of new Set(filings.map((f) => f.personId))) {
+    if (candidateId === core.playerId) continue;
+    const byVoter = new Map<string, CauseRow[]>();
+    for (const row of causes.query("byCandidate", [
+      candidateId,
+    ]) as unknown as CauseRow[]) {
+      const rows = byVoter.get(row.voterId) ?? [];
+      rows.push(row);
+      byVoter.set(row.voterId, rows);
+    }
+    for (const [voterId, rows] of byVoter) {
+      if (keepsWhy(core, voterId)) continue;
+      const id = `${voterId}|${candidateId}`;
+      const before = summaries.get(id) as unknown as
+        CauseSummaryRow | undefined;
+      let moved = before?.moved ?? 0;
+      let firstDoor = before?.firstDoor ?? null;
+      const acts: Record<
+        string,
+        { reached: number; warmer: number; cooler: number }
+      > = {};
+      for (const [act, count] of Object.entries(before?.acts ?? {}))
+        acts[act] = { ...count };
+      const sources = new Set(
+        [...(core.knowledgeByPerson.get(voterId)?.values() ?? [])].map(
+          (fact) => fact.sourceId,
+        ),
+      );
+      for (const row of rows) {
+        const entry = (acts[row.act] ??= { reached: 0, warmer: 0, cooler: 0 });
+        entry.reached += 1;
+        if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
+        else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
+        moved = moved + (row.warmthAfter - row.warmthBefore);
+        if (
+          row.act === "door" &&
+          row.actorId === candidateId &&
+          (firstDoor === null || row.date < firstDoor)
+        )
+          firstDoor = row.date;
+        if (sources.has(row.id)) folded.put(row as unknown as ModuleRow);
+        causes.remove(row.id);
+      }
+      summaries.put({
+        id,
+        voterId,
+        candidateId,
+        through: api.state.date,
+        moved,
+        acts,
+        firstDoor,
+      } as unknown as ModuleRow);
+    }
+  }
 }
 
 /**

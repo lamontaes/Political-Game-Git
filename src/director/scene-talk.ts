@@ -58,6 +58,12 @@ interface Ending {
    * `screens` in scene-talk-rules.json.
    */
   opens?: string;
+  /**
+   * How firm a kept promise is ("firm" for a vote traded or a yes given,
+   * "vague" for "I'll look at it"): written on the scene's reply record, where
+   * the promise record reads it.
+   */
+  firmness?: string;
   when: {
     reply?: string[];
     asker?: string[];
@@ -185,7 +191,13 @@ export interface TreeNode {
     close?: SceneTalkLine;
     /** The named ending this path reaches, and the record the world would keep. */
     /** The named ending, and the game screen it opens, if any ("desk"). */
-    ending?: { id: string; label: string; keeps: string; opens?: string };
+    ending?: {
+      id: string;
+      label: string;
+      keeps: string;
+      opens?: string;
+      firmness?: string;
+    };
   };
 }
 
@@ -648,6 +660,7 @@ export function composeSceneTalk(
           label: found.label,
           keeps: found.keeps,
           ...(found.opens ? { opens: found.opens } : {}),
+          ...(found.firmness ? { firmness: found.firmness } : {}),
         };
         endingCounts[found.id] = (endingCounts[found.id] ?? zero) + one;
       } else

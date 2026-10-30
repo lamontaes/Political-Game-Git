@@ -130,6 +130,20 @@ it("the player's own ordinance is printed when the town body votes on it, and re
       raised.length,
       `${where}: nobody who read ${printed[0]!.id} brought it up with the player`,
     ).toBeGreaterThan(0);
+    // One who read it tells the player it was theirs and how it came out,
+    // from the vote's own record ("your ordinance on transit failed").
+    const failed = !votes.some(
+      (row) =>
+        row.kind === "legislative-vote" &&
+        Number(row.facts?.yes) > Number(row.facts?.no),
+    );
+    const outcome = failed ? /(failed|didn't pass)/ : /passed/;
+    expect(
+      raised.some(
+        (text) => /\byour (ordinance|bill)\b/.test(text) && outcome.test(text),
+      ),
+      `${where}: ${raised.join(" || ")}`,
+    ).toBe(true);
     // The proof, by place, seed and record id (the runner keeps no console).
     appendFileSync(
       path.join(tmpdir(), "own-ordinance-proof.txt"),

@@ -127,7 +127,18 @@ function weeklyContacts(
 }
 
 // The one reader of a person's relatives, for readers outside the family.
-export { familyFactsOf, familyRelation, type FamilyFact } from "../closeness";
+export {
+  closenessBetween,
+  familyFactsOf,
+  familyRelation,
+  type FamilyFact,
+} from "../closeness";
+// The vote record's id and rows, the key people of the opening and the school
+// measure's id and rows, for readers outside the family.
+export { RECORD_MODULE_ID, type VoteRecordRow } from "./record";
+export { keyPeopleOf } from "../opening-key-people";
+export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
+export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";
 
