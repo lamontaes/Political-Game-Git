@@ -20,7 +20,7 @@ import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
-import { lawChain, lawInForce } from "./laws";
+import { lawChain, lawInForce, lawInForceToday } from "./laws";
 import { lawApplied } from "../law-reach/applied";
 import { ownerOf } from "./business";
 import { residentFacts, residentsRuntime } from "./residents";
@@ -531,12 +531,12 @@ export function employerTaxShareOfWage(
       Math.round(Number(row.terms?.wageBase ?? Infinity) * 100),
     );
   let minor = 0;
-  const ss = lawInForce(api, "social-security-tax").governing;
+  const ss = lawInForceToday(api, "social-security-tax").governing;
   if (ss?.value) minor += (upTo(ss) * rate(ss)) / 100;
-  const med = lawInForce(api, "medicare-tax").governing;
+  const med = lawInForceToday(api, "medicare-tax").governing;
   if (med?.value) minor += (annualWageMinor * rate(med)) / 100;
   for (const series of ["federal-unemployment-tax", "state-unemployment-tax"]) {
-    const row = lawInForce(api, series).governing;
+    const row = lawInForceToday(api, series).governing;
     if (!row?.value) continue;
     const notCovered = (row.terms?.notCovered as string[] | undefined) ?? [];
     if (notCovered.includes(lawChain(api).stateKey)) continue;
@@ -599,7 +599,7 @@ function payEmployerShare(
   let socialSecurity = 0,
     medicare = 0,
     estimate = false;
-  const ss = lawInForce(api, "social-security-tax").governing;
+  const ss = lawInForceToday(api, "social-security-tax").governing;
   if (ss?.value) {
     const base = Math.round(Number(ss.terms?.wageBase ?? Infinity) * 100);
     const taxable = Math.max(0, Math.min(wages, base - ytd));
@@ -612,7 +612,7 @@ function payEmployerShare(
       minor: socialSecurity,
     });
   }
-  const med = lawInForce(api, "medicare-tax").governing;
+  const med = lawInForceToday(api, "medicare-tax").governing;
   if (med?.value) {
     medicare = Math.round((workers * wages * rate(med)) / 100);
     lawIds.push(med.id);
@@ -621,7 +621,7 @@ function payEmployerShare(
   }
   // Unemployment insurance taxes, each on its own wage base for the year.
   const ui = (series: string) => {
-    const row = lawInForce(api, series).governing;
+    const row = lawInForceToday(api, series).governing;
     if (!row?.value) return { minor: 0, row };
     const notCovered = (row.terms?.notCovered as string[] | undefined) ?? [];
     if (notCovered.includes(lawChain(api).stateKey)) return { minor: 0, row };
