@@ -22,7 +22,7 @@
  */
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
-import { ageOnDate } from "../kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
@@ -156,17 +156,20 @@ const FAITH_IMPORTANCE: Readonly<Record<string, string>> = {
 /**
  * The causes after one more event: the new one replaces its source's earlier
  * row (same speaker, same record) and moves to the end, carrying how many
- * events that source has moved the stance and by how much in all.
+ * events that source has moved the stance and by how much in all. Other
+ * sources whose latest event is older than `since` drop (Words, Oct 30: a
+ * year's causes and the newest), so a long life's list stays bounded.
  */
 function withCause(
   causes: Stance["causes"],
   cause: Stance["causes"][number],
+  since: string,
 ): Stance["causes"] {
   const same = (row: Stance["causes"][number]) =>
     row.speakerId === cause.speakerId && row.learnedFrom === cause.learnedFrom;
   const earlier = causes.find(same);
   return [
-    ...causes.filter((row) => !same(row)),
+    ...causes.filter((row) => !same(row) && row.date >= since),
     {
       ...cause,
       count: (earlier?.count ?? (earlier ? 1 : 0)) + 1,
@@ -878,7 +881,8 @@ export const viewsModule: CoreModule = {
         // the record they learned it from, holding that source's latest event
         // and how often and how much it has moved the stance. A source
         // heard from every day is one row, so the list is as long as the
-        // number of distinct sources, never the number of events. For anyone
+        // number of distinct sources heard in the last stanceCauseKeptDays,
+        // never the number of events. For anyone
         // else only the latest (the speech that just moved them), since the
         // wear-out reads `heard`.
         causes: withCause(
@@ -892,6 +896,7 @@ export const viewsModule: CoreModule = {
             ...(speakerId ? { speakerId } : {}),
             ...(learnedFrom ? { learnedFrom } : {}),
           },
+          addDays(makeIsoDate(event.date), -v("stanceCauseKeptDays")),
         ),
         ...(speakerId || prior?.heard
           ? {

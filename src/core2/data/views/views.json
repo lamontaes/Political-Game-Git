@@ -121,6 +121,11 @@
       "tag": "TUNABLE",
       "citation": "How fast the same case from the same speaker on the same question loses force: the nth repeat moves a listener 1 / (1 + this \u00d7 n) as much as the first. Repeated messages wear out after the first few exposures (Cacioppo and Petty 1979, Journal of Personality and Social Psychology 37(1):97-109). No study sets the rate; checked by a household member sharing a cause daily not carrying a listener across a question within weeks. Spread 0.5 to 2.",
       "stopgapId": "SG-P15-views-first-version"
+    },
+    "stanceCauseKeptDays": {
+      "value": 365,
+      "tag": "TUNABLE",
+      "citation": "How long a stance in the player's circle keeps each source that moved it, besides the event that moves it now (Words agreed, Oct 30): the year the circle's other routine records keep (circleActRetentionMonths), so a stance's why reaches back as far. Its readers in play (speech movedBy, life answeredWithNothingNew) read only the newest causes; spread 30 to 730."
     }
   },
   "labels": [
