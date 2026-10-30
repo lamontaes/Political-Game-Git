@@ -212,7 +212,47 @@ export function bringItUp(
     !!nameOf(core, change.institutionId) &&
     (!data.changes.find((row) => row.eventKind === change.kind)?.story ||
       storyTopic(change) !== null);
-  const change = changesKnownTo(core, speakerId, data).find(speakable);
+  // A story about the listener (a vote they cast, a bill they sponsored) is
+  // what one brings up to them first; otherwise the newest change (the
+  // owner's council member heard nothing of his own ordinance, Oct 29).
+  const aboutListener = (known: KnownChange): boolean => {
+    const storyId = storyOfReadEvent(known.eventId);
+    const story = storyId ? printedStoryOf(api, storyId) : undefined;
+    if (!story) return false;
+    const record = core.durableLog.get(story.wireId as never);
+    return (
+      story.subjectIds.includes(listenerId) ||
+      record?.facts?.sponsorId === listenerId
+    );
+  };
+  const speakables = changesKnownTo(core, speakerId, data).filter(speakable);
+  // What they read about the listener, by story: an outlet's latest story
+  // replaces the one before it, but each story read is kept as its own
+  // news fact, so a vote on the listener's bill printed beside newer stories
+  // is still theirs to raise with them, the newest first.
+  const storyRow = data.changes.find((row) => row.story);
+  let readAbout: KnownChange | undefined;
+  for (const fact of core.knowledgeByPerson.get(speakerId)?.values() ?? []) {
+    if (!storyRow || !fact.key.startsWith("news:printed:")) continue;
+    if (fact.key.endsWith(":outlet")) continue;
+    const storyId = fact.key.slice("news:".length);
+    const story = printedStoryOf(api, storyId);
+    if (!story) continue;
+    const known: KnownChange = {
+      eventId: `${storyRow.eventIdPrefix ?? `${storyRow.eventKind}:`}${storyId}:${fact.learnedAt}`,
+      kind: storyRow.eventKind,
+      institutionId: story.organizationId,
+      learnedAt: fact.learnedAt,
+      route: "seen",
+    };
+    if (
+      aboutListener(known) &&
+      speakable(known) &&
+      (!readAbout || known.learnedAt > readAbout.learnedAt)
+    )
+      readAbout = known;
+  }
+  const change = readAbout ?? speakables.find(aboutListener) ?? speakables[0];
   const subject = change ? nameOf(core, change.institutionId) : null;
   if (!change || !subject) return null;
   const attribution = believedCause(core, speakerId, change, data);

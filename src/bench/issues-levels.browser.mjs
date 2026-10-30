@@ -62,20 +62,33 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Issues", exact: true })
     .click();
-  await page.locator("details.entry").first().waitFor();
+  await page.locator("#sheet-body .issue-cards .entry").first().waitFor();
   if (shots)
     await page.screenshot({
       path: `${shots}/${process.env.SHOT_NAME ?? "after"}-issues.png`,
     });
-  // Every card on every page, by its heading.
+  // Every card on every page of every subject, by its heading: the subjects
+  // sit on a rail and each pages its cards (owner, Oct 29: no scrolling).
   const cards = new Map();
-  // Every law in force here, amounts and policy questions, on the one scrolling screen.
-  for (const card of await page.locator("details.entry summary").all()) {
-    const name = await card.locator("h3").innerText();
-    cards.set(
-      name.toLowerCase(),
-      await card.locator(".entry-value").innerText(),
-    );
+  const subjects = await page
+    .locator("#sheet-body [data-subject]")
+    .evaluateAll((tabs) => tabs.map((t) => t.dataset.subject));
+  for (const subject of subjects) {
+    await page.locator(`#sheet-body [data-subject="${subject}"]`).click();
+    for (;;) {
+      for (const card of await page
+        .locator("#sheet-body .issue-cards .entry")
+        .all()) {
+        const name = await card.locator("h3").innerText();
+        cards.set(
+          name.toLowerCase(),
+          await card.locator(".entry-value").innerText(),
+        );
+      }
+      const next = page.locator("#sheet-body .issue-cards .pager-arrow").nth(1);
+      if (!(await next.isVisible()) || !(await next.isEnabled())) break;
+      await next.click();
+    }
   }
   assert.ok(cards.size >= 3, "Issues shows no laws");
   const controls = await (
