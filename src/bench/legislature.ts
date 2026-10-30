@@ -211,6 +211,13 @@ export function seatView(core: CoreState, personId: string) {
  * Draft a bill from your seat: it goes on the body's next agenda that is not
  * yet posted. Asking a colleague, offering a deal and taking the vote are
  * acts in the day and the meeting scene (office-day), not buttons here.
+ *
+ * A phase-in is the same bill in dated steps (the owner's ruling, Sept 12
+ * travel clarification, item 1): one section per step, each the same law or
+ * line with its own amount and date, never a second bill. The legislature
+ * engine puts each section into law on its own date when the bill is
+ * enacted, for the bill's government and by that government's rule
+ * (`enact`), so the seat names no jurisdiction and computes no date.
  */
 export function seatAct(
   core: CoreState,
@@ -223,33 +230,45 @@ export function seatAct(
     /** A budget line the bill changes, by the amount in cents. */
     line?: string;
     value?: number;
+    /** A phase-in: each step's amount and the date it takes effect, in place of `value`. */
+    steps?: readonly { value: number; effectiveDate: string }[];
   },
 ) {
   const api = coreAPI(core);
   if (input.kind !== "draft") throw new Error("Unknown act from your seat.");
   if (!bodiesOf(core, personId).some((b) => b.officeId === input.officeId))
     throw new Error("You don't sit on that body.");
-  const provision: Provision = input.line
-    ? { kind: "budget-line", line: input.line, value: input.value ?? 0 }
-    : input.series
-      ? {
-          kind: "law-amount",
-          series: input.series,
-          value: input.value ?? 0,
-          unit:
-            lawHere(api, undefined, [input.series]).find(
-              (row) => row.series === input.series,
-            )?.unit ?? undefined,
-        }
-      : {
-          kind: "policy-question",
-          question: input.question ?? "",
-          value: input.value ?? 1,
-        };
+  const sectionOf = (value: number | undefined): Provision =>
+    input.line
+      ? { kind: "budget-line", line: input.line, value: value ?? 0 }
+      : input.series
+        ? {
+            kind: "law-amount",
+            series: input.series,
+            value: value ?? 0,
+            unit:
+              lawHere(api, undefined, [input.series]).find(
+                (row) => row.series === input.series,
+              )?.unit ?? undefined,
+          }
+        : {
+            kind: "policy-question",
+            question: input.question ?? "",
+            value: value ?? 1,
+          };
+  // stopgapId: SG-LEGISLATURE-phase-in-percent-a-year
+  // The ruling's other form, a percent a year, is not drafted from the seat:
+  // a phase-in is the dated steps the sponsor names.
+  const provisions: Provision[] = input.steps?.length
+    ? input.steps.map((step) => ({
+        ...sectionOf(step.value),
+        effectiveDate: step.effectiveDate,
+      }))
+    : [sectionOf(input.value)];
   const bill = draftBill(api, {
     bodyOfficeId: input.officeId!,
     sponsorId: personId,
-    provisions: [provision],
+    provisions,
   });
   // The bill on paper, worded from its record: title, sections with the old
   // and new values and the statute amended, and the effective date.
@@ -322,6 +341,9 @@ export function billPaper(core: CoreState, billId: string) {
         beforeUnit: section?.before.unit ?? null,
         afterValue: section?.after.value ?? null,
         afterUnit: section?.after.unit ?? null,
+        // The date this section names for itself (a phase-in's step), or
+        // null when it takes effect by the bill's closing section.
+        effectiveDate: section?.after.effectiveDate ?? null,
         line: provision.line ?? null,
         lineAmountMinor:
           provision.kind === "budget-line" ? provision.value : null,

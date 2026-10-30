@@ -1900,8 +1900,14 @@ export function billForm(
   const sections = billSections(api, bill);
   const dates = new Set(bill.provisions.map((p) => p.effectiveDate ?? null));
   const named = dates.size === 1 ? [...dates][0]! : null;
+  // Sections that name different dates (a phase-in's steps) each take effect
+  // on their own: no one closing section speaks for all of them, so the paper
+  // states none rather than one a step contradicts. Each section's date is
+  // its `after.effectiveDate`.
   const rule =
-    bill.form.kind === "ordinance" || named ? effectiveRule(api, bill) : null;
+    dates.size === 1 && (bill.form.kind === "ordinance" || named)
+      ? effectiveRule(api, bill)
+      : null;
   return {
     number: bill.number,
     kind: bill.form.kind,
@@ -5075,7 +5081,13 @@ function enact(
       itemDecision && !itemDecision.overridden
         ? itemDecision.remainingMinor
         : provision.value;
-    const effectiveDate = provision.effectiveDate ?? defaultDate;
+    // A section's own date governs, unless that day had passed before the
+    // bill became law (a step drafted for a day the vote or the signature
+    // came after): a bill makes no law in the past, so that section takes
+    // effect by its government's rule, as an undated one does.
+    const named = provision.effectiveDate;
+    const effectiveDate =
+      named !== undefined && named >= api.state.date ? named : defaultDate;
     if (provision.kind === "law-amount" && provision.series) {
       const shaped = shapedRate(
         lawInForce(api, provision.series).levels.find(
@@ -5106,6 +5118,9 @@ function enact(
       });
     }
     if (provision.kind === "budget-line" && provision.line) {
+      // stopgapId: SG-LEGISLATURE-dated-budget-line-amended-on-enactment
+      // A budget section's own date is not read yet: the line is amended
+      // the day the bill becomes law, whatever date the section names.
       amendBudget(api, {
         governmentId: jurisdiction,
         line: provision.line,
