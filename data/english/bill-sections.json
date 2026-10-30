@@ -16,7 +16,13 @@
         "on-enactment": "This ordinance takes effect on the day it is adopted.",
         "days-after-adoption": "This ordinance takes effect {days} days after it is adopted.",
         "state-rule": "This ordinance takes effect as state law provides.",
-        "date": "This ordinance takes effect on {date}."
+        "date": "This ordinance takes effect on {date}.",
+        "section-date": "Section {number} takes effect on {date}.",
+        "rest": {
+          "on-enactment": "Every other section takes effect on the day this ordinance is adopted.",
+          "days-after-adoption": "Every other section takes effect {days} days after this ordinance is adopted.",
+          "state-rule": "Every other section takes effect as state law provides."
+        }
       }
     },
     "act": {
@@ -29,7 +35,13 @@
         "on-enactment": "This Act takes effect on the day it is enacted.",
         "days-after-adoption": "This Act takes effect {days} days after it is enacted.",
         "state-rule": "This Act takes effect as state law provides.",
-        "date": "This Act takes effect on {date}."
+        "date": "This Act takes effect on {date}.",
+        "section-date": "Section {number} takes effect on {date}.",
+        "rest": {
+          "on-enactment": "Every other section takes effect on the day this Act is enacted.",
+          "days-after-adoption": "Every other section takes effect {days} days after this Act is enacted.",
+          "state-rule": "Every other section takes effect as state law provides."
+        }
       }
     }
   },
