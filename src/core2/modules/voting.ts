@@ -102,6 +102,7 @@ import {
   parsePlatform,
   pledgesOf,
   registerDoorChoice,
+  type DoorVisit,
   type PledgeRow,
 } from "./campaigns";
 import {
@@ -1270,18 +1271,21 @@ const countedById = new WeakMap<
 >();
 
 /**
- * Who a voter would vote for in this contest today, by the same appeal rule
+ * Each candidate's appeal to a voter in this contest today, by the same rule
  * the ballot uses (their earlier word at a door included), for a campaign's
  * door to read as the resident's answer (`campaigns.ts` answerAtDoor): a full
- * person's own appeal, a counted resident's by their record. Null where they
- * prefer no one, are not of voting age, or the contest is not on a ballot;
- * undefined where the world counts no ballots.
+ * person's own appeal; a counted resident's by their record, with a door
+ * visit just now read as a full person's knowledge is (`appealFor`): they
+ * know the candidate and the platform in person, in place of the town's share
+ * of it, and the visit's warmth. Null where they are not of voting age or the
+ * contest is not on a ballot; undefined where the world counts no ballots.
  */
-export function doorChoiceOf(
+export function doorAppealOf(
   api: CoreAPI,
   voterId: string,
   contestId: string,
-): string | null | undefined {
+  visit?: DoorVisit,
+): Readonly<Record<string, CountedAppeal>> | null | undefined {
   if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)
@@ -1294,7 +1298,7 @@ export function doorChoiceOf(
   const named = api.state.people.get(voterId);
   if (named) {
     if (!named.alive || ageOn(named, api.state.date) < adultAge) return null;
-    return countedChoice(appealFor(api, named, contest, filings).appeal);
+    return appealFor(api, named, contest, filings).appeal;
   }
   const core = api.state as CoreState;
   const all = countedResidents(core);
@@ -1308,22 +1312,42 @@ export function doorChoiceOf(
   if (!voter || ageOn(voter, api.state.date) < adultAge) return null;
   const lean = personLean(api.state.people, voter, townLean(api));
   const field = countedField(api, contest, filings);
-  return countedChoice(
-    countedAppeal(lean, field, {
-      inTown: true,
-      local: true,
-      incumbentLean: incumbentLeanOf(api, voter),
-      trust: trustWeight(api, lean),
-      profile: countedStanceProfile(api, voter),
-      pledges: countedPledges(
-        api,
-        voter.id,
-        trustWeight(api, lean),
-        contestId,
-        field,
-      ),
-    }),
-  );
+  const appeal: Record<string, CountedAppeal> = countedAppeal(lean, field, {
+    inTown: true,
+    local: true,
+    incumbentLean: incumbentLeanOf(api, voter),
+    trust: trustWeight(api, lean),
+    profile: countedStanceProfile(api, voter),
+    pledges: countedPledges(
+      api,
+      voter.id,
+      trustWeight(api, lean),
+      contestId,
+      field,
+    ),
+  });
+  const met = visit ? appeal[visit.candidateId] : undefined;
+  if (visit && met) {
+    const recognition =
+      campaignParameter("countedRecognitionWeight") + visit.agreement;
+    appeal[visit.candidateId] = {
+      ...met,
+      recognition,
+      total: met.total - met.recognition + recognition + visit.warmth,
+    };
+  }
+  return appeal;
+}
+
+/** Who a voter would vote for in this contest today (`doorAppealOf`'s first choice), or null for nobody; undefined where the world counts no ballots. */
+export function doorChoiceOf(
+  api: CoreAPI,
+  voterId: string,
+  contestId: string,
+  visit?: DoorVisit,
+): string | null | undefined {
+  const appeal = doorAppealOf(api, voterId, contestId, visit);
+  return appeal ? countedChoice(appeal) : appeal;
 }
 
 /** The incumbent's side of a voter's traits: stay with the known or try someone new. */

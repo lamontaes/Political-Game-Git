@@ -682,16 +682,29 @@ export function pledgesOf(api: CoreAPI, voterId: string): readonly PledgeRow[] {
 }
 
 /**
+ * What a door visit told a counted resident in person, for their answer:
+ * they have now heard the candidate and the platform (what they make of it
+ * from their own record) and how the visit went. A full person's visit is
+ * kept on their impression instead, which the ballot reads.
+ */
+export interface DoorVisit {
+  readonly candidateId: string;
+  readonly agreement: number;
+  readonly warmth: number;
+}
+
+/**
  * Who a voter would vote for in a contest today, by the ballot's own appeal
- * rule (their earlier word at a door included), or null for nobody or a
- * voter who can't vote in it; undefined where the world counts no ballots.
- * The voting engine registers it when it opens (it reads this module, so
- * this module cannot import it).
+ * rule (their earlier word at a door included, and a counted resident's visit
+ * just now), or null for nobody or a voter who can't vote in it; undefined
+ * where the world counts no ballots. The voting engine registers it when it
+ * opens (it reads this module, so this module cannot import it).
  */
 type DoorChoice = (
   api: CoreAPI,
   voterId: string,
   contestId: string,
+  visit?: DoorVisit,
 ) => string | null | undefined;
 let doorChoice: DoorChoice | null = null;
 export function registerDoorChoice(choice: DoorChoice): void {
@@ -711,6 +724,7 @@ function answerAtDoor(
   canvasserId: string,
   warmth: number,
   causeId: string | null,
+  visit?: DoorVisit,
 ): void {
   const id = `${voterId}|${campaign.contestId}|${campaign.candidateId}`;
   const pledges = table(api, "pledges");
@@ -718,7 +732,7 @@ function answerAtDoor(
   // for now, after the visit (their own appeal, an earlier word at a door
   // included, so a resident who gave a rival their word tells this one no);
   // without the voting engine, when the visit left them warm.
-  const choice = doorChoice?.(api, voterId, campaign.contestId);
+  const choice = doorChoice?.(api, voterId, campaign.contestId, visit);
   const yes =
     choice === undefined ? warmth > 0 : choice === campaign.candidateId;
   if (!yes) {
@@ -1169,14 +1183,11 @@ function* walkDoors(
  * and stance profile against the platform, and the visit's rapport).
  */
 function countedDoorWarmth(
-  api: CoreAPI,
-  campaign: CampaignRow,
   canvasser: Readonly<PersonState>,
   opener: ReturnType<typeof adultsAt>[number],
+  agreement: number,
 ): number {
-  const target = clamp(
-    countedAgreement(api, campaign, opener) + rapport(canvasser, opener),
-  );
+  const target = clamp(agreement + rapport(canvasser, opener));
   return clamp(campaignParameter("doorContactWeight") * target);
 }
 
@@ -1274,15 +1285,23 @@ export function knockDoors(
         // Asked for their vote, a counted resident answers by the rule a
         // first visit applies to a full person: what they make of the
         // platform from their own record, and how the visit went.
-        else
+        else {
+          const agreement = countedAgreement(api, campaign, opener);
+          const warmth = countedDoorWarmth(canvasser, opener, agreement);
           answerAtDoor(
             api,
             campaign,
             openerId,
             input.canvasserId,
-            countedDoorWarmth(api, campaign, canvasser, opener),
+            warmth,
             null,
+            {
+              candidateId: campaign.candidateId,
+              agreement,
+              warmth,
+            },
           );
+        }
         continue;
       }
       fillInPerson(core, openerId);

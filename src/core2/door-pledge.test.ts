@@ -42,6 +42,7 @@ import { openParties } from "./modules/parties";
 import {
   VOTING_MODULE_ID,
   countedBallotsOf,
+  doorAppealOf,
   doorChoiceOf,
   holdElection,
   openVoting,
@@ -404,6 +405,38 @@ describe("a door yes holds for the one household the door reached", () => {
         ).find((p) => p.causeId === null && weighted.has(p.voterId));
       }
       if (!pledged) continue;
+      // A counted resident's visit is read as a full person's knowledge is:
+      // their own recognition of the candidate in place of the town's share,
+      // and the visit's warmth; the other candidates are as they were.
+      const resident = countedResidents(core).find(
+        (v) =>
+          doorAppealOf(api, v.id, contestId) && !pledgesOf(api, v.id).length,
+      );
+      expect(resident, `${where}: no counted adult to visit`).toBeDefined();
+      const visit = {
+        candidateId: filed[1]!.personId,
+        agreement: 0.25,
+        warmth: 0.2,
+      };
+      const without = doorAppealOf(api, resident!.id, contestId)!;
+      const visited = doorAppealOf(api, resident!.id, contestId, visit)!;
+      for (const [id, a] of Object.entries(without))
+        expect(
+          visited[id]!.total,
+          `${where}: ${resident!.id} ${id}`,
+        ).toBeCloseTo(
+          id === visit.candidateId
+            ? a.total -
+                a.recognition +
+                campaignParameter("countedRecognitionWeight") +
+                visit.agreement +
+                visit.warmth
+            : a.total,
+          9,
+        );
+      expect(doorChoiceOf(api, resident!.id, contestId, visit)).toBe(
+        countedChoice(visited),
+      );
       holdElection(api, contestId);
       const kept = api
         .moduleState(VOTING_MODULE_ID)
