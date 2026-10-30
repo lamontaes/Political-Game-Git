@@ -2351,29 +2351,10 @@ const sheets = {
         ],
       });
     }
-    // Who joined or left the player's five closest this year, each with the
-    // record that changed the tie; one who left and is no longer among the
-    // card's ties is still drawn, marked.
-    const circle = me.card.circle ?? { joined: [], left: [] };
-    const change = new Map([
-      ...circle.joined.map((c) => [c.personId, { ...c, mark: "joined" }]),
-      ...circle.left.map((c) => [c.personId, { ...c, mark: "left" }]),
-    ]);
-    for (const c of circle.left)
-      if (!records.has(c.personId))
-        records.set(c.personId, {
-          personId: c.personId,
-          name: c.name,
-          groups: [],
-        });
-    // Changed ties first, so the first page shows them.
-    const people = [...records.values()].sort(
-      (a, b) => Number(change.has(b.personId)) - Number(change.has(a.personId)),
-    );
+    const people = [...records.values()];
     return peopleWeb({
       people,
       household,
-      change,
       self: {
         name: me.card.name,
         face: me.card.face,
@@ -2382,7 +2363,11 @@ const sheets = {
       },
       inRoom: new Set((me.scene?.people ?? []).map((p) => p.personId)),
       labels,
-      dateText: dateWords,
+      pageWords: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
+      },
       onCard: (person) => {
         closeSheet();
         showPerson(person);

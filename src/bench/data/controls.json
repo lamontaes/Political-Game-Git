@@ -356,16 +356,7 @@
     "list": "List",
     "web": "Web",
     "card": "View person",
-    "talk": "Talk",
-    "joined": "Closer this year",
-    "left": "Drifted away",
-    "noChange": "Your five closest are the same as a year ago",
-    "causes": {
-      "person.moved-away": "Moved away",
-      "life.death": "Died",
-      "no-time-together": "No time together lately",
-      "chosen-act": "Time together"
-    }
+    "talk": "Talk"
   },
   "news": {
     "title": "News"
