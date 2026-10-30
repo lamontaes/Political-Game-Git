@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/incumbent-response
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T02:35:29.221Z
 ---
 
 **What.** A world candidate's campaign day never reacted to the race: an incumbent whose challenger was gaining kept the same hours and doors, and one who lived outside the town never came home to campaign, so a player gaining on a sitting official saw nothing change on the other side. The owner said on Oct 29 to look at real races, where an underdog's "campaign gained steam, and then it caused [the incumbent] to try to go back to New York to campaign". This is phase A of campaign-like-real-races: a world candidate reads where the race stands from what they actually know (their own latest poll, weighed by its sample, or word of the rival from someone who knows both, including word of the rival's evenings of doors), and the further behind they believe they are, the more hours and doors they put in. One who lives away comes home to walk the town's doors on a share of the day that slides with the threat. The step-up is kept as a record naming the poll or the word that told them, so a scene can tell it.
