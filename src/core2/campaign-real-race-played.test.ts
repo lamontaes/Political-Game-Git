@@ -7,7 +7,12 @@
  * the office that takes it, and campaigns every week to election day the way
  * `src/bench/path-check.ts` plays it: three evenings at the doors, an evening
  * of calls, an event, and a forum one week and a donor meeting the next.
- * Then, each by record id:
+ * Then, each by record id, read on the eve of election day (the day before
+ * the contest's election date, after the last campaign day), before the
+ * count closes the race and its campaign causes fold into `causeSummaries`
+ * (`foldClosedRaceCauses`): (a) and (b) read cause rows by id. None of the
+ * four needs the count; the incumbent's response (d) is recorded during the
+ * campaign. The play then goes on through election day as before.
  *
  * (a) an organization endorsed the player and sent its members as
  *     volunteers, and the volunteers engine walked them to doors (an
@@ -49,7 +54,6 @@ import {
   CAMPAIGN_STEPPED_UP_EVENT,
   endorsementsOf,
   organizedGroupsIn,
-  signaturesToGather,
   steppedUpOf,
   type CampaignRow,
   type CauseRow,
@@ -139,8 +143,8 @@ function incumbentOf(api: CoreAPI, contest: ContestRow): string | null {
 
 const dollars = (minor: number) => `$${Math.round(minor / 100)}`;
 
-/** The player's race, played to election day, with what the play saw along the way. */
-interface Played {
+/** The player's race as the clauses read it on the eve, with what the play saw along the way. */
+interface Race {
   readonly core: CoreState;
   readonly api: CoreAPI;
   readonly town: string;
@@ -149,10 +153,23 @@ interface Played {
   readonly contest: ContestRow;
   /** The town halls the player's forums held, as `campaignDay` returned them. */
   readonly hallIds: readonly string[];
-  /** The donor meetings the player held, as `campaignDay` returned them. */
-  readonly donorMeetingIds: readonly string[];
+  /**
+   * The donor meetings the player held: the day and the host each one added
+   * to the campaign's `donorMeetingHostIds` (`holdDonorMeeting`); the bench's
+   * `campaignDay` returns no meeting.
+   */
+  readonly donorMeetings: readonly { date: string; hostId: string }[];
   /** Each day choice the week's plan reached and found unavailable: how many times, and the last facts. */
   readonly unavailable: Readonly<Record<string, string>>;
+}
+
+type Clauses = Readonly<Record<string, Clause>>;
+
+/** The player's race, played to election day, with each clause as read on the eve. */
+interface Played extends Race {
+  /** The clauses, read on `readOn` (the eve) before the count. */
+  readonly clauses: Clauses;
+  readonly readOn: string;
   readonly summary: string;
 }
 
@@ -180,8 +197,13 @@ function playRace(
   /** The contest the player is running in, whose ballot they mark for themselves. */
   let running: string | undefined = undefined;
 
-  /** Live until the date, the character answering its own choices (path-check's liveUntil). */
-  const liveUntil = (date: string) => {
+  /**
+   * Live until the date, the character answering its own choices
+   * (path-check's liveUntil: a week's calendar jump at a time). With
+   * `notPast`, no jump lands after that day, so the core never enters the day
+   * after it.
+   */
+  const liveUntil = (date: string, notPast?: string) => {
     for (let guard = 0; core.date < date && guard < 400; guard++) {
       if (player.pollingPlace && running)
         try {
@@ -190,13 +212,22 @@ function playRace(
           notes.push(`no ballot of their own: ${(error as Error).message}`);
         }
       if (player.pollingPlace) player.leavePolls();
+      const at = player.packet?.at ?? {
+        date: addDays(makeIsoDate(core.date), 1),
+        minuteOfDay: 0,
+      };
+      const ahead = addDays(makeIsoDate(at.date), 7);
+      const to = notPast && ahead > notPast ? notPast : ahead;
+      if (
+        player.packet?.kind !== "stop" &&
+        (to < at.date ||
+          (to === at.date && at.minuteOfDay >= player.dayStartMinute()))
+      )
+        break;
       const packet =
         player.packet?.kind === "stop"
           ? player.packet
-          : player.advance(
-              "calendar",
-              addDays(makeIsoDate(player.packet?.at.date ?? core.date), 7),
-            ).packet;
+          : player.advance("calendar", to).packet;
       if (packet.kind === "stop") {
         const meeting = meetingInProgress(api);
         if (meeting) {
@@ -264,15 +295,16 @@ function playRace(
     };
   running = contest.id;
 
-  // The petition: canvass each week until it holds the signatures the clerk
-  // will count or the deadline comes; the clerk checks it the morning after.
+  // The petition: canvass each week until it holds the signatures it needs
+  // (as path-check reads it) or the deadline comes; the clerk checks it the
+  // morning after.
   for (let week = 0; week < 60; week++) {
     campaignDay(core, me, { filingId: filing.id, kind: "canvass" });
     const petition = petitionOf(api, filing.id);
     if (
       !petition ||
       !petitionCirculating(api, filing.id) ||
-      petition.signers.length >= signaturesToGather(petition.needed)
+      petition.signers.length >= petition.needed
     )
       break;
     liveUntil(addDays(makeIsoDate(core.date), 1));
@@ -290,9 +322,14 @@ function playRace(
       tried: `${where}: the player's filing ${filing.id} for ${contest.title} ended ${status ?? "gone"}${petition ? ` (${petition.signers.length} of ${petition.needed} signatures by ${petition.due})` : ""}`,
     };
 
-  // The campaign, every week to election day, as path-check plays it.
+  // The campaign, every week to election day, as path-check plays it; no
+  // week's living goes past the eve, where the clauses are read.
+  const eve = addDays(makeIsoDate(contest.electionDate), -1);
+  const hostsOf = () =>
+    getOf<CampaignRow>(api, CAMPAIGNS_MODULE_ID, "campaigns", filing.id)
+      ?.donorMeetingHostIds ?? [];
   const hallIds: string[] = [];
-  const donorMeetingIds: string[] = [];
+  const donorMeetings: { date: string; hostId: string }[] = [];
   const missed = new Map<string, { times: number; facts: string }>();
   const week = {
     weeks: 0,
@@ -324,6 +361,8 @@ function playRace(
         continue;
       }
       let out: ReturnType<typeof campaignDay>;
+      const day = core.date;
+      const hosted = hostsOf().length;
       try {
         out = campaignDay(core, me, { filingId: filing.id, kind });
       } catch (error) {
@@ -349,17 +388,22 @@ function playRace(
       if (kind === "forum") week.forums += 1;
       if (kind === "donor-meeting") week.donorMeetings += 1;
       if (out.townHallId) hallIds.push(out.townHallId);
-      if (out.donorMeeting) donorMeetingIds.push(out.donorMeeting.id);
+      if (kind === "donor-meeting")
+        for (const hostId of hostsOf().slice(hosted))
+          donorMeetings.push({ date: day, hostId });
       player.spend(out.hours);
     }
     week.weeks += 1;
-    liveUntil(addDays(makeIsoDate(core.date), 7));
+    liveUntil(addDays(makeIsoDate(core.date), 7), eve);
   }
-  if (!SMOKE_WEEKS) liveUntil(contest.electionDate);
+  // The eve: every campaign day is done and the count has not run, so the
+  // race's cause rows are all still kept. Each clause is read here.
+  if (!SMOKE_WEEKS) liveUntil(eve, eve);
+  const readOn = core.date;
   const town =
     getOf<{ townPlaceId: string }>(api, CAMPAIGNS_MODULE_ID, "town", "town")
       ?.townPlaceId ?? w.placeId;
-  return {
+  const race: Race = {
     core,
     api,
     town,
@@ -367,11 +411,24 @@ function playRace(
     filing,
     contest,
     hallIds,
-    donorMeetingIds,
+    donorMeetings,
     unavailable: Object.fromEntries(
       [...missed].map(([kind, m]) => [kind, `${m.times}x, last ${m.facts}`]),
     ),
-    summary: `${contest.title} (${contest.id}, election ${contest.electionDate}), filing ${filing.id}; ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised ${dollars(week.raised)}, events ${week.events}, forums ${week.forums}, donor meetings ${week.donorMeetings}${notes.length ? `; ${notes.slice(0, 3).join("; ")}` : ""}`,
+  };
+  const clauses: Clauses = {
+    "(a) group endorsed and sent volunteers": clauseGroup(race),
+    "(b) forum the player hosted": clauseForum(race),
+    "(c) named donors": clauseDonors(race),
+    "(d) a rival stepped up": clauseSteppedUp(race),
+  };
+  // Then on through election day, as path-check plays it.
+  if (!SMOKE_WEEKS) liveUntil(contest.electionDate);
+  return {
+    ...race,
+    clauses,
+    readOn,
+    summary: `${contest.title} (${contest.id}, election ${contest.electionDate}), filing ${filing.id}; ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised ${dollars(week.raised)}, events ${week.events}, forums ${week.forums}, donor meetings ${week.donorMeetings}; clauses read on ${readOn}${readOn === eve ? " (the eve)" : ""}${notes.length ? `; ${notes.slice(0, 3).join("; ")}` : ""}`,
   };
 }
 
@@ -384,7 +441,7 @@ function playRace(
  * `volunteer-door` cause by them for the player, which the campaigns engine
  * keeps because the candidate is the player (`keepCause` reads `keepsWhy`).
  */
-function clauseGroup(played: Played): Clause {
+function clauseGroup(played: Race): Clause {
   const { api, me, filing, contest, town } = played;
   const backing = endorsementsOf(api, filing.id)
     .filter(
@@ -468,7 +525,7 @@ function clauseGroup(played: Played): Clause {
  * (`holdTownHall`, through the forum day choice) with the player as host and
  * the player's filing, whose causes the campaigns engine kept.
  */
-function clauseForum(played: Played): Clause {
+function clauseForum(played: Race): Clause {
   const { api, me, filing } = played;
   const halls = queryOf<TownHallRow>(
     api,
@@ -500,13 +557,13 @@ function clauseForum(played: Played): Clause {
 /**
  * (c) Money raised by named donors: the player's filing's `gifts` rows from
  * full people (`donationAnswer`) and their public `campaign-gift` records
- * (`recordGift`); where the player held a donor meeting (`campaignDay`
- * returned it), one gift given there (`holdDonorMeeting`'s
- * `campaign-donor-meeting` record names the donors). A meeting held whose
- * record is gone, or none of whose donors left a gift with its record, is
- * missing.
+ * (`recordGift`); where the player held a donor meeting (a host the day
+ * added to the campaign's `donorMeetingHostIds`), one gift given there
+ * (`holdDonorMeeting`'s `campaign-donor-meeting` record, for that filing,
+ * day and host, names the donors). A meeting held whose record is gone, or
+ * none of whose donors left a gift with its record, is missing.
  */
-function clauseDonors(played: Played): Clause {
+function clauseDonors(played: Race): Clause {
   const { api, core, me, filing } = played;
   const gifts = queryOf<GiftRow>(
     api,
@@ -529,20 +586,27 @@ function clauseDonors(played: Played): Clause {
       missing: `the player's filing ${filing.id} has ${gifts.length} gifts from named people and ${events.length} campaign-gift records, none matching (raise-money unavailable ${played.unavailable["raise-money"] ?? "never"})`,
     };
   const base = `${gifts.length} named donors; gift ${gift.id} (${gift.donorId}, ${dollars(gift.totalMinor)} in all) and its record ${event.id}`;
-  if (!played.donorMeetingIds.length)
+  if (!played.donorMeetings.length)
     return {
       found: `${base}; no donor meeting could be held (donor-meeting unavailable ${played.unavailable["donor-meeting"] ?? "never"}; refused ${played.unavailable["donor-meeting (refused)"] ?? "never"})`,
     };
-  const meetings = played.donorMeetingIds.flatMap((id) => {
-    const row = core.durableLog.get(id);
-    return row?.kind === "campaign-donor-meeting" &&
-      row.facts?.filingId === filing.id
-      ? [row]
-      : [];
-  });
+  const kept = logOfKind(core, "campaign-donor-meeting").filter(
+    (row) => row.facts?.filingId === filing.id,
+  );
+  const meetings = played.donorMeetings.flatMap(
+    (held) =>
+      kept.find(
+        (row) => row.date === held.date && row.facts?.hostId === held.hostId,
+      ) ?? [],
+  );
   if (!meetings.length)
     return {
-      missing: `${base}; the player held ${played.donorMeetingIds.length} donor meetings (${played.donorMeetingIds.slice(0, 3).join(", ")}) and the log kept none of their records`,
+      missing: `${base}; the player held ${played.donorMeetings.length} donor meetings (${played.donorMeetings
+        .slice(0, 3)
+        .map((m) => `${m.date} at ${m.hostId}'s`)
+        .join(
+          ", ",
+        )}) and the log kept none of their records (${kept.length} campaign-donor-meeting records for the filing)`,
     };
   for (const meeting of meetings)
     for (const donorId of (meeting.facts?.donorIds ?? "")
@@ -574,7 +638,7 @@ function clauseDonors(played: Played): Clause {
  * gained. A race with no rival cannot show it, and the draw is missing; the
  * town's other races never stand in for it.
  */
-function clauseSteppedUp(played: Played): Clause {
+function clauseSteppedUp(played: Race): Clause {
   const { api, core, me, contest } = played;
   const incumbent = incumbentOf(api, contest);
   const sourceKept = (row: SteppedUpRow) =>
@@ -647,19 +711,14 @@ function clauseSteppedUp(played: Played): Clause {
 
 type Draw = { readonly proven: string } | { readonly tried: string };
 
-/** One drawn place: play the race, then read each clause's records. */
+/** One drawn place: play the race, reading each clause's records on the eve. */
 function attemptPlace(attempt: number): Draw {
   setBookkeeping(false);
   const place = drawPlace(`${seed}:${attempt}`, "campaign-real-race-played");
   const where = `${place.name} (${place.key}), place seed ${place.seed}, draw ${attempt} of seed ${seed}`;
   const played = playRace(where, place.seed, place.key);
   if ("tried" in played) return played;
-  const clauses = {
-    "(a) group endorsed and sent volunteers": clauseGroup(played),
-    "(b) forum the player hosted": clauseForum(played),
-    "(c) named donors": clauseDonors(played),
-    "(d) a rival stepped up": clauseSteppedUp(played),
-  };
+  const { clauses } = played;
   const report = Object.entries(clauses)
     .map(
       ([name, c]) =>
@@ -669,7 +728,8 @@ function attemptPlace(attempt: number): Draw {
   const text = `${where}; ${played.summary}; ${report}`;
   if (SMOKE_WEEKS) return { tried: `SMOKE ${text}` };
   if (Object.values(clauses).every((c) => "found" in c)) {
-    // The found records, read back once more with the place in the message.
+    // The found records that outlive the count (town halls and gifts), read
+    // back once more after election day with the place in the message.
     const { api, me, filing } = played;
     expect(
       queryOf<TownHallRow>(api, MEETINGS_MODULE_ID, "townHalls", "byHost", me)
