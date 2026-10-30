@@ -88,6 +88,8 @@ import {
   type BillRow,
 } from "./legislature";
 import { recordAppeal } from "./record";
+import { householdIncome } from "./moves";
+import { withholdingOnPay } from "./budgets";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
@@ -2179,14 +2181,17 @@ export function giftOf(
 
 /**
  * A donor's own reasons to give to a candidate: warmth, agreement with the
- * platform, party, how they stand with the candidate and every trait's lean
- * between giving and keeping. Above zero they would give if they have the
- * cash; at or below it they keep it (and a minor or the dead never give).
+ * platform, party, how they stand with the candidate, what they have to
+ * spare against a typical gift (`spareAgainstGift`, from `giftBudget`) and
+ * every trait's lean between giving and keeping. Above zero they would give
+ * if they have the cash; at or below it they keep it (and a minor or the
+ * dead never give).
  */
 export function donorReason(
   api: CoreAPI,
   filingId: string,
   donorId: string,
+  budget?: ReturnType<typeof giftBudget>,
 ): number {
   const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, filingId);
@@ -2194,6 +2199,7 @@ export function donorReason(
   if (!donor?.alive || ageOn(donor, api.state.date) < adultAge)
     return Number.NEGATIVE_INFINITY;
   const why = backingReasons(api, campaign, donor);
+  const means = spareAgainstGift(budget ?? giftBudget(api, donor));
   return leanedScore(
     api.state,
     donor,
@@ -2203,19 +2209,44 @@ export function donorReason(
     why.warmth +
       why.agreement +
       campaignParameter("donorPartyWeight") * why.party +
-      campaignParameter("donorRelationshipWeight") * why.relationship,
+      campaignParameter("donorRelationshipWeight") * why.relationship +
+      campaignParameter("donorMeansWeight") * means,
   );
 }
 
 /**
+ * What a person has to spare against a typical gift, -1 to 1: the month's
+ * income left after taxes and bills plus the savings beyond their cushion
+ * (`giftBudget`), set against `donorSpareGiftsAtEven` typical gifts
+ * (`donorTypicalGiftMinor`), sliding as (spare - even) / (spare + even). With
+ * nothing to spare it reads -1 (a gift would come out of the bills), at that
+ * many gifts 0, and it nears 1 as a gift becomes a small part of what they
+ * have; never a threshold.
+ */
+export function spareAgainstGift(
+  budget: Pick<
+    ReturnType<typeof giftBudget>,
+    "discretionaryMinor" | "savingsMinor"
+  >,
+): number {
+  const spare = Math.max(0, budget.discretionaryMinor + budget.savingsMinor);
+  const even =
+    campaignParameter("donorSpareGiftsAtEven") *
+    campaignParameter("donorTypicalGiftMinor");
+  return (spare - even) / (spare + even);
+}
+
+/**
  * What a person has to give from, read from their records: their share of
- * their household's monthly income left after the household's monthly living
- * costs (the month's discretionary budget, where a small political gift of
- * $25 to $100 comes from), and the savings they hold beyond a cushion of
- * months of their own living costs (where a larger gift can come from).
- * Income is the household's current jobs' pay and its recorded income awards
- * (retirement and the like), read through the household's members, never a
- * scan of the world. Shared evenly among the household's adults.
+ * their household's monthly income after the taxes payroll withholds from it
+ * and the household's monthly living costs (the month's discretionary budget,
+ * where a small political gift of $25 to $100 comes from), and the savings
+ * they hold beyond a cushion of months of their own living costs (where a
+ * larger gift can come from). Income is the household's one reader
+ * (`householdIncome`: its living members' open jobs and recorded income
+ * awards); each job's month of pay loses what the law in force where its
+ * worker lives withholds from it (`withholdingOnPay`: income tax, Social
+ * Security, Medicare). Shared evenly among the household's adults.
  */
 export function giftBudget(
   api: CoreAPI,
@@ -2227,9 +2258,11 @@ export function giftBudget(
   >,
 ): {
   readonly monthlyIncomeMinor: number;
+  readonly monthlyWithheldMinor: number;
   readonly monthlyLivingMinor: number;
   readonly discretionaryMinor: number;
   readonly savingsMinor: number;
+  readonly cushionMinor: number;
 } {
   const core = api.state as CoreState;
   const perMonth =
@@ -2238,7 +2271,14 @@ export function giftBudget(
   const members = core.households.get(person.householdId)?.memberIds ?? [
     person.id,
   ];
-  let income = 0;
+  const income = householdIncome(api, person.householdId);
+  let withheld = 0;
+  for (const pay of income.wages)
+    withheld += withholdingOnPay(api, {
+      personId: pay.personId,
+      paidMinor: pay.minor,
+      periodDays: income.monthDays,
+    });
   let living = 0;
   let adults = 0;
   for (const memberId of members) {
@@ -2246,27 +2286,19 @@ export function giftBudget(
     if (!member?.alive) continue;
     if (ageOn(member, api.state.date) >= adultAge) adults += 1;
     living += member.livingCostDailyMinor * perMonth;
-    const job = member.jobId ? core.jobs.get(member.jobId) : undefined;
-    if (job && job.endsAt === undefined)
-      income += job.wageDailyMinor * perMonth;
-    for (const id of core.finance.incomeContractsByPerson.get(memberId) ?? []) {
-      const award = core.finance.contracts.get(id);
-      if (award?.recipientIncome && !award.endedAt)
-        income += award.amountMinor / Math.max(1, award.periodMonths);
-    }
   }
   const share = Math.max(1, adults);
+  const cushion =
+    campaignParameter("caseCushionMonths") *
+    perMonth *
+    person.livingCostDailyMinor;
   return {
-    monthlyIncomeMinor: income / share,
+    monthlyIncomeMinor: income.minor / share,
+    monthlyWithheldMinor: withheld / share,
     monthlyLivingMinor: living / share,
-    discretionaryMinor: Math.max(0, income - living) / share,
-    savingsMinor: Math.max(
-      0,
-      person.liquidMinor -
-        campaignParameter("caseCushionMonths") *
-          perMonth *
-          person.livingCostDailyMinor,
-    ),
+    discretionaryMinor: Math.max(0, income.minor - withheld - living) / share,
+    savingsMinor: Math.max(0, person.liquidMinor - cushion),
+    cushionMinor: cushion,
   };
 }
 
@@ -2309,25 +2341,32 @@ export function donationAnswer(
   const donor = api.state.people.get(donorId);
   if (!donor?.alive || ageOn(donor, api.state.date) < adultAge)
     return { givenMinor: 0, why: "no-spare" };
-  const reason = donorReason(api, filingId, donorId);
-  if (reason <= 0) return { givenMinor: 0, why: "not-warm" };
   const budget = giftBudget(api, donor);
+  const reason = donorReason(api, filingId, donorId, budget);
   if (
     donor.liquidMinor <= 0 ||
     (budget.discretionaryMinor <= 0 && budget.savingsMinor <= 0)
   )
     return { givenMinor: 0, why: "no-spare" };
+  if (reason <= 0) return { givenMinor: 0, why: "not-warm" };
   const limit = contributionLimit(api, campaign.contestId);
   const gift = giftOf(api, filingId, donorId);
   const given = gift?.totalMinor ?? 0;
   // A small gift comes out of the month's income after the bills, a larger
   // one out of savings too; both slide with how much the donor wants this
-  // candidate to win.
+  // candidate to win. Savings count on a log scale of their cushion (a
+  // dollar weighs less the more they hold): a nest egg about one for one, a
+  // fortune a few times a nest egg, never a thousand times.
+  const fromSavings =
+    budget.cushionMinor > 0
+      ? budget.cushionMinor *
+        Math.log1p(budget.savingsMinor / budget.cushionMinor)
+      : budget.savingsMinor;
   const wanted =
     Math.min(1, reason) *
     (budget.discretionaryMinor *
       campaignParameter("donationShareOfMonthPerWarmth") +
-      budget.savingsMinor * campaignParameter("donationShareOfCashPerWarmth"));
+      fromSavings * campaignParameter("donationShareOfCashPerWarmth"));
   // Whole dollars: what they'd give in all, less what they've given, never
   // more than they hold. A candidate's own money has no limit (Buckley v.
   // Valeo, 424 U.S. 1, 1976; state limits on contributions likewise cover

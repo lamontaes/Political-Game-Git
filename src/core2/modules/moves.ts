@@ -387,20 +387,35 @@ function conditionsOf(core: CoreState): Conditions {
   return built;
 }
 
-/** A household's monthly income from its records: its members' open jobs and recorded income awards. */
-function householdIncome(
+/**
+ * A household's monthly income from its records: its living members' open
+ * jobs and recorded income awards, before taxes. The one reader of what a
+ * household lives on: moves weighs its rent or mortgage against it, and
+ * campaigns' `giftBudget` reads what is left of it after the taxes and the
+ * bills. `wages` is each open job's monthly pay by member, the pay payroll
+ * withholds taxes from (budgets' `withholdingOnPay`), over `monthDays` days.
+ */
+export function householdIncome(
   api: CoreAPI,
   householdId: string,
-): { minor: number; ids: string[] } {
+): {
+  minor: number;
+  ids: string[];
+  wages: { readonly personId: string; readonly minor: number }[];
+  monthDays: number;
+} {
   const core = api.state as CoreState;
   const ids: string[] = [];
+  const wages: { personId: string; minor: number }[] = [];
   let minor = api.parameter("zero");
   const perMonth = m(api, "movesDaysPerYear") / api.parameter("monthsPerYear");
   for (const id of core.households.get(householdId)?.memberIds ?? []) {
-    const jobId = core.people.get(id)?.jobId;
-    const job = jobId ? core.jobs.get(jobId) : undefined;
+    const member = core.people.get(id);
+    if (!member?.alive) continue;
+    const job = member.jobId ? core.jobs.get(member.jobId) : undefined;
     if (job && job.endsAt === undefined) {
       minor += job.wageDailyMinor * perMonth;
+      wages.push({ personId: id, minor: job.wageDailyMinor * perMonth });
       ids.push(job.id);
     }
     for (const contractId of core.finance.incomeContractsByPerson.get(id) ??
@@ -411,7 +426,7 @@ function householdIncome(
       ids.push(row.id);
     }
   }
-  return { minor, ids };
+  return { minor, ids, wages, monthDays: perMonth };
 }
 
 /** A household's own cash, net of what its members owe on credit lines. */

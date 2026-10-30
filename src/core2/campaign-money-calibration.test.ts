@@ -13,13 +13,14 @@
  *   held to half to twice that, as the row is one city;
  * - the median gift near $50 (localContributionMedianUsd, $35 to $100:
  *   https://www.opb.org/article/2021/08/09/portland-elections-oregon-politics-city-hall-small-donors-campaign-funding/),
- *   widened by a quarter at each end for the spread between drawn towns (over
- *   24 drawn places, eight-place pools ran $37 to $109 at the 0.5th and 99.5th
- *   percentiles).
+ *   widened by a quarter at each end for the spread between drawn towns (at
+ *   the fitted donationShareOfMonthPerWarmth, ten drawn eight-place pools ran
+ *   medians of $63 to $109).
  *
  * The world is the opening population (`buildPopulation`), as in
  * campaigns.test.ts: its retirees hold no recorded income award, so they
- * give only from savings beyond their cushion.
+ * give only from savings beyond their cushion. Payroll withholding is
+ * installed (`openBudgets`), so a donor's month is their pay after taxes.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -30,6 +31,7 @@ import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 import { lawChain, openLaws } from "./modules/laws";
+import { openBudgets } from "./modules/budgets";
 import { openOffices } from "./modules/offices";
 import { openRecord } from "./modules/record";
 import {
@@ -73,6 +75,9 @@ function runPlace(attempt: number): PlaceRun | null {
     { modules: [viewsModule] },
   ) as CoreState;
   openLaws(core);
+  // Payroll withholds the law in force from every paycheck, as in play, so
+  // what a donor has to give from is their pay after those taxes.
+  openBudgets(core);
   openOffices(core, place.seed);
   openElections(core);
   openCampaigns(core);
