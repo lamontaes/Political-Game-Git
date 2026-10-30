@@ -5,12 +5,13 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/campaign-tests-redraw
 pr:
 blocked-on:
 source: Merger 0, Oct 30 (after merging #6874)
 lead: governing
+claimed-at: 2026-10-30T07:45:00.499Z
 ---
 
 **What.** Two campaign tests fail on some drawn places, not on a code fault. In campaign-day.test.ts the forum test fails with "the player could file for nothing: Wahiawa, Hawaii" (run seed b3fa5eec...) because its one draw lands where no town or county race takes the player. In campaigns.test.ts the volunteers test failed in 555 ms on one draw, before the campaign ran, which points at its own draw: no open contest to file for, or fewer than three willing volunteers. Merger 0 saw two such failures in its first nine runs and none in the next 37, so main can turn red by draw.
