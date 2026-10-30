@@ -18,6 +18,10 @@
       "reason": "Raw Census 2022 shares of local spending by type of government; scripts/research/export-public-budget-bases.py measures each place's county and city base rows from it into data/research/money/public-budget-bases.json, which the budgets engine reads."
     },
     {
+      "file": "data/research/campaigns/federal-questions-2026.json",
+      "reason": "Raw research result for the federal questions (law in force, latest Senate floor vote, town reader and 60-vote verdict each; plan unit C2 of gov-congress-passes-policy-laws); unit C3 copies the chosen questions' rows into the game's own stance and law data, and the game never reads this file."
+    },
+    {
       "file": "data/research/housing/acs-2024-owner-mortgage-age.json",
       "reason": "Raw source the game does not read directly: input to data/research/housing/build_core_data.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
@@ -88,6 +92,10 @@
     {
       "file": "data/research/money/town-business-a71-2026.json",
       "reason": "Raw source the game does not read directly: source cited by src/core2/data/parameters.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
+    },
+    {
+      "file": "data/research/outcome-web/sizes-2026-10-29.json",
+      "reason": "Raw research result for ten outcome-web link sizes (quote, conversion, value, range, verifier's finding each); a later family copies a size into the link's row in links.json, which the outcome web reads, and the game never reads this file."
     },
     {
       "file": "data/research/stand-in-figures-2026-10-12.json",
