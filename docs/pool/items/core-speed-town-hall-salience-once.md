@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/townhall-salience-once
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T02:01:10.148Z
 ---
 
 **What.** A CPU profile of the played year in Grand Haven, Michigan (key 2633340, speed:year seed spd-d, main 923bfbf3, 162 s a year) puts townHallDrives in src/core2/modules/meetings.ts at 13.8 s of 223 s under the profiler, nearly all of it in viewOn, openingRecord and stanceOn. For every adult in town it sorts the policy questions with a comparator that recomputes the adult's salience (the view on the question times a life-concern weight) twice per comparison, so each question's view is worked out many times instead of once. Two independent analyses in the speed lead's hot-spot workflow found the same cut.
