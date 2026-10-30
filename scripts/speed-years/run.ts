@@ -5,20 +5,26 @@
  *
  *   npm run speed:year -- [--seed <s>] [--place <key>] [--years 1] [--max-seconds 300]
  *     [--exclusive] [--out <receipt.json>] [--baseline <main receipt.json>]
+ *     [--same-records] [--proof-out <proof.json>]
  *
  * The place is drawn from all 56 by the seed unless `--place` names a key.
  * Prints the build seconds and each year's seconds, and exits 1 when a year
  * runs over `--max-seconds` (the game's own limit is 120 seconds a year).
  * `--out` writes a receipt (`compare.ts`'s `SpeedReceipt`); `--baseline` reads
  * another and exits 1 when a year is more than 20% slower (`compareYears`),
- * as the local gate asks. `--exclusive` says the machine ran nothing else.
+ * as the local gate asks; with `--same-records` it also exits 1 when a year's
+ * records differ (dev mode's records proof, `src/bench/dev-proof.ts`), naming
+ * each differing table. `--proof-out` writes the last year's proof with every
+ * row's digest, so two builds' files name the first record that differs.
+ * `--exclusive` says the machine ran nothing else.
  * Run one process at a time, on a quiet machine.
  */
-import { createHash, randomBytes } from "node:crypto";
+import { randomBytes } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { hostname } from "node:os";
 import { performance } from "node:perf_hooks";
+import { recordProof } from "../../src/bench/dev-proof";
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
@@ -55,19 +61,9 @@ const world = buildBenchWorld(drawn.seed, gameStartDate(), {
 console.log(
   `${placeName} (key ${placeKey}, seed ${seed}): built in ${seconds(built)} s`,
 );
-/** A summary of the world at a year's end: its date, counts and every dollar held. */
-const fingerprint = (): string => {
-  const core = world.core;
-  const held = [...core.people.values(), ...core.organizations.values()].reduce(
-    (sum, row) => sum + row.liquidMinor,
-    0,
-  );
-  return createHash("sha256")
-    .update(JSON.stringify([core.date, core.people.size, core.jobs.size, held]))
-    .digest("hex");
-};
 const git = (...gitArgs: string[]) =>
   execFileSync("git", gitArgs, { encoding: "utf8" }).trim();
+const proofOut = option("proof-out", "");
 let over = false;
 const rows: YearTiming[] = [];
 for (let year = 1; year <= years; year += 1) {
@@ -75,10 +71,26 @@ for (let year = 1; year <= years; year += 1) {
   const target = addDays(makeIsoDate(world.core.date), 365);
   advanceCore(world.core, target);
   const took = seconds(began);
+  // Dev mode's records proof, taken after the clock stops (`dev-proof.ts`).
+  const proof = recordProof(world.core, { rows: year === years && !!proofOut });
+  if (proof.rows) {
+    writeFileSync(proofOut, JSON.stringify(proof));
+    // Dev mode opens the same world from the core's seed and the place key.
+    console.log(
+      `proof: core seed ${world.core.seed}, place ${placeKey}, ${world.core.date} -> ${proofOut}`,
+    );
+  }
+  if (year === 1 && proof.uncovered.length)
+    console.log(
+      `engines that have not declared their whole state saveable, so the proof sees only their tables: ${proof.uncovered.join(", ")}`,
+    );
+  // The proof's garbage is collected here (`--expose-gc`), not in the next timed year.
+  (globalThis as { gc?: () => void }).gc?.();
   rows.push({
     year,
     seconds: took,
-    fingerprint: fingerprint(),
+    fingerprint: proof.digest,
+    tables: proof.tables,
     date: world.core.date,
   });
   console.log(`year ${year}: ${took} s, through ${world.core.date}`);
@@ -111,6 +123,7 @@ if (baseline) {
   problems = compareYears(
     JSON.parse(readFileSync(baseline, "utf8")) as SpeedReceipt,
     receipt,
+    args.includes("--same-records"),
   );
   for (const problem of problems) console.error(problem);
 }
