@@ -73,7 +73,14 @@ import {
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter, personLean, type Stance } from "../campaign-views";
+import {
+  campaignParameter,
+  groupStance,
+  personLean,
+  publicOffset,
+  type Stance,
+  type StanceProfile,
+} from "../campaign-views";
 import { basePlaces } from "../race-places";
 import { holdoverRule } from "../office-holdover";
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };
@@ -146,6 +153,7 @@ import {
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
   viewOf,
+  viewOn,
   viewsModule,
 } from "./views";
 import {
@@ -1328,6 +1336,96 @@ export function electorateRoll(api: CoreAPI): readonly RollVoter[] {
         weeklyMinutes: v.weeklyMinutes,
       });
   return rows;
+}
+
+/** The shares of the town's electorate on each side of a policy question. */
+export interface ElectorateSides {
+  /** The share whose own stance favors the question's "yes". */
+  readonly yes: number;
+  /** The share whose own stance opposes it. */
+  readonly no: number;
+}
+
+interface SideVoter {
+  readonly id: string;
+  readonly named: boolean;
+  readonly lean: number;
+  readonly profile: StanceProfile | null;
+  readonly count: number;
+}
+
+const sidesByDay = new WeakMap<
+  object,
+  {
+    readonly date: string;
+    readonly voters: readonly SideVoter[];
+    readonly total: number;
+    readonly byQuestion: Map<string, ElectorateSides>;
+  }
+>();
+
+/**
+ * The shares of the town's electorate (`electorateRoll`) on each side of a
+ * policy question, as each would decide it directly (the rule a ballot
+ * measure is voted by): a named adult at their own current view of it
+ * (`viewOn`), a counted record at the stance its record gives (`groupStance`,
+ * as many times as the people it stands for: one model, two tiers), each
+ * from their place in the town's lean order (`personLean`) and plus how
+ * popular the policy is across the country (`publicOffset`). Read once a
+ * day: the electorate as it stood at the first question asked that day, and
+ * each question once.
+ */
+export function electorateSides(
+  api: CoreAPI,
+  question: string,
+): ElectorateSides {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return { yes: 0, no: 0 };
+  const core = api.state as CoreState;
+  let held = sidesByDay.get(core);
+  if (!held || held.date !== core.date) {
+    const records = new Map(countedResidents(core).map((row) => [row.id, row]));
+    const lean0 = townLean(api);
+    const views = core.modules.has(VIEWS_MODULE_ID);
+    const voters: SideVoter[] = [];
+    let total = 0;
+    for (const row of electorateRoll(api)) {
+      const who =
+        row.target === "person" ? core.people.get(row.id) : records.get(row.id);
+      if (!who) continue;
+      voters.push({
+        id: row.id,
+        named: row.target === "person",
+        lean: personLean(core.people, who, lean0),
+        // A counted record's faith and degree, where the views engine runs.
+        profile:
+          row.target === "group" && views
+            ? countedStanceProfile(api, who as CountedVoter)
+            : null,
+        count: row.count,
+      });
+      total += row.count;
+    }
+    held = { date: core.date, voters, total, byQuestion: new Map() };
+    sidesByDay.set(core, held);
+  }
+  const kept = held.byQuestion.get(question);
+  if (kept) return kept;
+  const offset = publicOffset(question, api.state.seed);
+  let yes = 0,
+    no = 0;
+  for (const voter of held.voters) {
+    const stance =
+      (voter.named
+        ? viewOn(api, voter.id, question, voter.lean)
+        : groupStance(voter.lean, question, voter.profile)) + offset;
+    if (stance > 0) yes += voter.count;
+    else if (stance < 0) no += voter.count;
+  }
+  const sides: ElectorateSides = held.total
+    ? { yes: yes / held.total, no: no / held.total }
+    : { yes: 0, no: 0 };
+  held.byQuestion.set(question, sides);
+  return sides;
 }
 
 /**

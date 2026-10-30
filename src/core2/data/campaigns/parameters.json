@@ -904,8 +904,14 @@
     "candidatePlatformQuestions": {
       "value": 3,
       "tag": "TUNABLE",
-      "source": "How many questions a candidate who files with no stated platform campaigns on: the ones they feel most strongly about. Local candidate questionnaires and mailers lead with a few issues (Ballotpedia candidate surveys ask for three key messages).",
+      "source": "How many questions a candidate who files with no stated platform campaigns on: the seat's questions with the highest scores by the platform rule (platformSupportSlope). Local candidate questionnaires and mailers lead with a few issues (Ballotpedia candidate surveys ask for three key messages).",
       "spread": [2, 5]
+    },
+    "platformSupportSlope": {
+      "value": 0.035,
+      "tag": "ESTIMATED",
+      "source": "Per percentage point of the electorate on the candidate's side of a question, on the log of how much a candidate talks about it: a candidate's score for running on a question is how strongly they hold it times exp(this times that support), and they run on the top scores, keeping their positions (docs/research/platform-emphasis-2026-10-30.md). Druckman, Jacobs and Ostermeier (2004), 'Candidate Strategies to Prime Issues and Image', Journal of Politics 66(4): the space Nixon gave a domestic issue rose with private-poll support for his position on it, coefficient .043 (SE .019) in Table 2 and .028 (SE .013) with image controls in Table 4 ('if support for Nixon's position on a domestic issue increased by 10% ... the space Nixon devoted to a domestic issue would increase an average of 58%'); the all-issues coefficient did not survive the image controls and is not used. One presidential campaign, so carrying it to local candidates is an estimate. Set midway between the two models' domestic coefficients: picking only the top questions sharpens the measured slope (the research's own note), and at .043 the first played world's contested races measured +84%, at the band's edge. Checked as a total, not per candidate: over every (candidate, question) pair of a played year's contested races, emphasis share at fixed conviction must rise about +27% to +86% per 10 points of support (the C1 band, exp(10 x 0.024) to exp(10 x 0.062); src/core2/campaign-platform-played.test.ts). Issue salience is left out: the same study's importance coefficient (.010, SE .022) was weak and not significant.",
+      "spread": [0.028, 0.043]
     },
     "campaignRampDays": {
       "value": 60,

@@ -55,7 +55,7 @@
   "candidacyPlatformQuestions": {
     "value": 3,
     "tag": "TUNABLE",
-    "citation": "How many policy questions a runner states a position on when filing: the ones where their own views are strongest. Local candidate questionnaires and campaign sites typically lead with two to five issues (Ballotpedia Candidate Connection surveys). Spread 2 to 5."
+    "citation": "How many policy questions a runner states a position on when filing: the seat's questions with the highest scores by the platform rule (campaigns parameter platformSupportSlope: how strongly they hold it, weighed by how much of the electorate is on their side). Local candidate questionnaires and campaign sites typically lead with two to five issues (Ballotpedia Candidate Connection surveys). Spread 2 to 5."
   },
   "candidacyStandingCircle": {
     "value": 50,

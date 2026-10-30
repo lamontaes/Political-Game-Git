@@ -7809,5 +7809,17 @@
     "addedAt": "2026-10-29",
     "replacement": "A director situation type (Words session) reading volunteer-shift events by id: a volunteer reporting back on their evening of doors, or the week's journal line of what the campaign's volunteers walked, with the volunteer-door causes that name the volunteer as actor.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-platform-support-true-share",
+    "kind": "missing-record",
+    "file": "src/core2/campaign-stances.ts",
+    "line": 283,
+    "whatItFakes": "A candidate choosing which questions to run on reads the true share of the town's electorate on their side of each question (electorateSides: every named adult at their own view, every counted record at its record's stance times the people it stands for, plus the policy's national popularity), as if they knew it exactly. For a ward, county, state or federal seat it is still the town's electorate.",
+    "why": "The research rule scores a question by the support the candidate believes it has (Druckman, Jacobs and Ostermeier 2004 used Nixon's private polls), and no engine keeps a candidate's belief about how the town stands on a question.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-10-30",
+    "replacement": "The candidate's belief about support, read from the people they know and the polls and news they have received, so it leans toward their own side and their circle (Pereira, APSR 2021: local officials misjudge majority opinion and overestimate support for the policies they endorse; Broockman and Skovron 2018), with the seat's own electorate (its ward, county or state) in place of the town's.",
+    "status": "open"
   }
 ]
