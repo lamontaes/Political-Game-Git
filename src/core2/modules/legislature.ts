@@ -5342,6 +5342,19 @@ export function registerSittingReader(
   sittingReader = reader;
 }
 
+let floorDateReader: ((api: CoreAPI, billId: string) => string | null) | null =
+  null;
+/** The engine that keeps the floor leaders' calendars says which week a drafted bill is on. */
+export function registerFloorDateReader(
+  reader: (api: CoreAPI, billId: string) => string | null,
+): void {
+  floorDateReader = reader;
+}
+/** The floor week a drafted bill is on the floor leader's calendar for, or null. */
+export function floorDateOf(api: CoreAPI, billId: string): string | null {
+  return floorDateReader?.(api, billId) ?? null;
+}
+
 /**
  * Put a bill on the body's next sitting: a town body's next regular meeting,
  * a legislature's next floor week in session (or its next session's first),

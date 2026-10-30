@@ -73,6 +73,7 @@
     "event": "Hold an event",
     "forum": "Host a forum",
     "interview": "Ask for an interview",
+    "party": "Meet donors at a supporter's home",
     "hours": "hours"
   },
   "campaignUnavailable": {
@@ -86,7 +87,8 @@
     "outletsFull": "No outlet has room this week",
     "notKnown": "Not known enough for television yet",
     "nobodyReached": "Nobody you can reach yet",
-    "allGave": "Everyone you can reach has given"
+    "allGave": "Everyone you can reach has given",
+    "noHost": "Nobody close to you would host yet"
   },
   "campaignContribute": {
     "give": "Put in your own money",
@@ -307,7 +309,14 @@
     "nextMonth": "Next month",
     "today": "Today",
     "upcoming": "Coming up",
-    "advance": "Live until this day",
+    "advance": "Go to this day",
+    "tomorrow": "Tomorrow",
+    "daysAhead": "{n} days from now",
+    "daysAgo": "{n} days ago",
+    "nothing": "Nothing is on this day.",
+    "page": "{page} of {pages}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
   "party": {
@@ -423,7 +432,7 @@
     },
     "issueSetBy": {
       "federal": "Federal law",
-      "state": "State law",
+      "state": "{level} law",
       "county": "County law",
       "city": "City law"
     },
@@ -605,11 +614,15 @@
     "search": "Search",
     "none": "No term matches that."
   },
+  "patchNotes": {
+    "release": "Release"
+  },
   "campaignActs": {
     "volunteer": "Volunteers",
     "donation": "Donations",
     "endorsement": "Endorsements",
     "ad": "Ad",
+    "mail": "Mail",
     "poll": "Poll"
   },
   "campaignResults": {

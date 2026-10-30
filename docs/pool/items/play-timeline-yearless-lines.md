@@ -6,7 +6,7 @@ lead: cto
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: cto/timeline-yearless
 pr: #6892
 blocked-on:

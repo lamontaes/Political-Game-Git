@@ -6,11 +6,12 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/fiscal-note-at-drafting
 pr:
 blocked-on:
 source: governing lead Oct 29
+claimed-at: 2026-10-30T07:06:28.590Z
 ---
 
 **What.** M3-01's test sentence says a fiscal note appears at drafting, and the register rules that every bill gets one (DECISION-REGISTER, "How laws reach people", Sept 26: "Every bill gets a fiscal note when drafted"). The engine writes `costEstimate` on every drafted bill (`costOf` in src/core2/modules/legislature.ts) and `billPaper` returns it as `estimate` (src/bench/legislature.ts), but no test asserts either: legislature.test.ts only prints `bill.costEstimate` in its report, and bill-paper.test.ts checks the section's before and after values, never the paper's `estimate`. A note that is zero for a wage bill that raises named workers would pass today. Assert the note against the employers' own records.
