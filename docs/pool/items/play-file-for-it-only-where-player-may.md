@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/file-only-where-player-may
 pr: #6882
 blocked-on:
-source: added with npm run pool -- add
+source: CTO, Oct 30 (Winfield AL playtest), built by the governing lead
+lead: governing
 claimed-at: 2026-10-30T02:50:26.439Z
 ---
 
