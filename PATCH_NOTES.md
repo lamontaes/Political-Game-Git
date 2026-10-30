@@ -296,6 +296,84 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.67.0
+
+_Released October 29, 2026._
+
+### Added
+
+- **Someone close can offer to run your campaign.** Soon after you file, your
+  partner, a relative or a close friend may sit down with you and offer to run
+  your campaign. Say yes and they join your campaign's staff: they are your team
+  in later scenes, and on election morning they are the one who comes by to
+  canvass with you.
+
+### Improved
+
+- **The meeting panel shows the members, the tally and the result.** At a
+  council or board meeting each item shows its members as faces ringed by how
+  they voted, the result with its counts and a tally bar, and the speeches and
+  votes sit in two tidy rows. The desk uses the same card.
+
+- **A job offer's call says who is calling and why.** When an employer calls
+  with an answer on your application, the scene now says so ("Dana Ruiz is
+  calling about the job you applied for.") instead of only "The phone rings."
+
+### Fixed
+
+- **Nobody writes on their own lap** People drawn writing or resting their hands
+  on a desk now appear only behind a desk, so nobody is shown writing on their
+  own trousers, and the new people are drawn with cleaner edges and whole
+  fingertips.
+
+- **No letters in place of a face** On the People map, someone without a picture
+  yet (a child) shows an empty ring instead of their initials.
+
+- **At a funeral, someone who shared the loss is there to talk to.** A funeral
+  used to narrate that people had gathered but put no one in the scene to
+  answer. Now the family of the one who died is there, your own household first,
+  and the closest of them opens the scene ("Your mother sits beside you to say
+  goodbye.").
+
+- **The journal tells each vote once, and says when your bill failed.** "My
+  life" no longer prints each of your votes twice ("I voted for Ordinance
+  2025-1, the Parks Funding Ordinance." and "I voted for Ordinance 2025-1."),
+  and when a bill you sponsored fails it says so ("Ordinance 2025-1 died in
+  committee." or "The vote on ... went against me.").
+
+- **A race nobody filed for makes a story.** When no one files for a seat, the
+  paper now says so (a headline that no one runs, and that no candidate filed,
+  so the seat has no winner) instead of printing a story with no words.
+
+### Changed
+
+- **A "yes" at the door now holds at the ballot.** When a resident tells a
+  campaign at the door that they will vote for its candidate, the vote now holds
+  them to it, unless something heavy they learned since changes their mind: a
+  scandal story about the candidate, a rival they are closer to, or promises of
+  the candidate's they heard and saw broken. Counted residents who answer a
+  volunteer's or a rival's door are held the same way.
+
+- **A town that loses its local newspaper turns out a little less for local
+  races** When a town's own newspaper closes, its voters are a little less
+  likely to turn out on a day whose ballot carries a city or county race, or a
+  recall of a town seat, by the size research measured. The relief-spending,
+  newspaper borrowing-cost and media-trust links stay unread, each naming the
+  engine that would read it and the record it lacks.
+
+- **Politics → Government looks like a real game menu** Government now draws
+  each body as its room, with the party split, members as cards with faces and
+  party badges, a seat chart for a big chamber, its recent roll calls as yes and
+  no bars, what is coming up and the executive beside it. Local, State and
+  Federal each split into Legislative and Executive, and the panel never
+  scrolls: a long roster pages with arrows. Click anyone to open their card.
+  Joining a party moved to the Parties tab.
+
+- **You can file only for council, state legislature, mayor, governor, Congress
+  and president.** County and township seats, trustee, clerk and the other
+  statewide offices no longer appear in your filing choices. They keep running
+  in the world with their own candidates.
+
 ## PRE-ALPHA 0.66.0
 
 _Released October 29, 2026._
