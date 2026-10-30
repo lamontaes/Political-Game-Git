@@ -1,4 +1,5 @@
 /** Developer accounting: outside owners keep flows and zero liquid cash. */
+import { isCashJournalLifetimeMinor } from "../journal-state";
 import { makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
 import type { CoreState } from "../types";
@@ -19,10 +20,8 @@ export function externalFlowObservables(core: CoreState) {
         !["SOURCED", "ESTIMATED"].includes(source.tag) ||
         !source.citation.trim() ||
         makeIsoDate(source.asOf) > core.date ||
-        !Number.isSafeInteger(totals.incomingMinor) ||
-        totals.incomingMinor < zero ||
-        !Number.isSafeInteger(totals.outgoingMinor) ||
-        totals.outgoingMinor < zero ||
+        !isCashJournalLifetimeMinor(totals.incomingMinor, zero) ||
+        !isCashJournalLifetimeMinor(totals.outgoingMinor, zero) ||
         !Number.isSafeInteger(totals.netMinor) ||
         BigInt(totals.netMinor) !==
           BigInt(totals.incomingMinor) - BigInt(totals.outgoingMinor)

@@ -3,22 +3,32 @@
  * every module (`buildBenchWorld`), advanced day by day (`advanceCore`) with
  * the debug bookkeeping off, as play runs it. Development tooling.
  *
- *   npm run speed:year -- [--seed <s>] [--place <key>] [--years 1] [--max-seconds 300]
+ *   npm run speed:year -- [--seed <s>] [--place <key>] [--years 4] [--max-seconds 300]
  *     [--exclusive] [--out <receipt.json>] [--baseline <main receipt.json>]
+ *     [--same-records] [--proof-out <proof.json>]
  *
  * The place is drawn from all 56 by the seed unless `--place` names a key.
- * Prints the build seconds and each year's seconds, and exits 1 when a year
- * runs over `--max-seconds` (the game's own limit is 120 seconds a year).
+ * Runs four years unless `--years` says otherwise, so every check holds an
+ * election year (CTO, Oct 30, 03:18: the 120-second bar applies to each year).
+ * Prints the build seconds and each year's seconds, the heap and process
+ * memory after a collection, and how many records the world keeps (a long run,
+ * `--years 100`, shows whether a save grows), and exits 1 when a year runs over
+ * `--max-seconds` (the game's own limit is 120 seconds a year).
  * `--out` writes a receipt (`compare.ts`'s `SpeedReceipt`); `--baseline` reads
  * another and exits 1 when a year is more than 20% slower (`compareYears`),
- * as the local gate asks. `--exclusive` says the machine ran nothing else.
+ * as the local gate asks; with `--same-records` it also exits 1 when a year's
+ * records differ (dev mode's records proof, `src/bench/dev-proof.ts`), naming
+ * each differing table. `--proof-out` writes the last year's proof with every
+ * row's digest, so two builds' files name the first record that differs.
+ * `--exclusive` says the machine ran nothing else.
  * Run one process at a time, on a quiet machine.
  */
-import { createHash, randomBytes } from "node:crypto";
+import { randomBytes } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { hostname } from "node:os";
 import { performance } from "node:perf_hooks";
+import { recordProof } from "../../src/bench/dev-proof";
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
@@ -34,7 +44,8 @@ const option = (name: string, fallback: string) => {
   return at >= 0 && args[at + 1] !== undefined ? args[at + 1]! : fallback;
 };
 const seed = option("seed", randomBytes(8).toString("hex"));
-const years = Number(option("years", "1"));
+// Four years, so every check holds an election year (CTO, Oct 30 03:18).
+const years = Number(option("years", "4"));
 const maxSeconds = Number(option("max-seconds", "300"));
 const drawn = drawPlace(seed, "speed-year");
 const placeKey = option("place", drawn.key);
@@ -55,37 +66,14 @@ const world = buildBenchWorld(drawn.seed, gameStartDate(), {
 console.log(
   `${placeName} (key ${placeKey}, seed ${seed}): built in ${seconds(built)} s`,
 );
-/** A summary of the world at a year's end: its date, counts and every dollar held. */
-const fingerprint = (): string => {
-  const core = world.core;
-  const held = [...core.people.values(), ...core.organizations.values()].reduce(
-    (sum, row) => sum + row.liquidMinor,
-    0,
-  );
-  return createHash("sha256")
-    .update(JSON.stringify([core.date, core.people.size, core.jobs.size, held]))
-    .digest("hex");
-};
 const git = (...gitArgs: string[]) =>
   execFileSync("git", gitArgs, { encoding: "utf8" }).trim();
+const proofOut = option("proof-out", "");
+const out = option("out", "");
+const mib = (bytes: number) => Math.round(bytes / 1048576);
 let over = false;
 const rows: YearTiming[] = [];
-for (let year = 1; year <= years; year += 1) {
-  const began = performance.now();
-  const target = addDays(makeIsoDate(world.core.date), 365);
-  advanceCore(world.core, target);
-  const took = seconds(began);
-  rows.push({
-    year,
-    seconds: took,
-    fingerprint: fingerprint(),
-    date: world.core.date,
-  });
-  console.log(`year ${year}: ${took} s, through ${world.core.date}`);
-  if (took > maxSeconds) over = true;
-}
-if (over) console.error(`over ${maxSeconds} seconds`);
-const receipt: SpeedReceipt = {
+const receipt = (): SpeedReceipt => ({
   seed,
   place: placeKey,
   stepDays: 365,
@@ -102,15 +90,63 @@ const receipt: SpeedReceipt = {
   host: hostname(),
   exclusive: args.includes("--exclusive"),
   rows,
-};
-const out = option("out", "");
-if (out) writeFileSync(out, `${JSON.stringify(receipt, null, 2)}\n`);
+});
+for (let year = 1; year <= years; year += 1) {
+  const began = performance.now();
+  const target = addDays(makeIsoDate(world.core.date), 365);
+  advanceCore(world.core, target);
+  const took = seconds(began);
+  // Dev mode's records proof, taken after the clock stops (`dev-proof.ts`).
+  const proof = recordProof(world.core, { rows: year === years && !!proofOut });
+  if (proof.rows) {
+    writeFileSync(proofOut, JSON.stringify(proof));
+    // Dev mode opens the same world from the core's seed and the place key.
+    console.log(
+      `proof: core seed ${world.core.seed}, place ${placeKey}, ${world.core.date} -> ${proofOut}`,
+    );
+  }
+  if (year === 1 && proof.uncovered.length)
+    console.log(
+      `engines that have not declared their whole state saveable, so the proof sees only their tables: ${proof.uncovered.join(", ")}`,
+    );
+  // The proof's garbage is collected here (`--expose-gc`), not in the next
+  // timed year, and what the save keeps is read after it, so a long run
+  // shows whether a save grows.
+  (globalThis as { gc?: () => void }).gc?.();
+  const kept = Object.entries(proof.tables).sort(
+    (a, b) => b[1].rows - a[1].rows,
+  );
+  rows.push({
+    year,
+    seconds: took,
+    fingerprint: proof.digest,
+    tables: proof.tables,
+    date: world.core.date,
+    heapMiB: mib(process.memoryUsage().heapUsed),
+    rssMiB: mib(process.memoryUsage().rss),
+    records: kept.reduce((sum, [, table]) => sum + table.rows, 0),
+  });
+  const row = rows.at(-1)!;
+  console.log(
+    `year ${year}: ${took} s, through ${world.core.date}; heap ${row.heapMiB} MB, ` +
+      `process ${row.rssMiB} MB; ${row.records} records, the most in ` +
+      kept
+        .slice(0, 3)
+        .map(([name, table]) => `${name} ${table.rows}`)
+        .join(", "),
+  );
+  if (took > maxSeconds) over = true;
+  // Each year's receipt is saved as it ends, so a long run keeps its marks if stopped.
+  if (out) writeFileSync(out, `${JSON.stringify(receipt(), null, 2)}\n`);
+}
+if (over) console.error(`over ${maxSeconds} seconds`);
 const baseline = option("baseline", "");
 let problems: string[] = [];
 if (baseline) {
   problems = compareYears(
     JSON.parse(readFileSync(baseline, "utf8")) as SpeedReceipt,
-    receipt,
+    receipt(),
+    args.includes("--same-records"),
   );
   for (const problem of problems) console.error(problem);
 }

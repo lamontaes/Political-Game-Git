@@ -57,11 +57,11 @@ try {
     .locator('[data-tab="travel"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".entries-cards").waitFor();
+  await page.locator(".entries-tiles .entry-go").first().waitFor();
   // Travel always lists somewhere to go, even on the opening night at 8:30 p.m.
   // (owner, Oct 27): a public place joins the list when the player's own
   // reasons are few, and every card says whether it is open now.
-  const places = await page.locator(".entry-go").count();
+  const places = await page.locator(".entries-tiles .entry-go").count();
   console.log("Destinations:", places, clock.replace("\n", " "));
   assert.ok(places >= 3, `at least three destinations, got ${places}`);
   let open = 0;
@@ -75,6 +75,30 @@ try {
     assert.ok(await card.getAttribute("data-reason"));
   }
   console.log("Open now:", open);
+  // Tiles page two rows of three under arrows; the sheet never scrolls.
+  assert.ok(places <= 6, `a page holds at most six tiles, got ${places}`);
+  const fit = await page.evaluate(() => {
+    const body = document.getElementById("sheet-body");
+    return body.scrollHeight <= body.clientHeight + 1;
+  });
+  assert.ok(fit, "the sheet body scrolls");
+  const pages = await page.locator(".pager-controls:visible").count();
+  if (pages) {
+    const before = await page.locator(".entry-info h3").allInnerTexts();
+    await page.getByRole("button", { name: "Next page" }).click();
+    assert.notDeepEqual(
+      await page.locator(".entry-info h3").allInnerTexts(),
+      before,
+      "the arrow turns to other destinations",
+    );
+    await page.getByRole("button", { name: "Previous page" }).click();
+  }
+  // A mark on the picture where people are to be met.
+  assert.ok(
+    (await page.locator(".entry-badge").count()) > 0 ||
+      open + (await page.locator(".entry-note").count()) === 0,
+    "places with people carry the people mark",
+  );
   // No line under the title restating where you are (owner, Oct 27).
   assert.equal(await page.locator(".travel-from").count(), 0);
   assert.ok(!/you are at home/i.test(await page.locator("#sheet").innerText()));
