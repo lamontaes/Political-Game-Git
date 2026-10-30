@@ -24,7 +24,7 @@ import type {
 import { engagementOf, NATIONAL_ENGAGEMENT } from "../electorate";
 import { believesClaim, claimFit } from "../heard-claims";
 import { decisionKinds } from "../trait-decisions";
-import { stancesOf, VIEWS_SPEAKER_KEY } from "./views";
+import { stanceRow, VIEWS_SPEAKER_KEY } from "./views";
 
 export const SPEECH_MODULE_ID = "speech";
 export const SPEECH_HEARD = "speech.heard";
@@ -118,7 +118,7 @@ function movedBy(
   eventId: string,
   topic: string,
 ) {
-  const stance = stancesOf(api, personId).find((row) => row.topic === topic);
+  const stance = stanceRow(api, personId, topic);
   return (
     stance?.causes
       .filter((row) => row.eventId === eventId)

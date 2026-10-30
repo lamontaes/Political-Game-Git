@@ -74,7 +74,11 @@ import {
   type ContractAwardRow,
 } from "./contracts";
 import { type Stance as ViewStance } from "./views";
-import { candidateStance } from "../campaign-stances";
+import {
+  candidateStance,
+  stanceReader,
+  type StanceReader,
+} from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
 import { BUSINESS_MODULE_ID, enrollBusinessOwner, ownerOf } from "./business";
@@ -1365,17 +1369,22 @@ export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
   );
 }
 
-/** A candidate's public position on a question: what they've stated, else where they stand. */
+/**
+ * A candidate's public position on a question: what they've stated, else
+ * where they stand (through `reader`, their stance reader for a caller that
+ * asks many questions; a fresh one otherwise).
+ */
 function statedPosition(
   api: CoreAPI,
   who: FilingRow | Speaker,
   platform: readonly Stance[],
   question: string,
+  reader?: StanceReader,
 ): number {
   const { personId, party } = asSpeaker(who);
   return (
     platform.find((s) => s.question === question)?.position ??
-    candidateStance(api, personId, party, question) ??
+    (reader ?? stanceReader(api, personId, party)).stance(question) ??
     0
   );
 }
@@ -1388,12 +1397,14 @@ const concernCache = new WeakMap<
 /**
  * Where a candidate stands on a question, as a reporter reads it: what they
  * said in the campaign, else how they last voted on it, else their own view
- * blended with their party's; 0 where none says.
+ * blended with their party's; 0 where none says. `reader` is their stance
+ * reader for a caller that asks many questions; a fresh one otherwise.
  */
 export function standingOn(
   api: CoreAPI,
   who: FilingRow | Speaker,
   question: string,
+  reader?: StanceReader,
 ): {
   position: number;
   from: "platform" | "vote" | "party" | "none";
@@ -1403,13 +1414,12 @@ export function standingOn(
   const stated = platformOf(api, who).find((s) => s.question === question);
   if (stated)
     return { position: stated.position, from: "platform", recordId: null };
-  const vote = votesOf(api, personId)
-    .filter((v) => v.stance.question === question)
-    .at(-1);
+  const read = reader ?? stanceReader(api, personId, party);
+  const vote = read.lastVote(question);
   if (vote)
     return { position: vote.stance.position, from: "vote", recordId: vote.id };
   // Their own view blended with their party's (GOV's campaign stances).
-  const stance = candidateStance(api, personId, party, question);
+  const stance = read.stance(question);
   return stance === null
     ? { position: 0, from: "none", recordId: null }
     : { position: stance, from: "party", recordId: null };
@@ -1486,6 +1496,16 @@ export function interviewQuestions(
   const speaker = asSpeaker(who);
   const filing = speaker.filing;
   const personId = speaker.personId;
+  // One stance reader per person and party label, for this call only:
+  // nothing a stance reads is written while the questions are scored.
+  const readers = new Map<string, StanceReader>();
+  const readerOf = (of: FilingRow | Speaker): StanceReader => {
+    const { personId: id, party } = asSpeaker(of);
+    const key = `${id}\u0000${party ?? ""}`;
+    let reader = readers.get(key);
+    if (!reader) readers.set(key, (reader = stanceReader(api, id, party)));
+    return reader;
+  };
   for (const p of promisesOf(api, personId))
     if (p.status === "broken")
       add(p.promise.stance.question, pressParameter("brokenPromiseNewsWeight"));
@@ -1518,26 +1538,36 @@ export function interviewQuestions(
       ...rivals.flatMap((r) => platformOf(api, r).map((s) => s.question)),
     ]),
   ].sort();
+  const speakerReader = readerOf(speaker);
   const mine = new Map(
-    questions.map((q) => [q, statedPosition(api, speaker, own, q)]),
+    questions.map((q) => [
+      q,
+      statedPosition(api, speaker, own, q, speakerReader),
+    ]),
   );
   // The asking outlet's readers: how far the candidate stands from the side
   // the outlet's line takes, on what its followers care about.
   if (outlet) {
     const followers = followersOf(api, outlet.id);
+    // Each follower's lean, read once for every question.
+    const leans = questions.length
+      ? followers.map((id) => leanOf(api, id))
+      : [];
     for (const q of questions) {
-      const care = followers.length
-        ? followers.reduce(
-            (s, id) => s + Math.abs((leanOf(api, id) / 2) * questionAxis(q)),
+      const care = leans.length
+        ? leans.reduce(
+            (s, lean) => s + Math.abs((lean / 2) * questionAxis(q)),
             0,
-          ) / followers.length
+          ) / leans.length
         : 0;
       const line = Math.sign((outlet.lean / 2) * questionAxis(q));
       add(
         q,
         (pressParameter("outletReadersNewsWeight") *
           care *
-          Math.abs(line - standingOn(api, speaker, q).position)) /
+          Math.abs(
+            line - standingOn(api, speaker, q, speakerReader).position,
+          )) /
           2,
       );
     }
@@ -1558,11 +1588,14 @@ export function interviewQuestions(
         add(d.topic, pressParameter("reporterCauseNewsWeight") * d.strength);
   for (const rival of rivals) {
     const theirs = platformOf(api, rival);
+    const reader = readerOf(rival);
     for (const q of questions)
       add(
         q,
         (pressParameter("partyGapNewsWeight") *
-          Math.abs(mine.get(q)! - statedPosition(api, rival, theirs, q))) /
+          Math.abs(
+            mine.get(q)! - statedPosition(api, rival, theirs, q, reader),
+          )) /
           2,
       );
   }
