@@ -256,10 +256,12 @@ for (let race = 0; race < 3 && !won; race++) {
   won = result.held;
   takesOffice = result.takesOffice;
   if (!won && race < 2) {
-    // Lose, and the next contest they can enter is the next try.
-    const next = governmentView(w.core, me).contests.find((c) =>
+    // Lose, and the next contest they can enter is the next try (a
+    // council seat first, as stand() picks it).
+    const open = governmentView(w.core, me).contests.filter((c) =>
       c.checks.every((k) => k.met),
     );
+    const next = open.find((c) => isCouncil(c.contest.officeId)) ?? open[0];
     if (!next) break;
     log.push(`lost; trying ${next.contest.title}`);
   }
