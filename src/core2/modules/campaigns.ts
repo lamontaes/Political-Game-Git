@@ -126,6 +126,9 @@ import {
   worldSwing,
 } from "./elections";
 
+export { candidatePlatform } from "../campaign-stances";
+export { contestPositions } from "../contest-positions";
+
 export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
 const DONATION_KIND = "campaigns:donation";
 const AD_KIND = "campaigns:ad-buy";

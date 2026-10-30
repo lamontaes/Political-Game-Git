@@ -14,11 +14,11 @@ import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { campaignDay } from "./campaign";
-import { candidatePlatform } from "../core2/campaign-stances";
-import { contestPositions } from "../core2/contest-positions";
 import { campaignDayChoices } from "../core2/campaign-day";
 import {
   CAMPAIGNS_MODULE_ID,
+  candidatePlatform,
+  contestPositions,
   signaturesToGather,
 } from "../core2/modules/campaigns";
 import { electionResults } from "./results";
