@@ -531,6 +531,11 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "scene-ending:vague-promise",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "scene-ending:favor-owed",
       "turn": false,
       "entry": "story"

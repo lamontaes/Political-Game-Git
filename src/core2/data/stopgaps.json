@@ -1139,6 +1139,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-rival-donor-meeting",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 3913,
+    "whatItFakes": "A world candidate's campaign day (rivalDay) never holds a donor meeting at a supporter's home; its money comes only from call time, the turn's asks and the outside donors. Because rivalDay never takes it, campaignDayChoices with world=true skips the host scoring entirely (src/core2/campaign-day.ts, same marker) and reports the donor-meeting choice unavailable with no host, so a rival's turn reads nobody's circle for it.",
+    "why": "The donor meeting was built for the player's campaign first (campaign-like-real-races, phase A: named donors at house parties); scoring it in the rival's day changes every world race's money and pace, which wants its own calibration run.",
+    "addedBy": "governing/campaign-donor-meetings",
+    "addedAt": "2026-10-29",
+    "replacement": "campaignDayChoices names a host for world candidates too (the world=true skip in campaign-day.ts is deleted), rivalDay scores the donor-meeting choice on the same scale as the event and the interview (rising as the bank empties and with the host's warmth), takes it as the day's whole act when it scores best, and the world's races are re-checked against the campaign-finance calibration.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-voter-groups-stand-in",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
@@ -1256,6 +1268,18 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "The group hires a lobbyist (a person with a job, a record and memory of each member's votes). Owner as lobbyist done Oct 19.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-group-endorsement-stance",
+    "kind": "estimated-rule",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 3236,
+    "whatItFakes": "What an organization stands for when it weighs a candidate for endorsement is read from the little its engine keeps: a cause group's topic, for it unless its founder's drive wants a repeal (a desired change like building a park or cutting a hazard counts as for); an employers' group formed over a wage bill states nothing, so it endorses no one; a party chapter holds its lean along the 54 platform questions only, so a budget-line plank weighs nothing with it. Only a group's full members hear its endorsement and are asked to volunteer; counted residents who hold the same cause are not reached.",
+    "why": "No group engine yet writes a group platform (a candidate questionnaire, a slate of positions) or keeps the question an employers' wage group argued, and groups enlist only full people.",
+    "addedBy": "governing/campaign-group-endorsements",
+    "addedAt": "2026-10-29",
+    "replacement": "Each organization keeps its own platform (the positions its members adopt, a questionnaire it sends candidates) that the endorsement weighing reads, and its counted supporters are reached by the same rule times their count.",
     "status": "open"
   },
   {
@@ -7764,6 +7788,17 @@
     "status": "open"
   },
   {
+    "id": "SG-MEETINGS-debate-no-moderator",
+    "kind": "missing-record",
+    "file": "src/core2/modules/meetings.ts",
+    "whatItFakes": "A debate whose host outlet has no living reporter, head or owner free to moderate it (every one of them is in the race or gone) has nobody to ask the questions, so the player's yes to its invitation puts no sitting on the record. The debate waits for the eve of the election and is then held with the player's filed platform as their answers, as a yes did before the sitting existed.",
+    "why": "The moderator is someone the outlet's record already names (its reporters, head and owner); a debate with none of them free is not given an invented moderator (owner, Oct 29: never invent a person).",
+    "addedBy": "Words, scenes and the director (debate sitting)",
+    "addedAt": "2026-10-29",
+    "replacement": "An outlet's masthead refilled by the jobs engine (refreshPressStaff), or a neutral host the town's league or chamber of commerce names in its records, so every debate has a moderator who asks.",
+    "status": "open"
+  },
+  {
     "id": "SG-CAMPAIGN-volunteer-shift-no-scene",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/campaigns.ts",
@@ -7773,17 +7808,6 @@
     "addedBy": "governing lead builder (campaign-like-real-races, volunteer shifts)",
     "addedAt": "2026-10-29",
     "replacement": "A director situation type (Words session) reading volunteer-shift events by id: a volunteer reporting back on their evening of doors, or the week's journal line of what the campaign's volunteers walked, with the volunteer-door causes that name the volunteer as actor.",
-    "status": "open"
-  },
-  {
-    "id": "SG-MEETINGS-debate-no-moderator",
-    "kind": "missing-record",
-    "file": "src/core2/modules/meetings.ts",
-    "whatItFakes": "A debate whose host outlet has no living reporter, head or owner free to moderate it (every one of them is in the race or gone) has nobody to ask the questions, so the player's yes to its invitation puts no sitting on the record. The debate waits for the eve of the election and is then held with the player's filed platform as their answers, as a yes did before the sitting existed.",
-    "why": "The moderator is someone the outlet's record already names (its reporters, head and owner); a debate with none of them free is not given an invented moderator (owner, Oct 29: never invent a person).",
-    "addedBy": "Words, scenes and the director (debate sitting)",
-    "addedAt": "2026-10-29",
-    "replacement": "An outlet's masthead refilled by the jobs engine (refreshPressStaff), or a neutral host the town's league or chamber of commerce names in its records, so every debate has a moderator who asks.",
     "status": "open"
   }
 ]

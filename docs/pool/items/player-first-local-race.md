@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/player-first-local-race
 pr: #6854
 blocked-on:

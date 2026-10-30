@@ -210,8 +210,12 @@ describe("campaign interviews", () => {
       const rivalRows = interviewsFor(api, rival.personId).filter(
         (r) => r.askedBy === "outlet",
       );
+      // The race the interview is about: the same person may also stand in other
+      // contests, which an outlet asked about on their own dates (a person who
+      // stands in nine 2026 races, US-RI place 4435200, seed
+      // a53c4e4bd043c0e61a62bd598cf447bc4fa96bf0fd348112c78832f2d3a63bdc).
       const yourRows = interviewsFor(api, you.personId).filter(
-        (r) => r.askedBy === "outlet",
+        (r) => r.askedBy === "outlet" && r.contestId === you.contestId,
       );
       expect(rivalRows.length + yourRows.length, where).toBeGreaterThan(0);
       for (const row of rivalRows)

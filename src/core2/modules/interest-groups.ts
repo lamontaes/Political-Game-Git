@@ -722,6 +722,28 @@ const groupIdFor = (town: string, question: string, side: number) =>
   `group:${town}:${question}:${side > 0 ? "for" : "against"}`;
 
 /**
+ * What a group stands for, as positions on policy questions (read-only, for
+ * the engines that weigh a group's backing, such as a campaign's
+ * endorsements): a residents' group its question on its own side, an
+ * employers' group against the policy that binds its members. An employers'
+ * group formed over a wage bill keeps no question on its row, so it states
+ * none.
+ */
+export function groupStance(
+  group: Readonly<GroupRow>,
+): readonly { readonly question: string; readonly position: number }[] {
+  if (group.interest.startsWith("employers:"))
+    return [
+      { question: group.interest.slice("employers:".length), position: -1 },
+    ];
+  if (group.id.endsWith(":for"))
+    return [{ question: group.interest, position: 1 }];
+  if (group.id.endsWith(":against"))
+    return [{ question: group.interest, position: -1 }];
+  return [];
+}
+
+/**
  * Whether a resident joins a side's group: how hard the side pulls them (their
  * view toward it, doubled where it touches their own life) and how strongly
  * the group's members already draw them in (their closest tie to one), against

@@ -63,12 +63,17 @@
     "other": "{n} volunteers",
     "asked": "Asked {asked}, {yes} said yes: {volunteers} now"
   },
+  "campaignEndorsements": {
+    "one": "1 endorsement",
+    "other": "{n} endorsements"
+  },
   "campaignOutings": {
     "doors": "Knock on doors",
     "calls": "Call donors",
     "event": "Hold an event",
     "forum": "Host a forum",
     "interview": "Ask for an interview",
+    "party": "Meet donors at a supporter's home",
     "hours": "hours"
   },
   "campaignUnavailable": {
@@ -82,7 +87,8 @@
     "outletsFull": "No outlet has room this week",
     "notKnown": "Not known enough for television yet",
     "nobodyReached": "Nobody you can reach yet",
-    "allGave": "Everyone you can reach has given"
+    "allGave": "Everyone you can reach has given",
+    "noHost": "Nobody close to you would host yet"
   },
   "campaignContribute": {
     "give": "Put in your own money",
@@ -303,7 +309,14 @@
     "nextMonth": "Next month",
     "today": "Today",
     "upcoming": "Coming up",
-    "advance": "Live until this day",
+    "advance": "Go to this day",
+    "tomorrow": "Tomorrow",
+    "daysAhead": "{n} days from now",
+    "daysAgo": "{n} days ago",
+    "nothing": "Nothing is on this day.",
+    "page": "{page} of {pages}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
   "party": {
@@ -359,16 +372,7 @@
     "list": "List",
     "web": "Web",
     "card": "View person",
-    "talk": "Talk",
-    "joined": "Closer this year",
-    "left": "Drifted away",
-    "noChange": "Your five closest are the same as a year ago",
-    "causes": {
-      "person.moved-away": "Moved away",
-      "life.death": "Died",
-      "no-time-together": "No time together lately",
-      "chosen-act": "Time together"
-    }
+    "talk": "Talk"
   },
   "news": {
     "title": "News"
@@ -428,7 +432,7 @@
     },
     "issueSetBy": {
       "federal": "Federal law",
-      "state": "State law",
+      "state": "{level} law",
       "county": "County law",
       "city": "City law"
     },
@@ -516,7 +520,14 @@
       "Libertarian": "Libertarian",
       "Green": "Green"
     },
-    "noIssues": "No law matches that."
+    "noIssues": "No law matches that.",
+    "inOffice": "In office",
+    "comesFrom": "Where it comes from",
+    "goesTo": "Where it goes",
+    "books": "The books",
+    "otherLines": "Other",
+    "fiscalYear": "fiscal year",
+    "priorities": "Your priorities"
   },
   "results": {
     "you": "You",
@@ -584,7 +595,10 @@
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
-    "noBallot": "No local election is on the calendar"
+    "noBallot": "No local election is on the calendar",
+    "dates": "Dates",
+    "electionDay": "Election day",
+    "yourCampaign": "Your campaign"
   },
   "grade": {
     "good": "Good",
@@ -597,13 +611,18 @@
     "markGap": "Mark gap"
   },
   "guide": {
-    "search": "Search"
+    "search": "Search",
+    "none": "No term matches that."
+  },
+  "patchNotes": {
+    "release": "Release"
   },
   "campaignActs": {
     "volunteer": "Volunteers",
     "donation": "Donations",
     "endorsement": "Endorsements",
     "ad": "Ad",
+    "mail": "Mail",
     "poll": "Poll"
   },
   "campaignResults": {

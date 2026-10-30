@@ -33,25 +33,46 @@ try {
   await page.locator('.ring[data-tab="politics"]').click();
   await page.locator("#sheet:not([hidden])").waitFor();
   await page.locator('#sheet-tabs [data-tab="campaigns"]').click();
+  // A place with no race on its coming ballot (a territory between its
+  // elections) says so on the plate, with no cards.
+  if (!ballot.races.length) {
+    await page.locator("#sheet-body .campaigns-screen .record-empty").waitFor();
+    assert.equal(
+      await page.locator("#sheet-body .race-cards").count(),
+      0,
+      "race cards on an empty ballot",
+    );
+    assert.deepEqual(errors, [], "page errors");
+    console.log("ok: no race on the coming ballot here, and Campaigns says so");
+    await browser.close();
+    process.exit(0);
+  }
   await page.locator("#sheet-body .entry").first().waitFor();
-  const seen = await page.evaluate(() =>
-    [...document.querySelectorAll("#sheet-body .entry")].map((e) => ({
-      title: e.querySelector("h3")?.textContent.trim() ?? "",
-      value: e.querySelector(".entry-value")?.textContent.trim() ?? "",
-      contest: e.dataset.contest ?? "",
-      opens: e.tagName === "DETAILS",
-      people: e.querySelectorAll(".person-row").length,
-      faces: [...e.querySelectorAll(".person-row-face")].filter(
-        (f) => f.style.backgroundImage,
-      ).length,
-      file: e.querySelectorAll('[data-testid="file-for-it"]').length,
-      text: e.innerText,
-    })),
-  );
+  // The ballot is race cards on a plate, paged (owner, Oct 29: every menu
+  // like Government); each card opens its race's page.
+  const seen = [];
+  for (;;) {
+    seen.push(
+      ...(await page.evaluate(() =>
+        [...document.querySelectorAll("#sheet-body .race-cards .entry")].map(
+          (e) => ({
+            title: e.querySelector("h3")?.textContent.trim() ?? "",
+            value: e.querySelector(".entry-value")?.textContent.trim() ?? "",
+            contest: e.dataset.contest ?? "",
+            opens: e.tagName === "BUTTON",
+            text: e.innerText,
+          }),
+        ),
+      )),
+    );
+    const next = page.locator("#sheet-body .race-cards .pager-arrow").nth(1);
+    if (!(await next.isVisible()) || !(await next.isEnabled())) break;
+    await next.click();
+  }
   console.log(
-    `${ballot.date}: ${ballot.races.length} races on the ballot; ${seen.length} entries: ${seen.map((s) => `${s.title} (${s.value}; ${s.people} running, ${s.file} file)`).join(" | ")}`,
+    `${ballot.date}: ${ballot.races.length} races on the ballot; ${seen.length} cards: ${seen.map((s) => `${s.title} (${s.value})`).join(" | ")}`,
   );
-  assert.equal(seen.length, ballot.races.length, "a row per race");
+  assert.equal(seen.length, ballot.races.length, "a card per race");
   const titles = seen.map((s) => s.title);
   assert.equal(new Set(titles).size, titles.length, "a race printed twice");
   for (const s of seen) {
@@ -61,20 +82,46 @@ try {
       s.text,
       /\d{4}-\d{2}-\d{2}|contest:|official:|undefined/,
     );
-    const race = ballot.races.find((r) => r.contestId === s.contest);
-    assert.equal(s.people, race.filers.length, `${s.title}: who runs`);
-    assert.equal(
-      s.file,
-      race.filingOpen && race.playerMayFile && race.filedWith ? 1 : 0,
-      `${s.title}: File for it`,
-    );
   }
-  // Open the first race with candidates, else the first race.
-  const at = Math.max(
-    0,
-    seen.findIndex((s) => s.people > 0),
+  // Open the first race with candidates, else the first race: its page shows
+  // who runs as face cards, and File for it when the player may file.
+  const race = ballot.races.find((r) => r.filers.length > 0) ?? ballot.races[0];
+  // Back to the first page, then forward to the race's card.
+  const back = page.locator("#sheet-body .race-cards .pager-arrow").first();
+  while ((await back.isVisible()) && (await back.isEnabled()))
+    await back.click();
+  for (;;) {
+    const card = page.locator(
+      `#sheet-body .race-cards .entry[data-contest="${race.contestId}"]`,
+    );
+    if (await card.count()) {
+      await card.click();
+      break;
+    }
+    await page.locator("#sheet-body .race-cards .pager-arrow").nth(1).click();
+  }
+  await page.locator("#sheet-body .race-page").waitFor();
+  const page2 = await page.evaluate(() => ({
+    people: document.querySelectorAll("#sheet-body .race-page .member-card")
+      .length,
+    faces: [
+      ...document.querySelectorAll("#sheet-body .race-page .member-face"),
+    ].filter((f) => f.style.backgroundImage).length,
+    file: document.querySelectorAll(
+      '#sheet-body .race-page [data-testid="file-for-it"]',
+    ).length,
+    text: document.getElementById("sheet-body").innerText,
+  }));
+  console.log(
+    `${race.title}: ${page2.people} running (${page2.faces} with a face), ${page2.file} File for it`,
   );
-  await page.locator("#sheet-body .entry summary").nth(at).click();
+  assert.equal(page2.people, race.filers.length, `${race.title}: who runs`);
+  assert.equal(
+    page2.file,
+    race.filingOpen && race.playerMayFile && race.filedWith ? 1 : 0,
+    `${race.title}: File for it`,
+  );
+  assert.doesNotMatch(page2.text, /\d{4}-\d{2}-\d{2}|contest:|undefined/);
   await page.waitForTimeout(400);
   if (process.env.SHOT_DIR)
     await page.screenshot({
@@ -93,11 +140,10 @@ try {
     const counter = await page.evaluate(() => ({
       sheet: document.getElementById("sheet").hidden,
       name: document.getElementById("talk-name").textContent.trim(),
-      overlay: !document.getElementById("filing-overlay").hidden,
       text: document.getElementById("talk").innerText,
     }));
     console.log(
-      `at the counter: ${counter.name}; sheet closed ${counter.sheet}; the race's rules open ${counter.overlay}`,
+      `at the counter: ${counter.name}; sheet closed ${counter.sheet}`,
     );
     assert.ok(counter.sheet, "the menu stayed open");
     assert.ok(counter.name.length > 0, "nobody at the counter");
@@ -107,7 +153,9 @@ try {
       });
   } else console.log("no race takes a filing today; the hot link is not shown");
   assert.deepEqual(errors, [], "page errors");
-  console.log("ok: Campaigns is the coming ballot, every race opens");
+  console.log(
+    "ok: Campaigns is the coming ballot as race cards, a race opens its page",
+  );
 } finally {
   await browser.close();
 }
