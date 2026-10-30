@@ -126,6 +126,22 @@ describe("a donor meeting", () => {
       const id = filing.id;
       for (let shift = 0; shift < SHIFTS; shift += 1)
         takeCampaignDayChoice(api, id, "canvass");
+      // The candidate's circle (family, the people they know, anyone they
+      // keep a relationship with) is the host's pool. The player deals with
+      // them, so their weighed decisions are kept (`initialFocusPeople` puts
+      // a player's family and acquaintances in focus; the candidate was made
+      // the player after the world was built).
+      const circle = new Set([
+        ...candidate.familyIds,
+        ...candidate.knownIds,
+        ...[...(core.relationshipsByPerson.get(candidate.id) ?? [])].map(
+          (rel) => {
+            const row = core.relationships.get(rel)!;
+            return row.actorId === candidate.id ? row.otherId : row.actorId;
+          },
+        ),
+      ]);
+      for (const personId of circle) core.focusPersonIds.add(personId);
       // Reading the day's choices (the Campaigns screen reads them on every
       // load) asks nobody: two reads keep no new record, not even a weighed
       // decision for a possible host in the player's circle.
@@ -146,16 +162,6 @@ describe("a donor meeting", () => {
       }
       const hostId = offered.facts.hostId!;
       // The host comes from the candidate's own circle.
-      const circle = new Set([
-        ...candidate.familyIds,
-        ...candidate.knownIds,
-        ...[...(core.relationshipsByPerson.get(candidate.id) ?? [])].map(
-          (rel) => {
-            const row = core.relationships.get(rel)!;
-            return row.actorId === candidate.id ? row.otherId : row.actorId;
-          },
-        ),
-      ]);
       expect(circle.has(hostId), `host ${hostId} known: ${where}`).toBe(true);
       const invited = new Set(
         donorMeetingInvitees(api, campaignFor(api, id), hostId),
@@ -176,20 +182,20 @@ describe("a donor meeting", () => {
       expect(meeting, where).not.toBeNull();
       expect(meeting!.hostId, where).toBe(hostId);
       // The host's own yes is the one decision on record for lending their
-      // home, kept where the host is someone the player deals with.
-      if (core.focusPersonIds.has(hostId))
-        expect(
-          [...core.durableLog.values()]
-            .filter(
-              (r) =>
-                !keptBefore.has(r.id) &&
-                r.kind === "person.weighed" &&
-                r.actorId === hostId &&
-                r.reasonKey === "campaigns.volunteer",
-            )
-            .map((r) => r.actionId),
-          `host ${hostId} weighed once: ${where}`,
-        ).toEqual(["campaigns.volunteer:yes"]);
+      // home, kept because the host is someone the player deals with.
+      expect(core.focusPersonIds.has(hostId), where).toBe(true);
+      expect(
+        [...core.durableLog.values()]
+          .filter(
+            (r) =>
+              !keptBefore.has(r.id) &&
+              r.kind === "person.weighed" &&
+              r.actorId === hostId &&
+              r.reasonKey === "campaigns.volunteer",
+          )
+          .map((r) => r.actionId),
+        `host ${hostId} weighed once: ${where}`,
+      ).toEqual(["campaigns.volunteer:yes"]);
       // The room: the host and the guests who came, each one invited and
       // each asked once, the host first.
       for (const guest of meeting!.guestIds)
