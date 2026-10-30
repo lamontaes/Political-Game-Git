@@ -654,6 +654,18 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
   };
 }
 
+/** The tie between two people, either way round, when they have one. */
+export function tieBetween(core: CoreState, viewerId: string, otherId: string) {
+  return [...(core.relationshipsByPerson.get(viewerId) ?? [])]
+    .map((id) => core.relationships.get(id))
+    .find(
+      (row) =>
+        row &&
+        ((row.actorId === viewerId && row.otherId === otherId) ||
+          (row.otherId === viewerId && row.actorId === otherId)),
+    );
+}
+
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const viewer = core.people.get(viewerId);
   const other = core.people.get(otherId);
@@ -669,14 +681,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const housemate = shared.some((row) => row.kind === "household");
   const coworker = shared.some((row) => row.kind === "coworker");
   const job = other.jobId ? core.jobs.get(other.jobId) : undefined;
-  const tie = [...(core.relationshipsByPerson.get(viewerId) ?? [])]
-    .map((id) => core.relationships.get(id))
-    .find(
-      (row) =>
-        row &&
-        ((row.actorId === viewerId && row.otherId === otherId) ||
-          (row.otherId === viewerId && row.actorId === otherId)),
-    );
+  const tie = tieBetween(core, viewerId, otherId);
   const publicKnowledge = core.modules.has(PAST_MODULE_ID)
     ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
     : null;

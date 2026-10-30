@@ -6,9 +6,9 @@ lead: play-first
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: play-first/play-vote-and-bill-screens-redesign
-pr:
+pr: #6830
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 voice note on the governing brief
