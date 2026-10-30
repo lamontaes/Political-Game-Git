@@ -6,9 +6,9 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/fiscal-note-at-drafting
-pr:
+pr: #6942
 blocked-on:
 source: governing lead Oct 29
 claimed-at: 2026-10-30T07:06:28.590Z
