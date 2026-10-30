@@ -3566,7 +3566,12 @@ const sheets = {
     const lawText = (law, value, unit) =>
       law.yesNo ? (value ? labels.yes : labels.no) : amount(value, unit);
     // Who sets it, by level: "Federal law", "State law", the local body's.
-    const setBy = (level) => labels.issueSetBy?.[level] ?? words(level);
+    // The state level reads the place's own word (Commonwealth, Territory...).
+    const setBy = (level) =>
+      (labels.issueSetBy?.[level] ?? words(level)).replaceAll(
+        "{level}",
+        v.homeState?.levelWord ?? "",
+      );
     // The subject a series belongs to: the policy question's own domain
     // ("us-policy-positions:fiscal.adopt-income-tax"), or the table's for an amount.
     const groupOf = (series) =>
