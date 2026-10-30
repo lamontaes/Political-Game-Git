@@ -1055,7 +1055,7 @@ describe("law reach, group B: Medicaid expansion and its work requirement", () =
     expectEnded(expand);
   });
 
-  it("Medicaid expansion keeps each covered adult's coverage by person id, named and counted, with no payment; the work requirement ends it for those it reaches, and a repeal ends it", () => {
+  it("Medicaid expansion keeps each covered adult's coverage by person id, named and counted, with no payment to the adult; the work requirement ends it for those it reaches, and a repeal ends it", () => {
     const expand = Q("health-human-services.expand-medicaid-eligibility");
     const work = Q("health-human-services.medicaid-work-requirement");
     const stateKey = lawChain(api).stateKey;
@@ -1086,12 +1086,13 @@ describe("law reach, group B: Medicaid expansion and its work requirement", () =
         `${where} ${r.id} covered from tomorrow`,
       ).toBeDefined();
     // The bill is the expansion's one path into a covered adult's money: it
-    // opens no payment from any treasury.
+    // opens no standing payment to the adult from any treasury (Medicaid's
+    // part of the care is paid to the seller on the bill's day).
     expect(
       table<{ key: string }>("taken").filter((r) =>
         r.key.endsWith(`|${expand}`),
       ),
-      `${where} no Medicaid payment`,
+      `${where} no Medicaid payment to the adult`,
     ).toEqual([]);
     // The work requirement ends coverage for the adults it reaches.
     const coveredBefore = new Set(open().map((r) => r.personId));

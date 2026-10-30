@@ -38,12 +38,15 @@
  * say so.
  *
  * One cause, one path: the law reach keeps the Medicaid coverage of the
- * town's residents, full and counted, by person id, and pays no one for it,
- * so a town household meets the expansion only through its own coverage (a
- * covered member's smaller bill) and the place-level row is left out of its
- * factor. A household in another place the world keeps (the places around
- * the town), whose coverage the reach does not keep, meets it through the
- * place-level row on the share sent to collections.
+ * town's residents, full and counted, by person id, and pays the adult
+ * nothing for it, so a town household meets the expansion only through its
+ * own coverage (a covered member's smaller bill) and the place-level row is
+ * left out of its factor. Medicaid's own part of a covered member's care (the
+ * cost of the care less the member's share) is paid to the seller by the
+ * state and federal treasuries, the federal share at the match in force
+ * (law-reach payMedicaidCare). A household in another place the world keeps
+ * (the places around the town), whose coverage the reach does not keep,
+ * meets it through the place-level row on the share sent to collections.
  *
  * Only households in the places whose money the world keeps are billed
  * (billedPlaces); the care norm is theirs.
@@ -54,6 +57,7 @@ import { chargeGroups, fundGroups } from "./counted-money";
 import { incomeBandOf, fullHouseholdIncomes } from "./counted-income-fifth";
 import { countedIllnessOf } from "./counted-illness";
 import { coverageSpellsNow, spellOn } from "./health-own";
+import { payMedicaidCare } from "./law-reach/group-b-money";
 import {
   addDays,
   ageOnDate,
@@ -113,6 +117,8 @@ export interface BilledMember {
   /** The health engine's care need (0 to 1) the bill read. */
   readonly careNeed: number;
   readonly billMinor: number;
+  /** Medicaid's own part of the member's care, the cost less their share, which the treasuries pay the seller (Medicaid members only). */
+  readonly medicaidMinor?: number;
 }
 
 /** A bill still owed to the provider: the day it was billed and what is left of it. */
@@ -407,6 +413,7 @@ function billMembers(
     "worldLivingCostSpreadShare",
   );
   const average = q("medicalPatientShareAverage");
+  const medicaidShare = q(SHARE_KEY.medicaid);
   const perMonth =
     api.parameter("minorPerDollar") / api.parameter("monthsPerYear");
   const out = new Map<string, BilledMember[]>();
@@ -414,19 +421,23 @@ function billMembers(
     const size = h.members.length;
     const perMember =
       (annualOutOfPocketUsd(api, h.region, size) * level) / size;
+    // The cost of a member's care is what they would pay at the average
+    // share over that share; each plan's member pays their plan's share of it.
     out.set(
       h.householdId,
-      h.members.map((m) => ({
-        personId: m.personId,
-        plan: m.plan,
-        careNeed: m.careNeed,
-        billMinor: Math.round(
-          perMember *
-            perMonth *
-            (care(m.careNeed) / norm) *
-            (q(SHARE_KEY[m.plan]) / average),
-        ),
-      })),
+      h.members.map((m) => {
+        const cost =
+          (perMember * perMonth * (care(m.careNeed) / norm)) / average;
+        return {
+          personId: m.personId,
+          plan: m.plan,
+          careNeed: m.careNeed,
+          billMinor: Math.round(cost * q(SHARE_KEY[m.plan])),
+          ...(m.plan === "medicaid"
+            ? { medicaidMinor: Math.round(cost * (one - medicaidShare)) }
+            : {}),
+        };
+      }),
     );
   }
   return out;
@@ -695,6 +706,8 @@ export function billMedicalCare(
   );
   // A bill unpaid this long is placed for collection (26 CFR 1.501(r)-6).
   const wait = q("medicalCollectionsWaitDays");
+  // Medicaid's part of its members' care, by the seller each household pays.
+  const medicaidBySeller = new Map<string, number>();
   for (const h of households) {
     const members = bills.get(h.householdId) ?? [];
     const billMinor = billOf(h.householdId);
@@ -708,6 +721,14 @@ export function billMedicalCare(
           ),
         }
       : payFull(api, h, askedMinor, sellersOf(h.placeId), source);
+    const medicaid = members.reduce((n, m) => n + (m.medicaidMinor ?? 0), 0);
+    const payee =
+      paid.sellerId ?? sellersOf(h.placeId)[0] ?? outsideAccountOf(api);
+    if (medicaid > 0 && payee)
+      medicaidBySeller.set(
+        payee,
+        (medicaidBySeller.get(payee) ?? 0) + Math.round(medicaid * h.weight),
+      );
     const owing = settleOwed(
       prior.get(h.householdId)?.owed ?? [],
       billMinor,
@@ -766,6 +787,14 @@ export function billMedicalCare(
       source,
     };
     table(api, input.module).put(row as never);
+  }
+  if (medicaidBySeller.size) {
+    const { paidBySeller } = payMedicaidCare(api, {
+      key: data.personLevel.policy,
+      bySeller: medicaidBySeller,
+      source,
+    });
+    for (const [sellerId, paid] of paidBySeller) bookSale(core, sellerId, paid);
   }
 }
 

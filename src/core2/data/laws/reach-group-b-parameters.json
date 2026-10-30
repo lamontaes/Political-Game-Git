@@ -26,6 +26,11 @@
       "tag": "SOURCED",
       "source": "U.S. currency; the core keeps money in cents (minor units)."
     },
+    "percentPerWhole": {
+      "value": 100,
+      "tag": "SOURCED",
+      "source": "A percent is a hundredth; the Medicaid match law (42 U.S.C. 1396d(b)) states the federal share in percent."
+    },
     "reviewEveryMonths": {
       "value": 1,
       "tag": "TUNABLE",

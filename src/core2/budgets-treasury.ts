@@ -489,14 +489,33 @@ export function notePublicPay(
         )),
   );
   if (!gov) return;
-  const line = lineForPost(gov.level, input.jobId, employer?.classification);
-  const since = sinceCloseOf(api, gov.id);
+  noteLinePaid(
+    api,
+    gov.id,
+    lineForPost(gov.level, input.jobId, employer?.classification),
+    input.paidMinor,
+  );
+}
+
+/**
+ * A treasury paid a line's money in town between closes (a payday, Medicaid's
+ * part of a covered member's care to the medical seller): it counts against
+ * the line at the close, so the close does not pay it a second time.
+ */
+export function noteLinePaid(
+  api: CoreAPI,
+  governmentId: string,
+  line: string,
+  paidMinor: number,
+): void {
+  if (paidMinor <= 0) return;
+  const since = sinceCloseOf(api, governmentId);
   table(api, "sinceClose").put({
     ...since,
-    id: gov.id,
+    id: governmentId,
     lines: {
       ...since.lines,
-      [line]: (since.lines[line] ?? 0) + input.paidMinor,
+      [line]: (since.lines[line] ?? 0) + paidMinor,
     },
   } as unknown as ModuleRow);
 }
@@ -946,18 +965,21 @@ function borrowFederal(
 }
 
 /**
- * A standing federal payment added between closes (a covered adult's care
- * from tomorrow) is paid from what the U.S. Treasury holds; it borrows any
+ * A standing federal payment added between closes (a benefit from tomorrow),
+ * or one it pays today (`todayMinor`: its share of Medicaid's part of the
+ * month's care), is paid from what the U.S. Treasury holds; it borrows any
  * day what its account lacks for the payments due before the next close, as
  * it does at each close. A town's other treasuries pay what they hold.
  */
-export function fundFederalStanding(api: CoreAPI): void {
+export function fundFederalStanding(api: CoreAPI, todayMinor = 0): void {
   const outside = outsideAccountOf(api);
   const gov = governments(api).find((g) => g.level === "federal");
   if (!outside || !gov) return;
   const main = api.accounts().main(gov.organizationId);
   const short =
-    standingDue(api, main, api.state.date) - api.accounts().balance(main);
+    standingDue(api, main, api.state.date) +
+    todayMinor -
+    api.accounts().balance(main);
   if (short > 0) borrowFederal(api, gov, outside, short);
 }
 

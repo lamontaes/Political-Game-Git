@@ -48,7 +48,11 @@ import {
   rowsOf,
 } from "./group-b-store";
 import type { ModuleRow } from "../module-data";
-import { fundFederalStanding, registerLinePayments } from "../budgets-treasury";
+import {
+  fundFederalStanding,
+  noteLinePaid,
+  registerLinePayments,
+} from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 
 export const source = (api: CoreAPI, citation: string): Source => ({
@@ -703,11 +707,10 @@ export function assistanceIncomeByHousehold(
  * town, or the expansion is repealed). The coverage engine's medical bills
  * read it (medical-bills.ts: a covered member pays Medicaid's patient share),
  * and the health engine's monthly look reads a named adult's
- * (coverage-to-mortality-55-64). No payment: the bill is the expansion's one
- * path into a covered adult's money. Returns each named adult's terms and how
- * many counted adults are covered, times their weights (stopgap
- * SG-GOV-REACH-B-medicaid-coverage: Medicaid's own part of the bill is paid
- * to no provider).
+ * (coverage-to-mortality-55-64). No payment to the adult: the bill is the
+ * expansion's one path into a covered adult's money, and Medicaid's own part
+ * of the care is paid to the seller (payMedicaidCare). Returns each named
+ * adult's terms and how many counted adults are covered, times their weights.
  */
 export function recordCoverage(
   api: CoreAPI,
@@ -778,6 +781,99 @@ export function recordCoverage(
     } satisfies CoverageRow as unknown as ModuleRow);
   }
   return { named, counted };
+}
+
+/**
+ * Medicaid's own part of its covered members' care, the cost of the care less
+ * what each member pays (medical-bills.ts bills them), paid to the medical
+ * seller the bill names the day it is billed: the federal treasury pays its
+ * share at the Medicaid match in force, read here at the moment it pays (42
+ * U.S.C. 1396d(b)), and the state treasury the rest, each from its welfare and
+ * Medicaid line. A payment's id names the expansion, and the federal one the
+ * match too. A treasury pays what it holds. Returns what each seller was paid
+ * and the journal entries.
+ */
+export function payMedicaidCare(
+  api: CoreAPI,
+  input: {
+    /** The expansion's policy key, whose coverage records priced the members. */
+    readonly key: string;
+    /** Medicaid's part of the month's bills, by seller (owner id), in minor units. */
+    readonly bySeller: ReadonlyMap<string, number>;
+    readonly source: Source;
+  },
+): {
+  readonly paidBySeller: ReadonlyMap<string, number>;
+  readonly journalIds: readonly string[];
+} {
+  const paidBySeller = new Map<string, number>();
+  const journalIds: string[] = [];
+  const state = governmentAt(api, "state");
+  if (!state) return { paidBySeller, journalIds };
+  const federal = governmentAt(api, "federal");
+  const match = lawInForce(api, "medicaid-match");
+  const federalShare = federal
+    ? Math.min(
+        1,
+        Math.max(0, (match.value ?? 0) / reachParameter("percentPerWhole")),
+      )
+    : 0;
+  const accounts = api.accounts();
+  const today = api.state.date;
+  let federalMinor = 0;
+  const sellers = [...input.bySeller].sort(([a], [b]) => a.localeCompare(b));
+  // The federal treasury, which borrows any day, covers its shares today.
+  if (federal)
+    fundFederalStanding(
+      api,
+      sellers.reduce(
+        (n, [, minor]) => n + Math.round(Math.max(0, minor) * federalShare),
+        0,
+      ),
+    );
+  for (const [sellerId, minor] of sellers) {
+    if (minor <= 0) continue;
+    const fromFederal = Math.round(minor * federalShare);
+    const legs = [
+      {
+        gov: federal,
+        amount: fromFederal,
+        cites: `${input.key}+medicaid-match`,
+      },
+      { gov: state, amount: minor - fromFederal, cites: input.key },
+    ];
+    let paid = 0;
+    for (const { gov, amount, cites } of legs) {
+      if (!gov || amount <= 0) continue;
+      const receipt = accounts.transfer({
+        id: `reach-b:medicaid-care:${cites}:${gov.id}|${sellerId}:${today}`,
+        from: accounts.main(gov.organizationId),
+        to: accounts.main(sellerId),
+        amountMinor: amount,
+        reasonKey: "law-reach:medicaid-coverage",
+        partial: true,
+        source: input.source,
+      });
+      if (receipt.paidMinor <= 0) continue;
+      paid += receipt.paidMinor;
+      if (gov === federal) federalMinor += receipt.paidMinor;
+      noteLinePaid(api, gov.id, "welfareAndMedicaid", receipt.paidMinor);
+      if (receipt.journalSequence !== undefined)
+        journalIds.push(`journal:${today}:${receipt.journalSequence}`);
+    }
+    paidBySeller.set(sellerId, paid);
+  }
+  // The match law is read here, at the moment the federal share is paid.
+  if (federal && match.governing && federalMinor > 0)
+    recordApplied(api, {
+      key: "medicaid-match",
+      lawId: match.governing.id,
+      targetId: federal.id,
+      target: "government",
+      what: "federal-share-of-medicaid-paid",
+      amountMinor: federalMinor,
+    });
+  return { paidBySeller, journalIds };
 }
 
 /** One stretch of a resident's coverage under a policy, as the reach keeps it. */
