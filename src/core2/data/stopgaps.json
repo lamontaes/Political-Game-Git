@@ -1139,6 +1139,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-rival-donor-meeting",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 3913,
+    "whatItFakes": "A world candidate's campaign day (rivalDay) never holds a donor meeting at a supporter's home; its money comes only from call time, the turn's asks and the outside donors. Because rivalDay never takes it, campaignDayChoices with world=true skips the host scoring entirely (src/core2/campaign-day.ts, same marker) and reports the donor-meeting choice unavailable with no host, so a rival's turn reads nobody's circle for it.",
+    "why": "The donor meeting was built for the player's campaign first (campaign-like-real-races, phase A: named donors at house parties); scoring it in the rival's day changes every world race's money and pace, which wants its own calibration run.",
+    "addedBy": "governing/campaign-donor-meetings",
+    "addedAt": "2026-10-29",
+    "replacement": "campaignDayChoices names a host for world candidates too (the world=true skip in campaign-day.ts is deleted), rivalDay scores the donor-meeting choice on the same scale as the event and the interview (rising as the bank empties and with the host's warmth), takes it as the day's whole act when it scores best, and the world's races are re-checked against the campaign-finance calibration.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-voter-groups-stand-in",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
@@ -7716,6 +7728,30 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-threat-from-circle",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 4011,
+    "whatItFakes": "A world candidate whose newest record of the race is word of a rival's message (an ad, a mailer or an evening of doors; a rivalWord row) reads where their race stands as how warm the people they know in town are to that rival against how warm they are to them (each impression's warmth, none where cold or unreached, averaged over the circle): their circle's actual warmth to both, not what those people said to the candidate.",
+    "why": "The campaigns engine keeps who told a candidate of a rival's message, but no record of what the people a candidate talks to say about the race; the circle's warmth is the nearest existing record of who they lean to. Recognition would not do: everyone in the circle knows the candidate, and an incumbent's have as a rule all heard of them, so it would never show a rival gaining.",
+    "addedBy": "governing/incumbent-response (Claude)",
+    "addedAt": "2026-10-29",
+    "replacement": "A record of what the people a candidate talks to tell them about the race (who they have heard of, who they lean to), read by raceReading in place of the circle's recognition.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-stepped-up-unread",
+    "kind": "missing-reader",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 4265,
+    "whatItFakes": "A world candidate who campaigns harder because they know a rival stands ahead (an incumbent coming home to campaign) is kept as a steppedUp row and a campaign-stepped-up event, and the extra doors and hours reach voters, but no scene, journal line or news story tells it yet.",
+    "why": "The words session writes the director's scenes from records the engines keep; the record lands first so the scene can name it by id.",
+    "addedBy": "governing/incumbent-response (Claude)",
+    "addedAt": "2026-10-29",
+    "replacement": "The director's scene or news line of a candidate stepping up their campaign, read from the campaign-stepped-up event and its steppedUp row by id (words session).",
+    "status": "open"
+  },
+  {
     "id": "SG-PLAY-government-judicial-no-judges",
     "kind": "missing-record",
     "file": "src/bench/play.mjs",
@@ -7743,7 +7779,7 @@
     "id": "SG-CAMPAIGN-manager-changes-nothing-yet",
     "kind": "partial-model",
     "file": "src/core2/modules/campaigns.ts",
-    "line": 1310,
+    "line": 1616,
     "whatItFakes": "Someone close who runs a campaign is on its staff, cast as its team in scenes and the one who comes to canvass on election morning, but the campaign runs the same with or without them: the calls, the money and the volunteers' hours do not change.",
     "why": "The owner asked for the manager as someone you know (Oct 27); what a local campaign's manager changes has not been researched, and no number may be typed for it.",
     "addedBy": "words-director-one-path",
@@ -7760,6 +7796,18 @@
     "addedBy": "Words, scenes and the director (debate sitting)",
     "addedAt": "2026-10-29",
     "replacement": "An outlet's masthead refilled by the jobs engine (refreshPressStaff), or a neutral host the town's league or chamber of commerce names in its records, so every debate has a moderator who asks.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CAMPAIGN-volunteer-shift-no-scene",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 2291,
+    "whatItFakes": "A volunteer's evening of doors for a campaign the player's circle is in is kept as a volunteer-shift event (the volunteer, the candidate, whether it was their first evening, the hours, the doors knocked, the full people met and the counted residents reached), on their first evening and then at most once a week (volunteerShiftEventDays), that no scene, journal line or screen reads yet; the player sees their volunteers' work only in the voters it moved and the campaign's door count.",
+    "why": "The campaigns engine writes the record; the director and the English banks belong to the Words session, which this change may not edit.",
+    "addedBy": "governing lead builder (campaign-like-real-races, volunteer shifts)",
+    "addedAt": "2026-10-29",
+    "replacement": "A director situation type (Words session) reading volunteer-shift events by id: a volunteer reporting back on their evening of doors, or the week's journal line of what the campaign's volunteers walked, with the volunteer-door causes that name the volunteer as actor.",
     "status": "open"
   }
 ]

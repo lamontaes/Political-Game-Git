@@ -2,13 +2,13 @@
  * A campaign day for the player (owner, Oct 14, 2026): a handful of choices,
  * each an act read from the records, no more than that. Knock on doors in a
  * neighborhood, hold an event, host a forum, give an interview, raise money,
- * rest.
+ * meet donors at a supporter's house party, rest.
  *
  * Nothing here is a new mechanic. Each choice runs an engine's own act
  * (`knockDoors`, `holdEvent`, the meetings engine's `holdTownHall`,
- * `requestInterview`, `askForDonation`) with the player's own hours;
- * availability is read from the records the engines keep (doors knocked, the
- * campaign's cash, the town halls held, the press desk's week, the gifts
+ * `requestInterview`, `askForDonation`, `holdDonorMeeting`) with the player's
+ * own hours; availability is read from the records the engines keep (doors
+ * knocked, the campaign's cash, the town halls held, the press desk's week, the gifts
  * already given). No choice is decided by a roll. Choices carry ids and
  * numbers only; the English engine words them.
  */
@@ -26,6 +26,9 @@ import {
   campaignFor,
   doorsKnockedOf,
   giftOf,
+  donorMeetingHost,
+  holdDonorMeeting,
+  hostCircle,
   holdEvent,
   knockDoors,
   reachablePeople,
@@ -61,7 +64,13 @@ import type { CoreAPI, CoreState } from "./types";
 import type { ModuleRow } from "./module-data";
 
 export type CampaignDayKind =
-  "canvass" | "event" | "forum" | "interview" | "raise-money" | "rest";
+  | "canvass"
+  | "event"
+  | "forum"
+  | "interview"
+  | "raise-money"
+  | "donor-meeting"
+  | "rest";
 
 interface DayChoiceBase {
   readonly filingId: string;
@@ -132,6 +141,17 @@ export type CampaignDayChoice =
       };
     })
   | (DayChoiceBase & {
+      readonly kind: "donor-meeting";
+      readonly facts: {
+        /** The candidate's warmest backer who would host, or null when nobody would. */
+        readonly hostId: string | null;
+        /** The adults of the host's own circle who could come (the campaign's own list is invited beside them). */
+        readonly hostCircle: number;
+        /** Donor meetings already held for the campaign. */
+        readonly heldSoFar: number;
+      };
+    })
+  | (DayChoiceBase & {
       readonly kind: "rest";
       readonly facts: Record<string, never>;
     });
@@ -148,7 +168,7 @@ export interface CampaignDayResult {
   readonly asked: number;
   /** Gift rows (`filingId|donorId`) that grew, and the minor units they added. */
   readonly giftIds: readonly string[];
-  /** Each person asked for money, with what they gave or why not (raise-money). */
+  /** Each person asked for money, with what they gave or why not (raise-money, donor-meeting). */
   readonly answers: readonly {
     readonly personId: string;
     readonly givenMinor: number;
@@ -160,6 +180,12 @@ export interface CampaignDayResult {
   /** The forum's town hall row (meetings engine): who came, what they asked, what the host answered. */
   readonly townHall: TownHallRow | null;
   readonly interview: InterviewRow | null;
+  /** The donor meeting held (donor-meeting): its event id, the host and the guests who came. */
+  readonly donorMeeting: {
+    readonly id: string;
+    readonly hostId: string;
+    readonly guestIds: readonly string[];
+  } | null;
 }
 
 export interface CampaignDayOptions {
@@ -191,6 +217,7 @@ const HOURS_PARAMETER: Readonly<Record<CampaignDayKind, string>> = {
   forum: "playerForumHours",
   interview: "playerInterviewHours",
   "raise-money": "playerCallTimeHours",
+  "donor-meeting": "playerDonorMeetingHours",
   rest: "playerRestHours",
 };
 
@@ -323,6 +350,8 @@ export function whyNotToday(
       return {
         key: choice.facts.reachable === 0 ? "nobodyReached" : "allGave",
       };
+    case "donor-meeting":
+      return choice.facts.hostId ? undefined : { key: "noHost" };
     default:
       return undefined;
   }
@@ -483,6 +512,11 @@ export function campaignDayChoices(
 
   const { pool, askable } = peopleToAsk(api, campaign, world);
   const gifts = pool.length - askable.length;
+  // A world candidate's day (`rivalDay`) never takes the donor meeting, so
+  // their turn reads no host: the choice stands unavailable for them.
+  // stopgapId: SG-GOV-rival-donor-meeting
+  const hostId =
+    candidateAlive && !world ? donorMeetingHost(api, campaign) : null;
 
   return [
     {
@@ -563,6 +597,17 @@ export function campaignDayChoices(
       },
     },
     {
+      kind: "donor-meeting",
+      filingId,
+      hours: hours("donor-meeting"),
+      available: hostId !== null,
+      facts: {
+        hostId,
+        hostCircle: hostId ? hostCircle(api, campaign, hostId).length : 0,
+        heldSoFar: campaign.donorMeetingHostIds?.length ?? 0,
+      },
+    },
+    {
       kind: "rest",
       filingId,
       hours: hours("rest"),
@@ -615,6 +660,7 @@ export function takeCampaignDayChoice(
     eventMoneyId: null,
     townHall: null,
     interview: null,
+    donorMeeting: null,
   };
 
   if (choice === "canvass") {
@@ -743,6 +789,29 @@ export function takeCampaignDayChoice(
       giftIds,
       answers,
       raisedMinor: raised,
+    };
+  }
+
+  if (choice === "donor-meeting") {
+    const hostId =
+      offered.kind === "donor-meeting" ? offered.facts.hostId : null;
+    const meeting = hostId ? holdDonorMeeting(api, filingId, hostId) : null;
+    if (!meeting) throw new Error("No donor meeting could be held");
+    spendTime();
+    return {
+      ...base,
+      causeIds: meeting.causes.map((c) => c.id),
+      asked: meeting.answers.length,
+      giftIds: meeting.answers
+        .filter((a) => a.givenMinor > 0)
+        .map((a) => `${filingId}|${a.personId}`),
+      answers: meeting.answers,
+      raisedMinor: meeting.raisedMinor,
+      donorMeeting: {
+        id: meeting.id,
+        hostId: meeting.hostId,
+        guestIds: meeting.guestIds,
+      },
     };
   }
 

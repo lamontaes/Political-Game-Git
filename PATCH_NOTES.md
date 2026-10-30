@@ -296,6 +296,84 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.69.0
+
+_Released October 30, 2026._
+
+### Added
+
+- **Meet donors at a supporter's home, and send campaign mail.** A campaign day
+  can now be a house party: the supporter closest to you who would host opens
+  their home, invites their own friends and family and the people your campaign
+  has reached, and you meet the room, speak, and ask each guest for money. Every
+  gift is named on the campaign's books within the legal limit. The Campaigns
+  screen also has a Mail button with an amount you set: mailers go to the town's
+  next households, as many as the money buys, never more than the campaign
+  holds.
+
+- **Campaign volunteers now go out and knock on doors.** People who volunteer
+  for a campaign, yours or a rival's, now walk its doors in the evening when
+  their job and the rest of their day leave them time. Someone who cares more
+  about the candidate goes out more often; someone whose job keeps them at work
+  that evening stays home. The neighbors they reach warm to the candidate and
+  give an answer about their vote that counts on election day, so a campaign
+  with willing friends and family can reach far more of the town than its
+  candidate could alone.
+
+### Improved
+
+- **A calendar that looks like a calendar** The calendar now shows the month as
+  compact day tiles with a small icon for each thing on the day, the day you
+  pick on its own plate with a Go to this day button, and Coming up beside it,
+  paged instead of scrolling.
+
+- **Travel shows big pictured places** Travel now shows places as large pictured
+  tiles, three across and two rows to a page, with a small people mark on the
+  places where someone is to be met. A town with more places pages with arrows
+  instead of scrolling.
+
+### Fixed
+
+- **A "yes" at a door counts for one household.** A door reaches one household.
+  Where the town's counted records each stand for several households, a "yes" at
+  the door now holds only for the household that gave it; the rest vote as they
+  would have.
+
+- **Knocking on doors no longer fills the town with full people.** An evening of
+  knocking on doors now fills in only the one or two residents a porch scene
+  could show. Everyone else who opens stays part of the counted town, still
+  hears you out and still gives you an answer the vote reads. A full campaign
+  season runs much lighter.
+
+- **Long saves keep going past their seventh year** A save played for years no
+  longer stops in its sixth or seventh year when the country's running money
+  totals grow past what the books could count. Every dollar still balances, and
+  the books on Budgets and in dev mode show the same figures as before.
+
+- **Territories name their own laws** In Puerto Rico, Guam, the Virgin Islands,
+  American Samoa, the Northern Marianas and the District of Columbia, the Issues
+  cards and law pages now call their laws "Commonwealth law", "Territory law" or
+  "District law" instead of "State law".
+
+- **History lines no longer repeat the year the timeline shows** A person's
+  history and Your life show each year above its line, and the line no longer
+  says the year again: "1963 · Born in Lewes, Delaware."
+
+### Changed
+
+- **Patch notes show one release at a time** Patch notes open on the newest
+  release, and its name is a list you can pick any older release from. Its
+  changes are cards by their headlines, and the change you click reads in full
+  beside them, marked Added, Improved or Fixed, instead of every release down
+  one long page. In the Guide, the term you picked is now marked on its card.
+
+- **People who read about your bill say it was yours and how the vote went.**
+  Someone who read the paper's story on the vote on your ordinance or bill now
+  tells you it was yours and how it came out ("I read in the Chronicle that your
+  ordinance on transportation failed.", "KWTP-TV says your ordinance passed.
+  Good for you."), from the vote's own record. Before, they said only that the
+  paper had a story on the topic.
+
 ## PRE-ALPHA 0.68.0
 
 _Released October 30, 2026._
