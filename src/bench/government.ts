@@ -568,7 +568,7 @@ export function fileForOffice(
 ) {
   if (!playerMayFileFor(coreAPI(core), contestId))
     throw new Error(
-      "The player files only for council, state legislature, mayor, governor, Congress and president.",
+      "The player files only for the place's own council or its equivalent, its mayor or its equivalent, the state legislature, governor, Congress and president.",
     );
   return fileCandidacy(coreAPI(core), {
     personId,
