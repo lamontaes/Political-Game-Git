@@ -7,7 +7,6 @@
     "src/bench/campaign.ts": 4,
     "src/bench/card.ts": 6,
     "src/bench/changes.ts": 2,
-    "src/bench/circle.ts": 2,
     "src/bench/creator.ts": 5,
     "src/bench/dev-mode.ts": 11,
     "src/bench/dev-why.ts": 1,

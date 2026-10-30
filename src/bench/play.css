@@ -415,52 +415,85 @@ select:focus-visible {
   color: var(--gold);
   font-weight: 500;
 }
-/* Tabs: plain type; the open one is a raised glass box. */
-.tabs {
+/* Tabs sit on a rail (owner, Oct 29: buttons need "a railing to sit on, or something,
+   and something to delineate that that's the one that's selected"): a recessed bar with
+   a brass edge; a tab at rest is plain type in it, and the chosen one is a raised glass
+   plate, lit, with a gold bar where it meets what it shows. */
+.tabs,
+.tab-rail {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  align-items: center;
+  gap: 3px;
+  width: fit-content;
+  max-width: 100%;
   margin: 14px 0 16px;
+  padding: 4px;
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.3));
+  border: 1px solid rgba(156, 131, 80, 0.5);
+  border-radius: 3px;
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.75),
+    inset 0 -1px 0 rgba(255, 240, 199, 0.05),
+    0 1px 0 rgba(255, 255, 255, 0.05);
 }
-.tabs:empty {
+.tabs:empty,
+.tab-rail:empty {
   display: none;
 }
-.tab {
-  font: 500 16px var(--ui);
+.tab,
+#sheet-body .tab,
+#person .tab {
+  position: relative;
+  min-height: 0;
+  margin: 0;
+  font: 500 15px var(--ui);
   color: var(--text-2);
-  padding: 6px 18px;
-  border: 1px solid transparent;
-}
-.tab.on {
-  color: var(--gold);
-  background: var(--raised);
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow:
-    0 3px 0 rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14);
-}
-/* A tab inside a sheet (the Local, State, Federal picker) is the kit's tab,
-   not a key: plain text at rest, the raised glass box only while chosen
-   (kit13 APPROVED; owner, Oct 28: "no clear delineation once one is picked"). */
-#sheet-body .tab:not(.on),
-#sheet-body .tab:not(.on):hover {
+  padding: 6px 16px;
   background: none;
-  border-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
   box-shadow: none;
-  color: var(--text-2);
 }
-#sheet-body .tab:not(.on):hover {
+#sheet-body .tab:not(.on):hover,
+#person .tab:not(.on):hover {
+  background: none;
   color: #fff;
   text-shadow: var(--glow);
 }
+.tab.on,
+.tab.on:hover,
 #sheet-body .tab.on,
-#sheet-body .tab.on:hover {
+#sheet-body .tab.on:hover,
+#person .tab.on,
+#person .tab.on:hover {
   color: var(--gold);
-  background: var(--raised);
-  border-color: rgba(255, 255, 255, 0.22);
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    var(--raised);
+  border-color: rgba(214, 189, 132, 0.55);
   box-shadow:
-    0 3px 0 rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    0 2px 0 rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 0 12px rgba(214, 189, 132, 0.16);
+}
+.tab.on::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -5px;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(214, 189, 132, 0),
+    var(--gold) 25%,
+    var(--brass-hi) 50%,
+    var(--gold) 75%,
+    rgba(214, 189, 132, 0)
+  );
+  box-shadow: 0 0 6px rgba(214, 189, 132, 0.7);
 }
 /* Icons: gold line icons on round glass keys, a column over the player card (MOCKS:24). */
 .ring {
@@ -1482,10 +1515,6 @@ body.dev .dev-ring {
 .option-status:empty {
   display: none;
 }
-.record-actions {
-  flex-wrap: wrap;
-  margin-top: 32px;
-}
 .sheet-head {
   display: flex;
   justify-content: space-between;
@@ -1755,1120 +1784,77 @@ body.dev .dev-ring {
   margin: 0;
 }
 
-/* Person cards share the character screen's large side figure and Kit 13 panel. */
+/* The person card (MOCKS person.png, on framed plates, owner Oct 29): their standing
+   figure on a plate of its own at the left; at the right the name and what they are to
+   you, small fact plates, how close you are, then a tab rail over one plate that holds
+   their history as a timeline, their record or who they know. The card is as tall as
+   what it holds and never scrolls; a long history pages by chapter. */
 .dossier {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: min(1180px, calc(100vw - 2 * var(--gutter)));
+  width: min(1120px, calc(100vw - 2 * var(--gutter)));
   height: min(780px, calc(100vh - 2 * var(--gutter)));
   display: grid;
-  grid-template-columns: minmax(180px, 32%) minmax(0, 1fr);
-  column-gap: clamp(24px, 3vw, 48px);
-  padding: 30px 40px;
+  grid-template-columns: minmax(220px, 36%) minmax(0, 1fr);
+  column-gap: 26px;
+  padding: 26px 30px 28px;
+}
+.dossier #person-media,
+.character-sheet #sheet-media {
+  border: 1px solid rgba(156, 131, 80, 0.6);
+  border-radius: 3px;
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 50% 42%,
+      rgba(214, 189, 132, 0.16),
+      rgba(0, 0, 0, 0) 70%
+    ),
+    linear-gradient(rgba(58, 54, 49, 0.55), rgba(16, 15, 14, 0.85));
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.55),
+    inset 0 0 40px rgba(0, 0, 0, 0.55),
+    0 3px 8px rgba(0, 0, 0, 0.35);
+}
+.dossier #person-media::after,
+.character-sheet #sheet-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    url("/ui/kit13/corner-tl.svg"), url("/ui/kit13/corner-tr.svg"),
+    url("/ui/kit13/corner-bl.svg"), url("/ui/kit13/corner-br.svg");
+  background-position:
+    left top,
+    right top,
+    left bottom,
+    right bottom;
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+.dossier #person-media .screen-portrait,
+.character-sheet #sheet-media .screen-portrait {
+  inset: 14px 0 0;
+  height: calc(100% - 14px);
 }
 .dossier-main {
   display: flex;
   flex-direction: column;
-  min-width: 0;
-  min-height: 0;
-  padding-top: 18px;
-}
-.dossier .heading {
-  font-size: clamp(24px, 2.5vw, 40px);
-}
-#person-role {
-  margin: 8px 0 32px;
-  color: var(--text-2);
-}
-#person-role:empty {
-  display: none;
-}
-#person-facts {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  position: relative;
-}
-.dossier .acts {
-  margin-top: 16px;
-}
-#game.person-open #news-surface {
-  visibility: hidden;
-}
-@media (max-width: 700px) {
-  .dossier {
-    grid-template-columns: minmax(100px, 30%) minmax(0, 1fr);
-    gap: 18px;
-    padding: 24px;
-  }
-}
-
-/* ---- The filing office's rules, beside the clerk ---- */
-
-/* ---- Glossary: civic terms carry a tiny underline until learned ---- */
-.term {
-  text-decoration: underline 1px;
-  text-decoration-color: rgba(214, 189, 132, 0.7);
-  text-underline-offset: 3px;
-  cursor: help;
-}
-#tip {
-  z-index: 9;
-  width: 300px;
-  padding: 10px 14px 12px;
-}
-#tip .prose {
-  margin: 5px 0 8px;
-}
-
-/* ---- Opening (director/opening-story, owner Oct 14, 2026) ----
-   The night's news on the table at home and its reader; then the first
-   choices glowing one at a time. A cinema scene hides the HUD. Positions
-   only: the look is kit12's own components. */
-#game.cinema #rings,
-#game.cinema #card,
-#game.cinema #journal-note {
-  display: none;
-}
-#news-surface {
-  top: var(--gutter);
-  right: var(--gutter);
-  z-index: 4;
-  gap: 4px;
-  max-width: 340px;
-  padding: 12px 12px 12px 16px;
-}
-#news-surface-open {
-  display: grid;
-  gap: 4px;
-  text-align: left;
-  cursor: pointer;
-}
-/* A toast leaves by itself: it holds, then fades out over its last second. Its close
-   control and its story stay clickable for as long as it shows (ui/toast.mjs). */
-.toast {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
-}
-.toast.fading {
-  animation: toast-fade var(--toast-seconds) linear forwards;
-}
-@keyframes toast-fade {
-  0%,
-  88% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-#news-reader {
-  inset: var(--gutter) var(--gutter) var(--gutter) calc(var(--gutter) + 300px);
-  z-index: 7;
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: 28px;
-  padding: 26px 30px;
-  overflow: hidden;
-}
-#news-reader {
-  grid-template-rows: minmax(0, 1fr);
-}
-.news-reader-main {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-#news-reader-body {
-  flex: 1;
-  min-height: 0;
-  position: relative;
-  overflow-y: auto;
-}
-#news-reader .heading {
-  margin: 0 0 12px;
-  font: 600 34px/1.15 var(--speech);
-}
-#news-reader .paper-masthead {
-  border-bottom: 1px solid var(--gold);
-  padding-bottom: 10px;
-  margin-bottom: 18px;
-}
-#news-reader .paper-masthead h2 {
-  margin: 0 0 6px;
-}
-#news-reader.paper {
-  padding: 26px 30px;
-}
-#news-reader-body .prose {
-  font: 18px/1.5 var(--speech);
-}
-#news-reader-more {
-  border-left: 1px solid rgba(214, 189, 132, 0.4);
-  padding-left: 18px;
-}
-#news-reader .quote {
-  font-style: italic;
-  margin: 6px 0 0;
-}
-#news-reader .acts {
-  text-align: right;
-  margin-bottom: 12px;
-}
-#news-reader-more .prose {
-  margin: 0;
-  padding: 10px 0;
-}
-/* The scenes the player lets stop the day (Options). */
-.scene-filter {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 4px 16px;
-  margin: 6px 0 16px;
-}
-.scene-filter label {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font: 400 13.5px var(--ui);
-  color: var(--text-2);
-}
-.coach {
-  box-shadow:
-    0 0 0 1px var(--iron),
-    0 0 12px rgba(255, 255, 255, 0.55),
-    0 0 24px rgba(214, 189, 132, 0.45) !important;
-  animation: coach 1.6s ease-in-out infinite;
-}
-@keyframes coach {
-  50% {
-    box-shadow:
-      0 0 0 1px var(--iron),
-      0 0 4px rgba(255, 255, 255, 0.3),
-      0 0 10px rgba(214, 189, 132, 0.2);
-  }
-}
-@media (max-width: 900px) {
-  #news-reader {
-    inset: var(--gutter);
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Reduced motion (owner's UI brief, Sept 27, 2026): the first choices'
-   glow holds still. */
-@media (prefers-reduced-motion: reduce) {
-  .coach {
-    animation: none;
-  }
-}
-
-/* ---- Polling place (director/scenes-and-filters, owner Oct 14, 2026) ----
-   Election day's ballot over the polling place's picture: kit12's panel,
-   heading and actions; positions only. */
-#ballot,
-#election-day,
-#returns,
-#meeting,
-#desk {
-  top: var(--gutter);
-  right: var(--gutter);
-  bottom: calc(9vh + 18px);
-  z-index: 6;
-  width: min(560px, calc(100vw - 2 * var(--gutter)));
-  padding: 20px 24px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-/* The meeting and the desk: a titled panel whose agenda scrolls inside it, the Adjourn
-   control kept under it. */
-#meeting-items,
-#desk-items {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(214, 189, 132, 0.55) transparent;
-}
-#meeting > .heading {
-  margin: 0 0 12px;
-  font-size: 26px;
-}
-.meeting-item + .meeting-item {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(214, 189, 132, 0.25);
-}
-.meeting-title {
-  margin: 0;
-  font: 600 20px/1.2 var(--name);
-}
-.meeting-sub {
-  margin: 2px 0 10px;
-  color: var(--text-2);
-  font: 13px var(--ui);
-}
-/* The members as round faces ringed by how each voted on this item. */
-.meeting-members {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 0 0 10px;
-}
-.meeting-member {
-  display: inline-block;
-  line-height: 0;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.16);
-}
-.meeting-member.you {
-  box-shadow: 0 0 0 2px var(--gold);
-}
-.meeting-member.vote-yes {
-  box-shadow: 0 0 0 3px #5aa36b;
-}
-.meeting-member.vote-no {
-  box-shadow: 0 0 0 3px #c4524f;
-}
-.meeting-member.vote-abstain {
-  box-shadow: 0 0 0 3px #8c8c8c;
-}
-.meeting-face {
-  width: 38px;
-  height: 38px;
-  border-width: 0;
-}
-.meeting-result {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin: 0 0 6px;
-}
-.meeting-result strong {
-  font: 700 17px var(--ui);
-  color: var(--gold);
-}
-.meeting-tally {
-  display: flex;
-  height: 10px;
-  margin: 0 0 10px;
-  border-radius: 5px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
-}
-.meeting-tally .tally-yes {
-  background: #5aa36b;
-}
-.meeting-tally .tally-no {
-  background: #c4524f;
-}
-.meeting-tally .tally-abstain {
-  background: #8c8c8c;
-}
-.meeting-remarks {
-  margin: 0 0 8px;
-  color: var(--text-2);
-  font: 13px var(--ui);
-}
-.meeting-acts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 6px 0 0;
-}
-.meeting-acts .action {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-#ballot,
-#election-day,
-#returns {
-  display: flex;
-  flex-direction: column;
-}
-#election-day-lines,
-#returns-lines {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-}
-#election-day .acts,
-#returns .acts {
-  display: grid;
-  gap: 6px;
-  margin-top: 12px;
-}
-#returns-count {
-  margin-top: 12px;
-}
-#election-day-lines p,
-#returns-lines p {
-  margin: 0 0 10px;
-}
-#ballot-races {
-  flex: 1;
-  min-height: 0;
-  position: relative;
-  overflow-y: auto;
-}
-#ballot .race + .race {
-  margin-top: 18px;
-}
-#ballot .heading {
-  margin: 0 0 8px;
-}
-#ballot .acts,
-#meeting > .acts,
-#desk .acts {
-  display: grid;
-  gap: 6px;
-}
-
-/* Outlet layouts use the approved outer frame and record-fed stories. */
-#sheet-body:has(.paper) {
-  max-width: none;
-}
-/* The record screen (ui/screen.mjs): every screen of one person's or one place's records. */
-.record-title {
-  font: 600 34px var(--name);
-  margin: 16px 0;
-}
-.record-empty {
-  font: 22px var(--speech);
-}
-.record-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 64px;
-  margin-top: 28px;
-}
-.record-stats strong {
-  display: block;
-  font: 600 clamp(18px, 2vw, 30px) var(--name);
-  margin-top: 8px;
-  overflow-wrap: anywhere;
-}
-.record-picture {
-  float: left;
-  width: 40%;
-  max-height: 260px;
-  object-fit: cover;
-  margin: 0 28px 20px 0;
-}
-.record-fact,
-.record-figure {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(214, 189, 132, 0.2);
-}
-.record-figure strong {
-  font: 500 24px var(--ui);
-}
-/* Character screen: layout additions on the existing Kit 13 panel. */
-#sheet.character-sheet {
-  display: grid;
-  grid-template-columns: minmax(180px, 30%) minmax(0, 1fr);
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
-  column-gap: clamp(24px, 3vw, 48px);
-}
-.character-sheet .sheet-head,
-.character-sheet #sheet-tabs,
-.character-sheet #sheet-body {
-  grid-column: 2;
-}
-.character-sheet #sheet-body {
-  max-width: none;
-}
-#sheet-media {
-  grid-column: 1;
-  grid-row: 1 / 5;
-}
-/* The large side figure of the character screen and the person card. */
-.screen-media {
-  position: relative;
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-}
-.screen-media img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  inset: 0;
-}
-.screen-backdrop {
-  object-fit: cover;
-}
-.screen-portrait {
-  object-fit: contain;
-  object-position: center bottom;
-}
-.screen-heading .name {
-  margin: 0;
-  font-size: clamp(24px, 2.5vw, 40px);
-}
-.screen-meta,
-.record-note {
-  color: var(--text-2);
-}
-.screen-meta {
-  margin: 8px 0 16px;
-}
-/* What you're like, as a short paragraph under your name. */
-#sheet-body .screen-lede {
-  font: 400 19px/1.45 var(--speech);
-  max-width: 46ch;
-  margin: 0 0 26px;
-}
-/* The record sections of a record screen in a grid, two across. */
-/* Sections side by side, as many across as the panel holds, so a screen
-   with several bodies shows them all at once (owner, Oct 28, point 22). */
-.screen-grid {
-  flex: 1;
-  min-height: 0;
-  columns: 4 340px;
-  column-gap: 28px;
-  column-fill: auto;
-}
-#sheet-body:has(.screen-grid) {
-  display: flex;
-  flex-direction: column;
-}
-/* A section longer than the room left in a column goes on in the next one,
-   row by row, so the columns fill and no fourth column falls off the box;
-   a row, and a title with its first row, never split. */
-.screen-grid > * {
-  break-inside: auto;
-}
-.screen-grid .record-section > * {
-  break-inside: avoid;
-}
-.screen-grid .record-section > .label:first-child {
-  break-after: avoid;
-}
-.record-section {
-  margin: 0 0 14px;
-}
-.record-section p {
-  margin: 6px 0;
-}
-.record-feature {
-  font: 500 21px var(--speech);
-}
-.record-people {
-  list-style: none;
-  margin: 10px 0 0;
-  padding: 0;
-  display: grid;
-  gap: 6px 24px;
-  grid-template-columns: 1fr;
-}
-.record-people li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.record-note {
-  font-size: 13px;
-}
-.record-views {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 24px;
-}
-.record-views h4 {
-  margin: 8px 0;
-  color: var(--gold);
-}
-.record-value {
-  overflow-wrap: anywhere;
-}
-@media (max-width: 950px) {
-  #sheet.character-sheet {
-    grid-template-columns: minmax(100px, 24%) minmax(0, 1fr);
-    column-gap: 18px;
-  }
-  .record-people {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  }
-}
-/* Relationships are shown only when the player's records contain them. */
-#sheet-body:has(.relationship-web) {
-  max-width: none;
-}
-.people-toolbar,
-.people-filters,
-.people-selection {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-}
-.people-toolbar {
-  justify-content: space-between;
-}
-.people-search {
-  width: min(340px, 60%);
-}
-.people-filters {
-  margin: 16px 0;
-}
-.relationship-web {
-  position: relative;
-  height: min(50vh, 470px);
-  min-height: 280px;
-}
-.people-lines {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-/* The People map as the owner liked it (Oct 28: the earlier web): a round
-   face in a ring colored by kind, and lines you can see, in the same color. */
-.people-node,
-.people-key span {
-  --kind: rgba(200, 185, 151, 0.6);
-}
-.people-node.family,
-.people-key .family {
-  --kind: rgba(194, 155, 72, 0.9);
-}
-.people-node.household,
-.people-key .household {
-  --kind: rgba(200, 185, 151, 0.8);
-}
-.people-node.friends,
-.people-key .friends {
-  --kind: rgba(132, 176, 128, 0.85);
-}
-.people-node.work,
-.people-key .work {
-  --kind: rgba(140, 170, 190, 0.85);
-}
-.people-node.politics,
-.people-key .politics {
-  --kind: rgba(176, 120, 96, 0.9);
-}
-.people-edge {
-  stroke: rgba(200, 185, 151, 0.45);
-  stroke-width: 1.5px;
-  vector-effect: non-scaling-stroke;
-}
-.people-edge.family {
-  stroke: rgba(194, 155, 72, 0.85);
-}
-.people-edge.household {
-  stroke: rgba(200, 185, 151, 0.7);
-  stroke-dasharray: 4 3;
-}
-.people-edge.friends {
-  stroke: rgba(132, 176, 128, 0.8);
-}
-.people-edge.work {
-  stroke: rgba(140, 170, 190, 0.8);
-}
-.people-edge.politics {
-  stroke: rgba(176, 120, 96, 0.85);
-}
-.people-edge.selected {
-  stroke-width: 3px;
-}
-.people-node.dim,
-.people-edge.dim {
-  opacity: 0.32;
-}
-/* The face's center sits on the point; names hang below, or above for the
-   people in the top half. */
-#sheet-body .people-node {
-  position: absolute;
-  transform: translate(-50%, -30px);
-  width: 155px;
-  display: grid;
-  justify-items: center;
-  gap: 3px;
-  background: none;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  margin: 0;
-}
-#sheet-body .people-node.above {
-  transform: translate(-50%, calc(-100% + 30px));
-}
-.people-node.above > :first-child {
-  order: 9;
-}
-.people-node::after {
-  display: none;
-}
-.people-node b {
-  font: 500 13px var(--ui);
-}
-.people-node span {
-  font: 12px var(--ui);
-  color: var(--text-2);
-}
-.people-node b,
-.people-node span,
-.people-node em,
-.people-center b {
-  text-shadow:
-    0 0 3px var(--iron),
-    0 0 3px var(--iron);
-}
-.people-node img,
-.people-center img,
-.headshot {
-  box-sizing: border-box;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 3px solid var(--kind, var(--gold));
-  object-fit: cover;
-  object-position: center top;
-  background: var(--iron);
-}
-.people-center img,
-.people-center .headshot {
-  width: 72px;
-  height: 72px;
-  border-color: var(--gold);
-}
-/* The headshot's figure is placed inside the round frame by play.mjs. */
-.headshot {
-  display: block;
-  background-repeat: no-repeat;
-}
-.people-node.selected img,
-.people-node.selected .headshot {
-  border-width: 4px;
-  border-color: var(--gold);
-}
-.people-node.selected b {
-  color: var(--gold);
-}
-.people-center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  font: 15px var(--name);
-}
-.people-selection {
-  min-height: 44px;
-  justify-content: center;
-}
-.people-key {
-  display: flex;
-  justify-content: center;
-  gap: 22px;
-  font: 11px var(--ui);
-  color: var(--text-2);
-  margin: 12px 0;
-}
-.people-key span::before {
-  content: "";
-  display: inline-block;
-  width: 22px;
-  margin-right: 7px;
-  vertical-align: middle;
-  border-top: 2px solid var(--kind);
-}
-.people-key .household::before {
-  border-top-style: dashed;
-}
-.people-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-#sheet-body .people-list .people-node {
-  position: static;
-  transform: none;
-  width: auto;
-  grid-template-columns: 48px 1fr;
-  text-align: left;
-  justify-items: start;
-}
-.people-list .people-node > :first-child {
-  grid-row: span 2;
-  order: 0;
-}
-.people-list .people-node img,
-.people-list .headshot {
-  width: 48px;
-  height: 48px;
-}
-/* Politics layouts retain the existing Kit 13 panel frame. */
-#sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
-  max-width: none;
-}
-.government-picker {
-  display: flex;
   gap: 14px;
-  margin: 12px 0 22px;
-}
-/* The state filter under the level tabs: the kit's dropdown, boxed at rest as
-   the main menu's typing boxes are (owner, Oct 28: "a separate box, like the
-   main menu's"), reading the state's name. */
-select.government-state {
-  display: block;
-  margin: -10px 0 22px;
-  border-color: rgba(214, 189, 132, 0.55);
-}
-.entries-rows .entry h3 {
-  font: 600 24px var(--name);
-  color: var(--gold);
-  margin: 12px 0;
-}
-.record-place {
-  font: 18px var(--speech);
-  margin: 0 0 20px;
-}
-.record-section.wide .record-section {
-  max-width: 1000px;
-}
-/* A member's line: name and party, then the term, who won the seat and your
-   race for it, each on a line of its own. */
-.record-section .row:has(> .row) {
-  flex-wrap: wrap;
-}
-.record-section .row > .row {
-  flex-basis: 100%;
-  justify-content: flex-end;
-  padding: 2px 0;
-}
-.record-section .row.own-race {
-  color: var(--gold);
-}
-.record-chart {
-  margin: 20px 0;
-}
-.record-chart-line {
-  display: grid;
-  grid-template-columns: minmax(130px, 1fr) minmax(80px, 2fr) auto;
-  gap: 16px;
-  align-items: center;
-  margin: 16px 0;
-  font: 14px var(--ui);
-}
-.record-track {
-  height: 9px;
-  background: rgba(255, 255, 255, 0.06);
-}
-.record-bar {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, var(--brass), var(--gold));
-}
-.record-chart-line strong {
-  font-weight: 500;
-}
-#sheet-body .member-name {
-  background: none;
-  box-shadow: none;
-  border: none;
-  padding: 0;
-  text-align: left;
-}
-#sheet-body .member-name::after {
-  display: none;
-}
-.record-value {
-  text-align: right;
-}
-/* A person in a list (ui/list-row.mjs): face, the name that opens their card, office, party. */
-.person-row {
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding: 1px 0;
-}
-/* A list row's face: the round headshot at a row's size; an empty ring until
-   the figure is known, never initials (owner, Oct 28). */
-.person-row .person-row-face {
-  flex: none;
-  width: 34px;
-  height: 34px;
-  border-width: 2px;
-}
-.person-row .member-name {
-  flex: 1;
-}
-.person-row-note {
-  color: var(--text-2);
-}
-/* A line that belongs to the row above it: under the name, indented past the face. */
-.person-row-sub {
-  flex-basis: 100%;
-  margin: -10px 0 4px 46px;
-  font-size: 13px;
-}
-.record-total {
-  display: block;
-  font: 600 30px var(--name);
-  margin: 12px 0 25px;
-}
-.record-warning {
-  color: var(--red);
-  font: 600 14px var(--ui);
-  margin: 0 0 8px;
-}
-.screen-grid > .wide {
-  grid-column: 1 / -1;
-}
-.record-count {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin: 8px 0 16px;
-}
-.record-count .record-total {
-  margin: 0;
-}
-/* The list screen (ui/list-screen.mjs): every searchable list of entries. */
-.entries-rows .entry {
-  margin: 20px 0;
-}
-details.entry summary {
-  cursor: pointer;
-  list-style: none;
-}
-details.entry summary::-webkit-details-marker {
-  display: none;
-}
-.entries-rows .entry h3 {
-  font-size: 20px;
-}
-.entry-value {
-  font: 24px var(--speech);
-}
-details.entry[open] {
-  margin-bottom: 28px;
-}
-#game.sheet-open #news-surface {
-  visibility: hidden;
-}
-
-/* Reading screens (the menu, every menu sheet and a person's card) are
-   solid: the scene never shows through text meant to be read. Glass stays
-   for panels over a scene, such as the talk box. */
-#sheet,
-#person {
-  background: linear-gradient(var(--solid-top), var(--solid-bottom));
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-/* Calendar: the month fills the panel, each day shows what is on it in words, and
-   Coming up (or the chosen day) is a dense list beside it (principles 1, 5, 7). */
-#sheet-body:has(.calendar-layout) {
-  max-width: none;
-  display: flex;
-}
-.calendar-layout {
-  flex: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 2.1fr) minmax(300px, 1fr);
-  gap: 28px;
-  min-height: 0;
-}
-.calendar-month,
-.calendar-side {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-}
-.calendar-layout h3 {
-  font: 600 17px var(--name);
-  color: var(--gold);
-  margin: 0;
-}
-.calendar-heading {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-.calendar-heading h3 {
-  min-width: 170px;
-  text-align: center;
-}
-#sheet-body .calendar-heading .month-step {
-  font-size: 12px;
-  padding: 4px 10px;
-  min-height: 28px;
-  margin: 0;
-}
-#sheet-body .calendar-heading .month-step:last-child {
-  margin-left: auto;
-}
-#sheet-body .month {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  grid-template-rows: auto;
-  grid-auto-rows: minmax(0, 1fr);
-  gap: 4px;
-  min-height: 0;
-}
-.month .weekday {
-  font: 500 11px var(--ui);
-  color: var(--gold);
-  text-align: left;
-  padding: 0 6px 4px;
-}
-#sheet-body .month .day {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 2px;
-  min-height: 0;
-  height: auto;
-  margin: 0;
-  padding: 4px 6px;
-  overflow: hidden;
-  text-align: left;
-  font-weight: 400;
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: none;
-}
-.month .day .num {
-  font: 600 13px var(--ui);
-}
-.month .day.past {
-  opacity: 0.55;
-}
-.month .day.today {
-  color: var(--gold);
-  background: rgba(214, 189, 132, 0.16);
-}
-.month .day.selected {
-  outline: 1px solid var(--gold);
-  outline-offset: -1px;
-}
-.month .day::after {
-  display: none;
-}
-.month .entry {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  min-width: 0;
-  font: 13px/1.25 var(--ui);
-  color: var(--text);
-}
-.month .entry.own,
-.calendar-entry.own .what {
-  color: var(--gold);
-}
-.month .entry {
-  align-items: start;
-}
-.month .entry .what {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.month .more {
-  font: 11px var(--ui);
-  color: var(--muted, var(--text));
-}
-.month .day-icon,
-.calendar-entry .day-icon {
-  flex: none;
-  width: 16px;
-  height: 16px;
-  object-fit: contain;
-  filter: brightness(2.2);
-}
-.calendar-entry .what {
-  text-align: left;
-}
-.calendar-side-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 36px;
-  margin-bottom: 8px;
-}
-.calendar-list {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-#sheet-body .calendar-entry {
-  flex: none;
-  display: grid;
-  grid-template-columns: 84px 18px minmax(0, 1fr);
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  min-height: 0;
-  margin: 0;
-  padding: 7px 8px;
-  text-align: left;
-  font: 15px/1.3 var(--ui);
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: none;
-  border: 0;
-}
-#sheet-body .calendar-entry:not(:has(.when)) {
-  grid-template-columns: 18px minmax(0, 1fr);
-}
-.calendar-entry .when {
-  white-space: nowrap;
-  font: 600 12px var(--ui);
-  color: var(--gold);
-}
-.calendar-paging {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-#sheet-body .calendar-paging button {
-  white-space: nowrap;
-  margin: 0;
-}
-
-/* Person cards share the character screen's large side figure and Kit 13 panel. */
-.dossier {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(1180px, calc(100vw - 2 * var(--gutter)));
-  height: min(780px, calc(100vh - 2 * var(--gutter)));
-  display: grid;
-  grid-template-columns: minmax(180px, 32%) minmax(0, 1fr);
-  column-gap: clamp(24px, 3vw, 48px);
-  padding: 30px 40px;
-}
-.dossier-main {
-  display: flex;
-  flex-direction: column;
   min-width: 0;
   min-height: 0;
-  padding-top: 18px;
+}
+.dossier .sheet-head {
+  flex-direction: row;
+  align-items: flex-start;
 }
 .dossier .heading {
-  font-size: clamp(24px, 2.5vw, 40px);
+  font-size: clamp(26px, 2.6vw, 38px);
+  line-height: 1.1;
 }
 #person-role {
-  margin: 8px 0 32px;
+  margin: -8px 0 0;
   color: var(--text-2);
 }
 #person-role:empty {
@@ -2877,11 +1863,25 @@ details.entry[open] {
 #person-facts {
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
-.dossier .acts {
-  margin-top: 16px;
+#person-facts .screen-lede {
+  margin: 0;
+  font: 400 17px/1.45 var(--speech);
+  color: var(--text);
+  max-width: 60ch;
+}
+#person-facts .tab-rail {
+  margin: 0;
+}
+#person-facts .person-tab {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 #game.person-open #news-surface {
   visibility: hidden;
@@ -2889,8 +1889,8 @@ details.entry[open] {
 @media (max-width: 700px) {
   .dossier {
     grid-template-columns: minmax(100px, 30%) minmax(0, 1fr);
-    gap: 18px;
-    padding: 24px;
+    gap: 14px;
+    padding: 20px;
   }
 }
 
@@ -3341,9 +2341,6 @@ details.entry[open] {
 .screen-grid .record-section > .label:first-child {
   break-after: avoid;
 }
-.record-section {
-  margin: 0 0 14px;
-}
 .record-section p {
   margin: 6px 0;
 }
@@ -3372,8 +2369,18 @@ details.entry[open] {
   gap: 24px;
 }
 .record-views h4 {
-  margin: 8px 0;
+  margin: 0 0 4px;
+  font: 600 10.5px var(--ui);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--gold);
+}
+.view-plate .narrative {
+  margin: 0;
+  font: 400 15.5px/1.4 var(--speech);
+}
+.record-views {
+  gap: 10px;
 }
 .record-value {
   overflow-wrap: anywhere;
@@ -3575,27 +2582,16 @@ details.entry[open] {
 .people-key .household::before {
   border-top-style: dashed;
 }
-.people-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+/* The list of everyone you know: face cards across the area, paged. */
+.relationship-web.people-list {
+  height: auto;
+  min-height: 0;
 }
-#sheet-body .people-list .people-node {
-  position: static;
-  transform: none;
-  width: auto;
-  grid-template-columns: 48px 1fr;
-  text-align: left;
-  justify-items: start;
-}
-.people-list .people-node > :first-child {
-  grid-row: span 2;
-  order: 0;
-}
-.people-list .people-node img,
-.people-list .headshot {
-  width: 48px;
-  height: 48px;
+.people-list .member-card.on {
+  border-color: rgba(214, 189, 132, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(214, 189, 132, 0.35),
+    0 0 12px rgba(214, 189, 132, 0.2);
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
@@ -3891,19 +2887,6 @@ details.entry[open] {
   opacity: 0.8;
 }
 
-.people-node .circle-mark {
-  font: 600 12px var(--ui);
-  font-style: normal;
-  color: var(--gold);
-}
-.people-node.circle-left {
-  opacity: 0.7;
-}
-.people-selection .circle-why,
-.people-selection .circle-none {
-  color: var(--gold);
-}
-
 /* Advanced: the officeholders to play as, a button each. */
 .pick-list {
   display: grid;
@@ -3961,11 +2944,6 @@ details.entry[open] {
 .grade-saved {
   font-size: 0.75em;
   opacity: 0.7;
-}
-
-/* What a person is like, on their card: a short paragraph above the facts. */
-#person-facts .screen-lede {
-  margin: 0 0 18px;
 }
 
 /* A number typed into a form line (the seat's draft amount). */
@@ -4513,6 +3491,55 @@ details.entry[open] {
   flex-direction: column;
   gap: 12px;
 }
+.split-screen.single .split-body {
+  grid-template-columns: minmax(0, 1fr);
+}
+/* Issues: the subjects on a rail, a search beside them, one subject's law cards
+   paged inside a plate (owner, Oct 29). */
+.issues-screen .split-controls {
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.issues-screen .issue-subjects {
+  flex: 1 1 auto;
+  margin: 0;
+}
+.issues-screen input[type="search"] {
+  flex: 0 0 240px;
+}
+.issue-plate {
+  margin: 0;
+}
+/* One law's page: its name over the plates. */
+.law-page .split-controls .heading {
+  margin: 0;
+  font-size: clamp(24px, 2.4vw, 34px);
+}
+.law-page .fact-plates {
+  margin: 0 0 10px;
+}
+.issue-cards .entry {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.issue-cards .entry h3 {
+  font: 600 15px/1.2 var(--ui);
+  color: var(--text-strong);
+  margin: 0 0 4px;
+}
+.issue-cards .entry .entry-value {
+  display: block;
+  font: 500 19px/1.15 var(--speech);
+  color: var(--gold);
+  overflow-wrap: break-word;
+  margin: 2px 0 4px;
+}
+.issue-cards .entry .entry-line {
+  font: 12.5px var(--ui);
+  color: var(--text-2);
+  margin: 0;
+}
 .split-side {
   min-height: 0;
   overflow: hidden;
@@ -4719,21 +3746,6 @@ details.entry[open] {
     0 0 0 1px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
-.member-feeling {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
-}
-.member-feeling.warm {
-  background: #7fa864;
-}
-.member-feeling.known {
-  background: var(--gold);
-}
-.member-feeling.cool {
-  background: var(--red);
-}
 #sheet-body .member-card.large {
   grid-template-columns: 64px max-content auto auto;
   justify-content: start;
@@ -4780,14 +3792,6 @@ details.entry[open] {
 }
 .pager-controls[hidden] {
   display: none;
-}
-#sheet-body .pager-arrow {
-  min-height: 0;
-  width: 30px;
-  height: 26px;
-  padding: 0;
-  margin: 0;
-  font: 600 18px/1 var(--ui);
 }
 .pager-where {
   font: 500 12.5px var(--ui);
@@ -4866,20 +3870,22 @@ details.entry[open] {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.date-list li {
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 12px;
+  row-gap: 8px;
   align-items: baseline;
+}
+/* Each row's date and words sit in the list's two columns, so every date
+   lines up with the longest. */
+.date-list li {
+  display: contents;
 }
 .date-list-when {
   font: 600 14px var(--ui);
   color: var(--gold);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 .date-list-text {
   font: 400 14px/1.3 var(--ui);
@@ -4898,4 +3904,604 @@ details.entry[open] {
 }
 .split-main .record-section > .label {
   margin: 0;
+}
+
+/* The draft card on a body's office screen: the issue, what is in force today beside the
+   amount typed, and Draft. */
+.draft-card {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(214, 189, 132, 0.35);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.draft-title {
+  margin: 0;
+  font: 700 12px var(--ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.draft-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 18px;
+}
+.draft-cell {
+  display: grid;
+  gap: 2px;
+}
+.draft-cell small {
+  color: var(--text-2);
+  font: 12px var(--ui);
+}
+.draft-today {
+  font: 600 18px var(--ui);
+}
+.draft-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.draft-entry .number-box {
+  width: 110px;
+}
+.draft-note {
+  margin: 0;
+  color: var(--text-2);
+  font: 13px var(--ui);
+}
+.draft-note:empty {
+  display: none;
+}
+
+/* Today's amount beside the new one on the bill paper's estimate card. */
+.bill-compare {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 10px 0;
+}
+.bill-compare-cell {
+  display: grid;
+  gap: 2px;
+  min-width: 110px;
+  padding: 8px 12px;
+  border: 1px solid rgba(214, 189, 132, 0.3);
+  border-radius: 6px;
+}
+.bill-compare-cell small {
+  color: var(--text-2);
+  font: 12px var(--ui);
+}
+.bill-compare-cell strong {
+  font: 700 20px var(--ui);
+}
+.bill-compare-cell.new {
+  border-color: var(--gold);
+}
+.bill-compare-arrow {
+  color: var(--gold);
+  font-size: 22px;
+}
+
+/* ---- Framed plates, trays and the timeline (owner, Oct 29, 22:45) ----
+   Content never sits on the bare panel: every group sits on a framed plate (a soft
+   gradient, a thin brass edge, an inner shadow, small brass corners). A plate inside a
+   plate is a plain group, so the frame is one deep. Buttons sit in a recessed tray. */
+.plate {
+  position: relative;
+  margin: 0 0 14px;
+  padding: 13px 16px 15px;
+  /* The corners are background layers, not an overlay, so a plate in a
+     column layout draws them on itself wherever its columns fall. */
+  background:
+    url("/ui/kit13/corner-tl.svg") left top / 11px 11px no-repeat border-box,
+    url("/ui/kit13/corner-tr.svg") right top / 11px 11px no-repeat border-box,
+    url("/ui/kit13/corner-bl.svg") left bottom / 11px 11px no-repeat border-box,
+    url("/ui/kit13/corner-br.svg") right bottom / 11px 11px no-repeat border-box,
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    linear-gradient(172deg, rgba(72, 66, 58, 0.42), rgba(26, 25, 24, 0.66) 72%);
+  border: 1px solid rgba(156, 131, 80, 0.55);
+  border-radius: 3px;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 240, 199, 0.07),
+    inset 0 0 28px rgba(0, 0, 0, 0.42),
+    0 3px 8px rgba(0, 0, 0, 0.3);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.plate .plate:not(.fact-plate) {
+  margin: 12px 0 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+.plate > .label:first-child {
+  display: block;
+  margin: 0 0 9px;
+}
+.split-side .plate,
+.split-main .plate {
+  margin: 0;
+}
+.plate .tab-rail {
+  margin: 0 0 10px;
+}
+/* Small plates side by side, one fact each: a label, the fact, a note. */
+.fact-plates {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+}
+.fact-plate {
+  margin: 0;
+  padding: 10px 14px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.fact-plate .label {
+  margin: 0;
+}
+.fact-value {
+  font: 600 15.5px/1.25 var(--ui);
+  color: var(--text-strong);
+}
+.fact-note {
+  font: 400 13px/1.3 var(--ui);
+  color: var(--text-2);
+}
+/* Rounded brass chips under a name: a party, a tie. */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  padding: 2px 10px;
+  font: 500 12.5px/1.5 var(--ui);
+  color: var(--gold);
+  border: 1px solid rgba(214, 189, 132, 0.55);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+}
+/* A tray: buttons sit in a recessed bar, never loose on the panel. */
+.tray,
+.record-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 18px 0 0;
+  padding: 7px 9px;
+  background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.22));
+  border: 1px solid rgba(156, 131, 80, 0.4);
+  border-radius: 3px;
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.65),
+    0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.tray > button,
+#sheet-body .record-actions > button {
+  margin: 0;
+}
+.tab-rail.people-filters {
+  gap: 3px;
+}
+/* The timeline: a gold line down the left, a round brass icon on it per record, and a
+   small card with the year over the sentence; the pager's arrows name each chapter by
+   its years. */
+.timeline {
+  flex: 1;
+  min-height: 0;
+}
+.timeline .pager-grid {
+  position: relative;
+  padding-left: 46px;
+}
+.timeline .pager-grid::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  border-radius: 1px;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 30%,
+    var(--brass) 80%,
+    var(--brass-lo)
+  );
+  box-shadow: 0 0 5px rgba(214, 189, 132, 0.35);
+}
+.timeline-entry {
+  position: relative;
+  min-height: 0;
+}
+.timeline-icon {
+  position: absolute;
+  left: -45px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  background: radial-gradient(circle at 40% 35%, #3a3632, #141312 75%);
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.6),
+    0 0 8px rgba(214, 189, 132, 0.25);
+}
+.timeline-icon svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.timeline-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  padding: 5px 14px;
+  border: 1px solid rgba(156, 131, 80, 0.28);
+  border-radius: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 240, 199, 0.06),
+    rgba(255, 240, 199, 0.015)
+  );
+}
+.timeline-when {
+  font: 600 11px var(--ui);
+  letter-spacing: 0.12em;
+  color: var(--gold);
+}
+.timeline-text {
+  font: 400 16px/1.3 var(--speech);
+  color: var(--text);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.timeline .pager-where {
+  font: 600 12px var(--ui);
+  letter-spacing: 0.12em;
+  color: var(--gold);
+}
+.pager-arrow,
+#sheet-body .pager-arrow {
+  min-height: 0;
+  width: 30px;
+  height: 26px;
+  padding: 0;
+  margin: 0;
+  font: 600 18px/1 var(--ui);
+}
+
+/* ---- Money (the Oct 14 mock on framed plates): the cash large, each month's
+   review as columns, where last month went as a ring with its key ---- */
+.money-figure {
+  font: 900 clamp(40px, 4.4vw, 64px) / 1.05 var(--name);
+  color: var(--brass-hi);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
+  margin: 2px 0 10px;
+}
+.money-cash {
+  display: flex;
+  flex-direction: column;
+}
+.money-home-picture {
+  width: 100%;
+  aspect-ratio: 5 / 2;
+  object-fit: cover;
+  border: 1px solid rgba(156, 131, 80, 0.6);
+  border-radius: 2px;
+  margin: 0 0 8px;
+}
+/* Columns side by side: each amount over its column, the month under it. */
+.column-chart {
+  margin: 12px 0 0;
+}
+.column-chart-columns {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  height: 190px;
+}
+.column-chart-item {
+  flex: 1 1 0;
+  max-width: 76px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+.column-chart-well {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+.column-chart-bar {
+  width: 100%;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 35%,
+    var(--brass-lo)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.column-chart-bar.below {
+  background: linear-gradient(#d07a68, var(--red));
+}
+.column-chart-value,
+.column-chart-label {
+  font: 500 11.5px var(--ui);
+  color: var(--text-2);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.column-chart-label {
+  color: var(--text);
+}
+.column-chart figcaption {
+  margin: 8px 0 0;
+  font: 500 12.5px var(--ui);
+  color: var(--text-2);
+}
+/* A ring of the parts of a whole, the whole in its middle, the key beside it. */
+.donut-chart {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+}
+.donut-center {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+.donut-ring svg {
+  width: 150px;
+  height: 150px;
+  transform: rotate(-90deg);
+}
+.donut-track {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.45);
+  stroke-width: 14;
+}
+.donut-part {
+  fill: none;
+  stroke-width: 14;
+}
+.donut-total {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 36px;
+  text-align: center;
+  font: 600 16px/1.15 var(--ui);
+  color: var(--text-strong);
+}
+.donut-key {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.donut-key li {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  font: 500 13.5px var(--ui);
+}
+.donut-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+.donut-share {
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+/* The kit's chart colors, in order: muted, never navy. */
+.donut-part.c0 {
+  stroke: #c9a55c;
+}
+.donut-part.c1 {
+  stroke: #4f8a8b;
+}
+.donut-part.c2 {
+  stroke: #9a4a3f;
+}
+.donut-part.c3 {
+  stroke: #6f7f3a;
+}
+.donut-part.c4 {
+  stroke: #7a8796;
+}
+.donut-part.c5 {
+  stroke: #8a6386;
+}
+.donut-part.c6 {
+  stroke: #b08a5a;
+}
+.donut-part.c7 {
+  stroke: #6f6c66;
+}
+.donut-swatch.c0 {
+  background: #c9a55c;
+}
+.donut-swatch.c1 {
+  background: #4f8a8b;
+}
+.donut-swatch.c2 {
+  background: #9a4a3f;
+}
+.donut-swatch.c3 {
+  background: #6f7f3a;
+}
+.donut-swatch.c4 {
+  background: #7a8796;
+}
+.donut-swatch.c5 {
+  background: #8a6386;
+}
+.donut-swatch.c6 {
+  background: #b08a5a;
+}
+.donut-swatch.c7 {
+  background: #6f6c66;
+}
+
+/* Jobs and study (the Oct 14 mock on framed plates): the workplace's painting
+   across the top of the job plate, the title in the name type. */
+.job-picture {
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  object-fit: cover;
+  border: 1px solid rgba(156, 131, 80, 0.6);
+  border-radius: 2px;
+  margin: 0 0 10px;
+}
+.job-plate .heading {
+  font: 800 clamp(20px, 2vw, 28px) / 1.15 var(--name);
+  margin: 0;
+}
+.job-plate .job-employer {
+  margin: 2px 0 10px;
+  color: var(--text-2);
+}
+
+/* Campaigns: the coming ballot as race cards on a plate; a race's own page
+   with who is running as face cards and where they stand. */
+.race-cards .entry {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.race-cards .entry h3 {
+  font: 600 15px/1.2 var(--ui);
+  color: var(--text-strong);
+  margin: 0 0 4px;
+}
+.race-cards .entry .entry-value {
+  display: block;
+  font: 500 16px/1.2 var(--speech);
+  color: var(--gold);
+  margin: 0 0 4px;
+}
+.race-cards .entry p {
+  font: 12.5px/1.3 var(--ui);
+  color: var(--text-2);
+  margin: 0;
+}
+.race-page .split-controls .heading {
+  margin: 0;
+  font-size: clamp(22px, 2.2vw, 32px);
+}
+.race-page .plate .plate {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Budget (the Oct 14 mock on framed plates): the government, its year and total
+   in the name type; three plates in a row; the rings' keys carry amounts. */
+.plate-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+.plate-row > .plate {
+  margin: 0;
+}
+.budget-title {
+  font: 800 clamp(18px, 1.8vw, 24px) / 1.2 var(--name);
+  color: var(--text-strong);
+}
+.budget-adopted {
+  margin: -6px 0 2px;
+  color: var(--text-2);
+}
+.budget-screen .donut-chart {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+.budget-screen .donut-key {
+  width: 100%;
+}
+
+/* The Guide: term cards on a plate, the chosen term's article beside them. */
+.guide-cards .entry {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.guide-cards .entry h3 {
+  font: 700 15px/1.2 var(--name);
+  color: var(--gold);
+  margin: 0 0 3px;
+}
+.guide-cards .entry span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font: 13px/1.3 var(--ui);
+  color: var(--text-2);
+}
+.guide-cards .entry.on {
+  border-color: rgba(214, 189, 132, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(214, 189, 132, 0.35),
+    0 0 12px rgba(214, 189, 132, 0.2);
+}
+.guide-article .heading {
+  font: 800 clamp(20px, 2vw, 28px) / 1.15 var(--name);
+  margin: 0 0 8px;
+}
+.guide-short {
+  font: 500 16px/1.4 var(--speech);
+  color: var(--text-strong);
+  margin: 0 0 10px;
+}
+.guide-text {
+  font: 400 15px/1.45 var(--speech);
+  color: var(--text);
+  margin: 0 0 10px;
+}
+.member-line b {
+  font-weight: inherit;
 }

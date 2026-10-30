@@ -624,7 +624,11 @@ function sceneEndingMoments(
           id,
           date: reply.date as IsoDate,
           causeId: id,
-          causeKind: `scene-ending:${keeps}`,
+          // A promise given only as "I'll look at it" is told as that.
+          causeKind:
+            keeps === "promise" && reply.facts?.firmness === "vague"
+              ? "scene-ending:vague-promise"
+              : `scene-ending:${keeps}`,
           counterpartIds: [otherId as PersonId],
           selfNamed: true,
           hindsight: zero,

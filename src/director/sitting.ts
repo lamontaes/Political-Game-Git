@@ -1,7 +1,7 @@
 /**
  * The sitting (owner, Oct 26-29: interviews are scenes). A candidate who said
- * yes to an asker (a reporter's interview; the debate's moderator next) sits
- * for it in the conversation engine: the asker puts each of the sitting's own
+ * yes to an asker (a reporter's interview, a debate's moderator) sits for it
+ * in the conversation engine: the asker puts each of the sitting's own
  * questions as a line, the player picks how to answer each (plainly, with a
  * further fact from their record, by turning it back on a rival, or briefly;
  * the lie where their record allows one; or says nothing), and when the last
@@ -9,7 +9,7 @@
  * exactly those moves.
  *
  * This file is the loop and knows no kind of sitting. A kind brings a source
- * (`SittingSource`, one per kind: `./interview-sitting`): how to find the
+ * (`SittingSource`, one per kind: `./interview-sitting`, `./debate-sitting`): how to find the
  * sitting a talk is the occasion of, who asks, which questions, and how to
  * publish. Its settings (the record it stages from, the bank subjects) are a
  * row of `data/sittings.json`.
@@ -43,6 +43,7 @@ import type {
   ConversationChoice,
   ConversationData,
 } from "./conversation";
+import { debateSource } from "./debate-sitting";
 import { interviewSource } from "./interview-sitting";
 import type { Moment } from "./types";
 
@@ -68,6 +69,8 @@ const RULES = rulesFile as unknown as {
         subjects: {
           open: string;
           question: string;
+          /** The bank the player's answers and the lie come from. */
+          answers: string;
           close: string;
           takePrefix: string;
         };
@@ -80,12 +83,12 @@ export type Facts = Record<string, Fact>;
 
 /** A sitting waiting for the player, as its kind gives it to the loop. */
 export interface SittingRow {
-  /** The row of `data/sittings.json` this sitting follows (`interview`). */
+  /** The row of `data/sittings.json` this sitting follows (`interview`, `debate`). */
   readonly kind: string;
-  /** The sitting's record: the interview's id. */
+  /** The sitting's record: the interview's or the debate's id. */
   readonly id: string;
   readonly candidateId: PersonId;
-  /** Who puts the questions: the reporter. */
+  /** Who puts the questions: the reporter, or the debate's moderator. */
   readonly askerId: PersonId;
   /** The candidate's filing, whose platform is their stand. */
   readonly filingId: string | null;
@@ -126,7 +129,7 @@ export interface SittingSource {
 }
 
 /** The kinds of sitting there are, one source each. */
-const SOURCES: readonly SittingSource[] = [interviewSource];
+const SOURCES: readonly SittingSource[] = [interviewSource, debateSource];
 
 /** The settings of a kind of sitting (its record and its bank subjects). */
 export function settingsOf(kind: string) {
@@ -459,7 +462,7 @@ function put(
       asking.answers.has(key)
         ? word(core, data, {
             speakerId: playerId,
-            subject: subjects.question,
+            subject: subjects.answers,
             part,
             facts: asking.facts,
             momentKey: `${row.id}:${sitting.at}:${key}`,
