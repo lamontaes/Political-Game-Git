@@ -7,6 +7,7 @@ import {
   billForm,
   currentAmount,
   draftBill,
+  floorDateOf,
   lawInForceRow,
   memberKey,
   votesOn,
@@ -15,7 +16,6 @@ import {
   type Provision,
 } from "../core2/modules/legislature";
 import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
-import { floorDateOf } from "../core2/modules/world-legislating";
 import type { TermRow } from "../core2/modules/offices";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";

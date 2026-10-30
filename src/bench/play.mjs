@@ -1320,6 +1320,7 @@ async function campaignRows() {
         event: "event",
         forum: "forum",
         interview: "interview",
+        party: "donor-meeting",
       };
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
@@ -1345,6 +1346,9 @@ async function campaignRows() {
       ]
         .filter(Boolean)
         .join(" · ");
+      // A donor meeting is seen in the host's home, told by what the room gave.
+      if (outing === "party" && result.callsLine)
+        campaignResult = result.callsLine;
       // Something that came up while out holds the clock: it is shown, as
       // after Day, so Continue never stands over an empty screen.
       const moment = storyStop(result.packet);
@@ -1451,6 +1455,20 @@ async function campaignRows() {
             sampleSize: String(pollSample),
           }),
         ),
+        // Mail to the town's households: the player sets what to spend.
+        (() => {
+          const dollarsOut = numberBox({
+            value: 50,
+            min: 0,
+            step: 1,
+            label: controls.campaignContribute.dollars,
+          });
+          const send = button(controls.campaignActs.mail, "mail", () => ({
+            amountMinor: String(Math.round(Number(dollarsOut.value) * 100)),
+          }));
+          send.dataset.testid = "campaign-mail";
+          return buttonRow(dollarsOut, send);
+        })(),
         // The player's own money into the campaign: the amount is theirs to set.
         (() => {
           const dollarsIn = numberBox({
@@ -3314,7 +3332,18 @@ const sheets = {
     };
     return listScreen({
       search: { placeholder: labels.search },
-      layout: "cards",
+      layout: "tiles",
+      pages: {
+        rows: 2,
+        columns: 3,
+        rowHeight: 262,
+        gap: 14,
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
+      },
       entries: (query) =>
         destinations
           .filter((p) =>
@@ -3325,6 +3354,7 @@ const sheets = {
             picture: p.presentation?.imageUrl,
             lines: [hereLine(p)],
             note: reasonLine(p),
+            badge: p.filing || p.presentCount > 0,
             label: p.name,
             onSelect: () => showPlace(p),
             // The record behind the reason, for the specs; never shown as text.

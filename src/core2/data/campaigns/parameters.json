@@ -78,6 +78,12 @@
       "source": "How far one conversation at the door moves a voter toward what they make of the candidate. Checked against field experiments: face-to-face contact is the strongest campaign contact (Green and Gerber 2019).",
       "spread": [0.3, 0.7]
     },
+    "playerDoorFillIns": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How many counted residents who open the player's own door in an evening of canvassing are filled in as full people: the ones a porch scene could cast (owner, Oct 27: door knocking is \"a short scene at 1 or 2 doors\"; two-level population, owner Oct 11: full people exist only where they matter, and a door touches the counted group). Every other opener stays counted, reached and answering by the same rule from their record.",
+      "spread": [1, 2]
+    },
     "doorPledgeWeight": {
       "value": 2,
       "tag": "TUNABLE",
@@ -978,6 +984,30 @@
       "tag": "TUNABLE",
       "source": "People the player asks for money in one hour of call time, by call or in person: roughly ten calls an hour (campaign fundraising manuals; Wellstone Action's training guides), so a three-hour session matches donorAsksPerTurn.",
       "spread": [5, 20]
+    },
+    "playerDonorMeetingHours": {
+      "value": 2,
+      "tag": "ESTIMATED",
+      "source": "Hours a donor meeting (a house party at a supporter's home) takes the candidate: a fundraising house party should 'last just a couple of hours', with the presentation and the ask after guests have been enjoying themselves for 30 to 45 minutes (Candid, 'Throwing a Fundraising House Party? Here's What You Need to Know', candid.org/blogs/throwing-a-fundraising-house-party-here-s-what-you-need-to-know, fetched Oct 29, 2026).",
+      "spread": [1.5, 3]
+    },
+    "donorMeetingHostHours": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "Hours a donor meeting takes its host: the couple of hours of the party itself (Candid, fetched Oct 29, 2026) and the setting up, the invitations and the follow-up calls Candid asks a host to make to each invitee. Checked against playerDonorMeetingHours (the host's evening is at least the candidate's).",
+      "spread": [2.5, 8]
+    },
+    "donorMeetingInvitesMax": {
+      "value": 150,
+      "tag": "ESTIMATED",
+      "source": "How many of their own circle a donor meeting's host invites, at most: a fundraising house party is 'usually with no more than 50 attendees' and a host should 'invite three or four times as many people as you would like to show up' (Candid, fetched Oct 29, 2026); a 2016 presidential campaign's host guide advised about double the attendance wanted (Washington Free Beacon's copy of the guide, freebeacon.com/politics/hillarys-specific-guide-on-how-to-throw-a-house-party-in-her-honor). Who comes is each guest's own choice (whoComes's rule); this only bounds the list.",
+      "spread": [50, 200]
+    },
+    "donorMeetingHostTieWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a guest's tie to the host who invited them (1 for family, else their closeness, -1 to 1) adds to their reason to come to a donor meeting: Candid's house-party guide builds half the list from the host's own friends (fetched Oct 29, 2026), who come for the host as much as the cause. Checked against donorRelationshipWeight, the same tie to the candidate's own weight, so a friend's invitation pulls as a friendship with the candidate does.",
+      "spread": [0.2, 1]
     },
     "playerRestHours": {
       "value": 8,
