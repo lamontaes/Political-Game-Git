@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/campaign-causes-fold
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T02:21:40.730Z
 ---
 
 **What.** One save of Ringgold, Louisiana (speed:year seed long-1) keeps 889 campaign cause rows at the end of year 1 and 721,144 at the end of year 6, 52 percent of every record the world keeps. keepCause in src/core2/modules/campaigns.ts keeps a cause whenever its voter or its candidate is in the player's circle, so every voter a known rival reaches keeps a row per contact, forever. The governing lead, who owns campaigns, agreed the fold (Oct 30, 02:03 UTC): fold a closed race's causes into a per-voter summary that the readers still read, keeping the player's circle and the causes a known fact names; not current-race-only, which would change what players see. Part of core-long-run-tables-grow-with-history.
