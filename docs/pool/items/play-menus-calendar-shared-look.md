@@ -6,7 +6,7 @@ lead: play-first
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/play-menus-calendar-shared-look
 pr: #6861
 blocked-on:
