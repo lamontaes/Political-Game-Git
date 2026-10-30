@@ -128,6 +128,25 @@ it(`a member asked the evening before a floor vote answers in a scene, and the r
       expect(fact?.text, `${where}: ${ask.id}`).toBe(said);
       expect(fact?.recordIds).toContain(ask.id);
       expect(composed.scene.cause.id).toBe(ask.id);
+      // The day words follow the record's floor date: "tomorrow" only the day
+      // before the vote and "today" only on it (the governing walk, Oct 29:
+      // "tomorrow" was said on the vote day).
+      const floor = String(ask.facts!.floorDate);
+      const marked = new Set(composed.scene.facts.map((row) => row.key));
+      expect(marked.has("vote-tomorrow"), `${where}: ${ask.id}`).toBe(
+        addDays(makeIsoDate(core.date), 1) === floor,
+      );
+      expect(marked.has("vote-today"), `${where}: ${ask.id}`).toBe(
+        floor === core.date,
+      );
+      const spoken = [
+        ...composed.scene.talk.narration,
+        ...composed.scene.talk.lines,
+      ].map((line) => line.text);
+      if (!marked.has("vote-tomorrow"))
+        expect(spoken.join(" "), `${where}: ${ask.id}`).not.toMatch(
+          /\b(?:tomorrow|evening before)\b/i,
+        );
       // Where the member stands before they answer, and the answer: they agree.
       const before = memberPosition(api, billId, memberId);
       const path = composed.scene.talk.tree.replies.findIndex(

@@ -195,7 +195,8 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
         director,
         { askerId: colleague.id, askedId },
         type,
-        facts,
+        // The sponsor's count is the evening before the vote.
+        { ...facts, "vote-tomorrow": fact("yes") },
         { standing: { lean: -0.2, favor: 0.3 } },
         HELD,
       );
