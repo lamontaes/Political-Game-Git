@@ -18,7 +18,10 @@ import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
-import { ELECTIONS_MODULE_ID, openContests } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  playerContests,
+} from "../core2/modules/elections";
 import { ballotOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -53,7 +56,7 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
     const md = born.slice(5) === "02-29" ? "03-01" : born.slice(5);
     const eighteen = makeIsoDate(`${Number(born.slice(0, 4)) + 18}-${md}`);
     if (eighteen > core.date) advanceCore(core, eighteen);
-    const filed = [...openContests(api)]
+    const filed = [...playerContests(api)]
       .sort(
         (a, b) =>
           a.electionDate.localeCompare(b.electionDate) ||

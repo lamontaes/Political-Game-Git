@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-room-talkable-after-story
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-30T02:14:52.866Z
 ---
 
 **What.** On the opening evening the household is drawn talkable for a moment (renderScene, src/bench/play.mjs), then the opening's story scene redraws the same people without a click (showStory draws story.people with no onClick), and when the story ends nothing draws them talkable again: after the address and every Continue, the family sits on the couch and cannot be clicked (Keno, Oregon, seed ccb6f0a8-dd00-4598-81a2-404d4a74f63d: talkable 1 at load, 0 from five seconds on; Elaine, Arkansas, Grand Meadow, Minnesota and Kent Acres, Delaware the same). panels.browser.mjs passes its talk step only because it clicks in that first moment. The owner's rule is that a person in the room is talked to by clicking them (Oct 27, the card has no Talk button).
