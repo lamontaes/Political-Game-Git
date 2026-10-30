@@ -228,6 +228,13 @@ export const STORY_KINDS = {
     context: ["owner-new", "owner-before", "business-kind"],
   },
   ad: { headline: ["ad"], lede: ["ad"] },
+  // A group or a person backing a candidate in a race, from the campaign's
+  // endorsement record: a headline and one line.
+  endorsement: {
+    headline: ["endorsement"],
+    lede: ["endorsement"],
+    brief: true,
+  },
   "campaign-gift": {
     headline: ["campaign-gift"],
     lede: ["campaign-gift"],

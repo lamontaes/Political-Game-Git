@@ -4501,7 +4501,7 @@
           "causeEngine": "legislature",
           "causeRecord": "bill-failed",
           "bind": {
-            "aide": "staff",
+            "aide": "staff-or-ally",
             "you": "subject"
           },
           "opener": "aide"

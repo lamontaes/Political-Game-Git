@@ -6547,6 +6547,70 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.endorsement.subject-endorses-name",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} endorses {name}",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "headline",
+          "role": "endorsement",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.endorsement.subject-backs-name-for-office",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} backs {name} for {office}",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "headline",
+          "role": "endorsement",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.endorsement.local-group-backs-name",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "Local group backs {name}",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "headline",
+          "role": "endorsement",
+          "choice": "headline",
+          "requiresFacts": ["unnamed-group"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

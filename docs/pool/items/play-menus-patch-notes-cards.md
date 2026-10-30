@@ -6,7 +6,7 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: cto/menus-patch-notes
 pr: #6900
 blocked-on:

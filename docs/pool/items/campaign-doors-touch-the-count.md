@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/doors-touch-counted
 pr: #6838
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 29 (CTO ruling on two-level population at the door)
+lead: governing
 claimed-at: 2026-10-29T22:44:10.993Z
 ---
 

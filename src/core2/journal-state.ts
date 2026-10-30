@@ -105,17 +105,25 @@ export type CashJournalSourceProvider = (
   reference: Readonly<CashJournalSourceRef>,
 ) => CashJournalSourceSlot | undefined;
 
+/**
+ * A lifetime sum in minor units: a plain number while it is a safe integer,
+ * the exact bigint once it passes 2^53, as the world's and the federal
+ * treasury's gross totals do in a long save. Balances, postings and net flows
+ * stay safe numbers; only these sums since the world opened grow without end.
+ */
+export type CashJournalLifetimeMinor = number | bigint;
+
 /** Gross volume includes internal reclassification; it is not consumer spending. */
 export interface CashJournalTotals {
   count: number;
-  grossDebitMinor: number;
-  grossCreditMinor: number;
+  grossDebitMinor: CashJournalLifetimeMinor;
+  grossCreditMinor: CashJournalLifetimeMinor;
 }
 
 export interface CashJournalExternalFlowTotals {
   netMinor: number;
-  outgoingMinor: number;
-  incomingMinor: number;
+  outgoingMinor: CashJournalLifetimeMinor;
+  incomingMinor: CashJournalLifetimeMinor;
 }
 
 export interface CashJournalShortResult {
@@ -209,6 +217,28 @@ function exact(value: bigint, zero: number, field: string): number {
   if (BigInt(result) !== value)
     throw new Error("Journal amount overflows exact minor units: " + field);
   return result;
+}
+
+const maxSafeMinor = BigInt(Number.MAX_SAFE_INTEGER);
+
+/** A lifetime sum is a nonnegative safe number, or a bigint only past the safe range. */
+export function isCashJournalLifetimeMinor(
+  value: unknown,
+  zero: number,
+): value is CashJournalLifetimeMinor {
+  return typeof value === "bigint"
+    ? value > maxSafeMinor
+    : Number.isSafeInteger(value) && (value as number) >= zero;
+}
+
+/** A lifetime sum plus one safe amount: plain numbers while the sum is safe, the exact bigint past it. */
+function addLifetime(
+  total: CashJournalLifetimeMinor,
+  amount: number,
+): CashJournalLifetimeMinor {
+  if (typeof total === "bigint") return total + BigInt(amount);
+  const result = total + amount;
+  return Number.isSafeInteger(result) ? result : BigInt(total) + BigInt(amount);
 }
 
 /** Sum of two nonnegative safe integers; a sum past the safe range takes the BigInt path and its error. */
@@ -774,10 +804,14 @@ function checkedPortfolios(
         beforeCash !== host.parameters.zero ||
         ids.length !== host.parameters.one ||
         !Number.isSafeInteger(outsideTotals.netMinor) ||
-        !Number.isSafeInteger(outsideTotals.incomingMinor) ||
-        outsideTotals.incomingMinor < host.parameters.zero ||
-        !Number.isSafeInteger(outsideTotals.outgoingMinor) ||
-        outsideTotals.outgoingMinor < host.parameters.zero ||
+        !isCashJournalLifetimeMinor(
+          outsideTotals.incomingMinor,
+          host.parameters.zero,
+        ) ||
+        !isCashJournalLifetimeMinor(
+          outsideTotals.outgoingMinor,
+          host.parameters.zero,
+        ) ||
         BigInt(outsideTotals.netMinor) !==
           BigInt(outsideTotals.incomingMinor) -
             BigInt(outsideTotals.outgoingMinor)
@@ -1042,27 +1076,22 @@ function plusTotals(
   zero: number,
   one: number,
 ): CashJournalTotals {
-  if (before)
-    for (const value of [
-      before.count,
-      before.grossDebitMinor,
-      before.grossCreditMinor,
-    ])
-      minor(value, zero, "retained journal totals");
+  if (before) {
+    minor(before.count, zero, "retained journal totals");
+    if (
+      !isCashJournalLifetimeMinor(before.grossDebitMinor, zero) ||
+      !isCashJournalLifetimeMinor(before.grossCreditMinor, zero)
+    )
+      throw new Error(
+        "Invalid nonnegative integer journal amount: retained journal totals",
+      );
+  }
+  // The postings' debits and credits are safe amounts; only the sums since
+  // the world opened may pass 2^53, and they stay exact as bigint.
   const next: CashJournalTotals = {
     count: addExact(before?.count ?? zero, one, zero, "journal count"),
-    grossDebitMinor: addExact(
-      before?.grossDebitMinor ?? zero,
-      debit,
-      zero,
-      "journal debits",
-    ),
-    grossCreditMinor: addExact(
-      before?.grossCreditMinor ?? zero,
-      credit,
-      zero,
-      "journal credits",
-    ),
+    grossDebitMinor: addLifetime(before?.grossDebitMinor ?? zero, debit),
+    grossCreditMinor: addLifetime(before?.grossCreditMinor ?? zero, credit),
   };
   protectJournalObjects(next);
   return next;
@@ -1396,18 +1425,18 @@ export function postCashJournal(
     }[] = [];
     for (const [ownerId, flow] of projection.externalFlows) {
       const before = runtime.externalFlowsByOwner.get(ownerId)!;
+      // The carried totals are checked in play too, as plusTotals checks the others.
+      if (
+        !isCashJournalLifetimeMinor(before.outgoingMinor, zero) ||
+        !isCashJournalLifetimeMinor(before.incomingMinor, zero)
+      )
+        throw new Error(
+          "Invalid nonnegative integer journal amount: outside flow totals",
+        );
       const next: CashJournalExternalFlowTotals = {
         netMinor: flow.afterNetMinor,
-        outgoingMinor: exact(
-          BigInt(before.outgoingMinor) + BigInt(flow.outgoingMinor),
-          zero,
-          "outside outgoing total",
-        ),
-        incomingMinor: exact(
-          BigInt(before.incomingMinor) + BigInt(flow.incomingMinor),
-          zero,
-          "outside incoming total",
-        ),
+        outgoingMinor: addLifetime(before.outgoingMinor, flow.outgoingMinor),
+        incomingMinor: addLifetime(before.incomingMinor, flow.incomingMinor),
       };
       protectJournalObjects(next);
       journalWrites.push(
