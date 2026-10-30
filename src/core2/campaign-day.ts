@@ -247,6 +247,25 @@ function townHouseholdCount(api: CoreAPI): number {
   return ids.size;
 }
 
+/** Whether the town has a door to knock: `townHouseholdCount` above zero, read to the first one. */
+function townHasDoor(api: CoreAPI): boolean {
+  const core = api.state as CoreState;
+  const town = (
+    api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("town")
+      .get("town") as unknown as { townPlaceId: string } | undefined
+  )?.townPlaceId;
+  if (!town) return false;
+  for (const id of core.peopleByPlace.get(town) ?? []) {
+    const person = core.people.get(id);
+    if (person?.alive && core.households.has(person.householdId)) return true;
+  }
+  for (const h of residentsRuntime(core)?.store.liveHouseholds() ?? [])
+    if (h.placeId === town && !core.households.has(h.id)) return true;
+  return false;
+}
+
 function contextOf(api: CoreAPI, filingId: string, world = false) {
   const filing = elections(api, "filings").get(filingId) as unknown as
     FilingRow | undefined;
@@ -280,16 +299,10 @@ function weekRoom(api: CoreAPI, outletId: string): number {
   return Math.max(0, pressParameter("interviewsPerWeek") - taken);
 }
 
-/** Who the player could ask for money today: reachable adults who haven't given. */
-function peopleToAsk(api: CoreAPI, campaign: CampaignRow, world = false) {
-  // The controlled person's money moves only by their own choice, so a world
-  // candidate's asks skip them.
-  const playerId = (api.state as CoreState).playerId;
+/** Whether one reachable person could be asked for money today: a living adult who hasn't given. */
+function askableFor(api: CoreAPI, campaign: CampaignRow) {
   const adultAge = api.parameter("votingAge");
-  const pool = reachablePeople(api, campaign).filter(
-    (id) => !world || id !== playerId,
-  );
-  const askable = pool.filter((id) => {
+  return (id: string) => {
     const person = api.state.people.get(id);
     return (
       !!person?.alive &&
@@ -297,9 +310,185 @@ function peopleToAsk(api: CoreAPI, campaign: CampaignRow, world = false) {
       ageOn(person.birthDate, api.state.date) >= adultAge &&
       !giftOf(api, campaign.filingId, id)
     );
-  });
+  };
+}
+
+/** Who the player could ask for money today: reachable adults who haven't given. */
+function peopleToAsk(api: CoreAPI, campaign: CampaignRow, world = false) {
+  // The controlled person's money moves only by their own choice, so a world
+  // candidate's asks skip them.
+  const playerId = (api.state as CoreState).playerId;
+  const askableId = askableFor(api, campaign);
+  const pool = reachablePeople(api, campaign).filter(
+    (id) => !world || id !== playerId,
+  );
+  const askable = pool.filter((id) => askableId(id));
   return { pool, askable };
 }
+
+/** Whether anyone is left to ask: `peopleToAsk`'s askable list not empty, read to the first one. */
+function anyoneToAsk(api: CoreAPI, campaign: CampaignRow, world: boolean) {
+  const playerId = (api.state as CoreState).playerId;
+  const askableId = askableFor(api, campaign);
+  return reachablePeople(api, campaign).some(
+    (id) => (!world || id !== playerId) && askableId(id),
+  );
+}
+
+/**
+ * The interview choice's facts: the invitations waiting and the outlets with
+ * room this week that would take the ask. The candidate's interviews are read
+ * once, and television's bar (`newsworthiness`) once, at the first station.
+ */
+function interviewFacts(api: CoreAPI, filing: FilingRow) {
+  const filingId = filing.id;
+  const theirs = interviewsFor(api, filing.personId);
+  const invitedInterviewIds = theirs
+    .filter((i) => i.filingId === filingId && i.status === "invited")
+    .map((i) => i.id);
+  let worth: number | undefined;
+  const newsworth = () => (worth ??= newsworthiness(api, filing));
+  let outletsDone = 0,
+    outletsFull = 0;
+  const here = outletsHere(api);
+  const outlets = here.flatMap((outlet) => {
+    const roomLeft = weekRoom(api, outlet.id);
+    const done = theirs.some(
+      (i) =>
+        i.outletId === outlet.id &&
+        i.filingId === filingId &&
+        i.status !== "declined",
+    );
+    if (done) outletsDone += 1;
+    else if (roomLeft <= 0) outletsFull += 1;
+    const bar =
+      outlet.kind !== "television" ||
+      newsworth() >= pressParameter("televisionBar");
+    return roomLeft > 0 && !done && bar
+      ? [{ outletId: outlet.id, roomLeft }]
+      : [];
+  });
+  return {
+    invitedInterviewIds,
+    outlets,
+    outletsHere: here.length,
+    outletsDone,
+    outletsFull,
+  };
+}
+
+/**
+ * Whether an interview is open today: an invitation waiting, else an outlet
+ * with room that has not had the candidate and (television) finds them known
+ * enough, read to the first one. Television's bar is read only for a station
+ * that would otherwise take the ask.
+ */
+function interviewOpen(api: CoreAPI, filing: FilingRow): boolean {
+  const theirs = interviewsFor(api, filing.personId);
+  if (theirs.some((i) => i.filingId === filing.id && i.status === "invited"))
+    return true;
+  let worth: number | undefined;
+  for (const outlet of outletsHere(api)) {
+    if (weekRoom(api, outlet.id) <= 0) continue;
+    if (
+      theirs.some(
+        (i) =>
+          i.outletId === outlet.id &&
+          i.filingId === filing.id &&
+          i.status !== "declined",
+      )
+    )
+      continue;
+    if (outlet.kind !== "television") return true;
+    if (
+      (worth ??= newsworthiness(api, filing)) >= pressParameter("televisionBar")
+    )
+      return true;
+  }
+  return false;
+}
+
+/**
+ * The donor meeting's host for the day's choices: the player's own day names
+ * one (`donorMeetingHost`, which reads the circle's views and keeps their
+ * opening records); a world candidate's day reads none.
+ */
+function dayHost(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  world: boolean,
+): string | null {
+  // A world candidate's day (`rivalDay`) never takes the donor meeting, so
+  // their turn reads no host: the choice stands unavailable for them.
+  // stopgapId: SG-GOV-rival-donor-meeting
+  return !!api.state.people.get(campaign.candidateId)?.alive && !world
+    ? donorMeetingHost(api, campaign)
+    : null;
+}
+
+/** The town hall the candidate already hosted today, read by its id (no scan), or null. */
+function forumHeldToday(api: CoreAPI, campaign: CampaignRow): string | null {
+  return api.state.modules.has(MEETINGS_MODULE_ID) &&
+    api
+      .moduleState(MEETINGS_MODULE_ID)
+      .table("townHalls")
+      .get(townHallId(campaign.candidateId, api.state.date))
+    ? townHallId(campaign.candidateId, api.state.date)
+    : null;
+}
+
+/**
+ * Whether the records let the candidate take one choice today, by the test
+ * `campaignDayChoices` makes for it, each read to its first yes and building
+ * none of the facts the screen alone shows. Every read it skips writes
+ * nothing. The donor meeting's is the host read (`dayHost`).
+ */
+function openToday(
+  api: CoreAPI,
+  filing: FilingRow,
+  campaign: CampaignRow,
+  kind: CampaignDayKind,
+  world: boolean,
+): boolean {
+  const candidateAlive = () =>
+    !!api.state.people.get(campaign.candidateId)?.alive;
+  const affords = () =>
+    (api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0) >=
+    unitPrice(api, "event-venue");
+  switch (kind) {
+    case "canvass":
+      return townHasDoor(api);
+    case "event":
+      return candidateAlive() && campaign.platform.length > 0 && affords();
+    case "forum":
+      return (
+        candidateAlive() &&
+        api.state.modules.has(MEETINGS_MODULE_ID) &&
+        campaign.platform.length > 0 &&
+        !forumHeldToday(api, campaign) &&
+        affords()
+      );
+    case "interview":
+      return interviewOpen(api, filing);
+    case "raise-money":
+      return anyoneToAsk(api, campaign, world);
+    case "donor-meeting":
+      return dayHost(api, campaign, world) !== null;
+    case "rest":
+      return true;
+  }
+}
+
+/** The day's choices in the order `campaignDayChoices` lists them. */
+const DAY_KINDS: readonly CampaignDayKind[] = [
+  "canvass",
+  "event",
+  "forum",
+  "interview",
+  "raise-money",
+  "donor-meeting",
+  "rest",
+];
 
 const asksPerSession = (hours: number) =>
   Math.floor(hours * campaignParameter("playerAsksPerCallHour"));
@@ -477,46 +666,13 @@ export function campaignDayChoices(
   // A forum is the meetings engine's town hall, hosted by the candidate: one
   // a day, read by its id (no scan).
   const meetingsKept = api.state.modules.has(MEETINGS_MODULE_ID);
-  const heldTodayId =
-    meetingsKept &&
-    api
-      .moduleState(MEETINGS_MODULE_ID)
-      .table("townHalls")
-      .get(townHallId(campaign.candidateId, api.state.date))
-      ? townHallId(campaign.candidateId, api.state.date)
-      : null;
+  const heldTodayId = forumHeldToday(api, campaign);
 
-  const invited = interviewsFor(api, filing.personId)
-    .filter((i) => i.filingId === filingId && i.status === "invited")
-    .map((i) => i.id);
-  let outletsDone = 0,
-    outletsFull = 0;
-  const here = outletsHere(api);
-  const outlets = here.flatMap((outlet) => {
-    const roomLeft = weekRoom(api, outlet.id);
-    const done = interviewsFor(api, filing.personId).some(
-      (i) =>
-        i.outletId === outlet.id &&
-        i.filingId === filingId &&
-        i.status !== "declined",
-    );
-    if (done) outletsDone += 1;
-    else if (roomLeft <= 0) outletsFull += 1;
-    const bar =
-      outlet.kind !== "television" ||
-      newsworthiness(api, filing) >= pressParameter("televisionBar");
-    return roomLeft > 0 && !done && bar
-      ? [{ outletId: outlet.id, roomLeft }]
-      : [];
-  });
+  const interview = interviewFacts(api, filing);
 
   const { pool, askable } = peopleToAsk(api, campaign, world);
   const gifts = pool.length - askable.length;
-  // A world candidate's day (`rivalDay`) never takes the donor meeting, so
-  // their turn reads no host: the choice stands unavailable for them.
-  // stopgapId: SG-GOV-rival-donor-meeting
-  const hostId =
-    candidateAlive && !world ? donorMeetingHost(api, campaign) : null;
+  const hostId = dayHost(api, campaign, world);
 
   return [
     {
@@ -572,14 +728,10 @@ export function campaignDayChoices(
       kind: "interview",
       filingId,
       hours: hours("interview"),
-      available: invited.length > 0 || outlets.length > 0,
-      facts: {
-        invitedInterviewIds: invited,
-        outlets,
-        outletsHere: here.length,
-        outletsDone,
-        outletsFull,
-      },
+      available:
+        interview.invitedInterviewIds.length > 0 ||
+        interview.outlets.length > 0,
+      facts: interview,
     },
     {
       kind: "raise-money",
@@ -618,6 +770,70 @@ export function campaignDayChoices(
 }
 
 /**
+ * Which of the day's choices are open and the hours each takes, in
+ * `campaignDayChoices`'s order and by its tests, without the facts the
+ * screen shows (a world candidate's day, `rivalDay`, reads only these). The
+ * interview's test reads television's bar only for a station that would
+ * otherwise take the ask, so the town's walk list, which that bar reads
+ * through the campaign's recognition, may first be read by the caller's own
+ * recognition read (`rivalDay` reads it next, with nothing written between).
+ */
+export function campaignDayOpen(
+  api: CoreAPI,
+  filingId: string,
+  world = false,
+): readonly {
+  readonly kind: CampaignDayKind;
+  readonly available: boolean;
+  readonly hours: number;
+}[] {
+  const { filing, open } = contextOf(api, filingId, world);
+  if (!open) return [];
+  const campaign = campaignFor(api, filingId);
+  return DAY_KINDS.map((kind) => ({
+    kind,
+    available: openToday(api, filing, campaign, kind, world),
+    hours: campaignParameter(HOURS_PARAMETER[kind]),
+  }));
+}
+
+/**
+ * The one choice a candidate takes, as `takeCampaignDayChoice` reads it:
+ * whether it is open and its hours, with the interview's facts and the donor
+ * meeting's host, building no other choice's facts. Undefined outside the
+ * window. Two reads of the whole list stay where it makes them: television's
+ * bar, whenever the town has a station (it reads the town's walk list, which
+ * is rebuilt on its first read after a household changes), and the player's
+ * donor meeting host, last (it keeps the circle's opening views).
+ */
+function chosenToday(
+  api: CoreAPI,
+  filingId: string,
+  kind: CampaignDayKind,
+  world: boolean,
+) {
+  const { filing, open } = contextOf(api, filingId, world);
+  if (!open) return undefined;
+  const campaign = campaignFor(api, filingId);
+  const interview = kind === "interview" ? interviewFacts(api, filing) : null;
+  if (
+    !interview &&
+    outletsHere(api).some((outlet) => outlet.kind === "television")
+  )
+    newsworthiness(api, filing);
+  const opens = interview
+    ? interview.invitedInterviewIds.length > 0 || interview.outlets.length > 0
+    : kind !== "donor-meeting" && openToday(api, filing, campaign, kind, world);
+  const hostId = dayHost(api, campaign, world);
+  return {
+    hours: campaignParameter(HOURS_PARAMETER[kind]),
+    available: kind === "donor-meeting" ? hostId !== null : opens,
+    interview,
+    hostId,
+  };
+}
+
+/**
  * Take one of the day's choices. Throws when the records say it is not
  * available. Every dollar moves through the engine's journal paths.
  */
@@ -628,9 +844,7 @@ export function takeCampaignDayChoice(
   options: CampaignDayOptions = {},
 ): CampaignDayResult {
   const world = options.world ?? false;
-  const offered = campaignDayChoices(api, filingId, world).find(
-    (c) => c.kind === choice,
-  );
+  const offered = chosenToday(api, filingId, choice, world);
   if (!offered?.available)
     throw new Error(`Campaign day choice not available: ${choice}`);
   // While the petition circulates, the candidate's day starts with asking
@@ -725,18 +939,13 @@ export function takeCampaignDayChoice(
       options.interviewId ??
       (options.outletId
         ? undefined
-        : offered.kind === "interview"
-          ? offered.facts.invitedInterviewIds[0]
-          : undefined);
+        : offered.interview?.invitedInterviewIds[0]);
     let row: InterviewRow | undefined = waiting
       ? interviewsFor(api, player).find((i) => i.id === waiting)
       : undefined;
     if (!row || row.status !== "invited") {
       const outletId =
-        options.outletId ??
-        (offered.kind === "interview"
-          ? offered.facts.outlets[0]?.outletId
-          : undefined);
+        options.outletId ?? offered.interview?.outlets[0]?.outletId;
       if (!outletId) throw new Error("No outlet to ask for an interview");
       row = requestInterview(api, { filingId, outletId });
     }
@@ -793,8 +1002,7 @@ export function takeCampaignDayChoice(
   }
 
   if (choice === "donor-meeting") {
-    const hostId =
-      offered.kind === "donor-meeting" ? offered.facts.hostId : null;
+    const hostId = offered.hostId;
     const meeting = hostId ? holdDonorMeeting(api, filingId, hostId) : null;
     if (!meeting) throw new Error("No donor meeting could be held");
     spendTime();

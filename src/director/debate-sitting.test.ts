@@ -43,7 +43,8 @@ import {
   type DebateRow,
 } from "../core2/modules/meetings";
 import { recordVote } from "../core2/modules/record";
-import { stancesOf } from "../core2/modules/views";
+import { lawChain } from "../core2/modules/laws";
+import { retellingsOf } from "../core2/modules/speech";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { questionAbout } from "../english/question-names";
@@ -78,11 +79,16 @@ function play(draw: number): Evidence | string {
     placeKey: place.key,
   });
   const { core, director } = world;
-  // A grown resident of the town is the player.
+  // A grown resident of the town is the player: one who lives there, never a
+  // filled-in official elsewhere whose id sorts first (Berryville, Virginia,
+  // seed chk2-b: the U.S. Secretary of Agriculture, whom nobody in town
+  // knew, so the debate moved no one's view).
+  const town = lawChain(coreAPI(core)).townPlaceId;
   const me = [...core.people.values()]
     .filter(
       (person) =>
         person.alive &&
+        person.placeId === town &&
         ageOnDate(person.birthDate, core.date) >= 35 &&
         ageOnDate(person.birthDate, core.date) < 60,
     )
@@ -318,16 +324,24 @@ function play(draw: number): Evidence | string {
     act: "debate",
     venue: held.id,
   });
-  const moved = heard.flatMap((cause) =>
-    stancesOf(api, cause.voterId as PersonId).filter((stance) =>
-      stance.causes.some((c) => c.eventId.startsWith(speech)),
-    ),
+  // How far each listener moved is the speech engine's record of the views
+  // engine's read, kept the moment each statement was heard: a stance
+  // outside the player's circle keeps only its latest cause, and a rival
+  // who answered the same questions after the player holds it by evening
+  // (Berryville, Virginia, seed chk2-b).
+  const spoken = statements.map(
+    (_, index) => speech + (index ? `:${index}` : ""),
+  );
+  const moved = spoken.flatMap((id) =>
+    retellingsOf(api, id)
+      .filter((row) => row.moved > 0)
+      .map(() => String(core.durableLog.get(id as never)?.topic)),
   );
   expect(
     moved.length,
     `${where}: the views engine read the statements`,
   ).toBeGreaterThan(0);
-  const topics = new Set(moved.map((stance) => stance.topic));
+  const topics = new Set(moved);
   for (const topic of topics)
     expect(
       statements.map((a) => a.question),
