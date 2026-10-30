@@ -4690,19 +4690,25 @@ export function foldQuietCauses(api: CoreAPI): void {
  * Fold candidates' causes into one summary row a voter. A voter and
  * candidate fold whole, so a summary's sum is the same sum, in the same
  * order, that `contestStanding` reads. The player's own causes stay as rows.
- * Someone the player deals with keeps their latest few causes a candidate as
- * rows in `foldedCauses` (`causesKeptPerCandidate`; Keep it simple: their why
- * is saved), and a folded cause that a voter's known fact names as its
- * source moves there too, where the trace still finds it.
+ * A folded cause that a voter's known fact names as its source, or that a
+ * pledge names as its visit, moves to `foldedCauses`, where the trace still
+ * finds it; no other folded cause is read, so none other is kept (CTO, Oct
+ * 30 08:15, amending 03:05).
  */
 function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
   const core = api.state as CoreState;
   const causes = table(api, "causes"),
     summaries = table(api, "causeSummaries"),
     folded = table(api, "foldedCauses");
-  const kept = campaignParameter("causesKeptPerCandidate");
   for (const candidateId of candidateIds) {
     if (candidateId === core.playerId) continue;
+    const pledged = new Set(
+      (
+        table(api, "pledges").query("byCandidate", [
+          candidateId,
+        ]) as unknown as PledgeRow[]
+      ).map((pledge) => pledge.causeId),
+    );
     const byVoter = new Map<string, CauseRow[]>();
     for (const row of causes.query("byCandidate", [
       candidateId,
@@ -4728,8 +4734,7 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
           (fact) => fact.sourceId,
         ),
       );
-      const latest = keepsWhy(core, voterId) ? rows.length - kept : rows.length;
-      rows.forEach((row, at) => {
+      for (const row of rows) {
         const entry = (acts[row.act] ??= { reached: 0, warmer: 0, cooler: 0 });
         entry.reached += 1;
         if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
@@ -4741,10 +4746,10 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
           (firstDoor === null || row.date < firstDoor)
         )
           firstDoor = row.date;
-        if (sources.has(row.id) || at >= latest)
+        if (sources.has(row.id) || pledged.has(row.id))
           folded.put(row as unknown as ModuleRow);
         causes.remove(row.id);
-      });
+      }
       summaries.put({
         id,
         voterId,
