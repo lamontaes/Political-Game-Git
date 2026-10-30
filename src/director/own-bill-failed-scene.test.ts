@@ -29,9 +29,12 @@ import {
   votesOn,
 } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
+import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
 import { coreAPI, fillInPerson } from "../core2/state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
+/** The ordinances the player brings to the floor in each drawn town. */
+const DRAFTS = 6;
 
 it("a fellow member who voted for the player's failed ordinance brings the news", () => {
   setBookkeeping(false);
@@ -59,45 +62,63 @@ it("a fellow member who voted for the player's failed ordinance brings the news"
     const me = seat.holder!.personId!;
     fillInPerson(core, me);
     new BenchPlayer(core, director).select(me);
-    const policy = billCatalog(api, "city")
+    // The player brings ordinances to the floor one at a time, as the bench
+    // lets them draft, and the body's own votes decide: the first that fails
+    // with another member for it is the case (most single drafts carry:
+    // Honduras, Puerto Rico; Milton, Illinois; seed 5d7f9b1c3e0a2468).
+    const policies = billCatalog(api, "city")
       .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
-      .find((row) => row.kind === "policy-question" && row.authority.allowed)!;
-    const bill = draftBill(api, {
-      bodyOfficeId: seat.office.id,
-      sponsorId: me,
-      provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
-    });
-    scheduleVote(api, bill.id);
-    const failure = () =>
-      [...(core.logByKind.get("bill-failed") ?? [])]
+      .filter((row) => row.kind === "policy-question" && row.authority.allowed)
+      .slice(0, DRAFTS);
+    const recordOf = (kind: string, billId: string) =>
+      [...(core.logByKind.get(kind) ?? [])]
         .map((id) => core.durableLog.get(id as never)!)
-        .find((row) => row.facts?.billId === bill.id);
-    const settled = () =>
-      failure() ??
-      [...(core.logByKind.get("legislative-vote") ?? [])]
-        .map((id) => core.durableLog.get(id as never)!)
-        .find((row) => row.facts?.billId === bill.id);
-    for (let day = 0; day < 120 && !settled(); day += 1)
-      advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const failed = failure();
-    const allies = votesOn(api, bill.id).filter(
-      (row) =>
-        row.vote === "yes" &&
-        row.memberId !== me &&
-        core.people.get(row.memberId)?.alive,
-    );
-    if (!failed || !allies.length) {
+        .find((row) => row.facts?.billId === billId);
+    const allyOf = (billId: string) =>
+      votesOn(api, billId).filter(
+        (row) =>
+          row.vote === "yes" &&
+          row.memberId !== me &&
+          core.people.get(row.memberId)?.alive,
+      );
+    let failed: ReturnType<typeof recordOf>;
+    const outcomes: string[] = [];
+    for (const policy of policies) {
+      const drafted = draftBill(api, {
+        bodyOfficeId: seat.office.id,
+        sponsorId: me,
+        provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
+      });
+      scheduleVote(api, drafted.id);
+      for (
+        let day = 0;
+        day < 120 &&
+        !recordOf("bill-failed", drafted.id) &&
+        !recordOf("legislative-vote", drafted.id);
+        day += 1
+      )
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      const failure = recordOf("bill-failed", drafted.id);
+      outcomes.push(failure ? `${drafted.id} failed` : `${drafted.id} carried`);
+      if (failure && allyOf(drafted.id).length) {
+        failed = failure;
+        break;
+      }
+    }
+    if (!failed) {
       tried.push(
-        `${where}: ${bill.id} ${failed ? "failed with nobody else for it" : "did not fail"}`,
+        `${where}: no ordinance failed with another member for it (${outcomes.join("; ")})`,
       );
       continue;
     }
-    advanceCore(core, addDays(makeIsoDate(failed.date), 1));
+    // A day on, so the director has staged what the vote brought.
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
     const book = director.ledger.people.get(me)!;
-    const entry = book.schedule.find((row) => {
-      const moment = book.momentsById.get(row.momentId);
-      return moment?.causeId === failed.id;
-    });
+    const entry = book.schedule.find(
+      (row) => book.momentsById.get(row.momentId)?.causeId === failed!.id,
+    );
+    const bill = { id: String(failed.facts!.billId) };
+    const allies = allyOf(bill.id);
     const binding = entry?.bindings.find((row) => row.typeKey === "staff-news");
     expect(
       binding,
@@ -105,14 +126,19 @@ it("a fellow member who voted for the player's failed ordinance brings the news"
     ).toBeDefined();
     const bringer = binding!.roles.find((row) => row.role === "aide")!
       .personIds[0];
+    // The player's own aide brings it where they have one; else a member who
+    // voted for it (staff-or-ally).
+    const aides = api.state.modules.has(STAFF_MODULE_ID)
+      ? servingStaffOf(api, me).map((row) => row.personId)
+      : [];
     expect(
-      allies.map((row) => row.memberId),
-      `${where}: ${bringer} did not vote for ${bill.id}`,
+      [...aides, ...allies.map((row) => row.memberId)],
+      `${where}: ${bringer} is neither the player's aide nor voted for ${bill.id}`,
     ).toContain(bringer);
     // The proof, by place, seed and record id (the runner keeps no console).
     appendFileSync(
       path.join(tmpdir(), "own-bill-failed-proof.txt"),
-      `${where}: ${failed.id} on ${failed.date}; staff-news brought by ${bringer}, who voted yes${entry!.interrupt ? "; it stops the day" : ""}\n`,
+      `${where}: ${failed.id} on ${failed.date}; staff-news brought by ${bringer}${aides.includes(bringer!) ? " (the player's aide)" : ", who voted yes"}${entry!.interrupt ? "; it stops the day" : ""}\n`,
     );
     return;
   }
