@@ -12,13 +12,12 @@ import type { CoreState, PersonId } from "../core2/types";
 import {
   answerInterview,
   interviewsFor,
-  outletsHere,
   type InterviewAnswer,
   type InterviewRow,
 } from "../core2/modules/press";
 import sittings from "./data/sittings.json" with { type: "json" };
 import type { Facts, SittingRow, SittingSource } from "./sitting";
-import { properName } from "./words";
+import { outletFact, tieBetween } from "./sitting-ties";
 
 const KIND = "interview";
 /** The record an interview's end writes (`kinds.interview.published`). */
@@ -26,31 +25,15 @@ const PUBLISHED = sittings.kinds.interview.published;
 
 /** The facts any line of the sitting may use: the interview, the outlet, the tie. */
 function tieFacts(core: Readonly<CoreState>, row: InterviewRow): Facts {
-  const reporterId = row.reporterId as PersonId;
-  const player = core.people.get(row.candidateId as PersonId);
-  const reporter = core.people.get(reporterId);
-  const facts: Facts = {
+  return {
     interview: { text: "yes", sourceRecordIds: [row.id] },
+    ...tieBetween(
+      core,
+      row.candidateId as PersonId,
+      row.reporterId as PersonId,
+    ),
+    ...outletFact(core, row.outletId, row.id),
   };
-  const known =
-    player?.knownIds.has(reporterId) ||
-    reporter?.knownIds.has(row.candidateId as PersonId);
-  facts[known ? "acquainted" : "stranger"] = {
-    text: "yes",
-    sourceRecordIds: [row.candidateId, reporterId],
-  };
-  const outlet = outletsHere(coreAPI(core as CoreState)).find(
-    (o) => o.id === row.outletId,
-  );
-  const org = outlet
-    ? core.organizations.get(outlet.organizationId)
-    : undefined;
-  if (org)
-    facts.outlet = {
-      text: properName(org.name),
-      sourceRecordIds: [org.id, row.id],
-    };
-  return facts;
 }
 
 /** The interview as the loop plays it. */
