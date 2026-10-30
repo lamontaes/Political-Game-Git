@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/campaign-forum
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T02:22:00.012Z
 ---
 
 **What.** A candidate could knock doors, call donors and hold an event, but had no way to stand in a room with residents the campaign had never reached. The owner, Oct 29, on how real campaigns win: "you need to be able to... host a forum... meet your possible constituents... debate" and "it's not just door knocking". This unit adds a forum to the Campaigns screen: the campaign rents the evening's hall through the same venue payment as an event, the meetings engine's town hall fills the room with the residents who feel most strongly about a question, and the candidate answers each question from the platform they chose or declines it, so the people who came are now within the campaign's reach.
