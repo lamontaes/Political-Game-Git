@@ -378,19 +378,22 @@ function tellHistory(lines: readonly HistoryLine[]) {
   return [...lines]
     .sort((a, b) => a.date.localeCompare(b.date))
     .flatMap((line) => {
+      // The timeline shows the year, so its lines leave it out (Words, #6862).
       const text = screenLine(
         "person-history",
-        `person-history.${line.key}`,
+        `person-history.timeline.${line.key}`,
         line.slots,
       );
       if (!text) return [];
-      // The same sentence from two records (a move the person's own facts and the
-      // moves engine both keep) is said once.
-      if (said.has(text)) return [];
-      said.add(text);
-      const school = line.key === "school.started";
-      if (school && said.has(text.replace(/ in \d{4}\.$/, ""))) return [];
-      if (school) said.add(text.replace(/ in \d{4}\.$/, ""));
+      // The same event from two records (a move the person's own facts and the
+      // moves engine both keep) is said once: the same words in the same year.
+      // One school is said once, whatever year a record starts it.
+      const key =
+        line.key === "school.started"
+          ? text
+          : `${line.date.slice(0, 4)} ${text}`;
+      if (said.has(key)) return [];
+      said.add(key);
       // The kind of record (born, school, work, office...) picks the
       // timeline's icon: the bank's move, the key's first part.
       return [
