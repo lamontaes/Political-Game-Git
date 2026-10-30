@@ -100,7 +100,13 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
         }),
         el("div", { className: "calendar-day-list" }, ...lines),
         ...(selected > date
-          ? [button(labels.advance, () => onAdvance(selected), "action go-to-day")]
+          ? [
+              button(
+                labels.advance,
+                () => onAdvance(selected),
+                "action go-to-day",
+              ),
+            ]
           : []),
       ),
     );
