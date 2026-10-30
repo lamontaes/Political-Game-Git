@@ -27,6 +27,11 @@
  *     paid to the household's seller by the treasuries that day, by journal
  *     entry. A counted household in the town is priced at Medicaid's share the
  *     same way, by its members' own coverage records.
+ *
+ * Each part is read in the first drawn place that can show it (a full town
+ * household with a serious illness under way is rare, and a twin's own
+ * lawmakers may enact the expansion again); a place that cannot is passed
+ * over with its reason, and the next is drawn.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -57,7 +62,7 @@ const EXPAND =
 const TWIN_LINK = "medicaid-expansion-to-medical-debt";
 /** Months played: the first unpaid bills pass the 120-day wait in the fifth. */
 const MONTHS = 8;
-const TRIES = 6;
+const TRIES = 10;
 
 const tomorrow = (api: CoreAPI) => addDays(makeIsoDate(api.state.date), 1);
 
@@ -327,6 +332,9 @@ describe("medical bills and medical debt in a played world", () => {
         });
       });
       const passed: string[] = [];
+      // Each part takes the first drawn place that can show it.
+      let proofA: string | null = null;
+      let proofB: string | null = null;
       try {
         for (let attempt = 0; attempt < TRIES; attempt += 1) {
           const drawn = drawPlace(SEED, `law-wiring-medical-debt:${attempt}`);
@@ -408,242 +416,249 @@ describe("medical bills and medical debt in a played world", () => {
             (row) => !row.counted && row.placeId === town,
           );
 
-          // (a) A household with a member whose serious illness is under way
-          // (care need one, a health case with an onset event) against a
-          // healthy household (every member's care need none) of the same
-          // size and plans, the same world and month, both in the drawn
-          // town, both owing nothing before and paying the month's bill in
-          // full by journal entries.
-          const paidInFull = full.filter(
-            (row) =>
-              row.journalIds.length > 0 &&
-              row.askedMinor === row.billMinor &&
-              row.paidMinor === row.billMinor &&
-              row.paidMinor > 0,
-          );
-          const likeOf = (row: MedicalBillRow) =>
-            `${worldOf.get(row)}|${row.date}|${row.members.length}|${plansOf(row)}`;
-          const healthy = new Map<string, MedicalBillRow>();
-          for (const row of paidInFull)
-            if (
-              row.members.every((m) => m.careNeed === 0) &&
-              row.billMinor > (healthy.get(likeOf(row))?.billMinor ?? -1)
-            )
-              healthy.set(likeOf(row), row);
-          const illRow = paidInFull.find(
-            (row) =>
-              healthy.has(likeOf(row)) &&
-              row.members.some(
-                (m) => m.careNeed === 1 && onsetOf(row, m.personId),
-              ),
-          );
-          if (!illRow) {
-            passed.push(
-              `${where()}: no town household with a serious illness under way paid its month in full beside a healthy household of the same size and plans (${full.filter((row) => row.members.some((m) => m.careNeed === 1)).length} town household-months with one)`,
+          const partA = (): string | null => {
+            // (a) A household with a member whose serious illness is under way
+            // (care need one, a health case with an onset event) against a
+            // healthy household (every member's care need none) of the same
+            // size and plans, the same world and month, both in the drawn
+            // town, both owing nothing before and paying the month's bill in
+            // full by journal entries.
+            const paidInFull = full.filter(
+              (row) =>
+                row.journalIds.length > 0 &&
+                row.askedMinor === row.billMinor &&
+                row.paidMinor === row.billMinor &&
+                row.paidMinor > 0,
             );
-            continue;
-          }
-          const ill = illRow.members.find(
-            (m) => m.careNeed === 1 && onsetOf(illRow, m.personId),
-          )!;
-          const well = healthy.get(likeOf(illRow))!;
-          expect(
-            illRow.paidMinor,
-            `${where()}: ${illRow.id} (${ill.personId} ill) against ${well.id} on ${illRow.date}`,
-          ).toBeGreaterThan(well.paidMinor);
-          expect(
-            withExpansion.checked + inTwin.checked,
-            `${where()}: town payments read against the journal`,
-          ).toBeGreaterThan(0);
+            const likeOf = (row: MedicalBillRow) =>
+              `${worldOf.get(row)}|${row.date}|${row.members.length}|${plansOf(row)}`;
+            const healthy = new Map<string, MedicalBillRow>();
+            for (const row of paidInFull)
+              if (
+                row.members.every((m) => m.careNeed === 0) &&
+                row.billMinor > (healthy.get(likeOf(row))?.billMinor ?? -1)
+              )
+                healthy.set(likeOf(row), row);
+            const illRow = paidInFull.find(
+              (row) =>
+                healthy.has(likeOf(row)) &&
+                row.members.some(
+                  (m) => m.careNeed === 1 && onsetOf(row, m.personId),
+                ),
+            );
+            if (!illRow) {
+              passed.push(
+                `(a) ${where()}: no town household with a serious illness under way paid its month in full beside a healthy household of the same size and plans (${full.filter((row) => row.members.some((m) => m.careNeed === 1)).length} town household-months with one)`,
+              );
+              return null;
+            }
+            const ill = illRow.members.find(
+              (m) => m.careNeed === 1 && onsetOf(illRow, m.personId),
+            )!;
+            const well = healthy.get(likeOf(illRow))!;
+            expect(
+              illRow.paidMinor,
+              `${where()}: ${illRow.id} (${ill.personId} ill) against ${well.id} on ${illRow.date}`,
+            ).toBeGreaterThan(well.paidMinor);
+            expect(
+              withExpansion.checked + inTwin.checked,
+              `${where()}: town payments read against the journal`,
+            ).toBeGreaterThan(0);
+            // Covered members are billed less than uncovered ones, at the same
+            // care need, in town households of the same size.
+            const memberBills = full.flatMap((row) =>
+              row.members
+                .filter((m) => m.careNeed === 0)
+                .map((m) => ({ ...m, size: row.members.length, row })),
+            );
+            const pair = (covered: "employer" | "medicaid") => {
+              for (const c of memberBills.filter((m) => m.plan === covered)) {
+                const u = memberBills.find(
+                  (m) =>
+                    m.plan === "none" &&
+                    m.size === c.size &&
+                    worldOf.get(m.row) === worldOf.get(c.row) &&
+                    m.row.date === c.row.date,
+                );
+                if (u) return { c, u };
+              }
+              return undefined;
+            };
+            const employer = pair("employer");
+            expect(
+              employer,
+              `${where()}: an employer-covered and an uncovered member`,
+            ).toBeDefined();
+            expect(employer!.c.billMinor).toBeLessThan(employer!.u.billMinor);
+            const medicaid = pair("medicaid");
+            if (medicaid)
+              expect(medicaid.c.billMinor).toBeLessThan(medicaid.u.billMinor);
+            return `(a) ${where()}; ${worldOf.get(illRow)} world, ${illRow.date}: ${illRow.id} paid ${illRow.paidMinor} by ${illRow.journalIds.join(", ")} to ${illRow.sellerId}; its member ${ill.personId} (${ill.plan}, care need ${ill.careNeed}, health case onset ${onsetOf(illRow, ill.personId)}) billed ${ill.billMinor}. Healthy ${well.id} paid ${well.paidMinor} by ${well.journalIds.join(", ")} to ${well.sellerId} (care needs ${well.members.map((m) => m.careNeed).join(", ")}; plans ${plansOf(well)}). Employer member ${employer!.c.personId} ${employer!.c.billMinor} against uncovered ${employer!.u.personId} ${employer!.u.billMinor}${medicaid ? `; Medicaid member ${medicaid.c.personId} ${medicaid.c.billMinor} against uncovered ${medicaid.u.personId} ${medicaid.u.billMinor}` : ""}. ${withExpansion.checked + inTwin.checked} town household payments read line by line (members' main accounts to the seller's); ${posted.size} medical journal entries, each balanced.`;
+          };
+
+          const partB = (): string | null => {
+            // (b) The twin must not have held the expansion in the window.
+            if (inTwin.held.length) {
+              passed.push(
+                `(b) ${where()}: the twin held the expansion in the played window (${inTwin.held.join("; ")})`,
+              );
+              return null;
+            }
+            // A town household's months when, in the expansion world, a member
+            // held Medicaid coverage and, in the twin, none did, with every
+            // member's care need the same in both and every other member on
+            // the same plan, so only the expansion's coverage differs.
+            const twinRows = new Map(
+              inTwin.rows
+                .filter((row) => !row.counted)
+                .map((row) => [`${row.householdId}|${row.date}`, row]),
+            );
+            const months = withExpansion.rows
+              .filter(
+                (row) =>
+                  !row.counted &&
+                  row.placeId === town &&
+                  row.members.some((m) => m.plan === "medicaid"),
+              )
+              .flatMap((row) => {
+                const twin = twinRows.get(`${row.householdId}|${row.date}`);
+                if (!twin || twin.members.some((m) => m.plan === "medicaid"))
+                  return [];
+                const there = new Map(twin.members.map((m) => [m.personId, m]));
+                const same =
+                  twin.members.length === row.members.length &&
+                  row.members.every(
+                    (m) =>
+                      there.get(m.personId)?.careNeed === m.careNeed &&
+                      (m.plan === "medicaid" ||
+                        there.get(m.personId)?.plan === m.plan),
+                  );
+                return same ? [{ expanded: row, twin }] : [];
+              });
+            const gap = (c: {
+              expandedDebt?: { balanceMinor: number };
+              twinDebt?: { balanceMinor: number };
+            }) =>
+              (c.twinDebt?.balanceMinor ?? 0) -
+              (c.expandedDebt?.balanceMinor ?? 0);
+            const compared = [
+              ...new Set(months.map((m) => m.expanded.householdId)),
+            ]
+              .map((id) => ({
+                id,
+                month: months.find((m) => m.expanded.householdId === id)!,
+                expandedDebt: withExpansion.debts.get(id),
+                twinDebt: inTwin.debts.get(id),
+              }))
+              .filter((c) => (c.twinDebt?.balanceMinor ?? 0) > 0)
+              .sort((a, b) => gap(b) - gap(a));
+            const named = compared[0];
+            if (!named) {
+              passed.push(
+                `(b) ${where()}: no town household with Medicaid coverage only in the expansion world carried medical debt in the twin (${months.length} household-months compared)`,
+              );
+              return null;
+            }
+            const { expanded, twin } = named.month;
+            const at = `${where()}: ${named.id} on ${expanded.date}`;
+            // That month its bill is lower with the expansion, by bill record.
+            expect(
+              expanded.billMinor,
+              `${at}: ${expanded.id} against the twin's ${twin.id}`,
+            ).toBeLessThan(twin.billMinor);
+            // The coverage it read is the members' own: each Medicaid member
+            // holds a stretch of coverage on the billed day.
+            const covered = expanded.members.filter(
+              (m) => m.plan === "medicaid",
+            );
+            for (const m of covered)
+              expect(
+                spellOn(withExpansion.spells.get(m.personId), expanded.date),
+                `${at}: ${m.personId}'s coverage records`,
+              ).toBeDefined();
+            // Medicaid's own part of their care was paid to the household's
+            // seller that day by the treasuries, by journal entry.
+            const sellerAccount = withExpansion.sellerAccounts.get(expanded.id);
+            const care = medicaidCare.filter(
+              (p) =>
+                p.world === "expanded" &&
+                p.date === expanded.date &&
+                p.to === sellerAccount,
+            );
+            for (const m of covered)
+              expect(
+                m.medicaidMinor ?? 0,
+                `${at}: ${m.personId}`,
+              ).toBeGreaterThan(0);
+            expect(
+              care.length,
+              `${at}: Medicaid's part paid to ${expanded.sellerId}`,
+            ).toBeGreaterThan(0);
+            // The place row is left out of its share: its own records carry it.
+            expect(expanded.ownRecordsFor, at).toContain(TWIN_LINK);
+            expect(expanded.webLinks, at).not.toContain(TWIN_LINK);
+            // Its medical debt is smaller with the expansion.
+            expect(named.expandedDebt?.balanceMinor ?? 0, at).toBeLessThan(
+              named.twinDebt!.balanceMinor,
+            );
+            // A counted household in the town meets the expansion the same
+            // way: a member priced at Medicaid's share by their own coverage
+            // record, the place row left out, every month of both worlds.
+            const countedTown = all.filter(
+              (row) => row.counted && row.placeId === town,
+            );
+            for (const row of countedTown)
+              expect(
+                row.webLinks,
+                `${where()}: ${row.id} on ${row.date}`,
+              ).not.toContain(TWIN_LINK);
+            const countedMedicaid = withExpansion.rows.find(
+              (row) =>
+                row.counted &&
+                row.placeId === town &&
+                row.members.some(
+                  (m) =>
+                    m.plan === "medicaid" &&
+                    spellOn(withExpansion.spells.get(m.personId), row.date),
+                ),
+            );
+            if (!countedMedicaid) {
+              passed.push(
+                `(b) ${where()}: no counted household in the town held Medicaid coverage in the expansion world (${countedTown.length} counted town household-months)`,
+              );
+              return null;
+            }
+            expect(countedMedicaid.ownRecordsFor).toContain(TWIN_LINK);
+            const countedMember = countedMedicaid.members.find(
+              (m) =>
+                m.plan === "medicaid" &&
+                spellOn(
+                  withExpansion.spells.get(m.personId),
+                  countedMedicaid.date,
+                ),
+            )!;
+            const recordsOf = (personId: string, date: string) =>
+              spellOn(withExpansion.spells.get(personId), date)!.recordIds.join(
+                " ",
+              );
+            const outside = withExpansion.outside ?? inTwin.outside;
+            return `(b) ${where()}; expansion ${withExpansion.change} in one world, repealed in the twin (${inTwin.change || "not held"}); played ${withExpansion.start} to ${withExpansion.end}; the twin held it on no day of the window. ${named.id}: medical debt ${named.expandedDebt?.balanceMinor ?? 0} with the expansion (${named.expandedDebt?.id ?? "no record"}) against ${named.twinDebt!.balanceMinor} in the twin (${named.twinDebt!.id}, first sent ${named.twinDebt!.chargedOffAt}, last ${named.twinDebt!.lastSentAt} ${named.twinDebt!.lastSentMinor} from ${named.twinDebt!.lastBillId}). On ${expanded.date} ${expanded.id} billed ${expanded.billMinor} with the expansion (Medicaid members ${covered.map((m) => `${m.personId} ${m.billMinor}, Medicaid's part ${m.medicaidMinor}, coverage records ${recordsOf(m.personId, expanded.date)}`).join("; ")}; the treasuries paid ${expanded.sellerId} ${care.map((p) => `${p.minor} by ${p.id} (${p.source.includes("+medicaid-match") ? "federal, at the match" : "state"})`).join(", ")}) against ${twin.billMinor} in the twin (plans ${plansOf(twin)}); own records for ${expanded.ownRecordsFor.join(", ")}, web links ${expanded.webLinks.join(", ") || "none"}. Counted: ${countedMedicaid.id} on ${countedMedicaid.date}, member ${countedMember.personId} at Medicaid's share billed ${countedMember.billMinor} (coverage records ${recordsOf(countedMember.personId, countedMedicaid.date)}), own records for ${countedMedicaid.ownRecordsFor.join(", ")}; ${countedTown.length} counted town household-months, none reading the place row${outside ? `; outside the town ${outside.id} (${outside.placeId}) reads it, share ${outside.collectionsShare} (${outside.webRecordId})` : ""}`;
+          };
           for (const [id, entry] of posted)
             expect(
               entry.sum,
               `${where()}: ${id} (${entry.source}) balances`,
             ).toBe(0);
-          // Covered members are billed less than uncovered ones, at the same
-          // care need, in town households of the same size.
-          const memberBills = full.flatMap((row) =>
-            row.members
-              .filter((m) => m.careNeed === 0)
-              .map((m) => ({ ...m, size: row.members.length, row })),
-          );
-          const pair = (covered: "employer" | "medicaid") => {
-            for (const c of memberBills.filter((m) => m.plan === covered)) {
-              const u = memberBills.find(
-                (m) =>
-                  m.plan === "none" &&
-                  m.size === c.size &&
-                  worldOf.get(m.row) === worldOf.get(c.row) &&
-                  m.row.date === c.row.date,
-              );
-              if (u) return { c, u };
-            }
-            return undefined;
-          };
-          const employer = pair("employer");
-          expect(
-            employer,
-            `${where()}: an employer-covered and an uncovered member`,
-          ).toBeDefined();
-          expect(employer!.c.billMinor).toBeLessThan(employer!.u.billMinor);
-          const medicaid = pair("medicaid");
-          if (medicaid)
-            expect(medicaid.c.billMinor).toBeLessThan(medicaid.u.billMinor);
-
-          // (b) The twin must not have held the expansion in the window.
-          if (inTwin.held.length) {
-            passed.push(
-              `${where()}: the twin held the expansion in the played window (${inTwin.held.join("; ")})`,
-            );
-            continue;
-          }
-          // A town household's months when, in the expansion world, a member
-          // held Medicaid coverage and, in the twin, none did, with every
-          // member's care need the same in both and every other member on
-          // the same plan, so only the expansion's coverage differs.
-          const twinRows = new Map(
-            inTwin.rows
-              .filter((row) => !row.counted)
-              .map((row) => [`${row.householdId}|${row.date}`, row]),
-          );
-          const months = withExpansion.rows
-            .filter(
-              (row) =>
-                !row.counted &&
-                row.placeId === town &&
-                row.members.some((m) => m.plan === "medicaid"),
-            )
-            .flatMap((row) => {
-              const twin = twinRows.get(`${row.householdId}|${row.date}`);
-              if (!twin || twin.members.some((m) => m.plan === "medicaid"))
-                return [];
-              const there = new Map(twin.members.map((m) => [m.personId, m]));
-              const same =
-                twin.members.length === row.members.length &&
-                row.members.every(
-                  (m) =>
-                    there.get(m.personId)?.careNeed === m.careNeed &&
-                    (m.plan === "medicaid" ||
-                      there.get(m.personId)?.plan === m.plan),
-                );
-              return same ? [{ expanded: row, twin }] : [];
-            });
-          const gap = (c: {
-            expandedDebt?: { balanceMinor: number };
-            twinDebt?: { balanceMinor: number };
-          }) =>
-            (c.twinDebt?.balanceMinor ?? 0) -
-            (c.expandedDebt?.balanceMinor ?? 0);
-          const compared = [
-            ...new Set(months.map((m) => m.expanded.householdId)),
-          ]
-            .map((id) => ({
-              id,
-              month: months.find((m) => m.expanded.householdId === id)!,
-              expandedDebt: withExpansion.debts.get(id),
-              twinDebt: inTwin.debts.get(id),
-            }))
-            .filter((c) => (c.twinDebt?.balanceMinor ?? 0) > 0)
-            .sort((a, b) => gap(b) - gap(a));
-          const named = compared[0];
-          if (!named) {
-            passed.push(
-              `${where()}: no town household with Medicaid coverage only in the expansion world carried medical debt in the twin (${months.length} household-months compared)`,
-            );
-            continue;
-          }
-          const { expanded, twin } = named.month;
-          const at = `${where()}: ${named.id} on ${expanded.date}`;
-          // That month its bill is lower with the expansion, by bill record.
-          expect(
-            expanded.billMinor,
-            `${at}: ${expanded.id} against the twin's ${twin.id}`,
-          ).toBeLessThan(twin.billMinor);
-          // The coverage it read is the members' own: each Medicaid member
-          // holds a stretch of coverage on the billed day.
-          const covered = expanded.members.filter((m) => m.plan === "medicaid");
-          for (const m of covered)
-            expect(
-              spellOn(withExpansion.spells.get(m.personId), expanded.date),
-              `${at}: ${m.personId}'s coverage records`,
-            ).toBeDefined();
-          // Medicaid's own part of their care was paid to the household's
-          // seller that day by the treasuries, by journal entry.
-          const sellerAccount = withExpansion.sellerAccounts.get(expanded.id);
-          const care = medicaidCare.filter(
-            (p) =>
-              p.world === "expanded" &&
-              p.date === expanded.date &&
-              p.to === sellerAccount,
-          );
-          for (const m of covered)
-            expect(
-              m.medicaidMinor ?? 0,
-              `${at}: ${m.personId}`,
-            ).toBeGreaterThan(0);
-          expect(
-            care.length,
-            `${at}: Medicaid's part paid to ${expanded.sellerId}`,
-          ).toBeGreaterThan(0);
-          // The place row is left out of its share: its own records carry it.
-          expect(expanded.ownRecordsFor, at).toContain(TWIN_LINK);
-          expect(expanded.webLinks, at).not.toContain(TWIN_LINK);
-          // Its medical debt is smaller with the expansion.
-          expect(named.expandedDebt?.balanceMinor ?? 0, at).toBeLessThan(
-            named.twinDebt!.balanceMinor,
-          );
-          // A counted household in the town meets the expansion the same
-          // way: a member priced at Medicaid's share by their own coverage
-          // record, the place row left out, every month of both worlds.
-          const countedTown = all.filter(
-            (row) => row.counted && row.placeId === town,
-          );
-          for (const row of countedTown)
-            expect(
-              row.webLinks,
-              `${where()}: ${row.id} on ${row.date}`,
-            ).not.toContain(TWIN_LINK);
-          const countedMedicaid = withExpansion.rows.find(
-            (row) =>
-              row.counted &&
-              row.placeId === town &&
-              row.members.some(
-                (m) =>
-                  m.plan === "medicaid" &&
-                  spellOn(withExpansion.spells.get(m.personId), row.date),
-              ),
-          );
-          if (!countedMedicaid) {
-            passed.push(
-              `${where()}: no counted household in the town held Medicaid coverage in the expansion world (${countedTown.length} counted town household-months)`,
-            );
-            continue;
-          }
-          expect(countedMedicaid.ownRecordsFor).toContain(TWIN_LINK);
-          const countedMember = countedMedicaid.members.find(
-            (m) =>
-              m.plan === "medicaid" &&
-              spellOn(
-                withExpansion.spells.get(m.personId),
-                countedMedicaid.date,
-              ),
-          )!;
-          const recordsOf = (personId: string, date: string) =>
-            spellOn(withExpansion.spells.get(personId), date)!.recordIds.join(
-              " ",
-            );
-          const outside = withExpansion.outside ?? inTwin.outside;
+          proofA ??= partA();
+          proofB ??= partB();
+          if (!proofA || !proofB) continue;
           process.stdout.write(
-            [
-              `MEDICAL-DEBT (MEDICAL_DEBT_SEED=${SEED}) ${where()}; expansion ${withExpansion.change} in one world, repealed in the twin (${inTwin.change || "not held"}); played ${withExpansion.start} to ${withExpansion.end}; the twin held it on no day of the window.`,
-              `(a) ${worldOf.get(illRow)} world, ${illRow.date}: ${illRow.id} paid ${illRow.paidMinor} by ${illRow.journalIds.join(", ")} to ${illRow.sellerId}; its member ${ill.personId} (${ill.plan}, care need ${ill.careNeed}, health case onset ${onsetOf(illRow, ill.personId)}) billed ${ill.billMinor}. Healthy ${well.id} paid ${well.paidMinor} by ${well.journalIds.join(", ")} to ${well.sellerId} (care needs ${well.members.map((m) => m.careNeed).join(", ")}; plans ${plansOf(well)}). Employer member ${employer!.c.personId} ${employer!.c.billMinor} against uncovered ${employer!.u.personId} ${employer!.u.billMinor}${medicaid ? `; Medicaid member ${medicaid.c.personId} ${medicaid.c.billMinor} against uncovered ${medicaid.u.personId} ${medicaid.u.billMinor}` : ""}. ${withExpansion.checked + inTwin.checked} town household payments read line by line (members' main accounts to the seller's); ${posted.size} medical journal entries, each balanced.`,
-              `(b) ${named.id}: medical debt ${named.expandedDebt?.balanceMinor ?? 0} with the expansion (${named.expandedDebt?.id ?? "no record"}) against ${named.twinDebt!.balanceMinor} in the twin (${named.twinDebt!.id}, first sent ${named.twinDebt!.chargedOffAt}, last ${named.twinDebt!.lastSentAt} ${named.twinDebt!.lastSentMinor} from ${named.twinDebt!.lastBillId}). On ${expanded.date} ${expanded.id} billed ${expanded.billMinor} with the expansion (Medicaid members ${covered.map((m) => `${m.personId} ${m.billMinor}, Medicaid's part ${m.medicaidMinor}, coverage records ${recordsOf(m.personId, expanded.date)}`).join("; ")}; the treasuries paid ${expanded.sellerId} ${care.map((p) => `${p.minor} by ${p.id} (${p.source.includes("+medicaid-match") ? "federal, at the match" : "state"})`).join(", ")}) against ${twin.billMinor} in the twin (plans ${plansOf(twin)}); own records for ${expanded.ownRecordsFor.join(", ")}, web links ${expanded.webLinks.join(", ") || "none"}. Counted: ${countedMedicaid.id} on ${countedMedicaid.date}, member ${countedMember.personId} at Medicaid's share billed ${countedMember.billMinor} (coverage records ${recordsOf(countedMember.personId, countedMedicaid.date)}), own records for ${countedMedicaid.ownRecordsFor.join(", ")}; ${countedTown.length} counted town household-months, none reading the place row${outside ? `; outside the town ${outside.id} (${outside.placeId}) reads it, share ${outside.collectionsShare} (${outside.webRecordId})` : ""}. Passed over: ${passed.join("; ") || "none"}`,
-            ].join("\n") + "\n",
+            `MEDICAL-DEBT (MEDICAL_DEBT_SEED=${SEED})\n${proofA}\n${proofB}\nPassed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }
         throw new Error(
-          `No drawn place showed both parts: ${passed.join("; ")}`,
+          `No drawn place showed ${proofA ? "part (b)" : proofB ? "part (a)" : "either part"}: ${passed.join("; ")}`,
         );
       } finally {
         setJournalTrace(null);
