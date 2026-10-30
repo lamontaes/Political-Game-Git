@@ -39,12 +39,14 @@ try {
     "Politics still has a Guide tab",
   );
 
-  // A leader's post is underlined and explains itself on hover.
-  await page.locator("#sheet-body .person-row").first().waitFor();
-  const term = page.locator("#sheet-body .person-row .term").first();
+  // A leader's post is underlined and explains itself on hover: a state
+  // chamber's leaders, as member cards on Government.
+  await page.locator('#sheet-body [data-level="state"]').click();
+  await page.locator("#sheet-body .member-card .term").first().waitFor();
+  const term = page.locator("#sheet-body .member-card .term").first();
   assert.ok(
     (await term.count()) > 0,
-    "no underlined term on a Politics row (a leader's post)",
+    "no underlined term on a Politics card (a leader's post)",
   );
   const word = (await term.innerText()).trim();
   await term.hover();

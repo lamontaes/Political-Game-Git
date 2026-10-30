@@ -2933,24 +2933,90 @@ const sheets = {
       }),
     ];
   },
+  // The Guide as an encyclopedia page (owner, Oct 29: every menu like
+  // Government, never blocks of text): the terms as cards on a plate, paged
+  // two across, and the chosen term's article beside them; the search narrows
+  // the cards as it is typed.
   async guide() {
-    return listScreen({
-      search: {
-        value: guideQuery,
-        placeholder: controls.guide.search,
-        onQuery: (query) => (guideQuery = query),
-      },
-      entries: async (query) => {
-        const terms = await api(`/api/guide?q=${encodeURIComponent(query)}`);
-        return terms.map((t) => ({
-          title: t.term,
-          lede: t.short,
-          lines: [t.explanation, t.contextNote],
-          opens: true,
-          open: terms.length === 1,
-        }));
+    let terms = await api(`/api/guide?q=${encodeURIComponent(guideQuery)}`);
+    let chosen = terms[0]?.key;
+    const cards = plate(null);
+    const article = plate(null);
+    article.classList.add("guide-article");
+    const drawArticle = () => {
+      const t = terms.find((term) => term.key === chosen) ?? terms[0];
+      // The chosen card is marked, as a chosen tab is.
+      for (const card of cards.querySelectorAll("[data-term]"))
+        card.classList.toggle("on", card.dataset.term === t?.key);
+      article.replaceChildren(
+        ...(t
+          ? [
+              heading(t.term, "h3"),
+              prose(t.short, "guide-short"),
+              ...[t.explanation, t.contextNote]
+                .filter(Boolean)
+                .map((text) => prose(text, "guide-text")),
+            ]
+          : []),
+      );
+    };
+    const drawCards = () => {
+      cards.replaceChildren(
+        terms.length
+          ? pager({
+              items: terms.map((t) => ({
+                title: t.term,
+                lede: t.short,
+                label: t.term,
+                onSelect: () => {
+                  chosen = t.key;
+                  drawArticle();
+                },
+                data: { term: t.key },
+              })),
+              render: listEntry,
+              rows: Math.max(
+                3,
+                Math.min(8, Math.floor((window.innerHeight - 300) / 76)),
+              ),
+              columns: 2,
+              rowHeight: 68,
+              gap: 8,
+              words: {
+                page: controls.politics.page,
+                previous: controls.politics.previousPage,
+                next: controls.politics.nextPage,
+              },
+              className: "guide-cards",
+            })
+          : prose(controls.guide.none ?? "", "record-empty"),
+      );
+    };
+    const search = searchBox({
+      value: guideQuery,
+      placeholder: controls.guide.search,
+      onInput: async (text) => {
+        guideQuery = text;
+        const found = await api(`/api/guide?q=${encodeURIComponent(text)}`);
+        // A slower answer to an older query never replaces a newer one.
+        if (text !== guideQuery) return;
+        terms = found;
+        if (!terms.some((t) => t.key === chosen)) chosen = terms[0]?.key;
+        drawCards();
+        drawArticle();
       },
     });
+    search.setAttribute("aria-label", controls.guide.search ?? "");
+    drawCards();
+    drawArticle();
+    return [
+      splitScreen({
+        controls: [search],
+        main: [cards],
+        side: [{ title: null, nodes: [article] }],
+        className: "guide-screen",
+      }),
+    ];
   },
   /**
    * The title's Patch notes: the release machinery's file, one release a page,
@@ -3584,7 +3650,13 @@ const sheets = {
               // A leader who sits in this chamber is drawn as its member,
               // party included; one from elsewhere by name.
               const seated = body.members.find((m) => m.cardId === l.cardId);
-              return card(body, seated ?? { ...l, party: null }, words(l.post));
+              // A leader's post is a civic term: underlined until learned, its
+              // meaning on hover, the Guide on a click.
+              return card(
+                body,
+                seated ?? { ...l, party: null },
+                termLabel(words(l.post)),
+              );
             }),
             ...[...body.members]
               .filter((m) => !m.own && !leaderIds.has(m.cardId))
