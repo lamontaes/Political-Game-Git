@@ -276,7 +276,10 @@ export function moduleState(
         },
         putOwned(row: ModuleRow) {
           tableTrace?.(moduleId, name, "put");
-          operation(() => insert(current(), moduleDataOwned(row)));
+          operation(() => {
+            insert(current(), moduleDataOwned(row));
+            store.writes++;
+          });
         },
         remove(id: string) {
           tableTrace?.(moduleId, name, "remove");

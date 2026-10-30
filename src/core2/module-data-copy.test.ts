@@ -56,6 +56,21 @@ describe(`a written module row, ${place.name} (seed ${seed})`, () => {
     },
     600_000,
   );
+  it("counts an owned put as a write, as a put is", () => {
+    // A cache keyed on a store's writes (the laws engine's law in force) must
+    // see every row written, whichever way it was put.
+    const [key] = Object.entries(moduleTableSizes(world.core)).find(
+      ([, size]) => size > 0,
+    )!;
+    const [id, name] = key.split("/") as [string, string];
+    const store = api.moduleState(id);
+    const row = store.table(name).rows()[0]!;
+    const before = store.writes;
+    store.table(name).putOwned(JSON.parse(JSON.stringify(row)));
+    expect(store.writes).toBe(before + 1);
+    store.table(name).put(JSON.parse(JSON.stringify(row)));
+    expect(store.writes).toBe(before + 2);
+  });
   it("refuses a field that would set the prototype", () => {
     const was = bookkeeping();
     setBookkeeping(false);
