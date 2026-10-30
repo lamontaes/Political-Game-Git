@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: speed/causes-fold-kept-drop
-pr:
+pr: #6944
 blocked-on:
 after: core-long-run-circle-causes-fold
 source: added with npm run pool -- add
