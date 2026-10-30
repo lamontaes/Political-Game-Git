@@ -2499,12 +2499,12 @@ export function donationAnswer(
     return { givenMinor: 0, why: "no-spare" };
   const budget = giftBudget(api, donor);
   const reason = donorReason(api, filingId, donorId, budget);
+  if (reason <= 0) return { givenMinor: 0, why: "not-warm" };
   if (
     donor.liquidMinor <= 0 ||
     (budget.discretionaryMinor <= 0 && budget.savingsMinor <= 0)
   )
     return { givenMinor: 0, why: "no-spare" };
-  if (reason <= 0) return { givenMinor: 0, why: "not-warm" };
   const limit = contributionLimit(api, campaign.contestId);
   const gift = giftOf(api, filingId, donorId);
   const given = gift?.totalMinor ?? 0;
