@@ -300,7 +300,7 @@ export function governmentView(core: CoreState, personId: string) {
     keyPeople: core.people.has(personId)
       ? politicsKeyPeople(core, personId, place)
       : [],
-    // The player files only for the six offices (owner, Oct 29); the rest run in the world.
+    // The player files only for the offices player-offices.json lists (owner, Oct 29); the rest run in the world.
     contests: playerContests(api).map((contest) => ({
       contest,
       filingOffice: filingOfficeFor(api, contest.id),
@@ -319,13 +319,17 @@ export function governmentView(core: CoreState, personId: string) {
   };
 }
 
-/** The state the player's town is in: its key and its name. */
+/** The state the player's town is in: its key, its name and what its laws are called. */
 export function homeStateOf(api: ReturnType<typeof coreAPI>) {
   const key = lawChain(api).stateKey;
   const state = corePlaceStateIdentities().find(
     (row) => row.jurisdictionKey === key,
   );
-  return { key, name: state?.name ?? key };
+  return {
+    key,
+    name: state?.name ?? key,
+    levelWord: state?.levelWord ?? "State",
+  };
 }
 
 /**

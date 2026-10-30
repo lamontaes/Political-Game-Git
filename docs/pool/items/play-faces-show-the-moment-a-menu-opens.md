@@ -6,13 +6,14 @@ lead: play-first
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/people-faces-instant
+pr: #6918
 after: people-pack-v4
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 playtest of v0.64.0 (to the CTO)
+claimed-at: 2026-10-30T06:59:26.631Z
 ---
 
 **What.** The initials in circles are replaced by faces, but the owner found the faces "take forever to load. It shouldn't take 5 seconds after you open a menu for it to load. It should be there instantly." Politics, People and person cards draw each face after the sheet opens, one request at a time. The new people pack (`people-pack-v4`, which replaced v3 on Oct 29) changes how faces are made (each face is cropped from the person's own figure), so this item starts once v4 lands, and makes the crop ready before the menu opens: cached per person and look, sent with the sheet or loaded ahead, never drawn on demand per face.

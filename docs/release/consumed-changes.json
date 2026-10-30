@@ -1,6 +1,33 @@
 {
   "entries": [
     {
+      "version": "0.69.0",
+      "releasedOn": "2026-10-30",
+      "revision": "f8b044762b7d4d7819b3efce7fd43461524f5509",
+      "changeIds": [
+        "campaign-donor-meetings",
+        "campaign-door-yes-one-household",
+        "campaign-doors-touch-the-count",
+        "campaign-volunteers-knock-doors",
+        "checks-counter-continue",
+        "core-journal-lifetime-totals-overflow",
+        "menus-patch-notes-cards",
+        "play-menus-calendar-shared-look",
+        "play-menus-travel-shared-look",
+        "play-territory-law-level-words",
+        "release-main-red-families-bookkeeping-shared",
+        "release-main-red-press-outlets-own-race",
+        "skills-checker-bank-reach-test",
+        "skills-merger-base-is-main",
+        "skills-merger-release-recheck",
+        "skills-tsc-heap-and-pool-add",
+        "timeline-yearless-lines",
+        "words-bill-paper-bank",
+        "words-bring-up-your-bill",
+        "words-red-reach-bill-paper"
+      ]
+    },
+    {
       "version": "0.68.0",
       "releasedOn": "2026-10-30",
       "revision": "1375ab95a378ec922cf3a59c9a6df7712b531df6",
