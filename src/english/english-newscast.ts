@@ -39,6 +39,12 @@ export const STORY_KINDS = {
     lede: ["election-result"],
     context: ["election-opponent", "election-share", "election-turnout"],
   },
+  // A race nobody filed for: the result names no winner.
+  unfilled: {
+    story: "unfilled",
+    headline: ["unfilled"],
+    lede: ["unfilled"],
+  },
   filing: {
     story: "filing",
     headline: ["candidate-filed"],
@@ -265,6 +271,10 @@ export const STORY_KINDS = {
   },
   // Side items the town's records already hold: a line, never opened.
   crime: { headline: ["crime"], lede: ["crime"], brief: true },
+  // The month's police log: the crimes residents reported, as a count.
+  "police-log": { headline: ["police-log"], lede: ["police-log"], brief: true },
+  // A school honor: a spelling bee won, seniors signing to play Division I.
+  honor: { headline: ["honor"], lede: ["honor"], brief: true },
   graduation: { headline: ["graduation"], lede: ["graduation"], brief: true },
   "school-tests": {
     headline: ["school-tests"],

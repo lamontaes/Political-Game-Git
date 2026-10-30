@@ -140,5 +140,10 @@ export function bringWordsFromBank(
     blame: Object.fromEntries(
       rows.blame.map((how) => [how, variants(bank, "blame", how)]),
     ) as BringWords["blame"],
+    yours: {
+      // Each line names the bill's form (its choice: an act, an ordinance).
+      passed: variants(bank, "your-bill", "passed", true),
+      failed: variants(bank, "your-bill", "failed", true),
+    },
   };
 }

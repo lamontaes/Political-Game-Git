@@ -220,14 +220,8 @@
     {
       "link": "newspaper-closure-to-borrowing-cost",
       "outcome": "gov.borrowing-cost",
-      "reason": "the web does not run it: it waits on press.local-newspaper, and it has no researched size; its research gives no size the game can apply, so the web does not run it",
+      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-gov-borrowing-cost"
-    },
-    {
-      "link": "newspaper-closure-to-engagement",
-      "outcome": "voting.local-turnout",
-      "reason": "engine doesn't read the factor: an engine records voting.local-turnout, but nothing multiplies its rates by the link's effect; nothing in the core records its cause, press.local-newspaper",
-      "stopgapId": "SG-WEB-voting-newspaper-closure"
     },
     {
       "link": "press-attacks-to-media-trust",

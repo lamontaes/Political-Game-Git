@@ -1,0 +1,28 @@
+{
+  "about": "The offices a player may file for (owner, Oct 29, on the governing brief: \"the player only runs for city council, state legislator, mayor, governor, Congress, and president. That's it. The other stuff can be simulated or whatever, but no, not the player.\"; and Oct 29, 22:45 UTC: \"City council is, you know, whatever the equivalent is\"). The player's first local race is the place's own lawmaking body under whatever name it has: its council (the kind covers trustees, aldermen, commissioners and selectboards), else the township board where a town or township is the local government, else, for an unincorporated place the county governs directly, the county board as its council and the county executive as its mayor where the county has one. One row per office kind prefix; a row's onlyWhereNo lists the kind prefixes of the home's own local offices that rule it out, so the rule comes from this data for all 56 places and the filing screen and the clerk's visit read it without a list of office names. Every other office (county row offices, trustee, clerk, the statewide offices below governor, a county board where the town has its own council) keeps running in the world with simulated candidates through the same filing engine.",
+  "playerOffices": [
+    { "kindPrefix": "council", "words": "city council" },
+    {
+      "kindPrefix": "township-board",
+      "words": "township board",
+      "onlyWhereNo": ["council"]
+    },
+    {
+      "kindPrefix": "county-board",
+      "words": "county board",
+      "onlyWhereNo": ["council", "township-board"]
+    },
+    { "kindPrefix": "legislature", "words": "state legislator" },
+    { "kindPrefix": "mayor", "words": "mayor" },
+    {
+      "kindPrefix": "county-executive",
+      "words": "county executive",
+      "onlyWhereNo": ["council", "mayor", "township-board"]
+    },
+    { "kindPrefix": "governor", "words": "governor" },
+    { "kindPrefix": "us-house", "words": "Congress (House)" },
+    { "kindPrefix": "us-senate", "words": "Congress (Senate)" },
+    { "kindPrefix": "president", "words": "president" }
+  ],
+  "source": "Owner, Oct 29, 21:40 UTC, voice note on the governing brief, and Oct 29, 22:45 UTC, with the CTO's ruling on unincorporated places (docs/coordination/OWNER-DECISIONS.md)."
+}

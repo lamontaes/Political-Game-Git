@@ -78,6 +78,12 @@
       "source": "How far one conversation at the door moves a voter toward what they make of the candidate. Checked against field experiments: face-to-face contact is the strongest campaign contact (Green and Gerber 2019).",
       "spread": [0.3, 0.7]
     },
+    "doorPledgeWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much a voter's own \"yes\" at a campaign's door holds at the ballot, in appeal units: near-binding (owner, Oct 29), so larger than the other reasons a local voter weighs together (party side and tie, standing, the incumbent lean, recognition, warmth and closeness each run about -1 to 1), and undone only as far as something heavy they learned since (pledgeDoubt in voting.ts). Checked against how often voters a canvass identifies as supporters vote as they said.",
+      "spread": [1, 3]
+    },
     "speechWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
@@ -89,6 +95,18 @@
       "tag": "TUNABLE",
       "source": "How far hearing that someone you know endorses a candidate moves you. Checked against endorsement-cue studies (Lupia 1994).",
       "spread": [0.1, 0.5]
+    },
+    "endorsementTieWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How much an endorser's tie to a candidate (closeness today, 0 to 1) adds to their backing beside how far they agree with the platform, for a person a candidate asks and a group's speaker alike: public political acts run through people's own networks (Sinclair 2012, The Social Citizen: peer networks shape who takes a public side), and a local candidate's first endorsers are the people who know them. No study reports the size against agreement; at 0.25 a close friend's tie (about 0.8) adds about what a fifth of full agreement does, so a friend who disagrees with the platform still declines.",
+      "spread": [0, 0.5]
+    },
+    "groupVolunteerStakeWeight": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "source": "How much a member's own agreement with an endorsing group's cause (0 to 1) adds to their reason to volunteer when the group asks them for the candidate it backs: being asked through an organization one belongs to is among the strongest routes into campaign work, and those most committed to its cause say yes most (Verba, Schlozman and Brady 1995, Voice and Equality, chapters 5 and 13: recruitment through organizations and psychological engagement). No study gives the size on this scale; at 1.5 a member with no job whose share in the cause is about half or more clears the volunteer threshold once the endorsement warms them, a party member (whose share in a party's whole platform runs near 0.15) does not, and a full-time worker does not without a close tie.",
+      "spread": [0.5, 2]
     },
     "canvasserReliabilityEfficiency": {
       "value": 0.1,
@@ -937,6 +955,12 @@
       "source": "Hours an evening event takes the candidate, setup and the room together. Checked against the evening venue rental in campaign-unit-prices (an evening).",
       "spread": [2, 5]
     },
+    "playerForumHours": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Hours a forum the candidate hosts takes them: setting up the rented room, an hour or two of residents' questions and the talk after. Checked against the meetings engine's questionsPerTownHall (a few questions, each answered at length) and the evening venue rental in campaign-unit-prices (an evening).",
+      "spread": [2, 4]
+    },
     "playerInterviewHours": {
       "value": 1,
       "tag": "TUNABLE",
@@ -1343,6 +1367,18 @@
       "tag": "TUNABLE",
       "source": "How far against a bill a member must stand (their position's size, a full stance about 1) before bending the rules to sink it with an amendment is worth the standing it costs them; below it the member votes no and lets it pass. Compared with the member's own position, so a stronger opponent moves a pill whatever their temperament, and temperament moves the members near the bar.",
       "spread": [0.25, 1]
+    },
+    "managerClosenessWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much more closeness to the candidate (relationship level, family) weighs in agreeing to run a campaign than in agreeing to volunteer: local campaign guides put a point person, often a partner, relative or close friend, first (docs/research/words-scenes-2026-10-26.md section 1).",
+      "spread": [0.25, 1]
+    },
+    "managerThreshold": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How strong the pull must be, before personality, for someone close who heard of a filing to offer to run the campaign: warmth, closeness and family counted with managerClosenessWeight, less their hours of work, against this bar. Set where a partner or close relative with a full-time job clears it and an acquaintance does not: in a played Garrison, Nebraska (seed ed4ee1184480e6a70d28:0) 9 of the town's 29 campaigns had someone close running them by election day, and the player's partner or relative offered in the first weeks; src/director/campaign-manager.test.ts prints the share for each draw.",
+      "spread": [0, 1.5]
     },
     "volunteerOfferThreshold": {
       "value": 0,

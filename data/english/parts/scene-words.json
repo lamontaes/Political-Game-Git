@@ -3369,6 +3369,46 @@
       }
     },
     {
+      "key": "scene-words.lead-funeral-other.other-sits-beside-you-to-say-goodbye",
+      "move": "lead-funeral-other",
+      "kind": "spoken",
+      "text": "{other} sits beside you to say goodbye.",
+      "uses": [
+        {
+          "move": "lead-funeral-other",
+          "subject": "lead",
+          "role": "funeral",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-funeral-other.other-stands-with-you-to-say-goodbye",
+      "move": "lead-funeral-other",
+      "kind": "spoken",
+      "text": "{other} stands with you to say goodbye.",
+      "uses": [
+        {
+          "move": "lead-funeral-other",
+          "subject": "lead",
+          "role": "funeral",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
       "key": "scene-words.lead-interview-sitting-other.other-is-ready-to-start-the-interview",
       "move": "lead-interview-sitting-other",
       "kind": "spoken",
@@ -3443,6 +3483,186 @@
       ],
       "origin": "authored",
       "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-job-offer-other.other-is-calling-about-the-job-you-applied-for",
+      "move": "lead-job-offer-other",
+      "kind": "spoken",
+      "text": "{other} is calling about the job you applied for.",
+      "uses": [
+        {
+          "move": "lead-job-offer-other",
+          "subject": "lead",
+          "role": "job-offer",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-job-offer-other.other-has-an-answer-on-your-application",
+      "move": "lead-job-offer-other",
+      "kind": "spoken",
+      "text": "{other} has an answer on your application.",
+      "uses": [
+        {
+          "move": "lead-job-offer-other",
+          "subject": "lead",
+          "role": "job-offer",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-job-offer-alone.someone-is-calling-about-your-application",
+      "move": "lead-job-offer-alone",
+      "kind": "spoken",
+      "text": "Someone is calling about your application.",
+      "uses": [
+        {
+          "move": "lead-job-offer-alone",
+          "subject": "lead",
+          "role": "job-offer",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-manager-offer-other.other-has-come-to-talk-about-running-your-campaign",
+      "move": "lead-manager-offer-other",
+      "kind": "spoken",
+      "text": "{other} has come to talk about running your campaign.",
+      "uses": [
+        {
+          "move": "lead-manager-offer-other",
+          "subject": "lead",
+          "role": "manager-offer",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-manager-offer-alone.someone-close-has-come-to-talk-about-running-your-campaign",
+      "move": "lead-manager-offer-alone",
+      "kind": "spoken",
+      "text": "Someone close has come to talk about running your campaign.",
+      "uses": [
+        {
+          "move": "lead-manager-offer-alone",
+          "subject": "lead",
+          "role": "manager-offer",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-debate-sitting-other.other-is-ready-to-open-the-debate",
+      "move": "lead-debate-sitting-other",
+      "kind": "spoken",
+      "text": "{other} is ready to open the debate.",
+      "uses": [
+        {
+          "move": "lead-debate-sitting-other",
+          "subject": "lead",
+          "role": "debate-sitting",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-debate-sitting-other.other-has-the-questions-for-the-debate",
+      "move": "lead-debate-sitting-other",
+      "kind": "spoken",
+      "text": "{other} has the questions for the debate.",
+      "uses": [
+        {
+          "move": "lead-debate-sitting-other",
+          "subject": "lead",
+          "role": "debate-sitting",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-debate-sitting-alone.the-moderator-is-ready-to-open-the-debate",
+      "move": "lead-debate-sitting-alone",
+      "kind": "spoken",
+      "text": "The moderator is ready to open the debate.",
+      "uses": [
+        {
+          "move": "lead-debate-sitting-alone",
+          "subject": "lead",
+          "role": "debate-sitting",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-debate-sitting-alone.the-moderator-has-the-questions-for-the-debate",
+      "move": "lead-debate-sitting-alone",
+      "kind": "spoken",
+      "text": "The moderator has the questions for the debate.",
+      "uses": [
+        {
+          "move": "lead-debate-sitting-alone",
+          "subject": "lead",
+          "role": "debate-sitting",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (debate sitting)",
       "date": "2026-10-29",
       "tag": {
         "move": "narrate"

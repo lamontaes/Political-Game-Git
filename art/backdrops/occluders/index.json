@@ -9003,20 +9003,6 @@
         }
       }
     },
-    "oval-office-resolute": {
-      "parent": "oval-office-resolute__midday.jpg",
-      "parentSha256": "d3c179a5a63cd48547f7d4aba48153867112a31728f119d649c3444878da275d",
-      "from": "art/people-rooms/spots/oval-office-resolute.json",
-      "spots": {
-        "oval-office-resolute:spot:2": {
-          "file": "oval-office-resolute/2.png",
-          "leftPercent": 44.557,
-          "topPercent": 44.208,
-          "widthPercent": 11.423,
-          "heightPercent": 21.679
-        }
-      }
-    },
     "park": {
       "parent": "park__midday.jpg",
       "parentSha256": "d0ea4ebe20829efc17b289f51e4a544382899299fa4f841bd4b17003543025de",
