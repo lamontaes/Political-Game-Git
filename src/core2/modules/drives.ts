@@ -241,6 +241,17 @@ interface DrivesRuntime {
   countedByPerson: Map<PersonId, Map<string, HeldDrive>>;
   groupsByTopic: Map<string, Set<string>>;
   /**
+   * Each topic's cause groups in id order with the fact key that says each is
+   * known, built from groupsByTopic when first read and dropped when a group
+   * on the topic is founded.
+   */
+  topicGroups: Map<string, TopicGroups>;
+  /**
+   * Each holder's drives with strength left, strongest first (ties by id),
+   * ranked once a day and dropped whenever their drives change.
+   */
+  serving: Map<PersonId, { date: IsoDate; list: readonly ServingDrive[] }>;
+  /**
    * What each person has lately given to their causes, by kind of act: one
    * for each act, fading with the days (causeGivenDays). The more they gave
    * lately, the less a further act of the same kind pulls.
@@ -265,6 +276,16 @@ interface DrivesRuntime {
   predicted: Map<PersonId, PredictedChoice>;
   /** Canonical donation records the cash journal resolves through this module's provider. */
   donations: Map<string, DonationRecord>;
+}
+
+interface TopicGroups {
+  ids: readonly string[];
+  knownKeys: readonly string[];
+}
+
+interface ServingDrive {
+  drive: HeldDrive;
+  strength: number;
 }
 
 interface DonationRecord {
@@ -293,6 +314,8 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
       byPerson: new Map(),
       countedByPerson: new Map(),
       groupsByTopic: new Map(),
+      topicGroups: new Map(),
+      serving: new Map(),
       given: new Map(),
       groupFounder: new Map(),
       groupChange: new Map(),
@@ -356,6 +379,7 @@ function reinforce(api: CoreAPI, drive: HeldDrive, unfilledKept: number) {
   drive.anchorStrength =
     api.parameter("one") - (api.parameter("one") - before) * unfilledKept;
   drive.anchorDate = api.state.date;
+  runtimeFor(api.state).serving.delete(drive.personId);
   writeDrive(api, drive, drive.anchorStrength);
   return drive.anchorStrength - before;
 }
@@ -973,7 +997,10 @@ export function respond(
           told: new Set(),
         };
         mine.set(drive.id, drive);
-        if (!counted) runtime.drives.set(`${actor.id}|${drive.id}`, drive);
+        if (!counted) {
+          runtime.serving.delete(actor.id);
+          runtime.drives.set(`${actor.id}|${drive.id}`, drive);
+        }
         bump(
           counted ? runtime.countedFormedByYearKind : runtime.formedByYearKind,
           `${api.state.date.slice(p("zero"), p("isoYearCharacters"))}:${kind.id}`,
@@ -1041,18 +1068,47 @@ function servingDrives(
   actor: Readonly<PersonState>,
   action: ActionDefinition,
 ): HeldDrive[] {
-  const mine = heldFor(api, actor.id);
+  const runtime = runtimeFor(api.state);
+  const mine = runtime.byPerson.get(actor.id);
   if (!mine) return [];
+  // All the person's drives with strength left are ranked once a day; each
+  // act row takes the ones it serves in that order.
+  let ranked = runtime.serving.get(actor.id);
+  if (!ranked || ranked.date !== api.state.date) {
+    ranked = { date: api.state.date, list: rankDrives(api, mine) };
+    runtime.serving.set(actor.id, ranked);
+  } else if (bookkeeping()) {
+    const kept = ranked.list;
+    const fresh = rankDrives(api, mine);
+    if (
+      fresh.length !== kept.length ||
+      fresh.some(
+        (row, index) =>
+          row.drive !== kept[index]!.drive ||
+          row.strength !== kept[index]!.strength,
+      )
+    )
+      throw new Error("A kept drive ranking no longer matches the drives.");
+  }
+  return ranked.list
+    .filter((row) => action.goalKinds.includes(row.drive.goalKind))
+    .map((row) => row.drive);
+}
+
+/** A holder's drives with strength left, strongest first, ties by id. */
+function rankDrives(
+  api: CoreAPI,
+  mine: ReadonlyMap<string, HeldDrive>,
+): ServingDrive[] {
+  const zero = api.parameter("zero");
   return [...mine.values()]
-    .filter((drive) => action.goalKinds.includes(drive.goalKind))
     .map((drive) => ({ drive, strength: currentStrength(api, drive) }))
-    .filter((row) => row.strength > api.parameter("zero"))
+    .filter((row) => row.strength > zero)
     .sort(
       (left, right) =>
         right.strength - left.strength ||
         left.drive.id.localeCompare(right.drive.id),
-    )
-    .map((row) => row.drive);
+    );
 }
 
 /** A grudge's confrontation weighs how recently the holder last had it out with the person. */
@@ -1078,9 +1134,32 @@ function driveOffer(
   };
 }
 
-function groupKnown(api: CoreAPI, actorId: PersonId, groupId: string) {
+const NO_GROUPS: TopicGroups = { ids: [], knownKeys: [] };
+
+/** The offer round's entry for the nearby groups a person knows of, by topic. */
+const REACHABLE_GROUPS = "drives:reachable-groups";
+
+/** A topic's cause groups in id order, with each one's known-fact key. */
+function topicGroupsOf(runtime: DrivesRuntime, topic: string): TopicGroups {
+  let row = runtime.topicGroups.get(topic);
+  if (!row) {
+    const set = runtime.groupsByTopic.get(topic);
+    if (!set) return NO_GROUPS;
+    const ids = [...set].sort();
+    row = { ids, knownKeys: ids.map((id) => `cause-group:${id}:known`) };
+    runtime.topicGroups.set(topic, row);
+  }
+  return row;
+}
+
+function groupKnown(
+  api: CoreAPI,
+  actorId: PersonId,
+  groupId: string,
+  knownKey: string,
+) {
   return (
-    api.knows(actorId, `cause-group:${groupId}:known`) !== undefined ||
+    api.knows(actorId, knownKey) !== undefined ||
     api.state.memberships.has(`${actorId}:${groupId}`)
   );
 }
@@ -1095,6 +1174,21 @@ function groupNearby(
   return (
     placeId !== undefined &&
     (placeId === actor.placeId || placeId === actor.countyId)
+  );
+}
+
+/** The groups on a topic a person knows of and can reach, in id order. */
+function reachableGroups(
+  api: CoreAPI,
+  runtime: DrivesRuntime,
+  actor: Readonly<PersonState>,
+  topic: string,
+): string[] {
+  const groups = topicGroupsOf(runtime, topic);
+  return groups.ids.filter(
+    (id, index) =>
+      groupNearby(api, actor, id) &&
+      groupKnown(api, actor.id, id, groups.knownKeys[index]!),
   );
 }
 
@@ -1637,6 +1731,7 @@ export function createDrivesModule(
       for (const [personId, mine] of runtime.byPerson) {
         if (!api.state.people.get(personId)?.alive) {
           runtime.byPerson.delete(personId);
+          runtime.serving.delete(personId);
           runtime.given.delete(personId);
           continue;
         }
@@ -1649,10 +1744,12 @@ export function createDrivesModule(
             // Faded: written once at zero and no longer rewritten daily.
             writeDrive(api, drive, api.parameter("zero"));
             mine.delete(drive.id);
+            runtime.serving.delete(personId);
           } else writeDrive(api, drive, strength);
         }
         if (!mine.size) {
           runtime.byPerson.delete(personId);
+          runtime.serving.delete(personId);
           runtime.predicted.delete(personId);
         } else if (bookkeeping() || personId === api.state.playerId)
           // The scored "why" behind a drive act is kept for the player, and
@@ -1676,6 +1773,7 @@ export function createDrivesModule(
         runtime.countedByPerson.delete(personId);
         const mine = runtime.byPerson.get(personId) ?? new Map();
         runtime.byPerson.set(personId, mine);
+        runtime.serving.delete(personId);
         for (const drive of held.values()) {
           const strength = currentStrength(api, drive);
           if (strength < api.parameter("driveRetireStrength")) continue;
@@ -1689,6 +1787,7 @@ export function createDrivesModule(
             access: "perceived",
           });
           mine.set(drive.id, drive);
+          runtime.serving.delete(personId);
           runtime.drives.set(`${personId}|${drive.id}`, drive);
           writeDrive(api, drive, strength);
         }
@@ -1787,19 +1886,39 @@ export function createDrivesModule(
         servingDrives(api, actor, action)
           .filter((drive) => drive.shareable)
           .map((drive) => driveOffer(api, action, drive.id, drive)),
-      "known-cause-group": (api, actor, action) => {
-        const groups = runtimeFor(api.state).groupsByTopic;
+      "known-cause-group": (api, actor, action, round) => {
+        const runtime = runtimeFor(api.state);
+        // The nearby groups the person knows of on each topic, worked out
+        // once a round: joining and giving offer the same groups.
+        let reachable = round?.get(REACHABLE_GROUPS) as
+          Map<string, readonly string[]> | undefined;
+        if (!reachable) {
+          reachable = new Map();
+          round?.set(REACHABLE_GROUPS, reachable);
+        }
         const out: ActOffer[] = [];
-        for (const drive of servingDrives(api, actor, action))
-          for (const id of [...(groups.get(drive.topic) ?? [])].sort())
-            if (groupKnown(api, actor.id, id) && groupNearby(api, actor, id))
-              out.push(driveOffer(api, action, id, drive));
+        for (const drive of servingDrives(api, actor, action)) {
+          let ids = reachable.get(drive.topic);
+          if (!ids) {
+            ids = reachableGroups(api, runtime, actor, drive.topic);
+            reachable.set(drive.topic, ids);
+          } else if (bookkeeping()) {
+            const kept = ids;
+            const fresh = reachableGroups(api, runtime, actor, drive.topic);
+            if (
+              fresh.length !== kept.length ||
+              fresh.some((id, index) => id !== kept[index])
+            )
+              throw new Error("A round's cause groups no longer match.");
+          }
+          for (const id of ids) out.push(driveOffer(api, action, id, drive));
+        }
         return out;
       },
       "volunteer-place": (api, actor, action) => {
         const serving = servingDrives(api, actor, action);
         if (!serving.length) return [];
-        const groups = runtimeFor(api.state).groupsByTopic;
+        const runtime = runtimeFor(api.state);
         // Known associations in the person's place and county, by direct fact lookup.
         const associations: string[] = [];
         for (const placeId of new Set([
@@ -1820,10 +1939,10 @@ export function createDrivesModule(
         associations.sort();
         const out: ActOffer[] = [];
         for (const drive of serving) {
-          for (const id of [...(groups.get(drive.topic) ?? [])].sort())
+          for (const id of topicGroupsOf(runtime, drive.topic).ids)
             if (
-              api.state.memberships.has(`${actor.id}:${id}`) &&
-              groupNearby(api, actor, id)
+              groupNearby(api, actor, id) &&
+              api.state.memberships.has(`${actor.id}:${id}`)
             )
               out.push(driveOffer(api, action, id, drive));
           for (const id of associations)
@@ -1859,9 +1978,10 @@ export function createDrivesModule(
           ? heldFor(api, actor.id)?.get(offer.driveId)
           : undefined;
         if (!drive) return false;
-        return ![
-          ...(runtimeFor(api.state).groupsByTopic.get(drive.topic) ?? []),
-        ].some((id) => groupKnown(api, actor.id, id));
+        const groups = topicGroupsOf(runtimeFor(api.state), drive.topic);
+        return !groups.ids.some((id, index) =>
+          groupKnown(api, actor.id, id, groups.knownKeys[index]!),
+        );
       },
       "can-afford-donation": (api, actor, offer) => {
         const drive = offer.driveId
@@ -1882,11 +2002,10 @@ export function createDrivesModule(
         const impulse =
           currentStrength(api, drive) *
           api.parameter(offer.definition.effectParameter);
-        const groups = [
-          ...(runtimeFor(api.state).groupsByTopic.get(drive.topic) ?? []),
-        ]
-          .filter((id) => groupKnown(api, actorId, id))
-          .sort();
+        const groups = topicGroupsOf(runtimeFor(api.state), drive.topic);
+        const knownKeys = groups.knownKeys.filter((knownKey, index) =>
+          groupKnown(api, actorId, groups.ids[index]!, knownKey),
+        );
         api.relationship(
           actorId,
           offer.targetId,
@@ -1908,7 +2027,7 @@ export function createDrivesModule(
               stressImpulse: impulse,
               moodImpulse: -impulse,
               facts: Object.fromEntries(
-                groups.map((id) => [`cause-group:${id}:known`, drive.topic]),
+                knownKeys.map((knownKey) => [knownKey, drive.topic]),
               ),
             },
           ),
@@ -1938,6 +2057,7 @@ export function createDrivesModule(
         let set = runtime.groupsByTopic.get(drive.topic);
         if (!set) runtime.groupsByTopic.set(drive.topic, (set = new Set()));
         set.add(id);
+        runtime.topicGroups.delete(drive.topic);
         runtime.groupFounder.set(id, actorId);
         runtime.groupChange.set(id, drive.desiredChange);
         api.join(actorId, id, drive.id);
