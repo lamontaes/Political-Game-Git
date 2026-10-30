@@ -27,6 +27,7 @@ import { advanceCore } from "../core2/life";
 import { campaignFor, offerWeight } from "../core2/modules/campaigns";
 import {
   openContests,
+  playerMayFileFor,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
@@ -60,8 +61,11 @@ it("an offer of help joins the one campaign record and stops the player only by 
     });
     director.watch(core, me);
     const api = coreAPI(core);
+    // The six offices the player may run for (owner, Oct 29).
     const contests = [...openContests(api)].filter(
-      (c) => c.electionDate >= addDays(makeIsoDate(core.date), 60),
+      (c) =>
+        c.electionDate >= addDays(makeIsoDate(core.date), 60) &&
+        playerMayFileFor(api, c.id),
     );
     // The smallest race the player can enter: the town's own, where one is open.
     const filed = contests
