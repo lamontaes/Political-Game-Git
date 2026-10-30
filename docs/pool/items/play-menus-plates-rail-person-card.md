@@ -6,9 +6,9 @@ lead: cto
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: cto/menus-person-card
-pr:
+pr: #6844
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("redesign all the menu screens... So they're not blocks of text anymore with random buttons")

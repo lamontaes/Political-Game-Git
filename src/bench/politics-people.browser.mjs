@@ -1,8 +1,8 @@
 /* global process, console, document */
 // Politics in a real browser on the bench (npm run bench) with a life in
-// progress: every person is a row with a round headshot (never initials)
-// whose name opens their card, members of Congress included (owner, Oct 28
-// sitting, points 12, 13 and 18).
+// progress: every person is a member card with a round headshot (never
+// initials) that opens their card, members of Congress included (owner, Oct 28
+// sitting, points 12, 13 and 18; the cards since Oct 29's Government screen).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
@@ -28,10 +28,10 @@ try {
   }
   await page.locator('.ring[data-tab="politics"]').click();
   await page.locator("#sheet:not([hidden])").waitFor();
-  await page.locator("#sheet-body .person-row").first().waitFor();
+  await page.locator("#sheet-body .member-card").first().waitFor();
   const rows = await page.evaluate(() =>
-    [...document.querySelectorAll("#sheet-body .person-row")].map((row) => {
-      const face = row.querySelector(".person-row-face");
+    [...document.querySelectorAll("#sheet-body .member-card")].map((row) => {
+      const face = row.querySelector(".member-face");
       return {
         name: row.querySelector(".member-name")?.textContent.trim(),
         letters: (face?.textContent ?? "").trim(),
@@ -41,9 +41,9 @@ try {
     }),
   );
   console.log(
-    `${rows.length} person rows; ${rows.filter((r) => r.picture).length} with a picture`,
+    `${rows.length} member cards; ${rows.filter((r) => r.picture).length} with a picture`,
   );
-  assert.ok(rows.length >= 4, "fewer than four person rows");
+  assert.ok(rows.length >= 4, "fewer than four member cards");
   for (const r of rows) {
     assert.equal(r.letters, "", `${r.name}: letters in the face ring`);
     assert.equal(r.initials, false, `${r.name}: initials`);
@@ -56,9 +56,10 @@ try {
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/12-politics-faces.png`,
     });
-  // The last member row (a member of Congress or a state legislator, who
-  // lives elsewhere) opens a card with their name.
-  const members = page.locator("#sheet-body .person-row .member-name:visible");
+  // A member of Congress (who lives elsewhere) opens a card with their name.
+  await page.locator('#sheet-body [data-level="federal"]').click();
+  await page.waitForTimeout(1500);
+  const members = page.locator("#sheet-body .member-card .member-name:visible");
   const count = await members.count();
   const pick = members.nth(count - 1);
   const name = (await pick.textContent()).trim();
