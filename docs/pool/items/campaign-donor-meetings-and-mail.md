@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/campaign-donor-meetings
-pr:
+pr: #6869
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-30T02:22:41.867Z
