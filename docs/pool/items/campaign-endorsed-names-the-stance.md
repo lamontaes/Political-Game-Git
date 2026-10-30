@@ -5,9 +5,9 @@ area: elections
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/endorsed-names-stance
-pr:
+pr: #6945
 blocked-on:
 source: Words session, Oct 30 (after #6938)
 lead: governing
