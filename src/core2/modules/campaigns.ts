@@ -689,8 +689,40 @@ export function pledgesOf(api: CoreAPI, voterId: string): readonly PledgeRow[] {
 }
 
 /**
- * The answer to a campaign's ask for a vote at the door: a warm answer is a
- * "yes" and is kept; a cool one at a later knock takes back an earlier yes.
+ * What a door visit told a counted resident in person, for their answer:
+ * they have now heard the candidate and the platform (what they make of it
+ * from their own record) and how the visit went. A full person's visit is
+ * kept on their impression instead, which the ballot reads.
+ */
+export interface DoorVisit {
+  readonly candidateId: string;
+  readonly agreement: number;
+  readonly warmth: number;
+}
+
+/**
+ * Who a voter would vote for in a contest today, by the ballot's own appeal
+ * rule (their earlier word at a door included, and a counted resident's visit
+ * just now), or null for nobody or a voter who can't vote in it; undefined
+ * where the world counts no ballots. The voting engine registers it when it
+ * opens (it reads this module, so this module cannot import it).
+ */
+type DoorChoice = (
+  api: CoreAPI,
+  voterId: string,
+  contestId: string,
+  visit?: DoorVisit,
+) => string | null | undefined;
+let doorChoice: DoorChoice | null = null;
+export function registerDoorChoice(choice: DoorChoice): void {
+  doorChoice = choice;
+}
+
+/**
+ * The answer to a campaign's ask for a vote at the door: a "yes" when the
+ * candidate is the one the resident would vote for now, kept as their word
+ * (and in place of any earlier word to a rival in the race); a no at a later
+ * knock takes back an earlier yes.
  */
 function answerAtDoor(
   api: CoreAPI,
@@ -699,13 +731,28 @@ function answerAtDoor(
   canvasserId: string,
   warmth: number,
   causeId: string | null,
+  visit?: DoorVisit,
 ): void {
   const id = `${voterId}|${campaign.contestId}|${campaign.candidateId}`;
   const pledges = table(api, "pledges");
-  if (warmth <= 0) {
+  // "You've got my vote" is said to the candidate the resident would vote
+  // for now, after the visit (their own appeal, an earlier word at a door
+  // included, so a resident who gave a rival their word tells this one no);
+  // without the voting engine, when the visit left them warm.
+  const choice = doorChoice?.(api, voterId, campaign.contestId, visit);
+  const yes =
+    choice === undefined ? warmth > 0 : choice === campaign.candidateId;
+  if (!yes) {
     if (pledges.get(id)) pledges.remove(id);
     return;
   }
+  // A new word replaces an earlier one to a rival in the same contest.
+  for (const earlier of pledgesOf(api, voterId))
+    if (
+      earlier.contestId === campaign.contestId &&
+      earlier.candidateId !== campaign.candidateId
+    )
+      pledges.remove(earlier.id);
   pledges.put({
     id,
     voterId,
@@ -714,7 +761,7 @@ function answerAtDoor(
     date: api.state.date,
     canvasserId,
     causeId,
-    firmness: Math.min(1, warmth),
+    firmness: Math.max(0, Math.min(1, warmth)),
   } as unknown as ModuleRow);
 }
 
@@ -1236,15 +1283,15 @@ function walkWith(
         // Asked for their vote, a counted resident answers by the rule a
         // first visit applies to a full person: what they make of the
         // platform from their own record, and how the visit went.
-        else
-          answerAtDoor(
-            api,
-            campaign,
-            openerId,
-            canvasserId,
-            countedDoorWarmth(api, campaign, canvasser, opener),
-            null,
-          );
+        else {
+          const agreement = countedAgreement(api, campaign, opener);
+          const warmth = countedDoorWarmth(canvasser, opener, agreement);
+          answerAtDoor(api, campaign, openerId, canvasserId, warmth, null, {
+            candidateId: campaign.candidateId,
+            agreement,
+            warmth,
+          });
+        }
         continue;
       }
       fillInPerson(core, openerId);
@@ -1322,14 +1369,11 @@ function closeDoorWalk(api: CoreAPI, walk: DoorWalk): void {
  * and stance profile against the platform, and the visit's rapport).
  */
 function countedDoorWarmth(
-  api: CoreAPI,
-  campaign: CampaignRow,
   canvasser: Readonly<PersonState>,
   opener: ReturnType<typeof adultsAt>[number],
+  agreement: number,
 ): number {
-  const target = clamp(
-    countedAgreement(api, campaign, opener) + rapport(canvasser, opener),
-  );
+  const target = clamp(agreement + rapport(canvasser, opener));
   return clamp(campaignParameter("doorContactWeight") * target);
 }
 

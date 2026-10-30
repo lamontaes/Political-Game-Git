@@ -10,6 +10,7 @@ claimed-by: governing/door-yes-is-their-choice
 pr: #6912
 blocked-on:
 source: governing lead, Oct 30 (Price UT measurement, runner A)
+lead: governing
 claimed-at: 2026-10-30T06:54:07.029Z
 ---
 
