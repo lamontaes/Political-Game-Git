@@ -6,9 +6,9 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: cto/menus-patch-notes
-pr:
+pr: #6900
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("So they're not blocks of text anymore with random buttons"; menus never scroll as a page)
