@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: governing/door-yes-is-their-choice
-pr:
+pr: #6912
 blocked-on:
 source: governing lead, Oct 30 (Price UT measurement, runner A)
 lead: governing
