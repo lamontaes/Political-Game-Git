@@ -4640,9 +4640,10 @@ export function foldQuietCauses(api: CoreAPI): void {
  * Fold candidates' causes into one summary row a voter. A voter and
  * candidate fold whole, so a summary's sum is the same sum, in the same
  * order, that `contestStanding` reads. The player's own causes stay as rows.
- * A folded cause that a voter's known fact names as its source moves to
- * `foldedCauses`, where the trace still finds it; no other folded cause is
- * read in play, so none other is kept (CTO, Oct 30, amending 03:05).
+ * A folded cause that a voter's known fact names as its source, or that a
+ * pledge names as its visit, moves to `foldedCauses`, where the trace still
+ * finds it; no other folded cause is read, so none other is kept (CTO, Oct
+ * 30 08:15, amending 03:05).
  */
 function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
   const core = api.state as CoreState;
@@ -4651,6 +4652,13 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
     folded = table(api, "foldedCauses");
   for (const candidateId of candidateIds) {
     if (candidateId === core.playerId) continue;
+    const pledged = new Set(
+      (
+        table(api, "pledges").query("byCandidate", [
+          candidateId,
+        ]) as unknown as PledgeRow[]
+      ).map((pledge) => pledge.causeId),
+    );
     const byVoter = new Map<string, CauseRow[]>();
     for (const row of causes.query("byCandidate", [
       candidateId,
@@ -4688,7 +4696,8 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
           (firstDoor === null || row.date < firstDoor)
         )
           firstDoor = row.date;
-        if (sources.has(row.id)) folded.put(row as unknown as ModuleRow);
+        if (sources.has(row.id) || pledged.has(row.id))
+          folded.put(row as unknown as ModuleRow);
         causes.remove(row.id);
       }
       summaries.put({
