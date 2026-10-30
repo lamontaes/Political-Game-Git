@@ -6,9 +6,9 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: cto/menus-people
-pr:
+pr: #6885
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("none of that how close you are"; "redesign all the menu screens")
