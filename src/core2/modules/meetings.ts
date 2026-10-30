@@ -645,9 +645,21 @@ export function townHallDrives(
     .map((p) => {
       const lean = personLean(api.state.people, p, 0);
       const weight = concerns(api, p);
-      const salience = (q: string) =>
-        Math.abs(viewOn(api, p.id, q, lean)) *
-        (1 + meetingParameter("lifeConcernWeight") * (weight(q) ? 1 : 0));
+      // Each question's salience once, on first need: the sort below asks
+      // for it in every comparison, and the reads happen in the same order.
+      const known = new Map<string, number>();
+      const salience = (q: string) => {
+        let value = known.get(q);
+        if (value === undefined)
+          known.set(
+            q,
+            (value =
+              Math.abs(viewOn(api, p.id, q, lean)) *
+              (1 +
+                meetingParameter("lifeConcernWeight") * (weight(q) ? 1 : 0))),
+          );
+        return value;
+      };
       const question = questions
         .slice()
         .sort((a, b) => salience(b) - salience(a) || a.localeCompare(b))[0];
