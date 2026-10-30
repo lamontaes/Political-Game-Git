@@ -57,7 +57,11 @@ import { chargeGroups, fundGroups } from "./counted-money";
 import { incomeBandOf, fullHouseholdIncomes } from "./counted-income-fifth";
 import { countedIllnessOf } from "./counted-illness";
 import { coverageSpellsNow, spellOn } from "./health-own";
-import { payMedicaidCare } from "./law-reach/group-b-money";
+import {
+  ENDED_BY_REQUIREMENT,
+  medicaidCoverageSpells,
+  payMedicaidCare,
+} from "./law-reach/group-b-money";
 import {
   addDays,
   ageOnDate,
@@ -72,7 +76,7 @@ import {
   recordMedicalDebt,
 } from "./modules/business";
 import { careNeedOf } from "./modules/health";
-import { stateOfCountedPlace } from "./modules/counted-moves";
+import { householdStateOf } from "./modules/counted-moves";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
@@ -119,6 +123,13 @@ export interface BilledMember {
   readonly billMinor: number;
   /** Medicaid's own part of the member's care, the cost less their share, which the treasuries pay the seller (Medicaid members only). */
   readonly medicaidMinor?: number;
+  /**
+   * What the work requirement added to the member's bill: the expansion
+   * covers them but the requirement ended their coverage (its stretch on
+   * their person id), so they pay their plan's share where Medicaid's would
+   * have been theirs. The household's payment of it cites the requirement.
+   */
+  readonly requirementMinor?: number;
 }
 
 /** A bill still owed to the provider: the day it was billed and what is left of it. */
@@ -164,9 +175,16 @@ export interface MedicalBillRow {
   readonly source: Source;
 }
 
-/** The survey's region for a place's own state, national where it has none. */
-function regionOf(placeId: string): LivingCostsRegion {
-  return livingCostsRegionForState(stateOfCountedPlace(placeId) ?? null);
+/**
+ * The survey's region for a place's own state. A town household keeps the
+ * place id of its governing unit, which the place lookup may not know (a
+ * consolidated town, a balance): it is the town's, in the town's state, as
+ * the residents engine reads it (counted-moves.ts householdStateOf).
+ */
+function regionOf(api: CoreAPI, placeId: string): LivingCostsRegion {
+  return livingCostsRegionForState(
+    householdStateOf(api.state as CoreState, placeId) ?? null,
+  );
 }
 
 /**
@@ -227,6 +245,8 @@ interface Person {
   readonly personId: string;
   readonly plan: BillPlan;
   readonly careNeed: number;
+  /** The work requirement holds this person's Medicaid coverage ended today. */
+  readonly endedByRequirement: boolean;
 }
 
 interface Household {
@@ -290,20 +310,40 @@ function plans(
 ): {
   readonly plan: (personId: string, age: number, employer: boolean) => BillPlan;
   readonly ownMedicaid: (placeId: string) => boolean;
+  readonly endedByRequirement: (personId: string, plan: BillPlan) => boolean;
 } {
   const spells = coverageSpellsNow(api);
+  const ended = medicaidCoverageSpells(api, ENDED_BY_REQUIREMENT);
   const medicare = api.parameter("healthMedicareAge");
   const town = api.state.modules.has(LAWS_MODULE_ID)
     ? lawChain(api).townPlaceId
     : null;
   return {
     ownMedicaid: (placeId) => spells !== null && placeId === town,
+    endedByRequirement: (personId, plan) =>
+      (plan === "employer" || plan === "none") &&
+      !!spellOn(ended?.get(personId), today),
     plan: (personId, age, employer) => {
       if (age >= medicare) return "medicare";
       if (spells && spellOn(spells.get(personId), today)) return "medicaid";
       return employer ? "employer" : "none";
     },
   };
+}
+
+/**
+ * The place-level coverage links a worker in a place leaves out of their
+ * employer plan (the coverage engine's health.uninsured-pct read): the
+ * expansion's and the work requirement's, where the law reach keeps the
+ * residents' Medicaid coverage by person id (the town), so those laws reach
+ * a town household once, through its own Medicaid record. Read once a pass.
+ */
+export function coverageTwinsOut(
+  api: CoreAPI,
+): (placeId: string) => ReadonlySet<string> | undefined {
+  const { ownMedicaid } = plans(api, makeIsoDate(api.state.date));
+  const twins = new Set(data.personLevel.coverageTwins.links);
+  return (placeId) => (ownMedicaid(placeId) ? twins : undefined);
 }
 
 /**
@@ -317,12 +357,12 @@ function householdsToBill(
 ): Household[] {
   const core = api.state as CoreState;
   const today = makeIsoDate(core.date);
-  const { plan, ownMedicaid } = plans(api, today);
+  const { plan, ownMedicaid, endedByRequirement } = plans(api, today);
   const billed = billedPlaces(api);
   const regions = new Map<string, LivingCostsRegion>();
   const region = (placeId: string) => {
     let found = regions.get(placeId);
-    if (!found) regions.set(placeId, (found = regionOf(placeId)));
+    if (!found) regions.set(placeId, (found = regionOf(api, placeId)));
     return found;
   };
   const incomes = fullHouseholdIncomes(core);
@@ -335,10 +375,12 @@ function householdsToBill(
     if (billed && !billed.has(home.placeId)) continue;
     const age = ageOnDate(makeIsoDate(person.birthDate), today);
     const list = byHousehold.get(person.householdId) ?? [];
+    const own = plan(person.id, age, coverage.get(person.id) === "employer");
     list.push({
       personId: person.id,
-      plan: plan(person.id, age, coverage.get(person.id) === "employer"),
+      plan: own,
       careNeed: careNeedOf(core, person.id),
+      endedByRequirement: endedByRequirement(person.id, own),
     });
     byHousehold.set(person.householdId, list);
   }
@@ -363,10 +405,12 @@ function householdsToBill(
       const members = rt.store.countedMembers(h).map((m) => {
         const personId = rt.store.ids[m]!;
         const age = ageOnDate(makeIsoDate(rt.store.born[m]!), today);
+        const own = plan(personId, age, countedHolders.has(h.id));
         return {
           personId,
-          plan: plan(personId, age, countedHolders.has(h.id)),
+          plan: own,
           careNeed: countedIllnessOf(api, personId as PersonId) ? 1 : 0,
+          endedByRequirement: endedByRequirement(personId, own),
         };
       });
       if (!members.length) continue;
@@ -428,13 +472,18 @@ function billMembers(
       h.members.map((m) => {
         const cost =
           (perMember * perMonth * (care(m.careNeed) / norm)) / average;
+        const billMinor = Math.round(cost * q(SHARE_KEY[m.plan]));
+        const added = billMinor - Math.round(cost * medicaidShare);
         return {
           personId: m.personId,
           plan: m.plan,
           careNeed: m.careNeed,
-          billMinor: Math.round(cost * q(SHARE_KEY[m.plan])),
+          billMinor,
           ...(m.plan === "medicaid"
             ? { medicaidMinor: Math.round(cost * (one - medicaidShare)) }
+            : {}),
+          ...(m.endedByRequirement && added > 0
+            ? { requirementMinor: added }
             : {}),
         };
       }),
@@ -478,6 +527,8 @@ function payFull(
   api: CoreAPI,
   h: Household,
   askedMinor: number,
+  /** What the work requirement added to this month's bill, paid first. */
+  requirementMinor: number,
   sellers: readonly string[],
   source: Source,
 ): Pick<
@@ -508,22 +559,28 @@ function payFull(
   const budget = Math.max(0, Math.min(askedMinor, held - keptBack));
   const journalIds: string[] = [];
   let paid = 0;
-  if (payee && budget > 0)
-    for (const [leg, person] of members.entries()) {
-      if (paid >= budget) break;
-      const receipt = api.accounts().transfer({
-        id: `medical:${h.householdId}:${today}:${leg}`,
-        from: api.accounts().main(person.id),
-        to: api.accounts().main(payee),
-        amountMinor: budget - paid,
-        reasonKey: MEDICAL_BILL_KIND,
-        partial: true,
-        source,
-      });
-      paid += receipt.paidMinor;
-      const id = journalId(today, receipt.journalSequence);
-      if (id && receipt.paidMinor > 0) journalIds.push(id);
-    }
+  // The part the work requirement added is paid first, under ids that cite it.
+  const tranches = [
+    { upTo: Math.min(budget, requirementMinor), cites: ENDED_BY_REQUIREMENT },
+    { upTo: budget, cites: null },
+  ];
+  if (payee)
+    for (const { upTo, cites } of tranches)
+      for (const [leg, person] of members.entries()) {
+        if (paid >= upTo) break;
+        const receipt = api.accounts().transfer({
+          id: `medical:${h.householdId}:${today}:${leg}${cites ? `:${cites}` : ""}`,
+          from: api.accounts().main(person.id),
+          to: api.accounts().main(payee),
+          amountMinor: upTo - paid,
+          reasonKey: MEDICAL_BILL_KIND,
+          partial: true,
+          source,
+        });
+        paid += receipt.paidMinor;
+        const id = journalId(today, receipt.journalSequence);
+        if (id && receipt.paidMinor > 0) journalIds.push(id);
+      }
   bookSale(core, payee, paid);
   return {
     paidMinor: paid,
@@ -558,17 +615,19 @@ function payCounted(
   api: CoreAPI,
   households: readonly Household[],
   askedOf: (householdId: string) => number,
+  /** What the work requirement added to a household's bill this month, charged first. */
+  requirementOf: (householdId: string) => number,
   sellersOf: (placeId: string) => readonly string[],
   source: Source,
 ): Map<
   string,
-  { paid: number; sellerId: string | null; journalId: string | null }
+  { paid: number; sellerId: string | null; journalIds: string[] }
 > {
   const core = api.state as CoreState;
   const rt = residentsRuntime(core);
   const out = new Map<
     string,
-    { paid: number; sellerId: string | null; journalId: string | null }
+    { paid: number; sellerId: string | null; journalIds: string[] }
   >();
   if (!rt) return out;
   fundGroups(api, rt);
@@ -577,50 +636,74 @@ function payCounted(
     if (h.counted)
       byPlace.set(h.placeId, [...(byPlace.get(h.placeId) ?? []), h]);
   for (const [placeId, list] of byPlace) {
-    const amountByContract: Record<string, number> = {};
-    let requested = 0;
-    for (const h of list) {
-      const asked = askedOf(h.householdId);
-      if (asked <= 0) continue;
-      amountByContract[`hh:${h.householdId}`] = asked;
-      requested += Math.round(asked * h.weight);
-    }
     const sellerId = sellersOf(placeId)[0] ?? outsideAccountOf(api) ?? null;
     const account = sellerId
       ? core.cashJournal.residualAccountByOwner.get(sellerId)
       : undefined;
-    if (!account || requested <= 0) continue;
-    const id = `medical:counted:${placeId}:${core.date}`;
-    const sequence = core.cashJournal.nextSequence;
-    const charged = chargeGroups(api, rt, {
-      id,
-      flow: {
-        id,
-        kind: "purchase",
-        financeKind: MEDICAL_BILL_KIND,
-        placeId: placeId as PlaceId,
-        amountByContract,
+    if (!account) continue;
+    // The part the work requirement added is charged first, in an entry that
+    // cites it; the rest of what each household is asked after it.
+    const parts = [
+      {
+        cites: ENDED_BY_REQUIREMENT as string | null,
+        of: (h: Household) =>
+          Math.min(askedOf(h.householdId), requirementOf(h.householdId)),
       },
-      requested,
-      toAccount: account,
-      reasonKey: MEDICAL_BILL_KIND,
-      source,
-      // Rent or the mortgage first: a group's housing arrears stay back.
-      reserveOf: (group) => rt.arrears.get(group) ?? 0,
-    });
-    bookSale(core, sellerId ?? undefined, charged.paid);
-    const entry = charged.paid > 0 ? journalId(core.date, sequence) : null;
-    for (const h of list) {
-      const asked = amountByContract[`hh:${h.householdId}`] ?? 0;
-      const ix = rt.store.householdOf.get(h.householdId);
-      const group = ix === undefined ? -1 : rt.store.households[ix]!.group;
-      const row = charged.byGroup.get(group);
-      const share = row && row.asked > 0 ? row.paid / row.asked : 0;
-      out.set(h.householdId, {
-        paid: Math.min(asked, Math.round(asked * share)),
-        sellerId,
-        journalId: entry,
+      {
+        cites: null,
+        of: (h: Household) =>
+          askedOf(h.householdId) -
+          Math.min(askedOf(h.householdId), requirementOf(h.householdId)),
+      },
+    ];
+    for (const part of parts) {
+      const amountByContract: Record<string, number> = {};
+      let requested = 0;
+      for (const h of list) {
+        const asked = part.of(h);
+        if (asked <= 0) continue;
+        amountByContract[`hh:${h.householdId}`] = asked;
+        requested += Math.round(asked * h.weight);
+      }
+      if (requested <= 0) continue;
+      const id = `medical:counted:${placeId}:${core.date}${part.cites ? `:${part.cites}` : ""}`;
+      const sequence = core.cashJournal.nextSequence;
+      const charged = chargeGroups(api, rt, {
+        id,
+        flow: {
+          id,
+          kind: "purchase",
+          financeKind: MEDICAL_BILL_KIND,
+          placeId: placeId as PlaceId,
+          amountByContract,
+        },
+        requested,
+        toAccount: account,
+        reasonKey: MEDICAL_BILL_KIND,
+        source,
+        // Rent or the mortgage first: a group's housing arrears stay back.
+        reserveOf: (group) => rt.arrears.get(group) ?? 0,
       });
+      bookSale(core, sellerId ?? undefined, charged.paid);
+      const entry = charged.paid > 0 ? journalId(core.date, sequence) : null;
+      for (const h of list) {
+        const asked = amountByContract[`hh:${h.householdId}`] ?? 0;
+        const ix = rt.store.householdOf.get(h.householdId);
+        const group = ix === undefined ? -1 : rt.store.households[ix]!.group;
+        const row = charged.byGroup.get(group);
+        const share = row && row.asked > 0 ? row.paid / row.asked : 0;
+        const was = out.get(h.householdId) ?? {
+          paid: 0,
+          sellerId,
+          journalIds: [],
+        };
+        out.set(h.householdId, {
+          paid: was.paid + Math.min(asked, Math.round(asked * share)),
+          sellerId,
+          journalIds:
+            entry && asked > 0 ? [...was.journalIds, entry] : was.journalIds,
+        });
+      }
     }
   }
   return out;
@@ -697,10 +780,16 @@ export function billMedicalCare(
     if (!list) sellers.set(placeId, (list = medicalSellers(api, placeId)));
     return list;
   };
+  const requirementOf = (householdId: string) =>
+    (bills.get(householdId) ?? []).reduce(
+      (n, m) => n + (m.requirementMinor ?? 0),
+      0,
+    );
   const counted = payCounted(
     api,
     households,
     (id) => billOf(id) + owedOf(id),
+    requirementOf,
     sellersOf,
     source,
   );
@@ -716,11 +805,16 @@ export function billMedicalCare(
       ? {
           paidMinor: counted.get(h.householdId)?.paid ?? 0,
           sellerId: counted.get(h.householdId)?.sellerId ?? null,
-          journalIds: [counted.get(h.householdId)?.journalId].filter(
-            (id): id is string => !!id,
-          ),
+          journalIds: counted.get(h.householdId)?.journalIds ?? [],
         }
-      : payFull(api, h, askedMinor, sellersOf(h.placeId), source);
+      : payFull(
+          api,
+          h,
+          askedMinor,
+          requirementOf(h.householdId),
+          sellersOf(h.placeId),
+          source,
+        );
     const medicaid = members.reduce((n, m) => n + (m.medicaidMinor ?? 0), 0);
     const payee =
       paid.sellerId ?? sellersOf(h.placeId)[0] ?? outsideAccountOf(api);
@@ -741,7 +835,13 @@ export function billMedicalCare(
     const owed = owing.filter((row) => !due.includes(row));
     const pastWait = due.reduce((n, row) => n + row.minor, 0);
     const { share, reach, except } = collectionsShare(api, h);
-    const toCollections = Math.round(pastWait * share);
+    // Each bill past the wait sends its own part, which keeps its own first
+    // delinquency (the day it was billed) for the credit report's wait.
+    const parts = due.map((row) => ({
+      delinquentSince: row.billedAt,
+      minor: Math.round(row.minor * share),
+    }));
+    const toCollections = parts.reduce((n, part) => n + part.minor, 0);
     // stopgapId: SG-HEALTH-medical-debt-collections — the debt is never paid
     // down or sold, and the provider's write-off keeps no record.
     if (pastWait > 0) api.stopgap("SG-HEALTH-medical-debt-collections");
@@ -758,7 +858,7 @@ export function billMedicalCare(
               prior.get(h.householdId)?.sellerId ??
               outsideAccountOf(api) ??
               "",
-            amountMinor: toCollections,
+            parts,
             billId: `medical-bill:${h.householdId}`,
             webRecordId: reach.recordId,
             source,

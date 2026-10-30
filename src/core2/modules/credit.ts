@@ -802,10 +802,23 @@ interface LoanRow {
 }
 
 /** A household's medical debt in collections: one record on its books, the balance its unpaid medical bills sent there. */
+/** One part of a medical debt placed for collection, from one bill. */
+export interface MedicalDebtPart {
+  /** The day the bill was billed and went unpaid (its first delinquency). */
+  readonly delinquentSince: string;
+  readonly minor: number;
+}
+
 export interface MedicalDebtRow extends LoanRow {
   readonly kind: "medical";
-  /** The day the first unpaid bill was placed for collection (the credit report's clock starts here). */
+  /** The day the first unpaid bill was placed for collection. */
   readonly chargedOffAt: string;
+  /**
+   * Each part placed for collection with its own bill's first delinquency
+   * (the day it was billed and went unpaid): the credit report's wait runs
+   * from each part's own day.
+   */
+  readonly placed: readonly MedicalDebtPart[];
   readonly chargeOffCause: "medical-bill-unpaid";
   /** The last month's part placed for collection, its bill record and the web month row its share read. */
   readonly lastSentAt: string;
@@ -831,14 +844,15 @@ export function recordMedicalDebt(
     readonly householdId: string;
     readonly borrowerId: string;
     readonly creditorId: string;
-    readonly amountMinor: number;
+    /** The parts placed for collection, each with its bill's first delinquency. */
+    readonly parts: readonly MedicalDebtPart[];
     readonly billId: string;
     readonly webRecordId: string | null;
     readonly source: Source;
   },
 ): string | null {
-  if (!core(api).modules.has(CREDIT_MODULE_ID) || input.amountMinor <= 0)
-    return null;
+  const amountMinor = input.parts.reduce((n, part) => n + part.minor, 0);
+  if (!core(api).modules.has(CREDIT_MODULE_ID) || amountMinor <= 0) return null;
   const id = `medical-debt:${input.householdId}`;
   const loans = store(api).table("loans");
   const held = loans.get(id) as unknown as MedicalDebtRow | undefined;
@@ -852,24 +866,48 @@ export function recordMedicalDebt(
     borrowerId: held?.borrowerId ?? input.borrowerId,
     lenderId: input.creditorId,
     kind: "medical",
-    principalMinor: (held?.principalMinor ?? 0) + input.amountMinor,
-    balanceMinor: (held?.balanceMinor ?? 0) + input.amountMinor,
+    principalMinor: (held?.principalMinor ?? 0) + amountMinor,
+    balanceMinor: (held?.balanceMinor ?? 0) + amountMinor,
     annualRate: 0,
     paymentMinor: 0,
     openedAt: held?.openedAt ?? today,
-    pastDueMinor: (held?.pastDueMinor ?? 0) + input.amountMinor,
-    firstPastDueAt: held?.firstPastDueAt ?? today,
+    pastDueMinor: (held?.pastDueMinor ?? 0) + amountMinor,
+    firstPastDueAt:
+      held?.firstPastDueAt ??
+      [...input.parts].map((part) => part.delinquentSince).sort()[0] ??
+      today,
     standing: "charged-off",
     chargedOffAt: held?.chargedOffAt ?? today,
     chargeOffCause: "medical-bill-unpaid",
+    placed: [
+      ...(held?.placed ?? []),
+      ...input.parts.filter((part) => part.minor > 0),
+    ],
     lastSentAt: today,
-    lastSentMinor: input.amountMinor,
+    lastSentMinor: amountMinor,
     lastBillId: input.billId,
     lastWebRecordId: input.webRecordId,
     source: input.source,
   };
   loans.put(row as never);
   return id;
+}
+
+/**
+ * The part of a medical debt the credit report shows on a day: the parts
+ * whose own bill's first delinquency is at least the reporting wait old.
+ */
+export function reportedMedicalMinor(
+  row: Pick<MedicalDebtRow, "placed">,
+  date: string,
+  p: (key: string) => number,
+): number {
+  const wait = p("creditMedicalReportDays");
+  return (row.placed ?? []).reduce(
+    (n, part) =>
+      daysBetweenText(part.delinquentSince, date) >= wait ? n + part.minor : n,
+    0,
+  );
 }
 
 /** A household's medical-debt record, if any of its bills went to collections. */
@@ -1299,11 +1337,11 @@ function householdApplications(
               p("creditReportYears") * p("jobsDaysPerYear")) &&
           // A medical debt in collections reaches the report only after the
           // reporting wait from its first delinquency (one year since July
-          // 2022, the three nationwide reporting companies' rule).
+          // 2022, the three nationwide reporting companies' rule): only a
+          // part whose own bill has been delinquent that long is reported.
           (row.kind !== "medical" ||
-            (!!row.chargedOffAt &&
-              daysBetweenText(row.chargedOffAt, c.date) >=
-                p("creditMedicalReportDays"))),
+            reportedMedicalMinor(row as unknown as MedicalDebtRow, c.date, p) >
+              0),
       )
       .map((row) => row.householdId),
   );

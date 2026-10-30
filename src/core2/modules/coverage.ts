@@ -36,7 +36,7 @@
  * from these records and paid, and what goes unpaid is placed for collection
  * as a medical-debt record (medical-bills.ts).
  */
-import { billMedicalCare } from "../medical-bills";
+import { billMedicalCare, coverageTwinsOut } from "../medical-bills";
 import { webReach } from "../outcome-web-reach";
 import { coreAPI, registerModule } from "../state";
 import { outsideAccountOf } from "../budgets-treasury";
@@ -219,15 +219,25 @@ function holdersToday(
   const full = new Map<string, string>();
   const heldCounted = new Map<string, string>();
   let taken = 0;
+  // In the town, whose Medicaid coverage the law reach keeps by person id,
+  // the expansion's and the work requirement's place-level coverage links
+  // are left out: those laws reach the household through its Medicaid record.
+  const except = coverageTwinsOut(api);
   for (const c of candidates) {
     // The share that hold a policy is the national one, less what the web
     // says has pushed this worker toward being uninsured (a recession lands
     // on men more than on women): the uninsured part times the web's factor
     // for them, in the same rank order.
-    const reach = webReach(api, c.placeId, "health.uninsured-pct", {
-      age: c.age,
-      ...(c.sex ? { sex: c.sex } : {}),
-    });
+    const reach = webReach(
+      api,
+      c.placeId,
+      "health.uninsured-pct",
+      {
+        age: c.age,
+        ...(c.sex ? { sex: c.sex } : {}),
+      },
+      except(c.placeId),
+    );
     const slots = Math.round(
       total * Math.min(1, Math.max(0, 1 - (1 - share) * reach.factor)),
     );

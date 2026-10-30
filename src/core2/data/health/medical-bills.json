@@ -4,6 +4,13 @@
   "personLevel": {
     "about": "The law reach keeps the Medicaid coverage of the town's residents, full and counted, by person id (recordCoverage, read through coverageSpellsNow) and pays the adult nothing for it, so the expansion reaches a town household only through that record: a covered member's bill is priced at Medicaid's out-of-pocket share, and the place-level expansion row is left out of the household's web factor. Medicaid's own part of the member's care (the cost less that share) is paid to the seller by the state and federal treasuries, the federal share at the match in force (law-reach payMedicaidCare). A household in another place the world keeps, whose coverage the reach does not keep, keeps the place-level row as its one path.",
     "placeTwin": "medicaid-expansion-to-medical-debt",
+    "coverageTwins": {
+      "about": "The expansion's and the work requirement's place-level coverage links, which the coverage engine's employer-plan count reads through health.uninsured-pct (src/core2/modules/coverage.ts). Where the law reach keeps the residents' Medicaid coverage by person id (the town), a worker's employer plan leaves them out, so the expansion and the requirement reach a town household once, through its own Medicaid record.",
+      "links": [
+        "medicaid-expansion-to-coverage",
+        "work-requirement-to-coverage"
+      ]
+    },
     "policy": "us-policy-positions:health-human-services.expand-medicaid-eligibility"
   },
   "medicalSellerClassifications": [

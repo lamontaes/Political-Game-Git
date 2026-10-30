@@ -7,12 +7,6 @@
         "why": "the federal medical assistance percentage (section 1396d(b) of title 42 of the United States Code) fixes the federal government's share of each state's Medicaid spending for the people covered. By its terms it moves who pays, not who is covered or what care they get; the expansion and the work requirement set those (their links medicaid-expansion-to-coverage, medicaid-expansion-to-mortality, medicaid-expansion-to-medical-debt and work-requirement-to-coverage). The researched response to the subsidy is in the states' own spending: an elasticity of Medicaid spending per enrollee of -0.494 to -0.579 with respect to the after-subsidy price (Bundorf and Kessler 2021, NBER Working Paper 29492, abstract). That is a budget decision of the state's body, not a place outcome the web keeps. The dollars the match moves are on the journal (the money link): the federal treasury's share of Medicaid's part of each covered member's care, paid to the medical seller at the match in force."
       }
     },
-    "us-policy-positions:health-human-services.medicaid-work-requirement": {
-      "money": {
-        "status": "n/a",
-        "why": "the requirement is a condition of eligibility a state plan must impose (Pub. L. 119-21 (2025), sec. 71119; 42 U.S.C. 1396a(xx)): it appropriates, pays and charges no one. What it does to money is end the expansion's coverage: each adult it reaches loses their coverage record (the law reach's coverage table, by person id), and their household's next medical bill is priced without Medicaid's share, a payment on the journal (the family test names one by journal id)."
-      }
-    },
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
       "money": {
         "status": "n/a",

@@ -283,13 +283,16 @@ function medicaidCovered(
   api: CoreAPI,
   facts: TownFacts,
   stateKey: string,
-): ResidentFacts[] {
+): {
+  covered: ResidentFacts[];
+  ended?: { key: string; lawId: string; ids: string[] };
+} {
   const people = data.policies[MEDICAID_EXPAND]?.people;
-  if (!people) return [];
+  if (!people) return { covered: [] };
   const covered = selectResidents(facts, people, stateKey);
   const workRow = yesLevels(api, MEDICAID_WORK)[0]?.row;
   const workPeople = data.policies[MEDICAID_WORK]?.people;
-  if (!workPeople || !workRow) return covered;
+  if (!workPeople || !workRow) return { covered };
   const ended = new Set(
     selectResidents(facts, workPeople, stateKey).map((r) => r.id),
   );
@@ -319,7 +322,14 @@ function medicaidCovered(
       what: "medicaid-coverage-ended",
       count: Math.round(endedCounted),
     });
-  return covered.filter((r) => !ended.has(r.id));
+  return {
+    covered: covered.filter((r) => !ended.has(r.id)),
+    ended: {
+      key: MEDICAID_WORK,
+      lawId: workRow.id,
+      ids: covered.filter((r) => ended.has(r.id)).map((r) => r.id),
+    },
+  };
 }
 
 /** The expansion's coverage again, after a law it reads (the work requirement) changed. */
@@ -538,11 +548,15 @@ function runPolicy(
       return;
     }
     case "medicaid-coverage": {
+      const who: ReturnType<typeof medicaidCovered> = inForce
+        ? medicaidCovered(api, facts, chain.stateKey)
+        : { covered: [] };
       const paid = recordCoverage(api, {
         key,
         lawId: input.lawId,
         inForce,
-        covered: inForce ? medicaidCovered(api, facts, chain.stateKey) : [],
+        covered: who.covered,
+        ...(who.ended ? { ended: who.ended } : {}),
       });
       finish(
         api,

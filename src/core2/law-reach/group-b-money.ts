@@ -719,6 +719,16 @@ export function recordCoverage(
     readonly lawId: string;
     readonly inForce: boolean;
     readonly covered: readonly ResidentFacts[];
+    /**
+     * The adults the expansion reaches whose coverage the work requirement
+     * ends (its key and law row): kept as stretches under the requirement's
+     * key, by person id, so the bills can name the law that priced them.
+     */
+    readonly ended?: {
+      readonly key: string;
+      readonly lawId: string;
+      readonly ids: readonly string[];
+    };
   },
 ): {
   readonly named: ReadonlyMap<string, Record<string, number>>;
@@ -727,6 +737,9 @@ export function recordCoverage(
   const core = api.state as CoreState;
   if (!core.modules.has(BUDGETS_MODULE_ID))
     return { named: new Map(), counted: 0 };
+  const ended = input.inForce ? input.ended : undefined;
+  if (ended) keepStretches(api, ended.key, ended.lawId, new Set(ended.ids));
+  else closeStretches(api, ENDED_BY_REQUIREMENT);
   const town = lawChain(api).townPlaceId;
   const want = new Set<string>();
   const named = new Map<string, Record<string, number>>();
@@ -758,12 +771,27 @@ export function recordCoverage(
       });
     }
   }
+  keepStretches(api, input.key, input.lawId, want);
+  return { named, counted };
+}
+
+/** The work requirement's key, under which the reach keeps whose coverage it ends. */
+export const ENDED_BY_REQUIREMENT =
+  "us-policy-positions:health-human-services.medicaid-work-requirement";
+
+/**
+ * A policy's stretches by person id, kept current: a stretch opens the day
+ * after a person is first wanted and ends the day they no longer are.
+ */
+function keepStretches(
+  api: CoreAPI,
+  key: string,
+  lawId: string,
+  want: ReadonlySet<string>,
+): void {
   const table = reachTable(api, "coverage");
   const today = api.state.date;
-  const open = table.query("byKey", [
-    input.key,
-    null,
-  ]) as unknown as CoverageRow[];
+  const open = table.query("byKey", [key, null]) as unknown as CoverageRow[];
   for (const row of open)
     if (!want.has(row.personId))
       table.put({ ...row, to: today } as unknown as ModuleRow);
@@ -772,26 +800,39 @@ export function recordCoverage(
   for (const personId of want) {
     if (holding.has(personId)) continue;
     table.put({
-      id: `coverage|${input.key}|${personId}|${from}`,
-      key: input.key,
+      id: `coverage|${key}|${personId}|${from}`,
+      key,
       personId,
-      lawId: input.lawId,
+      lawId,
       from,
       to: null,
     } satisfies CoverageRow as unknown as ModuleRow);
   }
-  return { named, counted };
 }
+
+function closeStretches(api: CoreAPI, key: string): void {
+  if (!api.state.modules.has(REACH_B_MODULE_ID)) return;
+  keepStretches(api, key, "", new Set());
+}
+
+/** The federal budget line that carries Medicaid's grants to the states (OMB function 550, health). */
+export const FEDERAL_MEDICAID_LINE = "health";
+/** The state budget line whose Census total counts Medicaid vendor payments, federally financed included. */
+export const STATE_MEDICAID_LINE = "welfareAndMedicaid";
 
 /**
  * Medicaid's own part of its covered members' care, the cost of the care less
  * what each member pays (medical-bills.ts bills them), paid to the medical
  * seller the bill names the day it is billed: the federal treasury pays its
  * share at the Medicaid match in force, read here at the moment it pays (42
- * U.S.C. 1396d(b)), and the state treasury the rest, each from its welfare and
- * Medicaid line. A payment's id names the expansion, and the federal one the
- * match too. A treasury pays what it holds. Returns what each seller was paid
- * and the journal entries.
+ * U.S.C. 1396d(b)), and the state treasury the rest. Each dollar is paid
+ * inside a budget line, so no close pays it again: the federal leg counts
+ * against the federal health line (the budget function that carries
+ * Medicaid's grants), and the whole care, both legs, against the state's
+ * welfare and Medicaid line, whose Census total already counts federally
+ * financed vendor payments. A payment's id names the expansion, and the
+ * federal one the match too. A treasury pays what it holds. Returns what each
+ * seller was paid and the journal entries.
  */
 export function payMedicaidCare(
   api: CoreAPI,
@@ -856,8 +897,18 @@ export function payMedicaidCare(
       });
       if (receipt.paidMinor <= 0) continue;
       paid += receipt.paidMinor;
-      if (gov === federal) federalMinor += receipt.paidMinor;
-      noteLinePaid(api, gov.id, "welfareAndMedicaid", receipt.paidMinor);
+      if (gov === federal) {
+        federalMinor += receipt.paidMinor;
+        // stopgapId: SG-GOV-REACH-B-medicaid-federal-leg — the federal share
+        // is paid to the seller directly from the federal health line and
+        // also counted in the state's welfare line, while the federal aid to
+        // the state (a twelfth of its Census federal aid, which already holds
+        // the federal share of the state's Medicaid) stays as it was.
+        api.stopgap("SG-GOV-REACH-B-medicaid-federal-leg");
+        noteLinePaid(api, gov.id, FEDERAL_MEDICAID_LINE, receipt.paidMinor);
+      }
+      // The state's line counts the whole care, the federal leg included.
+      noteLinePaid(api, state.id, STATE_MEDICAID_LINE, receipt.paidMinor);
       if (receipt.journalSequence !== undefined)
         journalIds.push(`journal:${today}:${receipt.journalSequence}`);
     }

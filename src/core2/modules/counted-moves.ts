@@ -409,6 +409,22 @@ export const stateOfCountedPlace = (placeId: string) =>
 const homeStateOf = (rt: Pick<Runtime, "townState">, placeId: string) =>
   stateOfCountedPlace(placeId) ?? rt.townState;
 
+/**
+ * The state a household of the world's places lives in, by the same rule as
+ * homeStateOf: its place's state, else the town's (the place id of the
+ * town's governing unit, which the lookup may not know).
+ */
+export function householdStateOf(
+  core: CoreState,
+  placeId: string,
+): string | undefined {
+  const town = townPlaceOf(core);
+  return (
+    stateOfCountedPlace(placeId) ??
+    (town ? stateOfCountedPlace(town) : undefined)
+  );
+}
+
 function month(api: CoreAPI): void {
   const core = api.state as CoreState;
   const residents = residentsRuntime(core);
