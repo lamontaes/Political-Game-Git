@@ -31,13 +31,7 @@ import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
-import {
-  listRow,
-  personRow,
-  factRow,
-  noteLine,
-  withNotes,
-} from "./ui/list-row.mjs";
+import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
 import { barChart, columnChart, donutChart } from "./ui/chart.mjs";
 import {
@@ -3218,58 +3212,150 @@ const sheets = {
     const labels = controls.localRaces;
     const stance = voteWords();
     const filed = new Set(v.filings.map((f) => f.contestId));
-    const candidate = (f) =>
-      withNotes(
-        personRow({
-          name: f.name ?? "",
-          party: f.party,
-          face: f.face,
-          onOpen: () => {
-            closeSheet();
-            showPerson({ personId: f.cardId, figureUrl: f.face?.url });
-          },
-        }),
-        f.stances.map((s) => ({
-          text: `${policyLabel(s.question)}: ${s.position > 0 ? (stance.for ?? "") : (stance.against ?? "")}`,
-        })),
-      );
     const fileForIt = (race) => {
       const b = makeButton({ textContent: labels.fileForIt });
       b.dataset.testid = "file-for-it";
       b.addEventListener("click", () =>
         openFiling(race.filedWith, race.contestId),
       );
-      return buttonRow(b);
+      return buttonTray(b);
     };
-    const races = ballot.races.map((race) => ({
-      title: race.title,
-      value: filed.has(race.contestId)
+    const status = (race) =>
+      filed.has(race.contestId)
         ? labels.youFiled
         : race.filers.length
           ? labels.running.replace("{n}", race.filers.length)
-          : labels.noFilers,
+          : labels.noFilers;
+    // One race's page: who is running as face cards with where they stand,
+    // the race's dates beside them, and File for it in its tray.
+    const showRace = (race) => {
+      $("sheet").classList.remove("fits");
+      $("sheet-body").replaceChildren(
+        splitScreen({
+          controls: [heading(race.title, "h2")],
+          main: [
+            plate(
+              race.filers.length ? status(race) : null,
+              ...(race.filers.length
+                ? race.filers.map((f) =>
+                    plate(
+                      null,
+                      memberCard({
+                        name: f.name ?? "",
+                        line: f.party ?? "",
+                        party: f.party,
+                        badge: f.party ? f.party.charAt(0) : null,
+                        face: f.face,
+                        onOpen: () => {
+                          closeSheet();
+                          showPerson({
+                            personId: f.cardId,
+                            figureUrl: f.face?.url,
+                          });
+                        },
+                      }),
+                      ...f.stances.map((st) =>
+                        row(
+                          policyLabel(st.question),
+                          st.position > 0
+                            ? (stance.for ?? "")
+                            : (stance.against ?? ""),
+                        ),
+                      ),
+                    ),
+                  )
+                : [prose(labels.noFilers, "record-empty")]),
+              // Only a race the player may run for (owner, Oct 29: six
+              // offices; the row's playerMayFile, government.ts).
+              ...(race.filingOpen &&
+              race.playerMayFile &&
+              !filed.has(race.contestId) &&
+              race.filedWith
+                ? [fileForIt(race)]
+                : []),
+            ),
+          ],
+          side: [
+            {
+              title: labels.dates,
+              nodes: [
+                dateList([
+                  ...(race.filingClosed
+                    ? []
+                    : [
+                        {
+                          when: dateWords(race.filingDeadline, {
+                            month: "short",
+                            year: me.date,
+                          }),
+                          text: labels.filingCloses,
+                        },
+                      ]),
+                  {
+                    when: dateWords(race.electionDate, {
+                      month: "short",
+                      year: me.date,
+                    }),
+                    text: labels.electionDay,
+                  },
+                ]),
+              ],
+            },
+          ],
+          className: "race-page",
+        }),
+      );
+    };
+    // The coming ballot as race cards on a plate, paged to fit the window;
+    // each opens its race (owner, Oct 29: every menu like Government).
+    const races = ballot.races.map((race) => ({
+      title: race.title,
+      value: status(race),
       lede: dateWords(race.electionDate),
       note: race.filingClosed
         ? null
         : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
-      opens: true,
-      open: ballot.races.length === 1,
-      nodes: [
-        ...race.filers.map(candidate),
-        ...(race.filingOpen &&
-        race.playerMayFile &&
-        !filed.has(race.contestId) &&
-        race.filedWith
-          ? [fileForIt(race)]
-          : []),
-      ],
+      label: race.title,
+      onSelect: () => showRace(race),
       data: { contest: race.contestId },
     }));
+    const own = v.filings.length ? await campaignRows() : [];
     return [
-      ...(v.filings.length ? await campaignRows() : []),
-      ...(await listScreen({
-        entries: () => (races.length ? races : [{ title: labels.noBallot }]),
-      })),
+      splitScreen({
+        main: [
+          ...(own.length ? [plate(labels.yourCampaign, ...own)] : []),
+          plate(
+            labels.title,
+            ...(races.length
+              ? [
+                  pager({
+                    items: races,
+                    render: listEntry,
+                    rows: Math.max(
+                      1,
+                      Math.min(
+                        4,
+                        Math.floor(
+                          (window.innerHeight - (own.length ? 520 : 300)) / 118,
+                        ),
+                      ),
+                    ),
+                    columns: 3,
+                    rowHeight: 108,
+                    gap: 10,
+                    words: {
+                      page: controls.politics.page,
+                      previous: controls.politics.previousPage,
+                      next: controls.politics.nextPage,
+                    },
+                    className: "race-cards",
+                  }),
+                ]
+              : [prose(labels.noBallot, "record-empty")]),
+          ),
+        ],
+        className: "campaigns-screen",
+      }),
     ];
   },
   /**
