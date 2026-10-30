@@ -255,6 +255,11 @@ function stand(): { held: boolean; takesOffice: string | null } {
       }
       week.weeks += 1;
       liveUntil(addDays(makeIsoDate(w.core.date), 7));
+      // Measurement only (scratch branch governing/measure-m3, never merged).
+      if (week.weeks % 4 === 0)
+        console.error(
+          `PROGRESS ${w.core.date} weeks ${week.weeks} doors ${week.doors} reached ${week.reached} people ${w.core.people.size} heap ${Math.round(process.memoryUsage().heapUsed / 1048576)}MB ${Math.round((performance.now() - started) / 1000)}s`,
+        );
     }
     const pledged = coreAPI(w.core)
       .moduleState(CAMPAIGNS_MODULE_ID)
@@ -270,6 +275,21 @@ function stand(): { held: boolean; takesOffice: string | null } {
   const races = electionResults(w.core, me);
   const result = resultOf(coreAPI(w.core), enterable.contest.id);
   const won = result?.winnerId === me;
+  // Measurement only (scratch branch governing/measure-m3, never merged):
+  // each part of the count by candidate, the player shown as ME.
+  if (result) {
+    const mine = new Set([me, filing?.id ?? me]);
+    const fmt = (votes: Readonly<Record<string, number>>) =>
+      Object.entries(votes)
+        .sort((x, y) => y[1] - x[1])
+        .map(
+          ([id, n]) => `${mine.has(id) ? "ME" : id.slice(-6)}=${Math.round(n)}`,
+        )
+        .join(" ");
+    log.push(
+      `TALLY ${enterable.contest.title} totals[${fmt(result.totals)}] named[${fmt(result.namedVotes)}] counted[${fmt(result.countedVotes)}] namedTurnout ${result.namedTurnout}/${result.namedEligible} counted ${result.countedTurnout}/${result.countedEligible}`,
+    );
+  }
   log.push(
     `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}`,
   );
