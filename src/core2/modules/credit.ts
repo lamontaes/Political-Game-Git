@@ -1460,9 +1460,13 @@ function householdApplications(
   );
   // The storefront lender checks for earlier payday defaults instead: "some
   // lenders use specialty credit reporting firms to check for previous
-  // defaults on payday loans" (CFPB white paper, April 2013). The lender's own
-  // charged-off loans stand for that firm's file, and a household in it is
-  // not lent to again within the look-back (smallDollarDefaultLookbackMonths).
+  // defaults on payday loans" (CFPB, Payday Loans and Deposit Advance
+  // Products: A White Paper of Initial Data Findings, April 24, 2013, section
+  // 2.1, page 9, files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf,
+  // fetched Oct 30, 2026). The town's one lender (SG-WORLD-small-dollar-one-lender)
+  // checks every applicant: its own charged-off loans stand for that firm's
+  // file, and a household in it is not lent to again within the look-back
+  // (smallDollarDefaultLookbackMonths).
   const defaulted = new Map(
     chargedOff
       .filter(
