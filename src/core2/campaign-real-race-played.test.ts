@@ -9,21 +9,24 @@
  * of calls, an event, and a forum one week and a donor meeting the next.
  * Then, each by record id:
  *
- * (a) an organization endorsed a candidate in one of the town's races and
- *     sent its members as volunteers, and the volunteers engine walked them
- *     to doors (an `endorsements` row with an organization, its members on
- *     the campaign's volunteers, a volunteer-door record by one of them);
+ * (a) an organization endorsed the player and sent its members as
+ *     volunteers, and the volunteers engine walked them to doors (an
+ *     `endorsements` row with an organization for the player's filing, one of
+ *     its members on the player's campaign's volunteers, and a
+ *     `volunteer-door` cause by that member for the player);
  * (b) a forum the player hosted (a meetings `townHalls` row with the player
  *     as host, the player's filing and the causes it wrote);
  * (c) money raised by named donors (`gifts` rows and `campaign-gift`
- *     events), one of them given at a donor meeting where one was held;
- * (d) a rival, the incumbent first, campaigning harder after reading the
- *     race (a `steppedUp` row naming the poll or word of a rival it read,
- *     with hours or door hours gained).
+ *     events), and where the player held a donor meeting, a gift given there;
+ * (d) a rival in the player's race, the incumbent first, campaigning harder
+ *     after reading the player ahead (a `steppedUp` row naming the player as
+ *     the rival, the poll or word of them it read, and hours or door hours
+ *     gained).
  *
- * A clause the drawn place cannot show (no group in town, the player's
- * petition short, nobody stepped up) is named and the next place drawn, up
- * to six; the last test fails naming every place, seed and reason.
+ * A clause the drawn place cannot show (no group backed the player, the
+ * player's petition short, no rival in the race or none stepped up) is named
+ * and the next place drawn, up to six; the last test fails naming every
+ * place, seed and reason.
  * REAL_RACE_SMOKE_WEEKS=<n> plays one place for n campaign weeks and only
  * prints what it found (a quick check that the play loop runs).
  */
@@ -44,7 +47,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   CAMPAIGNS_MODULE_ID,
   CAMPAIGN_STEPPED_UP_EVENT,
-  VOLUNTEER_SHIFT_EVENT,
+  endorsementsOf,
   organizedGroupsIn,
   signaturesToGather,
   steppedUpOf,
@@ -52,7 +55,6 @@ import {
   type CauseRow,
   type EndorsementRow,
   type GiftRow,
-  type PledgeRow,
   type PollRow,
   type SteppedUpRow,
 } from "./modules/campaigns";
@@ -88,8 +90,6 @@ const DRAW_TIMEOUT = 1_800_000;
 /** What a clause found, by record id, or why the drawn place could not show it. */
 type Clause = { readonly found: string } | { readonly missing: string };
 
-const rowsOf = <T>(api: CoreAPI, moduleId: string, name: string): T[] =>
-  api.moduleState(moduleId).table(name).rows() as unknown as T[];
 const queryOf = <T>(
   api: CoreAPI,
   moduleId: string,
@@ -149,6 +149,8 @@ interface Played {
   readonly contest: ContestRow;
   /** The town halls the player's forums held, as `campaignDay` returned them. */
   readonly hallIds: readonly string[];
+  /** The donor meetings the player held, as `campaignDay` returned them. */
+  readonly donorMeetingIds: readonly string[];
   /** Each day choice the week's plan reached and found unavailable: how many times, and the last facts. */
   readonly unavailable: Readonly<Record<string, string>>;
   readonly summary: string;
@@ -290,6 +292,7 @@ function playRace(
 
   // The campaign, every week to election day, as path-check plays it.
   const hallIds: string[] = [];
+  const donorMeetingIds: string[] = [];
   const missed = new Map<string, { times: number; facts: string }>();
   const week = {
     weeks: 0,
@@ -324,9 +327,18 @@ function playRace(
       try {
         out = campaignDay(core, me, { filingId: filing.id, kind });
       } catch (error) {
+        // Only the donor meeting's host may refuse on the day (campaign-day.ts:
+        // the choice offered a host, `holdDonorMeeting` found no meeting to
+        // hold); any other error is a defect and fails the draw.
+        const message = error instanceof Error ? error.message : String(error);
+        if (
+          kind !== "donor-meeting" ||
+          message !== "No donor meeting could be held"
+        )
+          throw error;
         missed.set(`${kind} (refused)`, {
           times: (missed.get(`${kind} (refused)`)?.times ?? 0) + 1,
-          facts: (error as Error).message,
+          facts: message,
         });
         continue;
       }
@@ -337,6 +349,7 @@ function playRace(
       if (kind === "forum") week.forums += 1;
       if (kind === "donor-meeting") week.donorMeetings += 1;
       if (out.townHallId) hallIds.push(out.townHallId);
+      if (out.donorMeeting) donorMeetingIds.push(out.donorMeeting.id);
       player.spend(out.hours);
     }
     week.weeks += 1;
@@ -354,6 +367,7 @@ function playRace(
     filing,
     contest,
     hallIds,
+    donorMeetingIds,
     unavailable: Object.fromEntries(
       [...missed].map(([kind, m]) => [kind, `${m.times}x, last ${m.facts}`]),
     ),
@@ -362,93 +376,90 @@ function playRace(
 }
 
 /**
- * (a) An organization backed a candidate in one of the town's races
- * (`groupsWeighRace` writes the `endorsements` row with its organization),
- * its members who said yes are on that campaign's volunteers
- * (`askToVolunteer`), and the volunteers engine walked one of them to doors
- * (`volunteerShifts` reads the campaign's volunteers): a `volunteer-door`
- * cause by them, or where its voter is outside the player's circle (whose
- * causes play keeps) the door "yes" they took or their kept shift.
+ * (a) An organization endorsed the player and sent its members as
+ * volunteers: an `endorsements` row for the player's filing with the group's
+ * organization and a yes (`groupsWeighRace`), one of the members it sent on
+ * the player's campaign's volunteers (`askToVolunteer`), and the volunteers
+ * engine walking that member to doors for the player (`volunteerShifts`): a
+ * `volunteer-door` cause by them for the player, which the campaigns engine
+ * keeps because the candidate is the player (`keepCause` reads `keepsWhy`).
  */
 function clauseGroup(played: Played): Clause {
-  const { api, core, town } = played;
-  const endorsements = rowsOf<EndorsementRow>(
-    api,
-    CAMPAIGNS_MODULE_ID,
-    "endorsements",
-  )
-    .filter((row) => row.organizationId !== null && row.answer === "yes")
+  const { api, me, filing, contest, town } = played;
+  const backing = endorsementsOf(api, filing.id)
+    .filter(
+      (row) =>
+        row.organizationId !== null &&
+        row.answer === "yes" &&
+        row.candidateId === me,
+    )
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
-  if (!endorsements.length) {
+  if (!backing.length) {
     const groups = organizedGroupsIn(api, town);
+    const inRace = queryOf<EndorsementRow>(
+      api,
+      CAMPAIGNS_MODULE_ID,
+      "endorsements",
+      "byContest",
+      contest.id,
+    ).filter((row) => row.organizationId !== null);
     return {
       missing: groups.length
-        ? `${groups.length} organizations in town (${groups
+        ? `no group backed the player's filing ${filing.id}; ${groups.length} organizations in town (${groups
             .slice(0, 6)
             .map(
               (g) =>
                 `${g.organizationId} ${g.kind}, ${g.memberIds.length} members, speaker ${g.speakerId ?? "none"}`,
             )
-            .join("; ")}) endorsed no one in the town's races`
+            .join("; ")}), ${inRace.length} group answers in the race (${inRace
+            .slice(0, 4)
+            .map(
+              (row) =>
+                `${row.organizationId} ${row.answer} for ${row.candidateId === me ? "the player" : row.candidateId} (${row.reason})`,
+            )
+            .join("; ")})`
         : "no organization in town to endorse anyone",
     };
   }
+  const campaign = getOf<CampaignRow>(
+    api,
+    CAMPAIGNS_MODULE_ID,
+    "campaigns",
+    filing.id,
+  );
+  const onCampaign = new Set(campaign?.volunteerIds ?? []);
+  const doors = queryOf<CauseRow>(
+    api,
+    CAMPAIGNS_MODULE_ID,
+    "causes",
+    "byCandidate",
+    me,
+  )
+    .filter((c) => c.act === "volunteer-door" && c.candidateId === me)
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
   const seen: string[] = [];
-  for (const row of endorsements) {
-    const campaign = getOf<CampaignRow>(
-      api,
-      CAMPAIGNS_MODULE_ID,
-      "campaigns",
-      row.filingId,
-    );
-    const sent = row.volunteerIds.filter((id) =>
-      campaign?.volunteerIds.includes(id),
-    );
+  for (const row of backing) {
+    const sent = row.volunteerIds.filter((id) => onCampaign.has(id));
     if (!sent.length) {
       seen.push(
-        `${row.id}: ${row.volunteerIds.length} members said yes, none on the campaign's volunteers`,
+        `${row.id}: ${row.volunteerIds.length} members said yes, none on the player's campaign's ${onCampaign.size} volunteers`,
       );
       continue;
     }
     const walkers = new Set(sent);
-    const cause = queryOf<CauseRow>(
-      api,
-      CAMPAIGNS_MODULE_ID,
-      "causes",
-      "byCandidate",
-      row.candidateId,
-    ).find((c) => c.act === "volunteer-door" && walkers.has(c.actorId));
-    const pledge = queryOf<PledgeRow>(
-      api,
-      CAMPAIGNS_MODULE_ID,
-      "pledges",
-      "byCandidate",
-      row.candidateId,
-    ).find((p) => p.contestId === row.contestId && walkers.has(p.canvasserId));
-    const shift = logOfKind(core, VOLUNTEER_SHIFT_EVENT).find(
-      (e) =>
-        e.facts?.filingId === row.filingId &&
-        walkers.has(e.facts?.volunteerId ?? ""),
-    );
-    const door = cause
-      ? `volunteer-door cause ${cause.id} by ${cause.actorId} (moved ${cause.voterId})`
-      : pledge
-        ? `door yes ${pledge.id} taken by volunteer ${pledge.canvasserId}`
-        : shift
-          ? `volunteer-shift ${shift.id} (${shift.facts?.doorsKnocked ?? "?"} doors)`
-          : null;
-    if (!door) {
+    const cause = doors.find((c) => walkers.has(c.actorId));
+    if (!cause) {
       seen.push(
-        `${row.id}: volunteers ${sent.join(", ")} on the campaign, no door record by them`,
+        `${row.id}: members ${sent.join(", ")} on the player's campaign, no volunteer-door cause by them (${doors.length} volunteer-door causes for the player in all)`,
       );
       continue;
     }
     return {
-      found: `endorsement ${row.id} by ${row.organizationId} (speaker ${row.speakerId}, ${row.reason}) on ${row.date} for filing ${row.filingId} (candidate ${row.candidateId}${row.candidateId === played.me ? ", the player" : ""}); ${sent.length} of its members on the campaign's volunteers (${sent.slice(0, 4).join(", ")}); ${door}`,
+      found: `endorsement ${row.id} by ${row.organizationId} (speaker ${row.speakerId}, ${row.reason}) on ${row.date} for the player's filing ${row.filingId}; ${sent.length} of its members on the player's campaign's volunteers (${sent.slice(0, 4).join(", ")}); volunteer-door cause ${cause.id} on ${cause.date} by member ${cause.actorId} for the player (moved ${cause.voterId} ${cause.warmthBefore.toFixed(3)} to ${cause.warmthAfter.toFixed(3)})`,
     };
   }
   return {
-    missing: `${endorsements.length} group endorsements, none whose volunteers walked: ${seen.slice(0, 4).join("; ")}`,
+    missing: `${backing.length} group endorsements of the player, none whose members walked doors for them: ${seen.slice(0, 4).join("; ")}`,
   };
 }
 
@@ -489,9 +500,11 @@ function clauseForum(played: Played): Clause {
 /**
  * (c) Money raised by named donors: the player's filing's `gifts` rows from
  * full people (`donationAnswer`) and their public `campaign-gift` records
- * (`recordGift`), one of them given at a donor meeting
- * (`holdDonorMeeting`'s `campaign-donor-meeting` record names the donors)
- * where one was held.
+ * (`recordGift`); where the player held a donor meeting (`campaignDay`
+ * returned it), one gift given there (`holdDonorMeeting`'s
+ * `campaign-donor-meeting` record names the donors). A meeting held whose
+ * record is gone, or none of whose donors left a gift with its record, is
+ * missing.
  */
 function clauseDonors(played: Played): Clause {
   const { api, core, me, filing } = played;
@@ -516,12 +529,20 @@ function clauseDonors(played: Played): Clause {
       missing: `the player's filing ${filing.id} has ${gifts.length} gifts from named people and ${events.length} campaign-gift records, none matching (raise-money unavailable ${played.unavailable["raise-money"] ?? "never"})`,
     };
   const base = `${gifts.length} named donors; gift ${gift.id} (${gift.donorId}, ${dollars(gift.totalMinor)} in all) and its record ${event.id}`;
-  const meetings = logOfKind(core, "campaign-donor-meeting").filter(
-    (e) => e.facts?.filingId === filing.id,
-  );
-  if (!meetings.length)
+  if (!played.donorMeetingIds.length)
     return {
       found: `${base}; no donor meeting could be held (donor-meeting unavailable ${played.unavailable["donor-meeting"] ?? "never"}; refused ${played.unavailable["donor-meeting (refused)"] ?? "never"})`,
+    };
+  const meetings = played.donorMeetingIds.flatMap((id) => {
+    const row = core.durableLog.get(id);
+    return row?.kind === "campaign-donor-meeting" &&
+      row.facts?.filingId === filing.id
+      ? [row]
+      : [];
+  });
+  if (!meetings.length)
+    return {
+      missing: `${base}; the player held ${played.donorMeetingIds.length} donor meetings (${played.donorMeetingIds.slice(0, 3).join(", ")}) and the log kept none of their records`,
     };
   for (const meeting of meetings)
     for (const donorId of (meeting.facts?.donorIds ?? "")
@@ -545,12 +566,13 @@ function clauseDonors(played: Played): Clause {
 }
 
 /**
- * (d) A rival in the player's race, the incumbent and a reading that named
- * the player first, campaigned harder after reading the race: a `steppedUp`
- * row (`campaignTurn` keeps `rivalDay`'s stepped-up day, `recordSteppedUp`)
- * whose source is a `polls` or `rivalWord` row that exists, with hours or
- * door hours gained. A race with no rival is said so, and the town's other
- * races are read.
+ * (d) A rival in the player's race, the incumbent first, campaigned harder
+ * after reading the player ahead: a `steppedUp` row (`campaignTurn` keeps
+ * `rivalDay`'s stepped-up day, `recordSteppedUp`) for a rival's filing in
+ * the player's contest, naming the player as the rival ahead, whose source
+ * is a `polls` or `rivalWord` row that exists, with hours or door hours
+ * gained. A race with no rival cannot show it, and the draw is missing; the
+ * town's other races never stand in for it.
  */
 function clauseSteppedUp(played: Played): Clause {
   const { api, core, me, contest } = played;
@@ -562,71 +584,64 @@ function clauseSteppedUp(played: Played): Clause {
       row.sourceKind === "poll" ? "polls" : "rivalWord",
       row.sourceRecordId,
     );
-  const gained = (row: SteppedUpRow) =>
-    (row.extraHours > 0 || row.extraDoorHours > 0) && sourceKept(row);
-  const rank = (row: SteppedUpRow) =>
-    (row.rivalId === me ? 0 : 2) + (row.candidateId === incumbent ? 0 : 1);
-  const order = (a: SteppedUpRow, b: SteppedUpRow) =>
-    rank(a) - rank(b) ||
-    a.date.localeCompare(b.date) ||
-    a.id.localeCompare(b.id);
-  const describe = (row: SteppedUpRow, scope: string) => {
-    const eventId = `${CAMPAIGN_STEPPED_UP_EVENT}:${row.id}`;
-    return `${scope}: steppedUp ${row.id} on ${row.date}, candidate ${row.candidateId}${row.candidateId === incumbent ? " (the incumbent)" : ""}, read ${row.sourceKind} ${row.sourceRecordId} naming ${row.rivalId === me ? "the player" : row.rivalId} ahead (own ${row.ownShare.toFixed(3)}, rival ${row.rivalShare.toFixed(3)}, threat ${row.threat.toFixed(3)}); extra hours ${row.extraHours.toFixed(2)}, extra door hours ${row.extraDoorHours.toFixed(2)}${row.cameHome ? ", came home to the town's doors" : ""}; record ${core.durableLog.has(eventId) ? eventId : "not kept in the log (outside the player's circle)"}`;
-  };
   const rivals = queryOf<FilingRow>(
     api,
     ELECTIONS_MODULE_ID,
     "filings",
     "byContest",
     contest.id,
-  ).filter((f) => f.personId !== me && f.status !== "withdrawn");
-  if (rivals.length) {
-    const rows = rivals
-      .flatMap((f) => steppedUpOf(api, f.id))
-      .filter(gained)
-      .sort(order);
-    if (rows[0])
-      return {
-        found: describe(
-          rows[0],
-          `in the player's race (${rows.length} readings stepped ${rivals.length} rivals up)`,
-        ),
-      };
+  ).filter(
+    (f) =>
+      f.personId !== me &&
+      (f.status === "on-ballot" || f.status === "petitioning"),
+  );
+  if (!rivals.length)
     return {
-      missing: `no rival in the player's race stepped up (incumbent ${incumbent ?? "none"}): ${rivals
-        .map((f) => {
-          const polls = queryOf<PollRow>(
-            api,
-            CAMPAIGNS_MODULE_ID,
-            "polls",
-            "byContest",
-            contest.id,
-          ).filter((p) => p.campaignId === f.id).length;
-          const word = queryOf<{ contestId?: string }>(
-            api,
-            CAMPAIGNS_MODULE_ID,
-            "rivalWord",
-            "byCandidate",
-            f.personId,
-          ).filter((r) => r.contestId === contest.id).length;
-          return `${f.id} (${f.personId}, ${f.status}): ${polls} polls, ${word} words of a rival, ${steppedUpOf(api, f.id).length} stepped-up rows`;
-        })
-        .join("; ")}`,
+      missing: `the player's race ${contest.id} had no rival to step up (incumbent ${incumbent ?? "none"})`,
+    };
+  const readings = rivals.flatMap((f) => steppedUpOf(api, f.id));
+  const rows = readings
+    .filter(
+      (row) =>
+        row.contestId === contest.id &&
+        row.rivalId === me &&
+        (row.extraHours > 0 || row.extraDoorHours > 0) &&
+        sourceKept(row),
+    )
+    .sort(
+      (a, b) =>
+        Number(b.candidateId === incumbent) -
+          Number(a.candidateId === incumbent) ||
+        a.date.localeCompare(b.date) ||
+        a.id.localeCompare(b.id),
+    );
+  const row = rows[0];
+  if (row) {
+    const eventId = `${CAMPAIGN_STEPPED_UP_EVENT}:${row.id}`;
+    return {
+      found: `in the player's race (${rows.length} readings of the player ahead stepped up ${new Set(rows.map((r) => r.candidateId)).size} of ${rivals.length} rivals): steppedUp ${row.id} on ${row.date}, candidate ${row.candidateId}${row.candidateId === incumbent ? " (the incumbent)" : ""}, read ${row.sourceKind} ${row.sourceRecordId} naming the player ahead (own ${row.ownShare.toFixed(3)}, the player ${row.rivalShare.toFixed(3)}, threat ${row.threat.toFixed(3)}); extra hours ${row.extraHours.toFixed(2)}, extra door hours ${row.extraDoorHours.toFixed(2)}${row.cameHome ? ", came home to the town's doors" : ""}; record ${core.durableLog.has(eventId) ? eventId : "not kept in the log"}`,
     };
   }
-  const elsewhere = rowsOf<SteppedUpRow>(api, CAMPAIGNS_MODULE_ID, "steppedUp")
-    .filter(gained)
-    .sort(order);
-  if (elsewhere[0])
-    return {
-      found: describe(
-        elsewhere[0],
-        `the player's race ${contest.id} had no rival, so another of the town's races`,
-      ),
-    };
+  const polls = queryOf<PollRow>(
+    api,
+    CAMPAIGNS_MODULE_ID,
+    "polls",
+    "byContest",
+    contest.id,
+  );
   return {
-    missing: `the player's race ${contest.id} had no rival, and no candidate in the town's other races stepped up`,
+    missing: `no rival in the player's race stepped up on reading the player ahead (incumbent ${incumbent ?? "none"}; ${readings.length} stepped-up rows in the race, ${readings.filter((r) => r.rivalId === me).length} naming the player): ${rivals
+      .map((f) => {
+        const word = queryOf<{ contestId?: string }>(
+          api,
+          CAMPAIGNS_MODULE_ID,
+          "rivalWord",
+          "byCandidate",
+          f.personId,
+        ).filter((r) => r.contestId === contest.id).length;
+        return `${f.id} (${f.personId}${f.personId === incumbent ? ", the incumbent" : ""}, ${f.status}): ${polls.filter((p) => p.campaignId === f.id).length} polls, ${word} words of a rival, ${steppedUpOf(api, f.id).length} stepped-up rows`;
+      })
+      .join("; ")}`,
   };
 }
 
