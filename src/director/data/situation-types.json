@@ -884,6 +884,60 @@
       "asked": "graduate"
     },
     {
+      "key": "no-diploma-home",
+      "note": "The day after the player's senior year ended without a diploma (the school engine's graduation result, not passed), someone they live with sits them down at home, scored on tie and sociability (circumstance row no-graduation-home). They say it isn't the end and ask what happened and what comes next; the reply is a scene reply the core's relationship writer reads as time together. The counterpart of diploma-home: a senior's year ends in one of the two, never neither.",
+      "roles": [
+        {
+          "key": "worried",
+          "fill": "household",
+          "count": "one",
+          "moves": ["comfort", "ask", "press", "thank", "promise", "accept"],
+          "wants": ["help-others", "engage"],
+          "bearing": "tender"
+        },
+        {
+          "key": "senior",
+          "fill": "subject",
+          "count": "one",
+          "moves": [
+            "tell",
+            "promise",
+            "apologize",
+            "decline",
+            "answer",
+            "thank"
+          ],
+          "wants": ["engage"],
+          "bearing": "anxious"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:no-graduation-home"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "school.finished",
+          "bind": {
+            "senior": "subject",
+            "worried": "counterpart"
+          },
+          "opener": "worried",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "no-diploma",
+        "endpoint": "personal",
+        "registers": ["scene-talk", "scene-words"]
+      },
+      "purpose": "no-diploma-home",
+      "asker": "worried",
+      "asked": "senior"
+    },
+    {
       "key": "gathering-missing",
       "roles": [
         {
