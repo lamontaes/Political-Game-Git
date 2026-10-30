@@ -5,6 +5,11 @@
   941
  ],
  "backdrop": "house-suburban-living__night.jpg",
+ "backdrops": [
+  "house-suburban-living__midday.jpg",
+  "house-suburban-living__morning.jpg",
+  "house-suburban-living__rain.jpg"
+ ],
  "spots": [
   {
    "id": "home-0",

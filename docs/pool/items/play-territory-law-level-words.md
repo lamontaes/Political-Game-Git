@@ -6,9 +6,9 @@ lead: play-first
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-territory-law-level-words
-pr:
+pr: #6850
 blocked-on:
 milestone: play-first
 source: CTO, Oct 29 Issues sweep (Puerto Real, Puerto Rico)
