@@ -56,7 +56,7 @@ describe("a treasury's outside money settles with the outside market", () => {
         );
         checked += 1;
         expect(
-          flow.incomingMinor + flow.outgoingMinor,
+          Number(flow.incomingMinor) + Number(flow.outgoingMinor),
           `${label}: ${employer.name} against budget ${budget.id}`,
         ).toBeLessThanOrEqual(adopted);
       }
@@ -64,7 +64,7 @@ describe("a treasury's outside money settles with the outside market", () => {
       // The treasuries' flows are on the market, far above any one employer's.
       const marketFlow = flows.get(market!.id)!;
       expect(
-        marketFlow.incomingMinor + marketFlow.outgoingMinor,
+        Number(marketFlow.incomingMinor) + Number(marketFlow.outgoingMinor),
         label,
       ).toBeGreaterThan(0);
     }
