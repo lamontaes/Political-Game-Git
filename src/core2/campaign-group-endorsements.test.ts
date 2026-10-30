@@ -107,6 +107,46 @@ const townRecord = (api: CoreAPI) =>
   };
 const townOf = (api: CoreAPI) => townRecord(api).townPlaceId;
 
+/**
+ * The stance a group's endorsement should name, read here from the group's
+ * stance and the campaign's platform rows: of the platform questions the
+ * group holds a position on and agrees with the candidate on (both
+ * positions on one side), the one where the product of the two is largest,
+ * ties to the lower question id, with the group's own position on it.
+ */
+function stanceEndorsedOn(
+  api: CoreAPI,
+  organizationId: string,
+  filingId: string,
+): { question: string; position: number } | null {
+  const group = organizedGroupsIn(api, townOf(api)).find(
+    (g) => g.organizationId === organizationId,
+  );
+  if (!group) return null;
+  const held = new Map(group.stance.map((s) => [s.question, s.position]));
+  const agreed = campaignFor(api, filingId)
+    .platform.flatMap((plank) => {
+      const own = held.get(plank.question);
+      return own !== undefined && own * plank.position > 0
+        ? [{ question: plank.question, own, product: own * plank.position }]
+        : [];
+    })
+    .sort(
+      (a, b) => b.product - a.product || (a.question < b.question ? -1 : 1),
+    );
+  return agreed[0]
+    ? { question: agreed[0].question, position: agreed[0].own }
+    : null;
+}
+
+/** A person's own endorsement event names no group's stance. */
+function expectNoStance(event: CoreEventInput | undefined, where: string) {
+  expect(event, where).toBeDefined();
+  expect(event!.facts?.organizationId, where).toBeUndefined();
+  expect(event!.facts, where).not.toHaveProperty("stanceQuestion");
+  expect(event!.facts, where).not.toHaveProperty("stancePosition");
+}
+
 const weeklyWork = (core: CoreState, id: string) =>
   [...(core.work.commitmentsByPerson.get(id) ?? [])]
     .map((c) => core.work.commitments.get(c)?.expectedWeeklyMinutes ?? 0)
@@ -328,13 +368,24 @@ describe("organizations that endorse and send volunteers", () => {
     expect(seen!.stance).toEqual([
       { question: cause.question, position: cause.side },
     ]);
-    // Anything said in public about the race, as any engine hears it.
+    // Anything said in public about the race, as any engine hears it, with
+    // the stance each group's endorsement should name, read the day it is said.
     const said: CoreEventInput[] = [];
+    const stanceSaid = new Map<
+      string,
+      { question: string; position: number } | null
+    >();
     api.subscribeEvents(
       "test:campaign-endorsed",
       ["campaign-endorsed"],
       (_api, event) => {
         said.push(event);
+        const org = event.facts?.organizationId;
+        if (org)
+          stanceSaid.set(
+            event.id,
+            stanceEndorsedOn(api, org, event.facts!.filingId!),
+          );
       },
     );
     // The campaign engine's turn comes on its own calendar.
@@ -371,6 +422,36 @@ describe("organizations that endorse and send volunteers", () => {
       organizationId: group.organizationId,
       speakerId: group.founderId,
     });
+    // Every group's endorsement names the stance it stands on: the group's
+    // own position on the platform question it agrees with the candidate on
+    // most, on its record and in its public event.
+    const groupSaid = said.filter((e) => e.facts?.organizationId);
+    expect(groupSaid.length, where).toBeGreaterThan(0);
+    const named: string[] = [];
+    for (const event of groupSaid) {
+      const expected = stanceSaid.get(event.id) ?? null;
+      expect(expected, `${where}: ${event.id} agrees on a question`).not.toBe(
+        null,
+      );
+      expect(event.facts!.stanceQuestion, `${where}: ${event.id}`).toBe(
+        expected!.question,
+      );
+      expect(event.facts!.stancePosition, `${where}: ${event.id}`).toBe(
+        String(expected!.position),
+      );
+      const kept = endorsementsOf(api, event.facts!.filingId!).find(
+        (r) => r.id === event.facts!.endorsementId,
+      );
+      expect(kept?.stance, `${where}: ${event.id}`).toEqual(expected);
+      named.push(
+        `${event.facts!.endorsementId} stands on ${event.facts!.stanceQuestion}=${event.facts!.stancePosition}`,
+      );
+    }
+    expect(row.stance).toEqual({
+      question: cause.question,
+      position: cause.side,
+    });
+    console.log(`${where}: group endorsements: ${named.join("; ")}`);
     // Every other member heard it as the group's endorsement, from its
     // speaker (a party chapter that also backed the candidate reaches its own
     // members the same way, under its chair's name).
@@ -424,6 +505,14 @@ describe("organizations that endorse and send volunteers", () => {
 
   it("a person a candidate asks leaves an answer record, a refusal as well as a yes", () => {
     const { core, api, where, pair } = setUp();
+    const said: CoreEventInput[] = [];
+    api.subscribeEvents(
+      "test:campaign-endorsed",
+      ["campaign-endorsed"],
+      (_api, event) => {
+        said.push(event);
+      },
+    );
     const candidate = core.people.get(pair.disagrees.personId)!;
     const asked = [...candidate.familyIds, ...candidate.knownIds]
       .filter((id) => core.people.get(id)?.alive)
@@ -443,6 +532,13 @@ describe("organizations that endorse and send volunteers", () => {
       expect(row!.id).toBe(`endorsement:${pair.disagrees.id}:${id}`);
       expect(row!.askerId).toBe(pair.disagrees.personId);
       expect(row!.answer).toBe(yes ? "yes" : "no");
+      // A person's own word stands on no group's stance.
+      expect(row!.stance).toBeNull();
+      if (yes)
+        expectNoStance(
+          said.find((e) => e.id === `campaign-endorsed:${row!.id}`),
+          `${where}: ${row!.id}`,
+        );
       expect([
         "agrees",
         "close-tie",
@@ -475,6 +571,14 @@ describe("organizations that endorse and send volunteers", () => {
     ]);
     const tieWeight = campaignParameter("endorsementTieWeight");
     const town = townOf(api);
+    const said: CoreEventInput[] = [];
+    api.subscribeEvents(
+      "test:campaign-endorsed",
+      ["campaign-endorsed"],
+      (_api, event) => {
+        said.push(event);
+      },
+    );
     const field = ballot(api, pair.agrees.contestId).filter(
       (f) => f.filedOn <= core.date,
     );
@@ -542,6 +646,13 @@ describe("organizations that endorse and send volunteers", () => {
     expect(answer.reason, where).toBe("close-tie");
     expect(answer.agreement).toBeLessThanOrEqual(0);
     expect(answer.tie).toBeGreaterThan(0);
+    // A person's own endorsement (asked, no group) names no stance.
+    expect(answer.askerId).toBe(pair.disagrees.personId);
+    expect(answer.stance).toBeNull();
+    expectNoStance(
+      said.find((e) => e.id === `campaign-endorsed:${answer.id}`),
+      `${where}: ${answer.id}`,
+    );
     // The campaign engine's turn: the group weighs the race and backs no one.
     advanceCore(
       core,
@@ -556,7 +667,7 @@ describe("organizations that endorse and send volunteers", () => {
       `${where}: ${group.organizationId} on ${cause.question}`,
     ).toEqual([]);
     console.log(
-      `${where}: ${group.organizationId} on ${cause.question} backed no one; ${friend!.id} backed a friend (${pair.disagrees.id}) as a close tie`,
+      `${where}: ${group.organizationId} on ${cause.question} backed no one; ${friend!.id} backed a friend (${pair.disagrees.id}) as a close tie; ${answer.id} names no stance`,
     );
   });
 });

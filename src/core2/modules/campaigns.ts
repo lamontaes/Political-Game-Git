@@ -344,6 +344,14 @@ export interface EndorsementRow {
   readonly reason: EndorsementReason;
   /** The platform question the endorser disagrees with most, if any. */
   readonly issue: string | null;
+  /**
+   * The stance a group's backing stands on: the group's own question and
+   * position on the platform question it agrees with the candidate on most,
+   * as it held it the day it weighed the race (`PlatformRead.agreesOn`), so
+   * the paper can say what a group with no name stands for. Null for a
+   * person's own word.
+   */
+  readonly stance: Stance | null;
   /** The rival campaign they back most (the one preferred, for prefers-rival). */
   readonly rivalFilingId: string | null;
   /** Their reasons, as numbers the English engine words. */
@@ -4038,18 +4046,23 @@ export function organizedGroupsIn(
 
 /**
  * How far a stance agrees with a platform, the question it disagrees with
- * most, and how many of the platform's questions it takes a side on.
+ * most, the holder's own stance on the question it agrees with most, and how
+ * many of the platform's questions it takes a side on.
  */
 interface PlatformRead {
   readonly agreement: number;
   readonly issue: string | null;
+  /** The holder's own position on the question they agree on most, or null where they agree on none. */
+  readonly agreesOn: Stance | null;
   readonly shared: number;
 }
 
 /**
  * Agreement of stated positions with a platform: the mean of position times
  * the platform's over the platform's questions the holder has a position on
- * (none in common, none either way), and the question they disagree on most.
+ * (none in common, none either way), the question they disagree on most,
+ * and the one they agree on most (the largest product above nothing, ties
+ * to the lower question id) with their own position on it.
  */
 function platformRead(
   platform: readonly Stance[],
@@ -4059,6 +4072,8 @@ function platformRead(
   let held = 0;
   let worst = 0;
   let issue: string | null = null;
+  let best = 0;
+  let agreesOn: Stance | null = null;
   for (const stance of platform) {
     const own = positionOn(stance.question);
     if (own === undefined) continue;
@@ -4069,8 +4084,23 @@ function platformRead(
       worst = part;
       issue = stance.question;
     }
+    if (
+      part > 0 &&
+      (part > best ||
+        (part === best &&
+          agreesOn !== null &&
+          stance.question < agreesOn.question))
+    ) {
+      best = part;
+      agreesOn = { question: stance.question, position: own };
+    }
   }
-  return { agreement: held ? clamp(sum / held) : 0, issue, shared: held };
+  return {
+    agreement: held ? clamp(sum / held) : 0,
+    issue,
+    agreesOn,
+    shared: held,
+  };
 }
 
 /** The campaigns of everyone standing in a contest who has filed by today. */
@@ -4184,6 +4214,8 @@ export function endorsementsOf(
 /**
  * Keep an endorsement answer, and when it is a yes, say it in public: the
  * core event the press, the scenes and the rival campaign read by its id.
+ * A group's yes names the stance it stands on (stanceQuestion and
+ * stancePosition), for the paper to say what a group with no name is for.
  */
 function keepEndorsement(api: CoreAPI, row: EndorsementRow): void {
   table(api, "endorsements").put(row as unknown as ModuleRow);
@@ -4209,6 +4241,12 @@ function keepEndorsement(api: CoreAPI, row: EndorsementRow): void {
       candidateId: row.candidateId,
       speakerId: row.speakerId,
       ...(row.organizationId ? { organizationId: row.organizationId } : {}),
+      ...(row.stance
+        ? {
+            stanceQuestion: row.stance.question,
+            stancePosition: String(row.stance.position),
+          }
+        : {}),
       agreement: String(row.agreement),
       tie: String(row.tie),
       score: String(row.score),
@@ -4245,6 +4283,8 @@ function endorsementRow(
     answer: w.yes ? "yes" : "no",
     reason: w.reason,
     issue: w.issue,
+    // A group speaks for its stance; a person's own word stands on no group's.
+    stance: input.organizationId !== null ? w.agreesOn : null,
     rivalFilingId: w.rival?.filingId ?? null,
     agreement: w.agreement,
     tie: w.tie,
