@@ -11,8 +11,9 @@
  * names no party for carries the research's; a term-limited state's
  * legislators' careers are capped by their own state's limit. After a played
  * year no outside holder has been filled in, and every other place's seat the
- * voting engine raced in the year (its legislators and its governor) is held
- * by its race's winner, at home in the office's own state. A winner of
+ * voting engine raced in the year through its one seat loop (its legislators,
+ * its governor and its other statewide officers) is held by its race's
+ * winner, at home in the office's own state. A winner of
  * another party is a new holder drawn from that state, and the town's law
  * reaches its own officeholders, never another place's.
  */
@@ -263,12 +264,12 @@ it(`every other place's chambers, governor and statewide executives sit as named
   ).toEqual([]);
 
   // Every outside seat whose election falls in the year, read at the
-  // opening, by the one seat rule: a legislative seat's own election year,
-  // an executive's (the governor and every other statewide officer) on the
-  // office's cycle. A place with no counted electorate (a territory) is not
-  // raced (SG-GOV-territory-legislature-race, SG-GOV-territory-governor-race),
-  // nor is an office elected without party labels
-  // (SG-GOV-outside-nonpartisan-race).
+  // opening, by the one seat rule the voting engine races every outside
+  // seat by: the seat's own election year, else the office's cycle (a
+  // legislator, the governor and every other statewide officer alike). A
+  // place with no counted electorate (a territory) is not raced
+  // (SG-GOV-territory-legislature-race), nor is an office elected without
+  // party labels (SG-GOV-outside-nonpartisan-race).
   const opensIn = year(opening);
   const counted = new Map<string, boolean>();
   const isCounted = (key: string) => {
