@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { stableHash } from "./kernel/ids";
-import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { corePlaceStateIdentities } from "./place-lookup";
 import { createLifeCore } from "./life";
 import {
@@ -326,5 +326,47 @@ describe("political views", () => {
     expect(cause!.count).toBe(heard);
     total = cause!.total!;
     expect(total).toBeGreaterThan(cause!.change);
+  });
+
+  it("keeps a year of a circle stance's causes and the newest, and every speaker's wear-out", () => {
+    const { core, api, adults } = towns[1]!;
+    const [first, second, third, listener] = adults.slice(6);
+    core.focusPersonIds.add(listener!.id);
+    const start = makeIsoDate(core.date);
+    const hear = (id: string, speaker: typeof first, days: number) => {
+      core.date = addDays(start, days);
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind: "fixture.case-made",
+        personIds: [speaker!.id],
+        witnessIds: [listener!.id],
+        placeId: speaker!.placeId,
+        topic: "fixture:window",
+        desiredChange: "raise-it",
+        moodImpulse: -0.3,
+        source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
+      });
+    };
+    try {
+      hear("fixture-window-0", first, 0);
+      hear("fixture-window-200", second, 200);
+      hear("fixture-window-400", third, 400);
+    } finally {
+      core.date = start;
+    }
+    const [stance] = stancesOf(api, listener!.id).filter(
+      (row) => row.topic === "fixture:window",
+    );
+    // The first speaker's case is past the year (stanceCauseKeptDays) when
+    // the third moves the stance; the second's is inside it; the third is the
+    // newest. Every speaker still counts toward the wear-out.
+    expect(stance!.causes.map((cause) => cause.eventId)).toEqual([
+      "fixture-window-200",
+      "fixture-window-400",
+    ]);
+    expect(Object.keys(stance!.heard ?? {}).sort()).toEqual(
+      [first!.id, second!.id, third!.id].sort(),
+    );
   });
 });
