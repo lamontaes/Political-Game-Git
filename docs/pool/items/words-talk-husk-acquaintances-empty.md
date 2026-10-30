@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/kin-family-news
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T03:54:59.510Z
 ---
 
 **What.** Most of the people the player knows at the start are husks: relatives living elsewhere, kept minimal until met (core-od-fill-in-outside-kin). A talk with nothing on record between the two says nothing, greeting included (owner, Oct 24: "Hello and goodbye with nothing between is not a talk"; openConversation in src/director/conversation.ts), and between the player and a husk nothing is on record, so every such talk opens empty: 12 of the 14 people the player knew in Lordship, Connecticut. Promoting a husk to a full person does not change it (red main's probe, Oct 30). Relatives have the family to talk about: the household both belong to, a parent's or sibling's job, a move, a birth, a death, a wedding, from the kin and household records the core already keeps. The talk's subjects (subjectsBetween, mainTopic) should offer those, worded from the conversation bank.
