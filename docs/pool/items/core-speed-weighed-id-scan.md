@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: speed/weighed-id-counter
 pr: #6889
 blocked-on:

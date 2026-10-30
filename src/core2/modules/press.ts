@@ -67,7 +67,6 @@ import { promisesOf, votesOf } from "./record";
 import { partySide } from "../appointments";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
-import { familyRelation } from "../closeness";
 import {
   awardsOn,
   CONTRACTS_MODULE_ID,
@@ -108,8 +107,12 @@ import { countedJobHeads, countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "./crime";
-import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
-import { SCHOOL_MEASURE } from "../school-outcomes";
+import {
+  familyRelation,
+  SCHOOL_MEASURE,
+  SCHOOL_MODULE_ID,
+  type SchoolMeasureRow,
+} from "./people";
 import {
   archiveItem,
   closeness,

@@ -105,6 +105,9 @@ try {
       .catch(() => false);
   }
   assert.ok(atCounter, "no place in Travel takes filings");
+  // The narrator sets the counter up first, alone; Continue, then the clerk.
+  const next = page.locator("#talk-next");
+  if (await next.isVisible().catch(() => false)) await next.click();
   await page.locator("#talk-choices button").first().click();
   await page
     .locator("#talk-choices button", { hasText: /file for this office/i })

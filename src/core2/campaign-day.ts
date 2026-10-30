@@ -17,6 +17,7 @@ import { residentsRuntime } from "./modules/residents";
 import { campaignParameter } from "./campaign-views";
 import {
   CAMPAIGNS_MODULE_ID,
+  causeSummariesOf,
   donationAnswer,
   type DonationWhy,
   unitPrice,
@@ -404,6 +405,22 @@ export function contestStanding(
     >();
     // Each voter's warmth moved by the sum of what every act did to it.
     const moved = new Map<string, number>();
+    // Closed races' causes, folded with the same sums in the same order.
+    for (const summary of causeSummariesOf(api, filing.personId)) {
+      for (const [act, count] of Object.entries(summary.acts)) {
+        const entry = acts.get(act) ?? {
+          act,
+          reached: 0,
+          warmer: 0,
+          cooler: 0,
+        };
+        entry.reached += count.reached;
+        entry.warmer += count.warmer;
+        entry.cooler += count.cooler;
+        acts.set(act, entry);
+      }
+      moved.set(summary.voterId, summary.moved);
+    }
     for (const row of rows) {
       const entry = acts.get(row.act) ?? {
         act: row.act,

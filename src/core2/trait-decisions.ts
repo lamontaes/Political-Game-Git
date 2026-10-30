@@ -312,8 +312,13 @@ function keepWeighing(
   });
   const yes = bare + term > zero;
   const base = `weighed:${c.date}:${decisionId}:${id}`;
-  let recordId = base;
-  for (let n = 2; c.durableLog.has(recordId); n++) recordId = `${base}:${n}`;
+  // The first free of base, base:2, base:3...: start past the last one this
+  // day found taken, since the log never drops a record the day it is made.
+  const taken = takenToday(c);
+  const known = taken.get(base);
+  let n = known && c.durableLog.has(weighedId(base, known)) ? known + 1 : 1;
+  while (c.durableLog.has(weighedId(base, n))) n++;
+  const recordId = weighedId(base, n);
   retainLog(
     c,
     {
@@ -355,7 +360,23 @@ function keepWeighing(
     },
     keepAll,
   );
-  return c.durableLog.has(recordId) ? recordId : undefined;
+  if (!c.durableLog.has(recordId)) return undefined;
+  taken.set(base, n);
+  return recordId;
+}
+
+const weighedId = (base: string, n: number) =>
+  n === 1 ? base : `${base}:${n}`;
+// The last weighed id each base took today, by world, reset each day.
+const weighedToday = new WeakMap<
+  CoreState,
+  { date: string; taken: Map<string, number> }
+>();
+function takenToday(core: CoreState): Map<string, number> {
+  let today = weighedToday.get(core);
+  if (today?.date !== core.date)
+    weighedToday.set(core, (today = { date: core.date, taken: new Map() }));
+  return today.taken;
 }
 
 /**
