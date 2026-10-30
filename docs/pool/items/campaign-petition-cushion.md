@@ -9,7 +9,8 @@ status: claimed
 claimed-by: governing/petition-cushion
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 30 (measurement: petitions found short)
+lead: governing
 claimed-at: 2026-10-30T02:09:38.972Z
 ---
 
