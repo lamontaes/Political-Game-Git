@@ -26,20 +26,14 @@ import { pager } from "./ui/pager.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
 import { section } from "./ui/section.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
-import { plate, factPlates, chips } from "./ui/plate.mjs";
+import { plate, factPlates, chips, plateRow } from "./ui/plate.mjs";
 import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
-import {
-  listRow,
-  personRow,
-  factRow,
-  noteLine,
-  withNotes,
-} from "./ui/list-row.mjs";
-import { fillArtwork } from "./ui/picture.mjs";
-import { barChart } from "./ui/chart.mjs";
+import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
+import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
+import { barChart, columnChart, donutChart } from "./ui/chart.mjs";
 import {
   select,
   searchBox,
@@ -348,6 +342,8 @@ let governmentState = "";
 let governmentBranch;
 // The subject the Issues tab shows (Taxes and money, Schools...).
 let issueSubject;
+// The party whose officeholders the Parties tab shows.
+let partyTab;
 let guideQuery = "";
 // Each civic term and its one-line definition.
 let guideTerms = new Map();
@@ -1280,7 +1276,8 @@ function partyRows(party) {
     });
     b.addEventListener("click", async () => {
       await post(`/api/party/join?${new URLSearchParams({ partyId: p.id })}`);
-      openSheet("politics");
+      // Back to Parties, where joining happens, to show the new membership.
+      openSheet("parties");
     });
     return b;
   });
@@ -1420,7 +1417,12 @@ async function campaignRows() {
             .filter(Boolean)
             .join(" · "),
         ),
-        `${controls.campaignResults.raised.replace("{amount}", moneyWords(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", moneyWords(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}`,
+        `${controls.campaignResults.raised.replace("{amount}", moneyWords(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", moneyWords(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}${
+          // The endorsements given, from the campaign's endorsement records.
+          campaign.endorsements
+            ? ` · ${(campaign.endorsements === 1 ? controls.campaignEndorsements.one : controls.campaignEndorsements.other).replace("{n}", String(campaign.endorsements))}`
+            : ""
+        }`,
         buttonRow(
           ...(outings ?? []).map((choice) => {
             // A grayed outing says why, from the records.
@@ -2297,10 +2299,37 @@ async function seatRows() {
 /** The Kit 13 calendar icon a kind of dated record is drawn with. */
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
+/** The player's own history, oldest first: the reader every person's card uses. */
+async function ownHistory() {
+  const card = await api(
+    `/api/known?${new URLSearchParams({ id: me.id, other: me.id })}`,
+  );
+  return card.history ?? [];
+}
+/** History lines down a timeline of `rows` a page, paged by years. */
+function lifeTimeline(lines, rows) {
+  return timeline({
+    entries: lines.map((h) => ({
+      year: h.date.slice(0, 4),
+      text: h.text,
+      kind: h.kind,
+      recordId: h.recordId,
+    })),
+    rows,
+    words: {
+      previous: controls.person.earlier,
+      next: controls.person.later,
+    },
+  });
+}
 function portraitUrl() {
+  // The created look when there is one; else the figure the scene draws you
+  // with, or the one your card's face is cut from (a life started anywhere
+  // but the creator, who is not standing in their own scene).
   return me.portrait
     ? `/api/portrait?id=${encodeURIComponent(me.id)}`
-    : me.scene?.people.find((p) => p.personId === me.id)?.figureUrl;
+    : (me.scene?.people.find((p) => p.personId === me.id)?.figureUrl ??
+        me.card?.face?.url);
 }
 /** A record image has no substitute when its producer has not supplied one. */
 
@@ -2328,29 +2357,10 @@ const sheets = {
         ],
       });
     }
-    // Who joined or left the player's five closest this year, each with the
-    // record that changed the tie; one who left and is no longer among the
-    // card's ties is still drawn, marked.
-    const circle = me.card.circle ?? { joined: [], left: [] };
-    const change = new Map([
-      ...circle.joined.map((c) => [c.personId, { ...c, mark: "joined" }]),
-      ...circle.left.map((c) => [c.personId, { ...c, mark: "left" }]),
-    ]);
-    for (const c of circle.left)
-      if (!records.has(c.personId))
-        records.set(c.personId, {
-          personId: c.personId,
-          name: c.name,
-          groups: [],
-        });
-    // Changed ties first, so the first page shows them.
-    const people = [...records.values()].sort(
-      (a, b) => Number(change.has(b.personId)) - Number(change.has(a.personId)),
-    );
+    const people = [...records.values()];
     return peopleWeb({
       people,
       household,
-      change,
       self: {
         name: me.card.name,
         face: me.card.face,
@@ -2359,7 +2369,11 @@ const sheets = {
       },
       inRoom: new Set((me.scene?.people ?? []).map((p) => p.personId)),
       labels,
-      dateText: dateWords,
+      pageWords: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
+      },
       onCard: (person) => {
         closeSheet();
         showPerson(person);
@@ -2379,44 +2393,74 @@ const sheets = {
       (c.view && controls.leanWords?.[c.view]
         ? [{ text: controls.leanWords[c.view] }]
         : []);
-    // What you're like, in plain sentences, never the traits' names (owner, Oct 27);
-    // the record sections side by side under it, as a character sheet.
+    // The Oct 14 mock on framed plates: your figure framed at the left (the
+    // sheet's media slot); what you're like in plain sentences, never the
+    // traits' names (owner, Oct 27); small plates for home, work, school and
+    // cash; the people at home as face cards; your views as small plates.
+    const school = c.schools?.length ? c.schools.at(-1) : null;
+    const members = (c.home?.members ?? []).map((member) =>
+      memberCard({
+        name: member.name,
+        line: member.relation
+          ? member.relation.charAt(0).toUpperCase() + member.relation.slice(1)
+          : "",
+        face: member.face,
+        onOpen: () => {
+          closeSheet();
+          showPerson(member);
+        },
+      }),
+    );
     return recordScreen({
       heading: {
         name: c.name,
         meta: `${labels.age} ${c.age} · ${labels.born} ${born}`,
       },
       lede: c.sketch,
-      grid: true,
       sections: [
         {
-          title: c.age < 18 ? labels.householdHome : labels.home,
           items: [
-            { text: c.home?.placeName ?? me.placeName },
             {
-              people: (c.home?.members ?? []).map((member) => ({
-                name: member.name,
-                note: member.relation,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson(member);
-                },
-              })),
+              node: factPlates(
+                [
+                  {
+                    title: c.age < 18 ? labels.householdHome : labels.home,
+                    value: c.home?.placeName ?? me.placeName,
+                  },
+                  c.job && {
+                    title: labels.work,
+                    value: c.job.title,
+                    note: c.job.employer ?? "",
+                  },
+                  school && { title: labels.school, value: school.name },
+                  {
+                    title: labels.money,
+                    value: roundedMoney(c.liquidMinor),
+                  },
+                ].filter(Boolean),
+              ),
             },
           ],
         },
-        c.job && {
-          title: labels.work,
+        members.length && {
+          title: labels.family,
           items: [
-            { text: c.job.title, tone: "feature" },
-            { text: c.job.employer ?? "" },
+            {
+              node: pager({
+                items: members,
+                render: (card) => card,
+                rows: 2,
+                columns: 3,
+                rowHeight: 64,
+                gap: 8,
+                words: {
+                  page: controls.politics.page,
+                  previous: controls.politics.previousPage,
+                  next: controls.politics.nextPage,
+                },
+              }),
+            },
           ],
-        },
-        c.schools?.length && {
-          title: labels.school,
-          items: [...c.schools].reverse().map((school) => ({
-            text: school.name,
-          })),
         },
         views.length && {
           title: labels.views,
@@ -2429,10 +2473,6 @@ const sheets = {
             },
           ],
         },
-        {
-          title: labels.money,
-          items: [{ text: moneyWords(c.liquidMinor), tone: "feature" }],
-        },
       ].filter(Boolean),
     });
   },
@@ -2442,8 +2482,6 @@ const sheets = {
       api(`/api/bank?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.money;
-    const facts = (pairs) =>
-      pairs.map(([label, value]) => ({ node: row(label, value) }));
     const dwelling = me.card.dwelling;
     const deductions = Object.entries(budget.withholding?.byLine ?? {});
     // Cash, spending, assets and debts: the ledger's, the credit engine's and
@@ -2454,126 +2492,195 @@ const sheets = {
       asked > paid
         ? `${moneyWords(paid)} ${labels.loanPaid} · ${moneyWords(asked - paid)} ${labels.unpaid}`
         : moneyWords(paid);
-    return recordScreen({
-      grid: true,
-      sections: [
-        {
-          title: labels.cash,
-          items: [{ text: moneyWords(me.card.liquidMinor), tone: "title" }],
-        },
-        dwelling && {
-          title: me.card.age < 18 ? labels.householdHome : labels.home,
-          items: [
-            dwelling.presentation?.imageUrl && {
-              picture: dwelling.presentation.imageUrl,
-            },
-            { text: words(dwelling.kind ?? "") },
-            ...facts([
-              [
-                labels.tenure,
-                dwelling.tenure === "own" ? labels.owned : labels.rented,
-              ],
-              ...(dwelling.rentMinor !== undefined
-                ? [
-                    [
-                      labels.rent,
-                      `${moneyWords(dwelling.rentMinor)} ${labels.monthly}`,
-                    ],
-                  ]
-                : []),
-            ]),
-          ],
-        },
-        bank?.cash?.months?.length && {
-          title: labels.cashByMonth,
-          items: facts(
-            bank.cash.months.map((entry) => [
-              monthWords(entry.date),
-              moneyWords(entry.cashMinor),
-            ]),
-          ),
-        },
-        (bank?.spending?.length || bank?.loanPayments?.length) && {
-          title: labels.lastMonth,
-          items: facts([
-            ...(bank.spending ?? []).map((line) => [
-              named(labels.reasons, line.reasonKey),
-              owedWords(line.paidMinor, line.requestedMinor),
-            ]),
-            ...(bank.loanPayments ?? []).map((payment) => [
-              `${labels.loanPayments} · ${dateWords(payment.date, { year: false })}`,
-              owedWords(payment.paidMinor, payment.dueMinor),
-            ]),
-          ]),
-        },
-        bank?.assets?.length && {
-          title: labels.assets,
-          items: facts(
-            bank.assets.map((asset) => [
-              asset.kind === "savings"
-                ? `${labels.assetKinds.savings} · ${bank.name}`
-                : labels.assetKinds[asset.kind],
-              moneyWords(asset.valueMinor),
-            ]),
-          ),
-        },
-        bank?.debts?.length && {
-          title: labels.debts,
-          items: facts(
-            bank.debts.map((debt) => [
-              named(labels.debtKinds, debt.kind),
-              debt.pastDueMinor > 0
-                ? `${moneyWords(debt.owedMinor)} · ${moneyWords(debt.pastDueMinor)} ${labels.pastDue}`
-                : moneyWords(debt.owedMinor),
-            ]),
-          ),
-        },
-        deductions.length && {
-          title: labels.deductions,
-          items: facts(
-            deductions.map(([name, value]) => [words(name), moneyWords(value)]),
-          ),
-        },
-      ].filter(Boolean),
-    });
+    // The Money mock (Oct 14) on framed plates: the cash in large type with
+    // each month's review as columns under it, where last month went as a
+    // ring, and the home, what you own and what you owe as small plates
+    // beside it. Every figure is a record's own; nothing scrolls.
+    const shortMonth = (date) =>
+      (MONTH_NAMES[Number(String(date).slice(5, 7)) - 1] ?? "").slice(0, 3);
+    const months = [...(bank?.cash?.months ?? [])].reverse();
+    const spent = [
+      ...(bank?.spending ?? []).map((line) => ({
+        label: named(labels.reasons, line.reasonKey),
+        value: line.paidMinor,
+        unpaid: line.requestedMinor - line.paidMinor,
+      })),
+      ...(bank?.loanPayments ?? []).map((payment) => ({
+        label: labels.loanPayments,
+        value: payment.paidMinor,
+        unpaid: payment.dueMinor - payment.paidMinor,
+      })),
+    ]
+      .filter((part) => part.value > 0 || part.unpaid > 0)
+      .sort((a, b) => b.value - a.value);
+    const spentTotal = spent.reduce((n, part) => n + part.value, 0);
+    // The bank's figures are the household's; said so when you share it.
+    const shared = (me.card.home?.members ?? []).length > 0;
+    const homeValue = bank?.assets?.find((a) => a.kind === "home")?.valueMinor;
+    const owned = (bank?.assets ?? []).filter((a) => a.kind !== "home");
+    const unpaid = spent.filter((part) => part.unpaid > 0);
+    const cash = plate(
+      bank?.name ? `${labels.cash} · ${bank.name}` : labels.cash,
+      line(roundedMoney(me.card.liquidMinor), "money-figure"),
+      ...(months.length
+        ? [
+            columnChart(
+              months.map((m) => ({
+                label: shortMonth(m.date),
+                value: m.cashMinor,
+              })),
+              shared ? labels.householdCashByMonth : labels.cashByMonth,
+              roundedMoney,
+            ),
+          ]
+        : []),
+    );
+    cash.classList.add("money-cash");
+    const home = dwelling && {
+      title: me.card.age < 18 ? labels.householdHome : labels.home,
+      nodes: [
+        ...(dwelling.presentation?.imageUrl
+          ? [
+              pictureFrame({
+                src: dwelling.presentation.imageUrl,
+                className: "money-home-picture",
+              }),
+            ]
+          : []),
+        factPlates([
+          {
+            title: dwelling.tenure === "own" ? labels.owned : labels.rented,
+            value: words(dwelling.kind ?? ""),
+            // A home you own is worth its value; one you rent costs its rent.
+            note:
+              dwelling.tenure === "own" && homeValue
+                ? `${labels.worth} ${roundedMoney(homeValue)}`
+                : dwelling.rentMinor !== undefined
+                  ? `${labels.rent} ${roundedMoney(dwelling.rentMinor)} ${labels.monthly}`
+                  : "",
+          },
+        ]),
+      ],
+    };
+    return [
+      splitScreen({
+        main: [
+          cash,
+          ...(home ? [plate(home.title, ...home.nodes)] : []),
+          ...(deductions.length
+            ? [
+                plate(
+                  labels.deductions,
+                  ...deductions.map(([name, value]) =>
+                    row(words(name), moneyWords(value)),
+                  ),
+                ),
+              ]
+            : []),
+        ],
+        side: [
+          spent.length && {
+            title: `${shared ? labels.householdLastMonth : labels.lastMonth} · ${roundedMoney(spentTotal)}`,
+            nodes: [
+              donutChart(spent, roundedMoney(spentTotal), labels.lastMonth),
+              // A bill left unpaid is said, never folded into the ring.
+              ...unpaid.map((part) =>
+                row(
+                  part.label,
+                  owedWords(part.value, part.value + part.unpaid),
+                ),
+              ),
+            ],
+          },
+          owned.length && {
+            title: labels.assets,
+            nodes: [
+              factPlates(
+                owned.map((asset) => ({
+                  title:
+                    asset.kind === "savings"
+                      ? `${labels.assetKinds.savings} · ${bank.name}`
+                      : labels.assetKinds[asset.kind],
+                  value: roundedMoney(asset.valueMinor),
+                })),
+              ),
+            ],
+          },
+          bank?.debts?.length && {
+            title: labels.debts,
+            nodes: [
+              factPlates(
+                bank.debts.map((debt) => ({
+                  title: named(labels.debtKinds, debt.kind),
+                  value: roundedMoney(debt.owedMinor),
+                  note:
+                    debt.pastDueMinor > 0
+                      ? `${roundedMoney(debt.pastDueMinor)} ${labels.pastDue}`
+                      : "",
+                })),
+              ),
+            ],
+          },
+        ].filter(Boolean),
+        className: "money-screen",
+      }),
+    ];
   },
   async jobs() {
+    // The Oct 14 mock on framed plates: your job with its workplace's
+    // painting, its title in the name type, pay and hours; beside it the work
+    // and school of your life as a timeline, from the one history every
+    // card reads. Never a scroll.
     const labels = controls.jobs;
     const job = me.card.job;
-    return recordScreen({
-      sections: [
-        {
-          title: labels.work,
-          items: job
-            ? [
-                job.presentation?.imageUrl && {
-                  picture: job.presentation.imageUrl,
-                },
-                { text: job.title, tone: "title" },
-                { text: job.employer ?? "", tone: "feature" },
-                {
-                  stats: [
-                    [
-                      labels.pay,
-                      `${moneyWords(job.wageDailyMinor)} ${labels.daily}`,
-                    ],
-                    [
-                      labels.hours,
-                      `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
-                    ],
-                  ],
-                },
-              ]
-            : [{ text: labels.noJob, tone: "empty" }],
-        },
-        {
-          title: labels.study,
-          items: [...(me.card.schools ?? [])]
-            .reverse()
-            .map((s) => ({ fact: [s.date.slice(0, 4), s.name] })),
-        },
-      ],
-    });
+    const life = await ownHistory();
+    const worked = life.filter((h) => h.kind === "work" || h.kind === "school");
+    const work = plate(
+      labels.work,
+      ...(job
+        ? [
+            ...(job.presentation?.imageUrl
+              ? [
+                  pictureFrame({
+                    src: job.presentation.imageUrl,
+                    className: "job-picture",
+                  }),
+                ]
+              : []),
+            heading(job.title, "h3"),
+            ...(job.employer ? [prose(job.employer, "job-employer")] : []),
+            row(
+              labels.pay,
+              `${moneyWords(job.wageDailyMinor)} ${labels.daily}`,
+            ),
+            row(
+              labels.hours,
+              `${Number(job.hoursDaily.toFixed(1))} ${labels.daily}`,
+            ),
+          ]
+        : [prose(labels.noJob, "record-empty")]),
+    );
+    work.classList.add("job-plate");
+    return [
+      work,
+      ...(worked.length
+        ? [plate(labels.workAndSchool, lifeTimeline(worked, 4))]
+        : []),
+    ];
+  },
+  // Your own life as a timeline (owner, Oct 29: a history is a "Vertical
+  // timeline"), the same lines a person's card tells of anyone you open.
+  async history() {
+    const life = await ownHistory();
+    return [
+      plate(
+        null,
+        lifeTimeline(
+          life,
+          Math.max(3, Math.floor((window.innerHeight - 300) / 64)),
+        ),
+      ),
+    ];
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -2651,7 +2758,7 @@ const sheets = {
       },
     });
     const gov = chosen ?? view.governments[0];
-    if (!gov?.latest) return recordScreen({ controls: [pick], sections: [] });
+    if (!gov?.latest) return [splitScreen({ controls: [pick] })];
     const latest = gov.latest;
     // What the treasury actually took in and paid out, from its journal,
     // beside the plan: a treasury gone wrong shows here.
@@ -2674,43 +2781,50 @@ const sheets = {
             },
           }))
         : [];
-    const chart = (label, lines, withSteps) => ({
-      title: label,
-      items: [
-        {
-          node: barChart(
-            lines.map((r) => ({
-              label: r.name ?? r.line,
-              value: r.minor,
-              steps: withSteps ? steps(r) : [],
-            })),
-            label,
-            roundedMoney,
+    // The Budget mock (Oct 14) on framed plates: the government, its year and
+    // its total in the name type with when and how it was adopted; where the
+    // money comes from and where it goes as rings with amounts (the seven
+    // largest lines and the rest as one); the treasury's books beside them;
+    // and an executive's own spending priorities to step up or down.
+    const largest = (lines) => {
+      const sorted = [...lines].sort((a, b) => b.minor - a.minor);
+      const rest = sorted.slice(7).reduce((n, r) => n + r.minor, 0);
+      return [
+        ...sorted
+          .slice(0, 7)
+          .map((r) => ({ label: r.name ?? r.line, value: r.minor })),
+        ...(rest > 0 ? [{ label: labels.otherLines, value: rest }] : []),
+      ];
+    };
+    const ring = (title, lines, total) =>
+      plate(
+        title,
+        donutChart(largest(lines), roundedMoney(total), title, roundedMoney),
+      );
+    const overBudget = books && books.paidOutMinor > latest.spendingMinor;
+    return [
+      splitScreen({
+        controls: [pick],
+        main: [
+          line(
+            `${gov.name} · ${labels.fiscalYear} ${latest.fiscalYear} · ${roundedMoney(latest.spendingMinor)}`,
+            "budget-title",
           ),
-        },
-      ],
-    });
-    return recordScreen({
-      controls: [pick],
-      grid: true,
-      sections: [
-        {
-          title: `${gov.name} · ${latest.fiscalYear}`,
-          wide: true,
-          items: [
-            {
-              text: [
-                `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
-                books
-                  ? `${labels.booksSince} ${dateWords(books.since)}`
-                  : labels.noBooks,
-              ].join(" · "),
-              tone: "small",
-            },
-            {
-              stats: [
-                [labels.revenue, latest.revenueMinor],
-                [labels.spending, latest.spendingMinor],
+          prose(
+            [
+              `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
+              latest.adoptedBy,
+            ]
+              .filter(Boolean)
+              .join(", "),
+            "budget-adopted",
+          ),
+          plateRow(
+            ring(labels.comesFrom, latest.revenue, latest.revenueMinor),
+            ring(labels.goesTo, latest.spending, latest.spendingMinor),
+            plate(
+              labels.books,
+              ...[
                 [labels.balance, latest.balanceMinor],
                 ...(books
                   ? [
@@ -2719,19 +2833,38 @@ const sheets = {
                       [labels.cashOnHand, books.cashMinor],
                     ]
                   : []),
-              ].map(([label, value]) => [label, roundedMoney(value)]),
-            },
-            books &&
-              books.paidOutMinor > latest.spendingMinor && {
-                text: labels.overBudget,
-                tone: "warning",
-              },
-          ],
-        },
-        chart(labels.revenue, latest.revenue, false),
-        chart(labels.spending, latest.spending, true),
-      ],
-    });
+              ].map(([label, value]) => row(label, roundedMoney(value))),
+              prose(
+                books
+                  ? `${labels.booksSince} ${dateWords(books.since)}`
+                  : labels.noBooks,
+                "small",
+              ),
+              ...(overBudget
+                ? [prose(labels.overBudget, "record-warning")]
+                : []),
+            ),
+          ),
+          ...(gov.youAreExecutive
+            ? [
+                plate(
+                  labels.priorities,
+                  barChart(
+                    latest.spending.map((r) => ({
+                      label: r.name ?? r.line,
+                      value: r.minor,
+                      steps: steps(r),
+                    })),
+                    labels.priorities,
+                    roundedMoney,
+                  ),
+                ),
+              ]
+            : []),
+        ],
+        className: "budget-screen",
+      }),
+    ];
   },
   async calendar() {
     const { date: recordDate, items } = await api(
@@ -2785,43 +2918,177 @@ const sheets = {
       }),
     ];
   },
+  // The Guide as an encyclopedia page (owner, Oct 29: every menu like
+  // Government, never blocks of text): the terms as cards on a plate, paged
+  // two across, and the chosen term's article beside them; the search narrows
+  // the cards as it is typed.
   async guide() {
-    return listScreen({
-      search: {
-        value: guideQuery,
-        placeholder: controls.guide.search,
-        onQuery: (query) => (guideQuery = query),
-      },
-      entries: async (query) => {
-        const terms = await api(`/api/guide?q=${encodeURIComponent(query)}`);
-        return terms.map((t) => ({
-          title: t.term,
-          lede: t.short,
-          lines: [t.explanation, t.contextNote],
-          opens: true,
-          open: terms.length === 1,
-        }));
+    let terms = await api(`/api/guide?q=${encodeURIComponent(guideQuery)}`);
+    let chosen = terms[0]?.key;
+    const cards = plate(null);
+    const article = plate(null);
+    article.classList.add("pick-article");
+    const drawArticle = () => {
+      const t = terms.find((term) => term.key === chosen) ?? terms[0];
+      // The chosen card is marked, as a chosen tab is.
+      for (const card of cards.querySelectorAll("[data-term]"))
+        card.classList.toggle("on", card.dataset.term === t?.key);
+      article.replaceChildren(
+        ...(t
+          ? [
+              heading(t.term, "h3"),
+              prose(t.short, "guide-short"),
+              ...[t.explanation, t.contextNote]
+                .filter(Boolean)
+                .map((text) => prose(text, "article-text")),
+            ]
+          : []),
+      );
+    };
+    const drawCards = () => {
+      cards.replaceChildren(
+        terms.length
+          ? pager({
+              items: terms.map((t) => ({
+                title: t.term,
+                lede: t.short,
+                label: t.term,
+                onSelect: () => {
+                  chosen = t.key;
+                  drawArticle();
+                },
+                data: { term: t.key },
+              })),
+              render: listEntry,
+              rows: Math.max(
+                3,
+                Math.min(8, Math.floor((window.innerHeight - 300) / 76)),
+              ),
+              columns: 2,
+              rowHeight: 68,
+              gap: 8,
+              words: {
+                page: controls.politics.page,
+                previous: controls.politics.previousPage,
+                next: controls.politics.nextPage,
+              },
+              className: "pick-cards",
+            })
+          : prose(controls.guide.none ?? "", "record-empty"),
+      );
+    };
+    const search = searchBox({
+      value: guideQuery,
+      placeholder: controls.guide.search,
+      onInput: async (text) => {
+        guideQuery = text;
+        const found = await api(`/api/guide?q=${encodeURIComponent(text)}`);
+        // A slower answer to an older query never replaces a newer one.
+        if (text !== guideQuery) return;
+        terms = found;
+        if (!terms.some((t) => t.key === chosen)) chosen = terms[0]?.key;
+        drawCards();
+        drawArticle();
       },
     });
+    search.setAttribute("aria-label", controls.guide.search ?? "");
+    drawCards();
+    drawArticle();
+    return [
+      splitScreen({
+        controls: [search],
+        main: [cards],
+        side: [{ title: null, nodes: [article] }],
+        className: "guide-screen",
+      }),
+    ];
   },
   /**
-   * The title's Patch notes: the release machinery's file, one release a page,
-   * newest first (owner, Oct 28: "No reason anymore; get them in").
+   * The title's Patch notes: the release machinery's file, one release at a
+   * time, newest first (owner, Oct 28: "No reason anymore; get them in"). As
+   * the Guide: the release's changes as headline cards on a plate, the chosen
+   * change in full beside them, never a wall to scroll (owner, Oct 29).
    */
   async patchNotes() {
     const { releases } = await api("/api/patch-notes");
-    return recordScreen({
-      sections: releases.map((release) => ({
-        title: release.title,
-        items: [
-          release.released && { text: release.released, tone: "small" },
-          ...release.groups.flatMap((group) => [
-            { text: group.heading, tone: "subhead" },
-            ...group.lines.map((text) => ({ text })),
-          ]),
-        ],
-      })),
+    let release = releases[0];
+    let chosen = 0;
+    const notesOf = (r) =>
+      (r?.groups ?? []).flatMap((group) =>
+        group.notes.map((note) => ({ ...note, group: group.heading })),
+      );
+    const cards = plate(null);
+    const article = plate(null);
+    article.classList.add("pick-article");
+    const drawArticle = () => {
+      const note = notesOf(release)[chosen];
+      // The chosen card is marked, as a chosen tab is.
+      for (const card of cards.querySelectorAll("[data-note]"))
+        card.classList.toggle("on", Number(card.dataset.note) === chosen);
+      article.replaceChildren(
+        ...(note
+          ? [
+              chips([{ text: note.group }]),
+              ...(note.title ? [heading(note.title, "h3")] : []),
+              prose(note.text, "article-text"),
+            ]
+          : []),
+      );
+    };
+    // The release's name is its own picker, newest first.
+    const which = select({
+      options: releases.map((r) => ({ value: r.version, label: r.title })),
+      value: release?.version,
+      label: controls.patchNotes?.release,
+      className: "release-pick",
+      onChange: (version) => {
+        release = releases.find((r) => r.version === version) ?? release;
+        chosen = 0;
+        drawCards();
+        drawArticle();
+      },
     });
+    const drawCards = () => {
+      cards.replaceChildren(
+        which,
+        ...(release?.released ? [prose(release.released, "release-date")] : []),
+        pager({
+          items: notesOf(release).map((note, at) => ({
+            title: note.title ?? note.text,
+            lede: note.title ? note.text : "",
+            label: note.title ?? note.text,
+            onSelect: () => {
+              chosen = at;
+              drawArticle();
+            },
+            data: { note: String(at) },
+          })),
+          render: listEntry,
+          rows: Math.max(
+            3,
+            Math.min(8, Math.floor((window.innerHeight - 340) / 66)),
+          ),
+          columns: 1,
+          rowHeight: 58,
+          gap: 8,
+          words: {
+            page: controls.politics.page,
+            previous: controls.politics.previousPage,
+            next: controls.politics.nextPage,
+          },
+          className: "pick-cards note-cards",
+        }),
+      );
+    };
+    drawCards();
+    drawArticle();
+    return [
+      splitScreen({
+        main: [cards],
+        side: [{ title: null, nodes: [article] }],
+        className: "patch-notes",
+      }),
+    ];
   },
   async options() {
     await controlsReady;
@@ -3093,55 +3360,150 @@ const sheets = {
     const labels = controls.localRaces;
     const stance = voteWords();
     const filed = new Set(v.filings.map((f) => f.contestId));
-    const candidate = (f) =>
-      withNotes(
-        personRow({
-          name: f.name ?? "",
-          party: f.party,
-          face: f.face,
-          onOpen: () => {
-            closeSheet();
-            showPerson({ personId: f.cardId, figureUrl: f.face?.url });
-          },
-        }),
-        f.stances.map((s) => ({
-          text: `${policyLabel(s.question)}: ${s.position > 0 ? (stance.for ?? "") : (stance.against ?? "")}`,
-        })),
-      );
     const fileForIt = (race) => {
       const b = makeButton({ textContent: labels.fileForIt });
       b.dataset.testid = "file-for-it";
       b.addEventListener("click", () =>
         openFiling(race.filedWith, race.contestId),
       );
-      return buttonRow(b);
+      return buttonTray(b);
     };
-    const races = ballot.races.map((race) => ({
-      title: race.title,
-      value: filed.has(race.contestId)
+    const status = (race) =>
+      filed.has(race.contestId)
         ? labels.youFiled
         : race.filers.length
           ? labels.running.replace("{n}", race.filers.length)
-          : labels.noFilers,
+          : labels.noFilers;
+    // One race's page: who is running as face cards with where they stand,
+    // the race's dates beside them, and File for it in its tray.
+    const showRace = (race) => {
+      $("sheet").classList.remove("fits");
+      $("sheet-body").replaceChildren(
+        splitScreen({
+          controls: [heading(race.title, "h2")],
+          main: [
+            plate(
+              race.filers.length ? status(race) : null,
+              ...(race.filers.length
+                ? race.filers.map((f) =>
+                    plate(
+                      null,
+                      memberCard({
+                        name: f.name ?? "",
+                        line: f.party ?? "",
+                        party: f.party,
+                        badge: f.party ? f.party.charAt(0) : null,
+                        face: f.face,
+                        onOpen: () => {
+                          closeSheet();
+                          showPerson({
+                            personId: f.cardId,
+                            figureUrl: f.face?.url,
+                          });
+                        },
+                      }),
+                      ...f.stances.map((st) =>
+                        row(
+                          policyLabel(st.question),
+                          st.position > 0
+                            ? (stance.for ?? "")
+                            : (stance.against ?? ""),
+                        ),
+                      ),
+                    ),
+                  )
+                : [prose(labels.noFilers, "record-empty")]),
+              // Only a race the player may run for (owner, Oct 29: six
+              // offices; the row's playerMayFile, government.ts).
+              ...(race.filingOpen &&
+              race.playerMayFile &&
+              !filed.has(race.contestId) &&
+              race.filedWith
+                ? [fileForIt(race)]
+                : []),
+            ),
+          ],
+          side: [
+            {
+              title: labels.dates,
+              nodes: [
+                dateList([
+                  ...(race.filingClosed
+                    ? []
+                    : [
+                        {
+                          when: dateWords(race.filingDeadline, {
+                            month: "short",
+                            year: me.date,
+                          }),
+                          text: labels.filingCloses,
+                        },
+                      ]),
+                  {
+                    when: dateWords(race.electionDate, {
+                      month: "short",
+                      year: me.date,
+                    }),
+                    text: labels.electionDay,
+                  },
+                ]),
+              ],
+            },
+          ],
+          className: "race-page",
+        }),
+      );
+    };
+    // The coming ballot as race cards on a plate, paged to fit the window;
+    // each opens its race (owner, Oct 29: every menu like Government).
+    const races = ballot.races.map((race) => ({
+      title: race.title,
+      value: status(race),
       lede: dateWords(race.electionDate),
       note: race.filingClosed
         ? null
         : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
-      opens: true,
-      open: ballot.races.length === 1,
-      nodes: [
-        ...race.filers.map(candidate),
-        ...(race.filingOpen && !filed.has(race.contestId) && race.filedWith
-          ? [fileForIt(race)]
-          : []),
-      ],
+      label: race.title,
+      onSelect: () => showRace(race),
       data: { contest: race.contestId },
     }));
+    const own = v.filings.length ? await campaignRows() : [];
     return [
-      ...(v.filings.length ? await campaignRows() : []),
-      ...(await listScreen({
-        entries: () => (races.length ? races : [{ title: labels.noBallot }]),
-      })),
+      splitScreen({
+        main: [
+          ...(own.length ? [plate(labels.yourCampaign, ...own)] : []),
+          plate(
+            labels.title,
+            ...(races.length
+              ? [
+                  pager({
+                    items: races,
+                    render: listEntry,
+                    rows: Math.max(
+                      1,
+                      Math.min(
+                        4,
+                        Math.floor(
+                          (window.innerHeight - (own.length ? 520 : 300)) / 118,
+                        ),
+                      ),
+                    ),
+                    columns: 3,
+                    rowHeight: 108,
+                    gap: 10,
+                    words: {
+                      page: controls.politics.page,
+                      previous: controls.politics.previousPage,
+                      next: controls.politics.nextPage,
+                    },
+                    className: "race-cards",
+                  }),
+                ]
+              : [prose(labels.noBallot, "record-empty")]),
+          ),
+        ],
+        className: "campaigns-screen",
+      }),
     ];
   },
   /**
@@ -3341,7 +3703,13 @@ const sheets = {
               // A leader who sits in this chamber is drawn as its member,
               // party included; one from elsewhere by name.
               const seated = body.members.find((m) => m.cardId === l.cardId);
-              return card(body, seated ?? { ...l, party: null }, words(l.post));
+              // A leader's post is a civic term: underlined until learned, its
+              // meaning on hover, the Guide on a click.
+              return card(
+                body,
+                seated ?? { ...l, party: null },
+                termLabel(words(l.post)),
+              );
             }),
             ...[...body.members]
               .filter((m) => !m.own && !leaderIds.has(m.cardId))
@@ -3598,35 +3966,85 @@ const sheets = {
     }));
     // The party the player belongs to, with how their views fit it, or the
     // parties they could join (moved here from Government, which now draws
-    // the mock; never joined: files unaffiliated).
+    // the mock; never joined: files unaffiliated), the join buttons in a tray.
     const membership = v.party ? partyRows(v.party) : [];
-    return recordScreen({
-      controls: m
-        ? [districtMap(m, { wordHolders }), partyLegend(parties, seatWords)]
-        : [],
-      grid: true,
-      sections: [
-        ...(membership.length
-          ? [{ items: membership.map((node) => ({ node })) }]
-          : []),
-        ...v.parties.map(({ party, seats }) => ({
-          title: party,
-          items: [
-            ...seats.map((s) => ({
-              node: personRow({
-                name: s.name,
-                detail: s.title,
-                face: s.face,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson({ personId: s.cardId, figureUrl: s.face?.url });
-                },
-              }),
-            })),
-          ],
-        })),
-      ],
+    const joins = membership.filter((node) => node.tagName === "BUTTON");
+    // The map and its key on a plate; beside it your party, then each party's
+    // officeholders as face cards, one party at a time on the rail, paged.
+    const keys = v.parties.map(({ party }) => party);
+    let chosen = keys.includes(partyTab) ? partyTab : keys[0];
+    const roster = plate(null);
+    const drawRoster = () => {
+      const seats =
+        v.parties.find(({ party }) => party === chosen)?.seats ?? [];
+      roster.replaceChildren(
+        pager({
+          items: seats,
+          render: (s) =>
+            memberCard({
+              name: s.name,
+              line: s.title,
+              party: chosen,
+              badge: chosen ? chosen.charAt(0) : null,
+              face: s.face,
+              onOpen: () => {
+                closeSheet();
+                showPerson({ personId: s.cardId, figureUrl: s.face?.url });
+              },
+            }),
+          rows: Math.max(
+            2,
+            Math.min(5, Math.floor((window.innerHeight - 500) / 72)),
+          ),
+          columns: 2,
+          rowHeight: 64,
+          gap: 8,
+          words: {
+            page: labels.page,
+            previous: labels.previousPage,
+            next: labels.nextPage,
+          },
+        }),
+      );
+    };
+    const rail = tabBar({
+      attr: "party",
+      active: chosen,
+      tabs: keys.map((key) => ({
+        key,
+        label: key,
+        onSelect: () => {
+          partyTab = chosen = key;
+          chooseTab(rail, "party", key);
+          drawRoster();
+        },
+      })),
     });
+    drawRoster();
+    return [
+      splitScreen({
+        main: m
+          ? [
+              plate(
+                null,
+                districtMap(m, { wordHolders }),
+                partyLegend(parties, seatWords),
+              ),
+            ]
+          : [],
+        side: [
+          membership.length && {
+            title: v.party?.member ? null : controls.party.member,
+            nodes: joins.length ? [buttonTray(...joins)] : membership,
+          },
+          keys.length && {
+            title: labels.inOffice,
+            nodes: [rail, roster],
+          },
+        ].filter(Boolean),
+        className: "parties-screen",
+      }),
+    ];
   },
   /**
    * Issues: the law in force here as cards by subject (owner, Oct 28, point
@@ -3858,7 +4276,7 @@ const groups = {
     "issues",
     "budgets",
   ],
-  who: ["who", "jobs"],
+  who: ["who", "jobs", "history"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
@@ -3909,7 +4327,7 @@ async function openSheet(tab) {
     "options-sheet",
     tab === "options" || !$("front").hidden,
   );
-  const character = tab === "who";
+  const character = groupOf(tab) === "who";
   $("sheet").classList.toggle("character-sheet", character);
   // News is the paper itself: the sheet is the page, its masthead the title
   // (owner, Oct 28, point 25).
@@ -3940,7 +4358,8 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "who", "news"].includes(tab) &&
+    !["calendar", "people", "news"].includes(tab) &&
+      !character &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );

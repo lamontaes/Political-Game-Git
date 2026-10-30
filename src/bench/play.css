@@ -1800,7 +1800,8 @@ body.dev .dev-ring {
   column-gap: 26px;
   padding: 26px 30px 28px;
 }
-.dossier #person-media {
+.dossier #person-media,
+.character-sheet #sheet-media {
   border: 1px solid rgba(156, 131, 80, 0.6);
   border-radius: 3px;
   background:
@@ -1815,7 +1816,8 @@ body.dev .dev-ring {
     inset 0 0 40px rgba(0, 0, 0, 0.55),
     0 3px 8px rgba(0, 0, 0, 0.35);
 }
-.dossier #person-media::after {
+.dossier #person-media::after,
+.character-sheet #sheet-media::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -1831,7 +1833,8 @@ body.dev .dev-ring {
   background-repeat: no-repeat;
   background-size: 13px 13px;
 }
-.dossier #person-media .screen-portrait {
+.dossier #person-media .screen-portrait,
+.character-sheet #sheet-media .screen-portrait {
   inset: 14px 0 0;
   height: calc(100% - 14px);
 }
@@ -2366,8 +2369,18 @@ body.dev .dev-ring {
   gap: 24px;
 }
 .record-views h4 {
-  margin: 8px 0;
+  margin: 0 0 4px;
+  font: 600 10.5px var(--ui);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--gold);
+}
+.view-plate .narrative {
+  margin: 0;
+  font: 400 15.5px/1.4 var(--speech);
+}
+.record-views {
+  gap: 10px;
 }
 .record-value {
   overflow-wrap: anywhere;
@@ -2569,27 +2582,16 @@ body.dev .dev-ring {
 .people-key .household::before {
   border-top-style: dashed;
 }
-.people-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+/* The list of everyone you know: face cards across the area, paged. */
+.relationship-web.people-list {
+  height: auto;
+  min-height: 0;
 }
-#sheet-body .people-list .people-node {
-  position: static;
-  transform: none;
-  width: auto;
-  grid-template-columns: 48px 1fr;
-  text-align: left;
-  justify-items: start;
-}
-.people-list .people-node > :first-child {
-  grid-row: span 2;
-  order: 0;
-}
-.people-list .people-node img,
-.people-list .headshot {
-  width: 48px;
-  height: 48px;
+.people-list .member-card.on {
+  border-color: rgba(214, 189, 132, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(214, 189, 132, 0.35),
+    0 0 12px rgba(214, 189, 132, 0.2);
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
@@ -2883,19 +2885,6 @@ details.entry[open] {
   margin-top: 2px;
   font-size: 0.85em;
   opacity: 0.8;
-}
-
-.people-node .circle-mark {
-  font: 600 12px var(--ui);
-  font-style: normal;
-  color: var(--gold);
-}
-.people-node.circle-left {
-  opacity: 0.7;
-}
-.people-selection .circle-why,
-.people-selection .circle-none {
-  color: var(--gold);
 }
 
 /* Advanced: the officeholders to play as, a button each. */
@@ -3881,20 +3870,22 @@ details.entry[open] {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.date-list li {
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 12px;
+  row-gap: 8px;
   align-items: baseline;
+}
+/* Each row's date and words sit in the list's two columns, so every date
+   lines up with the longest. */
+.date-list li {
+  display: contents;
 }
 .date-list-when {
   font: 600 14px var(--ui);
   color: var(--gold);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 .date-list-text {
   font: 400 14px/1.3 var(--ui);
@@ -4038,6 +4029,9 @@ details.entry[open] {
 .split-side .plate,
 .split-main .plate {
   margin: 0;
+}
+.plate .tab-rail {
+  margin: 0 0 10px;
 }
 /* Small plates side by side, one fact each: a label, the fact, a note. */
 .fact-plates {
@@ -4200,4 +4194,355 @@ details.entry[open] {
   padding: 0;
   margin: 0;
   font: 600 18px/1 var(--ui);
+}
+
+/* ---- Money (the Oct 14 mock on framed plates): the cash large, each month's
+   review as columns, where last month went as a ring with its key ---- */
+.money-figure {
+  font: 900 clamp(40px, 4.4vw, 64px) / 1.05 var(--name);
+  color: var(--brass-hi);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
+  margin: 2px 0 10px;
+}
+.money-cash {
+  display: flex;
+  flex-direction: column;
+}
+.money-home-picture {
+  width: 100%;
+  aspect-ratio: 5 / 2;
+  object-fit: cover;
+  border: 1px solid rgba(156, 131, 80, 0.6);
+  border-radius: 2px;
+  margin: 0 0 8px;
+}
+/* Columns side by side: each amount over its column, the month under it. */
+.column-chart {
+  margin: 12px 0 0;
+}
+.column-chart-columns {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  height: 190px;
+}
+.column-chart-item {
+  flex: 1 1 0;
+  max-width: 76px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+.column-chart-well {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+.column-chart-bar {
+  width: 100%;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 35%,
+    var(--brass-lo)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.column-chart-bar.below {
+  background: linear-gradient(#d07a68, var(--red));
+}
+.column-chart-value,
+.column-chart-label {
+  font: 500 11.5px var(--ui);
+  color: var(--text-2);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.column-chart-label {
+  color: var(--text);
+}
+.column-chart figcaption {
+  margin: 8px 0 0;
+  font: 500 12.5px var(--ui);
+  color: var(--text-2);
+}
+/* A ring of the parts of a whole, the whole in its middle, the key beside it. */
+.donut-chart {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+}
+.donut-center {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+.donut-ring svg {
+  width: 150px;
+  height: 150px;
+  transform: rotate(-90deg);
+}
+.donut-track {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.45);
+  stroke-width: 14;
+}
+.donut-part {
+  fill: none;
+  stroke-width: 14;
+}
+.donut-total {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 36px;
+  text-align: center;
+  font: 600 16px/1.15 var(--ui);
+  color: var(--text-strong);
+}
+.donut-key {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.donut-key li {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  font: 500 13.5px var(--ui);
+}
+.donut-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+.donut-share {
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+/* The kit's chart colors, in order: muted, never navy. */
+.donut-part.c0 {
+  stroke: #c9a55c;
+}
+.donut-part.c1 {
+  stroke: #4f8a8b;
+}
+.donut-part.c2 {
+  stroke: #9a4a3f;
+}
+.donut-part.c3 {
+  stroke: #6f7f3a;
+}
+.donut-part.c4 {
+  stroke: #7a8796;
+}
+.donut-part.c5 {
+  stroke: #8a6386;
+}
+.donut-part.c6 {
+  stroke: #b08a5a;
+}
+.donut-part.c7 {
+  stroke: #6f6c66;
+}
+.donut-swatch.c0 {
+  background: #c9a55c;
+}
+.donut-swatch.c1 {
+  background: #4f8a8b;
+}
+.donut-swatch.c2 {
+  background: #9a4a3f;
+}
+.donut-swatch.c3 {
+  background: #6f7f3a;
+}
+.donut-swatch.c4 {
+  background: #7a8796;
+}
+.donut-swatch.c5 {
+  background: #8a6386;
+}
+.donut-swatch.c6 {
+  background: #b08a5a;
+}
+.donut-swatch.c7 {
+  background: #6f6c66;
+}
+
+/* Jobs and study (the Oct 14 mock on framed plates): the workplace's painting
+   across the top of the job plate, the title in the name type. */
+.job-picture {
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  object-fit: cover;
+  border: 1px solid rgba(156, 131, 80, 0.6);
+  border-radius: 2px;
+  margin: 0 0 10px;
+}
+.job-plate .heading {
+  font: 800 clamp(20px, 2vw, 28px) / 1.15 var(--name);
+  margin: 0;
+}
+.job-plate .job-employer {
+  margin: 2px 0 10px;
+  color: var(--text-2);
+}
+
+/* Campaigns: the coming ballot as race cards on a plate; a race's own page
+   with who is running as face cards and where they stand. */
+.race-cards .entry {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.race-cards .entry h3 {
+  font: 600 15px/1.2 var(--ui);
+  color: var(--text-strong);
+  margin: 0 0 4px;
+}
+.race-cards .entry .entry-value {
+  display: block;
+  font: 500 16px/1.2 var(--speech);
+  color: var(--gold);
+  margin: 0 0 4px;
+}
+.race-cards .entry p {
+  font: 12.5px/1.3 var(--ui);
+  color: var(--text-2);
+  margin: 0;
+}
+.race-page .split-controls .heading {
+  margin: 0;
+  font-size: clamp(22px, 2.2vw, 32px);
+}
+.race-page .plate .plate {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Budget (the Oct 14 mock on framed plates): the government, its year and total
+   in the name type; three plates in a row; the rings' keys carry amounts. */
+.plate-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+.plate-row > .plate {
+  margin: 0;
+}
+.budget-title {
+  font: 800 clamp(18px, 1.8vw, 24px) / 1.2 var(--name);
+  color: var(--text-strong);
+}
+.budget-adopted {
+  margin: -6px 0 2px;
+  color: var(--text-2);
+}
+.budget-screen .donut-chart {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+.budget-screen .donut-key {
+  width: 100%;
+}
+
+/* The Guide and Patch notes: cards on a plate, the chosen card's article
+   beside them, reading inside its own box. */
+.pick-cards .entry {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.pick-cards .entry h3 {
+  font: 700 15px/1.2 var(--name);
+  color: var(--gold);
+  margin: 0 0 3px;
+}
+.pick-cards .entry span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font: 13px/1.3 var(--ui);
+  color: var(--text-2);
+}
+#sheet-body .pick-cards .entry.on {
+  border-color: rgba(214, 189, 132, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(214, 189, 132, 0.35),
+    0 0 12px rgba(214, 189, 132, 0.2);
+}
+.pick-article .heading {
+  font: 800 clamp(20px, 2vw, 28px) / 1.15 var(--name);
+  margin: 0 0 8px;
+}
+.guide-short {
+  font: 500 16px/1.4 var(--speech);
+  color: var(--text-strong);
+  margin: 0 0 10px;
+}
+.article-text {
+  font: 400 15px/1.45 var(--speech);
+  color: var(--text);
+  margin: 0 0 10px;
+}
+.pick-article {
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+}
+.pick-article .chips {
+  margin: 0 0 8px;
+}
+/* Patch notes: the release's name is its picker; its changes one card a
+   row, the chosen change wider beside them in the reading type. */
+.patch-notes .split-body {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+}
+select.release-pick {
+  font: 800 clamp(18px, 1.8vw, 24px) / 1.2 var(--name);
+  color: var(--text-strong);
+  max-width: 100%;
+  padding: 2px 6px;
+  margin: 0 0 2px -6px;
+}
+.release-date {
+  margin: 0 0 10px;
+  color: var(--text-2);
+  font: 13px/1.3 var(--ui);
+}
+.note-cards .entry h3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font: 600 14px/1.3 var(--ui);
+  color: var(--text-strong);
+  margin: 0;
+}
+.note-cards .entry span {
+  display: none;
+}
+.patch-notes .pick-article .heading {
+  font: 700 19px/1.3 var(--speech);
+  color: var(--text-strong);
+}
+.member-line b {
+  font-weight: inherit;
 }

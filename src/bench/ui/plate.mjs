@@ -58,3 +58,8 @@ export function chips(words) {
     }),
   );
 }
+
+/** Plates side by side in one row, each as wide as the others (the Budget mock's three). */
+export function plateRow(...plates) {
+  return el("div", { className: "plate-row" }, ...plates);
+}
