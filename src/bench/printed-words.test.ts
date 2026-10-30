@@ -22,8 +22,12 @@ import {
   type BillRow,
 } from "../core2/modules/legislature";
 import { storiesHeard } from "../core2/modules/news";
+import { schoolResultKind } from "../core2/modules/press";
 import { placeLocalities } from "../core2/places";
-import { SCHOOL_MODULE_ID } from "../core2/school-measures";
+import {
+  SCHOOL_MODULE_ID,
+  type SchoolMeasureRow,
+} from "../core2/school-measures";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { wordPrintedStory } from "./archive-words";
@@ -140,6 +144,7 @@ describe("printed stories in News", () => {
     });
     const core = world.core;
     const api = coreAPI(core);
+    const start = core.date;
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
     const printedAs = (
       sourceRecordId: string,
@@ -152,13 +157,22 @@ describe("printed stories in News", () => {
       facts: { ...facts, sourceRecordId },
     });
     const told: string[] = [];
-    // The school year's graduation and spring tests, from the school
-    // engine's own outcome rows: a headline and one line.
-    const done = api
-      .moduleState(SCHOOL_MODULE_ID)
-      .table("done")
-      .rows() as unknown as { id: string; date: string }[];
-    expect(done.length, where).toBeGreaterThan(0);
+    // The school year's graduation and spring tests, each measure row the
+    // press puts on the wire by its own rule (`schoolResultKind`): a headline
+    // and one line each. A result that is one student's own is no story
+    // (Reserve, Montana, seed 8101: one senior, who did not graduate), and a
+    // town that tested no students keeps no test measure (West Louisville,
+    // Kentucky, seed chk2-a: four students, none in a tested grade).
+    const town = lawChain(api).townPlaceId;
+    const done = (
+      api
+        .moduleState(SCHOOL_MODULE_ID)
+        .table("measures")
+        .query("byPlace", [town]) as unknown as SchoolMeasureRow[]
+    ).flatMap((row) => {
+      const kind = row.date < start ? null : schoolResultKind(row);
+      return kind ? [{ id: `${kind}:${row.startYear}`, date: row.date }] : [];
+    });
     for (const row of done) {
       const worded = wordPrintedStory(core, printedAs(row.id, row.date));
       expect(worded, `${row.id} in ${where}`).not.toBeNull();
