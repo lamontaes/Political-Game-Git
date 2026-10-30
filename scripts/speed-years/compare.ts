@@ -1,7 +1,12 @@
+import { compareProofs, type RecordProof } from "../../src/bench/dev-proof";
+
 export interface YearTiming {
   readonly year: number;
   readonly seconds: number;
+  /** Dev mode's records proof digest at the year's end (`src/bench/dev-proof.ts`). */
   readonly fingerprint: string;
+  /** The proof's digest by table, so a difference names its table. */
+  readonly tables?: RecordProof["tables"];
   readonly date: string;
 }
 export interface SpeedReceipt {
@@ -54,8 +59,27 @@ export function compareYears(
           before.seconds * 1.2
         ).toFixed(3)}s (120% of main)`,
       );
-    if (requireIdentical && before.fingerprint !== after.fingerprint)
-      problems.push(`Year ${after.year}: saved world fingerprint differs`);
+    if (requireIdentical && before.fingerprint !== after.fingerprint) {
+      if (!before.tables || !after.tables)
+        problems.push(
+          `Year ${after.year}: a receipt has no records proof; rerun main with this run.ts`,
+        );
+      else if (baseline.seed === candidate.seed) {
+        const proof = (row: YearTiming, seed: string) => ({
+          seed,
+          date: row.date,
+          bookkeeping: false,
+          tables: row.tables!,
+        });
+        const tables = compareProofs(
+          proof(before, baseline.seed),
+          proof(after, candidate.seed),
+        ).map((row) => row.table);
+        problems.push(
+          `Year ${after.year}: records differ in ${tables.join(", ")}`,
+        );
+      }
+    }
   }
   return problems;
 }
