@@ -464,8 +464,26 @@ function play(where: string, seed: string, core: CoreState): void {
     wait += 1
   )
     advance(core, 1);
+  // A full household's bill whose Medicaid member the expansion's applied
+  // record names; else a counted household's, which its group row names. (A
+  // member filled in since the reach last ran keeps the coverage record by
+  // person id, but the reach named them only within the counted group.) The
+  // applied rows are read now, on the bill's day: the work requirement, which
+  // comes next, ends the rows of the adults whose coverage it ends.
+  const expandApplied = appliedOn(api, EXPAND);
+  const namedByExpansion = new Set(
+    expandApplied.filter((r) => r.target === "person").map((r) => r.targetId),
+  );
   const expandBill =
-    onMedicaid().find((b) => !b.counted) ?? onMedicaid()[0] ?? null;
+    onMedicaid().find(
+      (b) =>
+        !b.counted &&
+        b.members.some(
+          (m) => m.plan === "medicaid" && namedByExpansion.has(m.personId),
+        ),
+    ) ??
+    onMedicaid().find((b) => b.counted) ??
+    null;
   enact(api, MEDICAID_WORK, "on");
   const workOn = tomorrow(api);
   advance(core, WORK_REQUIREMENT_DAYS);
@@ -676,13 +694,17 @@ function play(where: string, seed: string, core: CoreState): void {
   };
   // The expansion's money: a covered member's bill, priced at Medicaid's
   // share and paid (its applied record names the member, or their group).
-  const expandMember = expandBill?.members.find((m) => m.plan === "medicaid");
+  const expandMember = expandBill?.members.find(
+    (m) =>
+      m.plan === "medicaid" &&
+      (expandBill.counted || namedByExpansion.has(m.personId)),
+  );
   const expandRow =
-    covered.find(
+    expandApplied.find(
       (r) => r.target === "person" && r.targetId === expandMember?.personId,
     ) ??
     (expandBill?.counted
-      ? covered.find((r) => r.target === "group")
+      ? expandApplied.find((r) => r.target === "group")
       : undefined);
   record(EXPAND, expandRow, expandBill?.journalIds[0] ?? null);
   // The coverage the requirement ends: its coverage records end, and the
