@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/volunteer-shifts
-pr:
+pr: #6874
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-30T02:30:25.639Z
