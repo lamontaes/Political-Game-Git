@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-stances
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T09:23:52.017Z
 ---
 
 **What.** In an election year the press asks every candidate where they stand on dozens of questions (interviewQuestions in src/core2/modules/press.ts), and each answer runs candidateStance in src/core2/campaign-stances.ts from scratch: the official row, the person's lean, their votes, the party lean and party firmness. A 2028 profile of one Ringgold, Louisiana save (seed long-1) put interviewQuestions at 17.9 s and candidateStance at 17.6 s inclusive. The views engine also deep-copies every stance row it writes (moduleData plainCopy, 2.4 s), and three callers find a stance by scanning a person's whole stance list.
