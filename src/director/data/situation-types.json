@@ -128,8 +128,7 @@
       "cause:event:party-asked",
       "cause:event:vote-ahead",
       "cause:event:recall-petition",
-      "cause:event:job-offered",
-      "cause:event:bill-failed"
+      "cause:event:job-offered"
     ],
     "ownRecordSettings": ["home", "office", "chamber", "phone", "public"],
     "metWhereYouAre": ["circumstance:"]

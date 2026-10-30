@@ -3,7 +3,7 @@
  * brief, step 8: the owner's council member heard nothing after his
  * ordinance failed). An officeholder's aide brings a lost vote
  * (`staff-news`); a council member keeps no aide, so a fellow member who
- * voted for the bill does, the same day. In a played world of a place drawn
+ * voted for the bill does. In a played world of a place drawn
  * from all 56, the player sits on a town body and sponsors an ordinance;
  * where it fails with another member voting for it, the director stages
  * that member bringing the news, citing the failure record.
