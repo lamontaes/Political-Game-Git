@@ -25,7 +25,7 @@ import {
   type FigureBox,
   type FigurePerson,
 } from "./whole-figures";
-import type { PackFigure } from "./people-pack";
+import { drawAhead, type PackFigure } from "./people-pack";
 import { depthOf, plateFor, type PlateSpot } from "./mannequin-plates";
 
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
@@ -825,15 +825,18 @@ export function stagePeople(
   // Drawn far to near, so nearer people overlap farther ones.
   const depth = depthOf;
   const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
-  for (const { id, name, reason, who, figure, spot } of order)
+  for (const { id, name, reason, who, figure, spot } of order) {
+    const figureUrl = drawnUrl(figure, who, ageBandOf(core, who.birthDate));
+    drawAhead(figureUrl);
     people.push({
       personId: id,
       name,
       reason,
       spotId: spot.id,
       figure: fitOn(figure, plate, spot),
-      figureUrl: drawnUrl(figure, who, ageBandOf(core, who.birthDate)),
+      figureUrl,
     });
+  }
   return { people, unplaced };
 }
 /** How each occasion places an office holder (data/whole-figures.json `occasions`). */
@@ -892,12 +895,10 @@ export function faceOf(
   if (!looks) return null;
   const who = whoOf(core, id, looks);
   const figure = portraitFigure(core, who, place);
-  return figure
-    ? faceOfFigure(
-        figure,
-        drawnUrl(figure, who, ageBandOf(core, who.birthDate)),
-      )
-    : null;
+  if (!figure) return null;
+  const url = drawnUrl(figure, who, ageBandOf(core, who.birthDate));
+  drawAhead(url);
+  return faceOfFigure(figure, url);
 }
 
 export function benchScene(

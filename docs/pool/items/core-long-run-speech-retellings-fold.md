@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: speed/speech-retellings-fold
-pr:
+pr: #6922
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-30T07:38:04.221Z
