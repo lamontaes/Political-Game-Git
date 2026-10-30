@@ -58,9 +58,17 @@ try {
     .locator('[data-tab="money"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator("#sheet-body .record-title").waitFor();
+  // The cash in large type (the Money mock's figure), in dollars.
+  await page.locator("#sheet-body .money-figure").waitFor();
   assert.ok(
-    (await page.locator("#sheet-body .record-title").innerText()).includes("$"),
+    (await page.locator("#sheet-body .money-figure").innerText()).includes("$"),
+  );
+  assert.ok(
+    await page.evaluate(() => {
+      const body = document.getElementById("sheet-body");
+      return body.scrollHeight <= body.clientHeight + 1;
+    }),
+    "the Money panel scrolls",
   );
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: "docs/reports/money-layout/money.png" });

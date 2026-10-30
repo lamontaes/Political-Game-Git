@@ -40,7 +40,13 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { countyGovernmentUnit } from "../reference/government-units";
-import { LAWS_MODULE_ID, lawChain, lawInForce, yesLevels } from "./laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  lawInForceToday,
+  yesLevels,
+} from "./laws";
 import { worldOffsetUnit } from "../world-draw";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
@@ -1502,7 +1508,7 @@ function residentLaw(
   placeId: string,
 ): (series: string) => LawInForceAnswer {
   if (placeId === lawChain(api).townPlaceId)
-    return (series) => lawInForce(api, series);
+    return (series) => lawInForceToday(api, series);
   const own = residenceLawFor(placeId);
   const town = lawChain(api);
   const shared = new Set(town.levels.map((l) => l.jurisdiction));
@@ -1510,7 +1516,7 @@ function residentLaw(
     if (!own) {
       // stopgapId: SG-WORLD-withholding-residence-law
       api.stopgap("SG-WORLD-withholding-residence-law");
-      const answer = lawInForce(api, series);
+      const answer = lawInForceToday(api, series);
       return {
         ...answer,
         levels: answer.levels.map((l) =>

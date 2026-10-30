@@ -9,7 +9,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
-import { openContests } from "../core2/modules/elections";
+import { playerContests } from "../core2/modules/elections";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
@@ -56,7 +56,7 @@ function fileNewAdult(world: ReturnType<typeof buildBenchWorld>): boolean {
   const md = born.slice(5) === "02-29" ? "03-01" : born.slice(5);
   const eighteen = makeIsoDate(`${Number(born.slice(0, 4)) + 18}-${md}`);
   if (eighteen > core.date) advanceCore(core, eighteen);
-  const filed = [...openContests(coreAPI(core))]
+  const filed = [...playerContests(coreAPI(core))]
     .filter((contest) => contest.electionDate <= lastDayOfRace())
     .sort(
       (a, b) =>

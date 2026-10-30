@@ -7,9 +7,15 @@
  * off the screen. Nothing here writes the file.
  */
 
+/** One change: the bullet's bold lead as its headline, the rest as its text. */
+export interface PatchNote {
+  readonly title?: string;
+  readonly text: string;
+}
+
 export interface PatchNoteGroup {
   readonly heading: string;
-  readonly lines: readonly string[];
+  readonly notes: readonly PatchNote[];
 }
 
 export interface PatchNoteRelease {
@@ -33,6 +39,16 @@ function plain(text: string): string {
     .trim();
 }
 
+/** A bullet as a change: its bold lead, without a closing period, heads it. */
+function note(text: string): PatchNote {
+  const lead = /^\*\*([^*]+)\*\*\s*/.exec(text);
+  if (!lead) return { text: plain(text) };
+  return {
+    title: plain(lead[1] ?? "").replace(/[.:]$/, ""),
+    text: plain(text.slice(lead[0].length)),
+  };
+}
+
 function sentenceCase(heading: string): string {
   const words = heading.trim();
   return words.charAt(0).toUpperCase() + words.slice(1).toLowerCase();
@@ -50,10 +66,10 @@ export function patchNoteReleases(text: string): PatchNoteRelease[] {
         groups: PatchNoteGroup[];
       }
     | undefined;
-  let group: { heading: string; lines: string[] } | undefined;
+  let group: { heading: string; notes: PatchNote[] } | undefined;
   let bullet: string[] | undefined;
   const closeBullet = () => {
-    if (bullet && group) group.lines.push(plain(bullet.join(" ")));
+    if (bullet && group) group.notes.push(note(bullet.join(" ")));
     bullet = undefined;
   };
   const closeGroup = () => {
@@ -84,7 +100,7 @@ export function patchNoteReleases(text: string): PatchNoteRelease[] {
     const sub = /^### (.+)$/.exec(line);
     if (sub) {
       closeGroup();
-      group = { heading: (sub[1] ?? "").trim(), lines: [] };
+      group = { heading: (sub[1] ?? "").trim(), notes: [] };
       continue;
     }
     const released = /^_(.+)_$/.exec(line.trim());
@@ -102,7 +118,7 @@ export function patchNoteReleases(text: string): PatchNoteRelease[] {
       continue;
     }
     if (bullet) bullet.push(line.trim());
-    else if (group) group.lines.push(plain(line));
+    else if (group) group.notes.push({ text: plain(line) });
   }
   closeRelease();
   return releases;
