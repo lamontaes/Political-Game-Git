@@ -5,12 +5,13 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/causes-fold-kept-drop
 pr:
 blocked-on:
 after: core-long-run-circle-causes-fold
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T09:20:03.360Z
 ---
 
 **What.** When a race closes, the campaigns engine (src/core2/modules/campaigns.ts foldCauses) folds each voter and candidate's contact rows into a summary, and for a voter in the player's circle it also keeps that fold's latest three rows in foldedCauses. Each fold keeps three more, so a pair keeps three per fold, and the table grows as circle members times candidates times folds. In one Ringgold, Louisiana save (seed long-1) it held 270,470 rows by year 8 and 1,158,647 of 4.1 million records by year 22, the largest table, while the race standing and the door scene read only the summaries and the trace reaches only a fact-named cause.
