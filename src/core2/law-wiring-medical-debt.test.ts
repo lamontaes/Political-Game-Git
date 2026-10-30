@@ -226,7 +226,7 @@ function play(
   outside: MedicalBillRow | null;
   onsets: Map<string, string>;
   checked: number;
-  /** Each town seller's day of Medicaid care, as the treasuries paid it, by seller and day. */
+  /** Each seller's day of Medicaid care (the town's sellers and the outside account), as the treasuries paid it, by seller and day. */
   care: Map<string, SellerCare>;
   /** The town's employer policyholders after each month's review (full and counted records), by billed day. */
   employerPlans: Map<string, number>;
@@ -257,18 +257,18 @@ function play(
       if (c.onsetEventId) onsets.set(`${billed}|${c.personId}`, c.onsetEventId);
     const sellers = townSellers(api, town);
     const outsideAccount = outsideAccountOf(api);
-    // Medicaid's part of the care, by town seller: what the treasuries paid
-    // each that day is the sum of round(medicaidMinor x weight) over the
-    // households that pay it, and the federal leg is that sum at the match
-    // in force, paid in full.
+    // Medicaid's part of the care, by seller (each town seller, and the
+    // outside account where a household has no seller in its place): what
+    // the treasuries paid each that day is the sum of round(medicaidMinor x
+    // weight) over the households that pay it, and the federal leg is that
+    // sum at the match in force, paid in full.
     const match = lawInForce(api, "medicaid-match");
     const share = governmentAt(api, "federal")
       ? Math.min(1, Math.max(0, (match.value ?? 0) / 100))
       : 0;
     const owedBySeller = new Map<string, { minor: number; rows: string[] }>();
     for (const row of thisMonth) {
-      if (row.placeId !== town || !row.sellerId || !sellers.has(row.sellerId))
-        continue;
+      if (!row.sellerId) continue;
       const minor = Math.round(
         row.members.reduce((n, m) => n + (m.medicaidMinor ?? 0), 0) *
           row.weight,
@@ -279,7 +279,11 @@ function play(
       owed.rows.push(row.id);
       owedBySeller.set(row.sellerId, owed);
     }
-    for (const sellerId of sellers) {
+    for (const sellerId of new Set([
+      ...sellers,
+      ...owedBySeller.keys(),
+      ...(outsideAccount ? [outsideAccount] : []),
+    ])) {
       const account = api.accounts().main(sellerId);
       const paid = medicaidCare.filter(
         (p) => p.world === playing && p.date === billed && p.to === account,
@@ -308,6 +312,41 @@ function play(
           journalIds: paid.map((p) => p.id),
         });
     }
+    // The month closes before the bills (the module calendar runs before
+    // the modules' days), so the care paid on the 1st is noted since that
+    // close: the federal leg on the federal health line and never on a
+    // welfare and Medicaid line, which the federal budget lacks; the whole
+    // care on the state's welfare and Medicaid line.
+    const paidToday = medicaidCare.filter(
+      (p) => p.world === playing && p.date === billed,
+    );
+    const federalToday = paidToday
+      .filter((p) => p.source.includes("+medicaid-match"))
+      .reduce((n, p) => n + p.minor, 0);
+    const careToday = paidToday.reduce((n, p) => n + p.minor, 0);
+    const sinceClose = (id: string) =>
+      (
+        api.moduleState(BUDGETS_MODULE_ID).table("sinceClose").get(id) as
+          { lines: Record<string, number> } | undefined
+      )?.lines ?? {};
+    const federalGov = governmentAt(api, "federal");
+    const stateGov = governmentAt(api, "state");
+    if (federalGov) {
+      const lines = sinceClose(federalGov.id);
+      expect(
+        lines[STATE_MEDICAID_LINE],
+        `${where}: ${federalGov.id} notes no ${STATE_MEDICAID_LINE} line since the close of ${billed}`,
+      ).toBeUndefined();
+      expect(
+        lines[FEDERAL_MEDICAID_LINE] ?? 0,
+        `${where}: ${federalGov.id} ${FEDERAL_MEDICAID_LINE} since the close of ${billed} holds the federal legs`,
+      ).toBeGreaterThanOrEqual(federalToday);
+    }
+    if (stateGov)
+      expect(
+        sinceClose(stateGov.id)[STATE_MEDICAID_LINE] ?? 0,
+        `${where}: ${stateGov.id} ${STATE_MEDICAID_LINE} since the close of ${billed} holds the care`,
+      ).toBeGreaterThanOrEqual(careToday);
     for (const row of thisMonth) {
       if (row.counted || row.placeId !== town || row.paidMinor <= 0) continue;
       const at = `${where}: ${row.id} on ${row.date}`;
@@ -397,9 +436,12 @@ interface SellerCare {
  * The care inside the treasuries' lines over the played window: the federal
  * leg counts against the federal health line and the whole care against the
  * state's welfare and Medicaid line (months closed and what is noted since
- * the last close); the federal months carry no welfare and Medicaid line,
- * which the federal budget lacks; and no line of either was paid past its
- * due, so the care was paid within each line's total, not on top of it.
+ * the last close), and those lines were paid within their dues, so the care
+ * was paid within each line's total, not on top of it. (Each month's read in
+ * play() checks the federal leg never lands on a welfare and Medicaid line,
+ * which the federal budget lacks; the federal month's welfare line holds the
+ * SNAP benefits the law reach counts there, pool item
+ * laws-federal-benefits-on-a-line-the-federal-budget-lacks.)
  */
 function careInsideLines(
   api: CoreAPI,
@@ -430,11 +472,6 @@ function careInsideLines(
   for (const m of months.filter(
     (row) => row.governmentId === state.id || row.governmentId === federal?.id,
   )) {
-    if (m.governmentId === federal?.id)
-      expect(
-        m.lines[STATE_MEDICAID_LINE],
-        `${where}: ${m.id} pays no line the federal budget lacks`,
-      ).toBeUndefined();
     // The line that carries the care is paid within its due: the care
     // in town is part of the line's total, not paid on top of it.
     const line =
