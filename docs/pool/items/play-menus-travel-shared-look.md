@@ -8,7 +8,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: play-first/play-menus-travel-shared-look
-pr: #0
+pr: #6879
 blocked-on:
 milestone: play-first
 source: CTO, Oct 29 (every menu redesigned the way Government was; MOCKS travel.png)
