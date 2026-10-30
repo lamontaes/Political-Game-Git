@@ -9,7 +9,8 @@ status: claimed
 claimed-by: governing/player-first-local-race
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 30 (owner ruling Oct 29 22:45)
+lead: governing
 claimed-at: 2026-10-30T02:02:17.783Z
 ---
 
