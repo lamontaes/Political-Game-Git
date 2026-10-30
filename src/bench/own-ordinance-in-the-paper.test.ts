@@ -3,11 +3,12 @@
  * owner played a council member for six weeks and no story followed his
  * ordinance). In a played world of a place drawn from all 56, the player is
  * a member of a town body, sponsors an ordinance and it goes to a vote; within
- * three weeks a local outlet prints the vote (carried or failed), and people
- * in town know the story. A local body's vote (the town's, or the county's
- * that covers it) binds the whole town, so the desk weighs it as a law in
- * force (press-desk.ts `involved`), and a reporter who files one of the
- * body's votes that day files the others, as a paper covers a meeting.
+ * three weeks a local outlet prints the vote (carried or failed), people in
+ * town know the story, and those who read it bring it up with the player. A
+ * local body's vote (the town's, or the county's that covers it) binds the
+ * whole town, so the desk weighs it as a law in force (press-desk.ts
+ * `involved`), and a reporter who files one of the body's votes that day files
+ * the others, as a paper covers a meeting.
  */
 import { randomBytes } from "node:crypto";
 import { appendFileSync } from "node:fs";
@@ -26,9 +27,11 @@ import {
   members,
   scheduleVote,
 } from "../core2/modules/legislature";
-import { newsKey } from "../core2/modules/news";
+import { newsKey, storyOfReadEvent } from "../core2/modules/news";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI, fillInPerson } from "../core2/state";
+import type { PersonId } from "../core2/types";
+import { bringItUp } from "../director/bring-it-up";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 
@@ -110,10 +113,27 @@ it("the player's own ordinance is printed when the town body votes on it, and re
     expect(knowing, `${where}: nobody read ${printed[0]!.id}`).toBeGreaterThan(
       0,
     );
+    // People who read it bring it up with the player: the story about the
+    // player's own bill, by its outlet and topic, citing the story.
+    const ids2 = new Set(printed.map((story) => story.id));
+    const raised: string[] = [];
+    for (const id of core.people.keys()) {
+      if (id === me) continue;
+      if (!printed.some((story) => api.knows(id, newsKey(story.id)))) continue;
+      const brought = bringItUp(core, id as PersonId, me as PersonId);
+      const storyId = brought ? storyOfReadEvent(brought.change.eventId) : null;
+      if (storyId && ids2.has(storyId))
+        raised.push(brought!.lines.map((line) => line.text).join(" "));
+      if (raised.length >= 3) break;
+    }
+    expect(
+      raised.length,
+      `${where}: nobody who read ${printed[0]!.id} brought it up with the player`,
+    ).toBeGreaterThan(0);
     // The proof, by place, seed and record id (the runner keeps no console).
     appendFileSync(
       path.join(tmpdir(), "own-ordinance-proof.txt"),
-      `${where}: ${bill.id} voted ${votedOn}; ${printed.length} stories (${printed[0]!.id}); ${knowing} people know them\n`,
+      `${where}: ${bill.id} voted ${votedOn}; ${printed.length} stories (${printed[0]!.id}); ${knowing} people know them; raised: ${raised.join(" || ")}\n`,
     );
     return;
   }
