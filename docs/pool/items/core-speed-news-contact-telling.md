@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-news-contact
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T08:01:55.481Z
 ---
 
 **What.** Every relationship change fans out to the news engine's onRelationshipChange in src/core2/modules/news.ts, which walks each side's recently heard stories through a generator and fetches each story before checking whether the listener already heard it, even when the teller owes no story at all. A Grand Haven, Michigan profile (seed spd-d, a 223 s profiled year) put relationship() at 12.3 s, news onRelationshipChange at 9.6 s and recentStoriesHeard at 1.5 s. The trait leans that decide believing and passing on a story are recomputed for every call, and several helpers create closures per call.
