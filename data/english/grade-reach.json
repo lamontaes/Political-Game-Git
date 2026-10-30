@@ -481,6 +481,8 @@
     "journal.scene-line-story-runs.what-i-told-other-went-on-the-record": "tell|none|narration",
     "journal.scene-line-trust-lost.i-wasn-t-straight-with-other-and-i-got-caught": "tell|none|narration",
     "journal.scene-line-trust-lost.other-caught-me-in-a-lie": "tell|none|narration",
+    "journal.scene-line-vague-promise.i-said-i-d-think-about-it-when-other-asked": "tell|none|narration",
+    "journal.scene-line-vague-promise.i-told-other-i-d-look-at-it": "tell|none|narration",
     "journal.school-line-started.i-attended-school": "tell|none|narration",
     "journal.school-line-started.i-graduated-from-school": "tell|none|narration",
     "journal.school-line-started.i-was-at-school": "tell|none|narration",
