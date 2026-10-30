@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/player-first-local-race
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T02:02:17.783Z
 ---
 
 **What.** The owner ruled Oct 29 that city council means whatever the equivalent is: the player's first local race is the place's own lawmaking body under whatever name it has. The filing rule listed only the council kind, so homes in towns governed by a township board and in unincorporated places had no local race at all. Per the CTO's ruling an unincorporated place is governed by its county, so its player runs for the county board and, where the county has one, the county executive.
