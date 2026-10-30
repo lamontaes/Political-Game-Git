@@ -63,10 +63,15 @@
     "other": "{n} volunteers",
     "asked": "Asked {asked}, {yes} said yes: {volunteers} now"
   },
+  "campaignEndorsements": {
+    "one": "1 endorsement",
+    "other": "{n} endorsements"
+  },
   "campaignOutings": {
     "doors": "Knock on doors",
     "calls": "Call donors",
     "event": "Hold an event",
+    "forum": "Host a forum",
     "interview": "Ask for an interview",
     "hours": "hours"
   },
@@ -74,6 +79,8 @@
     "noHouseholds": "No households in town",
     "noPlatform": "Choose your platform first",
     "eventMoney": "Hall {price} · campaign {cash}",
+    "forumHeld": "You hosted a forum today",
+    "noMeetings": "No public meetings here",
     "noOutlet": "No paper or station here",
     "interviewed": "Every outlet here has interviewed you",
     "outletsFull": "No outlet has room this week",
@@ -133,7 +140,6 @@
       "sponsored": "Laws sponsored",
       "signed": "Laws signed"
     },
-    "together": "With you",
     "sharedWords": {
       "household": "Lives with you",
       "coworker": "Works with you",
@@ -141,8 +147,12 @@
       "schoolmate": "At school with you",
       "campaign": "On a campaign with you"
     },
-    "seats": "Seats held",
-    "since": "Since"
+    "since": "Since",
+    "record": "Record",
+    "publicRecordTitle": "Public record",
+    "earlier": "Earlier years",
+    "later": "Later years",
+    "seat": "Seat held"
   },
   "options": {
     "version": "Version",
@@ -258,7 +268,11 @@
     "decided": "Decided",
     "lawInForce": "the law in force",
     "backMeeting": "Back to the meeting",
-    "backDesk": "Back to the desk"
+    "backDesk": "Back to the desk",
+    "today": "In force today",
+    "proposed": "The bill makes it",
+    "newAmount": "The new amount",
+    "none": "Not set"
   },
   "advanced": {
     "none": "No one holds an office that matches"
@@ -349,16 +363,7 @@
     "list": "List",
     "web": "Web",
     "card": "View person",
-    "talk": "Talk",
-    "joined": "Closer this year",
-    "left": "Drifted away",
-    "noChange": "Your five closest are the same as a year ago",
-    "causes": {
-      "person.moved-away": "Moved away",
-      "life.death": "Died",
-      "no-time-together": "No time together lately",
-      "chosen-act": "Time together"
-    }
+    "talk": "Talk"
   },
   "news": {
     "title": "News"
@@ -369,7 +374,8 @@
     "pay": "Pay",
     "hours": "Hours",
     "daily": "per day",
-    "noJob": "No current job"
+    "noJob": "No current job",
+    "workAndSchool": "Work and school"
   },
   "politics": {
     "seats": "Seats",
@@ -491,11 +497,6 @@
     "page": "{page} of {pages}",
     "previousPage": "Previous page",
     "nextPage": "Next page",
-    "feeling": {
-      "warm": "Thinks well of you",
-      "known": "Knows you",
-      "cool": "Cold toward you"
-    },
     "delegation": "{state}'s members",
     "ward": "Ward {n}",
     "district": "District {n}",
@@ -509,7 +510,15 @@
       "Independent": "Independent",
       "Libertarian": "Libertarian",
       "Green": "Green"
-    }
+    },
+    "noIssues": "No law matches that.",
+    "inOffice": "In office",
+    "comesFrom": "Where it comes from",
+    "goesTo": "Where it goes",
+    "books": "The books",
+    "otherLines": "Other",
+    "fiscalYear": "fiscal year",
+    "priorities": "Your priorities"
   },
   "results": {
     "you": "You",
@@ -564,7 +573,10 @@
       "household.mortgage": "Mortgage payment",
       "household.everyday-living": "Everyday living",
       "household-purchase": "Purchases"
-    }
+    },
+    "householdCashByMonth": "Your household’s cash at each month’s review",
+    "householdLastMonth": "Your household’s last month",
+    "worth": "Worth"
   },
   "localRaces": {
     "title": "On the ballot",
@@ -574,7 +586,10 @@
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
-    "noBallot": "No local election is on the calendar"
+    "noBallot": "No local election is on the calendar",
+    "dates": "Dates",
+    "electionDay": "Election day",
+    "yourCampaign": "Your campaign"
   },
   "grade": {
     "good": "Good",
@@ -587,7 +602,11 @@
     "markGap": "Mark gap"
   },
   "guide": {
-    "search": "Search"
+    "search": "Search",
+    "none": "No term matches that."
+  },
+  "patchNotes": {
+    "release": "Release"
   },
   "campaignActs": {
     "volunteer": "Volunteers",
@@ -606,7 +625,11 @@
     "play": "Play"
   },
   "seat": {
-    "draft": "Draft"
+    "draft": "Draft",
+    "title": "Draft a bill",
+    "issue": "What it is about",
+    "today": "In force today",
+    "newAmount": "The new amount"
   },
   "titles": {
     "people": "People",
@@ -627,6 +650,7 @@
     "patchNotes": "Patch notes",
     "guide": "Guide",
     "handoff": "Carry on as",
-    "news": "News"
+    "news": "News",
+    "history": "Your life"
   }
 }

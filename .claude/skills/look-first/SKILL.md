@@ -32,6 +32,7 @@ Before any of these, in any session (lead, lane, words, director, merger, fixer,
 5. `docs/coordination/playtest/*.md`: the sitting blocks, his words verbatim; `docs/coordination/voice-notes/*.md`: his voice notes word for word (words, scenes, grading, the Oct 24 playtest). When a ruling and a voice note disagree, the voice note is what he said.
 6. `rg -i` across `docs/` for the subject and its synonyms (a business is also an employer, a workplace, an establishment, a firm; a scene is also a talk, a moment, a beat).
 7. `docs/pool/items/`: an item on the subject carries its Notes and its PRs.
+   Then the data files that carry rulings: `rg -i '<subject>' src/director/data src/core2/data data/english` and read the `about` and `source` fields near a match. The owner's rulings on how people talk, what a scene is and what a number means are quoted there, not only in `docs/` (Oct 30: the CTO ruled that a relative with no news could be asked after; the owner's Oct 14 Q7 and Oct 15 family-talk rulings in `src/director/data/conversation-rules.json` already said no, and the ruling was withdrawn).
 8. The owner's Drive, when the session has the Drive connector: `search_files` with `fullText contains '<subject>'`; the CTO rulings docs there ("03 CTO RULINGS", "OVERNIGHT ORDERS", "RESEARCH FOR CTO REVIEW") are his words from September and October. A session without the connector reads the prior-rulings digests, which are made from them, and says so.
 
 Stop at the first hit that answers; read it whole.

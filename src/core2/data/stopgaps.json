@@ -1259,6 +1259,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-group-endorsement-stance",
+    "kind": "estimated-rule",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 3236,
+    "whatItFakes": "What an organization stands for when it weighs a candidate for endorsement is read from the little its engine keeps: a cause group's topic, for it unless its founder's drive wants a repeal (a desired change like building a park or cutting a hazard counts as for); an employers' group formed over a wage bill states nothing, so it endorses no one; a party chapter holds its lean along the 54 platform questions only, so a budget-line plank weighs nothing with it. Only a group's full members hear its endorsement and are asked to volunteer; counted residents who hold the same cause are not reached.",
+    "why": "No group engine yet writes a group platform (a candidate questionnaire, a slate of positions) or keeps the question an employers' wage group argued, and groups enlist only full people.",
+    "addedBy": "governing/campaign-group-endorsements",
+    "addedAt": "2026-10-29",
+    "replacement": "Each organization keeps its own platform (the positions its members adopt, a questionnaire it sends candidates) that the endorsement weighing reads, and its counted supporters are reached by the same rule times their count.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-staff-unpaid",
     "kind": "missing-engine",
     "file": "src/core2/modules/staff.ts",
@@ -5038,6 +5050,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-first-race-no-local-office",
+    "kind": "missing-data",
+    "file": "src/core2/modules/elections.ts",
+    "line": 729,
+    "whatItFakes": "A home the government-units listing ties to no local government (a place outside any organized borough, a census place inside a consolidated city-county or city-parish government, a newer census place the place-to-county relation misses) has no local office, so the player's first race there is the state's own lawmaking body instead of the place's council or its equivalent.",
+    "why": "The owner's Oct 29 ruling gives every place a first local race under whatever name its lawmaking body has; 244 of the 32,350 state localities have no local office in the data (src/core2/player-first-race.test.ts prints the ones it draws) because placeLocalGovernmentUnits finds no government unit serving them. The District of Columbia is not one: its council and mayor sit at the state level. The island areas' villages are their territories' own case.",
+    "addedBy": "governing/player-first-local-race",
+    "addedAt": "2026-10-29",
+    "replacement": "Each such home matched to the government that serves it (the borough, or the state where no borough is organized; the consolidated city-county or city-parish; the county the relation misses), so localOfficesForPlace seats its council or equivalent and the rule admits it.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-committee-day-hooks",
     "kind": "owner-decision",
     "file": "src/core2/modules/legislature.ts",
@@ -7701,6 +7725,18 @@
     "addedBy": "CTO",
     "addedAt": "2026-10-29",
     "replacement": "Judges seated in the world as offices with holders (pool item world-judges-seated), then the Judicial tab draws them as read-only member cards through the same member card and pager.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-town-hall-room-full-people",
+    "kind": "partial-model",
+    "file": "src/core2/modules/meetings.ts",
+    "line": 651,
+    "whatItFakes": "A town hall's room, a candidate's forum among them, fills only from the town's full adults (townHallDrives reads townAdults): a resident still in the counted wider population never comes, so a forum in a town of mostly counted residents meets only the people already filled in.",
+    "why": "The forum (campaign-day.ts) reuses the meetings engine's one audience rule rather than a second one, and that rule was written before the counted tier; public comment already reads counted residents by the same drive (commentSpeakers) and fills in those who speak.",
+    "addedBy": "governing builder (campaign-like-real-races, forum)",
+    "addedAt": "2026-10-29",
+    "replacement": "townHallDrives reads the town's counted adults by the same drive as commentSpeakers does (countedResidents with countedRecordOnly), indexed by place so a weekly town hall does not scan the whole wider population, and holdTownHall fills in each counted resident who comes before the room's causes are written.",
     "status": "open"
   },
   {

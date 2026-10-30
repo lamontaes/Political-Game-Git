@@ -6,9 +6,9 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: cto/menus-jobs
-pr:
+pr: #6859
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 (with a screenshot of a History: "this is your character's history... I don't like that at all"; "redesign all the menu screens")

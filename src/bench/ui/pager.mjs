@@ -9,7 +9,8 @@ import { makeButton } from "./button.mjs";
 /**
  * `items`: anything `render` turns into a node. `rows` of `columns` show at
  * once, each `rowHeight` tall with `gap` between, in pixels; `words` = {
- * page: "{page} of {pages}", previous, next } for the arrows.
+ * page: "{page} of {pages}", previous, next } for the arrows. `where`, when
+ * given, names a page from the items on it (a timeline's years) instead.
  */
 export function pager({
   items,
@@ -20,6 +21,7 @@ export function pager({
   gap = 8,
   words,
   className = "",
+  where: name,
 }) {
   const grid = el("div", { className: "pager-grid" });
   grid.style.gridTemplateColumns = `repeat(${columns}, minmax(0, 1fr))`;
@@ -54,12 +56,13 @@ export function pager({
   const box = el("div", { className: `pager ${className}` }, grid, controls);
   let page = 0;
   const draw = () => {
-    grid.replaceChildren(
-      ...items.slice(page * perPage, (page + 1) * perPage).map(render),
-    );
-    where.textContent = words.page
-      .replace("{page}", String(page + 1))
-      .replace("{pages}", String(pages));
+    const shown = items.slice(page * perPage, (page + 1) * perPage);
+    grid.replaceChildren(...shown.map(render));
+    where.textContent = name
+      ? name(shown)
+      : words.page
+          .replace("{page}", String(page + 1))
+          .replace("{pages}", String(pages));
     previous.disabled = page === 0;
     next.disabled = page >= pages - 1;
   };
