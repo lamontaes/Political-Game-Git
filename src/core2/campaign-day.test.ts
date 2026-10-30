@@ -60,35 +60,9 @@ const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-day:${Date.now()}`).digest("hex");
 
-/** How many places setup draws (seed, seed:1, ...) before it gives up. */
-const DRAWS = 12;
-
-// A drawn place can hold no race the player may enter (for a forum, no town or
-// county race takes any of its wealthiest local adults), so the run seed is
-// redrawn (seed, seed:1, ...) from all 56 until the player can file, as
-// seat-leavings does; the place and draw seed used are named, and when no draw
-// files, every place tried is.
-function setup(options: { meetings?: boolean; local?: boolean } = {}) {
-  const tried: string[] = [];
-  for (let redraw = 0; ; redraw += 1) {
-    const drawSeed = redraw ? `${runSeed}:${redraw}` : runSeed;
-    const { drew, ...drawn } = setupDraw(drawSeed, options);
-    if (drawn.filing)
-      return tried.length
-        ? {
-            ...drawn,
-            where: `${drawn.where}; redrawn after ${tried.join("; ")}`,
-          }
-        : drawn;
-    tried.push(drew);
-    if (redraw === DRAWS - 1)
-      return { ...drawn, where: `every place tried: ${tried.join("; ")}` };
-  }
-}
-
-function setupDraw(
+function setupAt(
   drawSeed: string,
-  options: { meetings?: boolean; local?: boolean },
+  options: { meetings?: boolean; local?: boolean } = {},
 ) {
   const place = drawPlace(drawSeed, "campaign-day");
   const core = createLifeCore(
@@ -148,6 +122,36 @@ function setupDraw(
   }
   const drew = `${place.name}, ${place.state} (${place.key}), draw seed ${drawSeed}`;
   return { core: core as CoreState, api, filing, where, drew };
+}
+
+/** How many places setup draws (seed, seed:1, ...) before it gives up. */
+const DRAWS = 12;
+
+/**
+ * A drawn place can hold no race the player may enter (a forum is held only
+ * for a town or county race; an island area's village has only
+ * territory-wide offices, and elsewhere no town or county race may take any
+ * of the wealthiest local adults), so the run seed is redrawn (seed, seed:1,
+ * ...) from all 56 until the player can file, as seat-leavings does; the
+ * place and draw seed used are named, and when no draw files, every place
+ * tried is.
+ */
+function setup(options: { meetings?: boolean; local?: boolean } = {}) {
+  const tried: string[] = [];
+  for (let redraw = 0; ; redraw += 1) {
+    const drawSeed = redraw ? `${runSeed}:${redraw}` : runSeed;
+    const { drew, ...drawn } = setupAt(drawSeed, options);
+    if (drawn.filing)
+      return tried.length
+        ? {
+            ...drawn,
+            where: `${drawn.where}; redrawn after ${tried.join("; ")}`,
+          }
+        : drawn;
+    tried.push(drew);
+    if (redraw === DRAWS - 1)
+      return { ...drawn, where: `every place tried: ${tried.join("; ")}` };
+  }
 }
 
 describe("a campaign day", () => {

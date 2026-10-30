@@ -402,6 +402,32 @@
       }
     },
     {
+      "kindPrefix": "event:executive-action",
+      "turn": false,
+      "entry": "story",
+      "hasOtherLine": true,
+      "toldWithoutOther": true,
+      "stageFact": "action",
+      "stageSelf": {
+        "fact": "executiveId",
+        "mark": "desk"
+      },
+      "stageWords": {
+        "overridden:desk": "^I vetoed\\b.*\\boverridden\\b",
+        "vetoed:desk": "^I vetoed\\b",
+        "signed:desk": "^I signed\\b",
+        "overridden": "\\b(?:overridden|over the veto)\\b",
+        "vetoed": "\\bvetoed\\b",
+        "signed": "\\bsigned\\b"
+      },
+      "eventFacts": {
+        "law": {
+          "fact": "billId",
+          "format": "billNumberAndName"
+        }
+      }
+    },
+    {
       "kindPrefix": "event:took-office",
       "turn": true,
       "entry": "story",
