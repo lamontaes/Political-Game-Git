@@ -577,7 +577,10 @@
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
-    "noBallot": "No local election is on the calendar"
+    "noBallot": "No local election is on the calendar",
+    "dates": "Dates",
+    "electionDay": "Election day",
+    "yourCampaign": "Your campaign"
   },
   "grade": {
     "good": "Good",
