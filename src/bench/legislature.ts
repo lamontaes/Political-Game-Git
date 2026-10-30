@@ -18,7 +18,7 @@ import { floorDateOf } from "../core2/modules/world-legislating";
 import type { TermRow } from "../core2/modules/offices";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
-import { backdropFor, stagePeople } from "./scene";
+import { backdropFor, faceOf, stagePeople } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -409,6 +409,26 @@ export function bodyScene(
     backdrop,
     ...stagePeople(core, backdrop.file, cast),
   };
+}
+
+/**
+ * A body's members as the meeting panel draws them: each with their headshot (the
+ * face they wear in the chamber), party and the key their votes are recorded under.
+ */
+export function bodyMembers(
+  core: CoreState,
+  personId: string,
+  officeId: string,
+  place: string,
+) {
+  const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
+  return (body?.members ?? []).map((m) => ({
+    key: m.key,
+    name: m.name,
+    party: m.party ?? null,
+    you: m.you,
+    face: faceOf(core, m.key.replace(/^official:/, ""), place),
+  }));
 }
 
 /**

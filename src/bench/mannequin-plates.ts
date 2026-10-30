@@ -3,8 +3,10 @@
 // A person is drawn only on a plate's spot, fitted to its mannequin, and a
 // picture with no plate shows nobody (owner, Oct 28: "do not put people in
 // until there are mannequins in there for every position"; Oct 29). Each
-// `<scene>.mannequins.json` names the backdrop it was painted on; a new plate
-// is a new file there, read with no change here.
+// `<scene>.mannequins.json` names the backdrop it was painted on, and in
+// `backdrops` the other lights of that same painting (night, midday, morning,
+// rain are one room re-lit, so its mannequins stand in the same places); a
+// new plate or a new light is data there, read with no change here.
 import { readFileSync, readdirSync } from "node:fs";
 import { PNG } from "pngjs";
 import type { HeadBox } from "./people-pack";
@@ -35,7 +37,10 @@ export interface PlateSpot {
 }
 export interface Plate {
   readonly scene: string;
+  /** The backdrop file the mannequins were painted on. */
   readonly backdrop: string;
+  /** Other lights of the same painting, the room unmoved: the plate serves them too. */
+  readonly backdrops?: readonly string[];
   readonly size: readonly [number, number];
   readonly spots: readonly PlateSpot[];
 }
@@ -48,10 +53,14 @@ const PLATES: ReadonlyMap<string, Plate> = new Map(
         JSON.parse(readFileSync(new URL(file, PLATE_DIR), "utf8")) as Plate,
     )
     .filter((plate) => plate.backdrop)
-    .map((plate) => [plate.backdrop, plate]),
+    .flatMap((plate) =>
+      [plate.backdrop, ...(plate.backdrops ?? [])].map(
+        (file) => [file, plate] as const,
+      ),
+    ),
 );
 
-/** The plate painted on this backdrop file, or none: then nobody is drawn there. */
+/** The plate painted on this backdrop file or another light of it, or none: then nobody is drawn there. */
 export function plateFor(backdropFile: string): Plate | null {
   return PLATES.get(backdropFile) ?? null;
 }

@@ -1977,9 +1977,111 @@ body.dev .dev-ring {
   right: var(--gutter);
   bottom: calc(9vh + 18px);
   z-index: 6;
-  width: min(420px, calc(100vw - 2 * var(--gutter)));
+  width: min(560px, calc(100vw - 2 * var(--gutter)));
   padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+}
+/* The meeting and the desk: a titled panel whose agenda scrolls inside it, the Adjourn
+   control kept under it. */
+#meeting-items,
+#desk-items {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.55) transparent;
+}
+#meeting > .heading {
+  margin: 0 0 12px;
+  font-size: 26px;
+}
+.meeting-item + .meeting-item {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(214, 189, 132, 0.25);
+}
+.meeting-title {
+  margin: 0;
+  font: 600 20px/1.2 var(--name);
+}
+.meeting-sub {
+  margin: 2px 0 10px;
+  color: var(--text-2);
+  font: 13px var(--ui);
+}
+/* The members as round faces ringed by how each voted on this item. */
+.meeting-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+.meeting-member {
+  display: inline-block;
+  line-height: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.16);
+}
+.meeting-member.you {
+  box-shadow: 0 0 0 2px var(--gold);
+}
+.meeting-member.vote-yes {
+  box-shadow: 0 0 0 3px #5aa36b;
+}
+.meeting-member.vote-no {
+  box-shadow: 0 0 0 3px #c4524f;
+}
+.meeting-member.vote-abstain {
+  box-shadow: 0 0 0 3px #8c8c8c;
+}
+.meeting-face {
+  width: 38px;
+  height: 38px;
+  border-width: 0;
+}
+.meeting-result {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 6px;
+}
+.meeting-result strong {
+  font: 700 17px var(--ui);
+  color: var(--gold);
+}
+.meeting-tally {
+  display: flex;
+  height: 10px;
+  margin: 0 0 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+.meeting-tally .tally-yes {
+  background: #5aa36b;
+}
+.meeting-tally .tally-no {
+  background: #c4524f;
+}
+.meeting-tally .tally-abstain {
+  background: #8c8c8c;
+}
+.meeting-remarks {
+  margin: 0 0 8px;
+  color: var(--text-2);
+  font: 13px var(--ui);
+}
+.meeting-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 0;
+}
+.meeting-acts .action {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 #ballot,
 #election-day,
@@ -2012,18 +2114,14 @@ body.dev .dev-ring {
   position: relative;
   overflow-y: auto;
 }
-#ballot .race + .race,
-#meeting .race + .race,
-#desk .race + .race {
+#ballot .race + .race {
   margin-top: 18px;
 }
-#ballot .heading,
-#meeting .heading,
-#desk .heading {
+#ballot .heading {
   margin: 0 0 8px;
 }
 #ballot .acts,
-#meeting .acts,
+#meeting > .acts,
 #desk .acts {
   display: grid;
   gap: 6px;
@@ -2325,7 +2423,6 @@ body.dev .dev-ring {
 }
 .people-node img,
 .people-center img,
-.people-initial,
 .headshot {
   box-sizing: border-box;
   width: 60px;
@@ -2337,7 +2434,6 @@ body.dev .dev-ring {
   background: var(--iron);
 }
 .people-center img,
-.people-center .people-initial,
 .people-center .headshot {
   width: 72px;
   height: 72px;
@@ -2348,15 +2444,7 @@ body.dev .dev-ring {
   display: block;
   background-repeat: no-repeat;
 }
-.people-node .people-initial,
-.people-center .people-initial {
-  display: grid;
-  place-items: center;
-  color: var(--gold);
-  font: 20px var(--name);
-}
 .people-node.selected img,
-.people-node.selected .people-initial,
 .people-node.selected .headshot {
   border-width: 4px;
   border-color: var(--gold);
@@ -2415,7 +2503,6 @@ body.dev .dev-ring {
   order: 0;
 }
 .people-list .people-node img,
-.people-list .people-initial,
 .people-list .headshot {
   width: 48px;
   height: 48px;
@@ -2980,9 +3067,111 @@ details.entry[open] {
   right: var(--gutter);
   bottom: calc(9vh + 18px);
   z-index: 6;
-  width: min(420px, calc(100vw - 2 * var(--gutter)));
+  width: min(560px, calc(100vw - 2 * var(--gutter)));
   padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+}
+/* The meeting and the desk: a titled panel whose agenda scrolls inside it, the Adjourn
+   control kept under it. */
+#meeting-items,
+#desk-items {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.55) transparent;
+}
+#meeting > .heading {
+  margin: 0 0 12px;
+  font-size: 26px;
+}
+.meeting-item + .meeting-item {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(214, 189, 132, 0.25);
+}
+.meeting-title {
+  margin: 0;
+  font: 600 20px/1.2 var(--name);
+}
+.meeting-sub {
+  margin: 2px 0 10px;
+  color: var(--text-2);
+  font: 13px var(--ui);
+}
+/* The members as round faces ringed by how each voted on this item. */
+.meeting-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+.meeting-member {
+  display: inline-block;
+  line-height: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.16);
+}
+.meeting-member.you {
+  box-shadow: 0 0 0 2px var(--gold);
+}
+.meeting-member.vote-yes {
+  box-shadow: 0 0 0 3px #5aa36b;
+}
+.meeting-member.vote-no {
+  box-shadow: 0 0 0 3px #c4524f;
+}
+.meeting-member.vote-abstain {
+  box-shadow: 0 0 0 3px #8c8c8c;
+}
+.meeting-face {
+  width: 38px;
+  height: 38px;
+  border-width: 0;
+}
+.meeting-result {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 6px;
+}
+.meeting-result strong {
+  font: 700 17px var(--ui);
+  color: var(--gold);
+}
+.meeting-tally {
+  display: flex;
+  height: 10px;
+  margin: 0 0 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+.meeting-tally .tally-yes {
+  background: #5aa36b;
+}
+.meeting-tally .tally-no {
+  background: #c4524f;
+}
+.meeting-tally .tally-abstain {
+  background: #8c8c8c;
+}
+.meeting-remarks {
+  margin: 0 0 8px;
+  color: var(--text-2);
+  font: 13px var(--ui);
+}
+.meeting-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 0;
+}
+.meeting-acts .action {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 #ballot,
 #election-day,
@@ -3015,18 +3204,14 @@ details.entry[open] {
   position: relative;
   overflow-y: auto;
 }
-#ballot .race + .race,
-#meeting .race + .race,
-#desk .race + .race {
+#ballot .race + .race {
   margin-top: 18px;
 }
-#ballot .heading,
-#meeting .heading,
-#desk .heading {
+#ballot .heading {
   margin: 0 0 8px;
 }
 #ballot .acts,
-#meeting .acts,
+#meeting > .acts,
 #desk .acts {
   display: grid;
   gap: 6px;
@@ -3328,7 +3513,6 @@ details.entry[open] {
 }
 .people-node img,
 .people-center img,
-.people-initial,
 .headshot {
   box-sizing: border-box;
   width: 60px;
@@ -3340,7 +3524,6 @@ details.entry[open] {
   background: var(--iron);
 }
 .people-center img,
-.people-center .people-initial,
 .people-center .headshot {
   width: 72px;
   height: 72px;
@@ -3351,15 +3534,7 @@ details.entry[open] {
   display: block;
   background-repeat: no-repeat;
 }
-.people-node .people-initial,
-.people-center .people-initial {
-  display: grid;
-  place-items: center;
-  color: var(--gold);
-  font: 20px var(--name);
-}
 .people-node.selected img,
-.people-node.selected .people-initial,
 .people-node.selected .headshot {
   border-width: 4px;
   border-color: var(--gold);
@@ -3418,7 +3593,6 @@ details.entry[open] {
   order: 0;
 }
 .people-list .people-node img,
-.people-list .people-initial,
 .people-list .headshot {
   width: 48px;
   height: 48px;
@@ -4284,4 +4458,444 @@ details.entry[open] {
 }
 .place-view .record-actions {
   margin: 0 0 6px;
+}
+
+/* ---- Politics → Government, the Oct 14 mock (owner, Oct 29: "a real game
+   menu"; docs/ui/mocks/screens-2026-10-14/shots/gov.png). One fixed panel:
+   the screen fits the sheet, and what does not fit pages inside its box
+   (ui/pager.mjs), never a scroll. Kit 13 tokens only. ---- */
+/* The panel is as tall as the screen holds (the mock), never taller than the window. */
+#game.in-play #sheet:has(.split-screen) {
+  bottom: auto;
+  max-height: calc(100vh - var(--gutter) - 26px);
+}
+#sheet-body:has(> .split-screen) {
+  flex: 0 1 auto;
+  max-width: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.split-screen {
+  flex: 0 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.split-controls {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.split-controls .government-picker,
+.split-controls .government-branch {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+}
+.split-controls select.government-state {
+  margin: 0;
+}
+.split-body {
+  flex: 0 1 auto;
+  min-height: 0;
+  align-items: start;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 34px;
+}
+.split-main {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.split-side {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.split-side .record-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+}
+.split-side .record-section > .label {
+  margin: 0;
+}
+.government-bodies {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+#sheet-body .government-bodies .tab {
+  font-size: 13.5px;
+  padding: 4px 12px;
+  min-height: 0;
+}
+
+/* The room a body sits in, its name on the painting. */
+.chamber {
+  position: relative;
+  flex: none;
+  height: 152px;
+  margin: 0;
+  background: var(--iron) center 58% / cover no-repeat;
+  border: 1px solid var(--brass);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 0 1px var(--iron),
+    0 3px 0 rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+.chamber::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 12, 0) 30%,
+    rgba(10, 10, 12, 0.55) 62%,
+    rgba(10, 10, 12, 0.92) 100%
+  );
+}
+.chamber-caption {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 11px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.chamber-name {
+  font: 800 21px/1.1 var(--name);
+  letter-spacing: 0.04em;
+  color: var(--text-strong);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+.chamber-line {
+  font: 400 13px/1.3 var(--ui);
+  color: var(--text);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+/* The party split: one bar, each party's share in its color. */
+.party-bar {
+  flex: none;
+  display: flex;
+  height: 26px;
+  border: 1px solid var(--brass-lo);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+}
+.party-bar-part {
+  display: flex;
+  align-items: center;
+  min-width: 24px;
+  padding: 0 10px;
+  background: linear-gradient(
+    color-mix(in srgb, var(--party, #6f6c66) 88%, #fff 12%),
+    color-mix(in srgb, var(--party, #6f6c66) 72%, #000 28%)
+  );
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+.party-bar-part:last-child {
+  border-right: 0;
+}
+.party-bar-part.vacant {
+  background: repeating-linear-gradient(
+    135deg,
+    #3b3b3f 0 6px,
+    #2c2c30 6px 12px
+  );
+}
+.party-bar-label {
+  font: 600 12px var(--ui);
+  color: #fff;
+  white-space: nowrap;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+}
+.party-none {
+  --party: #6f6c66;
+}
+
+/* A big chamber's seats, a half circle of dots by party. */
+.seat-chart {
+  flex: none;
+  display: flex;
+  justify-content: center;
+  height: 132px;
+}
+.seat-chart-svg {
+  height: 100%;
+  width: auto;
+}
+.seat-chart-svg .seat {
+  fill: var(--party, #6f6c66);
+  stroke: rgba(0, 0, 0, 0.55);
+  stroke-width: 0.6;
+}
+.seat-chart-svg .seat.own {
+  stroke: var(--gold);
+  stroke-width: 2;
+}
+
+/* A member as a card: face, name, seat, party badge; opens their card. */
+#sheet-body .member-card {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 64px;
+  min-height: 0;
+  margin: 0;
+  padding: 8px 12px 8px 9px;
+  text-align: left;
+  color: var(--text);
+  background: linear-gradient(#2b2b2e, #1c1c1f);
+  border: 1px solid rgba(156, 131, 80, 0.3);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 2px 0 rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+#sheet-body .member-card:hover:not(:disabled) {
+  background: linear-gradient(#343438, #222226);
+  border-color: var(--brass);
+  color: var(--text-strong);
+}
+#sheet-body .member-card:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
+}
+.member-card .member-face {
+  width: 46px;
+  height: 46px;
+  border-width: 2px;
+  border-color: var(--party, var(--brass));
+}
+.member-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.member-name {
+  font: 600 15px/1.15 var(--ui);
+  color: var(--text-strong);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.member-line {
+  font: 400 12.5px/1.2 var(--ui);
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.member-badge {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font: 700 11px/1 var(--ui);
+  color: #fff;
+  background: var(--party, #6f6c66);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.member-feeling {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+.member-feeling.warm {
+  background: #7fa864;
+}
+.member-feeling.known {
+  background: var(--gold);
+}
+.member-feeling.cool {
+  background: var(--red);
+}
+#sheet-body .member-card.large {
+  grid-template-columns: 64px max-content auto auto;
+  justify-content: start;
+  height: 82px;
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+  padding-left: 0;
+}
+#sheet-body .member-card.large:hover:not(:disabled) {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0)
+  );
+  border-color: transparent;
+}
+.member-card.large .member-face {
+  width: 64px;
+  height: 64px;
+}
+.member-card.large .member-name {
+  font-size: 17px;
+}
+
+/* The pager: as many cards as fit, the rest a page away. */
+.pager {
+  flex: none;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pager-grid {
+  display: grid;
+  align-content: start;
+}
+.pager-controls {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.pager-controls[hidden] {
+  display: none;
+}
+#sheet-body .pager-arrow {
+  min-height: 0;
+  width: 30px;
+  height: 26px;
+  padding: 0;
+  margin: 0;
+  font: 600 18px/1 var(--ui);
+}
+.pager-where {
+  font: 500 12.5px var(--ui);
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A roll call: its name and date over a yes and no bar. */
+.vote-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.vote-bar-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+.vote-bar-title {
+  font: 500 14px/1.25 var(--ui);
+  color: var(--text-strong);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.vote-bar-when {
+  flex: none;
+  font: 400 12.5px var(--ui);
+  color: var(--text-2);
+}
+.vote-bar-outcome {
+  flex: none;
+  margin-left: auto;
+  font: 600 10.5px var(--ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.vote-bar-outcome.passed {
+  color: #9cc27f;
+}
+.vote-bar-outcome.failed {
+  color: #d88a7d;
+}
+.vote-bar-track {
+  display: flex;
+  height: 22px;
+  border: 1px solid var(--brass-lo);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.vote-bar-part {
+  display: flex;
+  align-items: center;
+  min-width: 46px;
+  padding: 0 8px;
+}
+.vote-bar-part.yes {
+  background: linear-gradient(#6a8a4b, #4c6934);
+}
+.vote-bar-part.no {
+  justify-content: flex-end;
+  background: linear-gradient(#97473c, #6e2d26);
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
+}
+.vote-bar-label {
+  font: 600 11.5px var(--ui);
+  color: #fff;
+  white-space: nowrap;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+/* Coming up: a gold date and what happens then. */
+.date-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.date-list li {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+}
+.date-list-when {
+  font: 600 14px var(--ui);
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+.date-list-text {
+  font: 400 14px/1.3 var(--ui);
+  color: var(--text-strong);
+}
+.date-list-empty {
+  margin: 0;
+  font: italic 400 14px var(--speech);
+  color: var(--text-2);
+}
+.split-main .record-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 6px 0 0;
+}
+.split-main .record-section > .label {
+  margin: 0;
 }
