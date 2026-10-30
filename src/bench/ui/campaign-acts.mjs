@@ -20,7 +20,7 @@ export function debateCard({ words, debate, questionLabel, onAnswer }) {
   ];
   const picks = debate.questions.map((question) => {
     let position = null;
-    const bar = el("nav", { className: "tabs" });
+    const bar = el("nav", { className: "tabs tab-rail" });
     const choose = (value) => {
       position = value;
       chooseTab(bar, "position", String(value));
