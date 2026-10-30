@@ -42,14 +42,20 @@ import { gameStartDate } from "./game-start";
 import { coverageSpellsNow, spellOn } from "./health-own";
 import { setJournalTrace } from "./journal-state";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import type { CoverageSpell } from "./law-reach/group-b-money";
+import {
+  FEDERAL_MEDICAID_LINE,
+  governmentAt,
+  STATE_MEDICAID_LINE,
+  type CoverageSpell,
+} from "./law-reach/group-b-money";
+import type { TreasuryMonthRow } from "./budgets-treasury";
 import { advanceCore } from "./life";
 import type { MedicalBillRow } from "./medical-bills";
-import { outsideAccountOf } from "./modules/budgets";
+import { BUDGETS_MODULE_ID, outsideAccountOf } from "./modules/budgets";
 import { COVERAGE_MODULE_ID } from "./modules/coverage";
 import { medicalDebtOf } from "./modules/credit";
 import { healthReport } from "./modules/health";
-import { enactLaw, lawChain, LAWS_MODULE_ID } from "./modules/laws";
+import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { WEB_LINKS } from "./outcome-web-model";
 import type { LawRowInput } from "./laws-starting";
 import { coreAPI } from "./state";
@@ -217,12 +223,18 @@ function play(
   outside: MedicalBillRow | null;
   onsets: Map<string, string>;
   checked: number;
+  /** Each town seller's day of Medicaid care, as the treasuries paid it, by seller and day. */
+  care: Map<string, SellerCare>;
+  /** The town's employer policyholders after each month's review (full and counted records), by billed day. */
+  employerPlans: Map<string, number>;
 } {
   const api = coreAPI(core);
   const town = lawChain(api).townPlaceId;
   const rows: MedicalBillRow[] = [];
   let outside: MedicalBillRow | null = null;
   const onsets = new Map<string, string>();
+  const care = new Map<string, SellerCare>();
+  const employerPlans = new Map<string, number>();
   let checked = 0;
   for (let month = 0; month < MONTHS; month += 1) {
     const day = makeIsoDate(core.date);
@@ -230,6 +242,7 @@ function play(
     advanceCore(core, makeIsoDate(`${next.slice(0, 7)}-02`));
     const billed = `${core.date.slice(0, 7)}-01`;
     const thisMonth = billsOf(core).filter((row) => row.date === billed);
+    employerPlans.set(billed, employerPolicyholders(api, town));
     // The town's rows are kept (two worlds' every household-month do not
     // fit the heap), and one row elsewhere that reads the place row.
     rows.push(...thisMonth.filter((row) => row.placeId === town));
@@ -241,6 +254,57 @@ function play(
       if (c.onsetEventId) onsets.set(`${billed}|${c.personId}`, c.onsetEventId);
     const sellers = townSellers(api, town);
     const outsideAccount = outsideAccountOf(api);
+    // Medicaid's part of the care, by town seller: what the treasuries paid
+    // each that day is the sum of round(medicaidMinor x weight) over the
+    // households that pay it, and the federal leg is that sum at the match
+    // in force, paid in full.
+    const match = lawInForce(api, "medicaid-match");
+    const share = governmentAt(api, "federal")
+      ? Math.min(1, Math.max(0, (match.value ?? 0) / 100))
+      : 0;
+    const owedBySeller = new Map<string, { minor: number; rows: string[] }>();
+    for (const row of thisMonth) {
+      if (row.placeId !== town || !row.sellerId || !sellers.has(row.sellerId))
+        continue;
+      const minor = Math.round(
+        row.members.reduce((n, m) => n + (m.medicaidMinor ?? 0), 0) *
+          row.weight,
+      );
+      if (minor <= 0) continue;
+      const owed = owedBySeller.get(row.sellerId) ?? { minor: 0, rows: [] };
+      owed.minor += minor;
+      owed.rows.push(row.id);
+      owedBySeller.set(row.sellerId, owed);
+    }
+    for (const sellerId of sellers) {
+      const account = api.accounts().main(sellerId);
+      const paid = medicaidCare.filter(
+        (p) => p.world === playing && p.date === billed && p.to === account,
+      );
+      const owed = owedBySeller.get(sellerId) ?? { minor: 0, rows: [] };
+      const federal = paid
+        .filter((p) => p.source.includes("+medicaid-match"))
+        .reduce((n, p) => n + p.minor, 0);
+      const total = paid.reduce((n, p) => n + p.minor, 0);
+      const at = `${where}: ${sellerId} on ${billed}`;
+      expect(
+        total,
+        `${at}: Medicaid's part of ${owed.rows.length} households' care`,
+      ).toBe(owed.minor);
+      expect(
+        federal,
+        `${at}: the federal leg at the match ${match.value} (${match.governing?.id})`,
+      ).toBe(Math.round(owed.minor * share));
+      if (owed.minor > 0)
+        care.set(`${sellerId}|${billed}`, {
+          minor: owed.minor,
+          federal,
+          match: match.value ?? 0,
+          matchLawId: match.governing?.id ?? null,
+          households: owed.rows.length,
+          journalIds: paid.map((p) => p.id),
+        });
+    }
     for (const row of thisMonth) {
       if (row.counted || row.placeId !== town || row.paidMinor <= 0) continue;
       const at = `${where}: ${row.id} on ${row.date}`;
@@ -281,7 +345,105 @@ function play(
       checked += 1;
     }
   }
-  return { rows, outside, onsets, checked };
+  return { rows, outside, onsets, checked, care, employerPlans };
+}
+
+/**
+ * The town's employer policyholders as the coverage engine's records hold
+ * them now: full policyholders and counted policy records, each counted
+ * record by its id.
+ */
+function employerPolicyholders(api: CoreAPI, town: string): number {
+  const core = api.state as CoreState;
+  const coverage = api.moduleState(COVERAGE_MODULE_ID);
+  const full = (
+    coverage.table("coverage").rows() as unknown as {
+      personId: string;
+      householdId: string;
+      plan: string;
+      holderId: string | null;
+      to: string | null;
+    }[]
+  ).filter(
+    (row) =>
+      row.to === null &&
+      row.plan === "employer" &&
+      row.holderId === row.personId &&
+      core.households.get(row.householdId as never)?.placeId === town,
+  ).length;
+  const counted = (
+    coverage.table("countedCoverage").rows() as unknown as {
+      placeId: string;
+      to: string | null;
+    }[]
+  ).filter((row) => row.to === null && row.placeId === town).length;
+  return full + counted;
+}
+
+/** A town seller's day of Medicaid care: what was owed and paid, and the federal leg at the match. */
+interface SellerCare {
+  readonly minor: number;
+  readonly federal: number;
+  readonly match: number;
+  readonly matchLawId: string | null;
+  readonly households: number;
+  readonly journalIds: readonly string[];
+}
+
+/**
+ * The care inside the treasuries' lines over the played window: the federal
+ * leg counts against the federal health line and the whole care against the
+ * state's welfare and Medicaid line (months closed and what is noted since
+ * the last close); the federal months carry no welfare and Medicaid line,
+ * which the federal budget lacks; and no line of either was paid past its
+ * due, so the care was paid within each line's total, not on top of it.
+ */
+function careInsideLines(
+  api: CoreAPI,
+  where: string,
+  legs: { federal: number; total: number },
+): string {
+  const federal = governmentAt(api, "federal");
+  const state = governmentAt(api, "state")!;
+  const budgets = api.moduleState(BUDGETS_MODULE_ID);
+  const months = budgets
+    .table("treasuryMonths")
+    .rows() as unknown as TreasuryMonthRow[];
+  const since = (id: string, line: string) =>
+    (
+      budgets.table("sinceClose").get(id) as unknown as
+        { lines: Record<string, number> } | undefined
+    )?.lines[line] ?? 0;
+  const inTown = (id: string, line: string) =>
+    months
+      .filter((m) => m.governmentId === id)
+      .reduce((n, m) => n + (m.lines[line]?.inTownMinor ?? 0), 0) +
+    since(id, line);
+  for (const m of months.filter(
+    (row) => row.governmentId === state.id || row.governmentId === federal?.id,
+  )) {
+    if (m.governmentId === federal?.id)
+      expect(
+        m.lines[STATE_MEDICAID_LINE],
+        `${where}: ${m.id} pays no line the federal budget lacks`,
+      ).toBeUndefined();
+    for (const [line, row] of Object.entries(m.lines))
+      expect(
+        row.inTownMinor + row.aidMinor + row.providersMinor + row.outsideMinor,
+        `${where}: ${m.id} ${line} paid within its due`,
+      ).toBeLessThanOrEqual(row.dueMinor + 2);
+  }
+  const federalHealth = federal ? inTown(federal.id, FEDERAL_MEDICAID_LINE) : 0;
+  const stateWelfare = inTown(state.id, STATE_MEDICAID_LINE);
+  expect(
+    federalHealth,
+    `${where}: federal ${FEDERAL_MEDICAID_LINE} in town`,
+  ).toBeGreaterThanOrEqual(legs.federal);
+  expect(
+    stateWelfare,
+    `${where}: state ${STATE_MEDICAID_LINE} in town`,
+  ).toBeGreaterThanOrEqual(legs.total);
+  return `the federal legs ${legs.federal} inside the federal ${FEDERAL_MEDICAID_LINE} line's in-town ${federalHealth}, the care ${legs.total} inside the state ${STATE_MEDICAID_LINE} line's in-town ${stateWelfare}, ${months.filter((m) => m.governmentId === state.id || m.governmentId === federal?.id).length} treasury months each within its lines' dues`;
 }
 
 /** The sorted plans of a row's members, for comparing like households. */
@@ -387,8 +549,19 @@ describe("medical bills and medical debt in a played world", () => {
             const sellerAccounts = new Map(
               played.rows
                 .filter((row) => row.sellerId)
-                .map((row) => [row.id, api.accounts().main(row.sellerId!)]),
+                .map((row) => [
+                  `${row.id}|${row.date}`,
+                  api.accounts().main(row.sellerId!),
+                ]),
             );
+            // Every Medicaid-care payment of the world, inside the lines.
+            const legs = medicaidCare.filter((p) => p.world === world);
+            const lines = careInsideLines(api, where(), {
+              federal: legs
+                .filter((p) => p.source.includes("+medicaid-match"))
+                .reduce((n, p) => n + p.minor, 0),
+              total: legs.reduce((n, p) => n + p.minor, 0),
+            });
             return {
               ...played,
               change,
@@ -398,6 +571,7 @@ describe("medical bills and medical debt in a played world", () => {
               start,
               end,
               sellerAccounts,
+              lines,
             };
           };
           const withExpansion = run("expanded");
@@ -578,22 +752,40 @@ describe("medical bills and medical debt in a played world", () => {
               ).toBeDefined();
             // Medicaid's own part of their care was paid to the household's
             // seller that day by the treasuries, by journal entry.
-            const sellerAccount = withExpansion.sellerAccounts.get(expanded.id);
+            // (play() checked every town seller's day: the receipts equal the
+            // sum of round(medicaidMinor x weight) over its households, the
+            // federal leg that sum at the match in force, paid in full.)
+            const sellerAccount = withExpansion.sellerAccounts.get(
+              `${expanded.id}|${expanded.date}`,
+            );
             const care = medicaidCare.filter(
               (p) =>
                 p.world === "expanded" &&
                 p.date === expanded.date &&
                 p.to === sellerAccount,
             );
-            for (const m of covered)
-              expect(
-                m.medicaidMinor ?? 0,
-                `${at}: ${m.personId}`,
-              ).toBeGreaterThan(0);
+            const sellerDay = withExpansion.care.get(
+              `${expanded.sellerId}|${expanded.date}`,
+            );
+            const own = Math.round(
+              covered.reduce((n, m) => n + (m.medicaidMinor ?? 0), 0) *
+                expanded.weight,
+            );
             expect(
-              care.length,
-              `${at}: Medicaid's part paid to ${expanded.sellerId}`,
-            ).toBeGreaterThan(0);
+              sellerDay?.minor ?? 0,
+              `${at}: Medicaid's part paid to ${expanded.sellerId} holds this household's ${own}`,
+            ).toBeGreaterThanOrEqual(own);
+
+            // The expansion moves the town's employer plans not at all: the
+            // coverage engine leaves its and the work requirement's
+            // place-level coverage links out in the town, whose Medicaid
+            // coverage the reach keeps by person id. The first month billed,
+            // before the two worlds' money has parted.
+            const firstBilled = [...withExpansion.employerPlans.keys()][0]!;
+            expect(
+              withExpansion.employerPlans.get(firstBilled),
+              `${where()}: the town's employer policyholders on ${firstBilled} with the expansion and in the twin`,
+            ).toBe(inTwin.employerPlans.get(firstBilled));
             // The place row is left out of its share: its own records carry it.
             expect(expanded.ownRecordsFor, at).toContain(TWIN_LINK);
             expect(expanded.webLinks, at).not.toContain(TWIN_LINK);
@@ -642,7 +834,7 @@ describe("medical bills and medical debt in a played world", () => {
                 " ",
               );
             const outside = withExpansion.outside ?? inTwin.outside;
-            return `(b) ${where()}; expansion ${withExpansion.change} in one world, repealed in the twin (${inTwin.change || "not held"}); played ${withExpansion.start} to ${withExpansion.end}; the twin held it on no day of the window. ${named.id}: medical debt ${named.expandedDebt?.balanceMinor ?? 0} with the expansion (${named.expandedDebt?.id ?? "no record"}) against ${named.twinDebt!.balanceMinor} in the twin (${named.twinDebt!.id}, first sent ${named.twinDebt!.chargedOffAt}, last ${named.twinDebt!.lastSentAt} ${named.twinDebt!.lastSentMinor} from ${named.twinDebt!.lastBillId}). On ${expanded.date} ${expanded.id} billed ${expanded.billMinor} with the expansion (Medicaid members ${covered.map((m) => `${m.personId} ${m.billMinor}, Medicaid's part ${m.medicaidMinor}, coverage records ${recordsOf(m.personId, expanded.date)}`).join("; ")}; the treasuries paid ${expanded.sellerId} ${care.map((p) => `${p.minor} by ${p.id} (${p.source.includes("+medicaid-match") ? "federal, at the match" : "state"})`).join(", ")}) against ${twin.billMinor} in the twin (plans ${plansOf(twin)}); own records for ${expanded.ownRecordsFor.join(", ")}, web links ${expanded.webLinks.join(", ") || "none"}. Counted: ${countedMedicaid.id} on ${countedMedicaid.date}, member ${countedMember.personId} at Medicaid's share billed ${countedMember.billMinor} (coverage records ${recordsOf(countedMember.personId, countedMedicaid.date)}), own records for ${countedMedicaid.ownRecordsFor.join(", ")}; ${countedTown.length} counted town household-months, none reading the place row${outside ? `; outside the town ${outside.id} (${outside.placeId}) reads it, share ${outside.collectionsShare} (${outside.webRecordId})` : ""}`;
+            return `(b) ${where()}; expansion ${withExpansion.change} in one world, repealed in the twin (${inTwin.change || "not held"}); played ${withExpansion.start} to ${withExpansion.end}; the twin held it on no day of the window. ${named.id}: medical debt ${named.expandedDebt?.balanceMinor ?? 0} with the expansion (${named.expandedDebt?.id ?? "no record"}) against ${named.twinDebt!.balanceMinor} in the twin (${named.twinDebt!.id}, first sent ${named.twinDebt!.chargedOffAt}, last ${named.twinDebt!.lastSentAt} ${named.twinDebt!.lastSentMinor} from ${named.twinDebt!.lastBillId}). On ${expanded.date} ${expanded.id} billed ${expanded.billMinor} with the expansion (Medicaid members ${covered.map((m) => `${m.personId} ${m.billMinor}, Medicaid's part ${m.medicaidMinor}, coverage records ${recordsOf(m.personId, expanded.date)}`).join("; ")}; its part ${own}; the treasuries paid ${expanded.sellerId} ${sellerDay!.minor} that day for ${sellerDay!.households} households, the sum of their Medicaid parts, the federal leg ${sellerDay!.federal} at the match ${sellerDay!.match} (${sellerDay!.matchLawId}), paid in full: ${care.map((p) => `${p.minor} by ${p.id} (${p.source.includes("+medicaid-match") ? "federal" : "state"})`).join(", ")}; ${withExpansion.lines}) against ${twin.billMinor} in the twin (plans ${plansOf(twin)}); own records for ${expanded.ownRecordsFor.join(", ")}, web links ${expanded.webLinks.join(", ") || "none"}. The town's employer policyholders on ${firstBilled}: ${withExpansion.employerPlans.get(firstBilled)} with the expansion, ${inTwin.employerPlans.get(firstBilled)} in the twin. Counted: ${countedMedicaid.id} on ${countedMedicaid.date}, member ${countedMember.personId} at Medicaid's share billed ${countedMember.billMinor} (coverage records ${recordsOf(countedMember.personId, countedMedicaid.date)}), own records for ${countedMedicaid.ownRecordsFor.join(", ")}; ${countedTown.length} counted town household-months, none reading the place row${outside ? `; outside the town ${outside.id} (${outside.placeId}) reads it, share ${outside.collectionsShare} (${outside.webRecordId})` : ""}`;
           };
           for (const [id, entry] of posted)
             expect(

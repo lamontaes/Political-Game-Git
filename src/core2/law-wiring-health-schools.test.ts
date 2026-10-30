@@ -686,7 +686,9 @@ function play(where: string, seed: string, core: CoreState): void {
       : undefined);
   record(EXPAND, expandRow, expandBill?.journalIds[0] ?? null);
   // The coverage the requirement ends: its coverage records end, and the
-  // member's next bill, priced without Medicaid, is the money it moved.
+  // member's next bill, priced without Medicaid, is the money it moved: the
+  // part it added (requirementMinor) is paid first, in an entry whose id
+  // cites the requirement.
   const endedIds = new Set(
     coverage
       .filter((r) => r.to !== null && r.to >= workOn)
@@ -696,9 +698,16 @@ function play(where: string, seed: string, core: CoreState): void {
     .filter((b) => b.date > workOn && b.journalIds.length > 0)
     .sort((a, b) => Number(a.counted) - Number(b.counted))
     .find((b) =>
-      b.members.some((m) => endedIds.has(m.personId) && m.plan !== "medicaid"),
+      b.members.some(
+        (m) =>
+          endedIds.has(m.personId) &&
+          m.plan !== "medicaid" &&
+          (m.requirementMinor ?? 0) > 0,
+      ),
     );
-  const endedMember = endedBill?.members.find((m) => endedIds.has(m.personId));
+  const endedMember = endedBill?.members.find(
+    (m) => endedIds.has(m.personId) && (m.requirementMinor ?? 0) > 0,
+  );
   const endedRow =
     ended.find(
       (r) => r.target === "person" && r.targetId === endedMember?.personId,
