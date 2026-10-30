@@ -1,7 +1,7 @@
 /* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
-import { makeButton, buttonRow } from "./ui/button.mjs";
+import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import {
   talkLine,
@@ -38,8 +38,8 @@ import {
   noteLine,
   withNotes,
 } from "./ui/list-row.mjs";
-import { fillArtwork } from "./ui/picture.mjs";
-import { barChart } from "./ui/chart.mjs";
+import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
+import { barChart, columnChart, donutChart } from "./ui/chart.mjs";
 import {
   select,
   searchBox,
@@ -51,7 +51,7 @@ import {
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
 import { recordScreen } from "./ui/screen.mjs";
-import { listScreen } from "./ui/list-screen.mjs";
+import { listScreen, listEntry } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
@@ -66,6 +66,7 @@ const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
+import { draftCard } from "./ui/draft-card.mjs";
 import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
 import {
   newspaperScreen,
@@ -345,6 +346,8 @@ let governmentLevel;
 let governmentState = "";
 // The branch the Government tab shows, Legislative or Executive.
 let governmentBranch;
+// The subject the Issues tab shows (Taxes and money, Schools...).
+let issueSubject;
 let guideQuery = "";
 // Each civic term and its one-line definition.
 let guideTerms = new Map();
@@ -446,6 +449,15 @@ const amount = (value, unit) => {
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
   return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
 };
+/** What follows a number typed for a law's amount: a percent sign, dollars, or its unit in words. */
+const amountUnit = (unit) =>
+  !unit
+    ? ""
+    : unit.startsWith("percent")
+      ? "%"
+      : unit.startsWith("minor")
+        ? `$${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
+        : unit.replace(/-/g, " ");
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -1309,6 +1321,7 @@ async function campaignRows() {
         doors: "canvass",
         calls: "raise-money",
         event: "event",
+        forum: "forum",
         interview: "interview",
       };
       const result = await post(
@@ -2028,13 +2041,22 @@ function billEstimate(paper, section) {
     scaled && est.afterValue != null
       ? amount(est.afterValue, est.afterUnit)
       : null;
-  if (before && after && !est.statute) lines.push(`${before} → ${after}`);
-  else if (before && after)
-    lines.push(
-      webCite
-        ? `${words.amends ?? ""} ${words.lawInForce ?? ""}: ${words.from ?? ""} ${before} ${words.to ?? ""} ${after}`
-        : `${before} ${words.from ?? ""} ${after}`,
-    );
+  // Today's amount beside the new one, as two cells: the law in force, and what the bill makes it.
+  let compare = null;
+  if (before && after)
+    compare = {
+      todayLabel: words.today ?? "",
+      today: before,
+      newLabel: words.proposed ?? "",
+      proposed: after,
+    };
+  else if (est.line && est.ofMinor != null && est.lineAmountMinor != null)
+    compare = {
+      todayLabel: words.today ?? "",
+      today: moneyWords(est.ofMinor),
+      newLabel: words.proposed ?? "",
+      proposed: moneyWords(est.ofMinor + est.lineAmountMinor),
+    };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
   if (est.line)
     lines.push(
@@ -2059,7 +2081,7 @@ function billEstimate(paper, section) {
       .filter(Boolean)
       .join(" · "),
   );
-  return { prose: section.text ?? paper.title, lines };
+  return { prose: section.text ?? paper.title, lines, compare };
 }
 /**
  * Open a bill as one paper document: designation, title, sponsor, each
@@ -2141,53 +2163,66 @@ async function seatRows() {
   };
   for (const body of v.bodies) {
     for (const m of body.members) me.names = { ...me.names, [m.key]: m.name };
-    // Every law area, one group each: its policies and budget lines. Money
-    // is typed in dollars and kept in cents.
-    const pick = select({
-      options: (body.menus ?? []).map((menu) => ({
-        group: menu.name,
-        options: menu.items.map((item) => ({
-          value: item.series
-            ? `series:${item.series}`
-            : item.question
-              ? `question:${item.question}`
-              : `line:${item.line}`,
+    // Every law area, one group each: its policies and budget lines, each with what is in
+    // force today beside the amount you type. Money is typed in dollars and kept in cents.
+    const seat = controls.seat ?? {};
+    const itemKey = (item) =>
+      item.series
+        ? `series:${item.series}`
+        : item.question
+          ? `question:${item.question}`
+          : `line:${item.line}`;
+    const draftBlock = draftCard({
+      words: {
+        title: seat.title ?? "",
+        issue: seat.issue ?? "",
+        today: seat.today ?? "",
+        newAmount: seat.newAmount ?? "",
+        draft: seat.draft ?? "",
+        none: controls.bill?.none ?? "",
+      },
+      groups: (body.menus ?? []).map((menu) => ({
+        name: menu.name,
+        items: menu.items.map((item) => ({
+          value: itemKey(item),
           label: `${
             item.series
               ? policyLabel(item.series)
               : item.question
                 ? policyLabel(item.question)
                 : item.name
-          }${
-            item.inForce != null
-              ? ` · ${item.series ? amount(item.inForce, item.unit) : item.inForce}`
-              : ""
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-          data:
-            item.unit?.startsWith("minor") || item.line ? { cents: "1" } : {},
+          // What the law in force holds, as the bill's paper cites it.
+          today: item.today
+            ? amount(item.today.value, item.today.unit)
+            : item.inForce != null
+              ? String(item.inForce)
+              : null,
+          unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
+          cents: item.unit?.startsWith("minor") || Boolean(item.line),
+          blocked: item.allowed === false,
+          note:
+            item.allowed === false
+              ? (controls.authority?.[item.reason] ?? "")
+              : "",
         })),
       })),
-    });
-    const value = numberBox({ value: 0 });
-    const draft = makeButton({ textContent: controls.seat?.draft ?? "" });
-    draft.addEventListener("click", () => {
-      const [kind, key] = [
-        pick.value.slice(0, pick.value.indexOf(":")),
-        pick.value.slice(pick.value.indexOf(":") + 1),
-      ];
-      const cents = pick.selectedOptions[0]?.dataset.cents === "1";
-      act({
-        kind: "draft",
-        officeId: body.officeId,
-        ...(kind === "series"
-          ? { series: key }
-          : kind === "line"
-            ? { line: key }
-            : { question: key }),
-        value: cents
-          ? String(Math.round(Number(value.value) * 100))
-          : value.value,
-      });
+      onDraft: (item, typed) => {
+        const [kind, key] = [
+          item.value.slice(0, item.value.indexOf(":")),
+          item.value.slice(item.value.indexOf(":") + 1),
+        ];
+        act({
+          kind: "draft",
+          officeId: body.officeId,
+          ...(kind === "series"
+            ? { series: key }
+            : kind === "line"
+              ? { line: key }
+              : { question: key }),
+          value: item.cents ? String(Math.round(Number(typed) * 100)) : typed,
+        });
+      },
     });
     rows.push(
       listRow(
@@ -2195,7 +2230,7 @@ async function seatRows() {
         {},
         bold(body.title),
         body.members.map((m) => m.name).join(" · "),
-        listRow("seat-draft", {}, pick, value, draft),
+        draftBlock,
       ),
     );
   }
@@ -2262,10 +2297,37 @@ async function seatRows() {
 /** The Kit 13 calendar icon a kind of dated record is drawn with. */
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
+/** The player's own history, oldest first: the reader every person's card uses. */
+async function ownHistory() {
+  const card = await api(
+    `/api/known?${new URLSearchParams({ id: me.id, other: me.id })}`,
+  );
+  return card.history ?? [];
+}
+/** History lines down a timeline of `rows` a page, paged by years. */
+function lifeTimeline(lines, rows) {
+  return timeline({
+    entries: lines.map((h) => ({
+      year: h.date.slice(0, 4),
+      text: h.text,
+      kind: h.kind,
+      recordId: h.recordId,
+    })),
+    rows,
+    words: {
+      previous: controls.person.earlier,
+      next: controls.person.later,
+    },
+  });
+}
 function portraitUrl() {
+  // The created look when there is one; else the figure the scene draws you
+  // with, or the one your card's face is cut from (a life started anywhere
+  // but the creator, who is not standing in their own scene).
   return me.portrait
     ? `/api/portrait?id=${encodeURIComponent(me.id)}`
-    : me.scene?.people.find((p) => p.personId === me.id)?.figureUrl;
+    : (me.scene?.people.find((p) => p.personId === me.id)?.figureUrl ??
+        me.card?.face?.url);
 }
 /** A record image has no substitute when its producer has not supplied one. */
 
@@ -2344,44 +2406,74 @@ const sheets = {
       (c.view && controls.leanWords?.[c.view]
         ? [{ text: controls.leanWords[c.view] }]
         : []);
-    // What you're like, in plain sentences, never the traits' names (owner, Oct 27);
-    // the record sections side by side under it, as a character sheet.
+    // The Oct 14 mock on framed plates: your figure framed at the left (the
+    // sheet's media slot); what you're like in plain sentences, never the
+    // traits' names (owner, Oct 27); small plates for home, work, school and
+    // cash; the people at home as face cards; your views as small plates.
+    const school = c.schools?.length ? c.schools.at(-1) : null;
+    const members = (c.home?.members ?? []).map((member) =>
+      memberCard({
+        name: member.name,
+        line: member.relation
+          ? member.relation.charAt(0).toUpperCase() + member.relation.slice(1)
+          : "",
+        face: member.face,
+        onOpen: () => {
+          closeSheet();
+          showPerson(member);
+        },
+      }),
+    );
     return recordScreen({
       heading: {
         name: c.name,
         meta: `${labels.age} ${c.age} · ${labels.born} ${born}`,
       },
       lede: c.sketch,
-      grid: true,
       sections: [
         {
-          title: c.age < 18 ? labels.householdHome : labels.home,
           items: [
-            { text: c.home?.placeName ?? me.placeName },
             {
-              people: (c.home?.members ?? []).map((member) => ({
-                name: member.name,
-                note: member.relation,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson(member);
-                },
-              })),
+              node: factPlates(
+                [
+                  {
+                    title: c.age < 18 ? labels.householdHome : labels.home,
+                    value: c.home?.placeName ?? me.placeName,
+                  },
+                  c.job && {
+                    title: labels.work,
+                    value: c.job.title,
+                    note: c.job.employer ?? "",
+                  },
+                  school && { title: labels.school, value: school.name },
+                  {
+                    title: labels.money,
+                    value: roundedMoney(c.liquidMinor),
+                  },
+                ].filter(Boolean),
+              ),
             },
           ],
         },
-        c.job && {
-          title: labels.work,
+        members.length && {
+          title: labels.family,
           items: [
-            { text: c.job.title, tone: "feature" },
-            { text: c.job.employer ?? "" },
+            {
+              node: pager({
+                items: members,
+                render: (card) => card,
+                rows: 2,
+                columns: 3,
+                rowHeight: 64,
+                gap: 8,
+                words: {
+                  page: controls.politics.page,
+                  previous: controls.politics.previousPage,
+                  next: controls.politics.nextPage,
+                },
+              }),
+            },
           ],
-        },
-        c.schools?.length && {
-          title: labels.school,
-          items: [...c.schools].reverse().map((school) => ({
-            text: school.name,
-          })),
         },
         views.length && {
           title: labels.views,
@@ -2394,10 +2486,6 @@ const sheets = {
             },
           ],
         },
-        {
-          title: labels.money,
-          items: [{ text: moneyWords(c.liquidMinor), tone: "feature" }],
-        },
       ].filter(Boolean),
     });
   },
@@ -2407,8 +2495,6 @@ const sheets = {
       api(`/api/bank?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.money;
-    const facts = (pairs) =>
-      pairs.map(([label, value]) => ({ node: row(label, value) }));
     const dwelling = me.card.dwelling;
     const deductions = Object.entries(budget.withholding?.byLine ?? {});
     // Cash, spending, assets and debts: the ledger's, the credit engine's and
@@ -2419,126 +2505,195 @@ const sheets = {
       asked > paid
         ? `${moneyWords(paid)} ${labels.loanPaid} · ${moneyWords(asked - paid)} ${labels.unpaid}`
         : moneyWords(paid);
-    return recordScreen({
-      grid: true,
-      sections: [
-        {
-          title: labels.cash,
-          items: [{ text: moneyWords(me.card.liquidMinor), tone: "title" }],
-        },
-        dwelling && {
-          title: me.card.age < 18 ? labels.householdHome : labels.home,
-          items: [
-            dwelling.presentation?.imageUrl && {
-              picture: dwelling.presentation.imageUrl,
-            },
-            { text: words(dwelling.kind ?? "") },
-            ...facts([
-              [
-                labels.tenure,
-                dwelling.tenure === "own" ? labels.owned : labels.rented,
-              ],
-              ...(dwelling.rentMinor !== undefined
-                ? [
-                    [
-                      labels.rent,
-                      `${moneyWords(dwelling.rentMinor)} ${labels.monthly}`,
-                    ],
-                  ]
-                : []),
-            ]),
-          ],
-        },
-        bank?.cash?.months?.length && {
-          title: labels.cashByMonth,
-          items: facts(
-            bank.cash.months.map((entry) => [
-              monthWords(entry.date),
-              moneyWords(entry.cashMinor),
-            ]),
-          ),
-        },
-        (bank?.spending?.length || bank?.loanPayments?.length) && {
-          title: labels.lastMonth,
-          items: facts([
-            ...(bank.spending ?? []).map((line) => [
-              named(labels.reasons, line.reasonKey),
-              owedWords(line.paidMinor, line.requestedMinor),
-            ]),
-            ...(bank.loanPayments ?? []).map((payment) => [
-              `${labels.loanPayments} · ${dateWords(payment.date, { year: false })}`,
-              owedWords(payment.paidMinor, payment.dueMinor),
-            ]),
-          ]),
-        },
-        bank?.assets?.length && {
-          title: labels.assets,
-          items: facts(
-            bank.assets.map((asset) => [
-              asset.kind === "savings"
-                ? `${labels.assetKinds.savings} · ${bank.name}`
-                : labels.assetKinds[asset.kind],
-              moneyWords(asset.valueMinor),
-            ]),
-          ),
-        },
-        bank?.debts?.length && {
-          title: labels.debts,
-          items: facts(
-            bank.debts.map((debt) => [
-              named(labels.debtKinds, debt.kind),
-              debt.pastDueMinor > 0
-                ? `${moneyWords(debt.owedMinor)} · ${moneyWords(debt.pastDueMinor)} ${labels.pastDue}`
-                : moneyWords(debt.owedMinor),
-            ]),
-          ),
-        },
-        deductions.length && {
-          title: labels.deductions,
-          items: facts(
-            deductions.map(([name, value]) => [words(name), moneyWords(value)]),
-          ),
-        },
-      ].filter(Boolean),
-    });
+    // The Money mock (Oct 14) on framed plates: the cash in large type with
+    // each month's review as columns under it, where last month went as a
+    // ring, and the home, what you own and what you owe as small plates
+    // beside it. Every figure is a record's own; nothing scrolls.
+    const shortMonth = (date) =>
+      (MONTH_NAMES[Number(String(date).slice(5, 7)) - 1] ?? "").slice(0, 3);
+    const months = [...(bank?.cash?.months ?? [])].reverse();
+    const spent = [
+      ...(bank?.spending ?? []).map((line) => ({
+        label: named(labels.reasons, line.reasonKey),
+        value: line.paidMinor,
+        unpaid: line.requestedMinor - line.paidMinor,
+      })),
+      ...(bank?.loanPayments ?? []).map((payment) => ({
+        label: labels.loanPayments,
+        value: payment.paidMinor,
+        unpaid: payment.dueMinor - payment.paidMinor,
+      })),
+    ]
+      .filter((part) => part.value > 0 || part.unpaid > 0)
+      .sort((a, b) => b.value - a.value);
+    const spentTotal = spent.reduce((n, part) => n + part.value, 0);
+    // The bank's figures are the household's; said so when you share it.
+    const shared = (me.card.home?.members ?? []).length > 0;
+    const homeValue = bank?.assets?.find((a) => a.kind === "home")?.valueMinor;
+    const owned = (bank?.assets ?? []).filter((a) => a.kind !== "home");
+    const unpaid = spent.filter((part) => part.unpaid > 0);
+    const cash = plate(
+      bank?.name ? `${labels.cash} · ${bank.name}` : labels.cash,
+      line(roundedMoney(me.card.liquidMinor), "money-figure"),
+      ...(months.length
+        ? [
+            columnChart(
+              months.map((m) => ({
+                label: shortMonth(m.date),
+                value: m.cashMinor,
+              })),
+              shared ? labels.householdCashByMonth : labels.cashByMonth,
+              roundedMoney,
+            ),
+          ]
+        : []),
+    );
+    cash.classList.add("money-cash");
+    const home = dwelling && {
+      title: me.card.age < 18 ? labels.householdHome : labels.home,
+      nodes: [
+        ...(dwelling.presentation?.imageUrl
+          ? [
+              pictureFrame({
+                src: dwelling.presentation.imageUrl,
+                className: "money-home-picture",
+              }),
+            ]
+          : []),
+        factPlates([
+          {
+            title: dwelling.tenure === "own" ? labels.owned : labels.rented,
+            value: words(dwelling.kind ?? ""),
+            // A home you own is worth its value; one you rent costs its rent.
+            note:
+              dwelling.tenure === "own" && homeValue
+                ? `${labels.worth} ${roundedMoney(homeValue)}`
+                : dwelling.rentMinor !== undefined
+                  ? `${labels.rent} ${roundedMoney(dwelling.rentMinor)} ${labels.monthly}`
+                  : "",
+          },
+        ]),
+      ],
+    };
+    return [
+      splitScreen({
+        main: [
+          cash,
+          ...(home ? [plate(home.title, ...home.nodes)] : []),
+          ...(deductions.length
+            ? [
+                plate(
+                  labels.deductions,
+                  ...deductions.map(([name, value]) =>
+                    row(words(name), moneyWords(value)),
+                  ),
+                ),
+              ]
+            : []),
+        ],
+        side: [
+          spent.length && {
+            title: `${shared ? labels.householdLastMonth : labels.lastMonth} · ${roundedMoney(spentTotal)}`,
+            nodes: [
+              donutChart(spent, roundedMoney(spentTotal), labels.lastMonth),
+              // A bill left unpaid is said, never folded into the ring.
+              ...unpaid.map((part) =>
+                row(
+                  part.label,
+                  owedWords(part.value, part.value + part.unpaid),
+                ),
+              ),
+            ],
+          },
+          owned.length && {
+            title: labels.assets,
+            nodes: [
+              factPlates(
+                owned.map((asset) => ({
+                  title:
+                    asset.kind === "savings"
+                      ? `${labels.assetKinds.savings} · ${bank.name}`
+                      : labels.assetKinds[asset.kind],
+                  value: roundedMoney(asset.valueMinor),
+                })),
+              ),
+            ],
+          },
+          bank?.debts?.length && {
+            title: labels.debts,
+            nodes: [
+              factPlates(
+                bank.debts.map((debt) => ({
+                  title: named(labels.debtKinds, debt.kind),
+                  value: roundedMoney(debt.owedMinor),
+                  note:
+                    debt.pastDueMinor > 0
+                      ? `${roundedMoney(debt.pastDueMinor)} ${labels.pastDue}`
+                      : "",
+                })),
+              ),
+            ],
+          },
+        ].filter(Boolean),
+        className: "money-screen",
+      }),
+    ];
   },
   async jobs() {
+    // The Oct 14 mock on framed plates: your job with its workplace's
+    // painting, its title in the name type, pay and hours; beside it the work
+    // and school of your life as a timeline, from the one history every
+    // card reads. Never a scroll.
     const labels = controls.jobs;
     const job = me.card.job;
-    return recordScreen({
-      sections: [
-        {
-          title: labels.work,
-          items: job
-            ? [
-                job.presentation?.imageUrl && {
-                  picture: job.presentation.imageUrl,
-                },
-                { text: job.title, tone: "title" },
-                { text: job.employer ?? "", tone: "feature" },
-                {
-                  stats: [
-                    [
-                      labels.pay,
-                      `${moneyWords(job.wageDailyMinor)} ${labels.daily}`,
-                    ],
-                    [
-                      labels.hours,
-                      `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
-                    ],
-                  ],
-                },
-              ]
-            : [{ text: labels.noJob, tone: "empty" }],
-        },
-        {
-          title: labels.study,
-          items: [...(me.card.schools ?? [])]
-            .reverse()
-            .map((s) => ({ fact: [s.date.slice(0, 4), s.name] })),
-        },
-      ],
-    });
+    const life = await ownHistory();
+    const worked = life.filter((h) => h.kind === "work" || h.kind === "school");
+    const work = plate(
+      labels.work,
+      ...(job
+        ? [
+            ...(job.presentation?.imageUrl
+              ? [
+                  pictureFrame({
+                    src: job.presentation.imageUrl,
+                    className: "job-picture",
+                  }),
+                ]
+              : []),
+            heading(job.title, "h3"),
+            ...(job.employer ? [prose(job.employer, "job-employer")] : []),
+            row(
+              labels.pay,
+              `${moneyWords(job.wageDailyMinor)} ${labels.daily}`,
+            ),
+            row(
+              labels.hours,
+              `${Number(job.hoursDaily.toFixed(1))} ${labels.daily}`,
+            ),
+          ]
+        : [prose(labels.noJob, "record-empty")]),
+    );
+    work.classList.add("job-plate");
+    return [
+      work,
+      ...(worked.length
+        ? [plate(labels.workAndSchool, lifeTimeline(worked, 4))]
+        : []),
+    ];
+  },
+  // Your own life as a timeline (owner, Oct 29: a history is a "Vertical
+  // timeline"), the same lines a person's card tells of anyone you open.
+  async history() {
+    const life = await ownHistory();
+    return [
+      plate(
+        null,
+        lifeTimeline(
+          life,
+          Math.max(3, Math.floor((window.innerHeight - 300) / 64)),
+        ),
+      ),
+    ];
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -3629,28 +3784,22 @@ const sheets = {
         ? lawText(law, law.value, law.unit)
         : null);
     // The law's own screen.
+    // One law's page: what is in force at each level on plates, what passed
+    // it, and beside it what is coming, what changed and how members voted.
     const showLaw = async (law) => {
       const level = governingLevel(law);
       const inForce = law.levels
         .filter((l) => l.row)
         .map((l) => ({
-          fact: [
-            setBy(l.level),
-            [
-              lawText(law, l.row.value, l.row.unit),
-              l.row.effectiveDate
-                ? `${labels.since} ${dateWords(l.row.effectiveDate)}`
-                : null,
-            ]
-              .filter(Boolean)
-              .join(" · "),
-          ],
+          title: setBy(l.level),
+          value: lawText(law, l.row.value, l.row.unit),
+          note: l.row.effectiveDate
+            ? `${labels.since} ${dateWords(l.row.effectiveDate)}`
+            : "",
         }));
-      // The law itself: the statute the answer rests on, and the measure
-      // of this world that enacted it, read as its paper.
       const statutes = law.levels
         .filter((l) => l.row?.terms?.cite)
-        .map((l) => ({ fact: [labels.statute, l.row.terms.cite] }));
+        .map((l) => row(labels.statute, l.row.terms.cite));
       const measures = (
         await Promise.all(
           law.levels
@@ -3661,61 +3810,57 @@ const sheets = {
                 `/api/bill?billId=${encodeURIComponent(billId)}`,
               ).catch(() => null);
               return paper
-                ? {
-                    actions: [
-                      {
-                        label: `${labels.enactedBy} ${paper.title}`,
-                        onClick: () =>
-                          openBillPaper(
-                            billId,
-                            (...nodes) =>
-                              $("sheet-body").replaceChildren(...nodes),
-                            () => showLaw(law),
-                          ),
-                      },
-                    ],
-                  }
+                ? makeButton({
+                    textContent: `${labels.enactedBy} ${paper.title}`,
+                    onclick: () =>
+                      openBillPaper(
+                        billId,
+                        (...nodes) => $("sheet-body").replaceChildren(...nodes),
+                        () => showLaw(law),
+                      ),
+                  })
                 : null;
             }),
         )
       ).filter(Boolean);
-      const coming = law.pending.map((pending) => ({
-        fact: [
+      const coming = law.pending.map((pending) =>
+        row(
           `${setBy(pending.level)} · ${dateWords(pending.effectiveDate)}`,
           lawText(law, pending.value, pending.unit),
-        ],
-      }));
+        ),
+      );
       const changed = [...changes.took, ...changes.ahead]
         .filter((c) => c.series === law.series)
-        .map((change) => ({
-          fact: [
+        .map((change) =>
+          row(
             dateWords(change.date),
             [change.measure, change.what].filter(Boolean).join(" · "),
-          ],
-        }));
-      const votes = (law.votes ?? []).map((vote) => ({
-        fact: [vote.name, controls.meeting?.[vote.vote] ?? ""],
-      }));
+          ),
+        );
+      const votes = (law.votes ?? []).map((vote) =>
+        row(vote.name, controls.meeting?.[vote.vote] ?? ""),
+      );
       if (openTab !== "issues") return;
-      // One law reads in one column, in a panel that ends under it.
-      $("sheet-body").classList.remove("cols");
-      $("sheet").classList.add("fits");
+      const side = [
+        coming.length && { title: labels.coming, nodes: coming },
+        changed.length && { title: labels.changed, nodes: changed },
+        votes.length && { title: labels.votes, nodes: votes },
+      ].filter(Boolean);
+      // A law with nothing beside it reads in a panel that ends at its plate.
+      $("sheet").classList.toggle("fits", !side.length);
       $("sheet-body").replaceChildren(
-        ...recordScreen({
-          heading: {
-            name: policyLabel(law.series),
-            meta: level ? setBy(level) : "",
-          },
-          lede: valueText(law),
-          sections: [
-            {
-              title: labels.inForce,
-              items: [...inForce, ...statutes, ...measures],
-            },
-            coming.length && { title: labels.coming, items: coming },
-            changed.length && { title: labels.changed, items: changed },
-            votes.length && { title: labels.votes, items: votes },
-          ].filter(Boolean),
+        splitScreen({
+          controls: [heading(policyLabel(law.series), "h2")],
+          main: [
+            plate(
+              labels.inForce,
+              factPlates(inForce),
+              ...statutes,
+              ...(measures.length ? [buttonTray(...measures)] : []),
+            ),
+          ],
+          side,
+          className: `law-page${level ? ` ${level}` : ""}`,
         }),
       );
     };
@@ -3736,61 +3881,91 @@ const sheets = {
         data: { series: law.series },
       };
     };
+    // The cards of one subject at a time, chosen on the rail, paged inside
+    // a plate to fit the window; the panel never scrolls (owner, Oct 29). A
+    // search narrows the subjects and their cards as it is typed.
     const order = Object.keys(labels.issueGroups ?? {});
-    const screen = async (query) => {
-      const match = (law) =>
-        policyLabel(law.series).toLowerCase().includes(query.toLowerCase());
+    const byName = (a, b) =>
+      policyLabel(a.series).localeCompare(policyLabel(b.series));
+    const columns = Math.max(
+      3,
+      Math.min(5, Math.floor((window.innerWidth - 240) / 230)),
+    );
+    const rows = Math.max(
+      2,
+      Math.min(5, Math.floor((window.innerHeight - 330) / 122)),
+    );
+    const pageWords = {
+      page: labels.page,
+      previous: labels.previousPage,
+      next: labels.nextPage,
+    };
+    let query = "";
+    let rail = tabBar({ tabs: [] });
+    const cards = plate(null);
+    cards.classList.add("issue-plate");
+    const draw = () => {
       const groups = new Map();
-      for (const law of v.law.filter(match)) {
+      for (const law of v.law) {
+        if (
+          !policyLabel(law.series).toLowerCase().includes(query.toLowerCase())
+        )
+          continue;
         const key = groupOf(law.series);
         if (!groups.has(key)) groups.set(key, []);
         groups.get(key).push(law);
       }
-      const sections = await Promise.all(
-        [...groups]
-          .sort(([a], [b]) => order.indexOf(a) - order.indexOf(b))
-          .map(async ([key, laws]) => ({
-            title: labels.issueGroups?.[key] ?? words(key),
-            items: [
-              {
-                node: (
-                  await listScreen({
-                    entries: () =>
-                      laws
-                        .sort((a, b) =>
-                          policyLabel(a.series).localeCompare(
-                            policyLabel(b.series),
-                          ),
-                        )
-                        .map(card),
-                    layout: "cards",
-                  })
-                )[0],
-              },
-            ],
-          })),
+      const keys = [...groups.keys()].sort(
+        (a, b) => order.indexOf(a) - order.indexOf(b),
       );
-      return recordScreen({
-        controls: [
-          searchBox({
-            value: query,
-            placeholder: labels.searchIssues,
-            onInput: async (text) => {
-              const nodes = await screen(text);
-              if (openTab !== "issues") return;
-              // The sheet's own rule: many sections flow in columns across
-              // the window, a few sit in a panel that ends under them.
-              const cols = nodes.length > 12;
-              $("sheet-body").classList.toggle("cols", cols);
-              $("sheet").classList.toggle("fits", !cols);
-              $("sheet-body").replaceChildren(...nodes);
-            },
-          }),
-        ],
-        sections,
+      const subject = keys.includes(issueSubject) ? issueSubject : keys[0];
+      const next = tabBar({
+        attr: "subject",
+        className: "issue-subjects",
+        active: subject,
+        tabs: keys.map((key) => ({
+          key,
+          label: labels.issueGroups?.[key] ?? words(key),
+          onSelect: () => {
+            issueSubject = key;
+            draw();
+          },
+        })),
       });
+      rail.replaceWith(next);
+      rail = next;
+      cards.replaceChildren(
+        subject
+          ? pager({
+              items: [...groups.get(subject)].sort(byName).map(card),
+              render: listEntry,
+              rows,
+              columns,
+              rowHeight: 112,
+              gap: 10,
+              words: pageWords,
+              className: "issue-cards",
+            })
+          : prose(labels.noIssues),
+      );
     };
-    return screen("");
+    const search = searchBox({
+      value: query,
+      placeholder: labels.searchIssues,
+      onInput: (text) => {
+        query = text;
+        draw();
+      },
+    });
+    search.setAttribute("aria-label", labels.searchIssues ?? "");
+    draw();
+    return [
+      splitScreen({
+        controls: [rail, search],
+        main: [cards],
+        className: "issues-screen",
+      }),
+    ];
   },
 };
 // Screens shown as tabs across the top of one menu screen.
@@ -3803,7 +3978,7 @@ const groups = {
     "issues",
     "budgets",
   ],
-  who: ["who", "jobs"],
+  who: ["who", "jobs", "history"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
@@ -3854,7 +4029,7 @@ async function openSheet(tab) {
     "options-sheet",
     tab === "options" || !$("front").hidden,
   );
-  const character = tab === "who";
+  const character = groupOf(tab) === "who";
   $("sheet").classList.toggle("character-sheet", character);
   // News is the paper itself: the sheet is the page, its masthead the title
   // (owner, Oct 28, point 25).
@@ -3885,7 +4060,8 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "who", "news"].includes(tab) &&
+    !["calendar", "people", "news"].includes(tab) &&
+      !character &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
