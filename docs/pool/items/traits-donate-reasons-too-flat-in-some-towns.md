@@ -9,7 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: red main (checker), Oct 30; lead set to governing by the CTO (folded into the campaign money calibration)
+lead: governing
 ---
 
 **What.** src/core2/modules/campaigns.traits.test.ts 'giving follows openness at about the researched rate' fails by draw on clean main (b216577): GOLDEN_PATH_SEED=chk2-c, Lyndon Center, Vermont (5041800), race 2025-03-04: campaigns.donate odds ratio 8.18 against a target of 1.82 and a bound of 4.01. Measured on the same calls: Lyndon Center has 2104 calls, 357 distinct reason totals all near zero (the biggest pile is 45), and 57.5 percent say yes; the personality weight is 0.071, so with the circumstances barely varying temperament alone sorts who gives. Elberta, Michigan (chk2-a): 1612 calls, 600 distinct totals, 52.5 percent yes, odds ratio 1.62, inside the band. So the donate choice does not read enough of a person's money, ties and the race to vary the reasons, as the volunteering test's own comment says of that choice (trait-decision-gaps.json). A share of about half of contacts giving is also far above real giving.
