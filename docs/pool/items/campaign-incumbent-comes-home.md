@@ -9,7 +9,8 @@ status: in-pr
 claimed-by: governing/incumbent-response
 pr: #6876
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 30 (phase A of campaign-like-real-races)
+lead: governing
 claimed-at: 2026-10-30T02:35:29.221Z
 ---
 
