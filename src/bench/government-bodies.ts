@@ -32,7 +32,8 @@ import { billTitleOf } from "../english/bill-names";
 import { backdropFile, faceOf } from "./scene";
 import { capitolPlaceFor } from "./backdrop-places";
 import { calendarItems } from "./calendar";
-import { facePlace, holderFace, homeStateOf, readable } from "./government";
+import { facePlace, holderFace, homeStateOf } from "./government";
+import { properName } from "../director/words";
 import { policyNames } from "./words";
 import { keyPeopleOf } from "../core2/opening-key-people";
 
@@ -349,7 +350,7 @@ export function governmentBodies(
       // A local body by its own name ("Latimer Board of Aldermen"); a state
       // chamber or an office by its title, its government named apart.
       name: office.bodyName ?? office.title,
-      government: readable(office.governmentName),
+      government: properName(office.governmentName),
       level: office.level,
       seats: seats.length,
       vacant: seats.filter((row) => !row.holder).length,

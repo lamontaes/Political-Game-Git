@@ -4246,7 +4246,9 @@ details.entry[open] {
   inset: 0;
   display: grid;
   place-items: center;
-  font: 700 19px var(--name);
+  padding: 0 36px;
+  text-align: center;
+  font: 600 16px/1.15 var(--ui);
   color: var(--text-strong);
 }
 .donut-key {
@@ -4374,4 +4376,31 @@ details.entry[open] {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+/* Budget (the Oct 14 mock on framed plates): the government, its year and total
+   in the name type; three plates in a row; the rings' keys carry amounts. */
+.plate-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+.plate-row > .plate {
+  margin: 0;
+}
+.budget-title {
+  font: 800 clamp(18px, 1.8vw, 24px) / 1.2 var(--name);
+  color: var(--text-strong);
+}
+.budget-adopted {
+  margin: -6px 0 2px;
+  color: var(--text-2);
+}
+.budget-screen .donut-chart {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+.budget-screen .donut-key {
+  width: 100%;
 }

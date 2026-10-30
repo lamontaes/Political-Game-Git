@@ -26,7 +26,7 @@ import { pager } from "./ui/pager.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
 import { section } from "./ui/section.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
-import { plate, factPlates, chips } from "./ui/plate.mjs";
+import { plate, factPlates, chips, plateRow } from "./ui/plate.mjs";
 import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
@@ -2735,7 +2735,7 @@ const sheets = {
       },
     });
     const gov = chosen ?? view.governments[0];
-    if (!gov?.latest) return recordScreen({ controls: [pick], sections: [] });
+    if (!gov?.latest) return [splitScreen({ controls: [pick] })];
     const latest = gov.latest;
     // What the treasury actually took in and paid out, from its journal,
     // beside the plan: a treasury gone wrong shows here.
@@ -2758,43 +2758,50 @@ const sheets = {
             },
           }))
         : [];
-    const chart = (label, lines, withSteps) => ({
-      title: label,
-      items: [
-        {
-          node: barChart(
-            lines.map((r) => ({
-              label: r.name ?? r.line,
-              value: r.minor,
-              steps: withSteps ? steps(r) : [],
-            })),
-            label,
-            roundedMoney,
+    // The Budget mock (Oct 14) on framed plates: the government, its year and
+    // its total in the name type with when and how it was adopted; where the
+    // money comes from and where it goes as rings with amounts (the seven
+    // largest lines and the rest as one); the treasury's books beside them;
+    // and an executive's own spending priorities to step up or down.
+    const largest = (lines) => {
+      const sorted = [...lines].sort((a, b) => b.minor - a.minor);
+      const rest = sorted.slice(7).reduce((n, r) => n + r.minor, 0);
+      return [
+        ...sorted
+          .slice(0, 7)
+          .map((r) => ({ label: r.name ?? r.line, value: r.minor })),
+        ...(rest > 0 ? [{ label: labels.otherLines, value: rest }] : []),
+      ];
+    };
+    const ring = (title, lines, total) =>
+      plate(
+        title,
+        donutChart(largest(lines), roundedMoney(total), title, roundedMoney),
+      );
+    const overBudget = books && books.paidOutMinor > latest.spendingMinor;
+    return [
+      splitScreen({
+        controls: [pick],
+        main: [
+          line(
+            `${gov.name} · ${labels.fiscalYear} ${latest.fiscalYear} · ${roundedMoney(latest.spendingMinor)}`,
+            "budget-title",
           ),
-        },
-      ],
-    });
-    return recordScreen({
-      controls: [pick],
-      grid: true,
-      sections: [
-        {
-          title: `${gov.name} · ${latest.fiscalYear}`,
-          wide: true,
-          items: [
-            {
-              text: [
-                `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
-                books
-                  ? `${labels.booksSince} ${dateWords(books.since)}`
-                  : labels.noBooks,
-              ].join(" · "),
-              tone: "small",
-            },
-            {
-              stats: [
-                [labels.revenue, latest.revenueMinor],
-                [labels.spending, latest.spendingMinor],
+          prose(
+            [
+              `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
+              latest.adoptedBy,
+            ]
+              .filter(Boolean)
+              .join(", "),
+            "budget-adopted",
+          ),
+          plateRow(
+            ring(labels.comesFrom, latest.revenue, latest.revenueMinor),
+            ring(labels.goesTo, latest.spending, latest.spendingMinor),
+            plate(
+              labels.books,
+              ...[
                 [labels.balance, latest.balanceMinor],
                 ...(books
                   ? [
@@ -2803,19 +2810,38 @@ const sheets = {
                       [labels.cashOnHand, books.cashMinor],
                     ]
                   : []),
-              ].map(([label, value]) => [label, roundedMoney(value)]),
-            },
-            books &&
-              books.paidOutMinor > latest.spendingMinor && {
-                text: labels.overBudget,
-                tone: "warning",
-              },
-          ],
-        },
-        chart(labels.revenue, latest.revenue, false),
-        chart(labels.spending, latest.spending, true),
-      ],
-    });
+              ].map(([label, value]) => row(label, roundedMoney(value))),
+              prose(
+                books
+                  ? `${labels.booksSince} ${dateWords(books.since)}`
+                  : labels.noBooks,
+                "small",
+              ),
+              ...(overBudget
+                ? [prose(labels.overBudget, "record-warning")]
+                : []),
+            ),
+          ),
+          ...(gov.youAreExecutive
+            ? [
+                plate(
+                  labels.priorities,
+                  barChart(
+                    latest.spending.map((r) => ({
+                      label: r.name ?? r.line,
+                      value: r.minor,
+                      steps: steps(r),
+                    })),
+                    labels.priorities,
+                    roundedMoney,
+                  ),
+                ),
+              ]
+            : []),
+        ],
+        className: "budget-screen",
+      }),
+    ];
   },
   async calendar() {
     const { date: recordDate, items } = await api(
