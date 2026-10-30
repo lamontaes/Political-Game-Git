@@ -154,10 +154,6 @@ export interface CampaignRow {
   readonly managerWeighedIds?: readonly string[];
   /** The day the last offer to help came. */
   readonly lastOfferOn?: string;
-  /** Everyone already asked for an endorsement (each ask is made once). */
-  readonly endorsementAskedIds?: readonly string[];
-  /** Those who said yes: they endorsed, and their circle heard it. */
-  readonly endorserIds?: readonly string[];
   /** The candidate's circle already asked to sign the petition (each ask is made once). */
   readonly petitionAskedIds?: readonly string[];
   /** The day the candidate last asked their circle to sign. */
@@ -304,16 +300,21 @@ export interface OrganizedGroup {
 
 /**
  * Why an endorsement was given or refused, always one of these: agreement
- * (yes), a question the endorser disagrees on, a rival they back more, or
- * their own reluctance to endorse anyone.
+ * with the platform (yes), a person's tie to the candidate where they do not
+ * agree with the platform (yes: a friend backing a friend; never a group's
+ * reason), a question the endorser disagrees on, a rival they back more, or
+ * their own reluctance to endorse anyone (a group whose cause the platform
+ * does not touch among them).
  */
 export type EndorsementReason =
-  "agrees" | "disagrees" | "prefers-rival" | "declines";
+  "agrees" | "close-tie" | "disagrees" | "prefers-rival" | "declines";
 
 /**
  * One answer to an endorsement, kept for the scene, the press and the rival
  * campaign: a person a candidate asked (every answer, yes or no), or a
- * group's backing, written once on the day its speaker gives it.
+ * group's backing, written once on the day its speaker gives it. It is the
+ * one record of who was asked and who endorsed (`endorsementsOf`); the
+ * campaign row keeps no list of its own.
  */
 export interface EndorsementRow {
   /** endorsement:<filingId>:<the person asked, or the group's organization>. */
@@ -3269,10 +3270,14 @@ export function organizedGroupsIn(
   return out;
 }
 
-/** How far a stance agrees with a platform, and the question it disagrees with most. */
+/**
+ * How far a stance agrees with a platform, the question it disagrees with
+ * most, and how many of the platform's questions it takes a side on.
+ */
 interface PlatformRead {
   readonly agreement: number;
   readonly issue: string | null;
+  readonly shared: number;
 }
 
 /**
@@ -3299,7 +3304,7 @@ function platformRead(
       issue = stance.question;
     }
   }
-  return { agreement: held ? clamp(sum / held) : 0, issue };
+  return { agreement: held ? clamp(sum / held) : 0, issue, shared: held };
 }
 
 /** The campaigns of everyone standing in a contest who has filed by today. */
@@ -3329,7 +3334,12 @@ interface EndorsementWeighing extends PlatformRead {
  * tie to the candidate (`endorsementTieWeight`); their temperament toward
  * endorsing goes on top. They endorse this candidate only when that is
  * above nothing and no rival in the race draws as much backing; never for
- * a price.
+ * a price. A group speaks only for its stance: it weighs a candidate only
+ * when the platform takes up at least one of its questions (none in common:
+ * it declines, and that candidate is no rival either), and it backs only a
+ * candidate it agrees with, its speaker's tie adding to that agreement but
+ * never standing in for it. A person may back a friend whose platform they
+ * do not share; that yes is kept as the tie it is (`close-tie`).
  */
 function weighEndorsement(
   api: CoreAPI,
@@ -3337,6 +3347,7 @@ function weighEndorsement(
   campaign: CampaignRow,
   field: readonly CampaignRow[],
   agreementOf: (platform: readonly Stance[]) => PlatformRead,
+  speaksFor: "self" | "group",
 ): EndorsementWeighing {
   const backingOf = (row: CampaignRow) => {
     const read = agreementOf(row.platform);
@@ -3350,7 +3361,11 @@ function weighEndorsement(
       backing: read.agreement + campaignParameter("endorsementTieWeight") * tie,
     };
   };
+  const weighed = (read: PlatformRead) =>
+    speaksFor === "self" || read.shared > 0;
   const mine = backingOf(campaign);
+  if (!weighed(mine))
+    return { ...mine, score: 0, rival: null, yes: false, reason: "declines" };
   const score = leanedScore(
     api.state,
     endorser,
@@ -3362,21 +3377,28 @@ function weighEndorsement(
   const rival =
     field
       .filter((row) => row.id !== campaign.id)
-      .map((row) => ({ filingId: row.id, backing: backingOf(row).backing }))
+      .map((row) => ({ filingId: row.id, read: backingOf(row) }))
+      .filter(({ read }) => weighed(read))
+      .map(({ filingId, read }) => ({ filingId, backing: read.backing }))
       .sort(
         (a, b) => b.backing - a.backing || a.filingId.localeCompare(b.filingId),
       )[0] ?? null;
   const outdone = rival !== null && rival.backing >= mine.backing;
-  const yes = score > 0 && !outdone;
+  const yes =
+    score > 0 && !outdone && (speaksFor === "self" || mine.agreement > 0);
   return {
     ...mine,
     score,
     rival,
     yes,
     reason: yes
-      ? "agrees"
-      : outdone
-        ? "prefers-rival"
+      ? mine.agreement > 0
+        ? "agrees"
+        : "close-tie"
+      : rival !== null && outdone
+        ? rival.backing > 0
+          ? "prefers-rival"
+          : "disagrees"
         : mine.agreement <= 0
           ? "disagrees"
           : "declines",
@@ -3517,11 +3539,12 @@ export function askForEndorsement(
     campaign,
     raceCampaigns(api, campaign.contestId),
     (platform) => ({
-      agreement: agreementWith(api, endorserId, lean, platform),
-      issue: platformRead(platform, (question) =>
+      ...platformRead(platform, (question) =>
         viewOn(api, endorserId, question, lean),
-      ).issue,
+      ),
+      agreement: agreementWith(api, endorserId, lean, platform),
     }),
+    "self",
   );
   const reached = weighing.yes
     ? endorsementHeard(
@@ -3554,7 +3577,8 @@ export function askForEndorsement(
  * her campaign gained steam"). Each group's speaker weighs every candidate
  * standing, the player among them, by the one endorsement rule, reading
  * the group's stance where a person reads their own views; they endorse the
- * one they back above all rivals, and no one when none stands out (asked
+ * one they back above all rivals among those whose platform takes up the
+ * group's cause and agrees with it, and no one when none stands out (asked
  * again on later turns, as ties and the field change). A group backs one
  * candidate in a race, once: its members hear it as an endorsement, and each
  * is asked to give their evenings, deciding from their own reasons, their
@@ -3594,6 +3618,7 @@ function groupsWeighRace(api: CoreAPI, contestId: string): void {
         campaign,
         field,
         agreementOf,
+        "group",
       );
       if (!weighing.yes) continue;
       const reached = endorsementHeard(
@@ -3947,11 +3972,21 @@ export function askForSupport(api: CoreAPI, filingId: string): void {
   for (let i = 0; i < asks; i += 1)
     askToVolunteer(api, filingId, pool[(from + i) % pool.length]!);
   const candidate = api.state.people.get(campaign.candidateId);
-  const asked = new Set(campaign.endorsementAskedIds ?? []);
+  // Who was already asked is the endorsement record itself: every answer a
+  // person gave is kept there (a group's backing is not an ask).
+  const asked = new Set(
+    endorsementsOf(api, filingId).flatMap((row) =>
+      row.organizationId === null ? [row.speakerId] : [],
+    ),
+  );
   const closest = candidate
     ? [...new Set([...candidate.familyIds, ...candidate.knownIds])]
         .filter(
-          (id) => id !== playerId && id !== candidate.id && !asked.has(id),
+          (id) =>
+            id !== playerId &&
+            id !== candidate.id &&
+            !asked.has(id) &&
+            !!api.state.people.get(id)?.alive,
         )
         .map((id) => ({
           id,
@@ -3960,16 +3995,10 @@ export function askForSupport(api: CoreAPI, filingId: string): void {
         .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))
         .slice(0, campaignParameter("endorsementAsksPerTurn"))
     : [];
-  const said: string[] = [];
-  for (const { id } of closest) {
-    asked.add(id);
-    if (askForEndorsement(api, filingId, id)) said.push(id);
-  }
+  for (const { id } of closest) askForEndorsement(api, filingId, id);
   save(api, {
     ...campaignFor(api, filingId),
     volunteerCursor: pool.length ? (from + asks) % pool.length : 0,
-    endorsementAskedIds: [...asked],
-    endorserIds: [...(campaign.endorserIds ?? []), ...said],
   });
 }
 

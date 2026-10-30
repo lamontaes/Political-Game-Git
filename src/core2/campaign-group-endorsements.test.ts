@@ -15,6 +15,12 @@
  * endorsement record once, says it in public, reaches its members and asks
  * each to volunteer, and at least one says yes by their own reasons. No
  * endorsement goes to the candidate the group disagrees with.
+ *
+ * A group speaks only for its stance: where no candidate's platform takes up
+ * its question, or one takes it up only against it, its speaker's friendship
+ * with a candidate never turns into the group's backing. A person may still
+ * back a friend whose platform they do not share, and that yes is kept as the
+ * tie it is, never as agreement.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -23,12 +29,15 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { closenessBetween } from "./closeness";
+import { decisionLean } from "./trait-decisions";
 import { setKeepEveryonesWhy } from "./why-kept";
 import type { CoreAPI, CoreEventInput, CoreState, PersonState } from "./types";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import { openRecord } from "./modules/record";
 import {
+  ballot,
   fileCandidacy,
   openContests,
   openElections,
@@ -41,11 +50,12 @@ import {
   endorsementsOf,
   openCampaigns,
   organizedGroupsIn,
+  parsePlatform,
   type CauseRow,
   type EndorsementRow,
 } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
-import { viewOn, viewsModule } from "./modules/views";
+import { agreementWith, viewOn, viewsModule } from "./modules/views";
 import {
   campaignParameter,
   personLean,
@@ -220,12 +230,24 @@ function foundGroup(
   };
 }
 
-/** Two adults filed in the first contest that takes them both: one for the group's side, one against. */
+type Cause = NonNullable<ReturnType<typeof causeOf>>;
+
+/** The group's question, one candidate for its side and one against. */
+const forAndAgainst = (cause: Cause): [string[], string[]] => [
+  [`${cause.question}=${cause.side}`],
+  [`${cause.question}=${-cause.side}`],
+];
+
+/**
+ * Two adults filed in the first contest that takes them both, on the two
+ * platforms given (by default one for the group's side, one against).
+ */
 function twoCandidates(
   api: CoreAPI,
   core: CoreState,
-  cause: NonNullable<ReturnType<typeof causeOf>>,
+  cause: Cause,
   members: ReadonlySet<string>,
+  platforms: [string[], string[]] = forAndAgainst(cause),
 ): { agrees: FilingRow; disagrees: FilingRow } | null {
   const founder = core.people.get(cause.holders[0]!.p.id)!;
   const adults = [...core.people.values()]
@@ -238,10 +260,6 @@ function twoCandidates(
         !founder.familyIds.has(p.id),
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
-  const platforms = [
-    [`${cause.question}=${cause.side}`],
-    [`${cause.question}=${-cause.side}`],
-  ];
   for (const contest of openContests(api)) {
     const filed: FilingRow[] = [];
     for (const adult of adults) {
@@ -263,7 +281,9 @@ function twoCandidates(
   return null;
 }
 
-function setUp() {
+function setUp(
+  platformsOf: (cause: Cause) => [string[], string[]] = forAndAgainst,
+) {
   const tried: string[] = [];
   for (let attempt = 0; attempt < 8; attempt += 1) {
     const w = world(`group-endorsement:${attempt}`);
@@ -275,7 +295,13 @@ function setUp() {
       continue;
     }
     const group = foundGroup(w.api, cause);
-    const pair = twoCandidates(w.api, w.core, cause, new Set(group.memberIds));
+    const pair = twoCandidates(
+      w.api,
+      w.core,
+      cause,
+      new Set(group.memberIds),
+      platformsOf(cause),
+    );
     if (!pair) {
       tried.push(`${w.where}: no two candidates for one contest`);
       continue;
@@ -417,16 +443,120 @@ describe("organizations that endorse and send volunteers", () => {
       expect(row!.id).toBe(`endorsement:${pair.disagrees.id}:${id}`);
       expect(row!.askerId).toBe(pair.disagrees.personId);
       expect(row!.answer).toBe(yes ? "yes" : "no");
-      expect(["agrees", "disagrees", "prefers-rival", "declines"]).toContain(
-        row!.reason,
-      );
-      expect(row!.reason === "agrees").toBe(yes);
-      // A refusal for a rival names a rival standing in the same race.
+      expect([
+        "agrees",
+        "close-tie",
+        "disagrees",
+        "prefers-rival",
+        "declines",
+      ]).toContain(row!.reason);
+      expect(["agrees", "close-tie"].includes(row!.reason)).toBe(yes);
+      // A yes is agreement only where they agree; else it is their tie.
+      if (row!.reason === "agrees") expect(row!.agreement).toBeGreaterThan(0);
+      if (row!.reason === "close-tie")
+        expect(row!.agreement).toBeLessThanOrEqual(0);
+      // A refusal for a rival names a rival standing in the same race whom
+      // they back at all.
       if (row!.reason === "prefers-rival") {
         expect(row!.rivalFilingId).not.toBeNull();
         expect(row!.rivalFilingId).not.toBe(pair.disagrees.id);
         expect(row!.rivalBacking).toBeGreaterThanOrEqual(row!.backing);
+        expect(row!.rivalBacking).toBeGreaterThan(0);
       }
     }
+  });
+
+  it("a group never backs its speaker's friend on a platform that leaves its cause out or goes against it, and a person backing a friend is kept as the tie", () => {
+    // One candidate on a question the group holds nothing on; the other
+    // takes up the group's question, a little against it.
+    const { core, api, where, cause, group, pair } = setUp((c) => [
+      [`${PLATFORM_QUESTIONS.find((q) => q !== c.question)!}=1`],
+      [`${c.question}=${-c.side / 10}`],
+    ]);
+    const tieWeight = campaignParameter("endorsementTieWeight");
+    const town = townOf(api);
+    const field = ballot(api, pair.agrees.contestId).filter(
+      (f) => f.filedOn <= core.date,
+    );
+    // The group's speaker becomes close to both candidates.
+    for (const filing of [pair.agrees, pair.disagrees])
+      api.relationship(group.founderId, filing.personId, "contact", 5000);
+    for (const filing of [pair.agrees, pair.disagrees])
+      expect(
+        closenessBetween(core, group.founderId, filing.personId),
+        where,
+      ).toBeGreaterThan(0.5);
+    // A resident who does not share the second candidate's platform, close
+    // to them, with no tie to anyone else standing: by the one rule they back
+    // their friend over every rival.
+    const members = new Set(group.memberIds);
+    const standing = new Set(field.map((f) => f.personId));
+    let friend: PersonState | null = null;
+    for (const p of [...core.people.values()].sort((a, b) =>
+      a.id.localeCompare(b.id),
+    )) {
+      if (
+        !p.alive ||
+        p.placeId !== town ||
+        age(p, core.date) < 18 ||
+        p.id === core.playerId ||
+        members.has(p.id) ||
+        standing.has(p.id) ||
+        field.some((f) => closenessBetween(core, p.id, f.personId) > 0) ||
+        decisionLean(core, p, "campaigns.endorse", "endorse", "decline") < 0
+      )
+        continue;
+      const lean = personLean(core.people, p, townRecord(api).lean);
+      const own = agreementWith(
+        api,
+        p.id,
+        lean,
+        parsePlatform(pair.disagrees.platform),
+      );
+      if (own > 0) continue;
+      const rivals = field
+        .filter((f) => f.id !== pair.disagrees.id)
+        .map((f) => agreementWith(api, p.id, lean, parsePlatform(f.platform)));
+      if (own + tieWeight * 0.9 <= Math.max(0, ...rivals)) continue;
+      api.relationship(p.id, pair.disagrees.personId, "contact", 5000);
+      if (
+        own +
+          tieWeight * closenessBetween(core, p.id, pair.disagrees.personId) >
+        Math.max(0, ...rivals)
+      ) {
+        friend = p;
+        break;
+      }
+    }
+    expect(
+      friend,
+      `${where}: a resident who would back a friend`,
+    ).not.toBeNull();
+    expect(askForEndorsement(api, pair.disagrees.id, friend!.id), where).toBe(
+      true,
+    );
+    const answer = endorsementsOf(api, pair.disagrees.id).find(
+      (r) => r.speakerId === friend!.id && r.organizationId === null,
+    )!;
+    expect(answer.answer).toBe("yes");
+    expect(answer.reason, where).toBe("close-tie");
+    expect(answer.agreement).toBeLessThanOrEqual(0);
+    expect(answer.tie).toBeGreaterThan(0);
+    // The campaign engine's turn: the group weighs the race and backs no one.
+    advanceCore(
+      core,
+      addDays(makeIsoDate(core.date), campaignParameter("campaignTurnDays")),
+    );
+    expect(
+      [pair.agrees.id, pair.disagrees.id].flatMap((id) =>
+        endorsementsOf(api, id).filter(
+          (r) => r.organizationId === group.organizationId,
+        ),
+      ),
+      `${where}: ${group.organizationId} on ${cause.question}`,
+    ).toEqual([]);
+    console.log(
+      `${where}: ${group.organizationId} on ${cause.question} backed no one; ${friend!.id} backed a friend (${pair.disagrees.id}) as a close tie`,
+    );
   });
 });
