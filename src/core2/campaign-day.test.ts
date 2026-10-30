@@ -25,6 +25,7 @@ import {
   contributeOwnMoney,
   doorsKnockedOf,
   donorReason,
+  giftBudget,
   giftOf,
   impressionOf,
   openCampaigns,
@@ -186,17 +187,20 @@ describe("a campaign day", () => {
       if (total > 0) break;
       if (canvassLeft(api, id)) takeCampaignDayChoice(api, id, "canvass");
     }
-    // A reachable adult who has money beyond their cushion of living costs
-    // can give; where nobody does, the asks rightly raise nothing and the
-    // rest of this day (which needs the committee's cash) has nothing to run.
-    const cushion = campaignParameter("caseCushionMonths") * 30;
+    // A reachable adult with something to give from (the month's income
+    // after the bills, or savings beyond their cushion) can give; where
+    // nobody does, the asks rightly raise nothing and the rest of this day
+    // (which needs the committee's cash) has nothing to run.
     const canGive = reachablePeople(api, campaignFor(api, id)).filter((pid) => {
       const p = core.people.get(pid);
+      if (!p) return false;
+      const budget = giftBudget(api, p);
       return (
-        !!p?.alive &&
+        p.alive &&
         p.tier !== "husk" &&
         Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 18 &&
-        p.liquidMinor - cushion * p.livingCostDailyMinor > 0 &&
+        p.liquidMinor > 0 &&
+        (budget.discretionaryMinor > 0 || budget.savingsMinor > 0) &&
         // Giving is the donor's own choice: only someone whose reasons for
         // this candidate are above zero would give.
         donorReason(api, id, pid) > 0
@@ -205,7 +209,7 @@ describe("a campaign day", () => {
     if (!canGive.length) {
       expect(
         total,
-        `nobody reachable has money beyond their cushion: ${where}`,
+        `nobody reachable has anything to give from: ${where}`,
       ).toBe(0);
       return;
     }

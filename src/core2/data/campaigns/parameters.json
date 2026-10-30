@@ -54,10 +54,16 @@
       "source": "Share of a first-hand impression that a retelling passes on to family and friends before the teller's personality, which multiplies it by 1 plus the calibrated campaigns.retell weight times their lean (a town average of 1.23 times at the retell weight of 1.13, six drawn towns, seed scratch:0 to 5, Oct 27; 1.77 times at the earlier retell weight of 5.8, Newfane, Vermont, seed c1, adults at the opening; 1.65 at the earlier 4.9). Set to 0.5 divided by that average so the town's mean second-hand reach stays where Katz and Lazarsfeld 1955 and Nickerson 2008 (60% of a canvassing turnout effect passed to housemates) put it.",
       "spread": [0.17, 0.45]
     },
+    "donationShareOfMonthPerWarmth": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "source": "Share of a month's income left after the household's bills (giftBudget) a donor gives per unit of their reason to give (donorReason, up to 1), before the legal limit and the cash they hold: a small political gift of $25 to $100 comes out of income, not savings. Calibrated in src/core2/campaign-money-calibration.test.ts so a council candidate's raise-money evenings, over places drawn from all 56, give a mean gift near $144 (Worcester council races, 3,087 contributions, average $144: This Week in Worcester, June 2025, https://thisweekinworcester.com/worcester-council-candidates-raise-400000/) and a median near $50 ($35 to $100: Portland city races 2016 and 2020, OPB, Aug. 9, 2021, https://www.opb.org/article/2021/08/09/portland-elections-oregon-politics-city-hall-small-donors-campaign-funding/; NYC CFB 2025 $50, in campaign-evidence.json), with call-time dollars per hour inside $75 to $720 (about $290: Call Time 101's 10 contacts and 3 to 5 gifts an hour at the mean gift, https://irp.cdn-website.com/022fb584/files/uploaded/Call_Time_101.pdf). Over 24 drawn places at 0.6, 787 gifts averaged $140 with a median of $69; the spread (0.4 to 0.85) keeps the drawn mean inside $96 to $193 and the median inside $46 to $95.",
+      "spread": [0.4, 0.85]
+    },
     "donationShareOfCashPerWarmth": {
       "value": 0.01,
       "tag": "TUNABLE",
-      "source": "Share of a supporter's cash on hand they give per unit of warmth, before the legal limit. Checked against typical small-donor gifts (FEC: most individual contributions under $200).",
+      "source": "Share of a supporter's savings beyond their cushion of living costs (giftBudget) they give per unit of their reason to give, before the legal limit, beside the month's share in donationShareOfMonthPerWarmth; the outside donors' rule reads it on a typical donor's balance. Checked against typical small-donor gifts (FEC: most individual contributions under $200).",
       "spread": [0.002, 0.03]
     },
     "adContactsPerThousandMinor": {

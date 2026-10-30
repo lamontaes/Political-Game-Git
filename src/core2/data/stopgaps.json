@@ -7737,5 +7737,17 @@
     "addedAt": "2026-10-29",
     "replacement": "An outlet's masthead refilled by the jobs engine (refreshPressStaff), or a neutral host the town's league or chamber of commerce names in its records, so every debate has a moderator who asks.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-donor-month-income",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 2465,
+    "whatItFakes": "Donors outside the town (askOutsideDonors, for seats wider than the town) give only the savings share of the person rule, from a typical donor's account balance; the share of a month's income after bills that a named donor also gives from (giftBudget, donationShareOfMonthPerWarmth) is not read for them.",
+    "why": "The outside donor is a counted place group with no household of its own: no recorded monthly living costs to take from a typical donor's income, so the month's budget after bills cannot be read from records yet.",
+    "addedBy": "governing/campaign-money-calibrated",
+    "addedAt": "2026-10-30",
+    "replacement": "Read a typical donor household's monthly living costs for the place group (the same living-cost tables the population is built from) and give by giftBudget's two shares, so outside and named donors use one rule; recheck the outside share of a campaign's receipts against localInPlaceDonorShare (0.65, 0.25 to 0.95).",
+    "status": "open"
   }
 ]
