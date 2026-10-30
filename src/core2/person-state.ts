@@ -8,9 +8,13 @@ export function initialPersonState(
   row: PersonInput,
   copyTraits = true,
 ): PersonState {
-  const p = (key: string) => parameter(key, core.data.parameters);
   // Each person starts at their own resting stress, read from their situation.
   const resting = restingStress(core, row);
+  const table = core.data.parameters,
+    zero = parameter("zero", table),
+    moodBaseline = parameter("moodBaseline", table);
+  const needs: Record<string, number> = {};
+  for (const need of core.data.needs) needs[need.id] = zero;
   return {
     ...row,
     traits: copyTraits ? { ...row.traits } : row.traits,
@@ -19,18 +23,16 @@ export function initialPersonState(
     lastActDate: core.date,
     lastContactDate: core.date,
     alive: true,
-    actCount: p("zero"),
+    actCount: zero,
     actsByKind: new Map(),
     affect: {
       at: core.date,
-      mood: p("moodBaseline"),
+      mood: moodBaseline,
       stress: resting,
-      moodBaseline: p("moodBaseline"),
+      moodBaseline,
       stressBaseline: resting,
     },
-    needs: Object.fromEntries(
-      core.data.needs.map((need) => [need.id, p("zero")]),
-    ),
+    needs,
     goals: new Map(),
     drives: new Map(),
   };

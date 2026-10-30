@@ -180,6 +180,12 @@
       "source": "How far a candidate's own inclination to campaign slides their door hours around the base, as a share of it: at 0.5 the least campaign-minded walks half the base hours and the most walks one and a half times. Below 1 so that no one's hours reach zero.",
       "spread": [0.25, 0.75]
     },
+    "rivalThreatWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much harder a world candidate campaigns the further a rival stands ahead of them in what they know of the race (the rival's share minus their own, in the newer of their own latest poll, counted by one less its margin of error, and the word of the rival that last reached them, read among the people they know in town). It applies to every world candidate, not only one who holds the seat: a challenger who learns they trail steps up by the same rule as an incumbent who learns a challenger gained. It is added to the pull of the doors and of an evening event, and to the share of the day's base hours they put in, so at the value 1 a candidate who knows they trail by a fifth of those asked puts in a fifth of their base hours more; and, up to all of it, the share of their campaign day that one who lives outside the town spends in it, at its doors as well as on calls. The direction is sourced, the size is not: 'incumbents who are vulnerable spend more than incumbents whose seats are safe' (Bardwell 2005, 'Reevaluating Spending in Gubernatorial Races', Political Research Quarterly 58(1): 97-105, after Green and Krasno 1990). To be checked against the share of incumbents in played worlds who step up when a challenger gains (the campaigns engine's steppedUp rows); src/core2/campaign-incumbent-response.test.ts shows the direction.",
+      "spread": [0.5, 2]
+    },
     "minimumVolunteerAge": {
       "value": 16,
       "tag": "ESTIMATED",
@@ -931,6 +937,12 @@
       "source": "How many of the people closest to a candidate are asked for an endorsement in one turn, each asked once, the closest first: a local candidate collects a handful of public endorsements over a campaign (Ballotpedia local candidate pages list a few to a dozen).",
       "spread": [1, 8]
     },
+    "petitionSignatureCushion": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "source": "How many signatures beyond the clerk's minimum a campaign gathers, as a share of the minimum, because the clerk strikes names not on the roll, duplicates and incomplete lines before counting. Thin margins fail: in a Yuma, Arizona council race a challenge alleged 60 of a candidate's 276 signatures invalid (about 22%; Yuma Sun, June 17, 2015, via PressReader), a Milwaukee filing about 4.5% over its minimum was challenged (Urban Milwaukee), and an Asbury Park, New Jersey council candidate was left off the ballot when the clerk invalidated 8 signatures (Asbury Park Sun); candidates are advised to gather well above the minimum (ballot-access guides). Half again the minimum covers a strike rate near the observed 20% to 30% with room; the spread runs from a careful campaign's 25% to doubling the minimum. Checked as a total: the share of played filings the clerk finds short.",
+      "spread": [0.25, 1]
+    },
     "petitionSignOpenness": {
       "value": 0.4,
       "tag": "TUNABLE",
@@ -1511,6 +1523,12 @@
       "tag": "TUNABLE",
       "source": "The window of recent cases an official weighs when deciding whether to take on an aide: the office's demand over the last season.",
       "spread": [30, 180]
+    },
+    "causesKeptPerCandidate": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many of a closed race's contacts a person in the player's circle keeps as rows per candidate, the latest ones, when the rest fold into a summary (owner, Oct 29: old records fold into summaries; Keep it simple: the circle's why is saved). Enough to answer why someone feels as they do about a candidate with their most recent reasons; the summary keeps every sum the race standing reads.",
+      "spread": [1, 10]
     }
   }
 }
