@@ -28,6 +28,9 @@ try {
   );
   await page.locator("#new-life").click();
   await page.locator("#new-advanced").click();
+  // FACES_SEED replays one world (the seed a failed run printed).
+  if (process.env.FACES_SEED)
+    await page.locator("#seed").fill(process.env.FACES_SEED);
   await page.locator("#new-world").click();
   console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
   await page.waitForFunction(() =>
@@ -37,28 +40,38 @@ try {
   await page.locator("#rings").waitFor({ state: "visible" });
   for (const tab of ["people", "politics"]) {
     await page.locator(`#rings [data-tab="${tab}"]`).click();
-    // The sheet is open when its faces are placed.
-    await page.waitForFunction(
-      () => document.querySelector("#sheet:not([hidden]) .headshot") !== null,
-    );
-    await page.waitForTimeout(WITHIN);
-    const faces = await page.evaluate(() => {
-      const loaded = new Set(
-        performance.getEntriesByType("resource").map((e) => new URL(e.name)),
-      );
+    // The sheet opens shown with its body in place; the page's clock marks it.
+    const opened = await (
+      await page.waitForFunction(
+        () => !document.getElementById("sheet").hidden && performance.now(),
+        null,
+        { polling: "raf" },
+      )
+    ).jsonValue();
+    // The page writes a picture's timing down a moment after it arrives, so
+    // the timings are read later, counting what arrived within WITHIN.
+    await page.waitForTimeout(WITHIN + 500);
+    const faces = await page.evaluate((opened) => {
+      const arrived = new Map();
+      for (const entry of performance.getEntriesByType("resource")) {
+        const url = new URL(entry.name);
+        const key = url.pathname + url.search;
+        arrived.set(
+          key,
+          Math.min(arrived.get(key) ?? Infinity, entry.responseEnd),
+        );
+      }
       return [...document.querySelectorAll("#sheet .headshot")]
         .map((h) => h.style.backgroundImage.match(/url\("(.*)"\)/)?.[1])
         .filter(Boolean)
         .map((url) => ({
           url,
-          loaded: [...loaded].some(
-            (e) => e.pathname + e.search === url.replace(/&amp;/g, "&"),
-          ),
+          ms: Math.round((arrived.get(url) ?? Infinity) - opened),
         }));
-    });
-    const missing = faces.filter((face) => !face.loaded);
+    }, opened);
+    const missing = faces.filter((face) => !(face.ms <= WITHIN));
     console.log(
-      `${tab}: ${faces.length - missing.length} of ${faces.length} faces drawn ${WITHIN} ms after the sheet opened`,
+      `${tab}: ${faces.length - missing.length} of ${faces.length} faces drawn ${WITHIN} ms after the sheet opened (latest ${Math.max(0, ...faces.map((face) => face.ms))} ms)`,
     );
     if (shots) await page.screenshot({ path: `${shots}/faces-${tab}.png` });
     assert.deepEqual(

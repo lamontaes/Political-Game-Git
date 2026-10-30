@@ -825,15 +825,18 @@ export function stagePeople(
   // Drawn far to near, so nearer people overlap farther ones.
   const depth = depthOf;
   const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
-  for (const { id, name, reason, who, figure, spot } of order)
+  for (const { id, name, reason, who, figure, spot } of order) {
+    const figureUrl = drawnUrl(figure, who, ageBandOf(core, who.birthDate));
+    drawAhead(figureUrl);
     people.push({
       personId: id,
       name,
       reason,
       spotId: spot.id,
       figure: fitOn(figure, plate, spot),
-      figureUrl: drawnUrl(figure, who, ageBandOf(core, who.birthDate)),
+      figureUrl,
     });
+  }
   return { people, unplaced };
 }
 /** How each occasion places an office holder (data/whole-figures.json `occasions`). */
