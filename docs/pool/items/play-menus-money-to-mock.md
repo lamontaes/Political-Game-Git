@@ -6,9 +6,9 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: cto/menus-money
-pr:
+pr: #6855
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("redesign all the menu screens... So they're not blocks of text anymore with random buttons")
