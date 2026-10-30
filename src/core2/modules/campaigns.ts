@@ -5659,6 +5659,15 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     }[]
   ).slice()) {
     if (race.electionDate < date) {
+      // Once its election day has passed, a race's door rows have no reader:
+      // the campaign row keeps its door counts (governing lead, Oct 30). Every
+      // filing of the contest goes, by its id, so no campaign row is made.
+      const doors = table(api, "doors");
+      for (const filing of elections(api, "filings").query("byContest", [
+        race.id,
+      ]) as unknown as { id: string }[])
+        for (const row of doors.query("byCampaign", [filing.id]))
+          doors.remove(row.id);
       races.remove(race.id);
       continue;
     }
