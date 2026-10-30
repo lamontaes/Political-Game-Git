@@ -436,6 +436,9 @@ export function localRaces(core: CoreState) {
           contest.filingDeadline >= core.date,
         // Where a filing for it is made, for the hot link to the office.
         filedWith: office?.filedWith ?? null,
+        // Whether the player may run for it (the offices the player runs
+        // for, player-offices.json): the screen offers to file only then.
+        playerMayFile: playerMayFileFor(api, contest.id),
         filers,
       };
     })

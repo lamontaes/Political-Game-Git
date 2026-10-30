@@ -3251,7 +3251,10 @@ const sheets = {
       open: ballot.races.length === 1,
       nodes: [
         ...race.filers.map(candidate),
-        ...(race.filingOpen && !filed.has(race.contestId) && race.filedWith
+        ...(race.filingOpen &&
+        race.playerMayFile &&
+        !filed.has(race.contestId) &&
+        race.filedWith
           ? [fileForIt(race)]
           : []),
       ],
