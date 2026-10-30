@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/speech-retellings-fold
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T07:38:04.221Z
 ---
 
 **What.** The speech engine (src/core2/modules/speech.ts) keeps one retellings row per listener of every speech, with no date, and never drops them: in one Ringgold, Louisiana save (speed:year seed long-1) with the other folds in, they reach 182,416 rows by year 8, the third-largest table. A sweep of every reader (speed lead's workflow, Oct 30) found that nothing in play reads a retelling after its speech's own day: src/bench/campaign.ts speechGive reads today's speech, and src/director/civic-roles.ts casts the audience the day the speech is heard. The governing lead, who owns the speech engine on the governing chain, confirmed it (07:31 UTC) for main and its five open branches.
