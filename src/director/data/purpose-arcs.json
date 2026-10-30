@@ -67,6 +67,7 @@
           "opens": "meeting",
           "label": "Vote traded",
           "keeps": "promise",
+          "firmness": "firm",
           "when": {
             "anyReply": ["bargain"],
             "asker": ["accept"]
@@ -100,16 +101,24 @@
           "id": "false-yes",
           "label": "A yes you don't mean",
           "keeps": "promise",
+          "firmness": "firm",
           "when": {
             "believed": true
           }
+        },
+        {
+          "id": "will-look",
+          "label": "You said you'd look at it",
+          "keeps": "promise",
+          "firmness": "vague",
+          "when": { "reply": ["stall"] }
         },
         {
           "id": "undecided",
           "label": "Still undecided",
           "keeps": "none",
           "when": {
-            "reply": ["stall", "leave"]
+            "reply": ["leave"]
           }
         },
         {
@@ -141,6 +150,7 @@
           "opens": "meeting",
           "label": "Vote traded",
           "keeps": "promise",
+          "firmness": "firm",
           "when": {
             "anyReply": ["bargain"],
             "asker": ["accept"]
@@ -174,16 +184,24 @@
           "id": "false-yes",
           "label": "A yes you don't mean",
           "keeps": "promise",
+          "firmness": "firm",
           "when": {
             "believed": true
           }
+        },
+        {
+          "id": "will-look",
+          "label": "You said you'd look at it",
+          "keeps": "promise",
+          "firmness": "vague",
+          "when": { "reply": ["stall"] }
         },
         {
           "id": "undecided",
           "label": "Still undecided",
           "keeps": "none",
           "when": {
-            "reply": ["stall", "leave"]
+            "reply": ["leave"]
           }
         },
         {
