@@ -9,7 +9,11 @@
       "links": [
         "medicaid-expansion-to-coverage",
         "work-requirement-to-coverage"
-      ]
+      ],
+      "moderators": [
+        "law:us-policy-positions:health-human-services.expand-medicaid-eligibility"
+      ],
+      "moderatorsAbout": "The expansion also moderates a link into the same measure: unemployment-to-uninsured is halved where Medicaid covers low-income adults (data/research/outcome-web/links.json, Cawley, Moriya and Simon 2015). In the town a worker's employer plan reads that link without the halving, since the reach's Medicaid record by person id is what catches a worker who loses a job (outcome-web-reach.ts webReach)."
     },
     "policy": "us-policy-positions:health-human-services.expand-medicaid-eligibility"
   },

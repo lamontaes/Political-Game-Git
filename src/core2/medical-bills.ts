@@ -46,7 +46,8 @@
  * state and federal treasuries, the federal share at the match in force
  * (law-reach payMedicaidCare), inside their budget lines. The coverage
  * engine leaves the expansion's and the work requirement's place-level
- * coverage links out of a town worker's employer plan (coverageTwinsOut). A
+ * coverage links, and the expansion's halving of unemployment's link, out of
+ * a town worker's employer plan (coverageTwinsOut). A
  * member the expansion would cover but whose coverage the work requirement
  * ends (its stretch on their person id) is billed at their own plan's share;
  * what that adds over Medicaid's share is paid first, under ids that cite
@@ -340,15 +341,19 @@ function plans(
 /**
  * The place-level coverage links a worker in a place leaves out of their
  * employer plan (the coverage engine's health.uninsured-pct read): the
- * expansion's and the work requirement's, where the law reach keeps the
- * residents' Medicaid coverage by person id (the town), so those laws reach
- * a town household once, through its own Medicaid record. Read once a pass.
+ * expansion's and the work requirement's, and the expansion's halving of
+ * unemployment's link, where the law reach keeps the residents' Medicaid
+ * coverage by person id (the town), so those laws reach a town household
+ * once, through its own Medicaid record. Read once a pass.
  */
 export function coverageTwinsOut(
   api: CoreAPI,
 ): (placeId: string) => ReadonlySet<string> | undefined {
   const { ownMedicaid } = plans(api, makeIsoDate(api.state.date));
-  const twins = new Set(data.personLevel.coverageTwins.links);
+  const twins = new Set([
+    ...data.personLevel.coverageTwins.links,
+    ...data.personLevel.coverageTwins.moderators,
+  ]);
   return (placeId) => (ownMedicaid(placeId) ? twins : undefined);
 }
 

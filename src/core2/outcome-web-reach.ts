@@ -16,6 +16,7 @@ import type { CensusRegion } from "./reference/census-regions";
 import type { HeadWork, HouseholdKind } from "./counted-groups";
 import type { WebMonth } from "./modules/outcome-web";
 import {
+  moderatorScale,
   OUTCOME_WEB_MODULE_ID,
   scaleOf,
   WEB_LINKS,
@@ -155,7 +156,9 @@ export function webReach(
   /**
    * Links the caller reads from the subject's own records instead (the
    * person-level twin of a place-level row), left out so one cause moves the
-   * subject once.
+   * subject once. A cause's measure in the set (a law's "law:" key) is left
+   * out as a moderator too: a link it moderates is read as if it did not,
+   * since its own records carry what it does.
    */
   except?: ReadonlySet<string>,
 ): WebReach {
@@ -169,8 +172,23 @@ export function webReach(
   const parts: WebPart[] = [];
   for (const link of links) {
     if (except?.has(link.key)) continue;
-    const effect = row.effects[link.key];
+    let effect = row.effects[link.key];
     if (effect === undefined || effect === 0) continue;
+    // The Medicaid expansion halves how far unemployment leaves people
+    // uninsured; where the caller reads the expansion from the subject's own
+    // Medicaid record, the link is read without that halving.
+    const moderator = link.moderator;
+    if (
+      moderator &&
+      moderator.mode !== "only-when" &&
+      except?.has(moderator.measure)
+    ) {
+      const scale = moderatorScale(
+        moderator,
+        row.values[moderator.measure] ?? 0,
+      );
+      if (scale > 0) effect /= scale;
+    }
     const weight = subjectWeight(link.key, subject);
     parts.push({ link: link.key, effect, weight });
     if (level) added += effect * weight;
