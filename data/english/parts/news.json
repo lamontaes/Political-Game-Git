@@ -31,7 +31,6 @@
     "for": "How many spoke for, from the hearing record.",
     "from": "The amount before, from the law record.",
     "law": "The law, as its record names it.",
-    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
     "month": "A month, from the record.",
     "nation": "The national rate, from the jobs record.",
     "other": "The other parent, by name, from the birth record.",
@@ -79,7 +78,8 @@
     "revenue": "The revenue a government expects for the year, from its budget record.",
     "relation": "How the person who died was related to the reader, from the family record.",
     "survivor": "The relative who survives, by name, from the family record.",
-    "margin": "How many votes the winning side led by, from the vote record."
+    "margin": "How many votes the winning side led by, from the vote record.",
+    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record."
   },
   "maxWords": 14,
   "mining": {
@@ -8940,6 +8940,48 @@
       "date": "2026-10-29",
       "tag": {
         "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.unfilled.no-candidate-filed-for-office-so-the-seat-has-no-winner",
+      "move": "unfilled",
+      "kind": "spoken",
+      "text": "No candidate filed for {office}, so the seat has no winner.",
+      "uses": [
+        {
+          "move": "unfilled",
+          "subject": "news",
+          "role": "unfilled",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.unfilled.the-race-for-office-drew-no-candidates",
+      "move": "unfilled",
+      "kind": "spoken",
+      "text": "The race for {office} drew no candidates.",
+      "uses": [
+        {
+          "move": "unfilled",
+          "subject": "news",
+          "role": "unfilled",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
         "key": "news-received"
       }
     },

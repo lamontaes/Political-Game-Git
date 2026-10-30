@@ -28,7 +28,6 @@
     "designation": "A bill's designation, as its body numbers it.",
     "family": "A family's name, from the household record.",
     "from": "The amount before, from the law record.",
-    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
     "month": "A month, from the record.",
     "party": "A party, from the party records.",
     "percent": "A rate, from the record.",
@@ -38,7 +37,8 @@
     "incident": "The kind of disaster, from the declaration record.",
     "area": "The region a rate is measured for (a metro area, or the state), by name.",
     "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record.",
-    "candidate": "A candidate, by name, from the campaign's record."
+    "candidate": "A candidate, by name, from the campaign's record.",
+    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record."
   },
   "maxWords": 14,
   "mining": {
@@ -6281,6 +6281,48 @@
       ],
       "origin": "authored",
       "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.unfilled.no-one-runs-for-office",
+      "move": "unfilled",
+      "kind": "written",
+      "text": "No one runs for {office}",
+      "uses": [
+        {
+          "move": "unfilled",
+          "subject": "headline",
+          "role": "unfilled",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.unfilled.office-race-draws-no-candidates",
+      "move": "unfilled",
+      "kind": "written",
+      "text": "{office} race draws no candidates",
+      "uses": [
+        {
+          "move": "unfilled",
+          "subject": "headline",
+          "role": "unfilled",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
       "date": "2026-10-29",
       "tag": {
         "move": "headline",

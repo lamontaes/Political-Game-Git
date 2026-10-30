@@ -6,9 +6,9 @@ lead: play-first
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-player-runs-only-six-offices
-pr:
+pr: #6828
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 voice note on the governing brief

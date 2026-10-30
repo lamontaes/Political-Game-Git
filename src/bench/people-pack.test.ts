@@ -13,7 +13,7 @@ import {
   packFigures,
   packPeople,
 } from "./people-pack";
-import { depthOf, plates } from "./mannequin-plates";
+import { depthOf, plateFor, plates } from "./mannequin-plates";
 import {
   appearanceRows,
   drawnAppearance,
@@ -98,6 +98,68 @@ describe("the people pack", () => {
     expect(readdirSync(new URL("art/people-engine/", ROOT))).toEqual([
       PEOPLE_PACK,
     ]);
+  });
+
+  it("serves a plate's other lights only when they are the same room re-lit", () => {
+    // Night, morning, midday and rain are one painting re-lit, so the
+    // mannequins stand in the same places; a condition (lived-in, rundown)
+    // adds clutter on the seats and gets its own plate.
+    const manifest = JSON.parse(text("art/backdrops/manifest.json")) as {
+      backdrops: {
+        file: string;
+        place: string;
+        variant: string;
+        width: number;
+        height: number;
+      }[];
+    };
+    const row = (file: string) =>
+      manifest.backdrops.find((entry) => entry.file === file);
+    const lights = new Set(["night", "morning", "midday", "rain"]);
+    for (const plate of plates()) {
+      const painted = row(plate.backdrop)!;
+      for (const file of plate.backdrops ?? []) {
+        const other = row(file);
+        expect(other, `${plate.scene}: ${file}`).toBeTruthy();
+        expect(other!.place, file).toBe(painted.place);
+        expect(lights.has(other!.variant), file).toBe(true);
+        expect([other!.width, other!.height], file).toEqual([
+          painted.width,
+          painted.height,
+        ]);
+        expect(plateFor(file), file).toBe(plate);
+      }
+    }
+  });
+
+  it("fits every plate to a backdrop the game has, with the retired Oval rooms gone", () => {
+    const manifest = JSON.parse(text("art/backdrops/manifest.json")) as {
+      backdrops: { file: string; place: string }[];
+    };
+    const files = new Set(manifest.backdrops.map((row) => row.file));
+    for (const plate of plates())
+      expect(files.has(plate.backdrop), plate.scene).toBe(true);
+    // The standard Oval Office and address replaced these (people-pack-v4, step 2).
+    expect(plates().map((plate) => plate.scene)).not.toContain("oval-briefing");
+    expect(plates().map((plate) => plate.scene)).not.toContain("oval-address");
+    for (const place of ["oval-office-resolute", "oval-address-close"]) {
+      expect(
+        manifest.backdrops.filter((row) => row.place === place),
+        place,
+      ).toEqual([]);
+      expect(
+        existsSync(new URL(`art/backdrops/occluders/${place}`, ROOT)),
+        place,
+      ).toBe(false);
+    }
+    // The President's office is the standard wide shot.
+    expect(
+      (
+        JSON.parse(text("src/bench/data/scene-places.json")) as {
+          officeWorkplaces: Record<string, string[]>;
+        }
+      ).officeWorkplaces.president,
+    ).toEqual(["oval-office-standard"]);
   });
 
   it("serves every figure by its own path, a kit in its palette colors", () => {

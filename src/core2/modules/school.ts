@@ -38,6 +38,7 @@ import {
   recordSchoolSpending,
   schoolStartYear,
 } from "../school-outcomes";
+import { decideSchoolHonors } from "../school-honors";
 import outcomes from "../data/school/outcomes.json" with { type: "json" };
 
 export { SCHOOL_MODULE_ID };
@@ -326,6 +327,7 @@ export const SCHOOL_MODULE: PreStartModule = {
         },
       },
       groups: { indexes: { byPlace: { fields: ["placeId"] } } },
+      honors: { indexes: { byPlace: { fields: ["placeId"] } } },
       measures: { indexes: { byPlace: { fields: ["placeId"] } } },
       // Each graduate's college step: enrolled, completes, and the degree's day.
       college: {
@@ -339,6 +341,8 @@ export const SCHOOL_MODULE: PreStartModule = {
   onDay: (api) => {
     schoolDay(api);
     schoolOutcomes(api);
+    // The honors (a spelling bee won, a Division I signing) on their days.
+    decideSchoolHonors(api, (startYear) => attendanceShare(api, startYear));
     // A new school year: private enrollment is ranked again on what families hold.
     if (api.state.date.slice(5) === tuition.reenrollOn)
       reenrollPrivateTuition(api);
