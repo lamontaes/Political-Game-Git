@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/campaign-group-endorsements
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T02:28:01.302Z
 ---
 
 **What.** No organization in a town has ever taken a side in its races: a residents' group, a cause group someone founded or a party's local chapter never endorsed anyone or sent members to work for a campaign, so a player running for council had only the people they asked themselves. The owner, Oct 29, on how real races are won: "look at real races... she was working with the Democratic Socialists of America. And, you know, then her campaign gained steam", and "it's not just door knocking." This is phase A of campaign-like-real-races: each organization weighs everyone running whose platform takes up its cause, backs the one it favors in public, and the members who care most about its cause and have free evenings join that campaign as volunteers.
