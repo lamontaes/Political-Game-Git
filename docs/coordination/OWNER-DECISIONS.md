@@ -6,6 +6,14 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 30, 04:00 UTC: CTO ruling: a shared relative with no news is still something to talk about (Words' question, with the reading line)
+
+- **Ruling (acting CTO; the owner may overrule):** within the Oct 24 ruling that a talk with nothing on record says nothing ("that should be going to the hi, have a good day. That makes no sense"). A relative the two share has standing records (where they live, where they work), and those are something on record. So "How's your mother?" may be asked with no recent event and answered from them ("She's still out in Lakeville."). The "something recorded happened lately" gate in `subjectsBetween` is relaxed for shared relatives only. Answers read only records that exist and cite them, never invented news, health or moods. Talking about a husk does not fill them in (two-level population). The answer varies by the speaker's traits and writes the dated contact a talk writes. With no such record there is still no talk. Carried by `words-talk-husk-acquaintances-empty`.
+
+## Oct 30, 03:40 UTC: CTO ruling: one File-for-it gate on the race page (Checker 3's question)
+
+- **Ruling (under "one engine per mechanic"):** the race page offers File for it only on a race the player may run for, by the one field main's #6882 puts on every ballot row (`playerMayFile`, from `player-offices.json`). The menu stack's own copy of the check (an older row without the field kept the offer) is deleted; the campaigns-ballot check asserts main's condition. Merged into #6868 and up the stack.
+
 ## Oct 30, 03:05 UTC: CTO ruling: a closed race's causes for the player's circle fold into a summary (speed lead's question, with the reading line)
 
 - **Ruling (under "Keep it simple" and the Oct 29 22:45 "old records fold into summaries"):** once a race closes, its campaign-cause rows for people in the player's circle fold into one summary per voter and candidate, keeping each circle member's last three causes per candidate, any cause a known fact names, and every pledge (the governing lead's condition). "Save why reasons only for the player and the people they deal with" is about whose why is kept, not every contact forever. The fold ships with a records proof that the race standing, return visits and the trace read the same. Measured: in a Ringgold, Louisiana save (seed long-1), 252 of 253 thousand cause rows in year 3 were kept only because the voter was in the player's circle (116 people, about 4,000 contacts each a year), the largest grower of a long save.

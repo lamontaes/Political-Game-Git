@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/file-only-where-player-may
 pr: #6882
 blocked-on:
