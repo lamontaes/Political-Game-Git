@@ -188,6 +188,16 @@ export function typeForCause(type: PurposeType, label: string): PurposeType {
   return sceneKey ? { ...type, tag: { ...type.tag, key: sceneKey } } : type;
 }
 
+/**
+ * A law's policy as a line names it, from its series ("the paid family
+ * leave law"); null for a series no bank names (a state's average local
+ * sales tax), whose stop then has nothing to tell.
+ */
+export function lawName(series: string): string | null {
+  const topic = series.slice(series.lastIndexOf(":") + P.one);
+  return questionName(series) ?? storyTopicName(topic);
+}
+
 /** One purpose scene of a moment, worded from its records. */
 function composeBinding(
   core: Readonly<CoreState>,
@@ -245,8 +255,7 @@ function composeBinding(
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.
   if (said.lawId && said.series) {
-    const topic = said.series.slice(said.series.lastIndexOf(":") + P.one);
-    const name = questionName(said.series) ?? storyTopicName(topic);
+    const name = lawName(said.series);
     if (name)
       facts.law = {
         text: name,
@@ -259,8 +268,12 @@ function composeBinding(
     const answer = core.modules.has(LAWS_MODULE_ID)
       ? lawInForce(coreAPI(core as CoreState), said.series)
       : undefined;
+    // A story of a law's history names the law row it keeps
+    // (`law-history:<law row id>`, past-module): a state law in force from
+    // before the opening (Kansas's local sales tax, seed 2d5c12bd...).
+    const lawRowId = said.lawId.replace(/^law-history:/, "");
     const kept = answer?.levels.find(
-      (level) => level.row?.id === said.lawId && !level.setAside,
+      (level) => level.row?.id === lawRowId && !level.setAside,
     );
     if (kept)
       facts["in-force"] = {

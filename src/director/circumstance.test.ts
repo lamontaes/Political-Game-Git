@@ -24,7 +24,7 @@ import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { CIRCUMSTANCES } from "./circumstance";
 import type { Director } from "./ledger";
-import { purposeScene, replyInScene } from "./purpose-scene";
+import { lawName, purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
 import { SITUATION_LIBRARY } from "./scheduling";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
@@ -208,8 +208,15 @@ function playYear(
     }
     // A resident who read that a law took effect has something to say about
     // it: the law in force, by the laws engine (a stop with no line for a
-    // state law was skipped, Mount Horeb, Wisconsin, Oct 30).
-    if (row.id === "law-news-street")
+    // state law was skipped, Mount Horeb, Wisconsin, Oct 30). A law no bank
+    // names has nothing to tell, and its stop is skipped (a state's average
+    // local sales tax, Kansas, seed 2d5c12bd505b2442da2ca77daf71335c45d1cfe8).
+    const series = core.durableLog.get(moment.causeId)?.facts?.series;
+    if (
+      row.id === "law-news-street" &&
+      typeof series === "string" &&
+      lawName(series)
+    )
       expect(purpose?.kind, `${moment.id}: ${JSON.stringify(purpose)}`).toBe(
         "composed",
       );
