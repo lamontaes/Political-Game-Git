@@ -67,6 +67,12 @@ const w = buildBenchWorld(seed, gameStartDate(), {
 });
 const player = new BenchPlayer(w.core, w.director);
 const log: string[] = [];
+// Scratch measurement: every log line also goes to stderr as it happens, so a
+// run that dies still reports the races it finished.
+log.push = (...items: string[]) => {
+  for (const item of items) console.error(`LOG ${item}`);
+  return Array.prototype.push.apply(log, items);
+};
 /** Steps seen along the way, since a later step can forget what an earlier one saw. */
 const seen = new Set<number>();
 /** The day the check drafts its own bill: the steps after it are this bill's, not the town's own legislating before. */
