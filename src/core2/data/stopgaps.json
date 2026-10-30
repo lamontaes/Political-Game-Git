@@ -7700,7 +7700,7 @@
     "why": "gov-every-state-and-town-governs is built in units (docs/reports/world-governing-plan-2026-10-29.md): U1 seats every chamber; each body's law must be its own (U2) before another state's act can be written without landing as the town's own state law.",
     "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1)",
     "addedAt": "2026-10-29",
-    "replacement": "U3 of the plan: openWorldLegislating opens a session for Congress and every place in the session calendar data, each body voting from its members' saved positions on the official rows, never filling them in.",
+    "replacement": "U3 of the plan: openWorldLegislating opens a session for Congress and every place in the session calendar data, each body voting from its members' saved positions on the official rows, never filling them in. The reads that fill a named holder in today (each calls holderOf) and must not run for an outside body in U3: legislature.ts members() and everything that reads a body through it (floor votes, committees and leadership.ts organize, staff, meetings, interest-groups lobbied, office-day, world-legislating chamber()), legislature.ts tieBreaker (the lieutenant governor) and executiveOf (the governor's signature or veto), and election-ties.ts bodyVotes; office-day-state.ts computerGovernorsDay already skips offices that do not cover the town.",
     "status": "open"
   },
   {
