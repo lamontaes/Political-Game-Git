@@ -296,7 +296,14 @@
     "nextMonth": "Next month",
     "today": "Today",
     "upcoming": "Coming up",
-    "advance": "Live until this day",
+    "advance": "Go to this day",
+    "tomorrow": "Tomorrow",
+    "daysAhead": "{n} days from now",
+    "daysAgo": "{n} days ago",
+    "nothing": "Nothing is on this day.",
+    "page": "{page} of {pages}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
   "party": {
