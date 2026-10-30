@@ -2298,9 +2298,13 @@ async function seatRows() {
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
 function portraitUrl() {
+  // The created look when there is one; else the figure the scene draws you
+  // with, or the one your card's face is cut from (a life started anywhere
+  // but the creator, who is not standing in their own scene).
   return me.portrait
     ? `/api/portrait?id=${encodeURIComponent(me.id)}`
-    : me.scene?.people.find((p) => p.personId === me.id)?.figureUrl;
+    : (me.scene?.people.find((p) => p.personId === me.id)?.figureUrl ??
+        me.card?.face?.url);
 }
 /** A record image has no substitute when its producer has not supplied one. */
 
@@ -2379,44 +2383,74 @@ const sheets = {
       (c.view && controls.leanWords?.[c.view]
         ? [{ text: controls.leanWords[c.view] }]
         : []);
-    // What you're like, in plain sentences, never the traits' names (owner, Oct 27);
-    // the record sections side by side under it, as a character sheet.
+    // The Oct 14 mock on framed plates: your figure framed at the left (the
+    // sheet's media slot); what you're like in plain sentences, never the
+    // traits' names (owner, Oct 27); small plates for home, work, school and
+    // cash; the people at home as face cards; your views as small plates.
+    const school = c.schools?.length ? c.schools.at(-1) : null;
+    const members = (c.home?.members ?? []).map((member) =>
+      memberCard({
+        name: member.name,
+        line: member.relation
+          ? member.relation.charAt(0).toUpperCase() + member.relation.slice(1)
+          : "",
+        face: member.face,
+        onOpen: () => {
+          closeSheet();
+          showPerson(member);
+        },
+      }),
+    );
     return recordScreen({
       heading: {
         name: c.name,
         meta: `${labels.age} ${c.age} · ${labels.born} ${born}`,
       },
       lede: c.sketch,
-      grid: true,
       sections: [
         {
-          title: c.age < 18 ? labels.householdHome : labels.home,
           items: [
-            { text: c.home?.placeName ?? me.placeName },
             {
-              people: (c.home?.members ?? []).map((member) => ({
-                name: member.name,
-                note: member.relation,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson(member);
-                },
-              })),
+              node: factPlates(
+                [
+                  {
+                    title: c.age < 18 ? labels.householdHome : labels.home,
+                    value: c.home?.placeName ?? me.placeName,
+                  },
+                  c.job && {
+                    title: labels.work,
+                    value: c.job.title,
+                    note: c.job.employer ?? "",
+                  },
+                  school && { title: labels.school, value: school.name },
+                  {
+                    title: labels.money,
+                    value: roundedMoney(c.liquidMinor),
+                  },
+                ].filter(Boolean),
+              ),
             },
           ],
         },
-        c.job && {
-          title: labels.work,
+        members.length && {
+          title: labels.family,
           items: [
-            { text: c.job.title, tone: "feature" },
-            { text: c.job.employer ?? "" },
+            {
+              node: pager({
+                items: members,
+                render: (card) => card,
+                rows: 2,
+                columns: 3,
+                rowHeight: 64,
+                gap: 8,
+                words: {
+                  page: controls.politics.page,
+                  previous: controls.politics.previousPage,
+                  next: controls.politics.nextPage,
+                },
+              }),
+            },
           ],
-        },
-        c.schools?.length && {
-          title: labels.school,
-          items: [...c.schools].reverse().map((school) => ({
-            text: school.name,
-          })),
         },
         views.length && {
           title: labels.views,
@@ -2428,10 +2462,6 @@ const sheets = {
               })),
             },
           ],
-        },
-        {
-          title: labels.money,
-          items: [{ text: moneyWords(c.liquidMinor), tone: "feature" }],
         },
       ].filter(Boolean),
     });
@@ -3958,7 +3988,7 @@ async function openSheet(tab) {
     "options-sheet",
     tab === "options" || !$("front").hidden,
   );
-  const character = tab === "who";
+  const character = tab === "who" || tab === "jobs";
   $("sheet").classList.toggle("character-sheet", character);
   // News is the paper itself: the sheet is the page, its masthead the title
   // (owner, Oct 28, point 25).
@@ -3989,7 +4019,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "who", "news"].includes(tab) &&
+    !["calendar", "people", "who", "jobs", "news"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
