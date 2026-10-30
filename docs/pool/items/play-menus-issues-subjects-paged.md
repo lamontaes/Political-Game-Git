@@ -6,12 +6,13 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: cto/menus-issues
+pr: #6846
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("redesign all the menu screens"); CTO's menu sweep the same night
+claimed-at: 2026-10-29T23:33:20.089Z
 ---
 
 **What.** Politics → Issues laid fourteen subjects of law cards into CSS columns that ran off the right edge of the panel, so in most places only the first two or three subjects could be seen and the rest could not be reached at all. The owner asked for every menu to be redesigned like Government (Oct 29, 22:45) with tabs on a rail and nothing scrolling. This item puts the subjects on the tab rail, shows one subject's law cards at a time paged inside a framed plate, keeps the search, and lays each law's own page out on plates.
