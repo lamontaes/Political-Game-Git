@@ -31,7 +31,7 @@ export function peopleWeb({
     className: "people-search",
   });
   search.setAttribute("aria-label", labels.search);
-  const filters = el("nav", { className: "people-filters" });
+  const filters = el("nav", { className: "tab-rail people-filters" });
   const canvas = el("div", { className: "relationship-web" });
   const detail = el("div", { className: "people-selection" });
   const button = (text, fn) => {
@@ -44,15 +44,9 @@ export function peopleWeb({
     // (no box; owner, Oct 28).
     if (p.face) return headshot(p.face);
     const url = p.presentation?.portraitUrl ?? p.figureUrl;
-    if (!url)
-      return el("span", {
-        className: "people-initial",
-        textContent: p.name
-          .split(/\s+/)
-          .map((s) => s[0])
-          .slice(0, 2)
-          .join(""),
-      });
+    // No figure yet (a child: the pack paints adults only): an empty ring,
+    // never initials (owner, Oct 28), as every list row draws it.
+    if (!url) return el("span", { className: "headshot" });
     const image = el("img", { src: url, alt: "" });
     image.addEventListener("error", () => image.remove());
     return image;

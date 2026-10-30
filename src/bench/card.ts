@@ -420,7 +420,16 @@ function tellHistory(lines: readonly HistoryLine[]) {
       const school = line.key === "school.started";
       if (school && said.has(text.replace(/ in \d{4}\.$/, ""))) return [];
       if (school) said.add(text.replace(/ in \d{4}\.$/, ""));
-      return [{ date: line.date, text, recordId: line.recordId }];
+      // The kind of record (born, school, work, office...) picks the
+      // timeline's icon: the bank's move, the key's first part.
+      return [
+        {
+          date: line.date,
+          text,
+          kind: line.key.split(".")[0],
+          recordId: line.recordId,
+        },
+      ];
     });
 }
 
@@ -654,6 +663,18 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
   };
 }
 
+/** The tie between two people, either way round, when they have one. */
+function tieBetween(core: CoreState, viewerId: string, otherId: string) {
+  return [...(core.relationshipsByPerson.get(viewerId) ?? [])]
+    .map((id) => core.relationships.get(id))
+    .find(
+      (row) =>
+        row &&
+        ((row.actorId === viewerId && row.otherId === otherId) ||
+          (row.otherId === viewerId && row.actorId === otherId)),
+    );
+}
+
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const viewer = core.people.get(viewerId);
   const other = core.people.get(otherId);
@@ -669,14 +690,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const housemate = shared.some((row) => row.kind === "household");
   const coworker = shared.some((row) => row.kind === "coworker");
   const job = other.jobId ? core.jobs.get(other.jobId) : undefined;
-  const tie = [...(core.relationshipsByPerson.get(viewerId) ?? [])]
-    .map((id) => core.relationships.get(id))
-    .find(
-      (row) =>
-        row &&
-        ((row.actorId === viewerId && row.otherId === otherId) ||
-          (row.otherId === viewerId && row.actorId === otherId)),
-    );
+  const tie = tieBetween(core, viewerId, otherId);
   const publicKnowledge = core.modules.has(PAST_MODULE_ID)
     ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
     : null;

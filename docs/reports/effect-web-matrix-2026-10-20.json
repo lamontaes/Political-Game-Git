@@ -3,19 +3,19 @@
   "summary": {
     "links": 246,
     "lawLinks": 135,
-    "webCoverageWired": 127,
+    "webCoverageWired": 128,
     "allEightPoints": 0,
-    "reachesOrCarried": 171,
-    "namedInAStopgap": 92,
+    "reachesOrCarried": 170,
+    "namedInAStopgap": 94,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 171,
+    "reachesTheWorld": 170,
     "aboutZero": 18,
     "withAnyModerator": 23,
     "byPoint": {
       "cause": {
-        "pass": 182,
+        "pass": 184,
         "partial": 13,
-        "fail": 51,
+        "fail": 49,
         "n/a": 0
       },
       "size": {
@@ -25,9 +25,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 171,
+        "pass": 170,
         "partial": 0,
-        "fail": 57,
+        "fail": 58,
         "n/a": 18
       },
       "varied": {
@@ -3230,7 +3230,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:66"
+          "evidence": "src/core2/turnout-web.ts:72"
         },
         "varied": {
           "status": "fail",
@@ -4573,7 +4573,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:66"
+          "evidence": "src/core2/turnout-web.ts:72"
         },
         "varied": {
           "status": "fail",
@@ -4749,14 +4749,13 @@
       "key": "newspaper-closure-to-borrowing-cost",
       "from": "press.local-newspaper",
       "to": "gov.borrowing-cost",
-      "causeKind": "missing",
+      "causeKind": "engine",
       "lawLink": false,
       "webCoverage": "waiting",
       "points": {
         "cause": {
-          "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:2730",
-          "why": "no measure: nothing in the core records press.local-newspaper"
+          "status": "pass",
+          "evidence": "the newspapers-closed reader (ENGINE_READERS, src/core2/modules/outcome-web.ts), lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "fail",
@@ -4766,7 +4765,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "outcome read by src/core2/budgets-treasury.ts:189",
-          "why": "the web does not run it: it waits on press.local-newspaper, and it has no researched size; its research gives no size the game can apply, so the web does not run it"
+          "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -4792,30 +4791,28 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 2,
+      "wiredPoints": 3,
       "stopgap": "SG-WEB-unread-gov-borrowing-cost"
     },
     {
       "key": "newspaper-closure-to-engagement",
       "from": "press.local-newspaper",
       "to": "voting.local-turnout",
-      "causeKind": "missing",
+      "causeKind": "engine",
       "lawLink": false,
-      "webCoverage": "waiting",
+      "webCoverage": "wired",
       "points": {
         "cause": {
-          "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:2750",
-          "why": "no measure: nothing in the core records press.local-newspaper"
+          "status": "pass",
+          "evidence": "the newspapers-closed reader (ENGINE_READERS, src/core2/modules/outcome-web.ts), lagged by causeAt (src/core2/modules/outcome-web.ts)"
         },
         "size": {
           "status": "pass",
           "evidence": "data/research/outcome-web/links.json:2750 size -0.006, range [-0.012, 0], Gentzkow, Shapiro and Sinkinson 2011 (AER); Rubado and Jennings 2020 (Urban Affairs Review); Hayes and Lawless 2021"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "src/core2/gov-measures.ts",
-          "why": "engine doesn't read the factor: an engine records voting.local-turnout, but nothing multiplies its rates by the link's effect; nothing in the core records its cause, press.local-newspaper"
+          "status": "pass",
+          "evidence": "src/core2/turnout-web.ts:81"
         },
         "varied": {
           "status": "fail",
@@ -4841,7 +4838,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
+      "wiredPoints": 5,
       "stopgap": "SG-WEB-voting-newspaper-closure"
     },
     {
@@ -6013,8 +6010,9 @@
           "evidence": "data/research/outcome-web/links.json:3469 size -0.32, range [-0.61, -0.2], McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/modules/credit.ts:185"
+          "status": "fail",
+          "evidence": "-",
+          "why": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it"
         },
         "varied": {
           "status": "fail",
@@ -6040,8 +6038,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 5,
-      "stopgap": null
+      "wiredPoints": 4,
+      "stopgap": "SG-WEB-unread-finance-high-cost-loans"
     },
     {
       "key": "paid-leave-to-mothers-work",
@@ -6863,8 +6861,9 @@
           "evidence": "data/research/outcome-web/links.json:3932 size -0.32, range [-0.61, -0.2], McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/modules/credit.ts:185"
+          "status": "fail",
+          "evidence": "-",
+          "why": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it"
         },
         "varied": {
           "status": "partial",
@@ -6890,8 +6889,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 5,
-      "stopgap": null
+      "wiredPoints": 4,
+      "stopgap": "SG-WEB-unread-finance-high-cost-loans"
     },
     {
       "key": "student-debt-relief-to-finances",
@@ -7710,7 +7709,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:66"
+          "evidence": "src/core2/turnout-web.ts:72"
         },
         "varied": {
           "status": "fail",
@@ -8229,7 +8228,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:66"
+          "evidence": "src/core2/turnout-web.ts:72"
         },
         "varied": {
           "status": "fail",
@@ -8276,7 +8275,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:66"
+          "evidence": "src/core2/turnout-web.ts:72"
         },
         "varied": {
           "status": "fail",
@@ -12361,8 +12360,9 @@
     },
     {
       "measure": "finance.high-cost-loans",
-      "status": "engine-reads-web",
-      "evidence": "src/core2/modules/credit.ts:185",
+      "status": "web-ledger-only",
+      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
+      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13273,9 +13273,8 @@
     },
     {
       "measure": "press.local-newspaper",
-      "status": "missing",
-      "evidence": "-",
-      "why": "no measure: no engine records it and the web does not keep it",
+      "status": "engine-record",
+      "evidence": "the newspapers-closed reader (ENGINE_READERS, src/core2/modules/outcome-web.ts)",
       "countedTwice": false,
       "asCause": [
         "newspaper-closure-to-borrowing-cost",
@@ -13641,7 +13640,8 @@
       "measure": "voting.local-turnout",
       "status": "engine-record",
       "evidence": "src/core2/gov-measures.ts",
-      "countedTwice": false,
+      "why": "measure counted twice: an engine records it and the web also keeps it",
+      "countedTwice": true,
       "asCause": [],
       "asOutcome": ["newspaper-closure-to-engagement"]
     },
@@ -13665,7 +13665,7 @@
     {
       "measure": "voting.turnout-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/turnout-web.ts:66",
+      "evidence": "src/core2/turnout-web.ts:72",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [

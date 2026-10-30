@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after: gov-federal-questions-money-readers, gov-federal-questions-rule-readers
@@ -23,3 +23,5 @@ source: split from gov-stopgap-world-legislating-missing-mechanic by pool feeder
 **Files.** src/core2/modules/world-legislating.ts, src/core2/data/stopgaps.json, src/core2/world-legislating-federal.test.ts
 
 **Notes.** Oct 20 (pool feeder): part 4 of 4 of gov-stopgap-world-legislating-missing-mechanic.
+
+Oct 29 (laws lead): dropped as a twin of gov-congress-passes-policy-laws, by the CTO's ruling (OWNER-DECISIONS, Oct 29 22:40): same test file, same stopgap, same done-when. Its Notes and its rule (only a question with a reader is admitted) are carried there; plan units C1 to C3 in docs/reports/world-governing-plan-2026-10-29.md.

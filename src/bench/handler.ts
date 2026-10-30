@@ -99,6 +99,7 @@ import {
   politicsStates,
   stateLegislators,
 } from "./government";
+import { governmentBodies } from "./government-bodies";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
@@ -1270,6 +1271,22 @@ export async function benchRequest(
         url.pathname === "/api/government/local-races"
       ) {
         send(200, localRaces(requireCore()));
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/government/bodies"
+      ) {
+        const level = url.searchParams.get("level");
+        send(
+          200,
+          governmentBodies(
+            requireCore(),
+            url.searchParams.get("id") ?? "",
+            level === "state" || level === "federal" ? level : "local",
+            url.searchParams.get("state") ?? "",
+          ),
+        );
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/government") {
