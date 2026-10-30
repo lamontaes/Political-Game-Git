@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/people-home-plated-room-first
-pr:
+pr: #6856
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-30T01:45:03.144Z
