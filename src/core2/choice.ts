@@ -31,7 +31,7 @@ function decisionActor(core: CoreState, personId: string): PersonState {
  * A traits record's summed pull per act kind, by the kind's index in
  * `KIND_INDEX` (a compact array: one is cached for every counted person).
  */
-interface KindLean {
+export interface KindLean {
   sum: Float64Array;
   perKind: number;
 }
@@ -134,9 +134,11 @@ function compiledPulls(data: CoreState["data"]): CompiledPulls {
 /**
  * Every trait's pull on every act kind for one person, computed once per
  * person: each trait counts on its high side when above the middle and its
- * low side when below, weighted by how far from the middle it sits.
+ * low side when below, weighted by how far from the middle it sits. The
+ * object stands for the person's traits until it is forgotten, so a lean
+ * worked out from it can be kept by it (`trait-decisions.ts`).
  */
-function kindLean(
+export function kindLean(
   core: Pick<CoreState, "data">,
   actor: Pick<PersonState, "traits">,
 ): KindLean {
