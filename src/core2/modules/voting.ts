@@ -301,6 +301,8 @@ interface CountedBallotsRow {
   readonly college?: readonly (number | null)[];
   /** Each voter's door "yes" as it held on the day (null where they gave none; absent on rows kept before pledges). */
   readonly pledges?: readonly (Readonly<Record<string, number>> | null)[];
+  /** Where one household of a record's several gave a door "yes", the field index it voted for on its word (-1 otherwise). */
+  readonly pledgedChoice?: readonly number[];
 }
 
 /** One voter's turnout on a ballot: its parts and the propensity they came to. */
@@ -691,8 +693,10 @@ function namedPledges(
   contestId: string,
   field: readonly CountedFieldEntry[],
 ): Readonly<Record<string, number>> | undefined {
+  // Only a "yes" to a candidate on this ballot counts.
   const pledges = pledgesOf(api, voter.id).filter(
-    (p) => p.contestId === contestId,
+    (p) =>
+      p.contestId === contestId && field.some((f) => f.id === p.candidateId),
   );
   if (!pledges.length) return undefined;
   const held: Record<string, number> = {};
@@ -759,8 +763,10 @@ function countedPledges(
   contestId: string,
   field: readonly CountedFieldEntry[],
 ): Readonly<Record<string, number>> | undefined {
+  // Only a "yes" to a candidate on this ballot counts.
   const pledges = pledgesOf(api, voterId).filter(
-    (p) => p.contestId === contestId,
+    (p) =>
+      p.contestId === contestId && field.some((f) => f.id === p.candidateId),
   );
   if (!pledges.length) return undefined;
   const scandalFull = appealOfShare(electorateParameter("scandalShare"));
@@ -771,6 +777,26 @@ function countedPledges(
     held[pledge.candidateId] = 1 - Math.min(1, Math.max(0, reached * trust));
   }
   return held;
+}
+
+/**
+ * How a counted record's voters divide when it carries a door "yes": a door
+ * reaches one household, never the whole record, so where the record stands
+ * for several, that one votes on its word and the others as they would have
+ * without it (one model, two tiers). Without a pledge, the whole record votes
+ * one way.
+ */
+function countedSplit(
+  choice: string | null,
+  pledges: Readonly<Record<string, number>> | undefined,
+  weight: number,
+  without: () => string | null,
+): readonly (readonly [string | null, number])[] {
+  if (!pledges || weight <= 1) return [[choice, weight]];
+  return [
+    [choice, 1],
+    [without(), weight - 1],
+  ];
 }
 
 /** How a voter stands with a candidate they know personally, -1 to 1. */
@@ -1770,7 +1796,7 @@ export function holdPrimary(
     );
     for (const [form, voter] of who.entries()) {
       const trust = trustWeight(api, leanOf.get(voter.id) ?? 0);
-      const appeal = countedAppeal(leanOf.get(voter.id) ?? 0, entries, {
+      const where = {
         inTown: true,
         local: true,
         incumbentLean: incumbentLeanOf(api, voter),
@@ -1778,7 +1804,11 @@ export function holdPrimary(
         // The town's people hold each form of a rotated ballot in turn.
         ballotForm: form,
         profile: countedStanceProfile(api, voter),
-        pledges: countedPledges(api, voter.id, trust, contest.id, entries),
+      };
+      const pledges = countedPledges(api, voter.id, trust, contest.id, entries);
+      const appeal = countedAppeal(leanOf.get(voter.id) ?? 0, entries, {
+        ...where,
+        pledges,
       });
       // Each counted voter stands for the town's people like them: their
       // vote counts at the share of them who turn out.
@@ -1792,8 +1822,17 @@ export function holdPrimary(
       });
       const choice = countedChoice(appeal);
       // A record stands for `weight` real voters like it (one model, two tiers).
-      if (choice)
-        votes[choice] = (votes[choice] ?? 0) + t.propensity * voter.weight;
+      for (const [backed, weight] of countedSplit(
+        choice,
+        pledges,
+        voter.weight,
+        () =>
+          countedChoice(
+            countedAppeal(leanOf.get(voter.id) ?? 0, entries, where),
+          ),
+      ))
+        if (backed)
+          votes[backed] = (votes[backed] ?? 0) + t.propensity * weight;
     }
   };
   // The primary's wider electorate (the rest of the town, county, district
@@ -2662,8 +2701,10 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     weight: [] as number[],
     faith: [] as (number | null)[],
     college: [] as (number | null)[],
-    /** Each voter's door "yes" as it held on the day (null where they gave none). */
+    /** Each voter's door "yes" as it held on the day (null where they gave none, or where it held for one household of several). */
     pledges: [] as (Readonly<Record<string, number>> | null)[],
+    /** Where one household of a record's several gave a door "yes": the field index it voted for on its word (-1 otherwise). */
+    pledgedChoice: [] as number[],
   };
   const countedAdults = wards > 0 ? countedAdultsToday(api) : 0;
   let countedAdultIndex = 0;
@@ -2693,7 +2734,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       contestId,
       field,
     );
-    const appeal = countedAppeal(lean, field, {
+    const where = {
       inTown: true,
       local: true,
       incumbentLean,
@@ -2701,8 +2742,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       // The town's people hold each form of a rotated ballot in turn.
       ballotForm: kept.voterIds.length,
       profile: countedStanceProfile(api, voter),
-      pledges,
-    });
+    };
+    const appeal = countedAppeal(lean, field, { ...where, pledges });
     const t = atThePolls(
       api,
       voter,
@@ -2710,7 +2751,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       cycleCost,
       voter.weeklyMinutes,
     );
-    const choice = countedChoice(appeal);
+    const pledgedChoice = countedChoice(appeal);
+    // A door reached one of the households the record stands for: its word
+    // holds for that one, and the record's kept choice is the rest's.
+    const split = countedSplit(pledgedChoice, pledges, voter.weight, () =>
+      countedChoice(countedAppeal(lean, field, where)),
+    );
+    const choice = split.at(-1)![0];
     kept.voterIds.push(voter.id);
     kept.voted.push(t.propensity);
     kept.choice.push(choice ? field.findIndex((f) => f.id === choice) : -1);
@@ -2725,11 +2772,17 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // Module data holds JSON: a missing distance is kept as null.
     kept.faith.push(profile.faithFromAverage ?? null);
     kept.college.push(profile.collegeFromAverage ?? null);
-    kept.pledges.push(pledges ?? null);
+    kept.pledges.push(split.length === 1 ? (pledges ?? null) : null);
+    kept.pledgedChoice.push(
+      split.length > 1 && pledgedChoice
+        ? field.findIndex((f) => f.id === pledgedChoice)
+        : -1,
+    );
     countedVoted += t.propensity * voter.weight;
-    if (choice)
-      countedVotes[choice] =
-        (countedVotes[choice] ?? 0) + t.propensity * voter.weight;
+    for (const [backed, weight] of split)
+      if (backed)
+        countedVotes[backed] =
+          (countedVotes[backed] ?? 0) + t.propensity * weight;
   }
   table(api, "countedBallots").put({
     id: `counted:${contestId}`,

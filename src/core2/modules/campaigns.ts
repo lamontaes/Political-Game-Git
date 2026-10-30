@@ -24,7 +24,7 @@ import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
 import { keepsWhy } from "../why-kept";
-import { closenessBetween } from "../closeness";
+import { closenessBetween } from "./people";
 import {
   decisionLean,
   leanedScore,
