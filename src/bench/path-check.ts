@@ -49,6 +49,8 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
+  contestsOnDate,
+  incumbentOf,
   petitionCirculating,
   petitionOf,
   type ContestRow,
@@ -386,6 +388,48 @@ function stand(): { held: boolean; takesOffice: string | null } {
         `APPEAL ${who}${who === "RIVAL" ? `(${id.slice(-6)})` : ""} named(${namedVoted.length}) ${mean(namedVoted.map((b) => ({ weight: 1, appeal: b.appeal?.[id] })))} | counted ${mean(countedKept.map((b) => ({ weight: (b.weight ?? 1) * b.turnout, appeal: b.appeal?.[id] as unknown as Record<string, unknown> | undefined })))}`,
       );
     }
+  }
+  // INCUMBENTS: every race decided on the player's election day, by level:
+  // seats with a holder, holders who ran, and how many of them won, in
+  // contested races and in all (scratch measurement only).
+  {
+    const api = coreAPI(w.core);
+    const tally: Record<
+      string,
+      {
+        races: number;
+        held: number;
+        ran: number;
+        won: number;
+        contested: number;
+        wonContested: number;
+      }
+    > = {};
+    for (const c of contestsOnDate(api, day)) {
+      const r = resultOf(api, c.id);
+      if (!r) continue;
+      const t = (tally[c.level] ??= {
+        races: 0,
+        held: 0,
+        ran: 0,
+        won: 0,
+        contested: 0,
+        wonContested: 0,
+      });
+      t.races += 1;
+      const pid = incumbentOf(api, c.id)?.personId;
+      if (!pid) continue;
+      t.held += 1;
+      if (!(pid in r.totals)) continue;
+      t.ran += 1;
+      const contested = Object.keys(r.totals).length > 1;
+      if (contested) t.contested += 1;
+      if (r.winnerId === pid) {
+        t.won += 1;
+        if (contested) t.wonContested += 1;
+      }
+    }
+    log.push(`INCUMBENTS ${day}: ${JSON.stringify(tally)}`);
   }
   log.push(
     `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}`,
