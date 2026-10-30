@@ -11,15 +11,22 @@
  *   after the other, so only one is in memory). A working parent of a child
  *   (by the parent-child family record), one in each household, is charged
  *   in one world and not the other; the court convicts and imprisons them,
- *   their job ends on the custody record, and their household's yearly
- *   income (fullHouseholdIncomes, the reading the crime and school engines
- *   take of a household's income) falls by their pay against the twin's,
- *   every other income record of the household being the same in both.
+ *   their job ends on the custody record (the parent's own record of the
+ *   job's end, job:<id>:status, names that custody as its source), and their
+ *   household's yearly income (fullHouseholdIncomes, the reading the crime
+ *   and school engines take of a household's income) falls by their pay
+ *   against the twin's, every other income record of the household being the
+ *   same in both.
  * - The case names no bribe, so the court's months are the least of the
  *   state's bribery range (convict). About half the places' statutes start
  *   that range at 0 months, probation only (for example Fla. Stat.
  *   775.082(3)(d), ORS 161.605(2)); such a place cannot show a prison term
  *   and is passed over with its statute, after its build and before its run.
+ * - A conviction vacates the parent's seats (convictionForfeitsOffice), and
+ *   the office day then ends a full-time seat's payroll job (reviewOfficeJobs)
+ *   whether or not the parent is imprisoned. A term whose ended jobs include
+ *   such a job cannot show the prison term's own reach, so it is passed over
+ *   with the seat named.
  * - The other six links stay unread, each on SG-WEB-crime-justice-links-unread
  *   with the reason its row gives: no recorded cause, no size the game can
  *   apply, or no engine that decides the outcome.
@@ -46,6 +53,7 @@ import {
   type SentenceRow,
 } from "./modules/justice";
 import { lawChain } from "./modules/laws";
+import { OFFICE_DAY_MODULE_ID, type OfficeJobRow } from "./modules/office-day";
 import { linkCoverage, WEB_LINKS, WIRED_INTO } from "./outcome-web-model";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
@@ -132,6 +140,8 @@ interface Term {
   readonly caseId: string;
   readonly sentence: SentenceRow;
   readonly custody: CustodyRow;
+  /** Each ended job's end record, as the parent's own record of it names its source. */
+  readonly endedBy: readonly string[];
   /** The household's yearly income, and each of its income records, with the term. */
   readonly income: number;
   readonly records: ReadonlyMap<string, number>;
@@ -247,12 +257,42 @@ function chargedWorld(
       );
       continue;
     }
-    // Every job the term ended has ended, and the parent holds none.
-    for (const id of sentence.jobsEnded)
+    // A seat the conviction vacated ends its payroll job in the office day
+    // (convictionForfeitsOffice, then reviewOfficeJobs), prison term or not,
+    // so such a term cannot show what the prison term alone ends.
+    const seatJobs = core.modules.has(OFFICE_DAY_MODULE_ID)
+      ? api
+          .moduleState(OFFICE_DAY_MODULE_ID)
+          .table("officeJobs")
+          .rows()
+          .map((raw) => raw as unknown as OfficeJobRow)
+          .filter(
+            (row) =>
+              row.jobId !== null &&
+              sentence.seatsVacated.includes(row.seatId) &&
+              sentence.jobsEnded.includes(row.jobId),
+          )
+      : [];
+    if (seatJobs.length) {
+      skipped.push(
+        `${c.defendantId}'s ${seatJobs.map((row) => `${row.jobId} (the payroll job of ${row.seatId}, ${row.title})`).join(", ")} ended with the seat the conviction vacated (${sentence.id}), prison term or not`,
+      );
+      continue;
+    }
+    // Every job the term ended has ended, on the custody's own record (the
+    // parent's record of the job's end names the custody), and the parent
+    // holds none.
+    const endedBy = sentence.jobsEnded.map((id) => {
+      expect(core.jobs.get(id)?.endsAt, `${id} ended`).not.toBe(undefined);
+      const source = core.knowledgeByPerson
+        .get(c.defendantId)
+        ?.get(`job:${id}:status`)?.sourceId;
       expect(
-        core.jobs.get(id)?.endsAt,
-        `${id} ended by ${custody.id}`,
-      ).not.toBe(undefined);
+        source?.startsWith(`${custody.id}:`),
+        `${id}'s end record names ${custody.id}, not ${source ?? "nothing"}`,
+      ).toBe(true);
+      return source!;
+    });
     expect(yearly(core, c.defendantId), c.defendantId).toBe(0);
     const person = core.people.get(c.defendantId)!;
     terms.push({
@@ -262,6 +302,7 @@ function chargedWorld(
       caseId: c.id,
       sentence,
       custody,
+      endedBy,
       income: incomes.get(person.householdId) ?? 0,
       records: incomeRecords(core, person.householdId),
     });
@@ -387,7 +428,7 @@ describe("a parent's prison term reaches their household's income", () => {
             );
             const link = linkOf(LINK);
             process.stdout.write(
-              `PARENT-INCARCERATION (CRIME_JUSTICE_2_SEED=${seed}) ${where}: ${term.name} (${term.personId}), a parent in ${term.home}, was charged in one world (${term.caseId}), sentenced to ${term.sentence.custodyMonths} months (${term.sentence.id}) and imprisoned on ${term.custody.from} (${term.custody.id}); the justice engine ended ${term.sentence.jobsEnded.join(", ")}, which the twin's parent still holds; on ${seen.through} the household's yearly income ran ${without} in the twin and ${term.income} with the term (minor units), down ${pay}, the parent's own pay (${((100 * pay) / without).toFixed(1)}%; the research's average family drop is ${(-link.size! * 100).toFixed(0)}%), its other ${twinRecords.size - term.sentence.jobsEnded.length} income records the same in both worlds. Passed over: ${passed.join("; ") || "none"}\n`,
+              `PARENT-INCARCERATION (CRIME_JUSTICE_2_SEED=${seed}) ${where}: ${term.name} (${term.personId}), a parent in ${term.home}, was charged in one world (${term.caseId}), sentenced to ${term.sentence.custodyMonths} months (${term.sentence.id}) and imprisoned on ${term.custody.from} (${term.custody.id}); the justice engine ended ${term.sentence.jobsEnded.join(", ")} (the end records: ${term.endedBy.join(", ")}), which the twin's parent still holds; on ${seen.through} the household's yearly income ran ${without} in the twin and ${term.income} with the term (minor units), down ${pay}, the parent's own pay (${((100 * pay) / without).toFixed(1)}%; the research's average family drop is ${(-link.size! * 100).toFixed(0)}%), its other ${twinRecords.size - term.sentence.jobsEnded.length} income records the same in both worlds. Passed over: ${passed.join("; ") || "none"}\n`,
             );
             return;
           }
