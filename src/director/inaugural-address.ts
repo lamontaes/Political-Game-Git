@@ -9,7 +9,7 @@
  */
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { SPEECH_MODULE_ID, deliverSpeech } from "../core2/modules/speech";
+import { SPEECH_MODULE_ID, deliverSpeech } from "../core2/modules/people";
 import { questionTo } from "../english/question-names";
 import { P } from "../core2/parameters";
 import { standsOf } from "./speech-builder";

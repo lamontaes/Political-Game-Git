@@ -24,6 +24,7 @@ import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import {
   LEGISLATURE_MODULE_ID,
   billReach,
+  bodyOf,
   executiveOf,
   memberKey,
   members,
@@ -58,10 +59,75 @@ import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import { P } from "../core2/parameters";
-import { colleagues, oathGiver } from "./swearing-in";
+import { colleagues, outgoingHolder, swornOffice } from "./swearing-in";
+import { markWordsStopgap } from "./stopgaps";
 import type { Moment } from "./types";
 
 const zero = P.zero;
+
+/**
+ * Who gives the oath, from the records and never invented (the world keeps no
+ * judges yet, SG-WORDS-swearing-in-no-court): the clerk who took the winner's
+ * filing, else the clerk of the government the office belongs to, else the
+ * holder who left the seat that day, else the body's presiding officer (the
+ * legislature's leaders for a statewide office). Nobody on record, and the
+ * role stays unfilled and the scene is not staged.
+ */
+function oathGiver(
+  core: Readonly<CoreState>,
+  moment: { readonly personId: string; readonly causeId: string },
+): PersonId[] {
+  const sworn = swornOffice(core, moment.causeId);
+  if (!sworn) return [];
+  const api = coreAPI(core as CoreState);
+  // The living full person a record names, never the one sworn in.
+  const pick = (id: string | null | undefined): PersonId[] =>
+    id === moment.personId ? [] : living(core, [id ?? null]);
+  // The clerk is the oath's usual giver in a town or a county; at the state
+  // and federal level a court's officer would be, and the world keeps none.
+  const clerical = sworn.level !== "state" && sworn.level !== "federal";
+  const filed =
+    sworn.resultId && api.state.modules.has(ELECTIONS_MODULE_ID)
+      ? filingClerkFor(api, sworn.resultId)
+      : null;
+  const government =
+    sworn.level === "county"
+      ? localClerkFor(api, "countyOffice")
+      : sworn.level === "city" || sworn.level === "township"
+        ? localClerkFor(api, "municipalOffice")
+        : null;
+  const clerk = pick((filed ?? government)?.personId);
+  if (clerk.length) {
+    if (!clerical) markWordsStopgap("SG-WORDS-swearing-in-no-court");
+    return clerk;
+  }
+  markWordsStopgap("SG-WORDS-swearing-in-no-court");
+  const outgoing = outgoingHolder(core, sworn, moment.personId);
+  if (outgoing) return [outgoing];
+  if (!api.state.modules.has(LEADERSHIP_MODULE_ID)) return [];
+  return pick(
+    presidingOfficer(api, sworn.officeId) ??
+      chamberPresiding(api, sworn.jurisdiction),
+  );
+}
+
+/**
+ * The presiding officer of the government's legislature, for an office sworn
+ * in outside any body (a governor): its first chamber, by id, that has one.
+ */
+function chamberPresiding(api: CoreAPI, jurisdiction: string): string | null {
+  const offices = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .query("byJurisdiction", [jurisdiction]) as unknown as { id: string }[];
+  for (const office of [...offices].sort((a, b) => a.id.localeCompare(b.id))) {
+    if (!bodyOf(api, office.id)?.kind.startsWith("legislature-")) continue;
+    const id = presidingOfficer(api, office.id);
+    if (id) return id;
+  }
+  return null;
+}
+
 const one = P.one;
 
 /** The fills this module answers; `scheduling.ts` asks it for each. */

@@ -138,6 +138,12 @@ export interface SituationType {
    * (a lost job told at home stands in for the same loss told at work).
    */
   yieldsTo?: readonly string[];
+  /**
+   * What kind of occasion the scene is, which decides whether an office
+   * holder in it sits, stands or takes a podium (the people pack's postures,
+   * agreed with People, Oct 29): "ceremony" for a swearing-in.
+   */
+  occasion?: string;
 }
 
 export interface SituationLibrary {

@@ -4,24 +4,16 @@
  * you'll give a speech"). The offices engine writes `took-office` when it
  * seats someone; this reads that record for the swearing-in scene
  * (`src/director/data/situation-types.json`, type `swearing-in`): the office
- * and seat it names, who gives the oath and who stands in the room. It writes
+ * and seat it names and who stands in the room (the oath's giver is cast with
+ * the other civic roles, `civic-roles.ts`). It writes
  * nothing and holds no sentence: the English engine words every line, and the
  * address an executive office gives afterward is `inaugural-address.ts`.
  */
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
-import type { OfficeInput } from "../core2/offices-local";
-import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
-import { filingClerkFor, localClerkFor } from "../core2/modules/filing-clerk";
-import {
-  LEADERSHIP_MODULE_ID,
-  presidingOfficer,
-} from "../core2/modules/leadership";
 import { memberKey } from "../core2/modules/legislature";
-import { legislativeLeaders } from "../core2/office-day-state";
 import { P } from "../core2/parameters";
-import { markWordsStopgap } from "./stopgaps";
 import data from "./data/swearing-in.json" with { type: "json" };
 
 /** The record the offices engine writes when it seats someone. */
@@ -33,6 +25,16 @@ export const ADDRESS_KEEPS = "address";
 const MET_AT_OATH = "swearing-in";
 
 const ADDRESS_KINDS: ReadonlySet<string> = new Set(data.address.kinds);
+
+/** What this reads of an office's row in the offices engine. */
+interface OfficeRow {
+  readonly id: string;
+  readonly kind: string;
+  readonly title: string;
+  readonly level: string;
+  readonly jurisdiction: string;
+  readonly seats: number;
+}
 const COLLEAGUES_MAX = data.parameters.colleaguesMax.value;
 
 /** The office a took-office record seats someone in, read from the offices engine's rows. */
@@ -77,7 +79,7 @@ export function swornOffice(
     { readonly officeId: string } | undefined;
   const office = seat
     ? (offices.table("offices").get(seat.officeId) as unknown as
-        OfficeInput | undefined)
+        OfficeRow | undefined)
     : undefined;
   if (!office) return null;
   return {
@@ -126,49 +128,6 @@ export function outgoingHolder(
 }
 
 /**
- * Who gives the oath, from the records and never invented (the world keeps no
- * judges yet, SG-WORDS-swearing-in-no-court): the clerk who took the winner's
- * filing, else the clerk of the government the office belongs to, else the
- * holder who left the seat that day, else the body's presiding officer (the
- * legislature's leaders for a statewide office). Nobody on record, and the
- * role stays unfilled and the scene is not staged.
- */
-export function oathGiver(
-  core: Readonly<CoreState>,
-  moment: { readonly personId: string; readonly causeId: string },
-): PersonId[] {
-  const sworn = swornOffice(core, moment.causeId);
-  if (!sworn) return [];
-  const api = coreAPI(core as CoreState);
-  const pick = living(core, moment.personId);
-  // The clerk is the oath's usual giver in a town or a county; at the state
-  // and federal level a court's officer would be, and the world keeps none.
-  const clerical = sworn.level !== "state" && sworn.level !== "federal";
-  const filed =
-    sworn.resultId && api.state.modules.has(ELECTIONS_MODULE_ID)
-      ? filingClerkFor(api, sworn.resultId)
-      : null;
-  const government =
-    sworn.level === "county"
-      ? localClerkFor(api, "countyOffice")
-      : sworn.level === "city" || sworn.level === "township"
-        ? localClerkFor(api, "municipalOffice")
-        : null;
-  const clerk = pick((filed ?? government)?.personId);
-  if (clerk.length) {
-    if (!clerical) markWordsStopgap("SG-WORDS-swearing-in-no-court");
-    return clerk;
-  }
-  markWordsStopgap("SG-WORDS-swearing-in-no-court");
-  const outgoing = outgoingHolder(core, sworn, moment.personId);
-  if (outgoing) return [outgoing];
-  const presiding = api.state.modules.has(LEADERSHIP_MODULE_ID)
-    ? presidingOfficer(api, sworn.officeId)
-    : null;
-  return pick(presiding ?? legislativeLeaders(api, sworn.jurisdiction)[P.zero]);
-}
-
-/**
  * The others in the room: the sitting holders of the government's other
  * offices, a government's smaller offices (a mayor, a lieutenant governor)
  * before its rank and file, closest tie to the one sworn in first, at most
@@ -188,7 +147,7 @@ export function colleagues(
   const bySize = new Map<number, PersonId[]>();
   for (const office of offices
     .table("offices")
-    .query("byJurisdiction", [sworn.jurisdiction]) as unknown as OfficeInput[])
+    .query("byJurisdiction", [sworn.jurisdiction]) as unknown as OfficeRow[])
     for (const seat of offices
       .table("seats")
       .query("byOffice", [office.id]) as unknown as { id: string }[])

@@ -243,6 +243,8 @@ function swearIn(at: string, world: World, address: boolean): string {
   // 3. Narration, the oath, four replies that are four stances.
   const scene = composeScene(core, director, playerId, entry as ScheduleEntry);
   expect(scene?.typeKey, at).toBe("swearing-in");
+  // A ceremony: the people pack stands the room up for it (People, Oct 29).
+  expect(scene?.occasion, at).toBe("ceremony");
   const result = purposeScene(core, director, playerId, entry as ScheduleEntry);
   expect(result?.kind, `${at}: ${JSON.stringify(result)}`).toBe("composed");
   if (result?.kind !== "composed") throw new Error(at);

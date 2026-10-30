@@ -182,7 +182,8 @@ export function storyScene(
     momentId,
     place: pictured,
     backdrop,
-    people: stagePeople(core, backdrop.file, cast).people,
+    people: stagePeople(core, backdrop.file, cast, undefined, scene.occasion)
+      .people,
     // One narrator: a scene with a purpose opens on its own narration, the
     // same voice that speaks between its lines; the situation's paragraph is
     // for a moment with no exchange (the plan of Oct 28, section 1: "Two
