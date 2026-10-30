@@ -117,6 +117,7 @@ import {
 import { holderOf, officialCandidate } from "./officials";
 import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
+import { researchedHolderParty } from "../holder-parties";
 import {
   novemberGeneralElectionDay,
   termEndAfter,
@@ -4433,7 +4434,9 @@ function seatRace(
     incumbentParty: holder?.party ?? null,
     leanSource: house
       ? "2024 House vote in the district"
-      : "the state's 2024 two-party vote over its districts, the holder's party at the typical margin",
+      : seat.district === null
+        ? "2024 presidential vote in the state's counties"
+        : "the state's 2024 two-party vote over its districts, the holder's party at the typical margin",
     seatedOn: house
       ? `${year + 1}-01-03`
       : (holder?.endDate ?? `${year + 1}-01-01`),
@@ -4465,7 +4468,6 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
     ).map((o) => [o.id, o]),
   );
   const counted = new Map<string, boolean>();
-  let executiveDue = false;
   for (const seat of offices.table("seats").rows() as unknown as {
     id: string;
     officeId: string;
@@ -4477,38 +4479,46 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
     if (!office?.elected || seat.coversTown) continue;
     const house = office.kind === "us-house";
     const legislature = office.kind.startsWith("legislature-");
-    if (!house && !legislature) {
-      // Another place's statewide executive other than its governor (a
-      // lieutenant governor, an attorney general, a secretary of state,
-      // D.C.'s mayor) whose election falls this year.
-      if (
-        office.kind !== "governor" &&
-        isOutsideOffice(api, office) &&
-        (seat.electionYear ?? office.nextElectionYear) === year
-      )
-        executiveDue = true;
-      continue;
-    }
+    // Another place's statewide executive (a lieutenant governor, an
+    // attorney general, D.C.'s mayor): the same seat rule as a legislator's.
+    // Its governor is raced by `governorRaces`.
+    const executive =
+      !house &&
+      !legislature &&
+      office.kind !== "governor" &&
+      isOutsideOffice(api, office);
+    if (!house && !legislature && !executive) continue;
     // Congress is elected in even years only.
     if (house && year % 2) continue;
-    if (legislature && seat.electionYear !== year) continue;
-    // A legislature whose place has no counted electorate (a territory's)
-    // is not raced: no count could decide it, and its seats' own parties
-    // are not the major parties the count fields.
-    if (legislature) {
+    if (!house && (seat.electionYear ?? office.nextElectionYear) !== year)
+      continue;
+    // A place with no counted electorate (a territory) is not raced: no
+    // count could decide it, and its seats' own parties are not the major
+    // parties the count fields.
+    if (!house) {
       const place = office.jurisdiction;
       if (!counted.has(place)) counted.set(place, countedPlace(api, place));
       if (!counted.get(place)) {
-        // stopgapId: SG-GOV-territory-legislature-race (a territory's legislative seats are not raced: its electorate's places and its own parties are not on record)
+        // stopgapId: SG-GOV-territory-legislature-race (a territory's legislative and statewide executive seats are not raced: its electorate's places and its own parties are not on record)
         api.stopgap("SG-GOV-territory-legislature-race");
         continue;
       }
     }
+    // An office elected without party labels is not a partisan count.
+    if (
+      executive &&
+      researchedHolderParty(office.jurisdiction, seat.id, "elected")?.party ===
+        null
+    ) {
+      // stopgapId: SG-GOV-outside-nonpartisan-race (another place's statewide office elected without party labels is not raced; its holder serves past the term's end)
+      api.stopgap("SG-GOV-outside-nonpartisan-race");
+      continue;
+    }
+    if (executive) {
+      // stopgapId: SG-GOV-outside-ticket-raced-alone (a statewide officer the law elects on the governor's ticket is raced on its own seat)
+      api.stopgap("SG-GOV-outside-ticket-raced-alone");
+    }
     races.push(seatRace(api, seat, office, year));
-  }
-  if (executiveDue) {
-    // stopgapId: SG-GOV-outside-executives-not-raced (another place's statewide executives other than its governor are seated but not raced; their terms serve past their end until they are raced through this seat loop)
-    api.stopgap("SG-GOV-outside-executives-not-raced");
   }
   // Every other state's governor its cycle elects this year.
   races.push(...governorRaces(api, year));
@@ -4583,9 +4593,15 @@ function worldRacePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
     const delegate = statePlaces(usps, api.state.seed, 1)[0];
     return delegate ? [{ ...delegate, eligible: 0 }] : [];
   }
-  if (race.office === "us-senate" || race.office === "governor")
-    return statePlaces(usps, api.state.seed);
   const offices = api.moduleState(OFFICES_MODULE_ID);
+  // A seat the whole state elects (a senator, a governor, an attorney
+  // general) is counted over the state's counties.
+  const seat = race.offices
+    ? (offices.table("seats").get(race.offices.seatId) as unknown as
+        { district: string | null } | undefined)
+    : undefined;
+  if (race.office === "us-senate" || seat?.district === null)
+    return statePlaces(usps, api.state.seed);
   const districts = new Set(
     (
       offices
@@ -4701,9 +4717,9 @@ function decide(
     family:
       race.office === "us-house"
         ? "usHouse"
-        : race.office === "us-senate" || race.office === "governor"
-          ? "statewideExecutive"
-          : "stateLegislative",
+        : race.office.startsWith("legislature-")
+          ? "stateLegislative"
+          : "statewideExecutive",
     cycle,
     raceVotes: votesAt2024 * cycleTurnout(date).share,
     townPlaceId: null,
