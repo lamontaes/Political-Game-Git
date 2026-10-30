@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-campaign-day
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T09:24:00.273Z
 ---
 
 **What.** A candidate's campaign day (src/core2/campaign-day.ts) builds every choice the player's screen shows, with each choice's facts, even when it takes one: takeCampaignDayChoice calls campaignDayChoices and keeps one row. A world candidate's rivalDay builds the same full screen only to read which kinds are open and their hours. A 2028 profile of one Ringgold, Louisiana save (seed long-1) put campaignDayChoices at 4.8 s against 0.3 s in 2025. sendMail in src/core2/modules/campaigns.ts also builds full adult rows only to count them.
