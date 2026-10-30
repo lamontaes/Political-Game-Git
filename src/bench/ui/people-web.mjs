@@ -31,7 +31,7 @@ export function peopleWeb({
     className: "people-search",
   });
   search.setAttribute("aria-label", labels.search);
-  const filters = el("nav", { className: "people-filters" });
+  const filters = el("nav", { className: "tab-rail people-filters" });
   const canvas = el("div", { className: "relationship-web" });
   const detail = el("div", { className: "people-selection" });
   const button = (text, fn) => {
