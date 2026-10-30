@@ -27,12 +27,12 @@ import journalRows from "./data/journal-rows.json" with { type: "json" };
 import { composeJournal } from "./journal";
 
 // A signing and a veto are told in the journal (the governing brief's walk
-// as a mayor, Oct 29: "no line for either signing"). The player is the mayor; the council passes
-// two bills and the mayor signs one and vetoes the other at the desk. The
-// legislature's executive-action record names the mayor who acted and the
-// member who sponsored the bill: the mayor's journal says "I signed ...",
-// the sponsor's says their bill was signed. Places are drawn in turn until
-// one's mayor has a veto.
+// as a mayor, Oct 29: "no line for either signing"). The player is the
+// mayor; the council passes two bills and the mayor signs one and vetoes the
+// other at the desk. The legislature's executive-action record names the
+// mayor who acted and the member who sponsored the bill: the mayor's journal
+// says "I signed ...", the sponsor's says their bill was signed. Places are
+// drawn in turn until one's mayor has a veto.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const ATTEMPTS = 8;
 
