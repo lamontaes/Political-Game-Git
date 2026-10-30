@@ -1102,6 +1102,9 @@ $("talk-next").addEventListener("click", async () => {
   if (talk) await post("/api/talk/leave");
   renderTalk(undefined);
   show("talk", false);
+  // A story's end hands the room back to the one scene renderer, so the people in it can be
+  // clicked to talk again (a story draws them without a click).
+  await renderScene();
   if (!$("continue").hidden) $("continue").click();
 });
 $("talk-leave").addEventListener("click", async () => {
@@ -1116,6 +1119,7 @@ $("talk-leave").addEventListener("click", async () => {
   onContinue = undefined;
   await post("/api/talk/leave");
   renderTalk(undefined);
+  await renderScene();
 });
 
 // ---- The filing office (step 3), a visit in the clerk's words ----
