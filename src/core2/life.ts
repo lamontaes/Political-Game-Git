@@ -54,6 +54,7 @@ import type {
   CoreState,
   DecisionContext,
   DecisionResult,
+  OfferRound,
   PersonState,
 } from "./types";
 
@@ -273,12 +274,13 @@ function admits(
   api: CoreAPI,
   actor: PersonState,
   offer: ActOffer,
+  round?: OfferRound,
 ): boolean {
   return (offer.definition.prerequisites ?? []).every((rule) => {
     const accepts = resolveOperation(core, "eligibilityRules", rule.operation);
     if (!accepts)
       throw new Error(`Unregistered eligibility rule: ${rule.operation}`);
-    return accepts(api, actor, offer, rule.argument);
+    return accepts(api, actor, offer, rule.argument, round);
   });
 }
 
@@ -314,6 +316,9 @@ export function availableActs(
     }
     return atOwnJob;
   };
+  // One round of offers: providers and rules share what they work out for
+  // this person today (nothing they read changes while the offers are made).
+  const round: OfferRound = new Map();
   for (const definition of core.data.actions) {
     const provide = resolveOperation(
       core,
@@ -329,7 +334,7 @@ export function availableActs(
       false;
     const override =
       core.data.work?.discretionaryDurationParameters?.[definition.effect];
-    for (const offer of provide(api, actor, definition)) {
+    for (const offer of provide(api, actor, definition, round)) {
       if (excludedAtWork && holdsOwnJob()) continue;
       offer.effortHours = override
         ? api.parameter(override)
@@ -342,7 +347,7 @@ export function availableActs(
         offer.availableHours <= zero
       )
         continue;
-      if (admits(core, api, actor, offer)) offers.push(offer);
+      if (admits(core, api, actor, offer, round)) offers.push(offer);
     }
   }
   return offers;

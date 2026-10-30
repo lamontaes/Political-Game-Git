@@ -372,6 +372,14 @@ export type CoreRelationshipListener = (
   notice: Readonly<RelationshipChangeNotice>,
 ) => void;
 
+/**
+ * Scratch shared by the offer providers and eligibility rules of one
+ * availableActs call (one person on one date), so a list two act rows both
+ * read is worked out once. Each module keys its own entries; nothing in it
+ * outlives the call.
+ */
+export type OfferRound = Map<string, unknown>;
+
 export interface ActOffer {
   definition: ActionDefinition;
   targetId: string;
@@ -1011,6 +1019,7 @@ export interface CoreModule {
         api: CoreAPI,
         actor: Readonly<PersonState>,
         action: ActionDefinition,
+        round?: OfferRound,
       ) => readonly ActOffer[]
     >
   >;
@@ -1039,6 +1048,7 @@ export interface CoreModule {
         actor: Readonly<PersonState>,
         offer: ActOffer,
         argument?: string,
+        round?: OfferRound,
       ) => boolean
     >
   >;
