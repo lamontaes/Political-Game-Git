@@ -386,6 +386,22 @@
       }
     },
     {
+      "kindPrefix": "event:bill-failed",
+      "turn": false,
+      "entry": "story",
+      "stageFact": "stage",
+      "stageWords": {
+        "committee": "\\bcommittee\\b",
+        "floor": "\\bvote\\b"
+      },
+      "eventFacts": {
+        "law": {
+          "fact": "billId",
+          "format": "billNumberAndName"
+        }
+      }
+    },
+    {
       "kindPrefix": "event:took-office",
       "turn": true,
       "entry": "story",

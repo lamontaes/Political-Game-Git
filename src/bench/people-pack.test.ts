@@ -100,6 +100,36 @@ describe("the people pack", () => {
     ]);
   });
 
+  it("fits every plate to a backdrop the game has, with the retired Oval rooms gone", () => {
+    const manifest = JSON.parse(text("art/backdrops/manifest.json")) as {
+      backdrops: { file: string; place: string }[];
+    };
+    const files = new Set(manifest.backdrops.map((row) => row.file));
+    for (const plate of plates())
+      expect(files.has(plate.backdrop), plate.scene).toBe(true);
+    // The standard Oval Office and address replaced these (people-pack-v4, step 2).
+    expect(plates().map((plate) => plate.scene)).not.toContain("oval-briefing");
+    expect(plates().map((plate) => plate.scene)).not.toContain("oval-address");
+    for (const place of ["oval-office-resolute", "oval-address-close"]) {
+      expect(
+        manifest.backdrops.filter((row) => row.place === place),
+        place,
+      ).toEqual([]);
+      expect(
+        existsSync(new URL(`art/backdrops/occluders/${place}`, ROOT)),
+        place,
+      ).toBe(false);
+    }
+    // The President's office is the standard wide shot.
+    expect(
+      (
+        JSON.parse(text("src/bench/data/scene-places.json")) as {
+          officeWorkplaces: Record<string, string[]>;
+        }
+      ).officeWorkplaces.president,
+    ).toEqual(["oval-office-standard"]);
+  });
+
   it("serves every figure by its own path, a kit in its palette colors", () => {
     for (const figure of packFigures())
       expect(figureAtPath(figureUrl(figure).split("?")[0]!), figure.id).toBe(
