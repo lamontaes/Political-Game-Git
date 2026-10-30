@@ -63,6 +63,10 @@
     "other": "{n} volunteers",
     "asked": "Asked {asked}, {yes} said yes: {volunteers} now"
   },
+  "campaignEndorsements": {
+    "one": "1 endorsement",
+    "other": "{n} endorsements"
+  },
   "campaignOutings": {
     "doors": "Knock on doors",
     "calls": "Call donors",
@@ -379,7 +383,8 @@
     "pay": "Pay",
     "hours": "Hours",
     "daily": "per day",
-    "noJob": "No current job"
+    "noJob": "No current job",
+    "workAndSchool": "Work and school"
   },
   "politics": {
     "seats": "Seats",
@@ -583,7 +588,10 @@
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
-    "noBallot": "No local election is on the calendar"
+    "noBallot": "No local election is on the calendar",
+    "dates": "Dates",
+    "electionDay": "Election day",
+    "yourCampaign": "Your campaign"
   },
   "grade": {
     "good": "Good",
@@ -640,6 +648,7 @@
     "patchNotes": "Patch notes",
     "guide": "Guide",
     "handoff": "Carry on as",
-    "news": "News"
+    "news": "News",
+    "history": "Your life"
   }
 }
