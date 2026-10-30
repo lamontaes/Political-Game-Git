@@ -3,7 +3,7 @@ id: play-menus-calendar-shared-look
 title: "Calendar follows its mock: day tiles with icons, the day on a plate, Coming up paged"
 area: play
 lead: play-first
-kind: build
+kind: feature
 priority: 2
 size: M
 status: in-pr
