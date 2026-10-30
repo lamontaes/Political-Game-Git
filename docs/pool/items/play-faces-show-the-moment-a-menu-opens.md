@@ -6,9 +6,9 @@ lead: play-first
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/people-faces-instant
-pr:
+pr: #6918
 after: people-pack-v4
 blocked-on:
 milestone: play-first
