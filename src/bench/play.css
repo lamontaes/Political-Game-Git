@@ -3502,6 +3502,55 @@ details.entry[open] {
   flex-direction: column;
   gap: 12px;
 }
+.split-screen.single .split-body {
+  grid-template-columns: minmax(0, 1fr);
+}
+/* Issues: the subjects on a rail, a search beside them, one subject's law cards
+   paged inside a plate (owner, Oct 29). */
+.issues-screen .split-controls {
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.issues-screen .issue-subjects {
+  flex: 1 1 auto;
+  margin: 0;
+}
+.issues-screen input[type="search"] {
+  flex: 0 0 240px;
+}
+.issue-plate {
+  margin: 0;
+}
+/* One law's page: its name over the plates. */
+.law-page .split-controls .heading {
+  margin: 0;
+  font-size: clamp(24px, 2.4vw, 34px);
+}
+.law-page .fact-plates {
+  margin: 0 0 10px;
+}
+.issue-cards .entry {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.issue-cards .entry h3 {
+  font: 600 15px/1.2 var(--ui);
+  color: var(--text-strong);
+  margin: 0 0 4px;
+}
+.issue-cards .entry .entry-value {
+  display: block;
+  font: 500 19px/1.15 var(--speech);
+  color: var(--gold);
+  overflow-wrap: break-word;
+  margin: 2px 0 4px;
+}
+.issue-cards .entry .entry-line {
+  font: 12.5px var(--ui);
+  color: var(--text-2);
+  margin: 0;
+}
 .split-side {
   min-height: 0;
   overflow: hidden;

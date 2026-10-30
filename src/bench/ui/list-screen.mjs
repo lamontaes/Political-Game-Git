@@ -19,7 +19,7 @@ import { factRow } from "./list-row.mjs";
 
 const boldLabel = (text) => el("b", { textContent: text });
 
-function entry(e, labelOf) {
+function entry(e, labelOf = boldLabel) {
   const head = [
     el("h3", { textContent: e.title }),
     ...(e.value !== undefined
@@ -61,6 +61,11 @@ function entry(e, labelOf) {
   for (const [key, value] of Object.entries(e.data ?? {}))
     node.dataset[key] = value;
   return node;
+}
+
+/** One entry drawn alone, for a screen that pages its entries (Issues). */
+export function listEntry(e) {
+  return entry(e);
 }
 
 /** The nodes of a list screen, for the sheet's body. */
