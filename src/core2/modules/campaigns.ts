@@ -3299,7 +3299,7 @@ export function commissionPoll(
   return poll;
 }
 
-/** Why one person feels as they do about a candidate: every recorded cause, oldest first. */
+/** Why one person feels as they do about a candidate: every cause still kept as a row, oldest first (a closed race's are folded, `foldClosedRaceCauses`). */
 export function causesFor(
   api: CoreAPI,
   voterId: string,
