@@ -557,10 +557,12 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
           );
           expect(federalLend, String(federalRead.id)).toBeDefined();
           expect(federalTwinLend, String(federalTwin.id)).toBeDefined();
-          // The cap held interest back on the law's own record, labeled as such.
-          const held = law.held.filter(
-            (row) => row.what === "interest-capped" && row.amountMinor > 0,
-          );
+          // The cap held interest back on the law's own record. The credit
+          // engine writes an amount on the cap's applied rows only where it
+          // services a capped loan (interest-capped, serviceLoans); a row's
+          // `what` is its latest action, so a payday borrower quoted again
+          // after paying off reads as a quote with the interest still summed.
+          const held = law.held.filter((row) => row.amountMinor > 0);
           expect(
             held.length,
             `${where}: interest the cap held back`,
