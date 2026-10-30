@@ -6,10 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: in-pr
-claimed-by:
+claimed-by: play-first/play-politics-local-first-page-blank
 pr: #6925
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T07:45:13.098Z
 ---
 
 **What.** On main at e34de8c1ee, in Huntington, Virginia (seed bcd0de6c-3b2f-4ad7-9e3f-a54b258bb9fc), Politics > Government > Local opens to an empty page with only the level buttons and a Continue pager. The members are on page 2 because the sheet pager treats the whole government content as one block taller than the page. The player sees a blank Politics screen on the opening night.

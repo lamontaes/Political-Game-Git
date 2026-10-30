@@ -130,6 +130,15 @@ it(`a story against an officeholder or their bill brings an aide in, seed ${seed
             const last = staged.get(personId);
             if (!entry && last && addDays(makeIsoDate(last), 30) > story.date)
               continue;
+            // A story the day their own bill lost joins the sitting where
+            // the loss is brought to them (the failure's own staff-news).
+            const sameDay = book.schedule.some(
+              (row) =>
+                row.bindings.some(
+                  (binding) => binding.typeKey === "staff-news",
+                ) && book.momentsById.get(row.momentId)?.date === story.date,
+            );
+            if (!entry && sameDay) continue;
             expect(
               entry,
               `no aide brought in the story: ${said}`,
@@ -174,13 +183,20 @@ it(`a story against an officeholder or their bill brings an aide in, seed ${seed
       }
       // A story that names none of them brings none of them a scene: every
       // staff-news scene a followed officeholder has is for a story against
-      // them or their bill.
+      // them or their bill, or for a bill of their own that lost.
       for (const personId of watched) {
         const book = director.ledger.people.get(personId)!;
         for (const row of book.schedule) {
           if (!row.bindings.some((binding) => binding.typeKey === "staff-news"))
             continue;
           const causeId = book.momentsById.get(row.momentId)?.causeId ?? "";
+          // A bill of their own that lost is brought to them too.
+          const cause = core.durableLog.get(causeId as never);
+          if (
+            cause?.kind === "bill-failed" &&
+            cause.facts?.sponsorId === personId
+          )
+            continue;
           const story = stories.find((item) => item.id === causeId);
           expect(story?.named, `${where}: ${row.momentId}`).toContain(personId);
         }

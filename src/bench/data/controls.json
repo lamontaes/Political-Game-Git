@@ -230,6 +230,18 @@
     "favor": "A favor",
     "back-their-item": "Back their item"
   },
+  "officeScreen": {
+    "seat": "Your seat",
+    "draft": "Drafts",
+    "budget": "Budget",
+    "deals": "Deals",
+    "office": "Office",
+    "pay": "Pay",
+    "nextMeeting": "Next meeting",
+    "heads": "Posts you name",
+    "acts": "What you have done",
+    "left": "Laws that gave way"
+  },
   "officeStops": {
     "aYear": "a year",
     "nextMeeting": "next meeting",
@@ -432,7 +444,7 @@
     },
     "issueSetBy": {
       "federal": "Federal law",
-      "state": "State law",
+      "state": "{level} law",
       "county": "County law",
       "city": "City law"
     },
