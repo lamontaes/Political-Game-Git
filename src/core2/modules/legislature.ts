@@ -1680,6 +1680,10 @@ export function billSections(
   api: CoreAPI,
   bill: BillRow,
 ): readonly BillSection[] {
+  // What an earlier section of this bill makes a law, by series or question:
+  // a later section on the same law (a phase-in's next step) amends the law
+  // as that section leaves it, not today's.
+  const madeBy = new Map<string, BillSection["after"]>();
   return bill.provisions.map((p, index) => {
     const series =
       p.kind === "law-amount"
@@ -1688,6 +1692,7 @@ export function billSections(
           ? p.question
           : undefined;
     const row = series ? lawInForceRow(api, series) : null;
+    const earlier = series ? madeBy.get(series) : undefined;
     const schedules = row?.terms?.schedules;
     const shapeBefore: BillSection["before"]["shape"] = row
       ? schedules
@@ -1720,24 +1725,26 @@ export function billSections(
             statuteForm: null,
           }
         : {
-            value: row?.value ?? null,
-            unit: row?.unit ?? null,
-            shape: shapeBefore,
+            value: earlier?.value ?? row?.value ?? null,
+            unit: earlier ? earlier.unit : (row?.unit ?? null),
+            shape: earlier ? earlier.shape : shapeBefore,
             lawId: row?.id ?? null,
             statute: enacting?.number || recorded,
             statuteForm: enacting?.number ? enacting.form.kind : null,
           };
+    const after: BillSection["after"] = {
+      value: p.kind === "budget-line" ? (p.of ?? 0) + p.value : p.value,
+      unit: p.unit ?? before.unit,
+      shape: p.shape ?? before.shape,
+      effectiveDate: p.effectiveDate ?? null,
+    };
+    if (series) madeBy.set(series, after);
     return {
       index,
       kind: p.kind,
       subject: subjectKey(p),
       before,
-      after: {
-        value: p.kind === "budget-line" ? (p.of ?? 0) + p.value : p.value,
-        unit: p.unit ?? before.unit,
-        shape: p.shape ?? before.shape,
-        effectiveDate: p.effectiveDate ?? null,
-      },
+      after,
       editable: [
         ...(p.kind === "policy-question" ? [] : (["value"] as const)),
         "effectiveDate" as const,
@@ -5027,9 +5034,56 @@ function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
 }
 
 /**
+ * The day each section of a bill enacted today takes effect, or null for a
+ * section that writes no law. A section's own date governs while it is still
+ * ahead (a bill may name its own date); an undated section takes effect by its
+ * government's rule (`ruleDate`). A section whose date had passed before the
+ * bill became law (a step drafted for a day the vote or the signature came
+ * after) makes no law in the past, so it too takes effect by the rule, unless
+ * a later step of the same law in this bill takes effect on or before the
+ * rule's date: then the passed step is overtaken before it could take effect
+ * and is null, so a phase-in's steps keep their order (the law never ends at
+ * an earlier step's amount). Budget lines do not read a date yet
+ * (SG-LEGISLATURE-dated-budget-line-amended-on-enactment), so only sections
+ * that write a law (a law amount or a policy question) overtake each other.
+ */
+export function sectionDates(
+  provisions: readonly Provision[],
+  today: string,
+  ruleDate: string,
+  struck: readonly number[] = [],
+): readonly (string | null)[] {
+  const lawOf = (p: Provision) =>
+    p.kind === "law-amount"
+      ? p.series
+      : p.kind === "policy-question"
+        ? p.question
+        : undefined;
+  const resolved = (named: string | undefined) =>
+    named !== undefined && named >= today ? named : ruleDate;
+  return provisions.map((provision, index) => {
+    const named = provision.effectiveDate;
+    if (named === undefined || named >= today) return resolved(named);
+    const law = lawOf(provision);
+    const overtaken =
+      law !== undefined &&
+      provisions.some(
+        (other, at) =>
+          at !== index &&
+          !struck.includes(at) &&
+          lawOf(other) === law &&
+          other.effectiveDate !== undefined &&
+          other.effectiveDate > named &&
+          resolved(other.effectiveDate) <= ruleDate,
+      );
+    return overtaken ? null : ruleDate;
+  });
+}
+
+/**
  * Put each provision into law on its effective date: an ordinance thirty days
  * after enactment unless it names a date; a state act by its state's default
- * rule.
+ * rule. Each section's date is `sectionDates`.
  */
 function enact(
   api: CoreAPI,
@@ -5072,6 +5126,12 @@ function enact(
       }
     | undefined;
   const repeats: NonNullable<BillRow["repeats"]>[number][] = [];
+  const dates = sectionDates(
+    bill.provisions,
+    api.state.date,
+    defaultDate,
+    itemVeto?.struck,
+  );
   for (const [index, provision] of bill.provisions.entries()) {
     if (itemVeto?.struck.includes(index)) continue;
     const itemDecision = itemVeto?.decisions.find(
@@ -5081,13 +5141,10 @@ function enact(
       itemDecision && !itemDecision.overridden
         ? itemDecision.remainingMinor
         : provision.value;
-    // A section's own date governs, unless that day had passed before the
-    // bill became law (a step drafted for a day the vote or the signature
-    // came after): a bill makes no law in the past, so that section takes
-    // effect by its government's rule, as an undated one does.
-    const named = provision.effectiveDate;
-    const effectiveDate =
-      named !== undefined && named >= api.state.date ? named : defaultDate;
+    const effectiveDate = dates[index] ?? null;
+    // A passed step that a later step of the same law overtakes before it
+    // could take effect writes nothing: no row, no calendar entry.
+    if (effectiveDate === null) continue;
     if (provision.kind === "law-amount" && provision.series) {
       const shaped = shapedRate(
         lawInForce(api, provision.series).levels.find(

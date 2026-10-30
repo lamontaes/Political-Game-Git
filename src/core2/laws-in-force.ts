@@ -267,7 +267,9 @@ export function resolveLawInForce(input: {
     );
     let local: LawRowInput | null = null;
     for (const [index, l] of levels.entries()) {
-      if (l.level !== "city" && l.level !== "county") continue;
+      // Every local level the chain gives its own law (`lawChain`): a county,
+      // a township over the place, and the city.
+      if (l.level === "federal" || l.level === "state") continue;
       if (!l.row) continue;
       if (!authority.allowed) {
         levels[index] = {

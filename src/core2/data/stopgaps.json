@@ -7790,7 +7790,7 @@
     "id": "SG-LEGISLATURE-phase-in-percent-a-year",
     "kind": "missing-mechanic",
     "file": "src/bench/legislature.ts",
-    "line": 259,
+    "line": 260,
     "whatItFakes": "A bill drafted from the seat phases in an amount only by dated steps the sponsor names (one section per step). The ruling's other form, an amount that rises by a percent a year, cannot be drafted: the seat takes no rate and no span.",
     "why": "The owner ruled that bills phase in by dated steps or a percent a year (DECISION-REGISTER, Sept 12 travel clarification, item 1); pool item gov-m3-01-phase-in-by-dated-steps built the dated steps first, and how a yearly percent is written into law (a step per year, or one indexed row the laws engine raises each year) is not built.",
     "addedBy": "governing lead",
@@ -7802,12 +7802,12 @@
     "id": "SG-LEGISLATURE-dated-budget-line-amended-on-enactment",
     "kind": "partial-model",
     "file": "src/core2/modules/legislature.ts",
-    "line": 5121,
-    "whatItFakes": "A budget-line section that names its own effective date (a phase-in step from seatAct, or provisionFor with an effectiveDate) is amended into the budget the day the bill becomes law: amendBudget takes no date, so every step of a budget phase-in lands at once.",
+    "line": 5178,
+    "whatItFakes": "A budget-line section that names its own effective date (provisionFor with an effectiveDate) is amended into the budget the day the bill becomes law: amendBudget takes no date, so every step of a budget phase-in would land at once; seatAct refuses phase-in steps on a budget line for that reason.",
     "why": "enact reads each law section's date through enactLaw and the laws engine's calendar, but a budget line has no dated amendment in the budgets engine; found building pool item gov-m3-01-phase-in-by-dated-steps, whose test phases in a wage floor instead.",
     "addedBy": "governing lead",
     "addedAt": "2026-10-30",
-    "replacement": "The budgets engine amends a line on the section's date: enact schedules the dated budget section on the calendar (as enactLaw does a dated law row) and amendBudget applies it to the fiscal year that date falls in, so lawmakers and the budget screen read each step when it lands.",
+    "replacement": "The budgets engine amends a line on the section's date: enact schedules the dated budget section on the calendar (as enactLaw does a dated law row) and amendBudget applies it to the fiscal year that date falls in, so lawmakers and the budget screen read each step when it lands; seatAct then takes phase-in steps on a budget line, as it does on a law amount.",
     "status": "open"
   }
 ]

@@ -1,4 +1,5 @@
 import { coreAPI } from "../core2/state";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { AMOUNT_SERIES, lawHere } from "../core2/modules/laws";
 import { composeBill } from "../english/bill-sections";
 import { billTitleOf, spokenDesignation } from "../english/bill-names";
@@ -213,8 +214,8 @@ export function seatView(core: CoreState, personId: string) {
  * acts in the day and the meeting scene (office-day), not buttons here.
  *
  * A phase-in is the same bill in dated steps (the owner's ruling, Sept 12
- * travel clarification, item 1): one section per step, each the same law or
- * line with its own amount and date, never a second bill. The legislature
+ * travel clarification, item 1): one section per step, each the same law
+ * with its own amount and date, never a second bill. The legislature
  * engine puts each section into law on its own date when the bill is
  * enacted, for the bill's government and by that government's rule
  * (`enact`), so the seat names no jurisdiction and computes no date.
@@ -259,10 +260,28 @@ export function seatAct(
   // stopgapId: SG-LEGISLATURE-phase-in-percent-a-year
   // The ruling's other form, a percent a year, is not drafted from the seat:
   // a phase-in is the dated steps the sponsor names.
+  if (input.steps?.length) {
+    if (input.value !== undefined)
+      throw new Error("A phase-in gives each step's amount, not a value.");
+    // Only a law amount reads a section's date: a budget line is amended the
+    // day the bill becomes law (SG-LEGISLATURE-dated-budget-line-amended-on-enactment),
+    // so its steps would land at once, and a policy question has no amount.
+    if (!input.series || input.line)
+      throw new Error("A phase-in steps a law amount.");
+    let last = core.date;
+    for (const step of input.steps) {
+      const date = makeIsoDate(step.effectiveDate);
+      if (date <= last)
+        throw new Error(
+          "Each step of a phase-in takes effect after today and after the step before it.",
+        );
+      last = date;
+    }
+  }
   const provisions: Provision[] = input.steps?.length
     ? input.steps.map((step) => ({
         ...sectionOf(step.value),
-        effectiveDate: step.effectiveDate,
+        effectiveDate: makeIsoDate(step.effectiveDate),
       }))
     : [sectionOf(input.value)];
   const bill = draftBill(api, {
