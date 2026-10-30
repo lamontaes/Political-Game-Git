@@ -33,7 +33,7 @@ import {
   leanedYes,
   termOfLean,
 } from "../trait-decisions";
-import { campaignDayChoices, takeCampaignDayChoice } from "../campaign-day";
+import { campaignDayOpen, takeCampaignDayChoice } from "../campaign-day";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import unitPrices from "../../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
@@ -1011,6 +1011,33 @@ function adultsAt(
       householdId: h.id,
       placeId: store.text(store.placeIx[m]!)!,
     }));
+}
+
+/** How many adults a counted address holds: `adultsAt`'s count, with no rows built. */
+function countedAdultsAt(api: CoreAPI, address: Address): number {
+  const adultAge = api.parameter("votingAge");
+  const date = api.state.date;
+  const store = residentsRuntime(api.state as CoreState)?.store;
+  const at = store?.householdOf.get(address.id);
+  const h = at === undefined ? undefined : store!.households[at];
+  if (!store || !h || h.gone) return 0;
+  let adults = 0;
+  for (const m of store.countedMembers(h))
+    if (ageOn({ birthDate: store.born[m]! }, date) >= adultAge) adults += 1;
+  return adults;
+}
+
+/** The ids of a full address's adults, in `adultsAt`'s order, with no rows built. */
+function adultIdsAt(api: CoreAPI, address: Address): string[] {
+  const adultAge = api.parameter("votingAge");
+  const core = api.state as CoreState;
+  const date = api.state.date;
+  const ids: string[] = [];
+  for (const id of core.households.get(address.id)?.memberIds ?? []) {
+    const p = core.people.get(id);
+    if (p && p.alive && ageOn(p, date) >= adultAge) ids.push(p.id);
+  }
+  return ids;
 }
 
 /**
@@ -4716,16 +4743,15 @@ export function sendMail(
   for (let i = 0; i < pieces; i += 1) {
     const address = list[cursor % list.length]!;
     cursor += 1;
-    const adults = adultsAt(api, address);
     if (address.counted) {
-      counted += adults.length;
+      counted += countedAdultsAt(api, address);
       continue;
     }
-    for (const adult of adults) {
+    for (const adultId of adultIdsAt(api, address)) {
       const cause = reach(
         api,
         campaign,
-        adult.id,
+        adultId,
         "mail",
         campaign.candidateId,
         {
@@ -4887,9 +4913,9 @@ export interface RivalDay {
 
 /**
  * How a world candidate spends their campaign day: a scored pass over the
- * player's own day choices (`campaignDayChoices`), by their money, standing
- * and traits. Every available act gets a score on one scale and nothing
- * flips at a line:
+ * player's own day choices (which are open and their hours,
+ * `campaignDayOpen`), by their money, standing and traits. Every available
+ * act gets a score on one scale and nothing flips at a line:
  * - call time for money rises as the bank empties and as they get better
  *   known (donors are easier to reach);
  * - doors rise as they are less known and as they are more sociable;
@@ -4907,7 +4933,7 @@ export function rivalDay(
   candidate: Readonly<PersonState>,
   town: string,
 ): RivalDay {
-  const day = campaignDayChoices(api, filingId, true);
+  const day = campaignDayOpen(api, filingId, true);
   const offered = (kind: string) =>
     day.find((c) => c.kind === kind)?.available ?? false;
   const calls = offered("raise-money");
@@ -4953,7 +4979,7 @@ export function rivalDay(
     campaignParameter("rivalInterviewIncumbentWeight") * holdsSeat;
   const bestHourly = Math.max(calls ? callScore : 0, doors ? doorScore : 0);
   // A world candidate's day never weighs the donor meeting the player's
-  // offers (their day's choices read no host, `campaignDayChoices` with
+  // offers (their day's choices read no host, `campaignDayOpen` with
   // `world`); their money comes from call time and the turn's asks.
   // stopgapId: SG-GOV-rival-donor-meeting
   api.stopgap("SG-GOV-rival-donor-meeting");
