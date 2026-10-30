@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-counted-population
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T08:02:03.949Z
 ---
 
 **What.** The counted population's money settling (src/core2/modules/residents.ts and src/core2/counted-money.ts), its moves month (src/core2/modules/counted-moves.ts) and its births and deaths (src/core2/births-counted.ts) rebuild the same lists and rates again and again. A Grand Haven, Michigan profile (seed spd-d, a 223 s profiled year) put runResidentsDay at 11.9 s and applyCountedFlows at 10.0 s. Each place's leaving rates, home states and destination rows are worked out per household, a throwaway household object is built per household per call, and a due mother's household is found by scanning the town.
