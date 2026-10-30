@@ -341,6 +341,8 @@ let governmentState = "";
 let governmentBranch;
 // The subject the Issues tab shows (Taxes and money, Schools...).
 let issueSubject;
+// The party whose officeholders the Parties tab shows.
+let partyTab;
 let guideQuery = "";
 // Each civic term and its one-line definition.
 let guideTerms = new Map();
@@ -1264,7 +1266,8 @@ function partyRows(party) {
     });
     b.addEventListener("click", async () => {
       await post(`/api/party/join?${new URLSearchParams({ partyId: p.id })}`);
-      openSheet("politics");
+      // Back to Parties, where joining happens, to show the new membership.
+      openSheet("parties");
     });
     return b;
   });
@@ -3771,35 +3774,85 @@ const sheets = {
     }));
     // The party the player belongs to, with how their views fit it, or the
     // parties they could join (moved here from Government, which now draws
-    // the mock; never joined: files unaffiliated).
+    // the mock; never joined: files unaffiliated), the join buttons in a tray.
     const membership = v.party ? partyRows(v.party) : [];
-    return recordScreen({
-      controls: m
-        ? [districtMap(m, { wordHolders }), partyLegend(parties, seatWords)]
-        : [],
-      grid: true,
-      sections: [
-        ...(membership.length
-          ? [{ items: membership.map((node) => ({ node })) }]
-          : []),
-        ...v.parties.map(({ party, seats }) => ({
-          title: party,
-          items: [
-            ...seats.map((s) => ({
-              node: personRow({
-                name: s.name,
-                detail: s.title,
-                face: s.face,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson({ personId: s.cardId, figureUrl: s.face?.url });
-                },
-              }),
-            })),
-          ],
-        })),
-      ],
+    const joins = membership.filter((node) => node.tagName === "BUTTON");
+    // The map and its key on a plate; beside it your party, then each party's
+    // officeholders as face cards, one party at a time on the rail, paged.
+    const keys = v.parties.map(({ party }) => party);
+    let chosen = keys.includes(partyTab) ? partyTab : keys[0];
+    const roster = plate(null);
+    const drawRoster = () => {
+      const seats =
+        v.parties.find(({ party }) => party === chosen)?.seats ?? [];
+      roster.replaceChildren(
+        pager({
+          items: seats,
+          render: (s) =>
+            memberCard({
+              name: s.name,
+              line: s.title,
+              party: chosen,
+              badge: chosen ? chosen.charAt(0) : null,
+              face: s.face,
+              onOpen: () => {
+                closeSheet();
+                showPerson({ personId: s.cardId, figureUrl: s.face?.url });
+              },
+            }),
+          rows: Math.max(
+            2,
+            Math.min(5, Math.floor((window.innerHeight - 500) / 72)),
+          ),
+          columns: 2,
+          rowHeight: 64,
+          gap: 8,
+          words: {
+            page: labels.page,
+            previous: labels.previousPage,
+            next: labels.nextPage,
+          },
+        }),
+      );
+    };
+    const rail = tabBar({
+      attr: "party",
+      active: chosen,
+      tabs: keys.map((key) => ({
+        key,
+        label: key,
+        onSelect: () => {
+          partyTab = chosen = key;
+          chooseTab(rail, "party", key);
+          drawRoster();
+        },
+      })),
     });
+    drawRoster();
+    return [
+      splitScreen({
+        main: m
+          ? [
+              plate(
+                null,
+                districtMap(m, { wordHolders }),
+                partyLegend(parties, seatWords),
+              ),
+            ]
+          : [],
+        side: [
+          membership.length && {
+            title: v.party?.member ? null : controls.party.member,
+            nodes: joins.length ? [buttonTray(...joins)] : membership,
+          },
+          keys.length && {
+            title: labels.inOffice,
+            nodes: [rail, roster],
+          },
+        ].filter(Boolean),
+        className: "parties-screen",
+      }),
+    ];
   },
   /**
    * Issues: the law in force here as cards by subject (owner, Oct 28, point

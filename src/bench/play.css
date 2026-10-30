@@ -3972,6 +3972,9 @@ details.entry[open] {
 .split-main .plate {
   margin: 0;
 }
+.plate .tab-rail {
+  margin: 0 0 10px;
+}
 /* Small plates side by side, one fact each: a label, the fact, a note. */
 .fact-plates {
   display: grid;

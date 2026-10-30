@@ -41,6 +41,8 @@ try {
     .evaluate((e) => e.click());
   const sheet = page.locator("#sheet");
   await sheet.waitFor();
+  // Joining lives on the Parties tab (since Government drew the mock).
+  await page.locator('#sheet-tabs [data-tab="parties"]').click();
   // Not a member: each party offers a join control, named from controls.json.
   const join = sheet.getByRole("button", { name: /^Join / });
   await join.first().waitFor();
@@ -58,7 +60,16 @@ try {
   await line.waitFor();
   const text = await line.innerText();
   assert.ok(text.includes(label), `${text} names ${label}`);
-  assert.match(text, /-?\d\.\d\d/, "the fit is a figure");
+  // How the views fit is said in words, one of the controls' bands.
+  const bands = (
+    await (
+      await page.request.get(new URL("/api/controls", page.url()).href)
+    ).json()
+  ).party.fit.map((band) => band.label);
+  assert.ok(
+    bands.some((band) => text.includes(band)),
+    `${text}: the fit in words`,
+  );
   assert.ok(await line.getAttribute("data-tie-id"), "the tie record id");
   assert.equal(await sheet.getByRole("button", { name: /^Join / }).count(), 0);
   assert.deepEqual(errors, []);
