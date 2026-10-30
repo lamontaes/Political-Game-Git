@@ -1,10 +1,13 @@
 import { coreAPI } from "../core2/state";
-import { AMOUNT_SERIES, lawHere } from "../core2/modules/laws";
+import { AMOUNT_SERIES, lawChain, lawHere } from "../core2/modules/laws";
 import { composeBill } from "../english/bill-sections";
 import { billTitleOf, spokenDesignation } from "../english/bill-names";
+import { screenLine } from "../english/screen-words";
 import { budgetLineNames, policyNames } from "./words";
 import {
   billForm,
+  bodyOf,
+  bodyRow,
   currentAmount,
   draftBill,
   floorDateOf,
@@ -16,7 +19,8 @@ import {
   type Provision,
 } from "../core2/modules/legislature";
 import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
-import type { TermRow } from "../core2/modules/offices";
+import { townSeats, type TermRow } from "../core2/modules/offices";
+import { appointmentsIn } from "../core2/modules/executive";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
 import { backdropFor, faceOf, stagePeople } from "./scene";
@@ -271,11 +275,51 @@ export function seatAct(
 }
 
 /**
+ * The body's lawyer's warning on a bill whose authority row the drafting
+ * engine marked disputed (DECISION-REGISTER, "A law changes the record
+ * first", Sept 22: the city attorney warns the player), in the English
+ * engine's words. A bill before the town's own body (its office is one of the
+ * town's seats and its body row makes the place's law, the council the
+ * executive engine staffs departments for) names the lawyer by the title of
+ * the town's appointment whose post is its attorney or counsel (the City
+ * Attorney the executive engine seats at the opening); any other bill, or a
+ * town whose attorney post nobody was appointed to, names the body's lawyer
+ * by the body as the bill's enacting clause names it.
+ */
+function disputedWarning(
+  api: ReturnType<typeof coreAPI>,
+  bill: BillRow,
+): string | null {
+  const body = bodyOf(api, bill.bodyOfficeId);
+  if (!body) return null;
+  const name = body.bodyName ?? body.governmentName;
+  const townBody = townSeats(api).some(
+    (s) => s.office.id === body.id && bodyRow(s.office.kind)?.law === "place",
+  );
+  const lawyer = townBody
+    ? appointmentsIn(api, lawChain(api).townPlaceId).find((row) =>
+        /-(attorney|counsel)$/.test(row.post),
+      )?.title
+    : undefined;
+  if (lawyer)
+    return screenLine("bill-paper", "bill-paper.authority.disputed", {
+      lawyer: lawyer.toLowerCase(),
+      body: name,
+    });
+  // stopgapId: SG-GOV-body-lawyer-unrecorded (a county board, a township board, a state chamber or a town with no attorney appointed has no lawyer on record)
+  api.stopgap("SG-GOV-body-lawyer-unrecorded");
+  return screenLine("bill-paper", "bill-paper.authority.disputed-body", {
+    body: name,
+  });
+}
+
+/**
  * The bill as one paper document, read from its records: the designation and
  * title in the English engine's words, the sponsor by name, each section with
  * the estimate the records give for it (the statute it amends with the values
  * before and after, the budget line and its amount, the simulation's own cost
- * estimate), the floor date and whip, and the vote and signature records when
+ * estimate) and its own authority row, the lawyer's warning where a row is
+ * disputed, the floor date and whip, and the vote and signature records when
  * the body has made them. Every figure is a record read; the screen formats
  * but never computes.
  */
@@ -311,10 +355,19 @@ export function billPaper(core: CoreState, billId: string) {
       composed?.sections[index] ??
       (purpose && named ? `${named}: ${purpose}` : (purpose ?? named))
     )?.replace(/, amending https?:\/\/\S+\.?$/, "");
+    // The section's authority row as the drafting engine recorded it.
+    const authority = bill.authority[index];
     return {
       index,
       key: subject?.key ?? null,
       text: clause,
+      authority: authority
+        ? {
+            allowed: authority.allowed,
+            warning: authority.warning,
+            reason: authority.reason,
+          }
+        : null,
       estimate: {
         statute: section?.before.statute ?? null,
         lawId: section?.before.lawId ?? null,
@@ -338,6 +391,9 @@ export function billPaper(core: CoreState, billId: string) {
     purpose: titled?.purpose ?? null,
     sponsor: personName(core, bill.sponsorId),
     sections,
+    authorityWarning: bill.authority.some((row) => row.warning === "disputed")
+      ? disputedWarning(api, bill)
+      : null,
     effective: composed?.effective ?? null,
     estimate: {
       workers: bill.costEstimate.workersRaised,
