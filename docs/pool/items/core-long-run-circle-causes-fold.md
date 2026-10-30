@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/causes-fold-circle
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T07:10:50.785Z
 ---
 
 **What.** After core-long-run-campaign-causes-fold (#6880), a closed race's causes fold only for voters outside the player's circle, which leaves about nine in ten of them: in one Ringgold, Louisiana save (seed long-1), 252 of 253 thousand cause rows in year 3 are kept because the voter is in the circle (116 people, about 4,000 contacts each a year). The CTO ruled on Oct 30 at 03:05 that the circle's causes fold too, keeping each circle member's last three causes per candidate, any cause a known fact names and every pledge; officials' service contacts, which belong to no race, fold on January 1.
