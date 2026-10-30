@@ -1,7 +1,7 @@
 ---
 id: tests-campaign-forum-volunteers-redraw
 title: "The forum and volunteer-shift tests redraw a place where the player can enter a race, so they cannot turn main red by draw"
-area: tests
+area: elections
 kind: bug
 priority: 1
 size: S
