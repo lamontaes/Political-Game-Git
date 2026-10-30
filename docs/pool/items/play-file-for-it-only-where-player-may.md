@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/file-only-where-player-may
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T02:50:26.439Z
 ---
 
 **What.** Politics then Campaigns offered File for it on every local race whose filing was open, including circuit clerk, county commissioner, coroner and sheriff, which the player may not run for (owner, Oct 29: the player runs only for the place's council or its equivalent, mayor, state legislature, governor, Congress and president). Clicking it on such a race opened nothing, because the filing office refuses the player there. The CTO found it in Winfield AL, seed 336f2b4d-ecd7-477a-a113-7d862361e154, and campaigns-ballot.browser.mjs failed at that step on clean main.
