@@ -5449,11 +5449,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/outcome-web.ts",
     "line": 526,
-    "whatItFakes": "Two housing links move nothing: air-conditioning use does not rise or fall with the electricity price, and the share of income a place's renters pay in rent does not change how many people are homeless.",
-    "why": "The cited research gives no usable size: the electricity-price link has no published slope and no engine reads the air-conditioning share; the rent-burden link has thresholds at 22 and 32 percent but no slope (Zillow and UNH 2018; Colburn and Aldern 2022).",
+    "whatItFakes": "One housing link moves nothing: air-conditioning use does not rise or fall with the electricity price. Rent burden's effect on homelessness is no longer one of them: the housing engine carries it household by household (each lease's rent against the household's own pay and cash decides arrears, eviction and rehousing; the link's carriedBy in links.json), so it needs no slope.",
+    "why": "The cited research gives no usable size: the electricity-price link has no published slope and no engine reads the air-conditioning share.",
     "addedBy": "OPUS-WEB",
     "addedAt": "2026-10-20",
-    "replacement": "A sized link (a published slope per point of burden or per cent of price) read by an engine that decides air-conditioning use and by the homeless review.",
+    "replacement": "A sized link (a published slope per cent of price) read by an engine that decides air-conditioning use.",
     "status": "open"
   },
   {
