@@ -23,7 +23,7 @@ Every rule below comes from a merge audit. The ones that hurt most:
 
 - **Badges are not checks.** Once, 40 PRs merged in under four minutes on GitHub's badges, with no main merged in and no checks run. Every merge needs its own merge of main, its own checks on that merged result, and a comment naming them.
 - **A send-back is not undone by time.** Three PRs were merged after the merger itself had sent them back, with no new commit.
-- **Base branches.** A PR merged into another PR's branch was counted as merged to main and its pool item flipped to done.
+- **Base branches.** A PR merged into another PR's branch was counted as merged to main and its pool item flipped to done. And a PR stacked on a branch that had already landed was merged into that branch, so its change never reached main (#6875, the Journal, Oct 30). Before every merge, check the PR's base is `main`; when a stacked base has already merged, retarget the PR to `main` first, merge main into it and check again, or send it back.
 - **Weak tests passed.** Tests that return early, assert `>= 0`, loop over an empty set, or wrap every assertion in `if (found)` passed review and merged.
 - **Done-when skipped.** PRs merged without the proof their pool item's done-when names: the browser check never run, the played-world case never added.
 - **Guards bypassed.** A data file was added to a guard's bypass list (`rawSource`) so a red guard would stop complaining.

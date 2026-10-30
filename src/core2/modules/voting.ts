@@ -101,6 +101,7 @@ import {
   impressionOf,
   parsePlatform,
   pledgesOf,
+  registerDoorChoice,
   type PledgeRow,
 } from "./campaigns";
 import {
@@ -406,6 +407,7 @@ export function openVoting(core: CoreState): void {
     registerModule(core, candidacyModule);
   const api = coreAPI(core);
   registerWardResidency(candidateInWard);
+  registerDoorChoice(doorChoiceOf);
   rememberOpeningElectorate(api);
   pollingPlaces(api);
   // A vacancy's special election runs as a real race.
@@ -1263,6 +1265,69 @@ function townIncumbentLean(api: CoreAPI): number {
   const mean = weight > 0 ? sum / weight : 0;
   incumbentLeanByDay.set(api.state, { date: api.state.date, mean });
   return mean;
+}
+
+/** Each day's counted residents by id, for a door's answer (one map a day). */
+const countedById = new WeakMap<
+  object,
+  { key: string; byId: Map<string, CountedVoter> }
+>();
+
+/**
+ * Who a voter would vote for in this contest today, by the same appeal rule
+ * the ballot uses (their earlier word at a door included), for a campaign's
+ * door to read as the resident's answer (`campaigns.ts` answerAtDoor): a full
+ * person's own appeal, a counted resident's by their record. Null where they
+ * prefer no one, are not of voting age, or the contest is not on a ballot;
+ * undefined where the world counts no ballots.
+ */
+export function doorChoiceOf(
+  api: CoreAPI,
+  voterId: string,
+  contestId: string,
+): string | null | undefined {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow | undefined;
+  if (!contest) return null;
+  const filings = ballot(api, contestId);
+  if (!filings.length) return null;
+  const adultAge = api.parameter("votingAge");
+  const named = api.state.people.get(voterId);
+  if (named) {
+    if (!named.alive || ageOn(named, api.state.date) < adultAge) return null;
+    return countedChoice(appealFor(api, named, contest, filings).appeal);
+  }
+  const core = api.state as CoreState;
+  const all = countedResidents(core);
+  const key = `${core.date}|${all.length}`;
+  let held = countedById.get(core);
+  if (held?.key !== key) {
+    held = { key, byId: new Map(all.map((v) => [v.id, v])) };
+    countedById.set(core, held);
+  }
+  const voter = held.byId.get(voterId);
+  if (!voter || ageOn(voter, api.state.date) < adultAge) return null;
+  const lean = personLean(api.state.people, voter, townLean(api));
+  const field = countedField(api, contest, filings);
+  return countedChoice(
+    countedAppeal(lean, field, {
+      inTown: true,
+      local: true,
+      incumbentLean: incumbentLeanOf(api, voter),
+      trust: trustWeight(api, lean),
+      profile: countedStanceProfile(api, voter),
+      pledges: countedPledges(
+        api,
+        voter.id,
+        trustWeight(api, lean),
+        contestId,
+        field,
+      ),
+    }),
+  );
 }
 
 /** The incumbent's side of a voter's traits: stay with the known or try someone new. */

@@ -21,6 +21,12 @@ claimed-at: 2026-10-30T02:14:52.866Z
 
 **Done when.** In three drawn places from all 56 (name each place and seed), a browser check plays the opening through its last Continue, then finds a housemate marked talkable in the room, clicks them and the talk opens; it fails on main and passes on the branch, with a screenshot of the open talk in the PR body.
 
+**Time box.** 2 hours, Sonnet (lane).
+
+**You will see.** Your family in the room can be clicked to talk after the opening scene ends.
+
+**Screenshot.** The open talk after the opening's last Continue, at 1440 by 900.
+
 **Files.** src/bench/play.mjs, src/bench/person-card.browser.mjs
 
 **Notes.** TODO

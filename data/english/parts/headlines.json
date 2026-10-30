@@ -37,7 +37,8 @@
     "incident": "The kind of disaster, from the declaration record.",
     "area": "The region a rate is measured for (a metro area, or the state), by name.",
     "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record.",
-    "candidate": "A candidate, by name, from the campaign's record."
+    "candidate": "A candidate, by name, from the campaign's record.",
+    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record."
   },
   "maxWords": 14,
   "mining": {
@@ -6318,6 +6319,225 @@
           "subject": "headline",
           "role": "unfilled",
           "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.police-log.police-log-number-reports-in-month",
+      "move": "police-log",
+      "kind": "written",
+      "text": "Police log: {number} reports in {month}",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "headline",
+          "role": "police-log",
+          "choice": "headline",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.police-log.police-log-one-report-in-month",
+      "move": "police-log",
+      "kind": "written",
+      "text": "Police log: one report in {month}",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "headline",
+          "role": "police-log",
+          "choice": "headline",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.police-log.month-police-log-for-place",
+      "move": "police-log",
+      "kind": "written",
+      "text": "{month} police log for {place}",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "headline",
+          "role": "police-log",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.honor.name-wins-the-place-spelling-bee",
+      "move": "honor",
+      "kind": "written",
+      "text": "{name} wins the {place} spelling bee",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline",
+          "requiresFacts": ["bee-local", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.honor.place-spelling-bee-crowns-its-champion",
+      "move": "honor",
+      "kind": "written",
+      "text": "{place} spelling bee crowns its champion",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline",
+          "requiresFacts": ["bee-local"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.honor.name-wins-the-regional-spelling-bee",
+      "move": "honor",
+      "kind": "written",
+      "text": "{name} wins the regional spelling bee",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline",
+          "requiresFacts": ["bee-regional", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.honor.place-speller-wins-the-regional-bee",
+      "move": "honor",
+      "kind": "written",
+      "text": "{place} speller wins the regional bee",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline",
+          "requiresFacts": ["bee-regional"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.honor.number-place-seniors-sign-with-division-i-programs",
+      "move": "honor",
+      "kind": "written",
+      "text": "{number} {place} seniors sign with Division I programs",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline",
+          "requiresFacts": ["signing", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.honor.name-signs-to-play-at-a-division-i-school",
+      "move": "honor",
+      "kind": "written",
+      "text": "{name} signs to play at a Division I school",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline",
+          "requiresFacts": ["signing", "one", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.honor.place-senior-signs-with-a-division-i-program",
+      "move": "honor",
+      "kind": "written",
+      "text": "{place} senior signs with a Division I program",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline",
+          "requiresFacts": ["signing", "one"]
         }
       ],
       "origin": "authored",

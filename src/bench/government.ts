@@ -1,3 +1,4 @@
+import { properName } from "../director/words";
 import { ageOnDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -212,7 +213,7 @@ export function governmentView(core: CoreState, personId: string) {
   if (core.modules.has(BUDGETS_MODULE_ID))
     for (const row of governments(api))
       if (!governmentOf.has(row.level))
-        governmentOf.set(row.level, readable(row.name));
+        governmentOf.set(row.level, properName(row.name));
   // The tier a seat is listed under on the Politics screens: a state or
   // federal office is its own; every other level is local.
   const tierOf = (level: string) =>
@@ -436,6 +437,9 @@ export function localRaces(core: CoreState) {
           contest.filingDeadline >= core.date,
         // Where a filing for it is made, for the hot link to the office.
         filedWith: office?.filedWith ?? null,
+        // Whether the player may run for it (the offices the player runs
+        // for, player-offices.json): the screen offers to file only then.
+        playerMayFile: playerMayFileFor(api, contest.id),
         filers,
       };
     })
@@ -544,20 +548,6 @@ function ofVotingAge(core: CoreState, personId: string): boolean {
   return Boolean(
     person && ageOnDate(person.birthDate, core.date) >= parameter("votingAge"),
   );
-}
-
-/** A record's name set in capitals ("TOWN OF CONCRETE") as a title reads. */
-export function readable(name: string): string {
-  if (name !== name.toUpperCase()) return name;
-  return name
-    .toLowerCase()
-    .split(" ")
-    .map((word, i) =>
-      i > 0 && ["of", "the", "and"].includes(word)
-        ? word
-        : word.charAt(0).toUpperCase() + word.slice(1),
-    )
-    .join(" ");
 }
 
 export function fileForOffice(
