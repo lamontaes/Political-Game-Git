@@ -5,10 +5,10 @@
     "lawLinks": 135,
     "webCoverageWired": 128,
     "allEightPoints": 0,
-    "reachesOrCarried": 170,
-    "namedInAStopgap": 94,
+    "reachesOrCarried": 171,
+    "namedInAStopgap": 93,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 170,
+    "reachesTheWorld": 171,
     "aboutZero": 18,
     "withAnyModerator": 23,
     "byPoint": {
@@ -25,9 +25,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 170,
+        "pass": 171,
         "partial": 0,
-        "fail": 58,
+        "fail": 57,
         "n/a": 18
       },
       "varied": {
@@ -1571,8 +1571,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: finance.medical-debt-in-collections moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, health.coverage-pct"
+          "evidence": "outcome read by src/core2/medical-bills.ts:459, src/core2/medical-bills.ts:813",
+          "why": "the web does not run it: it waits on health.coverage-pct; nothing in the core records its cause, health.coverage-pct"
         },
         "varied": {
           "status": "fail",
@@ -1719,7 +1719,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "carried by an engine, not the web: the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through ownCoverageFactor in src/core2/health-own.ts), which reads the Medicaid coverage the law reach pays them (medicaidCoverageSpells in src/core2/law-reach/group-b-money.ts, one obligation record per payment) and multiplies their death hazard at 55 to 64 by this row's size per covered year, twelve months after the coverage, against the coverage they held at their first look; the place-level medicaid-expansion-to-mortality row is left out of their web factor (deathWebFactor in src/core2/health-web.ts). Counted people keep the place-level row (stopgap SG-HEALTH-own-records-counted)"
+          "evidence": "carried by an engine, not the web: the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through ownCoverageFactor in src/core2/health-own.ts), which reads the Medicaid coverage the law reach keeps for them (medicaidCoverageSpells in src/core2/law-reach/group-b-money.ts, one coverage record per stretch) and multiplies their death hazard at 55 to 64 by this row's size per covered year, twelve months after the coverage, against the coverage they held at their first look; the place-level medicaid-expansion-to-mortality row is left out of their web factor (deathWebFactor in src/core2/health-web.ts). Counted people keep the place-level row (stopgap SG-HEALTH-own-records-counted)"
         },
         "varied": {
           "status": "fail",
@@ -1766,7 +1766,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/coverage.ts:222"
+          "evidence": "src/core2/modules/coverage.ts:227"
         },
         "varied": {
           "status": "partial",
@@ -4336,7 +4336,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/modules/coverage.ts:222",
+          "evidence": "outcome read by src/core2/modules/coverage.ts:227",
           "why": "the web does not run it: it waits on law.marriage-equality; nothing in the core records its cause, law.marriage-equality"
         },
         "varied": {
@@ -4364,7 +4364,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-EW-HEALTH-medical-debt-reader"
+      "stopgap": "SG-EW-HEALTH-marriage-equality-cause"
     },
     {
       "key": "abortion-ban-to-births",
@@ -5156,7 +5156,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/coverage.ts:222"
+          "evidence": "src/core2/modules/coverage.ts:227"
         },
         "varied": {
           "status": "fail",
@@ -5248,9 +5248,8 @@
           "evidence": "data/research/outcome-web/links.json:3003 size -0.34, range [-0.42, -0.25], Kluender, Mahoney, Wong and Yin 2021 (JAMA); Hu, Kaestner, Mazumder, Miller and Wong 2018 (JPubE); Brevoort, Grodzicki and Hackmann 2020 (JPubE)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: finance.medical-debt-in-collections moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/medical-bills.ts:459, src/core2/medical-bills.ts:813"
         },
         "varied": {
           "status": "fail",
@@ -5276,8 +5275,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-EW-HEALTH-medical-debt-reader"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "snap-work-requirement-to-participation",
@@ -6390,7 +6389,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/coverage.ts:222"
+          "evidence": "src/core2/modules/coverage.ts:227"
         },
         "varied": {
           "status": "pass",
@@ -7374,7 +7373,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger health.uninsured-pct, which src/core2/modules/coverage.ts:222 reads into its own records"
+          "evidence": "web ledger health.uninsured-pct, which src/core2/modules/coverage.ts:227 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -12372,9 +12371,8 @@
     },
     {
       "measure": "finance.medical-debt-in-collections",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/medical-bills.ts:459, src/core2/medical-bills.ts:813",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12650,7 +12648,7 @@
     {
       "measure": "health.uninsured-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/coverage.ts:222",
+      "evidence": "src/core2/modules/coverage.ts:227",
       "countedTwice": false,
       "asCause": ["uninsured-to-graduation"],
       "asOutcome": [
