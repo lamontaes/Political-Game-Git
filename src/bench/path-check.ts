@@ -68,9 +68,10 @@ type Enterable = ReturnType<typeof governmentView>["contests"][number];
 
 /**
  * Whether a race's seat is open, as the player could know it on the day they
- * file: no holder, a holder whose stand-again decision on record says they
- * will not run, or a holder with no filing in the race by its filing
- * deadline. A holder who has neither decided on record nor filed holds it.
+ * file: no holder, a holder who has not filed and whose stand-again decision
+ * on record says they will not run, or a holder with no filing in the race by
+ * its filing deadline. A holder who has filed, or has neither decided on
+ * record nor filed, holds it.
  */
 function seatOpen(contest: ContestRow): { open: boolean; why: string } {
   const api = coreAPI(w.core);
@@ -81,27 +82,24 @@ function seatOpen(contest: ContestRow): { open: boolean; why: string } {
   const holder = `holder ${holderId ?? `term ${term.id}`}`;
   const recorded = holderId ? decisionOf(api, contest.id, holderId) : null;
   const decision = recorded && recorded.date <= today ? recorded : null;
-  if (decision && !decision.run)
-    return { open: true, why: `${holder}, decision ${decision.id} run false` };
+  const decided = decision
+    ? `decision ${decision.id} run ${decision.run}`
+    : "no decision on record";
   const filed = holderId
     ? ballot(api, contest.id).find(
         (row) => row.personId === holderId && row.filedOn <= today,
       )
     : undefined;
   if (filed)
-    return {
-      open: false,
-      why: `${holder}, filing ${filed.id}${decision ? `, decision ${decision.id} run true` : ""}`,
-    };
+    return { open: false, why: `${holder}, filing ${filed.id}, ${decided}` };
+  if (decision && !decision.run)
+    return { open: true, why: `${holder}, ${decided}, no filing` };
   if (contest.filingDeadline < today)
     return {
       open: true,
-      why: `${holder}, no filing by ${contest.filingDeadline}`,
+      why: `${holder}, ${decided}, no filing by ${contest.filingDeadline}`,
     };
-  return {
-    open: false,
-    why: `${holder}, ${decision ? `decision ${decision.id} run true` : "no decision on record"}, no filing yet`,
-  };
+  return { open: false, why: `${holder}, ${decided}, no filing yet` };
 }
 
 /**
@@ -124,6 +122,7 @@ function chooseRace(open: readonly Enterable[]): {
     : `chose ${race.contest.title} (${race.contest.id}): ${chosen ? `${chosen.seat.open ? "open seat" : "no open seat, first council race"}, ${chosen.seat.why}` : "no council race, first race"}; ${openSeats.length} of ${council.length} council races open`;
   return { race, why };
 }
+
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
 const started = performance.now();
 const w = buildBenchWorld(seed, gameStartDate(), {
