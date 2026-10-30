@@ -373,7 +373,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
         .table("ballots")
         .query("byContest", [cid]) as unknown as {
         voted: boolean;
-        appeal: Record<string, Record<string, unknown>>;
+        appeal?: Record<string, Record<string, unknown>>;
       }[]
     ).filter((b) => b.voted);
     const countedKept = countedBallotsOf(api, cid);
@@ -383,7 +383,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
     ] as const) {
       if (!id) continue;
       log.push(
-        `APPEAL ${who}${who === "RIVAL" ? `(${id.slice(-6)})` : ""} named(${namedVoted.length}) ${mean(namedVoted.map((b) => ({ weight: 1, appeal: b.appeal[id] })))} | counted ${mean(countedKept.map((b) => ({ weight: (b.weight ?? 1) * b.turnout, appeal: b.appeal[id] as unknown as Record<string, unknown> })))}`,
+        `APPEAL ${who}${who === "RIVAL" ? `(${id.slice(-6)})` : ""} named(${namedVoted.length}) ${mean(namedVoted.map((b) => ({ weight: 1, appeal: b.appeal?.[id] })))} | counted ${mean(countedKept.map((b) => ({ weight: (b.weight ?? 1) * b.turnout, appeal: b.appeal?.[id] as unknown as Record<string, unknown> | undefined })))}`,
       );
     }
   }
