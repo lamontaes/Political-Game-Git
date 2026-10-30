@@ -373,10 +373,9 @@ export type CoreRelationshipListener = (
 ) => void;
 
 /**
- * Scratch shared by the offer providers and eligibility rules of one
- * availableActs call (one person on one date), so a list two act rows both
- * read is worked out once. Each module keys its own entries; nothing in it
- * outlives the call.
+ * Scratch shared by the offer providers of one availableActs call (one
+ * person on one date), so a list two act rows both read is worked out once.
+ * Each module keys its own entries; nothing in it outlives the call.
  */
 export type OfferRound = Map<string, unknown>;
 
@@ -1048,7 +1047,6 @@ export interface CoreModule {
         actor: Readonly<PersonState>,
         offer: ActOffer,
         argument?: string,
-        round?: OfferRound,
       ) => boolean
     >
   >;
