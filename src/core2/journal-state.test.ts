@@ -195,9 +195,12 @@ function addSecondary(
   return secondary;
 }
 
+const outsideOwnerId = "fixture:outside-owner",
+  outsideAccountId = "fixture:outside-flow-account";
+
 function addOutsidePayment(f: Fixture, amount = 400) {
-  const outsideId = "fixture:outside-owner",
-    accountId = "fixture:outside-flow-account";
+  const outsideId = outsideOwnerId,
+    accountId = outsideAccountId;
   (f.host.state.organizations as Map<string, CashJournalCashOwner>).set(
     outsideId,
     {
@@ -213,10 +216,20 @@ function addOutsidePayment(f: Fixture, amount = 400) {
     source,
     outsideFlow: true,
   });
-  const current = f.addSource([
+  const current = outsideSource(f, [
     { id: "fixture:outside-out", accountId, deltaMinor: -amount },
     { id: "fixture:local-in", accountId: residualA, deltaMinor: amount },
   ]);
+  return { ...current, outsideId, accountId };
+}
+
+/** A current source touching the registered outside flow account, with its due obligation. */
+function outsideSource(
+  f: Fixture,
+  lines: readonly CashJournalPosting[],
+  id?: string,
+) {
+  const current = f.addSource(lines, id);
   const obligation = {
     kind: "fixture:outside-obligation",
     id: "fixture:due-benefit",
@@ -229,8 +242,10 @@ function addOutsidePayment(f: Fixture, amount = 400) {
     ...current.canonical.relatedRecords,
     { ...obligation, date, source: { ...source } },
   ];
-  current.canonical.externalFlowAuthorizations = [{ accountId, obligation }];
-  return { ...current, outsideId, accountId };
+  current.canonical.externalFlowAuthorizations = [
+    { accountId: outsideAccountId, obligation },
+  ];
+  return current;
 }
 
 function snapshot(f: Fixture): string {
@@ -253,7 +268,11 @@ function snapshot(f: Fixture): string {
       })),
     },
     (_key, row: unknown) =>
-      row instanceof Map || row instanceof Set ? [...row] : row,
+      row instanceof Map || row instanceof Set
+        ? [...row]
+        : typeof row === "bigint"
+          ? row + "n"
+          : row,
   );
 }
 
@@ -554,6 +573,107 @@ describe("atomic outside flow accounting", () => {
       ).toThrow(/journal-owned/);
       expect(snapshot(f)).toBe(before);
     }
+  });
+});
+
+describe("lifetime totals past the exact-number limit", () => {
+  // 2^52 + 1 minor units: every balance and posting stays a safe number,
+  // while the sums since the world opened pass 2^53 within a few postings,
+  // as a long save's world and federal treasury totals do.
+  const big = 2 ** 52 + 1,
+    exact = BigInt(big);
+
+  /** Seven actual postings: three local, three with the outside owner, one cent. */
+  function longSave(): Fixture {
+    const f = fixture();
+    f.host.state.people.get(ownerA)!.liquidMinor = big;
+    const post = (lines: CashJournalPosting[], id: string) =>
+      postCashJournal(f.runtime, f.host, f.addSource(lines, id).input);
+    post(payment(big), "fixture:lifetime-1");
+    post(payment(big, residualB, residualA), "fixture:lifetime-2");
+    post(payment(big), "fixture:lifetime-3");
+    postCashJournal(f.runtime, f.host, addOutsidePayment(f, big).input);
+    for (const [i, delta] of [
+      [5, -big],
+      [6, big],
+    ] as const)
+      postCashJournal(
+        f.runtime,
+        f.host,
+        outsideSource(
+          f,
+          [
+            { id: "fixture:local", accountId: residualA, deltaMinor: delta },
+            {
+              id: "fixture:outside",
+              accountId: outsideAccountId,
+              deltaMinor: -delta,
+            },
+          ],
+          "fixture:lifetime-" + i,
+        ).input,
+      );
+    post(payment(1), "fixture:lifetime-7");
+    return f;
+  }
+
+  it("keeps the world, owner, account and outside sums exact while balances stay safe numbers", () => {
+    const f = longSave();
+    expect(f.host.state.people.get(ownerA)!.liquidMinor).toBe(big - 1);
+    expect(f.host.state.organizations.get(ownerB)!.liquidMinor).toBe(
+      200 + big + 1,
+    );
+    const world = 6n * exact + 1n;
+    expect(f.runtime.totals).toEqual({
+      count: 7,
+      grossDebitMinor: world,
+      grossCreditMinor: world,
+    });
+    // No plain number holds the world's sum; it would round to another one.
+    expect(BigInt(Number(world))).not.toBe(world);
+    expect(f.runtime.totalsByOwner.get(ownerA)).toEqual({
+      count: 7,
+      grossDebitMinor: 3n * exact + 1n,
+      grossCreditMinor: 3n * exact,
+    });
+    expect(f.runtime.totalsByAccount.get(residualA)).toEqual(
+      f.runtime.totalsByOwner.get(ownerA),
+    );
+    // A sum still inside the safe range stays a plain number.
+    expect(f.runtime.totalsByOwner.get(ownerB)).toEqual({
+      count: 4,
+      grossDebitMinor: big,
+      grossCreditMinor: 2n * exact + 1n,
+    });
+    expect(f.runtime.totalsByOwner.get(outsideOwnerId)).toEqual({
+      count: 3,
+      grossDebitMinor: 2n * exact,
+      grossCreditMinor: big,
+    });
+    expect(f.runtime.externalFlowsByOwner.get(outsideOwnerId)).toEqual({
+      netMinor: -big,
+      outgoingMinor: 2n * exact,
+      incomingMinor: big,
+    });
+    expect(f.runtime.nextSequence).toBe(7);
+    // A balance past the limit is still refused, with nothing written.
+    rejectUnchanged(
+      f,
+      f.addSource(payment(big - 1), "fixture:lifetime-over").input,
+      /integer journal amount|overflows/,
+    );
+  });
+
+  it("commits the same lifetime totals in play as with bookkeeping on", () => {
+    const run = (checks: boolean): string => {
+      const previous = setBookkeeping(checks);
+      try {
+        return snapshot(longSave());
+      } finally {
+        setBookkeeping(previous);
+      }
+    };
+    expect(run(false)).toBe(run(true));
   });
 });
 
@@ -873,12 +993,13 @@ describe("synchronous canonical cash journal writer", () => {
     const sequence = fixture();
     sequence.runtime.nextSequence = Number.MAX_SAFE_INTEGER;
     rejectUnchanged(sequence, sequence.addSource().input, /next sequence/);
+    // A lifetime total turns bigint only past the safe range; one inside it is malformed.
     const counters = fixture();
-    counters.runtime.totals.grossCreditMinor = Number.MAX_SAFE_INTEGER;
+    counters.runtime.totals.grossCreditMinor = BigInt(P.one);
     rejectUnchanged(
       counters,
       counters.addSource(payment(1)).input,
-      /journal credits|integer journal amount/,
+      /retained journal totals/,
     );
     const empty = fixture();
     rejectUnchanged(empty, empty.addSource([]).input, /unfilled budget/);
