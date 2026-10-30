@@ -8543,10 +8543,10 @@
       }
     },
     {
-      "key": "journal.office-line-took-office.law-died-in-committee",
+      "key": "journal.office-line-took-office.the-committee-killed-law",
       "move": "office-line-took-office",
       "kind": "spoken",
-      "text": "{law} died in committee.",
+      "text": "The committee killed {law}.",
       "uses": [
         {
           "move": "office-line-took-office",
@@ -8595,10 +8595,10 @@
       }
     },
     {
-      "key": "journal.office-line-took-office.law-failed-when-it-came-to-a-vote",
+      "key": "journal.office-line-took-office.i-lost-the-vote-on-law",
       "move": "office-line-took-office",
       "kind": "spoken",
-      "text": "{law} failed when it came to a vote.",
+      "text": "I lost the vote on {law}.",
       "uses": [
         {
           "move": "office-line-took-office",
@@ -8621,10 +8621,10 @@
       }
     },
     {
-      "key": "journal.office-line-took-office.the-vote-on-law-went-against-me",
+      "key": "journal.office-line-took-office.the-vote-went-against-me-on-law",
       "move": "office-line-took-office",
       "kind": "spoken",
-      "text": "The vote on {law} went against me.",
+      "text": "The vote went against me on {law}.",
       "uses": [
         {
           "move": "office-line-took-office",
@@ -8642,6 +8642,318 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-signed-law",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I signed {law}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-signed-law-and-it-became-law",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I signed {law}, and it became law.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-vetoed-law",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I vetoed {law}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-vetoed-law-and-the-veto-held",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I vetoed {law}, and the veto held.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-vetoed-law-and-my-veto-was-overridden",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I vetoed {law}, and my veto was overridden.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-vetoed-law-but-it-was-overridden",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I vetoed {law}, but it was overridden.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.other-signed-law",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{other} signed {law}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.my-bill-law-was-signed-into-law",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "My bill, {law}, was signed into law.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.other-vetoed-law",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{other} vetoed {law}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.my-bill-law-was-vetoed",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "My bill, {law}, was vetoed.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.other-vetoed-law-and-the-veto-was-overridden",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{other} vetoed {law}, and the veto was overridden.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.my-bill-law-became-law-over-the-veto",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "My bill, {law}, became law over the veto.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
       "tag": {
         "move": "tell"
       }
