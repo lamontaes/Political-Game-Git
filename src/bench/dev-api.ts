@@ -36,6 +36,8 @@ const KIT12 = new URL(
 // Saved experiments the owner adds, kept beside the checkout, out of git.
 const LOCAL = new URL("../../.bench-local/", import.meta.url);
 const SAVED = new URL("dev-experiments.json", LOCAL);
+// Records proofs saved to compare two builds' runs (`dev-proof.ts`).
+const PROOFS = new URL("proofs/", LOCAL);
 
 let dev: DevMode | undefined;
 function devFor(world: DevWorld): DevMode {
@@ -245,28 +247,30 @@ export async function handleDev(
     case "POST proof/save": {
       // This build's records at today's date, to compare with another build's run.
       const proof = recordProof(core, { rows: true });
-      const file = new URL(`proofs/${core.seed}-${core.date}.json`, LOCAL);
-      await mkdir(new URL(".", file), { recursive: true });
-      await writeFile(file, JSON.stringify(proof));
-      send(200, { file: file.pathname, digest: proof.digest });
+      const name = `${core.seed}-${core.date}-${Date.now()}.json`;
+      await mkdir(PROOFS, { recursive: true });
+      await writeFile(new URL(name, PROOFS), JSON.stringify(proof));
+      send(200, { name, digest: proof.digest, uncovered: proof.uncovered });
       return true;
     }
-    case "POST proof/compare": {
-      const input = await body(request);
-      const base = JSON.parse(
-        await readFile(String(input.file), "utf8"),
-      ) as RecordProof;
-      const differences = compareProofs(
-        base,
-        recordProof(core, { rows: true }),
-      );
+    case "GET proof/compare": {
+      // A saved proof by name, only from dev mode's own proofs folder.
+      const file = new URL(q("name"), PROOFS);
+      if (!file.pathname.startsWith(PROOFS.pathname) || !q("name"))
+        throw new Error("Name a proof saved in dev mode's proofs folder.");
+      const base = JSON.parse(await readFile(file, "utf8")) as RecordProof;
+      const head = recordProof(core, { rows: true });
+      const differences = compareProofs(base, head);
       send(200, {
         same: differences.length === 0,
-        differences: differences.map((row) => ({
+        uncovered: head.uncovered,
+        // The first difference opens in the trace; the rest open on click by firstId.
+        differences: differences.map((row, i) => ({
           ...row,
-          trace: row.firstId
-            ? traceNode(core, mode.director, row.firstId)
-            : undefined,
+          trace:
+            i === 0 && row.firstId
+              ? traceNode(core, mode.director, row.firstId)
+              : undefined,
         })),
       });
       return true;

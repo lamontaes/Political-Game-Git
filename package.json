@@ -72,7 +72,7 @@
     "spelling": "node --import tsx scripts/prose-eval/spelling.ts",
     "dialogue:report": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-report/report.ts",
     "scene-web": "node --max-old-space-size=8192 --import tsx scripts/scene-web/build.ts",
-    "speed:year": "node --max-old-space-size=8192 --max-semi-space-size=64 --import tsx scripts/speed-years/run.ts",
+    "speed:year": "node --max-old-space-size=8192 --max-semi-space-size=64 --expose-gc --import tsx scripts/speed-years/run.ts",
     "report:check": "node scripts/report-check/cli.mjs",
     "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts",
     "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run zero-dice && npm run build && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check",

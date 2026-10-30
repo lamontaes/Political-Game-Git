@@ -73,7 +73,19 @@ for (let year = 1; year <= years; year += 1) {
   const took = seconds(began);
   // Dev mode's records proof, taken after the clock stops (`dev-proof.ts`).
   const proof = recordProof(world.core, { rows: year === years && !!proofOut });
-  if (proof.rows) writeFileSync(proofOut, JSON.stringify(proof));
+  if (proof.rows) {
+    writeFileSync(proofOut, JSON.stringify(proof));
+    // Dev mode opens the same world from the core's seed and the place key.
+    console.log(
+      `proof: core seed ${world.core.seed}, place ${placeKey}, ${world.core.date} -> ${proofOut}`,
+    );
+  }
+  if (year === 1 && proof.uncovered.length)
+    console.log(
+      `engines that have not declared their whole state saveable, so the proof sees only their tables: ${proof.uncovered.join(", ")}`,
+    );
+  // The proof's garbage is collected here (`--expose-gc`), not in the next timed year.
+  (globalThis as { gc?: () => void }).gc?.();
   rows.push({
     year,
     seconds: took,
