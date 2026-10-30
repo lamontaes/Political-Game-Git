@@ -520,7 +520,8 @@
       "Libertarian": "Libertarian",
       "Green": "Green"
     },
-    "noIssues": "No law matches that."
+    "noIssues": "No law matches that.",
+    "inOffice": "In office"
   },
   "results": {
     "you": "You",
