@@ -33,6 +33,20 @@ try {
   await page.locator('.ring[data-tab="politics"]').click();
   await page.locator("#sheet:not([hidden])").waitFor();
   await page.locator('#sheet-tabs [data-tab="campaigns"]').click();
+  // A place with no race on its coming ballot (a territory between its
+  // elections) says so on the plate, with no cards.
+  if (!ballot.races.length) {
+    await page.locator("#sheet-body .campaigns-screen .record-empty").waitFor();
+    assert.equal(
+      await page.locator("#sheet-body .race-cards").count(),
+      0,
+      "race cards on an empty ballot",
+    );
+    assert.deepEqual(errors, [], "page errors");
+    console.log("ok: no race on the coming ballot here, and Campaigns says so");
+    await browser.close();
+    process.exit(0);
+  }
   await page.locator("#sheet-body .entry").first().waitFor();
   // The ballot is race cards on a plate, paged (owner, Oct 29: every menu
   // like Government); each card opens its race's page.
