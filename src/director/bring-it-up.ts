@@ -285,7 +285,8 @@ export function bringItUp(
     )
       readAbout = known;
   }
-  const change = readAbout ?? speakables.find(aboutListener) ?? speakables[0];
+  const change =
+    readAbout ?? speakables.find(aboutListener) ?? speakables[P.zero];
   const subject = change ? nameOf(core, change.institutionId) : null;
   if (!change || !subject) return null;
   const attribution = believedCause(core, speakerId, change, data);
