@@ -73,20 +73,8 @@ export function stakesOf(interest: number): number {
 /**
  * The share of people like this voter who turn out, from their readiness and
  * how much the day's races matter to them (the gap between the candidates in
- * their own eyes). The one turnout rule for every voter.
- */
-export function turnoutShare(readiness: number, interest: number): number {
-  return shareOf(
-    readiness,
-    interest,
-    campaignParameter("turnoutStakesWeight"),
-    campaignParameter("turnoutScale"),
-  );
-}
-
-/**
- * The same turnout rule with its two parameters read once, for a count that
- * applies it to every voter it holds.
+ * their own eyes). The one turnout rule for every voter, with its two
+ * parameters read once for a count that applies it to every voter it holds.
  */
 export function turnoutRule(): (readiness: number, interest: number) => number {
   const stakesWeight = campaignParameter("turnoutStakesWeight");
