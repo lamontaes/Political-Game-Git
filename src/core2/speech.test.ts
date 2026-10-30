@@ -26,7 +26,18 @@ const adults = [...core.people.values()].filter(
     ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(input.startedAt)) >= 18,
 );
 const speaker = adults[0]!;
-const audience = adults.slice(1, 61).map((row) => row.id);
+// One listener per household, so the rest of each household is at home to be
+// told (adults are listed household by household; a slice of the first sixty
+// can seat whole households in the room, leaving nobody to retell it to).
+const seatedHouseholds = new Set([speaker.householdId]);
+const audience = adults
+  .filter((row) => {
+    if (seatedHouseholds.has(row.householdId)) return false;
+    seatedHouseholds.add(row.householdId);
+    return true;
+  })
+  .slice(0, 60)
+  .map((row) => row.id);
 const topic = "fixture:park";
 const retellings = deliverSpeech(api, {
   id: "fixture-speech",
