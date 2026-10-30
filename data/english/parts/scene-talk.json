@@ -1325,6 +1325,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "requiresFacts": ["vote-tomorrow"],
           "key": "vote-sought"
         }
       ],
@@ -1332,6 +1333,31 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-today-and-you-don-t-have-the-votes-yet-you-go-looking-for-first",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The vote on {bill} is today, and you don't have the votes yet. You go looking for {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "requiresFacts": ["vote-today"],
+          "key": "vote-sought"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-30",
       "tag": {
         "move": "narrate",
         "key": "vote-sought"
@@ -1349,6 +1375,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "requiresFacts": ["vote-tomorrow"],
           "key": "vote-sought"
         }
       ],
@@ -1373,6 +1400,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "requiresFacts": ["vote-tomorrow"],
           "key": "vote-sought"
         }
       ],
@@ -1380,6 +1408,31 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-29",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-today-and-first-is-still-on-your-list",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You've counted the votes on {bill} twice. It comes to the floor today, and {first} is still on your list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "requiresFacts": ["vote-today"],
+          "key": "vote-sought"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-30",
       "tag": {
         "move": "narrate",
         "key": "vote-sought"
@@ -17436,10 +17489,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-plea.three-votes-that-s-all-i-m-short",
+      "key": "scene-talk.follow-plea.i-m-short-on-votes-i-need-yours",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "Three votes. That's all I'm short.",
+      "text": "I'm short on votes. I need yours.",
       "uses": [
         {
           "subject": "scene",
@@ -25590,10 +25643,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-m-two-short-change-your-vote-before-they-call-your-name",
+      "key": "scene-talk.state-request.i-m-short-change-your-vote-before-they-call-your-name",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm two short. Change your vote before they call your name.",
+      "text": "I'm short. Change your vote before they call your name.",
       "uses": [
         {
           "subject": "scene",
@@ -45012,10 +45065,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.we-re-one-vote-down-when-they-get-to-you-i-need-a-yes",
+      "key": "scene-talk.state-request.we-re-down-when-they-get-to-you-i-need-a-yes",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We're one vote down. When they get to you, I need a yes.",
+      "text": "We're down. When they get to you, I need a yes.",
       "uses": [
         {
           "subject": "scene",

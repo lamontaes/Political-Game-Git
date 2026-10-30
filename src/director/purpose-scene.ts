@@ -624,6 +624,20 @@ function composeBinding(
     facts["same-day"] = { text: "yes", sourceRecordIds: [moment.causeId] };
   else if (addDays(makeIsoDate(recordDay), P.one) === core.date)
     facts["day-after"] = { text: "yes", sourceRecordIds: [moment.causeId] };
+  // The vote a count is for is "tomorrow" only the day before its floor
+  // date and "today" on that day (the governing walk, Oct 29: "tomorrow" was
+  // said on the vote day).
+  const floorDate = record?.facts?.floorDate;
+  if (floorDate === core.date)
+    facts["vote-today"] = { text: "yes", sourceRecordIds: [moment.causeId] };
+  else if (
+    typeof floorDate === "string" &&
+    addDays(makeIsoDate(core.date), P.one) === floorDate
+  )
+    facts["vote-tomorrow"] = {
+      text: "yes",
+      sourceRecordIds: [moment.causeId],
+    };
 
   const wording = options.includeHeld ? { includeHeld: true } : {};
   // A door on the player's own canvass: where the knock left the resident,
