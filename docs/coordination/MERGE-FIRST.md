@@ -15,9 +15,9 @@ Current as of 2026-10-30, 03:05 UTC (CTO, the owner's second account). This repl
 
 ## The order
 
-0. **Red main:** any PR whose line 1 is `Touches pool item: release-main-red-standing` (the red-main fixer), ahead of everything.
-1. **The menu redesign (CTO, owner Oct 29 22:45), a stack; merge in this order, each right after its base:** #6846 (Issues) → #6855 (Money) → #6857 (Who you are) → #6859 (Your life, Jobs) → #6868 (Campaigns) → #6873 (Parties) → #6881 (Budgets; Review: words for `properName`) → #6883 (Guide) → #6885 (People without closeness marks) → #6892 (timeline lines without the year; Review: words) → #6900 (Patch notes, one release at a time). #6844, #6846, #6855, #6857 and #6859 are merged; main's playerMayFile gate (#6882) is merged into the rest of the stack (Oct 30 03:40). Each one's own diff is small once its base lands.
-2. **The lane's menus** (stacked on #6844, independent of line 1): #6861 (Calendar), #6875 (Journal), #6879 (Travel); and #6850 (territory law words), #6843 (bill screens). Where one conflicts with line 1 in `play.css` or `play.mjs`, keep both sides.
+0. **Red main:** any PR whose line 1 is `Touches pool item: release-main-red-standing` (the red-main fixer), ahead of everything. Now: #6906 (the families guard, all five files).
+1. **The menu redesign (CTO, owner Oct 29 22:45):** #6844 through #6885 are merged (Oct 30 04:25). Left, in order: #6892 (timeline lines; Checker 2 passed at 17ef539) → #6900 (Patch notes, stacked on #6892). Beside them, #6904 (Budgets and Campaigns browser checks red on main) and red main's #6906 (the families guard, line 0). #6909 duplicates #6906: never merge it.
+2. **The lane's menus** (#6861 now targets main, Oct 30 06:50): #6861 (Calendar), #6910 (Journal; #6875 merged into a landed branch and never reached main), #6879 (Travel); and #6850 (territory law words), #6843 (bill screens). Where one conflicts with line 1 in `play.css` or `play.mjs`, keep both sides.
 3. **People before the lane:** #6856 (the family drawn in a plated living room) before #6870 (the room clickable after a story), whose check needs #6856.
 4. **Governing (phase A):** #6836 → #6838; #6882 (File for it only where the player may run; the Campaigns redesign already reads its `playerMayFile`); #6854 (the first local race is the place's own body); #6853, #6860, #6867, #6869, #6872, #6874, #6876, #6849 as they pass their checkers.
 5. **Words:** #6831 → #6837; #6840 (swearing in); #6851; #6824 when its bank conflicts are fixed.

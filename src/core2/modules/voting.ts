@@ -691,8 +691,10 @@ function namedPledges(
   contestId: string,
   field: readonly CountedFieldEntry[],
 ): Readonly<Record<string, number>> | undefined {
+  // Only a "yes" to a candidate on this ballot counts.
   const pledges = pledgesOf(api, voter.id).filter(
-    (p) => p.contestId === contestId,
+    (p) =>
+      p.contestId === contestId && field.some((f) => f.id === p.candidateId),
   );
   if (!pledges.length) return undefined;
   const held: Record<string, number> = {};
@@ -759,8 +761,10 @@ function countedPledges(
   contestId: string,
   field: readonly CountedFieldEntry[],
 ): Readonly<Record<string, number>> | undefined {
+  // Only a "yes" to a candidate on this ballot counts.
   const pledges = pledgesOf(api, voterId).filter(
-    (p) => p.contestId === contestId,
+    (p) =>
+      p.contestId === contestId && field.some((f) => f.id === p.candidateId),
   );
   if (!pledges.length) return undefined;
   const scandalFull = appealOfShare(electorateParameter("scandalShare"));
