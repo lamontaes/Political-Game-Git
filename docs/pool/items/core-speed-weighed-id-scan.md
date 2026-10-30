@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/weighed-id-counter
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T03:16:30.174Z
 ---
 
 **What.** A CPU profile of year 4 (2028, a presidential election year) of one Ringgold, Louisiana save (speed:year seed long-1, about 1,300 people) puts keepWeighing in src/core2/trait-decisions.ts at 15.5 s of self time of a 155 s year. Each time the player or a focus person weighs a two-way decision (the press's interviews ask the player's party firmness over and over), keepWeighing writes a person.weighed record and finds its id by trying weighed:<date>:<decision>:<person>, then :2, :3 and so on against the event log, so the search grows with every weighing that day. The same save's 2025 runs 52 s; 2028 runs 155 s, over the 120-second bar.
