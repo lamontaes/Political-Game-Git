@@ -117,6 +117,8 @@ export interface TownHallRow {
   readonly attendeeIds: readonly string[];
   readonly questions: readonly { askedBy: string; question: string }[];
   readonly answers: readonly InterviewAnswer[];
+  /** Each attendee's cause row (`campaigns` causes): how the room moved their view of the host. */
+  readonly causeIds: readonly string[];
   readonly moved: number;
   /** Why the host called it, where they weighed it (not the player's own choice): the cause and the parts of the decision. */
   readonly calledFor?: {
@@ -603,7 +605,11 @@ export function townConcernShare(api: CoreAPI, question: string): number {
   return touched / all;
 }
 
-/** A host's answers: their stated platform, else their own lean, else no answer. */
+/**
+ * An officeholder's answers at their own town hall (no race behind it): their
+ * own view on each question, else no answer. A candidate answers from their
+ * platform instead (`platformAnswers`).
+ */
 function ownView(
   api: CoreAPI,
   hostId: string,
@@ -640,6 +646,10 @@ export function townHallDrives(
   const questions = Object.keys(POLICY_QUESTIONS).filter(
     (q) => questionAxis(q) !== 0,
   );
+  // The room fills from the town's full adults; its counted residents do
+  // not come yet (public comment reads them, `commentSpeakers`).
+  // stopgapId: SG-GOV-town-hall-room-full-people
+  api.stopgap("SG-GOV-town-hall-room-full-people");
   return townAdults(api)
     .filter((p) => p.id !== hostId)
     .map((p) => {
@@ -658,12 +668,19 @@ export function townHallDrives(
     .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id));
 }
 
+/** A host's town hall on a day: one a day, by who held it and when. */
+export function townHallId(hostId: string, date: string): string {
+  return `town-hall:${hostId}:${date}`;
+}
+
 /**
  * Hold a town hall. The town's most civic-minded adults come; each asks about
  * the question they feel most strongly about, and the host takes the
- * commonest. The host answers (the player's own answers, or another host's
- * own views); a candidate's answers are promises those present heard, and
- * each attendee's view of the host moves with a recorded cause.
+ * commonest. The host answers (the player's own answers where given; a
+ * candidate otherwise answers from their platform and declines what it does
+ * not hold, an officeholder from their own views); a candidate's answers are
+ * promises those present heard, and each attendee's view of the host moves
+ * with a recorded cause.
  */
 export function holdTownHall(
   api: CoreAPI,
@@ -700,15 +717,24 @@ export function holdTownHall(
             p === null || p === undefined ? null : Math.max(-1, Math.min(1, p)),
         };
       })
-    : ownView(
-        api,
-        input.hostId,
-        taken.map((t) => t.question),
-      );
+    : input.filingId
+      ? // A candidate says only what they run on: a question their platform
+        // does not hold is declined, so a forum never rewrites the platform
+        // or makes a promise they never chose (the debate's own rule).
+        platformAnswers(
+          api,
+          input.filingId,
+          taken.map((t) => t.question),
+        )
+      : ownView(
+          api,
+          input.hostId,
+          taken.map((t) => t.question),
+        );
   const statements: Stance[] = answers.flatMap((a) =>
     a.position === null ? [] : [{ question: a.question, position: a.position }],
   );
-  const id = `town-hall:${input.hostId}:${api.state.date}`;
+  const id = townHallId(input.hostId, api.state.date);
   let causes: readonly CauseRow[] = [];
   if (input.filingId && api.state.modules.has(CAMPAIGNS_MODULE_ID))
     causes = makeStatements(api, {
@@ -745,6 +771,7 @@ export function holdTownHall(
     attendeeIds: attendees.map((p) => p.id),
     questions: taken,
     answers,
+    causeIds: causes.map((c) => c.id),
     moved: causes.filter((c) => c.warmthAfter !== c.warmthBefore).length,
     ...(input.calledFor ? { calledFor: input.calledFor } : {}),
   };
@@ -765,6 +792,8 @@ export function holdTownHall(
     facts: {
       townHallId: id,
       hostId: input.hostId,
+      // A candidate's forum names the race it was held for.
+      ...(input.filingId ? { filingId: input.filingId } : {}),
       attendees: String(row.attendeeIds.length),
       questions: taken.map((t) => t.question).join(","),
     },
@@ -869,6 +898,8 @@ function considerTownHalls(api: CoreAPI): void {
   )) {
     const host = api.state.people.get(hostId);
     if (!host?.alive || host.placeId !== town || hostId === playerId) continue;
+    // One a day: a forum the candidate hosted today was it.
+    if (table(api, "townHalls").get(townHallId(hostId, date))) continue;
     const last = (
       table(api, "townHalls").query("byHost", [
         hostId,

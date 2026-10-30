@@ -1309,6 +1309,7 @@ async function campaignRows() {
         doors: "canvass",
         calls: "raise-money",
         event: "event",
+        forum: "forum",
         interview: "interview",
       };
       const result = await post(
