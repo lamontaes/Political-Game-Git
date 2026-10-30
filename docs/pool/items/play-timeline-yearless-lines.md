@@ -6,9 +6,9 @@ lead: cto
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: cto/timeline-yearless
-pr:
+pr: #6892
 blocked-on:
 milestone: play-first
 source: CTO and Words, Oct 30 (the timeline shows each year above a sentence that said it again)
