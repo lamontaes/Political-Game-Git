@@ -13,7 +13,7 @@ source: governing lead, Oct 30 (found in phase A runs)
 lead: governing
 ---
 
-**What.** In Johnson MN (2732012, seed 3e569f4194a9e160) the player's council petition needed 30 signatures, and a month of doors reached the same few households 389 times for 19 signers, so the player never made the ballot in two races. A town of a few dozen adults cannot give thirty valid signatures, so either the town's petition row or the fallback that set it is wrong for a place that small.
+**What.** In Johnson MN (2732012, seed 3e569f4194a9e160) the player's council petition needed 30 signatures, and a month of doors reached the same few households 389 times for 19 signers, so the player never made the ballot in two races. A town of a few dozen adults cannot give thirty valid signatures, so either the town's petition row or the fallback that set it is wrong for a place that small. This item finds which one and fixes it by one rule for every small place.
 
 **Rules.** Estimate, never UNKNOWN: the petition requirement a place shows comes from its own researched row or a sourced fallback scaled to the electorate, never a fixed count larger than the town, applied by one rule to all 56 places.
 

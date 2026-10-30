@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: speed/journal-lifetime-totals
-pr:
+pr: #6898
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-29T23:44:38.469Z

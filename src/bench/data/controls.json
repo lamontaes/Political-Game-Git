@@ -63,12 +63,17 @@
     "other": "{n} volunteers",
     "asked": "Asked {asked}, {yes} said yes: {volunteers} now"
   },
+  "campaignEndorsements": {
+    "one": "1 endorsement",
+    "other": "{n} endorsements"
+  },
   "campaignOutings": {
     "doors": "Knock on doors",
     "calls": "Call donors",
     "event": "Hold an event",
     "forum": "Host a forum",
     "interview": "Ask for an interview",
+    "party": "Meet donors at a supporter's home",
     "hours": "hours"
   },
   "campaignUnavailable": {
@@ -82,7 +87,8 @@
     "outletsFull": "No outlet has room this week",
     "notKnown": "Not known enough for television yet",
     "nobodyReached": "Nobody you can reach yet",
-    "allGave": "Everyone you can reach has given"
+    "allGave": "Everyone you can reach has given",
+    "noHost": "Nobody close to you would host yet"
   },
   "campaignContribute": {
     "give": "Put in your own money",
@@ -359,16 +365,7 @@
     "list": "List",
     "web": "Web",
     "card": "View person",
-    "talk": "Talk",
-    "joined": "Closer this year",
-    "left": "Drifted away",
-    "noChange": "Your five closest are the same as a year ago",
-    "causes": {
-      "person.moved-away": "Moved away",
-      "life.death": "Died",
-      "no-time-together": "No time together lately",
-      "chosen-act": "Time together"
-    }
+    "talk": "Talk"
   },
   "news": {
     "title": "News"
@@ -379,7 +376,8 @@
     "pay": "Pay",
     "hours": "Hours",
     "daily": "per day",
-    "noJob": "No current job"
+    "noJob": "No current job",
+    "workAndSchool": "Work and school"
   },
   "politics": {
     "seats": "Seats",
@@ -514,7 +512,15 @@
       "Independent": "Independent",
       "Libertarian": "Libertarian",
       "Green": "Green"
-    }
+    },
+    "noIssues": "No law matches that.",
+    "inOffice": "In office",
+    "comesFrom": "Where it comes from",
+    "goesTo": "Where it goes",
+    "books": "The books",
+    "otherLines": "Other",
+    "fiscalYear": "fiscal year",
+    "priorities": "Your priorities"
   },
   "results": {
     "you": "You",
@@ -569,7 +575,10 @@
       "household.mortgage": "Mortgage payment",
       "household.everyday-living": "Everyday living",
       "household-purchase": "Purchases"
-    }
+    },
+    "householdCashByMonth": "Your household’s cash at each month’s review",
+    "householdLastMonth": "Your household’s last month",
+    "worth": "Worth"
   },
   "localRaces": {
     "title": "On the ballot",
@@ -579,7 +588,10 @@
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
-    "noBallot": "No local election is on the calendar"
+    "noBallot": "No local election is on the calendar",
+    "dates": "Dates",
+    "electionDay": "Election day",
+    "yourCampaign": "Your campaign"
   },
   "grade": {
     "good": "Good",
@@ -592,13 +604,18 @@
     "markGap": "Mark gap"
   },
   "guide": {
-    "search": "Search"
+    "search": "Search",
+    "none": "No term matches that."
+  },
+  "patchNotes": {
+    "release": "Release"
   },
   "campaignActs": {
     "volunteer": "Volunteers",
     "donation": "Donations",
     "endorsement": "Endorsements",
     "ad": "Ad",
+    "mail": "Mail",
     "poll": "Poll"
   },
   "campaignResults": {
@@ -636,6 +653,7 @@
     "patchNotes": "Patch notes",
     "guide": "Guide",
     "handoff": "Carry on as",
-    "news": "News"
+    "news": "News",
+    "history": "Your life"
   }
 }
