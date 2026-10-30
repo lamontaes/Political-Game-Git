@@ -90,6 +90,10 @@
       "reason": "Raw source the game does not read directly: source cited by src/core2/data/parameters.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
+      "file": "data/research/outcome-web/sizes-2026-10-29.json",
+      "reason": "Raw research result for ten outcome-web link sizes (quote, conversion, value, range, verifier's finding each); a later family copies a size into the link's row in links.json, which the outcome web reads, and the game never reads this file."
+    },
+    {
       "file": "data/research/stand-in-figures-2026-10-12.json",
       "reason": "Research on the number stand-ins open on Oct 12, 2026 (class, current value, recommended value or bounds, source); builders apply rows into the parameter tables."
     },
