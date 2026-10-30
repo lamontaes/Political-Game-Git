@@ -154,11 +154,11 @@ function play(
   const view = campaignView(core, personId).campaigns.find(
     (c) => c.filing.id === filing.id,
   )!;
-  // The campaign day has no list of acts: the doors, an event, an interview and the calls, each named by a control.
+  // The campaign day has no list of acts: the doors, an event, a forum, an interview and the calls, each named by a control.
   expect(
     view.outings.map((c) => c.outing),
     where,
-  ).toEqual(["doors", "event", "interview", "calls"]);
+  ).toEqual(["doors", "event", "forum", "interview", "calls"]);
   expect("day" in view, `no Today list: ${where}`).toBe(false);
   for (const choice of view.outings)
     expect(

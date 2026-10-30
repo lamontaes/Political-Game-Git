@@ -2443,7 +2443,8 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
 
 /**
  * A purchase from the campaign's account to a seller, on the journal; the
- * campaign's books (spent, and spent by kind) read it.
+ * campaign's books (spent, and spent by kind) read it. Returns the money
+ * record's id.
  */
 function spend(
   api: CoreAPI,
@@ -2454,12 +2455,13 @@ function spend(
     readonly amountMinor: number;
     readonly citation: string;
   },
-): void {
+): string {
   const campaign = campaignFor(api, filingId);
+  const moneyId = `${input.kind}:${filingId}:${api.state.date}:${campaign.spentMinor}`;
   postMoney(
     api,
     input.kind === "ad" ? AD_KIND : PURCHASE_KIND,
-    `${input.kind}:${filingId}:${api.state.date}:${campaign.spentMinor}`,
+    moneyId,
     campaign.organizationId,
     input.sellerId,
     input.amountMinor,
@@ -2473,6 +2475,7 @@ function spend(
     spentMinor: campaign.spentMinor + input.amountMinor,
     spentByKind: byKind,
   });
+  return moneyId;
 }
 
 /**
@@ -3531,6 +3534,30 @@ export function sendMail(
 }
 
 /**
+ * The campaign rents an evening at a venue in town (a hall, lodge or
+ * restaurant room, `seller`) at the event-venue unit price, paid from its
+ * account on the journal: an event's evening and a forum's alike. Returns
+ * the venue's seller and the money record's id.
+ */
+export function rentVenue(
+  api: CoreAPI,
+  filingId: string,
+  purpose: "event" | "forum",
+): { readonly sellerId: string; readonly moneyId: string } {
+  const sellerId = seller(api, "event");
+  const moneyId = spend(api, filingId, {
+    kind: "event",
+    sellerId,
+    amountMinor: unitPrice(api, "event-venue"),
+    citation:
+      purpose === "forum"
+        ? "An evening's venue for a candidate's forum at the campaign-unit-prices event-venue row"
+        : "An evening's venue at the campaign-unit-prices event-venue row",
+  });
+  return { sellerId, moneyId };
+}
+
+/**
  * An event: the campaign rents an evening at a venue in town and the
  * candidate speaks on what they feel most strongly about to whoever chooses
  * to come (`whoComes`). Only a candidate who is a full person speaks in a
@@ -3545,13 +3572,7 @@ export function holdEvent(api: CoreAPI, filingId: string): readonly CauseRow[] {
       a.question.localeCompare(b.question),
   )[0];
   if (!lead) return [];
-  const venue = seller(api, "event");
-  spend(api, filingId, {
-    kind: "event",
-    sellerId: venue,
-    amountMinor: unitPrice(api, "event-venue"),
-    citation: "An evening's venue at the campaign-unit-prices event-venue row",
-  });
+  const venue = rentVenue(api, filingId, "event").sellerId;
   const audienceIds = whoComes(api, campaign);
   const causes = makeStatements(api, {
     filingId,
