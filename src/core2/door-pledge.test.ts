@@ -1,11 +1,12 @@
 /**
  * A "yes" at the door is near-binding (owner, Oct 29), in a random place.
  *
- * A campaign's knock that asks for the vote leaves each resident who
- * answered warmly with a pledge row, full people and counted residents alike;
- * the ballot reads it as the voter's own word, so a pledged voter with
- * nothing heavy against it votes for the candidate; a rival the voter is
- * closer to weakens it by how much closer, with no roll.
+ * A campaign's knock that asks for the vote leaves a pledge row with each
+ * resident who would vote for the candidate now, full people and counted
+ * residents alike, and one word a race: a yes to a new candidate replaces a
+ * yes to a rival. The ballot reads it as the voter's own word, so a pledged
+ * voter with nothing heavy against it votes for the candidate; a rival the
+ * voter is closer to weakens it by how much closer, with no roll.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -34,6 +35,7 @@ import { openParties } from "./modules/parties";
 import {
   VOTING_MODULE_ID,
   countedBallotsOf,
+  doorChoiceOf,
   openVoting,
   pledgeDoubt,
   resultOf,
@@ -106,7 +108,7 @@ function filedRace(place: string) {
 }
 
 describe("a door yes is near-binding", () => {
-  it("the knock writes each warm answer as a pledge, and the ballot holds the voter to it", () => {
+  it("the knock writes a yes from each resident who would vote for the candidate, one a race, and the ballot holds the voter to it", () => {
     const previousWhy = setKeepEveryonesWhy(true);
     try {
       const draws = [
@@ -136,12 +138,14 @@ describe("a door yes is near-binding", () => {
         core.date < contest.electionDate,
         `${place} (seed ${seed}): the petitions close after the election`,
       ).toBe(true);
-      // Evenings of doors until someone warms to the platform (a town can
-      // mostly disagree with it), up to a fortnight of them.
+      const pledgeTo = (voterId: string, candidateId: string) =>
+        pledgeOf(api, voterId, candidateId, contest.id);
+      // Evenings of doors until someone says yes (a town can mostly prefer
+      // the rival), up to a fortnight of them.
       const met: ReturnType<typeof knockDoors>[number][] = [];
       for (
         let evening = 0;
-        evening < 14 && !met.some((c) => c.warmthAfter > 0);
+        evening < 14 && !met.some((c) => pledgeTo(c.voterId, mine.personId));
         evening++
       )
         met.push(
@@ -152,19 +156,27 @@ describe("a door yes is near-binding", () => {
           }),
         );
       expect(met.length, `${place}: nobody opened`).toBeGreaterThan(0);
-      // Every warm answer is a pledge naming its cause; no cool one is.
-      for (const cause of met) {
-        const pledge = pledgeOf(api, cause.voterId, mine.personId, contest.id);
-        if (cause.warmthAfter > 0) {
-          expect(pledge?.causeId, `${place}: ${cause.id}`).toBe(cause.id);
+      // A yes is said by each resident who would vote for the candidate now,
+      // naming the visit; nobody else says it.
+      const causesOf = new Map<string, string[]>();
+      for (const cause of met)
+        causesOf.set(cause.voterId, [
+          ...(causesOf.get(cause.voterId) ?? []),
+          cause.id,
+        ]);
+      for (const [voterId, causes] of causesOf) {
+        const pledge = pledgeTo(voterId, mine.personId);
+        const choice = doorChoiceOf(api, voterId, contest.id);
+        if (choice === mine.personId) {
+          expect(causes, `${place}: ${voterId}`).toContain(pledge?.causeId);
           expect(pledge!.canvasserId).toBe(mine.personId);
-        } else expect(pledge, `${place}: ${cause.id}`).toBeNull();
+        } else
+          expect(pledge, `${place}: ${voterId} chose ${choice}`).toBeNull();
       }
-      const pledged = met.filter((c) => c.warmthAfter > 0);
       expect(
-        pledged.length,
-        `${place} (seed ${seed}): no warm answer at ${met.length} doors`,
-      ).toBeGreaterThan(0);
+        [...causesOf.keys()].some((v) => pledgeTo(v, mine.personId)),
+        `${place} (seed ${seed}): no yes at ${met.length} doors`,
+      ).toBe(true);
       // A counted resident's door answer is written by the same rule,
       // without filling them in.
       knockDoors(api, {
@@ -173,15 +185,31 @@ describe("a door yes is near-binding", () => {
         hours: 6,
         fillCounted: false,
       });
-      const countedPledges = (
+      const allPledges = (candidateId: string) =>
         api
           .moduleState(CAMPAIGNS_MODULE_ID)
           .table("pledges")
-          .query("byCandidate", [theirs.personId]) as unknown as PledgeRow[]
-      ).filter((p) => p.causeId === null);
+          .query("byCandidate", [candidateId]) as unknown as PledgeRow[];
+      const countedPledges = allPledges(theirs.personId).filter(
+        (p) => p.causeId === null,
+      );
+      // One word a race: no resident holds a yes to both, and each yes to
+      // the rival went to the one they would vote for.
+      const toMine = new Set(allPledges(mine.personId).map((p) => p.voterId));
+      for (const p of allPledges(theirs.personId)) {
+        expect(
+          toMine.has(p.voterId),
+          `${place}: ${p.voterId} pledged twice`,
+        ).toBe(false);
+        expect(doorChoiceOf(api, p.voterId, contest.id)).toBe(theirs.personId);
+      }
+      const pledged = [...causesOf.keys()].filter((v) =>
+        pledgeTo(v, mine.personId),
+      );
+      expect(pledged.length, `${place}: every yes switched`).toBeGreaterThan(0);
 
       // A rival the voter is closer to undoes the word by how much closer.
-      const tested = core.people.get(pledged[0]!.voterId)!;
+      const tested = core.people.get(pledged[0]!)!;
       const pledge = pledgeOf(api, tested.id, mine.personId, contest.id)!;
       const field = filed.map((f) => ({ id: f.personId }));
       const before = pledgeDoubt(api, tested, 0, pledge, field);
@@ -203,8 +231,8 @@ describe("a door yes is near-binding", () => {
         .query("byContest", [contest.id]) as unknown as BallotRow[];
       const weight = campaignParameter("doorPledgeWeight");
       let held = 0;
-      for (const cause of pledged) {
-        const b = ballots.find((x) => x.voterId === cause.voterId);
+      for (const voterId of pledged) {
+        const b = ballots.find((x) => x.voterId === voterId);
         if (!b?.voted || b.voterId === tested.id) continue;
         if (
           pledgeOf(api, b.voterId, theirs.personId, contest.id) ||
@@ -234,7 +262,7 @@ describe("a door yes is near-binding", () => {
           ).toBeGreaterThan(0);
       }
       console.log(
-        `door pledges: ${place}, seed ${seed}; ${pledged.length} of ${met.length} doors said yes; ${held} held ballots voted as pledged; ${countedPledges.length} counted residents pledged to the rival; doubt from a closer rival ${before.toFixed(2)} -> ${after.toFixed(2)}`,
+        `door pledges: ${place}, seed ${seed}; ${pledged.length} of ${causesOf.size} residents met said yes; ${held} held ballots voted as pledged; ${countedPledges.length} counted residents pledged to the rival; doubt from a closer rival ${before.toFixed(2)} -> ${after.toFixed(2)}`,
       );
     } finally {
       setKeepEveryonesWhy(previousWhy);
