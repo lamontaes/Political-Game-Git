@@ -2115,6 +2115,7 @@ async function openBillPaper(billId, show, back, backLabel) {
         estimate: billEstimate(paper, section),
       })),
       lines: [
+        paper.authorityWarning,
         paper.effective,
         paper.floorDate
           ? `${floor.takenUp ?? ""} ${dateWords(paper.floorDate)}`

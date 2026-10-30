@@ -2,9 +2,11 @@ import { coreAPI } from "../core2/state";
 import { AMOUNT_SERIES, lawHere } from "../core2/modules/laws";
 import { composeBill } from "../english/bill-sections";
 import { billTitleOf, spokenDesignation } from "../english/bill-names";
+import { screenLine } from "../english/screen-words";
 import { budgetLineNames, policyNames } from "./words";
 import {
   billForm,
+  bodyOf,
   currentAmount,
   draftBill,
   floorDateOf,
@@ -271,11 +273,50 @@ export function seatAct(
 }
 
 /**
+ * The body's lawyer's warning on a bill whose authority row the drafting
+ * engine marked disputed (DECISION-REGISTER, "A law changes the record
+ * first", Sept 22: the city attorney warns the player), in the English
+ * engine's words: the lawyer by the title the body's own attorney or counsel
+ * office row gives, else the body's lawyer named by the body as the bill's
+ * enacting clause names it.
+ */
+function disputedWarning(
+  api: ReturnType<typeof coreAPI>,
+  bill: BillRow,
+): string | null {
+  const body = bodyOf(api, bill.bodyOfficeId);
+  if (!body) return null;
+  const name = body.bodyName ?? body.governmentName;
+  const lawyer = (
+    api.moduleState(OFFICES).table("offices").rows() as unknown as {
+      kind: string;
+      jurisdiction: string;
+      title: string;
+    }[]
+  ).find(
+    (office) =>
+      office.jurisdiction === body.jurisdiction &&
+      /-(attorney|counsel)$/.test(office.kind),
+  )?.title;
+  if (lawyer)
+    return screenLine("bill-paper", "bill-paper.authority.disputed", {
+      lawyer: lawyer.toLowerCase(),
+      body: name,
+    });
+  // stopgapId: SG-GOV-body-lawyer-unrecorded (no world seats a body's own attorney or counsel)
+  api.stopgap("SG-GOV-body-lawyer-unrecorded");
+  return screenLine("bill-paper", "bill-paper.authority.disputed-body", {
+    body: name,
+  });
+}
+
+/**
  * The bill as one paper document, read from its records: the designation and
  * title in the English engine's words, the sponsor by name, each section with
  * the estimate the records give for it (the statute it amends with the values
  * before and after, the budget line and its amount, the simulation's own cost
- * estimate), the floor date and whip, and the vote and signature records when
+ * estimate) and its own authority row, the lawyer's warning where a row is
+ * disputed, the floor date and whip, and the vote and signature records when
  * the body has made them. Every figure is a record read; the screen formats
  * but never computes.
  */
@@ -311,10 +352,19 @@ export function billPaper(core: CoreState, billId: string) {
       composed?.sections[index] ??
       (purpose && named ? `${named}: ${purpose}` : (purpose ?? named))
     )?.replace(/, amending https?:\/\/\S+\.?$/, "");
+    // The section's authority row as the drafting engine recorded it.
+    const authority = bill.authority[index];
     return {
       index,
       key: subject?.key ?? null,
       text: clause,
+      authority: authority
+        ? {
+            allowed: authority.allowed,
+            warning: authority.warning,
+            reason: authority.reason,
+          }
+        : null,
       estimate: {
         statute: section?.before.statute ?? null,
         lawId: section?.before.lawId ?? null,
@@ -338,6 +388,9 @@ export function billPaper(core: CoreState, billId: string) {
     purpose: titled?.purpose ?? null,
     sponsor: personName(core, bill.sponsorId),
     sections,
+    authorityWarning: bill.authority.some((row) => row.warning === "disputed")
+      ? disputedWarning(api, bill)
+      : null,
     effective: composed?.effective ?? null,
     estimate: {
       workers: bill.costEstimate.workersRaised,

@@ -7761,5 +7761,17 @@
     "addedAt": "2026-10-29",
     "replacement": "An outlet's masthead refilled by the jobs engine (refreshPressStaff), or a neutral host the town's league or chamber of commerce names in its records, so every debate has a moderator who asks.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-body-lawyer-unrecorded",
+    "kind": "missing-record",
+    "file": "src/bench/legislature.ts",
+    "line": 306,
+    "whatItFakes": "A bill's paper words the lawyer's warning on a disputed power as the body's lawyer, named by the body (\"the Town Council's lawyer\"), because no world seats a town's, county's or legislature's own attorney or counsel as an office row to give the lawyer's title.",
+    "why": "The register rules that the city attorney warns the player on a disputed power (DECISION-REGISTER, \"A law changes the record first\", Sept 22); the offices engine seats no local attorney or counsel, and no title is typed in code.",
+    "addedBy": "governing builder (gov-m3-01-city-attorney-warning-on-the-bill)",
+    "addedAt": "2026-10-30",
+    "replacement": "The offices engine seats each body's own attorney or counsel (city attorney, county attorney, town counsel, legislative counsel) from research on who advises each kind of body, and the paper names that office's title in bill-paper.authority.disputed.",
+    "status": "open"
   }
 ]
