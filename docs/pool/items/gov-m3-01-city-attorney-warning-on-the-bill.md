@@ -6,9 +6,9 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/city-attorney-warning
-pr:
+pr: #6943
 blocked-on:
 source: governing lead Oct 29
 claimed-at: 2026-10-30T07:06:34.821Z
