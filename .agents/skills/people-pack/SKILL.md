@@ -17,7 +17,7 @@ Owner, Oct 29: "make it to where these can be updated very easily. so either a v
 ## Where things are
 
 - `src/bench/people-pack.ts` is the only file that names a pack or a pack file. `PEOPLE_PACK` picks the folder `art/people-engine/<pack>/`; everything else reads the manifest's rows through the loader. `people-pack.test.ts` fails if any other code names `people-engine/v<n>` or opens the folder.
-- `src/bench/mannequin-plates.ts` reads every `art/people-rooms/mannequin-plates/<scene>.mannequins.json`; each plate's `backdrop` field names the backdrop file it was painted on.
+- `src/bench/mannequin-plates.ts` reads every `art/people-rooms/mannequin-plates/<scene>.mannequins.json`; each plate's `backdrop` field names the backdrop file it was painted on, and its optional `backdrops` list names the other lights of the same painting (night, morning, midday, rain), which the plate serves too. A condition picture (lived-in, rundown) is never one of them: its clutter sits on the seats, so it gets its own plate.
 - `src/bench/whole-figures.ts` turns a person into a figure: which of the pack's people they are, what they wear here, which figure fits a spot, and the fit itself. `scene.ts stagePeople(core, backdropFile, cast, speaker?)` places the cast on the plate's spots.
 
 ## Adding to the pack (no code change)
