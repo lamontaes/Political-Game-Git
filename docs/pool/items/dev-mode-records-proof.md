@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: speed/dev-records-proof
-pr:
+pr: #6852
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-29T22:59:38.603Z

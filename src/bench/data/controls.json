@@ -261,7 +261,11 @@
     "decided": "Decided",
     "lawInForce": "the law in force",
     "backMeeting": "Back to the meeting",
-    "backDesk": "Back to the desk"
+    "backDesk": "Back to the desk",
+    "today": "In force today",
+    "proposed": "The bill makes it",
+    "newAmount": "The new amount",
+    "none": "Not set"
   },
   "advanced": {
     "none": "No one holds an office that matches"
@@ -605,7 +609,11 @@
     "play": "Play"
   },
   "seat": {
-    "draft": "Draft"
+    "draft": "Draft",
+    "title": "Draft a bill",
+    "issue": "What it is about",
+    "today": "In force today",
+    "newAmount": "The new amount"
   },
   "titles": {
     "people": "People",
