@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: laws
 ---
 
 **What.** src/core2/law-reach/group-a-wages.ts:108 sets ownWage = governing?.level === 'city' || governing?.level === 'county'. The law-in-force rule (laws-in-force.ts:272, governing lead's governing/phase-in-dated-steps) now counts a township board's minimum-wage law as governing, as levelMayDecide already says a township legislates as a town does. So where a township's own wage governs, a raise under the state's local-wage authority grant is recorded as the floor's, not the grant's: the grant's reach misses the workers it raised. Seen by the governing lead in Richmond, Maine's Select Board (seed 998f152c4fa7583a).
