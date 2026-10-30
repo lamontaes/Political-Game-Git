@@ -8,7 +8,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: play-first/play-menus-calendar-shared-look
-pr: #6857
+pr: #6861
 blocked-on:
 milestone: play-first
 source: CTO, Oct 29 (every menu redesigned the way Government was; MOCKS calendar.png)
