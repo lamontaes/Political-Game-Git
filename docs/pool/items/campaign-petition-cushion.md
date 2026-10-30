@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/petition-cushion
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T02:09:38.972Z
 ---
 
 **What.** Campaigns gathered exactly the minimum number of petition signatures and stopped, so when the clerk struck names not on the roll the filing came up short and the candidate was off the ballot. In Price UT on Oct 30 the player collected 33 and 35 of 30 in two races and the clerk found both short. Real campaigns gather well above the minimum because thin margins fail.
