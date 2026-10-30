@@ -6,7 +6,7 @@ lead: play-first
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-menus-journal-shared-look
 pr: #6910
 blocked-on:
