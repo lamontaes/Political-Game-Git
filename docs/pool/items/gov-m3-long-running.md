@@ -9,7 +9,8 @@ status: in-pr
 claimed-by: governing/m3-long-running
 pr: #6860
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 30 (CTO ruling Oct 29 23:37)
+lead: governing
 claimed-at: 2026-10-30T02:10:23.426Z
 ---
 
