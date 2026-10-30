@@ -23,6 +23,7 @@ import { seatChart } from "./ui/seat-chart.mjs";
 import { voteBar } from "./ui/vote-bar.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
+import { officeScreen } from "./ui/office-screen.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
 import { section } from "./ui/section.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
@@ -1320,6 +1321,7 @@ async function campaignRows() {
         event: "event",
         forum: "forum",
         interview: "interview",
+        party: "donor-meeting",
       };
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
@@ -1345,6 +1347,9 @@ async function campaignRows() {
       ]
         .filter(Boolean)
         .join(" · ");
+      // A donor meeting is seen in the host's home, told by what the room gave.
+      if (outing === "party" && result.callsLine)
+        campaignResult = result.callsLine;
       // Something that came up while out holds the clock: it is shown, as
       // after Day, so Continue never stands over an empty screen.
       const moment = storyStop(result.packet);
@@ -1451,6 +1456,20 @@ async function campaignRows() {
             sampleSize: String(pollSample),
           }),
         ),
+        // Mail to the town's households: the player sets what to spend.
+        (() => {
+          const dollarsOut = numberBox({
+            value: 50,
+            min: 0,
+            step: 1,
+            label: controls.campaignContribute.dollars,
+          });
+          const send = button(controls.campaignActs.mail, "mail", () => ({
+            amountMinor: String(Math.round(Number(dollarsOut.value) * 100)),
+          }));
+          send.dataset.testid = "campaign-mail";
+          return buttonRow(dollarsOut, send);
+        })(),
         // The player's own money into the campaign: the amount is theirs to set.
         (() => {
           const dollarsIn = numberBox({
@@ -1917,53 +1936,106 @@ async function playAs(personId) {
 }
 
 // ---- The seat as a job, and what stops you (OFFICE-LOCAL) ----
-async function officeRows() {
+/**
+ * What the player holds as an official, as plate-built nodes for Your office: the seat (office,
+ * pay, next meeting, the posts they name, what they have done), the budget lines they may send
+ * and the deals they offer colleagues. Each is empty when the player has none of it.
+ */
+async function officeParts() {
   const v = await api(`/api/office?id=${encodeURIComponent(me.id)}`);
-  if (!v.jobs.length) return [];
+  if (!v.jobs.length) return { seat: [], budget: [], deals: [] };
   const words = controls.officeStops ?? {};
-  return [
+  const labels = controls.officeScreen ?? {};
+  const pageWords = {
+    page: controls.politics.page,
+    previous: controls.politics.previousPage,
+    next: controls.politics.nextPage,
+  };
+  const paged = (items, { rows, columns, rowHeight, className }) =>
+    pager({
+      items,
+      render: (node) => node,
+      rows,
+      columns,
+      rowHeight,
+      gap: 8,
+      words: pageWords,
+      className,
+    });
+  const seat = [
     ...v.jobs.map((job) =>
-      listRow(
-        "campaign",
-        { title: job.citation },
-        bold(job.title),
-        ` ${moneyWords(job.annualMinor)} ${words.aYear ?? ""}`,
-        job.nextMeeting
-          ? ` · ${words.nextMeeting ?? ""} ${dateWords(job.nextMeeting)}`
-          : "",
-      ),
-    ),
-    // An open town post you appoint: the people it could go to, best first; left on the official's own choice, the first stands.
-    ...(v.heads ?? []).map((head) =>
-      listRow(
-        "campaign",
-        { as: "label" },
-        `${head.title} · ${words.nameHeadPick ?? ""} `,
-        select({
-          options: [
-            { value: "", label: words.ownChoice ?? "" },
-            ...head.candidates.map((c) => ({
-              value: c.id,
-              label: c.job ? `${c.name} · ${c.job}` : c.name,
-            })),
-          ],
-          onChange: async (nomineeId) => {
-            if (nomineeId)
-              await post(
-                `/api/office/name-head-pick?${new URLSearchParams({ post: head.post, nomineeId })}`,
-              );
+      factPlates(
+        [
+          { title: labels.office, value: job.title },
+          {
+            title: labels.pay,
+            value: `${moneyWords(job.annualMinor)} ${words.aYear ?? ""}`,
           },
-        }),
+          job.nextMeeting && {
+            title: labels.nextMeeting,
+            value: dateWords(job.nextMeeting),
+          },
+        ].filter(Boolean),
       ),
     ),
-    // The budget you may send now: the change to each line, in steps of its amount.
-    ...(v.budget
+    // An open town post you appoint: the people it could go to, best first; left on the
+    // official's own choice, the first stands.
+    ...(v.heads?.length
       ? [
-          listRow(
-            "campaign",
-            {},
-            bold(controls.budgetEditor.title),
-            ...v.budget.lines.map((row) =>
+          plate(
+            labels.heads,
+            paged(
+              v.heads.map((head) =>
+                listRow(
+                  "office-pick",
+                  { as: "label" },
+                  `${head.title} · ${words.nameHeadPick ?? ""} `,
+                  select({
+                    options: [
+                      { value: "", label: words.ownChoice ?? "" },
+                      ...head.candidates.map((c) => ({
+                        value: c.id,
+                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                      })),
+                    ],
+                    onChange: async (nomineeId) => {
+                      if (nomineeId)
+                        await post(
+                          `/api/office/name-head-pick?${new URLSearchParams({ post: head.post, nomineeId })}`,
+                        );
+                    },
+                  }),
+                ),
+              ),
+              { rows: 3, columns: 1, rowHeight: 52, className: "office-paged" },
+            ),
+          ),
+        ]
+      : []),
+    ...(v.acts.length
+      ? [
+          plate(
+            labels.acts,
+            paged(
+              v.acts.map((a) =>
+                row(
+                  `${dateWords(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
+                  `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : ""}`,
+                ),
+              ),
+              { rows: 4, columns: 1, rowHeight: 48, className: "office-paged" },
+            ),
+          ),
+        ]
+      : []),
+  ];
+  // The budget you may send now: the change to each line, in steps of its amount.
+  const budget = v.budget
+    ? [
+        plate(
+          controls.budgetEditor.title,
+          paged(
+            v.budget.lines.map((row) =>
               labeled(
                 `${row.name} ${moneyWords(row.amountMinor)}`,
                 select({
@@ -1983,16 +2055,17 @@ async function officeRows() {
                 }),
               ),
             ),
+            { rows: 5, columns: 2, rowHeight: 56, className: "office-paged" },
           ),
-        ]
-      : []),
-    // The deal to offer each colleague who votes on a bill of yours when you talk to them.
-    ...(v.deals ?? []).map((bill) =>
-      listRow(
-        "campaign",
-        {},
-        bold(`${bill.number} · ${controls.deals.title}`),
-        ...bill.colleagues.map((colleague) =>
+        ),
+      ]
+    : [];
+  // The deal to offer each colleague who votes on a bill of yours when you talk to them.
+  const deals = (v.deals ?? []).map((bill) =>
+    plate(
+      `${bill.number} · ${controls.deals.title}`,
+      paged(
+        bill.colleagues.map((colleague) =>
           labeled(
             colleague.name,
             select({
@@ -2009,15 +2082,11 @@ async function officeRows() {
             }),
           ),
         ),
+        { rows: 4, columns: 2, rowHeight: 56, className: "office-paged" },
       ),
     ),
-    ...v.acts.map((a) =>
-      row(
-        `${dateWords(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
-        `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : ""}`,
-      ),
-    ),
-  ];
+  );
+  return { seat, budget, deals };
 }
 
 // ---- The bill on paper: one document, every section clickable ----
@@ -2145,12 +2214,16 @@ async function openBillPaper(billId, show, back, backLabel) {
 // body's next agenda.
 let seatResult = "";
 let seatText = [];
+// The tab of Your office the player last used.
+let officeTab = "seat";
 async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
-  const rows = [...(await officeRows())];
+  const parts = await officeParts();
+  const draftNodes = [];
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
+    officeTab = "draft";
     seatResult = r.number
       ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
           r.authority?.some((a) => !a.allowed)
@@ -2226,74 +2299,100 @@ async function seatRows() {
         });
       },
     });
-    rows.push(
-      listRow(
-        "campaign",
-        {},
-        bold(body.title),
-        body.members.map((m) => m.name).join(" · "),
+    draftNodes.push(
+      plate(
+        body.title,
+        line(body.members.map((m) => m.name).join(" · ")),
         draftBlock,
       ),
     );
   }
   const floor = controls.floor;
-  for (const { bill, votes, tally, floorDate, whip } of v.bills)
-    rows.push(
-      listRow(
-        "campaign",
-        {},
-        bold(`${bill.number} · ${floor.status[bill.status] ?? ""}`),
-        // The floor: the day it is taken up, each chamber's count the day
-        // before, and how the vote came out.
-        ...(floorDate
-          ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
-          : []),
-        ...(bill.status === "drafted"
-          ? whip.map((count) =>
-              line(
-                `${count.chamber}: ${count.yes} ${floor.for}, ${count.no} ${floor.against}, ${count.undecided} ${floor.undecided}`,
-                "floor-whip",
-              ),
-            )
-          : []),
-        ...(votes.length
-          ? [
-              line(
-                `${floor.voted}: ${tally.yes} ${floor.yes}, ${tally.no} ${floor.no}`,
-                "floor-result",
-              ),
-            ]
-          : []),
-        // The paper holds the sections, the estimate and the votes: the row
-        // opens it instead of repeating them.
-        (() => {
-          const open = makeButton({
-            className: "action",
-            textContent: controls.bill?.open ?? "",
-          });
-          open.addEventListener("click", () =>
-            openBillPaper(
-              bill.id,
-              (...nodes) => $("sheet-body").replaceChildren(...nodes),
-              () => openSheet("office"),
+  const labels = controls.officeScreen ?? {};
+  // A bill of yours on its plate: its standing, the day it is taken up, each chamber's count
+  // the day before, how the vote came out, and the paper that opens to read it.
+  const billPlates = v.bills.map(({ bill, votes, tally, floorDate, whip }) =>
+    plate(
+      `${bill.number} · ${floor.status[bill.status] ?? ""}`,
+      ...(floorDate
+        ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
+        : []),
+      ...(bill.status === "drafted"
+        ? whip.map((count) =>
+            line(
+              `${count.chamber}: ${count.yes} ${floor.for}, ${count.no} ${floor.against}, ${count.undecided} ${floor.undecided}`,
+              "floor-whip",
             ),
-          );
-          return open;
-        })(),
-      ),
-    );
-  for (const left of v.incompatibilities ?? [])
-    rows.push(
-      listRow("campaign", {
-        textContent: `${left.date} · ${left.left} → ${left.took} · ${left.law}`,
-      }),
-    );
-  if (seatResult)
-    rows.push(
-      listRow("campaign", { textContent: seatResult }),
-      ...seatText.map((line) => listRow("", { textContent: line })),
-    );
-  return rows;
+          )
+        : []),
+      ...(votes.length
+        ? [
+            line(
+              `${floor.voted}: ${tally.yes} ${floor.yes}, ${tally.no} ${floor.no}`,
+              "floor-result",
+            ),
+          ]
+        : []),
+      // The paper holds the sections, the estimate and the votes: the plate opens it.
+      (() => {
+        const open = makeButton({
+          className: "action",
+          textContent: controls.bill?.open ?? "",
+        });
+        open.addEventListener("click", () =>
+          openBillPaper(
+            bill.id,
+            (...nodes) => $("sheet-body").replaceChildren(...nodes),
+            () => openSheet("office"),
+          ),
+        );
+        return open;
+      })(),
+    ),
+  );
+  const left = (v.incompatibilities ?? []).map((l) =>
+    line(`${l.date} · ${l.left} → ${l.took} · ${l.law}`),
+  );
+  const result = seatResult
+    ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]
+    : [];
+  const draftTab = [
+    ...result,
+    ...draftNodes,
+    ...(billPlates.length
+      ? [
+          pager({
+            items: billPlates,
+            render: (node) => node,
+            rows: 1,
+            columns: 2,
+            rowHeight: 170,
+            gap: 12,
+            words: {
+              page: controls.politics.page,
+              previous: controls.politics.previousPage,
+              next: controls.politics.nextPage,
+            },
+            className: "office-bills",
+          }),
+        ]
+      : []),
+    ...(left.length ? [plate(labels.left, ...left)] : []),
+  ];
+  return [
+    officeScreen({
+      active: officeTab,
+      onTab: (key) => {
+        officeTab = key;
+      },
+      tabs: [
+        { key: "seat", label: labels.seat, nodes: parts.seat },
+        { key: "draft", label: labels.draft, nodes: draftTab },
+        { key: "budget", label: labels.budget, nodes: parts.budget },
+        { key: "deals", label: labels.deals, nodes: parts.deals },
+      ],
+    }),
+  ];
 }
 
 /** The Kit 13 calendar icon a kind of dated record is drawn with. */
@@ -2927,7 +3026,7 @@ const sheets = {
     let chosen = terms[0]?.key;
     const cards = plate(null);
     const article = plate(null);
-    article.classList.add("guide-article");
+    article.classList.add("pick-article");
     const drawArticle = () => {
       const t = terms.find((term) => term.key === chosen) ?? terms[0];
       // The chosen card is marked, as a chosen tab is.
@@ -2940,7 +3039,7 @@ const sheets = {
               prose(t.short, "guide-short"),
               ...[t.explanation, t.contextNote]
                 .filter(Boolean)
-                .map((text) => prose(text, "guide-text")),
+                .map((text) => prose(text, "article-text")),
             ]
           : []),
       );
@@ -2972,7 +3071,7 @@ const sheets = {
                 previous: controls.politics.previousPage,
                 next: controls.politics.nextPage,
               },
-              className: "guide-cards",
+              className: "pick-cards",
             })
           : prose(controls.guide.none ?? "", "record-empty"),
       );
@@ -3004,23 +3103,91 @@ const sheets = {
     ];
   },
   /**
-   * The title's Patch notes: the release machinery's file, one release a page,
-   * newest first (owner, Oct 28: "No reason anymore; get them in").
+   * The title's Patch notes: the release machinery's file, one release at a
+   * time, newest first (owner, Oct 28: "No reason anymore; get them in"). As
+   * the Guide: the release's changes as headline cards on a plate, the chosen
+   * change in full beside them, never a wall to scroll (owner, Oct 29).
    */
   async patchNotes() {
     const { releases } = await api("/api/patch-notes");
-    return recordScreen({
-      sections: releases.map((release) => ({
-        title: release.title,
-        items: [
-          release.released && { text: release.released, tone: "small" },
-          ...release.groups.flatMap((group) => [
-            { text: group.heading, tone: "subhead" },
-            ...group.lines.map((text) => ({ text })),
-          ]),
-        ],
-      })),
+    let release = releases[0];
+    let chosen = 0;
+    const notesOf = (r) =>
+      (r?.groups ?? []).flatMap((group) =>
+        group.notes.map((note) => ({ ...note, group: group.heading })),
+      );
+    const cards = plate(null);
+    const article = plate(null);
+    article.classList.add("pick-article");
+    const drawArticle = () => {
+      const note = notesOf(release)[chosen];
+      // The chosen card is marked, as a chosen tab is.
+      for (const card of cards.querySelectorAll("[data-note]"))
+        card.classList.toggle("on", Number(card.dataset.note) === chosen);
+      article.replaceChildren(
+        ...(note
+          ? [
+              chips([{ text: note.group }]),
+              ...(note.title ? [heading(note.title, "h3")] : []),
+              prose(note.text, "article-text"),
+            ]
+          : []),
+      );
+    };
+    // The release's name is its own picker, newest first.
+    const which = select({
+      options: releases.map((r) => ({ value: r.version, label: r.title })),
+      value: release?.version,
+      label: controls.patchNotes?.release,
+      className: "release-pick",
+      onChange: (version) => {
+        release = releases.find((r) => r.version === version) ?? release;
+        chosen = 0;
+        drawCards();
+        drawArticle();
+      },
     });
+    const drawCards = () => {
+      cards.replaceChildren(
+        which,
+        ...(release?.released ? [prose(release.released, "release-date")] : []),
+        pager({
+          items: notesOf(release).map((note, at) => ({
+            title: note.title ?? note.text,
+            lede: note.title ? note.text : "",
+            label: note.title ?? note.text,
+            onSelect: () => {
+              chosen = at;
+              drawArticle();
+            },
+            data: { note: String(at) },
+          })),
+          render: listEntry,
+          rows: Math.max(
+            3,
+            Math.min(8, Math.floor((window.innerHeight - 340) / 66)),
+          ),
+          columns: 1,
+          rowHeight: 58,
+          gap: 8,
+          words: {
+            page: controls.politics.page,
+            previous: controls.politics.previousPage,
+            next: controls.politics.nextPage,
+          },
+          className: "pick-cards note-cards",
+        }),
+      );
+    };
+    drawCards();
+    drawArticle();
+    return [
+      splitScreen({
+        main: [cards],
+        side: [{ title: null, nodes: [article] }],
+        className: "patch-notes",
+      }),
+    ];
   },
   async options() {
     await controlsReady;
@@ -3246,7 +3413,18 @@ const sheets = {
     };
     return listScreen({
       search: { placeholder: labels.search },
-      layout: "cards",
+      layout: "tiles",
+      pages: {
+        rows: 2,
+        columns: 3,
+        rowHeight: 262,
+        gap: 14,
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
+      },
       entries: (query) =>
         destinations
           .filter((p) =>
@@ -3257,6 +3435,7 @@ const sheets = {
             picture: p.presentation?.imageUrl,
             lines: [hereLine(p)],
             note: reasonLine(p),
+            badge: p.filing || p.presentCount > 0,
             label: p.name,
             onSelect: () => showPlace(p),
             // The record behind the reason, for the specs; never shown as text.
@@ -3996,7 +4175,12 @@ const sheets = {
     const lawText = (law, value, unit) =>
       law.yesNo ? (value ? labels.yes : labels.no) : amount(value, unit);
     // Who sets it, by level: "Federal law", "State law", the local body's.
-    const setBy = (level) => labels.issueSetBy?.[level] ?? words(level);
+    // The state level reads the place's own word (Commonwealth, Territory...).
+    const setBy = (level) =>
+      (labels.issueSetBy?.[level] ?? words(level)).replaceAll(
+        "{level}",
+        v.homeState?.levelWord ?? "",
+      );
     // The subject a series belongs to: the policy question's own domain
     // ("us-policy-positions:fiscal.adopt-income-tax"), or the table's for an amount.
     const groupOf = (series) =>
