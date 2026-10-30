@@ -431,7 +431,8 @@
       "package": "M3-laws-and-executive",
       "test": "In a random place, an enacted ordinance changes records on its effective date and reaches specific named people (clickable, on their records), including at least one non-money effect (a rule with an enforcer and penalty, eligibility, a right, a price or a compliance cost); funded work is paid and then delivered, delayed or failed; a linked area moves through the outcome web; a repeal ends the effects.",
       "command": "npx vitest run src/core2/legislature.test.ts src/core2/law-wiring-labor.test.ts src/core2/law-reach-group-a.test.ts src/core2/projects.test.ts --maxWorkers=1 --testTimeout=900000",
-      "passes": false
+      "passes": false,
+      "longRunning": true
     },
     {
       "id": "M3-05",
@@ -441,7 +442,8 @@
       "package": "M3-laws-and-executive",
       "test": "In a random place, as mayor in that place's real form of government, the player signs one bill and vetoes another with recorded reasons, sets budget priorities that the council adopts by vote (retiring the M1 budget stand-in), and appoints someone they know; the same engine runs a governor's desk, and the president's in the world.",
       "command": "npx vitest run src/core2/executive.test.ts src/core2/legislature.test.ts src/core2/office-day-desk.test.ts src/core2/budget-desk.test.ts src/core2/budget-adopted-by-vote.test.ts src/core2/office-day-budget-season.test.ts src/core2/office-day-federal.test.ts --maxWorkers=1 --testTimeout=900000",
-      "passes": false
+      "passes": false,
+      "longRunning": true
     },
     {
       "id": "M3-06",
