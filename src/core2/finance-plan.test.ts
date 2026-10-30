@@ -248,7 +248,11 @@ function snapshot(f: Fixture): string {
       })),
     },
     (_key, value: unknown) =>
-      value instanceof Map || value instanceof Set ? [...value] : value,
+      value instanceof Map || value instanceof Set
+        ? [...value]
+        : typeof value === "bigint"
+          ? value + "n"
+          : value,
   );
 }
 
@@ -547,28 +551,41 @@ describe("read-only outside payment preparation", () => {
     }
   });
 
-  it("checks outside cumulative overflow before changing even its temporary payment plan", () => {
+  it("plans and posts an outside payment whose lifetime gross totals pass 2^53, exactly", () => {
+    // A long save's outside market: both gross sums at the safe limit and the
+    // signed net, which plans and balances read, still a safe number.
     const f = fixture(),
       outside = outsideOwner(f),
       counter = f.journal.externalFlowsByOwner.get(outside.ownerId)!;
     counter.incomingMinor = Number.MAX_SAFE_INTEGER;
     counter.outgoingMinor = Number.MAX_SAFE_INTEGER;
     counter.netMinor = P.zero;
-    const s = session(f),
-      before = snapshot(f);
+    const s = session(f);
     s.cash.authorizeOutside(outside.ownerId, outside.obligation);
+    expect(
+      s.cash.move(outside.ownerId, employer, unit, "fixture:long-outside-leg"),
+    ).toBe(unit);
+    const { input } = install(f, s.seal("long-save outside payment"));
+    postCashJournal(f.journal, f.host, input);
+    expect(f.core.organizations.get(employer)!.liquidMinor).toBe(unit);
+    expect(f.journal.externalFlowsByOwner.get(outside.ownerId)).toEqual({
+      netMinor: -unit,
+      incomingMinor: Number.MAX_SAFE_INTEGER,
+      outgoingMinor: BigInt(Number.MAX_SAFE_INTEGER) + BigInt(unit),
+    });
+    // The next plan reads the bigint total and pays again.
+    const next = session(f);
+    next.cash.authorizeOutside(outside.ownerId, outside.obligation);
+    expect(
+      next.cash.move(outside.ownerId, employer, unit, "fixture:next-leg"),
+    ).toBe(unit);
+    // A malformed lifetime total (a bigint inside the safe range) is refused.
+    f.journal.externalFlowsByOwner.get(outside.ownerId)!.incomingMinor = BigInt(
+      P.one,
+    );
     expect(() =>
-      s.cash.move(
-        outside.ownerId,
-        employer,
-        unit,
-        "fixture:overflowing-outside-leg",
-      ),
-    ).toThrow(/outside outgoing total/);
-    expect(s.cash.balance(employer)).toBe(P.zero);
-    expect(s.cash.balance(outside.ownerId)).toBe(P.zero);
-    expect(s.seal("overflow rejected").postings).toEqual([]);
-    expect(snapshot(f)).toBe(before);
+      session(f).cash.authorizeOutside(outside.ownerId, outside.obligation),
+    ).toThrow(/outside gross totals/);
   });
 
   it("freezes the prepared obligation and rejects authorization after sealing", () => {
