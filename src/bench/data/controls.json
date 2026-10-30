@@ -63,6 +63,10 @@
     "other": "{n} volunteers",
     "asked": "Asked {asked}, {yes} said yes: {volunteers} now"
   },
+  "campaignEndorsements": {
+    "one": "1 endorsement",
+    "other": "{n} endorsements"
+  },
   "campaignOutings": {
     "doors": "Knock on doors",
     "calls": "Call donors",
