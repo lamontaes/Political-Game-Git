@@ -1,5 +1,5 @@
 /* global console, document, process, URL, URLSearchParams, fetch */
-// The opening box, the player dossier, the speech panel and the debate panel are built from
+// The player dossier, the speech panel and the debate panel are built from
 // the shared parts in src/bench/ui/ (owner, Oct 26: one UI). Run against the bench (npm run
 // bench) at 1440x900 in a drawn place; a grown resident files for the first office the
 // records allow. Screenshots go to FOUR_SHOTS (default docs/reports/four-screens-2026-10-27).
@@ -55,20 +55,8 @@ try {
   assert.equal(response.status(), 200);
   console.log("Seed:", new URL(response.url()).searchParams.get("seed"));
 
-  // The opening box: the speaker head and the line, the talk box's own parts.
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 120000 });
-  await page.locator("#opening-speech li.speech").waitFor();
-  await settle();
-  assert.equal(await page.locator("#opening-box #opening-who.who").count(), 1);
-  assert.equal(
-    await page.locator("#opening-box .speech.talk-lines").count(),
-    0,
-  );
-  assert.ok((await page.locator("#opening-name").innerText()).trim());
-  assert.ok((await page.locator("#opening-speech").innerText()).trim());
-  await page.screenshot({ path: `${shots}/opening-box.png` });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
+  // The opening is a scene in the talk box now (the opening box was deleted Oct 28); the world
+  // is ready when the player card has its name.
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
@@ -202,9 +190,7 @@ try {
   await settle();
   await page.screenshot({ path: `${shots}/speech-built.png` });
   assert.deepEqual(errors, []);
-  console.log(
-    "PASS opening box, dossier, debate and speech panels from the shared parts",
-  );
+  console.log("PASS dossier, debate and speech panels from the shared parts");
 } catch (error) {
   console.log("PAGE ERRORS", errors);
   throw error;
