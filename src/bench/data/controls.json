@@ -63,6 +63,10 @@
     "other": "{n} volunteers",
     "asked": "Asked {asked}, {yes} said yes: {volunteers} now"
   },
+  "campaignEndorsements": {
+    "one": "1 endorsement",
+    "other": "{n} endorsements"
+  },
   "campaignOutings": {
     "doors": "Knock on doors",
     "calls": "Call donors",
@@ -379,7 +383,8 @@
     "pay": "Pay",
     "hours": "Hours",
     "daily": "per day",
-    "noJob": "No current job"
+    "noJob": "No current job",
+    "workAndSchool": "Work and school"
   },
   "politics": {
     "seats": "Seats",
@@ -515,7 +520,14 @@
       "Libertarian": "Libertarian",
       "Green": "Green"
     },
-    "noIssues": "No law matches that."
+    "noIssues": "No law matches that.",
+    "inOffice": "In office",
+    "comesFrom": "Where it comes from",
+    "goesTo": "Where it goes",
+    "books": "The books",
+    "otherLines": "Other",
+    "fiscalYear": "fiscal year",
+    "priorities": "Your priorities"
   },
   "results": {
     "you": "You",
@@ -583,7 +595,10 @@
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
-    "noBallot": "No local election is on the calendar"
+    "noBallot": "No local election is on the calendar",
+    "dates": "Dates",
+    "electionDay": "Election day",
+    "yourCampaign": "Your campaign"
   },
   "grade": {
     "good": "Good",
@@ -596,7 +611,8 @@
     "markGap": "Mark gap"
   },
   "guide": {
-    "search": "Search"
+    "search": "Search",
+    "none": "No term matches that."
   },
   "campaignActs": {
     "volunteer": "Volunteers",
@@ -640,6 +656,7 @@
     "patchNotes": "Patch notes",
     "guide": "Guide",
     "handoff": "Carry on as",
-    "news": "News"
+    "news": "News",
+    "history": "Your life"
   }
 }
