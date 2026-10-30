@@ -5,7 +5,7 @@
 // Prints the furthest step reached. Usage: node --import tsx src/bench/path-check.ts
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
-import { resultOf } from "../core2/modules/voting";
+import { ballotOf, countedBallotsOf, resultOf } from "../core2/modules/voting";
 import { committeeRecords } from "../core2/modules/legislature";
 import { billTally } from "./bill-tally";
 import { buildBenchWorld } from "./world";
@@ -275,6 +275,46 @@ function stand(): { held: boolean; takesOffice: string | null } {
   const races = electionResults(w.core, me);
   const result = resultOf(coreAPI(w.core), enterable.contest.id);
   const won = result?.winnerId === me;
+  {
+    // PLEDGES: where each door "yes" went (scratch measurement only).
+    const api = coreAPI(w.core);
+    const cid = enterable.contest.id;
+    const rows = (
+      api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("pledges")
+        .query("byCandidate", [me]) as unknown as {
+        voterId: string;
+        contestId: string;
+      }[]
+    ).filter((p) => p.contestId === cid);
+    const named = { n: 0, noBallot: 0, home: 0, forMe: 0, other: 0, blank: 0 };
+    const counted = { n: 0, noBallot: 0, turnout: 0, forMe: 0, other: 0 };
+    const kept = countedBallotsOf(api, cid);
+    for (const p of rows) {
+      if (w.core.people.has(p.voterId)) {
+        named.n += 1;
+        const b = ballotOf(api, cid, p.voterId);
+        if (!b) named.noBallot += 1;
+        else if (!b.voted) named.home += 1;
+        else if (b.choice === me) named.forMe += 1;
+        else if (b.choice === null) named.blank += 1;
+        else named.other += 1;
+      } else {
+        counted.n += 1;
+        const b = kept.find((x) => x.voterId === p.voterId);
+        if (!b) counted.noBallot += 1;
+        else {
+          counted.turnout += b.turnout;
+          if (b.choice === me) counted.forMe += 1;
+          else counted.other += 1;
+        }
+      }
+    }
+    log.push(
+      `PLEDGES ${rows.length}: named ${JSON.stringify(named)} counted ${JSON.stringify({ ...counted, turnout: Math.round((counted.turnout / Math.max(1, counted.n - counted.noBallot)) * 100) / 100 })}`,
+    );
+  }
   // Measurement only (scratch branch governing/measure-m3, never merged):
   // each part of the count by candidate, the player shown as ME.
   if (result) {
