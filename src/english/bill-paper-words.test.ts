@@ -19,10 +19,12 @@ describe("the bill paper's disputed-authority warning", () => {
   it("names only the body where they don't, and says nothing without it", () => {
     expect(
       screenLine("bill-paper", "bill-paper.authority.disputed-body", {
-        body: "board",
+        body: "County Board of Commissioners",
       }),
     ).toBe(
-      "The board's lawyer warns that it may not have the power to do this.",
+      // A full name ending in s is never made possessive (governing lead,
+      // Oct 30: "Board of Commissioners's lawyer").
+      "The lawyer for the County Board of Commissioners warns that it may not have the power to do this.",
     );
     expect(
       screenLine("bill-paper", "bill-paper.authority.disputed", {
