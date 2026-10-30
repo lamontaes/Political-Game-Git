@@ -32,8 +32,8 @@ import {
   decisionLean,
   decisionTraitWeight,
   reportOutcome,
+  traitProbe,
 } from "../trait-decisions";
-import { traitProbe } from "../trait-probe";
 import { VIEWS_SPEAKER_KEY, viewOf, viewOn } from "./views";
 import { conditionQuestions, measureOfFactKey } from "../outcome-news";
 

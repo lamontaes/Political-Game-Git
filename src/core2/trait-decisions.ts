@@ -15,6 +15,9 @@ import { stopgap } from "./stopgaps";
 import { probeCallerSite, traitProbe } from "./trait-probe";
 import type { Affect, CoreState, PersonState } from "./types";
 
+/** The audit's probe, for engines that report an outcome beside a lean. */
+export { traitProbe };
+
 interface OptionRow {
   id: string;
   actKinds?: readonly string[];
