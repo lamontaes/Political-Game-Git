@@ -26,8 +26,8 @@ import journalBank from "../../data/english/parts/journal.json" with { type: "js
 import journalRows from "./data/journal-rows.json" with { type: "json" };
 import { composeJournal } from "./journal";
 
-// A signing and a veto are told in the journal (the owner's play, Oct 29:
-// "no line for either signing"). The player is the mayor; the council passes
+// A signing and a veto are told in the journal (the governing brief's walk
+// as a mayor, Oct 29: "no line for either signing"). The player is the mayor; the council passes
 // two bills and the mayor signs one and vetoes the other at the desk. The
 // legislature's executive-action record names the mayor who acted and the
 // member who sponsored the bill: the mayor's journal says "I signed ...",
