@@ -664,7 +664,7 @@ export function registerCommitteeRosterProvider(fn: RosterProvider): void {
 /** Each employer's added yearly pay under a minimum-wage provision: the fiscal note, employer by employer. */
 export function employerCosts(
   api: CoreAPI,
-  bill: BillRow,
+  bill: Pick<BillRow, "provisions">,
 ): ReadonlyMap<string, { workers: number; annualMinor: number }> {
   const wage = bill.provisions.find(
     (p) => p.kind === "law-amount" && p.series === "minimum-wage",
@@ -1451,25 +1451,27 @@ function numberAndForm(
   };
 }
 
-/** Workers in town paid under a proposed minimum wage, and what raising them costs a year. */
+/**
+ * Workers in town paid under a proposed minimum wage, and what raising them
+ * costs a year: the sum of the employers' own rows (`employerCosts`), so the
+ * fiscal note and each employer's cost are one computation.
+ */
 function costOf(api: CoreAPI, provisions: readonly Provision[]) {
-  const wage = provisions.find(
-    (p) => p.kind === "law-amount" && p.series === "minimum-wage",
-  );
-  if (!wage)
+  if (
+    !provisions.some(
+      (p) => p.kind === "law-amount" && p.series === "minimum-wage",
+    )
+  )
     return { workersRaised: 0, annualPayMinor: 0, note: "no pay effect" };
-  const state = api.state as CoreState;
-  let workers = 0;
-  let cost = 0;
-  for (const c of state.work.commitments.values())
-    if (c.endsAt === undefined && c.hourlyMinor < wage.value) {
-      workers += 1;
-      cost +=
-        (wage.value - c.hourlyMinor) * (c.expectedWeeklyMinutes / 60) * 52;
-    }
+  let workersRaised = 0;
+  let annualPayMinor = 0;
+  for (const row of employerCosts(api, { provisions }).values()) {
+    workersRaised += row.workers;
+    annualPayMinor += row.annualMinor;
+  }
   return {
-    workersRaised: workers,
-    annualPayMinor: Math.round(cost),
+    workersRaised,
+    annualPayMinor,
     note: "town jobs paid under the new floor, at their scheduled hours",
   };
 }
