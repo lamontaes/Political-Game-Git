@@ -9333,6 +9333,48 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.endorsement.a-group-working-for-purpose-endorsed-name-for-office",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "A group working for {purpose} endorsed {name} for {office}.",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "news",
+          "role": "endorsement",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.endorsement.a-group-pushing-for-purpose-is-backing-name",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "A group pushing for {purpose} is backing {name}.",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "news",
+          "role": "endorsement",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

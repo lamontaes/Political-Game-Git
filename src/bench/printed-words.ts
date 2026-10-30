@@ -1245,9 +1245,10 @@ const debate: Builder = (read, f) => {
 /**
  * An endorsement a campaign kept: the group that backed a candidate (or the
  * person, where no group did), and the race. A group whose record keeps no
- * name (a cause group, a group formed over one policy) is "a local group":
- * its record does not say which way it stands once its founder's drive
- * changes, so the paper claims no cause for it.
+ * name (a cause group, a group formed over one policy) is told by the stance
+ * its endorsement stood on, the event's own facts (stanceQuestion and
+ * stancePosition: "a group working for an end to the clean electricity
+ * requirement"); without one it is "a local group".
  */
 const endorsement: Builder = (read, f) => {
   const group = read.organization(f.organizationId);
@@ -1256,10 +1257,15 @@ const endorsement: Builder = (read, f) => {
   const said = group
     ? `the ${/\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
     : undefined;
+  const stance = f.stanceQuestion
+    ? read.purpose(f.stanceQuestion, Number(f.stancePosition) < 0)
+    : {};
   const backer = said
     ? { subject: read.fact(said, f.organizationId ?? "") }
     : f.organizationId
-      ? { "unnamed-group": read.fact("yes", f.organizationId) }
+      ? stance.purpose
+        ? stance
+        : { "unnamed-group": read.fact("yes", f.organizationId) }
       : read.who(f.speakerId, "subject", false);
   const office = read.contestTitle(f.contestId);
   return story(
@@ -1269,7 +1275,14 @@ const endorsement: Builder = (read, f) => {
       ...backer,
       ...(office ? { office: read.fact(office, f.contestId ?? "") } : {}),
     },
-    ["name", f.organizationId && !said ? "unnamed-group" : "subject"],
+    [
+      "name",
+      "purpose" in backer
+        ? "purpose"
+        : f.organizationId && !said
+          ? "unnamed-group"
+          : "subject",
+    ],
     f.candidateId,
   );
 };

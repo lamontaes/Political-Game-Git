@@ -6611,6 +6611,27 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.endorsement.group-for-purpose-backs-name",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "Group for {purpose} backs {name}",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "headline",
+          "role": "endorsement",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }
