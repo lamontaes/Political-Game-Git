@@ -178,6 +178,29 @@ export function wireItem(
         ending: false,
       };
     }
+    case "bill-failed": {
+      // A bill that failed is about what it would have changed, so a reader
+      // can bring it up by name; the roll call's story argues the side, so
+      // this one argues none (no reader takes the same vote in twice).
+      const bill =
+        facts.billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
+          ? (api
+              .moduleState(LEGISLATURE_MODULE_ID)
+              .table("bills")
+              .get(facts.billId) as unknown as BillRow | undefined)
+          : undefined;
+      const first = bill?.provisions[0];
+      const topic = first
+        ? (first.question ??
+          (first.line ? `budget-line:${first.line}` : first.series))
+        : undefined;
+      return {
+        ...base,
+        topic: topic ?? event.kind,
+        desiredChange: event.kind,
+        ending: false,
+      };
+    }
     case "veto-override": {
       // The override vote is about what the vetoed bill changes: it enacts
       // that change if it passed and leaves the veto standing if it failed.
