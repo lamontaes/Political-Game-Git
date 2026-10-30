@@ -319,13 +319,17 @@ export function governmentView(core: CoreState, personId: string) {
   };
 }
 
-/** The state the player's town is in: its key and its name. */
+/** The state the player's town is in: its key, its name and what its laws are called. */
 export function homeStateOf(api: ReturnType<typeof coreAPI>) {
   const key = lawChain(api).stateKey;
   const state = corePlaceStateIdentities().find(
     (row) => row.jurisdictionKey === key,
   );
-  return { key, name: state?.name ?? key };
+  return {
+    key,
+    name: state?.name ?? key,
+    levelWord: state?.levelWord ?? "State",
+  };
 }
 
 /**
