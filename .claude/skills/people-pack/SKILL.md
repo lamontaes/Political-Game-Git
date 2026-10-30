@@ -19,6 +19,7 @@ Owner, Oct 29: "make it to where these can be updated very easily. so either a v
 - `src/bench/people-pack.ts` is the only file that names a pack or a pack file. `PEOPLE_PACK` picks the folder `art/people-engine/<pack>/`; everything else reads the manifest's rows through the loader. `people-pack.test.ts` fails if any other code names `people-engine/v<n>` or opens the folder.
 - `src/bench/mannequin-plates.ts` reads every `art/people-rooms/mannequin-plates/<scene>.mannequins.json`; each plate's `backdrop` field names the backdrop file it was painted on, and its optional `backdrops` list names the other lights of the same painting (night, morning, midday, rain), which the plate serves too. A condition picture (lived-in, rundown) is never one of them: its clutter sits on the seats, so it gets its own plate.
 - `src/bench/whole-figures.ts` turns a person into a figure: which of the pack's people they are, what they wear here, which figure fits a spot, and the fit itself. `scene.ts stagePeople(core, backdropFile, cast, speaker?)` places the cast on the plate's spots.
+- A figure is drawn on the server the first time it is asked for (an everyday outfit about 100 to 300 ms, one at a time) and kept. `drawAhead(link)` in `people-pack.ts` draws a figure link in the background between requests; `faceOf` and `stagePeople` call it for every link they hand out, and a new life draws its first scene and its card's faces while loading (`drawAheadNow` in `/api/newlife`). A screen that shows people takes its links from `faceOf` or `stagePeople`, never builds its own, so they are drawn ahead too. `faces-at-open.browser.mjs` fails if a face is missing 300 ms after People or Politics opens (#6918; `FACES_SEED` replays a world).
 
 ## Adding to the pack (no code change)
 
@@ -50,3 +51,5 @@ Owner, Oct 29: "make it to where these can be updated very easily. so either a v
 ## Checking it by eye
 
 Stage a world's people with `stagePeople` on each plate's backdrop file and draw them with the game's own `ui/room.mjs` over the backdrop, at 1440 by 900, naming the place and seed. Look for figures floating off seats, heads off the mannequin, cut limbs and someone in the wrong outfit. The PRs for `people-pack-v3` (#6778) and `people-pack-v4` have the proof sheet pattern; a world where the President is a person with every Oval pose (desk, standing) makes the (a) to (c) shots possible.
+
+Screenshots go in the PR body as paths under `docs/play-first/shots/<item>/`, never as image links: the platform wraps every URL a session posts in backticks, so images do not render (`play-first` skill, Oct 29; #6856 and #6918 hit it).
