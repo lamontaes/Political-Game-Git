@@ -60,10 +60,16 @@ function finite(value: number, label: string): number {
   return value;
 }
 
+// A date that already passed the round trip, with the index it passed under.
+// Parsing is pure, so a hit returns the same time; anything else re-checks.
+const validDates = new Map<string, { time: number; index: number }>();
+
 function dateTime(
   date: IsoDate,
   params: Readonly<Record<string, number>>,
 ): number {
+  const known = validDates.get(date);
+  if (known && numeric(params, "zero") === known.index) return known.time;
   const time = Date.parse(date);
   if (
     !Number.isFinite(time) ||
@@ -71,6 +77,7 @@ function dateTime(
   ) {
     throw new Error(`Affect requires a valid UTC date-only value: ${date}`);
   }
+  validDates.set(date, { time, index: numeric(params, "zero") });
   return time;
 }
 
