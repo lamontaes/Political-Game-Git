@@ -8,7 +8,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: play-first/player-offices-test-for-kind
-pr: #0
+pr: #6908
 blocked-on:
 milestone: play-first
 source: Governing lead, Oct 30 (#6854 merged; its onlyWhereNo rows made the test's prefix-only allowed() check less)
