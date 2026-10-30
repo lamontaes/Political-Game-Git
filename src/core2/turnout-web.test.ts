@@ -59,6 +59,11 @@ describe(`turnout and the outcome web (${place.name}, seed ${seed})`, () => {
         "same-day-registration-to-youth-turnout": 0.13,
       },
     } as never);
+    // The engine reads a voter's web factor once a game day and keeps it for the
+    // day, so a record laid on a day whose factors were already read shows from
+    // the next day (Clinton, Mississippi, seed a8d0b605004c3fa6 and Mesepa,
+    // American Samoa, seed 92f2516ed09e788a read the earlier, unshifted factor).
+    advanceCore(world.core, addDays(makeIsoDate(world.core.date), 1));
     const seen: { age: number; factor: number; recordId: string }[] = [];
     for (const person of adults.filter((_, i) => i % 3 === 0).slice(0, 12)) {
       const t = turnoutOn(api, person, appeal);

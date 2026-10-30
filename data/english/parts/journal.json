@@ -8543,6 +8543,110 @@
       }
     },
     {
+      "key": "journal.office-line-took-office.law-died-in-committee",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{law} died in committee.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-failed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.my-bill-law-failed-in-committee",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "My bill, {law}, failed in committee.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-failed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.law-failed-when-it-came-to-a-vote",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{law} failed when it came to a vote.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-failed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.the-vote-on-law-went-against-me",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "The vote on {law} went against me.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-failed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.scene-line-oath.other-swore-me-in",
       "move": "scene-line-oath",
       "kind": "spoken",
