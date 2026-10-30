@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-emotion-acts
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T08:02:12.621Z
 ---
 
 **What.** affectAt in src/core2/emotion.ts calls dateTime twice for every witness's appraisal and every need refresh, and each call parses the date and checks it round-trips, though the same few dates repeat all day. recordAct in src/core2/state.ts validates every committed act a second time in play, after the offer was already checked when it was chosen. Both are checks that tests and the bench need, not play, under Keep it simple (bookkeeping is a debug switch).
