@@ -2804,7 +2804,7 @@ details.entry[open] {
   }
 }
 
-#sheet-body:has(.entries-cards) {
+#sheet-body:has(.entries-cards, .entries-tiles) {
   max-width: 1200px;
 }
 .entries-cards {
@@ -2833,17 +2833,20 @@ details.entry[open] {
 .entry-info {
   text-align: left;
 }
-.entries-cards .entry h3 {
+.entries-cards .entry h3,
+.entries-tiles .entry h3 {
   font: 600 16px/1.2 var(--ui);
   color: var(--text-strong);
   margin: 0 0 4px;
 }
-.entries-cards .entry p {
+.entries-cards .entry p,
+.entries-tiles .entry p {
   font: 14px/1.3 var(--ui);
   color: var(--text-2);
   margin: 0 0 2px;
 }
-.entries-cards .entry .entry-note {
+.entries-cards .entry .entry-note,
+.entries-tiles .entry .entry-note {
   color: var(--gold);
   font-size: 13px;
 }
@@ -4198,6 +4201,46 @@ details.entry[open] {
   font: 600 18px/1 var(--ui);
 }
 
+/* Travel, to its mock: three large pictured tiles across, two rows to a page, the room's
+   picture with a people mark on its corner, the place's name and who is there under it. */
+.entries-tiles {
+  margin-top: 12px;
+}
+#sheet-body .entries-tiles .pager-grid .entry-go {
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.entry-art {
+  position: relative;
+}
+.entries-tiles .entry-picture {
+  aspect-ratio: 2 / 1;
+  height: auto;
+}
+.entry-badge {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 34px;
+  height: 34px;
+  padding: 6px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: rgba(24, 22, 20, 0.92);
+  border: 1px solid var(--brass);
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+#sheet-body .entries-tiles .entry {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
 /* ---- Money (the Oct 14 mock on framed plates): the cash large, each month's
    review as columns, where last month went as a ring with its key ---- */
 .money-figure {
@@ -4547,4 +4590,29 @@ select.release-pick {
 }
 .member-line b {
   font-weight: inherit;
+}
+
+/* Politics → Your office on plates: a rail of tabs, one page of plates at a time, so the
+   panel fits and never scrolls as a page (owner, Oct 29). */
+.office-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+.office-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+.office-body .fact-plates {
+  margin: 0;
+}
+.office-paged .pager-grid > * {
+  align-self: center;
+}
+.office-bills .plate {
+  height: 100%;
+  overflow: hidden;
 }
