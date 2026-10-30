@@ -563,7 +563,10 @@
       "household.mortgage": "Mortgage payment",
       "household.everyday-living": "Everyday living",
       "household-purchase": "Purchases"
-    }
+    },
+    "householdCashByMonth": "Your household’s cash at each month’s review",
+    "householdLastMonth": "Your household’s last month",
+    "worth": "Worth"
   },
   "localRaces": {
     "title": "On the ballot",
