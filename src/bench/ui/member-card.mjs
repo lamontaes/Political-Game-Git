@@ -10,7 +10,8 @@ import { partyClass } from "./map.mjs";
 
 /**
  * `person`: { name, line, party, badge, face, onOpen }. `line` is the seat or
- * post in words, `badge` the party's letter.
+ * post in words (or a node: a post underlined as a Guide term), `badge` the
+ * party's letter.
  */
 export function memberCard(person, { large = false } = {}) {
   const face = person.face
@@ -20,15 +21,31 @@ export function memberCard(person, { large = false } = {}) {
   const card = makeButton(
     {
       className: `member-card ${partyClass(person.party)}${large ? " large" : ""}`,
-      title: [person.name, person.line].filter(Boolean).join(", "),
+      title: [
+        person.name,
+        typeof person.line === "string"
+          ? person.line
+          : person.line?.textContent,
+      ]
+        .filter(Boolean)
+        .join(", "),
     },
     face,
     el(
       "span",
       { className: "member-text" },
       el("span", { className: "member-name", textContent: person.name }),
+      // The seat or post in words, or a part another screen drew (a post
+      // underlined as a Guide term).
       ...(person.line
-        ? [el("span", { className: "member-line", textContent: person.line })]
+        ? [
+            typeof person.line === "string"
+              ? el("span", {
+                  className: "member-line",
+                  textContent: person.line,
+                })
+              : el("span", { className: "member-line" }, person.line),
+          ]
         : []),
     ),
     ...(person.badge
