@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: governing/campaign-donor-meetings
 pr: #6869
 blocked-on:
