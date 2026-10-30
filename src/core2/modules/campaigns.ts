@@ -24,8 +24,7 @@ import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
 import { keepsWhy } from "../why-kept";
-import { closenessBetween } from "./people";
-import { ENCOUNTERS } from "../encounters";
+import { closenessBetween, ENCOUNTERS } from "./people";
 import {
   decisionLean,
   decisionTraitWeight,
