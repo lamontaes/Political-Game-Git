@@ -6,12 +6,13 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: cto/menus-who
 pr:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("redesign all the menu screens... So they're not blocks of text anymore with random buttons")
+claimed-at: 2026-10-30T02:05:24.991Z
 ---
 
 **What.** Who you are drew the player's facts as plates in a two-column grid, the household as plain name buttons, and in any life not started from the creator an empty frame where the player's figure should stand, because the screen looked only for a creator portrait or the player standing in their own scene. The owner asked for every menu to be redesigned like Government (Oct 29, 22:45). This item frames the player's figure like the person card's, puts home, work, school and cash on small plates, the household as face cards that open each person, and the player's views as small plates; Jobs and study keeps the same frame.
