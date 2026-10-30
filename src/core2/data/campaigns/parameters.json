@@ -1511,12 +1511,6 @@
       "tag": "TUNABLE",
       "source": "The window of recent cases an official weighs when deciding whether to take on an aide: the office's demand over the last season.",
       "spread": [30, 180]
-    },
-    "causesKeptPerCandidate": {
-      "value": 3,
-      "tag": "TUNABLE",
-      "source": "How many of a closed race's contacts a person in the player's circle keeps as rows per candidate, the latest ones, when the rest fold into a summary (owner, Oct 29: old records fold into summaries; Keep it simple: the circle's why is saved). Enough to answer why someone feels as they do about a candidate with their most recent reasons; the summary keeps every sum the race standing reads.",
-      "spread": [1, 10]
     }
   }
 }
