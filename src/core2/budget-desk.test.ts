@@ -14,7 +14,10 @@ import type { CoreState } from "./types";
 // signature is a public record the press prints. The bench world, a place
 // drawn from all 56 on a seed nobody chose, past the federal budget's October
 // 1 vote.
-const seed = process.env.BUDGET_DESK_SEED ?? randomBytes(8).toString("hex");
+const seed =
+  process.env.BUDGET_DESK_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
 const place = drawPlace(seed, "budget-desk");
 
 describe(`a budget at the executive's desk (${place.name}, seed ${seed})`, () => {
