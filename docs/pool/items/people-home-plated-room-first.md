@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-home-plated-room-first
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T01:45:03.144Z
 ---
 
 **What.** On the opening evening a house's living room is picked from its dwelling's list by household (suburban-house or house-suburban-living, large-house for the top third, a regional house in its states), and only house-suburban-living has a mannequin plate, so in about a third of places the player's family is in the room but nobody is drawn or talkable (people-home-plates; panels.browser.mjs red, Albany, Vermont). Until the art session paints the other plates, the pick should come from the rooms of that list that have a plate, so the household is drawn on the first screen; a dwelling with no plated room keeps its own pictures.
