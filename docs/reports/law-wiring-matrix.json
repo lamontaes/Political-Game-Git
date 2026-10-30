@@ -821,12 +821,12 @@
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:824",
+          "evidence": "src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:830",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 3147835 (control world 8198182) (journal:2025-09-01:63519); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 1194233 (control world 2817824) (journal:2025-10-01:72670); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 8198182 (journal:2025-02-01:7813); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): in force in the control world, posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 2817824 (journal:2025-02-01:8075); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 9 reached, the payments that changed first: 4 accounts.transfer paid in (src/core2/medical-bills.ts:582; e.g. person_0682d579c2eb84c6 on 2025-02-01: -8105 in the control world, -10542 here, journal:2025-02-01:8042); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 26 reached, the payments that changed first: 2 accounts.transfer paid in (src/core2/medical-bills.ts:582; e.g. person_0bbe6a59b6ca584c on 2025-04-01: -15307 in the control world, -23430 here, journal:2025-04-01:23314)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 3147835 (control world 8198182) (journal:2025-09-01:63539); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 1194233 (control world 2817824) (journal:2025-10-01:72670); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 8198182 (journal:2025-02-01:7813); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): in force in the control world, posts citing us-policy-positions:health-human-services.expand-medicaid-eligibility: 2817824 (journal:2025-02-01:8075); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 9 reached, the payments that changed first: 4 accounts.transfer paid in (src/core2/medical-bills.ts:582; e.g. person_0682d579c2eb84c6 on 2025-02-01: -8105 in the control world, -10542 here, journal:2025-02-01:8042); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 26 reached, the payments that changed first: 2 accounts.transfer paid in (src/core2/medical-bills.ts:582; e.g. person_0bbe6a59b6ca584c on 2025-04-01: -15307 in the control world, -23430 here, journal:2025-04-01:23314)",
           "why": ""
         },
         "web": {
@@ -904,7 +904,7 @@
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/law-reach/group-b.ts:293 <- src/core2/modules/budgets.ts:824, src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:824",
+          "evidence": "src/core2/law-reach/group-b.ts:293 <- src/core2/modules/budgets.ts:830, src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:830",
           "why": ""
         },
         "money": {
@@ -919,7 +919,7 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 127 people heard (person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 99 people heard (person_e02fea68a64aaf0b:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 129 people heard (person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 99 people heard (person_e02fea68a64aaf0b:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2)",
           "why": ""
         },
         "repeal": {
@@ -2813,7 +2813,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): the place:2666300 treasury's payments on welfareAndMedicaid, which the raise moved by 10000000: 3891 without the raise, 1831263 with it (journal:2025-02-01:1882); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): the place:3149425 treasury's payments on welfareAndMedicaid, which the raise moved by 10000000: 492121 without the raise, 1200658 with it (journal:2025-02-01:1922)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): the place:2666300 treasury's payments on welfareAndMedicaid, which the raise moved by 10000000: 3888 without the raise, 1829562 with it (journal:2025-02-01:1882); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): the place:3149425 treasury's payments on welfareAndMedicaid, which the raise moved by 10000000: 492121 without the raise, 1200658 with it (journal:2025-02-01:1922)",
           "why": ""
         },
         "web": {
@@ -2823,7 +2823,7 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 123 people heard (person_b2532d2bb80a6385:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:welfareAndMedicaid:law-wiring-380be418); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 101 people heard (person_e02fea68a64aaf0b:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:welfareAndMedicaid:law-wiring-380be418)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 111 people heard (person_b2532d2bb80a6385:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:welfareAndMedicaid:law-wiring-380be418); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 101 people heard (person_e02fea68a64aaf0b:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:welfareAndMedicaid:law-wiring-380be418)",
           "why": ""
         },
         "repeal": {

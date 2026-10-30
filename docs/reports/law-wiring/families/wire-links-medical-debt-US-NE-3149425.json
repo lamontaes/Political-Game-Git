@@ -146,8 +146,8 @@
           },
           {
             "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-            "treatment": 542213356,
-            "control": 538404665,
+            "treatment": 542213548,
+            "control": 538404761,
             "ids": [
               "journal:2025-01-27:1643",
               "journal:2025-01-28:1648",
@@ -211,7 +211,7 @@
             ]
           }
         ],
-        "diffKinds": 35,
+        "diffKinds": 36,
         "cited": [
           {
             "token": "medicaid-match",
@@ -287,7 +287,7 @@
               ]
             },
             {
-              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
               "way": "out",
               "targets": 1,
               "moved": 6245,
@@ -297,7 +297,7 @@
                   "target": "US",
                   "row": "applied|medicaid-match|US",
                   "date": "2025-04-14",
-                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
                   "way": "out",
                   "treatment": 50779,
                   "control": 57024,
@@ -325,7 +325,7 @@
               ]
             },
             {
-              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
               "way": "in",
               "targets": 1,
               "moved": 1748,
@@ -335,7 +335,7 @@
                   "target": "US",
                   "row": "applied|medicaid-match|US",
                   "date": "2025-04-28",
-                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
                   "way": "in",
                   "treatment": 46865,
                   "control": 45117,
@@ -436,7 +436,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 72
+      "seconds": 76
     },
     {
       "key": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
@@ -511,11 +511,11 @@
         "src/core2/modules/outcome-web.ts:216": 1130,
         "src/core2/modules/legislature.ts:3847": 492,
         "src/core2/modules/legislature.ts:2669": 266,
-        "src/core2/modules/world-legislating.ts:299": 154,
-        "src/core2/modules/world-legislating.ts:229": 90,
-        "src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:824": 32,
+        "src/core2/modules/world-legislating.ts:301": 154,
+        "src/core2/modules/world-legislating.ts:231": 90,
+        "src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:830": 32,
         "src/core2/life.ts:565": 10,
-        "src/core2/modules/world-legislating.ts:384": 4,
+        "src/core2/modules/world-legislating.ts:386": 4,
         "src/core2/law-reach/group-b.ts:236 <- src/core2/life.ts:565": 4,
         "src/core2/modules/legislature.ts:5130": 1
       },
@@ -545,8 +545,8 @@
           },
           {
             "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-            "treatment": 540802415,
-            "control": 538404665,
+            "treatment": 540752865,
+            "control": 538404761,
             "ids": [
               "journal:2025-01-27:1643",
               "journal:2025-01-28:1648",
@@ -604,16 +604,6 @@
             ]
           },
           {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
-            "treatment": 3203083648,
-            "control": 3202768082,
-            "ids": [
-              "journal:2025-01-27:1644",
-              "journal:2025-01-28:1649",
-              "journal:2025-01-28:1652"
-            ]
-          },
-          {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
             "treatment": 166870453511541,
             "control": 166870453825441,
@@ -621,6 +611,16 @@
               "journal:2025-02-01:1742",
               "journal:2025-02-01:1743",
               "journal:2025-02-01:1744"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
+            "treatment": 3203072603,
+            "control": 3202768102,
+            "ids": [
+              "journal:2025-01-27:1644",
+              "journal:2025-01-28:1649",
+              "journal:2025-01-28:1652"
             ]
           },
           {
@@ -825,7 +825,7 @@
               ]
             },
             {
-              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
               "way": "in",
               "targets": 2,
               "moved": 67873,
@@ -835,7 +835,7 @@
                   "target": "person_00dcb5d84e33b676",
                   "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_00dcb5d84e33b676",
                   "date": "2025-12-11",
-                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
                   "way": "in",
                   "treatment": -2282,
                   "control": 0,
@@ -845,7 +845,7 @@
                   "target": "person_163e4199798d4be4",
                   "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_163e4199798d4be4",
                   "date": "2025-12-13",
-                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
                   "way": "in",
                   "treatment": -65591,
                   "control": 0,
@@ -1283,7 +1283,7 @@
         "ended": 2,
         "sample": []
       },
-      "seconds": 68
+      "seconds": 74
     },
     {
       "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
@@ -1347,13 +1347,13 @@
         "src/core2/modules/legislature.ts:2669": 1346,
         "src/core2/modules/legislature.ts:3847": 420,
         "src/core2/modules/outcome-web.ts:216": 414,
-        "src/core2/modules/world-legislating.ts:299": 288,
-        "src/core2/modules/world-legislating.ts:229": 90,
-        "src/core2/law-reach/group-b.ts:293 <- src/core2/modules/budgets.ts:824": 32,
+        "src/core2/modules/world-legislating.ts:301": 288,
+        "src/core2/modules/world-legislating.ts:231": 90,
+        "src/core2/law-reach/group-b.ts:293 <- src/core2/modules/budgets.ts:830": 32,
         "src/core2/life.ts:565": 10,
-        "src/core2/modules/world-legislating.ts:384": 8,
-        "src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:824": 8,
-        "src/core2/modules/world-legislating.ts:674": 3,
+        "src/core2/modules/world-legislating.ts:386": 8,
+        "src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:830": 8,
+        "src/core2/modules/world-legislating.ts:676": 3,
         "src/core2/law-reach/group-b.ts:293 <- src/core2/life.ts:565": 2,
         "src/core2/modules/legislature.ts:5130": 1
       },
@@ -1442,16 +1442,6 @@
             ]
           },
           {
-            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:2711",
-            "treatment": 760000,
-            "control": 755800,
-            "ids": [
-              "journal:2026-01-03:99203",
-              "journal:2026-01-03:99204",
-              "journal:2026-01-03:99205"
-            ]
-          },
-          {
             "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
             "treatment": 73879853,
             "control": 73882777,
@@ -1479,6 +1469,16 @@
               "journal:2025-02-01:1730",
               "journal:2025-02-01:1731",
               "journal:2025-02-01:1732"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+            "treatment": 18134668,
+            "control": 18132046,
+            "ids": [
+              "journal:2025-02-01:2095",
+              "journal:2025-02-01:2096",
+              "journal:2025-02-01:2098"
             ]
           }
         ],
@@ -1576,7 +1576,7 @@
               ]
             },
             {
-              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
               "way": "out",
               "targets": 1,
               "moved": 270,
@@ -1586,7 +1586,7 @@
                   "target": "person_163e4199798d4be4",
                   "row": "applied|us-policy-positions:health-human-services.medicaid-work-requirement|person_163e4199798d4be4",
                   "date": "2025-08-23",
-                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
                   "way": "out",
                   "treatment": -36520,
                   "control": -36790,
@@ -1780,7 +1780,7 @@
         "ended": 3,
         "sample": []
       },
-      "seconds": 66
+      "seconds": 73
     },
     {
       "key": "budget-line:welfareAndMedicaid",
@@ -1897,8 +1897,8 @@
           },
           {
             "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-            "treatment": 544134969,
-            "control": 538404665,
+            "treatment": 544116201,
+            "control": 538404761,
             "ids": [
               "journal:2025-01-27:1643",
               "journal:2025-01-28:1648",
@@ -1937,7 +1937,7 @@
           },
           {
             "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
-            "treatment": 2820636156,
+            "treatment": 2820635868,
             "control": 2816112152,
             "ids": [
               "journal:2025-01-25:1624",
@@ -2282,7 +2282,7 @@
         "ended": 1,
         "sample": []
       },
-      "seconds": 74
+      "seconds": 77
     }
   ]
 }
