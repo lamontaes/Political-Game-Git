@@ -5,7 +5,12 @@
 // Prints the furthest step reached. Usage: node --import tsx src/bench/path-check.ts
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
-import { ballotOf, countedBallotsOf, resultOf } from "../core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  ballotOf,
+  countedBallotsOf,
+  resultOf,
+} from "../core2/modules/voting";
 import { committeeRecords } from "../core2/modules/legislature";
 import { billTally } from "./bill-tally";
 import { buildBenchWorld } from "./world";
@@ -335,6 +340,52 @@ function stand(): { held: boolean; takesOffice: string | null } {
     log.push(
       `TALLY ${enterable.contest.title} totals[${fmt(result.totals)}] named[${fmt(result.namedVotes)}] counted[${fmt(result.countedVotes)}] namedTurnout ${result.namedTurnout}/${result.namedEligible} counted ${result.countedTurnout}/${result.countedEligible}`,
     );
+  }
+  // APPEAL: each part of the appeal, averaged over the voters who turned out,
+  // for the player and the leading rival (scratch measurement only).
+  if (result) {
+    const api = coreAPI(w.core);
+    const cid = enterable.contest.id;
+    const rival = Object.entries(result.totals)
+      .filter(([id]) => id !== me && id !== filing?.id)
+      .sort((x, y) => y[1] - x[1])[0]?.[0];
+    const mean = (
+      rows: readonly {
+        weight: number;
+        appeal: Readonly<Record<string, unknown>> | undefined;
+      }[],
+    ) => {
+      const sums: Record<string, number> = {};
+      let total = 0;
+      for (const r of rows) {
+        if (!r.appeal) continue;
+        total += r.weight;
+        for (const [k, v] of Object.entries(r.appeal))
+          if (typeof v === "number") sums[k] = (sums[k] ?? 0) + v * r.weight;
+      }
+      return Object.entries(sums)
+        .map(([k, v]) => `${k}=${(v / Math.max(1e-9, total)).toFixed(3)}`)
+        .join(" ");
+    };
+    const namedVoted = (
+      api
+        .moduleState(VOTING_MODULE_ID)
+        .table("ballots")
+        .query("byContest", [cid]) as unknown as {
+        voted: boolean;
+        appeal: Record<string, Record<string, unknown>>;
+      }[]
+    ).filter((b) => b.voted);
+    const countedKept = countedBallotsOf(api, cid);
+    for (const [who, id] of [
+      ["ME", me],
+      ["RIVAL", rival],
+    ] as const) {
+      if (!id) continue;
+      log.push(
+        `APPEAL ${who}${who === "RIVAL" ? `(${id.slice(-6)})` : ""} named(${namedVoted.length}) ${mean(namedVoted.map((b) => ({ weight: 1, appeal: b.appeal[id] })))} | counted ${mean(countedKept.map((b) => ({ weight: (b.weight ?? 1) * b.turnout, appeal: b.appeal[id] as unknown as Record<string, unknown> })))}`,
+      );
+    }
   }
   log.push(
     `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}`,
