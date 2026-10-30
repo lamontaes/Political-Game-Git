@@ -220,14 +220,25 @@ function stand(): { held: boolean; takesOffice: string | null } {
   // same clock the play screen spends them from.
   const day = enterable.contest.electionDate;
   if (filing) {
-    const week = { doors: 0, reached: 0, raised: 0, events: 0, weeks: 0 };
+    const week = {
+      doors: 0,
+      reached: 0,
+      raised: 0,
+      events: 0,
+      forums: 0,
+      donorMeetings: 0,
+      weeks: 0,
+    };
     while (addDays(makeIsoDate(w.core.date), 7) <= day) {
+      // A forum one week and a donor meeting the next, where the campaign
+      // can hold them.
       for (const kind of [
         "canvass",
         "canvass",
         "raise-money",
         "canvass",
         "event",
+        week.weeks % 2 ? "donor-meeting" : "forum",
       ]) {
         const choice = campaignDayChoices(coreAPI(w.core), filing.id).find(
           (c) => c.kind === kind,
@@ -238,6 +249,8 @@ function stand(): { held: boolean; takesOffice: string | null } {
         week.reached += out.reached;
         week.raised += out.raisedMinor;
         if (kind === "event") week.events += 1;
+        if (kind === "forum") week.forums += 1;
+        if (kind === "donor-meeting") week.donorMeetings += 1;
         player.spend(out.hours);
       }
       week.weeks += 1;
@@ -248,7 +261,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
       .table("pledges")
       .query("byCandidate", [me]) as unknown as { contestId: string }[];
     log.push(
-      `campaign ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised $${Math.round(week.raised / 100)}, events ${week.events}, door yes ${pledged.filter((p) => p.contestId === enterable.contest.id).length}`,
+      `campaign ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised $${Math.round(week.raised / 100)}, events ${week.events}, forums ${week.forums}, donor meetings ${week.donorMeetings}, door yes ${pledged.filter((p) => p.contestId === enterable.contest.id).length}`,
     );
   }
   // Step 5: live to the election day, then read election night.
