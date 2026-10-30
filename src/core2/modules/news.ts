@@ -33,6 +33,7 @@ import {
   decisionTraitWeight,
   reportOutcome,
 } from "../trait-decisions";
+import { traitProbe } from "../trait-probe";
 import { VIEWS_SPEAKER_KEY, viewOf, viewOn } from "./views";
 import { conditionQuestions, measureOfFactKey } from "../outcome-news";
 
@@ -81,15 +82,20 @@ export function storiesOwedAtContact(
 ): number {
   const lean = teller ? passOnLean(api, teller) : api.parameter("zero");
   const term = decisionTraitWeight(api.state, "news.pass-on") * lean;
-  const owed = (traitTerm: number) =>
-    n(api, "newsStoriesPerContact") *
-    Math.max(api.parameter("zero"), api.parameter("one") + traitTerm);
   // The audit's probe (off in play) sees the stories owed with and without the trait term.
-  if (teller)
+  if (teller && traitProbe()?.outcome)
     reportOutcome("news.pass-on", teller.id, lean, "size", (withTerm) =>
-      owed(withTerm ? term : api.parameter("zero")),
+      owedStories(api, withTerm ? term : api.parameter("zero")),
     );
-  return owed(term);
+  return owedStories(api, term);
+}
+
+/** The usual stories owed at a contact, times one plus the trait term, never below none. */
+function owedStories(api: CoreAPI, traitTerm: number): number {
+  return (
+    n(api, "newsStoriesPerContact") *
+    Math.max(api.parameter("zero"), api.parameter("one") + traitTerm)
+  );
 }
 
 /** The whole stories a teller passes at this contact, carrying the rest. */
@@ -330,7 +336,11 @@ function addRecent(
     recent.oldestHeard = entry.heardDate;
 }
 
-/** The person's recent entries pruned to `since`, newest first. */
+/**
+ * The person's recent entries pruned to `since`, newest first: what telling
+ * walks, the same stories in the same order as `storiesHeard` up to its first
+ * story older than the story life. A story is fetched only when it is told.
+ */
 function recentList(
   api: CoreAPI,
   personId: PersonId,
@@ -364,30 +374,6 @@ function recentList(
   return recent.list;
 }
 
-/**
- * The stories a person heard since `since` whose own date is on or after it,
- * newest first: the same list and order as `storiesHeard` up to its first
- * story older than the story life. Read one at a time, as telling needs them.
- */
-function* recentStoriesHeard(
-  api: CoreAPI,
-  personId: PersonId,
-  since: string,
-): Iterable<Story> {
-  const table = stories(api);
-  for (const row of recentList(api, personId, since))
-    yield table.get(row.storyId) as unknown as Story;
-}
-
-/** Whether the person is known to have heard a recent story (the table has the rest). */
-function heardRecently(
-  api: CoreAPI,
-  personId: PersonId,
-  storyId: string,
-): boolean {
-  return recentOf(api).get(personId)?.ids.has(storyId) ?? false;
-}
-
 /** How many stories each person has heard, rebuilt from the table when first read. */
 const heardCounts = new WeakMap<object, Map<PersonId, number>>();
 function countsOf(api: CoreAPI): Map<PersonId, number> {
@@ -415,8 +401,9 @@ function hear(
   on: string = api.state.date,
 ): boolean {
   const id = `${personId}:${story.id}`;
-  if (heard(api).get(id)) return false;
-  heard(api).put({ id, personId, storyId: story.id, date: on });
+  const heardTable = heard(api);
+  if (heardTable.get(id)) return false;
+  heardTable.put({ id, personId, storyId: story.id, date: on });
   addRecent(recentOf(api), personId, {
     storyId: story.id,
     storyDate: story.date,
@@ -427,17 +414,29 @@ function hear(
     personId,
     (counts.get(personId) ?? api.parameter("zero")) + api.parameter("one"),
   );
-  const learned = (key: string, value: string) =>
+  const key = newsKey(story.id);
+  api.observe(personId, {
+    key,
+    value: story.kind,
+    learnedAt: on,
+    sourceId,
+    access,
+  });
+  api.observe(personId, {
+    key: `${key}:outlet`,
+    value: story.outletId,
+    learnedAt: on,
+    sourceId,
+    access,
+  });
+  for (const [factKey, value] of Object.entries(story.facts))
     api.observe(personId, {
-      key,
+      key: factKey,
       value,
       learnedAt: on,
       sourceId,
       access,
     });
-  learned(newsKey(story.id), story.kind);
-  learned(`${newsKey(story.id)}:outlet`, story.outletId);
-  for (const [key, value] of Object.entries(story.facts)) learned(key, value);
   for (const key of Object.keys(story.facts)) {
     const measure = measureOfFactKey(key);
     const row = `${story.placeId}:${measure}`;
@@ -569,15 +568,19 @@ export function printStory(
 }
 
 /**
- * The news module. `tellable` lists what a teller can pass on, newest first;
- * tests swap in the full rescan (`storiesHeard`) to check both tell the same.
+ * The news module. `tellable` lists the stories a teller can pass on, each
+ * by its id and date, newest first; tests swap in the full rescan
+ * (`storiesHeard`) to check both tell the same.
  */
 export function createNewsModule(
   tellable: (
     api: CoreAPI,
     personId: PersonId,
     since: string,
-  ) => Iterable<Story> = recentStoriesHeard,
+  ) => Iterable<{
+    readonly storyId: string;
+    readonly storyDate: string;
+  }> = recentList,
 ): CoreModule {
   return {
     id: NEWS_MODULE_ID,
@@ -621,15 +624,18 @@ export function createNewsModule(
       if (notice.date !== api.state.date) return;
       const counts = countsOf(api);
       if (!counts.get(notice.actorId) && !counts.get(notice.otherId)) return;
+      const recents = recentOf(api);
+      const refusals = refused(api);
+      const table = stories(api);
       const maxAge = n(api, "newsMaxAgeDays");
       // A story still fresh today was heard on or after its own date, so only
       // what the teller heard within the story life is read (same order).
       const since = addDays(makeIsoDate(api.state.date), -maxAge);
-      const fresh = (story: Story) => story.date >= since;
-      for (const [teller, listener] of [
-        [notice.actorId, notice.otherId],
-        [notice.otherId, notice.actorId],
-      ] as const) {
+      const { actorId, otherId } = notice;
+      // Each tells the other in turn, the actor first.
+      for (let turn = 0; turn < 2; turn++) {
+        const teller = turn === 0 ? actorId : otherId;
+        const listener = turn === 0 ? otherId : actorId;
         // How many stories they pass on leans on every trait they have.
         const tellerPerson = api.state.people.get(teller);
         const toTell = storiesToTell(
@@ -637,6 +643,8 @@ export function createNewsModule(
           teller,
           storiesOwedAtContact(api, tellerPerson),
         );
+        // Nothing owed at this contact: the telling would stop at once.
+        if (toTell <= api.parameter("zero")) continue;
         // Whether the listener takes a told story in is theirs to decide:
         // the benefit of the doubt, more for a teller they are close to and
         // a story that argues as they already lean, against their own lean
@@ -644,12 +652,13 @@ export function createNewsModule(
         const listenerPerson = api.state.people.get(listener);
         const believed = new Map<string, boolean>();
         let passed = api.parameter("zero");
-        for (const story of tellable(api, teller, since)) {
-          if (passed >= toTell || !fresh(story)) break;
+        for (const entry of tellable(api, teller, since)) {
+          if (passed >= toTell || entry.storyDate < since) break;
           // Already heard: hear() would refuse it too, without the lookup.
-          if (heardRecently(api, listener, story.id)) continue;
-          const refusal = `${listener}:${story.id}`;
-          if (refused(api).has(refusal)) continue;
+          if (recents.get(listener)?.ids.has(entry.storyId)) continue;
+          const refusal = `${listener}:${entry.storyId}`;
+          if (refusals.has(refusal)) continue;
+          const story = table.get(entry.storyId) as unknown as Story;
           const side = `${story.topic ?? ""}|${story.desiredChange ?? ""}`;
           let believes = believed.get(side);
           if (believes === undefined) {
@@ -668,7 +677,7 @@ export function createNewsModule(
           }
           if (!believes) {
             // Told, and not taken in; the paper can still reach them.
-            refused(api).add(refusal);
+            refusals.add(refusal);
             passed += api.parameter("one");
           } else if (hear(api, listener, story, "told", notice.relationshipId))
             passed += api.parameter("one");
