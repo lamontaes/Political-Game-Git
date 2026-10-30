@@ -2582,27 +2582,16 @@ body.dev .dev-ring {
 .people-key .household::before {
   border-top-style: dashed;
 }
-.people-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+/* The list of everyone you know: face cards across the area, paged. */
+.relationship-web.people-list {
+  height: auto;
+  min-height: 0;
 }
-#sheet-body .people-list .people-node {
-  position: static;
-  transform: none;
-  width: auto;
-  grid-template-columns: 48px 1fr;
-  text-align: left;
-  justify-items: start;
-}
-.people-list .people-node > :first-child {
-  grid-row: span 2;
-  order: 0;
-}
-.people-list .people-node img,
-.people-list .headshot {
-  width: 48px;
-  height: 48px;
+.people-list .member-card.on {
+  border-color: rgba(214, 189, 132, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(214, 189, 132, 0.35),
+    0 0 12px rgba(214, 189, 132, 0.2);
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
@@ -2896,19 +2885,6 @@ details.entry[open] {
   margin-top: 2px;
   font-size: 0.85em;
   opacity: 0.8;
-}
-
-.people-node .circle-mark {
-  font: 600 12px var(--ui);
-  font-style: normal;
-  color: var(--gold);
-}
-.people-node.circle-left {
-  opacity: 0.7;
-}
-.people-selection .circle-why,
-.people-selection .circle-none {
-  color: var(--gold);
 }
 
 /* Advanced: the officeholders to play as, a button each. */
