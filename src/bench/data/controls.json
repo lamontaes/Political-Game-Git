@@ -301,15 +301,7 @@
     "today": "Today",
     "upcoming": "Coming up",
     "advance": "Live until this day",
-    "weekdays": [
-      "Sun",
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat"
-    ]
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
   "party": {
     "join": "Join",
@@ -478,13 +470,7 @@
       "Friday",
       "Saturday"
     ],
-    "ordinals": [
-      "1st",
-      "2nd",
-      "3rd",
-      "4th",
-      "5th"
-    ],
+    "ordinals": ["1st", "2nd", "3rd", "4th", "5th"],
     "nextMeeting": "next meeting {date}",
     "nextElection": "next election {date}",
     "seatsTotal": "{n} seats",
