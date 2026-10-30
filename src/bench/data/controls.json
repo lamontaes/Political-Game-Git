@@ -432,7 +432,7 @@
     },
     "issueSetBy": {
       "federal": "Federal law",
-      "state": "State law",
+      "state": "{level} law",
       "county": "County law",
       "city": "City law"
     },
