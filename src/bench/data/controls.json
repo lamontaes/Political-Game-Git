@@ -606,6 +606,35 @@
   "seat": {
     "draft": "Draft"
   },
+  "journal": {
+    "title": "My life",
+    "chapter": "Chapter {n}",
+    "numbers": [
+      "one",
+      "two",
+      "three",
+      "four",
+      "five",
+      "six",
+      "seven",
+      "eight",
+      "nine",
+      "ten",
+      "eleven",
+      "twelve",
+      "thirteen",
+      "fourteen",
+      "fifteen",
+      "sixteen",
+      "seventeen",
+      "eighteen",
+      "nineteen",
+      "twenty"
+    ],
+    "previous": "Earlier chapter",
+    "next": "Later chapter",
+    "page": "{page} of {pages}"
+  },
   "titles": {
     "people": "People",
     "who": "Who you are",

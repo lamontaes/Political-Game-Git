@@ -50,6 +50,7 @@ import {
 } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
+import { journalPage } from "./ui/journal-page.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { listScreen } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
@@ -2542,20 +2543,16 @@ const sheets = {
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
-    // One story from birth, a paragraph to each turn of the life, with no
-    // heading over any part of it (owner, Oct 27: "written like a story,
-    // not individual sections... from birth"; "remove all those
-    // subheadings").
-    return recordScreen({
-      sections: [
-        {
-          items: chapters.map((c) => ({
-            text: c.lines.map((l) => l.text).join(" "),
-            tone: "narrative",
-          })),
-        },
-      ],
-    });
+    // One story from birth, a page to each chapter of the life, with no heading over any
+    // part of it (owner, Oct 27: "written like a story, not individual sections... from
+    // birth"; "remove all those subheadings").
+    return [
+      journalPage({
+        chapters,
+        labels: controls.journal,
+        yearOf: (iso) => iso.slice(0, 4),
+      }),
+    ];
   },
   async handoff() {
     const people = [

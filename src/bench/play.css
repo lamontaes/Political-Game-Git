@@ -4070,3 +4070,50 @@ details.entry[open] {
   margin: 0;
   font: 600 18px/1 var(--ui);
 }
+
+/* The journal, to its mock: one cream page of story, paged by chapter under it. */
+#sheet-body:has(.journal-screen) {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+}
+.journal-screen {
+  flex: 1;
+  padding: 14px 0 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+.journal-page {
+  flex: 1;
+  min-height: 420px;
+  overflow: hidden;
+  padding: 34px 48px;
+  background: var(--paper-cream, #efe4c8);
+  color: var(--paper-ink, #1f1b14);
+  box-shadow: inset 0 0 40px rgba(120, 90, 40, 0.18);
+  font: 18px/1.7 var(--speech);
+}
+.journal-page h2 {
+  margin: 0;
+  text-align: center;
+  font: 700 30px var(--name);
+  color: var(--paper-ink, #1f1b14);
+}
+.journal-page .journal-chapter {
+  margin: 6px 0 0;
+  text-align: center;
+  font-style: italic;
+  opacity: 0.75;
+}
+.journal-page hr {
+  width: 70px;
+  margin: 16px auto 22px;
+  border: 0;
+  border-top: 1px solid var(--paper-rule, rgba(31, 27, 20, 0.38));
+}
+.journal-page p:not(.journal-chapter) {
+  margin: 0 0 14px;
+  text-indent: 1.6em;
+}
