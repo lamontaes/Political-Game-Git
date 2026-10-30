@@ -60,8 +60,37 @@ const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-day:${Date.now()}`).digest("hex");
 
+/** How many places setup draws (seed, seed:1, ...) before it gives up. */
+const DRAWS = 12;
+
+// A drawn place can hold no race the player may enter (for a forum, no town or
+// county race takes any of its wealthiest local adults), so the run seed is
+// redrawn (seed, seed:1, ...) from all 56 until the player can file, as
+// seat-leavings does; the place and draw seed used are named, and when no draw
+// files, every place tried is.
 function setup(options: { meetings?: boolean; local?: boolean } = {}) {
-  const place = drawPlace(runSeed, "campaign-day");
+  const tried: string[] = [];
+  for (let redraw = 0; ; redraw += 1) {
+    const drawSeed = redraw ? `${runSeed}:${redraw}` : runSeed;
+    const { drew, ...drawn } = setupDraw(drawSeed, options);
+    if (drawn.filing)
+      return tried.length
+        ? {
+            ...drawn,
+            where: `${drawn.where}; redrawn after ${tried.join("; ")}`,
+          }
+        : drawn;
+    tried.push(drew);
+    if (redraw === DRAWS - 1)
+      return { ...drawn, where: `every place tried: ${tried.join("; ")}` };
+  }
+}
+
+function setupDraw(
+  drawSeed: string,
+  options: { meetings?: boolean; local?: boolean },
+) {
+  const place = drawPlace(drawSeed, "campaign-day");
   const core = createLifeCore(
     buildPopulation({
       seed: place.seed,
@@ -80,7 +109,7 @@ function setup(options: { meetings?: boolean; local?: boolean } = {}) {
   openPress(core);
   if (options.meetings) openMeetings(core);
   const api = coreAPI(core);
-  const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
+  const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, draw seed ${drawSeed}, place seed ${place.seed}`;
   // The player is the wealthiest adult old enough to file for something
   // (for a town or county race, one who lives in the town).
   const town = lawChain(api).townPlaceId;
@@ -117,7 +146,8 @@ function setup(options: { meetings?: boolean; local?: boolean } = {}) {
     }
     if (filing) break;
   }
-  return { core: core as CoreState, api, filing, where };
+  const drew = `${place.name}, ${place.state} (${place.key}), draw seed ${drawSeed}`;
+  return { core: core as CoreState, api, filing, where, drew };
 }
 
 describe("a campaign day", () => {
