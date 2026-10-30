@@ -6,12 +6,13 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: cto/menus-patch-notes
+pr: #6900
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("So they're not blocks of text anymore with random buttons"; menus never scroll as a page)
+claimed-at: 2026-10-30T03:45:47.433Z
 ---
 
 **What.** Patch notes prints all 164 releases as plates of paragraphs down one panel, and the panel scrolls about 360,000 pixels. Each change's bold headline is fused into its text ("Nobody writes on their own lap People drawn writing..."), because the parser drops the bold marks. This item shows one release at a time, chosen from a list of releases, newest first: its changes as headline cards on a plate, paged, and the chosen change's full text beside them with its group (Added, Improved, Fixed). The parser keeps each bullet's bold lead as the change's headline.
