@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/petition-cushion
 pr:
 blocked-on:
