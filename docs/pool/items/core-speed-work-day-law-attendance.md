@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-work-day
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T08:02:21.707Z
 ---
 
 **What.** Every paycheck's Social Security, Medicare and unemployment shares (src/core2/modules/employer-taxes.ts) and every resident's local tax (src/core2/modules/budgets.ts residentLaw) ask the laws engine which law is in force, though the answer changes only when the laws table is written or the day changes. The work engine (src/core2/modules/work.ts) walks every module for an attendance hook that none defines, and src/core2/work-attendance.ts runs ownership checks and copies kept only for the guards. Both run for every worker every working day.
