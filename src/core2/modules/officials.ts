@@ -1000,11 +1000,26 @@ export function holderOf(api: CoreAPI, term: TermRow): TermRow {
     ...unrecordedParty(api, term, office.kind, stateKey),
     termYears: office.termYears,
     // As the opening reads a seated holder (`specs`): their unbroken
-    // service, and the seat's own recorded election.
+    // service, and the seat's own recorded election (an office's cycle year
+    // read at the opening carried forward by whole terms to today).
     serviceStart: term.serviceStart ?? term.startDate,
-    nextElectionYear: seat?.electionYear ?? office.nextElectionYear ?? null,
+    nextElectionYear: cycleFrom(
+      seat?.electionYear ?? office.nextElectionYear,
+      office.termYears,
+      Number(api.state.date.slice(0, 4)),
+    ),
   });
   return { ...term, personId: row.id };
+}
+
+/** A recorded election year moved forward by whole terms to `year` or later (undefined where none is recorded). */
+function cycleFrom(
+  recorded: number | undefined,
+  termYears: number | null,
+  year: number,
+): number | undefined {
+  if (recorded === undefined || !termYears || recorded >= year) return recorded;
+  return recorded + Math.ceil((year - recorded) / termYears) * termYears;
 }
 
 /**

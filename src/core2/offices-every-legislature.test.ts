@@ -314,6 +314,13 @@ it(`every other place's chambers, governor and statewide executives sit as named
   const races = new Map(
     racesOf(api).map((race) => [race.seatId, race] as const),
   );
+  // A term won in the year that begins just after it (a governor
+  // inaugurated in late January): run on to the morning after the last.
+  const lastSeating = up
+    .map(({ seat }) => races.get(seat.id)?.seatedOn ?? "")
+    .reduce((a, b) => (a > b ? a : b), "");
+  if (lastSeating >= core.date)
+    advanceCore(core, addDays(lastSeating as typeof core.date, 1));
   const seated: string[] = [];
   const changed: string[] = [];
   for (const { seat, office, before } of up) {
@@ -322,9 +329,6 @@ it(`every other place's chambers, governor and statewide executives sit as named
       race,
       `${where}: ${seat.id} up in ${opensIn} was not raced`,
     ).toBeDefined();
-    // Seated the morning of the term's first day; one not begun by the last
-    // day run is left to the next year.
-    if (race!.seatedOn >= core.date) continue;
     const [term] = servingOn(seat.id);
     expect(term, `${where}: ${seat.id} after ${race!.id}`).toBeDefined();
     expect(term!.party, `${where}: ${term!.id} from ${race!.id}`).toBe(
