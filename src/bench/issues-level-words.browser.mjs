@@ -1,4 +1,4 @@
-/* global process, console, document, URL, URLSearchParams */
+/* global process, console, document, URLSearchParams */
 // Politics > Issues names the state level by what the place calls its laws (Commonwealth,
 // Territory, District or State), from the place's own data, on every card and law page.
 // A drawn place by default; PLACE_KEY opens a named one. BENCH_SEED replays a world.
@@ -52,26 +52,31 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Issues", exact: true })
     .click();
-  await page.locator("details.entry").first().waitFor();
+  await page.locator("button.entry").first().waitFor();
+  const wordsOf = (text) =>
+    [...text.matchAll(/\b([A-Z]\w+) law\b/g)].map((m) => m[1]);
   const seen = new Set();
-  for (const card of await page.locator("details.entry").all()) {
-    await card.locator("summary").click();
-    const text = await card.innerText();
-    for (const m of text.matchAll(/\b(\w+) law\b/g)) seen.add(m[1]);
-    if (shots && seen.size === 1 && !process.env.SHOT_DONE) {
-      process.env.SHOT_DONE = "1";
-      await page.screenshot({
-        path: `${shots}/${process.env.SHOT_NAME ?? "after"}-issues.png`,
-      });
-    }
-  }
+  for (const line of await page.locator(".entry-line").allInnerTexts())
+    wordsOf(line).forEach((w) => seen.add(w));
+  if (shots)
+    await page.screenshot({
+      path: `${shots}/${process.env.SHOT_NAME ?? "after"}-issues.png`,
+    });
+  // The law page of the first card names its levels the same way.
+  await page.locator("button.entry").first().click();
+  await page.waitForTimeout(1500);
+  const lawPage = await page.locator("#sheet-body").innerText();
+  const onPage = wordsOf(lawPage);
+  onPage.forEach((w) => seen.add(w));
+  assert.ok(onPage.length > 0, "the law page names no level");
+  if (shots)
+    await page.screenshot({
+      path: `${shots}/${process.env.SHOT_NAME ?? "after"}-law-page.png`,
+    });
   console.log("level words on the cards:", [...seen].join(", "));
   if (word !== "State")
     assert.ok(!seen.has("State"), `"State law" shown in ${gov.homeState.name}`);
-  assert.ok(
-    seen.has(word) || seen.size === 0,
-    `no card says "${word} law": ${[...seen]}`,
-  );
+  assert.ok(seen.has(word), `no card says "${word} law": ${[...seen]}`);
   assert.deepEqual(errors, []);
   console.log(`PASS Issues says "${word} law" for ${gov.homeState.name}`);
 } finally {
