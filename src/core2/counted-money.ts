@@ -74,6 +74,20 @@ export function peopleInGroup(rt: ResidentsRuntime, group: number): number {
   return n;
 }
 
+/** Whether a place has counted groups with people (`placeWeights` is not empty), kept with `groupPeople`. */
+export function placeHasGroups(
+  rt: ResidentsRuntime,
+  placeId: PlaceId,
+): boolean {
+  const people = groupPeople(rt);
+  const held = rt.moneyCache.places;
+  if (held && held.of === people) return held.set.has(placeId);
+  const set = new Set<string>();
+  for (const g of people.keys()) set.add(rt.store.groups[g]!.placeId);
+  rt.moneyCache.places = { of: people, set };
+  return set.has(placeId);
+}
+
 /** The place's groups weighted by their people: who shares a bill nobody keyed. */
 export function placeWeights(
   rt: ResidentsRuntime,
@@ -113,17 +127,45 @@ export function countedHouseholdStands(
     : undefined;
 }
 
-/** The counted household a flow part belongs to, from its key. */
+/**
+ * Each flow part's household index (-1 for none), kept until a household is
+ * added: the id and contract indexes are written only beside a new household.
+ */
+const partIndex = new WeakMap<
+  readonly CountedHousehold[],
+  { length: number; income: Map<string, number>; ix: Map<string, number> }
+>();
+
+/** The counted household a flow part belongs to, from its key (gone ones too: `add` skips them). */
 function partHousehold(
   rt: ResidentsRuntime,
   key: string,
 ): CountedHousehold | undefined {
-  const at = key.indexOf(":");
-  const prefix = at < 0 ? "" : key.slice(0, at);
-  if (prefix === "hh" || prefix === "household" || prefix === "mortgage")
-    return householdById(rt, key.slice(at + 1));
-  const income = rt.incomeContractHousehold.get(key);
-  return income === undefined ? undefined : rt.store.households[income];
+  const households = rt.store.households;
+  let memo = partIndex.get(households);
+  if (
+    !memo ||
+    memo.length !== households.length ||
+    memo.income !== rt.incomeContractHousehold
+  ) {
+    memo = {
+      length: households.length,
+      income: rt.incomeContractHousehold,
+      ix: new Map(),
+    };
+    partIndex.set(households, memo);
+  }
+  let ix = memo.ix.get(key);
+  if (ix === undefined) {
+    const at = key.indexOf(":");
+    const prefix = at < 0 ? "" : key.slice(0, at);
+    ix =
+      prefix === "hh" || prefix === "household" || prefix === "mortgage"
+        ? (rt.store.householdOf.get(key.slice(at + 1)) ?? -1)
+        : (rt.incomeContractHousehold.get(key) ?? -1);
+    memo.ix.set(key, ix);
+  }
+  return ix < 0 ? undefined : households[ix];
 }
 
 /**
@@ -237,8 +279,8 @@ function weighFlow(rt: ResidentsRuntime, flow: SplitFlow): Weighed {
       );
     }
   } else if (flow.amountByContract) {
-    for (const [key, amount] of Object.entries(flow.amountByContract))
-      add(partHousehold(rt, key), amount);
+    const parts = flow.amountByContract;
+    for (const key in parts) add(partHousehold(rt, key), parts[key]!);
   } else unkeyed = 1;
   if (unkeyed > 0) {
     const place = placeWeights(rt, flow.placeId);
@@ -539,6 +581,8 @@ export function payGroups(
     reasonKey: string;
     source: Source;
     weights?: Map<number, number>;
+    /** A wage flow's workers by group, when the caller already counted them (`workersByGroup`). */
+    workers?: Map<number, number>;
   },
 ): Map<number, number> {
   const weights = input.weights ?? flowWeights(rt, input.flow);
@@ -553,7 +597,9 @@ export function payGroups(
   ];
   const net = new Map<number, number>();
   const wages = input.flow.kind === "wages";
-  const workers = wages ? workersByGroup(rt, input.flow) : undefined;
+  const workers = wages
+    ? (input.workers ?? workersByGroup(rt, input.flow))
+    : undefined;
   const law = wages ? paydayLaw(api) : undefined;
   const leave = wages ? paidLeaveProgram(api) : undefined;
   const periodDays =
