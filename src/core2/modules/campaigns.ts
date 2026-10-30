@@ -1138,6 +1138,18 @@ function countedDoorWarmth(
   canvasser: Readonly<PersonState>,
   opener: ReturnType<typeof adultsAt>[number],
 ): number {
+  const target = clamp(
+    countedAgreement(api, campaign, opener) + rapport(canvasser, opener),
+  );
+  return clamp(campaignParameter("doorContactWeight") * target);
+}
+
+/** What a counted resident makes of the campaign's platform, from their record (`groupAgreement`, the rule a full person's agreement follows). */
+function countedAgreement(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  opener: ReturnType<typeof adultsAt>[number],
+): number {
   const lean = personLean(api.state.people, opener, townRow(api).lean);
   const profile =
     opener.householdId && opener.placeId
@@ -1148,11 +1160,7 @@ function countedDoorWarmth(
           placeId: opener.placeId,
         })
       : null;
-  const target = clamp(
-    groupAgreement(lean, campaign.platform, profile) +
-      rapport(canvasser, opener),
-  );
-  return clamp(campaignParameter("doorContactWeight") * target);
+  return groupAgreement(lean, campaign.platform, profile);
 }
 
 export function knockDoors(
@@ -1162,11 +1170,14 @@ export function knockDoors(
     readonly canvasserId: string;
     readonly hours: number;
     /**
-     * Whether a counted resident who opens is filled in as a full person:
-     * yes when the player's campaign meets them (the owner's on-meet
-     * design); a world candidate's door reaches them as a count.
+     * Which counted residents who open are filled in as full people: all
+     * (true, the default), none (false: a world candidate's or a volunteer's
+     * door reaches them as a count), or at most this many, the ones the
+     * evening's porch scene could cast (the player's own canvass: a door
+     * touches the counted group, and only someone the player talks with in
+     * a scene is filled in; owner, Oct 27, "a short scene at 1 or 2 doors").
      */
-    readonly fillCounted?: boolean;
+    readonly fillCounted?: boolean | number;
   },
 ): readonly CauseRow[] {
   let campaign = campaignFor(api, input.filingId);
@@ -1202,22 +1213,26 @@ export function knockDoors(
   const met: CauseRow[] = [];
   // While the filing's petition circulates, whoever opens is asked to sign.
   const petition = petitionCirculating(api, input.filingId);
-  for (const opener of walkDoors(api, {
-    done,
-    lastKnocked,
-    carries,
-    owed,
-    walked,
-    doors,
-    hours: input.hours,
-  })) {
+  const openers = [
+    ...walkDoors(api, {
+      done,
+      lastKnocked,
+      carries,
+      owed,
+      walked,
+      doors,
+      hours: input.hours,
+    }),
+  ];
+  const fill = countedToFill(api, campaign, openers, input.fillCounted);
+  for (const opener of openers) {
     const openerId = opener.id;
     // A counted household is filled in when the player's campaign opens its
     // door (the owner's on-meet design): the person who answers is a full
     // person from then on. A world candidate's door counts them as reached,
     // and they answer the petition by the same rule, from their own record.
     if (!api.state.people.has(openerId)) {
-      if (input.fillCounted === false) {
+      if (!fill.has(openerId)) {
         counted += 1;
         if (petition) askToSign(api, input.filingId, opener, "door");
         // Asked for their vote, a counted resident answers by the rule a
@@ -1295,6 +1310,34 @@ export function knockDoors(
     countedReached: (campaign.countedReached ?? 0) + counted,
   });
   return met;
+}
+
+/**
+ * The counted residents among an evening's openers who are filled in: every
+ * one, none, or the few with the most to say about the platform either way
+ * (the porch scene casts the door whose resident most agrees or disagrees,
+ * `director/doors.ts`), up to the limit.
+ */
+function countedToFill(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  openers: readonly ReturnType<typeof adultsAt>[number][],
+  fillCounted: boolean | number | undefined,
+): ReadonlySet<string> {
+  const counted = openers.filter((o) => !api.state.people.has(o.id));
+  if (fillCounted === undefined || fillCounted === true)
+    return new Set(counted.map((o) => o.id));
+  if (fillCounted === false || fillCounted <= 0) return new Set();
+  return new Set(
+    counted
+      .map((o) => ({
+        id: o.id,
+        strength: Math.abs(countedAgreement(api, campaign, o)),
+      }))
+      .sort((a, b) => b.strength - a.strength || a.id.localeCompare(b.id))
+      .slice(0, Math.floor(fillCounted))
+      .map((o) => o.id),
+  );
 }
 
 interface DoorRow {
