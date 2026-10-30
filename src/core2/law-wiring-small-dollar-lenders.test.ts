@@ -41,6 +41,7 @@ import {
 } from "./modules/credit";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web-model";
+import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
@@ -108,6 +109,8 @@ interface Played {
   cap: number | null;
   lenders: Row[];
   inPlay: InPlayRow[];
+  /** The real households each borrowing household stands for (a counted household's weight, else 1): the journal moves a loan's amounts times it. */
+  weights: Map<string, number>;
 }
 
 interface InPlayRow {
@@ -192,6 +195,18 @@ function played(core: CoreState, journal: Entry[], since: string): Played {
     cap: lawInForce(api, CAP).value ?? null,
     lenders: (credit.table("lenders").rows() as Row[]).map((r) => ({ ...r })),
     inPlay: inPlayRows(core, since),
+    weights: new Map(
+      loans.map((loan): [string, number] => {
+        const rt = residentsRuntime(core);
+        const at = rt?.store.householdOf.get(String(loan.householdId));
+        return [
+          String(loan.householdId),
+          rt && at !== undefined
+            ? rt.store.weightOf(rt.store.households[at]!)
+            : 1,
+        ];
+      }),
+    ),
   };
 }
 
@@ -432,15 +447,17 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
             payment(terms.annualRate, Number(twin.principalMinor)),
           );
           // Each loan is lent from the lender's cash and paid back to it, on the journal.
+          // A counted household's loan row is one household's; the journal moves it times the households it stands for.
           const chain = (world: Played, loan: Row, label: string) => {
+            const times = world.weights.get(String(loan.householdId)) ?? 1;
             const lend = world.journal.find((e) => e.ref === loan.id);
             expect(lend, `${where}: the lend entry of ${label}`).toBeDefined();
             expect(
-              lend!.postings.some(
-                (p) => p.accountId.includes(org.id) && p.deltaMinor < 0,
-              ),
-              `${where}: ${lend!.id} leaves the lender`,
-            ).toBe(true);
+              -lend!.postings
+                .filter((p) => p.accountId.includes(org.id) && p.deltaMinor < 0)
+                .reduce((n, p) => n + p.deltaMinor, 0),
+              `${where}: ${lend!.id} leaves the lender (${loan.principalMinor} times ${times})`,
+            ).toBe(Math.round(Number(loan.principalMinor) * times));
             const rowsPaid = world.payments.get(String(loan.id)) ?? [];
             expect(
               rowsPaid.length,
@@ -452,15 +469,16 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
             const paid = paidTo(world.journal, String(loan.id), org.id).find(
               (e) => e.ref === `loan-payment:${loan.id}:${due.date}`,
             );
-            // The journal pays what the payment row says was paid; a borrower whose cash covered the bill paid it all and is not late.
-            expect(paid?.amountMinor ?? 0, `${where}: ${due.id}`).toBe(
-              due.paidMinor,
-            );
+            // The journal pays what the payment row says was paid, times the households; a borrower whose cash covered the bill paid it all and is not late.
+            expect(
+              paid?.amountMinor ?? 0,
+              `${where}: ${due.id} (${due.paidMinor} times ${times})`,
+            ).toBe(Math.round(Number(due.paidMinor) * times));
             if (Number(due.cashBeforeMinor) >= Number(due.dueMinor)) {
               expect(due.paidMinor, `${where}: ${due.id}`).toBe(due.dueMinor);
               expect(due.standing, `${where}: ${due.id}`).not.toBe("late");
             }
-            return { lend: lend!, due, paid };
+            return { lend: lend!, due, paid, times };
           };
           const lawChainIds = chain(law, first, "capped");
           const twinChainIds = chain(control, twin, "control");
@@ -533,7 +551,7 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
             held.find((row) => row.targetId === first.householdId) ?? held[0]!;
           process.stdout.write(
             `LENDERS ${where}: lender ${org.id} (${terms.product} at ${terms.annualRate}, ${terms.source}, volume ${lender.annualVolumeMinor}, cash ${lender.openingCapitalMinor}); ` +
-              `rate: household ${first.householdId}, loan ${first.id} principal ${first.principalMinor} at ${first.annualRate} (${first.rateLawId}) lent by ${lawChainIds.lend.id}, bill ${lawChainIds.due.id} due ${lawChainIds.due.dueMinor} paid ${lawChainIds.due.paidMinor} by ${lawChainIds.paid?.id ?? "nothing"}; ` +
+              `rate: household ${first.householdId} (standing for ${lawChainIds.times}), loan ${first.id} principal ${first.principalMinor} at ${first.annualRate} (${first.rateLawId}) lent by ${lawChainIds.lend.id}, bill ${lawChainIds.due.id} due ${lawChainIds.due.dueMinor} paid ${lawChainIds.due.paidMinor} by ${lawChainIds.paid?.id ?? "nothing"}; ` +
               `control ${twin.id} principal ${twin.principalMinor} at ${twin.annualRate} lent by ${twinChainIds.lend.id}, bill ${twinChainIds.due.id} due ${twinChainIds.due.dueMinor} paid ${twinChainIds.due.paidMinor} by ${twinChainIds.paid?.id ?? "nothing"}; ` +
               `web (state cap): loan ${read.id} asked ${read.askedMinor}, lent ${read.principalMinor} at factor ${Number(read.webFactor).toFixed(3)} from ${read.webRecordId} (${(read.webLinks as string[]).join(", ")}); ` +
               `web (federal cap): loan ${federalRead.id} asked ${federalRead.askedMinor}, lent ${federalRead.principalMinor} at factor ${Number(federalRead.webFactor).toFixed(3)} from ${federalRead.webRecordId} (${(federalRead.webLinks as string[]).join(", ")}) by ${federalLend!.id}, against control ${federalTwin.id} asked ${federalTwin.askedMinor}, lent ${federalTwin.principalMinor} at factor 1 by ${federalTwinLend!.id}; ` +
