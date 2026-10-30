@@ -130,14 +130,14 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 87,
+    "wired": 88,
     "partly": 1,
-    "stopgapped": 1,
+    "stopgapped": 0,
     "researchLinks": {
       "links": 246,
-      "reaching": 170,
+      "reaching": 172,
       "aboutZero": 18,
-      "unread": 58,
+      "unread": 56,
       "unreadWithNoStopgap": 0
     },
     "shownOnAScreen": 87,
@@ -185,17 +185,17 @@
         "n/a": 0
       },
       "money": {
-        "wired": 80,
+        "wired": 81,
         "partial": 0,
         "missing": 0,
-        "stopgap": 1,
+        "stopgap": 0,
         "n/a": 8
       },
       "web": {
-        "wired": 71,
+        "wired": 72,
         "partial": 1,
         "missing": 0,
-        "stopgap": 1,
+        "stopgap": 0,
         "n/a": 16
       },
       "knowing": {
@@ -4299,7 +4299,7 @@
       "family": "business",
       "reachGroup": "A",
       "mechanic": "consumer-loan-quote",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -4313,33 +4313,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 107 open (full 0, counted groups 0/0 people, households 107, orgs 0, govts 0) e.g. applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_10931b8c88d36712; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 101 open (full 0, counted groups 0/0 people, households 101, orgs 0, govts 0) e.g. applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_0180b7e91539dd90; North Pownal, Vermont, US-VT (seed f72df05648f09350): 143 open (full 0, counted groups 0/0 people, households 143, orgs 0, govts 0) e.g. applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_a79694cffb067ffb",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 102 open (full 0, counted groups 0/0 people, households 102, orgs 0, govts 0) e.g. applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_fd5175cc7f2ce1b6; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 106 open (full 0, counted groups 0/0 people, households 106, orgs 0, govts 0) e.g. applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018e4ce91545651b; North Pownal, Vermont, US-VT (seed f72df05648f09350): 143 open (full 0, counted groups 0/0 people, households 143, orgs 0, govts 0) e.g. applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_a79694cffb067ffb",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/credit.ts:1044, src/core2/modules/credit.ts:1128",
+          "evidence": "src/core2/modules/credit.ts:1258, src/core2/modules/credit.ts:1435, src/core2/modules/credit.ts:1128, src/core2/modules/credit.ts:1044",
           "why": ""
         },
         "money": {
-          "status": "stopgap",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): campaigns:donation @ src/core2/modules/campaigns.ts:1491 550500 -> 550600 (journal:2026-01-09:99424)",
-          "why": "The cap applies only to the bank's consumer loan (about 13 percent against a 36 percent ceiling), so no borrower's rate changes and the law moves no dollar; the game has no small-dollar lender for it to bind (SG-WORLD-credit-rate-cap-no-small-lender)",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid in (src/core2/world-transfer.ts:40; e.g. household_1093198c88d363ac on 2025-03-01: 556037 in the control world, 567765 here, journal:2025-03-01:9271)",
+          "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 loan-rate-cap-to-high-cost-borrowing 0.3200 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 loan-rate-cap-to-high-cost-borrowing 0.3200 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 loan-rate-cap-to-high-cost-borrowing 0.3200 (ledger row only)",
-          "why": "no production reader: loan-rate-cap-to-high-cost-borrowing (SG-WEB-unread-finance-high-cost-loans) move only the web's ledger"
+          "status": "wired",
+          "evidence": "North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-01 loan-rate-cap-to-high-cost-borrowing 0.3200, read by src/core2/modules/credit.ts:1663; North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-02 loan-rate-cap-to-high-cost-borrowing 0.3200, read by src/core2/modules/credit.ts:1663; North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-03 loan-rate-cap-to-high-cost-borrowing 0.3200, read by src/core2/modules/credit.ts:1663",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 49 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 69 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2); North Pownal, Vermont, US-VT (seed f72df05648f09350): 70 people heard (person_5e19b62599c71fbc:printed:outlet:newspaper:0:jurisdiction_ad8bfc17f930c028:law-took-effect:law:US-VT:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 107 people heard (person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 76 people heard (person_e02fea68a64aaf0b:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2); North Pownal, Vermont, US-VT (seed f72df05648f09350): 70 people heard (person_5e19b62599c71fbc:printed:outlet:newspaper:0:jurisdiction_ad8bfc17f930c028:law-took-effect:law:US-VT:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 107 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 101 -> after repeal 0 -> re-enacted 101; North Pownal, Vermont, US-VT (seed f72df05648f09350): opening 143 -> after repeal 0 -> re-enacted 127",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 102 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 106 -> after repeal 0 -> re-enacted 99; North Pownal, Vermont, US-VT (seed f72df05648f09350): opening 143 -> after repeal 0 -> re-enacted 127",
           "why": ""
         },
         "allPlaces": {
@@ -4361,12 +4360,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "change": "enacted at state (law:US-MI:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2) effective 2025-01-21; then repealed at no level effective 2026-03-28",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-03-28",
           "inForceAtOpening": true
         },
         {
