@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: governing lead, Oct 30 (measure-m5: the player loses to incumbents)
+lead: governing
 ---
 
 **What.** path-check (src/bench/path-check.ts) files the player for the first council race they may enter, whoever holds the seat. In the m5 measurement the player lost mostly to incumbents: in Salida, Colorado (0867280, seed 59cd061637a2f3f2) races 2 and 3 went 89 to 860 and 38 to 925 against the seat's incumbent, whose incumbency (about 0.4) and door yeses carried them, while Murray, Nebraska won the one time its seat was open. A real first-time candidate who wants to win runs for an open seat where one exists, and the candidacy engine already records whether a seat's holder stands again.
