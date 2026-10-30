@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/door-yes-is-their-choice
 pr:
 blocked-on:
 source: governing lead, Oct 30 (Price UT measurement, runner A)
+claimed-at: 2026-10-30T06:54:07.029Z
 ---
 
 **What.** Residents said yes at the door to every candidate who knocked, because a warm visit was the yes. In a Price, Utah path-check run, 1,259 of the 1,462 counted residents' pledges went to the player's rivals and 40 of 163 full people's did too, so the near-binding yes from campaign-door-yes-near-binding counted for whoever knocked most, not whoever the voter preferred. A real voter tells one candidate they have their vote, the one they would vote for now; a later yes to someone else takes the first one back.
