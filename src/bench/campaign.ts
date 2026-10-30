@@ -55,11 +55,12 @@ const CAMPAIGNS = "core2-campaigns-v1";
 
 /** The campaign day's acts that open as a scene, by the name the screen's control carries. */
 const OUTINGS: Partial<
-  Record<CampaignDayKind, "doors" | "calls" | "event" | "interview">
+  Record<CampaignDayKind, "doors" | "calls" | "event" | "forum" | "interview">
 > = {
   canvass: "doors",
   "raise-money": "calls",
   event: "event",
+  forum: "forum",
   interview: "interview",
 };
 
@@ -387,7 +388,7 @@ function outingPeople(
         )
       : kind === "raise-money"
         ? result.giftIds.map((id) => id.split("|")[1] ?? "")
-        : kind === "event"
+        : kind === "event" || kind === "forum"
           ? result.causeIds.map(
               (id) =>
                 (
@@ -419,7 +420,9 @@ function outingScene(
       ? (doors[dwelling] ?? doors.house!)
       : kind === "event"
         ? scenePlaces.speechPlaces[0]!
-        : scenePlaces.phoneBankPlace;
+        : kind === "forum"
+          ? scenePlaces.sceneSettings.venue[0]!
+          : scenePlaces.phoneBankPlace;
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
   const backdrop = backdropFor(core, place, 16 * 60);
   return {
@@ -467,6 +470,7 @@ export function campaignDay(
   const kinds: readonly CampaignDayKind[] = [
     "canvass",
     "event",
+    "forum",
     "interview",
     "raise-money",
     "rest",
@@ -522,6 +526,8 @@ export function campaignDay(
     reached: result.causeIds.length,
     raisedMinor: result.raisedMinor,
     gifts: result.giftIds.length,
+    // A forum's town hall: the meetings engine's row, who came and what they asked.
+    townHallId: result.townHall?.id ?? null,
     interview: result.interview
       ? {
           id: result.interview.id,

@@ -71,6 +71,7 @@
     "doors": "Knock on doors",
     "calls": "Call donors",
     "event": "Hold an event",
+    "forum": "Host a forum",
     "interview": "Ask for an interview",
     "hours": "hours"
   },
@@ -78,6 +79,8 @@
     "noHouseholds": "No households in town",
     "noPlatform": "Choose your platform first",
     "eventMoney": "Hall {price} · campaign {cash}",
+    "forumHeld": "You hosted a forum today",
+    "noMeetings": "No public meetings here",
     "noOutlet": "No paper or station here",
     "interviewed": "Every outlet here has interviewed you",
     "outletsFull": "No outlet has room this week",

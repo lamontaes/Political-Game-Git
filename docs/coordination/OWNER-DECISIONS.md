@@ -6,6 +6,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 30, 03:05 UTC: CTO ruling: a closed race's causes for the player's circle fold into a summary (speed lead's question, with the reading line)
+
+- **Ruling (under "Keep it simple" and the Oct 29 22:45 "old records fold into summaries"):** once a race closes, its campaign-cause rows for people in the player's circle fold into one summary per voter and candidate, keeping each circle member's last three causes per candidate, any cause a known fact names, and every pledge (the governing lead's condition). "Save why reasons only for the player and the people they deal with" is about whose why is kept, not every contact forever. The fold ships with a records proof that the race standing, return visits and the trace read the same. Measured: in a Ringgold, Louisiana save (seed long-1), 252 of 253 thousand cause rows in year 3 were kept only because the voter was in the player's circle (116 people, about 4,000 contacts each a year), the largest grower of a long save.
+- **A long-run runner** (Sonnet, `session_01S4WSHroZq1RTpWvGEVLNCf`) runs the speed lead's 100-year save on its own machine, editing nothing, after the run was killed for memory in year 7 beside the speed lead's other work.
+
 ## Oct 30, 01:55 UTC: CTO ruling: the speed bar for a country's year and a save that runs for centuries (overridable)
 
 - **The bar (speed lead's measured proposal, accepted under the owner's Oct 29 22:45 ruling "a country's year... hundreds of years... still speedy"):** on `npm run speed:year` in a place drawn from all 56, one process at a time: (1) a country's year runs under 120 seconds, and no change makes a year more than 20% slower than its base (as before); (2) over one save, the average of years 97 to 100 is at most 1.2 times the average of years 1 to 4 (four-year windows, so election years compare with election years), and the same holds for memory after a collection and for the records kept; (3) the long run is checked every night on one drawn small town and weekly on a large one, printing years 1, 10, 50 and 100.

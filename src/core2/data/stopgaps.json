@@ -7716,6 +7716,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-town-hall-room-full-people",
+    "kind": "partial-model",
+    "file": "src/core2/modules/meetings.ts",
+    "line": 651,
+    "whatItFakes": "A town hall's room, a candidate's forum among them, fills only from the town's full adults (townHallDrives reads townAdults): a resident still in the counted wider population never comes, so a forum in a town of mostly counted residents meets only the people already filled in.",
+    "why": "The forum (campaign-day.ts) reuses the meetings engine's one audience rule rather than a second one, and that rule was written before the counted tier; public comment already reads counted residents by the same drive (commentSpeakers) and fills in those who speak.",
+    "addedBy": "governing builder (campaign-like-real-races, forum)",
+    "addedAt": "2026-10-29",
+    "replacement": "townHallDrives reads the town's counted adults by the same drive as commentSpeakers does (countedResidents with countedRecordOnly), indexed by place so a weekly town hall does not scan the whole wider population, and holdTownHall fills in each counted resident who comes before the room's causes are written.",
+    "status": "open"
+  },
+  {
     "id": "SG-CAMPAIGN-manager-changes-nothing-yet",
     "kind": "partial-model",
     "file": "src/core2/modules/campaigns.ts",
