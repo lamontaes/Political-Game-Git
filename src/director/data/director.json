@@ -1206,6 +1206,11 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "debate-accepted",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "debate",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
