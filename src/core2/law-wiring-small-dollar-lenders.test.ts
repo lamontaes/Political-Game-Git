@@ -66,6 +66,8 @@ interface Entry {
   id: string;
   ref: string;
   postings: readonly { accountId: string; deltaMinor: number }[];
+  /** The real households the borrower's record stood for when the entry posted (a counted household's weight, else 1): the journal moves the loan row's amount times it. */
+  times: number;
 }
 type Row = Record<string, unknown>;
 
@@ -109,8 +111,6 @@ interface Played {
   cap: number | null;
   lenders: Row[];
   inPlay: InPlayRow[];
-  /** The real households each borrowing household stands for (a counted household's weight, else 1): the journal moves a loan's amounts times it. */
-  weights: Map<string, number>;
 }
 
 interface InPlayRow {
@@ -195,18 +195,6 @@ function played(core: CoreState, journal: Entry[], since: string): Played {
     cap: lawInForce(api, CAP).value ?? null,
     lenders: (credit.table("lenders").rows() as Row[]).map((r) => ({ ...r })),
     inPlay: inPlayRows(core, since),
-    weights: new Map(
-      loans.map((loan): [string, number] => {
-        const rt = residentsRuntime(core);
-        const at = rt?.store.householdOf.get(String(loan.householdId));
-        return [
-          String(loan.householdId),
-          rt && at !== undefined
-            ? rt.store.weightOf(rt.store.households[at]!)
-            : 1,
-        ];
-      }),
-    ),
   };
 }
 
@@ -215,13 +203,42 @@ function watch(core: CoreState): Entry[] {
   const api = coreAPI(core);
   const out: Entry[] = [];
   const post = api.postJournal.bind(api);
+  // As countedPayment weighs it at the moment it posts: the borrower's counted
+  // household's weight, which grows when households merge in play.
+  const times = (borrowerId: string | undefined, householdId?: string) => {
+    if (borrowerId && core.people.has(borrowerId)) return 1;
+    const rt = residentsRuntime(core);
+    if (!rt) return 1;
+    const member = borrowerId ? rt.store.countedMember(borrowerId) : undefined;
+    const at =
+      member !== undefined
+        ? rt.store.household[member]
+        : householdId
+          ? rt.store.householdOf.get(householdId)
+          : undefined;
+    const household = at === undefined ? undefined : rt.store.households[at];
+    return household && !household.gone ? rt.store.weightOf(household) : 1;
+  };
   api.postJournal = (entry) => {
     const ref = entry.sourceRef.id;
-    if (
-      ref.startsWith("loan:small-dollar:") ||
-      ref.startsWith("loan-payment:loan:small-dollar:")
-    )
-      out.push({ id: entry.id, ref, postings: entry.postings });
+    const lend = ref.startsWith("loan:small-dollar:");
+    const repay = ref.startsWith("loan-payment:loan:small-dollar:");
+    if (lend || repay) {
+      // A lend's ref names the household (the row is written after it posts); a payment's names the loan, whose row names the borrower.
+      const loanId = repay
+        ? ref.slice("loan-payment:".length, ref.lastIndexOf(":"))
+        : ref;
+      const loan = api.moduleState("credit").table("loans").get(loanId) as
+        Row | undefined;
+      out.push({
+        id: entry.id,
+        ref,
+        postings: entry.postings,
+        times: repay
+          ? times(loan?.borrowerId as string | undefined)
+          : times(undefined, ref.split(":")[2]),
+      });
+    }
     return post(entry);
   };
   return out;
@@ -280,6 +297,7 @@ const paidTo = (entries: Entry[], loanId: string, lender: string) =>
     .map((e) => ({
       id: e.id,
       ref: e.ref,
+      times: e.times,
       amountMinor: e.postings
         .filter((p) => p.accountId.includes(lender) && p.deltaMinor > 0)
         .reduce((n, p) => n + p.deltaMinor, 0),
@@ -449,9 +467,9 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
           // Each loan is lent from the lender's cash and paid back to it, on the journal.
           // A counted household's loan row is one household's; the journal moves it times the households it stands for.
           const chain = (world: Played, loan: Row, label: string) => {
-            const times = world.weights.get(String(loan.householdId)) ?? 1;
             const lend = world.journal.find((e) => e.ref === loan.id);
             expect(lend, `${where}: the lend entry of ${label}`).toBeDefined();
+            const times = lend!.times;
             expect(
               -lend!.postings
                 .filter((p) => p.accountId.includes(org.id) && p.deltaMinor < 0)
@@ -472,8 +490,8 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
             // The journal pays what the payment row says was paid, times the households; a borrower whose cash covered the bill paid it all and is not late.
             expect(
               paid?.amountMinor ?? 0,
-              `${where}: ${due.id} (${due.paidMinor} times ${times})`,
-            ).toBe(Math.round(Number(due.paidMinor) * times));
+              `${where}: ${due.id} (${due.paidMinor} times ${paid?.times})`,
+            ).toBe(Math.round(Number(due.paidMinor) * (paid?.times ?? 1)));
             if (Number(due.cashBeforeMinor) >= Number(due.dueMinor)) {
               expect(due.paidMinor, `${where}: ${due.id}`).toBe(due.dueMinor);
               expect(due.standing, `${where}: ${due.id}`).not.toBe("late");
