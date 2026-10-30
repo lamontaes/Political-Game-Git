@@ -617,6 +617,9 @@
     "search": "Search",
     "none": "No term matches that."
   },
+  "patchNotes": {
+    "release": "Release"
+  },
   "campaignActs": {
     "volunteer": "Volunteers",
     "donation": "Donations",

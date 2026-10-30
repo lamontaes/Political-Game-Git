@@ -12,6 +12,7 @@ pr: #6913
 blocked-on: "#6900 (the menu stack's shared parts: #6881, #6883, #6885, #6892, #6900)"
 milestone: play-first
 source: owner, Oct 29 ("So they're not blocks of text anymore with random buttons"; every menu like Government)
+claimed-at: 2026-10-30T06:51:04.933Z
 ---
 
 **What.** Politics → Your office is the last in-game menu still drawn as rows down the bare panel (`office()` → `seatRows()` and `officeRows()`): the seat's pay and next meeting as a list row, the head-pick selects and the budget editor as labeled rows, the draft card and the meeting panel below them. This item puts it on the shared parts like every other menu: the seat as fact plates (office, pay, next meeting), the budget lines as a paged plate, the open posts the player names as cards, and the draft card on its own plate, with the panel never scrolling as a page. The lane owns the draft card and the meeting panel, so the lane builds this screen.

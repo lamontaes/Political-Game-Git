@@ -3008,7 +3008,7 @@ const sheets = {
     let chosen = terms[0]?.key;
     const cards = plate(null);
     const article = plate(null);
-    article.classList.add("guide-article");
+    article.classList.add("pick-article");
     const drawArticle = () => {
       const t = terms.find((term) => term.key === chosen) ?? terms[0];
       // The chosen card is marked, as a chosen tab is.
@@ -3021,7 +3021,7 @@ const sheets = {
               prose(t.short, "guide-short"),
               ...[t.explanation, t.contextNote]
                 .filter(Boolean)
-                .map((text) => prose(text, "guide-text")),
+                .map((text) => prose(text, "article-text")),
             ]
           : []),
       );
@@ -3053,7 +3053,7 @@ const sheets = {
                 previous: controls.politics.previousPage,
                 next: controls.politics.nextPage,
               },
-              className: "guide-cards",
+              className: "pick-cards",
             })
           : prose(controls.guide.none ?? "", "record-empty"),
       );
@@ -3085,23 +3085,91 @@ const sheets = {
     ];
   },
   /**
-   * The title's Patch notes: the release machinery's file, one release a page,
-   * newest first (owner, Oct 28: "No reason anymore; get them in").
+   * The title's Patch notes: the release machinery's file, one release at a
+   * time, newest first (owner, Oct 28: "No reason anymore; get them in"). As
+   * the Guide: the release's changes as headline cards on a plate, the chosen
+   * change in full beside them, never a wall to scroll (owner, Oct 29).
    */
   async patchNotes() {
     const { releases } = await api("/api/patch-notes");
-    return recordScreen({
-      sections: releases.map((release) => ({
-        title: release.title,
-        items: [
-          release.released && { text: release.released, tone: "small" },
-          ...release.groups.flatMap((group) => [
-            { text: group.heading, tone: "subhead" },
-            ...group.lines.map((text) => ({ text })),
-          ]),
-        ],
-      })),
+    let release = releases[0];
+    let chosen = 0;
+    const notesOf = (r) =>
+      (r?.groups ?? []).flatMap((group) =>
+        group.notes.map((note) => ({ ...note, group: group.heading })),
+      );
+    const cards = plate(null);
+    const article = plate(null);
+    article.classList.add("pick-article");
+    const drawArticle = () => {
+      const note = notesOf(release)[chosen];
+      // The chosen card is marked, as a chosen tab is.
+      for (const card of cards.querySelectorAll("[data-note]"))
+        card.classList.toggle("on", Number(card.dataset.note) === chosen);
+      article.replaceChildren(
+        ...(note
+          ? [
+              chips([{ text: note.group }]),
+              ...(note.title ? [heading(note.title, "h3")] : []),
+              prose(note.text, "article-text"),
+            ]
+          : []),
+      );
+    };
+    // The release's name is its own picker, newest first.
+    const which = select({
+      options: releases.map((r) => ({ value: r.version, label: r.title })),
+      value: release?.version,
+      label: controls.patchNotes?.release,
+      className: "release-pick",
+      onChange: (version) => {
+        release = releases.find((r) => r.version === version) ?? release;
+        chosen = 0;
+        drawCards();
+        drawArticle();
+      },
     });
+    const drawCards = () => {
+      cards.replaceChildren(
+        which,
+        ...(release?.released ? [prose(release.released, "release-date")] : []),
+        pager({
+          items: notesOf(release).map((note, at) => ({
+            title: note.title ?? note.text,
+            lede: note.title ? note.text : "",
+            label: note.title ?? note.text,
+            onSelect: () => {
+              chosen = at;
+              drawArticle();
+            },
+            data: { note: String(at) },
+          })),
+          render: listEntry,
+          rows: Math.max(
+            3,
+            Math.min(8, Math.floor((window.innerHeight - 340) / 66)),
+          ),
+          columns: 1,
+          rowHeight: 58,
+          gap: 8,
+          words: {
+            page: controls.politics.page,
+            previous: controls.politics.previousPage,
+            next: controls.politics.nextPage,
+          },
+          className: "pick-cards note-cards",
+        }),
+      );
+    };
+    drawCards();
+    drawArticle();
+    return [
+      splitScreen({
+        main: [cards],
+        side: [{ title: null, nodes: [article] }],
+        className: "patch-notes",
+      }),
+    ];
   },
   async options() {
     await controlsReady;
