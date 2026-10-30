@@ -1,9 +1,10 @@
 /* global process, console, document */
 // The Issues tab in a real browser on the bench (npm run bench) with a life
-// in progress: the laws in force as cards by subject, each opening the law's
-// own screen (what is in force at each level and since when, the statute, the
-// measure), with no row repeating the state or printing a record date
-// (owner, Oct 28 sitting, point 21).
+// in progress: the laws in force as cards, one subject at a time on the rail,
+// paged inside a plate so the panel never scrolls (owner, Oct 29), each card
+// opening the law's own page (what is in force at each level and since when,
+// the statute, the measure), with no row repeating the state or printing a
+// record date (owner, Oct 28 sitting, point 21).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
@@ -31,20 +32,41 @@ try {
   await page.locator('.ring[data-tab="politics"]').click();
   await page.locator("#sheet:not([hidden])").waitFor();
   await page.locator('#sheet-tabs [data-tab="issues"]').click();
-  await page.locator("#sheet-body .entries-cards .entry").first().waitFor();
-  const list = await page.evaluate(() => ({
-    groups: [...document.querySelectorAll("#sheet-body .record-section > h3")]
-      .map((h) => h.textContent.trim())
-      .filter(Boolean),
-    cards: [...document.querySelectorAll("#sheet-body .entry")].map((e) => ({
-      title: e.querySelector("h3")?.textContent.trim() ?? "",
-      value: e.querySelector(".entry-value")?.textContent.trim() ?? "",
-      line: e.querySelector(".entry-line")?.textContent.trim() ?? "",
-      series: e.dataset.series ?? "",
-      clickable: e.tagName === "BUTTON",
-    })),
-    text: document.getElementById("sheet-body").innerText,
-  }));
+  await page.locator("#sheet-body .issue-cards .entry").first().waitFor();
+  // Every subject on the rail, each opened in turn: its cards, and the panel
+  // never scrolling.
+  const subjects = await page
+    .locator("#sheet-body [data-subject]")
+    .evaluateAll((tabs) => tabs.map((t) => t.dataset.subject));
+  const list = { groups: [], cards: [], text: "" };
+  for (const subject of subjects) {
+    await page.locator(`#sheet-body [data-subject="${subject}"]`).click();
+    await page.waitForTimeout(200);
+    const seen = await page.evaluate(() => {
+      const body = document.getElementById("sheet-body");
+      return {
+        group: document
+          .querySelector("#sheet-body [data-subject].on")
+          ?.textContent.trim(),
+        scrolls: body.scrollHeight > body.clientHeight + 1,
+        cards: [...document.querySelectorAll("#sheet-body .entry")].map(
+          (e) => ({
+            title: e.querySelector("h3")?.textContent.trim() ?? "",
+            value: e.querySelector(".entry-value")?.textContent.trim() ?? "",
+            line: e.querySelector(".entry-line")?.textContent.trim() ?? "",
+            series: e.dataset.series ?? "",
+            clickable: e.tagName === "BUTTON",
+          }),
+        ),
+        text: body.innerText,
+      };
+    });
+    assert.ok(!seen.scrolls, `${seen.group}: the Issues panel scrolls`);
+    assert.ok(seen.cards.length, `${seen.group}: no cards`);
+    list.groups.push(seen.group);
+    list.cards.push(...seen.cards);
+    list.text += seen.text;
+  }
   console.log(
     `${list.groups.length} subjects (${list.groups.slice(0, 5).join(", ")}...), ${list.cards.length} issues; first: ${list.cards
       .slice(0, 3)
@@ -66,38 +88,43 @@ try {
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/21-issues-cards.png`,
     });
-  // Open the first issue with a value (the minimum wage where it leads).
+  // Open the first issue with a value (the minimum wage where it leads),
+  // from its subject's page.
   const pick =
     list.cards.find((c) => /^minimum wage$/i.test(c.title)) ??
     list.cards.find((c) => c.value);
+  const box = page.locator('#sheet-body input[type="search"]');
+  await box.fill(pick.title);
   await page
     .locator(`#sheet-body .entry[data-series="${pick.series}"]`)
     .click();
-  await page.locator("#sheet-body .screen-heading").waitFor();
+  await page.locator("#sheet-body .law-page").waitFor();
   await page.waitForTimeout(400);
   const law = await page.evaluate(() => ({
     name: document
-      .querySelector("#sheet-body .screen-heading .name")
+      .querySelector("#sheet-body .law-page .heading")
       ?.textContent.trim(),
-    meta:
-      document.querySelector("#sheet-body .screen-meta")?.textContent.trim() ??
-      "",
-    lede:
-      document.querySelector("#sheet-body .screen-lede")?.textContent.trim() ??
-      "",
-    sections: [...document.querySelectorAll("#sheet-body .record-section")].map(
-      (s) => ({
+    // Each plate (in force, coming, changed, votes) and its facts: the
+    // in-force plates and every labeled row.
+    sections: [...document.querySelectorAll("#sheet-body .law-page .plate")]
+      .filter((s) => !s.classList.contains("fact-plate"))
+      .map((s) => ({
         title: s.querySelector("h3")?.textContent.trim() ?? "",
-        facts: [...s.querySelectorAll(".record-fact")].map((f) => ({
-          label: f.querySelector(".label")?.textContent.trim() ?? "",
-          value: f.querySelector("strong")?.textContent.trim() ?? "",
-        })),
-      }),
-    ),
+        facts: [
+          ...[...s.querySelectorAll(".fact-plate")].map((f) => ({
+            label: f.querySelector(".label")?.textContent.trim() ?? "",
+            value: f.querySelector(".fact-value")?.textContent.trim() ?? "",
+          })),
+          ...[...s.querySelectorAll(".record-value")].map((v) => ({
+            label: v.previousElementSibling?.textContent.trim() ?? "",
+            value: v.textContent.trim(),
+          })),
+        ],
+      })),
     text: document.getElementById("sheet-body").innerText,
   }));
   console.log(
-    `${law.name} (${law.meta}): ${law.lede}; ${law.sections
+    `${law.name}: ${law.sections
       .map(
         (s) =>
           `${s.title}: ${s.facts.map((f) => `${f.label} = ${f.value}`).join(", ")}`,
