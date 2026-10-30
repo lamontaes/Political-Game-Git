@@ -39,7 +39,7 @@ import {
   CREDIT_PARAMETERS,
   smallDollarTerms,
 } from "./modules/credit";
-import { enactLaw, lawChain, lawInForce } from "./modules/laws";
+import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web-model";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
@@ -96,7 +96,8 @@ function applicationsOf(core: CoreState, kind: string) {
  * let go (three worlds of a year and a half do not fit in one test worker
  * together): its small-dollar loans and their payment rows, the journal
  * entries that lent and repaid them, the web's month rows for the town, the
- * cap's applied rows and the cap in force at the end.
+ * cap's applied rows, the cap in force at the end and the cap rows a body in
+ * play (not the test) wrote.
  */
 interface Played {
   loans: Row[];
@@ -106,9 +107,52 @@ interface Played {
   held: ReturnType<typeof appliedOn>;
   cap: number | null;
   lenders: Row[];
+  inPlay: InPlayRow[];
 }
 
-function played(core: CoreState, journal: Entry[]): Played {
+interface InPlayRow {
+  id: string;
+  series: string;
+  level: string;
+  value: number;
+  effectiveDate: string;
+}
+
+/**
+ * The cap rows a legislature, Congress, the county or the council passed in
+ * play since the opening: the outcome web reads a cap as in force where any
+ * level's row says yes (lawValue, src/core2/modules/outcome-web.ts), so a row
+ * the test's hold put back days later can still stand in a month's cause.
+ */
+function inPlayRows(core: CoreState, since: string): InPlayRow[] {
+  const api = coreAPI(core);
+  return [CAP, FEDERAL_CAP].flatMap((series) =>
+    (
+      api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .query("bySeriesOnly", [series]) as unknown as {
+        id: string;
+        level: string;
+        value: unknown;
+        effectiveDate: string;
+      }[]
+    )
+      .filter(
+        (row) =>
+          row.effectiveDate >= since && !row.id.includes(":lenders-test:"),
+      )
+      .map((row) => ({
+        id: row.id,
+        series,
+        level: row.level,
+        value: Number(row.value),
+        effectiveDate: row.effectiveDate,
+      })),
+  );
+}
+
+function played(core: CoreState, journal: Entry[], since: string): Played {
   const api = coreAPI(core);
   const credit = api.moduleState("credit");
   const loans = (credit.table("loans").rows() as Row[])
@@ -147,6 +191,7 @@ function played(core: CoreState, journal: Entry[]): Played {
     held: appliedOn(api, CAP).map((row) => ({ ...row })),
     cap: lawInForce(api, CAP).value ?? null,
     lenders: (credit.table("lenders").rows() as Row[]).map((r) => ({ ...r })),
+    inPlay: inPlayRows(core, since),
   };
 }
 
@@ -190,8 +235,10 @@ const HOLD_DAYS = 14;
 
 /**
  * Runs the world forward, holding each cap where the twin sets it: a state's
- * legislature passes or repeals it in play (Hawaii's passed it in the first
- * month of one drawn world), and a twin that does so is no twin.
+ * legislature passes or repeals it in play (one drawn world's passed it in
+ * its first month), and a twin that does so is no twin. A cap held off is put
+ * back when any level's row says yes, as the outcome web reads it, not only
+ * the governing one; a cap held on when the governing row says no.
  */
 function runTo(core: CoreState, days: number, hold: Record<string, number>) {
   const api = coreAPI(core);
@@ -201,9 +248,14 @@ function runTo(core: CoreState, days: number, hold: Record<string, number>) {
       core,
       [addDays(makeIsoDate(core.date), HOLD_DAYS), until].sort()[0]!,
     );
-    for (const [series, value] of Object.entries(hold))
-      if ((lawInForce(api, series).value ?? 0) !== value)
-        flip(core, series, value, `hold:${core.date}`);
+    for (const [series, value] of Object.entries(hold)) {
+      const law = lawInForce(api, series);
+      const off =
+        value === 0
+          ? law.levels.some((level) => Number(level.row?.value ?? 0) === 1)
+          : (law.value ?? 0) !== 1;
+      if (off) flip(core, series, value, `hold:${core.date}`);
+    }
   }
 }
 
@@ -270,10 +322,11 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
             hold: Record<string, number>,
           ) => {
             const journal = watch(core);
+            const since = core.date;
             for (const [series, value] of Object.entries(enact))
               flip(core, series, value, "enact");
             runTo(core, DAYS, hold);
-            return played(core, journal);
+            return played(core, journal, since);
           };
           const law = play(
             lawWorld,
@@ -314,7 +367,7 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
             );
             expect(String(loan.rateLawId), String(loan.id)).toContain(CAP);
           }
-          // The control and the federal world hold the state cap off: a loan written in the days before the hold put back a cap the state passed in play is capped; every other is at the lender's rate. The control's loans read the web's factor of one.
+          // The control and the federal world hold the state cap off: a loan written in the days before the hold put back a cap the state passed in play is capped; every other is at the lender's rate.
           for (const loan of [...plain, ...federalLoans]) {
             expect(loan.lenderId, String(loan.id)).toBe(org.id);
             expect(loan.annualRate, String(loan.id)).toBe(
@@ -323,8 +376,30 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
                 : Math.min(terms.annualRate, CEILING),
             );
           }
-          for (const loan of plain)
-            expect(loan.webFactor, `${where}: ${loan.id}`).toBe(1);
+          // The control's loans read the web's factor of one, except a month
+          // whose cause a body in play passed (yes on the link's own law)
+          // before the hold put it back: the test never moves the control's web.
+          const SERIES_OF: Record<string, string> = {
+            [STATE_LINK]: CAP,
+            [FEDERAL_LINK]: FEDERAL_CAP,
+          };
+          for (const loan of plain) {
+            if (loan.webFactor === 1) continue;
+            const links = (loan.webLinks as string[]) ?? [];
+            expect(
+              links.length,
+              `${where}: control ${loan.id}`,
+            ).toBeGreaterThan(0);
+            for (const link of links)
+              expect(
+                control.inPlay
+                  .filter(
+                    (row) => row.series === SERIES_OF[link] && row.value === 1,
+                  )
+                  .map((row) => row.id),
+                `${where}: control ${loan.id} read ${link} at ${loan.webFactor} from ${loan.webRecordId} with no cap passed in play`,
+              ).not.toHaveLength(0);
+          }
           // The rate chain: a capped loan whose household borrowed the same day in the control, at the lender's rate.
           const twins = new Map(
             plain
@@ -416,10 +491,11 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
             ).toBeLessThanOrEqual(Number(loan.askedMinor) * factor + 1);
           };
           const read = capped.find((l) => Number(l.webFactor) < 1);
+          // The federal loan's twin is a control loan the web left at one.
           const federalRead = federalLoans.find(
             (l) =>
               Number(l.webFactor) < 1 &&
-              twins.has(String(l.id)) &&
+              twins.get(String(l.id))?.webFactor === 1 &&
               (l.webLinks as string[]).includes(FEDERAL_LINK),
           );
           if (!read || !federalRead) {
@@ -461,7 +537,7 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
               `control ${twin.id} principal ${twin.principalMinor} at ${twin.annualRate} lent by ${twinChainIds.lend.id}, bill ${twinChainIds.due.id} due ${twinChainIds.due.dueMinor} paid ${twinChainIds.due.paidMinor} by ${twinChainIds.paid?.id ?? "nothing"}; ` +
               `web (state cap): loan ${read.id} asked ${read.askedMinor}, lent ${read.principalMinor} at factor ${Number(read.webFactor).toFixed(3)} from ${read.webRecordId} (${(read.webLinks as string[]).join(", ")}); ` +
               `web (federal cap): loan ${federalRead.id} asked ${federalRead.askedMinor}, lent ${federalRead.principalMinor} at factor ${Number(federalRead.webFactor).toFixed(3)} from ${federalRead.webRecordId} (${(federalRead.webLinks as string[]).join(", ")}) by ${federalLend!.id}, against control ${federalTwin.id} asked ${federalTwin.askedMinor}, lent ${federalTwin.principalMinor} at factor 1 by ${federalTwinLend!.id}; ` +
-              `${capped.length} capped loans, ${plain.length} in the control, ${federalLoans.length} in the federal world; interest held back ${saved.id} ${saved.amountMinor} (${saved.lawId}). Passed over: ${passed.join("; ") || "none"}\n`,
+              `${capped.length} capped loans, ${plain.length} in the control, ${federalLoans.length} in the federal world; interest held back ${saved.id} ${saved.amountMinor} (${saved.lawId}); caps passed in play: ${[...law.inPlay, ...control.inPlay, ...federal.inPlay].map((row) => `${row.id} (${row.value})`).join(", ") || "none"}. Passed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }
