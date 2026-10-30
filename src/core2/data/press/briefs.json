@@ -1,0 +1,15 @@
+{
+  "description": "The record kinds a local outlet prints as briefs, a headline and one line in its side column (owner, Oct 29: side stories for realism, \"a line or two\"; OWNER-DECISIONS Oct 29 17:40 UTC). Each is a record the town keeps; the desk prints those its reporters left, by its own score, up to the outlet's space (briefsPerOutletWeek), and none when the town recorded none. The wording marks each brief: true (src/english/english-newscast.ts). The town-wide kinds (townWide) name no one and are the whole town's, so they involve every follower, as a law in force does; reporters never take a brief kind as their story.",
+  "kinds": [
+    "crime.victimized",
+    "crime.month",
+    "school.graduation",
+    "school.tests",
+    "school.honor",
+    "organization.founded",
+    "person-birth",
+    "housing.completed",
+    "housing.purchase"
+  ],
+  "townWide": ["crime.month", "school.graduation", "school.tests"]
+}
