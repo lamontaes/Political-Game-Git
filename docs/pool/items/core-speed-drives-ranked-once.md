@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-drives
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T09:24:08.501Z
 ---
 
 **What.** Each time a person with drives looks at what to do, the drives engine's offer rows (src/core2/modules/drives.ts known-cause-group, volunteer-place, drive-confidant) rank all their drives by strength and walk every cause group on the topic, building a fresh lookup key per group. A 2028 profile of one Ringgold, Louisiana save (seed long-1) put the drives engine at 14.8 s against 0.6 s in 2025, its offer rows inside availableActs at 5.7 s and groupKnown at 3.1 s. The join and donate offers each make the same group list.
