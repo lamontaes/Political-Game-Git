@@ -38,8 +38,8 @@ import {
   noteLine,
   withNotes,
 } from "./ui/list-row.mjs";
-import { fillArtwork } from "./ui/picture.mjs";
-import { barChart } from "./ui/chart.mjs";
+import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
+import { barChart, columnChart, donutChart } from "./ui/chart.mjs";
 import {
   select,
   searchBox,
@@ -2442,8 +2442,6 @@ const sheets = {
       api(`/api/bank?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.money;
-    const facts = (pairs) =>
-      pairs.map(([label, value]) => ({ node: row(label, value) }));
     const dwelling = me.card.dwelling;
     const deductions = Object.entries(budget.withholding?.byLine ?? {});
     // Cash, spending, assets and debts: the ledger's, the credit engine's and
@@ -2454,88 +2452,139 @@ const sheets = {
       asked > paid
         ? `${moneyWords(paid)} ${labels.loanPaid} · ${moneyWords(asked - paid)} ${labels.unpaid}`
         : moneyWords(paid);
-    return recordScreen({
-      grid: true,
-      sections: [
-        {
-          title: labels.cash,
-          items: [{ text: moneyWords(me.card.liquidMinor), tone: "title" }],
-        },
-        dwelling && {
-          title: me.card.age < 18 ? labels.householdHome : labels.home,
-          items: [
-            dwelling.presentation?.imageUrl && {
-              picture: dwelling.presentation.imageUrl,
-            },
-            { text: words(dwelling.kind ?? "") },
-            ...facts([
-              [
-                labels.tenure,
-                dwelling.tenure === "own" ? labels.owned : labels.rented,
-              ],
-              ...(dwelling.rentMinor !== undefined
-                ? [
-                    [
-                      labels.rent,
-                      `${moneyWords(dwelling.rentMinor)} ${labels.monthly}`,
-                    ],
-                  ]
-                : []),
-            ]),
-          ],
-        },
-        bank?.cash?.months?.length && {
-          title: labels.cashByMonth,
-          items: facts(
-            bank.cash.months.map((entry) => [
-              monthWords(entry.date),
-              moneyWords(entry.cashMinor),
-            ]),
-          ),
-        },
-        (bank?.spending?.length || bank?.loanPayments?.length) && {
-          title: labels.lastMonth,
-          items: facts([
-            ...(bank.spending ?? []).map((line) => [
-              named(labels.reasons, line.reasonKey),
-              owedWords(line.paidMinor, line.requestedMinor),
-            ]),
-            ...(bank.loanPayments ?? []).map((payment) => [
-              `${labels.loanPayments} · ${dateWords(payment.date, { year: false })}`,
-              owedWords(payment.paidMinor, payment.dueMinor),
-            ]),
-          ]),
-        },
-        bank?.assets?.length && {
-          title: labels.assets,
-          items: facts(
-            bank.assets.map((asset) => [
-              asset.kind === "savings"
-                ? `${labels.assetKinds.savings} · ${bank.name}`
-                : labels.assetKinds[asset.kind],
-              moneyWords(asset.valueMinor),
-            ]),
-          ),
-        },
-        bank?.debts?.length && {
-          title: labels.debts,
-          items: facts(
-            bank.debts.map((debt) => [
-              named(labels.debtKinds, debt.kind),
-              debt.pastDueMinor > 0
-                ? `${moneyWords(debt.owedMinor)} · ${moneyWords(debt.pastDueMinor)} ${labels.pastDue}`
-                : moneyWords(debt.owedMinor),
-            ]),
-          ),
-        },
-        deductions.length && {
-          title: labels.deductions,
-          items: facts(
-            deductions.map(([name, value]) => [words(name), moneyWords(value)]),
-          ),
-        },
-      ].filter(Boolean),
-    });
+    // The Money mock (Oct 14) on framed plates: the cash in large type with
+    // each month's review as columns under it, where last month went as a
+    // ring, and the home, what you own and what you owe as small plates
+    // beside it. Every figure is a record's own; nothing scrolls.
+    const shortMonth = (date) =>
+      (MONTH_NAMES[Number(String(date).slice(5, 7)) - 1] ?? "").slice(0, 3);
+    const months = [...(bank?.cash?.months ?? [])].reverse();
+    const spent = [
+      ...(bank?.spending ?? []).map((line) => ({
+        label: named(labels.reasons, line.reasonKey),
+        value: line.paidMinor,
+        unpaid: line.requestedMinor - line.paidMinor,
+      })),
+      ...(bank?.loanPayments ?? []).map((payment) => ({
+        label: labels.loanPayments,
+        value: payment.paidMinor,
+        unpaid: payment.dueMinor - payment.paidMinor,
+      })),
+    ]
+      .filter((part) => part.value > 0 || part.unpaid > 0)
+      .sort((a, b) => b.value - a.value);
+    const spentTotal = spent.reduce((n, part) => n + part.value, 0);
+    // The bank's figures are the household's; said so when you share it.
+    const shared = (me.card.home?.members ?? []).length > 0;
+    const homeValue = bank?.assets?.find((a) => a.kind === "home")?.valueMinor;
+    const owned = (bank?.assets ?? []).filter((a) => a.kind !== "home");
+    const unpaid = spent.filter((part) => part.unpaid > 0);
+    const cash = plate(
+      bank?.name ? `${labels.cash} · ${bank.name}` : labels.cash,
+      line(roundedMoney(me.card.liquidMinor), "money-figure"),
+      ...(months.length
+        ? [
+            columnChart(
+              months.map((m) => ({
+                label: shortMonth(m.date),
+                value: m.cashMinor,
+              })),
+              shared ? labels.householdCashByMonth : labels.cashByMonth,
+              roundedMoney,
+            ),
+          ]
+        : []),
+    );
+    cash.classList.add("money-cash");
+    const home = dwelling && {
+      title: me.card.age < 18 ? labels.householdHome : labels.home,
+      nodes: [
+        ...(dwelling.presentation?.imageUrl
+          ? [
+              pictureFrame({
+                src: dwelling.presentation.imageUrl,
+                className: "money-home-picture",
+              }),
+            ]
+          : []),
+        factPlates([
+          {
+            title: dwelling.tenure === "own" ? labels.owned : labels.rented,
+            value: words(dwelling.kind ?? ""),
+            // A home you own is worth its value; one you rent costs its rent.
+            note:
+              dwelling.tenure === "own" && homeValue
+                ? `${labels.worth} ${roundedMoney(homeValue)}`
+                : dwelling.rentMinor !== undefined
+                  ? `${labels.rent} ${roundedMoney(dwelling.rentMinor)} ${labels.monthly}`
+                  : "",
+          },
+        ]),
+      ],
+    };
+    return [
+      splitScreen({
+        main: [
+          cash,
+          ...(home ? [plate(home.title, ...home.nodes)] : []),
+          ...(deductions.length
+            ? [
+                plate(
+                  labels.deductions,
+                  ...deductions.map(([name, value]) =>
+                    row(words(name), moneyWords(value)),
+                  ),
+                ),
+              ]
+            : []),
+        ],
+        side: [
+          spent.length && {
+            title: `${shared ? labels.householdLastMonth : labels.lastMonth} · ${roundedMoney(spentTotal)}`,
+            nodes: [
+              donutChart(spent, roundedMoney(spentTotal), labels.lastMonth),
+              // A bill left unpaid is said, never folded into the ring.
+              ...unpaid.map((part) =>
+                row(
+                  part.label,
+                  owedWords(part.value, part.value + part.unpaid),
+                ),
+              ),
+            ],
+          },
+          owned.length && {
+            title: labels.assets,
+            nodes: [
+              factPlates(
+                owned.map((asset) => ({
+                  title:
+                    asset.kind === "savings"
+                      ? `${labels.assetKinds.savings} · ${bank.name}`
+                      : labels.assetKinds[asset.kind],
+                  value: roundedMoney(asset.valueMinor),
+                })),
+              ),
+            ],
+          },
+          bank?.debts?.length && {
+            title: labels.debts,
+            nodes: [
+              factPlates(
+                bank.debts.map((debt) => ({
+                  title: named(labels.debtKinds, debt.kind),
+                  value: roundedMoney(debt.owedMinor),
+                  note:
+                    debt.pastDueMinor > 0
+                      ? `${roundedMoney(debt.pastDueMinor)} ${labels.pastDue}`
+                      : "",
+                })),
+              ),
+            ],
+          },
+        ].filter(Boolean),
+        className: "money-screen",
+      }),
+    ];
   },
   async jobs() {
     const labels = controls.jobs;
