@@ -400,7 +400,7 @@
       "golden_path": "6",
       "package": "M3-legislating",
       "test": "In a random place, the player drafts an ordinance on the bill paper from the accepted catalog (docs/design/legislative-content-menus-v1.md: subject, operation, applicable sections), with amounts starting from the law in force and an optional phase-in; a fiscal note appears at drafting and the bill gets a real bill number; a bill beyond the body's authority gets the city attorney's warning, and a clear higher-level ban blocks it.",
-      "command": "npx vitest run src/core2/legislature.test.ts src/core2/legislature-bill-form.test.ts src/core2/legislature-sections.test.ts src/core2/policy-authority.test.ts src/bench/bill-paper.test.ts --maxWorkers=1 --testTimeout=900000",
+      "command": "npx vitest run src/core2/legislature.test.ts src/core2/legislature-bill-form.test.ts src/core2/legislature-sections.test.ts src/core2/policy-authority.test.ts src/bench/bill-paper.test.ts src/bench/phase-in.test.ts --maxWorkers=1 --testTimeout=900000",
       "passes": false
     },
     {
