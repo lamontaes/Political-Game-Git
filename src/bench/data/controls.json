@@ -521,7 +521,13 @@
       "Green": "Green"
     },
     "noIssues": "No law matches that.",
-    "inOffice": "In office"
+    "inOffice": "In office",
+    "comesFrom": "Where it comes from",
+    "goesTo": "Where it goes",
+    "books": "The books",
+    "otherLines": "Other",
+    "fiscalYear": "fiscal year",
+    "priorities": "Your priorities"
   },
   "results": {
     "you": "You",
@@ -605,7 +611,8 @@
     "markGap": "Mark gap"
   },
   "guide": {
-    "search": "Search"
+    "search": "Search",
+    "none": "No term matches that."
   },
   "campaignActs": {
     "volunteer": "Volunteers",

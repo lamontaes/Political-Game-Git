@@ -138,7 +138,7 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: /^budgets$/i })
     .click();
-  await page.locator(".record-stats strong").first().waitFor();
+  await page.locator(".budget-screen .donut-share").first().waitFor();
   // Budgets opens on the town's own books: its city government, or the county
   // that serves it where the place has no city, never the federal default.
   assert.ok(budget, "the budget view did not load");
@@ -155,8 +155,11 @@ try {
     `Budgets did not open on the local books (${local.level}) of ${levels}`,
   );
   console.log(`PASS Budgets opens on the ${local.level} books of ${levels}`);
+  // Every amount on the rings, in their keys and in the books.
   const sums = await page
-    .locator(".record-stats strong, .record-chart-line strong")
+    .locator(
+      ".budget-screen .donut-total, .budget-screen .donut-share, .budget-screen .record-value, .budget-screen .record-chart-line strong",
+    )
     .allInnerTexts();
   assert.ok(sums.length > 3, "the budget shows no sums");
   for (const sum of sums)

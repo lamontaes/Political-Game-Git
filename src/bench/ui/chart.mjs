@@ -79,9 +79,10 @@ export function columnChart(items, label, format = (value) => String(value)) {
 /**
  * A ring of the parts of a whole, largest first, the whole in its middle and a
  * key beside it with each part's share (the Money mock's "where the month
- * went"). Parts are colored in order from the kit's chart colors.
+ * went"). Parts are colored in order from the kit's chart colors; `format`
+ * words each part's amount in the key instead of its share.
  */
-export function donutChart(parts, centerText, label) {
+export function donutChart(parts, centerText, label, format) {
   const total = parts.reduce((n, p) => n + Math.max(0, p.value), 0);
   const ring = 2 * Math.PI * 40;
   let at = 0;
@@ -113,7 +114,10 @@ export function donutChart(parts, centerText, label) {
           el("span", { className: "donut-name", textContent: part.label }),
           el("span", {
             className: "donut-share",
-            textContent: `${total ? Math.round((Math.max(0, part.value) / total) * 100) : 0}%`,
+            // Each part's amount when the screen words amounts, else its share.
+            textContent: format
+              ? format(part.value)
+              : `${total ? Math.round((Math.max(0, part.value) / total) * 100) : 0}%`,
           }),
         ),
       ),

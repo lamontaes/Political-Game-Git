@@ -4328,7 +4328,9 @@ details.entry[open] {
   inset: 0;
   display: grid;
   place-items: center;
-  font: 700 19px var(--name);
+  padding: 0 36px;
+  text-align: center;
+  font: 600 16px/1.15 var(--ui);
   color: var(--text-strong);
 }
 .donut-key {
@@ -4456,4 +4458,74 @@ details.entry[open] {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+/* Budget (the Oct 14 mock on framed plates): the government, its year and total
+   in the name type; three plates in a row; the rings' keys carry amounts. */
+.plate-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+.plate-row > .plate {
+  margin: 0;
+}
+.budget-title {
+  font: 800 clamp(18px, 1.8vw, 24px) / 1.2 var(--name);
+  color: var(--text-strong);
+}
+.budget-adopted {
+  margin: -6px 0 2px;
+  color: var(--text-2);
+}
+.budget-screen .donut-chart {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+.budget-screen .donut-key {
+  width: 100%;
+}
+
+/* The Guide: term cards on a plate, the chosen term's article beside them. */
+.guide-cards .entry {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.guide-cards .entry h3 {
+  font: 700 15px/1.2 var(--name);
+  color: var(--gold);
+  margin: 0 0 3px;
+}
+.guide-cards .entry span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font: 13px/1.3 var(--ui);
+  color: var(--text-2);
+}
+.guide-cards .entry.on {
+  border-color: rgba(214, 189, 132, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(214, 189, 132, 0.35),
+    0 0 12px rgba(214, 189, 132, 0.2);
+}
+.guide-article .heading {
+  font: 800 clamp(20px, 2vw, 28px) / 1.15 var(--name);
+  margin: 0 0 8px;
+}
+.guide-short {
+  font: 500 16px/1.4 var(--speech);
+  color: var(--text-strong);
+  margin: 0 0 10px;
+}
+.guide-text {
+  font: 400 15px/1.45 var(--speech);
+  color: var(--text);
+  margin: 0 0 10px;
+}
+.member-line b {
+  font-weight: inherit;
 }
