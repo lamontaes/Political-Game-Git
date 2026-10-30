@@ -3012,7 +3012,18 @@ const sheets = {
     };
     return listScreen({
       search: { placeholder: labels.search },
-      layout: "cards",
+      layout: "tiles",
+      pages: {
+        rows: 2,
+        columns: 3,
+        rowHeight: 262,
+        gap: 14,
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
+      },
       entries: (query) =>
         destinations
           .filter((p) =>
@@ -3023,6 +3034,7 @@ const sheets = {
             picture: p.presentation?.imageUrl,
             lines: [hereLine(p)],
             note: reasonLine(p),
+            badge: p.filing || p.presentCount > 0,
             label: p.name,
             onSelect: () => showPlace(p),
             // The record behind the reason, for the specs; never shown as text.
