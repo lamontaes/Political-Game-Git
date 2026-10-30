@@ -1629,6 +1629,15 @@ export function shapedRate(
 }
 
 /**
+ * The row of the law in force on a series, as a bill's section cites it: the first level
+ * of the chain that holds one. The one reader of "today's amount" for a bill's paper and for
+ * the draft card that starts it.
+ */
+export function lawInForceRow(api: CoreAPI, series: string) {
+  return lawInForce(api, series).levels.find((l) => l.row)?.row ?? null;
+}
+
+/**
  * One section of a bill as the record holds it, for the paper to word: what
  * it changes (the series, question or budget line), the law in force before
  * (its value, shape and the measure that enacted it), what the section makes
@@ -1678,8 +1687,7 @@ export function billSections(
         : p.kind === "policy-question"
           ? p.question
           : undefined;
-    const answer = series ? lawInForce(api, series) : null;
-    const row = answer ? (answer.levels.find((l) => l.row)?.row ?? null) : null;
+    const row = series ? lawInForceRow(api, series) : null;
     const schedules = row?.terms?.schedules;
     const shapeBefore: BillSection["before"]["shape"] = row
       ? schedules
