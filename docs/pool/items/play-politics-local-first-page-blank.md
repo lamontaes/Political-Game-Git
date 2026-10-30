@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/politics.browser.mjs
 
 **Notes.** Found by the screens designer, Oct 27, while taking the before shot for screens-government-rows-plain. lead: play-first.
+
+- 2026-10-30 (people session, while building faces-at-open.browser.mjs on #6918, branch at main 1060068a2e): Local opens blank in two more places, with no pager visible at 1440x900, only the Local, State and Federal buttons. Washington, District of Columbia (seed 51b9c804-2828-4b4b-a184-0110c81c88ba) and Mendeltna, Alaska (seed 370d25dd-1c82-4e55-aabc-cbd001df3795); Checker 3 waited 60 seconds for any member there and none appeared. Replay with `FACES_SEED=<seed> node src/bench/faces-at-open.browser.mjs` (it now logs "politics: 0 of 0 faces" there instead of waiting). It may be a different cause from the pager: D.C.'s local body is the Council of the District, and Mendeltna is unincorporated, governed by the state with no borough (the Oct 29 22:45 ruling's county-board answer has no county here).
