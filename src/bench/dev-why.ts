@@ -437,7 +437,7 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
   if (all)
     rows.push({
       label: "all time, the cash journal",
-      value: `${all.count} postings, in ${money(all.grossCreditMinor)}, out ${money(all.grossDebitMinor)}`,
+      value: `${all.count} postings, in ${money(Number(all.grossCreditMinor))}, out ${money(Number(all.grossDebitMinor))}`,
     });
   const person = core.people.get(personId);
   if (person)

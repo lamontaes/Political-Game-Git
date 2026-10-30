@@ -44,6 +44,8 @@ const sorted = (lines: Readonly<Record<string, number>>) =>
  * What a government's treasury has actually taken in and paid out, from the
  * cash journal's running totals for its accounts since the world opened, and
  * the cash those accounts hold now. Null where the journal holds nothing yet.
+ * The totals are exact numbers until a long save's treasury passes 2^53 cents
+ * (about $90 trillion), then the nearest number to the journal's exact sum.
  */
 export function booksOf(core: CoreState, organizationId: string) {
   const journal = core.cashJournal;
@@ -56,8 +58,8 @@ export function booksOf(core: CoreState, organizationId: string) {
   return {
     since: gameStartDate(),
     entries: totals.count,
-    takenInMinor: totals.grossCreditMinor,
-    paidOutMinor: totals.grossDebitMinor,
+    takenInMinor: Number(totals.grossCreditMinor),
+    paidOutMinor: Number(totals.grossDebitMinor),
     cashMinor,
   };
 }

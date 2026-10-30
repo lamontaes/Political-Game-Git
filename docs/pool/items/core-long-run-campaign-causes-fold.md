@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: speed/campaign-causes-fold
 pr: #6880
 blocked-on:

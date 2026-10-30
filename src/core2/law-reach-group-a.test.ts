@@ -381,7 +381,7 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       const t = core.cashJournal.totalsByAccount.get(
         `cash:${state.organizationId}:residual`,
       );
-      return (t?.grossCreditMinor ?? 0) + (t?.grossDebitMinor ?? 0);
+      return Number(t?.grossCreditMinor ?? 0) + Number(t?.grossDebitMinor ?? 0);
     };
     recordRoundTrip(
       key,
