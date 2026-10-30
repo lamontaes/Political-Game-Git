@@ -6,7 +6,7 @@ lead: play-first
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/play-menus-your-office-plates
 pr: #6913
 blocked-on: "#6900 (the menu stack's shared parts: #6881, #6883, #6885, #6892, #6900)"
