@@ -279,16 +279,18 @@ describe("a door yes is near-binding", () => {
 
 describe("a door yes holds for the one household the door reached", () => {
   it("in a town whose counted records each stand for several households, the pledged household votes on its word and the rest as they would have", () => {
-    // A played-world town opened at its Census count, where a counted record
-    // stands for a sample of households: draws go on until one has a record
-    // of weight above one that a door reaches.
-    for (let draw = 0; draw < 16; draw += 1) {
+    // A played-world town whose counted records each stand for several real
+    // households (the opening's count scale, as a town opened at its Census
+    // size above its generated sample has): draws go on until a door reaches
+    // a counted record that votes in the race.
+    for (let draw = 0; draw < 8; draw += 1) {
       const place = drawPlace(`${seed}:${draw}`, "door-pledge-weighted");
       const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
       setBookkeeping(false);
       const { core } = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
+        countScale: 3,
       });
       const weighted = new Set(
         countedResidents(core)
