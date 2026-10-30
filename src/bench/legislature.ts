@@ -7,6 +7,7 @@ import {
   billForm,
   currentAmount,
   draftBill,
+  lawInForceRow,
   memberKey,
   votesOn,
   whipCount,
@@ -18,7 +19,7 @@ import { floorDateOf } from "../core2/modules/world-legislating";
 import type { TermRow } from "../core2/modules/offices";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
-import { backdropFor, stagePeople } from "./scene";
+import { backdropFor, faceOf, stagePeople } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -412,6 +413,26 @@ export function bodyScene(
 }
 
 /**
+ * A body's members as the meeting panel draws them: each with their headshot (the
+ * face they wear in the chamber), party and the key their votes are recorded under.
+ */
+export function bodyMembers(
+  core: CoreState,
+  personId: string,
+  officeId: string,
+  place: string,
+) {
+  const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
+  return (body?.members ?? []).map((m) => ({
+    key: m.key,
+    name: m.name,
+    party: m.party ?? null,
+    you: m.you,
+    face: faceOf(core, m.key.replace(/^official:/, ""), place),
+  }));
+}
+
+/**
  * The bill catalog for a body: each law area's policies and budget lines that
  * its level can pass, with the amount in force today and whether the state
  * lets a town act (`billCatalog`, never the raw catalog file).
@@ -443,6 +464,14 @@ function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
         ...(row.series ? { series: row.series } : {}),
         ...(row.unit ? { unit: row.unit } : {}),
         inForce: row.inForce,
+        // The amount the law in force holds, as the bill's paper cites it ("before"): the
+        // draft card shows this beside the new amount so both screens say one thing.
+        today: row.series
+          ? (() => {
+              const law = lawInForceRow(api, row.series);
+              return law ? { value: law.value, unit: law.unit ?? null } : null;
+            })()
+          : null,
         allowed: row.authority.allowed,
         warning: row.authority.warning,
         reason: row.authority.reason,
