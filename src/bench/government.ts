@@ -436,6 +436,9 @@ export function localRaces(core: CoreState) {
           contest.filingDeadline >= core.date,
         // Where a filing for it is made, for the hot link to the office.
         filedWith: office?.filedWith ?? null,
+        // Whether the player may run for it (the offices the player runs
+        // for, player-offices.json): the screen offers to file only then.
+        playerMayFile: playerMayFileFor(api, contest.id),
         filers,
       };
     })
@@ -568,7 +571,7 @@ export function fileForOffice(
 ) {
   if (!playerMayFileFor(coreAPI(core), contestId))
     throw new Error(
-      "The player files only for council, state legislature, mayor, governor, Congress and president.",
+      "The player files only for the place's own council or its equivalent, its mayor or its equivalent, the state legislature, governor, Congress and president.",
     );
   return fileCandidacy(coreAPI(core), {
     personId,
