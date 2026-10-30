@@ -52,21 +52,33 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Issues", exact: true })
     .click();
-  await page.locator("button.entry").first().waitFor();
+  await page.locator("#sheet-body .issue-cards .entry").first().waitFor();
   const wordsOf = (text) =>
-    [...text.matchAll(/\b([A-Z]\w+) law\b/g)].map((m) => m[1]);
+    [...text.matchAll(/\b([A-Za-z]+) law\b/gi)].map(
+      (m) => m[1][0].toUpperCase() + m[1].slice(1).toLowerCase(),
+    );
   const seen = new Set();
-  for (const line of await page.locator(".entry-line").allInnerTexts())
-    wordsOf(line).forEach((w) => seen.add(w));
+  // Every subject on the rail, each card's own line ("Commonwealth law since 2024").
+  const subjects = await page
+    .locator("#sheet-body [data-subject]")
+    .evaluateAll((tabs) => tabs.map((t) => t.dataset.subject));
+  for (const subject of subjects) {
+    await page.locator(`#sheet-body [data-subject="${subject}"]`).click();
+    await page.waitForTimeout(200);
+    for (const line of await page.locator(".entry-line").allInnerTexts())
+      wordsOf(line).forEach((w) => seen.add(w));
+  }
   if (shots)
     await page.screenshot({
       path: `${shots}/${process.env.SHOT_NAME ?? "after"}-issues.png`,
     });
-  // The law page of the first card names its levels the same way.
-  await page.locator("button.entry").first().click();
-  await page.waitForTimeout(1500);
-  const lawPage = await page.locator("#sheet-body").innerText();
-  const onPage = wordsOf(lawPage);
+  // The law page of a card names its levels the same way.
+  await page.locator("#sheet-body .issue-cards .entry").first().click();
+  await page.locator("#sheet-body .law-page").waitFor();
+  await page.waitForTimeout(400);
+  const onPage = wordsOf(
+    await page.locator("#sheet-body .law-page").innerText(),
+  );
   onPage.forEach((w) => seen.add(w));
   assert.ok(onPage.length > 0, "the law page names no level");
   if (shots)
