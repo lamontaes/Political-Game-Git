@@ -25,6 +25,8 @@ const seed =
   process.env.GOLDEN_PATH_SEED ??
   randomBytes(8).toString("hex");
 const place = drawPlace(seed, "bill-paper");
+/** The amount, in minor units, the spending bill sets for its budget line. */
+const BUDGET_LINE_AMOUNT_MINOR = 10000;
 
 describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
   it("reads the filed bill from its records, with the estimate beside each section", () => {
@@ -159,7 +161,7 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
         `${billId} the note says what it counts`,
       ).toBeGreaterThan(0);
       console.log(
-        `fiscal note: ${where} (${key}, seed ${drawn}) bill ${billId} floor ${floor} minor/hour: ${note.workers} workers, ${note.payMinor} minor a year, ${costs.size} employers; commitments ${ids.join(", ") || "none"}`,
+        `fiscal note: ${where} (${key}, root seed ${seed}, place seed ${drawn}) bill ${billId} floor ${floor} minor/hour: ${note.workers} workers, ${note.payMinor} minor a year, ${costs.size} employers; commitments ${ids.join(", ") || "none"}`,
       );
       return ids.length;
     };
@@ -202,7 +204,7 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
       kind: "draft",
       officeId: council.id,
       line: line!,
-      value: 10000,
+      value: BUDGET_LINE_AMOUNT_MINOR,
     }) as { id: string; number: string };
     const budgetPaper = billPaper(world.core, budget.id);
     expect(budgetPaper.sections.length, budget.id).toBeGreaterThan(0);
@@ -213,7 +215,7 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
     const set = budgetRow.provisions.find(
       (p) => p.kind === "budget-line" && p.line === line,
     )!;
-    expect(set.value, budget.id).toBe(10000);
+    expect(set.value, budget.id).toBe(BUDGET_LINE_AMOUNT_MINOR);
     expect(
       budgetPaper.sections[0]!.estimate.lineAmountMinor,
       `${budget.id} carries its line amount`,
@@ -225,7 +227,7 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
     });
     expect(budgetPaper.estimate.note.length, budget.id).toBeGreaterThan(0);
     console.log(
-      `budget line: ${where} (${key}) bill ${budget.id} line ${line} amount ${budgetPaper.sections[0]!.estimate.lineAmountMinor} minor, note ${budgetPaper.estimate.workers} workers ${budgetPaper.estimate.payMinor} minor`,
+      `budget line: ${where} (${key}, root seed ${seed}, place seed ${drawn}) bill ${budget.id} line ${line} amount ${budgetPaper.sections[0]!.estimate.lineAmountMinor} minor, note ${budgetPaper.estimate.workers} workers ${budgetPaper.estimate.payMinor} minor`,
     );
   }, 600_000);
 });
