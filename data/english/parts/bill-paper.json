@@ -1,0 +1,30 @@
+{
+  "schema": "english-parts/1",
+  "register": "bill-paper",
+  "description": "Lines a bill's paper carries beside its text, worded from the bill's own records: the warning the body's lawyer gives on a power the authority row marks disputed (governing phase B, gov-m3-01-city-attorney-warning-on-the-bill). Said of the body, never of the player, so it fits any bill.",
+  "slots": {
+    "lawyer": "The body's lawyer by the title the records give, in lower case: city attorney, county attorney, town counsel.",
+    "body": "The body that would pass the bill, as the paper names it: the council, the board."
+  },
+  "maxWords": 16,
+  "parts": [
+    {
+      "key": "bill-paper.authority.disputed",
+      "move": "authority",
+      "text": "The {lawyer} warns that the {body} may not have the power to do this.",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "bill-paper.authority.disputed-body",
+      "move": "authority",
+      "text": "The {body}'s lawyer warns that it may not have the power to do this.",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "kind": "written"
+    }
+  ]
+}

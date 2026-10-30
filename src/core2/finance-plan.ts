@@ -7,6 +7,7 @@ import {
   cashJournalMapDelete,
   cashJournalMapSet,
   cashJournalSetWrite,
+  isCashJournalLifetimeMinor,
 } from "./journal-state";
 import type {
   CashJournalMetadataWrite,
@@ -738,8 +739,6 @@ type PlannedCashOwner = {
   allocatedMinor: number;
   outside: boolean;
   outsideNetMinor: number;
-  outsideIncomingMinor: number;
-  outsideOutgoingMinor: number;
 };
 
 /** Only touched complete portfolios are read; only temporary balances are changed. */
@@ -842,14 +841,21 @@ export class FinanceCashPlanner {
     const outsideNetMinor = flow
       ? this.reads.field(flow, "netMinor")
       : this.zero;
+    // The gross sums since the world opened may pass 2^53 as exact bigints;
+    // the plan reads them only to prove the signed net, which stays safe.
     const outsideIncomingMinor = flow
       ? this.reads.field(flow, "incomingMinor")
       : this.zero;
     const outsideOutgoingMinor = flow
       ? this.reads.field(flow, "outgoingMinor")
       : this.zero;
-    minor(outsideIncomingMinor, this.zero, "outside incoming total");
-    minor(outsideOutgoingMinor, this.zero, "outside outgoing total");
+    if (
+      !isCashJournalLifetimeMinor(outsideIncomingMinor, this.zero) ||
+      !isCashJournalLifetimeMinor(outsideOutgoingMinor, this.zero)
+    )
+      throw new Error(
+        "Invalid nonnegative integer finance amount: outside gross totals",
+      );
     if (
       !Number.isSafeInteger(outsideNetMinor) ||
       BigInt(outsideNetMinor) !==
@@ -864,8 +870,6 @@ export class FinanceCashPlanner {
       allocatedMinor,
       outside: outsideSource !== undefined,
       outsideNetMinor,
-      outsideIncomingMinor,
-      outsideOutgoingMinor,
     };
     this.#owners.set(id, planned);
     return planned;
@@ -957,27 +961,11 @@ export class FinanceCashPlanner {
     const payerNet = payer.outside
       ? signed(BigInt(payer.outsideNetMinor) - BigInt(paid))
       : payer.outsideNetMinor;
-    const payerOutgoing = payer.outside
-      ? exact(
-          BigInt(payer.outsideOutgoingMinor) + BigInt(paid),
-          this.zero,
-          "outside outgoing total",
-        )
-      : payer.outsideOutgoingMinor;
     const payeeNet = payee.outside
       ? signed(BigInt(payee.outsideNetMinor) + BigInt(paid))
       : payee.outsideNetMinor;
-    const payeeIncoming = payee.outside
-      ? exact(
-          BigInt(payee.outsideIncomingMinor) + BigInt(paid),
-          this.zero,
-          "outside incoming total",
-        )
-      : payee.outsideIncomingMinor;
     payer.outsideNetMinor = payerNet;
-    payer.outsideOutgoingMinor = payerOutgoing;
     payee.outsideNetMinor = payeeNet;
-    payee.outsideIncomingMinor = payeeIncoming;
     this.#legIds.add(legId);
     payer.currentMinor = paying;
     payee.currentMinor = receiving;
