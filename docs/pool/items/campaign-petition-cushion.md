@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: governing/petition-cushion
-pr:
+pr: #6921
 blocked-on:
 source: governing lead, Oct 30 (measurement: petitions found short)
 lead: governing
