@@ -5,11 +5,12 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/m3-long-running
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T02:10:23.426Z
 ---
 
 **What.** TODO
