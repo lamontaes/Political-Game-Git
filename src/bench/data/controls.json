@@ -604,7 +604,8 @@
     "markGap": "Mark gap"
   },
   "guide": {
-    "search": "Search"
+    "search": "Search",
+    "none": "No term matches that."
   },
   "campaignActs": {
     "volunteer": "Volunteers",
