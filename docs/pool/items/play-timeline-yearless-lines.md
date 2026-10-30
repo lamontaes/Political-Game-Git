@@ -6,12 +6,13 @@ lead: cto
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: cto/timeline-yearless
 pr:
 blocked-on:
 milestone: play-first
 source: CTO and Words, Oct 30 (the timeline shows each year above a sentence that said it again)
+claimed-at: 2026-10-30T03:23:34.691Z
 ---
 
 **What.** A person's history on their card and in Your life is a timeline that prints each record's year above its sentence, and the sentence repeated the year ("Born in Lewes, Delaware in 1963."). Words added year-less pieces for the timeline (`person-history.timeline.*`, #6862). This item switches the card's one reader to them, deletes the dated pieces and the two closeness pieces nobody reads any longer, and keeps two records of the same event said once by its year and words, so three elections in three years stay three lines.
