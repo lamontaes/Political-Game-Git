@@ -2140,6 +2140,89 @@ export function countedDrivesHeld(api: CoreAPI): {
   return out;
 }
 
+/** One cause group as another engine reads it (a campaign weighing whom the group backs). */
+export interface CauseGroupView {
+  readonly organizationId: string;
+  /** Who founded it (null where no member is left to say). */
+  readonly founderId: PersonId | null;
+  readonly topic: string;
+  /** The change it was founded to win: its founder's drive. */
+  readonly desiredChange: string;
+  /** Its living members today, longest-standing first. */
+  readonly memberIds: readonly PersonId[];
+}
+
+const causeGroupIds = new WeakMap<
+  object,
+  { size: number; ids: readonly string[] }
+>();
+
+/**
+ * The cause groups founded in a place, read-only. The founder and the change
+ * the group was founded to win come from this engine's own record of the
+ * founding; where it holds none (a world rebuilt from its records), from what
+ * the founding wrote: the earliest member and the drive their membership
+ * names. The groups are found once each time the world's organizations
+ * change, not on every read.
+ */
+export function causeGroupsIn(
+  api: CoreAPI,
+  placeId: string,
+  data: DrivesData = DEFAULT_DRIVES_DATA,
+): readonly CauseGroupView[] {
+  const state = api.state as CoreState;
+  let index = causeGroupIds.get(state);
+  if (index?.size !== state.organizations.size) {
+    index = {
+      size: state.organizations.size,
+      ids: [...state.organizations.values()]
+        .filter((org) => org.kind === data.causeGroupKind && !!org.topic)
+        .map((org) => org.id)
+        .sort(),
+    };
+    causeGroupIds.set(state, index);
+  }
+  const here = new Set(
+    index.ids.filter((id) => state.organizations.get(id)?.placeId === placeId),
+  );
+  if (!here.size) return [];
+  const members = new Map<string, { personId: PersonId; joinedAt: string }[]>();
+  const driveOf = new Map<string, string | undefined>();
+  for (const row of state.memberships.values()) {
+    if (!here.has(row.organizationId)) continue;
+    if (!state.people.get(row.personId)?.alive) continue;
+    const list = members.get(row.organizationId) ?? [];
+    list.push({ personId: row.personId, joinedAt: row.joinedAt });
+    members.set(row.organizationId, list);
+    driveOf.set(row.id, row.sourceDriveId);
+  }
+  const runtime = runtimeFor(state);
+  const out: CauseGroupView[] = [];
+  for (const id of [...here].sort()) {
+    // Longest-standing first; on one day, in the order they joined (the
+    // founder joins at the founding, before anyone else that day).
+    const rows = (members.get(id) ?? []).sort((a, b) =>
+      a.joinedAt.localeCompare(b.joinedAt),
+    );
+    const founderId = runtime.groupFounder.get(id) ?? rows[0]?.personId ?? null;
+    const driveId = founderId ? driveOf.get(`${founderId}:${id}`) : undefined;
+    const desiredChange =
+      runtime.groupChange.get(id) ??
+      (founderId && driveId
+        ? state.people.get(founderId)?.drives.get(driveId)?.desiredChange
+        : undefined);
+    if (!desiredChange) continue;
+    out.push({
+      organizationId: id,
+      founderId,
+      topic: state.organizations.get(id)!.topic!,
+      desiredChange,
+      memberIds: rows.map((row) => row.personId),
+    });
+  }
+  return out;
+}
+
 /** Read-only report for observers and proofs; writes nothing. */
 export function drivesReport(core: Readonly<CoreState>) {
   const runtime = runtimes.get(core);
