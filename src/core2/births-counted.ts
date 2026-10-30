@@ -68,7 +68,7 @@ import {
 import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import type { ModuleRow } from "./module-data";
-import type { CoreAPI, PersonInput, PlaceId, Source } from "./types";
+import type { CoreAPI, PersonId, PersonInput, PlaceId, Source } from "./types";
 
 /** Unit conversions only: NCHS rates are per 1,000 women; HUD figures are dollars. */
 const PER_THOUSAND = 1000,
@@ -270,6 +270,35 @@ function partnerOf(
   );
 }
 
+/** The numbers a birth standing reads every time, read once per place in the order it reads them. */
+interface StandingParameters {
+  readonly ageCenter: number;
+  readonly ageSpread: number;
+  readonly daysPerMeanYear: number;
+  readonly ageWeight: number;
+  readonly childWeight: number;
+  readonly noChildPull: number;
+  readonly perChildPull: number;
+  readonly incomeWeight: number;
+  readonly jobWeight: number;
+  readonly roomWeight: number;
+}
+
+function standingParameters(api: CoreAPI): StandingParameters {
+  return {
+    ageCenter: renewalParameter(api, "renewalAgeCenter"),
+    ageSpread: renewalParameter(api, "renewalAgeSpread"),
+    daysPerMeanYear: renewalParameter(api, "daysPerMeanYear"),
+    ageWeight: renewalParameter(api, "renewalAgeWeight"),
+    childWeight: renewalParameter(api, "renewalChildWeight"),
+    noChildPull: renewalParameter(api, "renewalNoChildPull"),
+    perChildPull: renewalParameter(api, "renewalPerChildPull"),
+    incomeWeight: renewalParameter(api, "renewalIncomeWeight"),
+    jobWeight: renewalParameter(api, "renewalJobWeight"),
+    roomWeight: renewalParameter(api, "renewalRoomWeight"),
+  };
+}
+
 /**
  * How a counted household stands toward a child now, from its record: the
  * same reasons full couples weigh (age, children, partner, income against
@@ -282,31 +311,49 @@ function birthStanding(
   date: string,
   median: number,
   roomCost: number,
+  p: StandingParameters,
 ): number {
-  const p = (key: string) => renewalParameter(api, key);
   const age = ageOf(woman, date);
-  const distance = (age - p("renewalAgeCenter")) / p("renewalAgeSpread");
+  const distance = (age - p.ageCenter) / p.ageSpread;
   const children = record.people.filter(
     (row) =>
       woman.familyIds.includes(row.id) &&
       age - ageOf(row, date) >= YOUNGEST_PARENT_AGE,
   ).length;
   const wages = record.jobs.reduce((n, job) => n + job.wageDailyMinor, 0);
-  const ratio = (wages * p("daysPerMeanYear")) / median;
+  const ratio = (wages * p.daysPerMeanYear) / median;
   const partner = partnerOf(record, woman, date);
   const employed = [woman, partner].filter(
     (row) => row && record.jobs.some((job) => job.personId === row.id),
   ).length;
   return (
-    p("renewalAgeWeight") * (2 * Math.exp(-distance * distance) - 1) +
-    p("renewalChildWeight") *
-      (p("renewalNoChildPull") - p("renewalPerChildPull") * children) +
-    (p("renewalIncomeWeight") * (ratio - 1)) / (ratio + 1) +
-    p("renewalJobWeight") * (employed - 1) -
-    (p("renewalRoomWeight") * roomCost) /
-      (wages * p("daysPerMeanYear") + roomCost + 1) +
-    (partner ? 1 : -p("renewalWaitPull"))
+    p.ageWeight * (2 * Math.exp(-distance * distance) - 1) +
+    p.childWeight * (p.noChildPull - p.perChildPull * children) +
+    (p.incomeWeight * (ratio - 1)) / (ratio + 1) +
+    p.jobWeight * (employed - 1) -
+    (p.roomWeight * roomCost) / (wages * p.daysPerMeanYear + roomCost + 1) +
+    // Read only without a partner, as it always was.
+    (partner ? 1 : -renewalParameter(api, "renewalWaitPull"))
   );
+}
+
+/** The numbers a counted woman's exposure reads, read once per place in the order it reads them. */
+interface ExposureParameters {
+  readonly ageCenter: number;
+  readonly ageSpread: number;
+  readonly moneyBufferDays: number;
+  readonly one: number;
+  readonly unplannedExposure: number;
+}
+
+function exposureParameters(api: CoreAPI): ExposureParameters {
+  return {
+    ageCenter: renewalParameter(api, "renewalAgeCenter"),
+    ageSpread: renewalParameter(api, "renewalAgeSpread"),
+    moneyBufferDays: renewalParameter(api, "moneyBufferDays"),
+    one: renewalParameter(api, "one"),
+    unplannedExposure: renewalParameter(api, "renewalUnplannedExposure"),
+  };
 }
 
 /**
@@ -315,24 +362,20 @@ function birthStanding(
  * terms a full couple's exposure reads.
  */
 function countedExposure(
-  api: CoreAPI,
   record: ResidentHouseholdRecord,
   woman: PersonInput,
   date: string,
+  p: ExposureParameters,
 ): number {
-  const p = (key: string) => renewalParameter(api, key);
-  const distance =
-    (ageOf(woman, date) - p("renewalAgeCenter")) / p("renewalAgeSpread");
+  const distance = (ageOf(woman, date) - p.ageCenter) / p.ageSpread;
   const cash = record.people.reduce((n, row) => n + row.liquidMinor, 0);
   const costs = record.people.reduce(
     (n, row) => n + row.livingCostDailyMinor,
     0,
   );
-  const cushion = cash / (cash + costs * p("moneyBufferDays") + p("one"));
+  const cushion = cash / (cash + costs * p.moneyBufferDays + p.one);
   return (
-    p("renewalUnplannedExposure") *
-    Math.exp(-distance * distance) *
-    (p("one") - cushion)
+    p.unplannedExposure * Math.exp(-distance * distance) * (p.one - cushion)
   );
 }
 
@@ -377,7 +420,8 @@ export function applyCountedFlows(
       births: Number(carryRow?.births ?? 0),
       deaths: { ...((carryRow?.deaths as Record<string, number>) ?? {}) },
     };
-    const people = households.flatMap((record) => record.people);
+    // Every counted person here, household by household (filled in below).
+    const people: PersonInput[] = [];
     // A counted household stands for as many real ones as its weight says
     // (one model, two tiers): every expected count is in real people, and an
     // event in its record consumes that many.
@@ -389,23 +433,36 @@ export function applyCountedFlows(
     // The household's income fifth, for the outcome web's factor on a death.
     const fifthOf = new Map<string, number>();
     for (const record of households) {
-      const at = counted?.householdOf.get(record.household.id);
+      const householdId = record.household.id;
+      const members = record.people;
+      const at = counted?.householdOf.get(householdId);
       const weight =
         at === undefined ? 1 : counted!.weightOf(counted!.households[at]!);
       if (at !== undefined)
         tenureOf.set(
-          record.household.id,
+          householdId,
           counted!.households[at]!.tenure === "rent" ? "rent" : "own",
         );
       const fifth =
         at === undefined
           ? undefined
           : incomeBandOf(householdIncome(runtime!, counted!.households[at]!));
-      for (const person of record.people) {
+      for (const person of members) {
+        people.push(person);
         weightOf.set(person.id, weight);
         if (fifth !== undefined) fifthOf.set(person.id, fifth);
       }
     }
+    // Each person's death cohort, worked out once this month.
+    const cohortOf = new Map<PersonInput, string>();
+    const cohortKey = (person: PersonInput) => {
+      let key = cohortOf.get(person);
+      if (key === undefined) cohortOf.set(person, (key = deathCohort(person)));
+      return key;
+    };
+    // The renewal numbers, read at their first use here.
+    let standingNumbers: StandingParameters | undefined;
+    let exposureNumbers: ExposureParameters | undefined;
     // The web's factor on each member's chance of a serious illness, by age and fifth.
     const webDeath: { recordId: string | null } = { recordId: null };
     const webDeaths = (person: PersonInput, on: string) => {
@@ -558,6 +615,8 @@ export function applyCountedFlows(
       (person) => !ill.has(person.id) && !dead.has(person.id),
     );
     const owed: Record<string, number> = { ...carry.deaths };
+    // The cohorts the latest `fall` weighed.
+    let lastCohorts = new Map<string, PersonInput[]>();
     const fall = (
       healthy: PersonInput[],
       on: string,
@@ -567,7 +626,7 @@ export function applyCountedFlows(
       for (const person of healthy) {
         // Looking back before the opening, someone born since was not yet there to fall ill.
         if (person.birthDate > on) continue;
-        const key = deathCohort(person);
+        const key = cohortKey(person);
         const cohort = cohorts.get(key);
         if (cohort) cohort.push(person);
         else cohorts.set(key, [person]);
@@ -606,6 +665,7 @@ export function applyCountedFlows(
         expected += share;
         debts[key] = (debts[key] ?? 0) + share;
       }
+      lastCohorts = cohorts;
       const sorted = new Set<string>();
       // The illnesses owed (the sum of every cohort's debt) begin, each in
       // the cohort owed the most, while the debt covers the real people the
@@ -706,7 +766,12 @@ export function applyCountedFlows(
     carry.deaths = owed;
     // A cohort with nobody left keeps no row, but what it owed or overpaid
     // stays in the town's pool, so the year's total still matches the tables.
-    const present = new Set(well.map(deathCohort));
+    // The last fall weighed every well person not ill and born by today; the
+    // rest of the well are added by hand.
+    const present = new Set(lastCohorts.keys());
+    for (const person of well)
+      if (ill.has(person.id) || person.birthDate > date)
+        present.add(cohortKey(person));
     for (const key of Object.keys(owed))
       if (key !== DEATH_POOL && !present.has(key)) {
         owed[DEATH_POOL] = (owed[DEATH_POOL] ?? 0) + owed[key]!;
@@ -761,9 +826,31 @@ export function applyCountedFlows(
         String(pregnancy.dueDate) > date
       )
         continue;
-      const found = (countedHouseholdsByPlace(core).get(placeId) ?? []).find(
-        (record) => record.people.some((kid) => kid.id === pregnancy.motherId),
-      );
+      // Her household by the store's index: a counted person id has one
+      // counted member, and a counted member's household is live.
+      const at =
+        typeof pregnancy.motherId === "string"
+          ? counted?.countedMember(pregnancy.motherId as PersonId)
+          : undefined;
+      const home =
+        at === undefined
+          ? undefined
+          : counted!.households[counted!.household[at]!];
+      const found =
+        home && !home.gone && home.placeId === placeId
+          ? counted!.householdView(home)
+          : undefined;
+      if (bookkeeping()) {
+        const scanned = (
+          countedHouseholdsByPlace(core).get(placeId) ?? []
+        ).find((record) =>
+          record.people.some((kid) => kid.id === pregnancy.motherId),
+        );
+        if (scanned?.household.id !== found?.household.id)
+          throw new Error(
+            `A counted mother's household by index is not the one found by scanning: ${String(pregnancy.motherId)}`,
+          );
+      }
       const mother = found?.people.find((kid) => kid.id === pregnancy.motherId);
       if (!found || !mother) {
         // She was filled in as a full person or moved: the pregnancy leaves the group with her.
@@ -775,7 +862,7 @@ export function applyCountedFlows(
       const partner = partnerOf(found, mother, date);
       carry.births -= Number(pregnancy.stands);
       const baby = countedNewborn(api, found, mother, date);
-      addCountedPerson(core, found.household.id, baby);
+      addCountedPerson(core, mother.householdId, baby);
       row.births.push(baby.id);
       store.table(birthsTable).put({
         id: `${baby.id}:birth`,
@@ -787,7 +874,7 @@ export function applyCountedFlows(
         otherParentId: partner?.id ?? null,
         date,
         placeId,
-        householdId: found.household.id,
+        householdId: mother.householdId,
         countsId: row.id,
       });
       store.table(unplannedTable).put({
@@ -802,8 +889,9 @@ export function applyCountedFlows(
       woman: PersonInput;
       standing: number;
     }[] = [];
-    for (const record of current)
-      for (const woman of record.people) {
+    for (const record of current) {
+      const members = record.people;
+      for (const woman of members) {
         if (woman.looks?.gender !== "female") continue;
         const age = ageOf(woman, date);
         const rate = rateList.find(
@@ -818,13 +906,13 @@ export function applyCountedFlows(
           ? webFactorFor(api, placeId, "births.rate", {
               age,
               sex: "female",
-              tenure: tenureOf.get(record.household.id),
+              tenure: tenureOf.get(woman.householdId),
             })
           : 1;
         row.expected.births +=
           monthlyShare(rate * webFactor, months) * weightOfPerson(woman);
         if (already.has(woman.id)) continue;
-        const recent = record.people.some(
+        const recent = members.some(
           (row) =>
             woman.familyIds.includes(row.id) &&
             (today - Date.parse(row.birthDate)) / MS_PER_DAY < spacing,
@@ -834,9 +922,18 @@ export function applyCountedFlows(
         mothers.push({
           record,
           woman,
-          standing: birthStanding(api, record, woman, date, median, roomCost),
+          standing: birthStanding(
+            api,
+            record,
+            woman,
+            date,
+            median,
+            roomCost,
+            (standingNumbers ??= standingParameters(api)),
+          ),
         });
       }
+    }
     mothers.sort(
       (a, b) => b.standing - a.standing || compare(a.woman.id, b.woman.id),
     );
@@ -849,7 +946,7 @@ export function applyCountedFlows(
       if (carry.births < stands) continue;
       carry.births -= stands;
       const baby = countedNewborn(api, record, woman, date);
-      addCountedPerson(core, record.household.id, baby);
+      addCountedPerson(core, woman.householdId, baby);
       row.births.push(baby.id);
       birthMothers.add(woman.id);
       // The town's birth record: a counted baby has no plan or pregnancy of
@@ -863,7 +960,7 @@ export function applyCountedFlows(
         otherParentId: baby.familyIds[1] ?? null,
         date,
         placeId,
-        householdId: record.household.id,
+        householdId: woman.householdId,
         countsId: row.id,
       });
     }
@@ -875,21 +972,28 @@ export function applyCountedFlows(
     const reviewShare = p("daysPerMeanYear") / months / p("renewalReviewDays");
     const exposed: { record: ResidentHouseholdRecord; woman: PersonInput }[] =
       [];
-    for (const record of countedHouseholdsByPlace(core).get(placeId) ?? [])
-      for (const woman of record.people) {
+    // The same households as `current`: nothing since has added or retired one.
+    for (const record of current) {
+      const members = record.people;
+      for (const woman of members) {
         if (woman.looks?.gender !== "female") continue;
         if (already.has(woman.id) || birthMothers.has(woman.id)) continue;
         const age = ageOf(woman, date);
-        if (![...rates.keys()].some(([low, high]) => age >= low && age <= high))
+        if (!rateList.some(([[low, high]]) => age >= low && age <= high))
           continue;
         if (!partnerOf(record, woman, date)) continue;
-        const recent = record.people.some(
+        const recent = members.some(
           (kid) =>
             woman.familyIds.includes(kid.id) &&
             (today - Date.parse(kid.birthDate)) / MS_PER_DAY < spacing,
         );
         if (recent) continue;
-        const perReview = countedExposure(api, record, woman, date);
+        const perReview = countedExposure(
+          record,
+          woman,
+          date,
+          (exposureNumbers ??= exposureParameters(api)),
+        );
         const held = store.table(exposureTable).get(woman.id);
         // First seen, she has carried exposure since she came of age: the
         // part of a whole that years of reviews at today's rate leave.
@@ -915,6 +1019,7 @@ export function applyCountedFlows(
         });
         if (due) exposed.push({ record, woman });
       }
+    }
     exposed.sort((a, b) => compare(a.woman.id, b.woman.id));
     for (const { record, woman } of exposed) {
       const stands = weightOfPerson(woman);
@@ -930,6 +1035,7 @@ export function applyCountedFlows(
             date,
             median,
             roomCostOf(record),
+            (standingNumbers ??= standingParameters(api)),
           ),
         },
         cash,
@@ -939,7 +1045,7 @@ export function applyCountedFlows(
         id: `${woman.id}:unplanned:${date}`,
         placeId,
         motherId: woman.id,
-        householdId: record.household.id,
+        householdId: woman.householdId,
         date,
         stands,
         cashMinor: cash,
@@ -968,7 +1074,7 @@ export function applyCountedFlows(
           const moved = countedPayment(api, {
             id: `${woman.id}:unplanned:${date}:trip`,
             placeId,
-            householdId: record.household.id,
+            householdId: woman.householdId,
             otherOwnerId: payee,
             amountMinor: decision.travelMinor,
             reasonKey: "renewal.unplanned-trip",
@@ -982,7 +1088,7 @@ export function applyCountedFlows(
           // The miles a restriction added are money the households paid under
           // it, recorded on their counted group by its own id, times the
           // households the record stands for (a full household's is in renewal.ts).
-          const group = countedGroupIdOf(api, record.household.id);
+          const group = countedGroupIdOf(api, woman.householdId);
           const lawPaid = Math.round(moved * stands * decision.lawShare);
           if (decision.lawId && group && lawPaid > 0)
             lawApplied(api, {
