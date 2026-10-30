@@ -14,6 +14,8 @@ import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { campaignDay } from "./campaign";
+import { candidatePlatform } from "../core2/campaign-stances";
+import { contestPositions } from "../core2/contest-positions";
 import { campaignDayChoices } from "../core2/campaign-day";
 import {
   CAMPAIGNS_MODULE_ID,
@@ -157,7 +159,18 @@ function stand(): { held: boolean; takesOffice: string | null } {
   );
   if (pick) visit = chooseAtCounter(w.core, visit, pick.key);
   const file = visit.visit.choices.find((row) => row.action.kind === "file");
-  if (file) visit = chooseAtCounter(w.core, visit, file.key);
+  // The player files on a platform, as the counter asks: their own views on
+  // the questions the office decides (the stances a world candidate of their
+  // views would run on), so their doors, events and forums have something to
+  // say.
+  const platform = candidatePlatform(
+    coreAPI(w.core),
+    me,
+    null,
+    contestPositions(coreAPI(w.core), enterable.contest),
+  ).map((stance) => `${stance.question}=${stance.position}`);
+  if (file) visit = chooseAtCounter(w.core, visit, file.key, { platform });
+  log.push(`platform ${platform.join(", ") || "none"}`);
   log.push(
     `filed ${enterable.contest.title} with ${enterable.filingOffice.filedWith}: ${(visit.result as { status?: string } | undefined)?.status ?? "no filing"}`,
   );
