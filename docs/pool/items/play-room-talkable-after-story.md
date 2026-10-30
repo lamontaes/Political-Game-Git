@@ -22,4 +22,4 @@ milestone: play-first
 
 **Files.** src/bench/play.mjs, src/bench/person-card.browser.mjs
 
-**Notes.** TODO
+**Notes.** Fix: a story or talk ending hands the room back to `renderScene`, so the people are drawn talkable again. On main today nobody is drawn at all in a non-plated room (the staging side, People v4 #6856); the check passes on branch plus #6856 in nine draws and fails without the fix on the same base (Lenora, Kansas, seed 916d1276-32aa-4c93-813b-ad82106fbebb: 1 talkable at load, 0 after). It needs #6856 merged first. One click timed out once in about twelve draws, not reproduced.

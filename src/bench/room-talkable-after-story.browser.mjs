@@ -41,24 +41,20 @@ try {
       document.getElementById("card-name").textContent.trim(),
     );
     const place = await page.locator("#card-place").innerText();
-    console.log("at load talkable:", await page.locator("#people .talkable").count(), "figures:", await page.locator("#people .figure").count());
     // The opening's story: every Continue, until the talk box closes.
     for (let i = 0; i < 30; i += 1) {
       await page.waitForTimeout(1500);
-      console.log("t", i, await page.locator("#people .talkable").count(), await page.locator("#people .figure").count(), await page.locator("#talk-next:visible").count());
       const next = page.locator("#talk-next:visible");
       if (!(await next.count())) break;
       await next.click();
     }
     await page.waitForTimeout(2500);
-    if (process.env.DEBUG_SHOT) await page.screenshot({ path: process.env.DEBUG_SHOT });
-    console.log("people:", await page.locator("#people .figure").count(), "talk hidden:", await page.locator("#talk").isHidden(), "next:", await page.locator("#talk-next").isVisible());
     const talkable = await page.locator("#people .talkable").count();
     console.log(
       `${place} (seed ${seed}): ${talkable} talkable after the story`,
     );
     assert.ok(talkable > 0, `${place}, seed ${seed}: nobody can be clicked`);
-    await page.locator("#people .talkable").first().click();
+    await page.locator("#people .talkable").first().click({ timeout: 15000 });
     await page.locator("#talk").waitFor({ state: "visible" });
     if (shots) await page.screenshot({ path: `${shots}/talk-${run + 1}.png` });
     await page.close();
