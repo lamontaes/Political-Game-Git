@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: speed/journal-lifetime-totals
 pr: #6898
 blocked-on:
