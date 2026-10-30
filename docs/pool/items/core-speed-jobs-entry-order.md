@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-jobs-entry
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T08:01:47.224Z
 ---
 
 **What.** reviewCountedEntry in src/core2/modules/jobs.ts asks the justice engine whether each counted adult without a job is in custody before it checks their age, so children are looked up too. bandShift in src/core2/jobs-web.ts reads the place's immigration enforcement factors for every person, and citizenShareOf in src/core2/electorate-places.ts recomputes a place's citizen share from static tables on every call. Under the Grand Haven, Michigan profile (seed spd-d) the review's custody check was 0.44 s and the entry path 13 s in all.
