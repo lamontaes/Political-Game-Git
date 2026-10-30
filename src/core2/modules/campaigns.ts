@@ -2061,6 +2061,18 @@ export function signReason(
 }
 
 /**
+ * How many signatures a campaign gathers for a petition that needs this many:
+ * more than the clerk asks for, since the clerk strikes names that are not on
+ * the roll, are duplicates or are missing what the law asks
+ * (`petitionSignatureCushion`).
+ */
+export function signaturesToGather(needed: number): number {
+  return Math.ceil(
+    needed * (1 + campaignParameter("petitionSignatureCushion")),
+  );
+}
+
+/**
  * Ask someone to sign a filing's circulating petition: an adult signs when
  * their reasons (`signReason`) and every trait's lean between signing and
  * declining say so, and the elections engine adds the name once. The
@@ -3516,8 +3528,9 @@ export function rivalDay(
   const petition = petitionCirculating(api, filingId)
     ? petitionOf(api, filingId)
     : null;
-  const shortfall = petition?.needed
-    ? Math.max(0, petition.needed - petition.signers.length) / petition.needed
+  const target = petition?.needed ? signaturesToGather(petition.needed) : 0;
+  const shortfall = target
+    ? Math.max(0, target - petition!.signers.length) / target
     : 0;
   const doors =
     (candidate.placeId === town || shortfall > 0) && offered("canvass");

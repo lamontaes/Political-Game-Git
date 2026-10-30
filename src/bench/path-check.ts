@@ -14,6 +14,7 @@ import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { campaignDay } from "./campaign";
+import { signaturesToGather } from "../core2/modules/campaigns";
 import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -156,7 +157,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
       if (
         !petition ||
         !petitionCirculating(api, filing.id) ||
-        petition.signers.length >= petition.needed
+        petition.signers.length >= signaturesToGather(petition.needed)
       )
         break;
       liveUntil(addDays(makeIsoDate(w.core.date), 1));
