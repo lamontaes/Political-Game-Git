@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: Words session, Oct 30 (after #6938)
+lead: governing
 ---
 
 **What.** A cause group or a group formed over one policy keeps no name, so the paper can only say that a local group endorsed a candidate, never what it stands for. A cause group's direction lives on its founder's drive, which changes, so after the fact the paper cannot tell whether the group was for or against. The campaign-endorsed event should carry the stance the group endorsed on, the question and position from organizedGroupsIn's stance at the moment it weighed the race, so the Words session can word it.
