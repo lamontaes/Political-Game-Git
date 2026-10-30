@@ -801,7 +801,6 @@ interface LoanRow {
   standing: "current" | "late" | "charged-off" | "paid";
 }
 
-/** A household's medical debt in collections: one record on its books, the balance its unpaid medical bills sent there. */
 /** One part of a medical debt placed for collection, from one bill. */
 export interface MedicalDebtPart {
   /** The day the bill was billed and went unpaid (its first delinquency). */
@@ -809,6 +808,7 @@ export interface MedicalDebtPart {
   readonly minor: number;
 }
 
+/** A household's medical debt in collections: one record on its books, the balance its unpaid medical bills sent there. */
 export interface MedicalDebtRow extends LoanRow {
   readonly kind: "medical";
   /** The day the first unpaid bill was placed for collection. */
