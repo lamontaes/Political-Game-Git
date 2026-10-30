@@ -70,6 +70,9 @@ const TWIN_LINK = "medicaid-expansion-to-medical-debt";
 const MONTHS = 8;
 const TRIES = 10;
 
+/** The close's per-payee rounding on a line, far below a month's care. */
+const CENT_ROUNDING = 100;
+
 const tomorrow = (api: CoreAPI) => addDays(makeIsoDate(api.state.date), 1);
 
 /** The expansion's rows at each level of the town's chain, oldest first. */
@@ -432,11 +435,18 @@ function careInsideLines(
         m.lines[STATE_MEDICAID_LINE],
         `${where}: ${m.id} pays no line the federal budget lacks`,
       ).toBeUndefined();
-    for (const [line, row] of Object.entries(m.lines))
+    // The line that carries the care is paid within its due: the care
+    // in town is part of the line's total, not paid on top of it.
+    const line =
+      m.governmentId === federal?.id
+        ? FEDERAL_MEDICAID_LINE
+        : STATE_MEDICAID_LINE;
+    const row = m.lines[line];
+    if (row)
       expect(
         row.inTownMinor + row.aidMinor + row.providersMinor + row.outsideMinor,
-        `${where}: ${m.id} ${line} paid within its due`,
-      ).toBeLessThanOrEqual(row.dueMinor + 2);
+        `${where}: ${m.id} ${line} paid within its due ${row.dueMinor}`,
+      ).toBeLessThanOrEqual(row.dueMinor + CENT_ROUNDING);
   }
   const federalHealth = federal ? inTown(federal.id, FEDERAL_MEDICAID_LINE) : 0;
   const stateWelfare = inTown(state.id, STATE_MEDICAID_LINE);
@@ -448,7 +458,7 @@ function careInsideLines(
     stateWelfare,
     `${where}: state ${STATE_MEDICAID_LINE} in town`,
   ).toBeGreaterThanOrEqual(legs.total);
-  return `the federal legs ${legs.federal} inside the federal ${FEDERAL_MEDICAID_LINE} line's in-town ${federalHealth}, the care ${legs.total} inside the state ${STATE_MEDICAID_LINE} line's in-town ${stateWelfare}, ${months.filter((m) => m.governmentId === state.id || m.governmentId === federal?.id).length} treasury months each within its lines' dues`;
+  return `the federal legs ${legs.federal} inside the federal ${FEDERAL_MEDICAID_LINE} line's in-town ${federalHealth}, the care ${legs.total} inside the state ${STATE_MEDICAID_LINE} line's in-town ${stateWelfare}, ${months.filter((m) => m.governmentId === state.id || m.governmentId === federal?.id).length} treasury months each paying those lines within their dues`;
 }
 
 /** The sorted plans of a row's members, for comparing like households. */
