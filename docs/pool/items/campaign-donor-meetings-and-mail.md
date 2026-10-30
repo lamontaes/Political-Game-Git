@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/campaign-donor-meetings
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-30T02:22:41.867Z
 ---
 
 **What.** A player running for office could knock doors, hold an event, give an interview and call donors, but could not meet donors at a supporter's home or send campaign mail, so a campaign's money came only from call time. The owner, Oct 29, on real races: "some people... just do donor meetings" and "it's not just door knocking, it's raising money and stuff like that that needs to be decided for A." This unit, phase A of campaign-like-real-races, adds a donor meeting as a campaign day choice: someone in the candidate's circle hosts a house party, the candidate meets the room, speaks, and asks each guest by name for money through the engine's own donation ask. It also adds a Mail button to the Campaigns screen that spends the amount the player sets on mailers through the campaign engine, never more than the campaign holds.
