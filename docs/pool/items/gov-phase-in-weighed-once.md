@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: governing lead, Oct 30 (review of gov-m3-01-phase-in-by-dated-steps)
+lead: governing
 ---
 
 **What.** positionOn (src/core2/modules/legislature.ts about 2741-2765) adds a member's views and their constituents' interest once per section of a bill, so a phase-in drafted as two dated steps on the same law counts every member's stance on that question twice. The doubled weight moves the member against the sponsor and changes the deal terms they ask for. The vote is not forced, but it is skewed, and nothing records the doubling.

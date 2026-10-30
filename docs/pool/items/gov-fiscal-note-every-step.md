@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: governing lead, Oct 30 (review of gov-m3-01-phase-in-by-dated-steps)
+lead: governing
 ---
 
 **What.** costOf (src/core2/modules/legislature.ts about 1459) reads only the first minimum-wage section of a bill, so a raise phased in by dated steps shows the cost of its first step alone and understates what the employers on record will pay once the later steps take effect. The fiscal note at drafting is the register's rule for every bill (DECISION-REGISTER, Sept 26).
