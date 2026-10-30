@@ -33,18 +33,21 @@ const base = enrichCivicInputs(
 );
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
-// A husk (a relative living elsewhere, kept minimal until met) opens an
-// empty talk today, and in some places everyone the first adult knows is one
-// (Davenport, Florida, seed chk2-a; Point Clear, Alabama, chk2-c): the bank is
-// read with people who have lines of their own until a husk is filled in when
-// a talk opens (pool item words-talk-husk-acquaintances-empty).
+// A husk (a relative living elsewhere, kept minimal until met) has nothing
+// on record with the player yet, so a talk with one says nothing (owner, Oct
+// 24: hello and goodbye with nothing between is not a talk), and in some
+// places everyone the first adult knows is one (Davenport, Florida, seed
+// chk2-a; Point Clear, Alabama, chk2-c). The bank is read with people who
+// have a life on record (pool item words-talk-husk-acquaintances-empty).
 // Housemates don't greet each other at home, so a talk with one opens only
 // on a scene's occasion; the bank is read with people from other households.
 const byId = new Map(base.people.map((person) => [person.id, person]));
 const talkable = (id: string) => byId.get(id as never)?.tier !== "husk";
-// The adult with the widest circle reads the bank.
+// The adults with the widest circles read the bank, the widest first.
 const circle = (person: (typeof base.people)[number]) =>
   person.knownIds.filter(talkable).length;
+/** Adults tried before one has a whole conversation to read. */
+const PLAYERS_TRIED = 5;
 const players = base.people
   .filter(
     (person) =>
@@ -101,55 +104,71 @@ describe("the mined conversation bank in the director", () => {
   });
 
   it("words whole conversations in a generated place, every line from a record", () => {
-    const player = players[0]!;
-    const input = { ...base, playerId: player.id };
-    const director = createDirector({
-      watch: [...initialFocusPeople(input)],
-    });
-    const core = createLifeCore(input, {
-      modules: [beliefsModule, director.module],
-    });
-    director.start(core);
-    advanceCore(core, "2021-01-03");
-    const me = core.people.get(player.id)!;
-    const others = [...me.knownIds]
-      .filter(
-        (id) =>
-          core.people.get(id)?.alive &&
-          talkable(id) &&
-          core.people.get(id)!.householdId !== me.householdId,
+    // A talk with nothing on record between the two is no talk (owner, Oct
+    // 24), so in a thin place the first adult may have nothing to say yet;
+    // the next with the widest circle is tried (Pineland, Florida, seed
+    // chk2-b), and every line said in every try is checked.
+    const tried: string[] = [];
+    for (const player of players.slice(0, PLAYERS_TRIED)) {
+      const input = { ...base, playerId: player.id };
+      const director = createDirector({
+        watch: [...initialFocusPeople(input)],
+      });
+      const core = createLifeCore(input, {
+        modules: [beliefsModule, director.module],
+      });
+      director.start(core);
+      // A month lived first: two days in, little is on record.
+      advanceCore(core, "2021-02-01");
+      const me = core.people.get(player.id)!;
+      const others = [...me.knownIds]
+        .filter(
+          (id) =>
+            core.people.get(id)?.alive &&
+            talkable(id) &&
+            core.people.get(id)!.householdId !== me.householdId,
+        )
+        .slice(0, 12);
+      let lines = 0;
+      let choices = 0;
+      const conversations: Conversation[] = [];
+      for (const otherId of others) {
+        const data = MINED_CONVERSATION;
+        const talk = openConversation(core, player.id, otherId, { data });
+        for (let turn = 0; turn < 4 && talk.choices.length > 0; turn += 1) {
+          for (const choice of talk.choices) {
+            expect(minedLine(choice.text), choice.text).toBe(true);
+            expect(choice.sourceRecordIds.length, choice.text).toBeGreaterThan(
+              0,
+            );
+            choices += 1;
+          }
+          // The scales' set: a mined lie, or a mined answer with a false fact.
+          for (const lie of talk.lies) {
+            expect(minedLine(lie.text), lie.text).toBe(true);
+            expect(lie.claim, lie.text).toBeDefined();
+          }
+          say(core, talk, talk.choices[turn % talk.choices.length]!.key, data);
+        }
+        for (const line of talk.lines) {
+          expect(minedLine(line.text), line.text).toBe(true);
+          expect(line.sourceRecordIds.length, line.text).toBeGreaterThan(0);
+          lines += 1;
+        }
+        conversations.push(talk);
+      }
+      if (
+        conversations.some((talk) => talk.lines.length > 1) &&
+        lines > others.length &&
+        choices > 0
       )
-      .slice(0, 12);
-    let lines = 0;
-    let choices = 0;
-    const conversations: Conversation[] = [];
-    for (const otherId of others) {
-      const data = MINED_CONVERSATION;
-      const talk = openConversation(core, player.id, otherId, { data });
-      for (let turn = 0; turn < 4 && talk.choices.length > 0; turn += 1) {
-        for (const choice of talk.choices) {
-          expect(minedLine(choice.text), choice.text).toBe(true);
-          expect(choice.sourceRecordIds.length, choice.text).toBeGreaterThan(0);
-          choices += 1;
-        }
-        // The scales' set: a mined lie, or a mined answer with a false fact.
-        for (const lie of talk.lies) {
-          expect(minedLine(lie.text), lie.text).toBe(true);
-          expect(lie.claim, lie.text).toBeDefined();
-        }
-        say(core, talk, talk.choices[turn % talk.choices.length]!.key, data);
-      }
-      for (const line of talk.lines) {
-        expect(minedLine(line.text), line.text).toBe(true);
-        expect(line.sourceRecordIds.length, line.text).toBeGreaterThan(0);
-        lines += 1;
-      }
-      conversations.push(talk);
+        return;
+      tried.push(
+        `${player.id}: ${others.length} to talk to, ${lines} lines, ${choices} choices`,
+      );
     }
-    expect(conversations.some((talk) => talk.lines.length > 1)).toBe(true);
-    expect(lines).toBeGreaterThan(others.length);
-    expect(choices).toBeGreaterThan(0);
-  }, 240_000);
+    throw new Error(`no adult had a whole conversation: ${tried.join("; ")}`);
+  }, 600_000);
 
   it("keeps no hand-written conversation bank", () => {
     // Every wording names the mined part it came from.
