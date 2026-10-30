@@ -624,9 +624,10 @@ export function takeCampaignDayChoice(
       filingId,
       canvasserId: player,
       hours,
-      // A world candidate's door reaches residents as a count; only the
-      // player's own campaign fills them in on meeting.
-      fillCounted: !world,
+      // A door touches the counted group (two-level population): a world
+      // candidate's door reaches residents as a count, and the player's own
+      // evening fills in only the residents its porch scene could cast.
+      fillCounted: world ? false : campaignParameter("playerDoorFillIns"),
     });
     return {
       ...base,
