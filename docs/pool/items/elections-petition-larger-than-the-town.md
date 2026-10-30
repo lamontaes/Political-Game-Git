@@ -9,7 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 30 (found in phase A runs)
+lead: governing
 ---
 
 **What.** In Johnson MN (2732012, seed 3e569f4194a9e160) the player's council petition needed 30 signatures, and a month of doors reached the same few households 389 times for 19 signers, so the player never made the ballot in two races. A town of a few dozen adults cannot give thirty valid signatures, so either the town's petition row or the fallback that set it is wrong for a place that small.

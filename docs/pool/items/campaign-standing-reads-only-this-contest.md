@@ -9,7 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 30 (found in phase A runs)
+lead: governing
 ---
 
 **What.** contestStanding in campaign-day.ts sums every cause row of each candidate on the ballot, from every race they ever ran, not only this contest's, so a candidate who ran before starts a new race with the old one's reach counted. The speed lead found it while folding closed races' cause rows on Oct 30. Standing should be read from this contest's own causes.
