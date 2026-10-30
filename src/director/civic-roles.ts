@@ -19,7 +19,7 @@
  * town's or the county's (`localClerkFor`), and an official's aide is one of
  * the staff they hired (`servingStaffOf`).
  */
-import { closenessBetween } from "../core2/closeness";
+import { closenessBetween } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import {
