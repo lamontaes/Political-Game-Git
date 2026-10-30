@@ -104,7 +104,7 @@ try {
   assert.equal(page2.people, race.filers.length, `${race.title}: who runs`);
   assert.equal(
     page2.file,
-    race.filingOpen && race.playerMayFile !== false && race.filedWith ? 1 : 0,
+    race.filingOpen && race.playerMayFile && race.filedWith ? 1 : 0,
     `${race.title}: File for it`,
   );
   assert.doesNotMatch(page2.text, /\d{4}-\d{2}-\d{2}|contest:|undefined/);
