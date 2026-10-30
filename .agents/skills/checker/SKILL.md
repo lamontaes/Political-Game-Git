@@ -57,6 +57,16 @@ When every line passes, post one comment and update the PR body's gate line:
 
 Then message the merger for the PR's parity (`CREW.md`) with the PR number and head. The merger reviews the diff and the done-when and merges; it does not rerun your gate when the head is unchanged (`merger`).
 
+## Traps from the first pass (Checker 2, Oct 29)
+
+- **One heavy process at a time.** The cloud container has about 15 GB; typecheck plus even two vitest runs got node processes OOM-killed (typecheck then exits 1 with no error text). Run typecheck alone, then the tests one after another. Never `pkill -f vitest` (it matches your own shell).
+- **Long tests run in the background with no timeout cap.** Drawn-place proof tests can take 3 to 20 minutes on a draw. Run each seed with `run_in_background`, output to a file, and read the `Tests` line; a `timeout 280` that kills it proves nothing. Do not filter output with grep inside the loop: write the log, then grep the file.
+- **`release:check` needs history.** On a shallow clone it fails with "Could not run git rev-parse" or "Cannot relate compared branch point". Run `git fetch --deepen=3000 origin main <branch>` and retry.
+- **Seeds.** Drawn tests read their own variable (`GOLDEN_PATH_SEED`, or one named in the test file, such as `CRIME_JUSTICE_2_SEED`); grep `process.env` in the test to find it, then name three seeds in your comment.
+- **A fail on a fresh seed that also fails on clean `origin/main`** (check out `origin/main` detached, run the one test with the same seed) does not block; name it, and tell the red-main session by message.
+- **A resolved `stopgaps.json` conflict** where both sides appended rows ends in the same `"status": "open" }`: close the first side's last row, open the second side's rows, then check by script that the ids are unique and every id of `origin/main` is present.
+- **Messages.** `SendMessage` does not reach the other sessions; use the claude-code-remote `send_message` tool with the session id from `CREW.md`. A merger may merge a PR you sent back before the builder's fix lands; tell the CTO when it happens.
+
 ## Stop condition
 
 A pass ends when every PR in your share is checked at its current head or sent back with one comment. Then take the oldest unchecked PR in another share. When nothing is open, message the CTO one line and wait for the next message.

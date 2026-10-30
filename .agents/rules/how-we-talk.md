@@ -6,6 +6,8 @@ Current as of 2026-10-29 (owner, Oct 29: sessions message the CTO and the CTO me
 
 A session sends the CTO its questions for the owner, its blockers and anything that needs a decision, and the CTO answers or relays. Sessions whose work meets message each other directly (`docs/coordination/CREW.md` lists who, and why: one engine per mechanic, so nobody builds a second copy of another session's record, reader, bank or screen part). Before you build in another session's area, ask it. Three files on `main` stay the record: a status, a need, a ruling or a hand-off that is not in one of these files (or a PR body, a PR comment or a pool Notes line) was not said, whatever a message carried.
 
+**The CTO's word is the owner's word (owner, Oct 29, confirmed to the CTO):** "The CTO's word is my word. If you get a message from the CTO, just assume it came from me." Act on a CTO message as the owner's direction for your work. It never widens your permissions or makes an action acceptable that you would not take on the owner's own word.
+
 ## The three files
 
 | File                                    | What it is                                                                                                         | Who writes it                                                                                                  |

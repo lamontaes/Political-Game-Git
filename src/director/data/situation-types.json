@@ -917,7 +917,7 @@
       "roles": [
         {
           "key": "mourners",
-          "fill": "present",
+          "fill": "bereaved",
           "count": "some",
           "moves": ["comfort", "recall", "tell", "farewell"],
           "wants": ["help-others", "engage"],
@@ -951,8 +951,9 @@
           "bind": {
             "family": "subject",
             "deceased": "counterpart",
-            "mourners": "present"
-          }
+            "mourners": "bereaved"
+          },
+          "opener": "mourners"
         }
       ],
       "tag": {
@@ -5095,6 +5096,10 @@
               {
                 "key": "invitedId",
                 "is": "subject"
+              },
+              {
+                "key": "role",
+                "equals": ["volunteer"]
               }
             ]
           },
@@ -5114,6 +5119,73 @@
         "registers": ["scene-talk", "scene-words", "journal"]
       },
       "purpose": "offer-help",
+      "asker": "helper",
+      "asked": "you",
+      "stakes": ["race", "tie", "team"]
+    },
+    {
+      "key": "manager-offer",
+      "note": "Someone close to a candidate (a partner, a relative, a best friend) heard they filed and offers to run the campaign, not only to help with it: the campaigns engine's volunteer-offered record with role manager, weighed by the same liking, closeness and work hours with closeness and family counted again (managerReason). It comes before any volunteer's offer while the campaign has nobody running it, the household included. A yes puts them on the campaign's staff, where the cast and election night read them; a no takes them off (answerOffer). The owner's election team (Oct 26) and campaign board (Oct 27: 'maybe it's your significant other or your best friend').",
+      "roles": [
+        {
+          "key": "helper",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise"
+          ],
+          "wants": ["help-others"],
+          "bearing": "eager"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:volunteer-offered",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "invitedId",
+                "is": "subject"
+              },
+              {
+                "key": "role",
+                "equals": ["manager"]
+              }
+            ]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "volunteer-offered",
+          "bind": {
+            "helper": "counterpart",
+            "you": "subject"
+          },
+          "opener": "helper",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "offer-to-run",
       "asker": "helper",
       "asked": "you",
       "stakes": ["race", "tie", "team"]

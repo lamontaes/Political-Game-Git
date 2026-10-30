@@ -8941,6 +8941,48 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.unfilled.no-candidate-filed-for-office-so-the-seat-has-no-winner",
+      "move": "unfilled",
+      "kind": "spoken",
+      "text": "No candidate filed for {office}, so the seat has no winner.",
+      "uses": [
+        {
+          "move": "unfilled",
+          "subject": "news",
+          "role": "unfilled",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.unfilled.the-race-for-office-drew-no-candidates",
+      "move": "unfilled",
+      "kind": "spoken",
+      "text": "The race for {office} drew no candidates.",
+      "uses": [
+        {
+          "move": "unfilled",
+          "subject": "news",
+          "role": "unfilled",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "announce-result",
+        "key": "news-received"
+      }
     }
   ]
 }
