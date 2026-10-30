@@ -121827,13 +121827,38 @@
           "role": "asker",
           "purpose": "swearing-in",
           "key": "honor",
-          "requiresFacts": ["outgoing"]
+          "requiresFacts": ["outgoing", "acquainted"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
       "author": "Words session (Claude Code)",
       "date": "2026-10-29",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-m-name-i-held-this-seat-until-now-it-s-yours",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}? I'm {name}. I held this seat until now. It's yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "swearing-in",
+          "key": "honor",
+          "requiresFacts": ["outgoing", "stranger"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-30",
       "tag": {
         "move": "greet",
         "key": "honor"
