@@ -448,6 +448,7 @@
     "budget": "Budget",
     "increase": "Increase",
     "decrease": "Decrease",
+    "noLocalGovernment": "This place has no local government of its own; {state} governs it.",
     "stateFilter": "State",
     "ownState": "Your state",
     "booksSince": "Actually taken in and paid out since",

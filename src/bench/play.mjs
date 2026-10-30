@@ -3866,6 +3866,13 @@ const sheets = {
       const v = await api(
         `/api/government/bodies?${new URLSearchParams({ id: me.id, level, state: stateKey })}`,
       );
+      // A place with no local government of its own (the District, an unincorporated place)
+      // opens on the level that governs it; Local stays a tab and says so when chosen.
+      const empty = !v.legislative.length && !v.executive.length;
+      if (empty && !governmentLevel && level === "local") {
+        governmentLevel = "state";
+        return screen();
+      }
       // A branch the level has nothing in is not offered (nothing on screen
       // does nothing): a township with no executive shows its board alone.
       // SG-PLAY-government-judicial-no-judges: no Judicial branch yet, since no
@@ -3951,8 +3958,22 @@ const sheets = {
               }),
             ]
           : [];
-      const view =
-        branch === "executive" || !body
+      const view = empty
+        ? {
+            main: [
+              plate(
+                null,
+                prose(
+                  (labels.noLocalGovernment ?? "").replace(
+                    "{state}",
+                    gov.homeState?.name ?? "",
+                  ),
+                ),
+              ),
+            ],
+            side: [],
+          }
+        : branch === "executive" || !body
           ? executiveView(v.executive, level)
           : lawmakingView(body, v.executive, level, v.state.key);
       return splitScreen({

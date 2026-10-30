@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #0
 blocked-on:
 source: added with npm run pool -- add
 ---
@@ -23,3 +23,4 @@ source: added with npm run pool -- add
 **Notes.** Found by the screens designer, Oct 27, while taking the before shot for screens-government-rows-plain. lead: play-first.
 
 - 2026-10-30 (people session, while building faces-at-open.browser.mjs on #6918, branch at main 1060068a2e): Local opens blank in two more places, with no pager visible at 1440x900, only the Local, State and Federal buttons. Washington, District of Columbia (seed 51b9c804-2828-4b4b-a184-0110c81c88ba) and Mendeltna, Alaska (seed 370d25dd-1c82-4e55-aabc-cbd001df3795); Checker 3 waited 60 seconds for any member there and none appeared. Replay with `FACES_SEED=<seed> node src/bench/faces-at-open.browser.mjs` (it now logs "politics: 0 of 0 faces" there instead of waiting). It may be a different cause from the pager: D.C.'s local body is the Council of the District, and Mendeltna is unincorporated, governed by the state with no borough (the Oct 29 22:45 ruling's county-board answer has no county here).
+- 2026-10-30 (lane): Cause for D.C. and Mendeltna: the local level has no body or executive in the data (the District's council and mayor sit at the state level; Mendeltna is unincorporated). Fix: Government opens on the state level when local is empty, and a chosen Local says "no local government of its own; {state} governs it". The Huntington, Virginia pager cause (Oct 27) no longer reproduces on the redesigned screen; the check covers Washington, Mendeltna and a drawn place.
