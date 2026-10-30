@@ -78,6 +78,12 @@
       "source": "How far one conversation at the door moves a voter toward what they make of the candidate. Checked against field experiments: face-to-face contact is the strongest campaign contact (Green and Gerber 2019).",
       "spread": [0.3, 0.7]
     },
+    "playerDoorFillIns": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How many counted residents who open the player's own door in an evening of canvassing are filled in as full people: the ones a porch scene could cast (owner, Oct 27: door knocking is \"a short scene at 1 or 2 doors\"; two-level population, owner Oct 11: full people exist only where they matter, and a door touches the counted group). Every other opener stays counted, reached and answering by the same rule from their record.",
+      "spread": [1, 2]
+    },
     "doorPledgeWeight": {
       "value": 2,
       "tag": "TUNABLE",
@@ -161,6 +167,12 @@
       "tag": "TUNABLE",
       "source": "How far a candidate's own inclination to campaign slides their door hours around the base, as a share of it: at 0.5 the least campaign-minded walks half the base hours and the most walks one and a half times. Below 1 so that no one's hours reach zero.",
       "spread": [0.25, 0.75]
+    },
+    "rivalThreatWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much harder a world candidate campaigns the further a rival stands ahead of them in what they know of the race (the rival's share minus their own, in the newer of their own latest poll, counted by one less its margin of error, and the word of the rival that last reached them, read among the people they know in town). It applies to every world candidate, not only one who holds the seat: a challenger who learns they trail steps up by the same rule as an incumbent who learns a challenger gained. It is added to the pull of the doors and of an evening event, and to the share of the day's base hours they put in, so at the value 1 a candidate who knows they trail by a fifth of those asked puts in a fifth of their base hours more; and, up to all of it, the share of their campaign day that one who lives outside the town spends in it, at its doors as well as on calls. The direction is sourced, the size is not: 'incumbents who are vulnerable spend more than incumbents whose seats are safe' (Bardwell 2005, 'Reevaluating Spending in Gubernatorial Races', Political Research Quarterly 58(1): 97-105, after Green and Krasno 1990). To be checked against the share of incumbents in played worlds who step up when a challenger gains (the campaigns engine's steppedUp rows); src/core2/campaign-incumbent-response.test.ts shows the direction.",
+      "spread": [0.5, 2]
     },
     "minimumVolunteerAge": {
       "value": 16,
@@ -1385,6 +1397,30 @@
       "tag": "TUNABLE",
       "source": "How much of an offer's reach a candidate's first campaign carries whatever the race's size, halving with each campaign run before: a first statewide race keeps half the reach of a first council race, never all of it (owner, Oct 27, 4 PM Eastern: volunteers matter 'when you're doing small local campaigns, or maybe your first campaign'). Checked by src/director/volunteer-offer-weight.test.ts in a drawn place.",
       "spread": [0.25, 0.75]
+    },
+    "volunteerShiftHours": {
+      "value": 2.5,
+      "tag": "ESTIMATED",
+      "source": "How long a volunteer's evening of doors runs, from canvassStartHour, before their work takes any of it: volunteer canvass shifts run two to three hours (Green and Gerber, Get Out the Vote, 4th ed., 2019, ch. 3, as rivalHoursWithJob cites). The repository's campaign-practice rows put one advocacy canvass at two-hour shifts (canvass-shift-aclu-ok-2018) and one get-out-the-vote canvass at four to four and a half hours (canvass-shift-9to5-ga-2014), data/research/campaign-reality/campaign-calibration.json; the American Time Use Survey 2025 puts a day of volunteering at 2.18 hours (volunteerHours). The midpoint of the two-to-three-hour shift.",
+      "spread": [2, 4.5]
+    },
+    "volunteerShiftThreshold": {
+      "value": 0,
+      "tag": "TUNABLE",
+      "source": "Where a volunteer's pull sits, before personality, against the bar for an evening of doors on a day the campaign works: the same reasons as an ask to volunteer (warmth, closeness, family, against weekly work hours) less this instead of the ask's bar (volunteerThreshold). The pull slides to the share of the campaign's working days they go (volunteerShiftScale): right at this bar one working day in two, past it most of them, short of it now and then, never always or never. At 0 someone who said yes to an ask or offered unasked, whose pull cleared the ask's higher bar, goes on more than half, and a relative enlisted at home who works full time goes more often as closeness and liking outweigh the work week. Checked by src/core2/campaigns.test.ts in a drawn place; not yet calibrated against a measured volunteer show-up rate.",
+      "spread": [-0.5, 1]
+    },
+    "volunteerShiftScale": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a volunteer's pull past the shift's bar (volunteerShiftThreshold) slides the share of the campaign's working days they give an evening of doors (a logistic step, the same scale doorAnswerScale gives a home's readiness to open): right at the bar one day in two, this far past it about three in four, this far short about one in four. Each working day adds the share to what the campaign's days owe the volunteer, starting even, and they go when it comes to a whole evening. Checked by src/core2/campaigns.test.ts in a drawn place; not yet calibrated against a measured volunteer show-up rate.",
+      "spread": [0.25, 1]
+    },
+    "volunteerShiftEventDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "source": "How many days apart a volunteer's evenings of doors are kept as an event the director can stage: their first evening, then at most one a week, so a campaign's regulars report back about weekly instead of on every working day (the campaign turn's own spacing, campaignTurnDays, sets how often they walk).",
+      "spread": [3, 14]
     },
     "offerSpacingDays": {
       "value": 7,

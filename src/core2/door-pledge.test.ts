@@ -224,14 +224,32 @@ describe("a door yes is near-binding", () => {
         }
       }
       // The counted residents' kept ballots carry their door answers too.
+      // A record standing for one household carries the pledge on its own
+      // ballot; one standing for several votes one household on its word.
       const counted = countedBallotsOf(api, contest.id);
+      const kept = api
+        .moduleState(VOTING_MODULE_ID)
+        .table("countedBallots")
+        .get(`counted:${contest.id}`) as unknown as
+        | {
+            readonly voterIds: readonly string[];
+            readonly weight: readonly number[];
+            readonly pledgedChoice?: readonly number[];
+          }
+        | undefined;
       for (const p of countedPledges) {
-        const b = counted.find((x) => x.voterId === p.voterId);
-        if (b)
+        const at = kept?.voterIds.indexOf(p.voterId) ?? -1;
+        if (at < 0) continue;
+        if (kept!.weight[at]! <= 1)
           expect(
-            b.appeal[theirs.personId]?.pledge,
+            counted[at]!.appeal[theirs.personId]?.pledge,
             `${place}: counted ${p.voterId}`,
           ).toBeGreaterThan(0);
+        else
+          expect(
+            kept!.pledgedChoice?.[at],
+            `${place}: counted ${p.voterId} of ${kept!.weight[at]}`,
+          ).toBeGreaterThanOrEqual(0);
       }
       console.log(
         `door pledges: ${place}, seed ${seed}; ${pledged.length} of ${met.length} doors said yes; ${held} held ballots voted as pledged; ${countedPledges.length} counted residents pledged to the rival; doubt from a closer rival ${before.toFixed(2)} -> ${after.toFixed(2)}`,
