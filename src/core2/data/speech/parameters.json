@@ -43,5 +43,16 @@
       "unit": "pull",
       "citation": "Case sets that match the ANES rates about as well (pooled error up to 0.008, against 0.0073 here) at the study's odds run from listener 0.1, home 0.15 and keep 0.22 to listener 0.7, home 2.5 and keep 2.6: the case's scale is set only against the move's weight (speechRetellWeight, 6), and what the fit pins is its ratios, the listener's own engagement about 0.3 of the household's and the keep pull about 1.05 of it."
     }
+  },
+  "speechRetellingKeptDays": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "How many days a speech's retellings are kept as rows after the speech (owner, Oct 29: old records fold into summaries; CTO, Oct 30 04:14: keep what play reads). Nothing in play reads a retelling after the speech's own day: the campaign speech screen reads today's speech and the director casts a speech's audience the day it is heard, its scene open at most 7 days. A month keeps every reader inside its window with room for dev mode's checks.",
+    "spread": {
+      "low": 7,
+      "high": 90,
+      "unit": "days",
+      "citation": "From the longest open scene (7 days) to a season."
+    }
   }
 }

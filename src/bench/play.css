@@ -4591,3 +4591,28 @@ select.release-pick {
 .member-line b {
   font-weight: inherit;
 }
+
+/* Politics → Your office on plates: a rail of tabs, one page of plates at a time, so the
+   panel fits and never scrolls as a page (owner, Oct 29). */
+.office-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+.office-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+.office-body .fact-plates {
+  margin: 0;
+}
+.office-paged .pager-grid > * {
+  align-self: center;
+}
+.office-bills .plate {
+  height: 100%;
+  overflow: hidden;
+}
