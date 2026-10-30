@@ -9,7 +9,8 @@ status: in-pr
 claimed-by: governing/door-yes-turnout
 pr: #6853
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 30 (measurement: pledgers did not turn out)
+lead: governing
 claimed-at: 2026-10-30T01:43:32.664Z
 ---
 
