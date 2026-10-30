@@ -25,7 +25,9 @@ import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
 import { section } from "./ui/section.mjs";
-import { makeTab, tabBar } from "./ui/tab.mjs";
+import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
+import { plate, factPlates, chips } from "./ui/plate.mjs";
+import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
@@ -64,6 +66,7 @@ const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
+import { draftCard } from "./ui/draft-card.mjs";
 import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
 import {
   newspaperScreen,
@@ -444,6 +447,15 @@ const amount = (value, unit) => {
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
   return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
 };
+/** What follows a number typed for a law's amount: a percent sign, dollars, or its unit in words. */
+const amountUnit = (unit) =>
+  !unit
+    ? ""
+    : unit.startsWith("percent")
+      ? "%"
+      : unit.startsWith("minor")
+        ? `$${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
+        : unit.replace(/-/g, " ");
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -1710,94 +1722,156 @@ async function showPerson(person) {
   // from the record, shown beside the tie if there is one.
   const known = c.publicKnowledge;
   const stance = voteWords();
-  // What they are like, said of them, first (the screens designer, Oct 27).
+  // The card as the mock draws it, on framed plates (owner, Oct 29): what
+  // they are to you as chips, what they are like, small plates for their
+  // work, seats, home and school, then a tab rail over one plate: their
+  // history as a timeline, or their record. How they feel about you is never
+  // a meter or a mark (owner, Oct 29; OCD-LIFE-008, "never a visible
+  // meter"): it shows in what they do and what happened between you.
+  const together = [
+    ...(known?.party ? [{ text: known.party }] : []),
+    // What the two share, by the records the director's scenes read too. A
+    // tie with no name to give (living in the same home) is the words alone.
+    ...(c.shared ?? [])
+      .filter((s) => labels.sharedWords?.[s.kind])
+      .map((s) => ({
+        text: s.name
+          ? `${labels.sharedWords[s.kind]} · ${s.name}`
+          : labels.sharedWords[s.kind],
+        record: s.recordId,
+      })),
+  ];
+  // The seats they reached before the start, one plate per office from the
+  // first year they held it (each term is its own record).
+  const seats = [];
+  for (const s of c.seats ?? []) {
+    const held = seats.find((seat) => seat.office === s.office);
+    if (held) held.year = Math.min(held.year, s.year);
+    else if (s.office) seats.push({ ...s });
+  }
+  const facts = [
+    c.work && {
+      title: labels.work,
+      value: c.work.title ?? "",
+      note: c.work.employer ?? "",
+    },
+    ...seats.map((s) => ({
+      title: labels.seat,
+      value: s.office,
+      note: `${labels.since} ${s.year}`,
+      record: s.recordId,
+    })),
+    c.placeName && { title: labels.place, value: c.placeName },
+    c.school && { title: labels.school, value: c.school.name },
+  ].filter(Boolean);
+  // Their record: what the public knows of them, then the people they know
+  // in office, closest first, from their ties.
+  const record = [
+    known &&
+      section(
+        labels.publicRecordTitle,
+        // A fact the record does not hold (a named official's votes) is
+        // left out, never shown blank.
+        ...[
+          ["since", dateOrValue(known.serviceStart)],
+          ["votes", known.votesOnRecord],
+          ["sponsored", known.lawsSponsored],
+          ["signed", known.lawsSigned],
+        ]
+          .filter(([, value]) => value !== null && value !== undefined)
+          .map(([key, value]) => row(labels.publicRecord[key], value)),
+        ...known.positions.map((p) =>
+          row(
+            policyLabel(p.question),
+            p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+          ),
+        ),
+      ),
+    c.colleagues &&
+      section(
+        labels.knows,
+        c.colleagues.length
+          ? factPlates(
+              c.colleagues.map((k) => ({
+                title: k.office,
+                value: k.name,
+                // How they know them; plain acquaintance goes unsaid.
+                note:
+                  k.level < 0
+                    ? labels.rival
+                    : k.kind === "contact"
+                      ? ""
+                      : (labels.tieWords?.[k.kind] ?? ""),
+                record: k.recordId,
+              })),
+            )
+          : prose(labels.noColleagues),
+      ),
+  ].filter((node) => node && node.childElementCount > 1);
+  // Their history from the records, oldest first (owner, Oct 28), down a
+  // timeline that pages by chapter of years to fill the plate, never a
+  // scroll (owner, Oct 29).
+  const tabs = [
+    c.history?.length && {
+      key: "history",
+      draw: (room) => [
+        timeline({
+          entries: c.history.map((h) => ({
+            year: h.date.slice(0, 4),
+            text: h.text,
+            kind: h.kind,
+            recordId: h.recordId,
+          })),
+          rows: Math.max(2, Math.floor((room + 6) / 64)),
+          words: { previous: labels.earlier, next: labels.later },
+        }),
+      ],
+    },
+    record.length && { key: "record", draw: () => record },
+  ].filter(Boolean);
+  // One tab alone is named on its plate instead of a rail of one.
+  const single = tabs.length === 1;
+  const body = plate(single ? labels[tabs[0].key] : null);
+  body.classList.add("person-tab");
+  const title = body.firstElementChild;
+  let chosen = tabs[0]?.key;
+  const rail = single
+    ? null
+    : tabBar({
+        attr: "personTab",
+        active: chosen,
+        tabs: tabs.map((tab) => ({
+          key: tab.key,
+          label: labels[tab.key],
+          onSelect: () => {
+            chosen = tab.key;
+            drawTab();
+          },
+        })),
+      });
+  function drawTab() {
+    // The room the plate has, less its padding, title and the pager's arrows.
+    const room = body.clientHeight - 64 - (title ? title.offsetHeight + 9 : 0);
+    body.replaceChildren(
+      ...(title ? [title] : []),
+      ...(tabs.find((tab) => tab.key === chosen)?.draw(room) ?? []),
+    );
+    if (rail) chooseTab(rail, "personTab", chosen);
+  }
   $("person-facts").replaceChildren(
-    ...recordScreen({
-      lede: c.sketch,
-      sections: [
-        c.work && {
-          title: labels.work,
-          items: [
-            { text: c.work.title ?? "", tone: "feature" },
-            { text: c.work.employer ?? "" },
-          ],
-        },
-        c.school && { title: labels.school, items: [{ text: c.school.name }] },
-        c.placeName && { title: labels.place, items: [{ text: c.placeName }] },
-        // What the two share, by the records the director's scenes read too.
-        c.shared?.length && {
-          title: labels.together,
-          items: c.shared.map((s) => {
-            // A tie with no name to give (living in the same home) is a plain line,
-            // never a label with nothing beside it.
-            const line = s.name
-              ? row(labels.sharedWords?.[s.kind], s.name)
-              : prose(labels.sharedWords?.[s.kind] ?? "");
-            line.dataset.record = s.recordId;
-            return { node: line };
-          }),
-        },
-        // The seats they reached before the start, from the government's history.
-        c.seats?.length && {
-          title: labels.seats,
-          items: c.seats.map((s) => {
-            const line = row(s.office, `${labels.since} ${s.year}`);
-            line.dataset.record = s.recordId;
-            return { node: line };
-          }),
-        },
-        // Their history from the records, oldest first (owner, Oct 28).
-        c.history?.length && {
-          title: labels.history,
-          items: c.history.map((h) => {
-            const said = prose(h.text, "person-history");
-            said.dataset.record = h.recordId;
-            return { node: said };
-          }),
-        },
-        // An officeholder's colleagues in office, closest first, from their ties.
-        c.colleagues && {
-          title: labels.knows,
-          items: c.colleagues.length
-            ? c.colleagues.map((k) => {
-                const line = row(
-                  k.name,
-                  `${k.office} · ${k.level < 0 ? labels.rival : (labels.tieWords?.[k.kind] ?? "")}`,
-                );
-                line.dataset.tie = k.recordId;
-                return { node: line };
-              })
-            : [{ text: labels.noColleagues }],
-        },
-        // No "Last talked" (owner, Oct 27, 5 PM: never shown).
-        known && {
-          items: [
-            // A fact the record does not hold (a named official's votes) is
-            // left out, never shown blank.
-            ...[
-              ["party", known.party],
-              ["since", dateOrValue(known.serviceStart)],
-              ["votes", known.votesOnRecord],
-              ["sponsored", known.lawsSponsored],
-              ["signed", known.lawsSigned],
-            ]
-              .filter(([, value]) => value !== null && value !== undefined)
-              .map(([key, value]) => row(labels.publicRecord[key], value)),
-            ...known.positions.map((p) =>
-              row(
-                policyLabel(p.question),
-                p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
-              ),
-            ),
-          ].map((node) => ({ node })),
-        },
-      ].filter(Boolean),
-    }),
+    ...(together.length ? [chips(together)] : []),
+    ...(c.sketch ? [prose(c.sketch, "screen-lede")] : []),
+    ...(facts.length ? [factPlates(facts)] : []),
+    ...(rail ? [rail] : []),
+    ...(tabs.length ? [body] : []),
   );
   for (const button of document.querySelectorAll("[data-person-label]"))
     button.textContent = labels[button.dataset.personLabel];
   show("person", true);
   $("game").classList.add("person-open");
+  // The timeline counts its rows from the plate's height, so it draws once
+  // the card is open.
+  if (tabs.length) drawTab();
   $("person-close").focus();
 }
 $("person-close").addEventListener("click", closePerson);
@@ -1964,13 +2038,22 @@ function billEstimate(paper, section) {
     scaled && est.afterValue != null
       ? amount(est.afterValue, est.afterUnit)
       : null;
-  if (before && after && !est.statute) lines.push(`${before} → ${after}`);
-  else if (before && after)
-    lines.push(
-      webCite
-        ? `${words.amends ?? ""} ${words.lawInForce ?? ""}: ${words.from ?? ""} ${before} ${words.to ?? ""} ${after}`
-        : `${before} ${words.from ?? ""} ${after}`,
-    );
+  // Today's amount beside the new one, as two cells: the law in force, and what the bill makes it.
+  let compare = null;
+  if (before && after)
+    compare = {
+      todayLabel: words.today ?? "",
+      today: before,
+      newLabel: words.proposed ?? "",
+      proposed: after,
+    };
+  else if (est.line && est.ofMinor != null && est.lineAmountMinor != null)
+    compare = {
+      todayLabel: words.today ?? "",
+      today: moneyWords(est.ofMinor),
+      newLabel: words.proposed ?? "",
+      proposed: moneyWords(est.ofMinor + est.lineAmountMinor),
+    };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
   if (est.line)
     lines.push(
@@ -1995,7 +2078,7 @@ function billEstimate(paper, section) {
       .filter(Boolean)
       .join(" · "),
   );
-  return { prose: section.text ?? paper.title, lines };
+  return { prose: section.text ?? paper.title, lines, compare };
 }
 /**
  * Open a bill as one paper document: designation, title, sponsor, each
@@ -2077,53 +2160,66 @@ async function seatRows() {
   };
   for (const body of v.bodies) {
     for (const m of body.members) me.names = { ...me.names, [m.key]: m.name };
-    // Every law area, one group each: its policies and budget lines. Money
-    // is typed in dollars and kept in cents.
-    const pick = select({
-      options: (body.menus ?? []).map((menu) => ({
-        group: menu.name,
-        options: menu.items.map((item) => ({
-          value: item.series
-            ? `series:${item.series}`
-            : item.question
-              ? `question:${item.question}`
-              : `line:${item.line}`,
+    // Every law area, one group each: its policies and budget lines, each with what is in
+    // force today beside the amount you type. Money is typed in dollars and kept in cents.
+    const seat = controls.seat ?? {};
+    const itemKey = (item) =>
+      item.series
+        ? `series:${item.series}`
+        : item.question
+          ? `question:${item.question}`
+          : `line:${item.line}`;
+    const draftBlock = draftCard({
+      words: {
+        title: seat.title ?? "",
+        issue: seat.issue ?? "",
+        today: seat.today ?? "",
+        newAmount: seat.newAmount ?? "",
+        draft: seat.draft ?? "",
+        none: controls.bill?.none ?? "",
+      },
+      groups: (body.menus ?? []).map((menu) => ({
+        name: menu.name,
+        items: menu.items.map((item) => ({
+          value: itemKey(item),
           label: `${
             item.series
               ? policyLabel(item.series)
               : item.question
                 ? policyLabel(item.question)
                 : item.name
-          }${
-            item.inForce != null
-              ? ` · ${item.series ? amount(item.inForce, item.unit) : item.inForce}`
-              : ""
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-          data:
-            item.unit?.startsWith("minor") || item.line ? { cents: "1" } : {},
+          // What the law in force holds, as the bill's paper cites it.
+          today: item.today
+            ? amount(item.today.value, item.today.unit)
+            : item.inForce != null
+              ? String(item.inForce)
+              : null,
+          unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
+          cents: item.unit?.startsWith("minor") || Boolean(item.line),
+          blocked: item.allowed === false,
+          note:
+            item.allowed === false
+              ? (controls.authority?.[item.reason] ?? "")
+              : "",
         })),
       })),
-    });
-    const value = numberBox({ value: 0 });
-    const draft = makeButton({ textContent: controls.seat?.draft ?? "" });
-    draft.addEventListener("click", () => {
-      const [kind, key] = [
-        pick.value.slice(0, pick.value.indexOf(":")),
-        pick.value.slice(pick.value.indexOf(":") + 1),
-      ];
-      const cents = pick.selectedOptions[0]?.dataset.cents === "1";
-      act({
-        kind: "draft",
-        officeId: body.officeId,
-        ...(kind === "series"
-          ? { series: key }
-          : kind === "line"
-            ? { line: key }
-            : { question: key }),
-        value: cents
-          ? String(Math.round(Number(value.value) * 100))
-          : value.value,
-      });
+      onDraft: (item, typed) => {
+        const [kind, key] = [
+          item.value.slice(0, item.value.indexOf(":")),
+          item.value.slice(item.value.indexOf(":") + 1),
+        ];
+        act({
+          kind: "draft",
+          officeId: body.officeId,
+          ...(kind === "series"
+            ? { series: key }
+            : kind === "line"
+              ? { line: key }
+              : { question: key }),
+          value: item.cents ? String(Math.round(Number(typed) * 100)) : typed,
+        });
+      },
     });
     rows.push(
       listRow(
@@ -2131,7 +2227,7 @@ async function seatRows() {
         {},
         bold(body.title),
         body.members.map((m) => m.name).join(" · "),
-        listRow("seat-draft", {}, pick, value, draft),
+        draftBlock,
       ),
     );
   }
@@ -3077,17 +3173,6 @@ const sheets = {
       key === gov.homeState?.key
         ? gov.homeState.name
         : (states.find((st) => st.key === key)?.name ?? key);
-    // How a member feels about you, in three bands of the tie's closeness
-    // (-1 to 1): display wording only, never a choice.
-    const FEELING_WARM = 0.5;
-    const feelingOf = (level) =>
-      level === null || level === undefined
-        ? null
-        : level < 0
-          ? "cool"
-          : level >= FEELING_WARM
-            ? "warm"
-            : "known";
     // A seat as a voter says it: a town's ward, a state's district, at large.
     const seatWords = (body, district) =>
       !district
@@ -3099,22 +3184,18 @@ const sheets = {
               n: Number(district),
             })
           : district;
-    const card = (body, m, line, large = false) => {
-      const feeling = feelingOf(m.feeling);
-      return memberCard(
+    const card = (body, m, line, large = false) =>
+      memberCard(
         {
           name: m.name,
           line,
           party: m.party,
           badge: m.party ? m.party.charAt(0) : null,
           face: m.face,
-          feeling,
-          feelingLabel: feeling ? labels.feeling?.[feeling] : null,
           onOpen: open(m.cardId, m.face),
         },
         { large },
       );
-    };
     const sinceLine = (m) =>
       m.party
         ? fill(labels.partySince, {
@@ -3255,13 +3336,9 @@ const sheets = {
               .map((m) => card(body, m, seatWords(body, m.district))),
             ...body.leaders.map((l) => {
               // A leader who sits in this chamber is drawn as its member,
-              // party and feeling included; one from elsewhere by name.
+              // party included; one from elsewhere by name.
               const seated = body.members.find((m) => m.cardId === l.cardId);
-              return card(
-                body,
-                seated ?? { ...l, party: null, feeling: null },
-                words(l.post),
-              );
+              return card(body, seated ?? { ...l, party: null }, words(l.post));
             }),
             ...[...body.members]
               .filter((m) => !m.own && !leaderIds.has(m.cardId))

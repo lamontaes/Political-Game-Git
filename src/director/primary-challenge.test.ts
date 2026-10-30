@@ -19,7 +19,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { ballot, openContests } from "../core2/modules/elections";
+import { ballot, playerContests } from "../core2/modules/elections";
 import { partyOf, seatParty } from "../core2/candidate-pool";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -64,7 +64,7 @@ it(`a rival from the player's own party is told as one, seed ${seed}`, () => {
       tried.push(`${where}: the player has no party`);
       continue;
     }
-    const filed = [...openContests(api)]
+    const filed = [...playerContests(api)]
       .filter(
         (c) =>
           c.electionDate >= addDays(makeIsoDate(core.date), LEAD_DAYS) &&
