@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/path-check-campaigns
-pr:
+pr: #6849
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 29 (baseline: the player got 0 votes)
+lead: governing
 claimed-at: 2026-10-29T22:47:33.134Z
 ---
 

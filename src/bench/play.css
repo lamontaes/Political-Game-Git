@@ -3866,6 +3866,88 @@ details.entry[open] {
   margin: 0;
 }
 
+/* The draft card on a body's office screen: the issue, what is in force today beside the
+   amount typed, and Draft. */
+.draft-card {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(214, 189, 132, 0.35);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.draft-title {
+  margin: 0;
+  font: 700 12px var(--ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.draft-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 18px;
+}
+.draft-cell {
+  display: grid;
+  gap: 2px;
+}
+.draft-cell small {
+  color: var(--text-2);
+  font: 12px var(--ui);
+}
+.draft-today {
+  font: 600 18px var(--ui);
+}
+.draft-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.draft-entry .number-box {
+  width: 110px;
+}
+.draft-note {
+  margin: 0;
+  color: var(--text-2);
+  font: 13px var(--ui);
+}
+.draft-note:empty {
+  display: none;
+}
+
+/* Today's amount beside the new one on the bill paper's estimate card. */
+.bill-compare {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 10px 0;
+}
+.bill-compare-cell {
+  display: grid;
+  gap: 2px;
+  min-width: 110px;
+  padding: 8px 12px;
+  border: 1px solid rgba(214, 189, 132, 0.3);
+  border-radius: 6px;
+}
+.bill-compare-cell small {
+  color: var(--text-2);
+  font: 12px var(--ui);
+}
+.bill-compare-cell strong {
+  font: 700 20px var(--ui);
+}
+.bill-compare-cell.new {
+  border-color: var(--gold);
+}
+.bill-compare-arrow {
+  color: var(--gold);
+  font-size: 22px;
+}
+
 /* ---- Framed plates, trays and the timeline (owner, Oct 29, 22:45) ----
    Content never sits on the bare panel: every group sits on a framed plate (a soft
    gradient, a thin brass edge, an inner shadow, small brass corners). A plate inside a
