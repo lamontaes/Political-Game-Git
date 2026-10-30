@@ -1,9 +1,6 @@
 # Grade reach
 
-One grade on one piece moves every piece that shares its pattern, voice and register, across banks. Built by `scripts/dialogue-batch/grade-reach-report.ts` (`defaults`).
-
-**Place:** Hackensack, Minnesota (`2726378`), seed `6b876649b889a77989a119dc595dd86766282bd695c3711a759ad4c9b30a3215`, drawn as `drawPlace("grade-reach-oct27:<n>", "grade-reach")`; played 365 days from 2026-10-12.
-**Race:** Ann Harmon won U.S. Senator against Amber Yoder (the voting module's recorded result).
+One grade on one piece moves every piece that shares its pattern, voice and register, across banks.
 
 ## What reaches what
 
@@ -74,7 +71,9 @@ A concession speech nobody graded is picked differently because a victory line w
 
 ## The 128 shipped grades, applied through this path
 
-`node --import tsx scripts/dialogue-batch/apply-grades.ts` folds the ledger and writes `data/english/grade-reach.json`. The ledger holds 128 graded keys: 91 are bank pieces and reach their groups; 37 name no bank piece (retired keys and the old composition banks: `bank:`, `day-opening:`, `journal:chapter:`, `life-reply`) and keep their own grade only. **1757 pieces now carry a reach weight other than 1**, across 15 banks: address 186, conversation 87, counter 13, hearing 26, interview 30, journal 162, legislation 86, meeting 97, minutes 34, notice 2, opening-speech 19, scene-talk 933, scene-words 42, speech-stages 5, winning-losing 35.
+`node --import tsx scripts/dialogue-batch/apply-grades.ts` folds the ledger and writes `data/english/grade-reach.json`. The ledger holds 128 graded keys. Of these, 91 are bank pieces and reach their groups. The other 37 name no bank piece (retired keys and the old composition banks: `bank:`, `day-opening:`, `journal:chapter:`, `life-reply`) and keep their own grade only.
+
+**1757 pieces now carry a reach weight other than 1**, across 15 banks: address 186, conversation 87, counter 13, hearing 26, interview 30, journal 162, legislation 86, meeting 97, minutes 34, notice 2, opening-speech 19, scene-talk 933, scene-words 42, speech-stages 5, winning-losing 35.
 
 | group (pattern \| voice \| register) | net grades | graded pieces | pieces in group | banks | weight of an ungraded peer (1.0 = unchanged) |
 | ------------------------------------ | ---------- | ------------- | --------------- | ----- | -------------------------------------------- |
@@ -118,3 +117,10 @@ A concession speech nobody graded is picked differently because a victory line w
 | relent \| tender \| private          | -1         | 1             | 1               | 1     | 1.000                                        |
 
 Ask why: a piece's weight is its own running grade times its group's reach, `pieceFactor` in `src/english/calibration.ts`; the group sums are in `data/english/grade-reach.json`.
+
+## How this was made
+
+Built by `scripts/dialogue-batch/grade-reach-report.ts` (`defaults`).
+
+**Place:** Hackensack, Minnesota (`2726378`), seed `6b876649b889a77989a119dc595dd86766282bd695c3711a759ad4c9b30a3215`, drawn as `drawPlace("grade-reach-oct27:<n>", "grade-reach")`; played 365 days from October 12, 2026.
+**Race:** Ann Harmon won U.S. Senator against Amber Yoder (the voting module's recorded result).

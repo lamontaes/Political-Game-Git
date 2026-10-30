@@ -6,7 +6,8 @@ import { gameStartDate } from "./game-start";
 import { advanceCore } from "./life";
 import { officeHost, officeActsOf } from "./modules/office-day";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./modules/offices";
-import { townHallDue } from "./office-day-acts";
+import { officeActHandlers, townHallDue } from "./office-day-acts";
+import { holdTownHall, MEETINGS_MODULE_ID } from "./modules/meetings";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -47,6 +48,20 @@ describe(`a town hall is held on a cadence (seed ${seed})`, () => {
       )[0]!.personId!;
       const offered = () => (townHallDue(api, officeHost, member) ? 1 : 0);
       expect(offered(), `${place.name}; seed ${place.seed}`).toBeGreaterThan(0);
+      // One a day: a town hall they already hosted today (an incumbent's
+      // forum for their race is one) keeps the office's town hall off the
+      // day, and the act, if it comes up anyway, holds no second one.
+      const hall = holdTownHall(api, { hostId: member });
+      expect(offered(), "hosted one today").toBe(0);
+      officeActHandlers(officeHost)["town-hall"](api, member);
+      expect(
+        officeHost.lastGiven(api, member, "town-hall"),
+        "the act held none",
+      ).toBeFalsy();
+      expect(
+        api.moduleState(MEETINGS_MODULE_ID).table("townHalls").get(hall.id),
+        "today's town hall stands",
+      ).toEqual(hall);
       officeHost.keep(api, {
         personId: member,
         kind: "town-hall",
