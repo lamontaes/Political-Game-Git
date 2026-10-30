@@ -55,26 +55,3 @@ export function personRow({ name, detail, party, face, onOpen }) {
 export function noteLine(text) {
   return el("p", { className: "label", textContent: text });
 }
-
-/**
- * A row with what follows its name: short notes on the same line ({ text, className?,
- * data? }, the person-row note style by default) and full-width lines under it ({ variant,
- * text, data? }: who won the seat, your race for it). `data` is kept for the browser
- * checks, never shown. Empty notes are left out.
- */
-export function withNotes(line, notes = [], lines = []) {
-  for (const note of notes.filter((n) => n?.text)) {
-    const span = el("span", {
-      className: note.className ?? "person-row-note",
-      textContent: note.text,
-    });
-    Object.assign(span.dataset, note.data ?? {});
-    line.append(span);
-  }
-  for (const sub of lines.filter(Boolean)) {
-    const row = listRow(sub.variant, { textContent: sub.text });
-    Object.assign(row.dataset, sub.data ?? {});
-    line.append(row);
-  }
-  return line;
-}

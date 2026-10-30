@@ -228,6 +228,13 @@ export const STORY_KINDS = {
     context: ["owner-new", "owner-before", "business-kind"],
   },
   ad: { headline: ["ad"], lede: ["ad"] },
+  // A group or a person backing a candidate in a race, from the campaign's
+  // endorsement record: a headline and one line.
+  endorsement: {
+    headline: ["endorsement"],
+    lede: ["endorsement"],
+    brief: true,
+  },
   "campaign-gift": {
     headline: ["campaign-gift"],
     lede: ["campaign-gift"],
@@ -271,6 +278,10 @@ export const STORY_KINDS = {
   },
   // Side items the town's records already hold: a line, never opened.
   crime: { headline: ["crime"], lede: ["crime"], brief: true },
+  // The month's police log: the crimes residents reported, as a count.
+  "police-log": { headline: ["police-log"], lede: ["police-log"], brief: true },
+  // A school honor: a spelling bee won, seniors signing to play Division I.
+  honor: { headline: ["honor"], lede: ["honor"], brief: true },
   graduation: { headline: ["graduation"], lede: ["graduation"], brief: true },
   "school-tests": {
     headline: ["school-tests"],

@@ -21,22 +21,35 @@ import {
 } from "./modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  VOLUNTEER_SHIFT_EVENT,
   askForDonation,
   askForEndorsement,
   askToVolunteer,
+  campaignFor,
+  canvassHoursFree,
   causesFor,
   commissionPoll,
   contributionLimit,
+  enlistVolunteer,
   giveSpeech,
+  impressionOf,
   knockDoors,
   openCampaigns,
   campaignTurn,
   runAd,
+  shiftReason,
+  shiftShare,
+  volunteerShifts,
+  type CauseRow,
   type ImpressionRow,
 } from "./modules/campaigns";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-views";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { setKeepEveryonesWhy } from "./why-kept";
+import { discretionaryHours } from "./modules/work";
+import { OPENING_CARRY } from "./turnout";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import type { CoreEventInput, PersonState } from "./types";
 
 // Reads every reached voter's recorded cause for people outside the player's circle.
 setKeepEveryonesWhy(true);
@@ -48,20 +61,22 @@ const seed =
 const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
-function pick<T>(list: readonly T[], salt: string): T {
-  const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
+function pick<T>(list: readonly T[], salt: string, from = seed): T {
+  const hash = createHash("sha256").update(`${from}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-function randomPlace() {
-  const state = pick(states, "state");
+function randomPlace(from = seed) {
+  const state = pick(states, "state", from);
   const places = [
     ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
   ].sort((a, b) => a.key.localeCompare(b.key));
-  return pick(places, "place");
+  return pick(places, "place", from);
 }
+/** How many places a test draws (seed, seed:1, ...) before it gives up. */
+const DRAWS = 12;
 
 /** File and, where the place asks for signatures, gather them from neighbors. */
 function fileAndQualify(
@@ -230,6 +245,277 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
         poll: poll.answers,
         marginOfError: poll.marginOfError,
         whyOneVoter: causesFor(api, voter.voterId, candidate.id),
+      }),
+    );
+  });
+
+  it("volunteers walk the campaign's doors in the evening their work leaves free; one whose shift at work covers it stays home", () => {
+    const year = (p: Readonly<PersonState>) =>
+      Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4));
+    const shiftHours = campaignParameter("volunteerShiftHours");
+    // One draw: a place, its people and offices from the draw seed, the
+    // wealthiest adult filed for the first contest they can enter, and who is
+    // willing to walk for the campaign.
+    const draw = (drawSeed: string) => {
+      const picked = process.env.GOLDEN_PATH_PLACE_KEY
+        ? null
+        : randomPlace(drawSeed);
+      const place = process.env.GOLDEN_PATH_PLACE_KEY ?? picked!.key;
+      const label = `${picked ? `${picked.displayName} (${place})` : place}, draw seed ${drawSeed}`;
+      const core = createLifeCore(
+        buildPopulation({
+          seed: drawSeed,
+          placeKey: place,
+          startedAt: START,
+          minimumPeople: 300,
+        }),
+      );
+      openOffices(core, drawSeed);
+      openElections(core);
+      openCampaigns(core);
+      const api = coreAPI(core);
+      const adults = [...core.people.values()]
+        .filter((p) => year(p) >= 35)
+        .sort(
+          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
+        );
+      const platform = [`${pick(PLATFORM_QUESTIONS, "shift-q1", drawSeed)}=1`];
+      let filing: FilingRow | null = null;
+      for (const contest of openContests(api)) {
+        filing = fileAndQualify(api, adults[0]!.id, contest.id, platform);
+        if (filing) break;
+      }
+      if (!filing)
+        return {
+          place,
+          drawSeed,
+          label,
+          core,
+          api,
+          filing,
+          willing: [] as PersonState[],
+        };
+      const candidateId = filing.personId;
+      const campaign = campaignFor(api, filing.id);
+      // Whose own reasons send them out on the campaign's first working day
+      // (their share of working days, added to an even start, makes a whole
+      // evening), with the whole evening free.
+      const goes = (p: Readonly<PersonState>) =>
+        OPENING_CARRY + shiftShare(api, campaign, p) >= 1;
+      const willing = [...core.people.values()]
+        .filter(
+          (p) =>
+            p.alive &&
+            p.id !== candidateId &&
+            p.id !== core.playerId &&
+            year(p) >= campaignParameter("minimumVolunteerAge") &&
+            canvassHoursFree(api, p) === shiftHours &&
+            goes(p),
+        )
+        .sort(
+          (a, b) =>
+            shiftReason(api, campaign, b) - shiftReason(api, campaign, a) ||
+            a.id.localeCompare(b.id),
+        );
+      return {
+        place,
+        drawSeed,
+        label,
+        core,
+        api,
+        filing,
+        campaign,
+        goes,
+        willing,
+      };
+    };
+    // A drawn place can hold no contest to file for, or fewer than three
+    // willing volunteers, so the seed is redrawn (seed, seed:1, ...) from all
+    // 56 until it has both, as seat-leavings does; the place and draw seed
+    // used are named, and when no draw has both, every place tried is.
+    const tried: string[] = [];
+    let drawn!: ReturnType<typeof draw>;
+    for (let redraw = 0; redraw < DRAWS; redraw += 1) {
+      drawn = draw(redraw ? `${seed}:${redraw}` : seed);
+      if (drawn.filing && drawn.willing.length >= 3) break;
+      tried.push(
+        `${drawn.label} (${drawn.filing ? `${drawn.willing.length} willing` : "no contest"})`,
+      );
+    }
+    const where =
+      tried.length === DRAWS
+        ? `every place tried: ${tried.join("; ")}`
+        : tried.length
+          ? `${drawn.label}; redrawn after ${tried.join("; ")}`
+          : drawn.label;
+    const { place, drawSeed, core, api, filing, willing } = drawn;
+    expect(filing, `no open contest to file for in ${where}`).not.toBeNull();
+    const candidateId = filing!.personId;
+    const campaign = drawn.campaign!;
+    const goes = drawn.goes!;
+    expect(
+      willing.length,
+      `fewer than three willing volunteers in ${where}`,
+    ).toBeGreaterThanOrEqual(3);
+    const [busy, first, second] = willing as [
+      PersonState,
+      PersonState,
+      PersonState,
+    ];
+    // A fixture for the edge case: the most willing works an evening shift
+    // that covers the canvass on this very day, once a week.
+    const from = campaignParameter("canvassStartHour") * 60;
+    const shiftId = `test-evening-shift:${busy.id}`;
+    core.work.commitments.set(shiftId, {
+      id: shiftId,
+      jobId: `test-evening-job:${busy.id}`,
+      personId: busy.id,
+      organizationId: "test-evening-employer",
+      startsAt: core.date,
+      anchorDate: core.date,
+      periodDays: 7,
+      slots: [{ offsetDays: 0, startMinute: from, minutes: shiftHours * 60 }],
+      expectedWeeklyMinutes: shiftHours * 60,
+      hourlyMinor: 0,
+      scheduleSource: {
+        tag: "SOURCED",
+        citation: "Test fixture: an evening shift on the canvass night",
+        asOf: core.date,
+      },
+      paySource: {
+        tag: "SOURCED",
+        citation: "Test fixture: an evening shift on the canvass night",
+        asOf: core.date,
+      },
+    });
+    core.work.commitmentsByPerson.set(
+      busy.id,
+      new Set([...(core.work.commitmentsByPerson.get(busy.id) ?? []), shiftId]),
+    );
+    expect(canvassHoursFree(api, busy)).toBe(0);
+    // Their reasons would still send them: only the hours keep them home.
+    expect(goes(busy)).toBe(true);
+    for (const p of [busy, first, second])
+      expect(enlistVolunteer(api, filing!.id, p.id)).toBe(true);
+    // The second has spent all but an hour of their day already: the evening
+    // gives the doors only what the day's discretionary budget has left.
+    const perHour = api.parameter("minutesPerHour");
+    api.recordDiscretionaryTime(
+      second.id,
+      (discretionaryHours(api, second.id) - 1) * perHour,
+    );
+    expect(canvassHoursFree(api, second)).toBeCloseTo(1, 9);
+    const firstBudget = discretionaryHours(api, first.id);
+
+    const events: CoreEventInput[] = [];
+    api.subscribeEvents(
+      "test-volunteer-shifts",
+      [VOLUNTEER_SHIFT_EVENT],
+      (_, e) => {
+        events.push(e);
+      },
+    );
+    const people = core.people.size;
+    const walked = new Set<string>();
+    const shifts = volunteerShifts(api, filing!.id, walked);
+
+    // The two with the evening free went; the one at work stayed home.
+    expect(shifts.map((s) => s.volunteerId).sort()).toEqual(
+      [first.id, second.id].sort(),
+    );
+    // Nobody was filled in: a volunteer's doors reach the counted as a count.
+    expect(core.people.size).toBe(people);
+    const causes = api.moduleState(CAMPAIGNS_MODULE_ID).table("causes");
+    // The evening came out of the day's budget every engine reads.
+    const hoursOf = new Map(shifts.map((s) => [s.volunteerId, s.hours]));
+    expect(hoursOf.get(first.id)).toBe(shiftHours);
+    expect(hoursOf.get(second.id)).toBeCloseTo(1, 9);
+    expect(discretionaryHours(api, first.id)).toBeCloseTo(
+      firstBudget - shiftHours,
+      9,
+    );
+    expect(discretionaryHours(api, second.id)).toBeCloseTo(0, 9);
+    // What their working day owed them, less the evening it sent them on.
+    const held = campaignFor(api, filing!.id);
+    expect(held.shiftCarries?.[first.id]).toBeCloseTo(
+      OPENING_CARRY + shiftShare(api, campaign, first) - 1,
+      9,
+    );
+    expect(held.shiftCarries?.[busy.id]).toBeUndefined();
+    for (const shift of shifts) {
+      expect(shift.doorsKnocked).toBeGreaterThan(0);
+      if (shift.volunteerId === first.id)
+        expect(shift.causeIds.length).toBeGreaterThan(0);
+      for (const id of shift.causeIds) {
+        const cause = causes.get(id) as unknown as CauseRow;
+        expect(cause.act).toBe("volunteer-door");
+        expect(cause.actorId).toBe(shift.volunteerId);
+        expect(cause.candidateId).toBe(candidateId);
+        const impression = impressionOf(api, cause.voterId, candidateId);
+        expect(impression?.heardOf).toBe(true);
+        expect(causesFor(api, cause.voterId, candidateId).length).toBe(
+          impression!.causes,
+        );
+      }
+      const event = events.find(
+        (e) => e.facts?.volunteerId === shift.volunteerId,
+      );
+      expect(event?.personIds).toContain(shift.volunteerId);
+      expect(event?.facts?.doorsKnocked).toBe(String(shift.doorsKnocked));
+      expect(event?.facts?.firstShift).toBe("true");
+      expect(held.shiftNotedOn?.[shift.volunteerId]).toBe(START);
+    }
+    const byCandidate = causes.query("byCandidate", [
+      candidateId,
+    ]) as unknown as CauseRow[];
+    expect(byCandidate.some((c) => c.actorId === busy.id)).toBe(false);
+    expect(campaignFor(api, filing!.id).doorsKnockedCount).toBe(
+      shifts.reduce((sum, s) => sum + s.doorsKnocked, 0),
+    );
+    // An evening given is gone: the same day asks nothing more of them.
+    expect(volunteerShifts(api, filing!.id, walked)).toEqual([]);
+    // The next day they may walk again, but an evening is kept as an event
+    // at most once a week: only the one who stayed home has a first to note.
+    const nextDay = addDays(makeIsoDate(START), 1);
+    core.date = nextDay;
+    const again = volunteerShifts(api, filing!.id);
+    const noted = events.filter((e) => e.date === nextDay);
+    expect(
+      noted.every(
+        (e) =>
+          e.facts?.volunteerId === busy.id && e.facts?.firstShift === "true",
+      ),
+    ).toBe(true);
+    expect(noted.length).toBe(
+      again.filter((s) => s.volunteerId === busy.id).length,
+    );
+    // A week on, an evening of the two noted on the first day is noted again
+    // (the one at work has their evening shift that day again).
+    const weekOn = addDays(
+      makeIsoDate(START),
+      campaignParameter("volunteerShiftEventDays"),
+    );
+    core.date = weekOn;
+    const later = volunteerShifts(api, filing!.id);
+    for (const shift of later.filter((s) => s.volunteerId !== busy.id))
+      expect(
+        events.some(
+          (e) =>
+            e.date === weekOn &&
+            e.facts?.volunteerId === shift.volunteerId &&
+            e.facts?.firstShift === "false",
+        ),
+      ).toBe(true);
+    govReport(
+      "campaigns-volunteer-shifts",
+      JSON.stringify({
+        place,
+        seed,
+        drawSeed,
+        where,
+        filing: filing!.id,
+        shifts,
+        stayedHome: busy.id,
       }),
     );
   });

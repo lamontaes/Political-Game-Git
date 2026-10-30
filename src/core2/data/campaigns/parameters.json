@@ -78,6 +78,18 @@
       "source": "How far one conversation at the door moves a voter toward what they make of the candidate. Checked against field experiments: face-to-face contact is the strongest campaign contact (Green and Gerber 2019).",
       "spread": [0.3, 0.7]
     },
+    "doorPledgeTurnoutWeight": {
+      "value": 0.7,
+      "tag": "ESTIMATED",
+      "source": "How much a voter's own \"yes\" at a campaign's door adds to their reason to vote, on the turnout scale (src/core2/turnout.ts readiness), on top of the stakes the pledge's appeal already adds: saying you will vote for someone is also saying you will vote. People who tell a caller they will vote mostly do: 13.3% (2008 general) to 54.2% (2009 New Jersey off-year) of them did not (Rogers and Aida, 'Why Bother Asking? The Limited Value of Self-Reported Vote Intention', Harvard Kennedy School, research.hks.harvard.edu/publications/getFile.aspx?Id=929); 61% to 73% of a poll's stated supporters were verified to have voted in the 2014 midterm (Pew Research Center, 'Polls and votes: the 2014 elections by the numbers', 2016); and signing an in-person pledge to vote raised turnout 3.7 points over a petition (Costa, Schaffner and Prevost 2018, PLoS ONE, pmc.ncbi.nlm.nih.gov/articles/PMC5973556). With the logistic scale 0.5, 0.7 here plus the pledge's stakes (about 0.58) lifts a voter at a 10% local-election propensity to about half, inside the 46% to 87% band that stated intent predicts; checked as a total, the turnout of a played race's pledgers against its other adults (src/core2/door-pledge.test.ts), never one voter's draw.",
+      "spread": [0.3, 1.2]
+    },
+    "playerDoorFillIns": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How many counted residents who open the player's own door in an evening of canvassing are filled in as full people: the ones a porch scene could cast (owner, Oct 27: door knocking is \"a short scene at 1 or 2 doors\"; two-level population, owner Oct 11: full people exist only where they matter, and a door touches the counted group). Every other opener stays counted, reached and answering by the same rule from their record.",
+      "spread": [1, 2]
+    },
     "doorPledgeWeight": {
       "value": 2,
       "tag": "TUNABLE",
@@ -95,6 +107,18 @@
       "tag": "TUNABLE",
       "source": "How far hearing that someone you know endorses a candidate moves you. Checked against endorsement-cue studies (Lupia 1994).",
       "spread": [0.1, 0.5]
+    },
+    "endorsementTieWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How much an endorser's tie to a candidate (closeness today, 0 to 1) adds to their backing beside how far they agree with the platform, for a person a candidate asks and a group's speaker alike: public political acts run through people's own networks (Sinclair 2012, The Social Citizen: peer networks shape who takes a public side), and a local candidate's first endorsers are the people who know them. No study reports the size against agreement; at 0.25 a close friend's tie (about 0.8) adds about what a fifth of full agreement does, so a friend who disagrees with the platform still declines.",
+      "spread": [0, 0.5]
+    },
+    "groupVolunteerStakeWeight": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "source": "How much a member's own agreement with an endorsing group's cause (0 to 1) adds to their reason to volunteer when the group asks them for the candidate it backs: being asked through an organization one belongs to is among the strongest routes into campaign work, and those most committed to its cause say yes most (Verba, Schlozman and Brady 1995, Voice and Equality, chapters 5 and 13: recruitment through organizations and psychological engagement). No study gives the size on this scale; at 1.5 a member with no job whose share in the cause is about half or more clears the volunteer threshold once the endorsement warms them, a party member (whose share in a party's whole platform runs near 0.15) does not, and a full-time worker does not without a close tie.",
+      "spread": [0.5, 2]
     },
     "canvasserReliabilityEfficiency": {
       "value": 0.1,
@@ -161,6 +185,12 @@
       "tag": "TUNABLE",
       "source": "How far a candidate's own inclination to campaign slides their door hours around the base, as a share of it: at 0.5 the least campaign-minded walks half the base hours and the most walks one and a half times. Below 1 so that no one's hours reach zero.",
       "spread": [0.25, 0.75]
+    },
+    "rivalThreatWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much harder a world candidate campaigns the further a rival stands ahead of them in what they know of the race (the rival's share minus their own, in the newer of their own latest poll, counted by one less its margin of error, and the word of the rival that last reached them, read among the people they know in town). It applies to every world candidate, not only one who holds the seat: a challenger who learns they trail steps up by the same rule as an incumbent who learns a challenger gained. It is added to the pull of the doors and of an evening event, and to the share of the day's base hours they put in, so at the value 1 a candidate who knows they trail by a fifth of those asked puts in a fifth of their base hours more; and, up to all of it, the share of their campaign day that one who lives outside the town spends in it, at its doors as well as on calls. The direction is sourced, the size is not: 'incumbents who are vulnerable spend more than incumbents whose seats are safe' (Bardwell 2005, 'Reevaluating Spending in Gubernatorial Races', Political Research Quarterly 58(1): 97-105, after Green and Krasno 1990). To be checked against the share of incumbents in played worlds who step up when a challenger gains (the campaigns engine's steppedUp rows); src/core2/campaign-incumbent-response.test.ts shows the direction.",
+      "spread": [0.5, 2]
     },
     "minimumVolunteerAge": {
       "value": 16,
@@ -913,6 +943,12 @@
       "source": "How many of the people closest to a candidate are asked for an endorsement in one turn, each asked once, the closest first: a local candidate collects a handful of public endorsements over a campaign (Ballotpedia local candidate pages list a few to a dozen).",
       "spread": [1, 8]
     },
+    "petitionSignatureCushion": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "source": "How many signatures beyond the clerk's minimum a campaign gathers, as a share of the minimum, because the clerk strikes names not on the roll, duplicates and incomplete lines before counting. Thin margins fail: in a Yuma, Arizona council race a challenge alleged 60 of a candidate's 276 signatures invalid (about 22%; Yuma Sun, June 17, 2015, via PressReader), a Milwaukee filing about 4.5% over its minimum was challenged (Urban Milwaukee), and an Asbury Park, New Jersey council candidate was left off the ballot when the clerk invalidated 8 signatures (Asbury Park Sun); candidates are advised to gather well above the minimum (ballot-access guides). Half again the minimum covers a strike rate near the observed 20% to 30% with room; the spread runs from a careful campaign's 25% to doubling the minimum. Checked as a total: the share of played filings the clerk finds short.",
+      "spread": [0.25, 1]
+    },
     "petitionSignOpenness": {
       "value": 0.4,
       "tag": "TUNABLE",
@@ -943,6 +979,12 @@
       "source": "Hours an evening event takes the candidate, setup and the room together. Checked against the evening venue rental in campaign-unit-prices (an evening).",
       "spread": [2, 5]
     },
+    "playerForumHours": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Hours a forum the candidate hosts takes them: setting up the rented room, an hour or two of residents' questions and the talk after. Checked against the meetings engine's questionsPerTownHall (a few questions, each answered at length) and the evening venue rental in campaign-unit-prices (an evening).",
+      "spread": [2, 4]
+    },
     "playerInterviewHours": {
       "value": 1,
       "tag": "TUNABLE",
@@ -960,6 +1002,30 @@
       "tag": "TUNABLE",
       "source": "People the player asks for money in one hour of call time, by call or in person: roughly ten calls an hour (campaign fundraising manuals; Wellstone Action's training guides), so a three-hour session matches donorAsksPerTurn.",
       "spread": [5, 20]
+    },
+    "playerDonorMeetingHours": {
+      "value": 2,
+      "tag": "ESTIMATED",
+      "source": "Hours a donor meeting (a house party at a supporter's home) takes the candidate: a fundraising house party should 'last just a couple of hours', with the presentation and the ask after guests have been enjoying themselves for 30 to 45 minutes (Candid, 'Throwing a Fundraising House Party? Here's What You Need to Know', candid.org/blogs/throwing-a-fundraising-house-party-here-s-what-you-need-to-know, fetched Oct 29, 2026).",
+      "spread": [1.5, 3]
+    },
+    "donorMeetingHostHours": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "Hours a donor meeting takes its host: the couple of hours of the party itself (Candid, fetched Oct 29, 2026) and the setting up, the invitations and the follow-up calls Candid asks a host to make to each invitee. Checked against playerDonorMeetingHours (the host's evening is at least the candidate's).",
+      "spread": [2.5, 8]
+    },
+    "donorMeetingInvitesMax": {
+      "value": 150,
+      "tag": "ESTIMATED",
+      "source": "How many of their own circle a donor meeting's host invites, at most: a fundraising house party is 'usually with no more than 50 attendees' and a host should 'invite three or four times as many people as you would like to show up' (Candid, fetched Oct 29, 2026); a 2016 presidential campaign's host guide advised about double the attendance wanted (Washington Free Beacon's copy of the guide, freebeacon.com/politics/hillarys-specific-guide-on-how-to-throw-a-house-party-in-her-honor). Who comes is each guest's own choice (whoComes's rule); this only bounds the list.",
+      "spread": [50, 200]
+    },
+    "donorMeetingHostTieWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a guest's tie to the host who invited them (1 for family, else their closeness, -1 to 1) adds to their reason to come to a donor meeting: Candid's house-party guide builds half the list from the host's own friends (fetched Oct 29, 2026), who come for the host as much as the cause. Checked against donorRelationshipWeight, the same tie to the candidate's own weight, so a friend's invitation pulls as a friendship with the candidate does.",
+      "spread": [0.2, 1]
     },
     "playerRestHours": {
       "value": 8,
@@ -1386,6 +1452,30 @@
       "source": "How much of an offer's reach a candidate's first campaign carries whatever the race's size, halving with each campaign run before: a first statewide race keeps half the reach of a first council race, never all of it (owner, Oct 27, 4 PM Eastern: volunteers matter 'when you're doing small local campaigns, or maybe your first campaign'). Checked by src/director/volunteer-offer-weight.test.ts in a drawn place.",
       "spread": [0.25, 0.75]
     },
+    "volunteerShiftHours": {
+      "value": 2.5,
+      "tag": "ESTIMATED",
+      "source": "How long a volunteer's evening of doors runs, from canvassStartHour, before their work takes any of it: volunteer canvass shifts run two to three hours (Green and Gerber, Get Out the Vote, 4th ed., 2019, ch. 3, as rivalHoursWithJob cites). The repository's campaign-practice rows put one advocacy canvass at two-hour shifts (canvass-shift-aclu-ok-2018) and one get-out-the-vote canvass at four to four and a half hours (canvass-shift-9to5-ga-2014), data/research/campaign-reality/campaign-calibration.json; the American Time Use Survey 2025 puts a day of volunteering at 2.18 hours (volunteerHours). The midpoint of the two-to-three-hour shift.",
+      "spread": [2, 4.5]
+    },
+    "volunteerShiftThreshold": {
+      "value": 0,
+      "tag": "TUNABLE",
+      "source": "Where a volunteer's pull sits, before personality, against the bar for an evening of doors on a day the campaign works: the same reasons as an ask to volunteer (warmth, closeness, family, against weekly work hours) less this instead of the ask's bar (volunteerThreshold). The pull slides to the share of the campaign's working days they go (volunteerShiftScale): right at this bar one working day in two, past it most of them, short of it now and then, never always or never. At 0 someone who said yes to an ask or offered unasked, whose pull cleared the ask's higher bar, goes on more than half, and a relative enlisted at home who works full time goes more often as closeness and liking outweigh the work week. Checked by src/core2/campaigns.test.ts in a drawn place; not yet calibrated against a measured volunteer show-up rate.",
+      "spread": [-0.5, 1]
+    },
+    "volunteerShiftScale": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a volunteer's pull past the shift's bar (volunteerShiftThreshold) slides the share of the campaign's working days they give an evening of doors (a logistic step, the same scale doorAnswerScale gives a home's readiness to open): right at the bar one day in two, this far past it about three in four, this far short about one in four. Each working day adds the share to what the campaign's days owe the volunteer, starting even, and they go when it comes to a whole evening. Checked by src/core2/campaigns.test.ts in a drawn place; not yet calibrated against a measured volunteer show-up rate.",
+      "spread": [0.25, 1]
+    },
+    "volunteerShiftEventDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "source": "How many days apart a volunteer's evenings of doors are kept as an event the director can stage: their first evening, then at most one a week, so a campaign's regulars report back about weekly instead of on every working day (the campaign turn's own spacing, campaignTurnDays, sets how often they walk).",
+      "spread": [3, 14]
+    },
     "offerSpacingDays": {
       "value": 7,
       "tag": "TUNABLE",
@@ -1439,6 +1529,12 @@
       "tag": "TUNABLE",
       "source": "The window of recent cases an official weighs when deciding whether to take on an aide: the office's demand over the last season.",
       "spread": [30, 180]
+    },
+    "causesKeptPerCandidate": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many of a closed race's contacts a person in the player's circle keeps as rows per candidate, the latest ones, when the rest fold into a summary (owner, Oct 29: old records fold into summaries; Keep it simple: the circle's why is saved). Enough to answer why someone feels as they do about a candidate with their most recent reasons; the summary keeps every sum the race standing reads.",
+      "spread": [1, 10]
     }
   }
 }
