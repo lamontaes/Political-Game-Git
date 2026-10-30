@@ -1,4 +1,4 @@
-import { figureAtPath, figurePng } from "./people-pack";
+import { drawAheadNow, figureAtPath, figurePng } from "./people-pack";
 import { frontPng } from "./mannequin-plates";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
@@ -306,6 +306,11 @@ export async function benchRequest(
                 world.director.ledger.opening,
               )
             : null;
+          // The faces the first menus show (the player's card: household and
+          // closest ties) are drawn during loading too, so People has them
+          // the moment it opens.
+          personCard(world.core, entrant.personId);
+          drawAheadNow();
           buildProgress = { stage: "done", done: 0, total: 0 };
           // A scene the director already staged for today (the address the
           // household watches that evening) plays first.
