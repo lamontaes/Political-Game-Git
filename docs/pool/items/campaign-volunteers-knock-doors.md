@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/volunteer-shifts
-pr:
+pr: #6874
 blocked-on:
 source: governing lead, Oct 30 (phase A of campaign-like-real-races)
 lead: governing

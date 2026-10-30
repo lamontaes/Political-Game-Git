@@ -14,6 +14,8 @@ import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { campaignDay } from "./campaign";
+import { campaignDayChoices } from "../core2/campaign-day";
+import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
 import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -43,6 +45,15 @@ import {
 } from "../core2/modules/elections";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "path-check";
+
+/** Whether a contest's office is a council seat, from its office row's kind. */
+function isCouncil(officeId: string): boolean {
+  const office = coreAPI(w.core)
+    .moduleState("core2-offices-v1")
+    .table("offices")
+    .get(officeId) as { kind?: string } | undefined;
+  return (office?.kind ?? "").startsWith("council");
+}
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
 const started = performance.now();
 const w = buildBenchWorld(seed, gameStartDate(), {
@@ -59,10 +70,21 @@ const me = w.playerId!;
 player.select(me);
 benchScene(w.core, me, player.packet);
 
+/** The contest the player is running in, whose ballot they mark for themselves. */
+let running: string | undefined;
+
 /** Live until the date, the character answering its own choices. */
 function liveUntil(date: string) {
   for (let guard = 0; w.core.date < date && guard < 400; guard++) {
-    // The character leaves the polls when the day stops there; the races left unmarked are their own to decide.
+    // At the polls the player marks their own race for themselves (the
+    // engine never casts the player's ballot); the races left unmarked are
+    // their own to decide.
+    if (player.pollingPlace && running)
+      try {
+        player.markBallot(running, me);
+      } catch (error) {
+        log.push(`no ballot of their own: ${(error as Error).message}`);
+      }
     if (player.pollingPlace) player.leavePolls();
     const packet =
       player.packet?.kind === "stop"
@@ -109,9 +131,12 @@ const stillMe = () => lives.add(player.personId ?? me);
 
 /** Steps 3 to 5 once: file for a contest the player can enter, campaign, live to the election and read it. */
 function stand(): { held: boolean; takesOffice: string | null } {
-  // Step 3: walk into the office that takes filings for a contest you can enter.
+  // Step 3: walk into the office that takes filings for a contest you can
+  // enter, a council seat first where the place has one (the golden path is
+  // a council race; owner, Oct 29: the player runs for six offices).
   const gov = governmentView(w.core, me);
-  const enterable = gov.contests.find((c) => c.checks.every((k) => k.met));
+  const open = gov.contests.filter((c) => c.checks.every((k) => k.met));
+  const enterable = open.find((c) => isCouncil(c.contest.officeId)) ?? open[0];
   if (!enterable) {
     log.push("no contest the player can enter");
     return { held: false, takesOffice: null };
@@ -134,6 +159,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
     `filed ${enterable.contest.title} with ${enterable.filingOffice.filedWith}: ${(visit.result as { status?: string } | undefined)?.status ?? "no filing"}`,
   );
   if (!visit.result) return { held: false, takesOffice: null };
+  running = enterable.contest.id;
   stillMe();
   // Step 4: campaign. Filing is a petition: the player canvasses each week
   // until it holds the signatures the clerk will count, or the deadline
@@ -171,8 +197,45 @@ function stand(): { held: boolean; takesOffice: string | null } {
     }
   }
   stillMe();
-  // Step 5: live to the election day, then read election night.
+  // Then the campaign itself, every week to election day, as a player who
+  // means to win spends it: three evenings at the doors (each one asking
+  // for the vote now the petition is in), an evening of calls to donors and
+  // an event when the campaign can hold one, every outing's hours off the
+  // same clock the play screen spends them from.
   const day = enterable.contest.electionDate;
+  if (filing) {
+    const week = { doors: 0, reached: 0, raised: 0, events: 0, weeks: 0 };
+    while (addDays(makeIsoDate(w.core.date), 7) <= day) {
+      for (const kind of [
+        "canvass",
+        "canvass",
+        "raise-money",
+        "canvass",
+        "event",
+      ]) {
+        const choice = campaignDayChoices(coreAPI(w.core), filing.id).find(
+          (c) => c.kind === kind,
+        );
+        if (!choice?.available) continue;
+        const out = campaignDay(w.core, me, { filingId: filing.id, kind });
+        week.doors += out.doorsKnocked;
+        week.reached += out.reached;
+        week.raised += out.raisedMinor;
+        if (kind === "event") week.events += 1;
+        player.spend(out.hours);
+      }
+      week.weeks += 1;
+      liveUntil(addDays(makeIsoDate(w.core.date), 7));
+    }
+    const pledged = coreAPI(w.core)
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("pledges")
+      .query("byCandidate", [me]) as unknown as { contestId: string }[];
+    log.push(
+      `campaign ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised $${Math.round(week.raised / 100)}, events ${week.events}, door yes ${pledged.filter((p) => p.contestId === enterable.contest.id).length}`,
+    );
+  }
+  // Step 5: live to the election day, then read election night.
   liveUntil(day);
   liveUntil(addDays(makeIsoDate(day), 1));
   const races = electionResults(w.core, me);
@@ -193,10 +256,12 @@ for (let race = 0; race < 3 && !won; race++) {
   won = result.held;
   takesOffice = result.takesOffice;
   if (!won && race < 2) {
-    // Lose, and the next contest they can enter is the next try.
-    const next = governmentView(w.core, me).contests.find((c) =>
+    // Lose, and the next contest they can enter is the next try (a
+    // council seat first, as stand() picks it).
+    const open = governmentView(w.core, me).contests.filter((c) =>
       c.checks.every((k) => k.met),
     );
+    const next = open.find((c) => isCouncil(c.contest.officeId)) ?? open[0];
     if (!next) break;
     log.push(`lost; trying ${next.contest.title}`);
   }
