@@ -8,7 +8,7 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #0
 blocked-on: "#6900 (the menu stack's shared parts: #6881, #6883, #6885, #6892, #6900)"
 milestone: play-first
 source: owner, Oct 29 ("So they're not blocks of text anymore with random buttons"; every menu like Government)
