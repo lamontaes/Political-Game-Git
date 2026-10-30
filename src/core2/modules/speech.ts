@@ -10,6 +10,7 @@
  * engine's; this engine records who heard it and what it did.
  */
 import { scoreOffers, decisionFromScores } from "../choice";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import rows from "../data/speech/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import type {
@@ -253,15 +254,38 @@ export function retellingsOf(
   return table(api).query("bySpeech", [speechId]) as unknown as Retelling[];
 }
 
+/**
+ * A speech's retellings are kept as rows for speechRetellingKeptDays, then
+ * dropped (owner, Oct 29: old records fold into summaries): nothing in play
+ * reads a retelling after the speech's own day. The speech's address row
+ * stays, since a speaker's addresses are counted (`addressesGivenBy`). Each
+ * day looks up only the speeches given that many days before, by date.
+ */
+function forgetOldRetellings(api: CoreAPI): void {
+  const date = addDays(
+    makeIsoDate(api.state.date),
+    -s(api, "speechRetellingKeptDays"),
+  );
+  for (const speech of addresses(api).query("byDate", [date]))
+    for (const row of table(api).query("bySpeech", [speech.id]))
+      table(api).remove(row.id);
+}
+
 export const speechModule: CoreModule = {
   id: SPEECH_MODULE_ID,
   state: {
     schemaVersion: 1,
     tables: {
       retellings: { indexes: { bySpeech: { fields: ["speechId"] } } },
-      addresses: { indexes: { bySpeaker: { fields: ["speakerId"] } } },
+      addresses: {
+        indexes: {
+          bySpeaker: { fields: ["speakerId"] },
+          byDate: { fields: ["date"] },
+        },
+      },
     },
   },
+  onDay: (api) => forgetOldRetellings(api),
   reasonProviders: {
     "speech-reception": (api, actor, _offer, binding) => {
       const now = weighing.get(api.state);

@@ -727,6 +727,29 @@ export function commitWorkChoice(
   return committed;
 }
 
+/** The engines that hear each attendance, in registration order, kept per registry size. */
+const attendanceHooks = new WeakMap<
+  ReadonlyMap<string, CoreModule>,
+  { size: number; hooks: readonly CoreModule[] }
+>();
+// Outside tests engines are only ever added to the registry (registerModule),
+// so the same registry at the same size holds the same engines in the same
+// order: no walk per attendance. A test that replaces or deletes an engine
+// after an attendance uses a fresh world.
+function workAttendanceHooks(api: CoreAPI): readonly CoreModule[] {
+  const modules = api.state.modules;
+  let kept = attendanceHooks.get(modules);
+  if (!kept || kept.size !== modules.size)
+    attendanceHooks.set(
+      modules,
+      (kept = {
+        size: modules.size,
+        hooks: [...modules.values()].filter((m) => m.onWorkAttendance),
+      }),
+    );
+  return kept.hooks;
+}
+
 /** Separate cursor step, preserving the original callback order without replaying attendance. */
 export function notifyWorkChoice(
   api: CoreAPI,
@@ -758,8 +781,8 @@ export function notifyWorkChoice(
     );
   reads.verify();
   binding.notified = true;
-  for (const module of api.state.modules.values())
-    module.onWorkAttendance?.(api, binding.committed!);
+  for (const module of workAttendanceHooks(api))
+    module.onWorkAttendance!(api, binding.committed!);
   // No financial-pressure event or civic drive is synthesized by this module.
 }
 
@@ -870,8 +893,8 @@ export function runScheduledWork(
     const committed = api.recordWorkAttendance(result);
     decisions += p("one");
     acts += p("one");
-    for (const module of api.state.modules.values())
-      module.onWorkAttendance?.(api, committed);
+    for (const module of workAttendanceHooks(api))
+      module.onWorkAttendance!(api, committed);
     // No financial-pressure event or civic drive is synthesized by this module.
   }
   return { decisions, acts };

@@ -4,7 +4,25 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-- None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
+- **A relative with no news (Words, Oct 30; item `words-talk-husk-acquaintances-empty`).** Your grandparents, aunts and uncles live in another town, and nothing in their lives is simulated, so today a talk with one of them says nothing (your Oct 14 Q7 and Oct 15 family-talk rulings). Should talking to a relative with no news say nothing, as now, or should they ask after the family you share ("How's your mother?" answered from where she lives)? Recommended: keep it as now until their lives are simulated, so every family talk has real news in it.
+- The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
+
+## Oct 30, 08:15 UTC: CTO ruling: the circle fold's "last three" go unless a reader is named (amends 03:05; speed lead's question, with the reading line)
+
+- **Ruling (under "an effect is a read, not a record" and the Speed rule that a long save stays flat):** the 03:05 fold kept each circle member's last three causes per candidate on the governing lead's condition. In a Ringgold, Louisiana save (seed long-1) they are the largest table by year 8, 270,470 of 1.42 million rows, and they grow as circle members times candidates times three. No reader in play is known: the race standing and the door scene read `causeSummaries`, and the trace reaches a folded cause only through a fact, which is kept. Unless the governing lead names a reader in play by 09:20 UTC, the fold keeps only the summaries (each contact kind's count, warmed and cooled, per voter and candidate), every fact-named cause and every pledge. If a reader is named, the three stay only while both the voter and the candidate are alive. Carried by the speed lead's follow-up to #6917; its records proof differs only in `foldedCauses`.
+- **Settled 08:41:** the governing lead found no play reader of the kept three on main or on their six open branches (play reads the live causes on the day and `causeSummaries`; `foldedCauses` is read only inside `foldCauses`). The three go. Their one test-only reader moves its checks to before the race closes.
+
+## Oct 30, 04:14 UTC: CTO ruling: folds are built, not asked (speed lead's routing question; recorded 08:15)
+
+- **Ruling (under the Oct 29 22:45 and Oct 30 01:55 speed rulings, "old records fold into summaries once play no longer reads them"):** the speed lead builds each fold of a table that grows with history (the event log `core.durableLog`, `speech.retellings` and the like) without an owner question. Before building one, the speed lead agrees each reader's window with the session that owns that reader (`docs/coordination/CREW.md`), and goes ahead on a yes or after an hour with no answer. The PR body names every reader and its window. The routing at 04:14: speech retellings, the governing lead (voting, campaigns) and Words (civic roles); the event log, the governing lead, Words, the laws lead and the lane by reader. Recorded late: the ruling went by message at 04:14 and reached this log at 08:15.
+
+## Oct 30, 04:10 UTC: the 04:00 ruling below is withdrawn: the owner already ruled this (Words' correction)
+
+- **Withdrawn.** The owner's Oct 14 Q7 ("someone not in the room is talked about only when something recorded happened to them") and Oct 15 batch 11 grading ("Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene)") answer it, both quoted in `src/director/data/conversation-rules.json` (`happenings`, `familyTalk`). A relative with no news on record has no talk, and the empty talk is by design. The CTO's search missed the data file; `look-first` now names it. The question goes to the owner under **Open**, and `words-talk-husk-acquaintances-empty` waits on it.
+
+## Oct 30, 04:00 UTC (withdrawn 04:10): CTO ruling: a shared relative with no news is still something to talk about (Words' question, with the reading line)
+
+- **Ruling (acting CTO; withdrawn, see 04:10):** within the Oct 24 ruling that a talk with nothing on record says nothing ("that should be going to the hi, have a good day. That makes no sense"). A relative the two share has standing records (where they live, where they work), and those are something on record. So "How's your mother?" may be asked with no recent event and answered from them ("She's still out in Lakeville."). The "something recorded happened lately" gate in `subjectsBetween` is relaxed for shared relatives only. Answers read only records that exist and cite them, never invented news, health or moods. Talking about a husk does not fill them in (two-level population). The answer varies by the speaker's traits and writes the dated contact a talk writes. With no such record there is still no talk. Carried by `words-talk-husk-acquaintances-empty`.
 
 ## Oct 30, 03:40 UTC: CTO ruling: one File-for-it gate on the race page (Checker 3's question)
 

@@ -19,6 +19,7 @@
  * town's or the county's (`localClerkFor`), and an official's aide is one of
  * the staff they hired (`servingStaffOf`).
  */
+import { closenessBetween } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import {
@@ -27,6 +28,7 @@ import {
   executiveOf,
   memberKey,
   members,
+  votesOn,
   type BillRow as LegislatureBill,
 } from "../core2/modules/legislature";
 import type { BoardMember } from "../core2/central-bank-board";
@@ -66,6 +68,7 @@ const one = P.one;
 /** The fills this module answers; `scheduling.ts` asks it for each. */
 export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "clerk",
+  "staff-or-ally",
   "poll-workers",
   "chair",
   "members",
@@ -288,6 +291,30 @@ export function civicFill(
             .filter((outlet) => (outlet.tier ?? "local") === tier)
             .flatMap((outlet) => outlet.reporterIds),
         ),
+      );
+    }
+    case "staff-or-ally": {
+      // Who brings a lost vote to its sponsor: their aide where they keep
+      // one; a council member keeps none, so a fellow member who voted for
+      // the bill finds them, the closest first (the owner's council member
+      // heard nothing after his ordinance failed, Oct 29).
+      const aides = civicFill("staff", core, moment, taken);
+      if (aides.length) return aides;
+      const billId = String(
+        core.durableLog.get(moment.causeId)?.facts?.billId ?? "",
+      );
+      if (!billId || !api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
+      return free(
+        living(
+          core,
+          votesOn(api, billId)
+            .filter((row) => row.vote === "yes")
+            .map((row) => row.memberId as PersonId),
+        ),
+      ).sort(
+        (a, b) =>
+          closenessBetween(core, moment.personId, b) -
+            closenessBetween(core, moment.personId, a) || a.localeCompare(b),
       );
     }
     case "staff": {

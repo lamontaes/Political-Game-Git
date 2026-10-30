@@ -1,24 +1,25 @@
 /* global document */
 // The people web: the menu type of People. You at the center, the people you know in a
-// ring around you (a round headshot each, its ring and line colored by kind, a mark on
-// who joined or left your five closest this year), lines between people who share your
-// home; a list instead of the web; filters by kind, a search and pages of eight. The
-// screen hands it the people with their kinds and changes, you, the labels, and what
-// opening a card and starting a talk do.
+// ring around you (a round headshot each, its ring and line colored by kind), lines
+// between people who share your home; a list of face cards instead of the web, paged;
+// filters by kind and a search. Never a mark for how close anyone is (owner, Oct 29).
+// The screen hands it the people with their kinds, you, the labels, and what opening a
+// card and starting a talk do.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { makeTab, chooseTab } from "./tab.mjs";
 import { headshot } from "./headshot.mjs";
+import { memberCard } from "./member-card.mjs";
+import { pager } from "./pager.mjs";
 
 /** The People sheet's nodes. */
 export function peopleWeb({
   people,
   household,
-  change,
   self,
   inRoom,
   labels,
-  dateText,
+  pageWords,
   onCard,
   onTalk,
 }) {
@@ -62,10 +63,36 @@ export function peopleWeb({
     const found = people.filter((p) =>
       p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
     );
-    // The web draws the eight closest; the list view holds everyone and scrolls.
-    const shown = listMode ? found : found.slice(0, 8);
+    // The web draws the first eight; the list holds everyone as face cards,
+    // paged inside its box, never a scroll.
+    const shown = listMode ? [] : found.slice(0, 8);
     canvas.replaceChildren();
     canvas.classList.toggle("people-list", listMode);
+    if (listMode)
+      canvas.append(
+        pager({
+          items: found,
+          render: (p) => {
+            const card = memberCard({
+              name: p.name,
+              line: p.relation ?? "",
+              face: p.face,
+              onOpen: () => {
+                selected = p.personId;
+                draw();
+              },
+            });
+            card.classList.add(kindOf(p));
+            if (selected === p.personId) card.classList.add("on");
+            return card;
+          },
+          rows: 4,
+          columns: 3,
+          rowHeight: 64,
+          gap: 8,
+          words: pageWords,
+        }),
+      );
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("viewBox", "0 0 100 100");
     svg.setAttribute("preserveAspectRatio", "none");
@@ -134,10 +161,9 @@ export function peopleWeb({
         selected = p.personId;
         draw();
       });
-      const changed = change.get(p.personId);
       // The face's ring takes its kind's color; names sit on the far side
       // of the face from you, so no line runs through them.
-      node.className = `people-node ${kind}${y < 50 ? " above" : ""}${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}${changed ? ` circle-${changed.mark}` : ""}`;
+      node.className = `people-node ${kind}${y < 50 ? " above" : ""}${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`;
       node.setAttribute("aria-pressed", String(selected === p.personId));
       node.setAttribute("aria-label", p.name);
       node.style.left = `${x}%`;
@@ -147,48 +173,17 @@ export function peopleWeb({
         el("b", { textContent: p.name }),
         el("span", { textContent: p.relation ?? "" }),
       );
-      if (changed)
-        node.append(
-          el("em", {
-            className: "circle-mark",
-            textContent:
-              changed.mark === "joined" ? labels.joined : labels.left,
-          }),
-        );
       canvas.append(node);
     });
     const person = people.find((p) => p.personId === selected);
     detail.replaceChildren();
-    // Nothing changed in the five closest this year: said, never an empty box.
-    if (!change.size)
-      detail.append(
-        el("span", {
-          className: "circle-none",
-          textContent: labels.noChange,
-        }),
-      );
     if (person) {
-      const changed = change.get(person.personId);
       detail.append(
         el("span", {
           textContent: [person.name, person.relation]
             .filter(Boolean)
             .join(" · "),
         }),
-        ...(changed
-          ? [
-              el("span", {
-                className: "circle-why",
-                textContent: [
-                  changed.mark === "joined" ? labels.joined : labels.left,
-                  labels.causes?.[changed.cause],
-                  dateText(changed.date),
-                ]
-                  .filter(Boolean)
-                  .join(" · "),
-              }),
-            ]
-          : []),
         button(labels.card, () => onCard(person)),
       );
       if (inRoom.has(person.personId))

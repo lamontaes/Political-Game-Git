@@ -6,7 +6,7 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { LEGISLATURE_MODULE_ID, members } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
@@ -110,7 +110,7 @@ function playYear(
   director: Director,
   personId: PersonId,
   where: string,
-  options: { canvass?: boolean } = {},
+  options: { canvass?: boolean; days?: number } = {},
 ): Fired[] {
   // Followed as play follows the person it controls: their records are kept.
   core.focusPersonIds.add(personId);
@@ -246,7 +246,7 @@ function playYear(
     {
       controlledPersonId: personId,
       through: {
-        date: addDays(makeIsoDate(core.date), DAYS),
+        date: addDays(makeIsoDate(core.date), options.days ?? DAYS),
         minuteOfDay: P.zero,
       },
     },
@@ -521,15 +521,19 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
 /** The last day a race may be held and still have its morning after inside the played year. */
 const lastDayOfRace = () => addDays(makeIsoDate(gameStartDate()), DAYS - 2);
 
-/** Places the morning-after test may build before one holds a race the new adult can enter that year. */
-const MORNING_TRIES = 12;
+/** Places the morning-after test may build before one holds a race the new adult can enter. */
+const MORNING_TRIES = 6;
+/** How far ahead the new adult's first race may be: the six offices a player may run for mostly elect in even years (owner, Oct 29). */
+const MORNING_HORIZON_DAYS = 2 * DAYS;
 
 // The morning after the player's own race (owner's "Morning after"): a
-// place is drawn until one holds a race after the new adult turns 18 and
-// inside the year (read from its contests, before anything is played; many
-// places hold none that year), the new adult files, and the year is played.
-// The day after the count, someone who worked the campaign or lives with
-// them comes by, cited to the result, and the reply is kept.
+// place is drawn, the new adult files for the soonest race they may enter
+// (one of the six offices, owner Oct 29, so most often the next even year's
+// general election), and their days are played through the count. The day
+// after it, someone who worked the campaign or lives with them comes by,
+// cited to the result, and the reply is kept. (Twelve draws held no such race
+// inside one year: Pike Creek Valley, Delaware; Kenesaw, Nebraska; Mexia,
+// Texas; seed dd44.)
 it(`the morning after the player's race is a scene, cited to the count (seed ${seed})`, () => {
   setBookkeeping(false);
   const tried: string[] = [];
@@ -539,26 +543,32 @@ it(`the morning after the player's race is a scene, cited to the count (seed ${s
       twoLevel: true,
       placeKey: place.key,
     });
-    const born = world.core.people.get(world.playerId as PersonId)!.birthDate;
-    const eighteen = `${Number(born.slice(0, 4)) + 18}${born.slice(4)}`;
-    const ahead = (
-      coreAPI(world.core)
-        .moduleState(ELECTIONS_MODULE_ID)
-        .table("contests")
-        .rows() as unknown as { electionDate: string }[]
-    ).some(
-      (row) =>
-        row.electionDate > eighteen && row.electionDate <= lastDayOfRace(),
-    );
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const personId = ahead ? fileNewAdult(world, true) : null;
-    if (!personId) {
-      tried.push(`${where}: no race to enter that year`);
+    const personId = fileNewAdult(world);
+    const filing = personId
+      ? (
+          coreAPI(world.core)
+            .moduleState(ELECTIONS_MODULE_ID)
+            .table("filings")
+            .rows() as unknown as FilingRow[]
+        ).find((row) => row.personId === personId && row.status === "on-ballot")
+      : undefined;
+    const race = filing
+      ? (coreAPI(world.core)
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .get(filing.contestId) as unknown as
+          { electionDate: string } | undefined)
+      : undefined;
+    const horizon = addDays(makeIsoDate(gameStartDate()), MORNING_HORIZON_DAYS);
+    if (!personId || !race || race.electionDate > horizon) {
+      tried.push(`${where}: no race to enter within two years`);
       continue;
     }
-    const fired = playYear(world.core, world.director, personId, where).filter(
-      (row) => row.row === "morning-after",
-    );
+    const days = daysBetween(world.core.date, race.electionDate) + 3;
+    const fired = playYear(world.core, world.director, personId, where, {
+      days,
+    }).filter((row) => row.row === "morning-after");
     expect(fired.length, `${where}: no morning after`).toBeGreaterThan(0);
     for (const row of fired) {
       const result = world.core.durableLog.get(row.recordId)!;
@@ -572,9 +582,9 @@ it(`the morning after the player's race is a scene, cited to the count (seed ${s
     return;
   }
   throw new Error(
-    `no place in ${MORNING_TRIES} draws held a race the new adult could enter that year: ${tried.join("; ")}`,
+    `no place in ${MORNING_TRIES} draws held a race the new adult could enter within two years: ${tried.join("; ")}`,
   );
-}, 720_000);
+}, 2_400_000);
 
 it("gives every circumstance a situation type cause and a scene-web row", () => {
   const labels = new Set(

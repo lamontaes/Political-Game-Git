@@ -22,7 +22,10 @@ function playMonth(rescan: boolean) {
   });
   const news = rescan
     ? createNewsModule((api, personId, since) =>
-        storiesHeard(api, personId, since),
+        storiesHeard(api, personId, since).map((story) => ({
+          storyId: story.id,
+          storyDate: story.date,
+        })),
       )
     : createNewsModule();
   const core = createLifeCore(input, { modules: [viewsModule, news] });

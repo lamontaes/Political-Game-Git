@@ -185,7 +185,7 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
           .find(
             (line) =>
               line.text.includes(name) &&
-              /failed|died|went against/i.test(line.text),
+              /failed|died|went against|killed|lost the vote/i.test(line.text),
           )
       : undefined;
     expect(
