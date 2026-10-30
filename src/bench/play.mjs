@@ -60,6 +60,7 @@ const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
+import { draftCard } from "./ui/draft-card.mjs";
 import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
 import {
   newspaperScreen,
@@ -442,6 +443,15 @@ const amount = (value, unit) => {
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
   return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
 };
+/** What follows a number typed for a law's amount: a percent sign, dollars, or its unit in words. */
+const amountUnit = (unit) =>
+  !unit
+    ? ""
+    : unit.startsWith("percent")
+      ? "%"
+      : unit.startsWith("minor")
+        ? `$${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
+        : unit.replace(/-/g, " ");
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -1305,6 +1315,7 @@ async function campaignRows() {
         doors: "canvass",
         calls: "raise-money",
         event: "event",
+        forum: "forum",
         interview: "interview",
       };
       const result = await post(
@@ -2024,13 +2035,22 @@ function billEstimate(paper, section) {
     scaled && est.afterValue != null
       ? amount(est.afterValue, est.afterUnit)
       : null;
-  if (before && after && !est.statute) lines.push(`${before} → ${after}`);
-  else if (before && after)
-    lines.push(
-      webCite
-        ? `${words.amends ?? ""} ${words.lawInForce ?? ""}: ${words.from ?? ""} ${before} ${words.to ?? ""} ${after}`
-        : `${before} ${words.from ?? ""} ${after}`,
-    );
+  // Today's amount beside the new one, as two cells: the law in force, and what the bill makes it.
+  let compare = null;
+  if (before && after)
+    compare = {
+      todayLabel: words.today ?? "",
+      today: before,
+      newLabel: words.proposed ?? "",
+      proposed: after,
+    };
+  else if (est.line && est.ofMinor != null && est.lineAmountMinor != null)
+    compare = {
+      todayLabel: words.today ?? "",
+      today: moneyWords(est.ofMinor),
+      newLabel: words.proposed ?? "",
+      proposed: moneyWords(est.ofMinor + est.lineAmountMinor),
+    };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
   if (est.line)
     lines.push(
@@ -2055,7 +2075,7 @@ function billEstimate(paper, section) {
       .filter(Boolean)
       .join(" · "),
   );
-  return { prose: section.text ?? paper.title, lines };
+  return { prose: section.text ?? paper.title, lines, compare };
 }
 /**
  * Open a bill as one paper document: designation, title, sponsor, each
@@ -2137,53 +2157,66 @@ async function seatRows() {
   };
   for (const body of v.bodies) {
     for (const m of body.members) me.names = { ...me.names, [m.key]: m.name };
-    // Every law area, one group each: its policies and budget lines. Money
-    // is typed in dollars and kept in cents.
-    const pick = select({
-      options: (body.menus ?? []).map((menu) => ({
-        group: menu.name,
-        options: menu.items.map((item) => ({
-          value: item.series
-            ? `series:${item.series}`
-            : item.question
-              ? `question:${item.question}`
-              : `line:${item.line}`,
+    // Every law area, one group each: its policies and budget lines, each with what is in
+    // force today beside the amount you type. Money is typed in dollars and kept in cents.
+    const seat = controls.seat ?? {};
+    const itemKey = (item) =>
+      item.series
+        ? `series:${item.series}`
+        : item.question
+          ? `question:${item.question}`
+          : `line:${item.line}`;
+    const draftBlock = draftCard({
+      words: {
+        title: seat.title ?? "",
+        issue: seat.issue ?? "",
+        today: seat.today ?? "",
+        newAmount: seat.newAmount ?? "",
+        draft: seat.draft ?? "",
+        none: controls.bill?.none ?? "",
+      },
+      groups: (body.menus ?? []).map((menu) => ({
+        name: menu.name,
+        items: menu.items.map((item) => ({
+          value: itemKey(item),
           label: `${
             item.series
               ? policyLabel(item.series)
               : item.question
                 ? policyLabel(item.question)
                 : item.name
-          }${
-            item.inForce != null
-              ? ` · ${item.series ? amount(item.inForce, item.unit) : item.inForce}`
-              : ""
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-          data:
-            item.unit?.startsWith("minor") || item.line ? { cents: "1" } : {},
+          // What the law in force holds, as the bill's paper cites it.
+          today: item.today
+            ? amount(item.today.value, item.today.unit)
+            : item.inForce != null
+              ? String(item.inForce)
+              : null,
+          unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
+          cents: item.unit?.startsWith("minor") || Boolean(item.line),
+          blocked: item.allowed === false,
+          note:
+            item.allowed === false
+              ? (controls.authority?.[item.reason] ?? "")
+              : "",
         })),
       })),
-    });
-    const value = numberBox({ value: 0 });
-    const draft = makeButton({ textContent: controls.seat?.draft ?? "" });
-    draft.addEventListener("click", () => {
-      const [kind, key] = [
-        pick.value.slice(0, pick.value.indexOf(":")),
-        pick.value.slice(pick.value.indexOf(":") + 1),
-      ];
-      const cents = pick.selectedOptions[0]?.dataset.cents === "1";
-      act({
-        kind: "draft",
-        officeId: body.officeId,
-        ...(kind === "series"
-          ? { series: key }
-          : kind === "line"
-            ? { line: key }
-            : { question: key }),
-        value: cents
-          ? String(Math.round(Number(value.value) * 100))
-          : value.value,
-      });
+      onDraft: (item, typed) => {
+        const [kind, key] = [
+          item.value.slice(0, item.value.indexOf(":")),
+          item.value.slice(item.value.indexOf(":") + 1),
+        ];
+        act({
+          kind: "draft",
+          officeId: body.officeId,
+          ...(kind === "series"
+            ? { series: key }
+            : kind === "line"
+              ? { line: key }
+              : { question: key }),
+          value: item.cents ? String(Math.round(Number(typed) * 100)) : typed,
+        });
+      },
     });
     rows.push(
       listRow(
@@ -2191,7 +2224,7 @@ async function seatRows() {
         {},
         bold(body.title),
         body.members.map((m) => m.name).join(" · "),
-        listRow("seat-draft", {}, pick, value, draft),
+        draftBlock,
       ),
     );
   }
@@ -3228,9 +3261,9 @@ const sheets = {
                   )
                 : [prose(labels.noFilers, "record-empty")]),
               // Only a race the player may run for (owner, Oct 29: six
-              // offices); an older row without the field keeps the offer.
+              // offices; the row's playerMayFile, government.ts).
               ...(race.filingOpen &&
-              race.playerMayFile !== false &&
+              race.playerMayFile &&
               !filed.has(race.contestId) &&
               race.filedWith
                 ? [fileForIt(race)]

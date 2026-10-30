@@ -26,7 +26,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { campaignFor, offerWeight } from "../core2/modules/campaigns";
 import {
-  openContests,
+  playerContests,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
@@ -60,7 +60,7 @@ it("an offer of help joins the one campaign record and stops the player only by 
     });
     director.watch(core, me);
     const api = coreAPI(core);
-    const contests = [...openContests(api)].filter(
+    const contests = [...playerContests(api)].filter(
       (c) => c.electionDate >= addDays(makeIsoDate(core.date), 60),
     );
     // The smallest race the player can enter: the town's own, where one is open.

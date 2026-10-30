@@ -86,6 +86,7 @@ Write one section at the top of `OWNER-DECISIONS.md` headed "Acting CTO, <date>"
 - **A tooling PR that unblocks everything (the pool flip, the CI queue) with every check green but main's own red is merged by the CTO under the owner's standing approval** when it has waited more than four hours on a merger; say so in the next report. Nobody merges their own feature PR.
 - **The owner's voice notes are saved word for word** under `docs/coordination/voice-notes/` before anyone acts on them; a plan or a brief about words and scenes reads them, not a summary.
 - **Dispatch the Mac build by hand at the end of a sitting** so what he saw fixed is in the next build he opens.
+- **Wake-up chains are the CTO's to arm (owner, Oct 29 23:00).** Most sessions decline `send_later` on a relayed order (their briefs forbid scheduling tools, and the permission check refused red main's try), so the CTO arms a one-shot `create_trigger` into each (`persistent_session_id`, `run_once_at`) and re-arms them all from its own wake every 302 minutes; the trigger service takes about ten creations a minute, so wait 30 seconds between batches. Check `list_triggers` before arming so no session gets two.
 
 ## The prompt
 
