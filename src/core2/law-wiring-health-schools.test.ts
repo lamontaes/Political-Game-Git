@@ -490,8 +490,9 @@ function play(where: string, seed: string, core: CoreState): void {
   const say = (m: string) => `${where}: ${m}`;
 
   // Medicaid expansion: the reach keeps each covered adult's coverage, named
-  // and counted, by person id, and pays no one for it; the coverage engine
-  // prices a covered member's bill at Medicaid's share.
+  // and counted, by person id, and pays the adult nothing for it; the
+  // coverage engine prices a covered member's bill at Medicaid's share (and
+  // the treasuries pay the seller Medicaid's part of the care).
   const coverage = rowsOf<{ key: string; personId: string; to: string | null }>(
     api,
     "coverage",
@@ -502,7 +503,7 @@ function play(where: string, seed: string, core: CoreState): void {
   ).toBeGreaterThan(0);
   expect(
     taken().filter((t) => t.key.endsWith(`|${EXPAND}`)),
-    say("Medicaid pays someone"),
+    say("Medicaid pays an adult a standing payment"),
   ).toEqual([]);
   expect(
     expandBill,
