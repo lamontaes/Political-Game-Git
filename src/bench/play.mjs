@@ -3288,7 +3288,10 @@ const sheets = {
                     ),
                   )
                 : [prose(labels.noFilers, "record-empty")]),
+              // Only a race the player may run for (owner, Oct 29: six
+              // offices); an older row without the field keeps the offer.
               ...(race.filingOpen &&
+              race.playerMayFile !== false &&
               !filed.has(race.contestId) &&
               race.filedWith
                 ? [fileForIt(race)]
