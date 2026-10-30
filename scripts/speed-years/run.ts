@@ -26,6 +26,7 @@
 import { randomBytes } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
+import { Session } from "node:inspector/promises";
 import { hostname } from "node:os";
 import { performance } from "node:perf_hooks";
 import { recordProof } from "../../src/bench/dev-proof";
@@ -47,6 +48,18 @@ const seed = option("seed", randomBytes(8).toString("hex"));
 // Four years, so every check holds an election year (CTO, Oct 30 03:18).
 const years = Number(option("years", "4"));
 const maxSeconds = Number(option("max-seconds", "300"));
+// `--profile-years 4,12` writes a CPU profile of each named year to
+// `<--profile-out>-y<year>.cpuprofile` (measurement only; a profiled year runs slower).
+const profileYears = new Set(
+  option("profile-years", "").split(",").filter(Boolean).map(Number),
+);
+const profileOut = option("profile-out", "speed-year");
+const profiler = profileYears.size ? new Session() : undefined;
+if (profiler) {
+  profiler.connect();
+  await profiler.post("Profiler.enable");
+  await profiler.post("Profiler.setSamplingInterval", { interval: 2000 });
+}
 const drawn = drawPlace(seed, "speed-year");
 const placeKey = option("place", drawn.key);
 // A named key is reported by its own name, not the seed's drawn place.
@@ -92,10 +105,19 @@ const receipt = (): SpeedReceipt => ({
   rows,
 });
 for (let year = 1; year <= years; year += 1) {
+  const profiled = profiler && profileYears.has(year);
+  if (profiled) await profiler.post("Profiler.start");
   const began = performance.now();
   const target = addDays(makeIsoDate(world.core.date), 365);
   advanceCore(world.core, target);
   const took = seconds(began);
+  if (profiled) {
+    const { profile } = await profiler.post("Profiler.stop");
+    writeFileSync(`${profileOut}-y${year}.cpuprofile`, JSON.stringify(profile));
+    console.log(
+      `profile: year ${year} (profiled, so slower) -> ${profileOut}-y${year}.cpuprofile`,
+    );
+  }
   // Dev mode's records proof, taken after the clock stops (`dev-proof.ts`).
   const proof = recordProof(world.core, { rows: year === years && !!proofOut });
   if (proof.rows) {
