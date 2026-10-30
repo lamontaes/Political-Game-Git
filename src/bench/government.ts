@@ -1,3 +1,4 @@
+import { properName } from "../director/words";
 import { ageOnDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -212,7 +213,7 @@ export function governmentView(core: CoreState, personId: string) {
   if (core.modules.has(BUDGETS_MODULE_ID))
     for (const row of governments(api))
       if (!governmentOf.has(row.level))
-        governmentOf.set(row.level, readable(row.name));
+        governmentOf.set(row.level, properName(row.name));
   // The tier a seat is listed under on the Politics screens: a state or
   // federal office is its own; every other level is local.
   const tierOf = (level: string) =>
@@ -318,13 +319,17 @@ export function governmentView(core: CoreState, personId: string) {
   };
 }
 
-/** The state the player's town is in: its key and its name. */
+/** The state the player's town is in: its key, its name and what its laws are called. */
 export function homeStateOf(api: ReturnType<typeof coreAPI>) {
   const key = lawChain(api).stateKey;
   const state = corePlaceStateIdentities().find(
     (row) => row.jurisdictionKey === key,
   );
-  return { key, name: state?.name ?? key };
+  return {
+    key,
+    name: state?.name ?? key,
+    levelWord: state?.levelWord ?? "State",
+  };
 }
 
 /**
@@ -547,20 +552,6 @@ function ofVotingAge(core: CoreState, personId: string): boolean {
   return Boolean(
     person && ageOnDate(person.birthDate, core.date) >= parameter("votingAge"),
   );
-}
-
-/** A record's name set in capitals ("TOWN OF CONCRETE") as a title reads. */
-export function readable(name: string): string {
-  if (name !== name.toUpperCase()) return name;
-  return name
-    .toLowerCase()
-    .split(" ")
-    .map((word, i) =>
-      i > 0 && ["of", "the", "and"].includes(word)
-        ? word
-        : word.charAt(0).toUpperCase() + word.slice(1),
-    )
-    .join(" ");
 }
 
 export function fileForOffice(

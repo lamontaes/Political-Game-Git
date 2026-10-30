@@ -4,7 +4,16 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-- None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
+- **A relative with no news (Words, Oct 30; item `words-talk-husk-acquaintances-empty`).** Your grandparents, aunts and uncles live in another town, and nothing in their lives is simulated, so today a talk with one of them says nothing (your Oct 14 Q7 and Oct 15 family-talk rulings). Should talking to a relative with no news say nothing, as now, or should they ask after the family you share ("How's your mother?" answered from where she lives)? Recommended: keep it as now until their lives are simulated, so every family talk has real news in it.
+- The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
+
+## Oct 30, 04:10 UTC: the 04:00 ruling below is withdrawn: the owner already ruled this (Words' correction)
+
+- **Withdrawn.** The owner's Oct 14 Q7 ("someone not in the room is talked about only when something recorded happened to them") and Oct 15 batch 11 grading ("Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene)") answer it, both quoted in `src/director/data/conversation-rules.json` (`happenings`, `familyTalk`). A relative with no news on record has no talk, and the empty talk is by design. The CTO's search missed the data file; `look-first` now names it. The question goes to the owner under **Open**, and `words-talk-husk-acquaintances-empty` waits on it.
+
+## Oct 30, 04:00 UTC (withdrawn 04:10): CTO ruling: a shared relative with no news is still something to talk about (Words' question, with the reading line)
+
+- **Ruling (acting CTO; withdrawn, see 04:10):** within the Oct 24 ruling that a talk with nothing on record says nothing ("that should be going to the hi, have a good day. That makes no sense"). A relative the two share has standing records (where they live, where they work), and those are something on record. So "How's your mother?" may be asked with no recent event and answered from them ("She's still out in Lakeville."). The "something recorded happened lately" gate in `subjectsBetween` is relaxed for shared relatives only. Answers read only records that exist and cite them, never invented news, health or moods. Talking about a husk does not fill them in (two-level population). The answer varies by the speaker's traits and writes the dated contact a talk writes. With no such record there is still no talk. Carried by `words-talk-husk-acquaintances-empty`.
 
 ## Oct 30, 03:40 UTC: CTO ruling: one File-for-it gate on the race page (Checker 3's question)
 
