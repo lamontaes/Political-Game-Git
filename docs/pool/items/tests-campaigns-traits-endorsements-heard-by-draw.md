@@ -5,12 +5,13 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/traits-endorsements-heard
 pr:
 blocked-on:
 source: governing lead, Oct 30 (money fixer's draws)
 lead: governing
+claimed-at: 2026-10-30T09:43:31.789Z
 ---
 
 **What.** src/core2/modules/campaigns.traits.test.ts, the case where candidates ask for volunteers and endorsements, fails in Whitinsville, Massachusetts with seed a4eca5af1791dc3df7527d94791fb774b3fcdd52 at its line 483: endorsements heard: expected 0 to be greater than 0. It fails the same way on main's own code, so it is red by draw on main, not a branch's fault. Either the drawn town holds no one whose reasons say yes to an endorsement ask, which the test should redraw past, or the ask reaches nobody because of a real defect in who hears an endorsement, which the fix must name by record.
