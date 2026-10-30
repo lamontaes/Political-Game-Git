@@ -1,4 +1,9 @@
-import { moduleData, moduleKey, type ModuleRow } from "./module-data";
+import {
+  moduleData,
+  moduleDataOwned,
+  moduleKey,
+  type ModuleRow,
+} from "./module-data";
 import type { CoreModule, CoreState } from "./types";
 
 export type ModuleIndexValue = string | number | boolean | null;
@@ -23,6 +28,11 @@ export interface ModuleStateSnapshot {
 export interface ModuleTable {
   get(id: string): ModuleRow | undefined;
   put(row: ModuleRow): void;
+  /**
+   * `put` for a row the caller built fresh for this write and never touches
+   * again: in play it is frozen in place instead of copied (`moduleDataOwned`).
+   */
+  putOwned(row: ModuleRow): void;
   remove(id: string): boolean;
   query(
     index: string,
@@ -261,6 +271,13 @@ export function moduleState(
           tableTrace?.(moduleId, name, "put");
           operation(() => {
             insert(current(), moduleData(row));
+            store.writes++;
+          });
+        },
+        putOwned(row: ModuleRow) {
+          tableTrace?.(moduleId, name, "put");
+          operation(() => {
+            insert(current(), moduleDataOwned(row));
             store.writes++;
           });
         },

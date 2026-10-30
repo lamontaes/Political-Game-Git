@@ -21,7 +21,7 @@ import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 import type { CoreAPI, CoreState } from "./types";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
-import { openRecord } from "./modules/record";
+import { openRecord, votesOf } from "./modules/record";
 import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
@@ -54,8 +54,8 @@ import {
   openPress,
   requestInterview,
 } from "./modules/press";
-import { stancesOf, viewsModule } from "./modules/views";
-import { candidateStance } from "./campaign-stances";
+import { stancesOf, VIEWS_MODULE_ID, viewsModule } from "./modules/views";
+import { candidateStance, stanceReader } from "./campaign-stances";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 
 const START = "2026-01-05";
@@ -670,5 +670,70 @@ describe("candidates who read their party", () => {
     const l = candidateStance(api, "official:fixture:a", left, q)!;
     const r = candidateStance(api, "official:fixture:b", right, q)!;
     expect(Math.sign(l)).not.toBe(Math.sign(r));
+  }, 300_000);
+
+  it("a stance reader asked every question twice answers as a fresh candidateStance each time, and weighs as often", () => {
+    const { core, api, where } = world("reader");
+    const parties = partiesHere(api);
+    const labels = [
+      parties.find((p) => p.side < 0)?.name ?? "Democratic",
+      parties.find((p) => p.side > 0)?.name ?? "Republican",
+      null,
+    ];
+    const adults = [...core.people.values()]
+      .filter(
+        (p) =>
+          p.alive &&
+          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 25,
+      )
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .slice(0, 12);
+    expect(adults.length, where).toBeGreaterThan(2);
+    // Stances the views engine keeps, so a reader reads one by its id; the
+    // first adult is in focus, so their weighing leaves records.
+    const stances = api.moduleState(VIEWS_MODULE_ID).table("stances");
+    adults.forEach((adult, i) => {
+      const question = PLATFORM_QUESTIONS[i % PLATFORM_QUESTIONS.length]!;
+      stances.put({
+        id: `${adult.id}:${question}`,
+        personId: adult.id,
+        topic: question,
+        desiredChange: i % 2 ? "repeal" : "enact",
+        strength: 0.1 + i / 100,
+        causes: [],
+      } as never);
+    });
+    const watched = adults[0]!.id;
+    core.focusPersonIds.add(watched);
+    const ids = [
+      ...adults.map((p) => p.id),
+      "official:fixture:a",
+      "official:fixture:b",
+    ];
+    for (const id of ids)
+      for (const party of labels) {
+        const reader = stanceReader(api, id, party);
+        for (const round of [1, 2])
+          for (const q of PLATFORM_QUESTIONS) {
+            const kept = core.durableLog.size;
+            const read = reader.stance(q);
+            const byReader = core.durableLog.size - kept;
+            const fresh = candidateStance(api, id, party, q);
+            const byFresh = core.durableLog.size - kept - byReader;
+            const at = `${where} ${id} ${party} ${q} round ${round}`;
+            // Object.is: the same number, a -0 included.
+            expect(Object.is(read, fresh), at).toBe(true);
+            expect(byReader, at).toBe(byFresh);
+            expect(reader.lastVote(q), at).toBe(
+              votesOf(api, id)
+                .filter((v) => v.stance.question === q)
+                .at(-1),
+            );
+          }
+      }
+    const weighed = [...core.durableLog.values()].filter(
+      (r) => r.kind === "person.weighed" && r.actorId === watched,
+    );
+    expect(weighed.length, where).toBeGreaterThan(0);
   }, 300_000);
 });
