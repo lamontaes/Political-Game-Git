@@ -3667,6 +3667,86 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-no-diploma-home-other.other-wants-to-talk-about-school",
+      "move": "lead-no-diploma-home-other",
+      "kind": "spoken",
+      "text": "{other} wants to talk about school.",
+      "uses": [
+        {
+          "move": "lead-no-diploma-home-other",
+          "subject": "lead",
+          "role": "no-diploma-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-no-diploma-home-other.other-sits-you-down-to-talk-about-school",
+      "move": "lead-no-diploma-home-other",
+      "kind": "spoken",
+      "text": "{other} sits you down to talk about school.",
+      "uses": [
+        {
+          "move": "lead-no-diploma-home-other",
+          "subject": "lead",
+          "role": "no-diploma-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-diploma-home-other.other-wants-to-mark-your-diploma",
+      "move": "lead-diploma-home-other",
+      "kind": "spoken",
+      "text": "{other} wants to mark your diploma.",
+      "uses": [
+        {
+          "move": "lead-diploma-home-other",
+          "subject": "lead",
+          "role": "diploma-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-diploma-home-other.other-has-something-to-say-about-your-diploma",
+      "move": "lead-diploma-home-other",
+      "kind": "spoken",
+      "text": "{other} has something to say about your diploma.",
+      "uses": [
+        {
+          "move": "lead-diploma-home-other",
+          "subject": "lead",
+          "role": "diploma-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }

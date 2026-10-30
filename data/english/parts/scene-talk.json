@@ -121522,6 +121522,942 @@
         "move": "leave",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-didnt-graduate-with-your-class-name-has-been-waiting-to-talk-about-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You didn't graduate with your class. {name} has been waiting to talk about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "narrate",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-heard-you-wont-be-graduating-this-year",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has heard you won't be graduating this year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "narrate",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-diploma-didnt-come-through-and-name-wants-to-talk",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The diploma didn't come through, and {name} wants to talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "narrate",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-sit-down-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey. Sit down a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "greet",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.do-you-have-a-minute-to-talk",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a minute to talk?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "greet",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-come-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are. Come here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "greet",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-heard-about-school-it-isnt-the-end-of-anything",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I heard about school. It isn't the end of anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.so-the-diploma-didnt-happen-this-year-people-finish-later-all-the-time",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "So the diploma didn't happen this year. People finish later all the time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.one-bad-year-doesnt-decide-the-rest-of-it",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "One bad year doesn't decide the rest of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.im-not-angry-i-want-to-know-what-happened",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I'm not angry. I want to know what happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-fell-behind-and-never-caught-up",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I fell behind and never caught up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-missed-too-much-thats-all-it-was",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I missed too much. That's all it was.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-didnt-pass-enough-classes",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I didn't pass enough classes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "tell",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.ill-finish-summer-school-or-the-equivalency-test",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll finish. Summer school, or the equivalency test.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.ill-get-it-done-this-year",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll get it done this year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.im-going-to-fix-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm going to fix it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.im-sorry-i-know-you-wanted-to-see-it",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I know you wanted to see it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "apologize",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.sorry-i-let-it-slide",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Sorry. I let it slide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "apologize",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-dont-want-to-talk-about-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I don't want to talk about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "decline",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-now-okay",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not now, okay?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "decline",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.so-what-do-you-want-to-do-now",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "So what do you want to do now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "ask",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.do-you-want-to-go-back-or-take-the-test",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Do you want to go back, or take the test?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "ask",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.lots-of-people-take-the-long-way-youll-get-there",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Lots of people take the long way. You'll get there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.dont-be-so-hard-on-yourself",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Don't be so hard on yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.im-not-going-anywhere-well-work-it-out",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I'm not going anywhere. We'll work it out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-thats-what-i-wanted-to-hear",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. That's what I wanted to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.okay-ill-help-however-i-can",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Okay. I'll help however I can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.we-do-have-to-talk-about-it-sometime",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We do have to talk about it sometime.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "press",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-cant-just-leave-it-though",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You can't just leave it, though.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "press",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.go-back-i-think-one-more-try",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Go back, I think. One more try.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "answer",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.the-equivalency-test-im-done-with-that-building",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "The equivalency test. I'm done with that building.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "answer",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-i-needed-that",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks. I needed that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-not-yelling",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for not yelling.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-for-sticking-with-me",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks for sticking with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.im-going-to-go-lie-down",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm going to go lie down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "leave",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.can-we-finish-this-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Can we finish this later?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "leave",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-well-figure-it-out",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. We'll figure it out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "accept",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.tomorrow-well-look-into-it-together",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Tomorrow we'll look into it together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.im-glad-we-talked",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad we talked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
     }
   ]
 }
