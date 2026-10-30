@@ -1,4 +1,4 @@
-/* global process, URL, console, document */
+/* global process, URL, URLSearchParams, console, document */
 // Run against a fresh bench: node src/bench/party.browser.mjs
 // The player joins a party from the politics sheet; the tie shows with how
 // their views fit it, and the join buttons go away.
