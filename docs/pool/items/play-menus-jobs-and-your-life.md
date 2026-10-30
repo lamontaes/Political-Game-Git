@@ -6,12 +6,13 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: cto/menus-jobs
 pr:
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 (with a screenshot of a History: "this is your character's history... I don't like that at all"; "redesign all the menu screens")
+claimed-at: 2026-10-30T02:09:20.727Z
 ---
 
 **What.** Jobs and study printed the job's title, employer, pay and hours as plain lines and the schools as dated rows, and the player had no screen that told their own life at all, only other people's cards did. The owner asked for every menu to be redesigned like Government with histories as a vertical timeline (Oct 29, 22:45). This item puts the job on a framed plate with its workplace's painting and the title in the name type, shows the player's work and school as a timeline beside it, and adds a Your life tab to Who you are that tells the player's whole history down the same timeline, read from the one history every person's card uses.
