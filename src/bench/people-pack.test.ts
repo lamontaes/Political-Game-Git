@@ -13,7 +13,7 @@ import {
   packFigures,
   packPeople,
 } from "./people-pack";
-import { depthOf, plates } from "./mannequin-plates";
+import { depthOf, plateFor, plates } from "./mannequin-plates";
 import {
   appearanceRows,
   drawnAppearance,
@@ -25,7 +25,11 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld } from "./world";
-import { stagePeople } from "./scene";
+import { backdropFor, homeOf, stagePeople } from "./scene";
+import { OPENING_EVENING_MINUTE } from "./opening";
+import { coreAPI } from "../core2/state";
+import { dwellingKind } from "../core2/modules/housing";
+import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import {
   figureForSpot,
   fitOn,
@@ -344,19 +348,30 @@ describe("the people pack", () => {
         }
   });
 
+  // One played world, drawn from all 56, for the checks that need one.
+  let played:
+    { world: ReturnType<typeof buildBenchWorld>; where: string } | undefined;
+  const playedWorld = () => {
+    if (played) return played;
+    const seed =
+      process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+    const place = drawPlace(seed, "people-pack-occasion");
+    setBookkeeping(false);
+    played = {
+      world: buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      }),
+      where: `${place.name} (${place.key}), seed ${seed}`,
+    };
+    return played;
+  };
+
   it(
     "seats an office holder by default and stands them when the occasion calls for it",
     { timeout: 600_000 },
     () => {
-      const seed =
-        process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-      const place = drawPlace(seed, "people-pack-occasion");
-      const where = `${place.name} (${place.key}), seed ${seed}`;
-      setBookkeeping(false);
-      const world = buildBenchWorld(place.seed, gameStartDate(), {
-        twoLevel: true,
-        placeKey: place.key,
-      });
+      const { world, where } = playedWorld();
       const president = world.director.ledger.opening!.president;
       const office = plates().find((plate) =>
         plate.spots.some((spot) => spot.role === "president" && spot.feet),
@@ -377,6 +392,68 @@ describe("the people pack", () => {
       if (standing) expect(spotOf(standing.spotId)!.seat, where).toBe("none");
       // Somewhere in the room either way: the President is painted sitting or standing.
       expect(seated ?? standing, where).toBeTruthy();
+    },
+  );
+
+  it(
+    "puts every household in a house in a living room it is drawn in, while one is plated",
+    { timeout: 600_000 },
+    () => {
+      const { world, where } = playedWorld();
+      const core = world.core;
+      // The living rooms a house can show; one with a plate comes first
+      // (SG-PLAY-home-plated-room-first).
+      const houses = new Set([
+        ...Object.values(scenePlaces.dwellingPlaces.house.living).flat(),
+        ...Object.keys(scenePlaces.regionalHouses).filter((k) => k !== "about"),
+      ]);
+      const plated = (room: string, id: string) =>
+        plateFor(backdropFor(core, room, OPENING_EVENING_MINUTE, id).file);
+      expect(
+        [...houses].some((room) => plated(room, "")),
+        where,
+      ).toBeTruthy();
+      let checked = 0;
+      for (const [id, household] of core.households) {
+        if ((dwellingKind(coreAPI(core), id) || "house") !== "house") continue;
+        const member = household.memberIds.find(
+          (m) => core.people.get(m)?.alive,
+        );
+        if (!member) continue;
+        const room = homeOf(core, member, OPENING_EVENING_MINUTE);
+        // A sitting president or governor lives in their residence instead.
+        if (!houses.has(room)) continue;
+        expect(plated(room, member), `${where}: ${id} in ${room}`).toBeTruthy();
+        checked += 1;
+      }
+      expect(checked, where).toBeGreaterThan(0);
+      // The opening evening: the player's household is on the plate, never
+      // unplaced for want of one.
+      const me = world.playerId!;
+      const room = homeOf(core, me, OPENING_EVENING_MINUTE);
+      const cast = core.households
+        .get(core.people.get(me)!.householdId)!
+        .memberIds.filter((m) => core.people.get(m)?.alive)
+        .map((m) => ({
+          id: m,
+          name: m,
+          reason: m === me ? ("you" as const) : ("household" as const),
+        }));
+      const staged = stagePeople(
+        core,
+        backdropFor(core, room, OPENING_EVENING_MINUTE, me).file,
+        cast,
+      );
+      if (houses.has(room)) {
+        expect(staged.people.length, `${where}: ${room}`).toBeGreaterThan(0);
+        expect(
+          staged.unplaced.filter((row) => row.reason === "no-plate"),
+          `${where}: ${room}`,
+        ).toEqual([]);
+      }
+      console.log(
+        `${where}: ${checked} homes in a house; the player's ${room}, ${staged.people.length} drawn`,
+      );
     },
   );
 
