@@ -379,7 +379,8 @@
     "pay": "Pay",
     "hours": "Hours",
     "daily": "per day",
-    "noJob": "No current job"
+    "noJob": "No current job",
+    "workAndSchool": "Work and school"
   },
   "politics": {
     "seats": "Seats",
@@ -640,6 +641,7 @@
     "patchNotes": "Patch notes",
     "guide": "Guide",
     "handoff": "Carry on as",
-    "news": "News"
+    "news": "News",
+    "history": "Your life"
   }
 }

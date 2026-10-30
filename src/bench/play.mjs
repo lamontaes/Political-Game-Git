@@ -2297,6 +2297,29 @@ async function seatRows() {
 /** The Kit 13 calendar icon a kind of dated record is drawn with. */
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
+/** The player's own history, oldest first: the reader every person's card uses. */
+async function ownHistory() {
+  const card = await api(
+    `/api/known?${new URLSearchParams({ id: me.id, other: me.id })}`,
+  );
+  return card.history ?? [];
+}
+/** History lines down a timeline of `rows` a page, paged by years. */
+function lifeTimeline(lines, rows) {
+  return timeline({
+    entries: lines.map((h) => ({
+      year: h.date.slice(0, 4),
+      text: h.text,
+      kind: h.kind,
+      recordId: h.recordId,
+    })),
+    rows,
+    words: {
+      previous: controls.person.earlier,
+      next: controls.person.later,
+    },
+  });
+}
 function portraitUrl() {
   // The created look when there is one; else the figure the scene draws you
   // with, or the one your card's face is cut from (a life started anywhere
@@ -2617,42 +2640,60 @@ const sheets = {
     ];
   },
   async jobs() {
+    // The Oct 14 mock on framed plates: your job with its workplace's
+    // painting, its title in the name type, pay and hours; beside it the work
+    // and school of your life as a timeline, from the one history every
+    // card reads. Never a scroll.
     const labels = controls.jobs;
     const job = me.card.job;
-    return recordScreen({
-      sections: [
-        {
-          title: labels.work,
-          items: job
-            ? [
-                job.presentation?.imageUrl && {
-                  picture: job.presentation.imageUrl,
-                },
-                { text: job.title, tone: "title" },
-                { text: job.employer ?? "", tone: "feature" },
-                {
-                  stats: [
-                    [
-                      labels.pay,
-                      `${moneyWords(job.wageDailyMinor)} ${labels.daily}`,
-                    ],
-                    [
-                      labels.hours,
-                      `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
-                    ],
-                  ],
-                },
-              ]
-            : [{ text: labels.noJob, tone: "empty" }],
-        },
-        {
-          title: labels.study,
-          items: [...(me.card.schools ?? [])]
-            .reverse()
-            .map((s) => ({ fact: [s.date.slice(0, 4), s.name] })),
-        },
-      ],
-    });
+    const life = await ownHistory();
+    const worked = life.filter((h) => h.kind === "work" || h.kind === "school");
+    const work = plate(
+      labels.work,
+      ...(job
+        ? [
+            ...(job.presentation?.imageUrl
+              ? [
+                  pictureFrame({
+                    src: job.presentation.imageUrl,
+                    className: "job-picture",
+                  }),
+                ]
+              : []),
+            heading(job.title, "h3"),
+            ...(job.employer ? [prose(job.employer, "job-employer")] : []),
+            row(
+              labels.pay,
+              `${moneyWords(job.wageDailyMinor)} ${labels.daily}`,
+            ),
+            row(
+              labels.hours,
+              `${Number(job.hoursDaily.toFixed(1))} ${labels.daily}`,
+            ),
+          ]
+        : [prose(labels.noJob, "record-empty")]),
+    );
+    work.classList.add("job-plate");
+    return [
+      work,
+      ...(worked.length
+        ? [plate(labels.workAndSchool, lifeTimeline(worked, 4))]
+        : []),
+    ];
+  },
+  // Your own life as a timeline (owner, Oct 29: a history is a "Vertical
+  // timeline"), the same lines a person's card tells of anyone you open.
+  async history() {
+    const life = await ownHistory();
+    return [
+      plate(
+        null,
+        lifeTimeline(
+          life,
+          Math.max(3, Math.floor((window.innerHeight - 300) / 64)),
+        ),
+      ),
+    ];
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -3937,7 +3978,7 @@ const groups = {
     "issues",
     "budgets",
   ],
-  who: ["who", "jobs"],
+  who: ["who", "jobs", "history"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
@@ -3988,7 +4029,7 @@ async function openSheet(tab) {
     "options-sheet",
     tab === "options" || !$("front").hidden,
   );
-  const character = tab === "who" || tab === "jobs";
+  const character = groupOf(tab) === "who";
   $("sheet").classList.toggle("character-sheet", character);
   // News is the paper itself: the sheet is the page, its masthead the title
   // (owner, Oct 28, point 25).
@@ -4019,7 +4060,8 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "who", "jobs", "news"].includes(tab) &&
+    !["calendar", "people", "news"].includes(tab) &&
+      !character &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );

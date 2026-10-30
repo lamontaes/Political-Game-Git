@@ -4400,3 +4400,22 @@ details.entry[open] {
 .donut-swatch.c7 {
   background: #6f6c66;
 }
+
+/* Jobs and study (the Oct 14 mock on framed plates): the workplace's painting
+   across the top of the job plate, the title in the name type. */
+.job-picture {
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  object-fit: cover;
+  border: 1px solid rgba(156, 131, 80, 0.6);
+  border-radius: 2px;
+  margin: 0 0 10px;
+}
+.job-plate .heading {
+  font: 800 clamp(20px, 2vw, 28px) / 1.15 var(--name);
+  margin: 0;
+}
+.job-plate .job-employer {
+  margin: 2px 0 10px;
+  color: var(--text-2);
+}
