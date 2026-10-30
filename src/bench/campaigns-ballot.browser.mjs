@@ -65,7 +65,7 @@ try {
     assert.equal(s.people, race.filers.length, `${s.title}: who runs`);
     assert.equal(
       s.file,
-      race.filingOpen && race.filedWith ? 1 : 0,
+      race.filingOpen && race.playerMayFile && race.filedWith ? 1 : 0,
       `${s.title}: File for it`,
     );
   }
