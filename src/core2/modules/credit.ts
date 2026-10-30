@@ -56,6 +56,7 @@ import {
   lawInForce,
   POLICY_QUESTIONS,
   webReach,
+  yesLevels,
 } from "./laws";
 import { lawApplied } from "../law-reach/applied";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
@@ -181,9 +182,6 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   };
 }
 
-/** The outcome the web keeps for these lenders: consumer lenders (payday, title, installment) per 100,000 residents. */
-const HIGH_COST_LOANS = "finance.high-cost-loans";
-
 type SmallDollarProduct = "payday" | "installment";
 interface SmallDollarRow {
   apr: number;
@@ -299,12 +297,16 @@ export function smallDollarLenderFor(
   const capitalMinor = Math.round(
     annualVolumeMinor / p0("smallDollarCapitalTurnsPerYear"),
   );
-  // A place whose borrowers' yearly volume could not fund one smallest loan has no storefront; its people borrow in other places, which this record does not show.
+  // A place whose borrowers' yearly volume could not fund one smallest loan has no storefront.
+  // stopgapId: SG-WORLD-small-dollar-no-storefront-town — its short households
+  // have no high-cost lender at all; they would borrow at the nearest place's.
   if (
     capitalMinor <
     p0("smallDollarMinimumLoanDollars") * p0("creditMinorPerDollar")
-  )
+  ) {
+    stopgap("SG-WORLD-small-dollar-no-storefront-town");
     return undefined;
+  }
   return {
     ...terms,
     organizationId: `organization:small-dollar:${bank.placeId}`,
@@ -1251,11 +1253,17 @@ function loanWeight(api: CoreAPI, householdId: string): number {
 function serviceLoans(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
+  // The cap laws in force today, by law row: a loan written under a law since repealed is not credited to it.
+  const capsInForce = c.modules.has(LAWS_MODULE_ID)
+    ? new Set(yesLevels(api, CAP_LOAN_RATES).map((level) => level.lawId))
+    : new Set<string>();
   for (const loan of store(api)
     .table("loans")
     .query("open", [true]) as unknown as LoanRow[]) {
-    const interest =
-      (loan.balanceMinor * loan.annualRate) / p("macroMonthsPerYear");
+    // Interest is charged in whole cents, so a borrower who pays all that is due owes nothing after.
+    const interest = Math.round(
+      (loan.balanceMinor * loan.annualRate) / p("macroMonthsPerYear"),
+    );
     const due =
       // Past-due amounts are still in the balance: never bill more than is owed.
       Math.min(
@@ -1284,7 +1292,7 @@ function serviceLoans(api: CoreAPI): void {
     // A repeal leaves the loan at the rate it was written at (nothing is repriced or forgiven), but the law no longer applies to it.
     if (
       loan.rateLawId &&
-      lawInForce(api, CAP_LOAN_RATES).value === 1 &&
+      capsInForce.has(loan.rateLawId) &&
       (loan.marketAnnualRate ?? 0) > loan.annualRate
     ) {
       const weight = loanWeight(api, loan.householdId);
@@ -1382,8 +1390,15 @@ function smallLender(api: CoreAPI) {
       }
     | undefined;
   const organization = row && core(api).organizations.get(row.organizationId);
+  if (organization) api.stopgap("SG-WORLD-small-dollar-lender-keeps-interest");
   return row && organization
-    ? { ...row, roomMinor: organization.liquidMinor }
+    ? {
+        ...row,
+        // stopgapId: SG-WORLD-small-dollar-lender-keeps-interest — the lender
+        // pays no costs and draws nothing out: every dollar of interest stays
+        // in its cash and is lent again.
+        roomMinor: organization.liquidMinor,
+      }
     : undefined;
 }
 
@@ -1425,18 +1440,17 @@ function householdApplications(
       store(api).table("loans").query("open", [true]) as unknown as LoanRow[]
     ).map((row) => row.householdId),
   );
+  const chargedOff = (
+    store(api).table("loans").rows() as unknown as (LoanRow & {
+      chargedOffAt?: string;
+    })[]
+  ).filter((row) => row.standing === "charged-off");
   // A charge-off stays on the household's credit report for seven years (15 U.S.C. 1681c(a)(4)).
-  // A storefront lender's charge-off does not: it checks a specialty bureau for
-  // earlier payday defaults, not the credit report (CFPB white paper, April 2013).
+  // A storefront lender's charge-off is not on the bank's credit report.
   const reported = new Set(
-    (
-      store(api).table("loans").rows() as unknown as (LoanRow & {
-        chargedOffAt?: string;
-      })[]
-    )
+    chargedOff
       .filter(
         (row) =>
-          row.standing === "charged-off" &&
           row.kind !== "small-dollar" &&
           (!row.chargedOffAt ||
             daysBetweenText(row.chargedOffAt, c.date) <
@@ -1444,10 +1458,33 @@ function householdApplications(
       )
       .map((row) => row.householdId),
   );
+  // The storefront lender checks for earlier payday defaults instead: "some
+  // lenders use specialty credit reporting firms to check for previous
+  // defaults on payday loans" (CFPB white paper, April 2013). The lender's own
+  // charged-off loans stand for that firm's file, and a household in it is
+  // not lent to again within the look-back (smallDollarDefaultLookbackMonths).
+  const defaulted = new Map(
+    chargedOff
+      .filter(
+        (row) =>
+          row.kind === "small-dollar" &&
+          (!row.chargedOffAt ||
+            daysBetweenText(row.chargedOffAt, c.date) <
+              (p("smallDollarDefaultLookbackMonths") * p("jobsDaysPerYear")) /
+                p("macroMonthsPerYear")),
+      )
+      .map((row): [string, string] => [row.householdId, row.id]),
+  );
   const lender = smallLender(api);
   let lenderRoom = lender?.roomMinor ?? 0;
   for (const household of borrowingHouseholds(api)) {
-    if (owing.has(household.id) || (room <= 0 && lenderRoom <= 0)) continue;
+    // stopgapId: SG-WORLD-small-dollar-one-open-loan — a household with any
+    // open loan, the bank's or the storefront's, asks neither lender.
+    if (owing.has(household.id)) {
+      if (lender) api.stopgap("SG-WORLD-small-dollar-one-open-loan");
+      continue;
+    }
+    if (room <= 0 && lenderRoom <= 0) continue;
     // stopgapId: SG-GOV-REACH-A-consumer-credit — product-specific caps,
     // fees and counted attendance still need records. This is the catalog ceiling.
     const applicable =
@@ -1614,16 +1651,22 @@ function householdApplications(
       p("smallDollarLoanToMonthlyIncome") * Math.max(0, income),
     );
     if (!(ask > 0)) continue;
-    // The web's factor on lenders (the cap's research: use falls where the law is in force) multiplies what this lender lends; the rate is the law's alone, read above.
-    const reach = webReach(api, household.placeId, HIGH_COST_LOANS);
-    const payment = amortizedPayment(ask * reach.factor, quoted, termMonths, p);
+    // The household weighs the loan it asks for at the quoted rate: the cap's
+    // price reaches the chooser here, and only here.
+    const payment = amortizedPayment(ask, quoted, termMonths, p);
     const burden = payment / income;
     const choice = personalBorrowingDecision(api, head, need, burden);
     if (!choice.borrow) continue;
+    // The web's factor on high-cost lenders (the cap links' research: use
+    // falls where the law is in force) multiplies what the lender lends, not
+    // the payment the household weighed; the rate is the law's alone, read above.
+    const reach = webReach(api, household.placeId, "finance.high-cost-loans");
+    // A household the lender charged off within the look-back is not lent to.
+    const priorDefault = defaulted.get(household.id) ?? null;
     // Counted households are the lender's customers times their count: it lends each of them the same loan out of its one cash.
-    const offered = Math.floor(
-      Math.min(ask * reach.factor, lenderRoom / household.weight),
-    );
+    const offered = priorDefault
+      ? 0
+      : Math.floor(Math.min(ask * reach.factor, lenderRoom / household.weight));
     const minimum =
       p("smallDollarMinimumLoanDollars") * p("creditMinorPerDollar");
     const principal = offered >= minimum ? offered : 0;
@@ -1655,6 +1698,8 @@ function householdApplications(
         lawId,
         webFactor: reach.factor,
         webRecordId: reach.recordId,
+        webLinks: reach.parts.map((part) => part.link),
+        priorDefaultLoanId: priorDefault,
       });
     if (principal <= 0) continue;
     if (lawId)
@@ -1698,6 +1743,11 @@ function householdApplications(
         annualRate: quoted,
         marketAnnualRate: lender.annualRate,
         rateLawId: lawId,
+        // The web's factor that sized the loan, and the month row it stands on.
+        askedMinor: Math.round(ask),
+        webFactor: reach.factor,
+        webRecordId: reach.recordId,
+        webLinks: reach.parts.map((part) => part.link),
         paymentMinor: Math.round(
           amortizedPayment(moved, quoted, termMonths, p),
         ),

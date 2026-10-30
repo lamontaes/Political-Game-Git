@@ -4,7 +4,11 @@
     "tag": "TUNABLE",
     "citation": "Conservative cash buffer while payment paths are connected to deposit withdrawals; JPMorgan Chase Institute, Cash is King (2016), reports median business balances covering 27 days of outflows. This is a wallet reserve, not a target for total savings.",
     "stopgapId": "SG-WORLD-deposit-wallet-buffer",
-    "spread": { "low": 1, "high": 6, "unit": "months of recorded costs" }
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months of recorded costs"
+    }
   },
   "creditDepositLiquidityShare": {
     "value": 0.1,
@@ -343,6 +347,18 @@
       "high": 100,
       "unit": "dollars",
       "citation": "Pew's range starts at $100 in every state it describes; CFPB white paper: loans in its sample cluster around $250, $300 and $500."
+    }
+  },
+  "smallDollarDefaultLookbackMonths": {
+    "value": 12,
+    "tag": "ESTIMATED",
+    "citation": "How long a storefront lender refuses a household whose payday loan it charged off. CFPB: \"Lenders generally do not consider a consumer's other financial obligations or credit score when determining eligibility; however, some lenders use specialty credit reporting firms to check for previous defaults on payday loans and perform other due diligence such as identity and deposit account verification.\" Its footnote 25: \"some share of borrowers who take out a single payday loan may have this low amount of usage because they never paid their loan back and, as a result, were not provided additional credit by that lender in our 12-month study period.\" Consumer Financial Protection Bureau, Payday Loans and Deposit Advance Products: A White Paper of Initial Data Findings (April 2013), pages 9 and 21, https://files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf, fetched Oct 30, 2026.",
+    "estimatedFrom": "The CFPB's study window, the one period over which it saw a defaulted borrower refused again by the same lender; how long a lender keeps refusing past it is not reported.",
+    "spread": {
+      "low": 12,
+      "high": 84,
+      "unit": "months",
+      "citation": "The CFPB's 12-month study period, to the seven years a consumer reporting agency, specialty firms included, may report a charged-off account (15 U.S.C. 1681c(a)(4))."
     }
   }
 }

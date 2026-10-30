@@ -3484,7 +3484,7 @@
       "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
       "to": "finance.high-cost-loans",
       "range": [-0.61, -0.2],
-      "notes": "The credit engine has no high-cost lender product (stopgap SG-EFFECT-WEB-prices-high-cost-loans); its personal loan is already held under the cap law's ceiling."
+      "notes": "Read where the town's small-dollar lender quotes a loan (householdApplications in src/core2/modules/credit.ts, webReach on finance.high-cost-loans): the factor multiplies what the lender lends, and the loan records it with the web month it stands on. The cap's ceiling binds the same quote's rate directly; the bank's personal loan sits under the ceiling."
     },
     {
       "key": "paid-leave-to-mothers-work",
@@ -3952,7 +3952,7 @@
         "effectAtFull": -1,
         "mode": "scale"
       },
-      "notes": "The credit engine has no high-cost lender product (stopgap SG-EFFECT-WEB-prices-high-cost-loans)."
+      "notes": "Read where the town's small-dollar lender quotes a loan (householdApplications in src/core2/modules/credit.ts, webReach on finance.high-cost-loans): the factor multiplies what the lender lends, and the loan records it with the web month it stands on. No engine reads the federal cap question's law directly; it reaches the lender only through this link."
     },
     {
       "key": "student-debt-relief-to-finances",
