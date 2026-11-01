@@ -7895,5 +7895,17 @@
     "addedAt": "2026-10-30",
     "replacement": "Plates for every house living room (people-home-plates); once each room the lists name has one, the preference picks from the whole list and is deleted.",
     "status": "open"
+  },
+  {
+    "id": "SG-WEB-uninsured-share-misses-medicaid-coverage",
+    "kind": "missing-mechanic",
+    "file": "src/core2/medical-bills.ts",
+    "line": 351,
+    "whatItFakes": "The Medicaid expansion's and the work requirement's links to health.uninsured-pct are carried by the law reach's coverage records (links.json carriedBy), which the medical bills read, so the outcome web no longer runs them. A place's health.uninsured-pct therefore moves only with unemployment and marriage equality, and health.uninsured-pct to school.graduation-pct (60-month lag) misses the coverage the expansion gives and the requirement takes away.",
+    "why": "Medicaid coverage is not an employer plan, so the coverage engine reads no Medicaid law into the employer-plan count; the residents' own coverage records are the one path for the expansion. Nothing yet sums those records into the place's uninsured share.",
+    "addedBy": "laws lead (claude/laws-medical-debt)",
+    "addedAt": "2026-11-01",
+    "replacement": "The place's uninsured share for the web's graduation link is read from the coverage records the world keeps (employer plans, Medicare, and the reach's Medicaid coverage records, full and counted), so the expansion and the requirement move it through the same records the bills read.",
+    "status": "open"
   }
 ]

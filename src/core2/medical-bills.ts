@@ -348,6 +348,10 @@ function plans(
  * Medicaid then covers them; the reach's coverage record catches them in the
  * town, and the place-level medical-debt row carries the expansion elsewhere.
  */
+// stopgapId: SG-WEB-uninsured-share-misses-medicaid-coverage — the web no
+// longer runs the expansion's or the work requirement's uninsured links (the
+// coverage records carry them), so a place's health.uninsured-pct, and the
+// graduation link that reads it, miss the Medicaid coverage those records hold.
 export const EMPLOYER_PLAN_LEAVES_OUT: ReadonlySet<string> = new Set(
   data.personLevel.employerPlanLeavesOut.moderators,
 );
