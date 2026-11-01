@@ -1401,7 +1401,10 @@ export function coreAPI(core: CoreState): CoreAPI {
         offer = prepared.offer;
         reason = prepared.decision;
       }
-      validateCommittedAct(core, actorId, offer, date, reason);
+      // The admission check is pure and only throws, so play skips it except
+      // for the controlled person, whose bad intent becomes the session's fault.
+      if (bookkeeping() || controlled)
+        validateCommittedAct(core, actorId, offer, date, reason);
       if (makeIsoDate(date) !== core.date)
         throw new Error("Acts must be recorded on the current date.");
       const actor = prepared?.actor ?? core.people.get(actorId);

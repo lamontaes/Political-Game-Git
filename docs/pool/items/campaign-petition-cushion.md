@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/petition-cushion
 pr: #6921
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 30 (measurement: petitions found short)
+lead: governing
 claimed-at: 2026-10-30T02:09:38.972Z
 ---
 

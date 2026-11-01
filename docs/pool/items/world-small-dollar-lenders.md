@@ -22,3 +22,5 @@ claimed-at: 2026-10-29T16:32:43.821Z
 **Files.** src/core2/modules/credit.ts, src/core2/data/credit/
 
 **Notes.** Filed Oct 24 by the acting CTO from the owner's ruling (OWNER-DECISIONS.md, Oct 24). Resolves the laws lead's stopgap SG-WORLD-credit-rate-cap-no-small-lender once built.
+
+Nov 1 (laws lead): taken back from Codex package B, which ended at 05:20 UTC with one commit on claude/laws-small-dollar-lenders (29def178eb, the lender's default check quoting the CFPB white paper), kept; CTO confirmed 13:17 UTC. Left: an honest source for the cap law's web grade, one skeptic, the PR.

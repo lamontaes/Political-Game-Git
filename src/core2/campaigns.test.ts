@@ -61,20 +61,22 @@ const seed =
 const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
-function pick<T>(list: readonly T[], salt: string): T {
-  const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
+function pick<T>(list: readonly T[], salt: string, from = seed): T {
+  const hash = createHash("sha256").update(`${from}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-function randomPlace() {
-  const state = pick(states, "state");
+function randomPlace(from = seed) {
+  const state = pick(states, "state", from);
   const places = [
     ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
   ].sort((a, b) => a.key.localeCompare(b.key));
-  return pick(places, "place");
+  return pick(places, "place", from);
 }
+/** How many places a test draws (seed, seed:1, ...) before it gives up. */
+const DRAWS = 12;
 
 /** File and, where the place asks for signatures, gather them from neighbors. */
 function fileAndQualify(
@@ -248,59 +250,112 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
   });
 
   it("volunteers walk the campaign's doors in the evening their work leaves free; one whose shift at work covers it stays home", () => {
-    const place = process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace().key;
-    const core = createLifeCore(
-      buildPopulation({
-        seed,
-        placeKey: place,
-        startedAt: START,
-        minimumPeople: 300,
-      }),
-    );
-    openOffices(core, seed);
-    openElections(core);
-    openCampaigns(core);
-    const api = coreAPI(core);
     const year = (p: Readonly<PersonState>) =>
       Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4));
-    const adults = [...core.people.values()]
-      .filter((p) => year(p) >= 35)
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
-    const platform = [`${pick(PLATFORM_QUESTIONS, "shift-q1")}=1`];
-    let filing: FilingRow | null = null;
-    for (const contest of openContests(api)) {
-      filing = fileAndQualify(api, adults[0]!.id, contest.id, platform);
-      if (filing) break;
-    }
-    expect(filing, `no open contest to file for in ${place}`).not.toBeNull();
-    const candidateId = filing!.personId;
-    const campaign = campaignFor(api, filing!.id);
     const shiftHours = campaignParameter("volunteerShiftHours");
-    // Whose own reasons send them out on the campaign's first working day
-    // (their share of working days, added to an even start, makes a whole
-    // evening), with the whole evening free.
-    const goes = (p: Readonly<PersonState>) =>
-      OPENING_CARRY + shiftShare(api, campaign, p) >= 1;
-    const willing = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.id !== candidateId &&
-          p.id !== core.playerId &&
-          year(p) >= campaignParameter("minimumVolunteerAge") &&
-          canvassHoursFree(api, p) === shiftHours &&
-          goes(p),
-      )
-      .sort(
-        (a, b) =>
-          shiftReason(api, campaign, b) - shiftReason(api, campaign, a) ||
-          a.id.localeCompare(b.id),
+    // One draw: a place, its people and offices from the draw seed, the
+    // wealthiest adult filed for the first contest they can enter, and who is
+    // willing to walk for the campaign.
+    const draw = (drawSeed: string) => {
+      const picked = process.env.GOLDEN_PATH_PLACE_KEY
+        ? null
+        : randomPlace(drawSeed);
+      const place = process.env.GOLDEN_PATH_PLACE_KEY ?? picked!.key;
+      const label = `${picked ? `${picked.displayName} (${place})` : place}, draw seed ${drawSeed}`;
+      const core = createLifeCore(
+        buildPopulation({
+          seed: drawSeed,
+          placeKey: place,
+          startedAt: START,
+          minimumPeople: 300,
+        }),
       );
+      openOffices(core, drawSeed);
+      openElections(core);
+      openCampaigns(core);
+      const api = coreAPI(core);
+      const adults = [...core.people.values()]
+        .filter((p) => year(p) >= 35)
+        .sort(
+          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
+        );
+      const platform = [`${pick(PLATFORM_QUESTIONS, "shift-q1", drawSeed)}=1`];
+      let filing: FilingRow | null = null;
+      for (const contest of openContests(api)) {
+        filing = fileAndQualify(api, adults[0]!.id, contest.id, platform);
+        if (filing) break;
+      }
+      if (!filing)
+        return {
+          place,
+          drawSeed,
+          label,
+          core,
+          api,
+          filing,
+          willing: [] as PersonState[],
+        };
+      const candidateId = filing.personId;
+      const campaign = campaignFor(api, filing.id);
+      // Whose own reasons send them out on the campaign's first working day
+      // (their share of working days, added to an even start, makes a whole
+      // evening), with the whole evening free.
+      const goes = (p: Readonly<PersonState>) =>
+        OPENING_CARRY + shiftShare(api, campaign, p) >= 1;
+      const willing = [...core.people.values()]
+        .filter(
+          (p) =>
+            p.alive &&
+            p.id !== candidateId &&
+            p.id !== core.playerId &&
+            year(p) >= campaignParameter("minimumVolunteerAge") &&
+            canvassHoursFree(api, p) === shiftHours &&
+            goes(p),
+        )
+        .sort(
+          (a, b) =>
+            shiftReason(api, campaign, b) - shiftReason(api, campaign, a) ||
+            a.id.localeCompare(b.id),
+        );
+      return {
+        place,
+        drawSeed,
+        label,
+        core,
+        api,
+        filing,
+        campaign,
+        goes,
+        willing,
+      };
+    };
+    // A drawn place can hold no contest to file for, or fewer than three
+    // willing volunteers, so the seed is redrawn (seed, seed:1, ...) from all
+    // 56 until it has both, as seat-leavings does; the place and draw seed
+    // used are named, and when no draw has both, every place tried is.
+    const tried: string[] = [];
+    let drawn!: ReturnType<typeof draw>;
+    for (let redraw = 0; redraw < DRAWS; redraw += 1) {
+      drawn = draw(redraw ? `${seed}:${redraw}` : seed);
+      if (drawn.filing && drawn.willing.length >= 3) break;
+      tried.push(
+        `${drawn.label} (${drawn.filing ? `${drawn.willing.length} willing` : "no contest"})`,
+      );
+    }
+    const where =
+      tried.length === DRAWS
+        ? `every place tried: ${tried.join("; ")}`
+        : tried.length
+          ? `${drawn.label}; redrawn after ${tried.join("; ")}`
+          : drawn.label;
+    const { place, drawSeed, core, api, filing, willing } = drawn;
+    expect(filing, `no open contest to file for in ${where}`).not.toBeNull();
+    const candidateId = filing!.personId;
+    const campaign = drawn.campaign!;
+    const goes = drawn.goes!;
     expect(
       willing.length,
-      `fewer than three willing volunteers in ${place}`,
+      `fewer than three willing volunteers in ${where}`,
     ).toBeGreaterThanOrEqual(3);
     const [busy, first, second] = willing as [
       PersonState,
@@ -456,6 +511,8 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
       JSON.stringify({
         place,
         seed,
+        drawSeed,
+        where,
         filing: filing!.id,
         shifts,
         stayedHome: busy.id,
