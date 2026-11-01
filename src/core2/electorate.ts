@@ -437,10 +437,12 @@ export interface CountedFieldEntry {
    */
   readonly ballotCues?: readonly number[];
   /**
-   * Where the race's public standing already carries the average incumbency
-   * advantage (a partisan state or federal race), the town's average
-   * incumbent side of its adults' traits: each voter's own is read against
-   * it, so their traits move them around that advantage, not on top of it.
+   * The town's average incumbent side of its adults' traits, set for every
+   * incumbent (CTO, Nov 1, Q2): the race already carries the average
+   * incumbency advantage in its standing (a partisan race's public
+   * standing, a local race's incumbentRecognition), so each voter's own lean
+   * is read against it and their traits move them around that advantage,
+   * not on top of it.
    */
   readonly incumbentLeanCenter?: number;
 }

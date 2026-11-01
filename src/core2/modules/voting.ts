@@ -1075,9 +1075,11 @@ function contestView(
       recognition: townShareKnowing(api, named.length, heard, f.id),
       platform: facts.platform,
       ballotCues: cues.get(f.personId) ?? [],
-      // The race's standing carries the average incumbency advantage: the
-      // town's average incumbent lean is what each voter's own is read against.
-      ...(standing && facts.isIncumbent
+      // The race's standing carries the average incumbency advantage (a
+      // partisan race's public standing, a local race's
+      // incumbentRecognition), so the town's average incumbent lean is what
+      // each voter's own is read against, in every race (CTO, Nov 1, Q2).
+      ...(facts.isIncumbent
         ? { incumbentLeanCenter: townIncumbentLean(api) }
         : {}),
       // A reported scandal as far as its story reached the town's people.
