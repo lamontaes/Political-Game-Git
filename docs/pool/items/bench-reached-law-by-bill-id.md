@@ -16,7 +16,7 @@ claimed-at: 2026-11-01T18:07:27.395Z
 
 **What.** src/bench/reached.ts decides steps 9 to 11 of the golden path by matching a law that took effect to a bill with lawId.endsWith(':' + bill number). Two bodies number their first bill of a year alike (a council's 2025-1 and the county board's 2025-1), so each matches the other's law, and step 10's press and step 11's ballot can be credited to the wrong bill. The law row already carries the bill that enacted it (terms.enactedByBill, legislature.ts), so the match should read it.
 
-**Rules.** One engine per fact: the law row's enactedByBill is the record of which bill made a law; the bench reads it, never a second key built from the number. One rule, all 56 places: nothing names a place.
+**Rules.** One engine per fact: the law row's enactedByBill is the record of which bill made a law; the bench reads it, never a second key built from the number. One rule, all 56 places: the match reads the law row in every place, and nothing in it names a state, city or GEOID.
 
 **Done when.** reached.ts matches every law to its bill by the law row's terms.enactedByBill for steps 9, 10 and 11; step-9-is-a-read.test.ts shows a law of another bill with the same number is not credited; path-check in a drawn place with its seed printed reaches the same steps as before where no number repeats; the lane reviews the PR.
 
