@@ -2453,6 +2453,39 @@ const milestoneBirthday: Builder = (read, f) => {
   );
 };
 
+/**
+ * A resident's retirement, from the press's week of milestones: who, from
+ * which employer and after how many years, from the jobs engine's record of
+ * their leaving and their work record. Work for the outside account is not
+ * named as an employer.
+ */
+const retirement: Builder = (read, f) => {
+  const org = f.organizationId
+    ? read.core.organizations.get(f.organizationId as EntityId)
+    : undefined;
+  const employer =
+    org && org.outsideFlow === undefined
+      ? read.organization(f.organizationId)
+      : null;
+  const years =
+    f.since && read.happened ? yearsBetween(f.since, read.happened) : 0;
+  const town = read.residence(f.personId);
+  return story(
+    "retirement",
+    {
+      ...read.who(f.personId, "name", false),
+      date: read.date(),
+      ...(employer
+        ? { employer: read.fact(employer, f.organizationId ?? "") }
+        : {}),
+      ...(years > 1 ? { years: read.fact(String(years), f.jobId ?? "") } : {}),
+      ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
+    },
+    ["name"],
+    f.personId,
+  );
+};
+
 /** A business's round year since its founding, from the press's week of milestones. */
 const anniversary: Builder = (read, f) => {
   const id = f.organizationId ?? "";
@@ -2818,6 +2851,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "meetings-week": meetingsWeek,
   birthday: milestoneBirthday,
   anniversary,
+  retirement,
   profile,
   interview,
   claim: claimCheck,

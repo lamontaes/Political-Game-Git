@@ -6727,6 +6727,71 @@
       }
     },
     {
+      "key": "headlines.retirement.name-retires-from-employer",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retires from {employer}",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "headline",
+          "role": "retirement",
+          "choice": "headline",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.retirement.name-retires-after-years-years",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retires after {years} years",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "headline",
+          "role": "retirement",
+          "choice": "headline",
+          "requiresFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.retirement.name-retires",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retires",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "headline",
+          "role": "retirement",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.anniversary.subject-marks-years-years",
       "move": "anniversary",
       "kind": "written",
