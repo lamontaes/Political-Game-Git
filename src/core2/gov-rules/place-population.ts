@@ -177,6 +177,30 @@ export function placeGroupQuarters(key: string): PlaceGroupQuarters | null {
   return row;
 }
 
+/**
+ * The share of a place's people who live in group quarters: its Census count
+ * over its published population (or over the count, where that is larger),
+ * zero where it has none. This world's count moves both alike, so the share
+ * is the world's too.
+ */
+export function placeGroupQuartersShare(
+  key: string,
+  sourceGeoid: string | undefined,
+): number {
+  const row = placeGroupQuarters(key);
+  const published = sourceGeoid
+    ? publishedPlaceReferencePopulation(sourceGeoid)?.value
+    : undefined;
+  if (
+    !row ||
+    !(row.total > p("zero")) ||
+    published === undefined ||
+    !(published > p("zero"))
+  )
+    return p("zero");
+  return row.total / Math.max(published, row.total);
+}
+
 type GroupQuartersProfile =
   (typeof groupQuartersProfile.types)[keyof typeof groupQuartersProfile.types];
 

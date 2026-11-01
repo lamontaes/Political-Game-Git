@@ -40,7 +40,11 @@ import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json"
 import schools from "./data/opening-public-schools.json" with { type: "json" };
 import { worldLevel } from "./world-draw";
 import { parameter } from "./parameters";
-import { outsideLaborForce } from "./gov-rules/place-population";
+import {
+  outsideLaborForce,
+  placeGroupQuartersShare,
+} from "./gov-rules/place-population";
+import { corePlaceByKey } from "./place-lookup";
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
@@ -775,13 +779,23 @@ export function collapseToTwoLevels(
   // place's own where its sample is firm enough), else the town's median
   // recorded wage. Many unplaced workers commute, so the town's own firms'
   // pay isn't theirs.
-  const placeEarnings = placeEarningsOf(
-    input.placeMetadata?.placeKey ?? "",
-    input.seed,
-  );
+  const placeKey = input.placeMetadata?.placeKey ?? "";
+  const placeEarnings = placeEarningsOf(placeKey, input.seed);
+  const recordedMedian = annualWages[Math.floor(annualWages.length / 2)] ?? 0;
+  // The place's median earnings (ACS B20002) count its group-quarters
+  // residents too, a college town's students above all, so the households'
+  // unplaced workers earn it blended toward the town's recorded median by the
+  // place's group-quarters share (a place with none reads it as it is).
+  const quartersShare = placeEarnings
+    ? placeGroupQuartersShare(placeKey, corePlaceByKey(placeKey)?.sourceGeoid)
+    : 0;
+  if (quartersShare > 0) stopgap("SG-GQ-place-earnings-blend");
   const median = placeEarnings
-    ? placeEarnings * 100
-    : (annualWages[Math.floor(annualWages.length / 2)] ?? 0);
+    ? quartersShare > 0
+      ? (1 - quartersShare) * placeEarnings * 100 +
+        quartersShare * recordedMedian
+      : placeEarnings * 100
+    : recordedMedian;
   const adults = (ids: Iterable<PersonId>) => {
     let n = 0;
     for (const id of ids) {
