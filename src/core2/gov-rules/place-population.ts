@@ -178,12 +178,15 @@ export function placeGroupQuarters(key: string): PlaceGroupQuarters | null {
 }
 
 /**
- * The share of a place's people who live in group quarters: its Census count
- * over its published population (or over the count, where that is larger),
- * zero where it has none. This world's count moves both alike, so the share
- * is the world's too.
+ * The share of a place's people who live in noninstitutional group quarters
+ * (college housing, military quarters, other noninstitutional quarters): the
+ * residents among the ACS median earnings' universe (B20002, people with
+ * earnings) who live outside households, since people in institutions mostly
+ * report none. Their Census count over the published population (or over the
+ * whole group-quarters count, where that is larger), zero where it has none.
+ * This world's count moves both alike, so the share is the world's too.
  */
-export function placeGroupQuartersShare(
+export function placeNoninstitutionalQuartersShare(
   key: string,
   sourceGeoid: string | undefined,
 ): number {
@@ -198,7 +201,11 @@ export function placeGroupQuartersShare(
     !(published > p("zero"))
   )
     return p("zero");
-  return row.total / Math.max(published, row.total);
+  let earners = p("zero");
+  for (const type of GROUP_QUARTERS_TYPES)
+    if (!groupQuartersProfile.types[type].institutional)
+      earners += row.byType[type];
+  return earners / Math.max(published, row.total);
 }
 
 type GroupQuartersProfile =

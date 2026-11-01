@@ -42,7 +42,7 @@ import { worldLevel } from "./world-draw";
 import { parameter } from "./parameters";
 import {
   outsideLaborForce,
-  placeGroupQuartersShare,
+  placeNoninstitutionalQuartersShare,
 } from "./gov-rules/place-population";
 import { corePlaceByKey } from "./place-lookup";
 
@@ -98,10 +98,24 @@ export interface ResidentFlowInput {
   earnedDaysByDue?: Readonly<Record<string, number>>;
   /** Unplaced-worker pay: how many counted workers it pays (the opening's employment target less recorded jobs). */
   unplacedWorkers?: number;
+  /**
+   * Unplaced-worker pay for the civilian residents of the place's
+   * group-quarters rooms, a pool apart from its households' at its own rate.
+   */
+  quarters?: true;
   outsideId?: string;
   /** Purchase and retirement flows: each merged household contract's amount (fill-in takes it back). */
   amountByContract?: Readonly<Record<string, number>>;
   source: Source;
+}
+
+/**
+ * The pool a place's unplaced workers are paid from: its households', or its
+ * group-quarters rooms' (their civilian residents earn the place's own
+ * median earnings, apart from the households').
+ */
+export function unplacedPoolOf(placeId: PlaceId, quarters: boolean): string {
+  return quarters ? `${placeId}:quarters` : placeId;
 }
 
 /** A collapsed household: the records the counts come from and fill-in draws on. */
@@ -782,13 +796,19 @@ export function collapseToTwoLevels(
   const placeKey = input.placeMetadata?.placeKey ?? "";
   const placeEarnings = placeEarningsOf(placeKey, input.seed);
   const recordedMedian = annualWages[Math.floor(annualWages.length / 2)] ?? 0;
-  // The place's median earnings (ACS B20002) count its group-quarters
-  // residents too, a college town's students above all, so the households'
-  // unplaced workers earn it blended toward the town's recorded median by the
-  // place's group-quarters share (a place with none reads it as it is).
-  const quartersShare = placeEarnings
-    ? placeGroupQuartersShare(placeKey, corePlaceByKey(placeKey)?.sourceGeoid)
-    : 0;
+  // The place's median earnings (ACS B20002, people with earnings) count its
+  // residents of noninstitutional group quarters too, a college town's
+  // students above all. The civilian residents of its rooms earn it as it
+  // is; its households' unplaced workers earn it blended toward the town's
+  // median recorded wage by those residents' share of the place (a place
+  // with none, or a town with no recorded wage, reads it as it is).
+  const quartersShare =
+    placeEarnings && recordedMedian > 0
+      ? placeNoninstitutionalQuartersShare(
+          placeKey,
+          corePlaceByKey(placeKey)?.sourceGeoid,
+        )
+      : 0;
   if (quartersShare > 0) stopgap("SG-GQ-place-earnings-blend");
   const median = placeEarnings
     ? quartersShare > 0
@@ -796,6 +816,7 @@ export function collapseToTwoLevels(
         quartersShare * recordedMedian
       : placeEarnings * 100
     : recordedMedian;
+  const roomMedian = placeEarnings ? placeEarnings * 100 : recordedMedian;
   const adults = (ids: Iterable<PersonId>) => {
     let n = 0;
     for (const id of ids) {
@@ -810,20 +831,23 @@ export function collapseToTwoLevels(
     return n;
   };
   const allAdults = adults(peopleById.keys());
-  const countedAdultsByPlace = new Map<PlaceId, number>();
-  const countedEmployedByPlace = new Map<PlaceId, number>();
+  // Households and the civilian residents of group-quarters rooms are two
+  // pools, each paid its own rate; residents of institutions and military
+  // quarters are outside the civilian labor force and in neither.
+  const poolKey = unplacedPoolOf;
+  const countedAdultsByPool = new Map<string, number>();
+  const countedEmployedByPool = new Map<string, number>();
   const jobHolders = new Set(input.jobs.map((row) => row.personId));
   for (const home of collapsedHomes) {
-    // Residents of institutions and military quarters are outside the
-    // civilian labor force: none of them is an unplaced worker.
     if (outsideLaborForce(home.quarters)) continue;
-    countedAdultsByPlace.set(
-      home.placeId,
-      (countedAdultsByPlace.get(home.placeId) ?? 0) + adults(home.memberIds),
+    const key = poolKey(home.placeId, !!home.quarters);
+    countedAdultsByPool.set(
+      key,
+      (countedAdultsByPool.get(key) ?? 0) + adults(home.memberIds),
     );
-    countedEmployedByPlace.set(
-      home.placeId,
-      (countedEmployedByPlace.get(home.placeId) ?? 0) +
+    countedEmployedByPool.set(
+      key,
+      (countedEmployedByPool.get(key) ?? 0) +
         home.memberIds.filter((id) => jobHolders.has(id)).length,
     );
   }
@@ -833,46 +857,60 @@ export function collapseToTwoLevels(
   // sum sized from the town alone went to the first place, leaving the
   // places around it with no pay at all).
   if (options.unplacedWorkerIncome !== false && median > 0)
-    for (const placeId of accountByPlace.keys()) {
-      const unplaced =
-        Number.isFinite(employmentRate) && allAdults > 0
-          ? Math.max(
-              0,
-              employmentRate * (countedAdultsByPlace.get(placeId) ?? 0) -
-                (countedEmployedByPlace.get(placeId) ?? 0),
-            )
-          : 0;
-      if (unplaced <= 0) continue;
-      // The sampled households stand for as many as the place's weight says,
-      // so the workers they leave unplaced, and what those workers are paid, do.
-      const weight = options.weights?.[placeId] ?? 1;
-      flows.push({
-        id: `residents:unplaced-wages:${placeId}`,
-        kind: "wages",
-        financeKind: "work.unplaced-residents",
-        payerId: outsideFor(placeId),
-        payeeId: accountFor(placeId),
-        residentsId: accountFor(placeId),
-        placeId,
-        amountMinor: Math.round(
-          (unplaced * weight * median * 14) / DAYS_PER_YEAR,
-        ),
-        unplacedWorkers: unplaced * weight,
-        firstAt: makeIsoDate(addDays(makeIsoDate(start), 14)),
-        cadence: { kind: "days", every: 14 },
-        salesReceipt: false,
-        marketAdjusted: false,
-        payIndexed: true,
-        source: {
-          tag: "ESTIMATED",
-          asOf: start,
-          citation: placeEarnings
-            ? `Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the place's median earnings. ${PLACE_EARNINGS.citation}`
-            : "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
-          estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model, each earning $${Math.round(median / 100)} a year${placeEarnings ? " (the place's median earnings)" : " (the town's median recorded wage; no firm place estimate)"}; a labeled estimate for the modeled wider population.`,
-        },
-      });
-    }
+    for (const placeId of accountByPlace.keys())
+      for (const quarters of [false, true]) {
+        const key = poolKey(placeId, quarters);
+        if (quarters && !countedAdultsByPool.has(key)) continue;
+        const unplaced =
+          Number.isFinite(employmentRate) && allAdults > 0
+            ? Math.max(
+                0,
+                employmentRate * (countedAdultsByPool.get(key) ?? 0) -
+                  (countedEmployedByPool.get(key) ?? 0),
+              )
+            : 0;
+        if (unplaced <= 0) continue;
+        const pay = quarters ? roomMedian : median;
+        const blended = !quarters && quartersShare > 0;
+        // The sampled households stand for as many as the place's weight says,
+        // so the workers they leave unplaced, and what those workers are paid, do.
+        const weight = options.weights?.[placeId] ?? 1;
+        flows.push({
+          id: quarters
+            ? `residents:unplaced-wages:${placeId}:quarters`
+            : `residents:unplaced-wages:${placeId}`,
+          kind: "wages",
+          financeKind: "work.unplaced-residents",
+          payerId: outsideFor(placeId),
+          payeeId: accountFor(placeId),
+          residentsId: accountFor(placeId),
+          placeId,
+          amountMinor: Math.round(
+            (unplaced * weight * pay * 14) / DAYS_PER_YEAR,
+          ),
+          unplacedWorkers: unplaced * weight,
+          ...(quarters ? { quarters: true as const } : {}),
+          firstAt: makeIsoDate(addDays(makeIsoDate(start), 14)),
+          cadence: { kind: "days", every: 14 },
+          salesReceipt: false,
+          marketAdjusted: false,
+          payIndexed: true,
+          source: {
+            tag: "ESTIMATED",
+            asOf: start,
+            citation: placeEarnings
+              ? `Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the place's median earnings${blended ? " blended toward the town's median recorded wage (BLS OEWS-based job pay)" : ""}. ${PLACE_EARNINGS.citation}`
+              : "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
+            estimatedFrom: `${Math.round(unplaced)} counted ${quarters ? "residents of group-quarters rooms" : "workers"} in industries or places the opening doesn't model, each earning $${Math.round(pay / 100)} a year${
+              !placeEarnings
+                ? " (the town's median recorded wage; no firm place estimate)"
+                : blended
+                  ? ` (the place's median earnings, $${Math.round(placeEarnings)}, weighed ${(1 - quartersShare).toFixed(3)} against the town's median recorded wage, $${Math.round(recordedMedian / 100)}, weighed ${quartersShare.toFixed(3)}, the place's share in noninstitutional group quarters)`
+                  : " (the place's median earnings)"
+            }; a labeled estimate for the modeled wider population.`,
+          },
+        });
+      }
   for (const [placeId, group] of countedOutside)
     flows.push({
       ...householdOutsideFlow(
