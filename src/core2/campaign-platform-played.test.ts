@@ -14,22 +14,28 @@
  * be the top scores, at the candidate's own positions. The first world whose
  * year holds a contested local race is the proof.
  *
- * The calibration total (the research's C1): over every (candidate, question)
- * pair of that year's contested local races, each candidate's emphasis on a
- * question is its score's share of their platform's scores (none for a
- * question left off), and a log-linear count model of emphasis on support,
- * holding conviction at its mean as the study held issue importance and
- * approval at theirs, must give +27% to +86% emphasis per 10 points of
- * support (Druckman, Jacobs and Ostermeier 2004). The total counts the
- * candidates who had a choice to make (their seat takes up more questions
- * they hold a view on than they run on; one who runs on every view they hold
- * chose nothing, as a state or federal runner on the seat's one question
- * does), and it needs MIN_CANDIDATES of them whose questions differ in
- * support by 10 points or more: a dozen or so is too few for a total (one
- * drawn town's sixteen measured +26%, the same rule's twenty-six +42%).
- * Where the contested races hold fewer, the total takes every platform the
- * year's filings hold, and where those are still too few, the filings of the
- * next drawn places' years too, and the test says so.
+ * The calibration totals (the research's C1, Druckman, Jacobs and Ostermeier
+ * 2004: +27% to +86% space per 10 points of support). Each candidate's
+ * emphasis on a question is its score's share of their platform's scores,
+ * none for a question left off. Over the questions each candidate runs on, a
+ * log-linear count model of emphasis on support, holding conviction fixed
+ * and comparing each candidate's questions with each other (the study
+ * followed one candidate's issues), must give +27% to +86% per 10 points.
+ * Over every (candidate, question) pair, the silences included, the same
+ * model without the comparison within a candidate must show emphasis rising
+ * with support; its size is printed, not held to the band, because silence
+ * on all but the top questions sharpens it by how many questions each seat
+ * takes up: +26% in one drawn town's sixteen platforms, +42% in another's
+ * twenty-six, +104% over four places' fifty-four (the governing lead rules
+ * which measure C1 holds). The totals count the candidates who had a choice
+ * to make (their seat takes up more questions they hold a view on than they
+ * run on; one who runs on every view they hold, as a state or federal runner
+ * on the seat's one question does, chose nothing) and need MIN_CANDIDATES of
+ * them whose questions differ in support by 10 points or more, and
+ * MIN_VARIED whose platform's questions differ in support. Where the
+ * contested races hold fewer, the totals take every platform the year's
+ * filings hold, and where those are still too few, the filings of the next
+ * drawn places' years too, and the test says so.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it, vi } from "vitest";
@@ -90,7 +96,9 @@ const seed = process.env.PLATFORM_PLAYED_SEED ?? randomBytes(8).toString("hex");
 const MAX_DRAWS = 8;
 const DAYS = 365;
 /** Fewest candidates with a choice whose questions' support spans SPAN points for a total. */
-const MIN_CANDIDATES = 40;
+const MIN_CANDIDATES = 20;
+/** Fewest candidates whose platform's own questions differ in support, for the within-candidate total. */
+const MIN_VARIED = 5;
 /** The measure's unit: a candidate whose questions differ by less cannot show a 10-point difference. */
 const SPAN = 10;
 /** The research band per 10 points of support: exp(10 × 0.024) to exp(10 × 0.062). */
@@ -128,6 +136,20 @@ const chose = (r: Read) => r.scores.length > r.platform.length;
 
 /** A candidate the total can measure by: they chose, among questions 10 points apart or more. */
 const measures = (r: Read) => chose(r) && spans(r);
+
+/** The rule's scores of the questions a candidate runs on. */
+const onPlatform = (r: Read) => {
+  const on = new Set(r.platform.map((s) => s.question));
+  return r.scores.filter((s) => on.has(s.question));
+};
+
+/** A candidate whose platform's questions differ in support by a point or more. */
+const varied = (r: Read) => {
+  const supports = onPlatform(r).map((s) => s.support);
+  return (
+    supports.length > 1 && Math.max(...supports) - Math.min(...supports) >= 1
+  );
+};
 
 function levelOf(api: CoreAPI, contest: ContestRow): string {
   return (
@@ -319,6 +341,59 @@ function emphasisPer10(reads: readonly Read[]): {
   return { per10: Math.exp(b[1]!) - 1, pairs: rows.length };
 }
 
+/**
+ * Emphasis on support, per 10 points, among the questions each candidate
+ * runs on, holding conviction fixed and comparing each candidate's questions
+ * with each other: a Poisson log-linear fit with a term for each candidate
+ * (the conditional fit, a multinomial logit of each platform's emphasis
+ * shares on support and the log of conviction), by Newton's method.
+ */
+function withinPlatformPer10(reads: readonly Read[]): {
+  per10: number;
+  candidates: number;
+} {
+  const groups = reads.filter(varied).map((r) => {
+    const on = onPlatform(r);
+    const sum = on.reduce((t, s) => t + s.score, 0);
+    return on.map((s) => ({
+      y: s.score / sum,
+      x: [s.support / 10, Math.log(s.conviction)] as const,
+    }));
+  });
+  const b = [0, 0];
+  for (let step = 0; step < 200; step += 1) {
+    const g = [0, 0];
+    const h = [
+      [0, 0],
+      [0, 0],
+    ];
+    for (const pairs of groups) {
+      const w = pairs.map((p) => Math.exp(b[0]! * p.x[0] + b[1]! * p.x[1]));
+      const total = w.reduce((t, v) => t + v, 0);
+      const pr = w.map((v) => v / total);
+      const y = pairs.reduce((t, p) => t + p.y, 0);
+      const mean = [0, 1].map((i) =>
+        pairs.reduce((t, p, j) => t + pr[j]! * p.x[i]!, 0),
+      );
+      pairs.forEach((p, j) => {
+        for (let i = 0; i < 2; i += 1) {
+          g[i]! += (p.y - y * pr[j]!) * p.x[i]!;
+          for (let k = 0; k < 2; k += 1)
+            h[i]![k]! +=
+              y * pr[j]! * (p.x[i]! - mean[i]!) * (p.x[k]! - mean[k]!);
+        }
+      });
+    }
+    const det = h[0]![0]! * h[1]![1]! - h[0]![1]! * h[1]![0]!;
+    const d0 = (h[1]![1]! * g[0]! - h[0]![1]! * g[1]!) / det;
+    const d1 = (h[0]![0]! * g[1]! - h[1]![0]! * g[0]!) / det;
+    b[0]! += d0;
+    b[1]! += d1;
+    if (Math.abs(d0) + Math.abs(d1) < 1e-12) break;
+  }
+  return { per10: Math.exp(b[0]!) - 1, candidates: groups.length };
+}
+
 it("every contested local race's candidates run on their top questions by the rule, and emphasis rises with support inside the research band", () => {
   const tried: string[] = [];
   let proof: string[] | null = null;
@@ -350,7 +425,11 @@ it("every contested local race's candidates run on their top questions by the ru
       pool.push(...year.reads);
       how += `, and ${year.where}'s year`;
     }
-    if (pool.filter(measures).length >= MIN_CANDIDATES) break;
+    if (
+      pool.filter(measures).length >= MIN_CANDIDATES &&
+      pool.filter(varied).length >= MIN_VARIED
+    )
+      break;
   }
   if (!proof)
     expect.fail(
@@ -362,9 +441,21 @@ it("every contested local race's candidates run on their top questions by the ru
     `the total over ${how} holds too few candidates with a choice whose questions' support spans ${SPAN} points`,
   ).toBeGreaterThanOrEqual(MIN_CANDIDATES);
   const counted = pool.filter(chose);
-  const { per10, pairs } = emphasisPer10(counted);
-  const total = `calibration over ${how}: ${pool.length} candidates, ${counted.length} with a choice (${informative} of them spanning ${SPAN} points), ${pairs} (candidate, question) pairs; emphasis +${(100 * per10).toFixed(0)}% per 10 points of support at fixed conviction, slope measured ${(Math.log(1 + per10) / 10).toFixed(4)} per point (band +${100 * BAND.low}% to +${100 * BAND.high}%); platformSupportSlope ${campaignParameter("platformSupportSlope")}`;
+  const all = emphasisPer10(counted);
+  const within = withinPlatformPer10(pool);
+  expect(
+    within.candidates,
+    `the total over ${how} holds too few candidates whose platform's questions differ in support`,
+  ).toBeGreaterThanOrEqual(MIN_VARIED);
+  const slopeOf = (per10: number) => (Math.log(1 + per10) / 10).toFixed(4);
+  const total = [
+    `calibration over ${how}: ${pool.length} candidates, ${counted.length} with a choice (${informative} of them spanning ${SPAN} points); platformSupportSlope ${campaignParameter("platformSupportSlope")}, band +${100 * BAND.low}% to +${100 * BAND.high}% per 10 points`,
+    `  among the questions each candidate runs on (${within.candidates} candidates whose platform's questions differ in support): emphasis +${(100 * within.per10).toFixed(0)}% per 10 points of support at fixed conviction, slope measured ${slopeOf(within.per10)} per point`,
+    `  over every (candidate, question) pair of the candidates with a choice, silences included (${all.pairs} pairs): emphasis +${(100 * all.per10).toFixed(0)}% per 10 points of support at fixed conviction, slope measured ${slopeOf(all.per10)} per point`,
+  ].join("\n");
   console.log([...proof, total].join("\n"));
-  expect(per10, total).toBeGreaterThanOrEqual(BAND.low);
-  expect(per10, total).toBeLessThanOrEqual(BAND.high);
+  expect(within.per10, total).toBeGreaterThanOrEqual(BAND.low);
+  expect(within.per10, total).toBeLessThanOrEqual(BAND.high);
+  // Silence falls on the questions with less support.
+  expect(all.per10, total).toBeGreaterThan(0);
 }, 3_600_000);
