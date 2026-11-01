@@ -21,6 +21,12 @@ claimed-at: 2026-11-01T23:17:06.134Z
 
 **Done when.** In a drawn place with district seats and in one with at-large seats (places and seeds in the PR body), each past legislature race's printed story names its district or says it is at large, by story and seat id. A piece that needs `{district}` never prints for an at-large seat. Every race still prints. printed-words and grade-reach pass, and the PR carries `Review: words`.
 
+**Time box.** 3 hours.
+
+**You will see.** Last November's races on the first paper name their district, like "District 4", or say the seat is at large.
+
+**Screenshot.** The opening paper's race results before and after, from a drawn place with district seats.
+
 **Files.** src/bench/printed-words.ts, data/english/parts/news.json
 
 **Notes.** Words' wording and instructions, Nov 1, 23:06 and 23:11.
