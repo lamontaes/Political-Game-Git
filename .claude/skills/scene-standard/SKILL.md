@@ -21,6 +21,8 @@ Owner, Oct 24: scenes "that come out of what is actually happening in the world,
 8. **Time jumps between scenes.** The world simulates continuously; only a scene stops the player. Routine work never stops him (owner, Oct 26: "Shifts are for the simulation... The player should not be clicking through that."). Months may pass with nothing, then scenes cluster (owner: "January 14th all the way to March 11th, and then there's something on March 11th, 17th, 18th, and 21st, then nothing till July").
 9. **Seasons are chapters.** A campaign has fixed beats (deciding to run, filing, the first interview, the debate, election day, the result) with cast scenes between (staff, rallies, donors, endorsements, offers that test the candidate). Election day is several scenes: canvassing, going to vote, the returns, conceding or celebrating (owner, Oct 26: "at least 5 minutes to play out").
 10. **The world doesn't need the player.** What the player can do, other people do in the background by the same rules (owner, Oct 26: "I am not the main character."). A scene shows the player's slice of it.
+11. **Talk, not a list.** A speaker gives the facts a moment needs in connected sentences, the way people talk, never as stacked one-line facts (owner, Nov 1, on a clerk's answer of five stacked facts, "absolutely god-awful": "Unless it calls for it specifically in the dialogue scene, it shouldn't read as a list. That's not how normal people talk."). A list plays only where the scene's own record is one: a ballot, a printed agenda, a form being read aloud.
+12. **The player says only what they chose.** Every choice is worded as the player's real reply, and the transcript shows that reply, never a line the player didn't pick (owner, Nov 1, after choosing "File for this office" showed him saying "I see.": "I never said that"). A control's label that isn't something a person would say ("File for this office") is worded as the reply the player gives, or it says nothing in the transcript.
 
 ## Check before a PR or a grade
 
@@ -28,6 +30,7 @@ Owner, Oct 24: scenes "that come out of what is actually happening in the world,
 - Name how each role was cast.
 - Show two speakers (or two ties to the player) producing different lines in the same scene.
 - Show that the four replies are four stances.
+- Read the transcript as the player: every line in the player's voice is one they picked, and no speaker says three or more facts as separate one-line sentences.
 - Show the scene is reached in ordinary play on the golden path. A scene only a test reaches is not done.
 - Show a line that names the hour, the day or a record's time plays only when its record makes it true: "tonight" in the evening, "Morning." before noon, "today" on the record's own day (the time-of-day and day marks).
 - Add a "Scene standard" row to the PR's Done when table with this evidence; a different session checks it.

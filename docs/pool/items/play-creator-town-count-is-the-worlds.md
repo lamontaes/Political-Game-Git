@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-creator-town-count-is-the-worlds
-pr:
+pr: #7064
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first

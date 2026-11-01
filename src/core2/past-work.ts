@@ -308,15 +308,90 @@ function findRate(
   month: Conditions,
   mean: number,
 ): number {
+  return findPerQuarter(api, mean / month.unemploymentPct, plan.applyLean);
+}
+
+/*
+ * The working life's quarterly pulls: the one rule the pre-start run and the
+ * review of lives elsewhere in play (src/core2/jobs-elsewhere.ts) share. Each
+ * is a JOLTS or CPS rate moved by the economy's month, the person's age and
+ * their traits' lean in the jobs engine's own decision; a pull adds up and an
+ * event happens when it reaches one whole, never by a roll.
+ */
+
+/** How the pull to leave or be let go falls with age (the steady rate at the reference age). */
+export function workAgeFactor(api: CoreAPI, age: number): number {
+  const p = (key: string) => api.parameter(key);
+  return Math.pow(
+    Math.max(age, p("pastWorkYoungestAge")) / p("pastWorkAgeReferenceYears"),
+    -p("pastWorkAgeElasticity"),
+  );
+}
+
+/** Layoffs a quarter: JOLTS's rate, raised by a rise in unemployment (points over the quarter). */
+export function layoffPerQuarter(
+  api: CoreAPI,
+  rise: number,
+  lean: number,
+  ageFactor: number,
+): number {
+  const p = (key: string) => api.parameter(key);
+  return (
+    p("pastWorkLayoffsPerQuarter") *
+    (1 + p("pastWorkLayoffRisePerPoint") * rise) *
+    Math.exp(p("pastWorkTraitSpread") * lean) *
+    ageFactor
+  );
+}
+
+/** Moves to another job a quarter: JOLTS's quits, fewer when work is scarce (mean over now) and when the pay is better. */
+export function quitPerQuarter(
+  api: CoreAPI,
+  meanOverNow: number,
+  lean: number,
+  payRatio: number,
+  ageFactor: number,
+): number {
+  const p = (key: string) => api.parameter(key);
+  return (
+    p("pastWorkQuitsPerQuarter") *
+    Math.pow(meanOverNow, p("pastWorkQuitUnemploymentElasticity")) *
+    Math.exp(p("pastWorkTraitSpread") * lean) *
+    Math.pow(payRatio, -p("pastWorkQuitPayElasticity")) *
+    ageFactor
+  );
+}
+
+/** Finding work a quarter: CPS's spells out of work, longer when work is scarce. */
+export function findPerQuarter(
+  api: CoreAPI,
+  meanOverNow: number,
+  lean: number,
+): number {
   const p = (key: string) => api.parameter(key);
   return (
     p("pastWorkFindsPerQuarter") *
-    Math.pow(
-      mean / month.unemploymentPct,
-      p("pastWorkFindUnemploymentElasticity"),
-    ) *
-    Math.exp(p("pastWorkTraitSpread") * plan.applyLean)
+    Math.pow(meanOverNow, p("pastWorkFindUnemploymentElasticity")) *
+    Math.exp(p("pastWorkTraitSpread") * lean)
   );
+}
+
+/** A person's traits' leans in the jobs engine's three working-life decisions. */
+export function workLeans(
+  core: CoreState,
+  person: PersonState,
+): { layoffLean: number; quitLean: number; applyLean: number } {
+  return {
+    layoffLean: lean(core, person, "jobs.value-worker", "let-go", "keep"),
+    quitLean: lean(
+      core,
+      person,
+      "jobs.review-worker",
+      "jobs-look",
+      "jobs-stay",
+    ),
+    applyLean: lean(core, person, "jobs.apply", "jobs-apply", "jobs-wait"),
+  };
 }
 
 function planOf(
@@ -339,9 +414,7 @@ function planOf(
     person,
     entry,
     hourlyMinor: current?.hourlyMinor || fallbackHourly,
-    layoffLean: lean(c, person, "jobs.value-worker", "let-go", "keep"),
-    quitLean: lean(c, person, "jobs.review-worker", "jobs-look", "jobs-stay"),
-    applyLean: lean(c, person, "jobs.apply", "jobs-apply", "jobs-wait"),
+    ...workLeans(c, person),
   };
   if (current)
     return {
@@ -581,32 +654,24 @@ export function runPastWork(
       const span =
         daysBetween(makeIsoDate(begins), makeIsoDate(until)) / quarterDays;
       const age = ageOnDate(plan.person.birthDate, step);
-      const ageFactor = Math.pow(
-        Math.max(age, p("pastWorkYoungestAge")) /
-          p("pastWorkAgeReferenceYears"),
-        -p("pastWorkAgeElasticity"),
-      );
+      const ageFactor = workAgeFactor(api, age);
       let at = 0;
       while (at < span) {
         if (run.employed) {
-          const layoff =
-            p("pastWorkLayoffsPerQuarter") *
-            (1 + p("pastWorkLayoffRisePerPoint") * rise) *
-            Math.exp(p("pastWorkTraitSpread") * plan.layoffLean) *
-            ageFactor;
-          const quit =
-            p("pastWorkQuitsPerQuarter") *
-            Math.pow(
-              mean / month.unemploymentPct,
-              p("pastWorkQuitUnemploymentElasticity"),
-            ) *
-            Math.exp(p("pastWorkTraitSpread") * plan.quitLean) *
-            // Better pay than the town's keeps a worker longer.
-            Math.pow(
-              firmById.get(run.employed.organizationId ?? "")?.payRatio ?? 1,
-              -p("pastWorkQuitPayElasticity"),
-            ) *
-            ageFactor;
+          const layoff = layoffPerQuarter(
+            api,
+            rise,
+            plan.layoffLean,
+            ageFactor,
+          );
+          // Better pay than the town's keeps a worker longer.
+          const quit = quitPerQuarter(
+            api,
+            mean / month.unemploymentPct,
+            plan.quitLean,
+            firmById.get(run.employed.organizationId ?? "")?.payRatio ?? 1,
+            ageFactor,
+          );
           const toLayoff = (1 - run.layoffPull) / layoff;
           const toQuit = (1 - run.quitPull) / quit;
           const left = span - at;
