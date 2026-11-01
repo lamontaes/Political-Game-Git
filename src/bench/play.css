@@ -3308,6 +3308,14 @@ details.entry[open] {
   max-height: 300px;
   margin: 0 0 12px;
 }
+.gov-map .map-label {
+  fill: var(--text);
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.7);
+  stroke-width: 0.4em;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
 .gov-map .state {
   fill: var(--party, rgba(242, 237, 228, 0.06));
   fill-opacity: 0.18;
