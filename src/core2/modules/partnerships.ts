@@ -384,6 +384,11 @@ function schedule(api: CoreAPI): void {
 export const partnershipsModule: CoreModule = {
   id: PARTNERSHIPS_MODULE_ID,
   state: { schemaVersion: 1, tables: { state: {}, pulls: {} } },
+  // A death ends the person's pull, so the table holds only the living.
+  eventKinds: ["life.death"],
+  onEvent(api, event) {
+    for (const id of event.personIds) store(api).table("pulls").remove(id);
+  },
   onDay(api) {
     if (store(api).table("state").get(STATE_ROW)) return;
     store(api).table("state").put({ id: STATE_ROW, openedAt: api.state.date });

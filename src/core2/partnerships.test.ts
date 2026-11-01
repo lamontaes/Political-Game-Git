@@ -5,7 +5,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { livesElsewhere } from "./modules/moves";
 import { partnershipsModule, UNION_FACT } from "./modules/partnerships";
 import { partneringPerYear, partnershipGeo } from "./opening-partnership";
-import { registerModule } from "./state";
+import { coreAPI, registerModule } from "./state";
 import { drawPlace } from "../../tests/golden-path/place";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreEventInput, PersonId } from "./types";
@@ -94,6 +94,16 @@ describe(`partnerships of people living elsewhere over a year in ${input.placeMe
         expect(person.liquidMinor).toBe(0);
       }
     }
+  });
+
+  it("keeps a pull only for the living: a death ends it", () => {
+    const rows = coreAPI(core)
+      .moduleState("partnerships")
+      .table("pulls")
+      .rows();
+    expect(rows.length).toBeGreaterThan(0);
+    for (const row of rows)
+      expect(core.people.get(String(row.id))?.alive, String(row.id)).toBe(true);
   });
 
   it("lets their relatives in town know, and parts couples no faster than NSFG's curve", () => {
