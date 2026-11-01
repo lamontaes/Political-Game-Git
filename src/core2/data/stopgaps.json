@@ -5351,11 +5351,11 @@
     "kind": "partial-model",
     "file": "src/core2/medical-bills.ts",
     "line": 856,
-    "whatItFakes": "A medical bill unpaid past the wait is placed for collection as one balance on the household's books and stays there: no collector pays the provider for it, the household never pays it down or settles it, it does not age off, and the part the web's share does not send to collections is written off by the provider with no record. The bank reads it as a charge-off once the reporting wait has passed (creditMedicalReportDays), with no floor for small balances.",
+    "whatItFakes": "A medical bill unpaid past the wait is placed for collection as one balance on the household's books and stays there: no collector pays the provider for it, the household never pays it down or settles it, and the part the web's share does not send to collections is written off by the provider with no record. Each part leaves the credit report seven years after its own delinquency and is folded into the record's agedOff summary, still owed: the balance never ages off the books. The bank reads it as a charge-off once the reporting wait has passed (creditMedicalReportDays), with no floor for small balances.",
     "why": "The game has no collection agencies or debt buyers, and nothing yet decides when a household with cash pays an old medical debt.",
     "addedBy": "claude/laws-medical-debt",
     "addedAt": "2026-10-29",
-    "replacement": "Medical debts paid down from what a household holds after its living costs, on the same rule as its other debts, settled or sold at research's recovery rates, aged off the report at seven years (15 U.S.C. 1681c), and the provider's write-off kept as its charity care on its books.",
+    "replacement": "Medical debts paid down from what a household holds after its living costs, on the same rule as its other debts, settled or sold at research's recovery rates, and the provider's write-off kept as its charity care on its books.",
     "status": "open"
   },
   {
