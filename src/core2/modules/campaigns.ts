@@ -2130,6 +2130,51 @@ function rivalWordPassedOn(api: CoreAPI): void {
 }
 
 /**
+ * Word of a rival is kept while a reader can still reach it (governing lead,
+ * Oct 30). `rivalWordPassedOn` reads a message, and a candidate's word, only
+ * while it is newer than the day `rivalWordDays` back, a day that only moves
+ * forward; a filing stays on the ballot after the count, so it reads a
+ * closed race's last week too. `raceReading` reads a candidate's newest word
+ * in a race still under way (`newestWord`), however old. So at each campaign
+ * turn a message older than the window goes, and a word row older than it
+ * goes unless it is that newest word in a race in `races`. A closed race's
+ * rows go as its last week leaves the window, and both tables hold about a
+ * week of rows, so this pass does not grow with the years.
+ */
+export function foldRivalWord(api: CoreAPI): void {
+  const since = addDays(
+    makeIsoDate(api.state.date),
+    -campaignParameter("rivalWordDays"),
+  );
+  const messages = table(api, "messages");
+  for (const row of messages.rows() as unknown as MessageRow[])
+    if (!(row.date > since)) messages.remove(row.id);
+  const words = table(api, "rivalWord"),
+    races = table(api, "races");
+  // Each candidate's newest word in a race under way, by candidate and
+  // contest, read before any of that pair's rows go.
+  const newest = new Map<string, string | undefined>();
+  for (const row of words.rows() as unknown as RivalWordRow[]) {
+    if (row.date > since) continue;
+    if (row.contestId && races.get(row.contestId)) {
+      const key = JSON.stringify([row.candidateId, row.contestId]);
+      if (!newest.has(key))
+        newest.set(
+          key,
+          newestWord(
+            words.query("byCandidate", [
+              row.candidateId,
+            ]) as unknown as RivalWordRow[],
+            row.contestId,
+          )?.id,
+        );
+      if (newest.get(key) === row.id) continue;
+    }
+    words.remove(row.id);
+  }
+}
+
+/**
  * Whether someone who heard of a filing offers to help unasked: the same
  * reasons as an ask to volunteer, against the offer's own bar.
  */
@@ -5046,6 +5091,21 @@ interface RivalWordRow {
 }
 
 /**
+ * A candidate's newest word of a rival in a contest, the row `raceReading`
+ * reads: the latest by date, then by id (`foldRivalWord` keeps this row).
+ */
+function newestWord(
+  rows: readonly RivalWordRow[],
+  contestId: string,
+): RivalWordRow | undefined {
+  return rows
+    .filter((row) => row.rivalId && row.contestId === contestId)
+    .sort(
+      (a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id),
+    )[0];
+}
+
+/**
  * Where a candidate believes their race stands, from what they know and never
  * from anyone's true support: the newer of two records. Their own campaign's
  * latest poll of the contest gives each candidate's share as what that
@@ -5075,15 +5135,12 @@ export function raceReading(
     .sort(
       (a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id),
     )[0];
-  const word = (
+  const word = newestWord(
     table(api, "rivalWord").query("byCandidate", [
       candidate.id,
-    ]) as unknown as RivalWordRow[]
-  )
-    .filter((row) => row.rivalId && row.contestId === campaign.contestId)
-    .sort(
-      (a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id),
-    )[0];
+    ]) as unknown as RivalWordRow[],
+    campaign.contestId,
+  );
   const fromWord =
     word && (!poll || word.date > poll.date)
       ? wordReading(api, campaign.contestId, candidate, town, word)
@@ -5629,7 +5686,8 @@ const contestsSeen = new WeakMap<object, number>();
  * filed to election day, and every candidate's volunteers, the player's
  * included, weigh an evening of doors (`volunteerShifts`). Races are noted
  * when their contest appears (the contests table read only when it has
- * grown) and dropped once decided.
+ * grown) and dropped once decided, and word no reader can reach again goes
+ * (`foldRivalWord`).
  */
 function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "campaign-turn") return;
@@ -5662,6 +5720,8 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       // Once its election day has passed, a race's door rows have no reader:
       // the campaign row keeps its door counts (governing lead, Oct 30). Every
       // filing of the contest goes, by its id, so no campaign row is made.
+      // Its messages and word go as they leave word's window
+      // (`foldRivalWord`, after the races are worked).
       const doors = table(api, "doors");
       for (const filing of elections(api, "filings").query("byContest", [
         race.id,
@@ -5698,6 +5758,7 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         campaignTurn(api, filing.id, race.electionDate);
     }
   }
+  foldRivalWord(api);
 }
 
 /**
