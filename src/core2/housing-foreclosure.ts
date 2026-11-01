@@ -11,7 +11,8 @@
  *
  * Counted owners default by the same rule times their count: their group's
  * housing arrears say how many of the group's owners are behind, the ones
- * with the least income first.
+ * with the least income first. A removed counted owner stays counted without
+ * a home, as an evicted counted renter does.
  */
 import { townOutsideOf } from "./opening-outside-market";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -20,7 +21,7 @@ import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import { endFlowPart } from "./residents-economy";
 import { householdIncome, residentsRuntime } from "./modules/residents";
-import { fillInPerson } from "./state";
+import { leaveCountedHome } from "./housing-homeless";
 import { formerHome } from "./housing-former-home";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState } from "./types";
@@ -319,7 +320,8 @@ export function foreclosureSale(api: CoreAPI, caseId: string): string | null {
 /**
  * Removal after the sale: the mortgage bill or flow ends (it was settled at
  * the sale), the home is no longer the household's, and a counted household
- * is filled in. Returns whether the household is now a full one to place.
+ * stays counted without a home (`leaveCountedHome`). Returns whether there is
+ * a household to place.
  */
 export function foreclosureRemoval(api: CoreAPI, caseId: string): boolean {
   const c = core(api);
@@ -361,11 +363,8 @@ export function foreclosureRemoval(api: CoreAPI, caseId: string): boolean {
     ) as unknown as ModuleRow,
   );
   if (row.counted) {
-    const rt = residentsRuntime(c);
-    const ix = rt?.store.householdOf.get(row.householdId);
-    const h = ix !== undefined ? rt!.store.households[ix] : undefined;
-    const first = h && !h.gone ? rt!.store.countedMembers(h)[0] : undefined;
-    if (first !== undefined) fillInPerson(c, rt!.store.ids[first]!);
+    const h = residentsRuntime(c)?.store.liveHousehold(row.householdId);
+    if (h) return leaveCountedHome(api, h);
   }
   return c.households.has(row.householdId);
 }
