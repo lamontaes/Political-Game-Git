@@ -442,9 +442,9 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       },
       /** Contests the town votes in whose campaigns are under way. */
       races: {},
-      /** Each paid message's reach, by contest, for word of it passed on. */
+      /** Each paid message's reach, by contest, for word of it passed on, kept while `rivalWordPassedOn` can read it (`foldRivalWord`). */
       messages: { indexes: { byContest: { fields: ["contestId"] } } },
-      /** Word of a rival's message passed to a candidate, one row each. */
+      /** Word of a rival's message passed to a candidate, one row each, kept while `rivalWordPassedOn` or `raceReading` can read it (`foldRivalWord`). */
       rivalWord: { indexes: { byCandidate: { fields: ["candidateId"] } } },
       /** Each reading of the race that made a world candidate campaign harder, one row each. */
       steppedUp: { indexes: { byFiling: { fields: ["filingId"] } } },
