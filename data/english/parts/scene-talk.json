@@ -19631,10 +19631,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-who-wrote-it",
+      "key": "scene-talk.follow-accept.fair-i-ll-ask-who-wrote-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair. Who wrote it?",
+      "text": "Fair. I'll ask who wrote it.",
       "uses": [
         {
           "subject": "scene",
@@ -121287,10 +121287,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.then-we-start-tonight-where-do-you-keep-your-contacts",
+      "key": "scene-talk.follow-thank.then-we-start-tonight-bring-me-your-contact-list",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then we start tonight. Where do you keep your contacts?",
+      "text": "Then we start tonight. Bring me your contact list.",
       "uses": [
         {
           "subject": "scene",
