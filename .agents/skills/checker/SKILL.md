@@ -81,6 +81,17 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 - **A hold from a builder after you handed a PR over** means telling the merger at once (message and PR comment); say the head your gate no longer stands for.
 - **Check the merged result's files against the newest main before you push.** Main moves every few minutes. Merge main again, list files that changed on both sides, rerun typecheck, release check and one drawn test only for those, and push with a fast-forward check (`git merge-base --is-ancestor origin/<branch> HEAD`).
 
+## Traps from the Nov 1 pass (Checker 1)
+
+- **Name the head you pushed, and push before you comment.** A push can be rejected because the branch moved (#6881: my comment named a local merge that never landed). Read the `git push` output; on a rejection, fetch, redo the merge on the new head and rerun what the new files touch. A comment that names a head must name one that is on the remote.
+- **Check the PR is still open and its head is the one you were sent.** Messages carry stale heads. `git ls-remote origin refs/pull/<n>/head` gives the real one. If merging main leaves `HEAD` equal to `origin/main`, the PR has merged: add a note for the red-main session if you found something, not a gate comment.
+- **List the changed files after you commit the merge, not during it.** While a merge has conflicts, `git diff --name-only origin/main HEAD` lists everything main changed. Resolve, commit, then list. Likewise `release:check` does not see a declaration file you have not committed.
+- **A builder who asks to push to a branch you hold** (a code conflict in their files, a fix to your send-back) may, by plain push. Answer by message, wait for the new head, then gate that head. A code conflict is theirs to resolve, not yours.
+- **Memory-heavy file sets: `--maxWorkers=1`.** Several drawn-place files in one vitest run killed a worker ("Worker exited unexpectedly") and hid which file failed; one worker at a time, in the background, with the log to a file.
+- **A bench for a browser check:** start `nohup node --import tsx src/bench/server.ts` from a script, create a life with `curl -X POST "localhost:3000/api/newlife?seed=<seed>"`, set `BENCH_BROWSER=/opt/pw-browsers/chromium`, and run `node src/bench/<name>.browser.mjs` (`polling.browser.mjs` needs `node --import tsx`). A check that fails at the last leg on both the branch and clean `origin/main` is main's; say which leg.
+- **A speed PR:** `npm run speed:year -- --seed long-1 --years 4` on the branch, then on `origin/main` detached, one process at a time; compare the record counts per year (they must match) and the seconds. Process memory swings by hundreds of megabytes between runs; the bar is the heap (`speed-work`).
+- **How we message is its own skill:** read `crew-messages` before sending a process by message; if the process is not in a skill, put it in the skill first.
+
 ## Traps from the Nov 1 pass (Checker 0)
 
 - **A changed-file list includes deleted files.** Build the list for eslint and prettier with `git diff --name-only --diff-filter=ACMR origin/main...HEAD`, or both fail with "no files matching" on a file the PR deleted. A deleted file that `tests/guards/families-baseline.json` still names fails the guard's "only shrinks" test; dropping that line only lowers a count, so it is a mechanical fix, not a loosening.
