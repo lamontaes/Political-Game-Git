@@ -12,6 +12,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { composeJournal } from "../director/journal";
 import { gameStartDate } from "./game-start";
+import { corePlaceByKey } from "./place-lookup";
 import {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,
@@ -31,6 +32,9 @@ const place =
         ...drawPlace(process.env.GOLDEN_PATH_SEED, "history-past-work"),
         seed: process.env.GOLDEN_PATH_SEED,
         key: process.env.GOLDEN_PATH_PLACE_KEY,
+        name:
+          corePlaceByKey(process.env.GOLDEN_PATH_PLACE_KEY)?.displayName ??
+          process.env.GOLDEN_PATH_PLACE_KEY,
       }
     : drawPlace(randomBytes(32).toString("hex"), "history-past-work");
 const label = `${place.name} (${place.key}), seed ${place.seed}`;
