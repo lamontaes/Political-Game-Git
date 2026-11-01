@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lives/work-elsewhere
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T20:10:34.441Z
 ---
 
 **What.** Unit 3 of core-every-life-simulated. People living elsewhere have no work at all. On the jobs engine's monthly review they get the pre-start working life's quarterly pulls at their state's unemployment, their age and their traits' leans; day one from CPS 2024 by age.
