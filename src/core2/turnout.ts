@@ -76,11 +76,24 @@ export function stakesOf(interest: number): number {
 /**
  * The share of people like this voter who turn out, from their readiness and
  * how much the day's races matter to them (the gap between the candidates in
- * their own eyes). The one turnout rule for every voter.
+ * their own eyes). The one turnout rule for every voter, with its two
+ * parameters read once for a count that applies it to every voter it holds.
  */
-export function turnoutShare(readiness: number, interest: number): number {
-  const z = readiness + stakesOf(interest);
-  return 1 / (1 + Math.exp(-z / campaignParameter("turnoutScale")));
+export function turnoutRule(): (readiness: number, interest: number) => number {
+  const stakesWeight = campaignParameter("turnoutStakesWeight");
+  const scale = campaignParameter("turnoutScale");
+  return (readiness, interest) =>
+    shareOf(readiness, interest, stakesWeight, scale);
+}
+
+function shareOf(
+  readiness: number,
+  interest: number,
+  stakesWeight: number,
+  scale: number,
+): number {
+  const z = readiness + stakesWeight * Math.tanh(interest);
+  return 1 / (1 + Math.exp(-z / scale));
 }
 
 /** The propensity from all of a voter's parts. */

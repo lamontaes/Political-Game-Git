@@ -33,6 +33,7 @@ import {
   journalClosing,
   journalEntry,
   journalRows,
+  metRelation,
   possessivePronoun,
   relationPhrase,
   saysOffice,
@@ -45,7 +46,8 @@ import {
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
-import { properName } from "./words";
+import { properName, stateInSentence } from "./words";
+import { schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,
@@ -65,6 +67,8 @@ import {
   type OfficeActRow,
 } from "../core2/modules/office-day";
 
+/** The school year's end, as the director keeps its moment. */
+const SCHOOL_FINISHED = "event:school.finished";
 const zero = P.zero;
 const one = P.one;
 
@@ -238,7 +242,8 @@ function placeLabel(placeId: string | undefined): string | null {
   const place = corePlaceByJurisdictionId(placeId as never);
   if (place) return place.displayName;
   const state = coreStateKeyOfPlaceholderId(placeId);
-  return state ? coreStateName(state.slice("US-".length)) : null;
+  const name = state ? coreStateName(state.slice("US-".length)) : null;
+  return name ? stateInSentence(name) : null;
 }
 
 /**
@@ -364,20 +369,6 @@ function householdMoments(
       moments.push({
         ...base(parentsMet.id, parentsMet.date),
         causeKind: "household:parents-met:where-they-lived",
-        counterpartIds: [],
-        actFacts,
-        beat: "roots",
-      });
-  }
-  // Where the family came from: the place of their recorded birth, when the
-  // family lives somewhere else now.
-  const birth = history("person.birth", person.id)[zero];
-  if (birth?.placeId && birth.placeId !== person.placeId) {
-    const actFacts = placeOf(birth.placeId, birth.id);
-    if (actFacts.place)
-      moments.push({
-        ...base(birth.id, birth.date),
-        causeKind: "household:roots",
         counterpartIds: [],
         actFacts,
         beat: "roots",
@@ -524,7 +515,16 @@ function pastWorkMoments(
     const moments: JournalMoment[] = [];
     const facts = row.facts;
     const where = employer(row);
-    const own: Facts = where ? { employer: where } : {};
+    // Where they lived when they held it, from the spell's own record: a job
+    // held before a move keeps no employer the town knows, and is told by
+    // its place (words-journal-work-line-without-employer).
+    const placeText = placeLabel(row.placeId);
+    const own: Facts = {
+      ...(where ? { employer: where } : {}),
+      ...(placeText
+        ? { place: { text: placeText, sourceRecordIds: [row.id] } }
+        : {}),
+    };
     if (facts.how === "first-job")
       moments.push(
         moment(row, String(facts.startedAt), "job-started:first", own),
@@ -780,6 +780,30 @@ export function composeJournal(
           sourceRecordIds: [school.recordId, school.schoolId],
         };
     }
+    // The school year's end, from the school engine's result: a diploma or
+    // none, and the school they finished at (one line for the record, though
+    // the last day and the day after are both moments of it).
+    if (moment.causeKind === SCHOOL_FINISHED) {
+      const result = schoolResult(core, moment.causeId);
+      if (!result) return null;
+      // Whether they graduated is the line's stage (the row's stageFact).
+      facts.passed = {
+        text: String(result.passed),
+        sourceRecordIds: [moment.causeId],
+      };
+      facts.finished = {
+        text: moment.causeId,
+        sourceRecordIds: [moment.causeId],
+      };
+      const school = schoolsAttended(core, personId).find(
+        (row) => row.schoolId === result.schoolId,
+      );
+      if (school?.name)
+        facts.school = {
+          text: properName(school.name),
+          sourceRecordIds: [moment.causeId, school.schoolId],
+        };
+    }
     if (moment.causeKind === "work:opening") {
       const employer = employerOf(person.jobId);
       if (employer) facts.employer = employer;
@@ -992,7 +1016,11 @@ export function composeJournal(
     facts: Facts,
   ): string | undefined => {
     const logged = core.durableLog.get(moment.causeId)?.facts;
-    const stage = row.stageFact ? logged?.[row.stageFact] : undefined;
+    // A record the log does not keep (a school's result) gives its stage
+    // through the moment's own facts.
+    const stage = row.stageFact
+      ? (logged?.[row.stageFact] ?? facts[row.stageFact]?.text)
+      : undefined;
     if (stage !== undefined && row.stageMark && facts[row.stageMark.fact])
       return `${stage}:${row.stageMark.mark}`;
     // The one the record names in a fact (the executive who signed) tells
@@ -1184,7 +1212,10 @@ export function composeJournal(
       !!selfCount ||
       !!moment.selfNamed ||
       !facts.other ||
-      moment.causeKind === "family:child";
+      moment.causeKind === "family:child" ||
+      // The school year's end is the person's own result, whoever the
+      // scene of it was with.
+      moment.causeKind === SCHOOL_FINISHED;
     // A move the household made together is "we".
     const together =
       (selfCount ??
@@ -1333,11 +1364,23 @@ export function composeJournal(
       .sort((a, b) => b.hindsight - a.hindsight || a.id.localeCompare(b.id))[
       zero
     ];
+    // A look-back that names someone ("Susan mattered more than I knew",
+    // "Susan would come back into my life") is about a person met, never a
+    // relative one was born to or raised: "My mother took office. Susan
+    // mattered more than I knew." named a mother as a stranger.
+    const counterpart = moment.counterpartIds[zero];
+    const relation = counterpart ? kin.get(counterpart)?.relation : undefined;
+    const looked =
+      relation && !metRelation(relation, words)
+        ? Object.fromEntries(
+            Object.entries(facts).filter(([key]) => key !== "name"),
+          )
+        : facts;
     const revision =
-      changed && facts.name
+      changed && looked.name
         ? render(
             { part: "memoir", field: "revise" },
-            facts,
+            looked,
             `${moment.id}:revise`,
             [changed.causeId, moment.causeId],
           )
@@ -1359,7 +1402,7 @@ export function composeJournal(
             turned,
           },
         },
-        facts,
+        looked,
         `${moment.id}:hook`,
         sourceIds,
       );

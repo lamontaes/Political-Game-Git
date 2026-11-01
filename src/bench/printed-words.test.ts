@@ -22,8 +22,13 @@ import {
   type BillRow,
 } from "../core2/modules/legislature";
 import { storiesHeard } from "../core2/modules/news";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { schoolResultKind } from "../core2/modules/press";
 import { placeLocalities } from "../core2/places";
-import { SCHOOL_MODULE_ID } from "../core2/school-measures";
+import {
+  SCHOOL_MODULE_ID,
+  type SchoolMeasureRow,
+} from "../core2/school-measures";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { wordPrintedStory } from "./archive-words";
@@ -88,6 +93,38 @@ describe("printed stories in News", () => {
           expect(text, `${story.id} in ${where}`).not.toMatch(DEVELOPER);
       }
     }
+    // A sitting prints for what the body did, not that it sat (CTO, Nov 1):
+    // one that took up nothing is never a story of its own, only a name in
+    // the week's meetings brief; and an oath or a vacancy prints only on a
+    // seat the town's records hold, never another state's.
+    const source = (story: (typeof printed)[number]) =>
+      String(story.facts.sourceRecordId);
+    const sat = printed.filter((story) =>
+      source(story).startsWith("meeting-held:"),
+    );
+    for (const story of sat)
+      expect(
+        Number(story.facts.items),
+        `${story.id} in ${where}`,
+      ).toBeGreaterThan(0);
+    const weekly = printed.filter((story) =>
+      source(story).startsWith("meetings-week:"),
+    );
+    for (const story of weekly)
+      expect(wordPrintedStory(core, story)?.brief, story.id).toBe(true);
+    const seats = api.moduleState(OFFICES_MODULE_ID).table("seats");
+    const oaths = printed.filter((story) =>
+      /^(?:took-office|seat-vacated):/.test(source(story)),
+    );
+    for (const story of oaths)
+      expect(
+        seats.get(String(story.facts.seatId)),
+        `${story.id} in ${where}`,
+      ).toBeDefined();
+    const example = weekly[0] && wordPrintedStory(core, weekly[0]);
+    console.log(
+      `printed-words meetings: ${sat.length} sittings with business, ${weekly.length} weekly briefs, ${oaths.length} oaths and vacancies; e.g. ${example ? `${example.headline} / ${example.lede}` : "none"}`,
+    );
     // News prints stories, not only briefs: some of the year's stories carry a body.
     console.log(
       `printed-words bodies: ${withBody.length} of ${printed.length}; e.g. ${withBody.slice(0, 3).join(" || ")}`,
@@ -140,6 +177,7 @@ describe("printed stories in News", () => {
     });
     const core = world.core;
     const api = coreAPI(core);
+    const start = core.date;
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
     const printedAs = (
       sourceRecordId: string,
@@ -152,13 +190,22 @@ describe("printed stories in News", () => {
       facts: { ...facts, sourceRecordId },
     });
     const told: string[] = [];
-    // The school year's graduation and spring tests, from the school
-    // engine's own outcome rows: a headline and one line.
-    const done = api
-      .moduleState(SCHOOL_MODULE_ID)
-      .table("done")
-      .rows() as unknown as { id: string; date: string }[];
-    expect(done.length, where).toBeGreaterThan(0);
+    // The school year's graduation and spring tests, each measure row the
+    // press puts on the wire by its own rule (`schoolResultKind`): a headline
+    // and one line each. A result that is one student's own is no story
+    // (Reserve, Montana, seed 8101: one senior, who did not graduate), and a
+    // town that tested no students keeps no test measure (West Louisville,
+    // Kentucky, seed chk2-a: four students, none in a tested grade).
+    const town = lawChain(api).townPlaceId;
+    const done = (
+      api
+        .moduleState(SCHOOL_MODULE_ID)
+        .table("measures")
+        .query("byPlace", [town]) as unknown as SchoolMeasureRow[]
+    ).flatMap((row) => {
+      const kind = row.date < start ? null : schoolResultKind(row);
+      return kind ? [{ id: `${kind}:${row.startYear}`, date: row.date }] : [];
+    });
     for (const row of done) {
       const worded = wordPrintedStory(core, printedAs(row.id, row.date));
       expect(worded, `${row.id} in ${where}`).not.toBeNull();

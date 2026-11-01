@@ -137,6 +137,7 @@ type FactKey =
   | "originEvent"
   | "countedSubject"
   | "countedPerceivers"
+  | "countedSubjects"
   | "countedHousehold";
 
 export const DEFAULT_DRIVES_DATA = drivesJson as unknown as DrivesData;
@@ -1947,6 +1948,19 @@ export function createDrivesModule(
         for (const id of JSON.parse(around) as PersonId[])
           if (!api.state.people.has(id))
             respond(api, data, id, { ...event, personIds: [subject] });
+      // A counted household the event happened to (an eviction): every
+      // member still counted is a subject with the whole household named,
+      // as each member of a full household is.
+      const household = event.facts?.[data.factKeys.countedSubjects];
+      if (household) {
+        const named = JSON.parse(household) as PersonId[];
+        for (const id of named)
+          if (
+            !api.state.people.has(id) &&
+            countedPersonOf(api.state as CoreState, id) !== undefined
+          )
+            respond(api, data, id, { ...event, personIds: named });
+      }
     },
     offerProviders: {
       "drive-confidant": (api, actor, action) => {

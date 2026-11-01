@@ -53,9 +53,9 @@
     "required": "How many signatures the law required, from the recall's count.",
     "fewer": "How many fewer signed after the member's answer, from the count's reasons.",
     "asker": "The citizen who asked a member to carry a bill, by name, from the ask record.",
+    "bodies": "The bodies that met in the week and took up nothing, listed, from the meeting records.",
     "also": "A second condition that moved the same month, from the outcome web month record.",
     "jobless": "How many residents are looking for work, from the economic month record.",
-    "members": "How many members sit on the body, from the meeting record.",
     "staff": "The staff a business plans for or starts with, from its staffing record.",
     "industry": "What a business does, from the business books' industry for its kind.",
     "years": "How many years a business was open, from its founding date.",
@@ -1662,6 +1662,27 @@
       }
     },
     {
+      "key": "news.jobs-report.in-month-unemployment-in-area-stood-at-percent-against-nation",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "In {month}, unemployment in {area} stood at {percent}, against {nation} for the nation.",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "news",
+          "role": "jobs-report",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.jobs-report.the-jobless-rate-in-area-was-percent-in-month-the-national-rate-was-nation",
       "move": "jobs-report",
       "kind": "written",
@@ -1726,6 +1747,50 @@
       }
     },
     {
+      "key": "news.conditions.unemployment-in-place-rose-to-percent-last-month-no-one-was-out-of-work",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Unemployment in {place} rose to {percent}; last month no one was out of work.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up", "from-nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.after-a-month-with-no-one-out-of-work-place-is-at-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "After a month with no one out of work, unemployment in {place} is {percent}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up", "from-nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.conditions.the-unemployment-rate-in-place-fell-to-percent-from-from",
       "move": "conditions",
       "kind": "written",
@@ -1742,6 +1807,50 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.no-one-in-place-is-out-of-work-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "No one in {place} is out of work this month, the town's figures show.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down", "nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.everyone-in-place-looking-for-work-has-found-a-job",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Everyone in {place} who was looking for work has found a job.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down", "nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -1946,6 +2055,28 @@
       }
     },
     {
+      "key": "news.rate.the-federal-reserve-raised-interest-rates-on-date-to-percent",
+      "move": "rate",
+      "kind": "written",
+      "text": "The Federal Reserve raised interest rates on {date}, to {percent}.",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "news",
+          "role": "rate",
+          "choice": "lede",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.rate.the-federal-reserve-cut-its-key-interest-rate-to-percent-on-",
       "move": "rate",
       "kind": "written",
@@ -1968,6 +2099,28 @@
       }
     },
     {
+      "key": "news.rate.the-federal-reserve-lowered-interest-rates-on-date-to-percent",
+      "move": "rate",
+      "kind": "written",
+      "text": "The Federal Reserve lowered interest rates on {date}, to {percent}.",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "news",
+          "role": "rate",
+          "choice": "lede",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.rate.the-federal-reserve-left-its-key-interest-rate-at-percent-on",
       "move": "rate",
       "kind": "written",
@@ -1984,6 +2137,28 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.rate.the-federal-reserve-kept-interest-rates-at-percent-on-date",
+      "move": "rate",
+      "kind": "written",
+      "text": "The Federal Reserve kept interest rates at {percent} on {date}.",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "news",
+          "role": "rate",
+          "choice": "lede",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -2076,28 +2251,6 @@
       }
     },
     {
-      "key": "news.body-meeting.the-body-met-on-date-with-nothing-on-its-agenda",
-      "move": "body-meeting",
-      "kind": "written",
-      "text": "The {body} met on {date}, with nothing on its agenda.",
-      "uses": [
-        {
-          "move": "body-meeting",
-          "subject": "news",
-          "role": "body-meeting",
-          "choice": "lede",
-          "requiresFacts": ["none"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.body-meeting.the-body-held-its-regular-meeting-on-date",
       "move": "body-meeting",
       "kind": "written",
@@ -2113,6 +2266,160 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.body-meeting.the-body-had-one-item-before-it-when-it-met-on-date",
+      "move": "body-meeting",
+      "kind": "written",
+      "text": "The {body} had one item before it when it met on {date}.",
+      "uses": [
+        {
+          "move": "body-meeting",
+          "subject": "news",
+          "role": "body-meeting",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.the-bodies-met-on-date-and-took-up-no-business",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "The {bodies} met on {date} and took up no business.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.no-business-came-before-the-bodies-on-date",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "No business came before the {bodies} on {date}.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.the-bodies-held-its-regular-meeting-on-date-with-nothing-before-it",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "The {bodies} held its regular meeting on {date}, with nothing before it.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.the-bodies-met-the-week-of-date-and-took-up-no-business",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "The {bodies} met the week of {date} and took up no business.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.no-business-came-before-the-bodies-the-week-of-date",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "No business came before the {bodies} the week of {date}.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.the-bodies-held-their-regular-meetings-the-week-of-date-with-nothing-before-them",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "The {bodies} held their regular meetings the week of {date}, with nothing before them.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -2409,6 +2716,28 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy.with-names-death-a-office-seat-is-open",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "With {name}'s death, a {office} seat is open.",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "news",
+          "role": "vacancy",
+          "choice": "lede",
+          "requiresFacts": ["died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -5017,6 +5346,28 @@
       }
     },
     {
+      "key": "news.took-office.a-new-post-from-place-was-sworn-in",
+      "move": "took-office",
+      "kind": "written",
+      "text": "A new {post} from {place} was sworn in.",
+      "uses": [
+        {
+          "move": "took-office",
+          "subject": "news",
+          "role": "took-office",
+          "choice": "lede",
+          "requiresFacts": ["post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.hiring.subject-is-hiring-number-workers",
       "move": "hiring",
       "kind": "written",
@@ -5823,6 +6174,28 @@
       }
     },
     {
+      "key": "news.bill-purpose.the-measure-covers-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "The measure covers {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.bill-purpose.the-law-is-about-purpose",
       "move": "bill-purpose",
       "kind": "written",
@@ -6461,6 +6834,28 @@
       }
     },
     {
+      "key": "news.conditions-also.also-climbed-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} climbed too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.conditions-also.also-fell-too",
       "move": "conditions-also",
       "kind": "written",
@@ -6505,6 +6900,28 @@
       }
     },
     {
+      "key": "news.conditions-also.also-dropped-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} dropped too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.conditions-also.at-the-same-time-also-fell",
       "move": "conditions-also",
       "kind": "written",
@@ -6538,50 +6955,6 @@
           "role": "conditions-also",
           "choice": "context",
           "requiresFacts": ["also", "also-up", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.meeting-members.the-body-has-members-members",
-      "move": "meeting-members",
-      "kind": "written",
-      "text": "The {body} has {members} members.",
-      "uses": [
-        {
-          "move": "meeting-members",
-          "subject": "news",
-          "role": "meeting-members",
-          "choice": "context",
-          "requiresFacts": ["body", "members"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.meeting-members.members-members-sit-on-the-body",
-      "move": "meeting-members",
-      "kind": "written",
-      "text": "{members} members sit on the {body}.",
-      "uses": [
-        {
-          "move": "meeting-members",
-          "subject": "news",
-          "role": "meeting-members",
-          "choice": "context",
-          "requiresFacts": ["body", "members"]
         }
       ],
       "origin": "authored",
@@ -7272,6 +7645,50 @@
       }
     },
     {
+      "key": "news.took-office-cause.its-last-holder-died-in-office",
+      "move": "took-office-cause",
+      "kind": "written",
+      "text": "Its last holder died in office.",
+      "uses": [
+        {
+          "move": "took-office-cause",
+          "subject": "news",
+          "role": "took-office-cause",
+          "choice": "context",
+          "requiresFacts": ["died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-cause.the-seat-came-open-on-its-holders-death",
+      "move": "took-office-cause",
+      "kind": "written",
+      "text": "The seat came open on its holder's death.",
+      "uses": [
+        {
+          "move": "took-office-cause",
+          "subject": "news",
+          "role": "took-office-cause",
+          "choice": "context",
+          "requiresFacts": ["died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.took-office-cause.the-seat-opened-after-its-holder-moved-away",
       "move": "took-office-cause",
       "kind": "written",
@@ -7288,6 +7705,28 @@
       "origin": "authored",
       "author": "Words, scenes and the director (words-printed-bodies-2)",
       "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-cause.its-last-holder-moved-away",
+      "move": "took-office-cause",
+      "kind": "written",
+      "text": "Its last holder moved away.",
+      "uses": [
+        {
+          "move": "took-office-cause",
+          "subject": "news",
+          "role": "took-office-cause",
+          "choice": "context",
+          "requiresFacts": ["moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -9324,6 +9763,48 @@
           "role": "endorsement",
           "choice": "lede",
           "requiresFacts": ["unnamed-group"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.endorsement.a-group-working-for-purpose-endorsed-name-for-office",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "A group working for {purpose} endorsed {name} for {office}.",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "news",
+          "role": "endorsement",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.endorsement.a-group-pushing-for-purpose-is-backing-name",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "A group pushing for {purpose} is backing {name}.",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "news",
+          "role": "endorsement",
+          "choice": "lede"
         }
       ],
       "origin": "authored",

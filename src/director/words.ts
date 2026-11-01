@@ -46,6 +46,15 @@ export function spoken(place: {
     : place.displayName;
 }
 
+/**
+ * A state's or territory's name as a sentence says it: a plural name or a
+ * district takes its article ("the U.S. Virgin Islands", "the District of
+ * Columbia"); every other name stands alone ("Ohio", "Guam").
+ */
+export function stateInSentence(name: string): string {
+  return /Islands$|^District of /.test(name) ? `the ${name}` : name;
+}
+
 /** The possessive of a name: "Chen's", "Chandler Builders'". */
 export function possessive(name: string): string {
   return name.endsWith("s") ? `${name}'` : `${name}'s`;

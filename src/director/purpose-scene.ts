@@ -10,7 +10,7 @@
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
-import { lawChain } from "../core2/modules/laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
 import {
   LEGISLATURE_MODULE_ID,
@@ -27,6 +27,10 @@ import {
 import { viewOn } from "../core2/modules/views";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
+import {
+  isExplicitlyControlledPersonV1,
+  playerClockFrontierV1,
+} from "../core2/life";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -60,7 +64,11 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
-import { ELECTIONS_MODULE_ID, ballot } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  ballot,
+  petitionOf,
+} from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
   enlistVolunteer,
@@ -70,6 +78,15 @@ import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { properName, spoken, spokenDate } from "./words";
 import { PRESS_STORY_EVENT } from "../core2/press-desk";
+import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
+import {
+  ADDRESS_KEEPS,
+  OATH_KEEPS,
+  meetOfficiant,
+  outgoingHolder,
+  swornOffice,
+  titleInSentence,
+} from "./swearing-in";
 
 export interface PurposeScene {
   typeKey: string;
@@ -188,6 +205,16 @@ export function typeForCause(type: PurposeType, label: string): PurposeType {
   return sceneKey ? { ...type, tag: { ...type.tag, key: sceneKey } } : type;
 }
 
+/**
+ * A law's policy as a line names it, from its series ("the paid family
+ * leave law"); null for a series no bank names (a state's average local
+ * sales tax), whose stop then has nothing to tell.
+ */
+export function lawName(series: string): string | null {
+  const topic = series.slice(series.lastIndexOf(":") + P.one);
+  return questionName(series) ?? storyTopicName(topic);
+}
+
 /** One purpose scene of a moment, worded from its records. */
 function composeBinding(
   core: Readonly<CoreState>,
@@ -245,11 +272,29 @@ function composeBinding(
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.
   if (said.lawId && said.series) {
-    const topic = said.series.slice(said.series.lastIndexOf(":") + P.one);
-    const name = questionName(said.series) ?? storyTopicName(topic);
+    const name = lawName(said.series);
     if (name)
       facts.law = {
         text: name,
+        sourceRecordIds: [said.lawId, moment.causeId],
+      };
+    // Still in force today, by the laws engine's own answer: the lines that
+    // say the law took effect and is lived with need it (a street stop about
+    // a state law with no local bill number had none to say, Mount Horeb,
+    // Wisconsin, seed 16ca82ba-0487-44a2-96ee-c5231d4e0ab4).
+    const answer = core.modules.has(LAWS_MODULE_ID)
+      ? lawInForce(coreAPI(core as CoreState), said.series)
+      : undefined;
+    // A story of a law's history names the law row it keeps
+    // (`law-history:<law row id>`, past-module): a state law in force from
+    // before the opening (Kansas's local sales tax, seed 2d5c12bd...).
+    const lawRowId = said.lawId.replace(/^law-history:/, "");
+    const kept = answer?.levels.find(
+      (level) => level.row?.id === lawRowId && !level.setAside,
+    );
+    if (kept)
+      facts["in-force"] = {
+        text: "yes",
         sourceRecordIds: [said.lawId, moment.causeId],
       };
   }
@@ -540,6 +585,11 @@ function composeBinding(
     : null;
   for (const [key, fact] of Object.entries(stake?.facts ?? {}))
     facts[key] = { text: fact.text, sourceRecordIds: fact.recordIds };
+  // What the petition the filing opened asks (owner, Oct 28: filing is a
+  // petition, signatures, the clerk's check, then the ballot): the
+  // signatures and the day they are due, or that the office takes none.
+  if (type.stakes?.includes("petition"))
+    Object.assign(facts, petitionFacts(core, said.filingId));
   // In a race the asked lost, the winner is the opponent the scene may name.
   const winner = said.winnerId
     ? core.people.get(said.winnerId as PersonId)
@@ -617,6 +667,40 @@ function composeBinding(
   // the bill (`promised-against`) is said only from a record of one, which no
   // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
 
+  // Taking office (offices.ts): the office by its title in the offices
+  // engine's rows, whatever wording the record carries (a contest's title, or
+  // an office's id from a dev start); an executive office goes on to an
+  // address, on a stand the speaker holds; the officiant is the one who held
+  // the seat until today where the records say so; and who is in the room.
+  const sworn = swornOffice(core, moment.causeId);
+  if (sworn) {
+    const ids = [moment.causeId, sworn.officeId];
+    facts.office = { text: titleInSentence(sworn.title), sourceRecordIds: ids };
+    if (sworn.givesAddress) {
+      facts.address = { text: "", sourceRecordIds: ids };
+      const stand = inauguralStand(core, askedId);
+      if (stand)
+        facts.stand = {
+          text: stand.to,
+          sourceRecordIds: [moment.causeId, askedId],
+        };
+    }
+    if (outgoingHolder(core, sworn, askedId) === askerId)
+      facts.outgoing = { text: "", sourceRecordIds: ids };
+    const inRoom = (role: string) =>
+      binding.roles.find((row) => row.role === role)?.personIds ?? [];
+    if (inRoom("family").length)
+      facts["family-here"] = {
+        text: "",
+        sourceRecordIds: [moment.causeId, ...inRoom("family")],
+      };
+    if (inRoom("colleagues").length)
+      facts["colleagues-here"] = {
+        text: "",
+        sourceRecordIds: [moment.causeId, ...inRoom("colleagues")],
+      };
+  }
+
   // "Today" and "tonight" are true only on the record's own day, and
   // "yesterday" only the day after: a scene that plays later says neither.
   const recordDay = record?.date ?? moment.date;
@@ -624,6 +708,25 @@ function composeBinding(
     facts["same-day"] = { text: "yes", sourceRecordIds: [moment.causeId] };
   else if (addDays(makeIsoDate(recordDay), P.one) === core.date)
     facts["day-after"] = { text: "yes", sourceRecordIds: [moment.causeId] };
+  // The vote a count is for is "tomorrow" only the day before its floor
+  // date and "today" on that day (the governing walk, Oct 29: "tomorrow" was
+  // said on the vote day).
+  const floorDate = record?.facts?.floorDate;
+  if (floorDate === core.date)
+    facts["vote-today"] = { text: "yes", sourceRecordIds: [moment.causeId] };
+  else if (
+    typeof floorDate === "string" &&
+    addDays(makeIsoDate(core.date), P.one) === floorDate
+  )
+    facts["vote-tomorrow"] = {
+      text: "yes",
+      sourceRecordIds: [moment.causeId],
+    };
+  // "Morning." is said before noon, "this afternoon" is still ahead only in
+  // the daytime, and "tonight" is true of the present only in the evening:
+  // the hour is the player's clock as the scene plays.
+  for (const mark of dayParts(sceneMinute(core, personId)))
+    facts[mark] = { text: "yes", sourceRecordIds: [moment.causeId] };
 
   const wording = options.includeHeld ? { includeHeld: true } : {};
   // A door on the player's own canvass: where the knock left the resident,
@@ -927,6 +1030,52 @@ function deskFacts(
     };
 }
 
+/** The petition a filing opened, as the clerk says it, or nothing where none is on record. */
+function petitionFacts(
+  core: Readonly<CoreState>,
+  filingId: string | undefined,
+): Record<string, Fact> {
+  const petition =
+    filingId && core.modules.has(ELECTIONS_MODULE_ID)
+      ? petitionOf(coreAPI(core as CoreState), filingId)
+      : null;
+  if (!petition) return {};
+  const fact = (text: string) => ({ text, sourceRecordIds: [petition.id] });
+  if (petition.needed <= P.zero) return { "no-petition": fact("yes") };
+  const due = fact(spokenDate(petition.due, core.date));
+  return petition.needed === P.one
+    ? { "one-signature": fact("yes"), due }
+    : { signatures: fact(petition.needed.toLocaleString("en-US")), due };
+}
+
+const AFTERNOON_FROM = rulesFile.timeOfDay.afternoonFromMinute.value;
+const EVENING_FROM = rulesFile.timeOfDay.eveningFromMinute.value;
+
+/** The marks a scene's hour gives its lines: the daytime and its half, or the evening. */
+function dayParts(minute: number | undefined): readonly string[] {
+  if (minute === undefined) return [];
+  if (minute >= EVENING_FROM) return ["evening"];
+  return ["daytime", minute >= AFTERNOON_FROM ? "afternoon" : "morning"];
+}
+
+/**
+ * The minute of the day a scene plays at: the player's clock, where the
+ * person is the one the player controls and the clock stands on today.
+ */
+function sceneMinute(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): number | undefined {
+  if (!isExplicitlyControlledPersonV1(core, personId)) return undefined;
+  const now = playerClockFrontierV1(core as CoreState, personId);
+  return now?.date === core.date ? now.minuteOfDay : undefined;
+}
+
+/** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
+const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
+  Record<string, { value: number } | undefined>
+>;
+
 /**
  * The player's reply in a scene with a purpose, by its path through the tree
  * (the index of each reply chosen, from the first). The reply is a record of
@@ -935,11 +1084,6 @@ function deskFacts(
  * lines do. Returns the record's id (the same one if the reply was already
  * said), or null when the path is not a reply the scene offers.
  */
-/** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
-const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
-  Record<string, { value: number } | undefined>
->;
-
 export function replyInScene(
   core: CoreState,
   director: Director,
@@ -1024,15 +1168,41 @@ export function replyInScene(
     },
   });
   entry.replies = [...(entry.replies ?? []), id];
-  // Talking is time together, recorded through the core's own writer.
-  coreAPI(core).relationship(
-    scene.askedId,
-    scene.askerId,
-    "contact",
-    conversationRules.minutesPerExchange / P.minutesPerHour,
-    undefined,
-    { cause: "scene-reply", sourceId: id },
-  );
+  // A swearing-in that ended in an address: the speech engine records it as
+  // heard by the people the scene named in the room (swearing-in.ts).
+  if (ending?.keeps === ADDRESS_KEEPS)
+    giveInauguralAddress(core, {
+      speakerId: scene.askedId,
+      causeId: scene.cause.id,
+      audienceIds:
+        entry.bindings.find((row) => row.typeKey === scene.typeKey)
+          ?.presentIds ?? [],
+      move: line.move,
+    });
+  // Talking is time together, recorded through the core's own writer. A
+  // swearing-in's ending is also a first meeting with the one who gave the
+  // oath, whom the player knows by name after.
+  const hours = conversationRules.minutesPerExchange / P.minutesPerHour;
+  const swornIn =
+    ending?.keeps === OATH_KEEPS || ending?.keeps === ADDRESS_KEEPS;
+  const met =
+    swornIn &&
+    meetOfficiant(core, {
+      playerId: scene.askedId,
+      officiantId: scene.askerId,
+      causeId: scene.cause.id,
+      recordId: id,
+      hours,
+    });
+  if (!met)
+    coreAPI(core).relationship(
+      scene.askedId,
+      scene.askerId,
+      "contact",
+      hours,
+      undefined,
+      { cause: "scene-reply", sourceId: id },
+    );
   // stopgapId: SG-WORDS-favor-promise-keeps-unread
   const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;
   if (strain)
