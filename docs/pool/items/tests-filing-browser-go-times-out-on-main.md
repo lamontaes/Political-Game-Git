@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: play-first/tests-filing-browser-go-times-out-on-main
-pr: #0
+pr: #6962
 blocked-on:
 source: "Merger 7, Oct 27 12:00 UTC, while rechecking lane PRs"
 lead: play-first
