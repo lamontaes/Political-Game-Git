@@ -25,6 +25,7 @@ import { residentsRuntime } from "./residents";
 import { discretionaryHours } from "./work";
 import { fillInPerson } from "../state";
 import { bookkeeping } from "../bookkeeping";
+import { tableTraceOn } from "../module-state";
 import { keepsWhy } from "../why-kept";
 import { closenessBetween, ENCOUNTERS } from "./people";
 import {
@@ -443,7 +444,13 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       },
       /** Contests the town votes in whose campaigns are under way. */
       races: {},
-      /** Each paid message's reach, by contest, for word of it passed on. */
+      /**
+       * Each paid message's reach, by contest, for word of it passed on. Rows
+       * are put only by `emitMessage`, which keeps each contest's latest
+       * message date (`latestMessageDates`); a fold may remove rows, and any
+       * other writer must drop that record (`latestMessages.delete`) after it
+       * writes.
+       */
       messages: { indexes: { byContest: { fields: ["contestId"] } } },
       /** Word of a rival's message passed to a candidate, one row each. */
       rivalWord: { indexes: { byCandidate: { fields: ["candidateId"] } } },
@@ -2045,7 +2052,8 @@ interface MessageRow {
  * rows and never saved. It is filled from the rows when missing, kept by
  * `emitMessage` (the rows' one writer), and filled again when the table's
  * size or the last row it noted has changed under it (a restored snapshot, a
- * removed row).
+ * removed row). A removal alone always lowers the size; a writer that puts
+ * rows any other way must delete the record after it writes.
  */
 const latestMessages = new WeakMap<
   object,
@@ -2060,7 +2068,8 @@ function keptMessageDates(api: CoreAPI) {
     ? held
     : undefined;
 }
-function latestMessageDates(api: CoreAPI): ReadonlyMap<string, string> {
+/** Each contest's latest message date, from the kept record or the rows. */
+export function latestMessageDates(api: CoreAPI): ReadonlyMap<string, string> {
   const kept = keptMessageDates(api);
   if (kept) return kept.latest;
   const rows = table(api, "messages").rows();
@@ -2086,7 +2095,8 @@ function latestMessageDates(api: CoreAPI): ReadonlyMap<string, string> {
  * player meets it as a scene; for anyone else it is a record of what they
  * heard. A contest with no message since the window opened has none to pass
  * on, so its filings are not read (under bookkeeping the full read still
- * runs, and must find none).
+ * runs, and must find none; with the table trace on it runs too, so the
+ * trace sees each read).
  */
 function rivalWordPassedOn(api: CoreAPI): void {
   const date = api.state.date;
@@ -2100,7 +2110,7 @@ function rivalWordPassedOn(api: CoreAPI): void {
     const quiet = !(
       (latestMessageDates(api).get(filing.contestId) ?? "") > since
     );
-    if (quiet && !bookkeeping()) continue;
+    if (quiet && !bookkeeping() && !tableTraceOn()) continue;
     const candidate = api.state.people.get(filing.personId);
     if (!candidate?.alive || !candidate.knownIds.size) continue;
     const told = table(api, "rivalWord").query("byCandidate", [
