@@ -539,8 +539,8 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
     const heard = endorsementsHeard(core);
     expect(heard.length, `${placeName}: endorsements heard`).toBeGreaterThan(0);
     const circleOf = (id: string) => {
-      const endorser = core.people.get(id)!;
-      return [...endorser.knownIds, ...endorser.familyIds];
+      const endorser = core.people.get(id);
+      return endorser ? [...endorser.knownIds, ...endorser.familyIds] : [];
     };
     for (const cause of heard) {
       const by = endorsers.filter(
