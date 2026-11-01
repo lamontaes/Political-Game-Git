@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-campaign-scans
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T18:51:24.999Z
 ---
 
 **What.** Each day, the campaigns engine walked every filing ever made and ran two lookups for each standing candidate, even in races with no message all week. That cost grows as a save gets older. Folding a race's contacts also rebuilt each voter's knowledge list once for every candidate. In the four-year Ringgold run, both steps together took under 1.3 seconds a year, so the gain shows in long saves. Part of core-long-run-tables-grow-with-history.
