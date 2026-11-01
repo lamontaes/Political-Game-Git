@@ -47,6 +47,7 @@ import type { StoryKind } from "../english/english-newscast";
 import { storyTopicName } from "../english/policy-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
+import { stateInSentence } from "../director/words";
 
 /**
  * The ids of the modules whose tables a story is told from, named here by
@@ -503,7 +504,7 @@ class Reader {
     const usps = /^US-([A-Z]{2})$/.exec(jurisdiction ?? "")?.[1];
     if (usps) {
       const name = coreStateName(usps);
-      return name && /Islands$|^District of /.test(name) ? `the ${name}` : name;
+      return name ? stateInSentence(name) : name;
     }
     if (jurisdiction && jurisdiction !== chain.townPlaceId) return null;
     const town = corePlaceByJurisdictionId(chain.townPlaceId as EntityId);
