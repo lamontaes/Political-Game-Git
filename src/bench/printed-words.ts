@@ -50,7 +50,8 @@ import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
-import { placeLabel, stateInSentence } from "../director/words";
+import { placeLabel } from "../director/journal";
+import { stateInSentence } from "../director/words";
 
 /**
  * The ids of the modules whose tables a story is told from, named here by
@@ -2330,7 +2331,13 @@ const death: Builder = (read) => {
         .flatMap((cid) => read.core.work.commitments.get(cid) ?? [])
         .sort((a, b) => b.startsAt.localeCompare(a.startsAt))[0]
     : undefined;
-  const employer = read.organization(work?.organizationId);
+  // Work for the outside account (buyers and sellers outside the town) is
+  // work out of town, not an employer the paper can name.
+  const away =
+    !!work &&
+    read.core.organizations.get(work.organizationId as EntityId)
+      ?.outsideFlow !== undefined;
+  const employer = away ? null : read.organization(work?.organizationId);
   // The office they held, from their term's own record (an official's
   // obituary says what they served as).
   const office = id ? read.officeOf(id) : null;
@@ -2374,6 +2381,7 @@ const death: Builder = (read) => {
           }
         : {}),
       ...(office ? { office: read.fact(office, id ?? "") } : {}),
+      ...(away && town ? { away: read.fact("yes", work!.id) } : {}),
       ...(employer && work
         ? {
             employer: read.fact(employer, work.id),

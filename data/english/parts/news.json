@@ -497,6 +497,50 @@
       }
     },
     {
+      "key": "news.death-work.name-worked-outside-place",
+      "move": "death-work",
+      "kind": "written",
+      "text": "{name} worked outside {place}.",
+      "uses": [
+        {
+          "move": "death-work",
+          "subject": "news",
+          "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["away", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-work.name-worked-out-of-town-and-lived-in-place",
+      "move": "death-work",
+      "kind": "written",
+      "text": "{name} worked out of town and lived in {place}.",
+      "uses": [
+        {
+          "move": "death-work",
+          "subject": "news",
+          "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["away", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.death-survivors.name-is-survived-by-survivors",
       "move": "death-survivors",
       "kind": "written",

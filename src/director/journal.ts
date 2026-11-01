@@ -1,3 +1,8 @@
+import {
+  corePlaceByJurisdictionId,
+  coreStateKeyOfPlaceholderId,
+  coreStateName,
+} from "../core2/place-lookup";
 import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -41,7 +46,7 @@ import {
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
-import { placeLabel, properName } from "./words";
+import { properName, stateInSentence } from "./words";
 import {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,
@@ -222,6 +227,20 @@ function familyCategory(
     : against < zero
       ? "household:sibling-older"
       : "household:sibling-twin";
+}
+
+/**
+ * A place as a person names it: the town, county or territory, or the state
+ * for someone whose records put them elsewhere in it (the wider population's
+ * state-level households).
+ */
+export function placeLabel(placeId: string | undefined): string | null {
+  if (!placeId) return null;
+  const place = corePlaceByJurisdictionId(placeId as never);
+  if (place) return place.displayName;
+  const state = coreStateKeyOfPlaceholderId(placeId);
+  const name = state ? coreStateName(state.slice("US-".length)) : null;
+  return name ? stateInSentence(name) : null;
 }
 
 /**
