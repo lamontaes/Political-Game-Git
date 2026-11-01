@@ -1,4 +1,4 @@
-import { figureAtPath, figurePng } from "./people-pack";
+import { drawAheadNow, figureAtPath, figurePng } from "./people-pack";
 import { frontPng } from "./mannequin-plates";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
@@ -125,6 +125,20 @@ let filingVisit: BenchFilingVisit | undefined;
 /** The election nights each player has watched, and the mornings they canvassed. */
 const nightsWatched = new Set<string>();
 const canvassedOn = new Set<string>();
+/** The scene a person is in now, as the screen shows it: the player's opening day ends at home that evening, where the news is. */
+function sceneNow(current: CoreState, id: string) {
+  const playing = player?.personId === id;
+  const openingDay =
+    playing &&
+    !player!.packet &&
+    director?.ledger.opening?.date === current.date;
+  return benchScene(
+    current,
+    id,
+    playing ? player!.packet : undefined,
+    openingDay ? OPENING_EVENING_MINUTE : undefined,
+  );
+}
 /** The speech the player is building, one part at a time. */
 let speechBuild: SpeechBuild | undefined;
 // Where the build is, for the loading screen's polls.
@@ -306,6 +320,12 @@ export async function benchRequest(
                 world.director.ledger.opening,
               )
             : null;
+          // The first screen's people and the faces the first menus show
+          // (the player's card: household and closest ties) are drawn during
+          // loading too, so they are there the moment the screen asks.
+          sceneNow(world.core, entrant.personId);
+          personCard(world.core, entrant.personId);
+          drawAheadNow();
           buildProgress = { stage: "done", done: 0, total: 0 };
           // A scene the director already staged for today (the address the
           // household watches that evening) plays first.
@@ -412,21 +432,7 @@ export async function benchRequest(
         // Someone still in the counts is filled in the moment they're looked at.
         if (!personOrFillIn(current, id))
           throw new Error("Resident does not exist in core records.");
-        const playing = player?.personId === id;
-        // The opening day ends at home that evening, where the news is.
-        const openingDay =
-          playing &&
-          !player!.packet &&
-          director?.ledger.opening?.date === current.date;
-        send(
-          200,
-          benchScene(
-            current,
-            id,
-            playing ? player!.packet : undefined,
-            openingDay ? OPENING_EVENING_MINUTE : undefined,
-          ),
-        );
+        send(200, sceneNow(current, id));
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/talk/open") {

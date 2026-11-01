@@ -8,6 +8,10 @@ export interface YearTiming {
   /** The proof's digest by table, so a difference names its table. */
   readonly tables?: RecordProof["tables"];
   readonly date: string;
+  /** Heap and process memory after a collection at the year's end, and the records kept. */
+  readonly heapMiB?: number;
+  readonly rssMiB?: number;
+  readonly records?: number;
 }
 export interface SpeedReceipt {
   readonly seed: string;

@@ -44,6 +44,8 @@ export interface JournalWordRow {
   stageFact?: string;
   /** A fact that, where the moment holds it, marks the stage ("on-ballot:moved"). */
   stageMark?: { fact: string; mark: string };
+  /** An event fact that, where it names the person, marks the stage ("signed:desk"). */
+  stageSelf?: { fact: string; mark: string };
   /**
    * The person's own moment is told even when they do not know the other by
    * name (a recall's organizer): its lines that name the other are left out.
@@ -82,6 +84,7 @@ export interface RowShape {
   stageFact?: string;
   stageWords?: Readonly<Record<string, string>>;
   stageMark?: JournalWordRow["stageMark"];
+  stageSelf?: JournalWordRow["stageSelf"];
   toldWithoutOther?: boolean;
   title?: JournalWordRow["title"];
   selfWhenNamed?: boolean;
