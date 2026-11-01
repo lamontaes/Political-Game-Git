@@ -20,11 +20,16 @@
  * question left off), and a log-linear count model of emphasis on support,
  * holding conviction at its mean as the study held issue importance and
  * approval at theirs, must give +27% to +86% emphasis per 10 points of
- * support (Druckman, Jacobs and Ostermeier 2004). A total needs candidates
- * whose questions differ in support by 10 points or more; where the
- * contested races hold fewer than MIN_CANDIDATES of them, the total takes
- * every platform the year's filings hold, and where those are still too few,
- * the filings of the next drawn places' years too, and the test says so.
+ * support (Druckman, Jacobs and Ostermeier 2004). The total counts the
+ * candidates who had a choice to make (their seat takes up more questions
+ * they hold a view on than they run on; one who runs on every view they hold
+ * chose nothing, as a state or federal runner on the seat's one question
+ * does), and it needs MIN_CANDIDATES of them whose questions differ in
+ * support by 10 points or more: a dozen or so is too few for a total (one
+ * drawn town's sixteen measured +26%, the same rule's twenty-six +42%).
+ * Where the contested races hold fewer, the total takes every platform the
+ * year's filings hold, and where those are still too few, the filings of the
+ * next drawn places' years too, and the test says so.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it, vi } from "vitest";
@@ -84,8 +89,8 @@ vi.mock("./campaign-stances", async (importOriginal) => {
 const seed = process.env.PLATFORM_PLAYED_SEED ?? randomBytes(8).toString("hex");
 const MAX_DRAWS = 8;
 const DAYS = 365;
-/** Fewest candidates whose questions' support spans SPAN points for a total. */
-const MIN_CANDIDATES = 10;
+/** Fewest candidates with a choice whose questions' support spans SPAN points for a total. */
+const MIN_CANDIDATES = 40;
 /** The measure's unit: a candidate whose questions differ by less cannot show a 10-point difference. */
 const SPAN = 10;
 /** The research band per 10 points of support: exp(10 × 0.024) to exp(10 × 0.062). */
@@ -117,6 +122,12 @@ const spans = (r: Read) => {
     supports.length > 0 && Math.max(...supports) - Math.min(...supports) >= SPAN
   );
 };
+
+/** A candidate who left a question they hold a view on off their platform. */
+const chose = (r: Read) => r.scores.length > r.platform.length;
+
+/** A candidate the total can measure by: they chose, among questions 10 points apart or more. */
+const measures = (r: Read) => chose(r) && spans(r);
 
 function levelOf(api: CoreAPI, contest: ContestRow): string {
   return (
@@ -328,30 +339,31 @@ it("every contested local race's candidates run on their top questions by the ru
         `${year.where}: ${year.contested.length} platforms of contested local races (${year.reads.length} platforms in all) read by record, each its candidate's top scores at their own positions`,
         ...lines,
       ];
-      if (year.contested.filter(spans).length >= MIN_CANDIDATES) {
+      if (year.contested.filter(measures).length >= MIN_CANDIDATES) {
         pool = year.contested;
         how = `the year's contested local races`;
         break;
       }
       pool = [...year.reads];
-      how = `every platform the year's filings hold (its contested local races held ${year.contested.filter(spans).length} candidates whose questions' support spans ${SPAN} points, fewer than ${MIN_CANDIDATES})`;
+      how = `every platform the year's filings hold (its contested local races held ${year.contested.filter(measures).length} candidates with a choice whose questions' support spans ${SPAN} points, fewer than ${MIN_CANDIDATES})`;
     } else {
       pool.push(...year.reads);
       how += `, and ${year.where}'s year`;
     }
-    if (pool.filter(spans).length >= MIN_CANDIDATES) break;
+    if (pool.filter(measures).length >= MIN_CANDIDATES) break;
   }
   if (!proof)
     expect.fail(
       `no draw of ${MAX_DRAWS} held a contested local race:\n${tried.join("\n")}`,
     );
-  const informative = pool.filter(spans).length;
+  const informative = pool.filter(measures).length;
   expect(
     informative,
-    `the total over ${how} holds too few candidates whose questions' support spans ${SPAN} points`,
+    `the total over ${how} holds too few candidates with a choice whose questions' support spans ${SPAN} points`,
   ).toBeGreaterThanOrEqual(MIN_CANDIDATES);
-  const { per10, pairs } = emphasisPer10(pool);
-  const total = `calibration over ${how}: ${pool.length} candidates (${informative} spanning ${SPAN} points), ${pairs} (candidate, question) pairs; emphasis +${(100 * per10).toFixed(0)}% per 10 points of support at fixed conviction, slope measured ${(Math.log(1 + per10) / 10).toFixed(4)} per point (band +${100 * BAND.low}% to +${100 * BAND.high}%); platformSupportSlope ${campaignParameter("platformSupportSlope")}`;
+  const counted = pool.filter(chose);
+  const { per10, pairs } = emphasisPer10(counted);
+  const total = `calibration over ${how}: ${pool.length} candidates, ${counted.length} with a choice (${informative} of them spanning ${SPAN} points), ${pairs} (candidate, question) pairs; emphasis +${(100 * per10).toFixed(0)}% per 10 points of support at fixed conviction, slope measured ${(Math.log(1 + per10) / 10).toFixed(4)} per point (band +${100 * BAND.low}% to +${100 * BAND.high}%); platformSupportSlope ${campaignParameter("platformSupportSlope")}`;
   console.log([...proof, total].join("\n"));
   expect(per10, total).toBeGreaterThanOrEqual(BAND.low);
   expect(per10, total).toBeLessThanOrEqual(BAND.high);
