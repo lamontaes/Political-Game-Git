@@ -300,7 +300,7 @@ export function governmentView(core: CoreState, personId: string) {
     keyPeople: core.people.has(personId)
       ? politicsKeyPeople(core, personId, place)
       : [],
-    // The player files only for the six offices (owner, Oct 29); the rest run in the world.
+    // The player files only for the offices player-offices.json lists (owner, Oct 29); the rest run in the world.
     contests: playerContests(api).map((contest) => ({
       contest,
       filingOffice: filingOfficeFor(api, contest.id),
