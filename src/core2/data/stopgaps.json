@@ -7821,5 +7821,29 @@
     "addedAt": "2026-10-29",
     "replacement": "A director situation type (Words session) reading volunteer-shift events by id: a volunteer reporting back on their evening of doors, or the week's journal line of what the campaign's volunteers walked, with the volunteer-door causes that name the volunteer as actor.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-body-lawyer-unrecorded",
+    "kind": "missing-record",
+    "file": "src/bench/legislature.ts",
+    "line": 309,
+    "whatItFakes": "A bill's paper words the lawyer's warning on a disputed power as the body's lawyer, named by the body (bill-paper.authority.disputed-body), wherever no appointment gives the lawyer's title: a county board's bill (the executive engine seats only the town's departments at the opening, so the County Attorney post in executive-powers-2026.json is never filled), a township board's or a state chamber's bill, an unincorporated place, and a town whose City Attorney post is unfilled (the player's own post waiting for their choice, or nobody to appoint). A bill before the town's council names the town's own City Attorney appointment instead.",
+    "why": "The register rules that the city attorney warns the player on a disputed power (DECISION-REGISTER, \"A law changes the record first\", Sept 22); the executive engine appoints a City Attorney for the town's council (appointTownDepartments) but no attorney or counsel for a county board, a township board or a legislature, and no title is typed in code.",
+    "addedBy": "governing builder (gov-m3-01-city-attorney-warning-on-the-bill)",
+    "addedAt": "2026-10-30",
+    "replacement": "The executive engine seats each other body's own lawyer as an appointment the way it seats the town's City Attorney (the county attorney from the county forms in executive-powers-2026.json, township counsel and legislative counsel from research on who advises each kind of body), and the paper names that appointment's title in bill-paper.authority.disputed.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-home-plated-room-first",
+    "kind": "placeholder-art",
+    "file": "src/bench/scene.ts",
+    "line": 422,
+    "whatItFakes": "A household's living room is picked from the rooms of its dwelling's list that have a mannequin plate, when any has one, so every house shows the same plated living room (house-suburban-living) and the other house rooms (suburban-house, large-house, the regional houses) are not shown.",
+    "why": "People are drawn only on a plate (owner, Oct 28 and 29), and only house-suburban-living of the house living rooms has one; without the preference about a third of opening evenings drew nobody and nobody could be talked to (people-home-plates).",
+    "addedBy": "claude/people-home-plated-room-first",
+    "addedAt": "2026-10-30",
+    "replacement": "Plates for every house living room (people-home-plates); once each room the lists name has one, the preference picks from the whole list and is deleted.",
+    "status": "open"
   }
 ]
