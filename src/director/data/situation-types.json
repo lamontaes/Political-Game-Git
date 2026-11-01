@@ -1419,6 +1419,7 @@
     },
     {
       "key": "visit",
+      "occasion": "visit",
       "roles": [
         {
           "key": "visitor",
@@ -2229,6 +2230,7 @@
     },
     {
       "key": "bill-signed",
+      "occasion": "signing",
       "roles": [
         {
           "key": "sponsor",
@@ -2301,6 +2303,7 @@
     },
     {
       "key": "veto",
+      "occasion": "signing",
       "roles": [
         {
           "key": "sponsor",
@@ -3019,6 +3022,7 @@
     },
     {
       "key": "address",
+      "occasion": "address",
       "roles": [
         {
           "key": "speaker",
@@ -4995,6 +4999,7 @@
     },
     {
       "key": "debate-sitting",
+      "occasion": "debate",
       "note": "The candidate said yes to a debate's invitation: the meetings engine's debate-accepted record names the candidate, the moderator who will ask and the outlet that hosts it. The sitting is played in the conversation engine, never answered for them: the moderator puts each of the debate's own questions as a line, the candidate picks how to answer each (plainly, with a further fact from their record, by turning it back on a rival, briefly, or the lie where their record allows one) or says nothing, and when the sitting ends the meetings engine holds the debate with exactly those moves while the other candidates answer from their own positions. A question the moderator cannot put in words is answered from the candidate's filed platform. A debate no one sits for is held on the eve of the election. Its stage is a public place until the lane maps the debate stage picture to this type.",
       "roles": [
         {
