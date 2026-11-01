@@ -373,13 +373,27 @@ describe("the other school links stay unread, each with the engine that would re
     expect(stop.why).toContain("schoolDay");
   });
 
-  it("leaves the two links without a researched size unrun", () => {
+  it("runs the two links its research finds about zero at size 0, with their research range", () => {
+    // Housing vouchers: the Chicago lottery's null on graduation. Library
+    // materials: an estimated zero, since no study measures removals. The
+    // school engine reads the web's factor, which these leave at one.
     for (const key of [
       "housing-vouchers-to-graduation",
       "library-materials-to-reading",
     ]) {
-      expect(link(key).size, key).toBeNull();
-      expect(linkCoverage(link(key)).wired, key).toBe(false);
+      const row = link(key) as ReturnType<typeof link> & {
+        status?: string;
+        evidence?: string;
+        range?: [number, number];
+        rangeSource?: string;
+      };
+      expect(row.status, key).toBe("about-zero");
+      expect(row.evidence, key).toBe("about-zero");
+      expect(row.size, key).toBe(0);
+      expect(row.range![0], key).toBeLessThanOrEqual(0);
+      expect(row.range![1], key).toBeGreaterThanOrEqual(0);
+      expect(row.rangeSource, key).toMatch(/^ESTIMATED/);
+      expect(linkCoverage(row).wired, key).toBe(true);
     }
   });
 });
