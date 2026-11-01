@@ -190,9 +190,10 @@ it(`a scene says what hour it is only when its own hour makes it true (seed ${se
     const start = makeIsoDate(core.date);
     // Each day is played to its evening. A scene is checked at its stop, and
     // the day's scenes are opened again that evening, as a scene left waiting
-    // is opened later in the day.
+    // is opened later in the day. The opening day is already processed, so
+    // the first day played is the next.
     for (
-      let day = P.zero;
+      let day = P.one;
       day < MAX_DAYS &&
       (day < MIN_DAYS ||
         !(
