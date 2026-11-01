@@ -44,6 +44,7 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import {
+  CAMPAIGNS_MODULE_ID,
   askForEndorsement,
   askToVolunteer,
   campaignFor,
@@ -64,8 +65,12 @@ import {
 } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
-import { viewsModule } from "./modules/views";
-import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-views";
+import { agreementWith, viewsModule } from "./modules/views";
+import {
+  PLATFORM_QUESTIONS,
+  campaignParameter,
+  personLean,
+} from "./campaign-views";
 
 const START = "2026-01-05";
 const runSeed =
@@ -117,6 +122,15 @@ function world(salt: number) {
     .sort((a, b) => a.id.localeCompare(b.id));
   return { core, api, town, residents, where };
 }
+
+/** Two residents spend time together, so each has a tie to the other. */
+const meet = (api: CoreAPI, a: PersonState, b: PersonState) =>
+  api.meet(a.id, b.id, {
+    placeId: a.householdId,
+    sourceId: `test:campaign-rival-help:${a.id}:${b.id}`,
+    cause: "neighbors",
+    hours: TIME_TOGETHER,
+  });
 
 /** The local contests open for filing today. */
 const localContests = (api: CoreAPI): readonly ContestRow[] =>
@@ -171,13 +185,6 @@ function volunteerScore(
  */
 function rivalRace(salt: number) {
   const { core, api, residents, where } = world(salt);
-  const meet = (a: PersonState, b: PersonState) =>
-    api.meet(a.id, b.id, {
-      placeId: a.householdId,
-      sourceId: `test:campaign-rival-help:${a.id}:${b.id}`,
-      cause: "neighbors",
-      hours: TIME_TOGETHER,
-    });
   // A local seat, as in the played year. Nobody is the player, so every
   // donor-meeting check below reads the race, not the player's own
   // exclusion.
@@ -212,7 +219,7 @@ function rivalRace(salt: number) {
   } | null = null;
   for (const person of residents) {
     if (person.id === first.person.id) continue;
-    meet(person, first.person);
+    meet(api, person, first.person);
     if (volunteerScore(core, api, mine, person, ask) <= zero) continue;
     if (!canFile(api, person.id, first.filing.contestId)) continue;
     const before = endorsementWeighing(api, mine, person);
@@ -233,8 +240,8 @@ function rivalRace(salt: number) {
   for (const person of residents) {
     if (person.id === first.person.id || person.id === second.person.id)
       continue;
-    meet(person, first.person);
-    meet(person, second.person);
+    meet(api, person, first.person);
+    meet(api, person, second.person);
     if (
       volunteerScore(core, api, mine, person, ask) > zero &&
       canFile(api, person.id, first.filing.contestId)
@@ -267,10 +274,13 @@ function findRace(): Race {
 /**
  * A town organization with a speaker and a stance (as `organizedGroupsIn`
  * reads the engines that keep them; the one with the most residents
- * belonging), and a resident outside it who files in a local contest for
- * its side of its first question; or why none. The same draw gives the same
- * answer, so a twin world built from it differs only in what the caller
- * does next.
+ * belonging), a resident outside it who files in a local contest on its
+ * side of the question it holds most firmly, and the member with the most
+ * reason to give that campaign their evenings when the group asks (time
+ * with the candidate and with the speaker, their own share in its stance),
+ * of those who could file in the race today; or why none. The same draw
+ * gives the same answer, so a twin world built from it differs only in what
+ * the caller does next.
  */
 function groupedRace(salt: number) {
   const w = world(salt);
@@ -297,7 +307,15 @@ function groupedRace(salt: number) {
       where,
       why: "no organization in town with a speaker and a stance",
     };
-  const side = group.stance[0]!;
+  const firmest = [...group.stance].sort(
+    (x, y) =>
+      Math.abs(y.position) - Math.abs(x.position) ||
+      x.question.localeCompare(y.question),
+  )[0]!;
+  const side = {
+    question: firmest.question,
+    position: firmest.position < 0 ? -1 : 1,
+  };
   let a: { person: PersonState; filing: FilingRow } | null = null;
   for (const person of residents) {
     if (group.memberIds.includes(person.id) || person.id === group.speakerId)
@@ -329,7 +347,37 @@ function groupedRace(salt: number) {
       (id) => residentIds.has(id) && canFile(api, id, contestId),
     ),
   );
-  return { ...w, group, side, a, couldFile };
+  const speaker = core.people.get(group.speakerId!)!;
+  const campaign = campaignFor(api, a.filing.id);
+  const townLean = (
+    api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("town")
+      .get("town") as unknown as {
+      lean: number;
+    }
+  ).lean;
+  const zero = api.parameter("zero");
+  let member: { id: string; score: number } | null = null;
+  for (const id of [...couldFile].sort()) {
+    if (id === speaker.id) continue;
+    const person = core.people.get(id)!;
+    meet(api, person, a.person);
+    meet(api, person, speaker);
+    // The ask the group makes on its turn (`groupsWeighRace`).
+    const score = volunteerScore(core, api, campaign, person, {
+      askerId: speaker.id,
+      stake: agreementWith(
+        api,
+        id,
+        personLean(core.people, person, townLean),
+        group.stance,
+      ),
+    });
+    if (score > zero && (!member || score > member.score))
+      member = { id, score };
+  }
+  return { ...w, group, side, a, couldFile, member };
 }
 
 type Grouped = Exclude<ReturnType<typeof groupedRace>, { why: string }>;
@@ -548,10 +596,12 @@ describe("a candidate never helps a rival in their own race", () => {
           continue;
         }
         const label = `${control.where}: ${group.organizationId} (speaker ${group.speakerId}) on ${side.question}=${side.position}, ${a.person.id} filed ${a.filing.id}`;
-        // A member the group sent who could have filed in the race that day.
-        const sent = backed.volunteerIds.find(
-          (id) => id !== group.speakerId && control.couldFile.has(id),
-        );
+        // The member with the most reason to go, who could have filed in the
+        // race that day, sent when nobody else runs.
+        const sent =
+          control.member && backed.volunteerIds.includes(control.member.id)
+            ? control.member.id
+            : null;
         if (member === null && sent) {
           const twin = twinOf(salt, control);
           const runs = file(
@@ -581,7 +631,11 @@ describe("a candidate never helps a rival in their own race", () => {
           );
           member = sent;
         } else if (member === null)
-          tried.push(`${label}: sent no member who could file`);
+          tried.push(
+            control.member
+              ? `${label}: did not send ${control.member.id} (reasons ${control.member.score}); sent ${backed.volunteerIds.join(", ") || "nobody"}`
+              : `${label}: no member who could file had reason to go`,
+          );
         if (speaker === null && control.couldFile.has(group.speakerId!)) {
           const twin = twinOf(salt, control);
           const runs = file(
