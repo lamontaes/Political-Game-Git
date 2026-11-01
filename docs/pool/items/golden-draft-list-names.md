@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: open
 claimed-by:
-pr: #0
+pr: #6970
 blocked-on:
 source: golden-path playthrough, Oct 28
 lead: play-first
