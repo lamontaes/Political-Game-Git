@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/screens-title-continue-name-only
-pr:
+pr: #6957
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T13:16:57.482Z
