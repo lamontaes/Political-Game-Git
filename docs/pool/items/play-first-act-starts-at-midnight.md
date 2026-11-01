@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by:
-pr: #0
+pr: #6976
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
