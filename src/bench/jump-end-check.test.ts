@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { IsoDate } from "../core2/kernel/brands";
-import { judgeJumpEnd } from "./jump-end";
+import { judgeJumpEnd } from "./jump-end-check";
 
 const day = (iso: string) => iso as IsoDate;
 
