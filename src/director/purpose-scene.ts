@@ -27,8 +27,10 @@ import {
 import { viewOn } from "../core2/modules/views";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
-import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
-import { playerClockFrontierV1 } from "../core2/player-stops-v1";
+import {
+  isExplicitlyControlledPersonV1,
+  playerClockFrontierV1,
+} from "../core2/life";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
