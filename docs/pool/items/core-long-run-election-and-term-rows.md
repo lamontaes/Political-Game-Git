@@ -22,3 +22,5 @@ claimed-at: 2026-11-01T22:53:56.640Z
 **Files.** src/core2/modules/offices.ts,src/core2/modules/voting.ts
 
 **Notes.** lead: speed. Measured by the speed lead Nov 1, 22:55 UTC (scratchpad u1/before.json and after.json); Merger 0 flagged it on PR #7020.
+
+Nov 1, 23:00 UTC (speed lead): this item resolves the laws lead's registered stopgap SG-GOV-outside-seat-records-unfolded (PR #7020's body: after four years Long Hill, Connecticut kept 1,356,122 records against main's 1,252,886); the fold clears it, so there is one record of the growth, not two. Readers the laws lead named for the map beyond terms and returns: holderOf fill-ins (a met official reads their term rows), the U3 seam of SG-GOV-other-legislatures-not-sitting (other chambers will vote from saved positions), and pastTerms for each office's own state's term limits. The laws lead agrees each reader's window when the proposal lands; the governing lead for voting.
