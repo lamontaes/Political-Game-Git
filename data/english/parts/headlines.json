@@ -6,6 +6,7 @@
     "years": "A number of years, from the record's dates.",
     "ordinal": "An age as an ordinal (80th), from the birth record.",
     "firm": "A business a public contract went to, by name, from the award and the business records.",
+    "government": "The government a public worker worked for, named from its record (the government of Arizona).",
     "subject": "The business or office, from the event record.",
     "law": "The law, as its record names it.",
     "date": "A date from the record.",
@@ -6781,6 +6782,28 @@
           "subject": "headline",
           "role": "retirement",
           "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.retirement.name-retires-from-public-service",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retires from public service",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "headline",
+          "role": "retirement",
+          "choice": "headline",
+          "requiresFacts": ["government"]
         }
       ],
       "origin": "authored",

@@ -4762,6 +4762,50 @@
       }
     },
     {
+      "key": "news.retirement.name-retired-from-government-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retired from {government} on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["government"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.after-years-years-with-government-name-has-retired",
+      "move": "retirement",
+      "kind": "written",
+      "text": "After {years} years with {government}, {name} has retired.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["government", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.anniversary.subject-opened-in-place-years-years-ago-this-week",
       "move": "anniversary",
       "kind": "written",

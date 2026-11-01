@@ -2498,8 +2498,10 @@ const retirement: Builder = (read, f) => {
   const org = f.organizationId
     ? read.core.organizations.get(f.organizationId as EntityId)
     : undefined;
+  // A government's treasury is said as the government they worked for.
+  const government = governmentEmployer(read, f.organizationId);
   const employer =
-    org && org.outsideFlow === undefined
+    org && org.outsideFlow === undefined && !government
       ? read.organization(f.organizationId)
       : null;
   const years =
@@ -2512,6 +2514,9 @@ const retirement: Builder = (read, f) => {
       date: read.date(),
       ...(employer
         ? { employer: read.fact(employer, f.organizationId ?? "") }
+        : {}),
+      ...(government
+        ? { government: read.fact(government, f.organizationId ?? "") }
         : {}),
       ...(years > 1 ? { years: read.fact(String(years), f.jobId ?? "") } : {}),
       ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
