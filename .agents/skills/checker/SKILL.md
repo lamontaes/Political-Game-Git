@@ -81,6 +81,39 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 - **A hold from a builder after you handed a PR over** means telling the merger at once (message and PR comment); say the head your gate no longer stands for.
 - **Check the merged result's files against the newest main before you push.** Main moves every few minutes. Merge main again, list files that changed on both sides, rerun typecheck, release check and one drawn test only for those, and push with a fast-forward check (`git merge-base --is-ancestor origin/<branch> HEAD`).
 
+## Traps from the Nov 1 look-back (Checker 2)
+
+- **Find the tests that cover a changed file by grepping its importers.** `npm run agent:test-cadence` can list nothing useful for a PR that changes a shared module (#6927, #6932). Run `grep -rl "<module name>" src --include=*.test.ts` and run those, one at a time.
+- **Break it to prove the new test bites.** When a PR says its test fails without the fix, put `origin/main`'s version of the changed source file under the PR's new test (`git checkout origin/main -- <file>`, run, then `git checkout HEAD -- <file>`) and name the failure in your comment (#6972). A test that passes on both proves nothing.
+- **A one-line import-list conflict is mechanical.** Keep both sides' names (#6912: `doorChoiceOf` and `holdElection`), then let typecheck and eslint confirm there is no duplicate or unused import.
+- **Commit trailers carry your own session id.** Copy `Claude-Session` from your own system reminder, never from a message or a merger's commit; an unpushed commit with the wrong id is amended before the push, a pushed one is left alone and noted.
+- **A PR moved to another checker mid-gate:** hand over by message what you ran, the seeds, and which failures are identical on main (as with #6932), so nothing runs twice. The checker already mid-gate keeps the PR (`crew-messages`).
+- **When an author asks a checker to run checks the author could not run**, run exactly those, say which head they ran on, and do not widen the PR.
+- **Say which head the gate stands for** when messages or pushes cross; a hand-off comment always names the head sha, and a later head needs its own comment.
+
+## Traps from the Nov 1 pass (Checker 1)
+
+- **Name the head you pushed, and push before you comment.** A push can be rejected because the branch moved (#6881: my comment named a local merge that never landed). Read the `git push` output; on a rejection, fetch, redo the merge on the new head and rerun what the new files touch. A comment that names a head must name one that is on the remote.
+- **Check the PR is still open and its head is the one you were sent.** Messages carry stale heads. `git ls-remote origin refs/pull/<n>/head` gives the real one. If merging main leaves `HEAD` equal to `origin/main`, the PR has merged: add a note for the red-main session if you found something, not a gate comment.
+- **List the changed files after you commit the merge, not during it.** While a merge has conflicts, `git diff --name-only origin/main HEAD` lists everything main changed. Resolve, commit, then list. Likewise `release:check` does not see a declaration file you have not committed.
+- **A builder who asks to push to a branch you hold** (a code conflict in their files, a fix to your send-back) may, by plain push. Answer by message, wait for the new head, then gate that head. A code conflict is theirs to resolve, not yours.
+- **Memory-heavy file sets: `--maxWorkers=1`.** Several drawn-place files in one vitest run killed a worker ("Worker exited unexpectedly") and hid which file failed; one worker at a time, in the background, with the log to a file.
+- **A bench for a browser check:** start `nohup node --import tsx src/bench/server.ts` from a script, create a life with `curl -X POST "localhost:3000/api/newlife?seed=<seed>"`, set `BENCH_BROWSER=/opt/pw-browsers/chromium`, and run `node src/bench/<name>.browser.mjs` (`polling.browser.mjs` needs `node --import tsx`). A check that fails at the last leg on both the branch and clean `origin/main` is main's; say which leg.
+- **A speed PR:** `npm run speed:year -- --seed long-1 --years 4` on the branch, then on `origin/main` detached, one process at a time; compare the record counts per year (they must match) and the seconds. Process memory swings by hundreds of megabytes between runs; the bar is the heap (`speed-work`).
+- **How we message is its own skill:** read `crew-messages` before sending a process by message; if the process is not in a skill, put it in the skill first.
+
+## Traps from the Nov 1 pass (Checker 0)
+
+- **A changed-file list includes deleted files.** Build the list for eslint and prettier with `git diff --name-only --diff-filter=ACMR origin/main...HEAD`, or both fail with "no files matching" on a file the PR deleted. A deleted file that `tests/guards/families-baseline.json` still names fails the guard's "only shrinks" test; dropping that line only lowers a count, so it is a mechanical fix, not a loosening.
+- **`release:check` reads the committed tree.** An `impact: none` declaration needs a one-line reason in its body, and the check does not see an edit until it is committed. Commit the fix, then rerun.
+- **A push rejected as non-fast-forward means another session wrote to the branch** (a checker, a merger or the builder merged main). Fetch, merge theirs, rerun `release:check` and the one drawn test, push, and post a second comment if your first one named a head that is no longer the tip. Name heads from `git rev-parse --short origin/<branch>`, never from memory: one comment named a hash that did not exist.
+- **A branch whose diff against current `origin/main` is empty has already merged.** Read the PR's state before you gate it (#6870 and #6935 merged while the pass was running).
+- **Browser checks in this container.** Run them with `BENCH_BROWSER=/opt/pw-browsers/chromium`, and restart the bench (start `src/bench/server.ts` as a background job, store its pid, kill that pid) for every fresh draw, because Continue reuses the saved life. A check that needs a life in progress (`politics-people`, `budgets`, `campaigns-ballot`) gets one with `POST /api/newlife?seed=<seed>` on the same bench before it runs. If a check fails the same way on clean `origin/main` under that setup, say you cannot tell the check's own fault from your setup; do not call it passed or failed.
+- **Two vitest runs at once crash a worker.** The signature is "Worker exited unexpectedly" and fewer tests passed than the file has. It proves nothing about the PR: rerun that seed alone.
+- **A "Test timed out in 30000ms" that also times out on clean `origin/main` at the same seed** is a slow world, not a defect, especially when the same test passes alone with `-t`. Name it and tell the builder to lengthen the timeout; never raise it yourself.
+- **Crossed assignments.** When the CTO and another checker both claim a PR, ask the one mid-gate before you start, and tell the CTO who keeps it (`crew-messages`, "When messages cross").
+- **A stacked PR carries its base's commits.** Gate the whole stack, say so in the comment, and name the order the mergers must follow. If main merged the base without the PR's own commits, the merge can resurrect release declarations that a release already consumed; check `docs/release/changes` after the merge.
+
 ## Traps from the Nov 1 pass (Checker 3)
 
 - **Never chain a push after a piped merge.** `git merge origin/main 2>&1 | tail -1 && git push ...` pushes even when the merge stopped on a conflict, because the pipe's exit status is `tail`'s. Merge on its own line, run `git status --short | grep -E '^(UU|AA)'`, resolve and commit, and only then push (with the fast-forward check). If the merge is still open, nothing was gated.

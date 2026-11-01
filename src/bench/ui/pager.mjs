@@ -27,11 +27,14 @@ export function pager({
   grid.style.gridTemplateColumns = `repeat(${columns}, minmax(0, 1fr))`;
   grid.style.gridAutoRows = `${rowHeight}px`;
   grid.style.gap = `${gap}px`;
-  const perPage = rows * columns;
-  const pages = Math.max(1, Math.ceil(items.length / perPage));
+  let perPage = rows * columns;
+  let pages = Math.max(1, Math.ceil(items.length / perPage));
   // A box with more than one page keeps every page as tall as the first.
-  const shown = Math.min(rows, Math.ceil(items.length / columns));
-  grid.style.minHeight = `${shown * rowHeight + Math.max(0, shown - 1) * gap}px`;
+  const sizeBox = () => {
+    const shown = Math.min(rows, Math.ceil(items.length / columns));
+    grid.style.minHeight = `${shown * rowHeight + Math.max(0, shown - 1) * gap}px`;
+  };
+  sizeBox();
   const where = el("span", { className: "pager-where" });
   const previous = makeButton({
     className: "pager-arrow",
@@ -55,6 +58,17 @@ export function pager({
   controls.hidden = pages < 2;
   const box = el("div", { className: `pager ${className}` }, grid, controls);
   let page = 0;
+  // A screen that finds its pager too tall for the room asks for fewer rows (never fewer than one).
+  box.rowCount = () => rows;
+  box.setRows = (next) => {
+    rows = Math.max(1, next);
+    perPage = rows * columns;
+    pages = Math.max(1, Math.ceil(items.length / perPage));
+    page = Math.min(page, pages - 1);
+    controls.hidden = pages < 2;
+    sizeBox();
+    draw();
+  };
   const draw = () => {
     const shown = items.slice(page * perPage, (page + 1) * perPage);
     grid.replaceChildren(...shown.map(render));
