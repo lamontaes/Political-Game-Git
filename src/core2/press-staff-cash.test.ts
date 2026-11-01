@@ -42,8 +42,13 @@ it("every paid press employee opens with the survey balance for their pay", () =
     }
     const role = STAFF_ROLES.find((r) => id.split(":").at(-2) === r.id)!;
     if (!role.payParameter) continue;
+    // The world's own cash level: the balance rule is scaled by one level
+    // drawn per world from its seed (owner, Oct 27).
     const expected = Math.round(
-      medianTransactionBalance(pressParameter(role.payParameter) / 100) * 100,
+      medianTransactionBalance(
+        pressParameter(role.payParameter) / 100,
+        core.seed,
+      ) * 100,
     );
     expect(core.people.get(id)?.liquidMinor, `${where} ${id}`).toBe(expected);
     checked += 1;
