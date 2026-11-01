@@ -1,6 +1,8 @@
 ---
 id: campaign-door-pledge-test-red-by-seed
-impact: none
+impact: patch
+section: Fixed
+title: A resident who told you "You've got my vote" keeps their word when you knock again.
 ---
 
-Test only: the door-yes test now reads the yes a voter still holds on election day instead of the list made at the first knock, so a voter whose yes was taken back no longer breaks it; nothing in play changes.
+Before, if you or a volunteer knocked a second time on the door of someone who had already said yes, and the visit went a little cooler, they took their yes back, sometimes by the smallest margin. Now a yes once given stands unless something heavy changes their mind, such as a scandal they hear of or a rival they are close to, or unless they give a rival their yes instead.

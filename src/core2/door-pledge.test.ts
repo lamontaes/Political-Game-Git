@@ -21,7 +21,6 @@ import { coreAPI } from "./state";
 import { setKeepEveryonesWhy } from "./why-kept";
 import { openOffices } from "./modules/offices";
 import {
-  ELECTIONS_MODULE_ID,
   ballot,
   fileCandidacy,
   openContests,
@@ -247,50 +246,35 @@ describe("a door yes is near-binding", () => {
       const weight = campaignParameter("doorPledgeWeight");
       const onBallot = new Set(ballot(api, contest.id).map((f) => f.personId));
       // The yes a voter holds on election day is the record's, not the list
-      // the first knock made: a later knock that ends in a no takes a yes
-      // back, and a yes to a rival replaces it (`answerAtDoor`), so a voter
-      // met at the first knock can hold none by the count.
+      // the first knock made. A later knock that ends in a no leaves it as it
+      // was (near-binding, owner Oct 29); only a yes to a rival in the race
+      // replaces it (`answerAtDoor`), so a voter met at the first knock who
+      // holds none by the count holds a rival's.
       const keptYes = (voterId: string) =>
         pledgeOf(api, voterId, mine.personId, contest.id);
-      const takenBack = pledged.filter((v) => !keptYes(v));
-      // One trip to the polls covers the day's whole ballot: a yes in
-      // another race on it is still a word to vote.
-      const dayContests = new Set(
-        (
-          api
-            .moduleState(ELECTIONS_MODULE_ID)
-            .table("contests")
-            .rows() as unknown as readonly {
-            readonly id: string;
-            readonly electionDate: string;
-          }[]
-        )
-          .filter((c) => c.electionDate === contest.electionDate)
-          .map((c) => c.id),
-      );
-      const hasWordToday = (voterId: string) =>
-        pledgesOf(api, voterId).some((p) => dayContests.has(p.contestId));
-      // A voter whose yes was taken back has no pledge part on their ballot
-      // row, and no word to vote on unless a race on that day holds another
-      // yes from them.
-      let shown = 0;
-      for (const voterId of takenBack) {
-        const b = ballots.find((x) => x.voterId === voterId);
-        const part = b?.appeal[mine.personId];
-        if (!b || !part) continue;
+      const movedOn = pledged.filter((v) => !keptYes(v));
+      const rivalYes = (voterId: string) =>
+        pledgesOf(api, voterId).some(
+          (p) => p.contestId === contest.id && p.candidateId !== mine.personId,
+        );
+      // A voter's word goes only to a rival who now outweighs it: one who
+      // holds no yes to the candidate holds a rival's in this race, and their
+      // ballot carries no pledge part for the candidate.
+      for (const voterId of movedOn) {
         expect(
-          part.pledge ?? 0,
-          `${place} (seed ${seed}): ${b.id} voted on a yes it took back`,
+          rivalYes(voterId),
+          `${place} (seed ${seed}): ${voterId} lost a yes with no yes to a rival`,
+        ).toBe(true);
+        const part = ballots.find((x) => x.voterId === voterId)?.appeal[
+          mine.personId
+        ];
+        expect(
+          part?.pledge ?? 0,
+          `${place} (seed ${seed}): ${voterId} voted on a yes it gave a rival`,
         ).toBe(0);
-        if (b.voted && !hasWordToday(voterId))
-          expect(
-            b.turnoutReasons.pledge ?? 0,
-            `${place} (seed ${seed}): ${b.id} turned out on a word it took back`,
-          ).toBe(0);
-        shown += 1;
       }
       console.log(
-        `door pledges: ${place}, seed ${seed}; ${takenBack.length} of ${pledged.length} voters who said yes at the first knock held no yes by election day; ${shown} of them read on their ballot rows`,
+        `door pledges: ${place}, seed ${seed}; ${movedOn.length} of ${pledged.length} voters who said yes at the first knock gave a rival their yes by election day`,
       );
       // Only a candidate still on the ballot holds anyone to a door "yes".
       if (!onBallot.has(mine.personId)) return;
@@ -298,7 +282,8 @@ describe("a door yes is near-binding", () => {
       for (const voterId of pledged) {
         const b = ballots.find((x) => x.voterId === voterId);
         if (!b?.voted || b.voterId === tested.id) continue;
-        // A voter whose yes was taken back holds no word to weigh (read above).
+        // A voter who gave a rival their yes holds no word to weigh here
+        // (read above).
         const word = keptYes(b.voterId);
         if (!word) continue;
         // A candidate in the race backs themselves; a voter who also told
@@ -340,9 +325,10 @@ describe("a door yes is near-binding", () => {
       }
       // Their word at the door is also a word to vote, each voter's by their
       // own reasons: where the ballot still holds the yes, the turnout of
-      // one who voted carries the pledge reason. (Whether the pledged as a
-      // group turned out more than the town's others is who they are, not
-      // the rule: 0.17 of 18 against 0.19 of 36 in 1717939, seed dp-fresh-1.)
+      // one who voted carries the pledge reason. Whether the pledged as a
+      // group turn out more than the town's others is the parameter's total
+      // check, which read 0.17 of 18 against 0.19 of 36 in 1717939 (seed
+      // dp-fresh-1) and is pool item campaign-door-pledge-turnout-total.
       for (const b of ballots.filter((x) => x.voted))
         if (
           keptYes(b.voterId) &&
