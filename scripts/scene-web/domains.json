@@ -9,6 +9,7 @@
       "care",
       "celebration",
       "diploma-home",
+      "no-diploma-home",
       "confession",
       "departure",
       "family-absence",
@@ -79,6 +80,7 @@
       "desk-bill",
       "recall",
       "staff-news",
+      "swearing-in",
       "veto"
     ],
     "constituents-and-cases": ["office-hours"],

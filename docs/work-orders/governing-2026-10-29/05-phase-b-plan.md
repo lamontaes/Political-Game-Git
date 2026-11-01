@@ -91,7 +91,7 @@ Read-only, from main 7ecc777d5 (Oct 30, 02:51 UTC). The three maps were traced a
 - **Proof:** src/core2/cosponsors-played.test.ts in a drawn place:
   - a background bill lists its co-sponsors by member id on the bill row and the session row;
   - the floor order reads them;
-  - promisesOf judges one co-sponsor by their vote row `vote:<bill>:<member>` (legislature.ts:3474);
+  - promisesOf judges one co-sponsor by their record row `voteRecordId(bill.id, question, member)` (record.ts:79, `vote:<bill>:<question>:<member>`), not the legislature's own roll-call row `vote:<bill>:<member>` (legislature.ts:3474);
   - the player's id is in no filer, sponsor or co-sponsor list.
 
 ### Unit 6. A word given in a talk binds (M)

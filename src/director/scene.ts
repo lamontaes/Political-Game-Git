@@ -13,7 +13,11 @@ import {
   type SceneWords,
 } from "../english/scene-words";
 import type { Director } from "./ledger";
-import type { SceneBinding, ScheduleEntry } from "./scheduling";
+import {
+  SITUATION_LIBRARY,
+  type SceneBinding,
+  type ScheduleEntry,
+} from "./scheduling";
 import { properName, spoken } from "./words";
 
 const zero = P.zero;
@@ -53,6 +57,8 @@ export interface Scene {
     /** The speech in the parts the talk box plays, one per Continue. */
     parts: readonly string[];
   };
+  /** The scene's occasion from its type's data ("ceremony"), for how the room is drawn. */
+  occasion?: string;
 }
 
 export function composeScene(
@@ -247,9 +253,14 @@ export function composeScene(
           text: sceneParagraph(sentences),
           parts: sentences.flatMap((line) => line.parts ?? []),
           // A sitting that took in a later cause the same day cites it too.
+          // The sentence of what led here cites the record that led here,
+          // whatever facts it names ("Your daughter has been born." named the
+          // daughter by the family record and cited no birth, Neillsville,
+          // Wisconsin, seed birth-n1).
           sourceRecordIds: [
             ...new Set([
               ...sentences.flatMap((line) => line.sourceRecordIds),
+              ...(cause ? [moment.causeId] : []),
               ...(binding.joined ?? []).map((row) => row.causeId),
             ]),
           ],
@@ -281,6 +292,7 @@ export function composeScene(
           sourceRecordIds: [record!.id],
         }
       : undefined;
+  const occasion = OCCASIONS.get(binding.typeKey);
   return {
     momentId: moment.id,
     typeKey: binding.typeKey,
@@ -290,5 +302,13 @@ export function composeScene(
     narration,
     ...(talkToId ? { talkToId } : {}),
     ...(speech ? { speech } : {}),
+    ...(occasion ? { occasion } : {}),
   };
 }
+
+/** Each situation type's occasion, where its data names one. */
+const OCCASIONS: ReadonlyMap<string, string> = new Map(
+  SITUATION_LIBRARY.types.flatMap((row) =>
+    row.occasion ? [[row.key, row.occasion] as const] : [],
+  ),
+);

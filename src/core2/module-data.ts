@@ -99,6 +99,36 @@ export function moduleData<T>(input: T): T {
   return copy(input) as T;
 }
 
+/**
+ * `moduleData` for a row its caller built fresh for this write and never
+ * touches again (no other holder keeps any part of it): in play the row is
+ * frozen in place instead of copied, which leaves the same fields in the same
+ * order with the same values, deep-frozen, as `plainCopy` would. A part
+ * already frozen is a stored row's part (frozen deep by `plainCopy`, by this,
+ * or by a restore) and is kept as it is. With bookkeeping on it is
+ * `moduleData`, every check and the copy.
+ */
+export function moduleDataOwned<T>(input: T): T {
+  if (bookkeeping()) return moduleData(input);
+  return freezeOwned(input) as T;
+}
+
+function freezeOwned(value: unknown): unknown {
+  if (value === null || typeof value !== "object" || Object.isFrozen(value))
+    return value;
+  if (Array.isArray(value)) {
+    for (let at = 0; at < value.length; at += 1) freezeOwned(value[at]);
+    return Object.freeze(value);
+  }
+  // A key of "__proto__" is refused, as `plainCopy` refuses it.
+  for (const key in value as Record<string, unknown>) {
+    if (key === "__proto__")
+      throw new Error("Module data has a prototype field.");
+    freezeOwned((value as Record<string, unknown>)[key]);
+  }
+  return Object.freeze(value);
+}
+
 export function moduleSource(source: Source, date: string): Source {
   const row = moduleData(source);
   if (
