@@ -5,12 +5,13 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/volunteer-shift-test-by-seed
 pr:
 blocked-on:
 lead: governing
 source: Checker 2, Nov 1 (regating #6912); filed by the governing lead
+claimed-at: 2026-11-01T14:42:54.209Z
 ---
 
 **What.** src/core2/campaigns.test.ts "volunteers walk the campaign's doors in the evening their work leaves free" fails on clean main with GOLDEN_PATH_SEED=chk2-a, comparing 0.03929 with 0.03932 at nine decimal places (Checker 2, Nov 1, regating #6912). One of its exact checks (the shift carry, OPENING_CARRY plus shiftShare less one, or the discretionary hours left) is computed from state the shift itself changed, or the engine rounds where the test does not. A test that is red by seed blocks every PR whose checker draws that seed.
