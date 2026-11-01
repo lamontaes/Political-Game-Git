@@ -540,7 +540,10 @@ describe("story director on the new core", () => {
     // rival's filing, word of a rival's campaign; owner, Oct 26), plus the
     // department head who argues a cut, plus the sponsor or the group against a
     // bill who comes to the desk, plus the constituent who stops an officeholder in the street and the hallway
-    // after a body sits (scenes from circumstance, owner, Oct 27); less the
+    // after a body sits (scenes from circumstance, owner, Oct 27), plus the
+    // swearing-in the offices engine's took-office record fires (owner, Oct
+    // 29: taking office is an event, with a speech where the office gives
+    // one); less the
     // five the director lead deleted on Oct 27: a job interview (the press
     // interview is the one with a record), the party's ask (the party's
     // recruit is the same ask), and the three the player starts (asking a

@@ -1112,6 +1112,9 @@ $("talk-next").addEventListener("click", async () => {
   if (talk) await post("/api/talk/leave");
   renderTalk(undefined);
   show("talk", false);
+  // A story's end hands the room back to the one scene renderer, so the people in it can be
+  // clicked to talk again (a story draws them without a click).
+  await renderScene();
   if (!$("continue").hidden) $("continue").click();
 });
 $("talk-leave").addEventListener("click", async () => {
@@ -1126,6 +1129,7 @@ $("talk-leave").addEventListener("click", async () => {
   onContinue = undefined;
   await post("/api/talk/leave");
   renderTalk(undefined);
+  await renderScene();
 });
 
 // ---- The filing office (step 3), a visit in the clerk's words ----
@@ -3945,6 +3949,13 @@ const sheets = {
       const v = await api(
         `/api/government/bodies?${new URLSearchParams({ id: me.id, level, state: stateKey })}`,
       );
+      // A place with no local government of its own (the District, an unincorporated place)
+      // opens on the level that governs it; Local stays a tab and says so when chosen.
+      const empty = !v.legislative.length && !v.executive.length;
+      if (empty && !governmentLevel && level === "local") {
+        governmentLevel = "state";
+        return screen();
+      }
       // A branch the level has nothing in is not offered (nothing on screen
       // does nothing): a township with no executive shows its board alone.
       // SG-PLAY-government-judicial-no-judges: no Judicial branch yet, since no
@@ -4030,8 +4041,22 @@ const sheets = {
               }),
             ]
           : [];
-      const view =
-        branch === "executive" || !body
+      const view = empty
+        ? {
+            main: [
+              plate(
+                null,
+                prose(
+                  (labels.noLocalGovernment ?? "").replace(
+                    "{state}",
+                    gov.homeState?.name ?? "",
+                  ),
+                ),
+              ),
+            ],
+            side: [],
+          }
+        : branch === "executive" || !body
           ? executiveView(v.executive, level)
           : lawmakingView(body, v.executive, level, v.state.key);
       return splitScreen({
