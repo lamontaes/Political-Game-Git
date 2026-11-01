@@ -1,0 +1,27 @@
+/* Mock only (Nov 1): drawn with the game's own panel, tabs and colors. */
+.m { min-width: 1236px; display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; text-align: left; gap: 14px; color: var(--text); font-family: var(--ui); }
+.m h3 { font-family: var(--name); font-size: 15px; letter-spacing: .04em; margin: 0 0 8px; color: var(--gold); font-weight: 600; text-transform: uppercase; }
+.m * { text-align: left; }
+.m td.n, .m th.n { text-align: right; }
+.m small, .m .dim { color: var(--text-3); font-size: 12.5px; }
+.m .row { display: flex; gap: 12px; align-items: stretch; }
+.m .card { background: linear-gradient(#2c2c30, #1d1d20); border: 1px solid #3a372f; border-radius: 6px; padding: 12px 14px; }
+.m .big { font-family: var(--speech); font-size: 26px; color: var(--gold); line-height: 1.1; }
+.m .bar { height: 10px; border-radius: 5px; background: #111; overflow: hidden; display: flex; }
+.m .bar i { display: block; height: 100%; }
+.m .c1 { background: #d6bd84; } .m .c2 { background: #9c8350; } .m .c3 { background: #7f6a8f; } .m .c4 { background: #5d7f8f; } .m .c5 { background: #6f8a62; } .m .c6 { background: #8a6a62; }
+.m .pill { display: inline-block; padding: 4px 12px; border: 1px solid #4a4638; border-radius: 14px; font-size: 13px; background: #1a1a1c; margin: 0 6px 6px 0; }
+.m .pill.on { background: linear-gradient(#4a4a50, #2a2a2e); border-color: var(--gold); color: var(--text-strong); }
+.m table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.m td, .m th { padding: 6px 8px; border-bottom: 1px solid #2d2b27; text-align: left; font-weight: 400; }
+.m td.n, .m th.n { text-align: right; font-variant-numeric: tabular-nums; }
+.m .list { display: grid; gap: 4px; }
+.m .list div { padding: 8px 10px; border-radius: 4px; background: #1a1a1c; border: 1px solid #2d2b27; display: flex; justify-content: space-between; font-size: 14px; }
+.m .list div.on { background: linear-gradient(#3a3a40, #26262a); border-color: var(--gold); }
+.m .note { font-family: var(--speech); font-style: italic; color: var(--text-2); font-size: 14px; }
+.m .chain { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.m .chain b { padding: 8px 12px; border: 1px solid #4a4638; border-radius: 6px; background: #1a1a1c; font-weight: 500; font-size: 14px; }
+.m .chain u { text-decoration: none; color: var(--gold); font-size: 13px; }
+.m .scale { position: relative; height: 34px; border-radius: 6px; background: #111; border: 1px solid #3a372f; }
+.m .scale span { position: absolute; top: 4px; bottom: 4px; width: 28px; border-radius: 4px; background: var(--raised); border: 1px solid var(--gold); }
+#sheet-body { max-width: none; }
