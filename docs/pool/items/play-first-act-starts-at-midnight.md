@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #0
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
@@ -29,3 +29,5 @@ milestone: play-first
 **Files.** src/bench/player.ts, src/bench/handler.ts, src/bench/filing.browser.mjs
 
 **Notes.** TODO
+
+- 2026-11-01 (lane): Fixed in `BenchPlayer.spend`: a fresh clock (no packet) starts at the next day's `playerDayStartMinute`, not midnight (the core's player clock is already at the next day's start, so it cannot be moved back to the evening; the day is lived to its start, owner Oct 27). `src/bench/player-first-act.test.ts` fails on main (3:00 AM, minute 180) and passes (10:00 AM) in Elmer City, Washington and Dandan, Northern Mariana Islands (run seed f109c907fd1e253618ef08abe89e4363903cd55e96c6c316e7837622da23ec4b). `filing.browser.mjs` now starts its unpressed clock at the morning and asserts the visit lands in the day.
