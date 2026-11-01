@@ -29,6 +29,7 @@ import {
   legislativeDistrictResult,
   legislativeSeatParts,
 } from "./legislative-district-results";
+import { incumbencyAblation } from "./incumbency-ablation";
 import { parameter } from "./parameters";
 import { corePlaceStateIdentities } from "./place-lookup";
 import { lazyValue, readJsonData } from "./reference/lazy-data";
@@ -237,10 +238,18 @@ function makePlace(
     // The people who could vote there; the world's turnout moves the votes.
     eligible: eligibleFor(usps, dem + rep),
     // The holder's incumbency carried part of the 2024 vote; the place's
-    // people stand where the rest of it puts them.
+    // people stand where the rest of it puts them. Measurement only: where
+    // the ablation zeroes bare incumbency, none of the vote is netted for it
+    // either (off in play).
     rightShare: Math.max(
       0,
-      Math.min(1, target - holderSide * campaignParameter("incumbencyShare")),
+      Math.min(
+        1,
+        target -
+          (incumbencyAblation().standing
+            ? 0
+            : holderSide * campaignParameter("incumbencyShare")),
+      ),
     ),
     votes2024: (dem + rep) * worldTurnoutFactor(seed, usps),
     source: `${source}; ${CPS_CITATION}; this world's swing and turnout`,

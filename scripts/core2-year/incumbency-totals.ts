@@ -1,27 +1,42 @@
 /**
  * Local re-election totals in played worlds (campaign-incumbency-calibrated):
  * for every contest the town's local levels decide during the run, read from
- * the election records (the contest, its filings, its result and the seat's
- * holder the day before the vote) whether the seat had a holder, the holder
- * ran, the race was contested, the holder won, and whether a newcomer who won
- * beat a running holder; in contested two-way races, the holder's share.
+ * the election records (the contest, its filings, its primary's record, its
+ * result and the seat's holder the day before the vote) whether the seat had
+ * a holder, the holder ran, the race was contested for the holder (two or
+ * more names on the general ballot, or a rival in the holder's primary), the
+ * holder won, and whether a newcomer who won beat a running holder; in
+ * contested races, the holder's share of the general vote.
  * Measurement tooling: the world is the bench's two-level town with every
  * module (`buildBenchWorld`), advanced day by day with bookkeeping off, as
  * play runs it.
  *
  *   node --import tsx scripts/core2-year/incumbency-totals.ts --seed <s> \
  *     [--places 1] [--years 2] [--ablation both|no-trait|no-standing|neither]
+ *     [--contests]
  *
  * Places are drawn from all 56 by the salts `<seed>:0` to `<seed>:<N-1>`.
  * `--ablation` keeps both incumbency terms (`both`, as play has them), zeroes
  * the voter-trait term (`no-trait`), the bare incumbency in standing
  * (`no-standing`) or both (`neither`), through the measurement-only knobs in
- * src/core2/incumbency-ablation.ts. Prints one JSON line per place and a
- * final totals line against the research bands
- * (docs/research/local-incumbency-2026-10-30.md): T1 run rate, T2 running
- * holders who win, T3 the same in contested races, T4 running holders
- * unopposed, T6 newly seated members who beat a running holder, and the
- * median holder share in contested two-way races, each with its count.
+ * src/core2/incumbency-ablation.ts. `neither` is not "no incumbency": the
+ * holder's record term and the recognition every adult in an office's public
+ * gets from its serving official stay in every version.
+ *
+ * Prints one JSON line per place and a final totals line against the
+ * research bands (docs/research/local-incumbency-2026-10-30.md), pooled and
+ * per level group (counties; cities and townships), since the research gives
+ * counties their own bands: T1 run rate, T2 running holders who win, T3 the
+ * same in contested races, T4 running holders unopposed, T6 newly seated
+ * members who beat a running holder, and the median holder share in
+ * contested two-way general races, each with its count. T2 = u + (1 - u) x T3
+ * holds by construction, with u = T4. `--contests` also prints one JSON line
+ * per contest as it is read, keyed by contest id, so two ablation versions
+ * can be compared race by race.
+ *
+ * A place whose local offices are seated at the state level (D.C.'s council,
+ * offices-local.ts) has no local contests and measures nothing; its line says
+ * so.
  */
 import { randomBytes } from "node:crypto";
 import { performance } from "node:perf_hooks";
@@ -41,6 +56,7 @@ import {
   officialCandidateId,
   seatHolder,
   VOTING_MODULE_ID,
+  winningPersonId,
   type ResultRow,
 } from "../../src/core2/modules/voting";
 import { coreAPI } from "../../src/core2/state";
@@ -48,7 +64,7 @@ import type { CoreAPI, CoreState } from "../../src/core2/types";
 import { drawPlace } from "./place";
 
 const USAGE =
-  "usage: node --import tsx scripts/core2-year/incumbency-totals.ts --seed <s> [--places 1] [--years 2] [--ablation both|no-trait|no-standing|neither]";
+  "usage: node --import tsx scripts/core2-year/incumbency-totals.ts --seed <s> [--places 1] [--years 2] [--ablation both|no-trait|no-standing|neither] [--contests]";
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {
   const at = args.indexOf(`--${name}`);
@@ -62,6 +78,7 @@ const seed = option("seed", randomBytes(8).toString("hex"));
 const placeCount = Number(option("places", "1"));
 const years = Number(option("years", "2"));
 const ablation = option("ablation", "both");
+const printContests = args.includes("--contests");
 const KNOBS: Record<string, { trait: boolean; standing: boolean }> = {
   both: { trait: false, standing: false },
   "no-trait": { trait: true, standing: false },
@@ -94,6 +111,7 @@ interface LevelCounts {
   holderRan: number;
   holderWithdrew: number;
   holderLostPrimary: number;
+  holderPrimaryRival: number;
   holderWon: number;
   contested: number;
   holderRanContested: number;
@@ -112,6 +130,7 @@ const emptyCounts = (): LevelCounts => ({
   holderRan: 0,
   holderWithdrew: 0,
   holderLostPrimary: 0,
+  holderPrimaryRival: 0,
   holderWon: 0,
   contested: 0,
   holderRanContested: 0,
@@ -151,13 +170,21 @@ function isHolder(
   );
 }
 
-/** Who a contest's primary put out, from its public record (empty where it held none). */
-function primaryOut(core: CoreState, contestId: string): readonly string[] {
-  const id = `primary-result:${contestId}`;
-  const row = core.durableLog.get(id) as
+/**
+ * A contest's primary from its public record: its method and who it put out
+ * (no method and no one out where it held none).
+ */
+function primaryRecord(
+  core: CoreState,
+  contestId: string,
+): { method: string | null; outIds: ReadonlySet<string> } {
+  const row = core.durableLog.get(`primary-result:${contestId}`) as
     { facts?: Record<string, string> } | undefined;
   const out = row?.facts?.outIds;
-  return out ? (JSON.parse(out) as string[]) : [];
+  return {
+    method: row?.facts?.method ?? null,
+    outIds: new Set(out ? (JSON.parse(out) as string[]) : []),
+  };
 }
 
 const median = (xs: readonly number[]) => {
@@ -172,14 +199,39 @@ const mib = (bytes: number) => Math.round(bytes / 1048576);
 const secondsSince = (t: number) =>
   Number(((performance.now() - t) / 1000).toFixed(1));
 
+/** One decided contest as its records read: the `--contests` line. */
+interface ContestLine {
+  readonly contest: true;
+  readonly placeKey: string;
+  readonly id: string;
+  readonly level: string;
+  readonly electionDate: string;
+  readonly holderTermId: string | null;
+  readonly holderPersonId: string | null;
+  readonly ran: boolean;
+  readonly withdrew: boolean;
+  readonly lostPrimary: boolean;
+  readonly primaryRival: boolean;
+  readonly onBallot: number;
+  readonly contested: boolean;
+  readonly contestedForHolder: boolean;
+  readonly holderWon: boolean;
+  readonly winnerId: string | null;
+  readonly newcomerBeatHolder: boolean;
+  /** The holder's share of the general vote where it was contested; null elsewhere. */
+  readonly holderShare: number | null;
+  readonly twoWay: boolean;
+}
+
 /** Reads one decided contest from its records into the level's counts. */
 function readContest(
   api: CoreAPI,
   core: CoreState,
+  placeKey: string,
   watched: Watched,
   result: ResultRow,
   counts: LevelCounts,
-): void {
+): ContestLine {
   const { contest, holder } = watched;
   counts.contests += 1;
   const filings = api
@@ -194,15 +246,33 @@ function readContest(
     ? filings.find((f) => isHolder(holder, f.personId))
     : undefined;
   const holderOnBallot = holderFiling?.status === "on-ballot";
+  const primary = primaryRecord(core, contest.id);
+  const wentOut = (f: FilingRow) =>
+    primary.outIds.has(f.personId) ||
+    primary.outIds.has(winningPersonId(api, f.personId));
   const lostPrimary =
     !!holderFiling &&
     holderFiling.status === "withdrawn" &&
-    primaryOut(core, contest.id).some((id) => isHolder(holder!, id));
-  if (holderFiling?.status === "withdrawn" && !lostPrimary)
-    counts.holderWithdrew += 1;
+    wentOut(holderFiling);
+  // A rival the primary put out from the holder's own field: the holder's
+  // party in a party primary, everyone in a top-two or top-four primary.
+  const openField = /^top-/.test(primary.method ?? "");
+  const primaryRival =
+    !!holderFiling &&
+    filings.some(
+      (f) =>
+        f !== holderFiling &&
+        wentOut(f) &&
+        (openField || (!!f.party && f.party === holderFiling.party)),
+    );
+  const withdrew = holderFiling?.status === "withdrawn" && !lostPrimary;
+  if (withdrew) counts.holderWithdrew += 1;
   const holderRan = holderOnBallot || lostPrimary;
   const contested = onBallot.length >= 2;
   if (contested) counts.contested += 1;
+  // Contested for the holder: a rival on the general ballot, or one in the
+  // holder's primary whether the holder beat them or lost to them.
+  const contestedForHolder = contested || lostPrimary || primaryRival;
   const holderWon =
     !!holder &&
     holderRan &&
@@ -210,26 +280,54 @@ function readContest(
   if (holderRan) {
     counts.holderRan += 1;
     if (lostPrimary) counts.holderLostPrimary += 1;
-    // A primary is a contested race the holder ran in.
-    if (contested || lostPrimary) counts.holderRanContested += 1;
+    if (primaryRival) counts.holderPrimaryRival += 1;
+    if (contestedForHolder) counts.holderRanContested += 1;
     else counts.holderUnopposed += 1;
     if (holderWon) {
       counts.holderWon += 1;
-      if (contested) counts.holderWonContested += 1;
+      if (contestedForHolder) counts.holderWonContested += 1;
     }
   }
-  if (winner && !holderWon && !(holder && isHolder(holder, winner))) {
+  const newcomer =
+    !!winner && !holderWon && !(holder && isHolder(holder, winner));
+  if (newcomer) {
     counts.newlySeated += 1;
     if (holderRan) counts.newBeatHolder += 1;
   }
-  if (holderOnBallot && onBallot.length === 2) {
-    const ids = onBallot.map((f) => f.personId);
-    const both = ids.reduce((n, id) => n + (result.totals[id] ?? 0), 0);
-    if (both > 0)
-      counts.holderShares.push(
-        (result.totals[holderFiling!.personId] ?? 0) / both,
-      );
+  // The holder's share is the general election's alone; the median the
+  // totals report counts two-way races only.
+  let holderShare: number | null = null;
+  if (holderOnBallot && contested) {
+    const all = onBallot.reduce(
+      (n, f) => n + (result.totals[f.personId] ?? 0),
+      0,
+    );
+    if (all > 0) {
+      holderShare = (result.totals[holderFiling!.personId] ?? 0) / all;
+      if (onBallot.length === 2) counts.holderShares.push(holderShare);
+    }
   }
+  return {
+    contest: true,
+    placeKey,
+    id: contest.id,
+    level: contest.level,
+    electionDate: contest.electionDate,
+    holderTermId: holder?.termId ?? null,
+    holderPersonId: holder?.personId ?? null,
+    ran: holderRan,
+    withdrew,
+    lostPrimary,
+    primaryRival,
+    onBallot: onBallot.length,
+    contested,
+    contestedForHolder,
+    holderWon,
+    winnerId: winner ?? result.winnerCandidateId ?? null,
+    newcomerBeatHolder: newcomer && holderRan,
+    holderShare: holderShare === null ? null : Number(holderShare.toFixed(3)),
+    twoWay: onBallot.length === 2,
+  };
 }
 
 function runPlace(index: number) {
@@ -279,7 +377,15 @@ function runPlace(index: number) {
         .filter((r) => r.date >= entry.contest.electionDate)
         .sort((a, b) => b.date.localeCompare(a.date))[0];
       if (result) {
-        readContest(api, core, entry, result, levelOf(entry.contest.level));
+        const line = readContest(
+          api,
+          core,
+          drawn.key,
+          entry,
+          result,
+          levelOf(entry.contest.level),
+        );
+        if (printContests) console.log(JSON.stringify(line));
         watched.delete(id);
       } else if (
         final ||
@@ -333,14 +439,104 @@ function runPlace(index: number) {
       runSeconds,
       peakHeapMiB: mib(peakHeap),
       levels,
+      ...(byLevel.size
+        ? {}
+        : {
+            note: "no local contests read in the run (a place whose local offices are seated at the state level measures nothing)",
+          }),
     }),
   );
   return { byLevel, runSeconds, buildSeconds, peakHeap };
 }
 
+/** The research bands (docs/research/local-incumbency-2026-10-30.md, verified totals). */
+interface Bands {
+  readonly T1: string;
+  readonly T2: string;
+  readonly T3: string;
+  readonly T4: string;
+  readonly T6: string;
+}
+const T3_BAND = "66-78% (fail above 80%)";
+const T4_BAND =
+  "40-67% in small and mid places, 40-80% plausible in small towns (fail above about 30% in large cities)";
+const T6_BAND = "18-30% (fail below 15% or above 35%)";
+const BANDS: Record<string, Bands> = {
+  all: {
+    T1: "58-80% all offices (fail below 50% or above 88%)",
+    T2: "by group: 80-90% cities and townships, 88-94% counties",
+    T3: T3_BAND,
+    T4: T4_BAND,
+    T6: T6_BAND,
+  },
+  county: {
+    T1: "80-86%",
+    T2: "88-94%",
+    T3: T3_BAND,
+    T4: T4_BAND,
+    T6: T6_BAND,
+  },
+  "city+township": {
+    T1: "59-76% councils (about 77% of eligible mayors)",
+    T2: "80-90% (fail below 75%, or above 92% outside counties)",
+    T3: T3_BAND,
+    T4: T4_BAND,
+    T6: T6_BAND,
+  },
+};
+/** The research's level groups: counties have their own bands; councils and townships share theirs. */
+const groupOf = (level: string) =>
+  level === "city" || level === "township" ? "city+township" : level;
+
+/** T1 to T6 and the two-way holder share for one pool of counts, each with its count. */
+function metrics(c: LevelCounts, bands: Bands) {
+  return {
+    contests: c.contests,
+    T1_holdersWhoRan: {
+      value: share(c.holderRan, c.withHolder),
+      n: c.withHolder,
+      band: bands.T1,
+    },
+    T2_runningHoldersWhoWin: {
+      value: share(c.holderWon, c.holderRan),
+      n: c.holderRan,
+      band: bands.T2,
+    },
+    T3_contestedWinRate: {
+      value: share(c.holderWonContested, c.holderRanContested),
+      n: c.holderRanContested,
+      band: bands.T3,
+    },
+    T4_runningHoldersUnopposed: {
+      value: share(c.holderUnopposed, c.holderRan),
+      n: c.holderRan,
+      band: bands.T4,
+    },
+    T6_newcomersWhoBeatAHolder: {
+      value: share(c.newBeatHolder, c.newlySeated),
+      n: c.newlySeated,
+      band: bands.T6,
+    },
+    holderShareTwoWayMedian: {
+      value:
+        c.holderShares.length > 0
+          ? Number(median(c.holderShares)!.toFixed(3))
+          : null,
+      n: c.holderShares.length,
+      note: "descriptive: about 0.58 median in competitive local races; A2 advantage +5 to +12 points against a comparable challenger (fail above 12)",
+    },
+    holderLostPrimary: c.holderLostPrimary,
+    holderPrimaryRival: c.holderPrimaryRival,
+    holderWithdrew: c.holderWithdrew,
+    noCandidates: c.noCandidates,
+    noResult: c.noResult,
+  };
+}
+
 const started = performance.now();
 const all = emptyCounts();
 const allLevels = new Map<string, LevelCounts>();
+const groups = new Map<string, LevelCounts>();
 let peakHeap = 0;
 let runSeconds = 0;
 for (let i = 0; i < placeCount; i += 1) {
@@ -350,6 +546,9 @@ for (let i = 0; i < placeCount; i += 1) {
     const into = allLevels.get(level) ?? emptyCounts();
     addInto(into, counts);
     allLevels.set(level, into);
+    const group = groups.get(groupOf(level)) ?? emptyCounts();
+    addInto(group, counts);
+    groups.set(groupOf(level), group);
   }
   peakHeap = Math.max(peakHeap, place.peakHeap);
   runSeconds += place.runSeconds;
@@ -362,47 +561,17 @@ console.log(
     places: placeCount,
     years,
     ablation,
-    contests: all.contests,
-    T1_holdersWhoRan: {
-      value: share(all.holderRan, all.withHolder),
-      n: all.withHolder,
-      band: "58-78%",
-    },
-    T2_runningHoldersWhoWin: {
-      value: share(all.holderWon, all.holderRan),
-      n: all.holderRan,
-      band: "80-90% (fail above 92% outside counties)",
-    },
-    T3_contestedWinRate: {
-      value: share(all.holderWonContested, all.holderRanContested),
-      n: all.holderRanContested,
-      band: "66-78% (fail above 80%)",
-    },
-    T4_runningHoldersUnopposed: {
-      value: share(all.holderUnopposed, all.holderRan),
-      n: all.holderRan,
-      band: "35-67%",
-    },
-    T6_newcomersWhoBeatAHolder: {
-      value: share(all.newBeatHolder, all.newlySeated),
-      n: all.newlySeated,
-      band: "18-30% (fail below 15%)",
-    },
-    holderShareTwoWayMedian: {
-      value:
-        all.holderShares.length > 0
-          ? Number(median(all.holderShares)!.toFixed(3))
-          : null,
-      n: all.holderShares.length,
-      note: "descriptive: about 0.58 median in competitive local races; A2 advantage +5 to +12 points against a comparable challenger",
-    },
-    holderLostPrimary: all.holderLostPrimary,
-    holderWithdrew: all.holderWithdrew,
-    noCandidates: all.noCandidates,
-    noResult: all.noResult,
+    ...metrics(all, BANDS.all!),
+    groups: Object.fromEntries(
+      [...groups]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([group, c]) => [group, metrics(c, BANDS[group] ?? BANDS.all!)]),
+    ),
     levels: Object.fromEntries(
       [...allLevels].map(([level, c]) => [level, c.contests]),
     ),
+    ablationNote:
+      "every version keeps the holder's record term and the recognition serving in office gives; neither zeroes only the trait term and bare standing",
     runSeconds: Number(runSeconds.toFixed(1)),
     seconds: secondsSince(started),
     peakHeapMiB: mib(peakHeap),

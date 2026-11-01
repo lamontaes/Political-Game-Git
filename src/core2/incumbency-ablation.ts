@@ -12,7 +12,14 @@
  * - `standing`: the incumbent's bare incumbency in their public standing:
  *   `incumbentRecognition` in a local race (`contestView`, voting.ts) and
  *   `incumbencyShare` in a partisan state or federal race (`candidateReasons`,
- *   electorate-inputs.ts). The record the town or a voter weighs stays.
+ *   electorate-inputs.ts), together with the same share netted out of a
+ *   held state legislative district's 2024 baseline (`makePlace`,
+ *   electorate-places.ts), so the holder's side lands at zero, not below it.
+ *
+ * Neither knob removes all incumbency: the holder's record (the town's or a
+ * voter's `recordAppeal`, voting.ts) and the recognition every adult in an
+ * office's public gets from its serving official (past-public.ts) stay in
+ * every version, `neither` included.
  */
 export interface IncumbencyAblation {
   readonly trait: boolean;
