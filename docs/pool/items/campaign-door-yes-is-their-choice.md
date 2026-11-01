@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/door-yes-is-their-choice
 pr: #6912
 blocked-on:
