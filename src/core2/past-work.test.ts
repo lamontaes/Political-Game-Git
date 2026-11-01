@@ -133,11 +133,24 @@ describe(`the working life before the start, ${label}`, () => {
   });
 
   it("is told in the Journal from its own records", () => {
-    // The player when they worked, else the first worker the run let go.
-    const told =
-      pastWorkOf(core, playerId as PersonId).length > 0
-        ? (playerId as PersonId)
-        : spells.find((row) => row.facts.end === "let-go")?.personIds?.[0];
+    // The player when they worked, else the first worker the run let go. The
+    // Journal's work lines all name an employer, and a spell with none on
+    // record (work in another place before a move) has no line, so the pick
+    // is someone with a spell that does name one (a held-at-start job is told
+    // by the line that leads into it, so it alone is not enough).
+    const tellable = (id: PersonId) =>
+      pastWorkOf(core, id).some(
+        (row) =>
+          row.kind === PAST_WORK_SPELL &&
+          row.facts.organizationId &&
+          row.facts.end !== "held-at-start",
+      );
+    const told = [
+      playerId as PersonId,
+      ...spells
+        .filter((row) => row.facts.end === "let-go")
+        .flatMap((row) => row.personIds ?? []),
+    ].find(tellable);
     expect(told, label).toBeDefined();
     director.watch(core, told!);
     const ids = new Set(
