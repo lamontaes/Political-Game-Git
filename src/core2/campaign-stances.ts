@@ -355,7 +355,7 @@ export interface PlatformScore {
   readonly position: number;
   /** How strongly they hold it: the position's size, 0 to 1. */
   readonly conviction: number;
-  /** The percent of the town's electorate on their side of it, 0 to 100. */
+  /** The percent of the town's electorate whose own stance is on their side of it, 0 to 100. */
   readonly support: number;
   /** conviction × exp(platformSupportSlope × support). */
   readonly score: number;
@@ -365,9 +365,10 @@ export interface PlatformScore {
  * Each question the contest's seat takes up (`contestPositions`) that the
  * candidate holds a view on, scored by how candidates choose what to run on
  * (docs/research/platform-emphasis-2026-10-30.md): how strongly they hold it
- * times exp(slope × the percent of the electorate on their side), so a view
- * most of the town shares is talked about and one most oppose is left
- * unsaid. Positions never move for it; only which questions are run on.
+ * times exp(slope × the percent of the electorate on their side, by the
+ * stance the vote's agreement readers read: `electorateSides`), so of two
+ * views held about as strongly, the one more of the town shares is talked
+ * about. Positions never move for it; only which questions are run on.
  */
 export function platformScores(
   api: CoreAPI,
@@ -375,6 +376,8 @@ export function platformScores(
   party: string | null | undefined,
   positions: readonly string[],
 ): readonly PlatformScore[] {
+  // stopgapId: SG-GOV-platform-slope-c1-out-of-band (the slope is the study's; the played total of emphasis on support, research C1, falls outside its band at every slope in the spread)
+  api.stopgap("SG-GOV-platform-slope-c1-out-of-band");
   const slope = campaignParameter("platformSupportSlope");
   // stopgapId: SG-GOV-platform-support-true-share (a candidate reads the electorate's true share on each question, not their belief from the people they know and the polls they have seen)
   api.stopgap("SG-GOV-platform-support-true-share");

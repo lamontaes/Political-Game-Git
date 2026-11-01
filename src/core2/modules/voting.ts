@@ -77,7 +77,6 @@ import {
   campaignParameter,
   groupStance,
   personLean,
-  publicOffset,
   type Stance,
   type StanceProfile,
 } from "../campaign-views";
@@ -180,6 +179,7 @@ import {
   type CandidateInputs,
   type CandidateReasons,
 } from "../electorate-inputs";
+import { residentsRuntime } from "./residents";
 import { scandalsOf } from "./corruption";
 import { convictionsOf } from "./justice";
 import { newsKey, trustWeight } from "./news";
@@ -1450,7 +1450,8 @@ interface SideVoter {
 const sidesByDay = new WeakMap<
   object,
   {
-    readonly date: string;
+    /** The day, the people's count and the counted store's members version it was read at. */
+    readonly key: string;
     readonly voters: readonly SideVoter[];
     readonly total: number;
     readonly byQuestion: Map<string, ElectorateSides>;
@@ -1459,14 +1460,15 @@ const sidesByDay = new WeakMap<
 
 /**
  * The shares of the town's electorate (`electorateRoll`) on each side of a
- * policy question, as each would decide it directly (the rule a ballot
- * measure is voted by): a named adult at their own current view of it
- * (`viewOn`), a counted record at the stance its record gives (`groupStance`,
- * as many times as the people it stands for: one model, two tiers), each
- * from their place in the town's lean order (`personLean`) and plus how
- * popular the policy is across the country (`publicOffset`). Read once a
- * day: the electorate as it stood at the first question asked that day, and
- * each question once.
+ * policy question, by the stance the vote's agreement readers read
+ * (`agreementWith` for a named adult, `groupAgreement` for a counted record):
+ * a named adult at their own current view of it (`viewOn`), a counted record
+ * at the stance its record gives (`groupStance`, as many times as the people
+ * it stands for: one model, two tiers), each from their place in the town's
+ * lean order (`personLean`). The policy's national popularity is not added:
+ * a voter weighs a platform by their own view alone. Read once a day, until
+ * someone is filled in or the people change (as `countedResidents` is kept),
+ * and each question once.
  */
 export function electorateSides(
   api: CoreAPI,
@@ -1474,8 +1476,9 @@ export function electorateSides(
 ): ElectorateSides {
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return { yes: 0, no: 0 };
   const core = api.state as CoreState;
+  const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
   let held = sidesByDay.get(core);
-  if (!held || held.date !== core.date) {
+  if (!held || held.key !== key) {
     const records = new Map(countedResidents(core).map((row) => [row.id, row]));
     const lean0 = townLean(api);
     const views = core.modules.has(VIEWS_MODULE_ID);
@@ -1498,19 +1501,20 @@ export function electorateSides(
       });
       total += row.count;
     }
-    held = { date: core.date, voters, total, byQuestion: new Map() };
+    held = { key, voters, total, byQuestion: new Map() };
     sidesByDay.set(core, held);
   }
   const kept = held.byQuestion.get(question);
   if (kept) return kept;
-  const offset = publicOffset(question, api.state.seed);
+  if (question.startsWith("budget-line:"))
+    // stopgapId: SG-GOV-budget-line-stance-lean-only (a spending line's stance is the lean times the line's party axis alone, so every line splits the electorate the same way)
+    api.stopgap("SG-GOV-budget-line-stance-lean-only");
   let yes = 0,
     no = 0;
   for (const voter of held.voters) {
-    const stance =
-      (voter.named
-        ? viewOn(api, voter.id, question, voter.lean)
-        : groupStance(voter.lean, question, voter.profile)) + offset;
+    const stance = voter.named
+      ? viewOn(api, voter.id, question, voter.lean)
+      : groupStance(voter.lean, question, voter.profile);
     if (stance > 0) yes += voter.count;
     else if (stance < 0) no += voter.count;
   }

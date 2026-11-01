@@ -5,11 +5,12 @@
  * score, how strongly they hold it times exp(platformSupportSlope × the
  * percent of the town's electorate on their side), is highest, at their own
  * positions. In a place drawn from all 56 (PLATFORM_SEED pins the run), the
- * test works out every share itself from the electorate (each named adult at
- * their own view, each counted record times the people it stands for, plus
- * the policy's national popularity), scores every question by the rule, and
- * finds a candidate whose strongest view is the town's minority side and is
- * left off for a question that scores higher.
+ * test works out every share itself from the electorate by the readers the
+ * vote scores a platform by (each named adult by `agreementWith`, each counted
+ * record by `groupAgreement` times the people it stands for, on the platform
+ * "yes on this question"; platform-test-kit.ts), scores every question by the
+ * rule, and finds a candidate whose strongest view is the town's minority
+ * side and is left off for a question that scores higher.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -18,56 +19,22 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { ageOnDate } from "./kernel/dates";
 import { coreAPI } from "./state";
-import type { CoreAPI, CoreState } from "./types";
-import { candidatePlatform, candidateStance } from "./campaign-stances";
 import {
-  campaignParameter,
-  groupStance,
-  personLean,
-  publicOffset,
-} from "./campaign-views";
+  candidatePlatform,
+  candidateStance,
+  platformScores,
+} from "./campaign-stances";
+import { campaignParameter } from "./campaign-views";
 import { contestPositions } from "./contest-positions";
-import { countedResidents } from "./electorate";
-import { townLean } from "./modules/campaigns";
 import { lawChain } from "./modules/laws";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { OFFICES_MODULE_ID } from "./modules/offices";
-import { electorateRoll } from "./modules/voting";
-import { countedStanceProfile, viewOn, VIEWS_MODULE_ID } from "./modules/views";
+import { sidesByAgreement } from "./platform-test-kit";
 
 const seed = process.env.PLATFORM_SEED ?? randomBytes(8).toString("hex");
 const MAX_DRAWS = 8;
 /** Adults living in the town scored as candidates in each draw, in id order. */
 const CANDIDATES = 120;
-
-/** The share of the town's electorate whose own stance favors and opposes a question, worked out here from the people and records. */
-function shares(api: CoreAPI, question: string): { yes: number; no: number } {
-  const core = api.state as CoreState;
-  const records = new Map(countedResidents(core).map((row) => [row.id, row]));
-  const views = core.modules.has(VIEWS_MODULE_ID);
-  const offset = publicOffset(question, core.seed);
-  let yes = 0,
-    no = 0,
-    all = 0;
-  for (const row of electorateRoll(api)) {
-    const named = row.target === "person";
-    const who = named ? core.people.get(row.id) : records.get(row.id);
-    if (!who) continue;
-    const lean = personLean(core.people, who, townLean(api));
-    const stance =
-      (named
-        ? viewOn(api, row.id, question, lean)
-        : groupStance(
-            lean,
-            question,
-            views ? countedStanceProfile(api, records.get(row.id)!) : null,
-          )) + offset;
-    all += row.count;
-    if (stance > 0) yes += row.count;
-    if (stance < 0) no += row.count;
-  }
-  return all ? { yes: yes / all, no: no / all } : { yes: 0, no: 0 };
-}
 
 interface Scored {
   question: string;
@@ -80,6 +47,7 @@ interface Scored {
 function attempt(draw: number): { proven: string } | { tried: string } {
   const place = drawPlace(`${seed}:${draw}`, "campaign-platform");
   const where = `${place.name} (${place.key}), run seed ${seed}, draw ${draw}, place seed ${place.seed}`;
+  console.log(`campaign-platform: ${where}`);
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
@@ -114,7 +82,7 @@ function attempt(draw: number): { proven: string } | { tried: string } {
     )
     .sort((a, b) => a.id.localeCompare(b.id))
     .slice(0, CANDIDATES);
-  const supportOf = new Map<string, { yes: number; no: number }>();
+  const supportOf = new Map<string, ReturnType<typeof sidesByAgreement>>();
   const seen = new Set<string>();
   for (const contest of contests) {
     const positions = contestPositions(api, contest);
@@ -130,7 +98,7 @@ function attempt(draw: number): { proven: string } | { tried: string } {
         const position = candidateStance(api, adult.id, null, question);
         if (position === null || position === 0) continue;
         let s = supportOf.get(question);
-        if (!s) supportOf.set(question, (s = shares(api, question)));
+        if (!s) supportOf.set(question, (s = sidesByAgreement(api, question)));
         const support = 100 * (position > 0 ? s.yes : s.no);
         const conviction = Math.abs(position);
         scored.push({
@@ -143,6 +111,17 @@ function attempt(draw: number): { proven: string } | { tried: string } {
       }
       const on = new Set(platform.map((s) => s.question));
       const label = `${where}: ${adult.id} in ${contest.id}`;
+      // The engine's own count of each share agrees with the vote's readers.
+      const engine = platformScores(api, adult.id, null, positions);
+      expect(
+        engine.map((s) => s.question),
+        label,
+      ).toEqual(scored.map((s) => s.question));
+      for (const [i, s] of engine.entries())
+        expect(s.support, `${label}: ${s.question} support`).toBeCloseTo(
+          scored[i]!.support,
+          9,
+        );
       expect(platform.length, label).toBe(Math.min(count, scored.length));
       // The platform's questions outscore every question left off.
       const onScores = scored.filter((s) => on.has(s.question));
