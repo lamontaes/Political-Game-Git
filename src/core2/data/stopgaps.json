@@ -7833,5 +7833,17 @@
     "addedAt": "2026-10-30",
     "replacement": "Plates for every house living room (people-home-plates); once each room the lists name has one, the preference picks from the whole list and is deleted.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-counted-lean-spread",
+    "kind": "partial-model",
+    "file": "src/core2/electorate.ts",
+    "line": 640,
+    "whatItFakes": "On a ballot with party labels, a counted voter record's unpledged people still vote whole for its first place, as one person would; only on a ballot without party labels do they divide by each candidate's logistic share of their appeal (countedShareRule).",
+    "why": "CTO ruling Nov 1, 22:10: each place's counted people are placed along the lean order where, voting first place, they split as the place voted in 2024 (orderPlacement), so a share on top counts that spread twice: in a draw of all 51, D.C. counted 0.193 Republican against 0.072, and a town at 0.20 counted 0.297.",
+    "addedBy": "Claude (governing lead)",
+    "addedAt": "2026-11-01",
+    "replacement": "A spread of leans within each counted record on the lean order (the residents it stands for over its own stretch of the order), so that races with and without party labels divide by one rule and the lean order's placement reads the same division.",
+    "status": "open"
   }
 ]

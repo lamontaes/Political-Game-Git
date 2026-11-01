@@ -1,12 +1,15 @@
 /**
  * Pool item elections-counted-vote-splits-by-share (CTO ruling, Nov 1): a
- * counted voter record stands for many different residents, so its unpledged
- * weight divides among the candidates by each one's logistic share of the
- * appeal gaps at appealPerShare's slope, never all to whoever is strictly
- * first. A household that gave its word at a door keeps its whole vote
- * (near-binding, Oct 29), and a named voter (one person) keeps first place.
- * The expected shares here are worked from the formula itself, never from the
- * engine's own function, so a count that went back to first place fails.
+ * counted voter record stands for many different residents, so on a ballot
+ * without party labels its unpledged weight divides among the candidates by
+ * each one's logistic share of the appeal gaps at appealPerShare's slope,
+ * never all to whoever is strictly first. On a ballot with party labels the
+ * record keeps first place until a spread of leans within each record
+ * replaces both (amended 22:10). A household that gave its word at a door
+ * keeps its whole vote (near-binding, Oct 29), and a named voter (one person)
+ * keeps first place. The expected shares here are worked from the formula
+ * itself, never from the engine's own function, so a count that went back to
+ * first place fails.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -17,6 +20,7 @@ import {
   countPlaces,
   countedAppeal,
   countedChoice,
+  countedShareRule,
   countedShares,
   type CountedFieldEntry,
 } from "./electorate";
@@ -33,10 +37,12 @@ import {
   VOTING_MODULE_ID,
   countedBallotsOf,
   countedDivision,
+  placesOf,
   resultOf,
   type BallotRow,
 } from "./modules/voting";
 import { coreAPI } from "./state";
+import { setTraitProbe, type OutcomeProbeRow } from "./trait-probe";
 import { setKeepEveryonesWhy } from "./why-kept";
 
 /** The ruling's share, worked out here: exp(k a_i) / sum_j exp(k a_j), k = 4 / appealPerShare. */
@@ -87,7 +93,13 @@ describe("a counted record splits its unpledged votes by a share of the appeal g
     );
     expect(shares.leader).toBeLessThan(0.6);
     // The engine's division of a record standing for 10 voters, no door's word.
-    const division = countedDivision(appeal, undefined, 10, () => appeal);
+    const division = countedDivision(
+      appeal,
+      undefined,
+      10,
+      () => appeal,
+      countedShareRule(field),
+    );
     expect(division.votes.leader).toBeCloseTo(10 * exact, 9);
     expect(division.votes.other).toBeCloseTo(10 * (1 - exact), 9);
     // The place tally divides each sample voter's people the same way.
@@ -120,15 +132,39 @@ describe("a counted record splits its unpledged votes by a share of the appeal g
     const pledged = countedAppeal(0, field, { ...away, pledges });
     // The record stands for 10: one household on its word for the trailing
     // candidate, the other 9 split as they would have without it.
-    const division = countedDivision(pledged, pledges, 10, () => appeal);
+    const shares = countedShareRule(field);
+    const division = countedDivision(
+      pledged,
+      pledges,
+      10,
+      () => appeal,
+      shares,
+    );
     expect(division.pledged).toBe("other");
     expect(division.wholePledged).toBe(false);
     expect(division.votes.other).toBeCloseTo(1 + 9 * (1 - exact), 9);
     expect(division.votes.leader).toBeCloseTo(9 * exact, 9);
     // A record that is the one household: its whole vote on its word.
-    const one = countedDivision(pledged, pledges, 1, () => appeal);
+    const one = countedDivision(pledged, pledges, 1, () => appeal, shares);
     expect(one.wholePledged).toBe(true);
     expect(one.votes).toEqual({ other: 1 });
+    // A word wholly undone (nothing of it holds) binds no one: that
+    // household divides with the rest, by the formula's shares.
+    const undone = { other: 0 };
+    const lapsed = countedAppeal(0, field, { ...away, pledges: undone });
+    for (const weight of [1, 10]) {
+      const free = countedDivision(
+        lapsed,
+        undone,
+        weight,
+        () => appeal,
+        shares,
+      );
+      expect(free.pledged).toBeNull();
+      expect(free.wholePledged).toBe(false);
+      expect(free.votes.leader).toBeCloseTo(weight * exact, 9);
+      expect(free.votes.other).toBeCloseTo(weight * (1 - exact), 9);
+    }
   });
 
   it("(c) a named voter with the same appeals still picks first place", () => {
@@ -137,6 +173,71 @@ describe("a counted record splits its unpledged votes by a share of the appeal g
     const even = { a: { total: 0.2 }, b: { total: 0.2 } };
     expect(countedChoice(even)).toBeNull();
     expect(countedShares(even)).toEqual({ a: 0.5, b: 0.5 });
+  });
+
+  it("(e) the audit's probe reads a counted record's share of the incumbent, and one person's first place", () => {
+    // The leader is the incumbent, 0.1 ahead on standing; the probe's
+    // incumbent lean is the trait term (zero here: with and without agree).
+    const seat = field.map((f) => ({ ...f, isIncumbent: f.id === "leader" }));
+    const rows: OutcomeProbeRow[] = [];
+    setTraitProbe({ outcome: (row) => rows.push(row) });
+    try {
+      countedAppeal(0, seat, { ...away, divides: true });
+      countedAppeal(0, seat, away);
+    } finally {
+      setTraitProbe(undefined);
+    }
+    const backs = rows.filter((r) => r.decisionId === "voting.back-incumbent");
+    expect(backs).toHaveLength(2);
+    expect(backs[0]!.value).toBeCloseTo(exact, 12);
+    expect(backs[0]!.flat).toBeCloseTo(exact, 12);
+    expect(backs[1]!.value).toBe(1);
+    expect(backs[1]!.flat).toBe(1);
+  });
+
+  it("(f) on a ballot with party labels a counted record still goes whole to its first place (CTO, Nov 1, 22:10)", () => {
+    // The same 0.1 lead, the candidates now carrying the two parties' labels
+    // and the voter at the center of the lean order.
+    const labelled = field.map((f, i) => ({ ...f, side: i ? -1 : 1 }));
+    const party = countedAppeal(0, labelled, away);
+    expect(party.leader!.total - party.other!.total).toBeCloseTo(0.1, 12);
+    const rule = countedShareRule(labelled);
+    expect(rule(party)).toEqual({ leader: 1 });
+    expect(rule({ a: { total: 0.2 }, b: { total: 0.2 } })).toEqual({});
+    const division = countedDivision(party, undefined, 10, () => party, rule);
+    expect(division.votes).toEqual({ leader: 10 });
+    // The place tally gives each sample voter's people whole to the first.
+    const counted = countPlaces(
+      [{ id: "v", rank: 0.5, readiness: 0, incumbentLean: 0, weight: 1 }],
+      [
+        {
+          id: "p",
+          name: "p",
+          eligible: 1_000_000,
+          rightShare: 0.5,
+          votes2024: 0,
+          source: "test",
+          inTown: true,
+          local: true,
+        },
+      ],
+      labelled,
+    );
+    expect(counted.votes.leader ?? 0).toBeGreaterThan(0);
+    expect(counted.votes.other ?? 0).toBe(0);
+    // And the audit's probe reads that first place for the record's people.
+    const seat = labelled.map((f) => ({
+      ...f,
+      isIncumbent: f.id === "other",
+    }));
+    const rows: OutcomeProbeRow[] = [];
+    setTraitProbe({ outcome: (row) => rows.push(row) });
+    try {
+      countedAppeal(0, seat, { ...away, divides: true });
+    } finally {
+      setTraitProbe(undefined);
+    }
+    expect(rows.map((r) => [r.value, r.flat])).toEqual([[0, 0]]);
   });
 });
 
@@ -148,7 +249,7 @@ const seed =
   randomBytes(8).toString("hex");
 
 interface KeptCounted {
-  readonly field: readonly { readonly id: string }[];
+  readonly field: readonly { readonly id: string; readonly side: number }[];
   readonly voterIds: readonly string[];
   readonly voted: readonly number[];
   readonly weight: readonly number[];
@@ -157,7 +258,7 @@ interface KeptCounted {
   readonly split: readonly (readonly number[])[];
 }
 
-it(`(d) a played local contested race's tally is the records' shares times their weights, plus pledged and named votes (seed ${seed})`, () => {
+it(`(d) a played local contested race's tally is the records' shares times their weights (first place with party labels), plus pledged and named votes (seed ${seed})`, () => {
   const tried: string[] = [];
   for (let draw = 0; draw < 6; draw += 1) {
     const drawn = drawPlace(`${seed}:${draw}`, "counted-vote-share");
@@ -206,7 +307,19 @@ it(`(d) a played local contested race's tally is the records' shares times their
           .get(`counted:${contest.id}`) as unknown as KeptCounted | undefined;
         if (!result || !kept || kept.field.length < 2) continue;
         const ids = kept.field.map((f) => f.id);
+        // A ballot with party labels keeps first place for a record's people
+        // (CTO, Nov 1, 22:10); one without divides them by the formula.
+        const labelled = kept.field.some((f) => f.side !== 0);
+        const divide = (
+          appeal: Readonly<Record<string, { readonly total: number }>>,
+        ): Record<string, number> => {
+          if (!labelled) return formulaShares(appeal);
+          const first = countedChoice(appeal);
+          return first ? { [first]: 1 } : {};
+        };
         const ballots = countedBallotsOf(api, contest.id);
+        // Records whose people divide strictly inside, not near all one way.
+        let inside = 0;
         // Each record's voters, from the formula: a household that gave its
         // word whole, the rest by each candidate's share times their weight.
         const raw: Record<string, number> = {};
@@ -224,7 +337,7 @@ it(`(d) a played local contested race's tally is the records' shares times their
             const restWeight = kept.pledgedChoice[i]! >= 0 ? w - 1 : w;
             if (kept.pledgedChoice[i]! >= 0)
               add(ids[kept.pledgedChoice[i]!]!, 1);
-            for (const [id, s] of Object.entries(formulaShares(b.appeal)))
+            for (const [id, s] of Object.entries(divide(b.appeal)))
               add(id, s * restWeight);
           }
           for (const [j, id] of ids.entries())
@@ -232,6 +345,8 @@ it(`(d) a played local contested race's tally is the records' shares times their
               kept.split[i]![j]!,
               `${where}: ${contest.id} record ${b.voterId} for ${id}`,
             ).toBeCloseTo(expected[id] ?? 0, 9);
+          const most = Math.max(...ids.map((id) => expected[id] ?? 0));
+          if (w > 0 && most / w > 0.05 && most / w < 0.95) inside += 1;
           for (const [id, n] of Object.entries(expected))
             raw[id] = (raw[id] ?? 0) + kept.voted[i]! * n;
           // What first place would have given, for the report.
@@ -268,16 +383,27 @@ it(`(d) a played local contested race's tally is the records' shares times their
             firstPlaceChecked += 1;
           }
         }
+        // The rest of the race's electorate, from the place rows the count
+        // kept, not the result's own sum of them.
+        const placeVotes: Record<string, number> = {};
+        for (const row of placesOf(api, contest.id))
+          for (const [id, n] of Object.entries(row.votes))
+            placeVotes[id] = (placeVotes[id] ?? 0) + n;
         for (const id of ids) {
           expect(result.namedVotes[id] ?? 0, `${where}: named ${id}`).toBe(
             namedVotes[id] ?? 0,
           );
           expect(result.totals[id], `${where}: total ${id}`).toBe(
-            (result.namedVotes[id] ?? 0) +
+            (namedVotes[id] ?? 0) +
               (result.countedVotes[id] ?? 0) +
-              (result.placeVotes[id] ?? 0),
+              (placeVotes[id] ?? 0),
           );
         }
+        // A contest counts as checked only where something was: a ballot
+        // without party labels, counted records, one dividing strictly
+        // inside, and a named first place.
+        if (labelled || !ballots.length || !inside || !firstPlaceChecked)
+          continue;
         const share = (votes: Record<string, number>) => {
           const all = ids.reduce((n, id) => n + (votes[id] ?? 0), 0);
           return ids
@@ -287,13 +413,15 @@ it(`(d) a played local contested race's tally is the records' shares times their
             .join(", ");
         };
         checked.push(
-          `${contest.id} (${contest.title}, ${day}): ${ballots.length} counted records; counted votes ${JSON.stringify(result.countedVotes)} = shares ${share(raw)} (first place would give ${share(firstPlace)}); named ${JSON.stringify(result.namedVotes)} (${firstPlaceChecked} named ballots at first place); places ${JSON.stringify(result.placeVotes)}; totals ${JSON.stringify(result.totals)}`,
+          `${contest.id} (${contest.title}, ${day}): ${ballots.length} counted records (${inside} dividing between 0.05 and 0.95); counted votes ${JSON.stringify(result.countedVotes)} = shares ${share(raw)} (first place would give ${share(firstPlace)}); named ${JSON.stringify(result.namedVotes)} (${firstPlaceChecked} named ballots at first place); places ${JSON.stringify(placeVotes)}; totals ${JSON.stringify(result.totals)}`,
         );
       }
       if (checked.length) break;
     }
     if (!checked.length) {
-      tried.push(`${where}: no contested local race by ${end}`);
+      tried.push(
+        `${where}: no contested local race without party labels, with counted records dividing and a named voter, by ${end}`,
+      );
       continue;
     }
     for (const line of checked)
