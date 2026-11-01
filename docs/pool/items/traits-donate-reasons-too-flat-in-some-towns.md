@@ -22,3 +22,5 @@ lead: governing
 **Files.** src/core2/modules/campaigns.ts,src/core2/modules/campaigns.traits.test.ts,src/core2/data/trait-decision-gaps.json
 
 **Notes.** lead: traits. Found by the standing red-main owner Oct 30 03:20 UTC from Checker 2's report; not fixed by the red-main owner because the fix is a calibration needing a sourced giving share and a reading of the person's own money, not a test change. Read: OWNER-DECISIONS (no dice, estimate-not-unknown), searched docs/pool/items for campaigns.donate and giving follows openness: none.
+
+Nov 1 evidence (governing lead, review of governing/traits-endorsements-heard, head ed93f41c81, main also red): GOLDEN_PATH_SEED=chk2-c, Lyndon Center, Vermont (draw :0): campaigns.donate odds ratio 4.39 against the bound of 4.01, so the giving case still fails there (it read 8.18 on main b216577 on Oct 30). The same run's running-for-office case is a separate item, tests-campaigns-traits-run-ratio-cruz-bay (Cruz Bay, U.S. Virgin Islands, seed a4eca5af1791dc3df7527d94791fb774b3fcdd52 draw :0).

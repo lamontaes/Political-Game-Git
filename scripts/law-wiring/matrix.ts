@@ -218,12 +218,23 @@ const RESEARCH_GAPS = new Map(
 
 type Declared = Record<
   string,
-  Record<string, { status: "n/a" | "stopgap"; id?: string; why: string }>
+  Record<
+    string,
+    {
+      status: "n/a" | "stopgap" | "partial";
+      id?: string;
+      why: string;
+      /** A partial declaration's evidence, in place of the runs': what the runs and a played test do show, by record id. */
+      evidence?: string;
+    }
+  >
 >;
 /**
  * Links a law does not have by its statute, or a stopgap for one law's link,
  * by law key and link: declared.json, then one file per family in declared/
- * (so family PRs do not edit one shared file).
+ * (so family PRs do not edit one shared file). A partial declaration lowers
+ * a link the runs grade wired but cannot show, while its stopgap is open; no
+ * declaration raises a grade.
  */
 const DECLARED: Declared = (() => {
   const dir = "scripts/law-wiring/declared";
@@ -1023,13 +1034,26 @@ function main(): void {
     // A law that moves no money by its terms is declared so even where some
     // post differed from the control world without citing it: that money is
     // not the law's (a traced post, direct or citing the law, still wins).
-    for (const [k, d] of Object.entries(DECLARED[law.key] ?? {}))
+    for (const [k, d] of Object.entries(DECLARED[law.key] ?? {})) {
+      const sgRow = d.id ? stopgapOf(d.id) : null;
+      // A partial declaration names a link the runs grade wired from records
+      // that do not show it (a ledger row in a place with nobody to read it,
+      // a lag no run's law outlasted): it is partial while its stopgap is
+      // open, with the declaration's evidence. It lowers only a wired grade.
+      if (d.status === "partial") {
+        if (links[k]?.status === "wired" && sgRow?.open)
+          links[k] = {
+            status: "partial",
+            evidence: d.evidence ?? links[k]!.evidence,
+            why: `${d.why} (${d.id})`,
+          };
+        continue;
+      }
       if (
         links[k] &&
         (links[k]!.status !== "wired" ||
           (k === "money" && links[k]!.untraced && d.status === "n/a"))
       ) {
-        const sgRow = d.id ? stopgapOf(d.id) : null;
         if (d.status === "stopgap" && !sgRow?.open) continue;
         links[k] = {
           ...links[k]!,
@@ -1037,6 +1061,7 @@ function main(): void {
           why: d.id ? `${d.why} (${d.id})` : d.why,
         };
       }
+    }
     // A policy's registered stopgap explains a missing effect (reach, the
     // engines, money, the outcome web); it is not wiring.
     const sg = stopgapOf(data.stopgapId);

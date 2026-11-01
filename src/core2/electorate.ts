@@ -388,8 +388,24 @@ export function engagementOf(
   return cell.engagement ?? VIEWS_KEYS.national.engagement ?? null;
 }
 
-/** The nation's average engagement, the center turnout reads it against. */
+/** The nation's average engagement. */
 export const NATIONAL_ENGAGEMENT = VIEWS_KEYS.national.engagement ?? 0;
+
+/**
+ * The center turnout reads a voter's engagement against: their own state's
+ * average, so that following politics closely sets who in a place turns out
+ * more (the old against the young, the engaged against the rest) while a
+ * state's own turnout comes from its people's record (the habit seeded from
+ * the state's CPS turnout), not from its survey level of news interest, which
+ * does not line up with it (Mississippi follows the news least of any state
+ * and votes above the national figure). The nation's where the survey has no
+ * state.
+ */
+export function townEngagementCenter(core: CoreState): number {
+  const key = townStateKey(core);
+  const usps = key ? key.slice(key.lastIndexOf("-") + 1) : "";
+  return VIEWS_KEYS.states[usps]?.engagement ?? NATIONAL_ENGAGEMENT;
+}
 
 /**
  * What a counted voter can know of one candidate on a ballot: the party
@@ -477,6 +493,9 @@ export function countedAppeal(
   },
 ): Record<string, CountedAppeal> {
   const appeal: Record<string, CountedAppeal> = {};
+  // Measurement only: a value knob can replace the pledge weight (undefined in play).
+  const pledgeWeight =
+    incumbencyAblation().pledgeWeight ?? campaignParameter("doorPledgeWeight");
   for (const entry of field) {
     const party = lean * entry.side;
     const standing = entry.standing + (where.local ? entry.localStanding : 0);
@@ -499,11 +518,7 @@ export function countedAppeal(
       ? -(entry.scandal ?? 0) * (where.trust ?? 1)
       : 0;
     // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
-    // Measurement only: a value knob can replace the pledge weight (undefined in play).
-    const pledge =
-      (incumbencyAblation().pledgeWeight ??
-        campaignParameter("doorPledgeWeight")) *
-      (where.pledges?.[entry.id] ?? 0);
+    const pledge = pledgeWeight * (where.pledges?.[entry.id] ?? 0);
     appeal[entry.id] = {
       total:
         party + standing + recognition + incumbent + ballot + scandal + pledge,
@@ -756,7 +771,8 @@ export function countPlaces(
     // town's own people stand where the town's order puts them).
     const right = place.inTown ? place.rightShare : placement(place.rightShare);
     if (weight > 0)
-      for (const [form, voter] of voters.entries()) {
+      for (let form = 0; form < voters.length; form += 1) {
+        const voter = voters[form]!;
         const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
         if (primary) {
           const identifies = Math.abs(lean) >= primary.cut && lean !== 0;
