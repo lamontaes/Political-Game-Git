@@ -7,7 +7,7 @@ kind: bug
 priority: 1
 size: L
 status: in-pr
-claimed-by:
+claimed-by: play-first/play-menus-fixed-panels
 pr: #6973
 blocked-on:
 milestone: play-first
