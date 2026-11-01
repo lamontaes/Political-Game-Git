@@ -24,6 +24,7 @@ import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { discretionaryHours } from "./work";
 import { fillInPerson } from "../state";
+import { bookkeeping } from "../bookkeeping";
 import { keepsWhy } from "../why-kept";
 import { closenessBetween, ENCOUNTERS } from "./people";
 import {
@@ -2040,13 +2041,52 @@ interface MessageRow {
 }
 
 /**
+ * Each contest's latest message date, by world: derived from the `messages`
+ * rows and never saved. It is filled from the rows when missing, kept by
+ * `emitMessage` (the rows' one writer), and filled again when the table's
+ * size or the last row it noted has changed under it (a restored snapshot, a
+ * removed row).
+ */
+const latestMessages = new WeakMap<
+  object,
+  { size: number; noted?: ModuleRow; latest: Map<string, string> }
+>();
+function keptMessageDates(api: CoreAPI) {
+  const messages = table(api, "messages");
+  const held = latestMessages.get(api.state);
+  return held &&
+    held.size === messages.size &&
+    (!held.noted || messages.get(held.noted.id) === held.noted)
+    ? held
+    : undefined;
+}
+function latestMessageDates(api: CoreAPI): ReadonlyMap<string, string> {
+  const kept = keptMessageDates(api);
+  if (kept) return kept.latest;
+  const rows = table(api, "messages").rows();
+  const latest = new Map<string, string>();
+  for (const row of rows as unknown as MessageRow[]) {
+    const at = latest.get(row.contestId);
+    if (at === undefined || row.date > at) latest.set(row.contestId, row.date);
+  }
+  latestMessages.set(api.state, {
+    size: rows.length,
+    noted: rows[rows.length - 1],
+    latest,
+  });
+  return latest;
+}
+
+/**
  * A rival's message (an ad, a mailer, or what they said at the doors of an
  * evening's canvass) reaches people a candidate knows, and the next time
  * one of them is in touch with the candidate they pass it on: the closest
  * such person, for each message once, at most once a week a candidate (the
  * message's reach and the relationship's last contact are the records). The
  * player meets it as a scene; for anyone else it is a record of what they
- * heard.
+ * heard. A contest with no message since the window opened has none to pass
+ * on, so its filings are not read (under bookkeeping the full read still
+ * runs, and must find none).
  */
 function rivalWordPassedOn(api: CoreAPI): void {
   const date = api.state.date;
@@ -2057,6 +2097,10 @@ function rivalWordPassedOn(api: CoreAPI): void {
     "filings",
   ).rows() as unknown as FilingRow[]) {
     if (!standing(filing)) continue;
+    const quiet = !(
+      (latestMessageDates(api).get(filing.contestId) ?? "") > since
+    );
+    if (quiet && !bookkeeping()) continue;
     const candidate = api.state.people.get(filing.personId);
     if (!candidate?.alive || !candidate.knownIds.size) continue;
     const told = table(api, "rivalWord").query("byCandidate", [
@@ -2076,6 +2120,10 @@ function rivalWordPassedOn(api: CoreAPI): void {
           !heard.has(`${row.id}:${candidate.id}`),
       )
       .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
+    if (quiet && fresh.length)
+      throw new Error(
+        `Filing ${filing.id} was skipped with a message since ${since} to pass on.`,
+      );
     for (const message of fresh) {
       const witnesses = new Set(message.witnessIds);
       const teller = [...candidate.knownIds]
@@ -3950,7 +3998,9 @@ function emitMessage(
     (id) => id !== campaign.candidateId && api.state.people.has(id),
   );
   if (!lead || lead.position === 0 || !witnessIds.length) return;
-  table(api, "messages").put({
+  const messages = table(api, "messages");
+  const kept = keptMessageDates(api);
+  messages.put({
     id: input.id,
     kind: input.kind,
     contestId: campaign.contestId,
@@ -3959,6 +4009,17 @@ function emitMessage(
     topic: lead.question,
     witnessIds,
   } as unknown as ModuleRow);
+  // The contest's latest message date moves with the row
+  // (`latestMessageDates`); one that no longer matches the table is dropped,
+  // to be filled again from the rows.
+  if (!kept) latestMessages.delete(api.state);
+  else {
+    const at = kept.latest.get(campaign.contestId);
+    if (at === undefined || api.state.date > at)
+      kept.latest.set(campaign.contestId, api.state.date);
+    kept.size = messages.size;
+    kept.noted = messages.get(input.id);
+  }
   if (input.kind === CANVASS_MESSAGE_KIND) return;
   api.emit({
     id: input.id,
@@ -4727,6 +4788,9 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
   const causes = table(api, "causes"),
     summaries = table(api, "causeSummaries"),
     folded = table(api, "foldedCauses");
+  // What each voter knows names its sources; the fold writes no knowledge,
+  // so a voter's set is read once for all the candidates it folds.
+  const sourcesOf = new Map<string, Set<string>>();
   for (const candidateId of candidateIds) {
     if (candidateId === core.playerId) continue;
     const pledged = new Set(
@@ -4756,11 +4820,16 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
       > = {};
       for (const [act, count] of Object.entries(before?.acts ?? {}))
         acts[act] = { ...count };
-      const sources = new Set(
-        [...(core.knowledgeByPerson.get(voterId)?.values() ?? [])].map(
-          (fact) => fact.sourceId,
-        ),
-      );
+      let sources = sourcesOf.get(voterId);
+      if (!sources)
+        sourcesOf.set(
+          voterId,
+          (sources = new Set(
+            [...(core.knowledgeByPerson.get(voterId)?.values() ?? [])].map(
+              (fact) => fact.sourceId,
+            ),
+          )),
+        );
       for (const row of rows) {
         const entry = (acts[row.act] ??= { reached: 0, warmer: 0, cooler: 0 });
         entry.reached += 1;
