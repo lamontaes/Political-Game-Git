@@ -9,12 +9,16 @@
  * the player keeps everything.
  *
  * Each key is queued by the day it was learned as it is written
- * (`api.observe`), and the saved queue holds about one retention window:
- * the monthly pass visits the keys that are due, never every fact of every
- * person. A key a held drive keeps waits in the queue for the next month; a
+ * (`api.observe`), and the saved queue holds about one retention window of
+ * days. The monthly pass walks the queue's days, skips those not yet due and
+ * handles the entries of the rest, never every fact of every person. Days are
+ * in the order first written, not by date: a back-dated write (a drive's
+ * source observed again on the day the drive formed) can add an old day at
+ * the end. A key a held drive keeps waits in its day for the next month; a
  * key gone or learned again leaves it (the new write queued its own day); the
  * player's due keys leave it and are queued again from their facts if the
- * player changes.
+ * player changes. A save made before the queue existed has it rebuilt from
+ * the facts as it loads.
  */
 import { parameter } from "./parameters";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -33,7 +37,15 @@ interface ForgetQueue {
 }
 
 const queues = new WeakMap<CoreState, ForgetQueue>();
-registerWorldMapPart("core2-knowledge-retention-queue", queues);
+registerWorldMapPart("core2-knowledge-retention-queue", queues, (core) => {
+  // A save made before the queue existed: every experienced key it holds.
+  const queue: ForgetQueue = { byDay: new Map() };
+  for (const [personId, known] of core.knowledgeByPerson)
+    for (const [key, fact] of known)
+      if (key.startsWith(PREFIX) && key.endsWith(SUFFIX))
+        queueKey(queue, personId, key, fact.learnedAt);
+  return queue;
+});
 
 function queueKey(
   queue: ForgetQueue,
@@ -59,8 +71,8 @@ export function queueExperience(
   queueKey(queue, personId, key, learnedAt);
 }
 
-/** Forgets one due key; true when a held drive keeps it for next month. */
-function stillHeld(
+/** Forgets one due key unless a held drive keeps it; true when one does. */
+function forgetUnlessHeld(
   core: CoreState,
   day: string,
   personId: string,
@@ -94,12 +106,13 @@ export function forgetOldExperiences(core: CoreState): void {
             queueKey(queue, former, key, fact.learnedAt);
       queue.playerId = core.playerId;
     }
+    // Every day in the queue, in the order first written; only due days are handled.
     for (const [day, entries] of queue.byDay) {
       if (day >= before) continue;
       // One entry per kept key: the same key written twice on one day is one fact.
       let kept: Set<string> | undefined;
       const held = entries.filter(([personId, key]) => {
-        if (!stillHeld(core, day, personId, key)) return false;
+        if (!forgetUnlessHeld(core, day, personId, key)) return false;
         const id = `${personId}\u0000${key}`;
         if (kept?.has(id)) return false;
         (kept ??= new Set()).add(id);
