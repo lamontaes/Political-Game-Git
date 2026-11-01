@@ -10,7 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 after: gov-m3-01-phase-in-by-dated-steps
-source: added with npm run pool -- add
+lead: governing
+source: governing lead, Nov 1 (phase B map)
 ---
 
 **What.** M3-01 says a clear higher-level ban blocks a bill, but the player's own route is not proven: bill-paper.test.ts skips any draft that is not drafted, and the preemption case is tested only through draftBill in a small createLifeCore world (src/core2/legislature.test.ts:911-933). policy-authority.test.ts:117-180 does use buildBenchWorld and expects a blocked status with reason level-lacks-power, but it never goes through the seat. This unit extends those two tests so the ban is checked through seatView, seatAct and holdVote, the route the draft card uses.
