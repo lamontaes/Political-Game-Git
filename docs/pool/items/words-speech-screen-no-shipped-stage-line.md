@@ -20,6 +20,6 @@ source: added with npm run pool -- add
 
 **Files.** src/bench/speech-screen.test.ts, data/english/parts/speech-stages.json, data/english/part-grades.json
 
-**Notes.** Found by the Words session on Oct 24 while running the batch 22 table read's tests; the failure is identical on clean main.
+**Notes.** Found by the Words session on Oct 24 while running the batch 22 table read's tests; the failure is identical on clean main. Nov 1, 16:40 UTC (Words): src/bench/speech-screen.test.ts passes on main (1 of 1, a fresh draw); speech-stages.json carries no shippable flags since the held flag was deleted, so the opener plays. Nothing left to build; the CTO may close it.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (test premise gone).

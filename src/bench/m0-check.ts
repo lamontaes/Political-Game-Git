@@ -11,6 +11,8 @@ import { selectBenchPlace } from "./place-selection.mjs";
 import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld, type BenchWorld } from "./world";
 import { BenchPlayer, ownPick } from "./player";
+import { judgeJumpEnd } from "./jump-end";
+import type { IsoDate } from "../core2/kernel/brands";
 import { benchProgress } from "./progress";
 
 // Check-size town: engineering, not calibration. The owner's bench builds
@@ -207,12 +209,20 @@ const specs: Record<string, () => string> = {
       why = packet.stop.modules.map((row) =>
         row.kind === "interrupt" ? "big moment" : "deadline",
       );
-    } else
-      check(
-        packet.kind === "complete" &&
-          packet.at.date === addDays(makeIsoDate(at.date), lookahead),
-        `The jump ended early without a stop (${packet.kind}).`,
-      );
+    } else {
+      // Election morning is a stop the jump must make (the polling place, or the player's own
+      // morning): it ends the jump short on purpose and names its record.
+      const end = judgeJumpEnd({
+        kind: packet.kind,
+        date: makeIsoDate(packet.at.date),
+        target: addDays(makeIsoDate(at.date), lookahead),
+        pollingRecordId: player.pollingPlace?.record.id,
+        candidateMorning: player.candidateMorning as IsoDate | undefined,
+      });
+      check(end.ok, `The jump ended early without a stop (${end.why}).`);
+      if (packet.at.date !== addDays(makeIsoDate(at.date), lookahead))
+        why = [end.why];
+    }
     // Nothing skipped past: no stop already known when the skip began is
     // earlier than where it ended (later moments can only be earlier).
     if (knownModuleStop) {
@@ -228,7 +238,7 @@ const specs: Record<string, () => string> = {
     const shifts = skip.selfChosen.filter((row) =>
       /scheduled-work/.test(row.actionId),
     ).length;
-    return `${label(w)}: from ${at.date}, skip ${packet.kind === "stop" ? `stopped ${packet.at.date} minute ${packet.at.minuteOfDay} for ${why.join(", ")}` : `ran ${lookahead} days to ${packet.at.date} with nothing needing the player`}; the character attended ${shifts} shift choices and made ${skip.selfChosen.length} choices itself`;
+    return `${label(w)}: from ${at.date}, skip ${packet.kind === "stop" ? `stopped ${packet.at.date} minute ${packet.at.minuteOfDay} for ${why.join(", ")}` : why.length ? `ended ${packet.at.date}, ${why.join(", ")}` : `ran ${lookahead} days to ${packet.at.date} with nothing needing the player`}; the character attended ${shifts} shift choices and made ${skip.selfChosen.length} choices itself`;
   },
 
   /** Twenty sampled saved items each open a "why" made of saved records. */
