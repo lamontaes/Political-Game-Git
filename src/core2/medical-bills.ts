@@ -643,9 +643,12 @@ function payCounted(
   if (!rt) return out;
   fundGroups(api, rt);
   const byPlace = new Map<string, Household[]>();
-  for (const h of households)
-    if (h.counted)
-      byPlace.set(h.placeId, [...(byPlace.get(h.placeId) ?? []), h]);
+  for (const h of households) {
+    if (!h.counted) continue;
+    const list = byPlace.get(h.placeId);
+    if (list) list.push(h);
+    else byPlace.set(h.placeId, [h]);
+  }
   for (const [placeId, list] of byPlace) {
     const sellerId = sellersOf(placeId)[0] ?? outsideAccountOf(api) ?? null;
     const account = sellerId
