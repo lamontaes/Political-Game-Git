@@ -15,7 +15,7 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
-import { retellingsOf, SPEECH_MODULE_ID } from "../core2/modules/speech";
+import { SPEECH_MODULE_ID } from "../core2/modules/speech";
 import { askToVolunteer, campaignFor } from "../core2/modules/campaigns";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
@@ -228,13 +228,13 @@ function filingAndStops(
   // The campaign runs to election day; each speech to a crowd is a stop.
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), -1));
   let stops = 0;
+  // A speech's address row is kept for good; its retellings are dropped 30
+  // days after it, so a speech early in the campaign has none left by now.
   const speechIds = (
-    api.moduleState(SPEECH_MODULE_ID).table("retellings").rows() as unknown as {
-      speechId: string;
+    api.moduleState(SPEECH_MODULE_ID).table("addresses").rows() as unknown as {
+      id: string;
     }[]
-  )
-    .map((row) => row.speechId)
-    .filter((id, index, all) => all.indexOf(id) === index);
+  ).map((row) => row.id);
   for (const filing of filings) {
     const book = director.ledger.people.get(filing.personId)!;
     for (const entry of book.schedule) {
@@ -247,9 +247,8 @@ function filingAndStops(
         speechId,
         `${where}: ${entry.momentId} cites no recorded speech`,
       ).toBeTruthy();
-      const heard = new Set(
-        retellingsOf(api, speechId!).map((row) => row.listenerId),
-      );
+      // The crowd is the speech's recorded audience, kept on its event.
+      const heard = new Set(core.durableLog.get(speechId!)?.witnessIds ?? []);
       expect(
         scene.roles.find((row) => row.role === "candidate")!.personIds,
       ).toEqual([filing.personId]);

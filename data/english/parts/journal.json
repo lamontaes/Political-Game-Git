@@ -1993,7 +1993,12 @@
           "subject": "look-back",
           "role": "line",
           "choice": "died",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "person.birth",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 213,
@@ -6109,84 +6114,6 @@
           "journal": [
             {
               "kindPrefix": "household:partners-met",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-roots.my-family-came-from-place",
-      "move": "home-line-roots",
-      "kind": "spoken",
-      "text": "My family came from {place}.",
-      "uses": [
-        {
-          "move": "home-line-roots",
-          "subject": "home",
-          "role": "roots",
-          "choice": "roots",
-          "journal": [
-            {
-              "kindPrefix": "household:roots",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-roots.my-people-came-from-place",
-      "move": "home-line-roots",
-      "kind": "spoken",
-      "text": "My people came from {place}.",
-      "uses": [
-        {
-          "move": "home-line-roots",
-          "subject": "home",
-          "role": "roots",
-          "choice": "roots",
-          "journal": [
-            {
-              "kindPrefix": "household:roots",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-roots.our-family-came-from-place",
-      "move": "home-line-roots",
-      "kind": "spoken",
-      "text": "Our family came from {place}.",
-      "uses": [
-        {
-          "move": "home-line-roots",
-          "subject": "home",
-          "role": "roots",
-          "choice": "roots",
-          "journal": [
-            {
-              "kindPrefix": "household:roots",
               "field": "line"
             }
           ]
