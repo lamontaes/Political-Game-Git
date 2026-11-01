@@ -93,6 +93,15 @@ for (let draw = 0; draw < draws; draw += 1) {
   // The paper: stories by kind, and each sentence by how often it prints.
   const kinds = new Map<string, number>();
   const said = new Map<string, number>();
+  // One printed example of each everyday kind, as a reader sees it.
+  const EVERYDAY = [
+    "death",
+    "birthday",
+    "anniversary",
+    "exposed",
+    "meetings-week",
+  ];
+  const examples = new Map<string, string>();
   // One paper's own year: what a reader of that outlet meets.
   const perPaper = new Map<string, Map<string, number>>();
   let unworded = 0;
@@ -109,6 +118,11 @@ for (let draw = 0; draw < draws; draw += 1) {
       worded.headline,
       ...(worded.paragraphs ?? (worded.lede ? [worded.lede] : [])),
     ].filter((text): text is string => !!text);
+    if (EVERYDAY.includes(kind) && !examples.has(kind))
+      examples.set(
+        kind,
+        `${worded.headline ?? ""} / ${(worded.paragraphs ?? [worded.lede ?? ""]).join(" ")}`,
+      );
     const paper = perPaper.get(story.outletId) ?? new Map<string, number>();
     perPaper.set(story.outletId, paper);
     for (const text of texts)
@@ -165,6 +179,9 @@ for (let draw = 0; draw < draws; draw += 1) {
   );
   for (const row of paperRepeats.slice(0, 15))
     console.log(`- ${row.count}x in ${row.paper}: "${row.sentence}"`);
+  console.log("\nEveryday stories, one printed example of each:\n");
+  for (const kind of EVERYDAY)
+    console.log(`- ${kind}: ${examples.get(kind) ?? "(none printed)"}`);
   console.log(
     `\nJournal: ${lines.length} lines for the player, ${lineKinds.size} kinds, ${lineRepeated.length} sentences said more than ${REPEATS} times.\n`,
   );

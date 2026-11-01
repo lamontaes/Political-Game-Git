@@ -33,6 +33,7 @@ import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
   corePlaceByJurisdictionId,
   corePlaceByKey,
+  coreStateJurisdiction,
   coreStateKeyOfJurisdictionId,
 } from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
@@ -267,9 +268,30 @@ function kinOf(core: CoreState): Kin {
   return kin;
 }
 
+const placed = new Map<string, boolean>();
+
+/**
+ * Whether a place is one a household lives in (a town, county or territory).
+ * A state's, the nation's or an institution's own record (a cabinet seat in
+ * "US-NJ", a national outlet in "US-DC") is not: the people placed there are
+ * held by their own engines (offices, press), and nobody moves away from it.
+ */
+function livesInAPlace(placeId: string): boolean {
+  let known = placed.get(placeId);
+  if (known === undefined) {
+    known = corePlaceByJurisdictionId(placeId as EntityId) !== null;
+    placed.set(placeId, known);
+  }
+  return known;
+}
+
 function inTown(core: CoreState, id: PersonId): boolean {
   const person = core.people.get(id);
-  return !!person?.alive && person.tier !== INACTIVE_TIER;
+  return (
+    !!person?.alive &&
+    person.tier !== INACTIVE_TIER &&
+    livesInAPlace(person.placeId)
+  );
 }
 
 /**
@@ -752,7 +774,7 @@ function destinationFor(
     return { destinationId: to, destinationBasis: "county-flow", countyId: to };
   const place = corePlaceByJurisdictionId(person.placeId as EntityId);
   const state = place?.stateJurisdictionKey
-    ? corePlaceByKey(place.stateJurisdictionKey)?.context.jurisdiction.id
+    ? coreStateJurisdiction(place.stateJurisdictionKey)?.id
     : undefined;
   return {
     destinationId: state ?? person.placeId,
@@ -1469,10 +1491,7 @@ function scheduleReview(api: CoreAPI): void {
 function monthlyReview(api: CoreAPI): void {
   const core = api.state as CoreState;
   const adults = [...core.people.values()]
-    .filter(
-      (row) =>
-        row.alive && row.tier !== INACTIVE_TIER && decidesAlone(api, row),
-    )
+    .filter((row) => inTown(core, row.id) && decidesAlone(api, row))
     .sort((a, b) => a.id.localeCompare(b.id));
   // The town's typical hold for each age band, from this month's ties.
   const sums = new Map<string, [number, number]>();
