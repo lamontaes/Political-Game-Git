@@ -12,7 +12,7 @@
  * already given). No choice is decided by a roll. Choices carry ids and
  * numbers only; the English engine words them.
  */
-import { addDays, daysBetweenText as daysBetween } from "./kernel/dates";
+import { daysBetweenText as daysBetween } from "./kernel/dates";
 import { residentsRuntime } from "./modules/residents";
 import { campaignParameter } from "./campaign-views";
 import {
@@ -44,13 +44,13 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import {
-  PRESS_MODULE_ID,
   answerInterview,
   interviewsFor,
   newsworthiness,
   outletsHere,
   pressParameter,
   requestInterview,
+  weekCount,
   type InterviewAnswer,
   type InterviewRow,
 } from "./modules/press";
@@ -284,23 +284,12 @@ function contextOf(api: CoreAPI, filingId: string, world = false) {
   return { filing, contest, open };
 }
 
-/**
- * The room an outlet has left this week: its weekly interviews less those of
- * the last seven days not declined, read a day at a time from its own index.
- * An interview is dated the day it was asked and the date never moves back,
- * so the seven days hold every one of the week's, and the outlet's older
- * ones are not walked.
- */
+/** The room an outlet has left this week, by the press desk's own count. */
 function weekRoom(api: CoreAPI, outletId: string): number {
-  const interviews = api.moduleState(PRESS_MODULE_ID).table("interviews");
-  let taken = 0;
-  for (let back = 6; back >= 0; back -= 1)
-    for (const i of interviews.query("byOutletDate", [
-      outletId,
-      addDays(api.state.date, -back),
-    ]) as unknown as InterviewRow[])
-      if (i.status !== "declined") taken += 1;
-  return Math.max(0, pressParameter("interviewsPerWeek") - taken);
+  return Math.max(
+    0,
+    pressParameter("interviewsPerWeek") - weekCount(api, outletId),
+  );
 }
 
 /** Whether one reachable person could be asked for money today: a living adult who hasn't given. */

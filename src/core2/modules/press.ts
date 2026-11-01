@@ -18,6 +18,7 @@ import news from "../../../data/research/press/local-news-2026.json" with { type
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "../data/press/parameters.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
+import { bookkeeping } from "../bookkeeping";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { spendLivingCost } from "../official-living";
@@ -1598,13 +1599,23 @@ export function interviewQuestions(
     .map(([q]) => q);
 }
 
-function weekCount(api: CoreAPI, outletId: string): number {
-  const since = addDays(makeIsoDate(api.state.date), -6);
-  return (
-    table(api, "interviews").query("byOutlet", [
+/**
+ * An outlet's interviews of the last seven days not declined: the room its
+ * week has used, for the press desk and the campaign day alike. Read a day at
+ * a time from its own index; an interview is dated the day it was asked and
+ * never later (`record`), so the seven days hold every one of the week's, and
+ * the outlet's older ones are not walked.
+ */
+export function weekCount(api: CoreAPI, outletId: string): number {
+  const interviews = table(api, "interviews");
+  let taken = 0;
+  for (let back = 6; back >= 0; back -= 1)
+    for (const i of interviews.query("byOutletDate", [
       outletId,
-    ]) as unknown as InterviewRow[]
-  ).filter((i) => i.status !== "declined" && i.date >= since).length;
+      addDays(api.state.date, -back),
+    ]) as unknown as InterviewRow[])
+      if (i.status !== "declined") taken += 1;
+  return taken;
 }
 
 function already(api: CoreAPI, outletId: string, filingId: string) {
@@ -1632,6 +1643,9 @@ function talkedLately(api: CoreAPI, outletId: string, personId: string) {
 }
 
 function record(api: CoreAPI, row: InterviewRow): InterviewRow {
+  // A row dated after today would fall outside the week `weekCount` reads.
+  if (bookkeeping() && makeIsoDate(row.date) > api.state.date)
+    throw new Error(`Interview ${row.id} is dated after ${api.state.date}.`);
   table(api, "interviews").put(row as unknown as ModuleRow);
   return row;
 }
