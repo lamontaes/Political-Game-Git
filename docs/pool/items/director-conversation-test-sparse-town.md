@@ -2,6 +2,7 @@
 id: director-conversation-test-sparse-town
 title: "The conversation test's two counted checks fail in a town where the player knows few full people with anything left to say"
 area: words
+lead: words
 kind: bug
 priority: 2
 size: S
@@ -9,7 +10,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: Red main, relaying Merger 0's draws fn-1 and fn-2, Nov 1
 ---
 
 **What.** On draws fn-1 and fn-2 (Lavalette, West Virginia) src/director/conversation.test.ts fails 'offers four distinct replies' (8 turns, needs more than 8) and 'never parts with a word the talk already said' (no talk ended in a goodbye), on main before and after #7012. The engine is right by its rulings: a relative with nothing on record says nothing, and nobody says goodbye right after their own question was answered. The player the test picks knows 23 people, 5 of them full; the opening records list only 1 to 4 of them as known, since the rest are added when the world starts, so a pick from the opening records can't see the shortfall.
