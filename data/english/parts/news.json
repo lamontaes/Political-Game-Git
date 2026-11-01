@@ -84,7 +84,8 @@
     "relation": "How the person who died was related to the reader, from the family record.",
     "survivor": "The relative who survives, by name, from the family record.",
     "margin": "How many votes the winning side led by, from the vote record.",
-    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record."
+    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
+    "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records."
   },
   "maxWords": 14,
   "mining": {
@@ -766,7 +767,8 @@
           "move": "election-result",
           "subject": "news",
           "role": "election-result",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["district", "atLarge"]
         }
       ],
       "transcriptsUsing": 2,
@@ -826,7 +828,8 @@
           "move": "election-result",
           "subject": "news",
           "role": "election-result",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["district", "atLarge"]
         }
       ],
       "origin": "authored",
@@ -835,6 +838,50 @@
       "tag": {
         "move": "announce-result",
         "key": "honor"
+      }
+    },
+    {
+      "key": "news.election-result.name-won-the-race-for-office-in-district",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} won the race for {office} in District {district}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "district"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-won-the-at-large-race-for-office",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} won the at-large race for {office}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "atLarge"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
       }
     },
     {

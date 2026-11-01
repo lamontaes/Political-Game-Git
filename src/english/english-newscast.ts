@@ -316,12 +316,22 @@ export type StoryKind = keyof typeof STORY_KINDS;
 /** A mined sentence as the engine's template variant. */
 type MinedVariant = Extract<LinePartVariant, { kind: "template" }>;
 
-/** A role's sentences. */
+/**
+ * A role's sentences. A piece whose use excludes a fact the story holds is
+ * left out: "{name} won the race for {office}." is not said of a seat whose
+ * story names its district.
+ */
 function variants(
   bank: Bank,
   match: (use: { subject: string; role: string }) => boolean,
+  facts: GroundedEnglishPacket["facts"] = {},
 ): MinedVariant[] {
-  const parts = admittedParts(bank.parts, (part) => part.uses.some(match));
+  const parts = admittedParts(
+    bank.parts,
+    (part) =>
+      part.uses.some(match) &&
+      !part.uses.find(match)?.excludesFacts?.some((key) => facts[key]),
+  );
   return parts.map((part) => {
     // "Good morning" is said only in the morning, "Good evening" and
     // "tonight" only in the evening, from the broadcast's record.
@@ -425,8 +435,10 @@ export function composeNewsStory(
       `${kind}/headline`,
       "news",
       "tell",
-      variants(HEADLINES_BANK, (use) =>
-        (roles.headline as readonly string[]).includes(use.role),
+      variants(
+        HEADLINES_BANK,
+        (use) => (roles.headline as readonly string[]).includes(use.role),
+        packet.facts,
       ),
     ),
   );
@@ -436,8 +448,10 @@ export function composeNewsStory(
       `${kind}/lede`,
       "news",
       "tell",
-      variants(NEWS_BANK, (use) =>
-        (roles.lede as readonly string[]).includes(use.role),
+      variants(
+        NEWS_BANK,
+        (use) => (roles.lede as readonly string[]).includes(use.role),
+        packet.facts,
       ),
     ),
   );
@@ -451,7 +465,7 @@ export function composeNewsStory(
       `${kind}/${name}`,
       "news",
       "tell",
-      variants(NEWS_BANK, (use) => use.role === name),
+      variants(NEWS_BANK, (use) => use.role === name, packet.facts),
     );
     if (!composed) continue;
     // A sentence that only repeats what the lede or an earlier sentence said
