@@ -10,7 +10,11 @@
  * key the campaign views read; a race is about its contest.
  */
 import type { CoreAPI, CoreEventInput } from "./types";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "./modules/offices";
 import type { OfficeInput } from "./offices-local";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
@@ -110,17 +114,19 @@ export function wireItem(
   town: { readonly placeId: string; readonly stateKey: string },
 ): WireItem | null {
   const facts = event.facts ?? {};
-  // An oath or a vacancy is the paper's news only on a seat the town's
-  // records hold: its town's, county's, state's and nation's. Another
-  // state's seat, which the officials engine samples, is that state's news;
-  // its record sits in town only because the town keeps the world's log (a
-  // Florida state representative's oath printed in Blunt, South Dakota,
-  // seed paper-nov1:2).
+  // An oath or a vacancy is the paper's news only on a seat of the town's
+  // own governments: its town's, county's, state's and nation's. Another
+  // state's seat is that state's news, whether the offices engine seats it
+  // (every other place's chambers and statewide offices since
+  // gov-every-state-and-town-governs U1, decided by isOutsideOffice) or holds
+  // no such seat; its record sits in town only because the town keeps the
+  // world's log (a Florida state representative's oath printed in Blunt,
+  // South Dakota, seed paper-nov1:2).
   const seat =
     event.kind === "took-office" || event.kind === "seat-vacated"
       ? seatOffice(api, facts.seatId)
       : undefined;
-  if (seat === null) return null;
+  if (seat === null || (seat && isOutsideOffice(api, seat))) return null;
   // Where it happened: the town's own records, its state's, the nation's.
   let level: WireLevel | null = null;
   const authority = officeLevel(api, event, town.stateKey);

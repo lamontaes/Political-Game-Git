@@ -10,6 +10,9 @@ import {
 import { parameter, PARAMETERS } from "../parameters";
 import { runWorkPayrollDay } from "../work-payroll-dispatch";
 import { FinanceReadGuard } from "../finance-plan";
+
+/** The work family's entry for the legacy calendar-average pay result other families read (a closure's cause). */
+export type { LegacyWorkCashResult } from "../work-cash";
 import { careNeedOf } from "./health";
 import type { Parameter } from "../parameters";
 import type {

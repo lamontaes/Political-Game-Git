@@ -33,13 +33,18 @@ import { openRecord } from "./modules/record";
 import { openParties } from "./modules/parties";
 import { openVoting } from "./modules/voting";
 import {
+  PRESS_MODULE_ID,
   answerInterview,
   candidateAnswers,
   followersOf,
   interviewsFor,
   openPress,
   requestInterview,
+  weekCount,
+  type InterviewRow,
 } from "./modules/press";
+import type { ModuleRow } from "./module-data";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -196,17 +201,52 @@ describe("campaign interviews", () => {
         "published",
       );
 
-      // In the final weeks the outlets seek out the candidates on the ballot.
+      // The press desk reads an outlet's week and a candidate's interviews
+      // for one race from their own indexes: the same rows, in the same
+      // order, as a walk of every interview finds.
+      const interviews = api.moduleState(PRESS_MODULE_ID).table("interviews");
+      const sameAsWalk = () => {
+        const since = addDays(core.date, -6);
+        for (const outlet of outlets)
+          expect(
+            weekCount(api, outlet.id),
+            `${where}, ${outlet.id} on ${core.date}`,
+          ).toBe(
+            (
+              interviews.query("byOutlet", [
+                outlet.id,
+              ]) as unknown as InterviewRow[]
+            ).filter((i) => i.status !== "declined" && i.date >= since).length,
+          );
+        for (const row of interviews.rows() as unknown as InterviewRow[])
+          if (row.filingId !== null)
+            expect(
+              interviewsFor(api, row.candidateId, row.filingId),
+              `${where}, ${row.id} on ${core.date}`,
+            ).toEqual(
+              interviewsFor(api, row.candidateId).filter(
+                (i) => i.filingId === row.filingId,
+              ),
+            );
+      };
+
+      // In the final weeks the outlets seek out the candidates on the ballot;
+      // the last week of it is run a day at a time, each day read both ways.
       const contest = api
         .moduleState(ELECTIONS_MODULE_ID)
         .table("contests")
         .get(you.contestId) as unknown as ContestRow;
-      const day = new Date(
-        Date.parse(`${contest.electionDate}T00:00:00Z`) - 3 * 86_400_000,
-      )
-        .toISOString()
-        .slice(0, 10);
-      advanceCore(core, day);
+      const day = makeIsoDate(
+        new Date(
+          Date.parse(`${contest.electionDate}T00:00:00Z`) - 3 * 86_400_000,
+        )
+          .toISOString()
+          .slice(0, 10),
+      );
+      for (let back = 7; back >= 0; back -= 1) {
+        advanceCore(core, addDays(day, -back));
+        sameAsWalk();
+      }
       const rivalRows = interviewsFor(api, rival.personId).filter(
         (r) => r.askedBy === "outlet",
       );
@@ -225,6 +265,18 @@ describe("campaign interviews", () => {
         // An outlet that already ran you doesn't ask again.
         expect(row.outletId, where).not.toBe(print.id);
       }
+      // The week is the last seven days: an interview asked six days back
+      // still holds a place in it, one asked seven days back no longer does.
+      const held = weekCount(api, print.id);
+      for (const back of [6, 7])
+        interviews.put({
+          ...published,
+          id: `${published.id}:back:${back}`,
+          status: "invited",
+          date: addDays(core.date, -back),
+        } as unknown as ModuleRow);
+      expect(weekCount(api, print.id), where).toBe(held + 1);
+      sameAsWalk();
       govReport(
         "press",
         JSON.stringify({
