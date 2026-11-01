@@ -1,13 +1,16 @@
 /**
- * A closed race's door rows go once its election day has passed, and word of
- * a rival goes once no reader can reach it (governing lead, Oct 30), in a
- * played world (a random place and seed each run, named so a failure can be
- * replayed): the campaign rows keep their door counts, an open race's door
- * rows stay, a race under way reads the same word before and after the fold,
- * and a closed race's messages and word are gone once its last week has left
- * word's window. A place whose races knock no doors, read no word or keep no
- * old newest word tests nothing, so up to six are drawn; each passed over is
- * named with why.
+ * A closed race's door rows and pledges go once its election day has passed,
+ * and word of a rival goes once no reader can reach it (governing lead, Oct 30
+ * and Nov 1), in a played world (a random place and seed each run, named so a
+ * failure can be replayed): the campaign rows keep their door counts, an open
+ * race's door rows stay, a race under way reads the same word before and
+ * after the fold, a closed contest's pledges go while every other contest's
+ * stay (a voter who gave a yes in both keeps the other), the causes its
+ * pledges name stay in `foldedCauses`, and a closed race's messages and word
+ * are gone once its last week has left word's window. A place whose races
+ * knock no doors, read no word, keep no old newest word, or hold no pledges
+ * in two contests from one voter and no pledged cause tests nothing, so up to
+ * six are drawn; each passed over is named with why.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -19,8 +22,10 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
   CAMPAIGNS_MODULE_ID,
+  closeRace,
   foldRivalWord,
   raceReading,
+  type PledgeRow,
 } from "./modules/campaigns";
 import { ballot, ELECTIONS_MODULE_ID } from "./modules/elections";
 import { coreAPI } from "./state";
@@ -160,15 +165,74 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
       const wordOnDay = (words.rows() as unknown as Word[]).filter(
         closed,
       ).length;
+
+      // The day's count is in and no race of the day has closed yet. The
+      // contest with the most pledges is closed here by hand (`closeRace`, the
+      // step a campaign turn takes after election day): its pledges go, every
+      // other contest's stay as they were (the day's other races still under
+      // way among them, and the yes a voter of this contest gave in another),
+      // and the causes its pledges name as their visit stay in
+      // `foldedCauses` (the player's own causes stay as rows, so theirs are
+      // not counted).
+      const pledges = campaigns.table("pledges"),
+        foldedCauses = campaigns.table("foldedCauses");
+      const allPledges = () =>
+        (pledges.rows() as unknown as PledgeRow[])
+          .slice()
+          .sort((a, b) => a.id.localeCompare(b.id));
+      const byContest = new Map<string, number>();
+      for (const row of allPledges())
+        if (closed(row))
+          byContest.set(row.contestId, (byContest.get(row.contestId) ?? 0) + 1);
+      const one = [...byContest].sort(
+        (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+      )[0]?.[0];
+      const ofOne = allPledges().filter((row) => row.contestId === one);
+      const others = allPledges().filter((row) => row.contestId !== one);
+      const inOne = new Set(ofOne.map((row) => row.voterId));
+      const shared = others.filter((row) => inOne.has(row.voterId)).length;
+      const pledgedCauses = (rows: readonly PledgeRow[]) =>
+        rows.flatMap((row) =>
+          row.causeId && row.candidateId !== core.playerId ? [row.causeId] : [],
+        );
+      const causesOfOne = pledgedCauses(ofOne);
+      // Every closed contest's pledged causes, read again after play closes
+      // them all.
+      const causesOfDay = pledgedCauses(allPledges().filter(closed));
       console.log(
-        `${where}: ${closing.length} door rows and ${wordOnDay} word rows in races on ${first}; by hand the fold took ${removed} rows, kept ${keptOld} old newest words and left ${read} races' word read`,
+        `${where}: ${closing.length} door rows and ${wordOnDay} word rows in races on ${first}; by hand the fold took ${removed} rows, kept ${keptOld} old newest words and left ${read} races' word read; ${ofOne.length} pledges in ${one ?? "no contest"} naming ${causesOfOne.length} causes, ${others.length} pledges in other contests, ${shared} of them from its voters`,
       );
-      if (!closing.length || !read || !keptOld) {
+      if (
+        !closing.length ||
+        !read ||
+        !keptOld ||
+        !ofOne.length ||
+        !shared ||
+        !causesOfOne.length
+      ) {
         tried.push(
-          `${where}: ${closing.length} door rows in the races on ${first}, ${read} races' word read and ${keptOld} old newest words kept`,
+          `${where}: ${closing.length} door rows in the races on ${first}, ${read} races' word read, ${keptOld} old newest words kept, ${ofOne.length} pledges in the contest closed by hand naming ${causesOfOne.length} causes, and ${shared} pledges its voters gave in another contest`,
         );
         continue;
       }
+      // A cause from a door walked on election day after the count is not
+      // folded yet; the close folds it before its pledge goes.
+      const unfolded = causesOfOne.filter((id) => !foldedCauses.get(id)).length;
+      closeRace(api, one!);
+      expect(
+        allPledges().filter((row) => row.contestId === one),
+        where,
+      ).toEqual([]);
+      expect(allPledges(), where).toEqual(others);
+      expect(
+        causesOfOne.filter((id) => !foldedCauses.get(id)),
+        where,
+      ).toEqual([]);
+      for (const [campaignId, count] of counts)
+        expect(knocked(campaignId), where).toBe(count);
+      console.log(
+        `closed ${one} by hand: ${ofOne.length} pledges went, ${others.length} in other contests stayed, ${causesOfOne.length} pledged causes in foldedCauses (${unfolded} folded at the close)`,
+      );
 
       // A week on, word of the closed race may still pass on (its filings
       // stay on the ballot); a further week and a turn on, all of it has
@@ -190,6 +254,16 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
       ).toEqual([]);
       expect((words.rows() as unknown as Word[]).filter(closed), where).toEqual(
         [],
+      );
+      // Play closed every race of the day: none of their pledges is left,
+      // and every cause those pledges named is still in `foldedCauses`.
+      expect(allPledges().filter(closed), where).toEqual([]);
+      expect(
+        causesOfDay.filter((id) => !foldedCauses.get(id)),
+        where,
+      ).toEqual([]);
+      console.log(
+        `play closed the races of ${first}: ${causesOfDay.length} pledged causes kept in foldedCauses`,
       );
 
       const contestRows = api
