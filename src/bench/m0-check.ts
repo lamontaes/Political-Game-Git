@@ -214,7 +214,7 @@ const specs: Record<string, () => string> = {
       // morning): it ends the jump short on purpose and names its record.
       const end = judgeJumpEnd({
         kind: packet.kind,
-        date: packet.at.date,
+        date: makeIsoDate(packet.at.date),
         target: addDays(makeIsoDate(at.date), lookahead),
         pollingRecordId: player.pollingPlace?.record.id,
         candidateMorning: player.candidateMorning as IsoDate | undefined,
