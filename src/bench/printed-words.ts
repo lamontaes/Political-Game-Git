@@ -2375,18 +2375,16 @@ const death: Builder = (read) => {
   // Work for the outside account (buyers and sellers outside the town) is
   // work out of town, not an employer the paper can name.
   const away =
-    !office &&
     !!work &&
     read.core.organizations.get(work.organizationId as EntityId)
       ?.outsideFlow !== undefined;
-  const paidBy =
-    away || office || work?.publicPayAuthorityId
-      ? null
-      : governmentEmployer(read, work?.organizationId);
+  // A government that pays for the office they held is told by the office.
+  const government = away
+    ? null
+    : governmentEmployer(read, work?.organizationId);
+  const paidBy = office ? null : government;
   const employer =
-    away || office || work?.publicPayAuthorityId || paidBy
-      ? null
-      : read.organization(work?.organizationId);
+    away || government ? null : read.organization(work?.organizationId);
   const tenure =
     work && read.happened
       ? yearsBetween(work.heldSince ?? work.startsAt, read.happened)
