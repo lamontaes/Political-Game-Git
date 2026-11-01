@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, URL */
 // An office keeps its clerk's hours (owner, Nov 1: "obviously the office isn't
 // open at 8:30 p.m."): on the opening evening the filing office's Travel card
 // says when it opens, Go plays the visit at that opening with the clock moved
