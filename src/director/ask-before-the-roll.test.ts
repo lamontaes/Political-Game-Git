@@ -33,12 +33,47 @@ import type { CoreEventInput } from "../core2/types";
 import { billTitleOf, spokenDesignation } from "../english/bill-names";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
+import { SITUATION_LIBRARY } from "./scheduling";
+import type { PersonLedger } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 /** Places tried before giving up on an ask the evening before a vote. */
 const DRAWS = 6;
 /** Days played in each place at most, one at a time so the evening before a vote is caught. */
 const MOST_DAYS = 240;
+
+/**
+ * Why the director kept an ask that is on the record off the stage, by its own
+ * scheduling rules (`scheduleMoment`): the sitting that evening, with the same
+ * two people, took the ask in; or the member's season of vote-ask scenes is
+ * full (`seasonCap`: past it a type's causes go to the journal). Undefined
+ * when neither explains it, which is a real miss.
+ */
+function notStagedBecause(
+  book: PersonLedger,
+  ask: CoreEventInput,
+): string | undefined {
+  const taken = book.schedule.find((row) =>
+    row.bindings.some(
+      (b) =>
+        b.typeKey === "vote-asked" &&
+        (b.joined ?? []).some((j) => j.causeId === ask.id),
+    ),
+  );
+  if (taken) return `taken into the sitting of ${taken.momentId}`;
+  const { value, days } = SITUATION_LIBRARY.scheduling.seasonCap;
+  const from = addDays(makeIsoDate(ask.date), -days);
+  const staged = book.schedule.filter(
+    (row) =>
+      row.date > from &&
+      row.date <= ask.date &&
+      row.outcome !== "journal-line" &&
+      row.bindings.some((b) => b.typeKey === "vote-asked"),
+  );
+  if (staged.length >= value)
+    return `the director's season cap: ${staged.length} vote-ask scenes already staged for the member in the ${days} days to ${ask.date} (cap ${value})`;
+  return undefined;
+}
 
 it(`a member asked the evening before a floor vote answers in a scene, and the roll call reads the answer (seed ${seed})`, () => {
   const tried: string[] = [];
@@ -100,99 +135,123 @@ it(`a member asked the evening before a floor vote answers in a scene, and the r
     for (let day = 1; day <= MOST_DAYS; day += 1) {
       if (core.date < addDays(makeIsoDate(gameStartDate()), day))
         advanceCore(core, addDays(makeIsoDate(gameStartDate()), day));
-      const ask = open();
-      if (!ask) continue;
-      checked.add(ask.id);
-      const [memberId, sponsorId] = ask.personIds as [string, string];
-      const billId = String(ask.facts!.billId);
-      const bill = billOf(api, billId);
-      // The record names the bill, the member and the sponsor.
-      expect(ask.facts?.askedId, `${where}: ${ask.id}`).toBe(memberId);
-      expect(ask.facts?.askerId, `${where}: ${ask.id}`).toBe(bill.sponsorId);
-      expect(sponsorId).toBe(bill.sponsorId);
-      // The director stages the ask from the record: the sponsor asks the member.
-      const book = director.ledger.people.get(memberId as never)!;
-      const entry = book.schedule.find((row) => row.momentId.includes(ask.id));
-      const binding = entry?.bindings.find(
-        (row) => row.typeKey === "vote-asked",
-      );
-      expect(binding, `${where}: ${ask.id}: no vote ask staged`).toBeTruthy();
-      expect(
-        binding!.roles.find((row) => row.role === "colleague")!.personIds,
-      ).toEqual([sponsorId]);
-      const composed = purposeScene(core, director, memberId as never, entry!);
-      expect(composed?.kind, `${where}: ${ask.id}`).toBe("composed");
-      if (composed?.kind !== "composed") return;
-      const said = spokenDesignation(bill.number, bill.form.kind);
-      const fact = composed.scene.facts.find((row) => row.key === "bill");
-      expect(fact?.text, `${where}: ${ask.id}`).toBe(said);
-      expect(fact?.recordIds).toContain(ask.id);
-      expect(composed.scene.cause.id).toBe(ask.id);
-      // Where the member stands before they answer, and the answer: they agree.
-      const before = memberPosition(api, billId, memberId);
-      const path = composed.scene.talk.tree.replies.findIndex(
-        (reply) => reply.line.move === "agree",
-      );
-      expect(path, `${where}: no agree reply offered`).toBeGreaterThanOrEqual(
-        0,
-      );
-      const replyId = replyInScene(core, director, memberId as never, entry!, [
-        path,
-      ]);
-      expect(replyId, `${where}: ${ask.id}`).toBeTruthy();
-      const after = memberPosition(api, billId, memberId);
-      expect(after.replyIds, `${where}: ${memberId}`).toContain(replyId);
-      expect(after.reply!, `${where}: ${memberId}`).toBeGreaterThan(0);
-      // The roll call: the member's recorded vote reads the answer in its
-      // reasons, and it changes where the answer outweighs where they stood.
-      advanceCore(core, String(ask.facts!.floorDate));
-      const vote = votesOn(api, billId).find(
-        (v) =>
-          v.memberId === memberId &&
-          !(v as { override?: boolean }).override &&
-          (v as { chamber?: string }).chamber === ask.facts!.chamber,
-      );
-      if (!vote) {
-        // The bill ended before its roll call (blocked, or its text found
-        // wanting): no vote to read. Named, and the next ask taken.
-        passedOver.push(
-          `${ask.id}: ${bill.number} ${billOf(api, billId).status} with no roll call`,
+      for (let ask = open(); ask; ask = open()) {
+        checked.add(ask.id);
+        const [memberId, sponsorId] = ask.personIds as [string, string];
+        const billId = String(ask.facts!.billId);
+        const bill = billOf(api, billId);
+        // The record names the bill, the member and the sponsor.
+        expect(ask.facts?.askedId, `${where}: ${ask.id}`).toBe(memberId);
+        expect(ask.facts?.askerId, `${where}: ${ask.id}`).toBe(bill.sponsorId);
+        expect(sponsorId).toBe(bill.sponsorId);
+        // The director stages the ask from the record: the sponsor asks the member.
+        const book = director.ledger.people.get(memberId as never)!;
+        const entry = book.schedule.find((row) =>
+          row.momentId.includes(ask.id),
         );
-        continue;
+        const binding = entry?.bindings.find(
+          (row) => row.typeKey === "vote-asked",
+        );
+        if (!binding) {
+          // The ask is on the record; the director keeps some off the stage by
+          // its own rules. Named and the next ask taken, but only when a rule
+          // explains it: an ask the director dropped for no reason fails.
+          const why = notStagedBecause(book, ask);
+          expect(
+            why,
+            `${where}: ${ask.id}: no vote ask staged, and neither the evening's sitting nor the season cap explains it`,
+          ).toBeTruthy();
+          passedOver.push(`${ask.id}: not staged, ${why}`);
+          continue;
+        }
+        expect(
+          binding!.roles.find((row) => row.role === "colleague")!.personIds,
+        ).toEqual([sponsorId]);
+        const composed = purposeScene(
+          core,
+          director,
+          memberId as never,
+          entry!,
+        );
+        expect(composed?.kind, `${where}: ${ask.id}`).toBe("composed");
+        if (composed?.kind !== "composed") return;
+        const said = spokenDesignation(bill.number, bill.form.kind);
+        const fact = composed.scene.facts.find((row) => row.key === "bill");
+        expect(fact?.text, `${where}: ${ask.id}`).toBe(said);
+        expect(fact?.recordIds).toContain(ask.id);
+        expect(composed.scene.cause.id).toBe(ask.id);
+        // Where the member stands before they answer, and the answer: they agree.
+        const before = memberPosition(api, billId, memberId);
+        const path = composed.scene.talk.tree.replies.findIndex(
+          (reply) => reply.line.move === "agree",
+        );
+        expect(path, `${where}: no agree reply offered`).toBeGreaterThanOrEqual(
+          0,
+        );
+        const replyId = replyInScene(
+          core,
+          director,
+          memberId as never,
+          entry!,
+          [path],
+        );
+        expect(replyId, `${where}: ${ask.id}`).toBeTruthy();
+        const after = memberPosition(api, billId, memberId);
+        expect(after.replyIds, `${where}: ${memberId}`).toContain(replyId);
+        expect(after.reply!, `${where}: ${memberId}`).toBeGreaterThan(0);
+        // The roll call: the member's recorded vote reads the answer in its
+        // reasons, and it changes where the answer outweighs where they stood.
+        advanceCore(core, String(ask.facts!.floorDate));
+        const vote = votesOn(api, billId).find(
+          (v) =>
+            v.memberId === memberId &&
+            !(v as { override?: boolean }).override &&
+            (v as { chamber?: string }).chamber === ask.facts!.chamber,
+        );
+        if (!vote) {
+          // The bill ended before its roll call (blocked, or its text found
+          // wanting): no vote to read. Named, and the next ask taken.
+          passedOver.push(
+            `${ask.id}: ${bill.number} ${billOf(api, billId).status} with no roll call`,
+          );
+          continue;
+        }
+        expect(vote.position.replyIds, `${where}: ${memberId}`).toContain(
+          replyId,
+        );
+        // Asked because they stood against the bill or undecided that evening;
+        // with the answer counted they vote as their position now says.
+        expect(
+          before.total,
+          `${where}: ${memberId} was asked though already for the bill`,
+        ).toBeLessThanOrEqual(0);
+        if (vote.position.total > 0)
+          expect(["yes", "absent"], `${where}: ${memberId}`).toContain(
+            vote.vote,
+          );
+        // The member's journal names the bill as the ask did, by its number,
+        // with its title, so the two read as one bill.
+        const told = ["yes", "no"].includes(vote.vote)
+          ? composeJournal(core, director, memberId as never)
+              .flatMap((chapter) => chapter.lines)
+              .find((line) =>
+                line.sourceRecordIds.includes(
+                  `office.voted:${billId}:${memberId}`,
+                ),
+              )
+          : undefined;
+        if (["yes", "no"].includes(vote.vote)) {
+          expect(told?.text, `${where}: ${memberId}'s journal`).toContain(said);
+          expect(told!.text).toContain(billTitleOf(bill)!.title);
+        }
+        process.stdout.write(
+          `JOURNAL ${where}: the ask said "${said}"; the journal says "${told?.text ?? "(no yes or no vote)"}"\n`,
+        );
+        process.stdout.write(
+          `ASK BEFORE THE ROLL ${where} (GOLDEN_PATH_SEED=${seed})${tried.length ? `\n  places skipped: ${tried.join("; ")}` : ""}${passedOver.length ? `\n  passed over: ${passedOver.join("; ")}` : ""}\n  player ${core.playerId} in ${body.id}\n  ${ask.id} (${ask.date}): ${sponsorId} asks ${memberId} about ${bill.number}, vote on ${ask.facts!.floorDate}; asked ${ask.facts!.asked}\n  ${memberId} stood at ${before.total.toFixed(3)}; answered ${replyId}; at the roll ${vote.vote} with ${vote.position.total.toFixed(3)} (reply ${vote.position.reply!.toFixed(3)}); bill ${billOf(api, billId).status}\n`,
+        );
+        return;
       }
-      expect(vote.position.replyIds, `${where}: ${memberId}`).toContain(
-        replyId,
-      );
-      // Asked because they stood against the bill or undecided that evening;
-      // with the answer counted they vote as their position now says.
-      expect(
-        before.total,
-        `${where}: ${memberId} was asked though already for the bill`,
-      ).toBeLessThanOrEqual(0);
-      if (vote.position.total > 0)
-        expect(["yes", "absent"], `${where}: ${memberId}`).toContain(vote.vote);
-      // The member's journal names the bill as the ask did, by its number,
-      // with its title, so the two read as one bill.
-      const told = ["yes", "no"].includes(vote.vote)
-        ? composeJournal(core, director, memberId as never)
-            .flatMap((chapter) => chapter.lines)
-            .find((line) =>
-              line.sourceRecordIds.includes(
-                `office.voted:${billId}:${memberId}`,
-              ),
-            )
-        : undefined;
-      if (["yes", "no"].includes(vote.vote)) {
-        expect(told?.text, `${where}: ${memberId}'s journal`).toContain(said);
-        expect(told!.text).toContain(billTitleOf(bill)!.title);
-      }
-      process.stdout.write(
-        `JOURNAL ${where}: the ask said "${said}"; the journal says "${told?.text ?? "(no yes or no vote)"}"\n`,
-      );
-      process.stdout.write(
-        `ASK BEFORE THE ROLL ${where} (GOLDEN_PATH_SEED=${seed})${passedOver.length ? `\n  passed over: ${passedOver.join("; ")}` : ""}\n  player ${core.playerId} in ${body.id}\n  ${ask.id} (${ask.date}): ${sponsorId} asks ${memberId} about ${bill.number}, vote on ${ask.facts!.floorDate}; asked ${ask.facts!.asked}\n  ${memberId} stood at ${before.total.toFixed(3)}; answered ${replyId}; at the roll ${vote.vote} with ${vote.position.total.toFixed(3)} (reply ${vote.position.reply!.toFixed(3)}); bill ${billOf(api, billId).status}\n`,
-      );
-      return;
     }
     tried.push(
       `${where}: ${asks.length} asks in ${MOST_DAYS} days, none of a member but the player that reached a roll call${passedOver.length ? ` (${passedOver.join("; ")})` : ""}`,
