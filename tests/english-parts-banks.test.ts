@@ -187,7 +187,7 @@ describe("English part banks", () => {
 describe("relative days in scene narration", () => {
   const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;
   type Use = { step?: string; requiresFacts?: string[] };
-  it("says today, tonight or yesterday only with the fact that makes it true", () => {
+  it("says today, tonight, tomorrow or yesterday only with the fact that makes it true", () => {
     const wrong: string[] = [];
     for (const part of sceneTalk.parts as (Part & { uses: Use[] })[])
       for (const use of part.uses.filter((row) => row.step === "narrate")) {
@@ -196,11 +196,20 @@ describe("relative days in scene narration", () => {
           /\b(?:today|tonight|this (?:morning|afternoon|evening))\b/i.test(
             part.text,
           ) &&
-          !needs.includes("same-day")
+          !needs.includes("same-day") &&
+          // The vote's own day is today too (the vote a count is for).
+          !needs.includes("vote-today")
         )
           wrong.push(`${part.key}: needs same-day`);
         if (/\byesterday\b/i.test(part.text) && !needs.includes("day-after"))
           wrong.push(`${part.key}: needs day-after`);
+        // "Tomorrow" is the day before the vote's floor date, and only then
+        // (the governing walk, Oct 29: "tomorrow" was said on the vote day).
+        if (
+          /\b(?:tomorrow|the evening before)\b/i.test(part.text) &&
+          !needs.includes("vote-tomorrow")
+        )
+          wrong.push(`${part.key}: needs vote-tomorrow`);
       }
     expect(wrong).toEqual([]);
   });
