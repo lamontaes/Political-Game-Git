@@ -2103,6 +2103,7 @@
         {
           "match": {
             "label": "cause:event:election-result",
+            "selfNamed": true,
             "causeFacts": [
               {
                 "key": "winnerId",
@@ -3254,6 +3255,7 @@
         {
           "match": {
             "label": "cause:event:candidate-filed",
+            "selfNamed": true,
             "counterpart": "none"
           },
           "causeEngine": "elections",
@@ -4005,7 +4007,8 @@
       "causes": [
         {
           "match": {
-            "label": "cause:event:candidate-filed"
+            "label": "cause:event:candidate-filed",
+            "selfNamed": true
           },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
