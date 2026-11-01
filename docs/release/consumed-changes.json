@@ -1,6 +1,35 @@
 {
   "entries": [
     {
+      "version": "0.73.0",
+      "releasedOn": "2026-11-01",
+      "revision": "4d7cf2992f5898e41306b894529009fab8214b43",
+      "changeIds": [
+        "bench-reached-law-by-bill-id",
+        "core-long-run-campaign-history-scans",
+        "core-long-run-forgetting-queue",
+        "core-long-run-stance-causes-year",
+        "core-speed-hiring-ranked-once",
+        "core-speed-prestart-history-insert",
+        "core-speed-rehouse-rent-per-review",
+        "cto-skill-red-main-head",
+        "laws-loan-cap-sentence",
+        "laws-small-dollar-lenders",
+        "paper-meetings-what-the-body-did",
+        "red-main-committee-markup",
+        "red-main-filled-in-job-loss-premise",
+        "red-main-housing-fixture",
+        "skills-builder-tests-run-changed-code",
+        "skills-lives",
+        "skills-red-main-nov1-lessons",
+        "skills-words-journal-stages",
+        "skills-words-lessons-nov1-evening",
+        "skills-words-lessons-nov1-night",
+        "words-family-news-talk",
+        "words-filing-one-clerk-talk"
+      ]
+    },
+    {
       "version": "0.72.0",
       "releasedOn": "2026-11-01",
       "revision": "fc14c339aa1d89fe33f7e69b34df0ea642ab04cb",
