@@ -29,6 +29,7 @@ import {
 import { contestPositions } from "./contest-positions";
 import { countedResidents } from "./electorate";
 import { townLean } from "./modules/campaigns";
+import { lawChain } from "./modules/laws";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { electorateRoll } from "./modules/voting";
@@ -36,8 +37,8 @@ import { countedStanceProfile, viewOn, VIEWS_MODULE_ID } from "./modules/views";
 
 const seed = process.env.PLATFORM_SEED ?? randomBytes(8).toString("hex");
 const MAX_DRAWS = 8;
-/** Adults of the town scored as candidates in each draw, in id order. */
-const CANDIDATES = 60;
+/** Adults living in the town scored as candidates in each draw, in id order. */
+const CANDIDATES = 120;
 
 /** The share of the town's electorate whose own stance favors and opposes a question, worked out here from the people and records. */
 function shares(api: CoreAPI, question: string): { yes: number; no: number } {
@@ -101,10 +102,14 @@ function attempt(draw: number): { proven: string } | { tried: string } {
       return office && office.level !== "state" && office.level !== "federal";
     })
     .sort((a, b) => a.id.localeCompare(b.id));
+  // The town's own adults, who could file for its seats (officials of other
+  // places, whose ids sort first, are not).
+  const town = lawChain(api).townPlaceId;
   const adults = [...core.people.values()]
     .filter(
       (p) =>
         p.alive &&
+        p.placeId === town &&
         ageOnDate(p.birthDate, core.date) >= api.parameter("votingAge"),
     )
     .sort((a, b) => a.id.localeCompare(b.id))

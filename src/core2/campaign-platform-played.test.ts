@@ -5,10 +5,14 @@
  * from all 56 (PLATFORM_PLAYED_SEED pins the run) plays a year a day at a
  * time. Each platform the world records (a runner's filing, or the campaign
  * of a filing that stated none) is read back on the day it was recorded, by
- * record: the candidate, every question the seat takes up with their
- * conviction, the electorate's support for their side and the score, and the
- * platform must be the top scores, at the candidate's own positions. The
- * first world whose year holds a contested local race is the proof.
+ * record, against the rule's scores at the moment the platform was chosen
+ * (the test watches each call of candidatePlatform and scores the same
+ * candidate and questions by platformScores in that instant, since what
+ * reaches the candidate later that day can move their own view): the
+ * candidate, every question the seat takes up with their conviction, the
+ * electorate's support for their side and the score, and the platform must
+ * be the top scores, at the candidate's own positions. The first world whose
+ * year holds a contested local race is the proof.
  *
  * The calibration total (the research's C1): over every (candidate, question)
  * pair of that year's contested local races, each candidate's emphasis on a
@@ -23,7 +27,7 @@
  * the filings of the next drawn places' years too, and the test says so.
  */
 import { randomBytes } from "node:crypto";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
@@ -31,7 +35,8 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import type { CoreAPI } from "./types";
-import { platformScores, type PlatformScore } from "./campaign-stances";
+import type * as Stances from "./campaign-stances";
+import type { PlatformScore } from "./campaign-stances";
 import { campaignParameter } from "./campaign-views";
 import { contestPositions } from "./contest-positions";
 import { CAMPAIGNS_MODULE_ID, type CampaignRow } from "./modules/campaigns";
@@ -41,6 +46,40 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { OFFICES_MODULE_ID } from "./modules/offices";
+
+/** Each platform chosen in play: the rule's scores in the same instant. */
+interface Chosen {
+  readonly date: string;
+  readonly personId: string;
+  readonly positions: readonly string[];
+  readonly scores: readonly PlatformScore[];
+}
+const chosen = new Map<string, Chosen>();
+const chosenKey = (
+  date: string,
+  personId: string,
+  positions: readonly string[],
+) => `${date}|${personId}|${positions.join(",")}`;
+vi.mock("./campaign-stances", async (importOriginal) => {
+  const real = await importOriginal<typeof Stances>();
+  return {
+    ...real,
+    candidatePlatform: (
+      ...args: Parameters<typeof real.candidatePlatform>
+    ): ReturnType<typeof real.candidatePlatform> => {
+      const [api, personId, party, positions] = args;
+      const scores = real.platformScores(api, personId, party, positions);
+      const key = chosenKey(api.state.date, personId, positions);
+      chosen.set(key, {
+        date: api.state.date,
+        personId,
+        positions: [...positions],
+        scores,
+      });
+      return real.candidatePlatform(...args);
+    },
+  };
+});
 
 const seed = process.env.PLATFORM_PLAYED_SEED ?? randomBytes(8).toString("hex");
 const MAX_DRAWS = 8;
@@ -62,6 +101,7 @@ interface Read {
   /** Where it was recorded: the filing, or its campaign. */
   readonly record: "filing" | "campaign";
   readonly platform: readonly { question: string; position: number }[];
+  /** The rule's scores on the seat's questions when the platform was chosen. */
   readonly scores: readonly PlatformScore[];
 }
 
@@ -98,6 +138,8 @@ function playYear(draw: number) {
     placeKey: place.key,
   });
   const api = coreAPI(core);
+  // Officials of other places share ids between worlds; each year starts clean.
+  chosen.clear();
   const elections = api.moduleState(ELECTIONS_MODULE_ID);
   const filingsTable = elections.table("filings");
   const seenFilings = new Set<string>();
@@ -112,6 +154,14 @@ function playYear(draw: number) {
       .table("contests")
       .get(filing.contestId) as unknown as ContestRow;
     const level = levelOf(api, contest);
+    // The choice the rule made for this record: the same candidate, day and
+    // seat questions.
+    const positions = contestPositions(api, contest);
+    const choice = chosen.get(chosenKey(core.date, filing.personId, positions));
+    if (!choice)
+      throw new Error(
+        `${where}: ${record} of ${filing.id} (candidate ${filing.personId}, filed ${filing.filedOn}) on ${core.date} holds a platform no choice by the rule made that day on the seat's questions (${positions.join(", ")})`,
+      );
     reads.push({
       date: core.date,
       filingId: filing.id,
@@ -120,12 +170,7 @@ function playYear(draw: number) {
       local: level !== "state" && level !== "federal",
       record,
       platform,
-      scores: platformScores(
-        api,
-        filing.personId,
-        filing.party ?? null,
-        contestPositions(api, contest),
-      ),
+      scores: choice.scores,
     });
   };
   const end = addDays(makeIsoDate(core.date), DAYS);
@@ -194,8 +239,15 @@ function proveByRecord(where: string, reads: readonly Read[]): string[] {
     ).toEqual(top.map((s) => Math.round(s.position * 1000) / 1000));
     if (lines.length < 4) {
       const off = ranked[r.platform.length];
+      // What the old rule (the strongest views, whatever the town thinks) ran on.
+      const strongest = [...r.scores]
+        .sort(
+          (a, b) =>
+            b.conviction - a.conviction || a.question.localeCompare(b.question),
+        )
+        .slice(0, r.platform.length);
       lines.push(
-        `  ${r.record} ${r.filingId} candidate ${r.candidateId} on ${r.date}: ${top.map(row).join("; ")}; highest left off ${off ? row(off) : "none"}`,
+        `  ${r.record} ${r.filingId} candidate ${r.candidateId} on ${r.date}: ${top.map(row).join("; ")}; highest left off ${off ? row(off) : "none"}; the strongest views alone would have been ${strongest.map((s) => s.question).join(", ")}`,
       );
     }
   }
