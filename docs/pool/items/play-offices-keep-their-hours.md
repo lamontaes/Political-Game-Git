@@ -6,12 +6,13 @@ kind: bug
 priority: 1
 size: S
 status: in-pr
-claimed-by:
+claimed-by: play-first/play-offices-keep-their-hours
 pr:
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 23:05 UTC (third batch, a Massachusetts life)
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-01T22:46:47.621Z
 ---
 
 **What.** The owner's v0.73.0 playtest screenshots show the player walking into the City Clerk's office at 8:30 PM on Monday, January 20, 2025, Inauguration Day evening, and filing there. A clerk's office keeps weekday business hours, and the game already keeps office hours for some places (src/core2/office-day-acts.ts, src/core2/modules/constituent-cases.ts). Travel should read the office's hours: outside them, the card says it is closed and when it opens, and Go waits or is unavailable.
