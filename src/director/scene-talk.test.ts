@@ -102,6 +102,8 @@ const facts: Record<string, Fact> = {
   remaining: fact("nine months"),
   "stake-time": fact("time"),
   child: fact("Jordan"),
+  signatures: fact("1,250"),
+  due: fact("March 5"),
 };
 // The engine is tested the way the grading page composes, with every part in,
 // even the ones the owner rejected; "plays every purpose in play" checks play.
@@ -248,7 +250,9 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       if (warm !== compose(-2)) differing += 1;
     }
     expect(differing).toBeGreaterThan(0);
-  });
+    // Every purpose composed three times: past the 30-second default on a
+    // slow draw (Checker 0, Nov 1: fo-1, also on clean main).
+  }, 120_000);
 
   it("never says a fact the record lacks: with the bill missing, a bill scene is skipped, not invented", () => {
     const type = types.find((row) => row.purpose === "ask-vote")!;
