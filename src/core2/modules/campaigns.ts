@@ -438,8 +438,9 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       /**
        * Each resident's "yes" at a campaign's door, one row a voter and
        * candidate in a contest, kept while the contest is open: a closed
-       * contest's rows go at its close, after its candidates' causes fold
-       * (`closeRace`), and a voter's yes in a race still open stays.
+       * contest's rows go at its close (`closeRace`), except in a contest the
+       * player filed in, which keeps every row (CTO, Nov 1 21:25), and a
+       * voter's yes in a race still open stays.
        */
       pledges: {
         indexes: {
@@ -4931,10 +4932,12 @@ export function foldQuietCauses(api: CoreAPI): void {
  * Fold candidates' causes into one summary row a voter. A voter and
  * candidate fold whole, so a summary's sum is the same sum, in the same
  * order, that `contestStanding` reads. The player's own causes stay as rows.
- * A folded cause that a voter's known fact names as its source, or that a
- * pledge names as its visit, moves to `foldedCauses`, where the trace still
- * finds it; no other folded cause is read, so none other is kept (CTO, Oct
- * 30 08:15, amending 03:05).
+ * A folded cause that a voter's known fact names as its source moves to
+ * `foldedCauses`, where the trace still finds it; no other folded cause is
+ * read, so none other is kept (CTO, Oct 30 08:15, amending 03:05). A pledge
+ * keeps no cause: a closed race's pledges go at its close (`closeRace`), and
+ * the warmth those visits moved stays in the summary (governing lead, Nov 1
+ * 21:22; CTO's amendment 21:25).
  */
 function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
   const core = api.state as CoreState;
@@ -4946,13 +4949,6 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
   const sourcesOf = new Map<string, Set<string>>();
   for (const candidateId of candidateIds) {
     if (candidateId === core.playerId) continue;
-    const pledged = new Set(
-      (
-        table(api, "pledges").query("byCandidate", [
-          candidateId,
-        ]) as unknown as PledgeRow[]
-      ).map((pledge) => pledge.causeId),
-    );
     const byVoter = new Map<string, CauseRow[]>();
     for (const row of causes.query("byCandidate", [
       candidateId,
@@ -4995,8 +4991,7 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
           (firstDoor === null || row.date < firstDoor)
         )
           firstDoor = row.date;
-        if (sources.has(row.id) || pledged.has(row.id))
-          folded.put(row as unknown as ModuleRow);
+        if (sources.has(row.id)) folded.put(row as unknown as ModuleRow);
         causes.remove(row.id);
       }
       summaries.put({
@@ -5895,8 +5890,9 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   ).slice()) {
     if (race.electionDate < date) {
       // Once its election day has passed, a race's door rows and pledges
-      // have no reader (`closeRace`). Its messages and word go as they leave
-      // word's window (`foldRivalWord`, after the races are worked).
+      // have no reader (`closeRace`; a race the player ran in keeps its
+      // pledges). Its messages and word go as they leave word's window
+      // (`foldRivalWord`, after the races are worked).
       closeRace(api, race.id);
       races.remove(race.id);
       continue;
@@ -5935,11 +5931,12 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  * A decided race's rows that only the race read go once its election day has
  * passed (governing lead, Oct 30 and Nov 1): its door rows (the campaign row
  * keeps its door counts) and its pledges, the "yes" voters gave at its doors,
- * which the ballot read on election day. Every filing of the contest is read
- * by its id, so no campaign row is made. The candidates' causes fold first
- * (`foldCauses`), so a cause a pledge names as its visit moves to
- * `foldedCauses` before the pledge goes. Only this contest's pledges go, by
- * their contest: a voter's yes in another race still open stays. Its
+ * which the door's answer read during the race and the ballot on primary and
+ * election day. Every filing of the contest is read by its id, so no
+ * campaign row is made. Only this contest's pledges go, by their contest: a
+ * voter's yes in another race still open stays. A contest the player filed in
+ * keeps every pledge, its rivals' too (CTO, Nov 1 21:25). No cause is kept
+ * for a pledge (`foldCauses`), so the drop leaves nothing behind. Its
  * messages and word are not touched here: a filing stays on the ballot after
  * the count, so word of it may still pass on (`foldRivalWord`).
  */
@@ -5952,10 +5949,10 @@ export function closeRace(api: CoreAPI, contestId: string): void {
   for (const filing of filings)
     for (const row of doors.query("byCampaign", [filing.id]))
       doors.remove(row.id);
-  const candidateIds = new Set(filings.map((f) => f.personId));
-  foldCauses(api, candidateIds);
+  const playerId = (api.state as CoreState).playerId;
+  if (filings.some((f) => f.personId === playerId)) return;
   const pledges = table(api, "pledges");
-  for (const candidateId of candidateIds)
+  for (const candidateId of new Set(filings.map((f) => f.personId)))
     for (const row of pledges.query("byCandidate", [
       candidateId,
     ]) as unknown as PledgeRow[])

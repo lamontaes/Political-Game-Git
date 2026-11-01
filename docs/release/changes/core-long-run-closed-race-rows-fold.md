@@ -5,4 +5,4 @@ section: Improved
 title: Campaign records no longer pile up
 ---
 
-A decided race's door rows and pledges, and campaign word nobody can still hear of, are no longer kept, and play is unchanged.
+A decided race's door rows, its pledges unless you ran in it, and campaign word nobody can still hear of are no longer kept, and play is unchanged.
