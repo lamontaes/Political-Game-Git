@@ -191,7 +191,9 @@ export interface CampaignRow {
   /**
    * Each volunteer or staffer who left the campaign to stand in its race
    * themselves (`leaveForOwnRun`): who, which list they left, the day, and
-   * their own filing, whose `candidate-filed` record is the cause.
+   * their own filing, whose `candidate-filed` record is the cause. The work a
+   * volunteer shared with the candidate stays theirs after they leave
+   * (`sharedHistory` reads it).
    */
   readonly leftToRun?: readonly {
     readonly personId: string;
@@ -3327,9 +3329,10 @@ function comes(
  * An adult's reasons to give a candidate an evening, before personality:
  * their reasons to back the candidate (warmth, agreement, party, how they
  * stand with the candidate) and an invitation's pull, less the hours their
- * work already takes.
+ * work already takes. A read: nothing is asked or kept (`comes` and a donor
+ * meeting's host settle it with their trait lean).
  */
-function eveningReason(
+export function eveningReason(
   api: CoreAPI,
   campaign: CampaignRow,
   person: Readonly<PersonState>,
