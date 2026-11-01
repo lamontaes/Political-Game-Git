@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-prestart-history
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T18:05:44.001Z
 ---
 
 **What.** When the game fills in a person's work history, it reads every past record to find the town's economic conditions and the businesses founded before the start. That read grows with every person filled in before them. Keep those records by kind beside the history, kept by the same writers, so each fill-in reads only what it needs. Found in a profile of Storrs, Connecticut (key 0973980), the Every place nightly's slowest place (530 s, then 1,075 s a year).
