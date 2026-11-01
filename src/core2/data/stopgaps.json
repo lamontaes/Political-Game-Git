@@ -1730,18 +1730,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-REACH-B-medicaid-federal-leg",
-    "kind": "missing-mechanic",
-    "file": "src/core2/law-reach/group-b-money.ts",
-    "line": 902,
-    "whatItFakes": "The federal share of Medicaid's part of a town member's care is paid to the medical seller by the federal treasury at the match in force (payMedicaidCare), counted against the federal health line, and the whole care, the federal leg included, against the state's welfare and Medicaid line; so each dollar is inside a budget line and no close pays it again. But the federal aid to the state stays a twelfth of the state's Census federal aid, which already holds the federal share of the state's Medicaid, so the state keeps that share of the town's care as well (the outside payees of the federal health line are paid that much less).",
-    "why": "The aid flows pay each lower treasury a fixed twelfth of its Census revenue line (budgets-treasury.ts, treasury-spending.json aid); no aid flow reads a law, so the match cannot yet set the Medicaid portion of the aid.",
-    "addedBy": "laws lead helper (claude/laws-medical-debt)",
-    "addedAt": "2026-10-30",
-    "replacement": "The state treasury pays the seller the whole Medicaid part against its welfare and Medicaid line, and the federal share reaches the state as federal aid at the match in force: the Medicaid portion of the federal aid to the state is the match times the state's Medicaid care, read when the aid pays.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-REACH-B-assistance-benefits",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
@@ -5323,54 +5311,6 @@
     "resolution": "Built (health-medical-debt-record): the coverage engine's monthly medical bills (src/core2/medical-bills.ts) bill each household by its members' coverage and health records, carry what it cannot pay for the 120-day wait, then place the rest with collections as a medical-debt record on its books (the credit engine's loans, kind medical, recordMedicalDebt in src/core2/modules/credit.ts), the share sent there multiplied by webReach for finance.medical-debt-in-collections. A town household, full or counted, whose members' Medicaid coverage the law reach keeps by person id meets the expansion through that coverage (a bill at Medicaid's share), so the place-level medicaid-expansion-to-medical-debt row is left out of its share; a household in another place the world keeps reads the row. The marriage-equality-to-coverage link it also named now waits on SG-EW-HEALTH-marriage-equality-cause."
   },
   {
-    "id": "SG-EW-HEALTH-marriage-equality-cause",
-    "kind": "missing-record",
-    "file": "src/core2/health-web.ts",
-    "line": 91,
-    "whatItFakes": "The marriage-equality-to-coverage link (marriage-equality-to-coverage) has no running cause (the law has been national since 2015, link status cause-not-recorded), so it moves nothing.",
-    "why": "Nothing in the core records law.marriage-equality, the link's cause; the web does not run a link whose cause it cannot read.",
-    "addedBy": "claude/laws-medical-debt",
-    "addedAt": "2026-10-29",
-    "replacement": "A recorded marriage-equality law the web reads as the link's cause (a spouse's employer plan then covers a same-sex spouse through the coverage engine), or the link graded not applicable because the law is national and does not change in play.",
-    "status": "open"
-  },
-  {
-    "id": "SG-HEALTH-medical-bill-shape",
-    "kind": "partial-model",
-    "file": "src/core2/medical-bills.ts",
-    "line": 448,
-    "whatItFakes": "Each member's medical bill starts from the household's Consumer Expenditure average split evenly over its members, moved only by their care need and their coverage: age is not read (MEPS Statistical Brief #441: average out-of-pocket \"ranging from $283 for children under age 18 to $1,215 for the elderly\"), the uninsured use as much care as the insured at the same need (MEPS #441: 55.4 percent of the uninsured under 65 had any expense against 88.1 percent of the privately insured), and a counted member's care need is one while a counted illness runs and none otherwise (counted people hold no condition record), while a full member's held conditions raise it on the health engine's sliding scale. A counted household keeps back only its group's housing arrears, where a full household keeps back the housing due before the next bill. Only households in the places whose money the world keeps (the residents runtime's places: the town and the places around it) are billed and counted in the care norm; a household elsewhere, such as a national press outlet's head or a central-bank governor, who keeps no books, is never billed.",
-    "why": "The health engine keeps condition records only for full people, and the survey's age and use profiles are not yet parameters; the town is scaled so its average care is the survey's.",
-    "addedBy": "claude/laws-medical-debt",
-    "addedAt": "2026-10-29",
-    "replacement": "An age profile of out-of-pocket spending (MEPS by age band) and the uninsured's lower use of care at the same need, as parameters the bill reads; counted members' condition prevalence from the condition pack's cells, so a counted member's care need follows the same sliding scale; the counted keep-back from the housing payments each group owes before the next bill. When a household outside those places keeps books (a national figure's pay and living costs), it is billed by its own place's region on the same rule.",
-    "status": "open"
-  },
-  {
-    "id": "SG-HEALTH-medical-debt-collections",
-    "kind": "partial-model",
-    "file": "src/core2/medical-bills.ts",
-    "line": 855,
-    "whatItFakes": "A medical bill unpaid past the wait is placed for collection as one balance on the household's books and stays there: no collector pays the provider for it, the household never pays it down or settles it, and the part the web's share does not send to collections is written off by the provider with no record. Each part leaves the credit report seven years after its own delinquency and is folded into the record's agedOff summary, still owed: the balance never ages off the books. The bank reads it as a charge-off once the reporting wait has passed (creditMedicalReportDays), with no floor for small balances.",
-    "why": "The game has no collection agencies or debt buyers, and nothing yet decides when a household with cash pays an old medical debt.",
-    "addedBy": "claude/laws-medical-debt",
-    "addedAt": "2026-10-29",
-    "replacement": "Medical debts paid down from what a household holds after its living costs, on the same rule as its other debts, settled or sold at research's recovery rates, and the provider's write-off kept as its charity care on its books.",
-    "status": "open"
-  },
-  {
-    "id": "SG-HEALTH-medical-owed-fill-in",
-    "kind": "partial-model",
-    "file": "src/core2/medical-bills.ts",
-    "line": 780,
-    "whatItFakes": "A counted household's medical-bill row holds what one real household of it still owes the provider, standing for its whole weight. When the household is filled in, the new full household keeps that row by its id (one household's owed bills), and the records that take the rest of its weight (counted-groups.ts releaseWeight) keep only their own: the owed bills of the other households it stood for leave no record, never reach collections and are written off by no one.",
-    "why": "A fill-in moves a counted group's people and money but not what its households owe; the same root as the group's living-cost arrears at fill-in (pool item world-fill-in-strands-group-living-arrears).",
-    "addedBy": "claude/laws-medical-debt",
-    "addedAt": "2026-10-29",
-    "replacement": "At fill-in, the owed bills of the households released from the record move to the records that take their weight, in proportion to the weight each takes, by the same rule that moves the group's living-cost arrears (world-fill-in-strands-group-living-arrears).",
-    "status": "open"
-  },
-  {
     "id": "SG-EW-HEALTH-death-cause",
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
@@ -8089,15 +8029,39 @@
     "status": "open"
   },
   {
-    "id": "SG-WEB-uninsured-share-misses-medicaid-coverage",
-    "kind": "missing-mechanic",
-    "file": "src/core2/medical-bills.ts",
-    "line": 351,
-    "whatItFakes": "The Medicaid expansion's and the work requirement's links to health.uninsured-pct are carried by the law reach's coverage records (links.json carriedBy), which the medical bills read, so the outcome web no longer runs them. A place's health.uninsured-pct therefore moves only with unemployment and marriage equality, and health.uninsured-pct to school.graduation-pct (60-month lag) misses the coverage the expansion gives and the requirement takes away.",
-    "why": "Medicaid coverage is not an employer plan, so the coverage engine reads no Medicaid law into the employer-plan count; the residents' own coverage records are the one path for the expansion. Nothing yet sums those records into the place's uninsured share.",
-    "addedBy": "laws lead (claude/laws-medical-debt)",
+    "id": "SG-LIVES-elsewhere-not-into-town",
+    "kind": "partial-model",
+    "file": "src/core2/modules/moves.ts",
+    "line": 753,
+    "whatItFakes": "A relative or acquaintance living elsewhere (the inactive tier) never moves into the played town: their move skips a relative or county destination that is one of the town's full-detail places and goes to the next record instead.",
+    "why": "A husk in town would sit outside the town's residents, counts and voter rolls; arriving needs the counted arrival path or a fill-in, which the two-level population allows only when the player meets them.",
+    "addedBy": "lives lead (core-every-life-simulated)",
     "addedAt": "2026-11-01",
-    "replacement": "The place's uninsured share for the web's graduation link is read from the coverage records the world keeps (employer plans, Medicare, and the reach's Medicaid coverage records, full and counted), so the expansion and the requirement move it through the same records the bills read.",
+    "replacement": "A husk whose move lands in the played town arrives through the counted-moves arrival path as one counted household (one model, two tiers), filled in when the player meets them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-work-no-employer",
+    "kind": "missing-record",
+    "file": "src/core2/jobs-elsewhere.ts",
+    "line": 182,
+    "whatItFakes": "A relative or town leaver living elsewhere works, is let go, finds work and moves to another job with no employer named: the world keeps no firms outside the played town.",
+    "why": "Firms exist only for the played town's businesses; a second economy of named employers elsewhere would be a second engine.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "The regional engine's employers by industry for each state (counted, never named until met) give a person living elsewhere an employer record their work spell names, filled in when the player meets it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-work-out-of-labor-force",
+    "kind": "missing-mechanic",
+    "file": "src/core2/jobs-elsewhere.ts",
+    "line": 285,
+    "whatItFakes": "Someone living elsewhere who was out of the labor force on day one (a student, a parent at home, someone not looking) stays out until they reach the age of retiring.",
+    "why": "The pre-start run's pulls are for people in the labor force; entering it (school's end, a youngest child's age, a partner's lost job) needs its causes for people with no school or household records.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "The jobs engine's enter choice (the one counted and full people make) read for people living elsewhere from their age, household and partner's work, checked against CPS flows into the labor force by age.",
     "status": "open"
   },
   {
@@ -8134,6 +8098,78 @@
     "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
     "addedAt": "2026-11-01",
     "replacement": "The eviction names as witnesses the full people who know a counted member (the full people who list them as family, and their ties), as notifyCountedDeaths does for a counted death, once drives, trait change and the director read a witness to a relative's eviction by their relation; or counted members pass news on at contact by the news engine's rule.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-medicaid-federal-leg",
+    "kind": "missing-mechanic",
+    "file": "src/core2/law-reach/group-b-money.ts",
+    "line": 902,
+    "whatItFakes": "The federal share of Medicaid's part of a town member's care is paid to the medical seller by the federal treasury at the match in force (payMedicaidCare), counted against the federal health line, and the whole care, the federal leg included, against the state's welfare and Medicaid line; so each dollar is inside a budget line and no close pays it again. But the federal aid to the state stays a twelfth of the state's Census federal aid, which already holds the federal share of the state's Medicaid, so the state keeps that share of the town's care as well (the outside payees of the federal health line are paid that much less).",
+    "why": "The aid flows pay each lower treasury a fixed twelfth of its Census revenue line (budgets-treasury.ts, treasury-spending.json aid); no aid flow reads a law, so the match cannot yet set the Medicaid portion of the aid.",
+    "addedBy": "laws lead helper (claude/laws-medical-debt)",
+    "addedAt": "2026-10-30",
+    "replacement": "The state treasury pays the seller the whole Medicaid part against its welfare and Medicaid line, and the federal share reaches the state as federal aid at the match in force: the Medicaid portion of the federal aid to the state is the match times the state's Medicaid care, read when the aid pays.",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-marriage-equality-cause",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 91,
+    "whatItFakes": "The marriage-equality-to-coverage link (marriage-equality-to-coverage) has no running cause (the law has been national since 2015, link status cause-not-recorded), so it moves nothing.",
+    "why": "Nothing in the core records law.marriage-equality, the link's cause; the web does not run a link whose cause it cannot read.",
+    "addedBy": "claude/laws-medical-debt",
+    "addedAt": "2026-10-29",
+    "replacement": "A recorded marriage-equality law the web reads as the link's cause (a spouse's employer plan then covers a same-sex spouse through the coverage engine), or the link graded not applicable because the law is national and does not change in play.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HEALTH-medical-bill-shape",
+    "kind": "partial-model",
+    "file": "src/core2/medical-bills.ts",
+    "line": 448,
+    "whatItFakes": "Each member's medical bill starts from the household's Consumer Expenditure average split evenly over its members, moved only by their care need and their coverage: age is not read (MEPS Statistical Brief #441: average out-of-pocket \"ranging from $283 for children under age 18 to $1,215 for the elderly\"), the uninsured use as much care as the insured at the same need (MEPS #441: 55.4 percent of the uninsured under 65 had any expense against 88.1 percent of the privately insured), and a counted member's care need is one while a counted illness runs and none otherwise (counted people hold no condition record), while a full member's held conditions raise it on the health engine's sliding scale. A counted household keeps back only its group's housing arrears, where a full household keeps back the housing due before the next bill. Only households in the places whose money the world keeps (the residents runtime's places: the town and the places around it) are billed and counted in the care norm; a household elsewhere, such as a national press outlet's head or a central-bank governor, who keeps no books, is never billed.",
+    "why": "The health engine keeps condition records only for full people, and the survey's age and use profiles are not yet parameters; the town is scaled so its average care is the survey's.",
+    "addedBy": "claude/laws-medical-debt",
+    "addedAt": "2026-10-29",
+    "replacement": "An age profile of out-of-pocket spending (MEPS by age band) and the uninsured's lower use of care at the same need, as parameters the bill reads; counted members' condition prevalence from the condition pack's cells, so a counted member's care need follows the same sliding scale; the counted keep-back from the housing payments each group owes before the next bill. When a household outside those places keeps books (a national figure's pay and living costs), it is billed by its own place's region on the same rule.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HEALTH-medical-debt-collections",
+    "kind": "partial-model",
+    "file": "src/core2/medical-bills.ts",
+    "line": 855,
+    "whatItFakes": "A medical bill unpaid past the wait is placed for collection as one balance on the household's books and stays there: no collector pays the provider for it, the household never pays it down or settles it, and the part the web's share does not send to collections is written off by the provider with no record. Each part leaves the credit report seven years after its own delinquency and is folded into the record's agedOff summary, still owed: the balance never ages off the books. The bank reads it as a charge-off once the reporting wait has passed (creditMedicalReportDays), with no floor for small balances.",
+    "why": "The game has no collection agencies or debt buyers, and nothing yet decides when a household with cash pays an old medical debt.",
+    "addedBy": "claude/laws-medical-debt",
+    "addedAt": "2026-10-29",
+    "replacement": "Medical debts paid down from what a household holds after its living costs, on the same rule as its other debts, settled or sold at research's recovery rates, and the provider's write-off kept as its charity care on its books.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HEALTH-medical-owed-fill-in",
+    "kind": "partial-model",
+    "file": "src/core2/medical-bills.ts",
+    "line": 780,
+    "whatItFakes": "A counted household's medical-bill row holds what one real household of it still owes the provider, standing for its whole weight. When the household is filled in, the new full household keeps that row by its id (one household's owed bills), and the records that take the rest of its weight (counted-groups.ts releaseWeight) keep only their own: the owed bills of the other households it stood for leave no record, never reach collections and are written off by no one.",
+    "why": "A fill-in moves a counted group's people and money but not what its households owe; the same root as the group's living-cost arrears at fill-in (pool item world-fill-in-strands-group-living-arrears).",
+    "addedBy": "claude/laws-medical-debt",
+    "addedAt": "2026-10-29",
+    "replacement": "At fill-in, the owed bills of the households released from the record move to the records that take their weight, in proportion to the weight each takes, by the same rule that moves the group's living-cost arrears (world-fill-in-strands-group-living-arrears).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-uninsured-share-misses-medicaid-coverage",
+    "kind": "missing-mechanic",
+    "file": "src/core2/medical-bills.ts",
+    "line": 351,
+    "whatItFakes": "The Medicaid expansion's and the work requirement's links to health.uninsured-pct are carried by the law reach's coverage records (links.json carriedBy), which the medical bills read, so the outcome web no longer runs them. A place's health.uninsured-pct therefore moves only with unemployment and marriage equality, and health.uninsured-pct to school.graduation-pct (60-month lag) misses the coverage the expansion gives and the requirement takes away.",
+    "why": "Medicaid coverage is not an employer plan, so the coverage engine reads no Medicaid law into the employer-plan count; the residents' own coverage records are the one path for the expansion. Nothing yet sums those records into the place's uninsured share.",
+    "addedBy": "laws lead (claude/laws-medical-debt)",
+    "addedAt": "2026-11-01",
+    "replacement": "The place's uninsured share for the web's graduation link is read from the coverage records the world keeps (employer plans, Medicare, and the reach's Medicaid coverage records, full and counted), so the expansion and the requirement move it through the same records the bills read.",
     "status": "open"
   }
 ]

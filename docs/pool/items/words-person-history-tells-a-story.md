@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: words/person-history-story
-pr:
+pr: #7090
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:40 UTC (second batch)
 lead: words

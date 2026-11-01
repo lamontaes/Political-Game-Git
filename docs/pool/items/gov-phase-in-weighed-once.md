@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/phase-in-weighed-once
-pr:
+pr: #7091
 blocked-on:
 source: governing lead, Oct 30 (review of gov-m3-01-phase-in-by-dated-steps)
 lead: governing
