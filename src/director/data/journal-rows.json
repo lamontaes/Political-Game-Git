@@ -103,7 +103,12 @@
       "kindPrefix": "event:school.finished",
       "turn": false,
       "oncePer": "finished",
-      "entry": "story"
+      "entry": "story",
+      "stageFact": "passed",
+      "stageWords": {
+        "false": "\\bwithout a diploma\\b",
+        "true": "\\b(?:graduated|got my diploma|finished high school)\\b"
+      }
     },
     {
       "kindPrefix": "work:opening",

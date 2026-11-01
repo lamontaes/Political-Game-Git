@@ -786,11 +786,15 @@ export function composeJournal(
     if (moment.causeKind === SCHOOL_FINISHED) {
       const result = schoolResult(core, moment.causeId);
       if (!result) return null;
-      facts[result.passed ? "graduated" : "no-diploma"] = {
-        text: "yes",
+      // Whether they graduated is the line's stage (the row's stageFact).
+      facts.passed = {
+        text: String(result.passed),
         sourceRecordIds: [moment.causeId],
       };
-      facts.finished = { text: moment.causeId, sourceRecordIds: [] };
+      facts.finished = {
+        text: moment.causeId,
+        sourceRecordIds: [moment.causeId],
+      };
       const school = schoolsAttended(core, personId).find(
         (row) => row.schoolId === result.schoolId,
       );
@@ -1012,7 +1016,11 @@ export function composeJournal(
     facts: Facts,
   ): string | undefined => {
     const logged = core.durableLog.get(moment.causeId)?.facts;
-    const stage = row.stageFact ? logged?.[row.stageFact] : undefined;
+    // A record the log does not keep (a school's result) gives its stage
+    // through the moment's own facts.
+    const stage = row.stageFact
+      ? (logged?.[row.stageFact] ?? facts[row.stageFact]?.text)
+      : undefined;
     if (stage !== undefined && row.stageMark && facts[row.stageMark.fact])
       return `${stage}:${row.stageMark.mark}`;
     // The one the record names in a fact (the executive who signed) tells
@@ -1204,7 +1212,10 @@ export function composeJournal(
       !!selfCount ||
       !!moment.selfNamed ||
       !facts.other ||
-      moment.causeKind === "family:child";
+      moment.causeKind === "family:child" ||
+      // The school year's end is the person's own result, whoever the
+      // scene of it was with.
+      moment.causeKind === SCHOOL_FINISHED;
     // A move the household made together is "we".
     const together =
       (selfCount ??

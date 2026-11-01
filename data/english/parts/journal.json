@@ -7359,7 +7359,6 @@
           "subject": "life",
           "role": "school-finished",
           "choice": "school-finished",
-          "requiresFacts": ["graduated"],
           "journal": [
             {
               "kindPrefix": "event:school.finished",
@@ -7386,7 +7385,6 @@
           "subject": "life",
           "role": "school-finished",
           "choice": "school-finished",
-          "requiresFacts": ["graduated"],
           "journal": [
             {
               "kindPrefix": "event:school.finished",
@@ -7413,7 +7411,6 @@
           "subject": "life",
           "role": "school-finished",
           "choice": "school-finished",
-          "requiresFacts": ["graduated"],
           "journal": [
             {
               "kindPrefix": "event:school.finished",
@@ -7440,7 +7437,6 @@
           "subject": "life",
           "role": "school-finished",
           "choice": "school-finished",
-          "requiresFacts": ["no-diploma"],
           "journal": [
             {
               "kindPrefix": "event:school.finished",
@@ -7467,7 +7463,6 @@
           "subject": "life",
           "role": "school-finished",
           "choice": "school-finished",
-          "requiresFacts": ["no-diploma"],
           "journal": [
             {
               "kindPrefix": "event:school.finished",
