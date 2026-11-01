@@ -37,6 +37,11 @@ const BRIEF_KINDS: ReadonlySet<string> = new Set(briefs.kinds);
 /** The briefs about the whole town, which name no one: they involve every follower. */
 const TOWN_WIDE_BRIEFS: ReadonlySet<string> = new Set(briefs.townWide);
 
+/** A body's regular sitting, as office-day records it. */
+const MEETING_KIND = "public-meeting";
+/** The week's sittings that took up nothing, printed as one brief. */
+export const MEETINGS_WEEK_KIND = "meetings-week";
+
 export interface DeskOutlet {
   readonly id: string;
   readonly organizationId: string;
@@ -616,6 +621,29 @@ export function runDesk(
     (item) => item.date >= since && !ctx.printed(item.id, outlet.id),
   );
   if (!open.length || !outlet.reporterIds.length) return [];
+  // A body's sitting is news for what it did, not that it sat (CTO, Nov 1,
+  // under the owner's "real ones with some good fluff or else it will get
+  // old"): one that took up business is told by its votes, one story a
+  // bill, so its own record prints only where none of its votes reached the
+  // wire; one that took up nothing goes in the week's meetings brief. A
+  // county board's sittings filled 94 of a year's headlines in Blunt, South
+  // Dakota, seed paper-nov1:2, all "Hughes County Board of Commissioners
+  // meets".
+  const routine = open.filter(
+    (item) => item.kind === MEETING_KIND && !(Number(item.facts?.items) > 0),
+  );
+  const toldByVotes = (item: WireItem) =>
+    item.kind === MEETING_KIND &&
+    wire.some(
+      (vote) =>
+        sittingVote(vote) &&
+        vote.date === item.date &&
+        vote.facts?.chamber === item.facts?.officeId,
+    );
+  const told = new Set([
+    ...routine.map((item) => item.id),
+    ...open.filter(toldByVotes).map((item) => item.id),
+  ]);
   const followers = ctx.followers(outlet.id);
   const care = readerCare(api, followers, new Set(open.map((i) => i.topic)));
   const core = api.state as CoreState;
@@ -680,21 +708,25 @@ export function runDesk(
       : followers.length;
     return named + ctx.countedFollowers(outlet);
   };
-  const base = open.map((item) => ({
-    item,
-    proximity: p(
-      (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
-    ),
-    readerCare: Math.max(care.get(item.topic) ?? 0, amountMove(item)),
-    people: Math.log1p(
-      Math.max(item.subjectIds.filter(inTown).length, involved(item)),
-    ),
-    renown: Math.log1p(
-      item.subjectIds.filter((id) => isPublicFigure(api, id)).length +
-        (item.officialIds ?? []).filter((id) => holdsHighOffice(api, id))
-          .length,
-    ),
-  }));
+  const base = open
+    .filter((item) => !told.has(item.id))
+    .map((item) => ({
+      item,
+      proximity: p(
+        (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[
+          item.level
+        ],
+      ),
+      readerCare: Math.max(care.get(item.topic) ?? 0, amountMove(item)),
+      people: Math.log1p(
+        Math.max(item.subjectIds.filter(inTown).length, involved(item)),
+      ),
+      renown: Math.log1p(
+        item.subjectIds.filter((id) => isPublicFigure(api, id)).length +
+          (item.officialIds ?? []).filter((id) => holdsHighOffice(api, id))
+            .length,
+      ),
+    }));
   const taken = new Set<string>();
   const out: PrintedStory[] = [];
   for (const reporterId of outlet.reporterIds) {
@@ -807,6 +839,53 @@ export function runDesk(
           rank: rank + 1,
           weighed: column.length,
         }),
+      );
+    }
+    // The week's sittings that took up nothing, in one brief after the
+    // column: each body named once, however often it sat.
+    const weekAgo = addDays(
+      makeIsoDate(api.state.date),
+      -api.parameter("daysPerWeek"),
+    );
+    const sat = routine
+      .filter((item) => item.date > weekAgo)
+      .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+    const bodies = [
+      ...new Set(sat.flatMap((item) => item.facts?.officeId ?? [])),
+    ];
+    if (bodies.length) {
+      const proximity = p(PROXIMITY.town);
+      out.push(
+        printItem(
+          api,
+          ctx,
+          outlet,
+          filer,
+          {
+            id: `${MEETINGS_WEEK_KIND}:${outlet.id}:${api.state.date}`,
+            kind: MEETINGS_WEEK_KIND,
+            date: api.state.date,
+            level: "town",
+            topic: MEETINGS_WEEK_KIND,
+            desiredChange: "met",
+            ending: false,
+            subjectIds: [],
+            facts: {
+              officeIds: bodies.join(","),
+              meetingIds: sat.map((item) => item.id).join(","),
+            },
+          },
+          {
+            proximity,
+            readerCare: 0,
+            people: 0,
+            renown: 0,
+            drive: 0,
+            score: proximity,
+            rank: column.length + 1,
+            weighed: column.length + 1,
+          },
+        ),
       );
     }
   }

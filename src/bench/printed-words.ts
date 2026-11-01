@@ -44,6 +44,7 @@ import {
   spokenDesignation,
 } from "../english/bill-names";
 import type { StoryKind } from "../english/english-newscast";
+import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
@@ -1022,12 +1023,30 @@ const CONDITION_NOUNS: Readonly<Record<string, string>> = {
 };
 /** The town's month: the measure that moved most, and which way, then the next to move. */
 const conditions: Builder = (read, f) => {
+  // Who is out of work: the town's economic month the rate was taken from
+  // (world-metrics writes it the day before the web's record).
+  const month = read.row<{ id: string; employed: number; unemployed: number }>(
+    WORLD_METRICS_MODULE_ID,
+    "months",
+    `metrics:${read.townPlaceId()}:${addDays(makeIsoDate(read.happened || read.story.date), -1)}`,
+  );
+  const force = month ? month.employed + month.unemployed : 0;
   const moved: { measure: string; now: number; was: number; move: number }[] =
     [];
   for (const measure of Object.keys(CONDITIONS)) {
     const now = num(f[`web:${measure}`]);
     const was = num(f[`web:${measure}:was`]);
     if (now === undefined || was === undefined || now === was) continue;
+    // A rate that moved by one person's job is that person's news, not the
+    // town's: the paper tells the move only where the month's own count
+    // says more than one person moved ("fell to 0%, from 0.4%" in Blunt,
+    // South Dakota, seed paper-nov1:2, was one job in a town of 350).
+    if (
+      measure === "labor.unemployment-pct" &&
+      month &&
+      Math.round((Math.abs(now - was) / 100) * force) < 2
+    )
+      continue;
     moved.push({
       measure,
       now,
@@ -1040,13 +1059,6 @@ const conditions: Builder = (read, f) => {
   if (!best) return null;
   const place = read.place();
   const record = f[`web:${best.measure}:record`] ?? f.webRecordId ?? "";
-  // Who is out of work: the town's economic month the rate was taken from
-  // (world-metrics writes it the day before the web's record).
-  const month = read.row<{ id: string; unemployed: number }>(
-    WORLD_METRICS_MODULE_ID,
-    "months",
-    `metrics:${read.townPlaceId()}:${addDays(makeIsoDate(read.happened || read.story.date), -1)}`,
-  );
   const jobless =
     best.measure === "labor.unemployment-pct" && month && month.unemployed > 1
       ? month
@@ -1056,9 +1068,12 @@ const conditions: Builder = (read, f) => {
     {
       [CONDITIONS[best.measure]!]: read.fact("yes", record),
       [best.now > best.was ? "up" : "down"]: read.yes(),
+      // No one out of work is said in words, never "0%".
       ...(best.measure === "labor.unemployment-pct"
         ? {
-            percent: read.fact(percent(best.now), record),
+            ...(best.now > 0
+              ? { percent: read.fact(percent(best.now), record) }
+              : { nobody: read.fact("yes", record) }),
             from: read.fact(percent(best.was), record),
           }
         : {}),
@@ -1118,38 +1133,64 @@ const townHall: Builder = (read, f) =>
     f.hostId,
   );
 
-/** A body's regular meeting. */
+/**
+ * A body's sitting that took up business, told by what it took up (CTO,
+ * Nov 1: print what the body did, not that it sat). The desk prints one only
+ * where none of its votes reached the wire; a sitting that took up nothing
+ * is in the week's meetings brief, never a story of its own.
+ */
 const publicMeeting: Builder = (read, f) => {
   const body = read.body(f.officeId);
   const items = num(f.items) ?? 0;
-  // The members who sat (the record names them), and the first bill the
-  // body took up, from the meeting's own row.
-  const seated = read.people.filter((id) => read.name(id)).length;
+  if (items < 1) return null;
+  // The first bill the body took up, from the meeting's own row.
   const meeting = read.row<{ takenUp: readonly string[] }>(
     OFFICE_DAY_MODULE_ID,
     "meetings",
     f.meetingId,
   );
-  const taken = meeting?.takenUp[0];
-  const bill = read.billFacts(taken);
+  const bill = read.billFacts(meeting?.takenUp[0]);
   return story(
     "body-meeting",
     {
       ...(body ? { body: read.fact(body, f.officeId ?? "") } : {}),
       date: read.date(),
-      ...(items > 0
-        ? { number: read.fact(count(items)) }
-        : { none: read.yes() }),
-      ...(seated > 1 ? { members: read.fact(count(seated)) } : {}),
-      ...(items > 0 && bill.purpose && bill.designation
-        ? {
-            designation: bill.designation,
-            purpose: bill.purpose,
-            ...(bill.law ? { law: bill.law } : {}),
-          }
-        : {}),
+      number: read.fact(count(items)),
+      ...(bill.designation ? { designation: bill.designation } : {}),
+      ...(bill.purpose ? { purpose: bill.purpose } : {}),
+      ...(bill.law ? { law: bill.law } : {}),
     },
     ["body"],
+  );
+};
+
+/**
+ * The week's sittings that took up nothing, in one brief: each body named
+ * once, in the order it first sat (the desk's meetings-week item).
+ */
+const meetingsWeek: Builder = (read, f) => {
+  const bodies = [
+    ...new Set(
+      (f.officeIds ?? "")
+        .split(",")
+        .map((id) => read.body(id))
+        .filter((name): name is string => !!name),
+    ),
+  ];
+  if (!bodies.length) return null;
+  // "The Town Council, the County Board, and the School Board": the line
+  // gives the first article, the list the rest.
+  const [first, ...rest] = bodies;
+  return story(
+    "meetings-week",
+    {
+      bodies: read.fact(
+        joinList([first!, ...rest.map((name) => `the ${name}`)], "and"),
+        ...(f.meetingIds ?? "").split(","),
+      ),
+      number: read.fact(count(bodies.length)),
+    },
+    ["bodies"],
   );
 };
 
@@ -2570,6 +2611,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "town-hall": townHall,
   "public-meeting": publicMeeting,
   "meeting-held": publicMeeting,
+  "meetings-week": meetingsWeek,
   profile,
   interview,
   claim: claimCheck,

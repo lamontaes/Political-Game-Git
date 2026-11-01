@@ -4,8 +4,11 @@
  * place, every story the press printed worded as News words it, counted by
  * story kind, and every Journal line counted by the kind of record it tells,
  * with each sentence that repeats more than three times in the year.
+ * With --played the player's year is lived through the play screen's own
+ * clock (BenchPlayer), a week at a time, each stop answered as the path
+ * check answers it, so the Journal holds what a played year gives it.
  *
- *   node --max-old-space-size=6144 --import tsx scripts/dialogue-batch/paper-year.ts --seed <seed> [--draws 3] [--days 365]
+ *   node --max-old-space-size=6144 --import tsx scripts/dialogue-batch/paper-year.ts --seed <seed> [--draws 3] [--days 365] [--played]
  */
 import { drawPlace } from "../core2-year/place";
 import { buildBenchWorld } from "../../src/bench/world";
@@ -15,6 +18,7 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
+import { BenchPlayer } from "../../src/bench/player";
 import { coreAPI } from "../../src/core2/state";
 import type { PersonId } from "../../src/core2/types";
 import { composeJournal } from "../../src/director/journal";
@@ -26,6 +30,7 @@ const arg = (name: string, fallback: string) => {
 const seed = arg("seed", "paper-year");
 const draws = Number(arg("draws", "3"));
 const days = Number(arg("days", "365"));
+const played = process.argv.includes("--played");
 const REPEATS = 3;
 
 /**
@@ -51,8 +56,28 @@ for (let draw = 0; draw < draws; draw += 1) {
     { twoLevel: true, placeKey: place.key },
   );
   const me = playerId as PersonId;
-  director.watch(core, me);
-  advanceCore(core, addDays(makeIsoDate(core.date), days));
+  const end = addDays(makeIsoDate(core.date), days);
+  if (played) {
+    // The play screen's clock, a week at a time; a stop is answered as the
+    // path check answers it (the character's own choices), the polls left.
+    const player = new BenchPlayer(core, director);
+    player.select(me);
+    for (let guard = 0; core.date < end && guard < 400; guard += 1) {
+      if (player.pollingPlace) player.leavePolls();
+      const packet =
+        player.packet?.kind === "stop"
+          ? player.packet
+          : player.advance(
+              "calendar",
+              addDays(makeIsoDate(player.packet?.at.date ?? core.date), 7),
+            ).packet;
+      if (packet?.kind === "stop")
+        player.resume({ kind: "stop", pauseId: packet.pauseId });
+    }
+  } else {
+    director.watch(core, me);
+    advanceCore(core, end);
+  }
   const api = coreAPI(core);
   const printed = (
     api.moduleState("news").table("stories").rows() as unknown as {
@@ -103,7 +128,9 @@ for (let draw = 0; draw < draws; draw += 1) {
   }
   const lineRepeated = table(lineSaid).filter(([, count]) => count > REPEATS);
 
-  console.log(`\n## ${where}: ${days} days to ${core.date}\n`);
+  console.log(
+    `\n## ${where}: ${days} days to ${core.date}${played ? ", the player's year played" : ""}\n`,
+  );
   console.log(
     `Paper: ${printed.length} printed stories, ${unworded} unworded, ${kinds.size} kinds, ${said.size} distinct sentences, ${repeated.length} printed more than ${REPEATS} times.\n`,
   );

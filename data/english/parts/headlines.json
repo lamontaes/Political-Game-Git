@@ -2782,6 +2782,28 @@
       }
     },
     {
+      "key": "headlines.conditions.no-one-out-of-work-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "No one out of work in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "down", "nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.conditions.burglaries-up-in-place",
       "move": "conditions",
       "kind": "written",
@@ -2980,6 +3002,28 @@
       }
     },
     {
+      "key": "headlines.rate.interest-rates-rise-to-percent",
+      "move": "rate",
+      "kind": "written",
+      "text": "Interest rates rise to {percent}",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "headline",
+          "role": "rate",
+          "choice": "headline",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.rate.the-fed-cuts-rates-to-percent",
       "move": "rate",
       "kind": "written",
@@ -3002,6 +3046,28 @@
       }
     },
     {
+      "key": "headlines.rate.interest-rates-fall-to-percent",
+      "move": "rate",
+      "kind": "written",
+      "text": "Interest rates fall to {percent}",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "headline",
+          "role": "rate",
+          "choice": "headline",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.rate.the-fed-holds-rates-at-percent",
       "move": "rate",
       "kind": "written",
@@ -3018,6 +3084,28 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.rate.interest-rates-stay-at-percent",
+      "move": "rate",
+      "kind": "written",
+      "text": "Interest rates stay at {percent}",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "headline",
+          "role": "rate",
+          "choice": "headline",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -3067,27 +3155,6 @@
       }
     },
     {
-      "key": "headlines.body-meeting.body-meets",
-      "move": "body-meeting",
-      "kind": "written",
-      "text": "{body} meets",
-      "uses": [
-        {
-          "move": "body-meeting",
-          "subject": "headline",
-          "role": "body-meeting",
-          "choice": "headline"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "headlines.body-meeting.body-takes-up-number-items",
       "move": "body-meeting",
       "kind": "written",
@@ -3104,6 +3171,157 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.body-meeting.body-takes-up-designation",
+      "move": "body-meeting",
+      "kind": "written",
+      "text": "{body} takes up {designation}",
+      "uses": [
+        {
+          "move": "body-meeting",
+          "subject": "headline",
+          "role": "body-meeting",
+          "choice": "headline",
+          "requiresFacts": ["designation", "one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.body-meeting.body-takes-up-purpose",
+      "move": "body-meeting",
+      "kind": "written",
+      "text": "{body} takes up {purpose}",
+      "uses": [
+        {
+          "move": "body-meeting",
+          "subject": "headline",
+          "role": "body-meeting",
+          "choice": "headline",
+          "requiresFacts": ["purpose", "one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.body-meeting.body-weighs-purpose",
+      "move": "body-meeting",
+      "kind": "written",
+      "text": "{body} weighs {purpose}",
+      "uses": [
+        {
+          "move": "body-meeting",
+          "subject": "headline",
+          "role": "body-meeting",
+          "choice": "headline",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.body-meeting.designation-among-number-items-before-body",
+      "move": "body-meeting",
+      "kind": "written",
+      "text": "{designation} among {number} items before {body}",
+      "uses": [
+        {
+          "move": "body-meeting",
+          "subject": "headline",
+          "role": "body-meeting",
+          "choice": "headline",
+          "requiresFacts": ["designation", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.meetings-week.meetings-this-week",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "Meetings this week",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "headline",
+          "role": "meetings-week",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.meetings-week.this-weeks-meetings",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "This week's meetings",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "headline",
+          "role": "meetings-week",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.meetings-week.also-meeting-this-week",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "Also meeting this week",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "headline",
+          "role": "meetings-week",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -5301,6 +5519,28 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.took-office.place-has-a-new-post",
+      "move": "took-office",
+      "kind": "written",
+      "text": "{place} has a new {post}",
+      "uses": [
+        {
+          "move": "took-office",
+          "subject": "headline",
+          "role": "took-office",
+          "choice": "headline",
+          "requiresFacts": ["post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"
