@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/journal-own-birth
+pr: #6985
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T16:05:59.818Z
 ---
 
 **What.** The Journal now opens on a moment for the person's own birth (src/director/journal.ts householdMoments, causeKind person.birth, place from the people engine's person.birth record of the run before the start; journal row person.birth in src/director/data/journal-rows.json). The bank words no part for that row, so the line is left out today. The bank already holds the mined, shippable part journal.look-back-line-died.i-was-born-in-place (I was born in {place}.), used only by the death look-back. Map it (and any other birth wordings) to the person.birth row's line field, or add parts, so the story starts at birth (owner, Oct 27 sitting: written like a story from birth).

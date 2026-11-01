@@ -187,7 +187,7 @@ describe("English part banks", () => {
 describe("relative days in scene narration", () => {
   const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;
   type Use = { step?: string; requiresFacts?: string[] };
-  it("says today, tonight or yesterday only with the fact that makes it true", () => {
+  it("says today, tonight, tomorrow or yesterday only with the fact that makes it true", () => {
     const wrong: string[] = [];
     for (const part of sceneTalk.parts as (Part & { uses: Use[] })[])
       for (const use of part.uses.filter((row) => row.step === "narrate")) {
@@ -196,13 +196,48 @@ describe("relative days in scene narration", () => {
           /\b(?:today|tonight|this (?:morning|afternoon|evening))\b/i.test(
             part.text,
           ) &&
-          !needs.includes("same-day")
+          !needs.includes("same-day") &&
+          // The vote's own day is today too (the vote a count is for).
+          !needs.includes("vote-today")
         )
           wrong.push(`${part.key}: needs same-day`);
         if (/\byesterday\b/i.test(part.text) && !needs.includes("day-after"))
           wrong.push(`${part.key}: needs day-after`);
+        // "Tomorrow" is the day before the vote's floor date, and only then
+        // (the governing walk, Oct 29: "tomorrow" was said on the vote day).
+        if (
+          /\b(?:tomorrow|the evening before)\b/i.test(part.text) &&
+          !needs.includes("vote-tomorrow")
+        )
+          wrong.push(`${part.key}: needs vote-tomorrow`);
       }
     expect(wrong).toEqual([]);
+  });
+});
+
+// A follow that ends the scene (the director's terminal follows: a thank or
+// an accept) never asks a question: nothing answers it, and the scene would
+// end on it ("Then we start tonight. Where do you keep your contacts?").
+describe("the line that ends a scene", () => {
+  const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;
+  const terminal: readonly string[] = JSON.parse(
+    readFileSync(
+      path.join(__dirname, "../src/director/data/scene-talk-rules.json"),
+      "utf8",
+    ),
+  ).terminalFollow;
+  type Use = { step?: string; move?: string };
+  it("asks no question where it ends the talk", () => {
+    const asking = (sceneTalk.parts as (Part & { uses: Use[] })[])
+      .filter(
+        (part) =>
+          /\?\s*$/.test(part.text) &&
+          part.uses.some(
+            (use) => use.step === "follow" && terminal.includes(use.move ?? ""),
+          ),
+      )
+      .map((part) => `${part.key}: ${part.text}`);
+    expect(asking).toEqual([]);
   });
 });
 

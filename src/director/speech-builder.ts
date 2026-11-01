@@ -155,7 +155,7 @@ const numberWord = (count: number) => NUMBER_WORDS[count] ?? String(count);
  * and what they have heard since), one stand per catalog topic so two stands
  * are never on the same subject. A view of exactly nothing is no stand.
  */
-function standsOf(core: Readonly<CoreState>, speakerId: PersonId) {
+export function standsOf(core: Readonly<CoreState>, speakerId: PersonId) {
   const api = coreAPI(core as CoreState);
   const view = viewOf(api, speakerId);
   if (!view) return [];
