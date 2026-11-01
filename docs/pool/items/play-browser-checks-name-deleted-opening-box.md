@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-browser-checks-name-deleted-opening-box
 pr: #6958
 blocked-on:
