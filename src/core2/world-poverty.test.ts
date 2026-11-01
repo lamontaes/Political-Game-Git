@@ -17,7 +17,12 @@ import { lawChain } from "./modules/laws";
 import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
 import { incomeBandOf, residentsRuntime } from "./modules/residents";
 import { WORLD_METRICS_MODULE_ID } from "./modules/world-metrics";
-import { WEB_LINKS, WIRED_INTO, linkCoverage } from "./outcome-web-model";
+import {
+  WEB_LINKS,
+  WIRED_INTO,
+  engineReadWanted,
+  linkCoverage,
+} from "./outcome-web-model";
 import { fileClaim, type ClaimRow } from "./jobs-benefits";
 import { coreAPI } from "./state";
 import type { JobInput } from "./types";
@@ -105,7 +110,12 @@ describe(`poverty from incomes (${firstPlace.name}, seed ${seed})`, () => {
       expect(c.wired, link.key).toBe(false);
       if (link.carriedBy)
         expect("carriedBy" in c && c.carriedBy, link.key).toBe(link.carriedBy);
-      else expect(c.waitingOn, link.key).toContain("household.poverty-pct");
+      // It waits on an engine reading its cause, not on the poverty measure,
+      // which the engine already records.
+      else {
+        expect(c.waitingOn, link.key).toContain(engineReadWanted(link));
+        expect(c.waitingOn, link.key).not.toContain("household.poverty-pct");
+      }
     }
     expect(into.filter((l) => !l.carriedBy).map((l) => l.key)).toEqual([
       "licensing-reform-to-poverty",

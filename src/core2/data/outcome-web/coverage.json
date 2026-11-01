@@ -322,7 +322,7 @@
     },
     "rent-burden-to-homelessness": {
       "waitingOn": [],
-      "carriedBy": "the housing engine's own leases and removals, household by household: a lease whose rent the household's pay and cash cannot cover falls into arrears (accruesArrears, src/core2/modules/housing.ts), arrears past the grace period start notice, filing and judgment (review in src/core2/modules/housing.ts; counted households by their group's arrears, countedLate in src/core2/housing-homeless.ts), the removal puts the household with kin, in a shelter bed or on the street (placeRemovedHousehold), and reviewHomeless in src/core2/housing-homeless.ts rehouses it only once its monthly income reaches the rent times housingRehouseIncomeMultiple, named and counted households alike"
+      "needsSize": true
     },
     "eviction-to-homelessness": {
       "waitingOn": [],
@@ -461,7 +461,9 @@
       "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
     },
     "licensing-reform-to-poverty": {
-      "waitingOn": ["household.poverty-pct"]
+      "waitingOn": [
+        "reader:household.poverty-pct:law:us-policy-positions:business-commerce.reduce-occupational-licensing"
+      ]
     },
     "income-tax-to-poverty": {
       "waitingOn": [],
@@ -738,10 +740,6 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "household.poverty-pct": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "immigration.deferred-action": {
       "owner": "OPUS-GOV",
       "links": 1
@@ -820,6 +818,10 @@
     },
     "program.summer-jobs-slots": {
       "owner": "OPUS-GOV",
+      "links": 1
+    },
+    "reader:household.poverty-pct:law:us-policy-positions:business-commerce.reduce-occupational-licensing": {
+      "owner": "OPUS-WORLD",
       "links": 1
     },
     "school.absence": {

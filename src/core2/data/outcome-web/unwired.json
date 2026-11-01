@@ -152,6 +152,12 @@
       "stopgapId": "SG-WEB-crime-justice-links-unread"
     },
     {
+      "link": "rent-burden-to-homelessness",
+      "outcome": "housing.homelessness",
+      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
+      "stopgapId": "SG-WEB-unread-housing-homelessness"
+    },
+    {
       "link": "eviction-to-hospital-visits",
       "outcome": "health.hospital-visits",
       "reason": "no measure: the web does not keep health.hospital-visits and no engine produces it; its research gives no size the game can apply, so the web does not run it",

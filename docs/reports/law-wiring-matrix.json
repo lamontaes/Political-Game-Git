@@ -135,9 +135,9 @@
     "stopgapped": 1,
     "researchLinks": {
       "links": 246,
-      "reaching": 173,
+      "reaching": 172,
       "aboutZero": 21,
-      "unread": 52,
+      "unread": 53,
       "unreadWithNoStopgap": 0
     },
     "shownOnAScreen": 87,
@@ -6930,7 +6930,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-infant-deaths 0.0600, read by src/core2/health-web.ts:64; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:230; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-infant-deaths 0.0600, read by src/core2/health-web.ts:64; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:230",
           "why": ""
         },
         "knowing": {

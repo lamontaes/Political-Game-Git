@@ -471,8 +471,9 @@ export function linkCoverage(link: WebLink): Coverage {
   if (!keptOutcome(link.to)) waitingOn.push(link.to);
   // An outcome an engine owns (poverty) stands at the engine's record: the web
   // multiplies none of its links in (recordMonth in modules/outcome-web.ts),
-  // so a link into it waits on that engine reading its cause.
-  if (engineOwned(link.to)) waitingOn.push(link.to);
+  // so a link into it waits on an engine reading its cause, not on the
+  // outcome, which the engine already records.
+  if (engineOwned(link.to)) waitingOn.push(engineReadWanted(link));
   const needsSize = link.size === null;
   if (waitingOn.length || needsSize)
     return {
@@ -496,9 +497,20 @@ export const WIRED_INTO: ReadonlyMap<string, readonly WebLink[]> = (() => {
   return into;
 })();
 
+/**
+ * What a link into an outcome an engine owns waits on: the engine behind that
+ * outcome reading the link's cause where it decides, as
+ * `reader:<outcome>:<cause>` (licensing-reform-to-poverty waits on
+ * `reader:household.poverty-pct:law:...`, the jobs engine reading the
+ * licensing law into pay). Its owner is the outcome's.
+ */
+export function engineReadWanted(link: WebLink): string {
+  return `reader:${link.to}:${link.from}`;
+}
+
 /** Who provides a missing measure (the longest matching prefix in the owners table). */
 export function ownerOf(measure: string): string {
-  const name = measure.replace(/^person:/, "");
+  const name = measure.replace(/^(person|reader):/, "");
   const owners = local.measureOwners.owners as Record<string, string>;
   const match = Object.keys(owners)
     .filter((prefix) => name.startsWith(prefix))
