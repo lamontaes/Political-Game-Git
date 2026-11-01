@@ -7,6 +7,12 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - None open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
 - The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Nov 1, 23:40 UTC: CTO ruling: a folded term or race is found by its id inside its seat's summary; it need not stay a row (speed lead's question, with the reading line)
+
+- **Ruling (under the Oct 30 10:21 ruling, knowledge is compacted, never forgotten, and the Speed rule that old records fold once play no longer reads them):** for other places' ended office terms and old outside race rows (`core-long-run-election-and-term-rows`), it is enough that dev mode's `findRecord` resolves a folded term or race id to its entry in the seat's summary row. The folded ids need not stay as rows. Conditions: each entry keeps every field a reader reads (the holder's person id, start and end dates, how the term ended, the race's winner and vote totals); the player's own town and every race or term the player, their household or their circle took part in stay as rows; each reader's window is agreed with its owner (laws, governing, Words, the lane) before the fold; and the records proof shows every screen, scene, person card and trace why reading the same before and after.
+- Why: #7020 seats every state's members, so terms and returns grow with every election. Kirkman, Iowa keeps 454,608 records at year 4 against 367,386 before it, and Long Hill, Connecticut projects about 12 times the years-1-to-4 term rows by year 100.
+- Read: OWNER-DECISIONS (Oct 30 10:21, Oct 29 every state's members seated, Oct 30 04:14 fold routing), the item's Notes, the leads channel (Laws); the speed lead searched docs for "seatPasts" and "outside-seat-records".
+
 ## Nov 1, 23:30 UTC: the owner's answers and the filing visit (owner, 6:30 PM Eastern, two screenshots, Northampton, Massachusetts)
 
 - **Talk is not a list (owner, on the clerk's answer to "I want to run for Mayor"):** "this dialogue is absolutely god-awful. It's just listing things. Unless it calls for it specifically in the dialogue scene, it shouldn't read as a list. That's not how normal people talk." Every scene's lines read as speech; a list appears only where the scene calls for one. (`words-clerk-visit-narration-real`)

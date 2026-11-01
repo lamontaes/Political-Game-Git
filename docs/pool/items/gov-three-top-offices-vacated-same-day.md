@@ -1,9 +1,9 @@
 ---
 id: gov-three-top-offices-vacated-same-day
-title: "Find why the President's, Vice President's and a governor's terms all end by vacancy on January 20, 2027 in one nightly world"
+title: "Find why the nightly's Ballot check counts 2 seats instead of 5 in Hayfield, Virginia, and confirm the governor's January 3, 2027 vacancy has its cause"
 area: elections
 kind: bug
-priority: 2
+priority: 3
 size: S
 status: open
 claimed-by:
@@ -13,12 +13,12 @@ source: Red main fixer 2's #7057 (Every place nightly run 41316330982, run seed 
 lead: governing
 ---
 
-**What.** In the Every place nightly of Nov 1 (run seed 67d5d83fdbecbe3c), Hayfield, Virginia's world ends the President's, the Vice President's and Virginia's governor's terms by vacancy on the same day, January 20, 2027. #7057 made the nightly's Ballot check skip terms ended by a vacancy, so the check no longer flags it, and its body calls the dates unusual without reading why. A presidential term runs to January 20, 2029 and a Virginia governor's term begins in January 2026, so three top offices vacated together on an inauguration anniversary looks like a date or succession defect, not three real events. Read the vacancy rows and their causes by record and fix the writer if it is wrong.
+**What.** In the Every place nightly of Nov 1 (run seed 67d5d83fdbecbe3c), Hayfield, Virginia's Ballot check counted 5 seats, then 2 after #7057 made the check skip terms ended by a vacancy. Red main fixer 2 first wrote that the President's, Vice President's and governor's terms all ended by vacancy, then corrected it on #7057 after a straight two-year run: the President and Vice President serve to January 20, 2029 with no vacancy, and the governor's term ends January 3, 2027 by "accepted incompatible office", with the lieutenant governor succeeding, which fits a governor sworn into Congress that day. The drop from 5 checked seats to 2 is still unexplained. Read which seats the check counted and why three left the count, and confirm the governor's move names the office they accepted.
 
-**Rules.** Ask why: each vacancy's cause is named by record (a death, a resignation, a removal) or the defect is found. Sliding scales and causes: an office empties only from a cause the engines record, never a date rule. One rule, all 56 places: check the same seed's other places for the same date.
+**Rules.** Ask why: each seat leaving the count is named by record, and the governor's vacancy cites the office record they took. Sliding scales and causes: an office empties only from a cause the engines record. One rule, all 56 places: check the same seed's other places for seats dropped from the count.
 
-**Done when.** The PR names the three vacancy records with their causes in Hayfield, Virginia at run seed 67d5d83fdbecbe3c; if the cause is a defect, a test in a drawn place fails on the old behavior and passes after, and the nightly's other places on that seed show no same-day top-office vacancies without a recorded cause.
+**Done when.** The PR names the five seats the check first counted in Hayfield, Virginia at run seed 67d5d83fdbecbe3c, the record that removed each of the three, and the office record the governor accepted; if a seat left the count wrongly, a test fails on the old check and passes after.
 
-**Files.** src/core2/modules/offices.ts, scripts/all-places.mjs
+**Files.** scripts/core2-year/all-places.mjs, src/core2/modules/offices.ts
 
-**Notes.** Filed by the CTO from Merger 1's note on #7057 (Nov 1, 23:20). Read: OWNER-DECISIONS (succession and vacancy rulings), the pool for Hayfield and vacancy: no twin. The fixer asked the governing lead on Nov 1; this item is the record.
+**Notes.** Filed by the CTO from Merger 1's note on #7057 (Nov 1, 23:20); rewritten the same hour after the fixer's correction on #7057 (22:19), which showed the President and Vice President were never vacated. Read: OWNER-DECISIONS (succession and vacancy rulings), the pool for Hayfield and vacancy: no twin.
