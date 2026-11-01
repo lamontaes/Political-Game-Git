@@ -6684,10 +6684,10 @@
       }
     },
     {
-      "key": "headlines.birthday.a-ordinal-birthday-for-name",
+      "key": "headlines.birthday.name-marks-ordinal-birthday",
       "move": "birthday",
       "kind": "written",
-      "text": "A {ordinal} birthday for {name}",
+      "text": "{name} marks {ordinal} birthday",
       "uses": [
         {
           "move": "birthday",

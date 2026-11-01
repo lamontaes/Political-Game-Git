@@ -4566,10 +4566,10 @@
       }
     },
     {
-      "key": "news.birthday.name-marked-an-ordinal-birthday-on-date",
+      "key": "news.birthday.name-marked-a-milestone-birthday-on-date-turning-age",
       "move": "birthday",
       "kind": "written",
-      "text": "{name} marked a {ordinal} birthday on {date}.",
+      "text": "{name} marked a milestone birthday on {date}, turning {age}.",
       "uses": [
         {
           "move": "birthday",
@@ -6754,6 +6754,50 @@
       }
     },
     {
+      "key": "news.bill-purpose.it-concerns-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "It concerns {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.the-bill-is-about-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "The bill is about {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.bill-purpose.the-law-is-about-purpose",
       "move": "bill-purpose",
       "kind": "written",
@@ -6924,6 +6968,50 @@
       "origin": "authored",
       "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
       "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-bill-stays-in-committee-for-now",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The bill stays in committee for now.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-committee-s-vote-stops-the-bill-there",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The committee's vote stops the bill there.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

@@ -2331,16 +2331,33 @@ const death: Builder = (read) => {
         .flatMap((cid) => read.core.work.commitments.get(cid) ?? [])
         .sort((a, b) => b.startsAt.localeCompare(a.startsAt))[0]
     : undefined;
+  // The office they held, from their latest term's own record, serving or
+  // ended at their death (an official's obituary says what they served as).
+  const lastTerm = id
+    ? read
+        .query<{ officeId: string; startDate: string }>(
+          OFFICES_MODULE_ID,
+          "terms",
+          "byPerson",
+          [id],
+        )
+        .sort((a, b) => b.startDate.localeCompare(a.startDate))[0]
+    : undefined;
+  const office = id
+    ? (read.officeOf(id) ??
+      (lastTerm ? read.officeTitle(lastTerm.officeId) : null))
+    : null;
   // Work for the outside account (buyers and sellers outside the town) is
   // work out of town, not an employer the paper can name.
   const away =
+    !office &&
     !!work &&
     read.core.organizations.get(work.organizationId as EntityId)
       ?.outsideFlow !== undefined;
-  const employer = away ? null : read.organization(work?.organizationId);
-  // The office they held, from their term's own record (an official's
-  // obituary says what they served as).
-  const office = id ? read.officeOf(id) : null;
+  const employer =
+    away || office || work?.publicPayAuthorityId
+      ? null
+      : read.organization(work?.organizationId);
   const tenure =
     work && read.happened
       ? yearsBetween(work.heldSince ?? work.startsAt, read.happened)
