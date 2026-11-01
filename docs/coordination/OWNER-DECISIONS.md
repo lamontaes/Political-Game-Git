@@ -4,8 +4,12 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-- **A relative with no news (Words, Oct 30; item `words-talk-husk-acquaintances-empty`).** Your grandparents, aunts and uncles live in another town, and nothing in their lives is simulated, so today a talk with one of them says nothing (your Oct 14 Q7 and Oct 15 family-talk rulings). Should talking to a relative with no news say nothing, as now, or should they ask after the family you share ("How's your mother?" answered from where she lives)? Recommended: keep it as now until their lives are simulated, so every family talk has real news in it.
+- None open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
 - The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
+
+## Nov 1, 16:50 UTC: every life is simulated (owner)
+
+- **The owner, Nov 1, answering the relative-with-no-news question:** "EVERY. LIFE. IS. SIMULATED. WHAT DO YOU NOT UNDERSTAND. THIS IS LOW INTENSITY STUFF." A relative or acquaintance who lives elsewhere (a "husk", kept minimal until met) lives a simulated life at low intensity: they work, change jobs, move, marry, have children, fall ill, age and die. The same engines the town's people run through make it happen, at a coarse cadence, and each event leaves a dated record. "Nothing in their lives is simulated" was a gap, not a design. So a talk with a relative has real news under the Oct 14 Q7 and Oct 15 family-talk rulings, which stand: their happenings are the news. Built by a new lives lead (item `core-every-life-simulated`), with the speed lead on cost (low intensity holds the speed bar) and Words on the talk. The CTO's Oct 30 recommendation to keep the empty talk is withdrawn.
 
 ## Nov 1, 15:20 UTC: CTO ruling: counted voters carry a voting habit from their group's turnout record (red main's question)
 

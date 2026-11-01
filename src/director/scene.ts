@@ -253,9 +253,14 @@ export function composeScene(
           text: sceneParagraph(sentences),
           parts: sentences.flatMap((line) => line.parts ?? []),
           // A sitting that took in a later cause the same day cites it too.
+          // The sentence of what led here cites the record that led here,
+          // whatever facts it names ("Your daughter has been born." named the
+          // daughter by the family record and cited no birth, Neillsville,
+          // Wisconsin, seed birth-n1).
           sourceRecordIds: [
             ...new Set([
               ...sentences.flatMap((line) => line.sourceRecordIds),
+              ...(cause ? [moment.causeId] : []),
               ...(binding.joined ?? []).map((row) => row.causeId),
             ]),
           ],
