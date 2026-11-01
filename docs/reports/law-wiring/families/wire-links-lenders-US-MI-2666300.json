@@ -78,8 +78,8 @@
         "src/core2/modules/world-legislating.ts:299": 336,
         "src/core2/modules/outcome-web.ts:214": 323,
         "src/core2/modules/world-legislating.ts:229": 102,
-        "src/core2/modules/credit.ts:1258": 30,
-        "src/core2/modules/credit.ts:1435": 30,
+        "src/core2/modules/credit.ts:1260": 30,
+        "src/core2/modules/credit.ts:1441": 30,
         "src/core2/life.ts:565": 10,
         "src/core2/modules/world-legislating.ts:384": 4,
         "src/core2/modules/legislature.ts:5130": 1,
@@ -385,7 +385,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 68
+      "seconds": 93
     }
   ]
 }
