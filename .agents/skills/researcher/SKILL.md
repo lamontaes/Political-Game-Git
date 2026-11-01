@@ -61,6 +61,7 @@ engine can look it up and obey it.
   ESTIMATED with that reason, never left out.
 - Unusable: a figure with no year, no unit, or no public page; a number you
   recall but cannot point at; a source whose terms you cannot read.
+- The 2020 Census redistricting (PL 94-171) state files are Latin-1, not the UTF-8 their technical documentation names; read them as Latin-1 or place names break (Nov 1, the group-quarters research). The Census API now needs a key; the bulk files under www2.census.gov do not.
 
 ## Recording it
 

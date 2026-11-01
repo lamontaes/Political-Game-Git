@@ -1,5 +1,5 @@
-/* global console, document, getComputedStyle, Image, process */
-// Framing: the opening's speech portrait shows the whole head, and no figure in
+/* global console, document, process, URL */
+// Framing: the opening's speaker portrait sits whole inside the talk box, and no figure in
 // the scene leaves the frame at its head or stands through another. Run against the bench:
 //   BENCH_URL=http://localhost:3000/play node src/bench/framing.browser.mjs [out.png]
 import assert from "node:assert/strict";
@@ -14,10 +14,15 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
   await page.goto(process.env.BENCH_URL ?? "http://localhost:3000/play");
+  // The creator now sits behind Start a life; the world's seed is replayed through the route.
+  if (process.env.FRAMING_SEED)
+    await page.route("**/api/newlife*", (route) => {
+      const url = new URL(route.request().url());
+      url.searchParams.set("seed", process.env.FRAMING_SEED);
+      return route.continue({ url: url.toString() });
+    });
   await page.click("#new-life");
-  await page.click("#new-custom");
-  await page.fill("#seed", process.env.FRAMING_SEED ?? "framing-a");
-  await page.click("#custom-next");
+  await page.click("#new-start");
   await page.click("[data-gender=male]");
   await page.click("#cr-random-name");
   await page.waitForFunction(() => document.getElementById("cr-given").value);
@@ -26,56 +31,39 @@ try {
   await page.click("#cr-towns button");
   await page.waitForSelector("#cr-look:not([hidden])");
   await page.click("#cr-begin");
-  await page.waitForSelector("#opening-box:not([hidden])", {
-    timeout: 300000,
-  });
-  // The portrait: where the figure's head lands inside the box.
+  // The opening plays as a scene in the talk box (the old opening box is gone).
+  await page.waitForSelector("#talk:not([hidden])", { timeout: 300000 });
+  // The speaker's portrait: a face fills its round frame inside the talk box.
   await page.waitForFunction(() => {
-    const bust = document.getElementById("opening-bust");
-    return bust && getComputedStyle(bust).backgroundImage.includes("url");
+    const bust = document.getElementById("talk-bust");
+    return bust && bust.children.length > 0;
   });
-  const head = await page.evaluate(async () => {
-    const bust = document.getElementById("opening-bust");
-    const style = getComputedStyle(bust);
-    const url = style.backgroundImage.slice(5, -2);
-    const image = new Image();
-    image.src = url;
-    await image.decode();
-    const box = bust.getBoundingClientRect();
-    const scale =
-      (box.width * parseFloat(style.backgroundSize)) / 100 / image.naturalWidth;
-    const canvas = document.createElement("canvas");
-    canvas.width = image.naturalWidth;
-    canvas.height = image.naturalHeight;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(image, 0, 0);
-    const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-    let top = 0;
-    while (
-      top < canvas.height &&
-      !data[(top * canvas.width + (canvas.width >> 1)) * 4 + 3] &&
-      ![...Array(canvas.width).keys()].some(
-        (x) => data[(top * canvas.width + x) * 4 + 3] > 200,
-      )
-    )
-      top++;
-    const offset =
-      (box.height - image.naturalHeight * scale) *
-      (parseFloat(style.backgroundPositionY) / 100 || 0);
-    // A head is about a fifth of a standing figure's height.
-    const headTop = top * scale + offset;
-    const headBottom = headTop + image.naturalHeight * 0.2 * scale;
-    return { headTop, headBottom, box: box.height };
+  const head = await page.evaluate(() => {
+    const bust = document.getElementById("talk-bust").getBoundingClientRect();
+    const talk = document.getElementById("talk").getBoundingClientRect();
+    return {
+      top: bust.top - talk.top,
+      bottom: talk.bottom - bust.bottom,
+      left: bust.left - talk.left,
+      size: bust.width,
+    };
   });
-  console.log("portrait head", head);
+  console.log("portrait in the talk box", head);
   if (shot) await page.screenshot({ path: shot });
-  assert.ok(head.headTop >= 0, "the head's top is inside the portrait box");
+  assert.ok(head.size > 0, "the speaker's portrait has a size");
   assert.ok(
-    head.headBottom <= head.box,
-    "the whole head fits in the portrait box",
+    head.top >= 0 && head.bottom >= 0 && head.left >= 0,
+    "the whole portrait is inside the talk box",
   );
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
+  // Through the address and the night's news, to the room.
+  for (let i = 0; i < 400; i += 1) {
+    if (await page.locator("#talk").isHidden()) break;
+    await page
+      .locator("#talk-next:visible")
+      .click({ timeout: 2000 })
+      .catch(() => {});
+    await page.waitForTimeout(150);
+  }
   await page.waitForSelector("#card:not([hidden])");
   await page.waitForTimeout(2500);
   const figures = await page.evaluate(() => {
