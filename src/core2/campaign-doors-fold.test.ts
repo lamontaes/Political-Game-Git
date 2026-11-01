@@ -6,7 +6,7 @@
  * rows stay, a race under way reads the same word before and after the fold,
  * and a closed race's messages and word are gone once its last week has left
  * word's window. A place whose races knock no doors, read no word or keep no
- * old newest word tests nothing, so up to four are drawn; each passed over is
+ * old newest word tests nothing, so up to six are drawn; each passed over is
  * named with why.
  */
 import { randomBytes } from "node:crypto";
@@ -26,7 +26,7 @@ import { ballot, ELECTIONS_MODULE_ID } from "./modules/elections";
 import { coreAPI } from "./state";
 
 const runSeed = process.env.DOORS_FOLD_SEED ?? randomBytes(8).toString("hex");
-const draws = 4;
+const draws = 6;
 
 interface Word {
   readonly id: string;
