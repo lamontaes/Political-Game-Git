@@ -1,25 +1,28 @@
 /**
  * Shared reading for the platform tests (campaign-platform.test.ts and
  * campaign-platform-played.test.ts): the town's electorate on each side of a
- * question, read by the readers the vote and the campaign engines score a
- * platform by (`agreementWith` for a named adult, `groupAgreement` for a
- * counted record, each on a one-question platform at position 1), apart from
- * the platform engine's own count (`electorateSides`), so a stance rule that
- * departs from the vote's would show.
+ * question, read by the readers the ballot scores a platform by (`appealFor`:
+ * `agreementWith` for a named adult at `voterLean`; the counted ballot:
+ * `groupAgreement` for a counted record at `personLean` with its faith and
+ * degree, `countedStanceProfile`; each on a one-question platform at
+ * position 1), apart from the platform engine's own count
+ * (`electorateSides`), so a count, weight or tier that departs from the
+ * ballot's would show. The leans are the ballot's own readers, shared by
+ * design; the counting, the weights and the denominator are the kit's.
  */
 import { groupAgreement, personLean } from "./campaign-views";
 import { countedResidents } from "./electorate";
 import type { CountedVoter } from "./electorate";
 import { townLean } from "./modules/campaigns";
 import { ELECTIONS_MODULE_ID } from "./modules/elections";
-import { electorateRoll } from "./modules/voting";
+import { electorateRoll, voterLean } from "./modules/voting";
 import type { StanceProfile } from "./campaign-views";
 import type { CoreAPI, CoreState } from "./types";
 
 /**
  * The views engine's readers, passed in by the test (the views engine's file
  * is not an entry other families may import): its agreement reader for a
- * named adult, a counted record's faith and degree profile, and its module id.
+ * named adult and a counted record's faith and degree profile.
  */
 export interface ViewsReaders {
   readonly agreementWith: (
@@ -32,7 +35,6 @@ export interface ViewsReaders {
     api: CoreAPI,
     voter: CountedVoter,
   ) => StanceProfile;
-  readonly moduleId: string;
 }
 
 /** The electorate on a question by the agreement readers. */
@@ -49,8 +51,9 @@ export interface AgreementSides {
 
 /**
  * Each voter on the town's roll (`electorateRoll`: a named adult once, a
- * counted record as many times as the people it stands for), at their place
- * in the town's lean order, read by the agreement reader of their tier on
+ * counted record as many times as the people it stands for), at the lean the
+ * ballot reads them at (a named adult's `voterLean`, a counted record's place
+ * in the town's lean order), read by the agreement reader of their tier on
  * the platform "yes on this question".
  */
 export function sidesByAgreement(
@@ -62,7 +65,6 @@ export function sidesByAgreement(
   if (!core.modules.has(ELECTIONS_MODULE_ID))
     return { yes: 0, no: 0, mean: 0, people: 0 };
   const records = new Map(countedResidents(core).map((row) => [row.id, row]));
-  const profiled = core.modules.has(views.moduleId);
   const lean0 = townLean(api);
   const platform = [{ question, position: 1 }];
   let yes = 0,
@@ -73,15 +75,17 @@ export function sidesByAgreement(
     const named = row.target === "person";
     const who = named ? core.people.get(row.id) : records.get(row.id);
     if (!who) continue;
-    const lean = personLean(core.people, who, lean0);
     const agree = named
-      ? views.agreementWith(api, row.id, lean, platform)
-      : groupAgreement(
-          lean,
+      ? views.agreementWith(
+          api,
+          row.id,
+          voterLean(api, core.people.get(row.id)!),
           platform,
-          profiled
-            ? views.countedStanceProfile(api, who as CountedVoter)
-            : null,
+        )
+      : groupAgreement(
+          personLean(core.people, who, lean0),
+          platform,
+          views.countedStanceProfile(api, who as CountedVoter),
         );
     all += row.count;
     sum += row.count * agree;

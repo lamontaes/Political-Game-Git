@@ -77,6 +77,7 @@ import {
   campaignParameter,
   groupStance,
   personLean,
+  platformLead,
   type Stance,
   type StanceProfile,
 } from "../campaign-views";
@@ -1433,12 +1434,14 @@ export function electorateRoll(api: CoreAPI): readonly RollVoter[] {
   return rows;
 }
 
-/** The shares of the town's electorate on each side of a policy question. */
+/** Where the town's electorate stands on a policy question. */
 export interface ElectorateSides {
   /** The share whose own stance favors the question's "yes". */
   readonly yes: number;
   /** The share whose own stance opposes it. */
   readonly no: number;
+  /** The mean of their stances, -1 to 1, each counted record by the people it stands for. */
+  readonly mean: number;
 }
 
 interface SideVoter {
@@ -1461,14 +1464,18 @@ const sidesByDay = new WeakMap<
 >();
 
 /**
- * The shares of the town's electorate (`electorateRoll`) on each side of a
- * policy question, by the stance the vote's agreement readers read
- * (`agreementWith` for a named adult, `groupAgreement` for a counted record):
- * a named adult at their own current view of it (`viewOn`), a counted record
- * at the stance its record gives (`groupStance`, as many times as the people
- * it stands for: one model, two tiers), each from their place in the town's
- * lean order (`personLean`). The policy's national popularity is not added:
- * a voter weighs a platform by their own view alone. Read once a day, until
+ * Where the town's electorate (`electorateRoll`) stands on a policy question,
+ * by the stance the ballot reads a voter's agreement with a platform from: a
+ * named adult at their own current view of it (`viewOn`, from `voterLean`,
+ * as `appealFor` passes it to `agreementWith`), a counted record at the
+ * stance its record gives (`groupStance` from its place in the town's lean
+ * order, `personLean`, and its faith and degree, `countedStanceProfile`, as
+ * the counted ballot reads it), as many times as the people it stands for
+ * (one model, two tiers). The shares on each side and the mean. The policy's
+ * national popularity is not added: a voter weighs a platform by their own
+ * view alone. The one reader of where the town stands on a question: a
+ * candidate's platform weighs the shares (`platformScores`) and an interview
+ * answer is shaded toward the mean (`townStand`). Read once a day, until
  * someone is filled in or the people change (as `countedResidents` is kept),
  * and each question once.
  */
@@ -1476,31 +1483,38 @@ export function electorateSides(
   api: CoreAPI,
   question: string,
 ): ElectorateSides {
-  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return { yes: 0, no: 0 };
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID))
+    return { yes: 0, no: 0, mean: 0 };
   const core = api.state as CoreState;
   const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
   let held = sidesByDay.get(core);
   if (!held || held.key !== key) {
     const records = new Map(countedResidents(core).map((row) => [row.id, row]));
     const lean0 = townLean(api);
-    const views = core.modules.has(VIEWS_MODULE_ID);
     const voters: SideVoter[] = [];
     let total = 0;
     for (const row of electorateRoll(api)) {
-      const who =
-        row.target === "person" ? core.people.get(row.id) : records.get(row.id);
-      if (!who) continue;
-      voters.push({
-        id: row.id,
-        named: row.target === "person",
-        lean: personLean(core.people, who, lean0),
-        // A counted record's faith and degree, where the views engine runs.
-        profile:
-          row.target === "group" && views
-            ? countedStanceProfile(api, who as CountedVoter)
-            : null,
-        count: row.count,
-      });
+      if (row.target === "person") {
+        const person = core.people.get(row.id);
+        if (!person) continue;
+        voters.push({
+          id: row.id,
+          named: true,
+          lean: voterLean(api, person),
+          profile: null,
+          count: row.count,
+        });
+      } else {
+        const record = records.get(row.id);
+        if (!record) continue;
+        voters.push({
+          id: row.id,
+          named: false,
+          lean: personLean(core.people, record, lean0),
+          profile: countedStanceProfile(api, record),
+          count: row.count,
+        });
+      }
       total += row.count;
     }
     held = { key, voters, total, byQuestion: new Map() };
@@ -1512,17 +1526,19 @@ export function electorateSides(
     // stopgapId: SG-GOV-budget-line-stance-lean-only (a spending line's stance is the lean times the line's party axis alone, so every line splits the electorate the same way)
     api.stopgap("SG-GOV-budget-line-stance-lean-only");
   let yes = 0,
-    no = 0;
+    no = 0,
+    sum = 0;
   for (const voter of held.voters) {
     const stance = voter.named
       ? viewOn(api, voter.id, question, voter.lean)
       : groupStance(voter.lean, question, voter.profile);
     if (stance > 0) yes += voter.count;
     else if (stance < 0) no += voter.count;
+    sum += stance * voter.count;
   }
   const sides: ElectorateSides = held.total
-    ? { yes: yes / held.total, no: no / held.total }
-    : { yes: 0, no: 0 };
+    ? { yes: yes / held.total, no: no / held.total, mean: sum / held.total }
+    : { yes: 0, no: 0, mean: 0 };
   held.byQuestion.set(question, sides);
   return sides;
 }
@@ -3213,8 +3229,9 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
 
 /**
  * What a result tells the people who learn it about where the town is
- * going: the question the winner stood for most firmly, and which way. The
- * views engine reads it like a speech: it moves the stance on that question
+ * going: the question the winner's campaign led with (`platformLead`: what
+ * those who learn the result heard them make the race about), and which
+ * way. The views engine reads it like a speech: it moves the stance on that question
  * of those who learn the result, most for those whose lean sits near the
  * winner's. None when no one won or the winner stated nothing.
  */
@@ -3226,11 +3243,7 @@ function mandate(
   if (!winnerId) return {};
   const filing = ballot(api, contest.id).find((f) => f.personId === winnerId);
   if (!filing) return {};
-  const top = [...candidateFacts(api, filing, contest).platform].sort(
-    (a, b) =>
-      Math.abs(b.position) - Math.abs(a.position) ||
-      a.question.localeCompare(b.question),
-  )[0];
+  const top = platformLead(candidateFacts(api, filing, contest).platform);
   if (!top || top.position === 0) return {};
   return {
     topic: top.question,

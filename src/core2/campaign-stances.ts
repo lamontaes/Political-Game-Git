@@ -366,9 +366,11 @@ export interface PlatformScore {
  * candidate holds a view on, scored by how candidates choose what to run on
  * (docs/research/platform-emphasis-2026-10-30.md): how strongly they hold it
  * times exp(slope × the percent of the electorate on their side, by the
- * stance the vote's agreement readers read: `electorateSides`), so of two
- * views held about as strongly, the one more of the town shares is talked
- * about. Positions never move for it; only which questions are run on.
+ * stance the ballot reads a voter's agreement from: `electorateSides`), so
+ * of two views held about as strongly, the one more of the town shares is
+ * talked about. The research's record term (how far the candidate's own
+ * votes and job bear on the question) is left out for now. Positions never
+ * move for it; only which questions are run on.
  */
 export function platformScores(
   api: CoreAPI,
@@ -381,6 +383,8 @@ export function platformScores(
   const slope = campaignParameter("platformSupportSlope");
   // stopgapId: SG-GOV-platform-support-true-share (a candidate reads the electorate's true share on each question, not their belief from the people they know and the polls they have seen)
   api.stopgap("SG-GOV-platform-support-true-share");
+  // stopgapId: SG-GOV-platform-record-term-left-out (the research's (1 + platformRecordWeight x record(q)) factor is not applied: a candidate's own votes and job do not raise a question's score)
+  api.stopgap("SG-GOV-platform-record-term-left-out");
   // One reader for every question: the candidate's inputs are read once.
   const reader = stanceReader(api, personId, party);
   const scores: PlatformScore[] = [];

@@ -6,11 +6,15 @@
  * percent of the town's electorate on their side), is highest, at their own
  * positions. In a place drawn from all 56 (PLATFORM_SEED pins the run), the
  * test works out every share itself from the electorate by the readers the
- * vote scores a platform by (each named adult by `agreementWith`, each counted
- * record by `groupAgreement` times the people it stands for, on the platform
- * "yes on this question"; campaign-platform-test-kit.ts), scores every question by the
- * rule, and finds a candidate whose strongest view is the town's minority
- * side and is left off for a question that scores higher.
+ * ballot scores a platform by (each named adult by `agreementWith` at
+ * `voterLean`, each counted record by `groupAgreement` times the people it
+ * stands for, on the platform "yes on this question";
+ * campaign-platform-test-kit.ts), scores every question by the rule, checks
+ * that where the town stands on each question (`townStand`, what an
+ * interview answer is shaded toward) is the same electorate's mean, and
+ * finds a candidate whose strongest view is the town's minority side (its
+ * share below the other side's) and is left off for a question that scores
+ * higher.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -29,18 +33,14 @@ import { contestPositions } from "./contest-positions";
 import { lawChain } from "./modules/laws";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { OFFICES_MODULE_ID } from "./modules/offices";
+import { townStand } from "./modules/press";
 import { sidesByAgreement } from "./campaign-platform-test-kit";
-import {
-  agreementWith,
-  countedStanceProfile,
-  VIEWS_MODULE_ID,
-} from "./modules/views";
+import { agreementWith, countedStanceProfile } from "./modules/views";
 
 /** The views engine's readers the shares are counted by. */
 const VIEWS = {
   agreementWith,
   countedStanceProfile,
-  moduleId: VIEWS_MODULE_ID,
 };
 
 const seed = process.env.PLATFORM_SEED ?? randomBytes(8).toString("hex");
@@ -53,6 +53,8 @@ interface Scored {
   position: number;
   conviction: number;
   support: number;
+  /** The percent of the electorate on the other side. */
+  against: number;
   score: number;
 }
 
@@ -69,8 +71,10 @@ function attempt(draw: number): { proven: string } | { tried: string } {
   const count = campaignParameter("candidatePlatformQuestions");
   // Every seat the town's adults vote for, local seats first (a state or
   // federal seat takes up many more questions, which a candidate there
-  // chooses among by the same rule, against the same electorate), each with
-  // the questions it takes up.
+  // chooses among by the same rule), each with the questions it takes up.
+  // Every seat is scored against the town's electorate, which stands in for
+  // a ward's, county's, state's or nation's own until the platform rule
+  // reads the seat's (SG-GOV-platform-support-true-share).
   const levelOf = (c: ContestRow) =>
     (
       api
@@ -125,6 +129,7 @@ function attempt(draw: number): { proven: string } | { tried: string } {
           position,
           conviction,
           support,
+          against: 100 * (position > 0 ? s.no : s.yes),
           score: conviction * Math.exp(slope * support),
         });
       }
@@ -164,7 +169,11 @@ function attempt(draw: number): { proven: string } | { tried: string } {
         (a, b) =>
           b.conviction - a.conviction || a.question.localeCompare(b.question),
       )[0];
-      if (!strongest || strongest.support >= 50 || on.has(strongest.question))
+      if (
+        !strongest ||
+        strongest.support >= strongest.against ||
+        on.has(strongest.question)
+      )
         continue;
       const instead = [...onScores].sort((a, b) => b.score - a.score)[0]!;
       expect(instead.score, label).toBeGreaterThan(strongest.score);
@@ -176,15 +185,22 @@ function attempt(draw: number): { proven: string } | { tried: string } {
         .slice(0, count);
       const row = (s: Scored) =>
         `${s.question} position ${s.position.toFixed(3)} conviction ${s.conviction.toFixed(3)} support ${s.support.toFixed(1)}% score ${s.score.toFixed(3)}`;
+      // Where the town stands on each question, as an interview answer is
+      // shaded toward, is the same electorate's mean.
+      for (const [question, sides] of supportOf)
+        expect(townStand(api, question), `${where}: ${question}`).toBeCloseTo(
+          sides.mean,
+          9,
+        );
       return {
         proven: [
-          `${label}: strongest view ${row(strongest)} left off; ${instead.question} scores ${instead.score.toFixed(3)}`,
+          `${label}: strongest view ${row(strongest)} (against ${strongest.against.toFixed(1)}%) left off; ${instead.question} scores ${instead.score.toFixed(3)}`,
           `  before (strongest views): ${before.map(row).join("; ")}`,
           `  after (the rule): ${[...onScores]
             .sort((a, b) => b.score - a.score)
             .map(row)
             .join("; ")}`,
-          `  ${scored.length} questions scored, ${supportOf.size} shares worked out, slope ${slope}`,
+          `  ${scored.length} questions scored, ${supportOf.size} shares worked out, each town stand the electorate's mean, slope ${slope}`,
         ].join("\n"),
       };
     }

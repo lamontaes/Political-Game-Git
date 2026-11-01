@@ -28,6 +28,20 @@ export interface Stance {
   readonly position: number;
 }
 
+/**
+ * The question a campaign leads with: the first of its platform it takes a
+ * side on. A platform the engine chose (`candidatePlatform`) is kept in the
+ * order of the platform rule's scores, so its first is the top score (the
+ * question the most of the town shares at the conviction it is held with); a
+ * player's is the order they stated it in. Every act that carries one
+ * question (a donor meeting, an event, an ad, a mailer, an evening of doors)
+ * and the mandate a result carries read it here.
+ */
+export function platformLead(platform: readonly Stance[]): Stance | undefined {
+  // stopgapId: SG-GOV-platform-emphasis-lead-only (every act a campaign takes carries its lead alone, so all it chooses to say goes to one question, not shared over the platform by score as the research's emphasis share has it)
+  return platform.find((s) => s.position !== 0);
+}
+
 export function campaignParameter(key: string): number {
   const row = (parameters as { parameters: Record<string, { value: number }> })
     .parameters[key];
