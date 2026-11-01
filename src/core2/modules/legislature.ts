@@ -3496,6 +3496,7 @@ function chamberVote(
         recordVote(api, {
           personId: key,
           body: officeId,
+          billId: bill.id,
           measureId: bill.number,
           stance: {
             question: stance.question,

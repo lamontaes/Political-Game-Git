@@ -5,6 +5,7 @@ import type { BallotRow } from "../core2/modules/voting";
 import type { BillRow } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
+import { votesOf } from "../core2/modules/record";
 import { storyOfReadEvent } from "../core2/modules/news";
 import { changesKnownTo } from "../director/bring-it-up";
 import { reachedBy } from "../core2/law-reach/host";
@@ -181,7 +182,13 @@ export function reachedSteps(
           .map((e) => e!.date)
           .sort()[0] ?? null;
       for (const b of enacted) {
-        const item = `vote:${b.number}:${personId}`;
+        // The member's record rows for this bill, one per question it
+        // spoke to; a ballot citing any of them gives the bill's vote.
+        const items = new Set(
+          votesOf(api, personId)
+            .filter((v) => v.billId === b.id)
+            .map((v) => v.id),
+        );
         const since = tookEffectOn(b);
         const hit = everyFiling
           .flatMap(
@@ -194,9 +201,14 @@ export function reachedSteps(
             (ballot) =>
               since !== null &&
               ballot.date >= since &&
-              ballot.recordReasons?.[personId]?.some((r) => r.itemId === item),
+              ballot.recordReasons?.[personId]?.some((r) =>
+                items.has(r.itemId),
+              ),
           );
         if (hit) {
+          const item = hit.recordReasons![personId]!.find((r) =>
+            items.has(r.itemId),
+          )!.itemId;
           out.push({ step: 11, recordIds: [hit.id, item] });
           break;
         }

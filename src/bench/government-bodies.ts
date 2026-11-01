@@ -142,7 +142,7 @@ function partiesOf(members: readonly { party: string | null }[]) {
  * measures (last term's from the town's history, this term's from the
  * floor), each counted yes and no from its voters' stances, newest first.
  */
-function recentVotesOf(api: Api, officeId: string) {
+export function recentVotesOf(api: Api, officeId: string) {
   if (!api.state.modules.has(RECORD_MODULE_ID)) return [];
   const rows = api
     .moduleState(RECORD_MODULE_ID)
@@ -151,16 +151,17 @@ function recentVotesOf(api: Api, officeId: string) {
   const measures = new Map<string, VoteRecordRow[]>();
   for (const row of rows)
     if (row.body === officeId)
-      measures.set(row.measureId, [
-        ...(measures.get(row.measureId) ?? []),
-        row,
-      ]);
+      measures.set(row.billId, [...(measures.get(row.billId) ?? []), row]);
   const bills = api.state.modules.has(LEGISLATURE_MODULE_ID)
     ? api.moduleState(LEGISLATURE_MODULE_ID).table("bills")
     : null;
   const names = policyNames();
   return [...measures]
-    .map(([measureId, votes]) => {
+    .map(([billId, all]) => {
+      // A bill with several sections leaves a record per question; the count
+      // reads the first question's, one row per voter.
+      const question = all[0]!.stance.question;
+      const votes = all.filter((v) => v.stance.question === question);
       const date = votes.reduce((d, v) => (v.date > d ? v.date : d), "");
       // Voters split by the sign of their stance on the measure's question;
       // the side that carried a passed measure is its yes.
@@ -169,10 +170,9 @@ function recentVotesOf(api: Api, officeId: string) {
       const passed = votes.some((v) => v.passed === true);
       const larger = Math.max(plus, minus);
       const smaller = Math.min(plus, minus);
-      const bill = bills?.get(measureId) as unknown as BillRow | undefined;
-      const question = votes[0]!.stance.question;
+      const bill = bills?.get(billId) as unknown as BillRow | undefined;
       return {
-        measureId,
+        billId,
         date,
         number: bill?.number ?? null,
         title: bill

@@ -31,6 +31,13 @@ export interface VoteRecordRow {
   readonly personId: string;
   readonly date: string;
   readonly body: string;
+  /**
+   * The measure by its own id: the bill's id (or a past measure's), which no
+   * other bill shares. The record keys a vote by this and the question, never
+   * by the number below, which repeats across bodies and sessions.
+   */
+  readonly billId: string;
+  /** The measure's designation for display ("H.R. 25", "2026-001"); not a key. */
   readonly measureId: string;
   readonly stance: Stance;
   readonly passed: boolean | null;
@@ -64,6 +71,19 @@ export function openRecord(core: CoreState): void {
   if (!core.modules.has(RECORD_MODULE_ID)) registerModule(core, RECORD_MODULE);
 }
 
+/**
+ * A member's vote on one question of one measure: one record per member, per
+ * question, per bill. A bill with two sections on two questions leaves two
+ * records, and a later bill that reuses the number leaves the first alone.
+ */
+export function voteRecordId(
+  billId: string,
+  question: string,
+  personId: string,
+): string {
+  return `vote:${billId}:${question}:${personId}`;
+}
+
 /** A body's vote, on the record: who, on what question, which way. */
 export function recordVote(
   api: CoreAPI,
@@ -71,7 +91,7 @@ export function recordVote(
 ): VoteRecordRow {
   const row: VoteRecordRow = {
     ...vote,
-    id: `vote:${vote.measureId}:${vote.personId}`,
+    id: voteRecordId(vote.billId, vote.stance.question, vote.personId),
     date: api.state.date,
   };
   api
@@ -100,6 +120,7 @@ export function recordVote(
     },
     publicRecord: true,
     facts: {
+      billId: vote.billId,
       measureId: vote.measureId,
       question: vote.stance.question,
       position: String(vote.stance.position),
