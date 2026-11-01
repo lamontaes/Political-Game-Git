@@ -33,7 +33,7 @@ import {
   leanedYes,
   termOfLean,
 } from "../trait-decisions";
-import { campaignDayChoices, takeCampaignDayChoice } from "../campaign-day";
+import { campaignDayOpen, takeCampaignDayChoice } from "../campaign-day";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import unitPrices from "../../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
@@ -344,6 +344,14 @@ export interface EndorsementRow {
   readonly reason: EndorsementReason;
   /** The platform question the endorser disagrees with most, if any. */
   readonly issue: string | null;
+  /**
+   * The stance a group's backing stands on: the group's own question and
+   * position on the platform question it agrees with the candidate on most,
+   * as it held it the day it weighed the race (`PlatformRead.agreesOn`), so
+   * the paper can say what a group with no name stands for. Null for a
+   * person's own word.
+   */
+  readonly stance: Stance | null;
   /** The rival campaign they back most (the one preferred, for prefers-rival). */
   readonly rivalFilingId: string | null;
   /** Their reasons, as numbers the English engine words. */
@@ -693,8 +701,40 @@ export function pledgesOf(api: CoreAPI, voterId: string): readonly PledgeRow[] {
 }
 
 /**
- * The answer to a campaign's ask for a vote at the door: a warm answer is a
- * "yes" and is kept; a cool one at a later knock takes back an earlier yes.
+ * What a door visit told a counted resident in person, for their answer:
+ * they have now heard the candidate and the platform (what they make of it
+ * from their own record) and how the visit went. A full person's visit is
+ * kept on their impression instead, which the ballot reads.
+ */
+export interface DoorVisit {
+  readonly candidateId: string;
+  readonly agreement: number;
+  readonly warmth: number;
+}
+
+/**
+ * Who a voter would vote for in a contest today, by the ballot's own appeal
+ * rule (their earlier word at a door included, and a counted resident's visit
+ * just now), or null for nobody or a voter who can't vote in it; undefined
+ * where the world counts no ballots. The voting engine registers it when it
+ * opens (it reads this module, so this module cannot import it).
+ */
+type DoorChoice = (
+  api: CoreAPI,
+  voterId: string,
+  contestId: string,
+  visit?: DoorVisit,
+) => string | null | undefined;
+let doorChoice: DoorChoice | null = null;
+export function registerDoorChoice(choice: DoorChoice): void {
+  doorChoice = choice;
+}
+
+/**
+ * The answer to a campaign's ask for a vote at the door: a "yes" when the
+ * candidate is the one the resident would vote for now, kept as their word
+ * (and in place of any earlier word to a rival in the race); a no at a later
+ * knock takes back an earlier yes.
  */
 function answerAtDoor(
   api: CoreAPI,
@@ -703,13 +743,28 @@ function answerAtDoor(
   canvasserId: string,
   warmth: number,
   causeId: string | null,
+  visit?: DoorVisit,
 ): void {
   const id = `${voterId}|${campaign.contestId}|${campaign.candidateId}`;
   const pledges = table(api, "pledges");
-  if (warmth <= 0) {
+  // "You've got my vote" is said to the candidate the resident would vote
+  // for now, after the visit (their own appeal, an earlier word at a door
+  // included, so a resident who gave a rival their word tells this one no);
+  // without the voting engine, when the visit left them warm.
+  const choice = doorChoice?.(api, voterId, campaign.contestId, visit);
+  const yes =
+    choice === undefined ? warmth > 0 : choice === campaign.candidateId;
+  if (!yes) {
     if (pledges.get(id)) pledges.remove(id);
     return;
   }
+  // A new word replaces an earlier one to a rival in the same contest.
+  for (const earlier of pledgesOf(api, voterId))
+    if (
+      earlier.contestId === campaign.contestId &&
+      earlier.candidateId !== campaign.candidateId
+    )
+      pledges.remove(earlier.id);
   pledges.put({
     id,
     voterId,
@@ -718,7 +773,7 @@ function answerAtDoor(
     date: api.state.date,
     canvasserId,
     causeId,
-    firmness: Math.min(1, warmth),
+    firmness: Math.max(0, Math.min(1, warmth)),
   } as unknown as ModuleRow);
 }
 
@@ -1019,6 +1074,33 @@ function adultsAt(
     }));
 }
 
+/** How many adults a counted address holds: `adultsAt`'s count, with no rows built. */
+function countedAdultsAt(api: CoreAPI, address: Address): number {
+  const adultAge = api.parameter("votingAge");
+  const date = api.state.date;
+  const store = residentsRuntime(api.state as CoreState)?.store;
+  const at = store?.householdOf.get(address.id);
+  const h = at === undefined ? undefined : store!.households[at];
+  if (!store || !h || h.gone) return 0;
+  let adults = 0;
+  for (const m of store.countedMembers(h))
+    if (ageOn({ birthDate: store.born[m]! }, date) >= adultAge) adults += 1;
+  return adults;
+}
+
+/** The ids of a full address's adults, in `adultsAt`'s order, with no rows built. */
+function adultIdsAt(api: CoreAPI, address: Address): string[] {
+  const adultAge = api.parameter("votingAge");
+  const core = api.state as CoreState;
+  const date = api.state.date;
+  const ids: string[] = [];
+  for (const id of core.households.get(address.id)?.memberIds ?? []) {
+    const p = core.people.get(id);
+    if (p && p.alive && ageOn(p, date) >= adultAge) ids.push(p.id);
+  }
+  return ids;
+}
+
 /**
  * Walk the town's doors for some hours, full households and counted ones
  * alike, those not yet walked first. At each door the most willing adult home
@@ -1240,15 +1322,15 @@ function walkWith(
         // Asked for their vote, a counted resident answers by the rule a
         // first visit applies to a full person: what they make of the
         // platform from their own record, and how the visit went.
-        else
-          answerAtDoor(
-            api,
-            campaign,
-            openerId,
-            canvasserId,
-            countedDoorWarmth(api, campaign, canvasser, opener),
-            null,
-          );
+        else {
+          const agreement = countedAgreement(api, campaign, opener);
+          const warmth = countedDoorWarmth(canvasser, opener, agreement);
+          answerAtDoor(api, campaign, openerId, canvasserId, warmth, null, {
+            candidateId: campaign.candidateId,
+            agreement,
+            warmth,
+          });
+        }
         continue;
       }
       fillInPerson(core, openerId);
@@ -1326,14 +1408,11 @@ function closeDoorWalk(api: CoreAPI, walk: DoorWalk): void {
  * and stance profile against the platform, and the visit's rapport).
  */
 function countedDoorWarmth(
-  api: CoreAPI,
-  campaign: CampaignRow,
   canvasser: Readonly<PersonState>,
   opener: ReturnType<typeof adultsAt>[number],
+  agreement: number,
 ): number {
-  const target = clamp(
-    countedAgreement(api, campaign, opener) + rapport(canvasser, opener),
-  );
+  const target = clamp(agreement + rapport(canvasser, opener));
   return clamp(campaignParameter("doorContactWeight") * target);
 }
 
@@ -4038,18 +4117,23 @@ export function organizedGroupsIn(
 
 /**
  * How far a stance agrees with a platform, the question it disagrees with
- * most, and how many of the platform's questions it takes a side on.
+ * most, the holder's own stance on the question it agrees with most, and how
+ * many of the platform's questions it takes a side on.
  */
 interface PlatformRead {
   readonly agreement: number;
   readonly issue: string | null;
+  /** The holder's own position on the question they agree on most, or null where they agree on none. */
+  readonly agreesOn: Stance | null;
   readonly shared: number;
 }
 
 /**
  * Agreement of stated positions with a platform: the mean of position times
  * the platform's over the platform's questions the holder has a position on
- * (none in common, none either way), and the question they disagree on most.
+ * (none in common, none either way), the question they disagree on most,
+ * and the one they agree on most (the largest product above nothing, ties
+ * to the lower question id) with their own position on it.
  */
 function platformRead(
   platform: readonly Stance[],
@@ -4059,6 +4143,8 @@ function platformRead(
   let held = 0;
   let worst = 0;
   let issue: string | null = null;
+  let best = 0;
+  let agreesOn: Stance | null = null;
   for (const stance of platform) {
     const own = positionOn(stance.question);
     if (own === undefined) continue;
@@ -4069,8 +4155,23 @@ function platformRead(
       worst = part;
       issue = stance.question;
     }
+    if (
+      part > 0 &&
+      (part > best ||
+        (part === best &&
+          agreesOn !== null &&
+          stance.question < agreesOn.question))
+    ) {
+      best = part;
+      agreesOn = { question: stance.question, position: own };
+    }
   }
-  return { agreement: held ? clamp(sum / held) : 0, issue, shared: held };
+  return {
+    agreement: held ? clamp(sum / held) : 0,
+    issue,
+    agreesOn,
+    shared: held,
+  };
 }
 
 /** The campaigns of everyone standing in a contest who has filed by today. */
@@ -4184,6 +4285,8 @@ export function endorsementsOf(
 /**
  * Keep an endorsement answer, and when it is a yes, say it in public: the
  * core event the press, the scenes and the rival campaign read by its id.
+ * A group's yes names the stance it stands on (stanceQuestion and
+ * stancePosition), for the paper to say what a group with no name is for.
  */
 function keepEndorsement(api: CoreAPI, row: EndorsementRow): void {
   table(api, "endorsements").put(row as unknown as ModuleRow);
@@ -4209,6 +4312,12 @@ function keepEndorsement(api: CoreAPI, row: EndorsementRow): void {
       candidateId: row.candidateId,
       speakerId: row.speakerId,
       ...(row.organizationId ? { organizationId: row.organizationId } : {}),
+      ...(row.stance
+        ? {
+            stanceQuestion: row.stance.question,
+            stancePosition: String(row.stance.position),
+          }
+        : {}),
       agreement: String(row.agreement),
       tie: String(row.tie),
       score: String(row.score),
@@ -4245,6 +4354,8 @@ function endorsementRow(
     answer: w.yes ? "yes" : "no",
     reason: w.reason,
     issue: w.issue,
+    // A group speaks for its stance; a person's own word stands on no group's.
+    stance: input.organizationId !== null ? w.agreesOn : null,
     rivalFilingId: w.rival?.filingId ?? null,
     agreement: w.agreement,
     tie: w.tie,
@@ -4690,19 +4801,25 @@ export function foldQuietCauses(api: CoreAPI): void {
  * Fold candidates' causes into one summary row a voter. A voter and
  * candidate fold whole, so a summary's sum is the same sum, in the same
  * order, that `contestStanding` reads. The player's own causes stay as rows.
- * Someone the player deals with keeps their latest few causes a candidate as
- * rows in `foldedCauses` (`causesKeptPerCandidate`; Keep it simple: their why
- * is saved), and a folded cause that a voter's known fact names as its
- * source moves there too, where the trace still finds it.
+ * A folded cause that a voter's known fact names as its source, or that a
+ * pledge names as its visit, moves to `foldedCauses`, where the trace still
+ * finds it; no other folded cause is read, so none other is kept (CTO, Oct
+ * 30 08:15, amending 03:05).
  */
 function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
   const core = api.state as CoreState;
   const causes = table(api, "causes"),
     summaries = table(api, "causeSummaries"),
     folded = table(api, "foldedCauses");
-  const kept = campaignParameter("causesKeptPerCandidate");
   for (const candidateId of candidateIds) {
     if (candidateId === core.playerId) continue;
+    const pledged = new Set(
+      (
+        table(api, "pledges").query("byCandidate", [
+          candidateId,
+        ]) as unknown as PledgeRow[]
+      ).map((pledge) => pledge.causeId),
+    );
     const byVoter = new Map<string, CauseRow[]>();
     for (const row of causes.query("byCandidate", [
       candidateId,
@@ -4728,8 +4845,7 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
           (fact) => fact.sourceId,
         ),
       );
-      const latest = keepsWhy(core, voterId) ? rows.length - kept : rows.length;
-      rows.forEach((row, at) => {
+      for (const row of rows) {
         const entry = (acts[row.act] ??= { reached: 0, warmer: 0, cooler: 0 });
         entry.reached += 1;
         if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
@@ -4741,10 +4857,10 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
           (firstDoor === null || row.date < firstDoor)
         )
           firstDoor = row.date;
-        if (sources.has(row.id) || at >= latest)
+        if (sources.has(row.id) || pledged.has(row.id))
           folded.put(row as unknown as ModuleRow);
         causes.remove(row.id);
-      });
+      }
       summaries.put({
         id,
         voterId,
@@ -4800,16 +4916,15 @@ export function sendMail(
   for (let i = 0; i < pieces; i += 1) {
     const address = list[cursor % list.length]!;
     cursor += 1;
-    const adults = adultsAt(api, address);
     if (address.counted) {
-      counted += adults.length;
+      counted += countedAdultsAt(api, address);
       continue;
     }
-    for (const adult of adults) {
+    for (const adultId of adultIdsAt(api, address)) {
       const cause = reach(
         api,
         campaign,
-        adult.id,
+        adultId,
         "mail",
         campaign.candidateId,
         {
@@ -5125,9 +5240,10 @@ function wordReading(
 
 /**
  * How a world candidate spends their campaign day: a scored pass over the
- * player's own day choices (`campaignDayChoices`), by their money, standing,
- * traits and what they know of the race. Every available act gets a score on
- * one scale and nothing flips at a line:
+ * player's own day choices (which are open and their hours,
+ * `campaignDayOpen`), by their money, standing, traits and what they know of
+ * the race. Every available act gets a score on one scale and nothing flips
+ * at a line:
  * - call time for money rises as the bank empties and as they get better
  *   known (donors are easier to reach);
  * - doors rise as they are less known and as they are more sociable;
@@ -5152,7 +5268,7 @@ export function rivalDay(
   candidate: Readonly<PersonState>,
   town: string,
 ): RivalDay {
-  const day = campaignDayChoices(api, filingId, true);
+  const day = campaignDayOpen(api, filingId, true);
   const offered = (kind: string) =>
     day.find((c) => c.kind === kind)?.available ?? false;
   const calls = offered("raise-money");
@@ -5209,7 +5325,7 @@ export function rivalDay(
       0,
     );
   // A world candidate's day never weighs the donor meeting the player's
-  // offers (their day's choices read no host, `campaignDayChoices` with
+  // offers (their day's choices read no host, `campaignDayOpen` with
   // `world`); their money comes from call time and the turn's asks.
   // stopgapId: SG-GOV-rival-donor-meeting
   api.stopgap("SG-GOV-rival-donor-meeting");

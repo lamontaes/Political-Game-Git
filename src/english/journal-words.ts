@@ -109,6 +109,7 @@ export interface JournalRows {
   kinAddress?: JournalWords["kinAddress"];
   possessive: JournalWords["possessive"];
   possessivePronoun: JournalWords["possessivePronoun"];
+  metRelations?: JournalWords["metRelations"];
   countWords: JournalWords["countWords"];
   manyTimes: string;
   billForms?: JournalWords["billForms"];
@@ -133,6 +134,13 @@ export interface JournalWords {
   possessive: Readonly<Record<string, string>>;
   /** The possessive for someone by their recorded gender ("his", "her", "their"). */
   possessivePronoun: Readonly<Record<string, string>>;
+  /**
+   * The family relations of someone the person met (a partner), whom a
+   * look-back may name and revise ("I did not know then what Susan would
+   * mean to me"); a relative one was born to or raised is never looked back
+   * on as someone met.
+   */
+  metRelations?: readonly string[];
   countWords: readonly string[];
   manyTimes: string;
   /** The word a bill's form goes by before its number ("Ordinance 2027-3"). */
@@ -249,6 +257,14 @@ export const RELATION_WORDS: ReadonlySet<string> = new Set(
     Object.values(forms),
   ),
 );
+
+/** Whether a family relation is of someone the person met (a partner), not born to or raised with. */
+export function metRelation(
+  relation: string,
+  words: JournalWords = JOURNAL_WORDS,
+): boolean {
+  return (words.metRelations ?? []).includes(relation);
+}
 
 /** "his", "her" or "their", by the person's recorded gender. */
 export function possessivePronoun(

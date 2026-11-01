@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/golden-draft-list-names
 pr:
 blocked-on:
 source: golden-path playthrough, Oct 28
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-01T14:37:34.847Z
 ---
 
 **What.** On Your office, the list of what the player can draft (golden path step 6, propose an ordinance) names each budget line as "Spending: healthAndHospitals", "Spending: welfareAndMedicaid", "Spending: naturalResources": the core catalog's internal key. The budgets screen already names the same lines from the source table ("Health and hospitals", "Public welfare"). Seen in Kenton, Oklahoma and Williamstown, Massachusetts.

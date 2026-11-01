@@ -306,11 +306,11 @@ export function scoreOffers(
 ): ScoredOffer[] {
   const actor = decisionActor(core, personId);
   const keepReasonTerms = keepTerms || savesReasons(core, actor.id);
-  const p = (key: string) => parameter(key, core.data.parameters);
+  const table = core.data.parameters;
   const scored: ScoredOffer[] = [];
-  let nextOfferIndex = p("zero");
-  const traitWeight = p(traitWeightKey(offers));
-  const zero = p("zero");
+  let nextOfferIndex = parameter("zero", table);
+  const traitWeight = parameter(traitWeightKey(offers), table);
+  const zero = parameter("zero", table);
   // The terms that depend only on the kind of act (its need, the strongest
   // goal it serves, its act kinds' trait lean and its feelings) are the same
   // for every offer of that kind in this call: worked out once per kind.
@@ -321,7 +321,8 @@ export function scoreOffers(
   for (const offer of offers) {
     const offerIndex = nextOfferIndex++;
     const action = offer.definition;
-    const effortHours = offer.effortHours ?? p(action.effortParameter);
+    const effortHours =
+      offer.effortHours ?? parameter(action.effortParameter, table);
     if (!Number.isFinite(offer.availableHours) || !Number.isFinite(effortHours))
       throw new Error("Non-finite choice utility.");
     if (offer.availableHours < zero || effortHours < zero)
@@ -349,27 +350,34 @@ export function scoreOffers(
         need:
           (context?.needValues?.[action.need] ??
             actor.needs[action.need] ??
-            zero) * p("needWeight"),
-        goal: goal * p("goalWeight"),
+            zero) * parameter("needWeight", table),
+        goal: goal * parameter("goalWeight", table),
         trait: traitScore(core, actor, offer) * traitWeight,
         emotion:
-          p("emotionWeight") *
+          parameter("emotionWeight", table) *
           ((context?.affect ?? actor.affect).mood *
-            p(action.emotion?.moodMultiplierParameter ?? "zero") +
+            parameter(
+              action.emotion?.moodMultiplierParameter ?? "zero",
+              table,
+            ) +
             (context?.affect ?? actor.affect).stress *
-              p(action.emotion?.stressMultiplierParameter ?? "zero")),
+              parameter(
+                action.emotion?.stressMultiplierParameter ?? "zero",
+                table,
+              )),
       };
       byKind.set(action, kind);
     }
     const reasons: DecisionReason = {
       need: kind.need,
       goal: kind.goal,
-      drive: (drive?.strength ?? zero) * p("driveWeight"),
+      drive: (drive?.strength ?? zero) * parameter("driveWeight", table),
       trait: kind.trait,
       emotion: kind.emotion,
       effort:
         offer.availableHours > zero
-          ? (-effortHours / offer.availableHours) * p("effortWeight")
+          ? (-effortHours / offer.availableHours) *
+            parameter("effortWeight", table)
           : zero,
     };
     const ownBindings = action.reasonBindings ?? NO_BINDINGS,
@@ -387,7 +395,7 @@ export function scoreOffers(
       if (keepReasonTerms) reasonTerms = terms;
       const api = coreAPI(core),
         ids = new Set<string>();
-      let contribution = p("zero");
+      let contribution = parameter("zero", table);
       for (const binding of bindings) {
         if (!binding.id.trim() || ids.has(binding.id))
           throw new Error(
@@ -424,7 +432,7 @@ export function scoreOffers(
     }
     // Summed in the reasons' own order, without an array per offer.
     let score =
-      p("zero") +
+      parameter("zero", table) +
       reasons.need +
       reasons.goal +
       reasons.drive +
@@ -508,8 +516,11 @@ export function decisionFromScores(
   captureOriginalScores = false,
   keepWeighed = true,
 ): DecisionResult {
-  const actor = decisionActor(core, personId);
-  const traced = savesReasons(core, actor.id);
+  // Only the actor's id is read here, and it is personId in both tiers, so
+  // the counted actor is not built again (scoreOffers built it).
+  if (!core.people.has(personId) && !countedPersonOf(core, personId))
+    throw new Error("Decision actor is absent.");
+  const traced = savesReasons(core, personId);
   let best: ScoredOffer | undefined, runnerUp: ScoredOffer | undefined;
   for (const row of scored) {
     if (

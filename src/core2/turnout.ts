@@ -32,6 +32,8 @@ export interface TurnoutParts {
   readonly habit: number;
   /** Work hours and the election laws in force, the cycle's salience. */
   readonly cost: number;
+  /** Their own word at a campaign's door that they would vote, as far as it still holds. */
+  readonly pledge?: number;
 }
 
 /** A voter's reason to vote apart from the race, on the turnout scale. */
@@ -40,7 +42,8 @@ export function readinessOf(parts: Omit<TurnoutParts, "stakes">): number {
     campaignParameter("turnoutBase") +
     parts.duty +
     parts.reach +
-    parts.habit -
+    parts.habit +
+    (parts.pledge ?? 0) -
     parts.cost
   );
 }
@@ -73,11 +76,24 @@ export function stakesOf(interest: number): number {
 /**
  * The share of people like this voter who turn out, from their readiness and
  * how much the day's races matter to them (the gap between the candidates in
- * their own eyes). The one turnout rule for every voter.
+ * their own eyes). The one turnout rule for every voter, with its two
+ * parameters read once for a count that applies it to every voter it holds.
  */
-export function turnoutShare(readiness: number, interest: number): number {
-  const z = readiness + stakesOf(interest);
-  return 1 / (1 + Math.exp(-z / campaignParameter("turnoutScale")));
+export function turnoutRule(): (readiness: number, interest: number) => number {
+  const stakesWeight = campaignParameter("turnoutStakesWeight");
+  const scale = campaignParameter("turnoutScale");
+  return (readiness, interest) =>
+    shareOf(readiness, interest, stakesWeight, scale);
+}
+
+function shareOf(
+  readiness: number,
+  interest: number,
+  stakesWeight: number,
+  scale: number,
+): number {
+  const z = readiness + stakesWeight * Math.tanh(interest);
+  return 1 / (1 + Math.exp(-z / scale));
 }
 
 /** The propensity from all of a voter's parts. */
