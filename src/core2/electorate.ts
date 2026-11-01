@@ -538,10 +538,12 @@ export function countedAppeal(
 }
 
 /**
- * The candidate a voter backs: the one they rank first, where something
+ * The candidate one voter backs: the one they rank first, where something
  * separates them from the next; a lone candidate unless the voter is against
  * them (the named voters' rule in voting.ts). With nothing to separate the
- * candidates, the race is left blank.
+ * candidates, the race is left blank. One person's choice (a named voter, a
+ * household's word at a door); a counted record's voters divide by
+ * `countedShares`, and the largest share is this first place.
  */
 export function countedChoice(
   appeal: Readonly<Record<string, { readonly total: number }>>,
@@ -554,6 +556,73 @@ export function countedChoice(
   return ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total
     ? ranked[0]![0]
     : null;
+}
+
+/**
+ * The slope of the counted share (`countedShares`), per appeal unit: the one
+ * at which a candidate's share at an even two-way race moves by
+ * 1/appealPerShare for each unit of appeal gap. Two candidates `a` and `b`
+ * share as the logistic of the gap, s = 1 / (1 + exp(-k (a - b))), whose
+ * slope ds/d(a - b) = k s (1 - s) is k/4 at the even race (s = 1/2);
+ * setting that to 1/appealPerShare gives k = 4 / appealPerShare (1 at
+ * appealPerShare = 4: a 0.1-unit lead is 0.525 of the record, 0.5 + 0.1/4 to
+ * first order). The same k holds for any field (the multinomial logit), so a
+ * two-way race inside a larger field moves at the same rate.
+ */
+function countedShareSlope(): number {
+  const even = 1 / 2;
+  return 1 / (electorateParameter("appealPerShare") * even * (1 - even));
+}
+
+/**
+ * How a counted record's unpledged voters divide among the candidates (CTO,
+ * Nov 1, on one model, two tiers, owner ruling 4861 and no dice): a record
+ * stands for many different residents, so its weight splits by each
+ * candidate's share of the appeal, exp(k a_i) / sum_j exp(k a_j) at the
+ * slope k of `countedShareSlope`, as counted job choices split by the
+ * selection weights times the count. A small appeal gap moves a few points
+ * of the record, not the whole of it; a share of the count is not a roll.
+ * Candidates alike in appeal share it evenly. A lone candidate keeps the
+ * choice rule's own answer (`countedChoice`): the whole record where it is
+ * not against them, none where it is. Shares sum to 1 (or to nothing). A
+ * named voter (one person) and a household that gave its word at a door keep
+ * first place (`countedChoice`).
+ */
+export function countedShares(
+  appeal: Readonly<Record<string, { readonly total: number }>>,
+): Readonly<Record<string, number>> {
+  return sharesAt(appeal, countedShareSlope());
+}
+
+/** The counted share (`countedShares`) with its slope read once, for a count that applies it to every voter it holds. */
+export function countedShareRule(): (
+  appeal: Readonly<Record<string, { readonly total: number }>>,
+) => Readonly<Record<string, number>> {
+  const k = countedShareSlope();
+  return (appeal) => sharesAt(appeal, k);
+}
+
+function sharesAt(
+  appeal: Readonly<Record<string, { readonly total: number }>>,
+  k: number,
+): Readonly<Record<string, number>> {
+  const ids = Object.keys(appeal);
+  if (ids.length <= 1) {
+    const lone = countedChoice(appeal);
+    return lone ? { [lone]: 1 } : {};
+  }
+  let top = -Infinity;
+  for (const id of ids) top = Math.max(top, appeal[id]!.total);
+  const shares: Record<string, number> = {};
+  let sum = 0;
+  // From the top appeal, so no term overflows.
+  for (const id of ids) {
+    const weight = Math.exp(k * (appeal[id]!.total - top));
+    shares[id] = weight;
+    sum += weight;
+  }
+  for (const id of ids) shares[id] = shares[id]! / sum;
+  return shares;
 }
 
 /**
@@ -612,6 +681,11 @@ function orderPlacement(
   // end of the lean scale always weighs a gap of two.
   const rule = turnoutRule();
   const atEnds = voters.map((voter) => rule(voter.readiness, 2));
+  // The right-hand candidate's share of a voter's people at a lean: the
+  // count's own split (`countedShares`) between two typical candidates.
+  const shares = countedShareRule();
+  const rightAt = (lean: number) =>
+    shares({ right: { total: lean }, left: { total: -lean } }).right ?? 0;
   // Each voter's own readiness against their own place in the order: who
   // turns out at what strength of feeling, as the count itself decides it.
   const shareAt = (right: number) => {
@@ -625,8 +699,7 @@ function orderPlacement(
           ? atEnds[k]!
           : rule(voter.readiness, 2 * Math.abs(lean));
       all += share;
-      if (lean > 0) r += share;
-      else if (lean === 0) r += share / 2;
+      r += share * rightAt(lean);
     }
     return all ? r / all : right;
   };
@@ -735,6 +808,7 @@ export function countPlaces(
 } {
   const { voters, placement } = coarseSample(sample);
   const rule = turnoutRule();
+  const shares = countedShareRule();
   const totals: Record<string, number> = {};
   const results: PlaceResult[] = [];
   let cast = 0;
@@ -776,8 +850,10 @@ export function countPlaces(
             interestOf(appeal),
           );
         placeCast += share;
-        const choice = countedChoice(appeal);
-        if (choice) votes[choice] = (votes[choice] ?? 0) + share;
+        // They divide among the candidates by each one's share of their
+        // appeal (`countedShares`), not all to the first.
+        for (const [id, part] of Object.entries(shares(appeal)))
+          votes[id] = (votes[id] ?? 0) + share * part;
       }
     for (const id of Object.keys(votes)) {
       votes[id] = Math.round(votes[id]!);
