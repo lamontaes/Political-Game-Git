@@ -228,9 +228,12 @@ export class BenchPlayer {
     if (!(hours > 0) || !Number.isFinite(hours)) return undefined;
     if (this.pollingPlace) return undefined;
     if (this.packet && this.packet.kind !== "complete") return undefined;
+    // A fresh clock stands at the start of the next day, and the day is lived to its start
+    // (owner, Oct 27: nothing at midnight): a first act's hours run from the morning, never
+    // from 12:00 AM.
     const at = this.packet?.at ?? {
       date: addDays(makeIsoDate(this.core.date), 1),
-      minuteOfDay: 0,
+      minuteOfDay: this.dayStartMinute(),
     };
     const per = parameter("minutesPerHour", this.core.data.parameters),
       day = parameter("hoursPerDay", this.core.data.parameters) * per,

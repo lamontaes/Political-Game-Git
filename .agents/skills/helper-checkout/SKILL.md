@@ -32,10 +32,12 @@ description: >
 - Typecheck, eslint, prettier, the vitest files and every guard ran in a sparse copy on Oct 29. `src/bench` and `scripts/dev-lab` import JSON from `art/`, `vite.config.ts` imports from `desktop/`, and the guards read code and notes under `art/` and `docs/`. That is why only images are skipped, never whole folders.
 - A scanner that reads every tracked file skips the ones the copy does not hold. The English spelling guard and the secrets scan do this with `existsSync`; CI's full checkout still reads them all. A new scanner of `git ls-files` does the same.
 - `du -sh --exclude=node_modules <dir>` stays near 0.9 GB, and `du -sh <dir>/.git` stays in megabytes.
+- Anything that draws a person reads a picture, and the copy has none. `src/bench/path-check.ts` and the bench tests print their whole log and then exit 1 on a people-pack `ENOENT` for a `.png` (Nov 1, governing lead). Read the log rather than the exit code, or make the copy with `--keep-images` when the exit code matters.
 
 ## When it ends
 
 - A copy is disposable once its branch is on the remote: delete it only after `git -C <dir> status --short` is empty and `git -C <dir> log origin/<branch>..HEAD` shows nothing unpushed. A clone copy is removed with `rm -rf <dir>`; a worktree copy (its `.git` is a one-line file) with `git worktree remove <dir>` from the main checkout.
+- When disk is short, reuse a finished copy for the next helper instead of making another. Check that `git -C <dir> status --short` is empty and that nothing is unpushed, then run `git -C <dir> checkout -B <new-branch> origin/main` (Nov 1, governing lead: ten copies of about 0.9 GB each on a 6 GB allowance).
 - Never run `git gc --prune=now` in the main checkout while a shared copy lives; the copies borrow its objects.
 - If `df -h /` shows little free space with low "Used", the session's allowance is spent: narrow every helper copy before deleting anything else.
 

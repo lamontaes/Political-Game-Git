@@ -29,4 +29,5 @@ Owner, Oct 24: scenes "that come out of what is actually happening in the world,
 - Show two speakers (or two ties to the player) producing different lines in the same scene.
 - Show that the four replies are four stances.
 - Show the scene is reached in ordinary play on the golden path. A scene only a test reaches is not done.
+- Show a line that names the hour, the day or a record's time plays only when its record makes it true: "tonight" in the evening, "Morning." before noon, "today" on the record's own day (the time-of-day and day marks).
 - Add a "Scene standard" row to the PR's Done when table with this evidence; a different session checks it.
