@@ -86,6 +86,7 @@
     "female": "her",
     "other": "their"
   },
+  "metRelations": ["partner", "former-partner"],
   "lines": [
     {
       "kindPrefix": "person.birth",
@@ -442,7 +443,8 @@
           "key": "office",
           "text": "{{office}}"
         }
-      ]
+      ],
+      "hasOtherLine": true
     },
     {
       "kindPrefix": "act:vote-yes",
@@ -466,11 +468,6 @@
     },
     {
       "kindPrefix": "household:partners-met",
-      "turn": false,
-      "entry": "story"
-    },
-    {
-      "kindPrefix": "household:roots",
       "turn": false,
       "entry": "story"
     },

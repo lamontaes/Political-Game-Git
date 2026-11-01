@@ -245,10 +245,13 @@ export function civicFill(
           .table("campaigns")
           .query("byContest", [contestId]) as unknown as CampaignRow[]
       ).find((row) => row.candidateId === moment.personId);
+      // A staffer who also volunteers is cast once.
       return free(
         living(core, [
-          ...(campaign?.volunteerIds ?? []),
-          ...(campaign?.staffIds ?? []),
+          ...new Set([
+            ...(campaign?.volunteerIds ?? []),
+            ...(campaign?.staffIds ?? []),
+          ]),
         ]),
       );
     }

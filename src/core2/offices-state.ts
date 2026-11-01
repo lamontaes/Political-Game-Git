@@ -248,12 +248,39 @@ function roster(
 }
 
 /**
+ * Each roster's district names with their keys in both word orders, worked
+ * out once: the rosters are the research's own rows and never change.
+ */
+const rosterKeys = new WeakMap<
+  Roster,
+  {
+    readonly names: readonly string[];
+    readonly plain: readonly string[];
+    readonly sorted: readonly string[];
+  }
+>();
+
+function keyedRoster(rows: Roster) {
+  const hit = rosterKeys.get(rows);
+  if (hit) return hit;
+  const names = Object.keys(rows);
+  const keyed = {
+    names,
+    plain: names.map((name) => districtKey(name, false)),
+    sorted: names.map((name) => districtKey(name, true)),
+  };
+  rosterKeys.set(rows, keyed);
+  return keyed;
+}
+
+/**
  * The roster districts a Census district is, by code or by name. A district
  * whose members are elected in lettered seats (Idaho's "10A" and "10B" in one
  * district 10) matches every lettered seat of its number, in letter order, so
  * its roster has all its members.
  */
 function rosterDistricts(rows: Roster, d: DistrictIdentity): string[] {
+  const { names, plain, sorted: sortedKeys } = keyedRoster(rows);
   // The name in its own word order first: "Middlesex and Norfolk" and
   // "Norfolk and Middlesex" are two districts. Sorted words match a name the
   // sources only order differently.
@@ -262,9 +289,8 @@ function rosterDistricts(rows: Roster, d: DistrictIdentity): string[] {
       districtKey(d.districtCode, sorted),
       districtKey(d.sourceName ?? "", sorted),
     ]);
-    const exact = Object.keys(rows).filter((name) =>
-      keys.has(districtKey(name, sorted)),
-    );
+    const nameKeys = sorted ? sortedKeys : plain;
+    const exact = names.filter((_, i) => keys.has(nameKeys[i]!));
     if (exact.length) return exact.slice(0, 1);
   }
   const keys = new Set([
@@ -272,7 +298,7 @@ function rosterDistricts(rows: Roster, d: DistrictIdentity): string[] {
     districtKey(d.sourceName ?? ""),
   ]);
   const numbers = [...keys].filter((key) => /^\d+$/.test(key));
-  return Object.keys(rows)
+  return names
     .filter((name) => {
       const lettered = /^0*(\d+)[A-Za-z]$/.exec(name.trim());
       return lettered !== null && numbers.includes(lettered[1]!);

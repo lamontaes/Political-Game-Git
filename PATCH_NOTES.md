@@ -296,6 +296,55 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.71.0
+
+_Released November 1, 2026._
+
+### Added
+
+- **Taking office is a swearing-in, with a speech where the office gives one.**
+  The day you take an office, the day stops for the oath. The clerk who took
+  your filing (or whoever the town's records name) gives it, your family and the
+  other officeholders are in the room, and you answer in your own voice: a plain
+  "I do," a pledge, a thank-you, or a question about how it goes. A mayor, a
+  county executive, a governor or a president then gets the floor, and what you
+  say is heard by the people who were there: it can move what they think and be
+  told again at home. Your journal says who swore you in.
+
+### Improved
+
+- **Election years run faster** In an election year the press keeps asking every
+  candidate where they stand. The game used to work each answer out from
+  scratch; now it remembers what it already looked up during an interview, so
+  election years run faster and every answer is the same.
+
+### Fixed
+
+- **Government never opens blank** Politics → Government now opens on the
+  government that actually governs your place. In the District of Columbia and
+  in places with no local government of their own, it opens on the state-level
+  government with its members, and the Local tab says why it has none instead of
+  showing nothing.
+
+- **People in the room can be talked to again after a story** After the opening
+  evening's address and every Continue, the people in your room can be clicked
+  to talk again.
+
+- **A resident who read that a law took effect now stops you to talk about it.**
+  When someone read that a law took effect and stopped you in the street, the
+  scene used to be skipped whenever the law had no local bill number, a state
+  law for instance. The lines for a law in force could never be said. Now the
+  scene knows the law is still in force, from the laws engine, and the resident
+  says so ("Shift highway funds to transit took effect, and I'm the one living
+  with it.").
+
+### Changed
+
+- **The paper says what a town group stands for when it endorses.** A group with
+  no name of its own is told by the stance it endorsed on: "A group working for
+  an end to the clean electricity requirement endorsed Jeffery Holmes for
+  Attorney General." Before, it was "a local group".
+
 ## PRE-ALPHA 0.70.1
 
 _Released November 1, 2026._

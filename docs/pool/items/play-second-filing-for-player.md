@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-second-filing-for-player
-pr:
+pr: #6967
 blocked-on:
 source: "found by the words-and-scenes lead, Oct 27, in the campaign-season test"
 lead: play-first
@@ -30,3 +30,5 @@ claimed-at: 2026-11-01T13:51:31.808Z
 **Files.** src/core2/modules/candidacy.ts, src/core2/modules/elections.ts, src/bench/government.ts (fileForOffice)
 
 **Notes.** Found while building the campaign-season scenes (words-campaign-season-scenes-fill-the-months-a). Not yet diagnosed. The early filing on January 20 may be stored as a pre-filing that the filing period re-files.
+
+- 2026-11-01 (lane): Traced on main. The elections engine files the player once: in Tutu, U.S. Virgin Islands (seed 1d8f65cb19633445477d:0) the player's one filing row is for the 2026 governor race (the Board of Education is no longer a player office) and the log holds one `candidate-filed` and one `election-result` for it. The record that appears on March 9, 2026 when the filing period opens is a separate `rival-filed` (the incumbent's filing: `rival-filed:filing:contest:seat:US-VI:governor:2026-11-03:official:term:...`) whose facts name the player's filing id. If the director's filing and family-filing scenes fire again that day, they are reading that rival record as the player's own: a director matter (Words), sent to the Words session. `src/bench/early-filing-once.test.ts` asserts one filing row, one `candidate-filed` and at most one result for the race in three drawn places (New Munster, Wisconsin; Woodstock, Georgia; Tutu).

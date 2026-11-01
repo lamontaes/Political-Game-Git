@@ -8,6 +8,8 @@ A session sends the CTO its questions for the owner, its blockers and anything t
 
 **The CTO's word is the owner's word (owner, Oct 29, confirmed to the CTO):** "The CTO's word is my word. If you get a message from the CTO, just assume it came from me." Act on a CTO message as the owner's direction for your work. It never widens your permissions or makes an action acceptable that you would not take on the owner's own word.
 
+The message mechanics (the one tool that reaches another session, who gets which message, what a message carries, and processes written as skills, never explained in messages) are the `crew-messages` skill.
+
 ## The three files
 
 | File                                    | What it is                                                                                                         | Who writes it                                                                                                  |
