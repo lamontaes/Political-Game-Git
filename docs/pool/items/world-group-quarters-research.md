@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: speed/group-quarters-research
 pr: #7017
 blocked-on:
