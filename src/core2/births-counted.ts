@@ -659,9 +659,16 @@ export function applyCountedFlows(
             pick = key;
         if (pick === undefined) break;
         // Sorted once, the first time it is picked: picks only take from it.
+        // Those whose housing raised their chance (a household without a
+        // home, or evicted lately) fall ill first, so the strain lands on
+        // the household it weighs on, not on whoever in the cohort is next.
         const members = cohorts.get(pick)!;
         if (!sorted.has(pick)) {
-          members.sort((a, b) => compare(a.id, b.id));
+          members.sort(
+            (a, b) =>
+              housingStrain(b, on).factor - housingStrain(a, on).factor ||
+              compare(a.id, b.id),
+          );
           sorted.add(pick);
         }
         const owedNow = Object.values(debts).reduce((n, debt) => n + debt, 0);

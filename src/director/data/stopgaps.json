@@ -455,5 +455,17 @@
     "addedAt": "2026-10-29",
     "replacement": "purpose-scene sets promised-against for a recall petition when the member's filed platform takes the stand against the bill's question, or a scene reply recorded a promise against it, citing that record.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-eviction-moment-at-fill-in",
+    "kind": "partial-model",
+    "file": "src/director/conversation.ts",
+    "line": 505,
+    "whatItFakes": "A counted household evicted while counted and filled in later (the player meets one of its people) has its eviction case and housing status row, but no director moment labeled feeling:event:housing.eviction, which evictionSubjects reads; so a homeless person the player meets never brings up the eviction or where they are staying, though the records say both. A full household evicted has the moment from the day of its eviction.",
+    "why": "CTO ruling, Nov 1: an evicted counted household stays counted and is filled in only when it comes to matter to the player. The director's moments are written only for watched people as events reach them, so the eviction left no moment for people not yet filled in.",
+    "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
+    "addedAt": "2026-11-01",
+    "replacement": "When a household whose housing status row names an eviction case is filled in, the director records the eviction moment from the case (its removedAt and event id event:housing.eviction:<caseId>), or evictionSubjects reads the status row's case when no moment exists. Needs Words (lead: words).",
+    "status": "open"
   }
 ]

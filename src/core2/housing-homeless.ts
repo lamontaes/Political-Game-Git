@@ -31,7 +31,12 @@ import {
   countedMovesRunning,
   moveCountedHouseholdAway,
 } from "./modules/counted-moves";
-import { MemberState, type CountedHousehold } from "./counted-groups";
+import {
+  isDemoted,
+  MemberState,
+  type CountedHousehold,
+  type CountedStore,
+} from "./counted-groups";
 import { pairKey } from "./kernel/ids";
 import { housingWorldOffset } from "./housing-prices";
 import { parameter } from "./parameters";
@@ -144,6 +149,9 @@ export function housingStatusCounts(
   for (const row of table(api, "statuses").query("byPlace", [
     placeId,
   ]) as unknown as HousingStatusRow[]) {
+    // A household that left the counts for another place is no longer here,
+    // though its row ends only at the month's review (`reviewHomeless`).
+    if (leftForElsewhere(counted, row.id)) continue;
     // A counted row's people times the households its record stands for
     // (one, once removed: `keepOneCountedHousehold`).
     const h = row.counted ? counted?.liveHousehold(row.id) : undefined;
@@ -164,6 +172,23 @@ export function housingStatusCounts(
       out.unsheltered,
   );
   return out;
+}
+
+/**
+ * A household that left the counts for another place (a counted move): its
+ * counted record is gone, with members who moved and none filled in.
+ */
+function leftForElsewhere(
+  store: CountedStore | undefined,
+  householdId: string,
+): boolean {
+  const ix = store?.householdOf.get(householdId);
+  const record = ix === undefined ? undefined : store!.households[ix];
+  return (
+    record?.gone === true &&
+    record.members.some((m) => store!.state[m] === MemberState.Moved) &&
+    !record.members.some((m) => store!.state[m] === MemberState.Filled)
+  );
 }
 
 /** Year-round shelter beds per 10,000 people: the state's (HUD HIC 2025), an island area with no Continuum of Care at the island-area median, else the nation's. */
@@ -336,6 +361,7 @@ function hostFor(
     closeness: number;
     relativeId: string;
   }[] = [];
+  const counted = residentsRuntime(c)?.store;
   for (const memberId of memberIds) {
     const member = c.people.get(memberId);
     // A counted member's relatives with a home of their own are the full
@@ -347,10 +373,22 @@ function hostFor(
       if (!relative?.alive || relative.householdId === ownHouseholdId) continue;
       const household = c.households.get(relative.householdId);
       if (!household) continue;
+      // A relative back in the counts lives where its counted record does
+      // (its full record waits at the counted placeholder place), and only
+      // while that record still holds them.
+      let hostPlaceId = household.placeId;
+      let hostPeople = household.memberIds.length;
+      if (isDemoted(relative) || isDemoted(household)) {
+        const live = counted?.liveHousehold(household.id);
+        const people = live ? counted!.memberIdsOf(live) : [];
+        if (!people.includes(relativeId)) continue;
+        hostPlaceId = live!.placeId;
+        hostPeople = people.length;
+      }
       // A host that is itself without a home, or full, can't take them in.
       if (table(api, "statuses").get(household.id)) continue;
-      if (household.memberIds.length + memberIds.length > maxPeople) continue;
-      if (household.placeId !== placeId && !canLeaveTown) continue;
+      if (hostPeople + memberIds.length > maxPeople) continue;
+      if (hostPlaceId !== placeId && !canLeaveTown) continue;
       let closeness = 0;
       if (member)
         for (const id of c.relationshipsByPerson.get(memberId) ?? []) {
@@ -368,7 +406,7 @@ function hostFor(
       }
       options.push({
         householdId: household.id,
-        placeId: household.placeId,
+        placeId: hostPlaceId,
         closeness,
         relativeId,
       });
@@ -613,11 +651,7 @@ export function reviewHomeless(
     if (!household || !living.length) {
       // A counted household that left the counts for another place moved
       // away; any other is no longer here.
-      const ix = store?.householdOf.get(row.id);
-      const record = ix === undefined ? undefined : store!.households[ix];
-      const moved =
-        record?.gone &&
-        record.members.some((m) => store!.state[m] === MemberState.Moved);
+      const moved = leftForElsewhere(store, row.id);
       setStatus(
         api,
         {

@@ -351,16 +351,27 @@ function holdsOf(
   return holds;
 }
 
+/** The housing engine's module id (kept here so the moves engine does not import housing). */
+const HOUSING_MODULE = "housing";
+/** How the housing engine's eviction case ids begin (`eviction:<lease>:<date>`). */
+const EVICTION_CASE_PREFIX = "eviction:";
+
 /**
  * What pushes a counted household toward leaving, by cause (log units): an
- * eviction's or a foreclosure's push while it has no home, the same
- * parameter a full person's pull takes once on the day (moves.ts
- * EVENT_PULLS). Here it raises the household's rate of leaving for as long
- * as it is without a home.
+ * eviction's push while the eviction leaves it without a home (the housing
+ * engine's status row names the case), the same parameter a full person's
+ * pull takes once on the day from a housing.eviction (moves.ts EVENT_PULLS).
+ * A foreclosure records no eviction, so a household it removed takes no
+ * push, as a full owner takes none. Here the push raises the household's
+ * rate of leaving for as long as it is without a home.
  */
-function pushesOf(h: CountedHousehold): Record<string, number> {
+function pushesOf(api: CoreAPI, h: CountedHousehold): Record<string, number> {
+  if (h.tenure !== "none" || !api.state.modules.has(HOUSING_MODULE)) return {};
+  const status = api.moduleState(HOUSING_MODULE).table("statuses").get(h.id) as
+    { caseId?: string } | undefined;
+  if (!status?.caseId?.startsWith(EVICTION_CASE_PREFIX)) return {};
   // stopgapId: SG-WORLD-counted-evicted-push-rate
-  return h.tenure === "none" ? { evicted: MOVES.movesEvictedPull!.value } : {};
+  return { evicted: MOVES.movesEvictedPull!.value };
 }
 
 /**
@@ -552,7 +563,7 @@ function month(api: CoreAPI): void {
     const head = headOf(residents, h, date, adultAge);
     if (head.adults === 0) continue;
     const { rate, web } = leavingOf(h, home);
-    const pushes = pushesOf(h);
+    const pushes = pushesOf(api, h);
     if (pushes.evicted !== undefined)
       api.stopgap("SG-WORLD-counted-evicted-push-rate");
     const weight =
@@ -737,7 +748,7 @@ function month(api: CoreAPI): void {
             ? (pulled.total * 12) / pulled.people
             : undefined,
         ),
-        ...(head.adults ? pushesOf(next) : {}),
+        ...(head.adults ? pushesOf(api, next) : {}),
       };
       departCountedHousehold(core, next.id);
       const dest = rt.states.get(to)!;

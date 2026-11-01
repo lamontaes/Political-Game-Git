@@ -2232,20 +2232,25 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
   // The household as the housing rules read it: the live counted record
   // where there is one (a household returned to the counts keeps its full
   // record, and its people their husk records), else the full one. Its place
-  // is that record's; members with a person record are named by the event,
-  // and members still only counted by its facts, as a status change names
-  // them (`setStatus`).
+  // is that record's. The event names every member with a record: a person
+  // record, or a husk (a relative a full person knows, kept until met), as a
+  // counted death names its own (births-counted `notifyCountedDeaths`), so the
+  // full people who follow that relative read it. Members still counted are
+  // named by its facts too (`countedFacts`), each a subject, as a status
+  // change names them (`setStatus`).
+  // stopgapId: SG-WORLD-counted-eviction-kin-notice
   const countedStore = residentsRuntime(c)?.store;
   const counted = countedStore?.liveHousehold(row.householdId);
   const household = counted ? undefined : c.households.get(row.householdId);
   const memberIds = counted
     ? countedStore!.memberIdsOf(counted)
     : (household?.memberIds ?? []);
+  if (counted) api.stopgap("SG-WORLD-counted-eviction-kin-notice");
   api.emit({
     id: `event:housing.eviction:${caseId}`,
     date: c.date,
     kind: "housing.eviction",
-    personIds: memberIds.filter((id) => c.people.has(id)),
+    personIds: memberIds.filter((id) => c.people.has(id) || c.husks.has(id)),
     placeId:
       counted?.placeId ??
       household?.placeId ??

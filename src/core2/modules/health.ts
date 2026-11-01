@@ -1099,6 +1099,29 @@ export function healthReport(core: Readonly<CoreState>) {
   };
 }
 
+/**
+ * The housing strain on one person's death hazard: each housing status
+ * factor from the day it began, and the day of their last eviction while its
+ * factor holds. Undefined for someone with no health record.
+ */
+export function healthHousingOf(
+  state: Readonly<CoreState>,
+  personId: PersonId,
+):
+  | {
+      readonly housing: readonly { date: string; factor: number }[];
+      readonly evictedOn?: string;
+    }
+  | undefined {
+  const plan = runtimes.get(state)?.plans.get(personId);
+  return plan
+    ? {
+        housing: plan.housing,
+        ...(plan.evictedOn ? { evictedOn: plan.evictedOn } : {}),
+      }
+    : undefined;
+}
+
 /** The outcome web's factor now on one person's death hazard (1 where it has moved nothing). */
 export function healthDeathWebOf(
   state: Readonly<CoreState>,
