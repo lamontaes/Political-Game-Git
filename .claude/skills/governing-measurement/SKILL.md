@@ -66,7 +66,9 @@ Brief each helper to call `<scratchpad>/slot.sh <command>`.
 
 Use this when the speed lead asks who reads a table before folding it. Answer from a grep of every non-test reader on main, saying for each one whether it filters by the contest or a window, with file and line.
 
-- **Per race** (keyed by contest; play reads only an open race's rows): `pledges` (the ballot's pledge part filters by contest), `doors`, `messages`, `rivalWord`, `polls`, and campaign `causes` (these fold to summaries at close). `foldCauses` reads `pledges` by candidate to keep the pledged causes, so it must run before any pledge drop.
+- **Per race** (keyed by contest): `doors`, `pledges`, `messages`, `rivalWord`, `polls`, and campaign `causes` (these fold to summaries at the count and at close).
+  - `doors` and `pledges` of a closed contest go at its close, the first campaign turn after its election day (`closeRace` in `campaigns.ts`). The ballot's pledge part filters by contest and reads on election day, before the close. `foldCauses` reads `pledges` by candidate to keep the pledged causes, so the close runs it first and drops the pledges after. Only the closed contest's pledges go: a voter's yes in a race still open stays.
+  - `messages` and `rivalWord` are read for one window after a race closes. `rivalWordPassedOn` reads them inside its `rivalWordDays` window, a closed race's last week included, because filings stay on the ballot after the count. `raceReading` reads each candidate's newest `rivalWord` row only while the race is open. `foldRivalWord` drops each campaign turn what neither can still reach.
 - **Per person** (one row per voter and person, carried across races and through a term in office): `impressions`, keyed `${voterId}|${candidateId}`. `appealFor` reads `heardOf` and `knowsPlatform` with no contest check, so a voter who heard of you in one race still knows you in the next, and an official's contacts write rows too. Only rows whose voter or person has died or left can go.
 
 ## Tracing a reaction that never fires
