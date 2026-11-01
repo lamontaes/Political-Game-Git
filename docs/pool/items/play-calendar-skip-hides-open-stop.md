@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: play-first/play-calendar-skip-hides-open-stop
-pr: #0
+pr: #6964
 blocked-on:
 source: added with npm run pool -- add
 ---
