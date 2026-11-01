@@ -43,6 +43,7 @@ When the CTO moves a PR between two checkers, it tells both. A checker already m
 - What you did and what is left, in one or two sentences. Not the whole log: that goes in the PR comment.
 - A builder's hand-off to its checker names the branch and head, what changed in one sentence, the heavy test with the seed variables that replay its proof place (for example `LENDERS_PLACE` and `LENDERS_WORLD_SEED`) and how long one run takes, what the builder did not run, and that the checker is now the branch's one writer.
 - A ruling you relay names where it is recorded (`OWNER-DECISIONS.md`, with its date and time).
+- A reviewer whose environment refuses a GitHub write sends the review by message. The PR's author then posts it on the PR word for word, marked as relayed, with the sender and time, so the checker reads it in the record (Nov 1, the lane's review of #6981).
 
 ## A process is a skill
 

@@ -46,6 +46,7 @@ description: >
 ## Fold what grows
 
 - Under the Oct 30 01:55 ruling (keep what play reads, summarize the rest once it closes) the CTO ruled at 04:14 that folds are built, not asked: agree each reader's window with its owner (`docs/coordination/CREW.md`), and go ahead on a yes or after an hour with no answer. Name the readers and windows in the PR body. One fold per PR.
+- For the campaign and voting tables, `governing-measurement` lists which are per race and which are per person. Impressions are one row per voter and person, carried across races, so they never fold at a race's close.
 - Sweep every reader of the table, its indexes and its query functions. The dev trace's `findRecord` reads any engine table by id, so a row moved to another table of the same engine is still found.
 - Before proposing a fold, read the engine's own retention: `decision-detail.ts` already drops circle-only log records after `circleActRetentionMonths` (`retainLog` queues them). A reader sweep lists who reads, not what is already dropped; on Oct 30 an event-log fold that already existed went to four owners and had to be withdrawn.
 - The fold's test reads the same answers before and after (a standing, a scene's check), and folding twice changes nothing. Its records proof differs only in the folded tables.
