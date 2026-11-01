@@ -5,12 +5,13 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/reached-law-by-bill-id
 pr:
 blocked-on:
 lead: governing
 source: review of gov-record-vote-per-question, Nov 1
+claimed-at: 2026-11-01T18:07:27.395Z
 ---
 
 **What.** src/bench/reached.ts decides steps 9 to 11 of the golden path by matching a law that took effect to a bill with lawId.endsWith(':' + bill number). Two bodies number their first bill of a year alike (a council's 2025-1 and the county board's 2025-1), so each matches the other's law, and step 10's press and step 11's ballot can be credited to the wrong bill. The law row already carries the bill that enacted it (terms.enactedByBill, legislature.ts), so the match should read it.
