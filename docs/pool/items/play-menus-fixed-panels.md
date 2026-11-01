@@ -6,9 +6,9 @@ lead: play-first
 kind: bug
 priority: 1
 size: L
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-menus-fixed-panels
+pr: #6973
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("The main menu shouldn't really be scrolling. It should be things inside.")

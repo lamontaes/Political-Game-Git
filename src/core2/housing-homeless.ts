@@ -625,13 +625,16 @@ export function placeRemovedHousehold(
 /**
  * Each month a household without a home rents again once its monthly income
  * reaches the landlord's multiple of the rent and its cash covers the first
- * month. `rentOf` is the rent a lease here would ask of it; `lease` signs it.
- * A counted household is read from its record by the same rule.
+ * month. `rentOf` is the rent a lease here would ask of it; `lease` signs it;
+ * `wrote` is told after each write the review makes (a status, a move, a
+ * lease tried), so what `rentOf` keeps is read again. A counted household is
+ * read from its record by the same rule.
  */
 export function reviewHomeless(
   api: CoreAPI,
   rentOf: (householdId: string, placeId: string, incomeMinor: number) => number,
   lease: (householdId: string, rentMinor: number) => string | undefined,
+  wrote: () => void = () => {},
 ): void {
   const baseMultiple = api.parameter("housingRehouseIncomeMultiple");
   const store = residentsRuntime(core(api))?.store;
@@ -639,6 +642,9 @@ export function reviewHomeless(
   // permitting): a subsidy or a supportive placement covers part of the rent, so the income a
   // landlord asks for moves by the factor; one place, one factor per month.
   const webFactors = new Map<string, number>();
+  // Every write this loop makes calls `wrote()` before the next `rentOf`: a new
+  // write here (a person filled in, a move, a dwelling) must too, or the rent
+  // `rentOf` keeps goes stale.
   for (const row of table(
     api,
     "statuses",
@@ -661,6 +667,7 @@ export function reviewHomeless(
         },
         row.status,
       );
+      wrote();
       continue;
     }
     // A household that moved on is without a home where it went, not here.
@@ -669,6 +676,7 @@ export function reviewHomeless(
         ...row,
         placeId: household.placeId,
       } as unknown as ModuleRow);
+      wrote();
       continue;
     }
     const income = household.monthlyIncomeMinor;
@@ -682,6 +690,7 @@ export function reviewHomeless(
     const multiple = baseMultiple * factor;
     if (rent <= 0 || income < rent * multiple || cash < rent) continue;
     const leaseId = lease(row.id, rent);
+    wrote();
     if (!leaseId) continue;
     setStatus(
       api,
@@ -699,6 +708,7 @@ export function reviewHomeless(
       },
       row.status,
     );
+    wrote();
   }
 }
 

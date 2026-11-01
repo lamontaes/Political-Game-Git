@@ -80,8 +80,8 @@ it(`the first evening's journal names the family from their records (seed ${seed
     const firstPerson = Math.min(
       ...family.map((fact) => lineOf(fact.id)).filter((at) => at >= 0),
     );
-    // Where the family came from: the place of the player's recorded birth
-    // in the run, when the family lives somewhere else now.
+    // Where the family came from: the player's own birth, told in the place
+    // the run recorded it, when the family lives somewhere else now.
     const roots = preStartHistory(core, {
       kind: "person.birth",
       personId: player.id,

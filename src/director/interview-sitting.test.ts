@@ -181,6 +181,7 @@ function play(draw: number): Evidence | string {
   const vote = recordVote(api, {
     personId: me,
     body: "council",
+    billId: `proof:${first}`,
     measureId: `proof:${first}`,
     stance: { question: first, position: stands.get(first) ?? 1 },
     passed: true,

@@ -22,6 +22,7 @@ import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { bookkeeping } from "../bookkeeping";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import { transferCash } from "../world-transfer";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
@@ -837,6 +838,22 @@ function scheduleReview(api: CoreAPI): void {
 function rehouse(api: CoreAPI): void {
   const c = core(api);
   const offers = new Map<string, CompletedRentalOffer>();
+  // Each town's typical rent, read once until the review writes anything (a
+  // lease, a status, a move): only a write can change the dwellings, leases
+  // and households the rent is read from.
+  const rents = new Map<string, number>();
+  const typicalRent = (placeId: string) => {
+    let rent = rents.get(placeId);
+    if (rent === undefined) {
+      rent = townRentMinor(api, placeId);
+      rents.set(placeId, rent);
+    }
+    if (bookkeeping() && rent !== townFigures(api, placeId).rentMinor)
+      throw new Error(
+        `The kept typical rent for ${placeId} differs from the town's.`,
+      );
+    return rent;
+  };
   reviewHomeless(
     api,
     (householdId, placeId, incomeMinor) => {
@@ -848,7 +865,7 @@ function rehouse(api: CoreAPI): void {
         return offer.rentMinor;
       }
       // The town's typical rent; its own last rent where the town has no other renters.
-      const typical = placeId ? townFigures(api, placeId).rentMinor : 0;
+      const typical = placeId ? typicalRent(placeId) : 0;
       return typical > 0
         ? typical
         : (c.finance.contracts.get(`lease:${householdId}`)?.amountMinor ??
@@ -858,12 +875,8 @@ function rehouse(api: CoreAPI): void {
     },
     (householdId, rentMinor) =>
       leaseHousehold(api, householdId, rentMinor, offers.get(householdId)),
+    () => rents.clear(),
   );
-}
-
-/** The town's typical monthly rent; none where it has no other renters. */
-export function typicalRentMinor(api: CoreAPI, placeId: string): number {
-  return townFigures(api, placeId).rentMinor;
 }
 
 /**
@@ -1790,6 +1803,47 @@ const median = (values: number[]) => {
   return sorted.length ? sorted[Math.floor(sorted.length / 2)]! : 0;
 };
 
+/**
+ * Each requested place's rents (a renting household's lease while it runs,
+ * else the rent on its dwelling) and the renting households they stand for:
+ * a counted household counts as many as its weight says.
+ */
+function collectRents(
+  api: CoreAPI,
+  places: ReadonlyMap<string, { rents: number[]; renters: number }>,
+): void {
+  const c = core(api),
+    residents = residentsRuntime(c);
+  for (const row of store(api).table("dwellings").rows() as unknown as {
+    householdId: string;
+    tenure: string;
+    rentMinor?: number;
+  }[]) {
+    if (row.tenure !== "rent") continue;
+    const at =
+      c.households.get(row.householdId)?.placeId ??
+      countedHousehold(c, row.householdId)?.placeId;
+    const place = at === undefined ? undefined : places.get(at);
+    if (!place) continue;
+    const lease = c.finance.contracts.get(`lease:${row.householdId}`);
+    place.rents.push(
+      lease && !lease.endedAt ? lease.amountMinor : (row.rentMinor ?? 0),
+    );
+    const counted = residents?.store.householdOf.get(row.householdId);
+    place.renters +=
+      counted === undefined
+        ? 1
+        : residents!.store.weightOf(residents!.store.households[counted]!);
+  }
+}
+
+/** A town's typical monthly rent alone: `townFigures`' rent, without reading home values and pay. */
+function townRentMinor(api: CoreAPI, placeId: string): number {
+  const place = { rents: [] as number[], renters: 0 };
+  collectRents(api, new Map([[placeId, place]]));
+  return median(place.rents);
+}
+
 export interface TownHousingFigures {
   homeValueMinor: number;
   rentMinor: number;
@@ -1802,8 +1856,7 @@ export function townFiguresByPlace(
   api: CoreAPI,
   placeIds: ReadonlySet<string>,
 ): Map<string, TownHousingFigures> {
-  const c = core(api),
-    residents = residentsRuntime(c);
+  const c = core(api);
   const grouped = new Map(
     [...placeIds].map((id) => [
       id,
@@ -1824,27 +1877,7 @@ export function townFiguresByPlace(
   );
   for (const row of homes)
     grouped.get(row.placeId)?.values.push(row.valueMinor);
-  for (const row of store(api).table("dwellings").rows() as unknown as {
-    householdId: string;
-    tenure: string;
-    rentMinor?: number;
-  }[]) {
-    if (row.tenure !== "rent") continue;
-    const at =
-      c.households.get(row.householdId)?.placeId ??
-      countedHousehold(c, row.householdId)?.placeId;
-    const place = at === undefined ? undefined : grouped.get(at);
-    if (!place) continue;
-    const lease = c.finance.contracts.get(`lease:${row.householdId}`);
-    place.rents.push(
-      lease && !lease.endedAt ? lease.amountMinor : (row.rentMinor ?? 0),
-    );
-    const counted = residents?.store.householdOf.get(row.householdId);
-    place.renters +=
-      counted === undefined
-        ? 1
-        : residents!.store.weightOf(residents!.store.households[counted]!);
-  }
+  collectRents(api, grouped);
   const days = api.parameter("jobsDaysPerYear"),
     months = api.parameter("macroMonthsPerYear");
   for (const job of c.jobs.values()) {

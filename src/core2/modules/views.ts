@@ -744,6 +744,23 @@ export function stancesOf(api: CoreAPI, personId: PersonId): Stance[] {
   return stancesTable(api).query("byPerson", [personId]) as unknown as Stance[];
 }
 
+/**
+ * A person's stance on one topic, or undefined for none: the row `onEvent`
+ * keeps for them at `${personId}:${topic}`, the one row of theirs on it (the
+ * same row `stancesOf` lists), read by its id instead of a scan.
+ */
+export function stanceRow(
+  api: CoreAPI,
+  personId: PersonId,
+  topic: string,
+): Stance | undefined {
+  const row = stancesTable(api).get(`${personId}:${topic}`) as unknown as
+    Stance | undefined;
+  return row && row.personId === personId && row.topic === topic
+    ? row
+    : undefined;
+}
+
 export const viewsModule: CoreModule = {
   id: VIEWS_MODULE_ID,
   state: {
@@ -902,7 +919,8 @@ export const viewsModule: CoreModule = {
             }
           : {}),
       };
-      stancesTable(api).put(stance as unknown as { id: string });
+      // Built fresh here and never touched again: frozen in place, not copied.
+      stancesTable(api).putOwned(stance as unknown as { id: string });
       for (const listener of stanceListeners) listener(api, personId, topic);
     }
   },
