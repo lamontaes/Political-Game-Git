@@ -5,7 +5,7 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: governing/m3-long-running
 pr: #6860
 blocked-on:
