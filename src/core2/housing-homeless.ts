@@ -346,12 +346,15 @@ export function placeRemovedHousehold(
 /**
  * Each month a household without a home rents again once its monthly income
  * reaches the landlord's multiple of the rent and its cash covers the first
- * month. `rentOf` is the rent a lease here would ask of it; `lease` signs it.
+ * month. `rentOf` is the rent a lease here would ask of it; `lease` signs it;
+ * `wrote` is told after each write the review makes (a status, a move, a
+ * lease tried), so what `rentOf` keeps is read again.
  */
 export function reviewHomeless(
   api: CoreAPI,
   rentOf: (householdId: string, incomeMinor: number) => number,
   lease: (householdId: string, rentMinor: number) => string | undefined,
+  wrote: () => void = () => {},
 ): void {
   const c = core(api);
   const baseMultiple = api.parameter("housingRehouseIncomeMultiple");
@@ -361,6 +364,9 @@ export function reviewHomeless(
   const webFactors = new Map<string, number>();
   const daysPerMonth =
     api.parameter("jobsDaysPerYear") / api.parameter("macroMonthsPerYear");
+  // Every write this loop makes calls `wrote()` before the next `rentOf`: a new
+  // write here (a person filled in, a move, a dwelling) must too, or the rent
+  // `rentOf` keeps goes stale.
   for (const row of table(
     api,
     "statuses",
@@ -378,6 +384,7 @@ export function reviewHomeless(
         { ...row, status: "housed", reasons: { noLongerHere: 1 } },
         row.status,
       );
+      wrote();
       continue;
     }
     // A household that moved on is without a home where it went, not here.
@@ -386,6 +393,7 @@ export function reviewHomeless(
         ...row,
         placeId: household.placeId,
       } as unknown as ModuleRow);
+      wrote();
       continue;
     }
     let daily = 0;
@@ -407,6 +415,7 @@ export function reviewHomeless(
     const multiple = baseMultiple * factor;
     if (rent <= 0 || income < rent * multiple || cash < rent) continue;
     const leaseId = lease(row.id, rent);
+    wrote();
     if (!leaseId) continue;
     setStatus(
       api,
@@ -424,6 +433,7 @@ export function reviewHomeless(
       },
       row.status,
     );
+    wrote();
   }
 }
 

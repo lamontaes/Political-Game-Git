@@ -64,7 +64,11 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
-import { ELECTIONS_MODULE_ID, ballot } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  ballot,
+  petitionOf,
+} from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
   enlistVolunteer,
@@ -581,6 +585,11 @@ function composeBinding(
     : null;
   for (const [key, fact] of Object.entries(stake?.facts ?? {}))
     facts[key] = { text: fact.text, sourceRecordIds: fact.recordIds };
+  // What the petition the filing opened asks (owner, Oct 28: filing is a
+  // petition, signatures, the clerk's check, then the ballot): the
+  // signatures and the day they are due, or that the office takes none.
+  if (type.stakes?.includes("petition"))
+    Object.assign(facts, petitionFacts(core, said.filingId));
   // In a race the asked lost, the winner is the opponent the scene may name.
   const winner = said.winnerId
     ? core.people.get(said.winnerId as PersonId)
@@ -1021,15 +1030,24 @@ function deskFacts(
     };
 }
 
-/**
- * The player's reply in a scene with a purpose, by its path through the tree
- * (the index of each reply chosen, from the first). The reply is a record of
- * what they said to whom, and the core's own writer reads it: the time
- * together reaches their tie with the asker, citing the record, as a talk's
- * lines do. Returns the record's id (the same one if the reply was already
- * said), or null when the path is not a reply the scene offers.
- */
-/** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
+/** The petition a filing opened, as the clerk says it, or nothing where none is on record. */
+function petitionFacts(
+  core: Readonly<CoreState>,
+  filingId: string | undefined,
+): Record<string, Fact> {
+  const petition =
+    filingId && core.modules.has(ELECTIONS_MODULE_ID)
+      ? petitionOf(coreAPI(core as CoreState), filingId)
+      : null;
+  if (!petition) return {};
+  const fact = (text: string) => ({ text, sourceRecordIds: [petition.id] });
+  if (petition.needed <= P.zero) return { "no-petition": fact("yes") };
+  const due = fact(spokenDate(petition.due, core.date));
+  return petition.needed === P.one
+    ? { "one-signature": fact("yes"), due }
+    : { signatures: fact(petition.needed.toLocaleString("en-US")), due };
+}
+
 const AFTERNOON_FROM = rulesFile.timeOfDay.afternoonFromMinute.value;
 const EVENING_FROM = rulesFile.timeOfDay.eveningFromMinute.value;
 
@@ -1053,10 +1071,19 @@ function sceneMinute(
   return now?.date === core.date ? now.minuteOfDay : undefined;
 }
 
+/** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
   Record<string, { value: number } | undefined>
 >;
 
+/**
+ * The player's reply in a scene with a purpose, by its path through the tree
+ * (the index of each reply chosen, from the first). The reply is a record of
+ * what they said to whom, and the core's own writer reads it: the time
+ * together reaches their tie with the asker, citing the record, as a talk's
+ * lines do. Returns the record's id (the same one if the reply was already
+ * said), or null when the path is not a reply the scene offers.
+ */
 export function replyInScene(
   core: CoreState,
   director: Director,
