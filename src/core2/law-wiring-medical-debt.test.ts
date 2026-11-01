@@ -991,7 +991,7 @@ describe("medical bills and medical debt in a played world", () => {
           return;
         }
         throw new Error(
-          `No drawn place showed ${proofA ? "part (b)" : proofB ? "part (a)" : "either part"}: ${passed.join("; ")}`,
+          `No drawn place showed ${proofA ? "part (b)" : proofB ? "part (a)" : "either part"}: ${passed.join("; ")}${proofA || proofB ? `\nShown: ${proofA ?? proofB}` : ""}`,
         );
       } finally {
         setJournalTrace(null);
