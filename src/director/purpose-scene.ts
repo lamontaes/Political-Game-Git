@@ -697,6 +697,20 @@ function composeBinding(
     facts["same-day"] = { text: "yes", sourceRecordIds: [moment.causeId] };
   else if (addDays(makeIsoDate(recordDay), P.one) === core.date)
     facts["day-after"] = { text: "yes", sourceRecordIds: [moment.causeId] };
+  // The vote a count is for is "tomorrow" only the day before its floor
+  // date and "today" on that day (the governing walk, Oct 29: "tomorrow" was
+  // said on the vote day).
+  const floorDate = record?.facts?.floorDate;
+  if (floorDate === core.date)
+    facts["vote-today"] = { text: "yes", sourceRecordIds: [moment.causeId] };
+  else if (
+    typeof floorDate === "string" &&
+    addDays(makeIsoDate(core.date), P.one) === floorDate
+  )
+    facts["vote-tomorrow"] = {
+      text: "yes",
+      sourceRecordIds: [moment.causeId],
+    };
   // "Morning." is said before noon, "this afternoon" is still ahead only in
   // the daytime, and "tonight" is true of the present only in the evening:
   // the hour is the player's clock as the scene plays.

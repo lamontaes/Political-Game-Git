@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/path-check-open-seat
-pr:
+pr: #6981
 blocked-on:
 source: governing lead, Oct 30 (measure-m5: the player loses to incumbents)
 lead: governing

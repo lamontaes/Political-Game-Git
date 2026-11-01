@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: words/time-of-day
-pr:
+pr: #6982
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T15:26:00.426Z
