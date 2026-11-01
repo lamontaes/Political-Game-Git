@@ -7731,12 +7731,27 @@
     "id": "SG-GOV-threat-from-circle",
     "kind": "partial-model",
     "file": "src/core2/modules/campaigns.ts",
-    "line": 4011,
+    "line": 5243,
     "whatItFakes": "A world candidate whose newest record of the race is word of a rival's message (an ad, a mailer or an evening of doors; a rivalWord row) reads where their race stands as how warm the people they know in town are to that rival against how warm they are to them (each impression's warmth, none where cold or unreached, averaged over the circle): their circle's actual warmth to both, not what those people said to the candidate.",
     "why": "The campaigns engine keeps who told a candidate of a rival's message, but no record of what the people a candidate talks to say about the race; the circle's warmth is the nearest existing record of who they lean to. Recognition would not do: everyone in the circle knows the candidate, and an incumbent's have as a rule all heard of them, so it would never show a rival gaining.",
     "addedBy": "governing/incumbent-response (Claude)",
     "addedAt": "2026-10-29",
     "replacement": "A record of what the people a candidate talks to tell them about the race (who they have heard of, who they lean to), read by raceReading in place of the circle's recognition.",
+    "status": "resolved",
+    "resolution": "Replaced Nov 1 by SG-GOV-threat-from-told-yeses: wordReading (src/core2/modules/campaigns.ts) no longer reads the circle's warmth; it reads the yeses people have told the candidate, from someone they know in touch since a yes and from residents, full or counted, at the candidate's own doors (the doors row's told field), so a challenger's gains among the people the incumbent knows show as a threat. Proved by src/core2/campaign-incumbent-response.test.ts.",
+    "resolvedAt": "2026-11-01",
+    "resolvedBy": "governing/incumbent-hears-the-race (Claude)"
+  },
+  {
+    "id": "SG-GOV-threat-from-told-yeses",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 5243,
+    "whatItFakes": "A world candidate whose newest record of the race is word of a rival's message (a rivalWord row) reads where their race stands as if every yes were told to them: every yes to a candidate in the contest held by someone they know in town who has been in touch with them since that yes, and every yes held by a resident, full or counted, who answered their own campaign's door (at that resident's latest answer, kept on the doors row's told field), each counted as said to them, over everyone those people are. Nobody keeps a yes to themselves, says it to the candidate's face only some of the time, or tells them anything but a yes.",
+    "why": "The campaigns engine keeps each yes (the pledges table), each relationship's last contact and each household its campaign's doors reached, but no record of what each person actually says to the candidate about the race. A yes held by someone in touch since, or told at the candidate's own door, is the nearest kept record of what reached the candidate; the circle's warmth it replaces was the people's true leaning, which always favored the incumbent.",
+    "addedBy": "governing/incumbent-hears-the-race (Claude)",
+    "addedAt": "2026-11-01",
+    "replacement": "A record of what each person says to the candidate when they are in touch (who they have said yes to, who they lean to, or nothing, by their traits and their tie to the candidate), written where the contact happens and read by raceReading in place of the yeses they hold.",
     "status": "open"
   },
   {

@@ -1059,10 +1059,10 @@ function adultIdsAt(api: CoreAPI, address: Address): string[] {
  * alike, those not yet walked first. At each door the most willing adult home
  * at that minute is the one who might open; the evening opens as many doors
  * as their readiness adds up to, at the homes that owe an opening most.
- * Yields each opener in walk order (a counted resident is filled in by
- * the caller); `done` and `walked` gain every door knocked, `lastKnocked`
- * today for each, `carries` each knocked home's carry and `owed` the
- * campaign's. `cursor` keeps where the doors not yet walked start in the
+ * Yields each opener in walk order, with the home they opened (a counted
+ * resident is filled in by the caller); `done` and `walked` gain every door
+ * knocked, `lastKnocked` today for each, `carries` each knocked home's carry
+ * and `owed` the campaign's. `cursor` keeps where the doors not yet walked start in the
  * town's address list, so the next canvasser of the same walk starts there.
  */
 function* walkDoors(
@@ -1080,7 +1080,10 @@ function* walkDoors(
     readonly doors: number;
     readonly hours: number;
   },
-): Generator<ReturnType<typeof adultsAt>[number]> {
+): Generator<{
+  readonly home: string;
+  readonly opener: ReturnType<typeof adultsAt>[number];
+}> {
   const doors = input.doors;
   const done = input.done;
   const list = townAddresses(api).list;
@@ -1177,7 +1180,7 @@ function* walkDoors(
   for (const k of knocks) {
     const opened = opening.has(k.home);
     input.carries.set(k.home, opened ? k.owed - 1 : k.owed);
-    if (opened) yield k.opener;
+    if (opened) yield { home: k.home, opener: k.opener };
   }
 }
 
@@ -1198,6 +1201,8 @@ interface DoorWalk {
   readonly petition: boolean;
   /** Counted residents who opened, reached as a count. */
   counted: number;
+  /** What each resident who answered told the campaign, by home and voter (`toldAtDoor`). */
+  readonly told: Map<string, Map<string, readonly string[]>>;
 }
 
 function openDoorWalk(api: CoreAPI, filingId: string): DoorWalk {
@@ -1221,6 +1226,7 @@ function openDoorWalk(api: CoreAPI, filingId: string): DoorWalk {
     cursor: { list: null, at: 0 },
     petition: petitionCirculating(api, filingId),
     counted: 0,
+    told: new Map(),
   };
 }
 
@@ -1248,7 +1254,7 @@ function walkWith(
   });
   const core = api.state as CoreState;
   const met: CauseRow[] = [];
-  const openers = [
+  const opened = [
     ...walkDoors(api, {
       done: walk.done,
       lastKnocked: walk.lastKnocked,
@@ -1260,8 +1266,13 @@ function walkWith(
       hours,
     }),
   ];
-  const fill = countedToFill(api, campaign, openers, fillCounted);
-  for (const opener of openers) {
+  const fill = countedToFill(
+    api,
+    campaign,
+    opened.map((o) => o.opener),
+    fillCounted,
+  );
+  for (const { home, opener } of opened) {
     const openerId = opener.id;
     // A counted household is filled in when the player's campaign opens its
     // door (the owner's on-meet design): the person who answers is a full
@@ -1284,6 +1295,7 @@ function walkWith(
             countedDoorWarmth(api, campaign, canvasser, opener),
             null,
           );
+        toldAtDoor(api, walk, campaign.contestId, home, openerId);
         continue;
       }
       fillInPerson(core, openerId);
@@ -1319,13 +1331,38 @@ function walkWith(
         cause.warmthAfter,
         cause.id,
       );
+    toldAtDoor(api, walk, campaign.contestId, home, answers.id);
   }
   return met;
 }
 
 /**
+ * What a resident who answers a campaign's door tells it of the race, full
+ * or counted by the one rule: every candidate in the contest they hold a yes
+ * to (the one this door just asked for included), or none. Their latest
+ * answer at the home is what the campaign knows (`closeDoorWalk` keeps it on
+ * the home's doors row, read by `wordReading`).
+ */
+function toldAtDoor(
+  api: CoreAPI,
+  walk: DoorWalk,
+  contestId: string,
+  home: string,
+  voterId: string,
+): void {
+  const yeses = pledgesOf(api, voterId)
+    .filter((p) => p.contestId === contestId)
+    .map((p) => p.candidateId)
+    .sort();
+  let at = walk.told.get(home);
+  if (!at) walk.told.set(home, (at = new Map()));
+  at.set(voterId, yeses);
+}
+
+/**
  * Close a walk: one row a household, the day its door was first knocked, the
- * last, how many times, and what its knocks owe toward the next opening; and
+ * last, how many times, what its knocks owe toward the next opening, and what
+ * each resident who answered told the campaign at their latest answer; and
  * the campaign's door count, carry and counted reach.
  */
 function closeDoorWalk(api: CoreAPI, walk: DoorWalk): void {
@@ -1334,6 +1371,7 @@ function closeDoorWalk(api: CoreAPI, walk: DoorWalk): void {
   for (const household of walk.walked) {
     const id = `${campaign.id}|${household}`;
     const prior = doorRows.get(id) as unknown as DoorRow | undefined;
+    const told = walk.told.get(household);
     doorRows.put({
       id,
       campaignId: campaign.id,
@@ -1343,6 +1381,11 @@ function closeDoorWalk(api: CoreAPI, walk: DoorWalk): void {
       knocks: (prior?.knocks ?? (prior ? 1 : 0)) + 1,
       ...(walk.carries.has(household)
         ? { answerCarry: walk.carries.get(household) }
+        : {}),
+      ...(told || prior?.told
+        ? {
+            told: { ...prior?.told, ...(told ? Object.fromEntries(told) : {}) },
+          }
         : {}),
     } as unknown as ModuleRow);
   }
@@ -1478,6 +1521,12 @@ interface DoorRow {
   readonly knocks?: number;
   /** What the home's knocks owe it toward its next opening (a share of one). */
   readonly answerCarry?: number;
+  /**
+   * What each resident who answered here told the campaign at their latest
+   * answer, by voter id: the candidates in the contest they hold a yes to,
+   * or none (`toldAtDoor`).
+   */
+  readonly told?: Readonly<Record<string, readonly string[]>>;
 }
 
 function doorRowsOf(api: CoreAPI, campaignId: string): readonly DoorRow[] {
@@ -2047,6 +2096,18 @@ interface MessageRow {
   readonly witnessIds: readonly string[];
 }
 
+/** Whether two people have been in touch after a day: their relationship's last contact is later. */
+function inTouchSince(
+  core: Readonly<CoreState>,
+  personId: string,
+  otherId: string,
+  date: string,
+): boolean {
+  const [a, b] = [personId, otherId].sort();
+  const tie = core.relationships.get(`${a}:${b}`);
+  return !!tie && tie.lastContactDate > date;
+}
+
 /**
  * A rival's message (an ad, a mailer, or what they said at the doors of an
  * evening's canvass) reaches people a candidate knows, and the next time
@@ -2087,12 +2148,11 @@ function rivalWordPassedOn(api: CoreAPI): void {
     for (const message of fresh) {
       const witnesses = new Set(message.witnessIds);
       const teller = [...candidate.knownIds]
-        .filter((id) => {
-          if (!witnesses.has(id)) return false;
-          const [a, b] = [id, candidate.id].sort();
-          const tie = core.relationships.get(`${a}:${b}`);
-          return !!tie && tie.lastContactDate > message.date;
-        })
+        .filter(
+          (id) =>
+            witnesses.has(id) &&
+            inTouchSince(core, id, candidate.id, message.date),
+        )
         .map((id) => ({
           id,
           tie: closenessBetween(core, id as PersonId, candidate.id),
@@ -5073,6 +5133,12 @@ export interface RaceReading {
    * how sure it is: one less its margin of error).
    */
   readonly threat: number;
+  /**
+   * Word's only: the yeses it counted, each the `pledges` row id
+   * (`<voterId>|<contestId>|<candidateId>`) of a yes someone told the
+   * candidate, sorted.
+   */
+  readonly toldPledgeIds?: readonly string[];
 }
 
 interface RivalWordRow {
@@ -5093,11 +5159,10 @@ interface RivalWordRow {
  * how sure the poll is (one less its margin of error: a single answer counts
  * for about half, a commissioned sample of hundreds nearly in full). The
  * newest word of a rival that reached them (a `rivalWord` row, which names
- * the rival and who told them) is read as how warm the people they know in
- * town are to that rival in this race against how warm they are to them
- * (SG-GOV-threat-from-circle). Word newer than the poll is what they know
- * now; a poll taken the day word came, or after, is. Null where neither
- * record exists (word where they know no one in town is none).
+ * the rival and who told them) sets them reading the yeses people have told
+ * them (`wordReading`). Word newer than the poll is what they know now; a
+ * poll taken the day word came, or after, is. Null where neither record
+ * exists (word where no one in town has told them anything is none).
  */
 export function raceReading(
   api: CoreAPI,
@@ -5126,7 +5191,7 @@ export function raceReading(
     )[0];
   const fromWord =
     word && (!poll || word.date > poll.date)
-      ? wordReading(api, campaign.contestId, candidate, town, word)
+      ? wordReading(api, campaign, candidate, town, word)
       : null;
   if (fromWord) return fromWord;
   if (!poll) return null;
@@ -5150,47 +5215,76 @@ export function raceReading(
 }
 
 /**
- * Word of a rival read against the candidate's circle in town: each share is
- * the circle's warmth to that candidate (none from someone cold to them or
- * whom no campaign or record reached), averaged over everyone in it. Not who
- * has heard of whom: everyone in it knows the candidate personally, and an
- * incumbent's are as a rule all heard of them, so recognition would never
- * show a rival gaining. Null where they know no one in town.
+ * Word of a rival sets a candidate reading the race from the yeses people
+ * have told them, never from anyone's true support. Two kinds of people tell
+ * them, one rule for each:
+ * - someone they know in town who holds a yes to a candidate in the contest
+ *   and has been in touch with them since that yes (the relationship's last
+ *   contact after the yes's day, the check word of a rival passes by);
+ * - a resident, full or counted, who answered the candidate's own campaign's
+ *   door, at their latest answer there (`toldAtDoor`, the doors row).
+ * Each candidate on the ballot gets a share: the people who told them of a
+ * yes to that candidate, over everyone the reading covers (the people they
+ * know in town and everyone who answered their doors, each once). The best
+ * rival is the one told most, ties by id as the poll's; the threat is that
+ * rival's share less the candidate's own. The word row stays the reading's
+ * source. Null where no one in town has told them anything.
  */
 function wordReading(
   api: CoreAPI,
-  contestId: string,
+  campaign: CampaignRow,
   candidate: Readonly<PersonState>,
   town: string,
   word: RivalWordRow,
 ): RaceReading | null {
   if (!word.rivalId) return null;
-  const circle = new Set(
-    [...candidate.knownIds].filter((id) => {
-      const person = api.state.people.get(id);
-      return person?.alive === true && person.placeId === town;
-    }),
-  );
-  if (!circle.size) return null;
-  // stopgapId: SG-GOV-threat-from-circle
-  api.stopgap("SG-GOV-threat-from-circle");
-  const warmth = (personId: string) => {
-    let sum = 0;
-    for (const voterId of circle) {
-      const i = impressionOf(api, voterId, personId);
-      if (i?.contestId === contestId && i.heardOf) sum += Math.max(0, i.warmth);
+  const core = api.state as CoreState;
+  const contestId = campaign.contestId;
+  // stopgapId: SG-GOV-threat-from-told-yeses
+  api.stopgap("SG-GOV-threat-from-told-yeses");
+  const onBallot = new Set(ballot(api, contestId).map((f) => f.personId));
+  onBallot.add(candidate.id);
+  const covered = new Set<string>();
+  // Each yes told to a candidate on the ballot, by its pledge id, to whom.
+  const told = new Map<string, string>();
+  for (const id of candidate.knownIds) {
+    const person = api.state.people.get(id);
+    if (person?.alive !== true || person.placeId !== town) continue;
+    covered.add(id);
+    for (const pledge of pledgesOf(api, id))
+      if (
+        pledge.contestId === contestId &&
+        onBallot.has(pledge.candidateId) &&
+        inTouchSince(core, id, candidate.id, pledge.date)
+      )
+        told.set(pledge.id, pledge.candidateId);
+  }
+  for (const row of doorRowsOf(api, campaign.id))
+    for (const [voterId, yeses] of Object.entries(row.told ?? {})) {
+      covered.add(voterId);
+      for (const candidateId of yeses)
+        if (onBallot.has(candidateId))
+          told.set(`${voterId}|${contestId}|${candidateId}`, candidateId);
     }
-    return sum / circle.size;
-  };
-  const own = warmth(candidate.id);
-  const rival = warmth(word.rivalId);
+  if (!covered.size) return null;
+  const counts = new Map<string, number>();
+  for (const candidateId of told.values())
+    counts.set(candidateId, (counts.get(candidateId) ?? 0) + 1);
+  const share = (id: string) => (counts.get(id) ?? 0) / covered.size;
+  const best = [...onBallot]
+    .filter((id) => id !== candidate.id)
+    .map((id) => [id, share(id)] as const)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
+  const own = share(candidate.id);
+  const rival = best?.[1] ?? 0;
   return {
     sourceRecordId: word.id,
     sourceKind: "word",
-    rivalId: word.rivalId,
+    rivalId: best?.[0] ?? null,
     ownShare: own,
     rivalShare: rival,
     threat: rival - own,
+    toldPledgeIds: [...told.keys()].sort(),
   };
 }
 

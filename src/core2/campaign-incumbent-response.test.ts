@@ -16,11 +16,18 @@
  * With no poll at all, word does it: the challenger's evening of doors is a
  * message the people met can pass on, and once someone who knows both is in
  * touch with the incumbent in the days that follow (the campaigns engine's
- * own day), the incumbent reads the race from that word and steps up.
+ * own day), the incumbent reads the race from the yeses people have told
+ * them (someone they know in touch since a yes, a resident at their own
+ * campaign's door, counted or full) and steps up where more told them of a
+ * yes to the challenger than to them; the same day with those yeses taken
+ * away does not.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -36,9 +43,12 @@ import {
 } from "./modules/offices";
 import { openRecord } from "./modules/record";
 import {
+  ballot,
   fileCandidacy,
   openContests,
   openElections,
+  petitionCirculating,
+  petitionOf,
   type ContestRow,
   type FilingRow,
 } from "./modules/elections";
@@ -54,6 +64,7 @@ import {
   raceReading,
   rivalDay,
   steppedUpOf,
+  type PledgeRow,
   type PollRow,
 } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
@@ -301,6 +312,65 @@ interface WordLike {
   readonly messageId?: string;
   readonly tellerId?: string;
 }
+interface DoorLike {
+  readonly id: string;
+  readonly campaignId: string;
+  readonly householdId: string;
+  readonly told?: Readonly<Record<string, readonly string[]>>;
+}
+
+/**
+ * The yeses a candidate has been told, recounted from the records the
+ * reading names: each yes to a candidate on the ballot held by someone they
+ * know in town whose relationship with them was last in touch after the
+ * yes's day (pledge row id to the candidate it is for), each yes kept on
+ * their own campaign's doors rows as told there, and everyone those people
+ * are.
+ */
+function toldFromRecords(
+  api: CoreAPI,
+  core: CoreState,
+  candidateId: string,
+  town: string,
+  contestId: string,
+  campaignId: string,
+) {
+  const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID);
+  const candidate = core.people.get(candidateId)!;
+  const onBallot = new Set(ballot(api, contestId).map((f) => f.personId));
+  onBallot.add(candidateId);
+  const covered = new Set<string>();
+  const told = new Map<string, string>();
+  for (const id of candidate.knownIds) {
+    const person = core.people.get(id);
+    if (!person?.alive || person.placeId !== town) continue;
+    covered.add(id);
+    const [a, b] = [id, candidateId].sort();
+    const last = core.relationships.get(`${a}:${b}`)?.lastContactDate;
+    for (const pledge of campaigns
+      .table("pledges")
+      .query("byVoter", [id]) as unknown as PledgeRow[])
+      if (
+        pledge.contestId === contestId &&
+        onBallot.has(pledge.candidateId) &&
+        last !== undefined &&
+        last > pledge.date
+      )
+        told.set(pledge.id, pledge.candidateId);
+  }
+  const doors = campaigns
+    .table("doors")
+    .query("byCampaign", [campaignId]) as unknown as DoorLike[];
+  for (const row of doors)
+    for (const [voterId, yeses] of Object.entries(row.told ?? {})) {
+      covered.add(voterId);
+      for (const id of yeses)
+        if (onBallot.has(id)) told.set(`${voterId}|${contestId}|${id}`, id);
+    }
+  const toldTo = (id: string) =>
+    [...told].filter(([, c]) => c === id).map(([pledgeId]) => pledgeId);
+  return { covered, told, toldTo, doors };
+}
 
 /**
  * A drawn world where the challenger's evening of doors met people the
@@ -412,16 +482,25 @@ function wordOfDoors() {
       tried.push(`${w.where}: the incumbent's day has no doors on offer`);
       continue;
     }
+    if (
+      !campaignDayChoices(api, filingId, true).find((c) => c.kind === "canvass")
+        ?.available
+    ) {
+      tried.push(
+        `${w.where}: the town offers the incumbent's canvass no doors`,
+      );
+      continue;
+    }
     const message = canvassed().get(word.messageId!)!;
     return { ...w, race, holder, town, message, word, reading, calm };
   }
   throw new Error(
-    `no drawn place passed word of the challenger's doors to the incumbent in 24 draws (run seed ${runSeed}): ${tried.join("; ")}`,
+    `no drawn place passed word of the challenger's doors to the incumbent with more people telling them of a yes to the challenger than to them, in 24 draws (run seed ${runSeed}): ${tried.join("; ")}`,
   );
 }
 
 describe("word of a challenger's doors reaches the incumbent", () => {
-  it("with no poll, word from someone who knows both makes the incumbent walk more doors, and the turn keeps it by the word's id", () => {
+  it("with no poll, word sets the incumbent reading the yeses people told them; more told for the challenger makes them walk more doors, the turn keeps it by the word's id, and the same day without those yeses does not", () => {
     const {
       core,
       api,
@@ -443,6 +522,29 @@ describe("word of a challenger's doors reaches the incumbent", () => {
     expect(reading.sourceKind, where).toBe("word");
     expect(reading.rivalId, where).toBe(race.challenger.personId);
     expect(reading.rivalShare, where).toBeGreaterThan(reading.ownShare);
+    // The shares are the yeses people told the incumbent, recounted from
+    // the pledges, the relationships and the incumbent's own doors rows.
+    const campaignId = campaignFor(api, filingId).id;
+    const records = toldFromRecords(
+      api,
+      core,
+      holder.id,
+      town,
+      race.contest.id,
+      campaignId,
+    );
+    const toChallenger = records.toldTo(race.challenger.personId);
+    const toIncumbent = records.toldTo(holder.id);
+    expect(toChallenger.length, where).toBeGreaterThan(0);
+    expect(reading.toldPledgeIds, where).toEqual(
+      [...records.told.keys()].sort(),
+    );
+    expect(reading.rivalShare, where).toBe(
+      toChallenger.length / records.covered.size,
+    );
+    expect(reading.ownShare, where).toBe(
+      toIncumbent.length / records.covered.size,
+    );
     // The same incumbent on the same day, with and without the word.
     const pressed = rivalDay(api, filingId, holder, town);
     expect(calm.steppedUp, where).toBeNull();
@@ -450,6 +552,46 @@ describe("word of a challenger's doors reaches the incumbent", () => {
     expect(pressed.doorHours, `${where}: more doors`).toBeGreaterThan(
       calm.doorHours,
     );
+    // The twin: the same day, the same word, with the yeses to the
+    // challenger that were told taken away (the pledges someone in touch
+    // since held, and the challenger named on the doors rows). The threat
+    // is gone, and the day steps up nothing, so the turn keeps no row.
+    const pledges = api.moduleState(CAMPAIGNS_MODULE_ID).table("pledges");
+    const doorsTable = api.moduleState(CAMPAIGNS_MODULE_ID).table("doors");
+    const heldRows = toChallenger
+      .map((id) => pledges.get(id))
+      .filter((row) => row !== undefined);
+    const toldRows = records.doors.filter((row) =>
+      Object.values(row.told ?? {}).some((yeses) =>
+        yeses.includes(race.challenger.personId),
+      ),
+    );
+    for (const row of heldRows) pledges.remove(row.id);
+    for (const row of toldRows)
+      doorsTable.put({
+        ...row,
+        told: Object.fromEntries(
+          Object.entries(row.told ?? {}).map(([voterId, yeses]) => [
+            voterId,
+            yeses.filter((id) => id !== race.challenger.personId),
+          ]),
+        ),
+      } as unknown as ModuleRow);
+    const untold = raceReading(api, filingId, holder, town);
+    const untoldDay = rivalDay(api, filingId, holder, town);
+    for (const row of heldRows) pledges.put(row);
+    for (const row of toldRows) doorsTable.put(row as unknown as ModuleRow);
+    expect(untold?.sourceRecordId, where).toBe(word.id);
+    expect(
+      untold?.toldPledgeIds?.filter((id) => toChallenger.includes(id)),
+      where,
+    ).toEqual([]);
+    expect(
+      untold!.threat,
+      `${where}: no yeses told, no threat`,
+    ).toBeLessThanOrEqual(0);
+    expect(untoldDay.steppedUp, `${where}: no stepped-up row`).toBeNull();
+    expect(raceReading(api, filingId, holder, town), where).toEqual(reading);
     // The turn keeps the reading, naming the word, and tells it as an event.
     campaignTurn(api, filingId, race.contest.electionDate);
     const row = steppedUpOf(api, filingId).find(
@@ -462,17 +604,254 @@ describe("word of a challenger's doors reaches the incumbent", () => {
       core.eventIds.has(`${CAMPAIGN_STEPPED_UP_EVENT}:${row!.id}`),
       `${where}: the event names the row`,
     ).toBe(true);
+    // An evening of the incumbent's own doors: everyone who answers tells
+    // the campaign the yeses they hold, kept on the home's doors row, and
+    // the reading counts each told yes from those rows as it does the
+    // circle's.
+    takeCampaignDayChoice(api, filingId, "canvass", {
+      world: true,
+      hours: 400,
+    });
+    const after = toldFromRecords(
+      api,
+      core,
+      holder.id,
+      town,
+      race.contest.id,
+      campaignId,
+    );
+    const doorTold = after.doors.flatMap((door) =>
+      Object.entries(door.told ?? {}),
+    );
+    expect(doorTold.length, `${where}: residents answered`).toBeGreaterThan(0);
+    const readingAfter = raceReading(api, filingId, holder, town)!;
+    expect(readingAfter.toldPledgeIds, where).toEqual(
+      [...after.told.keys()].sort(),
+    );
+    expect(readingAfter.rivalShare, where).toBe(
+      after.toldTo(readingAfter.rivalId!).length / after.covered.size,
+    );
+    expect(readingAfter.ownShare, where).toBe(
+      after.toldTo(holder.id).length / after.covered.size,
+    );
     process.stdout.write(
       `${JSON.stringify({
         where,
         contest: race.contest.id,
         message: { id: message.id, met: message.witnessIds.length },
         word,
-        reading,
+        reading: { ...reading, toldPledgeIds: undefined },
+        covered: records.covered.size,
+        toldToChallenger: toChallenger,
+        toldToIncumbent: toIncumbent.length,
+        untold: { ...untold, toldPledgeIds: undefined },
         calm: { ...calm, steppedUp: undefined },
         pressed: { ...pressed, steppedUp: undefined },
         steppedUp: row,
+        afterCanvass: {
+          answered: doorTold.length,
+          covered: after.covered.size,
+          toldToChallenger: after.toldTo(race.challenger.personId).length,
+          toldToIncumbent: after.toldTo(holder.id).length,
+          threat: readingAfter.threat,
+        },
       })}\n`,
     );
-  }, 600_000);
+  }, 900_000);
+});
+
+/**
+ * The played world (`buildBenchWorld`, every module, the two-level
+ * population) in a drawn place, where the challenger's canvass, which
+ * reaches counted residents as a count, took yeses from some, and the
+ * incumbent's own canvass then walked the town's doors the same day, once
+ * both petitions are in. Up to six places are drawn; each passed over is
+ * named with why (no seat held, a petition out past eight months, no
+ * counted resident who said yes opening the incumbent's door).
+ */
+function countedAtTheDoor() {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const place = drawPlace(runSeed, `incumbent-counted:${attempt}`);
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    const w = {
+      core,
+      api,
+      where: `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`,
+    };
+    const race = incumbentRace(api, core);
+    if (typeof race === "string") {
+      tried.push(`${w.where}: ${race}`);
+      continue;
+    }
+    const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID);
+    // A circulating petition's doors ask for signatures, not the vote: the
+    // days pass in the world until both petitions are in, if that is within
+    // eight months (the soonest contest's, `openContests`).
+    const filingIds = [race.challenger.id, race.incumbent.id];
+    const circulating = () =>
+      filingIds.some((id) => petitionCirculating(api, id));
+    const due = filingIds
+      .map((id) => petitionOf(api, id)?.due ?? "")
+      .sort()
+      .at(-1)!;
+    const limit = addDays(makeIsoDate(core.date), 240);
+    if (circulating() && due > limit) {
+      tried.push(`${w.where}: a petition circulates until ${due}`);
+      continue;
+    }
+    if (circulating()) advanceCore(core, addDays(makeIsoDate(due), 1));
+    while (circulating() && core.date <= limit)
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const canvasses = (filingId: string) =>
+      campaignDayChoices(api, filingId, true).find((c) => c.kind === "canvass")
+        ?.available;
+    if (!canvasses(race.challenger.id) || !canvasses(race.incumbent.id)) {
+      tried.push(
+        `${w.where}: a canvass has no doors on offer on ${core.date} (petitions circulating: ${circulating()})`,
+      );
+      continue;
+    }
+    takeCampaignDayChoice(api, race.challenger.id, "canvass", {
+      world: true,
+      hours: 400,
+    });
+    const countedYeses = (
+      campaigns
+        .table("pledges")
+        .query("byCandidate", [
+          race.challenger.personId,
+        ]) as unknown as PledgeRow[]
+    ).filter(
+      (p) =>
+        p.contestId === race.contest.id && !core.people.has(p.voterId as never),
+    );
+    if (!countedYeses.length) {
+      tried.push(
+        `${w.where}: no counted resident said yes at the challenger's doors by ${core.date}`,
+      );
+      continue;
+    }
+    const campaignId = campaignFor(api, race.incumbent.id).id;
+    const toldAt = () =>
+      (
+        campaigns
+          .table("doors")
+          .query("byCampaign", [campaignId]) as unknown as DoorLike[]
+      ).flatMap((door) =>
+        Object.entries(door.told ?? {}).map(([voterId, yeses]) => ({
+          door,
+          voterId,
+          yeses,
+          counted: !core.people.has(voterId as never),
+          pledgeId: `${voterId}|${race.contest.id}|${race.challenger.personId}`,
+        })),
+      );
+    // What the incumbent's doors were told before this evening.
+    const before = new Map(
+      toldAt().map((t) => [`${t.door.id}|${t.voterId}`, t.yeses.join(",")]),
+    );
+    takeCampaignDayChoice(api, race.incumbent.id, "canvass", {
+      world: true,
+      hours: 400,
+    });
+    const told = toldAt();
+    const doors = new Set(told.map((t) => t.door.id));
+    // Told this evening: an answer the doors rows did not hold before.
+    const fresh = told.filter(
+      (t) => before.get(`${t.door.id}|${t.voterId}`) !== t.yeses.join(","),
+    );
+    const pledges = campaigns.table("pledges");
+    const counted = told.filter(
+      (t) =>
+        t.counted &&
+        t.yeses.includes(race.challenger.personId) &&
+        pledges.get(t.pledgeId) !== undefined,
+    );
+    if (!counted.length) {
+      tried.push(
+        `${w.where}: of ${countedYeses.length} counted residents who said yes to the challenger, none opened the incumbent's door (${told.length} answered it)`,
+      );
+      continue;
+    }
+    return {
+      ...w,
+      race,
+      campaignId,
+      doors,
+      told,
+      fresh,
+      counted,
+      countedYeses,
+    };
+  }
+  throw new Error(
+    `no drawn place had a counted resident who said yes to the challenger open the incumbent's door, in 6 draws (run seed ${runSeed}): ${tried.join("; ")}`,
+  );
+}
+
+describe("counted residents tell the incumbent's canvass by the same rule", () => {
+  it("a counted resident who holds a yes to the challenger and opens the incumbent's door is kept on the home's doors row, as a full person is", () => {
+    // Bookkeeping is a debug switch, off in the played world.
+    const was = setBookkeeping(false);
+    let drawn: ReturnType<typeof countedAtTheDoor>;
+    try {
+      drawn = countedAtTheDoor();
+    } finally {
+      setBookkeeping(was);
+    }
+    const {
+      api,
+      where,
+      race,
+      campaignId,
+      doors,
+      told,
+      fresh,
+      counted,
+      countedYeses,
+    } = drawn;
+    const pledges = api.moduleState(CAMPAIGNS_MODULE_ID).table("pledges");
+    // One rule for both tiers: whoever answered this evening, full or
+    // counted, told the campaign every yes they hold in the contest (nothing
+    // has changed them since, so what they told is what they hold).
+    const held = (voterId: string) =>
+      (pledges.query("byVoter", [voterId]) as unknown as PledgeRow[])
+        .filter((p) => p.contestId === race.contest.id)
+        .map((p) => p.candidateId)
+        .sort();
+    expect(fresh.length, `${where}: residents answered`).toBeGreaterThan(0);
+    for (const t of fresh)
+      expect(t.yeses, `${where}: ${t.voterId}`).toEqual(held(t.voterId));
+    // The counted resident's yes to the challenger is a pledge row they
+    // still hold, kept on the incumbent's own doors row for their home.
+    const first = counted[0]!;
+    const pledgeId = first.pledgeId;
+    expect(pledges.get(pledgeId), where).toBeDefined();
+    expect(held(first.voterId), where).toContain(race.challenger.personId);
+    expect(first.door.campaignId, where).toBe(campaignId);
+    expect(first.door.id, where).toBe(
+      `${campaignId}|${first.door.householdId}`,
+    );
+    process.stdout.write(
+      `${JSON.stringify({
+        where,
+        contest: race.contest.id,
+        countedYesesToChallenger: countedYeses.length,
+        incumbentDoors: doors.size,
+        answered: told.length,
+        answeredThisEvening: {
+          full: fresh.filter((t) => !t.counted).length,
+          counted: fresh.filter((t) => t.counted).length,
+        },
+        countedAnswered: told.filter((t) => t.counted).length,
+        countedToldChallenger: counted.length,
+        first: { door: first.door.id, pledgeId, yeses: first.yeses },
+      })}\n`,
+    );
+  }, 1_200_000);
 });
