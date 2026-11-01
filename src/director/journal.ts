@@ -237,7 +237,7 @@ function familyCategory(
  * for someone whose records put them elsewhere in it (the wider population's
  * state-level households).
  */
-function placeLabel(placeId: string | undefined): string | null {
+export function placeLabel(placeId: string | undefined): string | null {
   if (!placeId) return null;
   const place = corePlaceByJurisdictionId(placeId as never);
   if (place) return place.displayName;
