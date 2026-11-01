@@ -29,6 +29,7 @@ import { placeStateKeys } from "../places";
 import territoryPlaces from "../data/places/territory-places.json" with { type: "json" };
 import {
   NATIONAL_ENGAGEMENT,
+  townEngagementCenter,
   countPlaces,
   countedAppeal,
   countedChoice,
@@ -159,6 +160,8 @@ import {
   worldRoster,
   worldSeatParty,
   type ElectoratePlace,
+  cpsAgeBand,
+  cpsTurnout,
 } from "../electorate-places";
 import {
   appealOfShare,
@@ -1461,7 +1464,7 @@ export function turnoutReasons(
     (engagement === null
       ? 0
       : campaignParameter("turnoutEngagementWeight") *
-        (engagement - NATIONAL_ENGAGEMENT));
+        (engagement - townEngagementCenter(api.state as CoreState)));
   const state = api.state as CoreState;
   const weeklyWork = recordedWeeklyMinutes ?? weeklyWorkOf(state, voter.id);
   const cost =
@@ -1470,6 +1473,35 @@ export function turnoutReasons(
       customPolitics(state).turnout +
     extraCost;
   return { duty, cost, trait, lean };
+}
+
+/**
+ * A counted adult's habit: the same rule a named voter's own record feeds
+ * (`habitOf`), given the record people like them have: their state's CPS
+ * citizen turnout in November 2024 at their age band, over the November
+ * elections their adult years held. It is their history before the start,
+ * what they did then, not a figure the count is held to.
+ */
+export function countedHabit(
+  api: CoreAPI,
+  voter: { readonly birthDate?: string },
+  date: string,
+): number {
+  if (!voter.birthDate) return 0;
+  const age = ageOnElection(voter.birthDate, date);
+  const rate = cpsTurnout(
+    town(api).stateKey.slice(3),
+    cpsAgeBand(age),
+  )?.turnout;
+  if (rate === undefined) return 0;
+  const elections = Math.max(
+    0,
+    Math.floor(
+      (age - api.parameter("votingAge")) /
+        campaignParameter("turnoutElectionYears"),
+    ),
+  );
+  return habitOf(rate * elections, elections);
 }
 
 /** One voter's turnout on one day: its parts, the propensity, and (a named voter) the act. */
@@ -1543,7 +1575,15 @@ function decideTurnout(
     duty,
     stakes: stakesOf(input.interest),
     reach: reachOf(input.contacts),
-    habit: record ? habitOf(record.voted, record.elections) : 0,
+    habit: record
+      ? habitOf(record.voted, record.elections)
+      : named
+        ? 0
+        : countedHabit(
+            api,
+            voter as { readonly birthDate?: string },
+            input.date,
+          ),
     cost,
     pledge: campaignParameter("doorPledgeTurnoutWeight") * (input.pledged ?? 0),
   };
@@ -3361,7 +3401,7 @@ export function electorateSample(
         readiness: readinessOf({
           duty: t.duty,
           reach: 0,
-          habit: 0,
+          habit: countedHabit(api, voter, date),
           cost: t.cost,
         }),
         incumbentLean: incumbentLeanOf(api, voter),
