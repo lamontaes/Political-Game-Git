@@ -861,6 +861,18 @@ function month(api: CoreAPI): void {
 }
 
 /**
+ * Whether a counted household can move to another place now
+ * (`moveCountedHouseholdAway`): the moves engine is running and knows the
+ * town's state.
+ */
+export function countedMovesRunning(api: CoreAPI): boolean {
+  return (
+    (api.state as CoreState).modules.has(COUNTED_MOVES_MODULE_ID) &&
+    runtimeOf(api) !== undefined
+  );
+}
+
+/**
  * A counted household moves to another place now, for a cause another engine
  * recorded (an evicted household doubling up with a relative there): it
  * leaves the counts as a departure does, its people join that place's state

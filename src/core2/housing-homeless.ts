@@ -27,7 +27,10 @@ import {
   regroupHousehold,
   residentsRuntime,
 } from "./modules/residents";
-import { moveCountedHouseholdAway } from "./modules/counted-moves";
+import {
+  countedMovesRunning,
+  moveCountedHouseholdAway,
+} from "./modules/counted-moves";
 import { MemberState, type CountedHousehold } from "./counted-groups";
 import { pairKey } from "./kernel/ids";
 import { housingWorldOffset } from "./housing-prices";
@@ -266,25 +269,22 @@ function setStatus(
 }
 
 /**
- * The facts that name a counted household and its members on an event about
- * them, as a counted death names its household (births-counted.ts): its first
- * member as the subject and the others as the household that perceives it,
- * so the drives engine's counted subjects answer it by the same rule.
+ * The facts that name a counted household and its members on an event that
+ * happened to all of them (an eviction, a placement): every member is a
+ * subject, as every member of a full household is named by the event, so the
+ * drives engine answers each one by the same rule with the whole household
+ * named (`counted-subjects`).
  */
 export function countedFacts(
   householdId: string,
   memberIds: readonly PersonId[],
 ): Record<string, string> {
-  const [subject, ...others] = memberIds;
-  return subject === undefined
-    ? {}
-    : {
-        "counted-subject": subject,
+  return memberIds.length
+    ? {
         "counted-household": householdId,
-        ...(others.length
-          ? { "counted-perceivers": JSON.stringify(others) }
-          : {}),
-      };
+        "counted-subjects": JSON.stringify(memberIds),
+      }
+    : {};
 }
 
 /** Full people by the counted people they name as family, kept for one day. */
@@ -501,7 +501,16 @@ export function placeRemovedHousehold(
   const placeId = household.placeId;
   const holdsJob = household.holdsJob;
   const cash = household.cashMinor;
-  const host = hostFor(api, memberIds, household.id, placeId, !holdsJob);
+  // With no job holding them here they may go to a relative elsewhere; a
+  // counted household leaves only through the counted moves engine, so
+  // without it a relative in town, a shelter bed or the street.
+  const host = hostFor(
+    api,
+    memberIds,
+    household.id,
+    placeId,
+    !holdsJob && (!household.counted || countedMovesRunning(api)),
+  );
   const base = {
     id: household.id,
     since: c.date,
@@ -525,7 +534,8 @@ export function placeRemovedHousehold(
     };
     // With no job holding them here, they go to the relative's town: a
     // counted household leaves the counts for that place's (after its status
-    // is announced, so its members hear it while still counted).
+    // is announced, so its members hear it while still counted), at the moves
+    // engine's coarse grain (SG-WORLD-housing-counted-rent).
     if (host.placeId !== placeId && household.counted) {
       setStatus(api, row, "housed");
       moveCountedHouseholdAway(api, household.id, host.placeId, {

@@ -25,6 +25,7 @@ import {
 } from "./housing-homeless";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { drivesReport } from "./modules/drives";
 import { HOUSING_MODULE_ID, leaseHousehold } from "./modules/housing";
 import {
   householdCash,
@@ -71,6 +72,7 @@ function play(placeKey: string, worldSeed: string, months: number) {
 function checkRemovals(played: ReturnType<typeof play>): {
   removed: number;
   homeless: string[];
+  perceived: number;
 } {
   const { core, api, where, events } = played;
   const rt = residentsRuntime(core)!;
@@ -79,6 +81,7 @@ function checkRemovals(played: ReturnType<typeof play>): {
     (row) => row.counted && row.stage === "removed",
   );
   const homeless: string[] = [];
+  const subjectsOf = new Map<string, Set<string>>();
   for (const row of cases) {
     const id = row.householdId;
     const at = `${where}: ${row.id}`;
@@ -91,9 +94,13 @@ function checkRemovals(played: ReturnType<typeof play>): {
     expect(eviction, at).toBeDefined();
     expect(eviction.personIds, at).toEqual([]);
     expect(eviction.facts?.["counted-household"], at).toBe(id);
-    // Its counted members are named by the facts, as a counted death names
-    // its household: the subject and the household that perceives it.
-    expect(eviction.facts?.["counted-subject"], at).toBeDefined();
+    // Every counted member is a subject, as every member of a full household
+    // is named by its eviction.
+    const subjects = JSON.parse(
+      eviction.facts?.["counted-subjects"] ?? "[]",
+    ) as string[];
+    expect(subjects.length, at).toBeGreaterThan(0);
+    subjectsOf.set(eviction.id, new Set(subjects));
     // Placed by the same rule: a status announced the day of the removal.
     const placed = events.find(
       (event) =>
@@ -115,7 +122,22 @@ function checkRemovals(played: ReturnType<typeof play>): {
     expect(status.caseId, at).toBe(row.id);
     expect(rt.flows.get(`rent:${id}`)?.endedAt, at).toBeDefined();
     expect(housingStatusOf(api, status.memberIds[0]!), at).toBe(status.status);
+    for (const member of status.memberIds)
+      expect(subjects, `${at}: ${member}`).toContain(member);
     homeless.push(id);
+  }
+  // The drives engine answers each counted member as the eviction's subject,
+  // with the whole household named, by the rule a full household meets.
+  const perceived = drivesReport(core).decisions.filter(
+    (trace) => trace.counted && subjectsOf.has(trace.eventId),
+  );
+  for (const trace of perceived) {
+    const at = `${where}: ${trace.eventId} perceived by ${trace.personId}`;
+    expect(trace.role, at).toBe("subject");
+    expect([...subjectsOf.get(trace.eventId)!], at).toContain(trace.personId);
+    expect(trace.event.subjects, at).toEqual([
+      ...subjectsOf.get(trace.eventId)!,
+    ]);
   }
   // The town's homeless count reads the counted rows, people times weight.
   const rows = housing
@@ -134,18 +156,21 @@ function checkRemovals(played: ReturnType<typeof play>): {
         .get(homeless[0]) as unknown as HousingStatusRow)
     : undefined;
   process.stdout.write(
-    `COUNTED EVICTED ${where}: ${cases.length} counted households removed, ${homeless.length} still without a home and counted${example ? ` (e.g. ${example.id}, ${example.status} since ${example.since} after ${example.caseId})` : ""}; town ${JSON.stringify(counts)}; ${core.people.size} full people, ${rt.filledIn.size} filled in\n`,
+    `COUNTED EVICTED ${where}: ${cases.length} counted households removed (${perceived.length} perceptions, each by a member as its subject), ${homeless.length} still without a home and counted${example ? ` (e.g. ${example.id}, ${example.status} since ${example.since} after ${example.caseId})` : ""}; town ${JSON.stringify(counts)}; ${core.people.size} full people, ${rt.filledIn.size} filled in\n`,
   );
-  return { removed: cases.length, homeless };
+  return { removed: cases.length, homeless, perceived: perceived.length };
 }
 
 it("Storrs, Connecticut: an evicted counted household stays counted, is placed and counted homeless by its record, and rents again by the same rule", () => {
   const played = play("0973980", `${seed}:storrs`, 3.5);
   const { core, api, where } = played;
-  const { removed, homeless } = checkRemovals(played);
+  const { removed, homeless, perceived } = checkRemovals(played);
   // Storrs's renters fall behind from its first spring.
   expect(removed, where).toBeGreaterThan(0);
   expect(homeless.length, where).toBeGreaterThan(0);
+  expect(perceived, `${where}: counted eviction perceptions`).toBeGreaterThan(
+    0,
+  );
   const rt = residentsRuntime(core)!;
   const housing = api.moduleState(HOUSING_MODULE_ID);
 

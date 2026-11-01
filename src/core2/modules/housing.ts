@@ -2229,12 +2229,11 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
         },
       ) as unknown as ModuleRow,
     );
-  const household = c.households.get(row.householdId);
-  // A counted household is named by the event's facts, as a counted death
-  // names its household; its place is its record's.
-  const counted = household
-    ? undefined
-    : residentsRuntime(c)?.store.liveHousehold(row.householdId);
+  // A counted household is named by the event's facts and its place is its
+  // record's: the live counted record where there is one (a household
+  // returned to the counts keeps its full record too), else the full one.
+  const counted = residentsRuntime(c)?.store.liveHousehold(row.householdId);
+  const household = counted ? undefined : c.households.get(row.householdId);
   api.emit({
     id: `event:housing.eviction:${caseId}`,
     date: c.date,

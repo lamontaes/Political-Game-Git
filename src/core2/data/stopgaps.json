@@ -2729,11 +2729,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
     "line": 689,
-    "whatItFakes": "The wider population's renters pay rent from their group's money (the place's residents account, kept per group), and the arrears they run up are held per group (households of one kind in one place), not per household: which of the group's households are behind is read from the group's arrears, the ones with the least income first. A removed counted household stays counted without a home (tenure none, its record standing for the one household removed) and is placed, counted homeless and rents again from its record (CTO, Nov 1); its cash is its share of the group of households without a home it joins, shared with any other such household of that group.",
+    "whatItFakes": "The wider population's renters pay rent from their group's money (the place's residents account, kept per group), and the arrears they run up are held per group (households of one kind in one place), not per household: which of the group's households are behind is read from the group's arrears, the ones with the least income first. A removed counted household stays counted without a home (tenure none, its record standing for the one household removed) and is placed, counted homeless and rents again from its record (CTO, Nov 1); its cash is its share of the group of households without a home it joins, shared with any other such household of that group. One that doubles up with a relative in another town leaves the counts through the counted moves engine at its coarse grain: to its state's rest-of-state count when the relative's town is in the same state, to the other state's count otherwise, not to the relative's own town as a full household is relocated; without the moves engine it stays in town (a relative there, a shelter bed or the street).",
     "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so the group falls behind together; a single counted household's own shortfall is not kept.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Per-household cash for counted households, with arrears and eviction through the same legal steps; until then the group's arrears and money stand for its households'.",
+    "replacement": "Per-household cash for counted households, with arrears and eviction through the same legal steps; until then the group's arrears and money stand for its households'. Counted moves to a named town (the host's), once the counted moves engine keeps towns beyond the governing one.",
     "status": "open"
   },
   {
