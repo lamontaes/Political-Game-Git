@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-news-story-click-opens
 pr:
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-01T23:10:56.281Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, on the side column of race results: "I click on it, nothing happens." The side column's items are briefs, which by the Oct 29 briefs ruling are a headline and one line and are not clickable. But they are styled like the clickable lead story, so a click that does nothing reads as broken. Either a side item opens its story in place like the lead, or it is styled as a brief with no hover or pointer.

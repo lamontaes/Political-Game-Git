@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: lives/every-life-simulated
 pr: #7032
 blocked-on:
