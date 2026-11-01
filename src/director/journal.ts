@@ -991,11 +991,16 @@ export function composeJournal(
     moment: JournalMoment,
     facts: Facts,
   ): string | undefined => {
-    const stage = row.stageFact
-      ? core.durableLog.get(moment.causeId)?.facts?.[row.stageFact]
-      : undefined;
-    return stage !== undefined && row.stageMark && facts[row.stageMark.fact]
-      ? `${stage}:${row.stageMark.mark}`
+    const logged = core.durableLog.get(moment.causeId)?.facts;
+    const stage = row.stageFact ? logged?.[row.stageFact] : undefined;
+    if (stage !== undefined && row.stageMark && facts[row.stageMark.fact])
+      return `${stage}:${row.stageMark.mark}`;
+    // The one the record names in a fact (the executive who signed) tells
+    // it in their own words, apart from the others it names (the sponsor).
+    return stage !== undefined &&
+      row.stageSelf &&
+      logged?.[row.stageSelf.fact] === personId
+      ? `${stage}:${row.stageSelf.mark}`
       : stage;
   };
 
