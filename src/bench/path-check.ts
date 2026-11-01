@@ -71,7 +71,9 @@ type Enterable = ReturnType<typeof governmentView>["contests"][number];
  * file: no holder, a holder who has not filed and whose stand-again decision
  * on record says they will not run, or a holder with no filing in the race by
  * its filing deadline. A holder who has filed, or has neither decided on
- * record nor filed, holds it.
+ * record nor filed, holds it. The deadline branch is a guard only: the
+ * player's list (playerContests over openContests) holds no race whose
+ * filing deadline has passed.
  */
 function seatOpen(contest: ContestRow): { open: boolean; why: string } {
   const api = coreAPI(w.core);
