@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** SG-PLAY-campaign-acts-buttons: Volunteers, Donations, Endorsements, Ad, Poll, Mail and Put in your own money are still buttons on the campaign trail card. Owner (OWNER-DECISIONS, Door-knocking and every campaign act are scenes): campaign acts are scenes you go to.
+**What.** SG-PLAY-campaign-acts-buttons: Volunteers, Donations, Endorsements, Ad, Poll, Mail and Put in your own money are still buttons on the campaign trail card. Owner (OWNER-DECISIONS, Door-knocking and every campaign act are scenes): campaign acts are scenes you go to. The owner's words: "Door-knocking and every campaign act are scenes... Scenes are the game. They're the narrative." The doors, event, forum, interview, calls, donor meeting, speech and debate already start their scenes from the campaign trail card in Travel (play-first-13-campaign-screen-to-mock-b); these seven are the ones that do not yet.
 
 **Rules.** Scene standard: a scene writes something back. One engine: each act keeps its existing handler and record; only how it starts changes. Replace, never layer: the button and the stopgap are deleted with each scene. Review: words.
 
