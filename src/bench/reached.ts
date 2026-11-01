@@ -4,6 +4,7 @@ import type { FilingRow } from "../core2/modules/elections";
 import type { BallotRow } from "../core2/modules/voting";
 import type { BillRow } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
+import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { votesOf } from "../core2/modules/people";
 import { storyOfReadEvent } from "../core2/modules/news";
@@ -23,13 +24,14 @@ export interface TookEffectFacts {
  * and was read by no one yields nothing, so the step is not reached.
  */
 export function townReads(
-  enacted: readonly { id: string; number: number | string }[],
+  enacted: readonly { id: string }[],
   tookEffect: readonly TookEffectFacts[],
   readers: (facts: TookEffectFacts) => readonly { personId: string }[],
+  madeBy: (lawId: string, billId: string) => boolean,
 ): string[] {
   return enacted.flatMap((bill) =>
     tookEffect
-      .filter((facts) => facts.lawId.endsWith(`:${bill.number}`))
+      .filter((facts) => madeBy(facts.lawId, bill.id))
       .flatMap((facts) =>
         readers(facts).map(
           (row) => `${bill.id}:${facts.lawId}:${row.personId}`,
@@ -50,6 +52,16 @@ export function reachedSteps(
 ) {
   const api = coreAPI(core);
   const out: { step: number; recordIds: string[] }[] = [];
+  // Whether a bill made a law: the law row carries the bill's id. A number
+  // is no key, since two bodies each number their first bill of a year alike.
+  const laws = has(core, LAWS_MODULE_ID)
+    ? api.moduleState(LAWS_MODULE_ID).table("laws")
+    : null;
+  const madeBy = (lawId: string, billId: string) =>
+    (
+      laws?.get(lawId) as unknown as
+        { terms?: { enactedByBill?: unknown } } | undefined
+    )?.terms?.enactedByBill === billId;
   const everyFiling = has(core, "core2-elections-v1")
     ? (api
         .moduleState("core2-elections-v1")
@@ -121,7 +133,7 @@ export function reachedSteps(
     const enacted = bills.filter(
       (b) =>
         (b.status === "enacted" || b.status === "overridden") &&
-        tookEffect.some((lawId) => lawId.endsWith(`:${b.number}`)),
+        tookEffect.some((lawId) => madeBy(lawId, b.id)),
     );
     // Step 9, the town visibly changes: an event is a record, not an effect.
     // The step counts only when law reach (another engine) read the law and
@@ -130,6 +142,7 @@ export function reachedSteps(
       enacted,
       tookEffectFacts as readonly TookEffectFacts[],
       (facts) => reachedBy(api, facts.series ?? "", facts.lawId),
+      madeBy,
     );
     if (read.length) out.push({ step: 9, recordIds: read });
     // Step 10, people bring it up: the town's press printed the law taking
@@ -137,7 +150,7 @@ export function reachedSteps(
     if (enacted.length && has(core, PRESS_MODULE_ID)) {
       const stories = enacted.flatMap((b) =>
         tookEffect
-          .filter((lawId) => lawId.endsWith(`:${b.number}`))
+          .filter((lawId) => madeBy(lawId, b.id))
           .flatMap(
             (lawId) =>
               api
@@ -178,7 +191,7 @@ export function reachedSteps(
               core.durableLog.get(id) as
                 { date: string; facts?: { lawId?: string } } | undefined,
           )
-          .filter((e) => e?.facts?.lawId?.endsWith(`:${b.number}`))
+          .filter((e) => madeBy(e?.facts?.lawId ?? "", b.id))
           .map((e) => e!.date)
           .sort()[0] ?? null;
       for (const b of enacted) {

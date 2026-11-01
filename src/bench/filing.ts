@@ -5,7 +5,6 @@ import {
   filingOfficeFor,
   openContests,
   playerContests,
-  petitionOf,
   type RequirementCheck,
 } from "../core2/modules/elections";
 import {
@@ -18,7 +17,6 @@ import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
   counterNarration,
-  filedAtCounter,
   openFilingVisit,
   pickContest,
   type FilingVisit,
@@ -237,15 +235,10 @@ export function chooseAtCounter(
       text: choice.text,
       sourceRecordIds: choice.sourceRecordIds,
     });
-    // The clerk says what comes next from the petition opened with the filing.
-    const petition =
-      result.status === "refused" ? null : petitionOf(api, result.filing.id);
-    const visit = filedAtCounter(
-      core,
-      { ...state.visit, choices: [] },
-      petition,
-    );
-    return { ...state, visit, result };
+    // What the petition asks is the clerk's next scene, staged from the
+    // filing's record by the director (the `filing` situation type), so the
+    // clerk says it once.
+    return { ...state, visit: { ...state.visit, choices: [] }, result };
   }
   return { ...state, visit: { ...state.visit, choices: [] } };
 }
