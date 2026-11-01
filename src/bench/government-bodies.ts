@@ -167,15 +167,16 @@ export function recentVotesOf(api: Api, officeId: string) {
       const votes = all.filter((v) => v.stance.question === question);
       const date = votes.reduce((d, v) => (v.date > d ? v.date : d), "");
       const bill = bills?.get(billId) as unknown as BillRow | undefined;
-      // This term's bill: the floor's own count, and the body carried it when
-      // more voted yes than no.
+      // This term's bill: the floor's own count, and whether the body
+      // carried it, as the floor decided (a tie broken against it or a
+      // cloture shortfall fails a bill more voted for).
       const counted = bill ? floorCountOf(api, billId, officeId) : null;
       // A past measure: voters split by the sign of their stance on the
       // measure's question; the side that carried a passed measure is its yes.
       const plus = votes.filter((v) => v.stance.position > 0).length;
       const minus = votes.length - plus;
       const passed = counted
-        ? counted.yes > counted.no
+        ? counted.carried
         : votes.some((v) => v.passed === true);
       const larger = Math.max(plus, minus);
       const smaller = Math.min(plus, minus);
