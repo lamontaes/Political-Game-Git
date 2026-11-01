@@ -389,11 +389,14 @@ function conditionsOf(core: CoreState): Conditions {
 
 /**
  * A household's monthly income from its records: its living members' open
- * jobs and recorded income awards, before taxes. The one reader of what a
- * household lives on: moves weighs its rent or mortgage against it, and
- * campaigns' `giftBudget` reads what is left of it after the taxes and the
- * bills. `wages` is each open job's monthly pay by member, the pay payroll
- * withholds taxes from (budgets' `withholdingOnPay`), over `monthDays` days.
+ * jobs and recorded income awards, before taxes. Moves weighs its rent or
+ * mortgage against it, and campaigns' `giftBudget` reads what is left of it
+ * after the taxes and the bills. It is not the only reader of a household's
+ * income: residents (a counted household's yearly income), housing (the
+ * opening's yearly pay from current jobs) and credit (`monthlyIncome`, pay
+ * as a lender counts it) read their own. `wages` is each open job's monthly
+ * pay by member, the pay payroll withholds taxes from (budgets'
+ * `withholdingOnPay`), over `monthDays` days.
  */
 export function householdIncome(
   api: CoreAPI,
