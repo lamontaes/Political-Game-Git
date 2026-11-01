@@ -5,12 +5,13 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/campaign-money-calibrated
 pr:
 blocked-on:
 source: governing lead, Nov 1 (the money unit of campaign-like-real-races, phase A of docs/work-orders/governing-2026-10-29.md)
 lead: governing
+claimed-at: 2026-11-01T21:33:42.974Z
 ---
 
 **What.** In played runs a council campaign raised $12 to $258 over 4 to 21 weeks of weekly donor-call evenings, so the player could not pay for a forum (campaign $59, venue $347.55). The donor's answer (`donationAnswer` and `giftBudget` in src/core2/modules/campaigns.ts) asked for cash beyond a cushion of living costs and never read the month's income. Make a gift come from what the donor has to spare in the month after taxes and bills, plus a small share of savings, sized by their warmth to the candidate, and calibrate it to local campaign finance: call time yields about $290 an hour (75 to 720), mean contribution $144 (72 to 288), median $50 (26 to 125).
