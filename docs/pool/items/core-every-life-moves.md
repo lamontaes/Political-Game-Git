@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lives/every-life-simulated
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T18:15:06.052Z
 ---
 
 **What.** Unit 1 of core-every-life-simulated (owner, Nov 1: every life is simulated). People of the inactive tier living in a real place outside the played town (the relatives every resident has elsewhere, and town leavers after they leave) are skipped by the moves engine, so they never move. They join its monthly review: the same pull at their stage of life and their state's ACS rate, the same chooser, holds read where they live. A move writes the same person.moved-away record, witnessed by their relatives in town.
