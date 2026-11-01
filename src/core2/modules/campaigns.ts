@@ -416,7 +416,7 @@ export const CAMPAIGNS_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       campaigns: { indexes: { byContest: { fields: ["contestId"] } } },
-      /** Each household a campaign's doors reached, one row each. */
+      /** Each household a campaign's doors reached, one row each, kept until its race closes (`closeRace`; the campaign row keeps the counts). */
       doors: { indexes: { byCampaign: { fields: ["campaignId"] } } },
       impressions: {
         indexes: {
@@ -435,7 +435,12 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       /** Folded causes a voter's known fact still names as its source, kept for the trace. */
       foldedCauses: {},
       promises: { indexes: { byCandidate: { fields: ["candidateId"] } } },
-      /** Each resident's "yes" at a campaign's door, one row a voter and candidate in a contest. */
+      /**
+       * Each resident's "yes" at a campaign's door, one row a voter and
+       * candidate in a contest, kept while the contest is open: a closed
+       * contest's rows go at its close, after its candidates' causes fold
+       * (`closeRace`), and a voter's yes in a race still open stays.
+       */
       pledges: {
         indexes: {
           byVoter: { fields: ["voterId"] },
@@ -454,13 +459,22 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       races: {},
       /**
        * Each paid message's reach, by contest, for word of it passed on, kept
-       * while `rivalWordPassedOn` can read it (`foldRivalWord`). Rows are put
-       * only by `emitMessage`, which keeps each contest's latest message date
-       * (`latestMessageDates`); a fold may remove rows, and any other writer
-       * must drop that record (`latestMessages.delete`) after it writes.
+       * while it is newer than `rivalWordDays` back, the window
+       * `rivalWordPassedOn` reads (a closed race's last week included); at
+       * each campaign turn an older row goes (`foldRivalWord`). `emitMessage`
+       * stays the only writer, and keeps each contest's latest message date
+       * (`latestMessageDates`); a row the fold removes lowers the table's
+       * size, so that record is filled again from the rows. Any other writer
+       * must drop the record (`latestMessages.delete`) after it writes.
        */
       messages: { indexes: { byContest: { fields: ["contestId"] } } },
-      /** Word of a rival's message passed to a candidate, one row each, kept while `rivalWordPassedOn` or `raceReading` can read it (`foldRivalWord`). */
+      /**
+       * Word of a rival's message passed to a candidate, one row each, kept
+       * while it is newer than `rivalWordDays` back (`rivalWordPassedOn`
+       * reads it there), and after that only while it is the candidate's
+       * newest word in a race still under way (`raceReading`); at each
+       * campaign turn any other row goes (`foldRivalWord`).
+       */
       rivalWord: { indexes: { byCandidate: { fields: ["candidateId"] } } },
       /** Each reading of the race that made a world candidate campaign harder, one row each. */
       steppedUp: { indexes: { byFiling: { fields: ["filingId"] } } },
@@ -5849,8 +5863,8 @@ const contestsSeen = new WeakMap<object, number>();
  * filed to election day, and every candidate's volunteers, the player's
  * included, weigh an evening of doors (`volunteerShifts`). Races are noted
  * when their contest appears (the contests table read only when it has
- * grown) and dropped once decided, and word no reader can reach again goes
- * (`foldRivalWord`).
+ * grown) and closed once decided (`closeRace`), and word no reader can reach
+ * again goes (`foldRivalWord`).
  */
 function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "campaign-turn") return;
@@ -5880,17 +5894,10 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     }[]
   ).slice()) {
     if (race.electionDate < date) {
-      // Once its election day has passed, a race's door rows have no reader:
-      // the campaign row keeps its door counts (governing lead, Oct 30). Every
-      // filing of the contest goes, by its id, so no campaign row is made.
-      // Its messages and word go as they leave word's window
-      // (`foldRivalWord`, after the races are worked).
-      const doors = table(api, "doors");
-      for (const filing of elections(api, "filings").query("byContest", [
-        race.id,
-      ]) as unknown as { id: string }[])
-        for (const row of doors.query("byCampaign", [filing.id]))
-          doors.remove(row.id);
+      // Once its election day has passed, a race's door rows and pledges
+      // have no reader (`closeRace`). Its messages and word go as they leave
+      // word's window (`foldRivalWord`, after the races are worked).
+      closeRace(api, race.id);
       races.remove(race.id);
       continue;
     }
@@ -5922,6 +5929,37 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     }
   }
   foldRivalWord(api);
+}
+
+/**
+ * A decided race's rows that only the race read go once its election day has
+ * passed (governing lead, Oct 30 and Nov 1): its door rows (the campaign row
+ * keeps its door counts) and its pledges, the "yes" voters gave at its doors,
+ * which the ballot read on election day. Every filing of the contest is read
+ * by its id, so no campaign row is made. The candidates' causes fold first
+ * (`foldCauses`), so a cause a pledge names as its visit moves to
+ * `foldedCauses` before the pledge goes. Only this contest's pledges go, by
+ * their contest: a voter's yes in another race still open stays. Its
+ * messages and word are not touched here: a filing stays on the ballot after
+ * the count, so word of it may still pass on (`foldRivalWord`).
+ */
+export function closeRace(api: CoreAPI, contestId: string): void {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
+  const filings = elections(api, "filings").query("byContest", [
+    contestId,
+  ]) as unknown as { id: string; personId: string }[];
+  const doors = table(api, "doors");
+  for (const filing of filings)
+    for (const row of doors.query("byCampaign", [filing.id]))
+      doors.remove(row.id);
+  const candidateIds = new Set(filings.map((f) => f.personId));
+  foldCauses(api, candidateIds);
+  const pledges = table(api, "pledges");
+  for (const candidateId of candidateIds)
+    for (const row of pledges.query("byCandidate", [
+      candidateId,
+    ]) as unknown as PledgeRow[])
+      if (row.contestId === contestId) pledges.remove(row.id);
 }
 
 /**
