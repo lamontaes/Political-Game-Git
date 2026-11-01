@@ -96,6 +96,14 @@ const runSeed =
     .digest("hex");
 /** Places drawn, each on its own salt, before the test gives up. */
 const DRAWS = 8;
+/**
+ * Places the group case draws before it gives up. Few towns hold a group
+ * member who could file in the race and has reason to give its campaign their
+ * evenings (most draws find only a party's members, who have none), so it
+ * searches wider: a draw it passes over costs about two seconds (Checker 4,
+ * Nov 1: 0 of 8 on four fresh seeds; one seed needed 32 draws).
+ */
+const GROUP_DRAWS = 96;
 /** Hours two residents spend together so each has a tie to the other. */
 const TIME_TOGETHER = 40;
 /** Hours a candidate spends telling someone they filed, so word of it has reached them (`offersToHelp` reads the tie's last contact). */
@@ -828,7 +836,7 @@ describe("a candidate never helps a rival in their own race", () => {
       let speaker: string | null = null;
       for (
         let salt = 0;
-        salt < DRAWS && (member === null || speaker === null);
+        salt < GROUP_DRAWS && (member === null || speaker === null);
         salt += 1
       ) {
         // The twin where nobody else runs: the group backs the candidate on
@@ -924,6 +932,9 @@ describe("a candidate never helps a rival in their own race", () => {
         } else if (speaker === null)
           tried.push(`${label}: its speaker could not file`);
       }
+      console.log(
+        `group case: ${tried.length} draws passed over\n${tried.join("\n")}`,
+      );
       expect(
         member,
         `no draw had a group send a member who could file:\n${tried.join("\n")}`,
