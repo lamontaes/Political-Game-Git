@@ -7822,5 +7822,23 @@
       "unit": "share of the sourced volume",
       "citation": "FDIC 2023 survey, Table 5.2, payday loan use 2019 (1.5) against 2021 and 2023 (1.1); Pew 2012, Exhibit 8, 6.3 against 6.6 percent between regulatory types."
     }
+  },
+  "traitWeightPeoplePartner": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the people.partner decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPeoplePart": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the people.part decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
   }
 }
