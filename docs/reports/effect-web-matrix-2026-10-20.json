@@ -892,7 +892,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:565, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "pass",
@@ -1427,7 +1427,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:565, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -2252,7 +2252,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947"
+          "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2961, src/core2/modules/jobs.ts:2970, src/core2/modules/jobs.ts:2999, src/core2/modules/jobs.ts:3001, src/core2/modules/jobs.ts:3023, src/core2/modules/jobs.ts:3025"
         },
         "varied": {
           "status": "fail",
@@ -3422,7 +3422,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:930"
+          "evidence": "src/core2/modules/counted-moves.ts:567, src/core2/modules/moves.ts:930"
         },
         "varied": {
           "status": "pass",
@@ -3469,7 +3469,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/housing-homeless.ts:404",
+          "evidence": "outcome read by src/core2/housing-homeless.ts:412",
           "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
@@ -3509,7 +3509,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2219, src/core2/modules/moves.ts:78 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3557,7 +3557,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2219, src/core2/modules/moves.ts:78 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3614,7 +3614,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229"
+          "evidence": "src/core2/births-counted.ts:412, src/core2/births-counted.ts:415, src/core2/births-counted.ts:906, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -3660,7 +3660,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229"
+          "evidence": "src/core2/births-counted.ts:412, src/core2/births-counted.ts:415, src/core2/births-counted.ts:906, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -3853,7 +3853,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:28, src/core2/modules/jobs.ts:2881, src/core2/modules/jobs.ts:2890"
+          "evidence": "src/core2/jobs-web.ts:28, src/core2/modules/jobs.ts:2959, src/core2/modules/jobs.ts:2968"
         },
         "varied": {
           "status": "pass",
@@ -3899,7 +3899,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1822"
+          "evidence": "src/core2/modules/jobs.ts:1823"
         },
         "varied": {
           "status": "pass",
@@ -4045,7 +4045,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229"
+          "evidence": "src/core2/births-counted.ts:412, src/core2/births-counted.ts:415, src/core2/births-counted.ts:906, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -4237,7 +4237,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229",
+          "evidence": "outcome read by src/core2/births-counted.ts:412, src/core2/births-counted.ts:415, src/core2/births-counted.ts:906, src/core2/births-plan.ts:229",
           "why": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
@@ -4384,7 +4384,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229"
+          "evidence": "src/core2/births-counted.ts:412, src/core2/births-counted.ts:415, src/core2/births-counted.ts:906, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -4526,7 +4526,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2889"
+          "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2958, src/core2/modules/jobs.ts:2967"
         },
         "varied": {
           "status": "fail",
@@ -5775,7 +5775,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78"
+          "evidence": "src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2219, src/core2/modules/moves.ts:78"
         },
         "varied": {
           "status": "fail",
@@ -5822,7 +5822,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:404"
+          "evidence": "src/core2/housing-homeless.ts:412"
         },
         "varied": {
           "status": "fail",
@@ -6058,7 +6058,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2889"
+          "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2958, src/core2/modules/jobs.ts:2967"
         },
         "varied": {
           "status": "fail",
@@ -6483,7 +6483,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947"
+          "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2961, src/core2/modules/jobs.ts:2970, src/core2/modules/jobs.ts:2999, src/core2/modules/jobs.ts:3001, src/core2/modules/jobs.ts:3023, src/core2/modules/jobs.ts:3025"
         },
         "varied": {
           "status": "fail",
@@ -6720,7 +6720,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:404"
+          "evidence": "src/core2/housing-homeless.ts:412"
         },
         "varied": {
           "status": "fail",
@@ -6767,7 +6767,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:29, src/core2/modules/jobs.ts:2882, src/core2/modules/jobs.ts:2891, src/core2/modules/jobs.ts:2911"
+          "evidence": "src/core2/jobs-web.ts:29, src/core2/modules/jobs.ts:2960, src/core2/modules/jobs.ts:2969, src/core2/modules/jobs.ts:2989"
         },
         "varied": {
           "status": "pass",
@@ -7660,7 +7660,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229"
+          "evidence": "src/core2/births-counted.ts:412, src/core2/births-counted.ts:415, src/core2/births-counted.ts:906, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "fail",
@@ -8606,7 +8606,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:404"
+          "evidence": "src/core2/housing-homeless.ts:412"
         },
         "varied": {
           "status": "fail",
@@ -8653,7 +8653,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:404"
+          "evidence": "src/core2/housing-homeless.ts:412"
         },
         "varied": {
           "status": "partial",
@@ -8700,7 +8700,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:404"
+          "evidence": "src/core2/housing-homeless.ts:412"
         },
         "varied": {
           "status": "fail",
@@ -9512,7 +9512,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1823"
+          "evidence": "src/core2/modules/jobs.ts:1824"
         },
         "varied": {
           "status": "pass",
@@ -9746,7 +9746,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:565, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9793,7 +9793,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:565, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9840,7 +9840,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:565, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9887,7 +9887,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:565, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -9934,7 +9934,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925"
+          "evidence": "src/core2/modules/counted-moves.ts:565, src/core2/modules/moves.ts:925"
         },
         "varied": {
           "status": "fail",
@@ -10265,7 +10265,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1823"
+          "evidence": "src/core2/modules/jobs.ts:1824"
         },
         "varied": {
           "status": "fail",
@@ -10551,7 +10551,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1823"
+          "evidence": "src/core2/modules/jobs.ts:1824"
         },
         "varied": {
           "status": "fail",
@@ -11841,7 +11841,7 @@
     {
       "measure": "births.rate",
       "status": "engine-reads-web",
-      "evidence": "src/core2/births-counted.ts:369, src/core2/births-counted.ts:372, src/core2/births-counted.ts:818, src/core2/births-plan.ts:229",
+      "evidence": "src/core2/births-counted.ts:412, src/core2/births-counted.ts:415, src/core2/births-counted.ts:906, src/core2/births-plan.ts:229",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12772,7 +12772,7 @@
     {
       "measure": "housing.eviction",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78",
+      "evidence": "src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2219, src/core2/modules/moves.ts:78",
       "countedTwice": false,
       "asCause": ["eviction-to-homelessness", "eviction-to-hospital-visits"],
       "asOutcome": [
@@ -12802,7 +12802,7 @@
     {
       "measure": "housing.homelessness",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-homeless.ts:404",
+      "evidence": "src/core2/housing-homeless.ts:412",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12867,7 +12867,7 @@
     {
       "measure": "housing.renter-moves",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:930",
+      "evidence": "src/core2/modules/counted-moves.ts:567, src/core2/modules/moves.ts:930",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["rent-control-to-tenant-stays"]
@@ -13013,7 +13013,7 @@
     {
       "measure": "labor.low-wage-jobs",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2883, src/core2/modules/jobs.ts:2892, src/core2/modules/jobs.ts:2921, src/core2/modules/jobs.ts:2923, src/core2/modules/jobs.ts:2945, src/core2/modules/jobs.ts:2947",
+      "evidence": "src/core2/jobs-web.ts:30, src/core2/modules/jobs.ts:2961, src/core2/modules/jobs.ts:2970, src/core2/modules/jobs.ts:2999, src/core2/modules/jobs.ts:3001, src/core2/modules/jobs.ts:3023, src/core2/modules/jobs.ts:3025",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13024,7 +13024,7 @@
     {
       "measure": "labor.married-women-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:28, src/core2/modules/jobs.ts:2881, src/core2/modules/jobs.ts:2890",
+      "evidence": "src/core2/jobs-web.ts:28, src/core2/modules/jobs.ts:2959, src/core2/modules/jobs.ts:2968",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["broadband-to-married-women-work"]
@@ -13032,7 +13032,7 @@
     {
       "measure": "labor.median-earnings",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1823",
+      "evidence": "src/core2/modules/jobs.ts:1824",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13068,7 +13068,7 @@
     {
       "measure": "labor.mothers-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2880, src/core2/modules/jobs.ts:2889",
+      "evidence": "src/core2/jobs-web.ts:27, src/core2/modules/jobs.ts:2958, src/core2/modules/jobs.ts:2967",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13079,7 +13079,7 @@
     {
       "measure": "labor.older-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:29, src/core2/modules/jobs.ts:2882, src/core2/modules/jobs.ts:2891, src/core2/modules/jobs.ts:2911",
+      "evidence": "src/core2/jobs-web.ts:29, src/core2/modules/jobs.ts:2960, src/core2/modules/jobs.ts:2969, src/core2/modules/jobs.ts:2989",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["retirement-age-to-older-work"]
@@ -13136,7 +13136,7 @@
     {
       "measure": "labor.wages",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1822",
+      "evidence": "src/core2/modules/jobs.ts:1823",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13255,7 +13255,7 @@
     {
       "measure": "population.out-migration",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:925",
+      "evidence": "src/core2/modules/counted-moves.ts:565, src/core2/modules/moves.ts:925",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
