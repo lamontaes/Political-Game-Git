@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-creator-town-count-is-the-worlds
 pr: #7064
 blocked-on:
