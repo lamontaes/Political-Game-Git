@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lives/partners-town
 pr:
 blocked-on:
 after: core-household-membership-change
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-01T23:28:36.730Z
 ---
 
 **What.** A partnered pair of full people separates when strain between them, their closeness and their money make staying worse for at least one of them, and one partner moves out of the shared home. The core can already do both halves but nothing calls them in play: setPartnersV1 with together false (src/core2/state.ts, around line 1764) closes the partner link, writes a family:former-partner fact for each person and emits family.separated, and changeHouseholdV1 moves a person into a new household with the lease payers following (done item core-household-membership-change). So no partnership ends in a played year, and the director's broke-up and separated scenes (src/director/data/situation-types.json, marked awaitingProducer) have no record to wait on. The owner's Oct 19 pairing ruling (docs/coordination/OWNER-DECISIONS.md, Pairing) says who pairs reads each person's own record, including orientation, so the ending rule must not assume the pair is a woman and a man. Which existing record carries the strain, and whether the law data holds a divorce rule to read (no question with those words was found in data/research/laws/starting-law-2026; the bill catalog has a Marriage, divorce and custody menu), are not yet known and the worker must name them.

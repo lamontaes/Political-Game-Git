@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/clerk-visit
 pr:
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 23:05 UTC (third batch, a Massachusetts life)
 lead: words
 milestone: play-first
+claimed-at: 2026-11-01T23:25:11.139Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, on the first line at the clerk's counter: "You come in with your forms in a folder. Jennifer Rosales, the city clerk, is the one behind the counter. The one behind the counter is weird. Also, how do you know why I came here with my forms in a folder? That would make sense if I was coming back with like the signature stuff, but you know, I used to work at the county clerk's office. You filled out the forms there." On a first visit a resident picks up or fills out the papers at the counter; only a return visit brings signed papers back. The narration reads the player's filing record to know which visit it is, and names the clerk naturally.
