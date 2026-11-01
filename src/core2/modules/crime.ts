@@ -246,7 +246,13 @@ function countedUnits(api: CoreAPI, placeId: string): Unit[] {
         households *
         householdExposure(
           group.incomeBand,
-          group.tenure === "rent" ? "rent" : "own",
+          // Without a home, neither renter's nor owner's exposure (as a full
+          // household's removed dwelling reads).
+          group.tenure === "rent"
+            ? "rent"
+            : group.tenure === "none"
+              ? undefined
+              : "own",
           group.kind,
         ),
       violentExposure: violent,
