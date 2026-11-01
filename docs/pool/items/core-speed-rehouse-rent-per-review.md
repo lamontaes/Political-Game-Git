@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-rehouse-rent
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T18:05:35.632Z
 ---
 
 **What.** The monthly check of households without a home rebuilt the town's homes, rents and jobs once per household to find the typical rent. Storrs, Connecticut spent 58 seconds on this in its first year and 100 seconds in its second. The check should read the rents alone and keep the figure until it writes something. Found in a profile of Storrs, Connecticut (key 0973980), the Every place nightly's slowest place (530 s, then 1,075 s a year).
