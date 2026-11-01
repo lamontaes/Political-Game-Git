@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-second-filing-for-player
 pr: #6967
 blocked-on:
