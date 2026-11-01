@@ -266,7 +266,7 @@ const EVENING_AHEAD = new Set([
   "scene-talk.follow-refuse.then-you-ll-be-speaking-alone-tonight-i-ll-speak-when-the-count-is-fin",
   "scene-talk.close-press.think-about-it-tonight-we-re-out-of-time",
   "scene-talk.follow-comfort.take-it-easy-tonight",
-  "scene-talk.follow-thank.then-we-start-tonight-where-do-you-keep-your-contacts",
+  "scene-talk.follow-thank.then-we-start-tonight-bring-me-your-contact-list",
 ]);
 describe("the time of day in scene talk", () => {
   const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;
@@ -304,6 +304,32 @@ describe("the time of day in scene talk", () => {
       return !part || !evening.test(part.text) || heldBack(part, "daytime");
     });
     expect(stale).toEqual([]);
+  });
+});
+
+// A follow that ends the scene (the director's terminal follows: a thank or
+// an accept) never asks a question: nothing answers it, and the scene would
+// end on it ("Then we start tonight. Where do you keep your contacts?").
+describe("the line that ends a scene", () => {
+  const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;
+  const terminal: readonly string[] = JSON.parse(
+    readFileSync(
+      path.join(__dirname, "../src/director/data/scene-talk-rules.json"),
+      "utf8",
+    ),
+  ).terminalFollow;
+  type Use = { step?: string; move?: string };
+  it("asks no question where it ends the talk", () => {
+    const asking = (sceneTalk.parts as (Part & { uses: Use[] })[])
+      .filter(
+        (part) =>
+          /\?\s*$/.test(part.text) &&
+          part.uses.some(
+            (use) => use.step === "follow" && terminal.includes(use.move ?? ""),
+          ),
+      )
+      .map((part) => `${part.key}: ${part.text}`);
+    expect(asking).toEqual([]);
   });
 });
 
