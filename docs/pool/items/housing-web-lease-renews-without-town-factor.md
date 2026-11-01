@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/housing-web.test.ts; src/core2/modules/housing.ts (renewRentalLeases)
 
-**Notes.** TODO
+**Notes.** Nov 1, 20:45 UTC (speed lead): a second seed, the same failure on clean main 8712646f8f: WEB_HOUSING_SEED=38096aba2bd718a2 draws Felton, Delaware, and fails with 'lease:household_469542be0d124e00: expected 1 to be close to 1.05'. It fails the same way on speed/evicted-stay-counted before and after its merge of main, so it is not that PR's. Probable cause, from renewRentalLeases (src/core2/housing-occupancy.ts): webChange is the town's factor over the factor stored on the lease's first renewals row, so a lease first recorded after the web shift (a lease signed during the run) reads 1.05 over 1.05.
