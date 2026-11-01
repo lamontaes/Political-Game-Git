@@ -41,6 +41,7 @@ When the CTO moves a PR between two checkers, it tells both. A checker already m
 
 - The PR number and the head SHA it is about, the place and seed of any failure, and the exact ask.
 - What you did and what is left, in one or two sentences. Not the whole log: that goes in the PR comment.
+- A builder's hand-off to its checker names the branch and head, what changed in one sentence, the heavy test with the seed variables that replay its proof place (for example `LENDERS_PLACE` and `LENDERS_WORLD_SEED`) and how long one run takes, what the builder did not run, and that the checker is now the branch's one writer.
 - A ruling you relay names where it is recorded (`OWNER-DECISIONS.md`, with its date and time).
 
 ## A process is a skill
