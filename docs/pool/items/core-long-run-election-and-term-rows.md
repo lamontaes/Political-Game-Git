@@ -17,7 +17,7 @@ claimed-at: 2026-11-01T22:53:56.640Z
 
 **Rules.** Speed (owner, Oct 29; OWNER-DECISIONS Oct 30 01:55): years 97 to 100 of a save hold at most 1.2 times the records of years 1 to 4, and old records fold into summaries once play no longer reads them. Folds are built once each reader's window is agreed with its owner (CTO, Oct 30 04:14): the laws lead owns the world's governing, the governing lead owns voting and the player's path. The world has a past (owner): officials keep voting records and the prior election exists, so what running on the record reads must stay.
 
-**Done when.** A reader map names every reader of offices.terms, voting places, returns, results and races with file and line and its window; each owner agrees a window in writing; and a four-year run of the played world (npm run speed:year -- --seed 905132a2f8984748 --years 4, Kirkman, Iowa) on main and the branch keeps dev mode's records proof identical in every table except the folded ones, with records at year 4 within 10% of main before PR #7020 (367,386) and the row counts in the PR body.
+**Done when.** A reader map names every reader of offices.terms, voting places, returns, results and races with file and line and its window; each owner agrees a window in writing; and a four-year run of the played world (npm run speed:year -- --seed 905132a2f8984748 --years 4, Kirkman, Iowa) on main and the branch keeps dev mode's records proof identical in every table except the folded ones, with records at year 4 within 10% of main before every legislature was seated (367,386 at main cc464cc9ce's first parent) and the row counts in the PR body.
 
 **Files.** src/core2/modules/offices.ts,src/core2/modules/voting.ts
 
