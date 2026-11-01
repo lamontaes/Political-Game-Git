@@ -4073,7 +4073,7 @@ const sheets = {
         : branch === "executive" || !body
           ? executiveView(v.executive, level)
           : lawmakingView(body, v.executive, level, v.state.key);
-      return splitScreen({
+      const screenNode = splitScreen({
         className: "government-screen",
         controls: [
           levels,
@@ -4083,6 +4083,25 @@ const sheets = {
         main: [...bodyTabs, ...view.main],
         side: view.side,
       });
+      // The panel never scrolls: once on screen, the members' pager gives up rows until what the
+      // window holds fits (a long office title or a big body takes room the rows were counted
+      // without).
+      window.requestAnimationFrame(() => {
+        const body = $("sheet-body");
+        for (const pageBox of screenNode.querySelectorAll(".members-pager")) {
+          while (
+            body.scrollHeight > body.clientHeight + 1 &&
+            pageBox.rowCount() > 1
+          )
+            pageBox.setRows(pageBox.rowCount() - 1);
+        }
+        // A big body on a short window still too tall: its seat picture gives way (the party
+        // split bar above it says the same count).
+        if (body.scrollHeight > body.clientHeight + 1)
+          for (const chart of screenNode.querySelectorAll(".seat-chart"))
+            chart.hidden = true;
+      });
+      return screenNode;
     };
     return [await screen()];
   },
