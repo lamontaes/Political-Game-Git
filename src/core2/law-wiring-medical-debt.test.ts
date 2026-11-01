@@ -35,14 +35,18 @@
  *     billed place, the town and the places around it, holds as many employer
  *     policyholders in both worlds.
  *
- * Each part is read in the first drawn place that can show it (a full town
- * household with a serious illness under way is rare, and a twin's own
- * lawmakers may enact the expansion again); a place that cannot is passed
- * over with its reason, and the next is drawn.
+ * Each part has its own draws and is read in the first drawn place that can
+ * show it; a place that cannot is passed over with its reason, and the next
+ * is drawn. Part (a) needs no twin: each draw is one world, the town as
+ * built with no law changed, played a full year so serious illnesses have
+ * time to begin (a full town household with one under way, paying its month
+ * in full beside a healthy one, is rare in a small town), up to thirty
+ * draws. Part (b) builds the two worlds of each draw for eight months (a
+ * twin's own lawmakers may enact the expansion again), up to ten draws.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
+import { drawPlace, type DrawnPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -73,9 +77,13 @@ const SEED = process.env.MEDICAL_DEBT_SEED ?? randomBytes(20).toString("hex");
 const EXPAND =
   "us-policy-positions:health-human-services.expand-medicaid-eligibility";
 const TWIN_LINK = "medicaid-expansion-to-medical-debt";
-/** Months played: the first unpaid bills pass the 120-day wait in the fifth. */
+/** Months part (b) plays: the first unpaid bills pass the 120-day wait in the fifth. */
 const MONTHS = 8;
 const TRIES = 10;
+/** Months part (a) plays its one world: a full year, so serious illnesses have time to begin. */
+const ILL_MONTHS = 12;
+/** Part (a)'s draws, each one world (no twin). */
+const ILL_TRIES = 30;
 
 /** The close's per-payee rounding on a line, far below a month's care. */
 const CENT_ROUNDING = 100;
@@ -228,6 +236,7 @@ const medicaidCare: {
 function play(
   core: CoreState,
   where: string,
+  months: number,
 ): {
   rows: MedicalBillRow[];
   outside: MedicalBillRow | null;
@@ -249,7 +258,7 @@ function play(
     byPlace: Map<string, number>;
   } | null = null;
   let checked = 0;
-  for (let month = 0; month < MONTHS; month += 1) {
+  for (let month = 0; month < months; month += 1) {
     const day = makeIsoDate(core.date);
     const next = addDays(makeIsoDate(`${day.slice(0, 7)}-02`), 31);
     advanceCore(core, makeIsoDate(`${next.slice(0, 7)}-02`));
@@ -523,6 +532,68 @@ const plansOf = (row: MedicalBillRow) =>
     .sort()
     .join(",");
 
+/**
+ * Plays a test's worlds with bookkeeping off and the journal traced: every
+ * bill payment's entry (its lines, for a full household) and every
+ * treasury payment of Medicaid's part of the care, by the world playing.
+ */
+function traced(body: () => void) {
+  const bookkeeping = setBookkeeping(false);
+  setJournalTrace((input) => {
+    if (input.sourceRef.id.startsWith("reach-b:medicaid-care:"))
+      for (const p of input.postings)
+        if (p.deltaMinor > 0)
+          medicaidCare.push({
+            world: playing,
+            date: input.date,
+            id: input.id,
+            source: input.sourceRef.id,
+            to: p.accountId,
+            minor: p.deltaMinor,
+          });
+    if (!input.sourceRef.id.startsWith("medical:")) return;
+    const counted = input.sourceRef.id.startsWith("medical:counted:");
+    posted.set(`${playing}|${input.id}`, {
+      source: input.sourceRef.id,
+      sum: input.postings.reduce((n, p) => n + p.deltaMinor, 0),
+      ...(counted
+        ? {}
+        : {
+            lines: input.postings.map((p) => ({
+              accountId: p.accountId,
+              deltaMinor: p.deltaMinor,
+            })),
+          }),
+    });
+  });
+  try {
+    body();
+  } finally {
+    setJournalTrace(null);
+    setBookkeeping(bookkeeping);
+  }
+}
+
+/** A draw's place, from all 56, and its bench world with every module installed. */
+function drawWorld(attempt: number) {
+  const drawn = drawPlace(SEED, `law-wiring-medical-debt:${attempt}`);
+  return {
+    drawn,
+    build: () =>
+      buildBenchWorld(drawn.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: drawn.key,
+      }).core,
+  };
+}
+
+const placeOf = (drawn: DrawnPlace, town: string) =>
+  `${drawn.name}, ${drawn.state} (${drawn.key}, town ${town}), world seed ${drawn.seed}`;
+
+/** A draw's outcome, on stderr as it happens, so a long run shows its progress. */
+const log = (line: string) =>
+  process.stderr.write(`LOG medical-debt ${line}\n`);
+
 describe("medical bills and medical debt in a played world", () => {
   it("the expansion's medical-debt link is researched and runs from the law", () => {
     const row = WEB_LINKS.find((link) => link.key === TWIN_LINK)!;
@@ -532,56 +603,148 @@ describe("medical bills and medical debt in a played world", () => {
   });
 
   it(
-    `bills follow coverage and health, and the expansion shrinks a low-income household's medical debt (MEDICAL_DEBT_SEED=${SEED})`,
+    `(a) a household with a serious illness under way pays more for its month than a healthy one (MEDICAL_DEBT_SEED=${SEED})`,
     { timeout: 3_600_000 },
-    () => {
-      const bookkeeping = setBookkeeping(false);
-      setJournalTrace((input) => {
-        if (input.sourceRef.id.startsWith("reach-b:medicaid-care:"))
-          for (const p of input.postings)
-            if (p.deltaMinor > 0)
-              medicaidCare.push({
-                world: playing,
-                date: input.date,
-                id: input.id,
-                source: input.sourceRef.id,
-                to: p.accountId,
-                minor: p.deltaMinor,
-              });
-        if (!input.sourceRef.id.startsWith("medical:")) return;
-        const counted = input.sourceRef.id.startsWith("medical:counted:");
-        posted.set(`${playing}|${input.id}`, {
-          source: input.sourceRef.id,
-          sum: input.postings.reduce((n, p) => n + p.deltaMinor, 0),
-          ...(counted
-            ? {}
-            : {
-                lines: input.postings.map((p) => ({
-                  accountId: p.accountId,
-                  deltaMinor: p.deltaMinor,
-                })),
-              }),
-        });
-      });
-      const passed: string[] = [];
-      // Each part takes the first drawn place that can show it.
-      let proofA: string | null = null;
-      let proofB: string | null = null;
-      try {
+    () =>
+      traced(() => {
+        const passed: string[] = [];
+        for (let attempt = 0; attempt < ILL_TRIES; attempt += 1) {
+          // One world a draw: the town as built, no law changed, a full year.
+          const { drawn, build } = drawWorld(attempt);
+          posted.clear();
+          medicaidCare.length = 0;
+          const core = build();
+          const api = coreAPI(core);
+          const town = lawChain(api).townPlaceId;
+          const where = placeOf(drawn, town);
+          const start = api.state.date;
+          playing = "played";
+          const played = play(core, where, ILL_MONTHS);
+          const end = api.state.date;
+          const legs = medicaidCare.filter((p) => p.world === playing);
+          const lines = careInsideLines(api, where, {
+            federal: legs
+              .filter((p) => p.source.includes("+medicaid-match"))
+              .reduce((n, p) => n + p.minor, 0),
+            total: legs.reduce((n, p) => n + p.minor, 0),
+          });
+          for (const [id, entry] of posted)
+            expect(
+              entry.sum,
+              `${where}: ${id} (${entry.source}) balances`,
+            ).toBe(0);
+          // A household with a member whose serious illness is under way
+          // (care need one, a health case with an onset event that billed
+          // day) against a healthy household (every member's care need none)
+          // of the same size and plans, the same month, both in the drawn
+          // town, both owing nothing before and paying the month's bill in
+          // full by journal entries.
+          const full = played.rows.filter(
+            (row) => !row.counted && row.placeId === town,
+          );
+          const onsetOf = (row: MedicalBillRow, personId: string) =>
+            played.onsets.get(`${row.date}|${personId}`);
+          const seriouslyIll = (row: MedicalBillRow) =>
+            row.members.find(
+              (m) => m.careNeed === 1 && onsetOf(row, m.personId),
+            );
+          const paidInFull = full.filter(
+            (row) =>
+              row.journalIds.length > 0 &&
+              row.askedMinor === row.billMinor &&
+              row.paidMinor === row.billMinor &&
+              row.paidMinor > 0,
+          );
+          const likeOf = (row: MedicalBillRow) =>
+            `${row.date}|${row.members.length}|${plansOf(row)}`;
+          const healthy = new Map<string, MedicalBillRow>();
+          for (const row of paidInFull)
+            if (
+              row.members.every((m) => m.careNeed === 0) &&
+              row.billMinor > (healthy.get(likeOf(row))?.billMinor ?? -1)
+            )
+              healthy.set(likeOf(row), row);
+          const illRow = paidInFull.find(
+            (row) => healthy.has(likeOf(row)) && seriouslyIll(row),
+          );
+          const illMonths = full.filter((row) => seriouslyIll(row));
+          const illPaid = illMonths.filter((row) => paidInFull.includes(row));
+          if (!illRow) {
+            const reason = `(a) ${where}: no town household with a serious illness under way paid its month in full beside a healthy household of the same size and plans (played ${start} to ${end}: ${illMonths.length} town household-months of ${new Set(illMonths.map((row) => row.householdId)).size} households with one, ${illPaid.length} of them paid in full)`;
+            passed.push(reason);
+            log(`draw ${attempt}: ${reason}`);
+            continue;
+          }
+          const ill = seriouslyIll(illRow)!;
+          const well = healthy.get(likeOf(illRow))!;
+          // Covered members are billed less than uncovered ones, at the same
+          // care need, in town households of the same size, the same month.
+          const memberBills = full.flatMap((row) =>
+            row.members
+              .filter((m) => m.careNeed === 0)
+              .map((m) => ({ ...m, size: row.members.length, row })),
+          );
+          const pair = (covered: "employer" | "medicaid") => {
+            for (const c of memberBills.filter((m) => m.plan === covered)) {
+              const u = memberBills.find(
+                (m) =>
+                  m.plan === "none" &&
+                  m.size === c.size &&
+                  m.row.date === c.row.date,
+              );
+              if (u) return { c, u };
+            }
+            return undefined;
+          };
+          const employer = pair("employer");
+          if (!employer) {
+            const reason = `(a) ${where}: ${illRow.id} on ${illRow.date} has a serious illness under way, but no employer-covered town member was billed beside an uncovered one of a household of the same size in a month played`;
+            passed.push(reason);
+            log(`draw ${attempt}: ${reason}`);
+            continue;
+          }
+          expect(
+            illRow.paidMinor,
+            `${where}: ${illRow.id} (${ill.personId} ill) against ${well.id} on ${illRow.date}`,
+          ).toBeGreaterThan(well.paidMinor);
+          expect(
+            played.checked,
+            `${where}: town payments read against the journal`,
+          ).toBeGreaterThan(0);
+          expect(employer.c.billMinor).toBeLessThan(employer.u.billMinor);
+          const medicaid = pair("medicaid");
+          if (medicaid)
+            expect(medicaid.c.billMinor).toBeLessThan(medicaid.u.billMinor);
+          const outsideAccount = outsideAccountOf(api);
+          const payee = (row: MedicalBillRow) =>
+            `${row.sellerId} (${row.sellerId === outsideAccount ? "the outside account" : "the town's seller"})`;
+          const proof = `(a) ${where}; the town as built, no law changed, played ${start} to ${end}. ${illRow.date}: ${illRow.id} paid ${illRow.paidMinor} by ${illRow.journalIds.join(", ")} to ${payee(illRow)}; its member ${ill.personId} (${ill.plan}, care need ${ill.careNeed}, health case onset ${onsetOf(illRow, ill.personId)}) billed ${ill.billMinor}. Healthy ${well.id} paid ${well.paidMinor} by ${well.journalIds.join(", ")} to ${payee(well)} (care needs ${well.members.map((m) => m.careNeed).join(", ")}; plans ${plansOf(well)}). Employer member ${employer.c.personId} ${employer.c.billMinor} against uncovered ${employer.u.personId} ${employer.u.billMinor} on ${employer.c.row.date}${medicaid ? `; Medicaid member ${medicaid.c.personId} ${medicaid.c.billMinor} against uncovered ${medicaid.u.personId} ${medicaid.u.billMinor} on ${medicaid.c.row.date}` : ""}. ${illMonths.length} town household-months of ${new Set(illMonths.map((row) => row.householdId)).size} households with a serious illness under way, ${illPaid.length} paid in full; ${played.checked} town household payments read line by line (members' main accounts to the seller's); ${posted.size} medical journal entries, each balanced; ${lines}.`;
+          log(`draw ${attempt}: shown`);
+          process.stdout.write(
+            `MEDICAL-DEBT (a) (MEDICAL_DEBT_SEED=${SEED})\n${proof}\nPassed over: ${passed.join("; ") || "none"}\n`,
+          );
+          return;
+        }
+        throw new Error(
+          `No drawn place showed part (a) in ${ILL_TRIES} draws: ${passed.join("; ")}`,
+        );
+      }),
+  );
+
+  it(
+    `(b) the expansion shrinks a low-income household's medical debt (MEDICAL_DEBT_SEED=${SEED})`,
+    { timeout: 3_600_000 },
+    () =>
+      traced(() => {
+        const passed: string[] = [];
         for (let attempt = 0; attempt < TRIES; attempt += 1) {
-          const drawn = drawPlace(SEED, `law-wiring-medical-debt:${attempt}`);
-          const build = () =>
-            buildBenchWorld(drawn.seed, gameStartDate(), {
-              twoLevel: true,
-              placeKey: drawn.key,
-            }).core;
+          const { drawn, build } = drawWorld(attempt);
           // One world at a time, keeping only what the checks read, so the
           // two worlds are never held at once.
           posted.clear();
           medicaidCare.length = 0;
           let town = "";
-          const where = () =>
-            `${drawn.name}, ${drawn.state} (${drawn.key}, town ${town}), world seed ${drawn.seed}`;
+          const where = () => placeOf(drawn, town);
           const run = (world: "expanded" | "twin") => {
             const core = build();
             const api = coreAPI(core);
@@ -591,7 +754,7 @@ describe("medical bills and medical debt in a played world", () => {
             const change =
               world === "expanded" ? enact(api) : repealed!.ids.join(", ");
             playing = world;
-            const played = play(core, where());
+            const played = play(core, where(), MONTHS);
             const end = api.state.date;
             // The twin's own lawmakers may enact the expansion again in the
             // window: its law rows say whether it ever held it.
@@ -646,99 +809,7 @@ describe("medical bills and medical debt in a played world", () => {
           };
           const withExpansion = run("expanded");
           const inTwin = run("twin");
-          const worldOf = new Map<MedicalBillRow, "expanded" | "twin">([
-            ...withExpansion.rows.map((row) => [row, "expanded"] as const),
-            ...inTwin.rows.map((row) => [row, "twin"] as const),
-          ]);
-          const onsetOf = (row: MedicalBillRow, personId: string) =>
-            (worldOf.get(row) === "expanded"
-              ? withExpansion.onsets
-              : inTwin.onsets
-            ).get(`${row.date}|${personId}`);
           const all = [...withExpansion.rows, ...inTwin.rows];
-          const full = all.filter(
-            (row) => !row.counted && row.placeId === town,
-          );
-
-          const partA = (): string | null => {
-            // (a) A household with a member whose serious illness is under way
-            // (care need one, a health case with an onset event) against a
-            // healthy household (every member's care need none) of the same
-            // size and plans, the same world and month, both in the drawn
-            // town, both owing nothing before and paying the month's bill in
-            // full by journal entries.
-            const paidInFull = full.filter(
-              (row) =>
-                row.journalIds.length > 0 &&
-                row.askedMinor === row.billMinor &&
-                row.paidMinor === row.billMinor &&
-                row.paidMinor > 0,
-            );
-            const likeOf = (row: MedicalBillRow) =>
-              `${worldOf.get(row)}|${row.date}|${row.members.length}|${plansOf(row)}`;
-            const healthy = new Map<string, MedicalBillRow>();
-            for (const row of paidInFull)
-              if (
-                row.members.every((m) => m.careNeed === 0) &&
-                row.billMinor > (healthy.get(likeOf(row))?.billMinor ?? -1)
-              )
-                healthy.set(likeOf(row), row);
-            const illRow = paidInFull.find(
-              (row) =>
-                healthy.has(likeOf(row)) &&
-                row.members.some(
-                  (m) => m.careNeed === 1 && onsetOf(row, m.personId),
-                ),
-            );
-            if (!illRow) {
-              passed.push(
-                `(a) ${where()}: no town household with a serious illness under way paid its month in full beside a healthy household of the same size and plans (${full.filter((row) => row.members.some((m) => m.careNeed === 1)).length} town household-months with one)`,
-              );
-              return null;
-            }
-            const ill = illRow.members.find(
-              (m) => m.careNeed === 1 && onsetOf(illRow, m.personId),
-            )!;
-            const well = healthy.get(likeOf(illRow))!;
-            expect(
-              illRow.paidMinor,
-              `${where()}: ${illRow.id} (${ill.personId} ill) against ${well.id} on ${illRow.date}`,
-            ).toBeGreaterThan(well.paidMinor);
-            expect(
-              withExpansion.checked + inTwin.checked,
-              `${where()}: town payments read against the journal`,
-            ).toBeGreaterThan(0);
-            // Covered members are billed less than uncovered ones, at the same
-            // care need, in town households of the same size.
-            const memberBills = full.flatMap((row) =>
-              row.members
-                .filter((m) => m.careNeed === 0)
-                .map((m) => ({ ...m, size: row.members.length, row })),
-            );
-            const pair = (covered: "employer" | "medicaid") => {
-              for (const c of memberBills.filter((m) => m.plan === covered)) {
-                const u = memberBills.find(
-                  (m) =>
-                    m.plan === "none" &&
-                    m.size === c.size &&
-                    worldOf.get(m.row) === worldOf.get(c.row) &&
-                    m.row.date === c.row.date,
-                );
-                if (u) return { c, u };
-              }
-              return undefined;
-            };
-            const employer = pair("employer");
-            expect(
-              employer,
-              `${where()}: an employer-covered and an uncovered member`,
-            ).toBeDefined();
-            expect(employer!.c.billMinor).toBeLessThan(employer!.u.billMinor);
-            const medicaid = pair("medicaid");
-            if (medicaid)
-              expect(medicaid.c.billMinor).toBeLessThan(medicaid.u.billMinor);
-            return `(a) ${where()}; ${worldOf.get(illRow)} world, ${illRow.date}: ${illRow.id} paid ${illRow.paidMinor} by ${illRow.journalIds.join(", ")} to ${illRow.sellerId}; its member ${ill.personId} (${ill.plan}, care need ${ill.careNeed}, health case onset ${onsetOf(illRow, ill.personId)}) billed ${ill.billMinor}. Healthy ${well.id} paid ${well.paidMinor} by ${well.journalIds.join(", ")} to ${well.sellerId} (care needs ${well.members.map((m) => m.careNeed).join(", ")}; plans ${plansOf(well)}). Employer member ${employer!.c.personId} ${employer!.c.billMinor} against uncovered ${employer!.u.personId} ${employer!.u.billMinor}${medicaid ? `; Medicaid member ${medicaid.c.personId} ${medicaid.c.billMinor} against uncovered ${medicaid.u.personId} ${medicaid.u.billMinor}` : ""}. ${withExpansion.checked + inTwin.checked} town household payments read line by line (members' main accounts to the seller's); ${posted.size} medical journal entries, each balanced.`;
-          };
 
           const partB = (): string | null => {
             // (b) The twin must not have held the expansion in the window.
@@ -982,21 +1053,20 @@ describe("medical bills and medical debt in a played world", () => {
               entry.sum,
               `${where()}: ${id} (${entry.source}) balances`,
             ).toBe(0);
-          proofA ??= partA();
-          proofB ??= partB();
-          if (!proofA || !proofB) continue;
+          const proofB = partB();
+          if (!proofB) {
+            log(`draw ${attempt}: ${passed.at(-1)}`);
+            continue;
+          }
+          log(`draw ${attempt}: shown`);
           process.stdout.write(
-            `MEDICAL-DEBT (MEDICAL_DEBT_SEED=${SEED})\n${proofA}\n${proofB}\nPassed over: ${passed.join("; ") || "none"}\n`,
+            `MEDICAL-DEBT (b) (MEDICAL_DEBT_SEED=${SEED})\n${proofB}\nPassed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }
         throw new Error(
-          `No drawn place showed ${proofA ? "part (b)" : proofB ? "part (a)" : "either part"}: ${passed.join("; ")}${proofA || proofB ? `\nShown: ${proofA ?? proofB}` : ""}`,
+          `No drawn place showed part (b) in ${TRIES} draws: ${passed.join("; ")}`,
         );
-      } finally {
-        setJournalTrace(null);
-        setBookkeeping(bookkeeping);
-      }
-    },
+      }),
   );
 });
