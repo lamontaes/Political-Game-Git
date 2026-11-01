@@ -30,6 +30,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
+import { residentsRuntime } from "./modules/residents";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
@@ -316,16 +317,18 @@ interface DoorLike {
   readonly id: string;
   readonly campaignId: string;
   readonly householdId: string;
-  readonly told?: Readonly<Record<string, readonly string[]>>;
+  readonly date: string;
+  readonly lastDate?: string;
+  readonly told?: Readonly<Record<string, string | null>>;
 }
 
 /**
  * The yeses a candidate has been told, recounted from the records the
  * reading names: each yes to a candidate on the ballot held by someone they
- * know in town whose relationship with them was last in touch after the
- * yes's day (pledge row id to the candidate it is for), each yes kept on
- * their own campaign's doors rows as told there, and everyone those people
- * are.
+ * know in town whose relationship with them was last in touch after that
+ * word was first given (pledge row id to the candidate it is for), each yes
+ * a resident still in town named at their latest answer at their own
+ * campaign's doors and still holds, and everyone those people are.
  */
 function toldFromRecords(
   api: CoreAPI,
@@ -336,9 +339,11 @@ function toldFromRecords(
   campaignId: string,
 ) {
   const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID);
+  const pledges = campaigns.table("pledges");
   const candidate = core.people.get(candidateId)!;
   const onBallot = new Set(ballot(api, contestId).map((f) => f.personId));
   onBallot.add(candidateId);
+  const store = residentsRuntime(core)?.store;
   const covered = new Set<string>();
   const told = new Map<string, string>();
   for (const id of candidate.knownIds) {
@@ -347,29 +352,64 @@ function toldFromRecords(
     covered.add(id);
     const [a, b] = [id, candidateId].sort();
     const last = core.relationships.get(`${a}:${b}`)?.lastContactDate;
-    for (const pledge of campaigns
-      .table("pledges")
-      .query("byVoter", [id]) as unknown as PledgeRow[])
+    for (const pledge of pledges.query("byVoter", [
+      id,
+    ]) as unknown as PledgeRow[])
       if (
         pledge.contestId === contestId &&
         onBallot.has(pledge.candidateId) &&
         last !== undefined &&
-        last > pledge.date
+        last > (pledge.firstDate ?? pledge.date)
       )
         told.set(pledge.id, pledge.candidateId);
   }
   const doors = campaigns
     .table("doors")
     .query("byCampaign", [campaignId]) as unknown as DoorLike[];
+  const latest = new Map<string, { at: string; yes: string | null }>();
   for (const row of doors)
-    for (const [voterId, yeses] of Object.entries(row.told ?? {})) {
-      covered.add(voterId);
-      for (const id of yeses)
-        if (onBallot.has(id)) told.set(`${voterId}|${contestId}|${id}`, id);
+    for (const [voterId, yes] of Object.entries(row.told ?? {})) {
+      const at = row.lastDate ?? row.date;
+      if (!latest.has(voterId) || at > latest.get(voterId)!.at)
+        latest.set(voterId, { at, yes });
     }
+  for (const [voterId, { yes }] of latest) {
+    const person = core.people.get(voterId as never);
+    const here = person
+      ? person.alive && person.placeId === town
+      : store?.countedMember(voterId as never) !== undefined;
+    if (!here) continue;
+    covered.add(voterId);
+    const id = `${voterId}|${contestId}|${yes}`;
+    if (yes && onBallot.has(yes) && pledges.get(id)) told.set(id, yes);
+  }
   const toldTo = (id: string) =>
     [...told].filter(([, c]) => c === id).map(([pledgeId]) => pledgeId);
   return { covered, told, toldTo, doors };
+}
+
+/**
+ * The rival a reading names is the one told most: no rival on the ballot was
+ * told of more yeses (ties by id), and none is named where no rival was told
+ * of any.
+ */
+function expectBestRival(
+  api: CoreAPI,
+  reading: { readonly rivalId: string | null },
+  records: ReturnType<typeof toldFromRecords>,
+  candidateId: string,
+  contestId: string,
+  where: string,
+) {
+  const rivals = ballot(api, contestId)
+    .map((f) => f.personId)
+    .filter((id) => id !== candidateId)
+    .map((id) => [id, records.toldTo(id).length] as const)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const best = rivals[0];
+  expect(reading.rivalId, `${where}: the best rival is named`).toBe(
+    best && best[1] > 0 ? best[0] : null,
+  );
 }
 
 /**
@@ -545,6 +585,8 @@ describe("word of a challenger's doors reaches the incumbent", () => {
     expect(reading.ownShare, where).toBe(
       toIncumbent.length / records.covered.size,
     );
+    expect(reading.covered, where).toBe(records.covered.size);
+    expectBestRival(api, reading, records, holder.id, race.contest.id, where);
     // The same incumbent on the same day, with and without the word.
     const pressed = rivalDay(api, filingId, holder, town);
     expect(calm.steppedUp, where).toBeNull();
@@ -553,34 +595,19 @@ describe("word of a challenger's doors reaches the incumbent", () => {
       calm.doorHours,
     );
     // The twin: the same day, the same word, with the yeses to the
-    // challenger that were told taken away (the pledges someone in touch
-    // since held, and the challenger named on the doors rows). The threat
+    // challenger that were told taken away (each a pledge someone in touch
+    // since, or someone at the incumbent's doors, still held). The threat
     // is gone, and the day steps up nothing, so the turn keeps no row.
     const pledges = api.moduleState(CAMPAIGNS_MODULE_ID).table("pledges");
-    const doorsTable = api.moduleState(CAMPAIGNS_MODULE_ID).table("doors");
-    const heldRows = toChallenger
-      .map((id) => pledges.get(id))
-      .filter((row) => row !== undefined);
-    const toldRows = records.doors.filter((row) =>
-      Object.values(row.told ?? {}).some((yeses) =>
-        yeses.includes(race.challenger.personId),
-      ),
-    );
+    const heldRows = toChallenger.map((id) => pledges.get(id)!);
+    expect(
+      heldRows.every((row) => row !== undefined),
+      where,
+    ).toBe(true);
     for (const row of heldRows) pledges.remove(row.id);
-    for (const row of toldRows)
-      doorsTable.put({
-        ...row,
-        told: Object.fromEntries(
-          Object.entries(row.told ?? {}).map(([voterId, yeses]) => [
-            voterId,
-            yeses.filter((id) => id !== race.challenger.personId),
-          ]),
-        ),
-      } as unknown as ModuleRow);
     const untold = raceReading(api, filingId, holder, town);
     const untoldDay = rivalDay(api, filingId, holder, town);
     for (const row of heldRows) pledges.put(row);
-    for (const row of toldRows) doorsTable.put(row as unknown as ModuleRow);
     expect(untold?.sourceRecordId, where).toBe(word.id);
     expect(
       untold?.toldPledgeIds?.filter((id) => toChallenger.includes(id)),
@@ -634,6 +661,14 @@ describe("word of a challenger's doors reaches the incumbent", () => {
     expect(readingAfter.ownShare, where).toBe(
       after.toldTo(holder.id).length / after.covered.size,
     );
+    expectBestRival(
+      api,
+      readingAfter,
+      after,
+      holder.id,
+      race.contest.id,
+      where,
+    );
     process.stdout.write(
       `${JSON.stringify({
         where,
@@ -665,9 +700,12 @@ describe("word of a challenger's doors reaches the incumbent", () => {
  * population) in a drawn place, where the challenger's canvass, which
  * reaches counted residents as a count, took yeses from some, and the
  * incumbent's own canvass then walked the town's doors the same day, once
- * both petitions are in. Up to six places are drawn; each passed over is
- * named with why (no seat held, a petition out past eight months, no
- * counted resident who said yes opening the incumbent's door).
+ * both petitions are in; then the days pass in the world until word of a
+ * rival reaches the incumbent, and the reading it sets them on is read.
+ * Up to six places are drawn; each passed over is named with why (no seat
+ * held, a petition out past eight months, no counted resident who said yes
+ * opening the incumbent's door, no word within 150 days, or no counted
+ * resident's yes left told by then).
  */
 function countedAtTheDoor() {
   const tried: string[] = [];
@@ -743,17 +781,17 @@ function countedAtTheDoor() {
           .table("doors")
           .query("byCampaign", [campaignId]) as unknown as DoorLike[]
       ).flatMap((door) =>
-        Object.entries(door.told ?? {}).map(([voterId, yeses]) => ({
+        Object.entries(door.told ?? {}).map(([voterId, yes]) => ({
           door,
           voterId,
-          yeses,
+          yes,
           counted: !core.people.has(voterId as never),
           pledgeId: `${voterId}|${race.contest.id}|${race.challenger.personId}`,
         })),
       );
     // What the incumbent's doors were told before this evening.
     const before = new Map(
-      toldAt().map((t) => [`${t.door.id}|${t.voterId}`, t.yeses.join(",")]),
+      toldAt().map((t) => [`${t.door.id}|${t.voterId}`, t.yes]),
     );
     takeCampaignDayChoice(api, race.incumbent.id, "canvass", {
       world: true,
@@ -763,18 +801,71 @@ function countedAtTheDoor() {
     const doors = new Set(told.map((t) => t.door.id));
     // Told this evening: an answer the doors rows did not hold before.
     const fresh = told.filter(
-      (t) => before.get(`${t.door.id}|${t.voterId}`) !== t.yeses.join(","),
+      (t) => before.get(`${t.door.id}|${t.voterId}`) !== t.yes,
     );
     const pledges = campaigns.table("pledges");
     const counted = told.filter(
       (t) =>
         t.counted &&
-        t.yeses.includes(race.challenger.personId) &&
+        t.yes === race.challenger.personId &&
         pledges.get(t.pledgeId) !== undefined,
     );
     if (!counted.length) {
       tried.push(
         `${w.where}: of ${countedYeses.length} counted residents who said yes to the challenger, none opened the incumbent's door (${told.length} answered it)`,
+      );
+      continue;
+    }
+    // What each who answered this evening holds now, before the days pass.
+    const heldNow = (voterId: string) =>
+      (pledges.query("byVoter", [voterId]) as unknown as PledgeRow[]).find(
+        (p) => p.contestId === race.contest.id,
+      )?.candidateId ?? null;
+    const answeredThisEvening = fresh.map((t) => ({
+      ...t,
+      held: heldNow(t.voterId),
+    }));
+    const firstHeld = heldNow(counted[0]!.voterId);
+    const firstPledge = pledges.get(counted[0]!.pledgeId) as unknown as
+      PledgeRow | undefined;
+    // The days pass in the world (both campaigns' own turns, word passing
+    // as the campaigns engine passes it) until word of a rival sets the
+    // incumbent reading the race, or 150 days, or the eve of the election.
+    const holder = core.people.get(race.incumbent.personId)!;
+    const town = (
+      campaigns.table("town").get("town") as unknown as { townPlaceId: string }
+    ).townPlaceId;
+    const eve = addDays(makeIsoDate(race.contest.electionDate), -1);
+    const waitUntil = [addDays(makeIsoDate(core.date), 150), eve].sort()[0]!;
+    let reading: ReturnType<typeof raceReading> = null;
+    while (core.date < waitUntil && reading?.sourceKind !== "word") {
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      reading = holder.alive
+        ? raceReading(api, race.incumbent.id, holder, town)
+        : null;
+    }
+    if (reading?.sourceKind !== "word") {
+      tried.push(
+        `${w.where}: no word of a rival set the incumbent reading the race by ${core.date}`,
+      );
+      continue;
+    }
+    const records = toldFromRecords(
+      api,
+      core,
+      holder.id,
+      town,
+      race.contest.id,
+      campaignId,
+    );
+    // A counted resident is never someone the incumbent knows: their told
+    // yes came through the incumbent's own doors.
+    const countedTold = records
+      .toldTo(race.challenger.personId)
+      .filter((id) => !core.people.has(id.split("|")[0] as never));
+    if (!countedTold.length) {
+      tried.push(
+        `${w.where}: word came on ${core.date}, by when no counted resident still held a yes to the challenger they told the incumbent's doors`,
       );
       continue;
     }
@@ -784,18 +875,25 @@ function countedAtTheDoor() {
       campaignId,
       doors,
       told,
-      fresh,
+      answeredThisEvening,
       counted,
       countedYeses,
+      firstHeld,
+      firstPledge,
+      holder,
+      town,
+      reading,
+      records,
+      countedTold,
     };
   }
   throw new Error(
-    `no drawn place had a counted resident who said yes to the challenger open the incumbent's door, in 6 draws (run seed ${runSeed}): ${tried.join("; ")}`,
+    `no drawn place had a counted resident who said yes to the challenger open the incumbent's door and still tell it when word reached the incumbent, in 6 draws (run seed ${runSeed}): ${tried.join("; ")}`,
   );
 }
 
 describe("counted residents tell the incumbent's canvass by the same rule", () => {
-  it("a counted resident who holds a yes to the challenger and opens the incumbent's door is kept on the home's doors row, as a full person is", () => {
+  it("a counted resident who holds a yes to the challenger and opens the incumbent's door is kept on the home's doors row, as a full person is, and the reading word sets the incumbent on counts it", () => {
     // Bookkeeping is a debug switch, off in the played world.
     const was = setBookkeeping(false);
     let drawn: ReturnType<typeof countedAtTheDoor>;
@@ -806,36 +904,60 @@ describe("counted residents tell the incumbent's canvass by the same rule", () =
     }
     const {
       api,
+      core,
       where,
       race,
       campaignId,
       doors,
       told,
-      fresh,
+      answeredThisEvening,
       counted,
       countedYeses,
+      firstHeld,
+      firstPledge,
+      holder,
+      reading,
+      records,
+      countedTold,
     } = drawn;
-    const pledges = api.moduleState(CAMPAIGNS_MODULE_ID).table("pledges");
-    // One rule for both tiers: whoever answered this evening, full or
-    // counted, told the campaign every yes they hold in the contest (nothing
-    // has changed them since, so what they told is what they hold).
-    const held = (voterId: string) =>
-      (pledges.query("byVoter", [voterId]) as unknown as PledgeRow[])
-        .filter((p) => p.contestId === race.contest.id)
-        .map((p) => p.candidateId)
-        .sort();
-    expect(fresh.length, `${where}: residents answered`).toBeGreaterThan(0);
-    for (const t of fresh)
-      expect(t.yeses, `${where}: ${t.voterId}`).toEqual(held(t.voterId));
-    // The counted resident's yes to the challenger is a pledge row they
-    // still hold, kept on the incumbent's own doors row for their home.
+    // One rule for both tiers: whoever answered that evening, full or
+    // counted, told the campaign whom they had given their word to in the
+    // contest (nothing had changed it since, so what they told is what
+    // they held).
+    expect(
+      answeredThisEvening.length,
+      `${where}: residents answered`,
+    ).toBeGreaterThan(0);
+    for (const t of answeredThisEvening)
+      expect(t.yes, `${where}: ${t.voterId}`).toBe(t.held);
+    // The counted resident's yes to the challenger was a pledge row they
+    // held, kept on the incumbent's own doors row for their home.
     const first = counted[0]!;
-    const pledgeId = first.pledgeId;
-    expect(pledges.get(pledgeId), where).toBeDefined();
-    expect(held(first.voterId), where).toContain(race.challenger.personId);
+    expect(firstPledge?.id, where).toBe(first.pledgeId);
+    expect(firstHeld, where).toBe(race.challenger.personId);
     expect(first.door.campaignId, where).toBe(campaignId);
     expect(first.door.id, where).toBe(
       `${campaignId}|${first.door.householdId}`,
+    );
+    // Word of a rival set the incumbent reading the race: the rival's share
+    // is the people they know in touch since a yes to the challenger plus
+    // the residents who told their own canvass of one, by pledge id,
+    // counted residents among them, over everyone it heard from.
+    expect(reading!.sourceKind, where).toBe("word");
+    expect(reading!.toldPledgeIds, where).toEqual(
+      [...records.told.keys()].sort(),
+    );
+    for (const id of countedTold)
+      expect(reading!.toldPledgeIds, where).toContain(id);
+    expect(reading!.covered, where).toBe(records.covered.size);
+    expect(reading!.ownShare, where).toBe(
+      records.toldTo(holder.id).length / records.covered.size,
+    );
+    expectBestRival(api, reading!, records, holder.id, race.contest.id, where);
+    expect(reading!.rivalShare, where).toBe(
+      reading!.rivalId
+        ? records.toldTo(reading!.rivalId).length / records.covered.size
+        : 0,
     );
     process.stdout.write(
       `${JSON.stringify({
@@ -844,13 +966,22 @@ describe("counted residents tell the incumbent's canvass by the same rule", () =
         countedYesesToChallenger: countedYeses.length,
         incumbentDoors: doors.size,
         answered: told.length,
-        answeredThisEvening: {
-          full: fresh.filter((t) => !t.counted).length,
-          counted: fresh.filter((t) => t.counted).length,
+        answeredThatEvening: {
+          full: answeredThisEvening.filter((t) => !t.counted).length,
+          counted: answeredThisEvening.filter((t) => t.counted).length,
         },
         countedAnswered: told.filter((t) => t.counted).length,
         countedToldChallenger: counted.length,
-        first: { door: first.door.id, pledgeId, yeses: first.yeses },
+        first: { door: first.door.id, pledgeId: first.pledgeId },
+        reading: {
+          date: core.date,
+          ...reading,
+          toldPledgeIds: undefined,
+          toldToChallenger: records.toldTo(race.challenger.personId).length,
+          toldToIncumbent: records.toldTo(holder.id).length,
+          countedToldToChallenger: countedTold.length,
+          firstCountedPledgeIds: countedTold.slice(0, 3),
+        },
       })}\n`,
     );
   }, 1_200_000);
