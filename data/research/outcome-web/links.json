@@ -1136,7 +1136,7 @@
       "lagMonths": 0,
       "group": "families with children",
       "owner": "F",
-      "anchor": "Census, Poverty in the United States: 2022 (P60-280): \"The SPM child poverty rate more than doubled, from 5.2 percent in 2021 to 12.4 percent in 2022\", and \"refundable tax credits moved 6.4 million people out of SPM poverty, down from 9.6 million people in 2021.\" One program's before and after, not a rate per dollar of benefit; the page does not itself attribute the change to the expanded child credit.",
+      "anchor": "Census, Poverty in the United States: 2022 (P60-280): \"The SPM child poverty rate more than doubled, from 5.2 percent in 2021 to 12.4 percent in 2022\", and \"refundable tax credits moved 6.4 million people out of SPM poverty, down from 9.6 million people in 2021\". One program's before and after, not a rate per dollar of benefit; the page does not itself attribute the change to the expanded child credit.",
       "source": "Census SPM 2021-22: Poverty in the United States: 2022 (P60-280), read at https://www.census.gov/library/publications/2023/demo/p60-280.html",
       "from": "program.child-benefit-dollars",
       "evidence": "researched",
