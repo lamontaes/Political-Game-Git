@@ -163,7 +163,14 @@ export const STORY_KINDS = {
   "body-meeting": {
     headline: ["body-meeting"],
     lede: ["body-meeting"],
-    context: ["meeting-members", "meeting-bill"],
+    context: ["meeting-bill"],
+  },
+  // The week's sittings that took up nothing, in one brief (CTO, Nov 1:
+  // print what the body did, not that it sat).
+  "meetings-week": {
+    headline: ["meetings-week"],
+    lede: ["meetings-week"],
+    brief: true,
   },
   profile: {
     headline: ["profile"],
