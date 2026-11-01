@@ -202,9 +202,21 @@ it(`a scene says what hour it is only when its own hour makes it true (seed ${se
       day += P.one
     ) {
       const today: string[] = [];
+      const through = {
+        date: addDays(start, day),
+        minuteOfDay: EVENING + LATER,
+      };
+      // A day whose evening the clock has already passed is skipped.
+      const now = playerClockFrontierV1(core, personId);
+      if (
+        now &&
+        (now.date > through.date ||
+          (now.date === through.date && now.minuteOfDay >= through.minuteOfDay))
+      )
+        continue;
       let packet = advancePlayerV1(core, {
         controlledPersonId: personId,
-        through: { date: addDays(start, day), minuteOfDay: EVENING + LATER },
+        through,
       });
       while (packet.kind !== "complete") {
         if (packet.kind === "stop") {
