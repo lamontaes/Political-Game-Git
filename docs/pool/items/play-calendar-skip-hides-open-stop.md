@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-calendar-skip-hides-open-stop
 pr: #6964
 blocked-on:
