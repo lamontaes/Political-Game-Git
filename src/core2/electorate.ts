@@ -18,7 +18,7 @@ import {
   type Stance,
 } from "./campaign-views";
 import { electorateParameter } from "./electorate-inputs";
-import { interestOf, turnoutShare } from "./turnout";
+import { interestOf, turnoutRule } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { bookkeeping } from "./bookkeeping";
 import { stateOfPlaceKey } from "./places";
@@ -607,22 +607,32 @@ export interface PlaceResult {
 function orderPlacement(
   voters: readonly SampleVoter[],
 ): (target: number) => number {
+  // The one turnout rule (`turnout.ts`): with two typical candidates the gap
+  // between them in a voter's eyes is twice their lean, so a voter at either
+  // end of the lean scale always weighs a gap of two.
+  const rule = turnoutRule();
+  const atEnds = voters.map((voter) => rule(voter.readiness, 2));
   // Each voter's own readiness against their own place in the order: who
   // turns out at what strength of feeling, as the count itself decides it.
   const shareAt = (right: number) => {
     let r = 0,
       all = 0;
-    for (const voter of voters) {
+    for (let k = 0; k < voters.length; k += 1) {
+      const voter = voters[k]!;
       const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
-      // The one turnout rule (`turnout.ts`): with two typical candidates the
-      // gap between them in this voter's eyes is twice their lean.
-      const share = turnoutShare(voter.readiness, 2 * Math.abs(lean));
+      const share =
+        lean === 1 || lean === -1
+          ? atEnds[k]!
+          : rule(voter.readiness, 2 * Math.abs(lean));
       all += share;
       if (lean > 0) r += share;
       else if (lean === 0) r += share / 2;
     }
     return all ? r / all : right;
   };
+  // Every place's bisection starts from the same midpoints, so the share at
+  // each one is worked out once.
+  const sums = new Map<number, number>();
   const cache = new Map<number, number>();
   return (target) => {
     if (!voters.length) return target;
@@ -632,13 +642,71 @@ function orderPlacement(
       hi = 1;
     for (let i = 0; i < 24; i += 1) {
       const mid = (lo + hi) / 2;
-      if (shareAt(mid) < target) lo = mid;
+      let sum = sums.get(mid);
+      if (sum === undefined) {
+        sum = shareAt(mid);
+        sums.set(mid, sum);
+      }
+      if (sum < target) lo = mid;
       else hi = mid;
     }
     const right = (lo + hi) / 2;
     cache.set(target, right);
     return right;
   };
+}
+
+/** A sample's coarse voters and where a place's 2024 share puts them in the order. */
+interface CoarseSample {
+  readonly size: number;
+  readonly stakesWeight: number;
+  readonly scale: number;
+  readonly voters: readonly SampleVoter[];
+  readonly placement: (target: number) => number;
+}
+
+/**
+ * Each day's sample is one array (`electorateSample`), counted for every
+ * race and state that day: its coarse voters and their placement are worked
+ * out once, while the parameters they rest on hold.
+ */
+const coarseBySample = new WeakMap<readonly SampleVoter[], CoarseSample>();
+
+function coarseSample(sample: readonly SampleVoter[]): CoarseSample {
+  const size = Math.max(1, electorateParameter("coarseSampleVoters"));
+  const stakesWeight = campaignParameter("turnoutStakesWeight");
+  const scale = campaignParameter("turnoutScale");
+  const hit = coarseBySample.get(sample);
+  if (
+    hit &&
+    hit.size === size &&
+    hit.stakesWeight === stakesWeight &&
+    hit.scale === scale
+  )
+    return hit;
+  // Evenly spaced through the town's voters, each record counting as many
+  // places in the line as the real voters it stands for.
+  const total = sample.reduce((n, v) => n + v.weight, 0);
+  const step = Math.max(1, total / size);
+  const voters: SampleVoter[] = [];
+  let upTo = 0,
+    at = 0;
+  for (let i = step / 2; i < total && at < sample.length; i += step) {
+    while (at < sample.length - 1 && upTo + sample[at]!.weight <= i) {
+      upTo += sample[at]!.weight;
+      at += 1;
+    }
+    voters.push(sample[at]!);
+  }
+  const entry = {
+    size,
+    stakesWeight,
+    scale,
+    voters,
+    placement: orderPlacement(voters),
+  };
+  coarseBySample.set(sample, entry);
+  return entry;
 }
 
 /**
@@ -665,24 +733,10 @@ export function countPlaces(
   readonly cast: number;
   readonly places: readonly PlaceResult[];
 } {
-  const size = Math.max(1, electorateParameter("coarseSampleVoters"));
-  // Evenly spaced through the town's voters, each record counting as many
-  // places in the line as the real voters it stands for.
-  const total = sample.reduce((n, v) => n + v.weight, 0);
-  const step = Math.max(1, total / size);
-  const voters: SampleVoter[] = [];
-  let upTo = 0,
-    at = 0;
-  for (let i = step / 2; i < total && at < sample.length; i += step) {
-    while (at < sample.length - 1 && upTo + sample[at]!.weight <= i) {
-      upTo += sample[at]!.weight;
-      at += 1;
-    }
-    voters.push(sample[at]!);
-  }
+  const { voters, placement } = coarseSample(sample);
+  const rule = turnoutRule();
   const totals: Record<string, number> = {};
   const results: PlaceResult[] = [];
-  const placement = orderPlacement(voters);
   let cast = 0;
   for (const place of places) {
     const votes: Record<string, number> = {};
@@ -717,7 +771,7 @@ export function countPlaces(
         // the place's people like them, who turn out at their propensity.
         const share =
           weight *
-          turnoutShare(
+          rule(
             voter.readiness + (place.readinessShift ?? 0),
             interestOf(appeal),
           );
