@@ -1012,7 +1012,8 @@
           "step": "narrate",
           "move": "returns-nation",
           "role": "narrator",
-          "requiresFacts": ["same-day", "several"]
+          "requiresFacts": ["same-day", "several"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -1036,7 +1037,8 @@
           "step": "narrate",
           "move": "returns-nation",
           "role": "narrator",
-          "requiresFacts": ["one", "same-day"]
+          "requiresFacts": ["one", "same-day"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -6255,7 +6257,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "family-loss",
-          "key": "loss"
+          "key": "loss",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -6498,7 +6501,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "family-absence",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -18082,13 +18086,38 @@
           "move": "thank",
           "role": "asker",
           "purpose": "family-loss",
-          "key": "loss"
+          "key": "loss",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "tender",
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.sit-with-me-a-while-it-ll-still-be-true-tomorrow",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Sit with me a while. It'll still be true tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-11-01",
       "tag": {
         "move": "thank",
         "key": "loss"
@@ -20141,6 +20170,40 @@
           "move": "leave",
           "role": "asked",
           "purpose": "family-filing",
+          "key": "news-received",
+          "excludesFacts": ["daytime"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "family-absence",
+          "key": "threat",
+          "excludesFacts": ["daytime"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-some-air-we-ll-talk-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need some air. We'll talk later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "family-filing",
           "key": "news-received"
         },
         {
@@ -20155,7 +20218,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words session",
-      "date": "2026-10-15",
+      "date": "2026-11-01",
       "tag": {
         "move": "leave",
         "key": "news-received"
@@ -30718,7 +30781,8 @@
           "role": "asked",
           "purpose": "hearing-testify",
           "key": "routine",
-          "after": "scene-talk.state-ask.name-and-address-for-the-record-then-go-ahead"
+          "after": "scene-talk.state-ask.name-and-address-for-the-record-then-go-ahead",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -32303,7 +32367,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "concession-call",
-          "key": "loss"
+          "key": "loss",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -32401,7 +32466,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "concession-call",
-          "key": "loss"
+          "key": "loss",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -32672,7 +32738,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "victory-night",
-          "key": "honor"
+          "key": "honor",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "curious",
@@ -33290,7 +33357,8 @@
           "move": "tell",
           "role": "asker",
           "purpose": "veto-call",
-          "key": "loss"
+          "key": "loss",
+          "excludesFacts": ["evening"]
         }
       ],
       "bearing": "calm",
@@ -37680,7 +37748,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "filing-clerk",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["afternoon", "evening"]
         }
       ],
       "bearing": "calm",
@@ -40131,7 +40200,8 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "hurt",
@@ -43785,7 +43855,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "victory-night",
-          "key": "honor"
+          "key": "honor",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "glad",
@@ -43858,7 +43929,8 @@
           "role": "asked",
           "purpose": "victory-night",
           "key": "honor",
-          "requiresFacts": ["asked_out_of_work"]
+          "requiresFacts": ["asked_out_of_work"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "glad",
@@ -44233,7 +44305,8 @@
           "role": "asked",
           "purpose": "victory-night",
           "key": "honor",
-          "after": "warn"
+          "after": "warn",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "proud",
@@ -45819,7 +45892,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "floor-switch",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -46436,7 +46510,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "veto-call",
-          "key": "loss"
+          "key": "loss",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -46460,7 +46535,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "veto-call",
-          "key": "loss"
+          "key": "loss",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -51196,7 +51272,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "owed-apology",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -56270,7 +56347,8 @@
           "role": "asked",
           "purpose": "veto-call",
           "key": "loss",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -56458,10 +56536,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.thank-you-for-coming-out-tonight",
+      "key": "scene-talk.follow-promise.thank-you-for-coming-out",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "Thank you for coming out tonight.",
+      "text": "Thank you for coming out.",
       "uses": [
         {
           "subject": "scene",
@@ -56633,10 +56711,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-request.please-send-it-to-everyone-who-spoke-tonight",
+      "key": "scene-talk.reply-request.please-send-it-to-everyone-who-spoke",
       "move": "reply-request",
       "kind": "spoken",
-      "text": "Please send it to everyone who spoke tonight.",
+      "text": "Please send it to everyone who spoke.",
       "uses": [
         {
           "subject": "scene",
@@ -56720,7 +56798,7 @@
           "role": "asker",
           "purpose": "hearing-testify",
           "key": "routine",
-          "after": "scene-talk.reply-request.please-send-it-to-everyone-who-spoke-tonight"
+          "after": "scene-talk.reply-request.please-send-it-to-everyone-who-spoke"
         }
       ],
       "bearing": "calm",
@@ -58313,7 +58391,8 @@
           "purpose": "hearing-testify",
           "key": "routine",
           "after": "scene-talk.state-ask.name-and-address-for-the-record-then-go-ahead",
-          "requiresFacts": ["asked_wants_kept"]
+          "requiresFacts": ["asked_wants_kept"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -59776,10 +59855,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-sent-bill-over-this-morning-by-noon-name-from-outlet-has-the-numbe",
+      "key": "scene-talk.narrate-narrate.you-sent-bill-over-now-name-from-outlet-has-the-numbers-and-wants-your",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You sent {bill} over this morning. By noon {name} from {outlet} has the numbers and wants yours.",
+      "text": "You sent {bill} over. Now {name} from {outlet} has the numbers and wants yours.",
       "uses": [
         {
           "subject": "scene",
@@ -63439,7 +63518,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "desk-bill",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -64510,7 +64590,8 @@
           "role": "asker",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["incumbent"]
+          "requiresFacts": ["incumbent"],
+          "excludesFacts": ["afternoon", "evening"]
         }
       ],
       "bearing": "calm",
@@ -65751,10 +65832,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-confront.source-called-the-senator-s-office-this-morning-nothing-came-in-from-y",
+      "key": "scene-talk.follow-confront.source-called-the-senator-s-office-nothing-came-in-from-you",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "{source} called the senator's office this morning. Nothing came in from you.",
+      "text": "{source} called the senator's office. Nothing came in from you.",
       "uses": [
         {
           "subject": "scene",
@@ -65789,7 +65870,7 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-confront.source-called-the-senator-s-office-this-morning-nothing-came-in-from-y"
+          "after": "scene-talk.follow-confront.source-called-the-senator-s-office-nothing-came-in-from-you"
         }
       ],
       "bearing": "contrite",
@@ -65814,7 +65895,7 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-confront.source-called-the-senator-s-office-this-morning-nothing-came-in-from-y"
+          "after": "scene-talk.follow-confront.source-called-the-senator-s-office-nothing-came-in-from-you"
         }
       ],
       "bearing": "guarded",
@@ -65839,7 +65920,7 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-confront.source-called-the-senator-s-office-this-morning-nothing-came-in-from-y",
+          "after": "scene-talk.follow-confront.source-called-the-senator-s-office-nothing-came-in-from-you",
           "requiresFacts": ["source"]
         }
       ],
@@ -65865,7 +65946,7 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-confront.source-called-the-senator-s-office-this-morning-nothing-came-in-from-y"
+          "after": "scene-talk.follow-confront.source-called-the-senator-s-office-nothing-came-in-from-you"
         }
       ],
       "bearing": "braced",
@@ -66348,7 +66429,8 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "apologize"
+          "after": "apologize",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -71104,10 +71186,10 @@
       }
     },
     {
-      "key": "scene-talk.state-deliver-news.bill-passed-this-afternoon-it-s-here-for-your-signature",
+      "key": "scene-talk.state-deliver-news.bill-passed-it-s-here-for-your-signature",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "{bill} passed this afternoon. It's here for your signature.",
+      "text": "{bill} passed. It's here for your signature.",
       "uses": [
         {
           "subject": "scene",
@@ -71164,7 +71246,7 @@
           "role": "asked",
           "purpose": "desk-bill",
           "key": "vote-wanted",
-          "after": "scene-talk.state-deliver-news.bill-passed-this-afternoon-it-s-here-for-your-signature"
+          "after": "scene-talk.state-deliver-news.bill-passed-it-s-here-for-your-signature"
         }
       ],
       "bearing": "calm",
@@ -71189,7 +71271,7 @@
           "role": "asked",
           "purpose": "desk-bill",
           "key": "vote-wanted",
-          "after": "scene-talk.state-deliver-news.bill-passed-this-afternoon-it-s-here-for-your-signature"
+          "after": "scene-talk.state-deliver-news.bill-passed-it-s-here-for-your-signature"
         }
       ],
       "bearing": "guarded",
@@ -71214,7 +71296,7 @@
           "role": "asked",
           "purpose": "desk-bill",
           "key": "vote-wanted",
-          "after": "scene-talk.state-deliver-news.bill-passed-this-afternoon-it-s-here-for-your-signature"
+          "after": "scene-talk.state-deliver-news.bill-passed-it-s-here-for-your-signature"
         }
       ],
       "bearing": "curious",
@@ -71239,7 +71321,7 @@
           "role": "asked",
           "purpose": "desk-bill",
           "key": "vote-wanted",
-          "after": "scene-talk.state-deliver-news.bill-passed-this-afternoon-it-s-here-for-your-signature"
+          "after": "scene-talk.state-deliver-news.bill-passed-it-s-here-for-your-signature"
         }
       ],
       "bearing": "guarded",
@@ -72521,7 +72603,8 @@
           "role": "asked",
           "purpose": "filing-clerk",
           "key": "routine",
-          "after": "scene-talk.state-tell.your-notice-of-candidacy-is-ready-it-needs-your-signature-and-the-date"
+          "after": "scene-talk.state-tell.your-notice-of-candidacy-is-ready-it-needs-your-signature-and-the-date",
+          "excludesFacts": ["evening"]
         }
       ],
       "bearing": "guarded",
@@ -72935,10 +73018,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.if-it-isn-t-in-by-noon-friday-it-isn-t-in",
+      "key": "scene-talk.close-warn.if-it-isn-t-in-by-the-deadline-it-isn-t-in",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "If it isn't in by noon Friday, it isn't in.",
+      "text": "If it isn't in by the deadline, it isn't in.",
       "uses": [
         {
           "subject": "scene",
@@ -76797,7 +76880,8 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.reply-decline.most-of-it-is-decided-at-the-state-capitol-i-won-t-pretend-otherwise"
+          "after": "scene-talk.reply-decline.most-of-it-is-decided-at-the-state-capitol-i-won-t-pretend-otherwise",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "anxious",
@@ -77849,7 +77933,8 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-plea.you-can-make-them-want-to-stay"
+          "after": "scene-talk.follow-plea.you-can-make-them-want-to-stay",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -78851,7 +78936,8 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "answer"
+          "after": "answer",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -78960,7 +79046,8 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.reply-decline.then-i-don-t-have-more-for-you-tonight"
+          "after": "scene-talk.reply-decline.then-i-don-t-have-more-for-you-tonight",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -79810,7 +79897,8 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "outcome": "refused"
+          "outcome": "refused",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -80046,10 +80134,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-m-not-promising-a-date-tonight",
+      "key": "scene-talk.reply-refuse.i-m-not-promising-a-date",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I'm not promising a date tonight.",
+      "text": "I'm not promising a date.",
       "uses": [
         {
           "subject": "scene",
@@ -80133,7 +80221,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.reply-refuse.i-m-not-promising-a-date-tonight"
+          "after": "scene-talk.reply-refuse.i-m-not-promising-a-date"
         }
       ],
       "bearing": "calm",
@@ -81901,7 +81989,8 @@
           "role": "narrator",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate", "same-day"]
+          "requiresFacts": ["debate", "same-day"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -82026,7 +82115,8 @@
           "role": "asker",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate"]
+          "requiresFacts": ["debate"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -82051,7 +82141,8 @@
           "role": "asked",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate"]
+          "requiresFacts": ["debate"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -82101,7 +82192,8 @@
           "role": "asked",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate"]
+          "requiresFacts": ["debate"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -82201,7 +82293,8 @@
           "role": "asker",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate", "issue"]
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -82301,7 +82394,8 @@
           "role": "asker",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate", "issue"]
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -91292,7 +91386,8 @@
           "role": "asker",
           "purpose": "town-hall-question",
           "key": "favor-asked",
-          "requiresFacts": ["host-opposed", "issue"]
+          "requiresFacts": ["host-opposed", "issue"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "hurt",
@@ -91317,7 +91412,8 @@
           "role": "asker",
           "purpose": "town-hall-question",
           "key": "favor-asked",
-          "requiresFacts": ["host-agreed", "issue"]
+          "requiresFacts": ["host-agreed", "issue"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "hopeful",
@@ -92019,10 +92115,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-can-t-take-more-on-this-tonight",
+      "key": "scene-talk.reply-leave.i-can-t-take-more-on-this",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I can't take more on this tonight.",
+      "text": "I can't take more on this.",
       "uses": [
         {
           "subject": "scene",
@@ -101333,7 +101429,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "morning-after",
-          "key": "honor"
+          "key": "honor",
+          "excludesFacts": ["afternoon", "evening"]
         }
       ],
       "bearing": "tender",
@@ -101382,7 +101479,8 @@
           "role": "asker",
           "purpose": "morning-after",
           "key": "honor",
-          "requiresFacts": ["won"]
+          "requiresFacts": ["won"],
+          "excludesFacts": ["afternoon", "evening"]
         }
       ],
       "bearing": "glad",
@@ -116544,7 +116642,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "notice-home",
-          "key": "notice"
+          "key": "notice",
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -118455,7 +118554,8 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "after": "agree"
+          "after": "agree",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "glad",
@@ -118599,7 +118699,8 @@
           "key": "door",
           "step": "follow",
           "move": "accept",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -118671,7 +118772,8 @@
           "key": "door",
           "step": "open",
           "move": "greet",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "hopeful",
@@ -121513,7 +121615,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "leave",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
