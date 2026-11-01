@@ -54,6 +54,7 @@ import type {
   CoreState,
   DecisionContext,
   DecisionResult,
+  OfferRound,
   PersonState,
 } from "./types";
 
@@ -314,6 +315,9 @@ export function availableActs(
     }
     return atOwnJob;
   };
+  // One round of offers: the providers share what they work out for
+  // this person today (nothing they read changes while the offers are made).
+  const round: OfferRound = new Map();
   for (const definition of core.data.actions) {
     const provide = resolveOperation(
       core,
@@ -329,7 +333,7 @@ export function availableActs(
       false;
     const override =
       core.data.work?.discretionaryDurationParameters?.[definition.effect];
-    for (const offer of provide(api, actor, definition)) {
+    for (const offer of provide(api, actor, definition, round)) {
       if (excludedAtWork && holdsOwnJob()) continue;
       offer.effortHours = override
         ? api.parameter(override)

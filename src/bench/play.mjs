@@ -4596,9 +4596,6 @@ api("/api/title").then((title) => {
   if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
-  $("front-continue-life").textContent = titleLife
-    ? `${titleLife.name}, ${titleLife.age} · ${titleLife.placeName}`
-    : "";
   // The life's own face: the look the creator saved, as every other view of the player reads it.
   setFace("front-continue-bust", titleLife?.face);
 });
