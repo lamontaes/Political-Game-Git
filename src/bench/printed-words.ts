@@ -2301,6 +2301,30 @@ const birth: Builder = (read, f) => {
 };
 
 /**
+ * A government's treasury, which pays its public workers, named as the
+ * government people say they worked for ("the government of Arizona", "the
+ * federal government"), never as the account ("Arizona treasury"). Null for
+ * any other employer.
+ */
+function governmentEmployer(
+  read: Reader,
+  organizationId: string | undefined,
+): string | null {
+  const org = organizationId
+    ? read.core.organizations.get(organizationId as EntityId)
+    : undefined;
+  if (org?.kind !== "government-treasury") return null;
+  const row = read.row<{ level: string; name: string }>(
+    BUDGETS_MODULE_ID,
+    "governments",
+    organizationId!.replace(/^organization:treasury:/, ""),
+  );
+  if (!row) return null;
+  if (row.level === "federal") return "the federal government";
+  return `the government of ${row.level === "state" ? stateInSentence(row.name) : row.name}`;
+}
+
+/**
  * An obituary: who died, the age they reached and the town they lived in,
  * then the life's facts the records hold (words-paper-and-journal-everyday-
  * life; owner, Nov 1: "real ones with some good fluff"): where they were
@@ -2355,8 +2379,12 @@ const death: Builder = (read) => {
     !!work &&
     read.core.organizations.get(work.organizationId as EntityId)
       ?.outsideFlow !== undefined;
-  const employer =
+  const paidBy =
     away || office || work?.publicPayAuthorityId
+      ? null
+      : governmentEmployer(read, work?.organizationId);
+  const employer =
+    away || office || work?.publicPayAuthorityId || paidBy
       ? null
       : read.organization(work?.organizationId);
   const tenure =
@@ -2400,6 +2428,14 @@ const death: Builder = (read) => {
         : {}),
       ...(office ? { office: read.fact(office, id ?? "") } : {}),
       ...(away && town ? { away: read.fact("yes", work!.id) } : {}),
+      ...(paidBy && work
+        ? {
+            government: read.fact(paidBy, work.id),
+            ...(tenure > 1
+              ? { years: read.fact(String(tenure), work.id) }
+              : {}),
+          }
+        : {}),
       ...(employer && work
         ? {
             employer: read.fact(employer, work.id),

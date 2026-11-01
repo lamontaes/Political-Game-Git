@@ -306,7 +306,7 @@ describe("printed stories in News", () => {
     // its record holds (where they were born, the office they served in,
     // where they worked, who survives them) said in it
     // (words-paper-and-journal-everyday-life).
-    const LIFE = ["born", "office", "employer", "survivors"];
+    const LIFE = ["born", "office", "employer", "government", "survivors"];
     const deaths = [...core.durableLog.values()].filter(
       (row) =>
         row.kind === "life.death" &&
