@@ -779,6 +779,8 @@ export const viewsModule: CoreModule = {
       Math.abs(event.moodImpulse ?? v("zero")) +
       Math.max(v("zero"), event.stressImpulse ?? v("zero"));
     const size = impulse > v("zero") ? impulse : v("one");
+    // A circle stance keeps the sources heard since this day, and the newest.
+    const since = addDays(makeIsoDate(event.date), -v("stanceCauseKeptDays"));
     for (const personId of learnedBy) {
       const view = viewOf(api, personId);
       if (!view) continue;
@@ -896,7 +898,7 @@ export const viewsModule: CoreModule = {
             ...(speakerId ? { speakerId } : {}),
             ...(learnedFrom ? { learnedFrom } : {}),
           },
-          addDays(makeIsoDate(event.date), -v("stanceCauseKeptDays")),
+          since,
         ),
         ...(speakerId || prior?.heard
           ? {
