@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-forget-queue
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T18:51:40.045Z
 ---
 
 **What.** Once a month the game reread every memory of every person, the dead included, to forget old event notes. In the four-year Ringgold run that monthly reread grew from about 0.13 seconds to 0.76 seconds. Part of core-long-run-tables-grow-with-history.
