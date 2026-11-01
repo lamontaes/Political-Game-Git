@@ -86,6 +86,7 @@
     "female": "her",
     "other": "their"
   },
+  "metRelations": ["partner", "former-partner"],
   "lines": [
     {
       "kindPrefix": "person.birth",
@@ -97,6 +98,17 @@
       "turn": false,
       "oncePer": "school",
       "entry": "setting"
+    },
+    {
+      "kindPrefix": "event:school.finished",
+      "turn": false,
+      "oncePer": "finished",
+      "entry": "story",
+      "stageFact": "passed",
+      "stageWords": {
+        "false": "\\bwithout a diploma\\b",
+        "true": "\\b(?:graduated|got my diploma|finished high school)\\b"
+      }
     },
     {
       "kindPrefix": "work:opening",
@@ -442,7 +454,8 @@
           "key": "office",
           "text": "{{office}}"
         }
-      ]
+      ],
+      "hasOtherLine": true
     },
     {
       "kindPrefix": "act:vote-yes",
@@ -466,11 +479,6 @@
     },
     {
       "kindPrefix": "household:partners-met",
-      "turn": false,
-      "entry": "story"
-    },
-    {
-      "kindPrefix": "household:roots",
       "turn": false,
       "entry": "story"
     },
@@ -585,6 +593,18 @@
       "kindPrefix": "scene-ending:story-runs",
       "turn": false,
       "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:oath",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
+    },
+    {
+      "kindPrefix": "scene-ending:address",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
     }
   ],
   "firstTitle": [

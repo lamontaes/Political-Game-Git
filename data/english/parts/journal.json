@@ -652,6 +652,58 @@
       }
     },
     {
+      "key": "journal.work-line-started.i-went-to-work-in-place",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I went to work in {place}.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-started.i-found-a-job-in-place",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I found a job in {place}.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.work-line-lost.i-lost-my-job",
       "move": "work-line-lost",
       "kind": "spoken",
@@ -1993,7 +2045,12 @@
           "subject": "look-back",
           "role": "line",
           "choice": "died",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "person.birth",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 213,
@@ -3646,6 +3703,58 @@
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-other-took-office.other-took-office-as-office",
+      "move": "office-other-took-office",
+      "kind": "spoken",
+      "text": "{other} took office as {office}.",
+      "uses": [
+        {
+          "move": "office-other-took-office",
+          "subject": "office",
+          "role": "other",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (pool item words-journal-kin-took-office-as-i)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-other-took-office.other-was-sworn-in-as-office",
+      "move": "office-other-took-office",
+      "kind": "spoken",
+      "text": "{other} was sworn in as {office}.",
+      "uses": [
+        {
+          "move": "office-other-took-office",
+          "subject": "office",
+          "role": "other",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (pool item words-journal-kin-took-office-as-i)",
+      "date": "2026-10-29",
       "tag": {
         "move": "tell"
       }
@@ -6070,84 +6179,6 @@
       }
     },
     {
-      "key": "journal.home-line-roots.my-family-came-from-place",
-      "move": "home-line-roots",
-      "kind": "spoken",
-      "text": "My family came from {place}.",
-      "uses": [
-        {
-          "move": "home-line-roots",
-          "subject": "home",
-          "role": "roots",
-          "choice": "roots",
-          "journal": [
-            {
-              "kindPrefix": "household:roots",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-roots.my-people-came-from-place",
-      "move": "home-line-roots",
-      "kind": "spoken",
-      "text": "My people came from {place}.",
-      "uses": [
-        {
-          "move": "home-line-roots",
-          "subject": "home",
-          "role": "roots",
-          "choice": "roots",
-          "journal": [
-            {
-              "kindPrefix": "household:roots",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-roots.our-family-came-from-place",
-      "move": "home-line-roots",
-      "kind": "spoken",
-      "text": "Our family came from {place}.",
-      "uses": [
-        {
-          "move": "home-line-roots",
-          "subject": "home",
-          "role": "roots",
-          "choice": "roots",
-          "journal": [
-            {
-              "kindPrefix": "household:roots",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.work-line-parent-job.other-started-a-new-job",
       "move": "work-line-parent-job",
       "kind": "spoken",
@@ -7318,6 +7349,136 @@
       }
     },
     {
+      "key": "journal.self-line-school-finished.i-graduated-from-high-school",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I graduated from high school.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.i-finished-high-school-at-school",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I finished high school at {school}.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.i-got-my-diploma",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I got my diploma.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.my-senior-year-ended-without-a-diploma",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "My senior year ended without a diploma.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.i-left-school-without-a-diploma",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I left {school} without a diploma.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.self-line-came-of-age.i-am-eighteen-now",
       "move": "self-line-came-of-age",
       "kind": "spoken",
@@ -7503,6 +7664,110 @@
       }
     },
     {
+      "key": "journal.work-line-again.after-span-out-of-work-i-went-back-to-work",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "After {span} out of work, I went back to work.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.i-found-work-again",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I found work again.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.after-span-out-of-work-i-found-work-in-place",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "After {span} out of work, I found work in {place}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.i-found-work-again-in-place",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I found work again in {place}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.work-line-moved-on.i-left-employer-for-a-job-at-next",
       "move": "work-line-moved-on",
       "kind": "spoken",
@@ -7576,6 +7841,58 @@
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-moved-on.i-left-for-a-job-at-next",
+      "move": "work-line-moved-on",
+      "kind": "spoken",
+      "text": "I left for a job at {next}.",
+      "uses": [
+        {
+          "move": "work-line-moved-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "on",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-moved-on.i-moved-on-to-another-job",
+      "move": "work-line-moved-on",
+      "kind": "spoken",
+      "text": "I moved on to another job.",
+      "uses": [
+        {
+          "move": "work-line-moved-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "on",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
       "tag": {
         "move": "tell"
       }
@@ -9006,6 +9323,162 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-oath.other-swore-me-in",
+      "move": "scene-line-oath",
+      "kind": "spoken",
+      "text": "{other} swore me in.",
+      "uses": [
+        {
+          "move": "scene-line-oath",
+          "subject": "scene",
+          "role": "line",
+          "choice": "oath",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:oath",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-oath.i-raised-my-right-hand-and-other-swore-me-in",
+      "move": "scene-line-oath",
+      "kind": "spoken",
+      "text": "I raised my right hand, and {other} swore me in.",
+      "uses": [
+        {
+          "move": "scene-line-oath",
+          "subject": "scene",
+          "role": "line",
+          "choice": "oath",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:oath",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-oath.other-gave-me-the-oath-and-i-said-every-word",
+      "move": "scene-line-oath",
+      "kind": "spoken",
+      "text": "{other} gave me the oath, and I said every word.",
+      "uses": [
+        {
+          "move": "scene-line-oath",
+          "subject": "scene",
+          "role": "line",
+          "choice": "oath",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:oath",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-address.other-swore-me-in-and-then-i-spoke-to-the-room",
+      "move": "scene-line-address",
+      "kind": "spoken",
+      "text": "{other} swore me in, and then I spoke to the room.",
+      "uses": [
+        {
+          "move": "scene-line-address",
+          "subject": "scene",
+          "role": "line",
+          "choice": "address",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:address",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-address.i-took-the-oath-from-other-and-gave-my-first-address",
+      "move": "scene-line-address",
+      "kind": "spoken",
+      "text": "I took the oath from {other} and gave my first address.",
+      "uses": [
+        {
+          "move": "scene-line-address",
+          "subject": "scene",
+          "role": "line",
+          "choice": "address",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:address",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-address.after-other-swore-me-in-i-said-a-few-words",
+      "move": "scene-line-address",
+      "kind": "spoken",
+      "text": "After {other} swore me in, I said a few words.",
+      "uses": [
+        {
+          "move": "scene-line-address",
+          "subject": "scene",
+          "role": "line",
+          "choice": "address",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:address",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
       "tag": {
         "move": "tell"
       }

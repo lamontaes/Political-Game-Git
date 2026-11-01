@@ -45,6 +45,7 @@ import {
 } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
+import { journalPage } from "./ui/journal-page.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { listScreen, listEntry } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
@@ -530,6 +531,16 @@ async function refresh(scene = {}) {
   if (openTab) await openSheet(openTab);
 }
 
+/** Once a menu is on screen, apply each step in turn until the panel no longer scrolls. */
+function fitToPanel(steps) {
+  window.requestAnimationFrame(() => {
+    const body = $("sheet-body");
+    for (const step of steps) {
+      if (body.scrollHeight <= body.clientHeight + 1) return;
+      step();
+    }
+  });
+}
 async function act(path) {
   if (busy) return;
   busy = true;
@@ -567,11 +578,24 @@ async function act(path) {
     const moment = storyStop(result.packet);
     if (moment) await showStory(moment.recordId);
   } catch (error) {
-    $("card-place").textContent = error.message;
+    // The server holds an open stop this page does not show (a skip raced a stop another call
+    // opened): take it back from the server so Continue shows; only a refusal with nothing held
+    // is told as it is.
+    if (!(await resyncOpenStop())) $("card-place").textContent = error.message;
   } finally {
     busy = false;
     renderPacket();
   }
+}
+/** Show the stop the server holds for the saved life, if one is open; true when it did. */
+async function resyncOpenStop() {
+  const held = (await api("/api/title").catch(() => undefined))?.life?.packet;
+  if (held?.kind !== "stop") return false;
+  renderPacket(held);
+  await refresh();
+  const moment = storyStop(held);
+  if (moment) await showStory(moment.recordId);
+  return true;
 }
 
 // ---- The officeholder's day (OFFICE-LOCAL): the meeting and the desk ----
@@ -1111,6 +1135,9 @@ $("talk-next").addEventListener("click", async () => {
   if (talk) await post("/api/talk/leave");
   renderTalk(undefined);
   show("talk", false);
+  // A story's end hands the room back to the one scene renderer, so the people in it can be
+  // clicked to talk again (a story draws them without a click).
+  await renderScene();
   if (!$("continue").hidden) $("continue").click();
 });
 $("talk-leave").addEventListener("click", async () => {
@@ -1125,6 +1152,7 @@ $("talk-leave").addEventListener("click", async () => {
   onContinue = undefined;
   await post("/api/talk/leave");
   renderTalk(undefined);
+  await renderScene();
 });
 
 // ---- The filing office (step 3), a visit in the clerk's words ----
@@ -2511,7 +2539,7 @@ const sheets = {
         },
       }),
     );
-    return recordScreen({
+    const drawn = recordScreen({
       heading: {
         name: c.name,
         meta: `${labels.age} ${c.age} · ${labels.born} ${born}`,
@@ -2549,7 +2577,7 @@ const sheets = {
               node: pager({
                 items: members,
                 render: (card) => card,
-                rows: 2,
+                rows: window.innerHeight >= 800 ? 2 : 1,
                 columns: 3,
                 rowHeight: 64,
                 gap: 8,
@@ -2575,6 +2603,12 @@ const sheets = {
         },
       ].filter(Boolean),
     });
+    // A short window: tighter plates, then a shorter lede, until the panel holds it without a scroll.
+    fitToPanel([
+      () => $("sheet-body").classList.add("compact"),
+      () => $("sheet-body").classList.add("tight"),
+    ]);
+    return drawn;
   },
   async money() {
     const [budget, bank] = await Promise.all([
@@ -2784,20 +2818,16 @@ const sheets = {
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
-    // One story from birth, a paragraph to each turn of the life, with no
-    // heading over any part of it (owner, Oct 27: "written like a story,
-    // not individual sections... from birth"; "remove all those
-    // subheadings").
-    return recordScreen({
-      sections: [
-        {
-          items: chapters.map((c) => ({
-            text: c.lines.map((l) => l.text).join(" "),
-            tone: "narrative",
-          })),
-        },
-      ],
-    });
+    // One story from birth, a page to each chapter of the life, with no heading over any
+    // part of it (owner, Oct 27: "written like a story, not individual sections... from
+    // birth"; "remove all those subheadings").
+    return [
+      journalPage({
+        chapters,
+        labels: controls.journal,
+        yearOf: (iso) => iso.slice(0, 4),
+      }),
+    ];
   },
   async handoff() {
     const people = [
@@ -3418,7 +3448,8 @@ const sheets = {
       pages: {
         rows: 2,
         columns: 3,
-        rowHeight: 262,
+        // Two rows of tiles that fit the window: short windows take shorter tiles.
+        rowHeight: window.innerHeight >= 860 ? 262 : 214,
         gap: 14,
         words: {
           page: controls.politics.page,
@@ -3596,7 +3627,7 @@ const sheets = {
                       Math.min(
                         4,
                         Math.floor(
-                          (window.innerHeight - (own.length ? 520 : 300)) / 118,
+                          (window.innerHeight - (own.length ? 580 : 400)) / 118,
                         ),
                       ),
                     ),
@@ -3857,7 +3888,7 @@ const sheets = {
           pager({
             items: people,
             render: (node) => node,
-            rows: big ? rowsFor(650, 3) : rowsFor(500, 4),
+            rows: big ? rowsFor(650, 3) : rowsFor(560, 4),
             columns: 2,
             rowHeight: 64,
             gap: 8,
@@ -3948,6 +3979,13 @@ const sheets = {
       const v = await api(
         `/api/government/bodies?${new URLSearchParams({ id: me.id, level, state: stateKey })}`,
       );
+      // A place with no local government of its own (the District, an unincorporated place)
+      // opens on the level that governs it; Local stays a tab and says so when chosen.
+      const empty = !v.legislative.length && !v.executive.length;
+      if (empty && !governmentLevel && level === "local") {
+        governmentLevel = "state";
+        return screen();
+      }
       // A branch the level has nothing in is not offered (nothing on screen
       // does nothing): a township with no executive shows its board alone.
       // SG-PLAY-government-judicial-no-judges: no Judicial branch yet, since no
@@ -4033,11 +4071,25 @@ const sheets = {
               }),
             ]
           : [];
-      const view =
-        branch === "executive" || !body
+      const view = empty
+        ? {
+            main: [
+              plate(
+                null,
+                prose(
+                  (labels.noLocalGovernment ?? "").replace(
+                    "{state}",
+                    gov.homeState?.name ?? "",
+                  ),
+                ),
+              ),
+            ],
+            side: [],
+          }
+        : branch === "executive" || !body
           ? executiveView(v.executive, level)
           : lawmakingView(body, v.executive, level, v.state.key);
-      return splitScreen({
+      const screenNode = splitScreen({
         className: "government-screen",
         controls: [
           levels,
@@ -4047,6 +4099,25 @@ const sheets = {
         main: [...bodyTabs, ...view.main],
         side: view.side,
       });
+      // The panel never scrolls: once on screen, the members' pager gives up rows until what the
+      // window holds fits (a long office title or a big body takes room the rows were counted
+      // without).
+      window.requestAnimationFrame(() => {
+        const body = $("sheet-body");
+        for (const pageBox of screenNode.querySelectorAll(".members-pager")) {
+          while (
+            body.scrollHeight > body.clientHeight + 1 &&
+            pageBox.rowCount() > 1
+          )
+            pageBox.setRows(pageBox.rowCount() - 1);
+        }
+        // A big body on a short window still too tall: its seat picture gives way (the party
+        // split bar above it says the same count).
+        if (body.scrollHeight > body.clientHeight + 1)
+          for (const chart of screenNode.querySelectorAll(".seat-chart"))
+            chart.hidden = true;
+      });
+      return screenNode;
     };
     return [await screen()];
   },
@@ -4105,8 +4176,8 @@ const sheets = {
               },
             }),
           rows: Math.max(
-            2,
-            Math.min(5, Math.floor((window.innerHeight - 500) / 72)),
+            1,
+            Math.min(5, Math.floor((window.innerHeight - 600) / 72)),
           ),
           columns: 2,
           rowHeight: 64,
@@ -4308,7 +4379,7 @@ const sheets = {
     );
     const rows = Math.max(
       2,
-      Math.min(5, Math.floor((window.innerHeight - 330) / 122)),
+      Math.min(5, Math.floor((window.innerHeight - 400) / 122)),
     );
     const pageWords = {
       page: labels.page,
@@ -4464,7 +4535,7 @@ async function openSheet(tab) {
       : {},
   );
   $("sheet-body").replaceChildren(...body);
-  $("sheet-body").classList.remove("place-view");
+  $("sheet-body").classList.remove("place-view", "compact", "tight");
   $("sheet-body").classList.toggle(
     "cols",
     tab !== "who" && tab !== "calendar" && body.length > 12,
@@ -4561,9 +4632,6 @@ api("/api/title").then((title) => {
   if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
-  $("front-continue-life").textContent = titleLife
-    ? `${titleLife.name}, ${titleLife.age} · ${titleLife.placeName}`
-    : "";
   // The life's own face: the look the creator saved, as every other view of the player reads it.
   setFace("front-continue-bust", titleLife?.face);
 });
@@ -4878,7 +4946,7 @@ let townAsk = 0;
 async function listTowns() {
   const ask = ++townAsk;
   const towns = await api(
-    `/api/creator/towns?${new URLSearchParams({ state: setup.state.key, q: $("cr-town-search").value })}`,
+    `/api/creator/towns?${new URLSearchParams({ state: setup.state.key, q: $("cr-town-search").value, seed: setup.seed })}`,
   );
   if (ask !== townAsk) return;
   const count = new Intl.NumberFormat("en-US");

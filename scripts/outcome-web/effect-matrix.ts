@@ -23,6 +23,7 @@ import {
   causeAvailable,
   derivedOf,
   engineMeasure,
+  engineOwned,
   isLaw,
   keptOutcome,
   linkCoverage,
@@ -231,6 +232,9 @@ function researchBlocker(
       return "its research finds no effect (about zero), so an engine would multiply by one";
     case "cause-not-recorded":
       return `nothing in the core records its cause, ${link.from}`;
+    case "cause-cannot-vary":
+      // The CTO's grade (OWNER-DECISIONS.md, Oct 29): a national law no place differs on.
+      return `its cause, ${link.from}, is national law that no place differs on, so it cannot vary`;
     case "outcome-not-produced":
       return `no engine produces ${link.to}`;
     case "person-level":
@@ -293,7 +297,11 @@ function reachPoint(
   if (engine.length) return { status: "pass", evidence: where(engine) };
   // A kept outcome no engine reads still reaches people when a running link
   // starts from it and that link reaches: the web carries it on the next month.
-  if (keptOutcome(link.to))
+  // Not an outcome an engine owns (poverty): the web holds it at the engine's
+  // record and multiplies none of its links in (recordMonth in
+  // src/core2/modules/outcome-web.ts), so a link into it moves nothing the
+  // next link could carry.
+  if (keptOutcome(link.to) && !engineOwned(link.to))
     for (const next of FROM.get(link.to) ?? []) {
       if (seen.has(next.key) || next.key === link.key) continue;
       if (!linkCoverage(next).wired) continue;

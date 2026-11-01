@@ -743,6 +743,55 @@
         }
       ]
     },
+    "no-diploma-home": {
+      "state": "comfort",
+      "replies": ["tell", "promise", "apologize", "decline"],
+      "follow": {
+        "tell": ["ask", "comfort"],
+        "promise": ["thank", "press"],
+        "apologize": ["comfort"],
+        "decline": ["press"],
+        "answer": ["thank"]
+      },
+      "again": {
+        "ask": ["answer", "promise"],
+        "comfort": ["thank", "leave"],
+        "thank": ["thank", "leave"],
+        "press": ["promise", "leave"]
+      },
+      "endings": [
+        {
+          "id": "a-plan",
+          "label": "You talked about what comes next",
+          "keeps": "none",
+          "when": {
+            "reply": ["promise", "answer", "tell"]
+          }
+        },
+        {
+          "id": "heard-out",
+          "label": "You were heard out",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank", "apologize"]
+          }
+        },
+        {
+          "id": "not-tonight",
+          "label": "Not tonight",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "family-loss": {
       "state": "comfort",
       "replies": ["thank", "blame", "deflect", "promise"],
@@ -2955,6 +3004,39 @@
         }
       ]
     },
+    "filing-petition": {
+      "state": "tell",
+      "replies": ["agree", "ask", "confront", "leave"],
+      "follow": {
+        "agree": ["thank"],
+        "ask": ["answer"],
+        "confront": ["refuse"]
+      },
+      "again": {
+        "answer": ["agree", "leave"],
+        "refuse": ["agree", "leave"]
+      },
+      "endings": [
+        {
+          "id": "next-steps",
+          "label": "You know what comes next",
+          "keeps": "none",
+          "when": { "reply": ["agree"] }
+        },
+        {
+          "id": "asked-what-it-takes",
+          "label": "You asked what it takes",
+          "keeps": "none",
+          "when": { "anyReply": ["ask"] }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "care-visit": {
       "state": "request",
       "replies": ["agree", "ask", "comfort", "deflect"],
@@ -3949,6 +4031,70 @@
           "id": "left-there",
           "label": "Left it there",
           "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "swearing-in": {
+      "state": "request",
+      "replies": ["agree", "promise", "thank", "ask"],
+      "follow": {
+        "agree": ["congratulate"],
+        "promise": ["congratulate"],
+        "thank": ["congratulate"],
+        "ask": ["answer"],
+        "tell": ["thank"],
+        "comfort": ["thank"],
+        "offer": ["accept"],
+        "deflect": ["accept"]
+      },
+      "again": {
+        "answer": ["agree", "promise"]
+      },
+      "continue": [
+        {
+          "on": "resolved",
+          "asker": "offer",
+          "replies": ["tell", "comfort", "offer", "deflect"]
+        }
+      ],
+      "endings": [
+        {
+          "id": "spoke",
+          "label": "You took the oath and spoke",
+          "keeps": "address",
+          "when": {
+            "reply": ["tell", "comfort", "offer", "deflect"]
+          }
+        },
+        {
+          "id": "sworn-asked",
+          "label": "You asked first, then took the oath",
+          "keeps": "oath",
+          "when": {
+            "anyReply": ["ask"]
+          }
+        },
+        {
+          "id": "sworn-pledged",
+          "label": "You took the oath and pledged to keep it",
+          "keeps": "oath",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "sworn-thanked",
+          "label": "You took the oath and thanked the room",
+          "keeps": "oath",
+          "when": {
+            "anyReply": ["thank"]
+          }
+        },
+        {
+          "id": "sworn",
+          "label": "You took the oath",
+          "keeps": "oath",
           "when": {}
         }
       ]

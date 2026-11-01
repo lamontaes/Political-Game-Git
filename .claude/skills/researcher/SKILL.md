@@ -61,6 +61,7 @@ engine can look it up and obey it.
   ESTIMATED with that reason, never left out.
 - Unusable: a figure with no year, no unit, or no public page; a number you
   recall but cannot point at; a source whose terms you cannot read.
+- The 2020 Census redistricting (PL 94-171) state files are Latin-1, not the UTF-8 their technical documentation names; read them as Latin-1 or place names break (Nov 1, the group-quarters research). The Census API now needs a key; the bulk files under www2.census.gov do not.
 
 ## Recording it
 
@@ -115,6 +116,18 @@ engine can look it up and obey it.
 - **A price or an amount** (a fee, a wage, a benefit, a rent) is read by the
   engine at the moment it pays, per place, from the per-place table; the
   parameter row holds the national figure and the spread across places.
+- **A trait weight** is fitted with `scripts/traits/trait-calibrate.ts` on a
+  played year of `scripts/traits/trait-wiring-audit.ts` in a place where the
+  decision happens (a town with a newspaper for letters). When it says
+  "cannot-reach", read the decision's samples before anything else: if nearly
+  every `bare` (the case without personality) sits on one side of zero, a bar
+  in the case lies outside the range the world shows, and temperament alone
+  decides. Move the bar inside that range, then fit. Fit in two worlds at
+  least, since one world's range can be several times another's (press.letter
+  in Blunt, South Dakota: strengths up to 0.09 in one seed and 0.45 in the
+  next, best weights 0.0048 and 0.0097), and take the geometric mean, as the
+  meetings weight did. A finer sweep than the script's grid, by its formula,
+  is fine.
 - **A behavior** ("how likely someone is to…") is not a probability. It
   informs the weights in the person's own reasons (traits, money, closeness,
   the law in force), and the proof checks that the town's total lands in the

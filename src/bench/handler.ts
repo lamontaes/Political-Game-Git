@@ -1,4 +1,9 @@
-import { drawAheadNow, figureAtPath, figurePng } from "./people-pack";
+import {
+  drawAheadNow,
+  drawAheadOn,
+  figureAtPath,
+  figurePng,
+} from "./people-pack";
 import { frontPng } from "./mannequin-plates";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
@@ -249,6 +254,8 @@ export async function benchRequest(
   url: URL,
   options: BenchRequestOptions,
 ): Promise<BenchReply> {
+  // A game is being played: figures handed out are drawn ahead from now on.
+  drawAheadOn();
   let reply: BenchReply = { status: 500, headers: {}, body: "" };
   const request = { method };
   const response = {
@@ -528,7 +535,7 @@ export async function benchRequest(
           });
         else if (route === "states") send(200, creatorStates());
         else if (route === "towns")
-          send(200, creatorTowns(q.get("state") ?? "", q.get("q") ?? ""));
+          send(200, creatorTowns(q.get("state") ?? "", q.get("q") ?? "", seed));
         else if (route === "place") send(200, creatorRandomPlace(seed, draw));
         else if (route === "appearance") {
           const recipe = q.get("recipe")

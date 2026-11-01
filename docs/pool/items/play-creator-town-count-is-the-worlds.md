@@ -5,13 +5,14 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-creator-town-count-is-the-worlds
+pr: #7064
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-01T21:44:39.050Z
 ---
 
 **What.** The creator's town list (src/bench/creator.ts, creatorTowns) shows each town's published Census count before Start. The world then opens on its own count drawn around it (placeReferencePopulation(geoid, seed), within worldPopulationSpreadShare), so the list and the world can differ by a few people. The world's seed is drawn only when the world is built (handler.ts randomUUID). Stopgap SG-WORLD-creator-town-count-published names this replacement.
