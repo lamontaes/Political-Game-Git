@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: speed/cut-rehouse-rent
-pr:
+pr: #7015
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T18:05:35.632Z
