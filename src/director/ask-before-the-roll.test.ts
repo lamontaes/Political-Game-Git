@@ -61,15 +61,28 @@ function notStagedBecause(
     ),
   );
   if (taken) return `taken into the sitting of ${taken.momentId}`;
+  // The cap explains only an ask the director did record, as a journal line
+  // with no vote-ask scene, and counts only the scenes already staged when it
+  // was scheduled (the entries before it), as scheduleMoment counts them.
+  const at = book.schedule.findIndex((row) => row.momentId.includes(ask.id));
+  const entry = at >= 0 ? book.schedule[at] : undefined;
+  if (
+    !entry ||
+    entry.outcome !== "journal-line" ||
+    entry.bindings.some((b) => b.typeKey === "vote-asked")
+  )
+    return undefined;
   const { value, days } = SITUATION_LIBRARY.scheduling.seasonCap;
   const from = addDays(makeIsoDate(ask.date), -days);
-  const staged = book.schedule.filter(
-    (row) =>
-      row.date > from &&
-      row.date <= ask.date &&
-      row.outcome !== "journal-line" &&
-      row.bindings.some((b) => b.typeKey === "vote-asked"),
-  );
+  const staged = book.schedule
+    .slice(0, at)
+    .filter(
+      (row) =>
+        row.date > from &&
+        row.date <= ask.date &&
+        row.outcome !== "journal-line" &&
+        row.bindings.some((b) => b.typeKey === "vote-asked"),
+    );
   if (staged.length >= value)
     return `the director's season cap: ${staged.length} vote-ask scenes already staged for the member in the ${days} days to ${ask.date} (cap ${value})`;
   return undefined;
