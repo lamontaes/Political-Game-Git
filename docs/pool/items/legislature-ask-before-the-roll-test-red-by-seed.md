@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: governing/ask-before-roll-by-seed
-pr:
+pr: #6983
 blocked-on:
 lead: governing
 source: Checker 2, Nov 1; filed by the governing lead

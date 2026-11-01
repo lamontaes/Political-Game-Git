@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: words/journal-own-birth
-pr:
+pr: #6985
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T16:05:59.818Z

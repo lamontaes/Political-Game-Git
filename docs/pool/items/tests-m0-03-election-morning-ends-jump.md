@@ -6,7 +6,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/tests-m0-03-election-morning-ends-jump
 pr: #6963
 blocked-on:
