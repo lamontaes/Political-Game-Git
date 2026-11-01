@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** In a played world (buildBenchWorld) in a place drawn from all 56, named with its seed, a test re-elects an official who is not filled in, then shows holdsHighOffice true for them and the printed profile naming the new term by record id; with the old read put back, the test fails.
 
-**Files.** src/core2/press-desk.ts,src/english/printed-words.ts
+**Files.** src/core2/press-desk.ts,src/bench/printed-words.ts
 
 **Notes.** lead: words. Words asked for it on Nov 1, 23:54 UTC, to take after its current order. When the office-terms fold (core-long-run-election-and-term-rows) lands, these reads go through its termById resolver.
