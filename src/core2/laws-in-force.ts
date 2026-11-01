@@ -27,6 +27,8 @@ export const LAW_SERIES: Readonly<Record<string, LawDoctrine>> = {
   "income-tax": "additive",
   "sales-tax": "additive",
   "corporate-income-tax": "additive",
+  "estate-tax": "additive",
+  "inheritance-tax": "additive",
   "property-tax": "single",
   "snap-maximum": "single",
   "unemployment-weekly-maximum": "single",
@@ -341,41 +343,56 @@ export function resolveLawInForce(input: {
   };
 }
 
-/** The level a bill legislates at: the nation's, the state's, or the town's. */
-export type BillLevel = "federal" | "state" | "city";
+/**
+ * The government a bill makes law for, as the chain names it: its level and
+ * its jurisdiction (a county board's county, a township board's township, a
+ * town council's town).
+ */
+export interface BillGovernment {
+  readonly level: LawLevelName;
+  readonly jurisdiction: string;
+}
 
 /**
- * The row of the law in force at the level a bill legislates at, by the
+ * The row of the law in force for the government a bill makes law for, by the
  * series' doctrine (the one reader both the draft card and the bill paper
  * take their "in force today" and "before" from):
  *
- * - additive (income and sales tax): the levels stack, so a bill changes its
- *   own level's tax and nothing above or below it; no row at its level means
- *   no tax at that level, never the federal one.
+ * - additive (income, sales, estate and inheritance taxes): the levels stack,
+ *   so a bill changes its own government's tax and nothing above or below it;
+ *   no row there means no tax there, never the federal one.
  * - floor (minimum wage): a federal bill meets the federal floor, a state bill
- *   the state's (the federal floor where the state sets none), a town's the
- *   floor that governs there.
- * - single: one level sets it, so the deepest row at or above the bill's level.
+ *   the state's (the federal floor where the state sets none), a town
+ *   council's the floor that governs in the town; a county or township board
+ *   meets its own government's floor.
+ * - single: one level sets it, so the deepest row at or above the bill's
+ *   government (a county's bill never reads a sibling county's row).
  */
 export function lawRowAtLevel(
   answer: LawInForceAnswer,
-  level: BillLevel,
+  own: BillGovernment,
 ): LawRowInput | null {
-  const own = (name: LawLevelName) =>
-    answer.levels.find((l) => l.level === name)?.row ?? null;
-  if (answer.doctrine === "additive") return own(level);
-  if (answer.doctrine === "floor") {
-    if (level === "federal") return own("federal");
-    if (level === "state") return own("state") ?? own("federal");
-    return answer.governing;
-  }
-  const reach = answer.levels.map((l) => l.level).lastIndexOf(level) + 1;
-  return (
-    answer.levels
-      .slice(0, reach)
-      .reverse()
-      .find((l) => l.row)?.row ?? null
+  // The nation, the state and the town are one level each; a county or a
+  // township is the chain's own one of that name.
+  const single =
+    own.level === "federal" || own.level === "state" || own.level === "city";
+  const at = answer.levels.find(
+    (l) =>
+      l.level === own.level && (single || l.jurisdiction === own.jurisdiction),
   );
+  if (!at) return null;
+  const row = (name: LawLevelName) =>
+    answer.levels.find((l) => l.level === name)?.row ?? null;
+  if (answer.doctrine === "additive") return at.row;
+  if (answer.doctrine === "floor") {
+    if (own.level === "federal") return at.row;
+    if (own.level === "state") return at.row ?? row("federal");
+    return own.level === "city" ? answer.governing : at.row;
+  }
+  const above = answer.levels
+    .slice(0, answer.levels.indexOf(at) + 1)
+    .filter((l) => own.level !== "county" || l.level !== "county" || l === at);
+  return [...above].reverse().find((l) => l.row)?.row ?? null;
 }
 
 function round(value: number): number {

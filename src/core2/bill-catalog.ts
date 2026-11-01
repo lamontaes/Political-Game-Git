@@ -15,6 +15,7 @@ import type { CoreAPI } from "./types";
 import {
   authorityFor,
   inForceAtLevel,
+  levelJurisdiction,
   type Authority,
   type Provision,
 } from "./modules/legislature";
@@ -37,7 +38,7 @@ interface CatalogPolicy {
 
 export interface DraftablePolicy extends CatalogPolicy {
   /**
-   * The amount in force at the body's own level: the law's row there, or the
+   * The amount in force for the government the body makes law for: its law's row, or the
    * budget line in force (`inForceAtLevel`, the reader the bill paper's
    * "before" takes too). Null where a policy has no amount (a question) or
    * nothing is in force at that level.
@@ -68,10 +69,16 @@ const subjects = (
   }
 ).subjects;
 
-/** What a body at this level can draft, menu by menu. */
+/**
+ * What a body at this level can draft, menu by menu. `jurisdiction` is the
+ * government the body makes law for (`bodyJurisdiction`) where that is not the
+ * level's own: a county or township board reads its own law and budget, not
+ * the town's.
+ */
 export function billCatalog(
   api: CoreAPI,
   level: Level,
+  jurisdiction: string = levelJurisdiction(api, level),
 ): readonly CatalogMenu[] {
   return subjects.map((subject) => ({
     id: subject.id,
@@ -93,7 +100,7 @@ export function billCatalog(
           const inForce =
             p.kind === "policy-question"
               ? null
-              : inForceAtLevel(api, provision, level);
+              : inForceAtLevel(api, provision, jurisdiction);
           return {
             ...p,
             inForce: inForce?.value ?? null,

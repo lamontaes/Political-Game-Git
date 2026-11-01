@@ -9,8 +9,10 @@ import {
   bodyOf,
   bodyRow,
   draftBill,
+  bodyJurisdiction,
   floorDateOf,
   inForceAtLevel,
+  levelJurisdiction,
   memberKey,
   votesOn,
   whipCount,
@@ -184,7 +186,7 @@ export function seatView(core: CoreState, personId: string) {
   // Each body's own catalog: what its level can pass, with the amount in force.
   const bodies = bodiesOf(core, personId).map((body) => ({
     ...body,
-    menus: menusFor(api, body.level),
+    menus: menusFor(api, body.level, body.officeId),
   }));
   return {
     bodies,
@@ -196,7 +198,7 @@ export function seatView(core: CoreState, personId: string) {
       current: inForceAtLevel(
         api,
         { kind: "law-amount", series: row.series },
-        "city",
+        levelJurisdiction(api, "city"),
       ).value,
     })),
     questions: [
@@ -496,42 +498,50 @@ export function bodyMembers(
  * its level can pass, with the amount in force today and whether the state
  * lets a town act (`billCatalog`, never the raw catalog file).
  */
-function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
+function menusFor(
+  api: ReturnType<typeof coreAPI>,
+  bodyLevel: string,
+  bodyOfficeId: string,
+) {
   const lineNames = budgetLineNames();
   const level =
     bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
-  return billCatalog(api, level).map((menu) => ({
-    id: menu.id,
-    name: menu.name,
-    items: menu.topics
-      .flatMap((topic) => topic.policies)
-      .filter(
-        (row) =>
-          (row.kind === "policy-question" && row.question) ||
-          (row.kind === "budget-line" && row.line) ||
-          (row.kind === "law-amount" && row.series),
-      )
-      .map((row) => ({
-        kind: row.kind,
-        // A budget line by its name on the budgets screen, never its key.
-        name:
-          (row.kind === "budget-line" &&
-            lineNames[`budget-line:${row.line}`]) ||
-          row.name,
-        ...(row.question ? { question: row.question } : {}),
-        ...(row.line ? { line: row.line } : {}),
-        ...(row.series ? { series: row.series } : {}),
-        ...(row.unit ? { unit: row.unit } : {}),
-        inForce: row.inForce,
-        // The amount the law in force holds, as the bill's paper cites it ("before"): the
-        // draft card shows this beside the new amount so both screens say one thing.
-        today:
-          row.inForce != null
-            ? { value: row.inForce, unit: row.inForceUnit }
-            : null,
-        allowed: row.authority.allowed,
-        warning: row.authority.warning,
-        reason: row.authority.reason,
-      })),
-  }));
+  // Read the law and budget of the government the body makes law for (a county
+  // board's county, a township board's township), as its bills will.
+  return billCatalog(api, level, bodyJurisdiction(api, bodyOfficeId)).map(
+    (menu) => ({
+      id: menu.id,
+      name: menu.name,
+      items: menu.topics
+        .flatMap((topic) => topic.policies)
+        .filter(
+          (row) =>
+            (row.kind === "policy-question" && row.question) ||
+            (row.kind === "budget-line" && row.line) ||
+            (row.kind === "law-amount" && row.series),
+        )
+        .map((row) => ({
+          kind: row.kind,
+          // A budget line by its name on the budgets screen, never its key.
+          name:
+            (row.kind === "budget-line" &&
+              lineNames[`budget-line:${row.line}`]) ||
+            row.name,
+          ...(row.question ? { question: row.question } : {}),
+          ...(row.line ? { line: row.line } : {}),
+          ...(row.series ? { series: row.series } : {}),
+          ...(row.unit ? { unit: row.unit } : {}),
+          inForce: row.inForce,
+          // The amount the law in force holds, as the bill's paper cites it ("before"): the
+          // draft card shows this beside the new amount so both screens say one thing.
+          today:
+            row.inForce != null
+              ? { value: row.inForce, unit: row.inForceUnit }
+              : null,
+          allowed: row.authority.allowed,
+          warning: row.authority.warning,
+          reason: row.authority.reason,
+        })),
+    }),
+  );
 }

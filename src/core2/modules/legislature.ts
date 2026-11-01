@@ -62,10 +62,9 @@ import {
 import {
   lawRowAtLevel,
   localAuthority,
-  type BillLevel,
   type EnactedAuthority,
 } from "../laws-in-force";
-import type { LawChain, LawRowInput } from "../laws-starting";
+import type { LawRowInput } from "../laws-starting";
 import { budgetInForce } from "../budgets-treasury";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
@@ -1274,11 +1273,18 @@ const seriesQuestion = (
   }
 ).series;
 
-/** The policy question a provision speaks to, and which way the provision points on it. */
+/**
+ * The policy question a provision speaks to, and which way the provision
+ * points on it. A law's direction is read against what is in force for the
+ * government the bill makes law for: the level's own (the town, the state, the
+ * nation), or `jurisdiction` where the bill's body governs another (a county or
+ * a township).
+ */
 export function provisionStance(
   api: CoreAPI,
   provision: Provision,
   level: LawLevel = "city",
+  jurisdiction: string = levelJurisdiction(api, level),
 ): { question: string; position: number } | null {
   if (provision.kind === "policy-question" && provision.question)
     return {
@@ -1308,15 +1314,18 @@ export function provisionStance(
   if (!map || !provision.series) return null;
   // No law at the bill's level is an amount of nothing to change from.
   const current =
-    inForceAtLevel(api, { kind: "law-amount", series: provision.series }, level)
-      .value ?? 0;
+    inForceAtLevel(
+      api,
+      { kind: "law-amount", series: provision.series },
+      jurisdiction,
+    ).value ?? 0;
   const direction = Math.sign(provision.value - current);
   return direction === 0
     ? null
     : { question: map.question, position: direction * map.raiseIs };
 }
 
-type LawLevel = BillLevel;
+type LawLevel = "federal" | "state" | "city";
 
 /** What is in force on a bill's subject at its own level, and the record that says so. */
 export interface InForce {
@@ -1329,8 +1338,9 @@ export interface InForce {
   readonly row: LawRowInput | null;
 }
 
-/** The government whose law and budget a level is: the nation, the state, or the town's own. */
-function levelJurisdiction(chain: LawChain, level: LawLevel): string {
+/** The government a level is when no body says otherwise: the nation, the state, or the town's own. */
+export function levelJurisdiction(api: CoreAPI, level: LawLevel): string {
+  const chain = lawChain(api);
   return level === "federal"
     ? "US"
     : level === "state"
@@ -1339,39 +1349,24 @@ function levelJurisdiction(chain: LawChain, level: LawLevel): string {
 }
 
 /**
- * The treasury of a level: the nation's, the state's, or the town's own. A
- * town with no city or township government of its own is the county whose
- * treasury carries the whole local share of every function (`county-whole`).
- */
-function levelGovernment(
-  api: CoreAPI,
-  level: LawLevel,
-): GovernmentRow | undefined {
-  const all = governments(api);
-  const id = levelJurisdiction(lawChain(api), level);
-  return (
-    all.find((g) => g.id === id) ??
-    (level === "city" ? all.find((g) => g.base === "county-whole") : undefined)
-  );
-}
-
-/**
- * The one reader of "what is in force" for a bill's subject at the level the
- * bill legislates at: the draft card's "in force today" (`billCatalog`) and
- * the bill paper's "before" (`billSections`) both take it from here, so the
- * two screens say one thing. A law reads its row at that level by the series'
- * doctrine (`lawRowAtLevel`: the levels of an income tax stack, a minimum
- * wage is a floor); a budget line reads the line in the budget its
- * government has in force.
+ * The one reader of "what is in force" for a bill's subject at the
+ * government the bill makes law for (`billJurisdiction` for a bill,
+ * `bodyJurisdiction` for a body that has not drafted one): the draft card's
+ * "in force today" (`billCatalog`) and the bill paper's "before"
+ * (`billSections`) both take it from here, so the two screens say one thing.
+ * A law reads that government's row by the series' doctrine (`lawRowAtLevel`:
+ * the levels of an income tax stack, a minimum wage is a floor); a budget line
+ * reads the line in the budget that government has in force, the budget a
+ * bill's change is amended into.
  */
 export function inForceAtLevel(
   api: CoreAPI,
   subject: Pick<Provision, "kind" | "series" | "question" | "line">,
-  level: LawLevel,
+  jurisdiction: string,
 ): InForce {
   if (subject.kind === "budget-line") {
     const gov = api.state.modules.has(BUDGETS_MODULE_ID)
-      ? levelGovernment(api, level)
+      ? governments(api).find((g) => g.id === jurisdiction)
       : undefined;
     const budget = gov ? budgetInForce(api, gov.id) : undefined;
     return {
@@ -1386,7 +1381,9 @@ export function inForceAtLevel(
   }
   const series =
     subject.kind === "policy-question" ? subject.question : subject.series;
-  const row = series ? lawRowAtLevel(lawInForce(api, series), level) : null;
+  const own = lawChain(api).levels.find((l) => l.jurisdiction === jurisdiction);
+  const row =
+    series && own ? lawRowAtLevel(lawInForce(api, series), own) : null;
   return {
     value: row?.value ?? null,
     unit: row?.unit ?? null,
@@ -1395,11 +1392,17 @@ export function inForceAtLevel(
   };
 }
 
-/** The level a bill legislates at. */
-function billLevel(api: CoreAPI, bill: BillRow): LawLevel {
-  // A county body's law reads at the town's level.
+/** A provision's stance, read against the law in force for the government its bill makes law for. */
+function billStance(api: CoreAPI, provision: Provision, bill: BillRow) {
+  // The level is the body's (a county's reads as the town's); what the law
+  // holds is read for the government the bill makes law for.
   const level = bodyLevel(api, bill.bodyOfficeId);
-  return level === "county" ? "city" : level;
+  return provisionStance(
+    api,
+    provision,
+    level === "county" ? "city" : level,
+    billJurisdiction(api, bill),
+  );
 }
 
 /**
@@ -1740,10 +1743,10 @@ export function billSections(
   api: CoreAPI,
   bill: BillRow,
 ): readonly BillSection[] {
-  const level = billLevel(api, bill);
+  const jurisdiction = billJurisdiction(api, bill);
   return bill.provisions.map((p, index) => {
-    // What is in force at the bill's own level, read as the draft card reads it.
-    const inForce = inForceAtLevel(api, p, level);
+    // What is in force for the government the bill makes law for, read as the draft card reads it.
+    const inForce = inForceAtLevel(api, p, jurisdiction);
     const row = inForce.row;
     // A budget line is changed from the amount the bill recorded, else the
     // line in force.
@@ -1816,9 +1819,13 @@ export function billSections(
  * signature at this level, so a president's act reaches the national outlets
  * and a governor's the state's.
  */
-export function billReach(
+export function billReach(api: CoreAPI, bill: BillRow) {
+  return reachOfBody(api, bill.bodyOfficeId);
+}
+
+function reachOfBody(
   api: CoreAPI,
-  bill: BillRow,
+  bodyOfficeId: string,
 ): {
   readonly federal: boolean;
   readonly state: boolean;
@@ -1827,11 +1834,11 @@ export function billReach(
   readonly township: string | null;
   readonly level: "federal" | "state" | "county" | "township" | "city";
 } {
-  const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
-  const state = !federal && isState(api, bill);
-  const county = !federal && !state ? countyOfBody(api, bill) : null;
+  const federal = chambersOfBody(api, bodyOfficeId).includes(FEDERAL_HOUSE);
+  const state = !federal && isState(api, bodyOfficeId);
+  const county = !federal && !state ? countyOfBody(api, bodyOfficeId) : null;
   const township =
-    !federal && !state && !county ? townshipOfBody(api, bill) : null;
+    !federal && !state && !county ? townshipOfBody(api, bodyOfficeId) : null;
   const level = federal
     ? "federal"
     : state
@@ -1844,17 +1851,24 @@ export function billReach(
   return { federal, state, county, township, level };
 }
 
-/** The government whose law a bill makes: the nation, the state, or the county, township or town its body governs. */
-export function billJurisdiction(api: CoreAPI, bill: BillRow): string {
-  const { federal, state, county, township } = billReach(api, bill);
+/**
+ * The government whose law a bill of this body would make (the one rule for
+ * it): the nation, the state, or the county, township or town the body
+ * governs. The draft card reads it before any bill exists; `billJurisdiction`
+ * is the same rule for a bill.
+ */
+export function bodyJurisdiction(api: CoreAPI, bodyOfficeId: string): string {
+  const { federal, state, county, township } = reachOfBody(api, bodyOfficeId);
   return (
     county ??
     township ??
-    levelJurisdiction(
-      lawChain(api),
-      federal ? "federal" : state ? "state" : "city",
-    )
+    levelJurisdiction(api, federal ? "federal" : state ? "state" : "city")
   );
+}
+
+/** The government whose law a bill makes: the nation, the state, or the county, township or town its body governs. */
+export function billJurisdiction(api: CoreAPI, bill: BillRow): string {
+  return bodyJurisdiction(api, bill.bodyOfficeId);
 }
 
 /**
@@ -2761,7 +2775,7 @@ function recordConsistency(
   let sum = 0;
   for (const p of bill.provisions) {
     const series = provisionSeries(p);
-    const stance = provisionStance(api, p, billLevel(api, bill));
+    const stance = billStance(api, p, bill);
     if (!series || !stance) continue;
     const last = votesOf(api, memberId)
       .filter((v) => v.stance.question === stance.question)
@@ -2792,7 +2806,7 @@ function positionOn(
 ): MemberPosition {
   const official = officialOf(api, memberId);
   const stances = bill.provisions.flatMap((provision) => {
-    const stance = provisionStance(api, provision, billLevel(api, bill));
+    const stance = billStance(api, provision, bill);
     return stance ? [stance] : [];
   });
   // A state or federal official weighs their own reasons (OPUS-OFFICIALS);
@@ -3316,9 +3330,14 @@ export function obligationsOf(
 
 /** The bill's chambers, in order: the town's body, or its legislature's chambers starting where it was introduced. */
 export function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
-  const office = bodyOf(api, bill.bodyOfficeId);
+  return chambersOfBody(api, bill.bodyOfficeId);
+}
+
+/** The chambers of the body a bill is before, in order. */
+function chambersOfBody(api: CoreAPI, bodyOfficeId: string): readonly string[] {
+  const office = bodyOf(api, bodyOfficeId);
   const row = bodyRow(office?.kind ?? "");
-  if (!office || !row?.legislature) return [bill.bodyOfficeId];
+  if (!office || !row?.legislature) return [bodyOfficeId];
   // A federal chamber is the nation's (one id); a state's chambers are its
   // own office rows.
   const others = row.chamberId
@@ -3337,15 +3356,15 @@ export function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
         .filter(
           (o) =>
             bodyRow(o.kind)?.legislature === row.legislature &&
-            o.id !== bill.bodyOfficeId,
+            o.id !== bodyOfficeId,
         )
         .map((o) => o.id)
         .sort();
-  return [row.chamberId ?? bill.bodyOfficeId, ...others];
+  return [row.chamberId ?? bodyOfficeId, ...others];
 }
 
-function isState(api: CoreAPI, bill: BillRow): boolean {
-  return isLegislature(api, bill.bodyOfficeId);
+function isState(api: CoreAPI, bodyOfficeId: string): boolean {
+  return isLegislature(api, bodyOfficeId);
 }
 
 /**
@@ -3549,7 +3568,7 @@ function chamberVote(
         })),
     } as unknown as ModuleRow);
     for (const provision of bill.provisions) {
-      const stance = provisionStance(api, provision, billLevel(api, bill));
+      const stance = billStance(api, provision, bill);
       if (stance && vote !== "abstain" && vote !== "absent")
         recordVote(api, {
           personId: key,
@@ -3751,7 +3770,7 @@ function committeeStage(
   // (the speech engine moves each by the witness's standing with them), and
   // the committee then votes on where its members stand after hearing it.
   const question = bill.provisions
-    .map((p) => provisionStance(api, p, billLevel(api, bill)))
+    .map((p) => billStance(api, p, bill))
     .find((row) => row !== null);
   if (heard && question && api.state.modules.has(SPEECH_MODULE_ID)) {
     const room = roster.flatMap((t) =>
@@ -3882,10 +3901,9 @@ function ownSections(
   memberId: string,
   count: number,
 ): readonly Provision[] {
-  const level = billLevel(api, bill);
   const touched = new Set(
     bill.provisions.flatMap((p) => {
-      const stance = provisionStance(api, p, level);
+      const stance = billStance(api, p, bill);
       return stance ? [stance.question] : [];
     }),
   );
@@ -5055,22 +5073,22 @@ export function executiveItemVeto(
 
 /** A county board's ordinances are county law: the county the board governs, in the town's chain. */
 /** The township a township board governs: its government-unit id, which is the law chain's township jurisdiction. */
-function townshipOfBody(api: CoreAPI, bill: BillRow): string | null {
+function townshipOfBody(api: CoreAPI, bodyOfficeId: string): string | null {
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
-    .get(bill.bodyOfficeId) as unknown as
+    .get(bodyOfficeId) as unknown as
     { kind: string; jurisdiction: string } | undefined;
   return office && bodyRow(office.kind)?.law === "township"
     ? office.jurisdiction
     : null;
 }
 
-function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
+function countyOfBody(api: CoreAPI, bodyOfficeId: string): string | null {
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
-    .get(bill.bodyOfficeId) as unknown as
+    .get(bodyOfficeId) as unknown as
     { kind: string; jurisdiction: string } | undefined;
   if (!office || bodyRow(office.kind)?.law !== "county") return null;
   const chain = lawChain(api);

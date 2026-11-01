@@ -111,6 +111,13 @@ try {
   assert.ok(chosen, "the body has no law amount it may draft");
   console.log("draft card:", chosen);
   assert.ok(chosen.today, "the draft card shows nothing in force today");
+  // Where no law is in force at the body's own level, the card shows the worded "none"
+  // (controls.bill.none in src/bench/data/controls.json, "Not set"), never a number.
+  const none = await page.evaluate(
+    async () => (await (await fetch("/api/controls")).json()).bill.none,
+  );
+  assert.ok(none, "the controls carry a word for nothing in force");
+  const inForce = chosen.today !== none;
   await page.locator(".draft-card input").fill("2");
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-filled.png` });
   await page
@@ -123,26 +130,40 @@ try {
     .locator("#sheet-body button", { hasText: /Read the bill/ })
     .first()
     .click();
-  await page.locator(".bill-compare").waitFor();
-  if (SHOTS) await page.screenshot({ path: `${SHOTS}/bill-paper.png` });
-  const cells = await page.evaluate(() =>
-    [...document.querySelectorAll(".bill-compare-cell strong")].map((n) =>
-      n.textContent.trim(),
-    ),
-  );
-  console.log("bill paper:", cells);
-  assert.equal(cells.length, 2, "today's amount and the new one");
-  assert.notEqual(cells[0], cells[1], "the new amount differs from today's");
-  // The card and the paper say one thing about what is in force today.
-  assert.equal(
-    cells[0],
-    chosen.today,
-    `the draft card says ${chosen.today} today, the paper says ${cells[0]}`,
-  );
-  assert.deepEqual(errors, [], "page errors");
-  console.log(
-    "ok: the draft card and the paper show today's amount beside the new one",
-  );
+  if (!inForce) {
+    // Nothing in force: the paper has no amount to set beside the new one.
+    await page.locator(".bill-estimate").waitFor();
+    assert.equal(
+      await page.locator(".bill-compare").count(),
+      0,
+      `the card says ${none} is in force, so the paper shows no "today" cell`,
+    );
+    assert.deepEqual(errors, [], "page errors");
+    console.log(
+      `ok: nothing is in force (${none}), and the paper shows no amount for it`,
+    );
+  } else {
+    await page.locator(".bill-compare").waitFor();
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/bill-paper.png` });
+    const cells = await page.evaluate(() =>
+      [...document.querySelectorAll(".bill-compare-cell strong")].map((n) =>
+        n.textContent.trim(),
+      ),
+    );
+    console.log("bill paper:", cells);
+    assert.equal(cells.length, 2, "today's amount and the new one");
+    assert.notEqual(cells[0], cells[1], "the new amount differs from today's");
+    // The card and the paper say one thing about what is in force today.
+    assert.equal(
+      cells[0],
+      chosen.today,
+      `the draft card says ${chosen.today} today, the paper says ${cells[0]}`,
+    );
+    assert.deepEqual(errors, [], "page errors");
+    console.log(
+      "ok: the draft card and the paper show today's amount beside the new one",
+    );
+  }
 } finally {
   await browser.close();
 }

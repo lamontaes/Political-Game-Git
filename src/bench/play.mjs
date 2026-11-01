@@ -437,7 +437,9 @@ const words = (key) => {
 };
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
 // A percent reads with its sign, any other unit in words.
+// A budget line ("minor", no period) is a government's sum, rounded as the budgets tab rounds it.
 const amount = (value, unit) => {
+  if (unit === "minor") return roundedMoney(Number(value));
   if (unit?.startsWith("minor"))
     return `${moneyWords(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
   // A rate as a person would say it: at most two decimals (a combined sales
@@ -2149,21 +2151,14 @@ function billEstimate(paper, section) {
       newLabel: words.proposed ?? "",
       proposed: after,
     };
-  else if (est.line && est.ofMinor != null && est.lineAmountMinor != null)
-    compare = {
-      todayLabel: words.today ?? "",
-      today: moneyWords(est.ofMinor),
-      newLabel: words.proposed ?? "",
-      proposed: moneyWords(est.ofMinor + est.lineAmountMinor),
-    };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
   if (est.line)
     lines.push(
       [
         `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
-        est.lineAmountMinor != null ? moneyWords(est.lineAmountMinor) : null,
+        est.lineAmountMinor != null ? roundedMoney(est.lineAmountMinor) : null,
         est.ofMinor != null
-          ? `${words.from ?? ""} ${moneyWords(est.ofMinor)}`
+          ? `${words.from ?? ""} ${roundedMoney(est.ofMinor)}`
           : null,
       ]
         .filter(Boolean)
