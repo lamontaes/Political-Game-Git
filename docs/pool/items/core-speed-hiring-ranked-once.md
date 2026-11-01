@@ -17,7 +17,7 @@ claimed-at: 2026-11-01T18:05:26.638Z
 
 **Rules.** Speed: a country's year runs under 120 seconds; never scan the whole world or a whole history again for each person or each step. A speed change never changes what the simulation decides: dev mode's records proof must be identical before and after on a drawn place.
 
-**Done when.** Done when the ranking picks the same people as the scan, with zero differing tables on the Ringgold four-year proof and the Storrs one-year proof. Bookkeeping must run the scan beside the ranking and stop on any difference. A profile of Storrs's second year must show hiring time falling. Done: both proofs show zero differing tables, and hiring fell from 149.9 to 7.2 seconds; npm run speed:year -- --seed long-1 --years 4 and --seed storrs-1 --place 0973980 --years 1 on main and on the branch, one process each, keep dev mode's records proof identical in every table, with the times in the PR body.
+**Done when.** In the played world (npm run speed:year, which builds it with buildBenchWorld), Ringgold, Louisiana over four years (seed long-1) and Storrs, Connecticut over one (key 0973980, seed storrs-1) keep dev mode's records proof identical to main in every table; the tests that hire (src/core2/jobs.test.ts and the others the PR names) pass with bookkeeping on, which runs the old scan beside the ranking and throws on any difference; and a profile of Storrs's second year shows the hiring step falling, with the times in the PR body.
 
 **Files.** src/core2/modules/jobs.ts
 
