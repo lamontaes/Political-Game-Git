@@ -9,7 +9,10 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { BenchPlayer } from "../bench/player";
+import { DevMode } from "../bench/dev-mode";
 import { buildBenchWorld } from "../bench/world";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { cabinet, successions } from "./modules/succession";
@@ -140,6 +143,27 @@ describe(`presidential succession in the played world: ${where}`, () => {
         `${where} ${post.id}`,
       ).toBe(true);
     }
+  });
+
+  it("a secretary who dies is replaced by the President's nominee on the next review", () => {
+    const fresh = buildBenchWorld(seed, "2026-10-12", { twoLevel: true });
+    const freshApi = coreAPI(fresh.core);
+    const dev = new DevMode(
+      fresh.core,
+      fresh.director,
+      new BenchPlayer(fresh.core, fresh.director),
+      fresh.placeId,
+    );
+    const before = cabinet(freshApi);
+    const dead = before[0]!;
+    freshApi.updatePerson(dead.holderId, { alive: false });
+    dev.advance(addDays(makeIsoDate(fresh.core.date), 60));
+    const after = cabinet(freshApi).find((p) => p.id === dead.id)!;
+    expect(after, where).toBeTruthy();
+    expect(after.holderId, where).not.toBe(dead.holderId);
+    expect(fresh.core.people.get(after.holderId)?.alive, where).toBe(true);
+    const votes = after.confirmation as { yes: number; no: number }[];
+    expect(votes[0]!.yes, where).toBeGreaterThan(votes[0]!.no);
   });
 
   it("a vice president named to a vacancy is eligible to be president, vacancy after vacancy", () => {
