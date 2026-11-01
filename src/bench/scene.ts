@@ -19,6 +19,7 @@ import figureRules from "./data/whole-figures.json" with { type: "json" };
 import {
   ageBandOf,
   drawnUrl,
+  dressedForPlace,
   figureForSpot,
   fitOn,
   portraitFigure,
@@ -767,15 +768,15 @@ export function stagePeople(
     figure: PackFigure;
     spot: PlateSpot;
   }[] = [];
-  for (const { id, name, reason } of ids) {
+  const seat = ({ id, name, reason }: (typeof ids)[number]) => {
     if (!reason) {
       unplaced.push({ personId: id, reason: "no-reason" });
-      continue;
+      return;
     }
     const looks = looksOf(core, id);
     if (!looks) {
       unplaced.push({ personId: id, reason: "no-record" });
-      continue;
+      return;
     }
     const who = whoOf(core, id, looks);
     const kept = officeKinds(core, id).flatMap(
@@ -818,7 +819,7 @@ export function stagePeople(
         personId: id,
         reason: free.length ? "no-figure" : "no-spot",
       });
-      continue;
+      return;
     }
     free.splice(free.indexOf(found.spot), 1);
     placed.push({
@@ -829,6 +830,40 @@ export function stagePeople(
       figure: found.figure!,
       spot: found.spot,
     });
+  };
+  // People of one standing (housemates, coworkers, voters reached) take the
+  // seats left after the player, the act's other person, the speaker and an
+  // office holder whose seat this room keeps. When they outnumber the seats,
+  // the seats go first to those the pack paints in what they wear here, then
+  // to faces not already in the room (SG-PLAY-people-everyday-falls-back-to-work).
+  const alike = (entry: (typeof ids)[number]) =>
+    !!entry.reason &&
+    ALIKE.has(entry.reason) &&
+    entry.id !== speaker &&
+    !officeKinds(core, entry.id).some((kind) =>
+      (SEAT_ROLES[kind] ?? []).some((role) =>
+        plate.spots.some((spot) => spot.role === role),
+      ),
+    );
+  const fitness = ({ id }: (typeof ids)[number]) => {
+    const looks = looksOf(core, id);
+    if (!looks) return 4;
+    const who = whoOf(core, id, looks);
+    const figure = free
+      .map((spot) => figureForSpot(core, who, place, spot))
+      .find((row) => row !== null);
+    if (!figure) return 4;
+    const faces = new Set(placed.map((row) => row.figure.person));
+    return (
+      (dressedForPlace(core, who, place, figure) ? 0 : 2) +
+      (faces.has(figure.person) ? 1 : 0)
+    );
+  };
+  for (const entry of ids) if (!alike(entry)) seat(entry);
+  const waiting = ids.filter(alike);
+  while (waiting.length) {
+    const costs = waiting.length > free.length ? waiting.map(fitness) : [0];
+    seat(waiting.splice(costs.indexOf(Math.min(...costs)), 1)[0]!);
   }
   // Drawn far to near, so nearer people overlap farther ones.
   const depth = depthOf;
@@ -856,6 +891,12 @@ function inPosture(spot: PlateSpot, posture: string): boolean {
   if (posture === "podium") return spot.pose === "lectern";
   return spot.seat === "none" && spot.pose !== "lectern";
 }
+/** The reasons that make people alike for a seat: any of them may take it. */
+const ALIKE: ReadonlySet<StageReason> = new Set([
+  "household",
+  "coworker",
+  "reached",
+]);
 /** The poses a speaker takes: behind the address desk or at a lectern. */
 const SPEAKING = new Set(["address", "lectern"]);
 
