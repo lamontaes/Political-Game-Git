@@ -24,6 +24,7 @@ import {
   housingStatusOf,
   reviewHomeless,
   shelterBeds,
+  shelterRateFor,
   publishedShelterRateFor,
   type HousingStatusRow,
 } from "./housing-homeless";
@@ -165,11 +166,12 @@ describe("where an evicted household goes", () => {
   });
 
   it("else to a shelter bed while the place has one (HUD's state rate times its people), else to the street", () => {
-    // New York's year-round beds per 10,000 times the place's 160 people: one bed.
-    const filler = 158;
-    const beds = Math.floor(
-      ((filler + 2) * shelterData.bedsPer10k.NY) / 10_000,
-    );
+    // The world's own year-round beds per 10,000 for New York (the published
+    // rate moved once by the fixture's seed): the smallest place whose people
+    // give one bed.
+    const rate = shelterRateFor("NY", "homeless-fixture");
+    const filler = Math.ceil(10_000 / rate) - 2;
+    const beds = Math.floor(((filler + 2) * rate) / 10_000);
     expect(beds).toBe(1);
     const core = createLifeCore(
       input("NY", [{ id: "first" }, { id: "second" }], [], filler),
