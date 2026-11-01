@@ -102,6 +102,8 @@ const facts: Record<string, Fact> = {
   remaining: fact("nine months"),
   "stake-time": fact("time"),
   child: fact("Jordan"),
+  signatures: fact("1,250"),
+  due: fact("March 5"),
 };
 // The engine is tested the way the grading page composes, with every part in,
 // even the ones the owner rejected; "plays every purpose in play" checks play.
