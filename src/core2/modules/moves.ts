@@ -298,9 +298,11 @@ function officeholders(api: CoreAPI): ReadonlySet<PersonId> {
       .rows())
       if (row.ended === null) ids.add(row.id);
   if (core.modules.has("core2-offices-v1"))
-    for (const row of api.moduleState("core2-offices-v1").table("terms").rows())
-      if (row.status === "serving" && typeof row.personId === "string")
-        ids.add(row.personId);
+    for (const row of api
+      .moduleState("core2-offices-v1")
+      .table("terms")
+      .query("byStatus", ["serving"]))
+      if (typeof row.personId === "string") ids.add(row.personId);
   officeByCore.set(core, { date: core.date, ids });
   return ids;
 }

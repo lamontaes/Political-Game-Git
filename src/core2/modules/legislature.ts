@@ -1111,13 +1111,21 @@ function executivePriorities(
 ): { setBy: string; changes: Record<string, number> } | null {
   const kind = BODIES.vetoHolder[gov.level];
   const offices = api.moduleState(OFFICES_MODULE_ID);
+  // The government's own executive: a state's governor by its jurisdiction,
+  // never another state's.
   const office = (
     offices.table("offices").rows() as unknown as {
       id: string;
       kind: string;
       level: string;
+      jurisdiction: string;
     }[]
-  ).find((o) => o.kind === kind && o.level === gov.level);
+  ).find(
+    (o) =>
+      o.kind === kind &&
+      o.level === gov.level &&
+      (o.level !== "state" || o.jurisdiction === gov.id),
+  );
   if (!office) return null;
   const holder = (
     offices.table("seats").query("byOffice", [office.id]) as unknown as {
