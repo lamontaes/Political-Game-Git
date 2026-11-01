@@ -18,7 +18,7 @@ milestone: play-first
 
 **Rules.** Screen to mock: Issues is redrawn the way Government was (Oct 29 menus ruling), from the shared parts, and its mock goes in the PR. No hand-written player text: the law's explanation comes from the English engine and the law's record. An effect is a read, not a record: who it reaches reads the law engine's own reach records.
 
-**Done when.** In a drawn place (named with seed), Issues shows a menu-style list with filters for level, in force and subject; opening a law shows its plain-words summary, level, date, how it passed, who it reaches here and views on it, each from a record id named in the PR; screenshots at 1440x900 before and after.
+**Done when.** In a drawn place (named with seed), Issues shows a menu-style list with filters for level, in force and subject; opening a law shows its plain-words summary, level, date, how it passed, who it reaches here and views on it, each from a record id named in the PR; screenshots at 1440x900 before and after. The build follows the mock the owner approved through the CTO.
 
 **Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -29,3 +29,5 @@ milestone: play-first
 **Files.** src/bench/play.mjs, src/bench/government.ts, src/bench/play.css
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest, second batch (Nov 1, 22:40 UTC, five screenshots, a game in the U.S. Virgin Islands). Read: OWNER-DECISIONS (Oct 29 menus redesigned the way Government was; Oct 29 Political Process baseline; one history), the pool for twins.
+
+Owner's answer, Nov 1 23:30: "I imagine clicking on it and the quote-unquote bill interface as it is in whatever place you're selecting. And seeing... what that does to say the budget or analysis on how homelessness affects graduation rates or anything like that. And if you've maybe run a poll, you could see what people are thinking. You could see recent legislation. You could see choose your position. Get me a mock." The law page is the bill interface for the chosen place: its effect on that place's budget, the effects-web analysis of what it changes (from the laws lead's matrices), poll results when the player has run a poll, recent legislation on the subject, and a control to choose the player's position. MOCK FIRST: the lane sends the mock image to the CTO, who sends it to the owner; build after his answer.
