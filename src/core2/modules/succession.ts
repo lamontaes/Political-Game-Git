@@ -184,10 +184,7 @@ function nominate(
   // each refused round makes the bodies readier to confirm (a Senate that has
   // turned down a nominee settles for one it can live with), so a post is
   // never left empty.
-  const lastRound = Math.max(
-    0,
-    Math.ceil((LEAN_SPAN - tolerance) / widening),
-  );
+  const lastRound = Math.max(0, Math.ceil((LEAN_SPAN - tolerance) / widening));
   for (let round = 0; !chosenId && round <= lastRound; round++) {
     const roundKey = round ? `${input.key}:round-${round}` : input.key;
     const pool = [0, 1, 2].map((n) =>
