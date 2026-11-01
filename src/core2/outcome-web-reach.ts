@@ -175,8 +175,8 @@ export function webReach(
     let effect = row.effects[link.key];
     if (effect === undefined || effect === 0) continue;
     // The Medicaid expansion halves how far unemployment leaves people
-    // uninsured; where the caller reads the expansion from the subject's own
-    // Medicaid record, the link is read without that halving.
+    // uninsured; where the caller leaves the expansion out (an employer plan,
+    // which Medicaid coverage is not), the link is read without that halving.
     const moderator = link.moderator;
     if (
       moderator &&

@@ -84,9 +84,7 @@ const ENACTED_DAYS = 40;
 const WORK_REQUIREMENT_DAYS = 10;
 // The web links the test requires to fire, each from a law or line it holds.
 const LAGGED_LINKS = [
-  "medicaid-expansion-to-coverage",
   "medicaid-expansion-to-medical-debt",
-  "work-requirement-to-coverage",
   "health-hospitals-spending-to-infant-mortality",
   "higher-education-spending-to-college-completion",
   "school-spending-to-attainment",
@@ -100,7 +98,6 @@ const HELD_MONTHS =
       (key) => WEB_LINKS.find((l) => l.key === key)?.lagMonths ?? 0,
     ),
   ) + 3;
-const MODERATED_MONTHS = 3;
 const DAYS_PER_MONTH = 30;
 // Days after the opening within which the lines are read; the lowest government's fiscal year must not turn over before.
 const LINE_READ_DAYS = 120;
@@ -858,21 +855,13 @@ function play(where: string, seed: string, core: CoreState): void {
     };
   }
 
-  // The work requirement's link reads the requirement only where the
-  // expansion is law, both as they stood a lag ago, and the web's rows fall
-  // on irregular days. Where the place began with the expansion the hold
-  // repeals it, so the expansion stays three months (longer than any gap
-  // between two rows) with the requirement before that repeal.
-  const moderatedMonths = baselineYes.get(EXPAND) ? MODERATED_MONTHS : 0;
-
   // Hold every law a different way from where the place began (laws it
   // already had are repealed, the others stay) so each link's cause differs
   // from its baseline, and wait out the lag of the slowest link.
   // The played world legislates on its own (a bill may repeal a question
   // mid-run), so each month the held state is set again where a bill moved it.
-  for (let month = 0; month < HELD_MONTHS + moderatedMonths; month += 1) {
+  for (let month = 0; month < HELD_MONTHS; month += 1) {
     for (const q of QUESTIONS) {
-      if (q === EXPAND && month < moderatedMonths) continue;
       const saysYes = levelsSayingYes(api, q).length > 0;
       if (baselineYes.get(q) && saysYes) repeal(api, q, `hold-${month}`);
       if (!baselineYes.get(q) && !saysYes) enact(api, q, `hold-${month}`);
@@ -893,6 +882,17 @@ function play(where: string, seed: string, core: CoreState): void {
         )}; date ${api.state.date})`,
       ),
     ).toBeTruthy();
+  // The expansion's and the Medicaid work requirement's coverage links are
+  // carried by the reach's coverage records, which the bills price (links.json
+  // carriedBy), so the web does not run them.
+  for (const link of [
+    "medicaid-expansion-to-coverage",
+    "work-requirement-to-coverage",
+  ])
+    expect(
+      firedIn(api, link),
+      say(`the web ran ${link}, which the coverage records carry`),
+    ).toBeUndefined();
   // The assistance work requirement is the SNAP benefit's own (read above, for
   // each person it reaches), so the web does not also cut SNAP receipt for it.
   expect(

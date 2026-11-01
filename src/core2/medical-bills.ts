@@ -44,16 +44,18 @@
  * left out of its factor. Medicaid's own part of a covered member's care (the
  * cost of the care less the member's share) is paid to the seller by the
  * state and federal treasuries, the federal share at the match in force
- * (law-reach payMedicaidCare), inside their budget lines. The coverage
- * engine leaves the expansion's and the work requirement's place-level
- * coverage links, and the expansion's halving of unemployment's link, out of
- * a town worker's employer plan (coverageTwinsOut). A
- * member the expansion would cover but whose coverage the work requirement
- * ends (its stretch on their person id) is billed at their own plan's share;
- * what that adds over Medicaid's share is paid first, under ids that cite
- * the requirement. A household in another place the world keeps (the places
- * around the town), whose coverage the reach does not keep, meets the
- * expansion through the place-level row on the share sent to collections.
+ * (law-reach payMedicaidCare), inside their budget lines. A member the
+ * expansion would cover but whose coverage the work requirement ends (its
+ * stretch on their person id) is billed at their own plan's share; what that
+ * adds over Medicaid's share is paid first, under ids that cite the
+ * requirement. The expansion's and the requirement's coverage links are
+ * carried by those records (links.json carriedBy), so the web does not run
+ * them. Medicaid coverage is not an employer plan: the coverage engine reads
+ * no Medicaid law into any worker's employer plan in any place
+ * (EMPLOYER_PLAN_LEAVES_OUT). A household in another place the world keeps
+ * (the places around the town), whose coverage the reach does not keep,
+ * meets the expansion through the place-level row on the share sent to
+ * collections, its one path there.
  *
  * Only households in the places whose money the world keeps are billed
  * (billedPlaces); the care norm is theirs.
@@ -339,23 +341,16 @@ function plans(
 }
 
 /**
- * The place-level coverage links a worker in a place leaves out of their
- * employer plan (the coverage engine's health.uninsured-pct read): the
- * expansion's and the work requirement's, and the expansion's halving of
- * unemployment's link, where the law reach keeps the residents' Medicaid
- * coverage by person id (the town), so those laws reach a town household
- * once, through its own Medicaid record. Read once a pass.
+ * What every worker's employer plan leaves out of the coverage engine's
+ * health.uninsured-pct read, in every place: the expansion as a moderator
+ * (its halving of unemployment's link), since Medicaid coverage is not an
+ * employer plan. A worker who loses a job loses the plan whether or not
+ * Medicaid then covers them; the reach's coverage record catches them in the
+ * town, and the place-level medical-debt row carries the expansion elsewhere.
  */
-export function coverageTwinsOut(
-  api: CoreAPI,
-): (placeId: string) => ReadonlySet<string> | undefined {
-  const { ownMedicaid } = plans(api, makeIsoDate(api.state.date));
-  const twins = new Set([
-    ...data.personLevel.coverageTwins.links,
-    ...data.personLevel.coverageTwins.moderators,
-  ]);
-  return (placeId) => (ownMedicaid(placeId) ? twins : undefined);
-}
+export const EMPLOYER_PLAN_LEAVES_OUT: ReadonlySet<string> = new Set(
+  data.personLevel.employerPlanLeavesOut.moderators,
+);
 
 /**
  * Everyone the pass bills this month, full and counted, by household: the

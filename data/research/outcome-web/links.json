@@ -982,6 +982,7 @@
         "months": 6,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
+      "carriedBy": "the law reach's Medicaid coverage records in the town (recordCoverage in src/core2/law-reach/group-b-money.ts keeps, under the requirement's key, a coverage record by person id for each adult the expansion reaches whose coverage the requirement ends, coverage|<law key>|<person id>|<from day>, read by medicaidCoverageSpells with ENDED_BY_REQUIREMENT), which the coverage engine's monthly bills read when they price each member (plans and billMembers in src/core2/medical-bills.ts): such a member pays their own plan's share where Medicaid's would have been theirs, and the household pays that added part first under journal ids that cite the requirement (requirementMinor, payFull and payCounted). The coverage engine's employer-plan count (holdersToday in src/core2/modules/coverage.ts) does not read this link in any place, since Medicaid coverage is not an employer plan; the reach keeps coverage records only for the town's residents, so outside the town the requirement reaches no billed household (stopgap SG-GOV-REACH-B-medicaid-coverage)",
       "aboutZero": false
     },
     {
@@ -2925,6 +2926,7 @@
         "months": 0,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
+      "carriedBy": "the law reach's Medicaid coverage records in the town (recordCoverage in src/core2/law-reach/group-b-money.ts keeps each covered resident's coverage, named and counted, as a coverage record by person id, coverage|<law key>|<person id>|<from day>, joined into stretches by medicaidCoverageSpells), which the coverage engine's monthly bills read when they price each member (plans and billMembers in src/core2/medical-bills.ts): a member the expansion covers pays Medicaid's 9.1 percent share of their care instead of an employer plan's or the uninsured share, and the treasuries pay Medicaid's part to the seller (payMedicaidCare). The coverage engine's employer-plan count (holdersToday in src/core2/modules/coverage.ts) does not read this link in any place, since Medicaid coverage is not an employer plan. Outside the town, where the reach keeps no coverage records, the expansion's whole effect on a billed household's money is the place-level medicaid-expansion-to-medical-debt row on the share its unpaid bills send to collections",
       "aboutZero": false
     },
     {
