@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-hiring-order
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T18:05:26.638Z
 ---
 
 **What.** For each open job, the employer scanned every applicant to find the best one. It scanned the whole line again after each applicant who said no. So the time grew with the square of the applicants. In a profiled replay of Storrs, Connecticut's second year, this took about 150 seconds. The fix ranks each opening's applicants once and walks down the ranking, picking exactly whom the scan would. Found in a profile of Storrs, Connecticut (key 0973980), the Every place nightly's slowest place (530 s, then 1,075 s a year).
