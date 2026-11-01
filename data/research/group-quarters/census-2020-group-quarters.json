@@ -12,8 +12,8 @@
   "crossCheckUrl": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b26001.dat",
   "retrievedOn": "2026-11-01",
   "compiledBy": "scripts/research/compile-group-quarters.ts",
-  "tag": "SOURCED",
-  "limits": "A count on Census Day, April 1, 2020, during the pandemic: college students were counted at their campus housing under the residence rule even where they had gone home, so college counts reflect campus housing, not who was physically there. The redistricting tables carry the 2020 disclosure-avoidance noise below the state level (group-quarters counts by type are not held invariant), so a small place can show a few residents in a type it has no facility of. Island-area counts are P28, whose group-quarters values the Census Bureau partially synthesized for disclosure avoidance. A row whose table is blocks is ESTIMATED: a place drawn or redrawn since 2020, counted from the 2020 blocks inside its 2025 boundary, and listed under estimated with its spread. A row listed under renamed is the 2020 row of the same place under its older code.",
+  "tag": "by row: P5 and P28 SOURCED, blocks ESTIMATED (see tables)",
+  "limits": "A count on Census Day, April 1, 2020, during the pandemic: college students were counted at their campus housing under the residence rule even where they had gone home, so college counts reflect campus housing, not who was physically there. The redistricting tables carry the 2020 disclosure-avoidance noise below the state level (group-quarters counts by type are not held invariant), so a small place can show a few residents in a type it has no facility of. Island-area counts are P28, whose group-quarters values the Census Bureau partially synthesized for disclosure avoidance. A row whose table is blocks is ESTIMATED: a place drawn or redrawn since 2020, counted from the 2020 blocks inside its 2025 boundary, and listed under estimated with its spread. A block counts as inside when its internal point is, so a facility on a block the boundary splits is counted all inside or all outside; where the ACS on the same land shows that sum wrong, the row is the 2020 row plus only the boundary-crossing blocks that bring it toward the ACS, and a block such a row keeps is taken out of the place its internal point now lies in, so none is counted twice; a split block on a place whose boundary moved since 2024 has no such check. A row listed under renamed is the 2020 row of the same place under its older code.",
   "columns": [
     "key",
     "table",
@@ -40,7 +40,7 @@
     "blocks": {
       "tag": "ESTIMATED",
       "vintage": "2020 Census Redistricting Data (PL 94-171), block level, on 2025 TIGER/Line place boundaries",
-      "cells": "P5 summed over the 2020 blocks whose internal points lie inside the place's 2025 boundary"
+      "cells": "P5 summed over the 2020 blocks whose internal points lie inside the place's 2025 boundary; where the 2020-2024 ACS B26001 on the same land (2024 and 2025 land areas within 0.1%) is more than 3 margins of error and 50 people from that sum and at least as near the 2020 row, the 2020 row plus only the boundary-crossing blocks that bring it toward the ACS"
     }
   },
   "nationalTotals": {
@@ -132,14 +132,14 @@
       },
       "blocks": {
         "localities": 586,
-        "total": 225507,
-        "adultCorrectional": 55293,
+        "total": 222905,
+        "adultCorrectional": 52696,
         "juvenile": 2567,
-        "nursing": 33884,
+        "nursing": 33949,
         "otherInstitutional": 1256,
         "college": 100551,
         "military": 361,
-        "otherNoninstitutional": 31595
+        "otherNoninstitutional": 31525
       }
     }
   },
@@ -179,7 +179,8 @@
     "storrs": { "key": "0973980", "p5": 11452, "acs": 10929, "acsMargin": 249 }
   },
   "sampleSourceRows": {
-    "0973980": "PLST|CT|000|03|0004177|11452|73|0|0|73|0|11379|11378|0|1"
+    "0973980": "PLST|CT|000|03|0004177|11452|73|0|0|73|0|11379|11378|0|1",
+    "0804000": "PLST|CO|000|03|0006314|3499|2089|598|53|1431|7|1410|0|334|1076"
   },
   "renamed": [
     {
@@ -488,7 +489,7 @@
     {
       "key": "0566080",
       "name": "Springdale city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 0566080 (Springdale city), 1618 and the 2020-2024 ACS 5-year B26001 estimate, 922 plus or minus 35.",
+      "method": "The 2020 P5 row of 0566080 (Springdale city), 1618, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 1626, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 922 plus or minus 35 on the same land (land area 128911370 m2 in 2024, 128919187 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 050070213142001 (entered, 8). Spread: from this count to the block sum, 1626 and the 2020 P5 row of 0566080 (Springdale city), 1618 and the 2020-2024 ACS 5-year B26001 estimate, 922 plus or minus 35.",
       "low": 887,
       "high": 1626
     },
@@ -509,7 +510,7 @@
     {
       "key": "0613294",
       "name": "Chowchilla city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 0613294 (Chowchilla city), 5761 and the 2020-2024 ACS 5-year B26001 estimate, 5337 plus or minus 126.",
+      "method": "The 2020 P5 row of 0613294 (Chowchilla city), 5761, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 5875, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 5337 plus or minus 126 on the same land (land area 29894543 m2 in 2024, 29894543 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 060390002011024 (entered, 114). Spread: from this count to the block sum, 5875 and the 2020 P5 row of 0613294 (Chowchilla city), 5761 and the 2020-2024 ACS 5-year B26001 estimate, 5337 plus or minus 126.",
       "low": 5211,
       "high": 5875
     },
@@ -614,7 +615,7 @@
     {
       "key": "0680644",
       "name": "Tulare city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 0680644 (Tulare city), 1103 and the 2020-2024 ACS 5-year B26001 estimate, 405 plus or minus 17.",
+      "method": "The 2020 P5 row of 0680644 (Tulare city), 1103, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 1135, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 405 plus or minus 17 on the same land (land area 53718701 m2 in 2024, 53718701 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 061070024013018 (entered, 32). Spread: from this count to the block sum, 1135 and the 2020 P5 row of 0680644 (Tulare city), 1103 and the 2020-2024 ACS 5-year B26001 estimate, 405 plus or minus 17.",
       "low": 388,
       "high": 1135
     },
@@ -684,7 +685,7 @@
     {
       "key": "1222475",
       "name": "Five Points CDP",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 1222475 (Five Points CDP), 210 and the 2020-2024 ACS 5-year B26001 estimate, 252 plus or minus 8.",
+      "method": "The 2020 P5 row of 1222475 (Five Points CDP), 210, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 0, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 252 plus or minus 8 on the same land (land area 5623030 m2 in 2024, 5623032 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 120231102024012 (left, 210). Spread: from this count to the block sum, 0 and the 2020 P5 row of 1222475 (Five Points CDP), 210 and the 2020-2024 ACS 5-year B26001 estimate, 252 plus or minus 8.",
       "low": 0,
       "high": 260
     },
@@ -719,7 +720,7 @@
     {
       "key": "1237775",
       "name": "Lake City city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 1237775 (Lake City city), 993 and the 2020-2024 ACS 5-year B26001 estimate, 890 plus or minus 14.",
+      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020), less block 120231102024012 (210), which 1222475 (Five Points CDP) keeps on its ACS check. Spread: from this count to the block sum, 1203 and the 2020 P5 row of 1237775 (Lake City city), 993 and the 2020-2024 ACS 5-year B26001 estimate, 890 plus or minus 14.",
       "low": 876,
       "high": 1203
     },
@@ -1496,7 +1497,7 @@
     {
       "key": "1829520",
       "name": "Greenfield city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 1829520 (Greenfield city), 649 and the 2020-2024 ACS 5-year B26001 estimate, 543 plus or minus 14.",
+      "method": "The 2020 P5 row of 1829520 (Greenfield city), 649, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 650, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 543 plus or minus 14 on the same land (land area 36853086 m2 in 2024, 36853086 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 180594103011044 (entered, 1). Spread: from this count to the block sum, 650 and the 2020 P5 row of 1829520 (Greenfield city), 649 and the 2020-2024 ACS 5-year B26001 estimate, 543 plus or minus 14.",
       "low": 529,
       "high": 650
     },
@@ -2896,7 +2897,7 @@
     {
       "key": "2959096",
       "name": "Poplar Bluff city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 2959096 (Poplar Bluff city), 711 and the 2020-2024 ACS 5-year B26001 estimate, 600 plus or minus 20.",
+      "method": "The 2020 P5 row of 2959096 (Poplar Bluff city), 711, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 736, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 600 plus or minus 20 on the same land (land area 34972349 m2 in 2024, 34972346 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 290239509002012 (entered, 25). Spread: from this count to the block sum, 736 and the 2020 P5 row of 2959096 (Poplar Bluff city), 711 and the 2020-2024 ACS 5-year B26001 estimate, 600 plus or minus 20.",
       "low": 580,
       "high": 736
     },
@@ -2910,7 +2911,7 @@
     {
       "key": "2978910",
       "name": "Westphalia city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 2978910 (Westphalia city), 54 and the 2020-2024 ACS 5-year B26001 estimate, 60 plus or minus 2.",
+      "method": "The 2020 P5 row of 2978910 (Westphalia city), 54, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 0, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 60 plus or minus 2 on the same land (land area 965621 m2 in 2024, 965621 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 291514903001043 (left, 54). Spread: from this count to the block sum, 0 and the 2020 P5 row of 2978910 (Westphalia city), 54 and the 2020-2024 ACS 5-year B26001 estimate, 60 plus or minus 2.",
       "low": 0,
       "high": 62
     },
@@ -2952,7 +2953,7 @@
     {
       "key": "3135000",
       "name": "North Platte city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 3135000 (North Platte city), 535 and the 2020-2024 ACS 5-year B26001 estimate, 603 plus or minus 14.",
+      "method": "The 2020 P5 row of 3135000 (North Platte city), 535, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 462, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 603 plus or minus 14 on the same land (land area 44410216 m2 in 2024, 44410217 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 311119605002039 (left, 73). Spread: from this count to the block sum, 462 and the 2020 P5 row of 3135000 (North Platte city), 535 and the 2020-2024 ACS 5-year B26001 estimate, 603 plus or minus 14.",
       "low": 462,
       "high": 617
     },
@@ -3064,7 +3065,7 @@
     {
       "key": "3752660",
       "name": "Pittsboro town",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 3752660 (Pittsboro town), 293 and the 2020-2024 ACS 5-year B26001 estimate, 161 plus or minus 3.",
+      "method": "The 2020 P5 row of 3752660 (Pittsboro town), 293, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 310, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 161 plus or minus 3 on the same land (land area 23079313 m2 in 2024, 23079312 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 370370208021008 (entered, 17). Spread: from this count to the block sum, 310 and the 2020 P5 row of 3752660 (Pittsboro town), 293 and the 2020-2024 ACS 5-year B26001 estimate, 161 plus or minus 3.",
       "low": 158,
       "high": 310
     },
@@ -3078,14 +3079,14 @@
     {
       "key": "3757500",
       "name": "Rocky Mount city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 3757500 (Rocky Mount city), 785 and the 2020-2024 ACS 5-year B26001 estimate, 998 plus or minus 43.",
+      "method": "The 2020 P5 row of 3757500 (Rocky Mount city), 785, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 777, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 998 plus or minus 43 on the same land (land area 117183641 m2 in 2024, 117183643 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 371270102005005 (left, 8). Spread: from this count to the block sum, 777 and the 2020 P5 row of 3757500 (Rocky Mount city), 785 and the 2020-2024 ACS 5-year B26001 estimate, 998 plus or minus 43.",
       "low": 777,
       "high": 1041
     },
     {
       "key": "3759280",
       "name": "Sanford city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 3759280 (Sanford city), 868 and the 2020-2024 ACS 5-year B26001 estimate, 746 plus or minus 23.",
+      "method": "The 2020 P5 row of 3759280 (Sanford city), 868, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 876, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 746 plus or minus 23 on the same land (land area 85940894 m2 in 2024, 85940894 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 371050306011002 (entered, 8). Spread: from this count to the block sum, 876 and the 2020 P5 row of 3759280 (Sanford city), 868 and the 2020-2024 ACS 5-year B26001 estimate, 746 plus or minus 23.",
       "low": 723,
       "high": 876
     },
@@ -3155,14 +3156,14 @@
     {
       "key": "4101650",
       "name": "Aloha CDP",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 4101650 (Aloha CDP), 317 and the 2020-2024 ACS 5-year B26001 estimate, 633 plus or minus 75.",
+      "method": "The 2020 P5 row of 4101650 (Aloha CDP), 317, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 316, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 633 plus or minus 75 on the same land (land area 18901929 m2 in 2024, 18897778 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 410670316122006 (left, 1). Spread: from this count to the block sum, 316 and the 2020 P5 row of 4101650 (Aloha CDP), 317 and the 2020-2024 ACS 5-year B26001 estimate, 633 plus or minus 75.",
       "low": 316,
       "high": 708
     },
     {
       "key": "4105350",
       "name": "Beaverton city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 4105350 (Beaverton city), 880 and the 2020-2024 ACS 5-year B26001 estimate, 1244 plus or minus 122.",
+      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020), less block 410670316122006 (1), which 4101650 (Aloha CDP) keeps on its ACS check, block 410670316122009 (5), which 4134100 (Hillsboro city) keeps on its ACS check. Spread: from this count to the block sum, 886 and the 2020 P5 row of 4105350 (Beaverton city), 880 and the 2020-2024 ACS 5-year B26001 estimate, 1244 plus or minus 122.",
       "low": 880,
       "high": 1366
     },
@@ -3176,7 +3177,7 @@
     {
       "key": "4134100",
       "name": "Hillsboro city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 4134100 (Hillsboro city), 1074 and the 2020-2024 ACS 5-year B26001 estimate, 1626 plus or minus 78.",
+      "method": "The 2020 P5 row of 4134100 (Hillsboro city), 1074, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 1069, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 1626 plus or minus 78 on the same land (land area 68486730 m2 in 2024, 68486731 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 410670316122009 (left, 5). Spread: from this count to the block sum, 1069 and the 2020 P5 row of 4134100 (Hillsboro city), 1074 and the 2020-2024 ACS 5-year B26001 estimate, 1626 plus or minus 78.",
       "low": 1069,
       "high": 1704
     },
@@ -4079,7 +4080,7 @@
     {
       "key": "4802260",
       "name": "Alvarado city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 4802260 (Alvarado city), 78 and the 2020-2024 ACS 5-year B26001 estimate, 200 plus or minus 6.",
+      "method": "The 2020 P5 row of 4802260 (Alvarado city), 78, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 525, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 200 plus or minus 6 on the same land (land area 17544861 m2 in 2024, 17547533 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 482511304172004 (entered, 447). Spread: from this count to the block sum, 525 and the 2020 P5 row of 4802260 (Alvarado city), 78 and the 2020-2024 ACS 5-year B26001 estimate, 200 plus or minus 6.",
       "low": 78,
       "high": 525
     },
@@ -4093,7 +4094,7 @@
     {
       "key": "4807000",
       "name": "Beaumont city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 4807000 (Beaumont city), 2081 and the 2020-2024 ACS 5-year B26001 estimate, 2655 plus or minus 69.",
+      "method": "The 2020 P5 row of 4807000 (Beaumont city), 2081, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 2076, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 2655 plus or minus 69 on the same land (land area 212741386 m2 in 2024, 212741387 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 482450003071009 (left, 5). Spread: from this count to the block sum, 2076 and the 2020 P5 row of 4807000 (Beaumont city), 2081 and the 2020-2024 ACS 5-year B26001 estimate, 2655 plus or minus 69.",
       "low": 2076,
       "high": 2724
     },
@@ -4135,7 +4136,7 @@
     {
       "key": "4838860",
       "name": "Kenedy city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 4838860 (Kenedy city), 40 and the 2020-2024 ACS 5-year B26001 estimate, 60 plus or minus 3.",
+      "method": "The 2020 P5 row of 4838860 (Kenedy city), 40, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 2076, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 60 plus or minus 3 on the same land (land area 11429131 m2 in 2024, 11429135 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 482559703011040 (entered, 2036). Spread: from this count to the block sum, 2076 and the 2020 P5 row of 4838860 (Kenedy city), 40 and the 2020-2024 ACS 5-year B26001 estimate, 60 plus or minus 3.",
       "low": 40,
       "high": 2076
     },
@@ -4156,7 +4157,7 @@
     {
       "key": "4856482",
       "name": "Pecan Grove CDP",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 4856482 (Pecan Grove CDP), 0 and the 2020-2024 ACS 5-year B26001 estimate, 0 plus or minus 28.",
+      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020), less block 481576734011014 (5), which 4861892 (Richmond city) keeps on its ACS check. Spread: from this count to the block sum, 5 and the 2020 P5 row of 4856482 (Pecan Grove CDP), 0 and the 2020-2024 ACS 5-year B26001 estimate, 0 plus or minus 28.",
       "low": 0,
       "high": 28
     },
@@ -4170,7 +4171,7 @@
     {
       "key": "4861892",
       "name": "Richmond city",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 4861892 (Richmond city), 886 and the 2020-2024 ACS 5-year B26001 estimate, 1147 plus or minus 38.",
+      "method": "The 2020 P5 row of 4861892 (Richmond city), 886, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 881, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 1147 plus or minus 38 on the same land (land area 11149107 m2 in 2024, 11149107 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 481576734011014 (left, 5). Spread: from this count to the block sum, 881 and the 2020 P5 row of 4861892 (Richmond city), 886 and the 2020-2024 ACS 5-year B26001 estimate, 1147 plus or minus 38.",
       "low": 881,
       "high": 1185
     },
@@ -4212,7 +4213,7 @@
     {
       "key": "5041950",
       "name": "Lyndonville CDP",
-      "method": "The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (the boundary moved across group quarters since 2020). Spread: from this count to the 2020 P5 row of 5041950 (Lyndonville village), 0 and the 2020-2024 ACS 5-year B26001 estimate, 0 plus or minus 10.",
+      "method": "The 2020 P5 row of 5041950 (Lyndonville village), 0, with no boundary-crossing block, since none brings it toward the ACS. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to 54, which is more than 3 margins of error and 50 people from the 2020-2024 ACS 5-year B26001 estimate of 0 plus or minus 10 on the same land (land area 3781369 m2 in 2024, 3781370 m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: block 500059572002045 (entered, 54). Spread: from this count to the block sum, 54 and the 2020 P5 row of 5041950 (Lyndonville village), 0 and the 2020-2024 ACS 5-year B26001 estimate, 0 plus or minus 10.",
       "low": 0,
       "high": 54
     },
@@ -6001,7 +6002,7 @@
     ["0565480", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["0565630", "P5", 86, 0, 0, 86, 0, 0, 0, 0],
     ["0565900", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["0566080", "blocks", 1626, 104, 50, 500, 23, 0, 0, 949],
+    ["0566080", "blocks", 1618, 104, 50, 492, 23, 0, 0, 949],
     ["0566110", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["0566200", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["0566320", "P5", 68, 0, 0, 68, 0, 0, 0, 0],
@@ -6893,7 +6894,7 @@
     ["0613210", "P5", 5442, 5059, 19, 146, 9, 0, 0, 209],
     ["0613214", "P5", 229, 0, 71, 13, 0, 0, 0, 145],
     ["0613278", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["0613294", "blocks", 5875, 5798, 0, 77, 0, 0, 0, 0],
+    ["0613294", "blocks", 5761, 5684, 0, 77, 0, 0, 0, 0],
     ["0613364", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["0613392", "P5", 1939, 463, 55, 309, 60, 0, 0, 1052],
     ["0613560", "P5", 22, 0, 0, 0, 0, 0, 0, 22],
@@ -8100,7 +8101,7 @@
     ["0680515", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["0680560", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["0680588", "P5", 31, 0, 0, 0, 0, 0, 0, 31],
-    ["0680644", "blocks", 1135, 0, 0, 201, 0, 0, 0, 934],
+    ["0680644", "blocks", 1103, 0, 0, 201, 0, 0, 0, 902],
     ["0680686", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["0680763", "P5", 23, 0, 0, 0, 0, 0, 0, 23],
     ["0680784", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
@@ -9256,7 +9257,7 @@
     ["1222325", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["1222375", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["1222387", "P5", 92, 0, 0, 92, 0, 0, 0, 0],
-    ["1222475", "blocks", 0, 0, 0, 0, 0, 0, 0, 0],
+    ["1222475", "blocks", 210, 210, 0, 0, 0, 0, 0, 0],
     ["1222550", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["1222560", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["1222660", "P5", 383, 0, 0, 378, 0, 0, 0, 5],
@@ -9443,7 +9444,7 @@
     ["1237625", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["1237648", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["1237650", "P5", 45, 45, 0, 0, 0, 0, 0, 0],
-    ["1237775", "blocks", 1203, 460, 0, 554, 0, 0, 0, 189],
+    ["1237775", "blocks", 993, 250, 0, 554, 0, 0, 0, 189],
     ["1237800", "P5", 10, 0, 0, 4, 0, 0, 0, 6],
     ["1237975", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["1238000", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
@@ -13882,7 +13883,7 @@
     ["1829106", "blocks", 0, 0, 0, 0, 0, 0, 0, 0],
     ["1829358", "P5", 1980, 67, 0, 130, 0, 1770, 0, 13],
     ["1829448", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["1829520", "blocks", 650, 223, 0, 359, 0, 0, 0, 68],
+    ["1829520", "blocks", 649, 223, 0, 359, 0, 0, 0, 67],
     ["1829592", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["1829682", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["1829718", "P5", 499, 100, 0, 289, 0, 0, 0, 110],
@@ -19714,7 +19715,7 @@
     ["2958916", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["2958934", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["2959060", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["2959096", "blocks", 736, 5, 0, 228, 39, 298, 0, 166],
+    ["2959096", "blocks", 711, 5, 0, 228, 39, 298, 0, 141],
     ["2959150", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["2959186", "P5", 58, 0, 0, 58, 0, 0, 0, 0],
     ["2959330", "P5", 163, 27, 0, 136, 0, 0, 0, 0],
@@ -19956,7 +19957,7 @@
     ["2978622", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["2978838", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["2978856", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["2978910", "blocks", 0, 0, 0, 0, 0, 0, 0, 0],
+    ["2978910", "blocks", 54, 0, 0, 54, 0, 0, 0, 0],
     ["2978928", "P5", 507, 24, 17, 281, 0, 68, 0, 117],
     ["2979000", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["2979054", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
@@ -21522,7 +21523,7 @@
     ["3752260", "P5", 21, 0, 0, 7, 0, 0, 0, 14],
     ["3752400", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["3752500", "P5", 15, 0, 0, 0, 0, 0, 0, 15],
-    ["3752660", "blocks", 310, 0, 0, 293, 0, 0, 0, 17],
+    ["3752660", "blocks", 293, 0, 0, 293, 0, 0, 0, 0],
     ["3752685", "P5", 9, 0, 0, 0, 0, 0, 0, 9],
     ["3752760", "P5", 115, 0, 0, 107, 0, 0, 0, 8],
     ["3752920", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
@@ -21566,7 +21567,7 @@
     ["3757200", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["3757260", "P5", 212, 96, 0, 91, 0, 0, 0, 25],
     ["3757340", "P5", 45, 0, 0, 0, 0, 0, 0, 45],
-    ["3757500", "blocks", 777, 0, 22, 389, 3, 188, 0, 175],
+    ["3757500", "blocks", 785, 0, 22, 389, 3, 188, 0, 183],
     ["3757540", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["3757580", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["3757640", "P5", 13, 0, 0, 0, 0, 0, 0, 13],
@@ -21596,7 +21597,7 @@
     ["3758940", "P5", 10, 0, 0, 0, 0, 0, 0, 10],
     ["3759090", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["3759135", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["3759280", "blocks", 876, 416, 0, 312, 0, 0, 0, 148],
+    ["3759280", "blocks", 868, 416, 0, 312, 0, 0, 0, 140],
     ["3759340", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["3759540", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["3759580", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
@@ -22552,7 +22553,7 @@
     ["3134650", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["3134720", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["3134825", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["3135000", "blocks", 462, 155, 10, 169, 0, 36, 0, 92],
+    ["3135000", "blocks", 535, 155, 10, 242, 0, 36, 0, 92],
     ["3135245", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["3135385", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["3135490", "P5", 42, 0, 0, 35, 0, 0, 0, 7],
@@ -27632,7 +27633,7 @@
     ["4100350", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4100500", "P5", 9, 0, 0, 0, 0, 9, 0, 0],
     ["4101000", "P5", 908, 196, 67, 262, 0, 0, 0, 383],
-    ["4101650", "blocks", 316, 0, 4, 0, 0, 0, 0, 312],
+    ["4101650", "blocks", 317, 0, 4, 0, 0, 0, 0, 313],
     ["4101700", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4101800", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4101850", "P5", 72, 0, 6, 7, 0, 0, 0, 59],
@@ -27658,7 +27659,7 @@
     ["4105200", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4105250", "P5", 25, 0, 0, 0, 0, 0, 0, 25],
     ["4105300", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["4105350", "blocks", 886, 0, 52, 412, 0, 0, 0, 422],
+    ["4105350", "blocks", 880, 0, 52, 412, 0, 0, 0, 416],
     ["4105700", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4105800", "P5", 1052, 0, 6, 558, 0, 125, 0, 363],
     ["4105950", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
@@ -27794,7 +27795,7 @@
     ["4133250", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4133550", "P5", 17, 0, 0, 0, 0, 0, 0, 17],
     ["4133700", "P5", 298, 0, 0, 198, 17, 0, 0, 83],
-    ["4134100", "blocks", 1069, 387, 30, 284, 24, 0, 0, 344],
+    ["4134100", "blocks", 1074, 387, 30, 284, 24, 0, 0, 349],
     ["4134250", "P5", 87, 0, 0, 61, 0, 0, 0, 26],
     ["4134650", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4134900", "P5", 120, 0, 12, 62, 0, 0, 0, 46],
@@ -31880,7 +31881,7 @@
     ["4802188", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4802194", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4802212", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["4802260", "blocks", 525, 447, 0, 78, 0, 0, 0, 0],
+    ["4802260", "blocks", 78, 0, 0, 78, 0, 0, 0, 0],
     ["4802272", "P5", 200, 0, 0, 171, 0, 0, 0, 29],
     ["4802284", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4802286", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
@@ -31958,7 +31959,7 @@
     ["4806242", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4806244", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4806272", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["4807000", "blocks", 2076, 419, 43, 838, 18, 246, 0, 512],
+    ["4807000", "blocks", 2081, 419, 43, 838, 18, 246, 0, 517],
     ["4807036", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4807042", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4807108", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
@@ -32647,7 +32648,7 @@
     ["4838788", "P5", 95, 0, 0, 95, 0, 0, 0, 0],
     ["4838800", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4838848", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["4838860", "blocks", 2076, 2036, 0, 40, 0, 0, 0, 0],
+    ["4838860", "blocks", 40, 0, 0, 40, 0, 0, 0, 0],
     ["4838872", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4838884", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4838896", "P5", 43, 0, 0, 43, 0, 0, 0, 0],
@@ -33109,7 +33110,7 @@
     ["4856432", "blocks", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4856462", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4856468", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["4856482", "blocks", 5, 0, 0, 5, 0, 0, 0, 0],
+    ["4856482", "blocks", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4856485", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4856498", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4856640", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
@@ -33252,7 +33253,7 @@
     ["4861820", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4861844", "P5", 174, 0, 0, 174, 0, 0, 0, 0],
     ["4861880", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
-    ["4861892", "blocks", 881, 756, 65, 13, 0, 0, 0, 47],
+    ["4861892", "blocks", 886, 756, 65, 18, 0, 0, 0, 47],
     ["4861904", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4862108", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["4862132", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
@@ -34840,7 +34841,7 @@
     ["5041350", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["5041650", "P5", 0, 0, 0, 0, 0, 0, 0, 0],
     ["5041800", "P5", 34, 0, 0, 0, 0, 0, 0, 34],
-    ["5041950", "blocks", 54, 0, 0, 54, 0, 0, 0, 0],
+    ["5041950", "blocks", 0, 0, 0, 0, 0, 0, 0, 0],
     ["5042700", "P5", 87, 0, 0, 45, 0, 34, 0, 8],
     ["5042925", "P5", 53, 0, 0, 27, 0, 0, 0, 26],
     ["5043525", "P5", 0, 0, 0, 0, 0, 0, 0, 0],

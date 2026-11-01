@@ -22,8 +22,11 @@
  * - `tiger/tl_2025_<ss>_place.zip`: the 2025 TIGER/Line place boundaries,
  *   the same vintage as the Gazetteer the game's locality list comes from.
  * - `acs/acsdt5y2024-b26001.dat`: the 2020-2024 ACS 5-year table B26001,
- *   total group-quarters population, used to cross-check P5 and as part of
- *   the spread of an estimated row.
+ *   total group-quarters population, used to cross-check P5, to check an
+ *   estimated row and as part of its spread.
+ * - `gazetteer/2024_Gaz_place_national.zip`: the 2024 Gazetteer places file,
+ *   the boundaries the 2020-2024 ACS is tabulated on, for each place's land
+ *   area in 2024.
  *
  * It also reads the 2025 Gazetteer places file already in the repository
  * (data/source/places/raw) for each place's ANSI code and land area.
@@ -43,11 +46,21 @@
  *    ANSI code, or the same land area within half a percent with internal
  *    points within two kilometers: a renamed post, a township that became a
  *    municipality) is used when it holds exactly those residents;
- * 3. otherwise the block sum itself is the row, ESTIMATED, with a spread
- *    from the lowest to the highest of the block sum, the 2020 row for the
- *    same GEOID or older code, and the ACS estimate plus or minus its margin
- *    of error (or, with none of those, the blocks within a circle of the
- *    place's land area around its internal point).
+ * 3. otherwise the row is ESTIMATED. It is the block sum, unless the ACS,
+ *    tabulated on the same land (2024 and 2025 Gazetteer land areas within
+ *    0.1%), shows the block sum wrong: more than three margins of error and
+ *    more than 50 people from the ACS estimate, and no nearer to it than the
+ *    2020 row. An internal point puts a split block's facility wholly in or
+ *    wholly out of the place, so a prison just outside town can land inside
+ *    it. Then the row is the 2020 row plus only the boundary-crossing blocks
+ *    (blocks that entered or left the 2020 place) that bring it toward the
+ *    ACS, largest first. A block such a row keeps although its internal
+ *    point left is taken out of the block sum of the place it now lies in,
+ *    so no block is counted twice. The spread runs from the lowest to the
+ *    highest of the row, the block sum, the 2020 row for the same GEOID or
+ *    older code, and the ACS estimate plus or minus its margin of error (or,
+ *    with none of those, the blocks within a circle of the place's land
+ *    area around its internal point).
  *
  * The output is written through prettier so it is committed as generated;
  * `--check` rebuilds it and fails when the committed file differs.
@@ -96,6 +109,11 @@ interface CensusUnit {
   readonly lat: number;
   readonly lon: number;
   readonly table: "P5" | "P28";
+  /**
+   * For a block, the 2020 place and county subdivision it lies in, as
+   * `160:<GEOID>` and `060:<GEOID>`; empty for every other geography.
+   */
+  readonly parents: readonly string[];
   counts: Counts;
   raw: string;
 }
@@ -116,6 +134,18 @@ const ISLAND_AREAS = ["60", "66", "69", "78"];
 /** Rule 2's tolerances for the same land: area within 0.5%, points 2 km. */
 const SAME_LAND_AREA_SHARE = 0.005;
 const SAME_LAND_DISTANCE_M = 2000;
+
+/**
+ * Rule 3's ACS check. The ACS is on the 2025 boundary when the 2024 and 2025
+ * Gazetteer land areas are within 0.1%: of the 32,312 places in both files,
+ * 29,110 kept their land area within 0.01% and 30,091 within 0.1%, about a
+ * hectare in a town of ten square kilometers.
+ * The block sum is wrong when it is more than three margins of error and
+ * more than 50 people from the ACS estimate.
+ */
+const ACS_SAME_LAND_SHARE = 0.001;
+const ACS_CHECK_MARGINS = 3;
+const ACS_CHECK_PEOPLE = 50;
 
 /** Every line of one member of a zip archive, streamed through `unzip -p`. */
 async function* zipLines(
@@ -144,10 +174,13 @@ function zipBytes(zip: string, member: string): Buffer {
 /**
  * The total-component rows of the given summary levels, by LOGRECNO. Field
  * order is the geographic header record's (technical documentation, figure
- * 2-4): SUMLEV 3, GEOCOMP 5, LOGRECNO 8, GEOID 9, COUSUBNS 20, PLACENS 32,
- * AREALAND 85, NAME 88, INTPTLAT 93, INTPTLON 94 (1-based). The state files
- * are Latin-1 (the documentation says UTF-8, but the bytes are not), the
- * island-area files UTF-8.
+ * 2-4): SUMLEV 3, GEOCOMP 5, LOGRECNO 8, GEOID 9, STATE 13, COUNTY 15,
+ * COUSUB 18, COUSUBNS 20, PLACE 30, PLACENS 32, AREALAND 85, NAME 88,
+ * INTPTLAT 93, INTPTLON 94 (1-based); a block outside any place or county
+ * subdivision has 99999 there. The state PL files and Guam's Island Areas
+ * geographic header are Latin-1 (the documentation says UTF-8, but the
+ * bytes are not: Guam's "Hagåtña" is stored as single bytes), so every file
+ * is read as Latin-1; the fields read are ASCII either way.
  */
 async function geographies(
   zip: string,
@@ -157,9 +190,8 @@ async function geographies(
   keep: (sumlev: string, logrecno: string) => boolean = () => true,
 ): Promise<{ units: Map<string, CensusUnit>; lines: number }> {
   const out = new Map<string, CensusUnit>();
-  const encoding = table === "P5" ? "latin1" : "utf8";
   let lines = 0;
-  for await (const line of zipLines(zip, member, encoding)) {
+  for await (const line of zipLines(zip, member, "latin1")) {
     lines += 1;
     const cells = line.split("|", 3);
     const sumlev = cells[2]!;
@@ -170,6 +202,14 @@ async function geographies(
     const geoid = all[8]!;
     const at = geoid.indexOf("US");
     if (at < 0) throw new Error(`${member}: GEOID "${geoid}" has no "US".`);
+    const [state, county, cousub, place] = [12, 14, 17, 29].map((i) => all[i]!);
+    const parents =
+      sumlev !== "750"
+        ? []
+        : [
+            ...(place !== "99999" ? [`160:${state}${place}`] : []),
+            ...(cousub !== "99999" ? [`060:${state}${county}${cousub}`] : []),
+          ];
     out.set(all[7]!, {
       sumlev,
       geoid: geoid.slice(at + 2),
@@ -179,6 +219,7 @@ async function geographies(
       lat: Number(all[92]),
       lon: Number(all[93]),
       table,
+      parents,
       counts: [],
       raw: "",
     });
@@ -264,7 +305,7 @@ async function readIslandArea(
     "P28",
   );
   const offset = P28_OFFSET[code]!;
-  for await (const line of zipLines(zip, `${code}000122020.dhc`, "utf8")) {
+  for await (const line of zipLines(zip, `${code}000122020.dhc`, "latin1")) {
     const cells = line.split("|");
     const unit = geo.get(cells[4]!);
     if (!unit) continue;
@@ -316,13 +357,19 @@ interface GazetteerPlace {
   readonly lon: number;
 }
 
-/** The 2025 Gazetteer places the game's locality list was built from. */
-async function readGazetteer(): Promise<Map<string, GazetteerPlace>> {
+/**
+ * A Gazetteer places file: the 2025 one the game's locality list was built
+ * from (pipe-delimited), or the 2024 one the 2020-2024 ACS is tabulated on
+ * (tab-delimited).
+ */
+async function readGazetteer(
+  zip: string,
+  member: string,
+): Promise<Map<string, GazetteerPlace>> {
   const out = new Map<string, GazetteerPlace>();
   let header: string[] | null = null;
-  const lines = zipLines(GAZETTEER, "2025_Gaz_place_national.txt", "utf8");
-  for await (const line of lines) {
-    const cells = line.split("|").map((cell) => cell.trim());
+  for await (const line of zipLines(zip, member, "utf8")) {
+    const cells = line.split(/[|\t]/).map((cell) => cell.trim());
     if (!header) {
       header = cells;
       continue;
@@ -415,8 +462,18 @@ function inside(lon: number, lat: number, rings: readonly Ring[]): boolean {
   return hit;
 }
 
-/** The 2020 group-quarters blocks inside a boundary, summed by type. */
-function blocksInside(blocks: readonly CensusUnit[], rings: Ring[]): Counts {
+/** Blocks' counts summed by type. */
+function sumOf(blocks: Iterable<CensusUnit>): Counts {
+  const sum = [0, 0, 0, 0, 0, 0, 0, 0];
+  for (const block of blocks) block.counts.forEach((n, i) => (sum[i]! += n));
+  return sum;
+}
+
+/** The 2020 group-quarters blocks whose internal points lie inside a boundary. */
+function blocksInside(
+  blocks: readonly CensusUnit[],
+  rings: Ring[],
+): CensusUnit[] {
   let [west, south, east, north] = [180, 90, -180, -90];
   for (const ring of rings)
     for (let i = 0; i < ring.length; i += 2) {
@@ -425,17 +482,14 @@ function blocksInside(blocks: readonly CensusUnit[], rings: Ring[]): Counts {
       south = Math.min(south, ring[i + 1]!);
       north = Math.max(north, ring[i + 1]!);
     }
-  const sum = [0, 0, 0, 0, 0, 0, 0, 0];
-  for (const block of blocks)
-    if (
+  return blocks.filter(
+    (block) =>
       block.lon >= west &&
       block.lon <= east &&
       block.lat >= south &&
       block.lat <= north &&
-      inside(block.lon, block.lat, rings)
-    )
-      block.counts.forEach((n, i) => (sum[i]! += n));
-  return sum;
+      inside(block.lon, block.lat, rings),
+  );
 }
 
 /** Meters between two points (haversine). */
@@ -488,7 +542,111 @@ function localityUnits(): { key: string; unit: string }[] {
   return out;
 }
 
-const same = (a: Counts, b: Counts) => a.every((n, i) => n === b[i]);
+/** A rule-3 row before the blocks kept by checks are taken out of others. */
+interface BlockRow {
+  readonly key: string;
+  readonly name: string;
+  readonly insideBlocks: readonly CensusUnit[];
+  readonly blockSum: Counts;
+  readonly checked: AcsChecked | undefined;
+  readonly measures: readonly { low: number; high: number; what: string }[];
+  readonly why: string;
+}
+
+/** A row the ACS check replaced, with the crossing blocks it took or kept. */
+interface AcsChecked {
+  readonly counts: Counts;
+  readonly method: string;
+  /** Blocks that entered the place and that the row takes. */
+  readonly taken: readonly CensusUnit[];
+  /** Blocks that left the place and that the row keeps. */
+  readonly kept: readonly CensusUnit[];
+}
+
+/**
+ * Rule 3's ACS check (see the file comment): when the ACS on the same land
+ * shows the block sum wrong, the 2020 row plus only the boundary-crossing
+ * blocks that bring it toward the ACS, largest first; otherwise undefined.
+ */
+function acsCheck({
+  geoid,
+  land2024,
+  land2025,
+  older,
+  acs: [estimate, margin],
+  blockSum,
+  insideBlocks,
+  stateBlocks,
+}: {
+  readonly geoid: string;
+  readonly land2024: number | undefined;
+  readonly land2025: number;
+  readonly older: CensusUnit;
+  readonly acs: readonly [number, number];
+  readonly blockSum: Counts;
+  readonly insideBlocks: readonly CensusUnit[];
+  readonly stateBlocks: readonly CensusUnit[];
+}): AcsChecked | undefined {
+  if (
+    land2024 === undefined ||
+    Math.abs(land2024 - land2025) > ACS_SAME_LAND_SHARE * land2025
+  )
+    return undefined;
+  const off = (total: number) => Math.abs(total - estimate);
+  const offBlocks = off(blockSum[0]!);
+  if (
+    offBlocks <= ACS_CHECK_MARGINS * Math.max(0, margin) ||
+    offBlocks <= ACS_CHECK_PEOPLE ||
+    offBlocks < off(older.counts[0]!)
+  )
+    return undefined;
+  const olderKey = `${older.sumlev}:${older.geoid}`;
+  const olderBlocks = stateBlocks.filter((block) =>
+    block.parents.includes(olderKey),
+  );
+  if (!same(sumOf(olderBlocks), older.counts))
+    throw new Error(`${olderKey}: its 2020 blocks do not sum to its row.`);
+  const insideSet = new Set(insideBlocks);
+  const moves = [
+    ...insideBlocks
+      .filter((block) => !block.parents.includes(olderKey))
+      .map((block) => ({ block, sign: 1, what: "entered" })),
+    ...olderBlocks
+      .filter((block) => !insideSet.has(block))
+      .map((block) => ({ block, sign: -1, what: "left" })),
+  ].sort(
+    (a, b) =>
+      b.block.counts[0]! - a.block.counts[0]! ||
+      a.block.geoid.localeCompare(b.block.geoid),
+  );
+  const total = [...older.counts];
+  const taken: CensusUnit[] = [];
+  const kept: CensusUnit[] = [];
+  const applied: string[] = [];
+  const leftOut: string[] = [];
+  for (const { block, sign, what } of moves) {
+    const named = `block ${block.geoid} (${what}, ${block.counts[0]})`;
+    if (off(total[0]! + sign * block.counts[0]!) < off(total[0]!)) {
+      block.counts.forEach((n, i) => (total[i]! += sign * n));
+      if (sign > 0) taken.push(block);
+      applied.push(named);
+    } else {
+      if (sign < 0) kept.push(block);
+      leftOut.push(named);
+    }
+  }
+  checkSums(total, `${geoid} after the ACS check`);
+  return {
+    counts: total,
+    taken,
+    kept,
+    method: `The 2020 P5 row of ${older.geoid} (${older.name}), ${older.counts[0]}, ${applied.length ? `plus the boundary-crossing blocks that bring it toward the ACS: ${applied.join(", ")}` : "with no boundary-crossing block, since none brings it toward the ACS"}. The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary sum to ${blockSum[0]}, which is more than ${ACS_CHECK_MARGINS} margins of error and ${ACS_CHECK_PEOPLE} people from the 2020-2024 ACS 5-year B26001 estimate of ${estimate} plus or minus ${margin} on the same land (land area ${land2024} m2 in 2024, ${land2025} m2 in 2025) and no nearer to it than the 2020 row: an internal point puts a split block's facility wholly inside or outside the place. Left out: ${leftOut.join(", ") || "none"}.`,
+  };
+}
+
+function same(a: Counts, b: Counts): boolean {
+  return a.every((n, i) => n === b[i]);
+}
 const median = (values: readonly number[]): number => {
   const sorted = [...values].sort((a, b) => a - b);
   const mid = sorted.length >> 1;
@@ -534,7 +692,14 @@ export async function compileGroupQuarters(downloads: string) {
     if (unit.counts.length !== 8)
       throw new Error(`${unit.sumlev}:${unit.geoid} has no data row.`);
   const acs = readAcs(join(downloads, "acs", "acsdt5y2024-b26001.dat"));
-  const gazetteer = await readGazetteer();
+  const gazetteer = await readGazetteer(
+    GAZETTEER,
+    "2025_Gaz_place_national.txt",
+  );
+  const gazetteer2024 = await readGazetteer(
+    join(downloads, "gazetteer", "2024_Gaz_place_national.zip"),
+    "2024_Gaz_place_national.txt",
+  );
 
   const unitsByState = new Map<string, CensusUnit[]>();
   for (const unit of census.values()) {
@@ -601,6 +766,8 @@ export async function compileGroupQuarters(downloads: string) {
     a.unit.slice(4).localeCompare(b.unit.slice(4)),
   );
   const rowOf = new Map<string, (string | number)[]>();
+  const blockRows: BlockRow[] = [];
+  const sourcedInside = new Set<CensusUnit>();
   for (const { key, unit } of ordered) {
     const geoid = unit.slice(4);
     const direct = census.get(unit);
@@ -611,17 +778,18 @@ export async function compileGroupQuarters(downloads: string) {
     }
     const place = gazetteer.get(geoid);
     if (!place) throw new Error(`${key} (${geoid}) is not in the Gazetteer.`);
-    const counts = blocksInside(
-      blocksByState.get(geoid.slice(0, 2)) ?? [],
-      boundaryOf(geoid),
-    );
+    const stateBlocks = blocksByState.get(geoid.slice(0, 2)) ?? [];
+    const insideBlocks = blocksInside(stateBlocks, boundaryOf(geoid));
+    const counts = sumOf(insideBlocks);
     if (direct && same(direct.counts, counts)) {
       rowOf.set(key, [key, "P5", ...direct.counts]);
+      for (const block of insideBlocks) sourcedInside.add(block);
       continue;
     }
     const before = direct ? undefined : predecessor(geoid);
     if (before && same(before.counts, counts)) {
       rowOf.set(key, [key, "P5", ...before.counts]);
+      for (const block of insideBlocks) sourcedInside.add(block);
       renamed.push({
         key,
         name: place.name,
@@ -634,10 +802,22 @@ export async function compileGroupQuarters(downloads: string) {
       });
       continue;
     }
-    rowOf.set(key, [key, "blocks", ...counts]);
     const fromAcs = acs.get(`1600000US${geoid}`);
-    const measures: { low: number; high: number; what: string }[] = [];
     const older = direct ?? before;
+    const checked =
+      older && fromAcs
+        ? acsCheck({
+            geoid,
+            land2024: gazetteer2024.get(geoid)?.aland,
+            land2025: place.aland,
+            older,
+            acs: fromAcs,
+            blockSum: counts,
+            insideBlocks,
+            stateBlocks,
+          })
+        : undefined;
+    const measures: { low: number; high: number; what: string }[] = [];
     if (older)
       measures.push({
         low: older.counts[0]!,
@@ -652,7 +832,7 @@ export async function compileGroupQuarters(downloads: string) {
       });
     if (measures.length === 0) {
       const radius = Math.sqrt(place.aland / Math.PI);
-      const circle = (blocksByState.get(geoid.slice(0, 2)) ?? [])
+      const circle = stateBlocks
         .filter(
           (block) =>
             meters(block.lat, block.lon, place.lat, place.lon) <= radius,
@@ -664,12 +844,68 @@ export async function compileGroupQuarters(downloads: string) {
         what: `the 2020 blocks within a circle of the place's land area around its internal point, ${circle}`,
       });
     }
-    estimated.push({
+    blockRows.push({
       key,
       name: place.name,
-      method: `The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (${direct ? "the boundary moved across group quarters since 2020" : "no 2020 row holds the same residents"}). Spread: from this count to ${measures.map((m) => m.what).join(" and ")}.`,
-      low: Math.min(counts[0]!, ...measures.map((m) => m.low)),
-      high: Math.max(counts[0]!, ...measures.map((m) => m.high)),
+      insideBlocks,
+      blockSum: counts,
+      checked,
+      measures,
+      why: direct
+        ? "the boundary moved across group quarters since 2020"
+        : "no 2020 row holds the same residents",
+    });
+  }
+
+  // A block that a checked row keeps although its internal point left the
+  // place is counted there, so the block sum of the place its internal point
+  // now lies in leaves it out: no block is counted twice.
+  const keptBy = new Map<CensusUnit, BlockRow>();
+  for (const row of blockRows)
+    for (const block of row.checked?.kept ?? []) keptBy.set(block, row);
+  for (const block of keptBy.keys())
+    if (sourcedInside.has(block))
+      throw new Error(
+        `Block ${block.geoid} is kept by a check and in a P5 row.`,
+      );
+  for (const row of blockRows) {
+    let value = row.checked?.counts ?? row.blockSum;
+    const less: string[] = [];
+    for (const block of row.checked?.taken ?? [])
+      if (keptBy.has(block))
+        throw new Error(`Block ${block.geoid} is taken and kept by checks.`);
+    if (!row.checked)
+      for (const block of row.insideBlocks) {
+        const by = keptBy.get(block);
+        if (!by || by === row) continue;
+        value = value.map((n, i) => n - block.counts[i]!);
+        less.push(
+          `block ${block.geoid} (${block.counts[0]}), which ${by.key} (${by.name}) keeps on its ACS check`,
+        );
+      }
+    rowOf.set(row.key, [row.key, "blocks", ...value]);
+    const spread = `Spread: from this count to ${[
+      ...(row.checked || less.length
+        ? [`the block sum, ${row.blockSum[0]}`]
+        : []),
+      ...row.measures.map((m) => m.what),
+    ].join(" and ")}.`;
+    estimated.push({
+      key: row.key,
+      name: row.name,
+      method: row.checked
+        ? `${row.checked.method} ${spread}`
+        : `The 2020 P5 blocks whose internal points lie inside the 2025 TIGER/Line boundary (${row.why})${less.length ? `, less ${less.join(", ")}` : ""}. ${spread}`,
+      low: Math.min(
+        value[0]!,
+        row.blockSum[0]!,
+        ...row.measures.map((m) => m.low),
+      ),
+      high: Math.max(
+        value[0]!,
+        row.blockSum[0]!,
+        ...row.measures.map((m) => m.high),
+      ),
     });
   }
   for (const { key } of localities) rows.push(rowOf.get(key)!);
@@ -750,9 +986,9 @@ export async function compileGroupQuarters(downloads: string) {
       "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b26001.dat",
     retrievedOn: "2026-11-01",
     compiledBy: "scripts/research/compile-group-quarters.ts",
-    tag: "SOURCED",
+    tag: "by row: P5 and P28 SOURCED, blocks ESTIMATED (see tables)",
     limits:
-      "A count on Census Day, April 1, 2020, during the pandemic: college students were counted at their campus housing under the residence rule even where they had gone home, so college counts reflect campus housing, not who was physically there. The redistricting tables carry the 2020 disclosure-avoidance noise below the state level (group-quarters counts by type are not held invariant), so a small place can show a few residents in a type it has no facility of. Island-area counts are P28, whose group-quarters values the Census Bureau partially synthesized for disclosure avoidance. A row whose table is blocks is ESTIMATED: a place drawn or redrawn since 2020, counted from the 2020 blocks inside its 2025 boundary, and listed under estimated with its spread. A row listed under renamed is the 2020 row of the same place under its older code.",
+      "A count on Census Day, April 1, 2020, during the pandemic: college students were counted at their campus housing under the residence rule even where they had gone home, so college counts reflect campus housing, not who was physically there. The redistricting tables carry the 2020 disclosure-avoidance noise below the state level (group-quarters counts by type are not held invariant), so a small place can show a few residents in a type it has no facility of. Island-area counts are P28, whose group-quarters values the Census Bureau partially synthesized for disclosure avoidance. A row whose table is blocks is ESTIMATED: a place drawn or redrawn since 2020, counted from the 2020 blocks inside its 2025 boundary, and listed under estimated with its spread. A block counts as inside when its internal point is, so a facility on a block the boundary splits is counted all inside or all outside; where the ACS on the same land shows that sum wrong, the row is the 2020 row plus only the boundary-crossing blocks that bring it toward the ACS, and a block such a row keeps is taken out of the place its internal point now lies in, so none is counted twice; a split block on a place whose boundary moved since 2024 has no such check. A row listed under renamed is the 2020 row of the same place under its older code.",
     columns: ["key", "table", "total", ...GROUP_QUARTERS_TYPES],
     tables: {
       P5: {
@@ -772,8 +1008,7 @@ export async function compileGroupQuarters(downloads: string) {
         tag: "ESTIMATED",
         vintage:
           "2020 Census Redistricting Data (PL 94-171), block level, on 2025 TIGER/Line place boundaries",
-        cells:
-          "P5 summed over the 2020 blocks whose internal points lie inside the place's 2025 boundary",
+        cells: `P5 summed over the 2020 blocks whose internal points lie inside the place's 2025 boundary; where the 2020-2024 ACS B26001 on the same land (2024 and 2025 land areas within ${ACS_SAME_LAND_SHARE * 100}%) is more than ${ACS_CHECK_MARGINS} margins of error and ${ACS_CHECK_PEOPLE} people from that sum and at least as near the 2020 row, the 2020 row plus only the boundary-crossing blocks that bring it toward the ACS`,
       },
     },
     nationalTotals: {
@@ -811,6 +1046,7 @@ export async function compileGroupQuarters(downloads: string) {
     },
     sampleSourceRows: {
       "0973980": storrs.raw,
+      "0804000": census.get("160:0804000")!.raw,
     },
     renamed,
     estimated,
