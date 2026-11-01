@@ -433,17 +433,20 @@ function familyNews(
     : undefined;
   if (!moment || !prefix) return { stage: "default", facts: {} };
   const stage = stages[prefix]!;
-  const facts: Facts = {};
   const cited = [moment.causeId];
+  // Whatever the line says, it cites the record of what happened, even a
+  // line that names no place or employer ("Dana moved away.").
+  const facts: Facts = { happened: { text: stage, sourceRecordIds: cited } };
   if (stage === "moved") {
     const move = core.durableLog.get(moment.causeId);
     const place = move?.topic
       ? corePlaceByJurisdictionId(move.topic as never)
       : null;
-    const from = move ? corePlaceByJurisdictionId(move.placeId) : null;
-    // A move within the state they already lived in names no town: they
-    // "moved away", never "moved to" their own state.
-    if (place && place.key !== from?.stateJurisdictionKey)
+    // A move with no new place on record (where they went is where they
+    // left: a new home within their state's record, or no destination the
+    // moves engine could find) names none: they "moved away", never "moved
+    // to" the place they already lived in.
+    if (place && move!.topic !== move!.placeId)
       facts.place = { text: spoken(place), sourceRecordIds: cited };
   }
   if (stage === "job") {

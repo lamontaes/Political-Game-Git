@@ -8,10 +8,7 @@ import { applyCoreEvent } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import {
-  corePlaceByJurisdictionId,
-  corePlaceByKey,
-} from "../core2/place-lookup";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { wordConversationMove } from "../english/conversation-words";
 import { subjectsBetween } from "./conversation";
 import { spoken } from "./words";
@@ -46,8 +43,7 @@ it(`a relative's recorded move is the player's answer when someone asks after th
     const player = core.people.get(me)!;
     advanceCore(core, addDays(makeIsoDate(gameStartDate()), 30));
     // A relative of the player someone else knows, who lives apart from
-    // them, and a place for them to move to: where they live now, if it is
-    // not the player's town, else the player's town itself.
+    // them (another household), and a place for them to move to below.
     const pair = [...player.familyIds].sort().flatMap((relativeId) => {
       const relative = core.people.get(relativeId);
       if (!relative?.alive) return [];
@@ -70,7 +66,13 @@ it(`a relative's recorded move is the player's answer when someone asks after th
       continue;
     }
     const relative = core.people.get(pair.relativeId)!;
-    const destination = corePlaceByJurisdictionId(player.placeId as never)!;
+    // Somewhere they don't live: the player's town, or for a relative who
+    // lives in it, the town's county.
+    const to =
+      relative.placeId !== player.placeId
+        ? player.placeId
+        : (player.countyId ?? player.placeId);
+    const destination = corePlaceByJurisdictionId(to as never)!;
     const moveId = `person.moved-away:${relative.id}:${core.date}`;
     applyCoreEvent(core, {
       id: moveId,
@@ -80,7 +82,7 @@ it(`a relative's recorded move is the player's answer when someone asks after th
       witnessIds: [me],
       placeId: relative.placeId,
       publicRecord: false,
-      topic: player.placeId,
+      topic: to,
       source: {
         tag: "ESTIMATED",
         asOf: core.date,
@@ -88,7 +90,7 @@ it(`a relative's recorded move is the player's answer when someone asks after th
         estimatedFrom: "SG-P15-moves-weights",
       },
       facts: {
-        [`person:${relative.id}:residence`]: player.placeId,
+        [`person:${relative.id}:residence`]: to,
         "moves:elsewhere": relative.placeId,
       },
     } as never);
@@ -120,10 +122,12 @@ it(`a relative's recorded move is the player's answer when someone asks after th
     process.stdout.write(
       `FAMILY NEWS ${where}: ${pair.listenerId} asks after ${relative.id}; the player can say "${said!.text}", citing ${said!.sourceRecordIds.join(", ")}\n`,
     );
-    // A later move within the state they now live in, with no town named
-    // (the moves engine's fallback, and the lives lead's moves within a
-    // state): the answer says they moved away, never "moved to" the state.
-    const state = corePlaceByKey(destination.stateJurisdictionKey!)!;
+    // A later move with no new place on record, as the moves engine writes
+    // a new home within a state's record (and a leaver it found no
+    // destination for): where they went is where they left. The answer says
+    // they moved away, never "moved to" the place they already lived in.
+    const at = core.people.get(relative.id)!.placeId;
+    const atPlace = corePlaceByJurisdictionId(at as never);
     const withinId = `person.moved-away:${relative.id}:${core.date}`;
     applyCoreEvent(core, {
       id: withinId,
@@ -131,18 +135,20 @@ it(`a relative's recorded move is the player's answer when someone asks after th
       kind: "person.moved-away",
       personIds: [relative.id],
       witnessIds: [me],
-      placeId: player.placeId,
+      placeId: at,
       publicRecord: false,
-      topic: state.context.jurisdiction.id,
+      topic: at,
       source: {
         tag: "ESTIMATED",
         asOf: core.date,
         citation:
-          "Recorded as the moves engine writes a move within the state.",
+          "Recorded as the moves engine writes a move within a place's record.",
         estimatedFrom: "SG-P15-moves-weights",
       },
       facts: {
-        [`person:${relative.id}:residence`]: state.context.jurisdiction.id,
+        [`person:${relative.id}:residence`]: at,
+        "moves:elsewhere": at,
+        "moves:within-state": at,
       },
     } as never);
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
@@ -165,10 +171,10 @@ it(`a relative's recorded move is the player's answer when someone asks after th
       keys: [within!.stage!],
     });
     expect(away?.text, where).toMatch(/moved away/);
-    expect(away!.text, where).not.toContain(spoken(state));
+    if (atPlace) expect(away!.text, where).not.toContain(spoken(atPlace));
     expect(away!.sourceRecordIds, where).toContain(withinId);
     process.stdout.write(
-      `FAMILY NEWS within ${spoken(state)}: "${away!.text}", citing ${withinId}\n`,
+      `FAMILY NEWS no new place (${atPlace ? spoken(atPlace) : at}): "${away!.text}", citing ${withinId}\n`,
     );
     return;
   }

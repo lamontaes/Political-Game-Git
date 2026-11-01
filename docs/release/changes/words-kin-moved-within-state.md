@@ -2,7 +2,7 @@
 id: words-kin-moved-within-state
 impact: patch
 section: Fixed
-title: A relative who moves within their state moved away
+title: A relative whose move has no new place on record moved away
 ---
 
-When someone asks after a relative who moved to another part of the state they already lived in, with no town on record, the answer is that they moved away. Before, it named the state they had lived in all along.
+When someone asks after a relative whose move has no new place on record (a new home within their state's record, or a move with no destination found), the answer is now that they moved away. Before, it said they moved to the place they had just left. Every answer about a relative's news now cites the record it tells.
