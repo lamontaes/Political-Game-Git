@@ -297,7 +297,12 @@ export async function benchRequest(
             gameStartDate(),
             {
               twoLevel: true,
-              ...(chosen ? { playerBirthDate: chosenBirthDate(chosen) } : {}),
+              ...(chosen
+                ? {
+                    playerBirthDate: chosenBirthDate(chosen),
+                    playerGender: chosen.gender,
+                  }
+                : {}),
               ...(url.searchParams.get("settings")
                 ? { settings: JSON.parse(url.searchParams.get("settings")!) }
                 : {}),
