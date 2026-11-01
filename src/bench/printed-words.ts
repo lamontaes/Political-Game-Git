@@ -178,7 +178,10 @@ const appointerWords = (appointedBy: string | undefined) => {
     .replace(/\s*\([^)]*\)/g, "")
     .split(/[;,]/)[0]!
     .replace(/-/g, " ")
-    .trim();
+    .trim()
+    // The lines say the article ("The governor appoints a replacement."):
+    // "the special election" printed as "The the special election".
+    .replace(/^the\s+/i, "");
   return first && !/voter|elected/i.test(first) && first.split(" ").length <= 8
     ? first
     : null;
