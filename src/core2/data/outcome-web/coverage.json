@@ -18,7 +18,6 @@
     "emission-rules-to-particulates",
     "disaster-to-out-migration",
     "disaster-to-home-values",
-    "work-requirement-to-coverage",
     "minimum-wage-to-low-wage-jobs",
     "school-spending-to-attainment",
     "enforcement-to-hispanic-enrollment",
@@ -38,7 +37,6 @@
     "universal-childcare-to-mothers-work",
     "voter-id-to-turnout",
     "newspaper-closure-to-engagement",
-    "medicaid-expansion-to-coverage",
     "medicaid-expansion-to-mortality",
     "medicaid-expansion-to-medical-debt",
     "universal-prek-to-graduation",
@@ -199,6 +197,10 @@
     "coverage-to-mortality-55-64": {
       "waitingOn": [],
       "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through ownCoverageFactor in src/core2/health-own.ts), which reads the Medicaid coverage the law reach keeps for them (medicaidCoverageSpells in src/core2/law-reach/group-b-money.ts, one coverage record per stretch) and multiplies their death hazard at 55 to 64 by this row's size per covered year, twelve months after the coverage, against the coverage they held at their first look; the place-level medicaid-expansion-to-mortality row is left out of their web factor (deathWebFactor in src/core2/health-web.ts). Counted people keep the place-level row (stopgap SG-HEALTH-own-records-counted)"
+    },
+    "work-requirement-to-coverage": {
+      "waitingOn": [],
+      "carriedBy": "the law reach's Medicaid coverage records in the town (recordCoverage in src/core2/law-reach/group-b-money.ts keeps, under the requirement's key, a coverage record by person id for each adult the expansion reaches whose coverage the requirement ends, coverage|<law key>|<person id>|<from day>, read by medicaidCoverageSpells with ENDED_BY_REQUIREMENT), which the coverage engine's monthly bills read when they price each member (plans and billMembers in src/core2/medical-bills.ts): such a member pays their own plan's share where Medicaid's would have been theirs, and the household pays that added part first under journal ids that cite the requirement (requirementMinor, payFull and payCounted). The coverage engine's employer-plan count (holdersToday in src/core2/modules/coverage.ts) does not read this link in any place, since Medicaid coverage is not an employer plan; the reach keeps coverage records only for the town's residents, so outside the town the requirement reaches no billed household (stopgap SG-GOV-REACH-B-medicaid-coverage)"
     },
     "work-requirement-to-employment": {
       "waitingOn": ["labor.employment-rate"]
@@ -400,6 +402,10 @@
     "economy-to-approval": {
       "waitingOn": [],
       "carriedBy": "the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading nationalEconomyChange), which takes the national unemployment and inflation against the opening into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot. The game keeps no approval number, so the economy's effect lands on the vote; this row has no size, so the engine's own shares (unemploymentShare and inflationShare in src/core2/data/electorate/parameters.json) stand"
+    },
+    "medicaid-expansion-to-coverage": {
+      "waitingOn": [],
+      "carriedBy": "the law reach's Medicaid coverage records in the town (recordCoverage in src/core2/law-reach/group-b-money.ts keeps each covered resident's coverage, named and counted, as a coverage record by person id, coverage|<law key>|<person id>|<from day>, joined into stretches by medicaidCoverageSpells), which the coverage engine's monthly bills read when they price each member (plans and billMembers in src/core2/medical-bills.ts): a member the expansion covers pays Medicaid's 9.1 percent share of their care instead of an employer plan's or the uninsured share, and the treasuries pay Medicaid's part to the seller (payMedicaidCare). The coverage engine's employer-plan count (holdersToday in src/core2/modules/coverage.ts) does not read this link in any place, since Medicaid coverage is not an employer plan. Outside the town, where the reach keeps no coverage records, the expansion's whole effect on a billed household's money is the place-level medicaid-expansion-to-medical-debt row on the share its unpaid bills send to collections"
     },
     "snap-work-requirement-to-participation": {
       "waitingOn": [],
