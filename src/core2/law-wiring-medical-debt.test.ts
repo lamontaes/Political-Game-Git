@@ -842,6 +842,14 @@ describe("medical bills and medical debt in a played world", () => {
             };
             const perHousehold = (c: { sum: number; households: number }) =>
               c.sum / c.households;
+            // A place where none of them carries medical debt in either world
+            // has no debt for the expansion to shrink: it cannot show (b).
+            if (!covered.withDebt) {
+              passed.push(
+                `(b) ${where()}: none of the ${covered.households} town households with Medicaid only in the expansion world carried medical debt in either world`,
+              );
+              return null;
+            }
             const across = `over the ${covered.households} town households with Medicaid only in the expansion world (${covered.withDebt} carrying medical debt in either world), twin-minus-expansion debt sums to ${covered.sum} (${Math.round(perHousehold(covered))} a household); over the ${rest.households} other households billed in both worlds (${rest.withDebt} with debt), ${rest.sum} (${Math.round(perHousehold(rest))} a household)`;
             expect(covered.sum, `${where()}: ${across}`).toBeGreaterThan(0);
             expect(
