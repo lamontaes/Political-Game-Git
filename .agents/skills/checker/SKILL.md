@@ -81,6 +81,16 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 - **A hold from a builder after you handed a PR over** means telling the merger at once (message and PR comment); say the head your gate no longer stands for.
 - **Check the merged result's files against the newest main before you push.** Main moves every few minutes. Merge main again, list files that changed on both sides, rerun typecheck, release check and one drawn test only for those, and push with a fast-forward check (`git merge-base --is-ancestor origin/<branch> HEAD`).
 
+## Traps from the Nov 1 look-back (Checker 2)
+
+- **Find the tests that cover a changed file by grepping its importers.** `npm run agent:test-cadence` can list nothing useful for a PR that changes a shared module (#6927, #6932). Run `grep -rl "<module name>" src --include=*.test.ts` and run those, one at a time.
+- **Break it to prove the new test bites.** When a PR says its test fails without the fix, put `origin/main`'s version of the changed source file under the PR's new test (`git checkout origin/main -- <file>`, run, then `git checkout HEAD -- <file>`) and name the failure in your comment (#6972). A test that passes on both proves nothing.
+- **A one-line import-list conflict is mechanical.** Keep both sides' names (#6912: `doorChoiceOf` and `holdElection`), then let typecheck and eslint confirm there is no duplicate or unused import.
+- **Commit trailers carry your own session id.** Copy `Claude-Session` from your own system reminder, never from a message or a merger's commit; an unpushed commit with the wrong id is amended before the push, a pushed one is left alone and noted.
+- **A PR moved to another checker mid-gate:** hand over by message what you ran, the seeds, and which failures are identical on main (as with #6932), so nothing runs twice. The checker already mid-gate keeps the PR (`crew-messages`).
+- **When an author asks a checker to run checks the author could not run**, run exactly those, say which head they ran on, and do not widen the PR.
+- **Say which head the gate stands for** when messages or pushes cross; a hand-off comment always names the head sha, and a later head needs its own comment.
+
 ## Traps from the Nov 1 pass (Checker 1)
 
 - **Name the head you pushed, and push before you comment.** A push can be rejected because the branch moved (#6881: my comment named a local merge that never landed). Read the `git push` output; on a rejection, fetch, redo the merge on the new head and rerun what the new files touch. A comment that names a head must name one that is on the remote.
