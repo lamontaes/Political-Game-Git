@@ -7633,6 +7633,18 @@
     "status": "open"
   },
   {
+    "id": "SG-LAW-loan-cap-web-past-checker-lag",
+    "kind": "missing-mechanic",
+    "file": "scripts/law-wiring/declared/housing-credit.json",
+    "line": 7,
+    "whatItFakes": "The law matrix grades the consumer-loan cap's outcome-web link from a declaration, not from a checker run: no law-wiring checker run shows the small-dollar lender reading the cap links' factor, so the cell quotes the lenders test's played-world records (src/core2/law-wiring-small-dollar-lenders.test.ts) and is graded partial, and the law counts as partly wired.",
+    "why": "The checker (scripts/law-wiring/check.ts) changes a law once and leaves it to the world's own bills. The cap links lag 12 months (data/research/outcome-web/links.json). In Prescott, Michigan, the one checker place with a lender, the state legislature put the cap back with HB 4010 on 2025-08-04, seven months into the lag, so no month past the lag moved there. The places whose web ledger rows did move began with the cap (Vermont and Nebraska answer yes), and no lender opens where a state begins with the cap (smallDollarTerms in src/core2/modules/credit.ts), so nobody read those rows. The lenders test holds the law against the world's bills each day past the lag, which the checker does not.",
+    "addedBy": "claude/laws-small-dollar-lenders",
+    "addedAt": "2026-11-01",
+    "replacement": "A law-wiring checker run, in a drawn place with a small-dollar lender, that holds the law it changed against the world's own bills for the link's lag (as the lenders test's hold does) and records a loan whose web factor is below one (loan.webFactor and loan.webRecordId beside the month's record id), so the matrix grades the web link wired from the run; then this declaration is deleted.",
+    "status": "open"
+  },
+  {
     "id": "SG-SCHOOL-honors-no-history",
     "kind": "history-gap",
     "file": "src/core2/school-honors.ts",

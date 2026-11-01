@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 88 of 89 (1 partly, 0 on a stopgap). Research links reaching people or carried by an engine: 172 of 246 (18 the research finds about zero, 56 unread, 0 of them with no stopgap).
+Laws wired: 87 of 89 (2 partly, 0 on a stopgap). Research links reaching people or carried by an engine: 172 of 246 (18 the research finds about zero, 56 unread, 0 of them with no stopgap).
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
@@ -55,7 +55,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | public sector collective bargaining          | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired   | Issues, Your office, Calendar, News |
 | right to work                                | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired   | Issues, Your office                 |
 | legalize cannabis sales                      | business           | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired   | Issues, Your office, Calendar, News |
-| cap consumer loan rates                      | business           | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired   | Issues, Your office                 |
+| cap consumer loan rates                      | business           | yes    | yes    | yes   | yes     | yes   | part | yes     | yes    | yes       | partly  | Issues, Your office                 |
 | ban new gas hookups                          | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired   | Issues, Your office                 |
 | clean electricity standard                   | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired   | Issues, Your office, Calendar, News |
 | clean air plan for polluted counties         | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired   | Issues, Your office, Calendar, News |
@@ -147,6 +147,10 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **local minimum wage authority** (`us-policy-positions:labor-workforce.local-minimum-wage-authority`)
 
 - money: the law grants a local government the power to set its own minimum wage; the grant itself charges, pays and taxes no one, and any money moves through the wage a council then enacts, graded as the minimum wage law's money
+
+**cap consumer loan rates** (`us-policy-positions:business-commerce.cap-consumer-loan-rates`)
+
+- web: the year-long check cannot show the cap links' 12-month lag: the checker changes the law once and leaves it to the world's legislature, which in the one checker place with a lender put the cap back seven months in, so no checker run shows the lender reading the factor; the runs whose web ledger did move began with the cap, where no lender opens, so nobody read those rows. The played lenders test holds the law past the lag and shows the read; its records are the evidence (SG-LAW-loan-cap-web-past-checker-lag)
 
 **Spending: corrections** (`budget-line:corrections`)
 
