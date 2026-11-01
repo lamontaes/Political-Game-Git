@@ -4946,7 +4946,7 @@ let townAsk = 0;
 async function listTowns() {
   const ask = ++townAsk;
   const towns = await api(
-    `/api/creator/towns?${new URLSearchParams({ state: setup.state.key, q: $("cr-town-search").value })}`,
+    `/api/creator/towns?${new URLSearchParams({ state: setup.state.key, q: $("cr-town-search").value, seed: setup.seed })}`,
   );
   if (ask !== townAsk) return;
   const count = new Intl.NumberFormat("en-US");

@@ -1,7 +1,12 @@
 import healthJson from "../data/health.json" with { type: "json" };
 import { worldRateFactor } from "../world-base-rates";
 import { settleEstate } from "../estates";
-import { HOUSING_STATUS_EVENT } from "../housing-homeless";
+import {
+  HEALTH_STATUS_FACTORS,
+  HOUSING_STATUS_EVENT,
+  housingHealthFactor,
+  type HousingStatus,
+} from "../housing-homeless";
 import {
   addDays,
   ageOnDate,
@@ -421,6 +426,8 @@ function assignPerson(
   person: Readonly<PersonState>,
   conditions: readonly string[],
   from: ReturnType<typeof makeIsoDate>,
+  /** Housing already weighing on them when filled in (a counted household without a home). */
+  housing?: { status: HousingStatus; evictedOn?: string },
 ) {
   const p = (key: string) => api.parameter(key);
   const line = resilienceLine(api, data, person.id);
@@ -449,9 +456,15 @@ function assignPerson(
     threshold,
     micros,
     ...(strongest ? { conditionKey: strongest.key } : {}),
-    housing: [],
+    housing:
+      housing && housing.status !== "housed"
+        ? [{ date: from, factor: p(HEALTH_STATUS_FACTORS[housing.status]) }]
+        : [],
     web: [],
     own: [],
+    ...(housing?.evictedOn
+      ? { evictedOn: makeIsoDate(housing.evictedOn) }
+      : {}),
   });
   scheduleOnset(api, data, row, person, from);
 }
@@ -565,12 +578,7 @@ function housingChanged(
 ) {
   const row = runtime(api.state);
   const date = makeIsoDate(api.state.date);
-  const factors: Readonly<Record<string, string>> = {
-    housed: "one",
-    "doubled-up": "healthDoubledUpHazardFactor",
-    sheltered: "healthShelteredHazardFactor",
-    unsheltered: "healthUnshelteredHazardFactor",
-  };
+  const factors: Readonly<Record<string, string>> = HEALTH_STATUS_FACTORS;
   for (const id of event.personIds) {
     const person = api.state.people.get(id);
     const plan = row.plans.get(id);
@@ -865,6 +873,9 @@ export function giveHealthRecord(
     person,
     lateConditions(api, data, person, exactAge(api, person.birthDate, today)),
     today,
+    // A household filled in while without a home (or soon after an
+    // eviction) carries that strain from today, as it did while counted.
+    housingHealthFactor(api, person.householdId),
   );
   carryCountedIllness(api, data, row, personId, today);
 }
@@ -1086,6 +1097,29 @@ export function healthReport(core: Readonly<CoreState>) {
     causeOfDeath: row?.causeOfDeath ?? new Map(),
     resilienceLines: row?.resilienceLines ?? new Map(),
   };
+}
+
+/**
+ * The housing strain on one person's death hazard: each housing status
+ * factor from the day it began, and the day of their last eviction while its
+ * factor holds. Undefined for someone with no health record.
+ */
+export function healthHousingOf(
+  state: Readonly<CoreState>,
+  personId: PersonId,
+):
+  | {
+      readonly housing: readonly { date: string; factor: number }[];
+      readonly evictedOn?: string;
+    }
+  | undefined {
+  const plan = runtimes.get(state)?.plans.get(personId);
+  return plan
+    ? {
+        housing: plan.housing,
+        ...(plan.evictedOn ? { evictedOn: plan.evictedOn } : {}),
+      }
+    : undefined;
 }
 
 /** The outcome web's factor now on one person's death hazard (1 where it has moved nothing). */

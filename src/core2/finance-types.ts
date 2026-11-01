@@ -2,7 +2,7 @@ import type { LivingPlan } from "./cost-of-living";
 import type { IsoDate, PersonId, Source, WorkResult } from "./types";
 import type { CashJournalSourceRef } from "./journal";
 import type { CashJournalPostedMarker } from "./journal-state";
-import type { LegacyWorkCashResult } from "./work-cash";
+import type { LegacyWorkCashResult } from "./modules/work";
 import type { WorkPayrollJournalReceipt } from "./work-payroll-cash";
 
 export interface FinanceContractInput {

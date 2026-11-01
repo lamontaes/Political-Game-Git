@@ -30,7 +30,7 @@ import { SeededRng } from "./kernel/rng";
 import {
   coreStateKeyOfJurisdictionId,
   corePlaceByJurisdictionId,
-} from "./place-lookup";
+} from "./places";
 import {
   findPerQuarter,
   layoffPerQuarter,
@@ -38,9 +38,8 @@ import {
   quitPerQuarter,
   workAgeFactor,
   workLeans,
-} from "./past-work";
-import { stateUnemployment } from "./modules/counted-moves";
-import { livesElsewhere } from "./modules/moves";
+} from "./past";
+import { livesElsewhere, stateUnemployment } from "./modules/people";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import type { EntityId } from "./kernel/brands";
 import type {

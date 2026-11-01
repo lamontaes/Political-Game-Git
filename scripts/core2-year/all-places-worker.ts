@@ -80,6 +80,14 @@ function unfilledSeats(core: CoreState, since: string): string[] {
         `${row.seatId} ${row.status} since ${row.since} (${row.rule && (row.rule as Row).method})`,
       );
   }
+  // A seat with a serving term is held: a winner of a special election or a
+  // race elsewhere is seated as a person the first time their seat is read
+  // (`holderOf`), so the roster may not hold them yet.
+  const serving = new Set(
+    rows(core, OFFICES, "terms")
+      .filter((term) => term.status === "serving")
+      .map((term) => term.seatId as string),
+  );
   const bySeat = new Map<string, Row[]>();
   for (const row of rows(core, OFFICIALS, "officials")) {
     const list = bySeat.get(row.seatId as string) ?? [];
@@ -87,7 +95,7 @@ function unfilledSeats(core: CoreState, since: string): string[] {
     bySeat.set(row.seatId as string, list);
   }
   for (const [seatId, list] of bySeat) {
-    if (awaiting.has(seatId)) continue;
+    if (awaiting.has(seatId) || serving.has(seatId)) continue;
     if (list.some((row) => row.ended === null || row.ended === undefined))
       continue;
     // A nominee the confirming bodies passed over was never seated: no seat emptied.
