@@ -133,9 +133,12 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
     // Read from the campaign's record now: a candidate in several races who
     // asks the same people for each moves them to the last campaign asked.
     // A volunteer who lives with the candidate stands in the scene as family,
-    // and a person is cast once.
+    // and a person is cast once. The campaign's staff stand with its
+    // volunteers, and a staffer who also volunteers is cast once
+    // (Manchester, Connecticut, seed own-g1: one was cast twice).
+    const run = campaignFor(api, sittingFiling.id);
     expect(supporters).toEqual(
-      [...campaignFor(api, sittingFiling.id).volunteerIds].filter(
+      [...new Set([...run.volunteerIds, ...(run.staffIds ?? [])])].filter(
         (id) =>
           core.people.get(id)?.alive &&
           id !== filing.personId &&
