@@ -87,7 +87,16 @@ it(`a member of Congress outside the town who dies is replaced through the vacan
       expect(vacancy.officeId, `${where}: ${vacancy.id}`).toBe(
         `office:${vacancy.unheld!.stateKey}:${vacancy.unheld!.officeKind}`,
       );
-      const now = seat.filter((row) => row.ended === null);
+      // The one who filled it serves on, or until the seat's next vacancy
+      // (the filler can die in the same year, and the seat waits again).
+      const next = vacancies
+        .filter(
+          (row) => row.seatId === vacancy.seatId && row.since > vacancy.since,
+        )
+        .sort((a, b) => a.since.localeCompare(b.since))[0];
+      const now = seat.filter(
+        (row) => row.id !== gone?.id && row.ended === (next?.since ?? null),
+      );
       if (vacancy.status === "awaiting-election") {
         // Waiting by law for its special election, still to come.
         expect(

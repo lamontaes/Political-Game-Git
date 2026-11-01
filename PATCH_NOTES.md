@@ -296,6 +296,179 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.71.0
+
+_Released November 1, 2026._
+
+### Added
+
+- **Taking office is a swearing-in, with a speech where the office gives one.**
+  The day you take an office, the day stops for the oath. The clerk who took
+  your filing (or whoever the town's records name) gives it, your family and the
+  other officeholders are in the room, and you answer in your own voice: a plain
+  "I do," a pledge, a thank-you, or a question about how it goes. A mayor, a
+  county executive, a governor or a president then gets the floor, and what you
+  say is heard by the people who were there: it can move what they think and be
+  told again at home. Your journal says who swore you in.
+
+### Improved
+
+- **Election years run faster** In an election year the press keeps asking every
+  candidate where they stand. The game used to work each answer out from
+  scratch; now it remembers what it already looked up during an interview, so
+  election years run faster and every answer is the same.
+
+### Fixed
+
+- **Government never opens blank** Politics → Government now opens on the
+  government that actually governs your place. In the District of Columbia and
+  in places with no local government of their own, it opens on the state-level
+  government with its members, and the Local tab says why it has none instead of
+  showing nothing.
+
+- **People in the room can be talked to again after a story** After the opening
+  evening's address and every Continue, the people in your room can be clicked
+  to talk again.
+
+- **A resident who read that a law took effect now stops you to talk about it.**
+  When someone read that a law took effect and stopped you in the street, the
+  scene used to be skipped whenever the law had no local bill number, a state
+  law for instance. The lines for a law in force could never be said. Now the
+  scene knows the law is still in force, from the laws engine, and the resident
+  says so ("Shift highway funds to transit took effect, and I'm the one living
+  with it.").
+
+### Changed
+
+- **The paper says what a town group stands for when it endorses.** A group with
+  no name of its own is told by the stance it endorsed on: "A group working for
+  an end to the clean electricity requirement endorsed Jeffery Holmes for
+  Attorney General." Before, it was "a local group".
+
+## PRE-ALPHA 0.70.1
+
+_Released November 1, 2026._
+
+### Improved
+
+- **Counting votes runs faster** The game used to sort a town's whole electorate
+  again each time it was needed. Now it keeps the list in order, so election
+  years run faster, and every vote is counted the same.
+
+## PRE-ALPHA 0.70.0
+
+_Released October 30, 2026._
+
+### Added
+
+- **A rival who learns you are gaining on them now campaigns harder.** Other
+  candidates now react when the race turns against them. When their own poll
+  shows a challenger ahead, or someone who knows both of you tells them about
+  your campaign, including your evenings knocking on doors, they put in more
+  hours and knock more doors themselves. A sitting official who lives out of
+  town comes home to campaign, more of the time the further behind they think
+  they are. The more you gain, the harder they push back.
+
+- **A bill on a power the state has not settled carries the lawyer's warning**
+  When you draft a bill on something your council or board may not have the
+  power to do, its paper now says so: your town's city attorney warns that the
+  council may not have the power to do this (before a county or township board,
+  the board's lawyer warns instead). A bill on a power the state plainly gives
+  your town carries no warning.
+
+### Improved
+
+- **Campaign days run faster** When a candidate picks how to spend a campaign
+  day, the game used to lay out every option in full first. Now it works out
+  only what it needs, so election seasons run faster and every candidate spends
+  their days the same way.
+
+- **Big towns run a little faster** When the game decides something for a person
+  in a town's wider population, it used to build that person twice. Now it
+  builds them once, so big towns run a little faster, and everything that
+  happens stays the same.
+
+- **People's days run faster** The game used to re-read the same dates for every
+  feeling and re-check every act a person had already chosen. Now it reads each
+  date once and checks your own acts as before, so a year runs a little faster
+  and people do the same things.
+
+- **The monthly job review runs faster** Each month the game checks who in a
+  town is looking for work. It used to look up some answers again for every
+  person; now it looks each one up once, so big towns run a little faster, and
+  the same people find the same jobs.
+
+- **Word of mouth runs faster** When two people meet, the game checks whether
+  one has news to pass on. It used to look through every story either had heard
+  even when there was nothing to tell; now it stops early, so big towns run
+  faster, and the same news reaches the same people.
+
+- **Paydays run faster** Every paycheck used to look up the tax laws again, and
+  every workday did checks only the tests need. Now the game looks each law up
+  once a day and skips those checks in play, so a year runs faster, and everyone
+  is paid and taxed the same.
+
+- **The journal reads like a page** The journal is now one cream page titled "My
+  life", with the chapter's place and years under it and the story in
+  paragraphs. A longer life pages by chapter instead of scrolling.
+
+- **Your office sits on plates** Your office now shows your seat as plates
+  (office, pay, next meeting), your drafts with the draft card on a plate of its
+  own, and your budget lines and deals on plates, one tab at a time instead of a
+  long list of rows.
+
+### Fixed
+
+- **Campaigns gather extra petition signatures.** Candidates now gather half
+  again as many petition signatures as the clerk requires, so names the clerk
+  strikes no longer leave them off the ballot.
+
+- **Your family is in the living room on your first evening** On the first
+  evening at home, your family now sits in the living room with you in every
+  house. Before, about a third of new lives opened in an empty room. Until the
+  other house living rooms are painted with seats, every house shows the same
+  living room.
+
+- **Faces are there the moment a menu opens** The faces of your family and the
+  people closest to you are drawn while a new life loads, so People shows every
+  face as soon as it opens instead of filling them in over a second or two.
+  Loading a new life takes a little over a second longer.
+
+- **A bill with two steps on one law states its purpose once.** A bill that
+  changes one law in two steps reads "An ordinance to set the minimum wage."
+  instead of naming the purpose twice. The bill text also has the words for a
+  section with its own date and for the sections the usual rule dates, for the
+  governing work on raises phased in by dated steps.
+
+- **When your bill fails, someone who voted for it comes to you.** An
+  officeholder's aide used to bring the news of a lost vote, so a council
+  member, who keeps no aide, heard nothing when their own ordinance failed. Now
+  a fellow member who voted for it comes to find you ("We lost the vote on
+  Ordinance 2025-1."), and you can talk over what comes next.
+
+### Changed
+
+- **Residents who say yes at the door now turn out to vote.** A resident who
+  tells your campaign at the door that you have their vote now mostly shows up
+  on election day, the way people who say they will vote mostly do. Before, they
+  turned out no more often than anyone else, so a long season of doors brought
+  few votes.
+
+- **Your journal tells the bills you signed or vetoed, and the sponsor's tells
+  what you did to theirs.** When you sign or veto a bill as mayor, your journal
+  says so ("I signed Ordinance 2025-1, the Free Fares for Riders Ordinance."; "I
+  vetoed Ordinance 2025-2, the Transit First Funding Ordinance, but it was
+  overridden."). The member who sponsored it reads it in their own journal ("My
+  bill, Ordinance 2025-1, the Free Fares for Riders Ordinance, was signed into
+  law."). Three lines about a failed bill no longer drop the comma after the
+  bill's title.
+
+- **The paper prints who endorsed whom in a race.** When a party, a town group
+  or a person endorses a candidate, the paper now prints it: "The Republican
+  Party endorsed Kevin Stein for U.S. Representative." A group that keeps no
+  name of its own is "a local group". Before, these stories were printed with no
+  words at all.
+
 ## PRE-ALPHA 0.69.0
 
 _Released October 30, 2026._

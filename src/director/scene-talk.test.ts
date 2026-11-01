@@ -160,7 +160,11 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       expect(/\?$/.test(spoken.text.trim()), where).toBe(false);
       // The player's character may end the talk by walking away; the close
       // after it can be the narrator's, so their leaving is the last spoken line.
-      if (spoken.role !== "asker" && spoken.move !== "leave")
+      // The asker's close may be told as their reaction ("Pat Rivera
+      // straightens up off your car and walks away."): the narrator says it,
+      // and it ends the talk as the asker's own close.
+      const reacted = final.role === "narrator" && final.move === "react";
+      if (spoken.role !== "asker" && spoken.move !== "leave" && !reacted)
         expect(
           talk.gaps.some((row) => row.includes("question left unasked")),
           where,
@@ -195,7 +199,8 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
         director,
         { askerId: colleague.id, askedId },
         type,
-        facts,
+        // The sponsor's count is the evening before the vote.
+        { ...facts, "vote-tomorrow": fact("yes") },
         { standing: { lean: -0.2, favor: 0.3 } },
         HELD,
       );
@@ -243,7 +248,9 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       if (warm !== compose(-2)) differing += 1;
     }
     expect(differing).toBeGreaterThan(0);
-  });
+    // Every purpose composed three times: past the 30-second default on a
+    // slow draw (Checker 0, Nov 1: fo-1, also on clean main).
+  }, 120_000);
 
   it("never says a fact the record lacks: with the bill missing, a bill scene is skipped, not invented", () => {
     const type = types.find((row) => row.purpose === "ask-vote")!;

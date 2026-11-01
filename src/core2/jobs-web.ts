@@ -219,6 +219,30 @@ function moves(api: CoreAPI, placeId: string, measure: string): boolean {
 }
 
 /**
+ * Whether the web moves either work-authorization outcome at a place today,
+ * the same reads `moves` makes, kept per place for the day so each worker
+ * after the first costs one lookup.
+ */
+const ENFORCING = new WeakMap<
+  CoreState,
+  { date: string; byPlace: Map<string, boolean> }
+>();
+function enforcementMoves(api: CoreAPI, placeId: string): boolean {
+  const c = api.state as CoreState;
+  let cache = ENFORCING.get(c);
+  if (!cache || cache.date !== c.date)
+    ENFORCING.set(c, (cache = { date: c.date, byPlace: new Map() }));
+  let moving = cache.byPlace.get(placeId);
+  if (moving === undefined)
+    cache.byPlace.set(
+      placeId,
+      (moving =
+        moves(api, placeId, UNDOCUMENTED) || moves(api, placeId, US_BORN)),
+    );
+  return moving;
+}
+
+/**
  * The outcome a person's work authorization puts them under: an unauthorized
  * noncitizen's employment, or a citizen's, standing for the U.S.-born the
  * research measures (the core records no birthplace). A noncitizen with
@@ -275,10 +299,7 @@ function bandShift(
     measures.push(OLDER_WORK);
   // Local immigration enforcement reaches a worker by their work
   // authorization, read only where the web moves either outcome.
-  if (
-    facts.id &&
-    (moves(api, placeId, UNDOCUMENTED) || moves(api, placeId, US_BORN))
-  ) {
+  if (facts.id && enforcementMoves(api, placeId)) {
     const measure = authorizationMeasure(api, facts.id, p);
     if (measure) measures.push(measure);
   }

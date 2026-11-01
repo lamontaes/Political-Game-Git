@@ -9,7 +9,10 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { BenchPlayer } from "../bench/player";
+import { DevMode } from "../bench/dev-mode";
 import { buildBenchWorld } from "../bench/world";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { cabinet, successions } from "./modules/succession";
@@ -68,7 +71,7 @@ describe(`presidential succession in the played world: ${where}`, () => {
     expect(nextVice.personId).not.toBe(vice.personId);
     expect(world.core.people.get(nextVice.personId!)?.alive).toBe(true);
     expect(nextVice.reached).toContain("both houses");
-    // The field of three: the two the bodies passed over stay on the roster as
+    // The fields of three: the nominees the bodies passed over stay on the roster as
     // considered and never seated, so they are not seats left empty.
     const field = (
       api
@@ -82,8 +85,13 @@ describe(`presidential succession in the played world: ${where}`, () => {
     ).filter((row) =>
       row.seatId.startsWith(`seat:vice-president:${world.core.date}:`),
     );
-    expect(field.length, where).toBe(3);
-    expect(field.filter((row) => row.seated === false).length, where).toBe(2);
+    // A field the bodies refuse is followed by another of three, so the roster
+    // holds a whole number of fields, and exactly one nominee was seated.
+    expect(field.length % 3, where).toBe(0);
+    expect(field.length, where).toBeGreaterThanOrEqual(3);
+    expect(field.filter((row) => row.seated === false).length, where).toBe(
+      field.length - 1,
+    );
     for (const row of field.filter((r) => r.seated === false))
       expect(row.ended, where).toBe(world.core.date);
     const records = successions(api);
@@ -140,6 +148,51 @@ describe(`presidential succession in the played world: ${where}`, () => {
         `${where} ${post.id}`,
       ).toBe(true);
     }
+  });
+
+  it("a secretary who dies is replaced by the President's nominee on the next review", () => {
+    const fresh = buildBenchWorld(seed, "2026-10-12", { twoLevel: true });
+    const freshApi = coreAPI(fresh.core);
+    const dev = new DevMode(
+      fresh.core,
+      fresh.director,
+      new BenchPlayer(fresh.core, fresh.director),
+      fresh.placeId,
+    );
+    const before = cabinet(freshApi);
+    const dead = before[0]!;
+    freshApi.updatePerson(dead.holderId, { alive: false });
+    dev.advance(addDays(makeIsoDate(fresh.core.date), 60));
+    const after = cabinet(freshApi).find((p) => p.id === dead.id)!;
+    expect(after, where).toBeTruthy();
+    expect(after.holderId, where).not.toBe(dead.holderId);
+    expect(fresh.core.people.get(after.holderId)?.alive, where).toBe(true);
+    const votes = after.confirmation as { yes: number; no: number }[];
+    expect(votes[0]!.yes, where).toBeGreaterThan(votes[0]!.no);
+    // The post's seat is held again, not left on the roster as empty.
+    const seatRows = (
+      freshApi
+        .moduleState("core2-officials-v1")
+        .table("officials")
+        .rows() as unknown as {
+        seatId: string;
+        ended: string | null;
+        id: string;
+      }[]
+    ).filter(
+      (r) =>
+        r.seatId ===
+        (
+          freshApi
+            .moduleState("core2-succession-v1")
+            .table("postSeats")
+            .get(dead.id) as unknown as { seatId: string }
+        ).seatId,
+    );
+    expect(
+      seatRows.some((r) => r.ended === null && r.id === after.holderId),
+      where,
+    ).toBe(true);
   });
 
   it("a vice president named to a vacancy is eligible to be president, vacancy after vacancy", () => {

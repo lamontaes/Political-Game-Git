@@ -33,33 +33,35 @@ try {
   const r = await response;
   assert.equal(r.status(), 200);
   const seed = new URL(r.url()).searchParams.get("seed");
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 120000 });
-  // Read each sentence as it is put up in the speech box.
+  // The opening plays as a scene in the talk box: the address, then the night's news.
+  await page.locator("#talk:not([hidden])").waitFor({ timeout: 120000 });
+  // Read each sentence as it is put up in the talk box.
   await page.exposeFunction("heardLine", (text) => heard.push(text));
   await page.evaluate(() => {
-    const box = document.getElementById("opening-speech");
-    new MutationObserver(() => window.heardLine(box.textContent)).observe(box, {
+    const box = document.getElementById("talk-lines");
+    const say = () => window.heardLine(box.textContent);
+    new MutationObserver(say).observe(box, {
       childList: true,
       characterData: true,
       subtree: true,
     });
-    window.heardLine(box.textContent);
+    say();
   });
   // Click through the address and the night's news.
   let shotTaken = false;
   for (let i = 0; i < 400; i += 1) {
-    if (await page.locator("#opening-box").isHidden()) break;
+    if (await page.locator("#talk").isHidden()) break;
     // The sentence with the rate on screen, as the player sees it.
     if (
       shot &&
       !shotTaken &&
-      /unemployment/i.test(await page.locator("#opening-speech").innerText())
+      /unemployment/i.test(await page.locator("#talk-lines").innerText())
     ) {
       shotTaken = true;
       await page.screenshot({ path: `${shot}-rate.png` });
     }
     await page
-      .locator("#opening-box")
+      .locator("#talk-next:visible")
       .click({ timeout: 2000 })
       .catch(() => {});
     await page.waitForTimeout(150);

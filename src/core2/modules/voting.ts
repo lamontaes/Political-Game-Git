@@ -100,6 +100,8 @@ import {
   impressionOf,
   parsePlatform,
   pledgesOf,
+  registerDoorChoice,
+  type DoorVisit,
   type PledgeRow,
 } from "./campaigns";
 import {
@@ -197,6 +199,8 @@ export interface BallotRow {
     readonly duty: number;
     readonly interest: number;
     readonly cost: number;
+    /** Their door "yes" as a word to vote, where they gave one. */
+    readonly pledge?: number;
   };
   readonly choice: string | null;
   /** Each candidate's appeal to this voter, and its parts. */
@@ -309,6 +313,8 @@ export interface TurnoutReasonsRecord {
   readonly reach?: number;
   readonly habit?: number;
   readonly propensity?: number;
+  /** Their door "yes" as a word to vote, where they gave one. */
+  readonly pledge?: number;
   /** The outcome web's month record that moved the propensity, and the links in it. */
   readonly web?: {
     readonly recordId: string;
@@ -398,6 +404,7 @@ export function openVoting(core: CoreState): void {
     registerModule(core, candidacyModule);
   const api = coreAPI(core);
   registerWardResidency(candidateInWard);
+  registerDoorChoice(doorChoiceOf);
   rememberOpeningElectorate(api);
   pollingPlaces(api);
   // A vacancy's special election runs as a real race.
@@ -1257,6 +1264,92 @@ function townIncumbentLean(api: CoreAPI): number {
   return mean;
 }
 
+/** Each day's counted residents by id, for a door's answer (one map a day). */
+const countedById = new WeakMap<
+  object,
+  { key: string; byId: Map<string, CountedVoter> }
+>();
+
+/**
+ * Each candidate's appeal to a voter in this contest today, by the same rule
+ * the ballot uses (their earlier word at a door included), for a campaign's
+ * door to read as the resident's answer (`campaigns.ts` answerAtDoor): a full
+ * person's own appeal; a counted resident's by their record, with a door
+ * visit just now read as a full person's knowledge is (`appealFor`): they
+ * know the candidate and the platform in person, in place of the town's share
+ * of it, and the visit's warmth. Null where they are not of voting age or the
+ * contest is not on a ballot; undefined where the world counts no ballots.
+ */
+export function doorAppealOf(
+  api: CoreAPI,
+  voterId: string,
+  contestId: string,
+  visit?: DoorVisit,
+): Readonly<Record<string, CountedAppeal>> | null | undefined {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow | undefined;
+  if (!contest) return null;
+  const filings = ballot(api, contestId);
+  if (!filings.length) return null;
+  const adultAge = api.parameter("votingAge");
+  const named = api.state.people.get(voterId);
+  if (named) {
+    if (!named.alive || ageOn(named, api.state.date) < adultAge) return null;
+    return appealFor(api, named, contest, filings).appeal;
+  }
+  const core = api.state as CoreState;
+  const all = countedResidents(core);
+  const key = `${core.date}|${all.length}`;
+  let held = countedById.get(core);
+  if (held?.key !== key) {
+    held = { key, byId: new Map(all.map((v) => [v.id, v])) };
+    countedById.set(core, held);
+  }
+  const voter = held.byId.get(voterId);
+  if (!voter || ageOn(voter, api.state.date) < adultAge) return null;
+  const lean = personLean(api.state.people, voter, townLean(api));
+  const field = countedField(api, contest, filings);
+  const appeal: Record<string, CountedAppeal> = countedAppeal(lean, field, {
+    inTown: true,
+    local: true,
+    incumbentLean: incumbentLeanOf(api, voter),
+    trust: trustWeight(api, lean),
+    profile: countedStanceProfile(api, voter),
+    pledges: countedPledges(
+      api,
+      voter.id,
+      trustWeight(api, lean),
+      contestId,
+      field,
+    ),
+  });
+  const met = visit ? appeal[visit.candidateId] : undefined;
+  if (visit && met) {
+    const recognition =
+      campaignParameter("countedRecognitionWeight") + visit.agreement;
+    appeal[visit.candidateId] = {
+      ...met,
+      recognition,
+      total: met.total - met.recognition + recognition + visit.warmth,
+    };
+  }
+  return appeal;
+}
+
+/** Who a voter would vote for in this contest today (`doorAppealOf`'s first choice), or null for nobody; undefined where the world counts no ballots. */
+export function doorChoiceOf(
+  api: CoreAPI,
+  voterId: string,
+  contestId: string,
+  visit?: DoorVisit,
+): string | null | undefined {
+  const appeal = doorAppealOf(api, voterId, contestId, visit);
+  return appeal ? countedChoice(appeal) : appeal;
+}
+
 /** The incumbent's side of a voter's traits: stay with the known or try someone new. */
 export function incumbentLeanOf(
   api: CoreAPI,
@@ -1418,6 +1511,8 @@ function decideTurnout(
     readonly recordedWeeklyMinutes?: number;
     /** Whether the day's ballot carries a local race (the web's local-turnout links move it). */
     readonly local?: boolean;
+    /** How far their door "yes" to a candidate on the day's ballot still holds, 0 to 1 (a word to vote as well as how). */
+    readonly pledged?: number;
   },
 ): TurnoutDecision {
   const map = decisions.get(api.state) ?? new Map<string, TurnoutDecision>();
@@ -1446,6 +1541,7 @@ function decideTurnout(
     reach: reachOf(input.contacts),
     habit: record ? habitOf(record.voted, record.elections) : 0,
     cost,
+    pledge: campaignParameter("doorPledgeTurnoutWeight") * (input.pledged ?? 0),
   };
   // The web's links the engine does not read itself, by this voter's age and place.
   const who = (api.state.people.get(voter.id) ?? voter) as {
@@ -1697,6 +1793,7 @@ export function holdPrimary(
         extraCost,
         contacts: contactsOf(api, voter.id, candidates),
         local: localDay,
+        pledged: heldPledge(appeal),
       });
       if (!t.votes) continue;
       const choice = field.some((f) => f.personId === voter.id)
@@ -1748,6 +1845,7 @@ export function holdPrimary(
         interest: interestOf(appeal),
         extraCost,
         contacts: reached,
+        pledged: heldPledge(appeal) / Math.max(1, voter.weight),
         recordedWeeklyMinutes: voter.weeklyMinutes,
         local: localDay,
       });
@@ -1929,6 +2027,7 @@ function turnoutRecord(t: TurnoutDecision): TurnoutReasonsRecord {
     reach: t.reach,
     habit: t.habit,
     propensity: t.propensity,
+    ...(t.pledge ? { pledge: t.pledge } : {}),
     ...(t.web ? { web: t.web } : {}),
   };
 }
@@ -2097,33 +2196,41 @@ function atThePolls(
     races.flatMap((race) => race.field.map((f) => f.personId)),
   );
   let interest = 0;
+  // Their door "yes" to a candidate on the day's ballot is also their word
+  // that they will vote, as far as it holds (the pledge part of the appeal).
+  let pledged = 0;
   if (named)
-    for (const race of races)
-      interest = Math.max(
-        interest,
-        interestOf(appealFor(api, named, race.contest, race.field).appeal),
-      );
+    for (const race of races) {
+      const { appeal } = appealFor(api, named, race.contest, race.field);
+      interest = Math.max(interest, interestOf(appeal));
+      pledged = Math.max(pledged, heldPledge(appeal));
+    }
   else {
     const lean = personLean(api.state.people, voter, townLean(api));
     const incumbentLean = incumbentLeanOf(api, voter);
-    for (const race of races)
-      interest = Math.max(
-        interest,
-        interestOf(
-          countedAppeal(lean, countedField(api, race.contest, race.field), {
-            inTown: true,
-            local: true,
-            incumbentLean,
-            pledges: countedPledges(
-              api,
-              voter.id,
-              1,
-              race.contest.id,
-              countedField(api, race.contest, race.field),
-            ),
-          }),
-        ),
+    for (const race of races) {
+      const appeal = countedAppeal(
+        lean,
+        countedField(api, race.contest, race.field),
+        {
+          inTown: true,
+          local: true,
+          incumbentLean,
+          pledges: countedPledges(
+            api,
+            voter.id,
+            1,
+            race.contest.id,
+            countedField(api, race.contest, race.field),
+          ),
+        },
       );
+      interest = Math.max(interest, interestOf(appeal));
+      // A door reached one of the households a counted record stands for:
+      // its word to vote moves that share of the record (one model, two tiers).
+      const weight = (voter as { readonly weight?: number }).weight ?? 1;
+      pledged = Math.max(pledged, heldPledge(appeal) / Math.max(1, weight));
+    }
   }
   return decideTurnout(api, voter, {
     date,
@@ -2135,7 +2242,19 @@ function atThePolls(
     ...(recordedWeeklyMinutes === undefined ? {} : { recordedWeeklyMinutes }),
     // One trip to the polls covers the whole ballot: a local race on it counts.
     local: localOnBallot(api, date),
+    pledged,
   });
+}
+
+/** How far a voter's door "yes" in one race still holds, 0 to 1, read from the pledge part of their appeal. */
+function heldPledge(
+  appeal: Readonly<Record<string, { readonly pledge?: number }>>,
+): number {
+  const weight = campaignParameter("doorPledgeWeight");
+  let held = 0;
+  for (const a of Object.values(appeal))
+    held = Math.max(held, weight > 0 ? (a.pledge ?? 0) / weight : 0);
+  return Math.min(1, held);
 }
 
 /** A second election between the tied candidates, a tunable number of weeks on. */
