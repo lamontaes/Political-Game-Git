@@ -12,6 +12,7 @@ import { storyDelivered } from "./modules/news";
 import data from "./data/electorate/parameters.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { campaignParameter } from "./campaign-views";
+import { incumbencyAblation } from "./incumbency-ablation";
 import {
   electionLawTurnoutCost,
   felonyDisenfranchisedShare,
@@ -158,7 +159,11 @@ export function candidateReasons(
         )
       : 0;
   const parts = {
-    incumbency: candidate.incumbent ? campaignParameter("incumbencyShare") : 0,
+    // Measurement only: the ablation can zero bare incumbency (off in play).
+    incumbency:
+      candidate.incumbent && !incumbencyAblation().standing
+        ? campaignParameter("incumbencyShare")
+        : 0,
     experience:
       !candidate.incumbent && candidate.experienced
         ? p("experiencedCandidateShare")

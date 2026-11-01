@@ -75,6 +75,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, type Stance } from "../campaign-views";
+import { incumbencyAblation } from "../incumbency-ablation";
 import { basePlaces } from "../race-places";
 import { holdoverRule } from "../office-holdover";
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };
@@ -1107,7 +1108,11 @@ function contestView(
       standing: standing
         ? appealOfShare(standing.total)
         : facts.isIncumbent
-          ? campaignParameter("incumbentRecognition") +
+          ? // Measurement only: the ablation can zero bare incumbency (off in play).
+            (incumbencyAblation().standing
+              ? 0
+              : (incumbencyAblation().recognition ??
+                campaignParameter("incumbentRecognition"))) +
             publicRecord[f.personId]!
           : 0,
       localStanding: standing ? appealOfShare(standing.local) : 0,
@@ -1296,7 +1301,7 @@ const incumbentLeanByDay = new WeakMap<
 >();
 
 /** The town's adults' average incumbent side of their traits, each counted record weighed by the people it stands for. */
-function townIncumbentLean(api: CoreAPI): number {
+export function townIncumbentLean(api: CoreAPI): number {
   const held = incumbentLeanByDay.get(api.state);
   if (held?.date === api.state.date) return held.mean;
   const { townPlaceId } = town(api);
@@ -1409,7 +1414,9 @@ export function incumbentLeanOf(
   voter: Readonly<Pick<PersonState, "id" | "traits">>,
 ): number {
   return (
-    decisionTraitWeight(api.state, "voting.back-incumbent") *
+    // Measurement only: a value knob can replace the trait weight (undefined in play).
+    (incumbencyAblation().traitWeight ??
+      decisionTraitWeight(api.state, "voting.back-incumbent")) *
     decisionLean(
       api.state,
       voter,
@@ -2305,7 +2312,9 @@ function atThePolls(
 function heldPledge(
   appeal: Readonly<Record<string, { readonly pledge?: number }>>,
 ): number {
-  const weight = campaignParameter("doorPledgeWeight");
+  // Measurement only: a value knob can replace the pledge weight (undefined in play).
+  const weight =
+    incumbencyAblation().pledgeWeight ?? campaignParameter("doorPledgeWeight");
   let held = 0;
   for (const a of Object.values(appeal))
     held = Math.max(held, weight > 0 ? (a.pledge ?? 0) / weight : 0);

@@ -18,6 +18,7 @@ import {
   type Stance,
 } from "./campaign-views";
 import { electorateParameter } from "./electorate-inputs";
+import { incumbencyAblation } from "./incumbency-ablation";
 import { interestOf, turnoutRule } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { bookkeeping } from "./bookkeeping";
@@ -491,9 +492,11 @@ export function countedAppeal(
         (campaignParameter("countedRecognitionWeight") +
           groupAgreement(lean, entry.platform, where.profile))
       : 0;
-    const incumbent = entry.isIncumbent
-      ? where.incumbentLean - (entry.incumbentLeanCenter ?? 0)
-      : 0;
+    // Measurement only: the ablation can zero the trait term (off in play).
+    const incumbent =
+      entry.isIncumbent && !incumbencyAblation().trait
+        ? where.incumbentLean - (entry.incumbentLeanCenter ?? 0)
+        : 0;
     const cues = entry.ballotCues ?? [];
     const ballot = cues.length
       ? cues[(where.ballotForm ?? 0) % cues.length]!
@@ -503,8 +506,11 @@ export function countedAppeal(
       ? -(entry.scandal ?? 0) * (where.trust ?? 1)
       : 0;
     // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
+    // Measurement only: a value knob can replace the pledge weight (undefined in play).
     const pledge =
-      campaignParameter("doorPledgeWeight") * (where.pledges?.[entry.id] ?? 0);
+      (incumbencyAblation().pledgeWeight ??
+        campaignParameter("doorPledgeWeight")) *
+      (where.pledges?.[entry.id] ?? 0);
     appeal[entry.id] = {
       total:
         party + standing + recognition + incumbent + ballot + scandal + pledge,
