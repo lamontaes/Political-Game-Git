@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/fold-stance-causes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T19:59:45.121Z
 ---
 
 **What.** A circle member's stance kept every source that ever moved it and copied the whole list on every change, so it grew with the save. No reader in play looks past the newest cause. Over four years the row count stays at 6,092 either way; the saving is in the size of each row, and it grows over long saves. Part of core-long-run-tables-grow-with-history.
