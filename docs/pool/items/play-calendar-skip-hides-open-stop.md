@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-calendar-skip-hides-open-stop
-pr:
+pr: #6964
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T13:45:50.789Z
