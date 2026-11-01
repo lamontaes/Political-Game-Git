@@ -80,13 +80,16 @@ describe("homelessness against the research", { timeout: 1_800_000 }, () => {
 
       advanceCore(core, addDays(makeIsoDate(core.date), 365));
 
-      const cases = new Set(
-        (
-          api.moduleState("housing").table("cases").rows() as unknown as {
-            householdId: string;
-          }[]
-        ).map((row) => row.householdId),
-      );
+      const caseRows = api
+        .moduleState("housing")
+        .table("cases")
+        .rows() as unknown as {
+        id: string;
+        householdId: string;
+        stage: string;
+        owedAtNoticeMinor: number;
+      }[];
+      const cases = new Set(caseRows.map((row) => row.householdId));
       const households = [0, 0, 0];
       const taken = [0, 0, 0];
       for (const [id, b] of band) {
@@ -94,6 +97,20 @@ describe("homelessness against the research", { timeout: 1_800_000 }, () => {
         if (cases.has(id)) taken[b]! += 1;
       }
       const rate = households.map((n, b) => (n ? taken[b]! / n : 0));
+      // One household the burden reached, by record: the most burdened band's
+      // first court case and, if it lost its home, its housing status row.
+      const named =
+        caseRows.find((row) => band.get(row.householdId) === 2) ??
+        caseRows.find((row) => band.get(row.householdId) === 1);
+      if (named) {
+        const status = api
+          .moduleState("housing")
+          .table("statuses")
+          .get(named.householdId) as unknown as { status: string } | undefined;
+        console.log(
+          `housing-calibration: case ${named.id} (household ${named.householdId}, burden band ${band.get(named.householdId)}, owed ${named.owedAtNoticeMinor} cents at notice, stage ${named.stage}); housing status ${status ? `${status.status} (statuses row ${named.householdId})` : "housed"}`,
+        );
+      }
       console.log(
         `housing-calibration: renter households by burden ${households.join("/")}, taken to court ${taken.join("/")}`,
       );

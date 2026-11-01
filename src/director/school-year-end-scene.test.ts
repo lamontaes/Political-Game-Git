@@ -12,6 +12,7 @@ import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import type { CoreState, PersonId } from "../core2/types";
 import { SCENE_WORDS } from "../english/scene-words";
+import { composeJournal } from "./journal";
 import type { Director } from "./ledger";
 import { purposeScene } from "./purpose-scene";
 import { composeScene } from "./scene";
@@ -120,10 +121,19 @@ it(`a senior's year ends in the diploma scene or the no-diploma scene, with its 
       scene.narration.flatMap((line) => line.sourceRecordIds).length,
       where,
     ).toBeGreaterThan(0);
+    // The Journal tells the school year's end once, from the same result,
+    // though the last day and the day after are both its moments.
+    const told = composeJournal(core, director, personId)
+      .flatMap((chapter) => chapter.lines)
+      .filter((line) => line.sourceRecordIds.includes(moment.causeId));
+    expect(
+      told.map((line) => line.text),
+      `${where}: the Journal on ${moment.causeId}`,
+    ).toHaveLength(1);
     // The proof, by place, seed and record id (the runner keeps no console).
     appendFileSync(
       path.join(tmpdir(), "school-year-end-proof.txt"),
-      `${where}: ${moment.causeId} on ${moment.date} staged ${typeKey}: "${text}"\n`,
+      `${where}: ${moment.causeId} on ${moment.date} staged ${typeKey}: "${text}"; Journal: "${told[0]!.text}"\n`,
     );
     return;
   }
