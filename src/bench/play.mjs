@@ -1770,6 +1770,8 @@ async function showPerson(person) {
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
+  // Who they are now and where they come from, worded from their records.
+  $("person-summary").textContent = (c.summary ?? []).join(" ");
   // What the public knows of a figure (the past module's public tier): read
   // from the record, shown beside the tie if there is one.
   const known = c.publicKnowledge;

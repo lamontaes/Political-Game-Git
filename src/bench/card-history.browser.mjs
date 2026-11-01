@@ -1,7 +1,8 @@
 /* global process, URL, console, document */
 // Click anyone and their card tells their life (play-person-history-for-everyone-you-open):
 // the first and the fourth (or last) members on Politics → Government, who have no tie to the player, each
-// show a History of dated lines from their records (an official reached at a seat has fewer than a neighbor: the engine writes few terms). BENCH_SEED replays a world; SHOTS_DIR saves shots.
+// show a History of dated lines from their records (an official reached at a seat has fewer than a neighbor: the engine writes few terms),
+// and at least two sentences under the name. BENCH_SEED replays a world; SHOTS_DIR saves shots.
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
@@ -54,9 +55,17 @@ try {
     const card = await page.evaluate(() => {
       return {
         name: document.getElementById("person-name").textContent.trim(),
+        summary: document.getElementById("person-summary").textContent.trim(),
         text: document.getElementById("person-facts").innerText,
       };
     });
+    // Under the name, who they are now in sentences, not one word (owner,
+    // Nov 1: "There needs to be more text.").
+    console.log(`${card.name}, under the name: ${card.summary}`);
+    assert.ok(
+      (card.summary.match(/[.]( |$)/g) ?? []).length >= 2,
+      `${card.name} has under two sentences under the name`,
+    );
     const lines = card.text
       .split("\n")
       .filter((l) => /\b(19|20)\d\d\b/.test(l));
