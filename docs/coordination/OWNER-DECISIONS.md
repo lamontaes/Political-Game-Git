@@ -7,6 +7,18 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - None open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
 - The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Nov 1, 23:30 UTC: the owner's answers and the filing visit (owner, 6:30 PM Eastern, two screenshots, Northampton, Massachusetts)
+
+- **Talk is not a list (owner, on the clerk's answer to "I want to run for Mayor"):** "this dialogue is absolutely god-awful. It's just listing things. Unless it calls for it specifically in the dialogue scene, it shouldn't read as a list. That's not how normal people talk." Every scene's lines read as speech; a list appears only where the scene calls for one. (`words-clerk-visit-narration-real`)
+- **The player never says what they did not choose:** after "File for this office", the record showed the player saying "I see." ("I never said that"). A choice is worded as the player's actual reply, and nothing else is put in the player's mouth. (`words-clerk-visit-narration-real`)
+- **Bodies are named as the place names them:** "whatever the board sends you to sign. What do you mean, whatever the board? Do you mean city council? ... I'm in Northampton, Massachusetts." (`words-clerk-visit-narration-real`)
+- **A trip to a closed office happens when it opens:** "I went to the office after the president's speech ended. So it should have not fast-forwarded, but it should have started the next day because obviously the office isn't open at 8:30 p.m." (`play-offices-keep-their-hours`)
+- **The first filing offers the campaign tutorial, in the scene:** "it should be the first time in a game that the player files for an office. It should start this quote unquote tutorial... do you know how to run a campaign? So that's essentially saying, do you want the tutorial, yes or no? And then it could be like, your goal is to get X amount of signatures to get on the ballot. You do that by doing this. Now, you'll need money... this is what you can spend money [on]. You can get TV ads. Etc. You may want to do media... That's how the tutorials should work in the game." Tutorials are asked by a person in a scene, yes or no, the first time something happens, and their figures come from the place's records. (`play-first-filing-campaign-tutorial`)
+- **Calendar (answer to the CTO's question 1):** "Sure... just make them color code those things. Like town meetings and stuff. And be able to hide them if you want." (`play-calendar-more-than-birthdays`)
+- **Issues (question 2):** "I imagine clicking on it and the quote-unquote bill interface as it is in whatever place you're selecting. And seeing... what that does to say the budget or analysis on how homelessness affects graduation rates or anything like that. And if you've maybe run a poll, you could see what people are thinking. You could see recent legislation. You could see choose your position. Get me a mock." (`play-issues-law-page-and-what-shows`)
+- **Mocks first, through the CTO (question 3):** "So the lane will show me a mock and you'll send it to me in this chat." Issues and Budgets are built after the owner sees their mocks.
+- **No second lane builder (question 4):** "no, don't worry about starting a new builder."
+
 ## Nov 1, 22:25 UTC: the owner's v0.73.0 playtest: the address, the talk after it, the creator, the calendar and the paper (owner, 5:25 PM Eastern, five screenshots)
 
 - **Random name after gender:** "Randomized name shouldn't work until you choose a gender." (`play-creator-random-name-after-gender`)

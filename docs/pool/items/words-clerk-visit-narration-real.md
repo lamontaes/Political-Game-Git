@@ -18,7 +18,7 @@ milestone: play-first
 
 **Rules.** Scene standard: narration never restates the screen and says only what the records support. Ask why: a first visit and a return with signatures are told from the filing record's state. Research before building: the visit follows how clerks' offices actually handle nomination papers, from the owner's own account and real procedures.
 
-**Done when.** In two drawn places (named with seeds), a first visit narrates picking up or filling out the papers at the counter and a return visit narrates bringing signatures back, each citing the filing record id; the PR quotes both before and after.
+**Done when.** In two drawn places (named with seeds), a first visit narrates picking up or filling out the papers at the counter and a return visit narrates bringing signatures back, each citing the filing record id; the PR quotes both before and after. The clerk speaks in connected sentences naming the place's own body, the choice reads as the player's reply, and the player is never shown saying a line they did not choose; a test fails on a player line the player did not pick.
 
 **Time box.** 2 hours.
 
@@ -29,3 +29,5 @@ milestone: play-first
 **Files.** data/english/parts/scene-talk.json, src/director/filing-visit.ts
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest, third batch (Nov 1, 23:05 UTC, five screenshots, a Massachusetts life). Read: OWNER-DECISIONS (town council seats elected as each place's records say, at-large, by district or mixed; six offices and playerMayFile, Oct 29; every campaign act is a scene), the pool for twins.
+
+Owner, Nov 1 23:30 (Northampton, Massachusetts), on "I want to run for Mayor": "this dialogue is absolutely god-awful. It's just listing things. Unless it calls for it specifically in the dialogue scene, it shouldn't read as a list. That's not how normal people talk." The clerk answered in five stacked one-line facts (pull the papers; straight to the ballot, November 4; a 4-year term; "You'd run the town day to day: the departments, the budget, and whatever the board sends you to sign"; the deadline). "Whatever the board... Do you mean city council?" (Northampton has a City Council: the body's name comes from the place's records). The choice read "File for this office" ("It should be an actual reply"), and the record then had the player say "I see." ("I never said that"). "Your petition is out for signatures" made no sense, and Continue sent him home with nothing explained, which is where the first-filing tutorial belongs (`play-first-filing-campaign-tutorial`).
