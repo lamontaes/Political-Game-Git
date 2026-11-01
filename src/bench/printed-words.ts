@@ -1074,7 +1074,9 @@ const conditions: Builder = (read, f) => {
             ...(best.now > 0
               ? { percent: read.fact(percent(best.now), record) }
               : { nobody: read.fact("yes", record) }),
-            from: read.fact(percent(best.was), record),
+            ...(best.was > 0
+              ? { from: read.fact(percent(best.was), record) }
+              : { "from-nobody": read.fact("yes", record) }),
           }
         : {}),
       ...(jobless
