@@ -6,11 +6,12 @@ lead: words
 kind: bug
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/paper-everyday
 pr:
 blocked-on:
 source: owner, Nov 1 ("what are the events that are reported in the news/in journal? there needs to be real ones with some good fluff or else it will get old")
+claimed-at: 2026-11-01T17:58:15.037Z
 ---
 
 **What.** The news bank has about 124 story kinds, most of them government process (bills, committees, roll calls, budgets), with 3 to 7 wordings each. It has no obituaries, no wedding or anniversary notices, no milestone birthdays or retirements, no letters to the editor and no local business features. The journal's everyday lines are 15 routine-day pieces. A paper that prints the same council sentence every week gets old. This item makes the paper and the journal carry real everyday life from records the world already keeps, worded with enough variety that a reader rarely meets the same sentence twice in a year. First it measures what a played year actually prints.
