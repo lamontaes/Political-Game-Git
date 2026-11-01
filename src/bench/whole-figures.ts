@@ -101,6 +101,13 @@ function dressesFor(
     return rules.dressOrder.work;
   return rules.dressOrder.everyday;
 }
+/** Whether a figure is in the dress someone wears here first, not a fallback. */
+export const dressedForPlace = (
+  core: CoreState,
+  who: FigurePerson,
+  place: string,
+  figure: PackFigure,
+) => figure.dress === dressesFor(core, who, place)[0];
 
 /**
  * The person's figure in a pose: each dress in turn, and in a dress the look

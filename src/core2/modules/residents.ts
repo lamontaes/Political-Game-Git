@@ -94,7 +94,7 @@ import {
   peopleInGroup,
   flowScale,
   splitWhole,
-  placeWeights,
+  placeHasGroups,
   sweepResidual,
   workersByGroup,
 } from "../counted-money";
@@ -199,6 +199,8 @@ export interface ResidentsRuntime {
   moneyCache: {
     people?: Map<number, number>;
     peopleVersion?: number;
+    /** The places of `people`'s groups (`placeHasGroups`). */
+    places?: { of: Map<number, number>; set: Set<string> };
     serial: number;
   };
   /** The engine's own handle on the world, for money a regroup moves. */
@@ -999,7 +1001,7 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     core.organizations.get(id)?.kind === RESIDENTS_KIND;
   // A place with no counted households (a test world, a place emptied by
   // moves) keeps its money in the residents account itself.
-  const grouped = placeWeights(rt, flow.placeId).size > 0;
+  const grouped = placeHasGroups(rt, flow.placeId);
   const countedPays = grouped && counted(flow.payerId),
     countedPaid = grouped && counted(flow.payeeId);
   // Each part of the flow stands for as many real households as its
@@ -1117,6 +1119,9 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
           );
     if (countedPaid && paid > 0) {
       // Each counted group is paid its part, less what the law withholds.
+      // A wage flow's workers by group, counted once for the pay and the employer's share.
+      const groupWorkers =
+        flow.kind === "wages" ? workersByGroup(rt, flow) : undefined;
       const net = payGroups(api, rt, {
         id: `${flow.id}@${date}`,
         flow,
@@ -1124,12 +1129,13 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
         paid,
         reasonKey: flow.financeKind,
         source: flow.source,
+        workers: groupWorkers,
       });
       for (const [group, amount] of net)
         monthOf(rt, groupKey(group), date).incomeMinor += amount;
       // The employer's share of payroll tax on those counted wages.
       if (flow.kind === "wages" && !outside) {
-        const workers = [...workersByGroup(rt, flow).values()].reduce(
+        const workers = [...groupWorkers!.values()].reduce(
           (sum, n) => sum + n,
           0,
         );
@@ -2431,8 +2437,10 @@ export function countedHouseholdsByPlace(
   const byPlace = new Map<PlaceId, ResidentHouseholdRecord[]>();
   if (!rt) return byPlace;
   for (const row of rt.input.accounts) byPlace.set(row.placeId, []);
-  for (const record of rt.households.values())
-    byPlace.get(record.household.placeId)?.push(record);
+  // The live households in record order, as `rt.households` yields them.
+  const store = rt.store;
+  for (const h of store.households)
+    if (!h.gone) byPlace.get(h.placeId)?.push(store.householdView(h));
   return byPlace;
 }
 
@@ -2756,11 +2764,10 @@ function endHouseholdFlows(
       new Set(rt.store.countedMembers(h).map((m) => rt.store.ids[m]!)),
     ),
   );
-  dropCountedContracts(
-    rt,
-    new Set([...h.incomeContracts.map((row) => row.id), ...partsOf(h.id)]),
-    ["purchase", "retirement"],
-  );
+  const contractIds = new Set([
+    ...h.incomeContracts.map((row) => row.id),
+    ...partsOf(h.id),
+  ]);
   const rent = rt.flows.get(`rent:${h.id}`);
   if (rent && !rent.endedAt) end(rent, date, "household-left");
   // An award a member claimed in play is its own flow, not one of the
@@ -2768,14 +2775,32 @@ function endHouseholdFlows(
   const claims = rt.store
     .countedMembers(h)
     .map((m) => `retirement-claim:${rt.store.ids[m]!}`);
-  if (claims.length)
-    for (const flow of rt.flows.values())
-      if (
-        flow.kind === "retirement" &&
-        !flow.endedAt &&
-        claims.some((id) => flow.id === id || flow.id.startsWith(`${id}:`))
-      )
-        end(flow, date, "household-left");
+  // One walk of the flows: each flow's merged parts (`dropCountedContracts`)
+  // and claimed awards are its own, so the order between them is free.
+  if (!contractIds.size && !claims.length) return;
+  for (const flow of rt.flows.values()) {
+    if (
+      contractIds.size &&
+      (flow.kind === "purchase" || flow.kind === "retirement") &&
+      flow.amountByContract
+    ) {
+      let removed = 0;
+      for (const id of contractIds) removed += flow.amountByContract[id] ?? 0;
+      if (removed) {
+        const amounts = ownMap(flow.amountByContract);
+        for (const id of contractIds) delete amounts[id];
+        flow.amountByContract = amounts;
+        flow.amountMinor = Math.max(0, flow.amountMinor - removed);
+      }
+    }
+    if (
+      claims.length &&
+      flow.kind === "retirement" &&
+      !flow.endedAt &&
+      claims.some((id) => flow.id === id || flow.id.startsWith(`${id}:`))
+    )
+      end(flow, date, "household-left");
+  }
 }
 
 /**

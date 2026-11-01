@@ -6,7 +6,7 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: governing/fiscal-note-at-drafting
 pr: #6942
 blocked-on:

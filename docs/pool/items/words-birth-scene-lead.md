@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: done
 claimed-by: claude/words-birth-scene-lead
 pr:
 blocked-on:

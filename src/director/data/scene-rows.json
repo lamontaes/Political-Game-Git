@@ -68,6 +68,9 @@
     "manager-offer",
     "job-offer",
     "rival-word",
-    "rival-filed"
+    "rival-filed",
+    "swearing-in",
+    "diploma-home",
+    "no-diploma-home"
   ]
 }

@@ -1,0 +1,18 @@
+{
+  "schema": "director-swearing-in/1",
+  "about": "Taking office is an event the player is at (owner, Sept 22: 'swearing in needs to be an event'; Oct 29: 'that's just a scene... depending on what your office is, you'll give a speech'). The offices engine's took-office record fires it; this file holds only what the scene reads that no engine records: which offices give an address, and how many colleagues stand in the room. It holds no sentence: the oath, the narration and the address are the English engine's banks (scene-talk, scene-words, journal).",
+  "address": {
+    "about": "The offices whose holder gives an address when sworn in, by the offices engine's office kind. A mayor, a county executive, a governor and a president each speak on the day; a council member, a commissioner or a legislator takes the oath and sits down. The same executive kinds give the annual address (office-day acts), so a kind here is one the engine already treats as an executive.",
+    "kinds": ["mayor", "county-executive", "governor", "president"],
+    "tag": "SOURCED",
+    "citation": "Owner, Oct 29, 2026 (docs/coordination/OWNER-DECISIONS.md, 21:40 UTC): 'depending on what your office is, you'll give a speech.' Inaugural addresses are customary for presidents, governors and mayors; a legislative body's members are sworn in together and do not speak (the offices' own ceremonies, docs/research/requests/swearing-in-ceremonies-and-term-start-dates.json)."
+  },
+  "parameters": {
+    "colleaguesMax": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "spread": [2, 8],
+      "checkedAgainst": "A council or board holds three to nine seats and a statehouse holds over a hundred; the room the scene stages is the few colleagues the player can tell apart, closest tie first, the government's smaller offices (a mayor, a lieutenant governor) before its rank and file."
+    }
+  }
+}
