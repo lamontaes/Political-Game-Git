@@ -7,6 +7,14 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - None open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
 - The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Nov 1, 22:20 UTC: CTO ruling: campaign money merges on its registered stopgap; the press-staff fix and the refit come next (governing lead's question)
+
+- **Ruling (under "Nothing waits": build against the smallest registered stopgap and say so):** #7062 (donors give from the month's pay after taxes and bills) may merge with its fitted money share leaning on `SG-GOV-gift-no-living-costs`. In the fit, 631 of 10,990 gifts but 44.6% of the money came from press staff seated with no living cost. Conditions:
+  - the fitted parameter's citation names the stopgap and says the value is refit after `people-press-staff-households`;
+  - that item is the governing lead's next unit, giving paid press staff a living cost at their pay in `press-staff.ts` `seatStaff` (owners already get one through `giveLivingCost`), and the refit lands in the same PR;
+  - the press desk is Words', so the governing lead tells Words before editing `press-staff.ts`.
+- Why: before #7062 a whole campaign raised $12 to $258. After it an evening of calls raises $93 to $217 an hour, with a typical gift of $58 to $94 (20 run seeds, 16 drawn places). The player gets that now, and the refit corrects the share within the next unit.
+
 ## Nov 1, 21:25 UTC: CTO ruling: old itemized payment copies fold once their readers' windows pass (speed lead's question, with the reading line)
 
 - **Ruling (under "Speed": old records fold into summaries once play no longer reads them):** the Oct 30 10:21 ruling below covers what people know, not itemized copies of payments. The cash journal's itemized receipts may fold into per-person, per-kind yearly totals past the windows their readers name: 365 days for the player's circle, two calendar years for the player's household. Open obligations, observer rows, balances, the journal itself and every total stay whole, and a receipt a kept fact, a pledge or a law's chain proof names by id is kept. The fold waits for the lane's and the laws lead's answers on their windows, and its records proof shows every screen, scene and trace why reading the same before and after.
