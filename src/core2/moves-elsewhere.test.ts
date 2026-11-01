@@ -132,6 +132,23 @@ describe(`lives elsewhere over half a year in ${input.placeMetadata?.placeName} 
     }
   });
 
+  it("moves a couple living elsewhere together: the opening's married parents are partners", () => {
+    const partners = [...core.familyLinks.values()].filter(
+      (link) =>
+        link.kind === "partner" &&
+        link.personIds.every((id) => elsewhereIds.has(id)),
+    );
+    expect(partners.length).toBeGreaterThan(0);
+    for (const row of moves)
+      for (const link of partners) {
+        if (!link.personIds.includes(row.personId)) continue;
+        const other = link.personIds.find((id) => id !== row.personId)!;
+        const partner = core.people.get(other)!;
+        if (partner.alive && placeAtOpening.get(other) === row.fromPlaceId)
+          expect(row.withIds).toContain(other);
+      }
+  });
+
   it("lets their relatives in town know: the town's family members witness the move", () => {
     const witnessed = moves.filter((row) => {
       const event = emitted.get(row.id)!;
