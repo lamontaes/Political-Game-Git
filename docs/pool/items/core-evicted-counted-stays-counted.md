@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/evicted-stay-counted
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T14:15:52.609Z
 ---
 
 **What.** Replayed alone on main 1a2fc71d6e with the Every place nightly's own seed, Storrs, Connecticut (key 0973980, world seed 808522d29c84) ran its first year in 618 s and its second in 1,230 s under the profiler (the nightly, four places at once: 530 and 1,075 s). Its full people grew from 1,747 to 5,804 in the first year and 6,574 in the second. The cause: housing-homeless.ts removeCountedHousehold fills in every member of an evicted counted household (fillInPerson, 86 s in 2025) so placeRemovedHousehold and reviewHomeless can place them by the full-person rule. Every engine that grows with full people then slows with it: in 2026, garbage collection took 282 s, campaigns 210 s and jobs 162 s. The CTO ruled on Nov 1 that an evicted counted household stays counted (OWNER-DECISIONS, Nov 1).
