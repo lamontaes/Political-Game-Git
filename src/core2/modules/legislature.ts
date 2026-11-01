@@ -1284,7 +1284,7 @@ export function provisionStance(
   api: CoreAPI,
   provision: Provision,
   level: LawLevel = "city",
-  jurisdiction: string = levelJurisdiction(api, level),
+  jurisdiction?: string,
 ): { question: string; position: number } | null {
   if (provision.kind === "policy-question" && provision.question)
     return {
@@ -1317,7 +1317,7 @@ export function provisionStance(
     inForceAtLevel(
       api,
       { kind: "law-amount", series: provision.series },
-      jurisdiction,
+      jurisdiction ?? levelJurisdiction(api, level),
     ).value ?? 0;
   const direction = Math.sign(provision.value - current);
   return direction === 0
