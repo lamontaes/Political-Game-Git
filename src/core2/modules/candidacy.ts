@@ -920,6 +920,8 @@ function countedScreen(
   const year = api.state.date.slice(0, 4);
   let held = countedBases.get(api.state);
   if (!held || held.year !== year) {
+    // Counted residents of adult correctional rooms may be drawn to run.
+    // stopgapId: SG-GQ-counted-prisoners-vote
     held = {
       year,
       rows: countedResidents(api.state as CoreState)

@@ -1,7 +1,7 @@
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
-import { buildPopulation } from "../core2/population";
+import { buildPopulation, inHousehold } from "../core2/population";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
@@ -112,23 +112,6 @@ export function entrantOf(
   birthDate?: string,
 ): string {
   return entrantChoice(input, placeId, birthDate).id;
-}
-
-/**
- * Whether a person lives in a household, not in group quarters (a dormitory,
- * a cell, a barracks or a nursing-home room): the player starts in a
- * household, as every resident did before group quarters were counted.
- */
-function inHousehold(
-  input: CoreInput,
-): (person: { householdId?: string }) => boolean {
-  const rooms = new Set(
-    (input.households ?? [])
-      .filter((home) => home.quarters)
-      .map((home) => home.id),
-  );
-  return (person) =>
-    !rooms.size || !person.householdId || !rooms.has(person.householdId);
 }
 
 /**

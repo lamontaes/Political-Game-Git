@@ -538,6 +538,23 @@ function withFamilyContext(
 }
 
 /** One-time legacy-source importer; no legacy clock, world generation or advance. */
+/**
+ * Whether a person lives in a household, not in group quarters (a dormitory,
+ * a cell, a barracks or a nursing-home room): the player starts in a
+ * household, as every resident did before group quarters were counted.
+ */
+export function inHousehold(
+  input: Pick<CoreInput, "households">,
+): (person: { householdId?: string }) => boolean {
+  const rooms = new Set(
+    (input.households ?? [])
+      .filter((home) => home.quarters)
+      .map((home) => home.id),
+  );
+  return (person) =>
+    !rooms.size || !person.householdId || !rooms.has(person.householdId);
+}
+
 export function buildPopulation(options: PopulationOptions): CoreInput {
   const target = options.minimumPeople ?? p("targetPopulation");
   if (!Number.isSafeInteger(target) || target < p("one"))

@@ -889,7 +889,11 @@ function month(api: CoreAPI): void {
       for (const m of store.countedMembers(h))
         addResident(h.placeId, ageOn(store.born[m]!, date), store.weightOf(h));
   for (const person of core.people.values())
-    if (person.alive && placePeople.has(person.placeId))
+    if (
+      person.alive &&
+      placePeople.has(person.placeId) &&
+      !core.households.get(person.householdId)?.quarters
+    )
       addResident(person.placeId, ageOn(person.birthDate, date), 1);
   const living = [...agedHere.values()].reduce(
     (n, row) => n + row.reduce((a, c) => a + c, 0),
@@ -1114,6 +1118,8 @@ function unplacedRates(
   const workers = new Map<PlaceId, number>(),
     open = new Map<PlaceId, number>();
   for (const h of residents.store.liveHouseholds()) {
+    // Newcomers are households: the rooms' pool is apart from theirs.
+    if (h.quarters) continue;
     workers.set(h.placeId, (workers.get(h.placeId) ?? 0) + h.unplacedWorkers);
     open.set(
       h.placeId,

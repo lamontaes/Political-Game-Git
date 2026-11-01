@@ -67,6 +67,7 @@ import {
   endOperatingRule,
   setOperatingLimit,
 } from "../business-operating-rules";
+import { outsideLaborForce } from "../gov-rules/place-population";
 
 export { BUSINESS_MODULE_ID };
 export const BUSINESS_PARAMETERS = businessParameters as unknown as Readonly<
@@ -1810,7 +1811,8 @@ function foundings(api: CoreAPI): void {
     const countedSeekers = api.moduleState("jobs").table("countedSeekers");
     const counted = residentsRuntime(c)?.store;
     for (const h of counted?.liveHouseholds() ?? []) {
-      if (h.placeId !== placeId) continue;
+      // People in institutions and in the armed forces found no business.
+      if (h.placeId !== placeId || outsideLaborForce(h.quarters)) continue;
       for (const m of counted!.countedMembers(h)) {
         const personId = counted!.ids[m]!;
         const age =

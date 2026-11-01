@@ -420,17 +420,18 @@ export function openingEmploymentFromRecordedRoles(
   >();
   const quotaByPerson = new Map<string, string>();
   for (const resident of residentRows) {
+    // People outside the civilian labor force are outside every target's
+    // denominator, as they are outside the collapse's counted adults
+    // (`collapseToTwoLevels`): one denominator for the opening's workers and
+    // the unplaced ones. The national CPS rate is over the civilian
+    // noninstitutional population already; a county's ACS rate counts its
+    // institutional residents among its civilians, so read over the rest it
+    // is low by the county's institutional share.
+    // stopgapId: SG-GQ-county-employment-denominator
+    if (outsideLaborForce.has(resident.personId)) continue;
     const county = countyGeoidByPerson.get(resident.personId);
     const rate = residentEmploymentRate(resident.age, county, seed, rateData);
     if (!rate) continue;
-    // The national CPS rate is over the civilian noninstitutional population,
-    // so people outside it are outside its denominator too; a county's ACS
-    // rate counts everyone.
-    if (
-      outsideLaborForce.has(resident.personId) &&
-      rate.basis.startsWith("national-CPS")
-    )
-      continue;
     const key = `${county ?? "missing-county"}:${rate.ageId}`;
     const row = ageTargets.get(key) ?? {
       key,

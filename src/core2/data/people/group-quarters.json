@@ -2,7 +2,7 @@
   "source": {
     "tag": "TUNABLE",
     "citation": "Who lives in each kind of group quarters: the 2020 Census counts each place's residents by type (data/research/group-quarters/census-2020-group-quarters.json, read by src/core2/gov-rules/place-population.ts) but not their ages or sex. These shares are set from the shape of each type (students of college age, adults in prisons, the very old in nursing homes, young service members) and checked against the spreads given; the source to fetch is the 2020 Census Demographic and Housing Characteristics tables PCO3 to PCO10, group quarters population by sex and age for each major type, national level.",
-    "estimatedFrom": "Each type's age bands are [low age, high age, share of its residents]; each share is checked against its value plus or minus ageShareSpread, renormalized. The female share is checked against its own spread.",
+    "estimatedFrom": "Each type's age bands are [low age, high age, share of its residents]; each share is checked against its value plus or minus ageShareSpread, renormalized. The female share is checked against its own spread. Other noninstitutional quarters start at 16 (a Job Corps center's youngest): a shelter's younger children live there with a parent, and a room of residents of one sex cannot hold a family.",
     "stopgapId": "SG-GQ-ages-by-type"
   },
   "institutional": {
@@ -83,7 +83,7 @@
       "institutional": false,
       "laborForce": "civilian",
       "ages": [
-        [0, 17, 0.05],
+        [16, 17, 0.05],
         [18, 44, 0.45],
         [45, 64, 0.3],
         [65, 89, 0.2]

@@ -242,6 +242,8 @@ function countedUnits(api: CoreAPI, placeId: string): Unit[] {
       households,
       persons,
       persons12,
+      // A group-quarters room's tenure reads as an owner's here.
+      // stopgapId: SG-GQ-crime-exposure
       propertyExposure:
         households *
         householdExposure(

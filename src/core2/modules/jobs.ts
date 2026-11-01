@@ -197,6 +197,22 @@ const OPENING_UNEMPLOYED = "opening-unemployed";
 
 const core = (api: CoreAPI) => api.state as CoreState;
 
+/**
+ * Whether a person is out of civilian work: serving a prison term, or living
+ * in an institution or in military quarters (group quarters outside the
+ * civilian labor force), the rule the counted tier reads from a room's type.
+ */
+function outOfCivilianWork(api: CoreAPI, personId: string): boolean {
+  const c = core(api);
+  const person = c.people.get(personId);
+  if (
+    person &&
+    outsideLaborForce(c.households.get(person.householdId)?.quarters)
+  )
+    return true;
+  return inCustody(api, personId);
+}
+
 function source(api: CoreAPI, estimatedFrom: string): Source {
   return {
     tag: "ESTIMATED",
@@ -520,7 +536,7 @@ function startSeeking(
   reasonKey: string,
   referenceHourlyMinor: number,
 ): void {
-  if (inCustody(api, personId)) return;
+  if (outOfCivilianWork(api, personId)) return;
   const person = core(api).people.get(personId)!;
   store(api).table("seekers").put({
     id: personId,
@@ -2060,7 +2076,7 @@ export function reviewJobless(api: CoreAPI): void {
     if (
       !person.alive ||
       person.jobId ||
-      inCustody(api, person.id) ||
+      outOfCivilianWork(api, person.id) ||
       controlled(c, person.id)
     )
       continue;
@@ -2262,7 +2278,7 @@ function runWeek(api: CoreAPI): void {
     byPlace.set(row.placeId, [...(byPlace.get(row.placeId) ?? []), row]);
   const applications = new Map<string, SeekerRow[]>();
   const apply = (positionId: string, seeker: SeekerRow) => {
-    if (inCustody(api, seeker.personId)) return;
+    if (outOfCivilianWork(api, seeker.personId)) return;
     const list = applications.get(positionId);
     if (list) list.push(seeker);
     else applications.set(positionId, [seeker]);
@@ -2316,7 +2332,7 @@ function runWeek(api: CoreAPI): void {
       !nearby ||
       !person ||
       !person.alive ||
-      inCustody(api, person.id) ||
+      outOfCivilianWork(api, person.id) ||
       controlled(c, person.id)
     )
       continue;
@@ -2762,7 +2778,7 @@ function hireCounted(
   seeker: SeekerRow,
   fit: number,
 ): boolean {
-  if (inCustody(api, seeker.personId)) return false;
+  if (outOfCivilianWork(api, seeker.personId)) return false;
   const c = core(api);
   // A closed business hires no one, though its opening may still be listed
   // (a full person's hire refuses it the same way).
@@ -3648,7 +3664,7 @@ function hire(
   seeker: SeekerRow,
   fit: number,
 ): void {
-  if (inCustody(api, seeker.personId)) return;
+  if (outOfCivilianWork(api, seeker.personId)) return;
   const c = core(api),
     person = c.people.get(seeker.personId)!;
   const role = roleTemplate(c, position);

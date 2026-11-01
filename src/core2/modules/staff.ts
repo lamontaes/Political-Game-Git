@@ -548,7 +548,10 @@ function countedPool(api: CoreAPI, town: string, minimum: number) {
   const state = api.state as CoreState;
   const held = pools.get(state);
   if (held?.date === state.date) return held.rows;
-  // Anyone earning less than the post pays may apply, not only the jobless.
+  // Anyone earning less than the post pays may apply, not only the jobless
+  // (residents of institutions and barracks too: the staff engine reads
+  // custody, not a group-quarters room's type).
+  // stopgapId: SG-GQ-full-resident-work
   const postHourly = campaignParameter("staffHourlyMinor");
   const rows = countedResidents(state)
     .filter(

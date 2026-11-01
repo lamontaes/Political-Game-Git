@@ -479,6 +479,19 @@ function decidesAlone(api: CoreAPI, person: Readonly<PersonState>): boolean {
 }
 
 /**
+ * Whether a person lives in group quarters (a dormitory, a cell, a barracks
+ * or a nursing-home room): an institution admits and discharges them, so no
+ * household's pull to leave moves them, full or counted alike.
+ */
+function inGroupQuarters(
+  core: CoreState,
+  person: Readonly<PersonState>,
+): boolean {
+  // stopgapId: SG-GQ-no-turnover
+  return core.households.get(person.householdId)?.quarters !== undefined;
+}
+
+/**
  * What pushes this person toward leaving, each read from their own records,
  * on the same scale as what holds them (holdsOf): what their home costs
  * against what their household earns, a job paid from another place, and
@@ -1226,6 +1239,7 @@ export function reviewMove(
   const person = api.state.people.get(personId);
   if (!person?.alive || person.tier === INACTIVE_TIER) return null;
   if (!decidesAlone(api, person)) return null;
+  if (inGroupQuarters(api.state as CoreState, person)) return null;
   accumulate(api, person, typical);
   return decide(api, person);
 }
@@ -1268,7 +1282,10 @@ function monthlyReview(api: CoreAPI): void {
   const adults = [...core.people.values()]
     .filter(
       (row) =>
-        row.alive && row.tier !== INACTIVE_TIER && decidesAlone(api, row),
+        row.alive &&
+        row.tier !== INACTIVE_TIER &&
+        decidesAlone(api, row) &&
+        !inGroupQuarters(core, row),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
   // The town's typical hold for each age band, from this month's ties.
