@@ -12,6 +12,13 @@
  * expansion's and the work requirement's coverage links, carried by the law
  * reach's coverage records the bills price) is cited by the bill records
  * that priced a member by it, with the member's coverage record ids.
+ *
+ * A place-level row a household leaves out because its own records carry
+ * the law (a bill record's ownRecordsFor: the town's households, whose
+ * Medicaid coverage the reach keeps by person id) is carried in the town by
+ * those records: it is cited by the bill records that left it out and priced
+ * a member at Medicaid's share, with the member's coverage record ids
+ * (medical-bills.json personLevel.placeTwinCarriedBy says how).
  */
 import { coverageSpellsNow, spellOn } from "../../src/core2/health-own";
 import {
@@ -24,6 +31,7 @@ import {
   type BilledMember,
   type MedicalBillRow,
 } from "../../src/core2/medical-bills";
+import bills from "../../src/core2/data/health/medical-bills.json" with { type: "json" };
 import { COVERAGE_MODULE_ID } from "../../src/core2/modules/coverage";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
 import { coreAPI } from "../../src/core2/state";
@@ -56,7 +64,17 @@ export interface BillRecords {
   readonly carriedLinks: readonly string[];
   readonly reads: Record<string, { count: number; sample: BillRead[] }>;
   readonly carried: Record<string, { count: number; sample: CarriedRecord[] }>;
+  /** A recorded link the town's own records carry instead of its place row: how, and the bill records that left the row out (older result files have none). */
+  readonly own?: Record<
+    string,
+    { by: string; count: number; sample: CarriedRecord[] }
+  >;
 }
+
+/** The place-level row a town household's own Medicaid records carry, and how (medical-bills.json). */
+const OWN_CARRIED: Readonly<Record<string, string>> = {
+  [bills.personLevel.placeTwin]: bills.personLevel.placeTwinCarriedBy,
+};
 
 /** The carried links the bills price a member by, and the coverage records that hold them. */
 const BILL_CARRIED: Readonly<
@@ -118,6 +136,11 @@ export function billRecords(links: readonly WebLinkRow[]): {
   const carried: BillRecords["carried"] = {};
   for (const link of recordedLinks) reads[link] = { count: 0, sample: [] };
   for (const link of carriedLinks) carried[link] = { count: 0, sample: [] };
+  const own: NonNullable<BillRecords["own"]> = {};
+  for (const link of recordedLinks)
+    if (OWN_CARRIED[link])
+      own[link] = { by: OWN_CARRIED[link]!, count: 0, sample: [] };
+  const ownLinks = Object.keys(own);
   // The bills keep each household's latest month: a step reads the months
   // billed since the last step.
   let seen = "";
@@ -152,6 +175,24 @@ export function billRecords(links: readonly WebLinkRow[]): {
             effect: month?.effects?.[link] ?? null,
           });
         }
+      if (ownLinks.length) {
+        const spells = coverageSpellsNow(api);
+        for (const row of fresh)
+          for (const link of ownLinks) {
+            if (!row.ownRecordsFor.includes(link)) continue;
+            for (const m of row.members) {
+              if (m.plan !== "medicaid") continue;
+              keep(own[link]!, {
+                id: row.id,
+                date: row.date,
+                placeId: row.placeId,
+                personId: m.personId,
+                recordIds:
+                  spellOn(spells?.get(m.personId), row.date)?.recordIds ?? [],
+              });
+            }
+          }
+      }
       for (const link of carriedLinks) {
         const rule = BILL_CARRIED[link]!;
         const spells = rule.spells(api);
@@ -169,7 +210,7 @@ export function billRecords(links: readonly WebLinkRow[]): {
           }
       }
     },
-    result: () => ({ recordedLinks, carriedLinks, reads, carried }),
+    result: () => ({ recordedLinks, carriedLinks, reads, carried, own }),
   };
 }
 
@@ -187,5 +228,6 @@ export function recordsFor(
     carriedLinks: records.carriedLinks.filter((k) => keys.has(k)),
     reads: pick(records.reads),
     carried: pick(records.carried),
+    own: pick(records.own ?? {}),
   };
 }

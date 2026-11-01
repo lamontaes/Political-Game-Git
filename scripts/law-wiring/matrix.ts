@@ -670,9 +670,44 @@ function webLink(
         )
       : [];
   });
+  // A recorded link no bill record read anywhere counts where the town's own
+  // records carry it instead (the bills left the place row out of a town
+  // household's share and priced its member by their coverage records),
+  // named by record id: never a grade from a read that does not happen.
+  const ownCarried = [...recorded]
+    .filter((key) => !recordReads.some((x) => x.link === key))
+    .flatMap((key) =>
+      runs.flatMap(({ place, r }) => {
+        const found = recordsOf(r).filter(
+          ({ rec }) => (rec.own?.[key]?.count ?? 0) > 0,
+        )[0];
+        const own = found?.rec.own?.[key];
+        return found && own
+          ? own.sample.slice(0, 1).map((s) => ({
+              place,
+              world: found.world,
+              link: key,
+              by: own.by,
+              count: own.count,
+              s,
+            }))
+          : [];
+      }),
+    );
   const unreadRecorded = [...recorded].filter(
-    (key) => !recordReads.some((x) => x.link === key),
+    (key) =>
+      !recordReads.some((x) => x.link === key) &&
+      !ownCarried.some((x) => x.link === key),
   );
+  const ownEvidence = [...new Set(ownCarried.map((x) => x.link))].map((key) => {
+    const rows = ownCarried.filter((x) => x.link === key);
+    return `${key}: no bill record outside the town read the place row in the runs; carried by ${rows[0]!.by}: ${rows
+      .map(
+        ({ place, world, count, s }) =>
+          `${place}${world === "control" ? " (control world, where it stayed in force)" : ""}: ${count} bill records left the row out and priced a member by their coverage, e.g. ${s.id} on ${s.date} (${s.placeId}), member ${s.personId}, coverage records ${s.recordIds.join(" ") || "none"}`,
+      )
+      .join("; ")}`;
+  });
   // A carried link the bills price by counts where a bill priced a member by
   // its records in a run (bill-records.ts), named by record id.
   const carriedRecords = (key: string) =>
@@ -739,6 +774,7 @@ function webLink(
   if (
     !fired.length &&
     !recordReads.length &&
+    !ownCarried.length &&
     byEngine.length &&
     !notBuilt.length &&
     !built.length
@@ -766,7 +802,7 @@ function webLink(
         .join("; "),
       why: `no production reader: ${[...new Set(unread.map((u) => `${u.item.f.link} (${u.stopgapId})`))].join(", ")} move only the web's ledger`,
     };
-  if (fired.length || recordReads.length) {
+  if (fired.length || recordReads.length || ownCarried.length) {
     // A bill record's read first, by record id, then the web rows read by
     // an engine that reads every place's row.
     const readEv = recordReads
@@ -781,9 +817,12 @@ function webLink(
         ({ place, f }) =>
           `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)}${WEB_READERS.has(f.link) ? `, read by ${WEB_READERS.get(f.link)}` : ""}`,
       );
-    const ev = [...readEv, ...firedEv, ...byEngine.map(carriedEvidence)].join(
-      "; ",
-    );
+    const ev = [
+      ...readEv,
+      ...ownEvidence,
+      ...firedEv,
+      ...byEngine.map(carriedEvidence),
+    ].join("; ");
     const missing = [
       ...notBuilt.map((l) => `${l.key} (${l.status})`),
       ...new Set(
