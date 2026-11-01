@@ -492,6 +492,7 @@ export function countedAppeal(
   },
 ): Record<string, CountedAppeal> {
   const appeal: Record<string, CountedAppeal> = {};
+  const pledgeWeight = campaignParameter("doorPledgeWeight");
   for (const entry of field) {
     const party = lean * entry.side;
     const standing = entry.standing + (where.local ? entry.localStanding : 0);
@@ -512,8 +513,7 @@ export function countedAppeal(
       ? -(entry.scandal ?? 0) * (where.trust ?? 1)
       : 0;
     // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
-    const pledge =
-      campaignParameter("doorPledgeWeight") * (where.pledges?.[entry.id] ?? 0);
+    const pledge = pledgeWeight * (where.pledges?.[entry.id] ?? 0);
     appeal[entry.id] = {
       total:
         party + standing + recognition + incumbent + ballot + scandal + pledge,
@@ -766,7 +766,8 @@ export function countPlaces(
     // town's own people stand where the town's order puts them).
     const right = place.inTown ? place.rightShare : placement(place.rightShare);
     if (weight > 0)
-      for (const [form, voter] of voters.entries()) {
+      for (let form = 0; form < voters.length; form += 1) {
+        const voter = voters[form]!;
         const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
         if (primary) {
           const identifies = Math.abs(lean) >= primary.cut && lean !== 0;

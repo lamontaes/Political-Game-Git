@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/campaign-money-calibrated
-pr:
+pr: #7062
 blocked-on:
 source: governing lead, Nov 1 (the money unit of campaign-like-real-races, phase A of docs/work-orders/governing-2026-10-29.md)
 lead: governing
