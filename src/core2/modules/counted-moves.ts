@@ -141,6 +141,11 @@ interface Runtime {
 }
 const runtimes = new WeakMap<CoreState, Runtime>();
 registerWorldMapPart("core2-counted-moves", runtimes);
+/** Each household's place in its group's order of leaving (a hash of the seed and its id), kept per world outside the saved runtime. */
+const orderHashes = new WeakMap<
+  CoreState,
+  { seed: string; byId: Map<string, string> }
+>();
 
 /** This world's ACS leaving rate: the published one times the world's movers factor. */
 function rateFor(seed: string, usps: string, band: string): number {
@@ -153,12 +158,15 @@ function rateFor(seed: string, usps: string, band: string): number {
   );
 }
 
+/** Each ACS band's lowest age, in the table's order. */
+const ACS_FLOORS = RATES.ageBands.map((band) =>
+  Number(band.replace("+", "").split("-")[0]),
+);
+
 /** The ACS band a person's age falls in (under 18 move with their parents). */
 function acsBand(age: number): string {
-  for (let i = RATES.ageBands.length - 1; i >= 0; i--) {
-    const band = RATES.ageBands[i]!;
-    if (age >= Number(band.replace("+", "").split("-")[0])) return band;
-  }
+  for (let i = ACS_FLOORS.length - 1; i >= 0; i--)
+    if (age >= ACS_FLOORS[i]!) return RATES.ageBands[i]!;
   return "30-34";
 }
 
@@ -243,6 +251,24 @@ function unemployment(api: CoreAPI): Map<string, number> {
   return out;
 }
 
+/** After-tax real income at these wages in a state, kept for the month. */
+function netIncome(
+  api: CoreAPI,
+  rt: Runtime,
+  usps: string,
+  wages: number,
+): number {
+  const key = `${usps}|${wages}`;
+  let value = rt.netCache.get(key);
+  if (value === undefined) {
+    value =
+      Math.max(1, wages - stateIncomeTax(api, rt, usps, wages)) /
+      (priceLevel(rt.states.get(usps)?.fips ?? "") / 100);
+    rt.netCache.set(key, value);
+  }
+  return value;
+}
+
 /** What draws a person with these wages from one state to another, by cause, in log units. */
 export function pullBetween(
   api: CoreAPI,
@@ -252,21 +278,9 @@ export function pullBetween(
   wages: number,
   jobless: ReadonlyMap<string, number>,
 ): Record<string, number> {
-  const fipsOf = (usps: string) => rt.states.get(usps)?.fips ?? "";
-  const net = (usps: string) => {
-    const key = `${usps}|${wages}`;
-    let value = rt.netCache.get(key);
-    if (value === undefined) {
-      value =
-        Math.max(1, wages - stateIncomeTax(api, rt, usps, wages)) /
-        (priceLevel(fipsOf(usps)) / 100);
-      rt.netCache.set(key, value);
-    }
-    return value;
-  };
   const income =
     countedParameter("countedMovesIncomeElasticity") *
-    Math.log(net(to) / net(from));
+    Math.log(netIncome(api, rt, to, wages) / netIncome(api, rt, from, wages));
   const here = jobless.get(from),
     there = jobless.get(to);
   const jobs =
@@ -322,14 +336,26 @@ function runtimeOf(api: CoreAPI): Runtime | undefined {
   return rt;
 }
 
+/** A household's counted members' ages on a date, in member order. */
+function agesOf(
+  residents: ResidentsRuntime,
+  h: CountedHousehold,
+  date: string,
+): number[] {
+  const store = residents.store;
+  return store.countedMembers(h).map((m) => ageOn(store.born[m]!, date));
+}
+
 /** What holds a household in place (log units): a home owned, children at home. */
 function holdOf(
   residents: ResidentsRuntime,
   h: CountedHousehold,
   date: string,
   adultAge: number,
+  /** Its members' ages on the date, when the caller has them (`agesOf`). */
+  ages?: readonly number[],
 ): number {
-  return sum(holdsOf(residents, h, date, adultAge));
+  return sum(holdsOf(residents, h, date, adultAge, ages));
 }
 
 /** What holds a counted household where it lives, by cause: a home it owns, children at home. */
@@ -338,12 +364,11 @@ function holdsOf(
   h: CountedHousehold,
   date: string,
   adultAge: number,
+  ages: readonly number[] = agesOf(residents, h, date),
 ): Record<string, number> {
   const holds: Record<string, number> = {};
   if (h.tenure !== "rent") holds.owner = MOVES.movesOwnerHold!.value;
-  const children = residents.store
-    .countedMembers(h)
-    .some((m) => ageOn(residents.store.born[m]!, date) < adultAge);
+  const children = ages.some((age) => age < adultAge);
   if (children) holds.children = MOVES.movesChildrenHold!.value;
   return holds;
 }
@@ -379,12 +404,11 @@ function headOf(
   h: CountedHousehold,
   date: string,
   adultAge: number,
+  ages: readonly number[] = agesOf(residents, h, date),
 ): { age: number; wages: number; adults: number } {
-  const store = residents.store;
   let age = 0,
     adults = 0;
-  for (const m of store.countedMembers(h)) {
-    const a = ageOn(store.born[m]!, date);
+  for (const a of ages) {
     age = Math.max(age, a);
     if (a >= adultAge) adults++;
   }
@@ -449,6 +473,41 @@ function month(api: CoreAPI): void {
       rt.holdNorm.set(placeId, held > 0 ? people / held : 1);
     }
 
+  // Each home state's leaving rate by age, and each place's home state,
+  // worked out once this month.
+  const rateByHome = new Map<string, number[]>();
+  const rateAt = (home: string, age: number) => {
+    let byAge = rateByHome.get(home);
+    if (!byAge) rateByHome.set(home, (byAge = []));
+    let rate = byAge[age];
+    if (rate === undefined)
+      byAge[age] = rate = rateFor(api.state.seed, home, acsBand(age));
+    return rate;
+  };
+  const homeByPlace = new Map<PlaceId, string>();
+  const homeOf = (placeId: PlaceId) => {
+    let home = homeByPlace.get(placeId);
+    if (home === undefined)
+      homeByPlace.set(placeId, (home = homeStateOf(rt, placeId)));
+    return home;
+  };
+  // Each group's keys in `rt.leave` toward every state, in `stateList` order.
+  const stateIndex = new Map(stateList.map((s, i) => [s.usps, i]));
+  const groupKeys = new Map<number, string[]>();
+  const keysOf = (g: number) => {
+    let keys = groupKeys.get(g);
+    if (!keys) {
+      const id = store.groups[g]!.id;
+      keys = stateList.map((s) => `${id}|${s.usps}`);
+      groupKeys.set(g, keys);
+    }
+    return keys;
+  };
+  const leaveKey = (g: number, usps: string) => {
+    const i = stateIndex.get(usps);
+    return i === undefined ? `${store.groups[g]!.id}|${usps}` : keysOf(g)[i]!;
+  };
+
   // 1. Counted groups weigh every other state, and the rest of their own.
   const pullCache = new Map<string, Record<string, number>>();
   const pullFor = (from: string, to: string, wages: number) => {
@@ -473,18 +532,20 @@ function month(api: CoreAPI): void {
   // with its children. The outcome web's links land on it by its adults'
   // age, tenure, kind and income, as they land on a full person in town
   // (moves.ts): the same factors, once per kind of household this month.
-  const leavingOf = (h: CountedHousehold, home: string) => {
+  const leavingOf = (
+    h: CountedHousehold,
+    home: string,
+    ages: readonly number[],
+  ) => {
     let rates = 0,
       adultAges = 0,
       adults = 0;
-    for (const m of store.countedMembers(h)) {
-      const age = ageOn(store.born[m]!, date);
+    for (const age of ages)
       if (age >= adultAge) {
-        rates += rateFor(api.state.seed, home, acsBand(age));
+        rates += rateAt(home, age);
         adultAges += age;
         adults++;
       }
-    }
     const group = store.groups[h.group]!;
     // A household of minors alone has no adult to set a rate: the monthly
     // weighing skips it, and it leaves only as its group's due movers come
@@ -527,19 +588,20 @@ function month(api: CoreAPI): void {
     }
   >();
   for (const h of store.liveHouseholds()) {
-    const home = homeStateOf(rt, h.placeId);
+    const home = homeOf(h.placeId);
     if (!rt.states.has(home)) continue;
     // Real people: a record stands for as many households as its weight says.
     const people = store.weightedCount(h);
     if (!people) continue;
-    const head = headOf(residents, h, date, adultAge);
+    const ages = agesOf(residents, h, date);
+    const head = headOf(residents, h, date, adultAge, ages);
     if (head.adults === 0) continue;
-    const { rate, web } = leavingOf(h, home);
+    const { rate, web } = leavingOf(h, home, ages);
     const weight =
       people *
       rate *
       web *
-      Math.exp(-holdOf(residents, h, date, adultAge)) *
+      Math.exp(-holdOf(residents, h, date, adultAge, ages)) *
       rt.holdNorm.get(h.placeId)!;
     const wages = Math.round(head.wages / 1000) * 1000;
     const key = `${h.group}|${home}|${wages}`;
@@ -557,9 +619,36 @@ function month(api: CoreAPI): void {
   const statePeople = new Map(
     stateList.map((s) => [s.usps, s.people.reduce((a, b) => a + b, 0)]),
   );
+  // Each state's share of the movers out of a home state and its pull at a
+  // wage step, in `stateList` order (none for home), worked out once.
+  const destRows = new Map<
+    string,
+    ({
+      share: number;
+      exp: number;
+      causes: [string, number][];
+    } | null)[]
+  >();
+  const destRowsOf = (home: string, wages: number) => {
+    const key = `${home}|${wages}`;
+    let rows = destRows.get(key);
+    if (!rows) {
+      const elsewhere = nationPeople - statePeople.get(home)!;
+      rows = stateList.map((dest) => {
+        if (dest.usps === home) return null;
+        const parts = pullFor(home, dest.usps, wages);
+        return {
+          share: statePeople.get(dest.usps)! / elsewhere,
+          exp: Math.exp(sum(parts)),
+          causes: Object.entries(parts),
+        };
+      });
+      destRows.set(key, rows);
+    }
+    return rows;
+  };
   for (const row of alike.values()) {
-    const group = store.groups[row.group]!;
-    const elsewhere = nationPeople - statePeople.get(row.home)!;
+    const keys = keysOf(row.group);
     const summary = groupPulls.get(row.group) ?? {
       total: 0,
       byCause: {},
@@ -567,24 +656,20 @@ function month(api: CoreAPI): void {
     };
     summary.people += row.people;
     // Out of state: each state by its people and its pull.
-    for (const dest of stateList) {
-      if (dest.usps === row.home) continue;
-      const parts = pullFor(row.home, dest.usps, row.wages);
-      const due =
-        (row.weight *
-          (1 - inState) *
-          (statePeople.get(dest.usps)! / elsewhere) *
-          Math.exp(sum(parts))) /
-        12;
-      const key = `${group.id}|${dest.usps}`;
+    const dests = destRowsOf(row.home, row.wages);
+    for (let i = 0; i < dests.length; i++) {
+      const d = dests[i];
+      if (!d) continue;
+      const due = (row.weight * (1 - inState) * d.share * d.exp) / 12;
+      const key = keys[i]!;
       rt.leave.set(key, (rt.leave.get(key) ?? 0) + due);
       summary.total += due;
-      for (const [cause, value] of Object.entries(parts))
+      for (const [cause, value] of d.causes)
         summary.byCause[cause] = (summary.byCause[cause] ?? 0) + due * value;
     }
     // Within the state (same taxes and prices).
     const due = (row.weight * inState) / 12;
-    const key = `${group.id}|${row.home}`;
+    const key = leaveKey(row.group, row.home);
     rt.leave.set(key, (rt.leave.get(key) ?? 0) + due);
     summary.total += due;
     groupPulls.set(row.group, summary);
@@ -612,13 +697,13 @@ function month(api: CoreAPI): void {
   // are most due, toward the place that drew most; within a group,
   // households go in a fixed order.
   const dueOf = (g: number) => {
-    const id = store.groups[g]!.id;
+    const keys = keysOf(g);
     const rows: (readonly [string, number])[] = [];
     let total = 0;
-    for (const s of stateList) {
-      const v = rt.leave.get(`${id}|${s.usps}`) ?? 0;
+    for (let i = 0; i < stateList.length; i++) {
+      const v = rt.leave.get(keys[i]!) ?? 0;
       if (v === 0) continue;
-      rows.push([s.usps, v]);
+      rows.push([stateList[i]!.usps, v]);
       total += v;
     }
     return { rows, total };
@@ -632,13 +717,25 @@ function month(api: CoreAPI): void {
     byPlace.set(first.placeId, list);
   }
   const orders = new Map<number, CountedHousehold[]>();
+  let hashes = orderHashes.get(core);
+  if (!hashes || hashes.seed !== core.seed) {
+    hashes = { seed: core.seed, byId: new Map() };
+    orderHashes.set(core, hashes);
+  }
+  const byId = hashes.byId;
+  const orderHash = (h: CountedHousehold) => {
+    let hash = byId.get(h.id);
+    if (hash === undefined)
+      byId.set(h.id, (hash = stableHash(`${core.seed}:moves:${h.id}`)));
+    return hash;
+  };
   const orderOf = (g: number) => {
     let order = orders.get(g);
     if (!order) {
       order = [...store.groups[g]!.households]
         .map((i) => store.households[i]!)
-        .filter((h) => !h.gone && store.countedMembers(h).length)
-        .map((h) => [stableHash(`${core.seed}:moves:${h.id}`), h] as const)
+        .filter((h) => !h.gone && store.countedCount(h) > 0)
+        .map((h) => [orderHash(h), h] as const)
         .sort((a, b) => (a[0] < b[0] ? -1 : 1))
         .map(([, h]) => h);
       orders.set(g, order);
@@ -668,7 +765,7 @@ function month(api: CoreAPI): void {
       orderOf(g).shift();
       const group = store.groups[g]!;
       const dests = dues.get(g)!.rows;
-      const home = homeStateOf(rt, next.placeId);
+      const home = homeOf(next.placeId);
       const to =
         [...dests]
           .filter(([, v]) => v > 0)
@@ -680,7 +777,7 @@ function month(api: CoreAPI): void {
       for (const [usps] of [...dests].sort((a, b) =>
         a[0] === to ? -1 : b[0] === to ? 1 : b[1] - a[1],
       )) {
-        const k = `${group.id}|${usps}`;
+        const k = leaveKey(g, usps);
         const have = rt.leave.get(k) ?? 0;
         const used = Math.max(0, Math.min(have, take));
         rt.leave.set(k, have - used);
@@ -688,19 +785,18 @@ function month(api: CoreAPI): void {
         if (take <= 0) break;
       }
       if (take > 0) {
-        const k = `${group.id}|${to}`;
+        const k = leaveKey(g, to);
         rt.leave.set(k, (rt.leave.get(k) ?? 0) - take);
       }
       dues.set(g, dueOf(g));
-      const bands = store
-        .countedMembers(next)
-        .map((m) => coarseIndex(ageOn(store.born[m]!, date), adultAge));
+      const ages = agesOf(residents, next, date);
+      const bands = ages.map((age) => coarseIndex(age, adultAge));
       const weight = store.weightOf(next);
       // What weighed toward its going, read before it leaves the counts: its
       // age's rate and the web against what held it, and toward another
       // state its pull (within the state taxes and prices are the same).
-      const head = headOf(residents, next, date, adultAge);
-      const leaving = leavingOf(next, home);
+      const head = headOf(residents, next, date, adultAge, ages);
+      const leaving = leavingOf(next, home, ages);
       const pulled = groupPulls.get(g);
       // A household with adults weighed its own adults' rate. One of minors
       // alone was never weighed: its group's movers came due and the group's
@@ -710,7 +806,7 @@ function month(api: CoreAPI): void {
         leaving.rate,
         // The web's links land on a household by its adults; none, none.
         head.adults ? leaving.web : 1,
-        holdsOf(residents, next, date, adultAge),
+        holdsOf(residents, next, date, adultAge, ages),
         to === home ? {} : pullFor(home, to, head.wages),
         !head.adults && pulled?.people
           ? (pulled.total * 12) / pulled.people

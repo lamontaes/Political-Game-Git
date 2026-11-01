@@ -22,6 +22,8 @@ The tools and the worked Oval Office are on the art branch under `art/people-roo
 3. **Fix at full size with edits** (picture frames to plain glass, feet down to the floor), then copy back only the changed area onto the original so nothing else moves.
 4. **Empty room:** an edit removes the mannequins. Make two and use the clean one: removals can leave see-through ghosts and shoe shadows. Copy back the mannequin areas plus what changed near them, matched in tone and feathered, never the frames.
 
+**Other lights of a finished room.** A room's night, morning, midday and rain pictures are one painting re-lit when the furniture and camera have not moved. Check it before a plate serves them (the plate's `backdrops` list): same size, and their edges line up (downscale both, find edges, correlate; the house living rooms scored 0.93 to 0.98, Oct 29). A condition picture (lived-in, rundown) puts things on or in front of the seats and gets its own plate. `people-pack.test.ts` refuses a `backdrops` entry that is not a light of the same place and size.
+
 ## Spots for many people (`blobs.py`)
 
 - Lay library silhouettes (gray with a dark rim) on the finished empty room, one plate per group of spots that do not overlap, and have Firefly repaint them as green mannequins in the furniture (prompt in `PLAN.md`). The silhouette fixes each spot's pose and angle; Firefly fixes how it sits in the furniture.

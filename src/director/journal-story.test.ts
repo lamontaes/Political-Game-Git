@@ -4,20 +4,14 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import { preStartHistory } from "../core2/pre-start";
-import {
-  JOURNAL_BANK,
-  journalDataFromBank,
-} from "../english/mined/journal-bank";
 import { composeJournal } from "./journal";
 import type { PersonId } from "../core2/types";
 
 // The Journal is a story from birth (owner, Oct 27: "this journal needs to be
 // written like a story, not individual sections, but written like a story
 // from birth"): its first moment is the player's own birth, told from the
-// run's birth record, then the years in the order they happened. The bank
-// does not yet word the birth row (pool item words-journal-line-own-birth),
-// so the reader is checked with the bank's own "I was born in {place}."
-// mapped to it, as the Words session will map it. A place drawn from all 56.
+// run's birth record in the bank's own words ("I was born in {place}."),
+// then the years in the order they happened. A place drawn from all 56.
 const seed = process.env.JOURNAL_STORY_SEED ?? randomBytes(8).toString("hex");
 
 describe("the journal as a story from birth", () => {
@@ -41,24 +35,8 @@ describe("the journal as a story from birth", () => {
     expect(birth?.id, `${where}: the player's birth record`).toBe(
       `person-history:${id}:birth`,
     );
-    const words = journalDataFromBank({
-      parts: JOURNAL_BANK.parts.map((part) =>
-        part.key === "journal.look-back-line-died.i-was-born-in-place"
-          ? {
-              ...part,
-              uses: [
-                ...(part.uses ?? []),
-                {
-                  ...part.uses![0]!,
-                  journal: [{ kindPrefix: "person.birth", field: "line" }],
-                },
-              ],
-            }
-          : part,
-      ),
-    });
     director.watch(core, id);
-    const lines = composeJournal(core, director, id, { words }).flatMap(
+    const lines = composeJournal(core, director, id).flatMap(
       (chapter) => chapter.lines,
     );
     expect(lines.length, where).toBeGreaterThan(0);
@@ -78,15 +56,15 @@ describe("the journal as a story from birth", () => {
     // Then the years in the order they happened.
     const dates = lines.map((line) => line.date);
     expect(dates, where).toEqual([...dates].sort());
-    // With the bank as it stands, the birth is not yet worded and is left out.
-    const today = composeJournal(core, director, id).flatMap((c) => c.lines);
-    expect(
-      today.some(
-        (line) =>
-          line.sourceRecordIds.includes(birth!.id) && /born in/.test(line.text),
-      ),
-      where,
-    ).toBe(false);
+    // A district or a plural name takes its article: "born in the District of
+    // Columbia", never "born in District of Columbia".
+    for (const line of lines)
+      expect(line.text, where).not.toMatch(
+        /\b(?:in|from) (?:District of|U\.S\. Virgin Islands|Northern Mariana Islands)/,
+      );
+    process.stdout.write(
+      `JOURNAL ${where}: line ${told + 1} of ${lines.length} tells the birth from ${birth!.id}: "${lines[told]!.text}"; the first is "${lines[0]!.text}"\n`,
+    );
   }, 300_000);
 
   /**

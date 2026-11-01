@@ -3667,6 +3667,166 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-swearing-in-other.other-is-waiting-to-swear-you-in",
+      "move": "lead-swearing-in-other",
+      "kind": "spoken",
+      "text": "{other} is waiting to swear you in.",
+      "uses": [
+        {
+          "move": "lead-swearing-in-other",
+          "subject": "lead",
+          "role": "swearing-in",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-swearing-in-other.other-has-come-to-give-you-the-oath",
+      "move": "lead-swearing-in-other",
+      "kind": "spoken",
+      "text": "{other} has come to give you the oath.",
+      "uses": [
+        {
+          "move": "lead-swearing-in-other",
+          "subject": "lead",
+          "role": "swearing-in",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-swearing-in-alone.it-is-time-to-take-the-oath",
+      "move": "lead-swearing-in-alone",
+      "kind": "spoken",
+      "text": "It is time to take the oath.",
+      "uses": [
+        {
+          "move": "lead-swearing-in-alone",
+          "subject": "lead",
+          "role": "swearing-in",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-swearing-in-alone.you-are-about-to-be-sworn-in",
+      "move": "lead-swearing-in-alone",
+      "kind": "spoken",
+      "text": "You are about to be sworn in.",
+      "uses": [
+        {
+          "move": "lead-swearing-in-alone",
+          "subject": "lead",
+          "role": "swearing-in",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-no-diploma-home-other.other-wants-to-talk-about-school",
+      "move": "lead-no-diploma-home-other",
+      "kind": "spoken",
+      "text": "{other} wants to talk about school.",
+      "uses": [
+        {
+          "move": "lead-no-diploma-home-other",
+          "subject": "lead",
+          "role": "no-diploma-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-no-diploma-home-other.other-sits-you-down-to-talk-about-school",
+      "move": "lead-no-diploma-home-other",
+      "kind": "spoken",
+      "text": "{other} sits you down to talk about school.",
+      "uses": [
+        {
+          "move": "lead-no-diploma-home-other",
+          "subject": "lead",
+          "role": "no-diploma-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-diploma-home-other.other-wants-to-mark-your-diploma",
+      "move": "lead-diploma-home-other",
+      "kind": "spoken",
+      "text": "{other} wants to mark your diploma.",
+      "uses": [
+        {
+          "move": "lead-diploma-home-other",
+          "subject": "lead",
+          "role": "diploma-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-diploma-home-other.other-has-something-to-say-about-your-diploma",
+      "move": "lead-diploma-home-other",
+      "kind": "spoken",
+      "text": "{other} has something to say about your diploma.",
+      "uses": [
+        {
+          "move": "lead-diploma-home-other",
+          "subject": "lead",
+          "role": "diploma-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }
