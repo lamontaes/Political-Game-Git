@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lives/partners-town
 pr: #4963
 blocked-on:
 after: core-household-membership-change
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-01T23:28:32.705Z
 ---
 
 **What.** Two single adults who are close, fit in age and can afford a home together become one household, as a decision read from each person's traits, closeness and money. The core calls exist but nothing uses them in play: setPartnersV1 with together true (src/core2/state.ts, around line 1764) links two living single adults and emits family.partnered, and changeHouseholdV1 moves one into the other's household with the lease following (done item core-household-membership-change). After the opening sets partnerships once (src/core2/opening-partnership.ts), households change only by births, deaths and moves, and the director's married and started-dating scenes (src/director/data/situation-types.json, marked awaitingProducer) have no record to wait on. The owner's Oct 19 pairing ruling (docs/coordination/OWNER-DECISIONS.md, Pairing) says people can move in together, who pairs with whom reads each person's own record including orientation, two homeowners can pair and combine households like anyone else, and the home they leave returns to the market; the woman-and-man-only and never-two-homeowners rules in PR #4963 are defects to replace.
