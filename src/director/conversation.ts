@@ -147,6 +147,8 @@ export interface ConversationData {
   tells?: Readonly<Record<string, Readonly<Record<string, string>>>>;
   /** The ledger labels, by prefix, that are something happening to a person. */
   happenings?: { prefixes: readonly string[] };
+  /** A relative's latest happening, by label prefix, as the stage their news is told in. */
+  familyNews?: { stages: Readonly<Record<string, string>> };
   /** The subject kinds relatives do not raise or ask between them. */
   familyTalk: { dropped: readonly string[] };
   /** What the player answers when the other person raises one of their own subjects. */
@@ -410,6 +412,44 @@ function latestMoment(
       (moment) => happening(moment) && moment.counterpartIds.includes(aboutId),
     )
   );
+}
+
+/**
+ * What a relative's latest recorded happening gives a talk about them (the
+ * owner, Nov 1: every life is simulated, and under Q7 what happened to them
+ * is the news): the stage their news is told in, and the facts it needs,
+ * where they moved and where they work now, each cited to its record.
+ */
+function familyNews(
+  core: Readonly<CoreState>,
+  director: Director | undefined,
+  speakerId: PersonId,
+  relativeId: PersonId,
+): { stage: string; facts: Facts } {
+  const moment = latestMoment(core, director, speakerId, relativeId);
+  const stages = CONVERSATION_RULES.familyNews?.stages ?? {};
+  const prefix = moment
+    ? Object.keys(stages).find((row) => moment.label.startsWith(row))
+    : undefined;
+  if (!moment || !prefix) return { stage: "default", facts: {} };
+  const stage = stages[prefix]!;
+  const facts: Facts = {};
+  const cited = [moment.causeId];
+  if (stage === "moved") {
+    const to = core.durableLog.get(moment.causeId)?.topic;
+    const place = to ? corePlaceByJurisdictionId(to as never) : null;
+    if (place) facts.place = { text: spoken(place), sourceRecordIds: cited };
+  }
+  if (stage === "job") {
+    const job = core.jobs.get(moment.causeId);
+    const org = job ? core.organizations.get(job.organizationId) : undefined;
+    if (org)
+      facts.employer = {
+        text: properName(org.name),
+        sourceRecordIds: [...cited, org.id],
+      };
+  }
+  return { stage, facts };
 }
 
 /**
@@ -1156,6 +1196,7 @@ export function subjectsBetween(
     } else phrase = relationPhrase(row.relation, gender, "scene");
     if (!phrase) continue;
     const shared = listener.familyIds.has(id);
+    const news = familyNews(core, director, speakerId, id);
     out.push({
       id: `family:${id}`,
       kind: "family",
@@ -1164,7 +1205,9 @@ export function subjectsBetween(
         relation: { text: phrase, sourceRecordIds },
         // "I'll tell Dad you asked": a shared relative goes by what both call them.
         name: { text: shared ? phrase : relative.givenName, sourceRecordIds },
+        ...news.facts,
       },
+      stage: news.stage,
     });
   }
   // The listener's relatives the speaker knows, asked after in turn once the
@@ -1629,7 +1672,12 @@ function askSubject(
     act: "ask",
     ...line,
   });
-  conversation.last = { subject, kind, facts: subject.facts, stage: "default" };
+  conversation.last = {
+    subject,
+    kind,
+    facts: subject.facts,
+    stage: subject.stage ?? "default",
+  };
   conversation.topics.push(subject.id);
   offerChoices(core, conversation, data);
   // A question the player has no answer to is not asked (someone who never
