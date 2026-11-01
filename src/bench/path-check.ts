@@ -208,6 +208,11 @@ function stand(): { held: boolean; takesOffice: string | null } {
       doors += day.doorsKnocked;
       reached += day.reached;
       const petition = petitionOf(api, filing.id);
+      // PETITION-DAY: one stderr line a game day of the petition canvass, to
+      // find a stall (scratch measurement only).
+      console.error(
+        `PETITION-DAY ${w.core.date} week ${week} signers ${petition?.signers.length ?? 0} of ${petition?.needed ?? 0} doors ${doors} heap ${Math.round(process.memoryUsage().heapUsed / 1048576)}MB ${Math.round((performance.now() - started) / 1000)}s`,
+      );
       if (
         !petition ||
         !petitionCirculating(api, filing.id) ||
@@ -219,7 +224,13 @@ function stand(): { held: boolean; takesOffice: string | null } {
     log.push(`doors knocked ${doors}, reached ${reached}`);
     const petition = petitionOf(api, filing.id);
     if (petition) {
+      console.error(
+        `PETITION-DUE living from ${w.core.date} to ${petition.due} (${Math.round((performance.now() - started) / 1000)}s)`,
+      );
       liveUntil(addDays(makeIsoDate(petition.due), 1));
+      console.error(
+        `PETITION-DUE reached ${w.core.date} (${Math.round((performance.now() - started) / 1000)}s)`,
+      );
       log.push(
         `petition: ${petition.signers.length} of ${petition.needed} signatures by ${petition.due}; the clerk's check: ${governmentView(w.core, me).filings.find((row) => row.id === filing.id)?.status ?? "none"}`,
       );
