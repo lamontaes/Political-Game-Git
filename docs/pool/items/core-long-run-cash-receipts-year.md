@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/fold-cash-receipts
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T21:16:00.492Z
 ---
 
 **What.** The cash journal keeps an itemized copy of every payment a followed person makes or receives (core.cashJournal.detailedReceipts, indexed by detailedByOwner), and never drops one. A long save of Ringgold, Louisiana held 209,046 of them at year 18, the fourth largest table, and Chamblee, Georgia gained 38,325 in its second year alone. Balances, account totals and the journal already hold the money itself, and no screen, scene or law reader reads itemized receipts older than a year.
