@@ -8068,7 +8068,7 @@
     "file": "src/core2/residents.ts",
     "line": 792,
     "whatItFakes": "In a place with group quarters, the households' unplaced workers earn the place's median earnings (ACS B20002) blended toward the town's median recorded wage by the place's group-quarters share: (1 - s) times the place's figure plus s times the recorded median, s the Census group-quarters count over the published population.",
-    "why": "The ACS median earnings universe includes group-quarters residents, so a college town's figure is mostly students' part-time pay (Storrs, Connecticut: $6,709 a year); paid to its renting households, it put 43.5 eviction filings in a year per 100 renter households against the check range of 3.9 to 15.6. The blend is a sliding stand-in, not a measured figure.",
+    "why": "The ACS median earnings universe includes group-quarters residents, so a college town's figure is mostly students' part-time pay (Storrs, Connecticut: $6,709 a year); paid to its renting households, it put 43.5 eviction filings in a year per 100 renter households against the check range of 3.9 to 15.6, and with the blend 17.8 (world seed 808522d29c84). The blend is a sliding stand-in, not a measured figure.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
     "replacement": "Household residents' earnings from the ACS Public Use Microdata Sample for the place's PUMA (people not in group quarters), read in place of the blend.",

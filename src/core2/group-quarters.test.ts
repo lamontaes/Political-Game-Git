@@ -153,13 +153,16 @@ describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
       // One room is met on the first day: filled in whole, it keeps its type
       // and its group dwelling, and once out of the player's life past the
       // world's wait it returns to the counts as a room.
+      // (A place whose only room the opening kept full has none to meet.)
       const met = [...store.liveHouseholds()].find(
         (h) => h.placeId === placeId && h.quarters && store.countedCount(h),
-      )!;
-      const metType = met.quarters!;
-      fillInPerson(core, store.ids[store.countedMembers(met)[0]!]!);
-      expect(core.households.get(met.id)?.quarters, met.id).toBe(metType);
-      expect(store.liveHousehold(met.id), met.id).toBeUndefined();
+      );
+      const metType = met?.quarters;
+      if (met) {
+        fillInPerson(core, store.ids[store.countedMembers(met)[0]!]!);
+        expect(core.households.get(met.id)?.quarters, met.id).toBe(metType);
+        expect(store.liveHousehold(met.id), met.id).toBeUndefined();
+      }
 
       // A year, month by month, reading the town's renters at each month's end.
       const renters: number[] = [];
@@ -211,15 +214,17 @@ describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
             row.id,
           ).toBeUndefined();
       }
-      const demoted = countedDemotions(api).some(
-        (row) => row.householdId === met.id,
-      );
-      console.log(
-        `group-quarters: ${key} room ${met.id} (${metType}) met on day one, ${demoted ? `returned to the counts with tenure ${store.liveHousehold(met.id)?.tenure}` : "still full"} at the year's end`,
-      );
-      if (demoted) {
-        expect(store.liveHousehold(met.id)?.tenure, met.id).toBe("group");
-        expect(store.liveHousehold(met.id)?.quarters, met.id).toBe(metType);
+      if (met) {
+        const demoted = countedDemotions(api).some(
+          (row) => row.householdId === met.id,
+        );
+        console.log(
+          `group-quarters: ${key} room ${met.id} (${metType}) met on day one, ${demoted ? `returned to the counts with tenure ${store.liveHousehold(met.id)?.tenure}` : "still full"} at the year's end`,
+        );
+        if (demoted) {
+          expect(store.liveHousehold(met.id)?.tenure, met.id).toBe("group");
+          expect(store.liveHousehold(met.id)?.quarters, met.id).toBe(metType);
+        }
       }
       // No new rooms: the rooms at the year's end are the opening's (deaths
       // may empty one).
