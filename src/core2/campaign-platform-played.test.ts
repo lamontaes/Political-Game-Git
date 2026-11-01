@@ -74,7 +74,7 @@ import {
   checkEligibility,
   ELECTIONS_MODULE_ID,
   filingOfficeFor,
-  openContests,
+  playerContests,
   type ContestRow,
   type FilingRow,
 } from "./modules/elections";
@@ -324,11 +324,11 @@ function playYearIn(
    */
   const playerFiles = () => {
     if (!me || filed) return;
-    const open = openContests(api)
+    // The filing screen's races (the town's own local offices) the player
+    // meets every requirement for.
+    const open = playerContests(api)
       .filter(
         (c) =>
-          c.level !== "state" &&
-          c.level !== "federal" &&
           !tried.has(c.id) &&
           checkEligibility(api, me.id, c.id).every((k) => k.met),
       )
