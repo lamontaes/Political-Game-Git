@@ -20,7 +20,11 @@
  */
 import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
-import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  corePlaceByKey,
+  coreStateJurisdiction,
+} from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import majority from "../../../data/research/people/age-of-majority.json" with { type: "json" };
 import destinations from "../data/moves/destinations.json" with { type: "json" };
@@ -235,9 +239,30 @@ function kinOf(core: CoreState): Kin {
   return kin;
 }
 
+const placed = new Map<string, boolean>();
+
+/**
+ * Whether a place is one a household lives in (a town, county or territory).
+ * A state's, the nation's or an institution's own record (a cabinet seat in
+ * "US-NJ", a national outlet in "US-DC") is not: the people placed there are
+ * held by their own engines (offices, press), and nobody moves away from it.
+ */
+function livesInAPlace(placeId: string): boolean {
+  let known = placed.get(placeId);
+  if (known === undefined) {
+    known = corePlaceByJurisdictionId(placeId as EntityId) !== null;
+    placed.set(placeId, known);
+  }
+  return known;
+}
+
 function inTown(core: CoreState, id: PersonId): boolean {
   const person = core.people.get(id);
-  return !!person?.alive && person.tier !== INACTIVE_TIER;
+  return (
+    !!person?.alive &&
+    person.tier !== INACTIVE_TIER &&
+    livesInAPlace(person.placeId)
+  );
 }
 
 function ownsWithMortgage(core: CoreState, householdId: string): boolean {
@@ -658,7 +683,7 @@ function destinationFor(
     return { destinationId: to, destinationBasis: "county-flow", countyId: to };
   const place = corePlaceByJurisdictionId(person.placeId as EntityId);
   const state = place?.stateJurisdictionKey
-    ? corePlaceByKey(place.stateJurisdictionKey)?.context.jurisdiction.id
+    ? coreStateJurisdiction(place.stateJurisdictionKey)?.id
     : undefined;
   return {
     destinationId: state ?? person.placeId,
@@ -1224,7 +1249,7 @@ export function reviewMove(
   typical?: ReadonlyMap<string, number>,
 ): Departure | null {
   const person = api.state.people.get(personId);
-  if (!person?.alive || person.tier === INACTIVE_TIER) return null;
+  if (!person || !inTown(api.state as CoreState, person.id)) return null;
   if (!decidesAlone(api, person)) return null;
   accumulate(api, person, typical);
   return decide(api, person);
@@ -1266,10 +1291,7 @@ function scheduleReview(api: CoreAPI): void {
 function monthlyReview(api: CoreAPI): void {
   const core = api.state as CoreState;
   const adults = [...core.people.values()]
-    .filter(
-      (row) =>
-        row.alive && row.tier !== INACTIVE_TIER && decidesAlone(api, row),
-    )
+    .filter((row) => inTown(core, row.id) && decidesAlone(api, row))
     .sort((a, b) => a.id.localeCompare(b.id));
   // The town's typical hold for each age band, from this month's ties.
   const sums = new Map<string, [number, number]>();
@@ -1376,7 +1398,7 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
   }
   for (const id of named) {
     const person = core.people.get(id);
-    if (!person?.alive || person.tier === INACTIVE_TIER) continue;
+    if (!person || !inTown(core, id)) continue;
     if (!decidesAlone(api, person)) continue;
     const pull = pullOf(api, person);
     pull.value += amount;
