@@ -160,7 +160,11 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       expect(/\?$/.test(spoken.text.trim()), where).toBe(false);
       // The player's character may end the talk by walking away; the close
       // after it can be the narrator's, so their leaving is the last spoken line.
-      if (spoken.role !== "asker" && spoken.move !== "leave")
+      // The asker's close may be told as their reaction ("Pat Rivera
+      // straightens up off your car and walks away."): the narrator says it,
+      // and it ends the talk as the asker's own close.
+      const reacted = final.role === "narrator" && final.move === "react";
+      if (spoken.role !== "asker" && spoken.move !== "leave" && !reacted)
         expect(
           talk.gaps.some((row) => row.includes("question left unasked")),
           where,
