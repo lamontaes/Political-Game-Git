@@ -5,6 +5,7 @@ import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { applyCoreEvent } from "../core2/state";
+import { familyFactsOf } from "../core2/closeness";
 import { openConversation } from "./conversation";
 import { createDirector } from "./ledger";
 import { composeScene } from "./scene";
@@ -36,6 +37,48 @@ const director = createDirector({ watch: [...initialFocusPeople(input)] });
 const core = createLifeCore(input, { modules: [director.module] });
 director.start(core);
 advanceCore(core, "2021-02-15");
+// A death in the household is a family scene for the others at home: the
+// world stages at least that one, wherever it is drawn. A quiet place has no
+// other scene in its first weeks; its only moments are the family facts from
+// before the start, which no scene type stages (Leonard, Texas, birth-n1).
+// The one who loses a relative at home is watched: the first watched person
+// who lives with one, else the first resident who does (a quiet draw's
+// player may live alone, Leonard, Texas, birth-n1). Not a partner: a
+// partner's death is a funeral at a venue.
+const housemate = (id: string) => {
+  const row = core.people.get(id as never);
+  if (!row?.alive) return undefined;
+  const home = core.households.get(row.householdId)?.memberIds ?? [];
+  return [...familyFactsOf(row).entries()].find(
+    ([other, fact]) =>
+      fact.relation !== "partner" &&
+      home.includes(other) &&
+      core.people.get(other)?.alive,
+  )?.[0];
+};
+const homeId =
+  [...director.ledger.people.keys()].find((id) => housemate(id)) ??
+  [...core.people.keys()].sort().find((id) => housemate(id))!;
+director.watch(core, homeId as never);
+const home = core.people.get(homeId as never)!;
+const dead = housemate(homeId)!;
+applyCoreEvent(core, {
+  id: `life.death:${dead}:${core.date}`,
+  date: core.date,
+  kind: "life.death",
+  personIds: [dead],
+  witnessIds: [home.id],
+  placeId: home.placeId,
+  publicRecord: true,
+  moodImpulse: -1,
+  stressImpulse: 1,
+  source: {
+    tag: "SOURCED",
+    citation: "A death as the health writer records it.",
+    asOf: core.date,
+  },
+} as never);
+advanceCore(core, "2021-02-20");
 
 describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
   it("builds each staged scene from its records, in second person, and opens a conversation", () => {
@@ -71,37 +114,7 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
     expect(narrated).toBeGreaterThan(0);
   });
 
-  it("stages a family scene in the watched person's own household, with only the people the records put there", () => {
-    // A death in the household is a family scene for the others at home.
-    const home = [...director.ledger.people.keys()]
-      .map((id) => core.people.get(id)!)
-      .find(
-        (row) =>
-          row.alive &&
-          (core.households.get(row.householdId)?.memberIds ?? []).filter(
-            (id) => id !== row.id && core.people.get(id)?.alive,
-          ).length > 1,
-      )!;
-    const dead = core.households
-      .get(home.householdId)!
-      .memberIds.find((id) => id !== home.id && core.people.get(id)?.alive)!;
-    applyCoreEvent(core, {
-      id: `life.death:${dead}:${core.date}`,
-      date: core.date,
-      kind: "life.death",
-      personIds: [dead],
-      witnessIds: [home.id],
-      placeId: home.placeId,
-      publicRecord: true,
-      moodImpulse: -1,
-      stressImpulse: 1,
-      source: {
-        tag: "SOURCED",
-        citation: "A death as the health writer records it.",
-        asOf: core.date,
-      },
-    } as never);
-    advanceCore(core, "2021-02-20");
+  it("stages a family scene for a death, and a scene at home only in the watched person's own home with the people the records put there", () => {
     let homes = 0;
     for (const book of director.ledger.people.values()) {
       const own = core.people.get(book.personId)!.householdId;
@@ -122,7 +135,15 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
             expect(named.has(id), scene.momentId).toBe(true);
       }
     }
-    expect(homes).toBeGreaterThan(0);
+    // The death is a family scene for the one who lost a relative: a funeral
+    // or a scene at home, staged from the death's record.
+    const lost = director.ledger.people
+      .get(homeId as never)!
+      .schedule.find((row) => row.momentId.includes(`life.death:${dead}`));
+    expect(lost?.bindings.length, `${homeId} lost ${dead}`).toBeGreaterThan(0);
+    process.stdout.write(
+      `SCENES ${base.placeMetadata?.placeName} (seed ${seed}): ${homes} scene(s) at home; the death of ${dead} is ${lost!.bindings.map((row) => `${row.typeKey} at ${row.setting.kind}`).join(", ")} for ${homeId}\n`,
+    );
   });
 
   it("opens each scene with one narrator paragraph that never restates the day or the player's own home", () => {
