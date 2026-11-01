@@ -43,7 +43,11 @@ import type { CoreAPI, CoreState, PersonId, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import municipalBaseline from "../../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
-import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  corePlaceByKey,
+  corePlaceStateIdentities,
+} from "../place-lookup";
 import { governmentUnit } from "../reference/government-units";
 import type { EntityId } from "../kernel/brands";
 import {
@@ -75,8 +79,7 @@ import { POLICY_QUESTIONS } from "../policy-answers";
 import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { isRealOfficeholderName } from "../officials-names";
 import { pressConflict } from "../press-conflict";
-import { sessionPlaces } from "../state-session-calendar";
-import { researchedHolderParty } from "../holder-parties";
+import { researchedHolderParty } from "../offices-holder-parties";
 
 export const OFFICES_MODULE_ID = "core2-offices-v1";
 
@@ -247,13 +250,14 @@ function table(api: CoreAPI, name: string) {
  */
 export function isOutsideOffice(
   api: CoreAPI,
-  office:
+  office: object | null | undefined,
+): boolean {
+  const row = office as
     | { readonly level?: unknown; readonly jurisdiction?: unknown }
     | null
-    | undefined,
-): boolean {
-  if (!office || office.level === "federal") return false;
-  const jurisdiction = String(office.jurisdiction ?? "");
+    | undefined;
+  if (!row || row.level === "federal") return false;
+  const jurisdiction = String(row.jurisdiction ?? "");
   if (!jurisdiction.startsWith("US-")) return false;
   const town = (table(api, "loaded").get("town") as { stateKey?: string })
     ?.stateKey;
@@ -266,14 +270,9 @@ export function isOutsideOffice(
  * news (the press reads the record's place, `wireItem`); every other office
  * in the town.
  */
-function seatingPlace(
-  api: CoreAPI,
-  office:
-    | { readonly level?: unknown; readonly jurisdiction?: unknown }
-    | null
-    | undefined,
-): string {
-  if (isOutsideOffice(api, office)) return String(office!.jurisdiction);
+function seatingPlace(api: CoreAPI, office: object | null | undefined): string {
+  if (isOutsideOffice(api, office))
+    return String((office as { readonly jurisdiction?: unknown }).jurisdiction);
   return (
     table(api, "loaded").get("town") as unknown as { townPlaceId: string }
   ).townPlaceId;
@@ -758,10 +757,12 @@ export function openOffices(core: CoreState, worldSeed: string): void {
       );
     }
   }
-  // Every other place whose legislature the session calendar records: its
-  // chambers, governor and statewide executives, each holder a named
-  // official until the player meets or opens them.
-  for (const key of sessionPlaces()) {
+  // Every other state-level place (the 50 states, D.C. and the five
+  // territories): its chambers, governor and statewide executives, each
+  // holder a named official until the player meets or opens them.
+  for (const key of corePlaceStateIdentities()
+    .map((place) => place.jurisdictionKey)
+    .sort()) {
     if (key === stateKey) continue;
     seatOutsideOffices(
       api,

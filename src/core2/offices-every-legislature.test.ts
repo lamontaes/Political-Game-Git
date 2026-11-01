@@ -40,9 +40,9 @@ import { targetsOf } from "./law-reach/group-a-records";
 import { wireItem } from "./press-topics";
 import { PRESS_MODULE_ID } from "./modules/press";
 import { statePlaces } from "./electorate-places";
-import { researchedHolderParty } from "./holder-parties";
+import { researchedHolderParty } from "./offices-holder-parties";
 import { POLICY_QUESTIONS } from "./policy-answers";
-import { sessionPlaces } from "./state-session-calendar";
+import { corePlaceStateIdentities } from "./place-lookup";
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import research from "../../data/research/offices/state-offices.json" with { type: "json" };
 import reachA from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
@@ -108,7 +108,9 @@ it(`every other place's chambers, governor and statewide executives sit as named
       .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[];
   const seatsOf = (officeId: string) =>
     offices.table("seats").query("byOffice", [officeId]) as unknown as Seat[];
-  const others = sessionPlaces().filter((key) => key !== town);
+  const others = corePlaceStateIdentities()
+    .map((place) => place.jurisdictionKey)
+    .filter((key) => key !== town);
   expect(others.length, where).toBe(55);
   const outside: Office[] = [];
   const lines: string[] = [];

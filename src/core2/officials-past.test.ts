@@ -8,7 +8,7 @@
  */
 import { preStartHistory } from "./pre-start";
 import { SCHOOL_STARTED } from "./past-school";
-import { researchedHolderParty } from "./holder-parties";
+import { researchedHolderParty } from "./offices-holder-parties";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";

@@ -49,7 +49,9 @@ import {
 } from "../officials-roster";
 import officialsData from "../data/officials/officials.json" with { type: "json" };
 import { nationalHomeState, recordPresident } from "../officials-president";
-import { researchedHolderParty } from "../holder-parties";
+import { researchedHolderParty } from "../offices-holder-parties";
+// The Elections family reads the researched holder party through this entry.
+export { researchedHolderParty } from "../offices-holder-parties";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,

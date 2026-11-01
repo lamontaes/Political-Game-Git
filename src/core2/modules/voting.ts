@@ -115,10 +115,13 @@ import {
   repeatSpecialElection,
   type TermRow,
 } from "./offices";
-import { holderOf, officialCandidate } from "./officials";
+import {
+  holderOf,
+  officialCandidate,
+  researchedHolderParty,
+} from "./officials";
 import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
-import { researchedHolderParty } from "../holder-parties";
 import {
   novemberGeneralElectionDay,
   termEndAfter,
