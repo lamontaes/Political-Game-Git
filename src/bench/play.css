@@ -4663,3 +4663,34 @@ select.release-pick {
   height: 100%;
   overflow: hidden;
 }
+
+/* A short window gives the budgets ring less room. */
+@media (max-height: 780px) {
+  .donut-chart {
+    grid-template-columns: 120px minmax(0, 1fr);
+  }
+  .donut-center {
+    width: 120px;
+    height: 120px;
+  }
+}
+/* The news paper is read inside its own box: the menu itself never scrolls as a page. */
+#sheet-body:has(.paper) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#sheet-body > .paper {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(31, 27, 20, 0.45) transparent;
+}
+
+/* A short window gives each record section less padding. */
+@media (max-height: 780px) {
+  #sheet-body .record-section.plate {
+    padding-block: 8px;
+  }
+}

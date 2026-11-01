@@ -2554,7 +2554,7 @@ const sheets = {
               node: pager({
                 items: members,
                 render: (card) => card,
-                rows: 2,
+                rows: window.innerHeight >= 800 ? 2 : 1,
                 columns: 3,
                 rowHeight: 64,
                 gap: 8,
@@ -3419,7 +3419,8 @@ const sheets = {
       pages: {
         rows: 2,
         columns: 3,
-        rowHeight: 262,
+        // Two rows of tiles that fit the window: short windows take shorter tiles.
+        rowHeight: window.innerHeight >= 860 ? 262 : 214,
         gap: 14,
         words: {
           page: controls.politics.page,
@@ -3597,7 +3598,7 @@ const sheets = {
                       Math.min(
                         4,
                         Math.floor(
-                          (window.innerHeight - (own.length ? 520 : 300)) / 118,
+                          (window.innerHeight - (own.length ? 580 : 400)) / 118,
                         ),
                       ),
                     ),
@@ -3858,7 +3859,7 @@ const sheets = {
           pager({
             items: people,
             render: (node) => node,
-            rows: big ? rowsFor(650, 3) : rowsFor(500, 4),
+            rows: big ? rowsFor(650, 3) : rowsFor(560, 4),
             columns: 2,
             rowHeight: 64,
             gap: 8,
@@ -4127,8 +4128,8 @@ const sheets = {
               },
             }),
           rows: Math.max(
-            2,
-            Math.min(5, Math.floor((window.innerHeight - 500) / 72)),
+            1,
+            Math.min(5, Math.floor((window.innerHeight - 600) / 72)),
           ),
           columns: 2,
           rowHeight: 64,
@@ -4330,7 +4331,7 @@ const sheets = {
     );
     const rows = Math.max(
       2,
-      Math.min(5, Math.floor((window.innerHeight - 330) / 122)),
+      Math.min(5, Math.floor((window.innerHeight - 400) / 122)),
     );
     const pageWords = {
       page: labels.page,
