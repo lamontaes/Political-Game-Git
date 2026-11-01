@@ -81,6 +81,16 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 - **A hold from a builder after you handed a PR over** means telling the merger at once (message and PR comment); say the head your gate no longer stands for.
 - **Check the merged result's files against the newest main before you push.** Main moves every few minutes. Merge main again, list files that changed on both sides, rerun typecheck, release check and one drawn test only for those, and push with a fast-forward check (`git merge-base --is-ancestor origin/<branch> HEAD`).
 
+## Traps from Oct 30 to Nov 1 (Checker 4)
+
+- **Stop at a conflict before you run the gate.** `git merge origin/main` can end "Automatic merge failed" and the next commands then run against a half-merged tree (#6964 passed `release:check` that way). Run `git diff --name-only --diff-filter=U` right after the merge; resolve (or `git merge --abort` and send back) before any check.
+- **An empty diff means the branch is already in main.** Before the gate run `git merge-base --is-ancestor origin/<branch> origin/main`; if it is, say so and stop (#6954 was merged by the Codex desk while I started). Also guard `npx eslint $F` with `[ -n "$F" ]`: an empty file list lints the whole directory and prints dozens of false errors.
+- **A declaration counts only when committed, and `impact: none` is a bare note.** `release:check` reads the committed range, so commit the declaration, then rerun it. For `impact: none` the body needs one line of reason and the front matter must not carry `section` or `title` (#6984, #6989 and #6904 all failed on exactly that): delete those two lines, run prettier on it, commit.
+- **A new test that throws on its own draw precondition is a send-back.** A message like "no drawn place had a housemate's filing reach the player" fails on about one draw in three and would turn main red (#6974). Ask the builder to redraw until a place qualifies, name the places passed over, and show 5 fresh draws passing.
+- **Withdraw a send-back only on the same draws.** Run counts on different random places say nothing (my 3-of-4 against main's 0-of-3 on #6949 came from different places). The speed lead's records proof across the four places I had drawn did settle it; ask for the same seeds on both sides, or digests per table, before you withdraw.
+- **Name the parity once, from the number.** An even PR number goes to Merger 0, an odd one to Merger 1; work it out before you write the comment and write "For Merger 0 (even number)". A hedge like "odd? even: Merger 0" went into four comments; fix a wrong one with `update_issue_comment` on the comment id.
+- **A builder who asks to push to a branch you hold** gets an explicit yes and the head to push to; the branch is theirs until they say they are done, then you recheck the new head (Words, #6884, three times). Tell the merger the head each time.
+
 ## Stop condition
 
 A pass ends when every PR in your share is checked at its current head or sent back with one comment. Then take the oldest unchecked PR in another share. When nothing is open, message the CTO one line and wait for the next message.
