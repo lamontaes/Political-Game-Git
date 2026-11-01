@@ -83,7 +83,15 @@ function seatOpen(contest: ContestRow): { open: boolean; why: string } {
   const holderId = term.personId;
   const holder = `holder ${holderId ?? `term ${term.id}`}`;
   const recorded = holderId ? decisionOf(api, contest.id, holderId) : null;
-  const decision = recorded && recorded.date <= today ? recorded : null;
+  // Only the holder's own stand-again choice, as the engine reads a
+  // stand-down (candidacy.ts: reasons.standAgain set); a decision the holder
+  // made before they held the seat is not one.
+  const decision =
+    recorded &&
+    recorded.date <= today &&
+    recorded.reasons.standAgain !== undefined
+      ? recorded
+      : null;
   const decided = decision
     ? `decision ${decision.id} run ${decision.run}`
     : "no decision on record";
