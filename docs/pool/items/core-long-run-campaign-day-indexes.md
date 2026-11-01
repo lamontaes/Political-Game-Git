@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-campaign-day-scans
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T18:51:32.258Z
 ---
 
 **What.** The campaign day's interview choice and the press desk's invitations walked every interview an outlet or a candidate ever had, on every check, and each kept its own copy of the weekly room rule. The walk grows with the save. By year four of the Ringgold save an outlet holds about 77 interviews, so the cost is small now and grows over a long save. It was not measured on its own. Part of core-long-run-tables-grow-with-history.
