@@ -585,6 +585,18 @@
       "kindPrefix": "scene-ending:story-runs",
       "turn": false,
       "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:oath",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
+    },
+    {
+      "kindPrefix": "scene-ending:address",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
     }
   ],
   "firstTitle": [

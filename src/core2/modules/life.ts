@@ -3,7 +3,7 @@ import { addDays } from "../kernel/dates";
 import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
 import { closenessBetween } from "../closeness";
-import { VIEWS_MODULE_ID, stancesOf } from "./views";
+import { VIEWS_MODULE_ID, stanceRow } from "./views";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
 import { webReach } from "./laws";
@@ -168,10 +168,10 @@ function answeredWithNothingNew(
   const reply = api.knows(personId, replyKey(officeId, topic));
   if (!reply) return false;
   if (!api.state.modules.has(VIEWS_MODULE_ID)) return true;
-  return !stancesOf(api, personId).some(
-    (stance) =>
-      stance.topic === topic &&
-      stance.causes.some((cause) => cause.date > reply.learnedAt),
+  return !(
+    stanceRow(api, personId, topic)?.causes.some(
+      (cause) => cause.date > reply.learnedAt,
+    ) ?? false
   );
 }
 
