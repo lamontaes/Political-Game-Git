@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lives/moves-state-destination
 pr: #7055
 blocked-on:

@@ -6,7 +6,7 @@ lead: governing
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: governing/phase-in-dated-steps
 pr: #7054
 blocked-on:
