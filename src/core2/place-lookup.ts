@@ -65,6 +65,7 @@ export interface CorePlaceStateIdentity {
   readonly usps: string;
   readonly jurisdictionKey: string;
   readonly name: string;
+  readonly levelWord: string;
 }
 
 export type CoreSeatMatchStatus = "known" | "estimated-territory-place";
@@ -100,6 +101,8 @@ interface StateClock {
   readonly name: string;
   readonly timeZone: string;
   readonly utcOffsetMinutes: number;
+  /** What its own laws are called: State, Commonwealth, Territory or District. */
+  readonly levelWord: string;
 }
 
 const STATE_CLOCKS = lookupData.states as Readonly<Record<string, StateClock>>;
@@ -107,6 +110,7 @@ const EASTERN: StateClock = {
   name: "",
   timeZone: "America/New_York",
   utcOffsetMinutes: -300,
+  levelWord: "State",
 };
 const DEMO_START_DATE = makeIsoDate(lookupData.demoStartDate);
 const TERRITORY_SOURCE =
@@ -454,6 +458,7 @@ export function corePlaceStateIdentities(): readonly CorePlaceStateIdentity[] {
       usps,
       jurisdictionKey: `US-${usps}`,
       name: state.name,
+      levelWord: state.levelWord,
     }))
     .sort((left, right) => left.name.localeCompare(right.name));
 }

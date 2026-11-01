@@ -296,6 +296,198 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.70.0
+
+_Released October 30, 2026._
+
+### Added
+
+- **A rival who learns you are gaining on them now campaigns harder.** Other
+  candidates now react when the race turns against them. When their own poll
+  shows a challenger ahead, or someone who knows both of you tells them about
+  your campaign, including your evenings knocking on doors, they put in more
+  hours and knock more doors themselves. A sitting official who lives out of
+  town comes home to campaign, more of the time the further behind they think
+  they are. The more you gain, the harder they push back.
+
+- **A bill on a power the state has not settled carries the lawyer's warning**
+  When you draft a bill on something your council or board may not have the
+  power to do, its paper now says so: your town's city attorney warns that the
+  council may not have the power to do this (before a county or township board,
+  the board's lawyer warns instead). A bill on a power the state plainly gives
+  your town carries no warning.
+
+### Improved
+
+- **Campaign days run faster** When a candidate picks how to spend a campaign
+  day, the game used to lay out every option in full first. Now it works out
+  only what it needs, so election seasons run faster and every candidate spends
+  their days the same way.
+
+- **Big towns run a little faster** When the game decides something for a person
+  in a town's wider population, it used to build that person twice. Now it
+  builds them once, so big towns run a little faster, and everything that
+  happens stays the same.
+
+- **People's days run faster** The game used to re-read the same dates for every
+  feeling and re-check every act a person had already chosen. Now it reads each
+  date once and checks your own acts as before, so a year runs a little faster
+  and people do the same things.
+
+- **The monthly job review runs faster** Each month the game checks who in a
+  town is looking for work. It used to look up some answers again for every
+  person; now it looks each one up once, so big towns run a little faster, and
+  the same people find the same jobs.
+
+- **Word of mouth runs faster** When two people meet, the game checks whether
+  one has news to pass on. It used to look through every story either had heard
+  even when there was nothing to tell; now it stops early, so big towns run
+  faster, and the same news reaches the same people.
+
+- **Paydays run faster** Every paycheck used to look up the tax laws again, and
+  every workday did checks only the tests need. Now the game looks each law up
+  once a day and skips those checks in play, so a year runs faster, and everyone
+  is paid and taxed the same.
+
+- **The journal reads like a page** The journal is now one cream page titled "My
+  life", with the chapter's place and years under it and the story in
+  paragraphs. A longer life pages by chapter instead of scrolling.
+
+- **Your office sits on plates** Your office now shows your seat as plates
+  (office, pay, next meeting), your drafts with the draft card on a plate of its
+  own, and your budget lines and deals on plates, one tab at a time instead of a
+  long list of rows.
+
+### Fixed
+
+- **Campaigns gather extra petition signatures.** Candidates now gather half
+  again as many petition signatures as the clerk requires, so names the clerk
+  strikes no longer leave them off the ballot.
+
+- **Your family is in the living room on your first evening** On the first
+  evening at home, your family now sits in the living room with you in every
+  house. Before, about a third of new lives opened in an empty room. Until the
+  other house living rooms are painted with seats, every house shows the same
+  living room.
+
+- **Faces are there the moment a menu opens** The faces of your family and the
+  people closest to you are drawn while a new life loads, so People shows every
+  face as soon as it opens instead of filling them in over a second or two.
+  Loading a new life takes a little over a second longer.
+
+- **A bill with two steps on one law states its purpose once.** A bill that
+  changes one law in two steps reads "An ordinance to set the minimum wage."
+  instead of naming the purpose twice. The bill text also has the words for a
+  section with its own date and for the sections the usual rule dates, for the
+  governing work on raises phased in by dated steps.
+
+- **When your bill fails, someone who voted for it comes to you.** An
+  officeholder's aide used to bring the news of a lost vote, so a council
+  member, who keeps no aide, heard nothing when their own ordinance failed. Now
+  a fellow member who voted for it comes to find you ("We lost the vote on
+  Ordinance 2025-1."), and you can talk over what comes next.
+
+### Changed
+
+- **Residents who say yes at the door now turn out to vote.** A resident who
+  tells your campaign at the door that you have their vote now mostly shows up
+  on election day, the way people who say they will vote mostly do. Before, they
+  turned out no more often than anyone else, so a long season of doors brought
+  few votes.
+
+- **Your journal tells the bills you signed or vetoed, and the sponsor's tells
+  what you did to theirs.** When you sign or veto a bill as mayor, your journal
+  says so ("I signed Ordinance 2025-1, the Free Fares for Riders Ordinance."; "I
+  vetoed Ordinance 2025-2, the Transit First Funding Ordinance, but it was
+  overridden."). The member who sponsored it reads it in their own journal ("My
+  bill, Ordinance 2025-1, the Free Fares for Riders Ordinance, was signed into
+  law."). Three lines about a failed bill no longer drop the comma after the
+  bill's title.
+
+- **The paper prints who endorsed whom in a race.** When a party, a town group
+  or a person endorses a candidate, the paper now prints it: "The Republican
+  Party endorsed Kevin Stein for U.S. Representative." A group that keeps no
+  name of its own is "a local group". Before, these stories were printed with no
+  words at all.
+
+## PRE-ALPHA 0.69.0
+
+_Released October 30, 2026._
+
+### Added
+
+- **Meet donors at a supporter's home, and send campaign mail.** A campaign day
+  can now be a house party: the supporter closest to you who would host opens
+  their home, invites their own friends and family and the people your campaign
+  has reached, and you meet the room, speak, and ask each guest for money. Every
+  gift is named on the campaign's books within the legal limit. The Campaigns
+  screen also has a Mail button with an amount you set: mailers go to the town's
+  next households, as many as the money buys, never more than the campaign
+  holds.
+
+- **Campaign volunteers now go out and knock on doors.** People who volunteer
+  for a campaign, yours or a rival's, now walk its doors in the evening when
+  their job and the rest of their day leave them time. Someone who cares more
+  about the candidate goes out more often; someone whose job keeps them at work
+  that evening stays home. The neighbors they reach warm to the candidate and
+  give an answer about their vote that counts on election day, so a campaign
+  with willing friends and family can reach far more of the town than its
+  candidate could alone.
+
+### Improved
+
+- **A calendar that looks like a calendar** The calendar now shows the month as
+  compact day tiles with a small icon for each thing on the day, the day you
+  pick on its own plate with a Go to this day button, and Coming up beside it,
+  paged instead of scrolling.
+
+- **Travel shows big pictured places** Travel now shows places as large pictured
+  tiles, three across and two rows to a page, with a small people mark on the
+  places where someone is to be met. A town with more places pages with arrows
+  instead of scrolling.
+
+### Fixed
+
+- **A "yes" at a door counts for one household.** A door reaches one household.
+  Where the town's counted records each stand for several households, a "yes" at
+  the door now holds only for the household that gave it; the rest vote as they
+  would have.
+
+- **Knocking on doors no longer fills the town with full people.** An evening of
+  knocking on doors now fills in only the one or two residents a porch scene
+  could show. Everyone else who opens stays part of the counted town, still
+  hears you out and still gives you an answer the vote reads. A full campaign
+  season runs much lighter.
+
+- **Long saves keep going past their seventh year** A save played for years no
+  longer stops in its sixth or seventh year when the country's running money
+  totals grow past what the books could count. Every dollar still balances, and
+  the books on Budgets and in dev mode show the same figures as before.
+
+- **Territories name their own laws** In Puerto Rico, Guam, the Virgin Islands,
+  American Samoa, the Northern Marianas and the District of Columbia, the Issues
+  cards and law pages now call their laws "Commonwealth law", "Territory law" or
+  "District law" instead of "State law".
+
+- **History lines no longer repeat the year the timeline shows** A person's
+  history and Your life show each year above its line, and the line no longer
+  says the year again: "1963 · Born in Lewes, Delaware."
+
+### Changed
+
+- **Patch notes show one release at a time** Patch notes open on the newest
+  release, and its name is a list you can pick any older release from. Its
+  changes are cards by their headlines, and the change you click reads in full
+  beside them, marked Added, Improved or Fixed, instead of every release down
+  one long page. In the Guide, the term you picked is now marked on its card.
+
+- **People who read about your bill say it was yours and how the vote went.**
+  Someone who read the paper's story on the vote on your ordinance or bill now
+  tells you it was yours and how it came out ("I read in the Chronicle that your
+  ordinance on transportation failed.", "KWTP-TV says your ordinance passed.
+  Good for you."), from the vote's own record. Before, they said only that the
+  paper had a story on the topic.
+
 ## PRE-ALPHA 0.68.0
 
 _Released October 30, 2026._

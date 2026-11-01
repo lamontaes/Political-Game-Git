@@ -1242,6 +1242,38 @@ const debate: Builder = (read, f) => {
   );
 };
 
+/**
+ * An endorsement a campaign kept: the group that backed a candidate (or the
+ * person, where no group did), and the race. A group whose record keeps no
+ * name (a cause group, a group formed over one policy) is "a local group":
+ * its record does not say which way it stands once its founder's drive
+ * changes, so the paper claims no cause for it.
+ */
+const endorsement: Builder = (read, f) => {
+  const group = read.organization(f.organizationId);
+  // A group takes its article ("the Republican Party"), and a name that is
+  // no proper name is said in lower case ("the employers' association").
+  const said = group
+    ? `the ${/\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
+    : undefined;
+  const backer = said
+    ? { subject: read.fact(said, f.organizationId ?? "") }
+    : f.organizationId
+      ? { "unnamed-group": read.fact("yes", f.organizationId) }
+      : read.who(f.speakerId, "subject", false);
+  const office = read.contestTitle(f.contestId);
+  return story(
+    "endorsement",
+    {
+      ...read.who(f.candidateId, "name", false),
+      ...backer,
+      ...(office ? { office: read.fact(office, f.contestId ?? "") } : {}),
+    },
+    ["name", f.organizationId && !said ? "unnamed-group" : "subject"],
+    f.candidateId,
+  );
+};
+
 /** A candidate filing for office. */
 const filing: Builder = (read, f) => {
   const filer = f.filingId?.match(/:(person[^:]*(?::[^:]+)*)$/)?.[1];
@@ -2602,6 +2634,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "president.address": address,
   "estate.settled": estate,
   "carry-asked": carry,
+  "campaign-endorsed": endorsement,
   "crime.victimized": crime,
   "police-log": policeLog,
   "school.honor": honor,

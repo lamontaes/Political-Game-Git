@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/door-yes-is-their-choice
-pr:
+pr: #6912
 blocked-on:
 source: governing lead, Oct 30 (Price UT measurement, runner A)
 claimed-at: 2026-10-30T06:54:07.029Z

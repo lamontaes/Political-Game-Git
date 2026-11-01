@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: governing/volunteer-shifts
 pr: #6874
 blocked-on:
