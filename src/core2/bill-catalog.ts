@@ -4,8 +4,8 @@
  * bill-catalog.json`, built by `scripts/research/build-bill-catalog.py`).
  *
  * `billCatalog` gives a body what it can draft: only policies its level can
- * pass, each with the amount in force today (amounts start from the law in
- * force) and, for a town, whether the state lets it act (the city attorney's
+ * pass, each with the amount in force today at its own level (amounts start
+ * from the law in force, or the budget line in force) and, for a town, whether the state lets it act (the city attorney's
  * warning or block). `provisionFor` turns a pick and an operation into a bill
  * provision. Outcomes never appear in the drafting controls.
  */
@@ -13,7 +13,7 @@ import catalog from "./data/legislature/bill-catalog.json" with { type: "json" }
 import type { CoreAPI } from "./types";
 import {
   authorityFor,
-  currentAmount,
+  inForceAtLevel,
   type Authority,
   type Provision,
 } from "./modules/legislature";
@@ -35,7 +35,15 @@ interface CatalogPolicy {
 }
 
 export interface DraftablePolicy extends CatalogPolicy {
+  /**
+   * The amount in force at the body's own level: the law's row there, or the
+   * budget line in force (`inForceAtLevel`, the reader the bill paper's
+   * "before" takes too). Null where a policy has no amount (a question) or
+   * nothing is in force at that level.
+   */
   readonly inForce: number | null;
+  /** The unit the amount in force is kept in (a law's own, a budget line's minor units). */
+  readonly inForceUnit: string | null;
   readonly authority: Authority;
 }
 
@@ -80,9 +88,15 @@ export function billCatalog(
             line: p.line,
             value: 1,
           } as Provision;
+          // A question is answered, not an amount; a law or a budget line has one.
+          const inForce =
+            p.kind === "policy-question"
+              ? null
+              : inForceAtLevel(api, provision, level);
           return {
             ...p,
-            inForce: p.series ? currentAmount(api, p.series, level) : null,
+            inForce: inForce?.value ?? null,
+            inForceUnit: inForce?.unit ?? null,
             authority:
               level === "city"
                 ? authorityFor(api, provision)

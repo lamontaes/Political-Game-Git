@@ -59,8 +59,14 @@ import {
   questionSettled,
   type SettledQuestion,
 } from "./laws";
-import { localAuthority, type EnactedAuthority } from "../laws-in-force";
-import type { LawRowInput } from "../laws-starting";
+import {
+  lawRowAtLevel,
+  localAuthority,
+  type BillLevel,
+  type EnactedAuthority,
+} from "../laws-in-force";
+import type { LawChain, LawRowInput } from "../laws-starting";
+import { budgetInForce } from "../budgets-treasury";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
 import { viewOn } from "./views";
@@ -1300,32 +1306,93 @@ export function provisionStance(
         };
   const map = provision.series ? seriesQuestion[provision.series] : undefined;
   if (!map || !provision.series) return null;
-  const current = currentAmount(api, provision.series, level);
-  const direction = current === null ? 1 : Math.sign(provision.value - current);
+  // No law at the bill's level is an amount of nothing to change from.
+  const current =
+    inForceAtLevel(api, { kind: "law-amount", series: provision.series }, level)
+      .value ?? 0;
+  const direction = Math.sign(provision.value - current);
   return direction === 0
     ? null
     : { question: map.question, position: direction * map.raiseIs };
 }
 
-type LawLevel = "federal" | "state" | "city";
+type LawLevel = BillLevel;
+
+/** What is in force on a bill's subject at its own level, and the record that says so. */
+export interface InForce {
+  /** The amount in force there; null where nothing is (no law row, no budget). */
+  readonly value: number | null;
+  readonly unit: string | null;
+  /** The law row's or the budget's record id the value is read from. */
+  readonly recordId: string | null;
+  /** The law row itself, for a law (a section cites its statute, shape and exemption). */
+  readonly row: LawRowInput | null;
+}
+
+/** The government whose law and budget a level is: the nation, the state, or the town's own. */
+function levelJurisdiction(chain: LawChain, level: LawLevel): string {
+  return level === "federal"
+    ? "US"
+    : level === "state"
+      ? chain.stateKey
+      : chain.levels[chain.levels.length - 1]!.jurisdiction;
+}
 
 /**
- * The amount a bill at this level changes: its own level's amount in force
- * (a federal bill against the federal floor, a state bill against the
- * state's), and for a town, the floor that governs there (a local minimum
- * wage only matters above it) or its own local rate.
+ * The treasury of a level: the nation's, the state's, or the town's own. A
+ * town with no city or township government of its own is the county whose
+ * treasury carries the whole local share of every function (`county-whole`).
  */
-export function currentAmount(
+function levelGovernment(
   api: CoreAPI,
-  series: string,
-  level: LawLevel = "city",
-): number | null {
-  const answer = lawInForce(api, series);
-  const at = (name: string) =>
-    answer.levels.find((l) => l.level === name)?.row?.value ?? null;
-  if (level === "federal") return at("federal") ?? 0;
-  if (level === "state") return at("state") ?? at("federal") ?? 0;
-  return series === "minimum-wage" ? answer.value : (at("city") ?? 0);
+  level: LawLevel,
+): GovernmentRow | undefined {
+  const all = governments(api);
+  const id = levelJurisdiction(lawChain(api), level);
+  return (
+    all.find((g) => g.id === id) ??
+    (level === "city" ? all.find((g) => g.base === "county-whole") : undefined)
+  );
+}
+
+/**
+ * The one reader of "what is in force" for a bill's subject at the level the
+ * bill legislates at: the draft card's "in force today" (`billCatalog`) and
+ * the bill paper's "before" (`billSections`) both take it from here, so the
+ * two screens say one thing. A law reads its row at that level by the series'
+ * doctrine (`lawRowAtLevel`: the levels of an income tax stack, a minimum
+ * wage is a floor); a budget line reads the line in the budget its
+ * government has in force.
+ */
+export function inForceAtLevel(
+  api: CoreAPI,
+  subject: Pick<Provision, "kind" | "series" | "question" | "line">,
+  level: LawLevel,
+): InForce {
+  if (subject.kind === "budget-line") {
+    const gov = api.state.modules.has(BUDGETS_MODULE_ID)
+      ? levelGovernment(api, level)
+      : undefined;
+    const budget = gov ? budgetInForce(api, gov.id) : undefined;
+    return {
+      value:
+        budget && subject.line
+          ? (budget.spendingMinor[subject.line] ?? 0)
+          : null,
+      unit: "minor",
+      recordId: budget?.id ?? null,
+      row: null,
+    };
+  }
+  const series =
+    subject.kind === "policy-question" ? subject.question : subject.series;
+  const row = series ? lawRowAtLevel(lawInForce(api, series), level) : null;
+  return {
+    value: row?.value ?? null,
+    unit: row?.unit ?? null,
+    recordId: row?.id ?? null,
+    row,
+  };
 }
 
 /** The level a bill legislates at. */
@@ -1631,15 +1698,6 @@ export function shapedRate(
 }
 
 /**
- * The row of the law in force on a series, as a bill's section cites it: the first level
- * of the chain that holds one. The one reader of "today's amount" for a bill's paper and for
- * the draft card that starts it.
- */
-export function lawInForceRow(api: CoreAPI, series: string) {
-  return lawInForce(api, series).levels.find((l) => l.row)?.row ?? null;
-}
-
-/**
  * One section of a bill as the record holds it, for the paper to word: what
  * it changes (the series, question or budget line), the law in force before
  * (its value, shape and the measure that enacted it), what the section makes
@@ -1682,14 +1740,14 @@ export function billSections(
   api: CoreAPI,
   bill: BillRow,
 ): readonly BillSection[] {
+  const level = billLevel(api, bill);
   return bill.provisions.map((p, index) => {
-    const series =
-      p.kind === "law-amount"
-        ? p.series
-        : p.kind === "policy-question"
-          ? p.question
-          : undefined;
-    const row = series ? lawInForceRow(api, series) : null;
+    // What is in force at the bill's own level, read as the draft card reads it.
+    const inForce = inForceAtLevel(api, p, level);
+    const row = inForce.row;
+    // A budget line is changed from the amount the bill recorded, else the
+    // line in force.
+    const lineBase = p.of ?? inForce.value;
     const schedules = row?.terms?.schedules;
     const shapeBefore: BillSection["before"]["shape"] = row
       ? schedules
@@ -1714,16 +1772,16 @@ export function billSections(
     const before: BillSection["before"] =
       p.kind === "budget-line"
         ? {
-            value: p.of ?? null,
-            unit: "minor",
+            value: lineBase,
+            unit: inForce.unit,
             shape: null,
             lawId: null,
             statute: null,
             statuteForm: null,
           }
         : {
-            value: row?.value ?? null,
-            unit: row?.unit ?? null,
+            value: inForce.value,
+            unit: inForce.unit,
             shape: shapeBefore,
             lawId: row?.id ?? null,
             statute: enacting?.number || recorded,
@@ -1735,7 +1793,7 @@ export function billSections(
       subject: subjectKey(p),
       before,
       after: {
-        value: p.kind === "budget-line" ? (p.of ?? 0) + p.value : p.value,
+        value: p.kind === "budget-line" ? (lineBase ?? 0) + p.value : p.value,
         unit: p.unit ?? before.unit,
         shape: p.shape ?? before.shape,
         effectiveDate: p.effectiveDate ?? null,
@@ -1788,15 +1846,15 @@ export function billReach(
 
 /** The government whose law a bill makes: the nation, the state, or the county, township or town its body governs. */
 export function billJurisdiction(api: CoreAPI, bill: BillRow): string {
-  const chain = lawChain(api);
   const { federal, state, county, township } = billReach(api, bill);
-  return federal
-    ? "US"
-    : state
-      ? chain.stateKey
-      : (county ??
-        township ??
-        chain.levels[chain.levels.length - 1]!.jurisdiction);
+  return (
+    county ??
+    township ??
+    levelJurisdiction(
+      lawChain(api),
+      federal ? "federal" : state ? "state" : "city",
+    )
+  );
 }
 
 /**

@@ -2296,12 +2296,8 @@ async function seatRows() {
                 ? policyLabel(item.question)
                 : item.name
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-          // What the law in force holds, as the bill's paper cites it.
-          today: item.today
-            ? amount(item.today.value, item.today.unit)
-            : item.inForce != null
-              ? String(item.inForce)
-              : null,
+          // What is in force at the body's own level (a law's row, a budget line), as the bill's paper cites it.
+          today: item.today ? amount(item.today.value, item.today.unit) : null,
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,

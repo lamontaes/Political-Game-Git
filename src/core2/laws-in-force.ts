@@ -341,6 +341,43 @@ export function resolveLawInForce(input: {
   };
 }
 
+/** The level a bill legislates at: the nation's, the state's, or the town's. */
+export type BillLevel = "federal" | "state" | "city";
+
+/**
+ * The row of the law in force at the level a bill legislates at, by the
+ * series' doctrine (the one reader both the draft card and the bill paper
+ * take their "in force today" and "before" from):
+ *
+ * - additive (income and sales tax): the levels stack, so a bill changes its
+ *   own level's tax and nothing above or below it; no row at its level means
+ *   no tax at that level, never the federal one.
+ * - floor (minimum wage): a federal bill meets the federal floor, a state bill
+ *   the state's (the federal floor where the state sets none), a town's the
+ *   floor that governs there.
+ * - single: one level sets it, so the deepest row at or above the bill's level.
+ */
+export function lawRowAtLevel(
+  answer: LawInForceAnswer,
+  level: BillLevel,
+): LawRowInput | null {
+  const own = (name: LawLevelName) =>
+    answer.levels.find((l) => l.level === name)?.row ?? null;
+  if (answer.doctrine === "additive") return own(level);
+  if (answer.doctrine === "floor") {
+    if (level === "federal") return own("federal");
+    if (level === "state") return own("state") ?? own("federal");
+    return answer.governing;
+  }
+  const reach = answer.levels.map((l) => l.level).lastIndexOf(level) + 1;
+  return (
+    answer.levels
+      .slice(0, reach)
+      .reverse()
+      .find((l) => l.row)?.row ?? null
+  );
+}
+
 function round(value: number): number {
   return Math.round(value * 10000) / 10000;
 }

@@ -8,10 +8,9 @@ import {
   billForm,
   bodyOf,
   bodyRow,
-  currentAmount,
   draftBill,
   floorDateOf,
-  lawInForceRow,
+  inForceAtLevel,
   memberKey,
   votesOn,
   whipCount,
@@ -194,7 +193,11 @@ export function seatView(core: CoreState, personId: string) {
     amounts: lawHere(api, undefined, AMOUNT_SERIES).map((row) => ({
       series: row.series,
       unit: row.unit,
-      current: currentAmount(api, row.series),
+      current: inForceAtLevel(
+        api,
+        { kind: "law-amount", series: row.series },
+        "city",
+      ).value,
     })),
     questions: [
       ...new Set(
@@ -522,12 +525,10 @@ function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
         inForce: row.inForce,
         // The amount the law in force holds, as the bill's paper cites it ("before"): the
         // draft card shows this beside the new amount so both screens say one thing.
-        today: row.series
-          ? (() => {
-              const law = lawInForceRow(api, row.series);
-              return law ? { value: law.value, unit: law.unit ?? null } : null;
-            })()
-          : null,
+        today:
+          row.inForce != null
+            ? { value: row.inForce, unit: row.inForceUnit }
+            : null,
         allowed: row.authority.allowed,
         warning: row.authority.warning,
         reason: row.authority.reason,
